@@ -6,7 +6,7 @@ config :dotcom,
        Enum.join(
          [
            "default-src 'none'",
-           "img-src 'self' cdn.mbta.com *.gstatic.com https://live-mbta.pantheonsite.io *.s3.amazonaws.com data:",
+           "img-src 'self' cdn.mbta.com *.gstatic.com #{System.get_env("CMS_API_BASE_URL", "")} *.s3.amazonaws.com data:",
            "style-src 'self' 'unsafe-inline' localhost:* www.gstatic.com",
            "script-src 'self' 'unsafe-eval' 'unsafe-inline' localhost:* translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
            "font-src 'self' localhost:*",

@@ -8,10 +8,10 @@ config :dotcom,
        Enum.join(
          [
            "default-src 'none'",
-           "img-src 'self' cdn.mbta.com *.gstatic.com *.s3.amazonaws.com data:",
-           "style-src 'self' 'unsafe-inline' www.gstatic.com cdn.mbta.com",
-           "script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.mbta.com translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
-           "font-src 'self' cdn.mbta.com",
+           "img-src 'self' #{System.get_env("STATIC_HOST", "")} *.gstatic.com *.s3.amazonaws.com data:",
+           "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")}",
+           "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
+           "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
            "connect-src 'self' translate.googleapis.com",
            "frame-src 'self'"
          ],
