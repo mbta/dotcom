@@ -30,5 +30,3 @@ config :dotcom, :secure_pipeline,
     host: nil,
     rewrite_on: [:x_forwarded_proto]
   ]
-
-config :dotcom, :content_security_policy_definition, ""
