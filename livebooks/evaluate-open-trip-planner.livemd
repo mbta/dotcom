@@ -71,7 +71,7 @@ write_path =
 
 datetimes =
   File.cwd!()
-  |> Path.join("/livebooks/dates.yml")
+  |> Path.join("/livebooks/datetimes.yml")
   |> YamlElixir.read_from_file!()
   |> Enum.map(fn datetime ->
     datetime
