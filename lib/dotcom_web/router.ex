@@ -7,9 +7,6 @@ defmodule DotcomWeb.Router do
 
   alias DotcomWeb.StaticPage
 
-  # Pantheonsite can be an env variable to ensure stuff
-  @content_security_policy Application.compile_env(:dotcom, :content_security_policy_definition)
-
   pipeline :secure do
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
@@ -21,7 +18,7 @@ defmodule DotcomWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:fetch_cookies)
-    plug(:put_secure_browser_headers, %{"content-security-policy" => @content_security_policy})
+    plug(:put_secure_browser_headers_runtime, %{})
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
@@ -314,5 +311,14 @@ defmodule DotcomWeb.Router do
     else
       Plug.Conn.put_resp_header(conn, "x-robots-tag", "noindex")
     end
+  end
+
+  defp put_secure_browser_headers_runtime(conn, default_headers) do
+    runtime_headers = %{
+      "content-security-policy" =>
+        Application.get_env(:dotcom, :content_security_policy_definition)
+    }
+
+    put_secure_browser_headers(conn, Map.merge(default_headers, runtime_headers))
   end
 end

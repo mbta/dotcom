@@ -214,6 +214,9 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
 
+IO.inspect("+++++++++++++++++")
+IO.inspect(config_env())
+
 # Set the content security policy
 case config_env() do
   :prod ->
@@ -249,9 +252,9 @@ case config_env() do
            )
 
   :test ->
-    ""
+    config :dotcom, :content_security_policy_definition, ""
 
   # Unknown env, reject all
   _ ->
-    "default-src 'none'"
+    config :dotcom, :content_security_policy_definition, "default-src 'none'"
 end
