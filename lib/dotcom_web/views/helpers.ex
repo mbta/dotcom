@@ -111,6 +111,13 @@ defmodule DotcomWeb.ViewHelpers do
     svg("icon-#{name}-#{size}.svg")
   end
 
+  # Massport shuttle routes
+  def line_icon(%Route{custom_route?: true, long_name: "Massport" <> _, name: name}, _)
+      when is_binary(name) do
+    route_number = String.slice(name, 0..1)
+    svg("icon-massport-#{route_number}.svg")
+  end
+
   def line_icon(%Route{} = route, size) do
     route
     |> Route.icon_atom()
