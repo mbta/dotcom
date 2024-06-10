@@ -150,14 +150,12 @@ defmodule FaresTest do
   describe "get_fare_by_type/2" do
     test "gets fare by type" do
       non_transit_leg = %TripPlan.Leg{
-        description: "WALK",
         from: %TripPlan.NamedPosition{
           latitude: 42.365486,
           longitude: -71.103802,
           name: "Central",
-          stop_id: nil
+          stop: nil
         },
-        long_name: nil,
         mode: %TripPlan.PersonalDetail{
           distance: 24.274,
           steps: [
@@ -169,16 +167,13 @@ defmodule FaresTest do
             }
           ]
         },
-        name: "",
         polyline: "eoqaGzm~pLTe@BE@A",
         to: %TripPlan.NamedPosition{
           latitude: 42.365304,
           longitude: -71.103621,
           name: "Central",
-          stop_id: "70069"
-        },
-        type: nil,
-        url: nil
+          stop: %Stops.Stop{id: "70069"}
+        }
       }
 
       assert Fares.get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
@@ -198,33 +193,28 @@ defmodule FaresTest do
       }
 
       transit_leg = %TripPlan.Leg{
-        description: "SUBWAY",
         from: %TripPlan.NamedPosition{
           latitude: 42.365304,
           longitude: -71.103621,
           name: "Central",
-          stop_id: "70069"
+          stop: %Stops.Stop{id: "70069"}
         },
-        long_name: "Red Line",
         mode: %TripPlan.TransitDetail{
           fares: %{
             highest_one_way_fare: highest_one_way_fare,
             lowest_one_way_fare: lowest_one_way_fare,
             reduced_one_way_fare: reduced_one_way_fare
           },
-          intermediate_stop_ids: ["70071", "70073"],
-          route_id: "Red",
+          intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+          route: %Routes.Route{id: "Red"},
           trip_id: "43870769C0"
         },
-        name: "Red Line",
         to: %TripPlan.NamedPosition{
           latitude: 42.356395,
           longitude: -71.062424,
           name: "Park Street",
-          stop_id: "70075"
-        },
-        type: "1",
-        url: "http://www.mbta.com"
+          stop: %Stops.Stop{id: "70075"}
+        }
       }
 
       assert Fares.get_fare_by_type(transit_leg, :highest_one_way_fare) == highest_one_way_fare

@@ -103,38 +103,23 @@ defmodule Dotcom.TripPlanner.Parser do
     }
   end
 
-  defp mode(%Schema.Leg{distance: distance, mode: "WALK", steps: steps}, _) do
+  def mode(%Schema.Leg{distance: distance, mode: "WALK", steps: steps}, _) do
     %PersonalDetail{
       distance: miles(distance),
-      steps:
-        Enum.map(steps, fn %Schema.Step{
-                             distance: distance,
-                             absolute_direction: absolute_direction,
-                             relative_direction: relative_direction,
-                             street_name: street_name
-                           } ->
-          struct(PersonalDetail.Step, %{
-            distance: miles(distance),
-            street_name: street_name,
-            absolute_direction:
-              if(absolute_direction, do: String.downcase(absolute_direction) |> String.to_atom()),
-            relative_direction:
-              if(relative_direction, do: String.downcase(relative_direction) |> String.to_atom())
-          })
-        end)
+      steps: Enum.map(steps, &step/1)
     }
   end
 
-  defp mode(
-         %Schema.Leg{
-           intermediate_stops: stops,
-           mode: mode,
-           route: route,
-           transit_leg: true,
-           trip: trip
-         },
-         agency_name
-       ) do
+  def mode(
+        %Schema.Leg{
+          intermediate_stops: stops,
+          mode: mode,
+          route: route,
+          transit_leg: true,
+          trip: trip
+        },
+        agency_name
+      ) do
     %TransitDetail{
       agency: agency_name,
       mode: mode,
@@ -142,6 +127,22 @@ defmodule Dotcom.TripPlanner.Parser do
       route: route(route, agency_name),
       trip_id: id_from_gtfs(trip.gtfs_id)
     }
+  end
+
+  def step(%Schema.Step{
+        distance: distance,
+        absolute_direction: absolute_direction,
+        relative_direction: relative_direction,
+        street_name: street_name
+      }) do
+    struct(PersonalDetail.Step, %{
+      distance: miles(distance),
+      street_name: street_name,
+      absolute_direction:
+        if(absolute_direction, do: String.downcase(absolute_direction) |> String.to_atom()),
+      relative_direction:
+        if(relative_direction, do: String.downcase(relative_direction) |> String.to_atom())
+    })
   end
 
   defp route(%Schema.Route{gtfs_id: gtfs_id}, "MBTA") do

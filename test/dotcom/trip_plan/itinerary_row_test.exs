@@ -3,7 +3,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   import Dotcom.TripPlan.ItineraryRow
   import Mox
-  import Test.Support.Factory
+  import Test.Support.Factory.TripPlanner
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
@@ -61,8 +61,8 @@ defmodule TripPlan.ItineraryRowTest do
       departure: DateTime.from_unix!(2),
       transit?: true,
       steps: [
-        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop_id: "intermediate_stop"},
-        %Dotcom.TripPlan.IntermediateStop{description: "step2", stop_id: nil}
+        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop: %Stops.Stop{}},
+        %Dotcom.TripPlan.IntermediateStop{description: "step2", stop: nil}
       ],
       additional_routes: []
     }
@@ -294,7 +294,7 @@ defmodule TripPlan.ItineraryRowTest do
       transit?: true,
       steps: [
         %Dotcom.TripPlan.IntermediateStop{alerts: [Alert.new()]},
-        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop_id: "intermediate_stop"}
+        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop: %Stops.Stop{}}
       ],
       additional_routes: []
     }
@@ -309,19 +309,17 @@ defmodule TripPlan.ItineraryRowTest do
         nil
       end)
 
-      stop_id = "ignored"
+      stop = %Stops.Stop{id: "ignored"}
       name = "stop name"
 
       assert {^name, nil} =
-               name_from_position(%NamedPosition{stop_id: stop_id, name: name})
+               name_from_position(%NamedPosition{stop: stop, name: name})
     end
   end
 
   describe "from_leg/3" do
-    @deps %ItineraryRow.Dependencies{}
-    @leg build(:leg)
-    @personal_leg build(:leg, mode: build(:personal_detail))
-    @transit_leg build(:leg, mode: build(:transit_detail))
+    @personal_leg build(:walking_leg)
+    @transit_leg build(:transit_leg)
 
     setup do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
@@ -341,11 +339,13 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
+      leg = build(:transit_leg)
+
       stub(Stops.Repo.Mock, :get_parent, fn id ->
         %Stops.Stop{id: id}
       end)
 
-      row = from_leg(@leg, @deps, nil)
+      row = from_leg(leg, nil)
       assert %ItineraryRow{} = row
     end
 
@@ -360,8 +360,8 @@ defmodule TripPlan.ItineraryRowTest do
           }
       }
 
-      %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @deps, @personal_leg)
-      %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @deps, @transit_leg)
+      %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @personal_leg)
+      %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @transit_leg)
       assert xfer_step_to_personal.description != xfer_step_to_transit.description
     end
   end

@@ -1,20 +1,17 @@
 defmodule Dotcom.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
-  @moduletag :external
+  # @moduletag :external
 
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
-  import Test.Support.Factory
+  import Test.Support.Factory.TripPlanner
 
-  alias Routes.Route
   alias TripPlan.Itinerary
 
   setup_all do
     itinerary =
       build(:itinerary,
-        legs: [
-          build(:leg, mode: build(:transit_detail))
-        ]
+        legs: [build(:transit_leg)]
       )
 
     {:ok, %{itinerary: itinerary}}
@@ -121,10 +118,9 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       url = "http://custom.url"
       legs = Enum.map(itinerary.legs, &%{&1 | url: url})
       itinerary = %TripPlan.Itinerary{itinerary | legs: legs}
-      mapper = fn _route -> %Route{custom_route?: true} end
 
       assert [%Dotcom.TripPlan.RelatedLink{text: "Route information", url: ^url}] =
-               links_for_itinerary(itinerary, route_by_id: mapper)
+               links_for_itinerary(itinerary)
     end
   end
 

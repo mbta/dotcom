@@ -9,7 +9,7 @@ defmodule DotcomWeb.TripPlanViewTest do
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
-  alias Test.Support.Factory
+  alias Test.Support.Factory.TripPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -224,7 +224,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      from = Factory.build(:stop_named_position)
+      from = TripPlanner.build(:stop_named_position)
 
       query = %Query{
         from: {:ok, from},
@@ -417,28 +417,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
-  describe "display_meters_as_miles/1" do
-    test "123.456 mi" do
-      assert display_meters_as_miles(123.456 * 1609.34) == "123.5"
-    end
-
-    test "0.123 mi" do
-      assert display_meters_as_miles(0.123 * 1609.34) == "0.1"
-    end
-
-    test "10.001 mi" do
-      assert display_meters_as_miles(10.001 * 1609.34) == "10.0"
-    end
-  end
-
-  describe "display_seconds_as_minutes/1" do
-    test "converts seconds to minutes" do
-      assert display_seconds_as_minutes(5) == "1"
-      assert display_seconds_as_minutes(59) == "1"
-      assert display_seconds_as_minutes(100) == "2"
-    end
-  end
-
   describe "format_additional_route/2" do
     @tag :external
     test "Correctly formats Green Line route" do
@@ -547,7 +525,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   describe "transfer_note/1" do
     @note_text "Total may be less with <a href=\"https://www.mbta.com/fares/transfers\">transfers</a>"
     @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
-    leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
+    leg_for_route = &%Leg{mode: %TransitDetail{route: %Routes.Route{id: &1}}}
     @bus_leg leg_for_route.("77")
     @other_bus_leg leg_for_route.("28")
     @subway_leg leg_for_route.("Red")
@@ -617,8 +595,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Factory.build(:leg, mode: Factory.build(:personal_detail)),
-              Factory.build(:leg, mode: Factory.build(:personal_detail))
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -631,9 +609,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Factory.build(:leg, mode: Factory.build(:personal_detail)),
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
               @bus_leg,
-              Factory.build(:leg, mode: Factory.build(:personal_detail))
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -643,16 +621,16 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     @tag :external
     test "no note for subway-subway transfer - handles parent stops" do
-      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
-      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
+      leg1 = %{@subway_leg | to: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
       note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
 
     @tag :external
     test "no note for subway-subway transfer - handles child stops" do
-      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
-      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
+      leg1 = %{@subway_leg | to: %NamedPosition{stop: %Stops.Stop{id: "70020"}}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop: %Stops.Stop{id: "70021"}}}
       note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
@@ -763,11 +741,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
       conn =
         assign(conn, :query, %Query{
-          from: Factory.build(:named_position),
-          to: Factory.build(:stop_named_position),
+          from: TripPlanner.build(:named_position),
+          to: TripPlanner.build(:stop_named_position),
           time: {:depart_at, Util.now()},
           wheelchair: true,
-          itineraries: {:ok, Factory.build_list(3, :itinerary)}
+          itineraries: {:ok, TripPlanner.build_list(3, :itinerary)}
         })
 
       assert %{
@@ -836,14 +814,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       stop: nil,
       legs: [
         %TripPlan.Leg{
-          description: "WALK",
           from: %TripPlan.NamedPosition{
             latitude: 42.365486,
             longitude: -71.103802,
             name: "Central",
-            stop_id: nil
+            stop: nil
           },
-          long_name: nil,
           mode: %TripPlan.PersonalDetail{
             distance: 24.274,
             steps: [
@@ -855,41 +831,33 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               }
             ]
           },
-          name: "",
           polyline: "eoqaGzm~pLTe@BE@A",
           to: %TripPlan.NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
-            stop_id: "70069"
-          },
-          type: nil,
-          url: nil
+            stop: %Stops.Stop{id: "70069"}
+          }
         },
         %TripPlan.Leg{
-          description: "SUBWAY",
           from: %TripPlan.NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
-            stop_id: "70069"
+            stop: %Stops.Stop{id: "70069"}
           },
-          long_name: "Red Line",
           mode: %TripPlan.TransitDetail{
             fares: @fares,
-            intermediate_stop_ids: ["70071", "70073"],
-            route_id: "Red",
+            intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+            route: %Routes.Route{id: "Red"},
             trip_id: "43870769C0"
           },
-          name: "Red Line",
           to: %TripPlan.NamedPosition{
             latitude: 42.356395,
             longitude: -71.062424,
             name: "Park Street",
-            stop_id: "70075"
-          },
-          type: "1",
-          url: "http://www.mbta.com"
+            stop: %Stops.Stop{id: "70075"}
+          }
         }
       ],
       passes: %{
@@ -994,14 +962,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         stop: nil,
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             from: %TripPlan.NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
-              stop_id: nil
+              stop: nil
             },
-            long_name: nil,
             mode: %TripPlan.PersonalDetail{
               distance: 24.274,
               steps: [
@@ -1013,91 +979,79 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                 }
               ]
             },
-            name: "",
             polyline: "eoqaGzm~pLTe@BE@A",
             to: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
-            },
-            type: nil,
-            url: nil
+              stop: %Stops.Stop{id: "70069"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: @fares,
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           },
           %TripPlan.Leg{
-            description: "BUS",
             from: %TripPlan.NamedPosition{
               latitude: 42.362804,
               longitude: -71.099509,
               name: "Massachusetts Ave @ Sidney St",
-              stop_id: "73"
+              stop: %Stops.Stop{id: "73"}
             },
-            long_name: "Harvard Square - Dudley Station",
             mode: %TripPlan.TransitDetail{
               fares: bus_fares,
-              intermediate_stop_ids: ["74", "75", "77", "79", "80"],
-              route_id: "1",
+              intermediate_stops: [
+                %Stops.Stop{id: "74"},
+                %Stops.Stop{id: "75"},
+                %Stops.Stop{id: "77"},
+                %Stops.Stop{id: "79"},
+                %Stops.Stop{id: "80"}
+              ],
+              route: %Routes.Route{id: "1"},
               trip_id: "44170977"
             },
-            name: "1",
             to: %TripPlan.NamedPosition{
               latitude: 42.342478,
               longitude: -71.084701,
               name: "Massachusetts Ave @ Huntington Ave",
-              stop_id: "82"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "82"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: @fares,
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           }
         ]
       }
@@ -1128,56 +1082,54 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       itinerary = %Itinerary{
         legs: [
           %Leg{
-            description: "BUS",
             from: %NamedPosition{
               latitude: 42.370864,
               longitude: -71.077534,
               name: "Lechmere",
-              stop_id: "9070092"
+              stop: %Stops.Stop{id: "9070092"}
             },
-            long_name: "Green Line Shuttle",
             mode: %TransitDetail{
               fares: @shuttle_fares,
-              intermediate_stop_ids: ["9070093"],
-              route_id: "Shuttle-LechmereNorthStation",
+              intermediate_stops: [%Stops.Stop{id: "9070093"}],
+              route: %Routes.Route{id: "Shuttle-LechmereNorthStation"},
               trip_id: "43831675C0-LechmereNorthStation1"
             },
-            name: "Green Line Shuttle",
             to: %NamedPosition{
               latitude: 42.36573,
               longitude: -71.063989,
               name: "North Station",
-              stop_id: "9070090"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "9070090"}
+            }
           },
           %Leg{
-            description: "TRAM",
             from: %NamedPosition{
               latitude: 42.365577,
               longitude: -71.06129,
               name: "North Station",
-              stop_id: "70206"
+              stop: %Stops.Stop{id: "70206"}
             },
-            long_name: "Green Line C",
             mode: %TransitDetail{
               fares: %{
                 highest_one_way_fare: @highest_one_way_fare,
                 lowest_one_way_fare: @lowest_one_way_fare,
                 reduced_one_way_fare: @reduced_one_way_fare
               },
-              intermediate_stop_ids: ["70204", "70202", "70197", "70159", "70157"],
-              route_id: "Green-C",
+              intermediate_stops: [
+                %Stops.Stop{id: "70204"},
+                %Stops.Stop{id: "70202"},
+                %Stops.Stop{id: "70197"},
+                %Stops.Stop{id: "70159"},
+                %Stops.Stop{id: "70157"}
+              ],
+              route: %Routes.Route{id: "Green-C"},
               trip_id: "43829886C0-LechmereNorthStation"
             },
-            name: "C",
             to: %NamedPosition{
               latitude: 42.350126,
               longitude: -71.077376,
               name: "Copley",
-              stop_id: "70155"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "70155"}
+            }
           }
         ],
         start: nil,
@@ -1214,67 +1166,57 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       itinerary = %Itinerary{
         legs: [
           %Leg{
-            description: "BUS",
             from: %TripPlan.NamedPosition{
               latitude: 42.436807,
               longitude: -71.070338,
               name: "Oak Grove Busway",
-              stop_id: "9328"
+              stop: %Stops.Stop{id: "9328"}
             },
-            long_name: "Oak Grove - Government Center",
             mode: %TransitDetail{
               fares: @shuttle_fares,
-              intermediate_stop_ids: [
-                "53270",
-                "5271",
-                "28743",
-                "29001",
-                "9070028",
-                "9170206",
-                "9070024",
-                "65"
+              intermediate_stops: [
+                %Stops.Stop{id: "53270"},
+                %Stops.Stop{id: "5271"},
+                %Stops.Stop{id: "28743"},
+                %Stops.Stop{id: "29001"},
+                %Stops.Stop{id: "9070028"},
+                %Stops.Stop{id: "9170206"},
+                %Stops.Stop{id: "9070024"},
+                %Stops.Stop{id: "65"}
               ],
-              route_id: "Shuttle-GovernmentCenterOakGrove",
+              route: %Routes.Route{id: "Shuttle-GovernmentCenterOakGrove"},
               trip_id: "Orange-AugSuperSurge-Weekday-N-0-16:28:30"
             },
-            name: "Orange Line Shuttle",
             to: %NamedPosition{
               latitude: 42.360043,
               longitude: -71.0598,
               name: "Cambridge St @ Government Ctr Sta",
-              stop_id: "4510"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "4510"}
+            }
           },
           %Leg{
-            description: "TRAM",
             from: %NamedPosition{
               latitude: 42.359705,
               longitude: -71.059215,
               name: "Government Center",
-              stop_id: "70202"
+              stop: %Stops.Stop{id: "70202"}
             },
-            long_name: "Green Line D",
             mode: %TransitDetail{
               fares: %{
                 highest_one_way_fare: @highest_one_way_fare,
                 lowest_one_way_fare: @lowest_one_way_fare,
                 reduced_one_way_fare: @reduced_one_way_fare
               },
-              intermediate_stop_ids: ["70198"],
-              route_id: "Green-D",
+              intermediate_stops: [%Stops.Stop{id: "70198"}],
+              route: %Routes.Route{id: "Green-D"},
               trip_id: "52140322-CloseUnionGovtGovtCtrNorthSta2"
             },
-            name: "D",
             to: %TripPlan.NamedPosition{
               latitude: 42.353214,
               longitude: -71.064545,
               name: "Boylston",
-              stop_id: "70159"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70159"}
+            }
           }
         ],
         start: nil,
@@ -1336,7 +1278,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           from: %NamedPosition{},
           to: %NamedPosition{},
           mode: %TransitDetail{
-            route_id: &1,
+            route: %Routes.Route{id: &1},
             fares: %{
               highest_one_way_fare: %Fares.Fare{
                 additional_valid_modes: [:bus],
@@ -1365,14 +1307,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       red_leg = %{
         subway_leg_for_route.("Red")
         | to: %NamedPosition{
-            stop_id: "place-dwnxg"
+            stop: %Stops.Stop{id: "place-dwnxg"}
           }
       }
 
       orange_leg = %{
         subway_leg_for_route.("Orange")
         | from: %NamedPosition{
-            stop_id: "place-dwnxg"
+            stop: %Stops.Stop{id: "place-dwnxg"}
           }
       }
 
@@ -1391,14 +1333,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         stop: nil,
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             from: %TripPlan.NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
-              stop_id: nil
+              stop: nil
             },
-            long_name: nil,
             mode: %TripPlan.PersonalDetail{
               distance: 24.274,
               steps: [
@@ -1410,44 +1350,36 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                 }
               ]
             },
-            name: "",
             polyline: "eoqaGzm~pLTe@BE@A",
             to: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
-            },
-            type: nil,
-            url: nil
+              stop: %Stops.Stop{id: "70069"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: %{
                 highest_one_way_fare: nil,
                 lowest_one_way_fare: nil
               },
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           }
         ]
       }
@@ -1462,21 +1394,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           @fares_assigns.itinerary
           | legs: [
               %Leg{
-                mode: %TransitDetail{route_id: "77"},
+                mode: %TransitDetail{route: %Routes.Route{id: "77"}},
                 from: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 },
                 to: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 }
               },
               %Leg{
-                mode: %TransitDetail{route_id: "1"},
+                mode: %TransitDetail{route: %Routes.Route{id: "1"}},
                 from: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 },
                 to: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 }
               }
             ]
@@ -1503,7 +1435,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         Map.put(@fares_assigns, "itinerary", %{
           @fares_assigns.itinerary
           | legs: [
-              %Leg{mode: %TransitDetail{route_id: "77"}}
+              %Leg{mode: %TransitDetail{route: %Routes.Route{id: "77"}}}
             ]
         })
 
@@ -1528,14 +1460,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       leg_for_route =
         &%Leg{
           from: %TripPlan.NamedPosition{
-            stop_id: ""
+            stop: nil
           },
           mode: %TransitDetail{
-            route_id: &1,
+            route: %Routes.Route{id: &1},
             fares: @fares
           },
           to: %TripPlan.NamedPosition{
-            stop_id: ""
+            stop: nil
           }
         }
 
@@ -1589,14 +1521,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "includes Logan in the trip", %{conn: conn} do
       legs = [
         %TripPlan.Leg{
-          description: "BUS",
           from: %TripPlan.NamedPosition{
             latitude: 42.366494,
             longitude: -71.017289,
             name: "Terminal C - Arrivals Level",
-            stop_id: "17094"
+            stop: %Stops.Stop{id: "17094"}
           },
-          long_name: "Logan Airport Terminals - South Station",
           mode: %TripPlan.TransitDetail{
             fares: %{
               highest_one_way_fare: %Fares.Fare{
@@ -1621,19 +1551,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               },
               reduced_one_way_fare: nil
             },
-            intermediate_stop_ids: ["17095", "17096", "74614", "74615", "74616"],
-            route_id: "741",
+            intermediate_stops: [
+              %Stops.Stop{id: "17095"},
+              %Stops.Stop{id: "17096"},
+              %Stops.Stop{id: "74614"},
+              %Stops.Stop{id: "74615"},
+              %Stops.Stop{id: "74616"}
+            ],
+            route: %Routes.Route{id: "741"},
             trip_id: "44812009"
           },
-          name: "SL1",
           to: %TripPlan.NamedPosition{
             latitude: 42.352271,
             longitude: -71.055242,
             name: "South Station",
-            stop_id: "74617"
-          },
-          type: "1",
-          url: "http://www.mbta.com"
+            stop: %Stops.Stop{id: "74617"}
+          }
         }
       ]
 
@@ -1719,26 +1652,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       sl_from_logan_itinerary = %Itinerary{
         legs: [
           %Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 510.2
             }
           },
           %Leg{
-            description: "BUS",
             from: %NamedPosition{
               name: "Terminal C - Arrivals Level",
-              stop_id: "17094"
+              stop: %Stops.Stop{id: "17094"}
             },
             mode: %TransitDetail{
-              route_id: "741"
+              route: %Routes.Route{id: "741"}
             },
-            name: "SL1",
             to: %NamedPosition{
               name: "South Station",
-              stop_id: "74617"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "74617"}
+            }
           }
         ],
         start: DateTime.from_unix!(0),
@@ -1752,49 +1681,40 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       login_sl_plus_subway_itinerary = %TripPlan.Itinerary{
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 385.75800000000004
             }
           },
           %TripPlan.Leg{
-            description: "BUS",
             from: %TripPlan.NamedPosition{
               name: "Terminal A",
-              stop_id: "17091"
+              stop: %Stops.Stop{id: "17091"}
             },
             mode: %TripPlan.TransitDetail{
-              route_id: "741"
+              route: %Routes.Route{id: "741"}
             },
-            name: "SL1",
             to: %TripPlan.NamedPosition{
               name: "South Station",
-              stop_id: "74617"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "74617"}
+            }
           },
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 0.0
-            },
-            name: ""
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               name: "South Station",
-              stop_id: "70080"
+              stop: %Stops.Stop{id: "70080"}
             },
             mode: %TripPlan.TransitDetail{
-              route_id: "Red"
+              route: %Routes.Route{id: "Red"}
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               name: "Downtown Crossing",
-              stop_id: "70078"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "70078"}
+            }
           }
         ],
         start: DateTime.from_unix!(0),
@@ -1808,13 +1728,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       no_transit_legs_itinerary = %TripPlan.Itinerary{
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 385.75800000000004
             }
           },
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 0.0
             }

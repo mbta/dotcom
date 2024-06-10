@@ -4,7 +4,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
-  alias Test.Support.Factory
+  alias Test.Support.Factory.TripPlanner
   alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
   doctest DotcomWeb.TripPlanController
@@ -81,59 +81,50 @@ defmodule DotcomWeb.TripPlanControllerTest do
   @login_sl_plus_subway_itinerary %Itinerary{
     legs: [
       %TripPlan.Leg{
-        description: "WALK",
         mode: %TripPlan.PersonalDetail{
           distance: 385.75800000000004
         }
       },
       %TripPlan.Leg{
-        description: "BUS",
         from: %TripPlan.NamedPosition{
           name: "Terminal A",
-          stop_id: "17091"
+          stop: %Stops.Stop{id: "17091"}
         },
         mode: %TripPlan.TransitDetail{
-          route_id: "741",
+          route: %Routes.Route{id: "741"},
           fares: %{
             highest_one_way_fare: @free_sl_fare,
             lowest_one_way_fare: @free_sl_fare,
             reduced_one_way_fare: @free_sl_fare
           }
         },
-        name: "SL1",
         to: %TripPlan.NamedPosition{
           name: "South Station",
-          stop_id: "74617"
-        },
-        type: "1"
+          stop: %Stops.Stop{id: "74617"}
+        }
       },
       %TripPlan.Leg{
-        description: "WALK",
         mode: %TripPlan.PersonalDetail{
           distance: 0.0
-        },
-        name: ""
+        }
       },
       %TripPlan.Leg{
-        description: "SUBWAY",
         from: %TripPlan.NamedPosition{
           name: "South Station",
-          stop_id: "70080"
+          stop: %Stops.Stop{id: "70080"}
         },
         mode: %TripPlan.TransitDetail{
-          route_id: "Red",
+          route: %Routes.Route{id: "Red"},
           fares: %{
             highest_one_way_fare: @subway_fare,
             lowest_one_way_fare: @subway_fare,
             reduced_one_way_fare: @subway_fare
           }
         },
-        name: "Red Line",
         to: %TripPlan.NamedPosition{
           name: "Downtown Crossing",
-          stop_id: "70078"
-        },
-        type: "1"
+          stop: %Stops.Stop{id: "70078"}
+        }
       }
     ],
     start: DateTime.from_unix!(0),
@@ -808,7 +799,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   describe "routes_for_query/1" do
     setup do
-      itineraries = Factory.build_list(3, :itinerary)
+      itineraries = TripPlanner.build_list(3, :itinerary)
       {:ok, %{itineraries: itineraries}}
     end
 
@@ -850,7 +841,10 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "identifies subsequent subway legs as free when trip is from the airport" do
-      it = TripPlanController.readjust_itinerary_with_free_fares(@login_sl_plus_subway_itinerary)
+      it =
+        Dotcom.TripPlanner.FarePasses.readjust_itinerary_with_free_fares(
+          @login_sl_plus_subway_itinerary
+        )
 
       fares = DotcomWeb.TripPlanView.get_calculated_fares(it)
 
@@ -875,7 +869,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       subway_legs = List.delete_at(@login_sl_plus_subway_itinerary.legs, 1)
       subway_itinerary = %Itinerary{@login_sl_plus_subway_itinerary | legs: subway_legs}
 
-      it = TripPlanController.readjust_itinerary_with_free_fares(subway_itinerary)
+      it = Dotcom.TripPlanner.FarePasses.readjust_itinerary_with_free_fares(subway_itinerary)
 
       fares = DotcomWeb.TripPlanView.get_calculated_fares(it)
 

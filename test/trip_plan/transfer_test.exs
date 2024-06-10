@@ -1,12 +1,12 @@
 defmodule TransferTest do
   use ExUnit.Case
-  @moduletag :external
+  # @moduletag :external
 
   import TripPlan.Transfer
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   describe "maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
-    leg_for_route = fn id -> %Leg{mode: %TransitDetail{route_id: id}} end
+    leg_for_route = fn id -> %Leg{mode: %TransitDetail{route: %Routes.Route{id: id}}} end
     @bus_leg leg_for_route.("77")
     @other_bus_leg leg_for_route.("28")
     @subway_leg leg_for_route.("Red")
@@ -111,18 +111,18 @@ defmodule TransferTest do
         },
         %Leg{
           mode: %TransitDetail{
-            route_id: "Green-C"
+            route: %Routes.Route{id: "Green-C"}
           },
           to: %NamedPosition{
-            stop_id: "70202"
+            stop: %Stops.Stop{id: "70202"}
           }
         },
         %Leg{
           mode: %TransitDetail{
-            route_id: "Blue"
+            route: %Routes.Route{id: "Blue"}
           },
           from: %NamedPosition{
-            stop_id: "70040"
+            stop: %Stops.Stop{id: "70040"}
           }
         }
       ]
@@ -130,10 +130,10 @@ defmodule TransferTest do
       legs_without_transfer = [
         %Leg{
           mode: %TransitDetail{
-            route_id: "Green-C"
+            route: %Routes.Route{id: "Green-C"}
           },
           to: %NamedPosition{
-            stop_id: "70202"
+            stop: %Stops.Stop{id: "70202"}
           }
         },
         %Leg{
@@ -145,10 +145,10 @@ defmodule TransferTest do
             ]
           },
           from: %NamedPosition{
-            stop_id: "70202"
+            stop: %Stops.Stop{id: "70202"}
           },
           to: %NamedPosition{
-            stop_id: "70040"
+            stop: %Stops.Stop{id: "70040"}
           }
         }
       ]
@@ -160,19 +160,19 @@ defmodule TransferTest do
     test "handles transfers within the Winter St. Concourse" do
       leg_to_park = %Leg{
         mode: %TransitDetail{
-          route_id: "Green-C"
+          route: %Routes.Route{id: "Green-C"}
         },
         to: %NamedPosition{
-          stop_id: "70200"
+          stop: %Stops.Stop{id: "70200"}
         }
       }
 
       leg_from_dtx = %Leg{
         mode: %TransitDetail{
-          route_id: "Orange"
+          route: %Routes.Route{id: "Orange"}
         },
         from: %NamedPosition{
-          stop_id: "70020"
+          stop: %Stops.Stop{id: "70020"}
         }
       }
 

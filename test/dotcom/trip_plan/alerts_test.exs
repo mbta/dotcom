@@ -1,9 +1,9 @@
 defmodule Dotcom.TripPlan.AlertsTest do
   use ExUnit.Case, async: true
-  @moduletag :external
+  # @moduletag :external
 
   import Dotcom.TripPlan.Alerts
-  import Test.Support.Factory
+  import Test.Support.Factory.TripPlanner
 
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
@@ -109,7 +109,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
   end
 
   defp assert_only_good_alert(good_alert, bad_alert, itinerary) do
-    assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
+    assert filter_for_itinerary([good_alert, bad_alert], itinerary) == [good_alert]
   end
 
   defp valid_active_period(%Itinerary{start: start, stop: stop}) do
@@ -118,10 +118,6 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   defp invalid_active_period(%Itinerary{start: start}) do
     {nil, Timex.shift(start, hours: -1)}
-  end
-
-  defp opts do
-    [route_by_id: &route_by_id/1, trip_by_id: &trip_by_id/1]
   end
 
   defp route_by_id(id) when id in ["Blue", "Red"] do
@@ -134,9 +130,5 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   defp route_by_id(id) when id in ["1", "350"] do
     %Routes.Route{type: 3, id: id, name: "Bus"}
-  end
-
-  defp trip_by_id(trip) do
-    %Schedules.Trip{id: trip, direction_id: 1}
   end
 end

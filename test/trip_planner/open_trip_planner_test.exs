@@ -5,10 +5,10 @@ defmodule TripPlanner.OpenTripPlannerTest do
   alias TripPlanner.OpenTripPlanner
 
   import Mox
-  import Test.Support.Factory
+  import Test.Support.Factory.TripPlanner
 
   @date_time Faker.DateTime.forward(2)
-  @from build(:stop_named_position, stop_id: "place-sstat")
+  @from build(:stop_named_position, stop: %Stops.Stop{id: "place-sstat"})
   @to build(:named_position)
   @opts [arrive_by: @date_time]
 
