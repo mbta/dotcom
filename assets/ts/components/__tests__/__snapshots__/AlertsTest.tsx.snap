@@ -125,6 +125,11 @@ exports[`it renders 1`] = `
                   className="c-alert-item__effect"
                 >
                   Other 
+                  <span
+                    className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                  >
+                    Upcoming
+                  </span>
                 </div>
                 <div
                   dangerouslySetInnerHTML={

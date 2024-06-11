@@ -215,6 +215,14 @@ defmodule Alerts.Alert do
   defp do_human_lifecycle(:ongoing), do: "Ongoing"
   defp do_human_lifecycle(_), do: "Unknown"
 
+  @spec human_label(t) :: String.t()
+  def human_label(%{lifecycle: lifecycle})
+      when lifecycle not in [:new, :unknown] do
+    do_human_lifecycle(lifecycle)
+  end
+
+  def human_label(_), do: ""
+
   @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
