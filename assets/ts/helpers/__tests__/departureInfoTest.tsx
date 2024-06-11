@@ -163,42 +163,5 @@ describe("departureInfo", () => {
       );
       expect(screen.queryAllByRole("listitem")).toHaveLength(customLength);
     });
-
-    it("internally, can remove schedules before last prediction for subway", () => {
-      const route = baseRoute("Purple", 3);
-      const stop = customStop({});
-      const departures = Array.from({ length: 15 }, (x, i) => {
-        const trip = { id: `${i}`, direction_id: 0, headsign: `Way ${i}` };
-        const prediction = [0, 1, 3, 5, 6, 8].includes(i)
-          ? {
-              route,
-              trip,
-              stop,
-              time: add(Date.now(), { minutes: 1 * i })
-            }
-          : undefined;
-        return {
-          prediction,
-          schedule: {
-            route,
-            trip,
-            stop,
-            time: add(Date.now(), { minutes: 1 * i })
-          },
-          route,
-          trip,
-          isCancelled: false,
-          isDelayed: false,
-          routeMode: "subway"
-        } as DepartureInfo;
-      });
-
-      render(<ul>{departuresListFromInfos(departures, false, false)}</ul>);
-
-      // the schedule-only departures at index positions 2, 4, 7 should have been removed
-      expect(screen.queryAllByRole("listitem")).toHaveLength(
-        departures.length - 3
-      );
-    });
   });
 });

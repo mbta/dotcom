@@ -158,45 +158,34 @@ const departuresListFromInfos = (
   omitCancelledAndSkipped = false,
   WrapperEl: typeof DefaultWrapper = DefaultWrapper
 ): React.ReactElement[] => {
-  // optional cutoff time, before which we won't show schedules.
-  // just used with subway for now.
-  const predictionTimeCutoff = chain(departureInfos)
-    .filter(d => d.routeMode === SUBWAY)
-    .maxBy("prediction.time")
-    .value()?.prediction!.time;
-
-  const routeId = departureInfos[0]?.route?.id;
-  const tripId = departureInfos[0]?.trip?.id;
-
-  if (isSubway && !predictionTimeCutoff) {
-    return [
-      <div className="no-real-time-data" key={`${routeId}-${tripId}`}>
-        No real-time data
-      </div>
-    ];
-  }
-
-  return chain(departureInfos)
+  const predictions = chain(departureInfos)
     .reject(
       departure =>
         omitCancelledAndSkipped &&
         (!!departure.isCancelled || !!departure.isSkipped)
     )
-    .omitBy(
-      ({ prediction, schedule }) =>
-        // omit schedule-only departures that are before latest prediction time
-        predictionTimeCutoff &&
-        !prediction &&
-        schedule &&
-        schedule.time <= predictionTimeCutoff
+    .reject(
+      departure => isSubway && typeof departure.prediction === "undefined"
     )
-    .map(d => (
+    .slice(0, listLength)
+    .value();
+
+  if (predictions.length === 0) {
+    const routeId = departureInfos[0]?.route?.id;
+    const tripId = departureInfos[0]?.trip?.id;
+
+    return [
+      <div className="no-real-time-data" key={`${routeId}-${tripId}`}>
+        No real-time data
+      </div>
+    ];
+  } else {
+    return predictions.map(d => (
       <WrapperEl key={getInfoKey(d)}>
         <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
       </WrapperEl>
-    ))
-    .slice(0, listLength)
-    .value();
+    ));
+  }
 };
 
 const departureInfoInRoutePatterns = (

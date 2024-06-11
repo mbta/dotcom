@@ -466,7 +466,7 @@ describe("DepartureTimes", () => {
     });
   });
 
-  it("renders 'No more trips' when no predictions or schedules", async () => {
+  it("renders 'No real-time data' when no predictions", async () => {
     renderWithRouter(
       <DepartureTimes
         headsign="Alewife"
@@ -479,7 +479,7 @@ describe("DepartureTimes", () => {
       />
     );
     await waitFor(() => {
-      expect(screen.getByText("No more trips today")).toBeDefined();
+      expect(screen.getByText("No real-time data")).toBeDefined();
       expect(screen.getByText("Alewife")).toBeDefined();
     });
   });
