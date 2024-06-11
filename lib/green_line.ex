@@ -37,7 +37,7 @@ defmodule GreenLine do
   @doc """
   Terminal stops for each Green Line branch and direction.
   """
-  def termini_stops() do
+  def termini_stops do
     for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
       stop = @stops_repo.by_route(branch_id, direction_id) |> List.last()
       {{branch_id, direction_id}, stop}
@@ -90,7 +90,7 @@ defmodule GreenLine do
   All the branch IDs of the Green Line.
   """
   @spec branch_ids() :: [branch_name]
-  def branch_ids() do
+  def branch_ids do
     ~w(Green-B Green-C Green-D Green-E)s
   end
 

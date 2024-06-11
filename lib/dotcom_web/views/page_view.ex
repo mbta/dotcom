@@ -95,8 +95,8 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_access_url() :: String.t()
-  defp alerts_access_url() do
+  @spec alerts_access_url :: String.t()
+  defp alerts_access_url do
     DotcomWeb.Router.Helpers.alert_url(
       DotcomWeb.Endpoint,
       :show,

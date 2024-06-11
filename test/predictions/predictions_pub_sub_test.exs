@@ -103,7 +103,7 @@ defmodule Predictions.PredictionsPubSubTest do
     end
   end
 
-  defp count_workers() do
+  defp count_workers do
     Supervisor.count_children(Predictions.StreamSupervisor)
     |> Map.get(:active)
   end

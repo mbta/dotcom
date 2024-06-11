@@ -412,8 +412,8 @@ defmodule DotcomWeb.CustomerSupportController do
     })
   end
 
-  @spec get_options_per_mode() :: map
-  def get_options_per_mode() do
+  @spec get_options_per_mode :: map
+  def get_options_per_mode do
     bus_ferry_cr_options =
       for route_type <- 2..4, into: %{} do
         options =

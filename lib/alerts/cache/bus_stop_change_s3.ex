@@ -154,7 +154,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     end)
   end
 
-  defp bucket_prefix() do
+  defp bucket_prefix do
     Application.fetch_env!(:dotcom, :alerts_bus_stop_change_bucket)
   end
 end

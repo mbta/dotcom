@@ -99,7 +99,7 @@ if Mix.env() in [:dev, :test] do
       close_session(session)
     end
 
-    defp new_session() do
+    defp new_session do
       {:ok, session} =
         Wallaby.start_session(
           readiness_timeout: 60_000,

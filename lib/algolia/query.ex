@@ -8,7 +8,7 @@ defmodule Algolia.Query do
   alias Algolia.Query.Request
 
   @doc "Algolia indexes available to query"
-  def valid_indexes() do
+  def valid_indexes do
     suffix = Application.get_env(:dotcom, :algolia_index_suffix, "")
     ["routes", "stops", "drupal"] |> Enum.map(&{String.to_atom(&1), &1 <> suffix})
   end

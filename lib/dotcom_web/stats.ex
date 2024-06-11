@@ -42,7 +42,7 @@ defmodule DotcomWeb.Stats do
 
   Resets the Agent state after dispatching the stats.
   """
-  def dispatch_stats() do
+  def dispatch_stats do
     Enum.each(Agent.get(__MODULE__, & &1), &dispatch_method/1)
 
     Agent.update(__MODULE__, fn _ -> %{} end)

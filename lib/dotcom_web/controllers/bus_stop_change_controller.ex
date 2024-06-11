@@ -50,7 +50,7 @@ defmodule DotcomWeb.BusStopChangeController do
 
   # These are %HistoricalAlert{} structs that we store in AWS S3.
   # In the future all of our past alerts will come from here.
-  defp past_stored_alerts() do
+  defp past_stored_alerts do
     yesterday = Util.service_date() |> Timex.shift(days: -1)
 
     BusStopChangeS3.get_stored_alerts()
@@ -67,7 +67,7 @@ defmodule DotcomWeb.BusStopChangeController do
   # These are alerts exported from the Alerts UI application into
   # a series of CSV files. These will eventually be phased out in favor
   # of the alerts we store in S3.
-  defp get_old_alerts() do
+  defp get_old_alerts do
     folder = Application.app_dir(:dotcom) |> Path.join("priv/bus-stop-change")
 
     case File.ls(folder) do

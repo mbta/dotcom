@@ -141,7 +141,7 @@ defmodule Predictions.Store do
     }
   end
 
-  defp periodic_delete() do
+  defp periodic_delete do
     Process.send_after(self(), :periodic_delete, 300_000)
   end
 end

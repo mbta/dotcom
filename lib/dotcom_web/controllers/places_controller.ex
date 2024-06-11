@@ -185,7 +185,7 @@ defmodule DotcomWeb.PlacesController do
     end
   end
 
-  defp popular_locations() do
+  defp popular_locations do
     # copied from TripPlannerLocControls.POPULAR
     [
       %{

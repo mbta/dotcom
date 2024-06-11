@@ -15,7 +15,7 @@ defmodule DotcomWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
-  def default_conn() do
+  def default_conn do
     %Plug.Conn{
       Phoenix.ConnTest.build_conn()
       | host: "localhost"

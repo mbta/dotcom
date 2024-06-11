@@ -96,8 +96,8 @@ defmodule DotcomWeb.CustomerSupportView do
     end
   end
 
-  @spec get_all_modes() :: list
-  def get_all_modes() do
+  @spec get_all_modes :: list
+  def get_all_modes do
     # get options for subway, bus, commuter rail and ferry:
     subway_bus_cr_ferry_opts =
       Enum.map(1..4, fn mode ->
