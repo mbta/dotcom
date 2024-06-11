@@ -35,9 +35,10 @@ defmodule Dotcom.TripPlanner.FarePasses do
 
   # Logan Express is $9, except Back Bay to Logan is $3 and free from Logan.
   def leg_with_fares(
-        %Leg{mode: %TransitDetail{agency: agency, route: %Routes.Route{custom_route?: true}}} =
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: agency}}} =
           leg
-      ) do
+      )
+      when is_binary(agency) do
     logan_express? = agency == "Logan Express"
     price = if logan_express?, do: logan_express_fare(leg), else: 0
     mode = if logan_express?, do: :logan_express, else: :massport_shuttle

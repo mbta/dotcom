@@ -7,8 +7,7 @@ defmodule TripPlan.TransitDetail do
   alias OpenTripPlannerClient.Schema.Leg
 
   @derive {Jason.Encoder, except: [:fares]}
-  defstruct agency: "MBTA",
-            fares: %{
+  defstruct fares: %{
               highest_one_way_fare: nil,
               lowest_one_way_fare: nil,
               reduced_one_way_fare: nil
@@ -19,7 +18,6 @@ defmodule TripPlan.TransitDetail do
             intermediate_stops: []
 
   @type t :: %__MODULE__{
-          agency: String.t(),
           fares: fares,
           mode: Leg.mode(),
           route: Routes.Route.t(),

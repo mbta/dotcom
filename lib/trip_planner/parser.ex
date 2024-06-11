@@ -14,8 +14,6 @@ defmodule Dotcom.TripPlanner.Parser do
   alias Dotcom.TripPlanner.FarePasses
   alias OpenTripPlannerClient.Schema
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   @spec parse(Schema.Itinerary.t()) :: Itinerary.t()
   def parse(
         %Schema.Itinerary{
@@ -52,51 +50,31 @@ defmodule Dotcom.TripPlanner.Parser do
     agency_name = if(agency, do: agency.name)
 
     %Leg{
-      from: place(leg.from, agency_name),
+      from: place(leg.from),
       mode: mode(leg, agency_name),
       start: leg.start,
       stop: leg.end,
-      to: place(leg.to, agency_name),
+      to: place(leg.to),
       polyline: leg.leg_geometry.points,
       distance: miles(leg.distance),
       duration: minutes(leg.duration)
     }
   end
 
-  @spec place(Schema.Place.t(), String.t()) :: NamedPosition.t()
-  def place(
-        %Schema.Place{
-          stop: %Schema.Stop{} = stop,
-          lon: longitude,
-          lat: latitude,
-          name: name
-        },
-        agency_name
-      ) do
+  @spec place(Schema.Place.t()) :: NamedPosition.t()
+  def place(%Schema.Place{
+        stop: stop,
+        lon: longitude,
+        lat: latitude,
+        name: name
+      }) do
     stop =
-      stop
-      |> Map.put(:name, name)
-      |> stop(agency_name)
-      |> Map.put_new(:latitude, latitude)
-      |> Map.put_new(:longitude, latitude)
+      if(match?(%Schema.Stop{}, stop),
+        do: build_stop(stop, %{latitude: latitude, longitude: longitude})
+      )
 
     %NamedPosition{
       stop: stop,
-      name: stop.name,
-      latitude: latitude,
-      longitude: longitude
-    }
-  end
-
-  def place(
-        %Schema.Place{
-          lon: longitude,
-          lat: latitude,
-          name: name
-        },
-        nil
-      ) do
-    %NamedPosition{
       name: name,
       latitude: latitude,
       longitude: longitude
@@ -121,10 +99,9 @@ defmodule Dotcom.TripPlanner.Parser do
         agency_name
       ) do
     %TransitDetail{
-      agency: agency_name,
       mode: mode,
-      intermediate_stops: Enum.map(stops, &stop(&1, agency_name)),
-      route: route(route, agency_name),
+      intermediate_stops: Enum.map(stops, &build_stop/1),
+      route: build_route(route, agency_name),
       trip_id: id_from_gtfs(trip.gtfs_id)
     }
   end
@@ -145,13 +122,7 @@ defmodule Dotcom.TripPlanner.Parser do
     })
   end
 
-  defp route(%Schema.Route{gtfs_id: gtfs_id}, "MBTA") do
-    gtfs_id
-    |> id_from_gtfs()
-    |> Routes.Repo.get()
-  end
-
-  defp route(
+  defp build_route(
          %Schema.Route{
            gtfs_id: gtfs_id,
            short_name: short_name,
@@ -164,8 +135,8 @@ defmodule Dotcom.TripPlanner.Parser do
     id = id_from_gtfs(gtfs_id)
 
     %Routes.Route{
-      id: "#{agency_name}-#{id}",
-      custom_route?: true,
+      id: id,
+      external_agency_name: if(agency_name !== "MBTA", do: agency_name),
       # Massport GTFS sometimes omits short_name
       name: short_name || id,
       long_name: route_name(agency_name, short_name, long_name),
@@ -185,23 +156,18 @@ defmodule Dotcom.TripPlanner.Parser do
     if long_name, do: long_name, else: short_name
   end
 
-  defp stop(%Schema.Stop{gtfs_id: gtfs_id}, "MBTA") do
-    gtfs_id
-    |> id_from_gtfs()
-    |> @stops_repo.get()
-  end
-
-  defp stop(
+  defp build_stop(
          %Schema.Stop{
            gtfs_id: gtfs_id,
            name: name
          },
-         agency_name
+         attributes \\ %{}
        ) do
     %Stops.Stop{
-      id: "#{agency_name}-#{id_from_gtfs(gtfs_id)}",
-      name: "#{name}"
+      id: id_from_gtfs(gtfs_id),
+      name: name
     }
+    |> struct(attributes)
   end
 
   defp id_from_gtfs(gtfs_id) do

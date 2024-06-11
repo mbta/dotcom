@@ -41,8 +41,11 @@ defmodule Dotcom.TripPlan.Alerts do
     end
   end
 
-  defp mode_entities(%TransitDetail{agency: agency, route: route, trip_id: trip_id}) do
-    trip = if(agency == "MBTA", do: Schedules.Repo.trip(trip_id))
+  defp mode_entities(%TransitDetail{route: route, trip_id: trip_id}) do
+    trip =
+      if is_nil(route.external_agency_name) do
+        Schedules.Repo.trip(trip_id)
+      end
 
     route_type =
       if route do

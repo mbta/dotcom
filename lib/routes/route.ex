@@ -6,6 +6,7 @@ defmodule Routes.Route do
   @derive Jason.Encoder
 
   defstruct id: "",
+            external_agency_name: nil,
             type: 0,
             name: "",
             long_name: "",
@@ -21,6 +22,7 @@ defmodule Routes.Route do
   @type id_t :: String.t()
   @type t :: %__MODULE__{
           id: id_t,
+          external_agency_name: String.t() | nil,
           type: type_int(),
           name: String.t(),
           long_name: String.t(),

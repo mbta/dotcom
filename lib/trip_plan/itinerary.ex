@@ -80,7 +80,7 @@ defmodule TripPlan.Itinerary do
   def stop_ids(%__MODULE__{} = itinerary) do
     itinerary
     |> positions
-    |> Enum.map(& &1.stop_id)
+    |> Enum.map(& &1.stop.id)
     |> Enum.uniq()
   end
 
