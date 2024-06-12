@@ -31,6 +31,10 @@ defmodule Util do
     Timex.format!(date, "%FT%H:%M", :strftime)
   end
 
+  def date_as_js_string(%NaiveDateTime{} = naive_date_time) do
+    Timex.format!(naive_date_time, "%FT%H:%M", :strftime)
+  end
+
   @doc "Today's date in the America/New_York timezone."
   def today do
     now() |> Timex.to_date()
@@ -56,6 +60,20 @@ defmodule Util do
       :lt -> false
     end
   end
+
+  def parse_date_time(%DateTime{} = date_time) do
+    date_time
+  end
+
+  def parse_date_time(%NaiveDateTime{} = date_time) do
+    date_time
+  end
+
+  def parse_date_time(string) when is_binary(string) do
+    Timex.parse!(string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
+  end
+
+  def parse_date_time(_), do: Timex.now()
 
   @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   def parse(date_params) do
