@@ -152,7 +152,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
 
   @spec name_from_position(NamedPosition.t()) ::
           {String.t(), String.t()}
-  def name_from_position(%NamedPosition{stop: %Stops.Stop{id: id, name: name}}) do
+  def name_from_position(%NamedPosition{stop: %Stops.Stop{id: id}, name: name}) do
     {name, id}
   end
 

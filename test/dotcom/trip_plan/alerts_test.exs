@@ -3,22 +3,39 @@ defmodule Dotcom.TripPlan.AlertsTest do
   # @moduletag :external
 
   import Dotcom.TripPlan.Alerts
+  import Mox
   import Test.Support.Factory.TripPlanner
 
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias TripPlan.Itinerary
 
-  setup_all do
+  setup :verify_on_exit!
+
+  setup do
+    # The itinerary parsing currently queries for trips to aid in assigning fare
+    # values to legs, when those legs are transit legs within the MBTA service
+    # network.
+    stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+      case path do
+        "/trips/" <> _ ->
+          %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+        "/routes/" <> _ ->
+          %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+        _ ->
+          %JsonApi{links: %{}, data: []}
+      end
+    end)
+
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Test.Support.Factory.Stop.build(:stop)
+    end)
+
     itinerary =
       build(:itinerary,
-        legs: [
-          build(:leg,
-            from: build(:stop_named_position),
-            to: build(:stop_named_position),
-            mode: build(:transit_detail)
-          )
-        ]
+        legs: [build(:transit_leg)]
       )
 
     [route_id] = Itinerary.route_ids(itinerary)
@@ -69,7 +86,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       itinerary: itinerary,
       route_id: route_id
     } do
-      route = route_by_id(route_id)
+      route = %Routes.Route{id: route_id}
 
       good_alert =
         Alert.new(
@@ -118,17 +135,5 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   defp invalid_active_period(%Itinerary{start: start}) do
     {nil, Timex.shift(start, hours: -1)}
-  end
-
-  defp route_by_id(id) when id in ["Blue", "Red"] do
-    %Routes.Route{type: 1, id: id, name: "Subway"}
-  end
-
-  defp route_by_id("CR-Lowell" = id) do
-    %Routes.Route{type: 2, id: id, name: "Commuter Rail"}
-  end
-
-  defp route_by_id(id) when id in ["1", "350"] do
-    %Routes.Route{type: 3, id: id, name: "Bus"}
   end
 end

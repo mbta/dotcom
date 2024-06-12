@@ -4,11 +4,34 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
 
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
+  import Mox
   import Test.Support.Factory.TripPlanner
 
   alias TripPlan.Itinerary
 
-  setup_all do
+  setup :verify_on_exit!
+
+  setup do
+    # The itinerary parsing currently queries for trips to aid in assigning fare
+    # values to legs, when those legs are transit legs within the MBTA service
+    # network.
+    stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+      case path do
+        "/trips/" <> _ ->
+          %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+        "/routes/" <> _ ->
+          %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+        _ ->
+          %JsonApi{links: %{}, data: []}
+      end
+    end)
+
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Test.Support.Factory.Stop.build(:stop)
+    end)
+
     itinerary =
       build(:itinerary,
         legs: [build(:transit_leg)]
@@ -39,13 +62,12 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     end
 
     test "returns a non-empty list for multiple kinds of itineraries" do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Test.Support.Factory.Stop.build(:stop) end)
+
       for _i <- 0..100 do
         itinerary =
           build(:itinerary,
-            legs: [
-              build(:leg, mode: build(:transit_detail)),
-              build(:leg, mode: build(:transit_detail))
-            ]
+            legs: build_list(2, :transit_leg)
           )
 
         assert [_ | _] = links_for_itinerary(itinerary)
@@ -55,12 +77,10 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     test "with multiple types of fares, returns one link to the fare overview", %{
       itinerary: itinerary
     } do
-      for _i <- 0..10 do
-        leg =
-          build(:leg, %{
-            mode: build(:transit_detail)
-          })
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Test.Support.Factory.Stop.build(:stop) end)
 
+      for _i <- 0..10 do
+        leg = build(:transit_leg)
         itinerary = %Itinerary{itinerary | legs: [leg | itinerary.legs]}
 
         links = links_for_itinerary(itinerary)
@@ -81,8 +101,8 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
                  DotcomWeb.Endpoint,
                  :show,
                  :commuter_rail,
-                 origin: fare_stop_id(leg.from.stop_id),
-                 destination: fare_stop_id(leg.to.stop_id)
+                 origin: fare_stop_id(leg.from.stop.id),
+                 destination: fare_stop_id(leg.to.stop.id)
                )}
 
             _ ->

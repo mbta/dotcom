@@ -304,16 +304,11 @@ defmodule TripPlan.ItineraryRowTest do
   end
 
   describe "name_from_position" do
-    test "doesn't return stop id if mapper returns nil" do
-      stub(Stops.Repo.Mock, :get_parent, fn "ignored" ->
-        nil
-      end)
-
-      stop = %Stops.Stop{id: "ignored"}
+    test "doesn't return stop id if stop is nil" do
       name = "stop name"
 
       assert {^name, nil} =
-               name_from_position(%NamedPosition{stop: stop, name: name})
+               name_from_position(%NamedPosition{stop: nil, name: name})
     end
   end
 

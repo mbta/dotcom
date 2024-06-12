@@ -595,8 +595,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
+              TripPlanner.build(:walking_leg),
+              TripPlanner.build(:walking_leg)
             ]
         }
         |> transfer_note
@@ -609,9 +609,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
+              TripPlanner.build(:walking_leg),
               @bus_leg,
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
+              TripPlanner.build(:walking_leg)
             ]
         }
         |> transfer_note
@@ -739,6 +739,26 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
+      # The itinerary parsing currently queries for trips to aid in assigning fare
+      # values to legs, when those legs are transit legs within the MBTA service
+      # network.
+      stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+        case path do
+          "/trips/" <> _ ->
+            %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+          "/routes/" <> _ ->
+            %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+          _ ->
+            %JsonApi{links: %{}, data: []}
+        end
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn _ ->
+        Test.Support.Factory.Stop.build(:stop)
+      end)
+
       conn =
         assign(conn, :query, %Query{
           from: TripPlanner.build(:named_position),
@@ -755,7 +775,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                    "latitude" => _,
                    "longitude" => _,
                    "name" => _,
-                   "stop_id" => _
+                   "stop" => _
                  },
                  "itineraries" => itineraries,
                  "time_type" => "depart_at",
@@ -764,7 +784,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                    "latitude" => _,
                    "longitude" => _,
                    "name" => _,
-                   "stop_id" => _
+                   "stop" => _
                  },
                  "wheelchair" => true
                }
@@ -1079,62 +1099,48 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "includes a shuttle fare" do
-      itinerary = %Itinerary{
-        legs: [
-          %Leg{
-            from: %NamedPosition{
-              latitude: 42.370864,
-              longitude: -71.077534,
-              name: "Lechmere",
-              stop: %Stops.Stop{id: "9070092"}
-            },
-            mode: %TransitDetail{
-              fares: @shuttle_fares,
-              intermediate_stops: [%Stops.Stop{id: "9070093"}],
-              route: %Routes.Route{id: "Shuttle-LechmereNorthStation"},
-              trip_id: "43831675C0-LechmereNorthStation1"
-            },
-            to: %NamedPosition{
-              latitude: 42.36573,
-              longitude: -71.063989,
-              name: "North Station",
-              stop: %Stops.Stop{id: "9070090"}
-            }
-          },
-          %Leg{
-            from: %NamedPosition{
-              latitude: 42.365577,
-              longitude: -71.06129,
-              name: "North Station",
-              stop: %Stops.Stop{id: "70206"}
-            },
-            mode: %TransitDetail{
-              fares: %{
-                highest_one_way_fare: @highest_one_way_fare,
-                lowest_one_way_fare: @lowest_one_way_fare,
-                reduced_one_way_fare: @reduced_one_way_fare
-              },
-              intermediate_stops: [
-                %Stops.Stop{id: "70204"},
-                %Stops.Stop{id: "70202"},
-                %Stops.Stop{id: "70197"},
-                %Stops.Stop{id: "70159"},
-                %Stops.Stop{id: "70157"}
-              ],
-              route: %Routes.Route{id: "Green-C"},
-              trip_id: "43829886C0-LechmereNorthStation"
-            },
-            to: %NamedPosition{
-              latitude: 42.350126,
-              longitude: -71.077376,
-              name: "Copley",
-              stop: %Stops.Stop{id: "70155"}
-            }
-          }
-        ],
-        start: nil,
-        stop: nil
-      }
+      shuttle_leg =
+        Test.Support.Factory.TripPlanner.build(:transit_leg, %{
+          mode:
+            Test.Support.Factory.TripPlanner.build(:transit_detail, %{
+              route:
+                Test.Support.Factory.Route.build(:route, %{
+                  type: 2,
+                  description: :rail_replacement_bus
+                })
+            })
+        })
+
+      bus_leg =
+        Test.Support.Factory.TripPlanner.build(:transit_leg, %{
+          mode:
+            Test.Support.Factory.TripPlanner.build(:transit_detail, %{
+              route: Test.Support.Factory.Route.build(:route, %{type: 3})
+            })
+        })
+
+      # The itinerary parsing currently queries for trips to aid in assigning fare
+      # values to legs, when those legs are transit legs within the MBTA service
+      # network.
+      stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+        case path do
+          "/trips/" <> _ ->
+            %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+          "/routes/" <> _ ->
+            %JsonApi{links: %{}, data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+          _ ->
+            %JsonApi{links: %{}, data: []}
+        end
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn _ ->
+        Test.Support.Factory.Stop.build(:stop)
+      end)
+
+      itinerary =
+        Test.Support.Factory.TripPlanner.build(:itinerary, %{legs: [shuttle_leg, bus_leg]})
 
       expected_fares = %{
         bus: %{
@@ -1222,10 +1228,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         start: nil,
         stop: nil
       }
-
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        {:error, nil}
-      end)
 
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end
@@ -1788,6 +1790,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> DotcomWeb.TripPlanView.render(assigns)
         |> safe_to_string()
 
+      # it says 11 stops, 120 min. I think it's an actual bug where 120 is actually seconds!
       assert rendered =~ "2 min"
     end
 
