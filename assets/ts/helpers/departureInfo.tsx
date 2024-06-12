@@ -158,17 +158,20 @@ const departuresListFromInfos = (
   omitCancelledAndSkipped = false,
   WrapperEl: typeof DefaultWrapper = DefaultWrapper
 ): React.ReactElement[] => {
-  // optional cutoff time, before which we won't show schedules.
-  // just used with subway for now.
-  const predictionTimeCutoff = chain(departureInfos)
-    .filter(d => d.routeMode === SUBWAY)
-    .maxBy("prediction.time")
-    .value()?.prediction!.time;
+  const predictions = chain(departureInfos)
+    .reject(
+      departure =>
+        (omitCancelledAndSkipped &&
+          (!!departure.isCancelled || !!departure.isSkipped)) ||
+        (isSubway && typeof departure.prediction === "undefined")
+    )
+    .slice(0, listLength)
+    .value();
 
-  const routeId = departureInfos[0]?.route?.id;
-  const tripId = departureInfos[0]?.trip?.id;
+  if (predictions.length === 0) {
+    const routeId = departureInfos[0]?.route?.id;
+    const tripId = departureInfos[0]?.trip?.id;
 
-  if (isSubway && !predictionTimeCutoff) {
     return [
       <div className="no-real-time-data" key={`${routeId}-${tripId}`}>
         No real-time data
@@ -176,27 +179,11 @@ const departuresListFromInfos = (
     ];
   }
 
-  return chain(departureInfos)
-    .reject(
-      departure =>
-        omitCancelledAndSkipped &&
-        (!!departure.isCancelled || !!departure.isSkipped)
-    )
-    .omitBy(
-      ({ prediction, schedule }) =>
-        // omit schedule-only departures that are before latest prediction time
-        predictionTimeCutoff &&
-        !prediction &&
-        schedule &&
-        schedule.time <= predictionTimeCutoff
-    )
-    .map(d => (
-      <WrapperEl key={getInfoKey(d)}>
-        <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
-      </WrapperEl>
-    ))
-    .slice(0, listLength)
-    .value();
+  return predictions.map(d => (
+    <WrapperEl key={getInfoKey(d)}>
+      <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
+    </WrapperEl>
+  ));
 };
 
 const departureInfoInRoutePatterns = (
