@@ -107,7 +107,7 @@ defmodule CMS.Repo do
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
-  def whats_happening() do
+  def whats_happening do
     case @cms_api.view("/cms/whats-happening", []) do
       {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
       _ -> []
@@ -127,7 +127,7 @@ defmodule CMS.Repo do
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
-  def do_banner() do
+  def do_banner do
     case @cms_api.view("/cms/important-notices", []) do
       {:ok, [api_data | _]} -> Banner.from_api(api_data)
       {:ok, _} -> :empty

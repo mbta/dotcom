@@ -7,7 +7,7 @@ defmodule Routes.MockRepoApi do
   @behaviour Routes.RepoApi
 
   @impl Routes.RepoApi
-  def all() do
+  def all do
     [
       get("Red"),
       %Routes.Route{
