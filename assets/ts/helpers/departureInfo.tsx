@@ -179,13 +179,13 @@ const departuresListFromInfos = (
         No real-time data
       </div>
     ];
-  } else {
-    return predictions.map(d => (
-      <WrapperEl key={getInfoKey(d)}>
-        <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
-      </WrapperEl>
-    ));
   }
+
+  return predictions.map(d => (
+    <WrapperEl key={getInfoKey(d)}>
+      <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
+    </WrapperEl>
+  ));
 };
 
 const departureInfoInRoutePatterns = (
