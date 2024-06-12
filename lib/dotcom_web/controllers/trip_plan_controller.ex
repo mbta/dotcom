@@ -307,15 +307,6 @@ defmodule DotcomWeb.TripPlanController do
     assign(conn, :wheelchair, true)
   end
 
-  @spec routes_for_query([Itinerary.t()]) :: route_map
-  def routes_for_query(itineraries) do
-    itineraries
-    |> Enum.map(&routes_for_itinerary/1)
-    |> add_additional_routes()
-    |> Enum.uniq()
-    |> Map.new(&{&1.id, &1})
-  end
-
   @spec routes_for_itinerary(Itinerary.t()) :: [Route.t()]
   defp routes_for_itinerary(itinerary) do
     itinerary.legs
@@ -326,14 +317,6 @@ defmodule DotcomWeb.TripPlanController do
   @spec to_and_from(map) :: [to: String.t() | nil, from: String.t() | nil]
   def to_and_from(plan) do
     [to: Map.get(plan, "to"), from: Map.get(plan, "from")]
-  end
-
-  defp add_additional_routes(routes) do
-    if Enum.any?(routes, &String.starts_with?(&1.id, "Green")) do
-      Enum.concat(routes, GreenLine.branch_ids() |> Enum.map(&Routes.Repo.get/1))
-    else
-      routes
-    end
   end
 
   defp meta_description(conn, _) do
