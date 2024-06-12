@@ -133,10 +133,10 @@ defmodule DotCom.Mixfile do
          github: "samueljseay/recaptcha",
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
-      {:recase, "0.7.0"},
+      {:recase, "0.8.0"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.5.1"},
-      {:req, "0.4.14", override: true},
+      {:req, "0.5.0", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
@@ -145,14 +145,15 @@ defmodule DotCom.Mixfile do
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
-      {:telemetry_metrics_splunk, "0.0.5-alpha"},
+      {:telemetry_metrics_splunk, "0.0.6-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
-      {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
+      # TODO is this even used by anything?
+      {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]}
     ]
   end
 end
