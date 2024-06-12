@@ -181,10 +181,6 @@
     line-height: 1.5;
     margin-bottom: .5rem;
   }
-
-  input {
-    padding: calc(#{$base-spacing} / 2);
-  }
 }
 
 #trip-planner-inputs {
@@ -198,6 +194,10 @@
     .btn+.btn {
       margin-left: 0;
     }
+  }
+
+  input {
+    padding: calc(#{$base-spacing} / 2);
   }
 
   label {
