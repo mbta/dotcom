@@ -179,6 +179,11 @@
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5;
+    margin-bottom: .5rem;
+  }
+
+  input {
+    padding: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -187,6 +192,7 @@
   width: 100%;
 
   .btn-group {
+    margin-bottom: .75rem;
     width: 100%;
 
     .btn+.btn {
@@ -197,7 +203,8 @@
   label {
     border-color: $brand-primary;
     border-width: 1px 0;
-    padding: 4px;
+    font-weight: 400;
+    padding: calc(#{$base-spacing} / 2);
     width: 33.33%;
   }
 
@@ -216,7 +223,6 @@
   input[type='text'] {
     border: 1px solid $brand-primary;
     border-radius: $border-radius;
-    padding: 4px 6px;
     width: 100%;
   }
 
@@ -224,8 +230,8 @@
     color: $brand-primary;
     float: right;
     position: relative;
-    right: 10px;
-    top: -25px;
+    right: 1rem;
+    top: -1.9rem;
   }
 }
 
