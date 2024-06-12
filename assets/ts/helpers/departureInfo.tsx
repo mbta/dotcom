@@ -161,11 +161,9 @@ const departuresListFromInfos = (
   const predictions = chain(departureInfos)
     .reject(
       departure =>
-        omitCancelledAndSkipped &&
-        (!!departure.isCancelled || !!departure.isSkipped)
-    )
-    .reject(
-      departure => isSubway && typeof departure.prediction === "undefined"
+        (omitCancelledAndSkipped &&
+          (!!departure.isCancelled || !!departure.isSkipped)) ||
+        (isSubway && typeof departure.prediction === "undefined")
     )
     .slice(0, listLength)
     .value();
