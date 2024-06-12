@@ -301,6 +301,7 @@ defmodule Dotcom.RealtimeScheduleTest do
           color: "ED8B00",
           sort_order: 99_999,
           fare_class: :unknown_fare,
+          external_agency_name: nil,
           line_id: ""
         }
       }
