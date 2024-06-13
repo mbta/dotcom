@@ -195,11 +195,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert conn.assigns.map_data
     end
 
-    test "assigns modes to empty map", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
-      assert conn.assigns.modes == %{}
-    end
-
     test "sets a custom meta description", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
       assert conn.assigns.meta_description

@@ -27,4 +27,7 @@
     <input type="text" name="plan[date_time_display]" id="date-time-display">
     <i class="fa-solid fa-calendar"></i>
   </div>
+  <div class="error-container">
+    <%= date_error(@errors) %>
+  </div>
 </div>
