@@ -1,23 +1,20 @@
-<h2>When</h2>
-<%=
-  render "_departure.html", Map.merge(assigns, %{
-    title: format_plan_type_for_title(@query),
-    prefix: "trip-plan-departure",
-    datetime: datetime_from_query(@query)
-  })
-%>
-<h2>Modes</h2>
-<%=
-  DotcomWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
-    multiselectable: true,
-    parent_view: DotcomWeb.TripPlanView,
-    sections: [
-      %{
-        content_template: "_more_options.html",
-        title: "See more options",
-        prefix: "trip-plan-options",
-        form: @parent_form
-      }
-    ]
-  }))
-%>
+<div id="trip-planner-form" phx-hook="TripPlannerForm">
+  <h2>When</h2>
+  <%= render("_departure.html", assigns) %>
+  <h2>Modes</h2>
+  <%=
+    DotcomWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
+      multiselectable: true,
+      parent_view: DotcomWeb.TripPlanView,
+      sections: [
+        %{
+          content_template: "_modes.html",
+          form: @parent_form,
+          prefix: "modes",
+          title: "All Modes"
+        }
+      ]
+    }))
+  %>
+  <%= render("_optimize_for.html", Map.merge(assigns, %{form: @parent_form})) %>
+</div>

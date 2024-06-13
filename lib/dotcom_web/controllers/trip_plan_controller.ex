@@ -410,20 +410,12 @@ defmodule DotcomWeb.TripPlanController do
     )
   end
 
-  @doc """
-  if other plan params are filled, such as from or to, but no modes, set all
-  modes to true. this can happen when getting trip plans from the homepage.
-  """
-  def modes(%Plug.Conn{params: %{"plan" => _}} = conn, _) do
+  def modes(%Plug.Conn{} = conn, _) do
     assign(
       conn,
       :modes,
       %{subway: true, bus: true, commuter_rail: true, ferry: true}
     )
-  end
-
-  def modes(%Plug.Conn{} = conn, _) do
-    assign(conn, :modes, %{})
   end
 
   @spec breadcrumbs(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()

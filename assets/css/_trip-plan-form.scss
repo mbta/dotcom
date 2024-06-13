@@ -145,7 +145,7 @@
 .m-trip-plan__optimize-for {
   @include icon-size-inline(1em);
 
-  margin-bottom: 0;
+  margin-bottom: .75rem;
   margin-top: $base-spacing;
 
   .c-svg__icon-accessible-default {
@@ -174,6 +174,28 @@
   display: none;
 }
 
+#trip-planner-form {
+  .c-accordion-ui {
+    border-radius: $border-radius;
+  }
+
+  .c-accordion-ui__content {
+    background: white;
+    border-bottom: solid 1px $brand-primary;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  .c-accordion-ui__target {
+    border-bottom: none;
+  }
+
+  .c-accordion-ui__trigger {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+}
+
 .trip-planner-form {
   h2 {
     font-size: 16px;
@@ -184,11 +206,15 @@
 }
 
 #trip-planner-inputs {
-  margin: 10px 0 20px;
+  margin: .75rem 0;
   width: 100%;
 
+  #trip-plan-datepicker {
+    margin-bottom: .25rem;
+    margin-top: .75rem;
+  }
+
   .btn-group {
-    margin-bottom: .75rem;
     width: 100%;
 
     .btn+.btn {
@@ -205,6 +231,7 @@
     border-width: 1px 0;
     font-weight: 400;
     padding: calc(#{$base-spacing} / 2);
+    text-transform: capitalize;
     width: 33.33%;
   }
 

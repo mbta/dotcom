@@ -23,9 +23,29 @@ function i18nDate(date) {
 }
 
 /**
+ * Updates the title of the accordion based on the mode selections.
+ */
+function updateAccordionTitle(elem, modeCheckboxes) {
+  const checkedModes = Array.prototype.slice
+    .call(modeCheckboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.labels[0].textContent);
+
+  const title = elem.querySelector(".c-accordion-ui__title");
+
+  if (checkedModes.length === 0) {
+    title.textContent = "Walking Only";
+  } else if (checkedModes.length === modeCheckboxes.length) {
+    title.textContent = "All Modes";
+  } else {
+    title.textContent = checkedModes.join(", ");
+  }
+}
+
+/**
  * Initializes the trip planner inputs and sets all listeners.
  */
-export default function setupTripPlannerInputs(elem) {
+export default function setupTripPlannerForm(elem) {
   // Gets all radio inputs in the form.
   // Now, Leave at, and Arrive by.
   const inputs = Array.prototype.slice.call(
@@ -118,4 +138,18 @@ export default function setupTripPlannerInputs(elem) {
   // Get the time selector that corresponds with the set time and click it.
   // This covers the case where the user has selected a time and the page is reloaded.
   elem.querySelector(`input[value="${time}"]`).click();
+
+  // When someone makes mode selections, we update the title of the accordion.
+  const modeCheckboxes = elem.querySelectorAll(
+    ".c-accordion-ui input[type='checkbox']"
+  );
+
+  modeCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener("click", _event => {
+      updateAccordionTitle(elem, modeCheckboxes);
+    });
+  });
+
+  // Setup the correct title when the page is loaded.
+  updateAccordionTitle(elem, modeCheckboxes);
 }

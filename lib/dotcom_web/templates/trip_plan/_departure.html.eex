@@ -1,4 +1,4 @@
-<div phx-hook="TripPlannerInputs" id="trip-planner-inputs">
+<div id="trip-planner-inputs">
   <script id="data" type="text/plain">
     <%= raw(Poison.encode!(%{
           chosenDateTime: @chosen_date_time |> Util.parse_date_time() |> Util.date_as_js_string(),
@@ -26,8 +26,5 @@
     <input type="hidden" name="plan[date_time]" id="date-time-hidden">
     <input type="text" name="plan[date_time_display]" id="date-time-display">
     <i class="fa-solid fa-calendar"></i>
-  </div>
-  <div class="error-container">
-    <%= date_error(@errors) %>
   </div>
 </div>
