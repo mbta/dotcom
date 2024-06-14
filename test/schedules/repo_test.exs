@@ -13,8 +13,8 @@ defmodule Schedules.RepoTest do
     %{cache: cache}
   end
 
-  @tag :external
   describe "by_route_ids/2" do
+    @describetag :external
     test "can take a route/direction/sequence/date" do
       response =
         by_route_ids(
@@ -28,7 +28,6 @@ defmodule Schedules.RepoTest do
       assert %Schedule{} = List.first(response)
     end
 
-    @tag :external
     test "can take multiple route IDs" do
       response =
         by_route_ids(
@@ -42,7 +41,6 @@ defmodule Schedules.RepoTest do
       assert Enum.any?(response, &(&1.route.id == "9"))
     end
 
-    @tag :external
     test "returns the parent station as the stop and keeps raw stop id" do
       [first_schedule | _rest] =
         response =
@@ -61,7 +59,6 @@ defmodule Schedules.RepoTest do
       assert "place-alfcl" != platform_stop_id
     end
 
-    @tag :external
     test "filters by min_time when provided" do
       now = Util.now()
 
@@ -95,7 +92,6 @@ defmodule Schedules.RepoTest do
       assert before_now == 0
     end
 
-    @tag :external
     test "if we get an error from the API, returns an error tuple" do
       response =
         by_route_ids(
@@ -108,8 +104,8 @@ defmodule Schedules.RepoTest do
     end
   end
 
-  @tag :external
   describe "schedule_for_trip/2" do
+    @describetag :external
     test "returns stops in order of their stop_sequence for a given trip" do
       trip_id =
         "place-WML-0442"
@@ -126,7 +122,6 @@ defmodule Schedules.RepoTest do
       assert List.last(response).stop.id == "place-sstat"
     end
 
-    @tag :external
     test "returns different values for different dates" do
       trip_id =
         "place-WML-0442"

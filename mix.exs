@@ -93,7 +93,7 @@ defmodule DotCom.Mixfile do
       {:hackney, "1.20.1"},
       {:hammer, "6.2.1"},
       # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
-      {:html_sanitize_ex, "1.3.0"},
+      {:html_sanitize_ex, "1.4.3"},
       # latest version 2.2.1; cannot upgrade because api has changed
       {:httpoison, "1.8.2"},
       {:inflex, "2.1.0"},

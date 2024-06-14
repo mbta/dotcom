@@ -9,7 +9,7 @@ defmodule CMS.CustomHTML5Scrubber do
   """
 
   require HtmlSanitizeEx.Scrubber.Meta
-  alias HtmlSanitizeEx.Scrubber.{CSS, Meta}
+  alias HtmlSanitizeEx.Scrubber.Meta
 
   # Removes any CDATA tags before the traverser/scrubber runs.
   Meta.remove_cdata_sections_before_scrub()
@@ -17,8 +17,6 @@ defmodule CMS.CustomHTML5Scrubber do
   Meta.strip_comments()
 
   @valid_schemes ["http", "https", "mailto", "tel"]
-
-  Meta.allow_tag_with_uri_attributes("a", ["href"], @valid_schemes)
 
   Meta.allow_tag_with_these_attributes("a", [
     "accesskey",
@@ -29,6 +27,7 @@ defmodule CMS.CustomHTML5Scrubber do
     "draggable",
     "dropzone",
     "hidden",
+    "href",
     "id",
     "inert",
     "itemid",
@@ -49,6 +48,12 @@ defmodule CMS.CustomHTML5Scrubber do
     "hreflang",
     "type"
   ])
+
+  def scrub_attribute("a", {"href", "tel:" <> _ = number}) do
+    {"href", number}
+  end
+
+  Meta.allow_tag_with_uri_attributes("a", ["href"], @valid_schemes)
 
   Meta.allow_tag_with_these_attributes("b", [
     "accesskey",
@@ -2124,9 +2129,5 @@ defmodule CMS.CustomHTML5Scrubber do
   @spec html5(String.t()) :: String.t()
   def html5(html) do
     html |> HtmlSanitizeEx.Scrubber.scrub(__MODULE__)
-  end
-
-  defp scrub_css(text) do
-    CSS.scrub(text)
   end
 end

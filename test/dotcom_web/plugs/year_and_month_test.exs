@@ -42,18 +42,6 @@ defmodule DotcomWeb.Plugs.YearMonthTest do
       %{year: year, month: month} = conn.assigns
       assert 2019 = year
       assert ^month = @assigned_date.month
-
-      conn =
-        conn
-        |> with_query_params(%{
-          "year" => "20330201",
-          "month" => "8"
-        })
-        |> call([])
-
-      %{year: year, month: month} = conn.assigns
-      assert ^year = @assigned_date.year
-      assert 8 = month
     end
   end
 

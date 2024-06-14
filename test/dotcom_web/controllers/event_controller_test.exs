@@ -69,7 +69,6 @@ defmodule DotcomWeb.EventControllerTest do
     end
   end
 
-  @tag todo: "Replacing with events_hub_redesign"
   describe "GET show" do
     test "renders and does not rewrite an unaliased event response", %{conn: conn} do
       event = event_factory(0, path_alias: nil)

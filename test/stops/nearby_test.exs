@@ -118,8 +118,8 @@ defmodule Stops.NearbyTest do
     end
   end
 
-  @tag :external
   describe "keys/1" do
+    @describetag :external
     test "returns a list of {route_id, direction_id} tuples" do
       actual = %{id: "place-kencl"} |> keys |> Enum.sort()
 
@@ -223,9 +223,8 @@ defmodule Stops.NearbyTest do
       assert length(actual) == 12
     end
 
-    @tag iterations: 100
-    test "basic properties", %{iterations: iterations} do
-      for _ <- 1..iterations do
+    test "basic properties" do
+      for _ <- 1..100 do
         stops = random_stops(30)
         commuter = Enum.take_random(stops, Enum.random(0..10))
         subway = Enum.take_random(stops, Enum.random(0..10))
