@@ -174,9 +174,16 @@
   display: none;
 }
 
+.c-trip-plan-widget__inputs {
+  label {
+    margin-bottom: .75rem;
+  }
+}
+
 #trip-planner-form {
   .c-accordion-ui {
     border-radius: $border-radius;
+    margin-top: .75rem;
   }
 
   .c-accordion-ui__content {
@@ -193,6 +200,11 @@
   .c-accordion-ui__trigger {
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
+
+    &.collapsed {
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
   }
 }
 
@@ -202,6 +214,7 @@
     font-weight: bold;
     line-height: 1.5;
     margin-bottom: .5rem;
+    margin-top: .5rem;
   }
 }
 
@@ -210,7 +223,7 @@
   width: 100%;
 
   #trip-plan-datepicker {
-    margin-bottom: .25rem;
+    margin-bottom: 1rem;
     margin-top: .75rem;
   }
 
