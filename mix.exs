@@ -151,7 +151,6 @@ defmodule DotCom.Mixfile do
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
-      # TODO is this even used by anything?
       {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]}
     ]
   end
