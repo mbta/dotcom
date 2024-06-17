@@ -15,8 +15,11 @@ function formatDate(date) {
  */
 function i18nDate(date) {
   const formatter = new Intl.DateTimeFormat(navigator.language, {
-    dateStyle: "full",
-    timeStyle: "short"
+    month: "long",
+    weekday: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric"
   });
 
   return formatter.format(date);
