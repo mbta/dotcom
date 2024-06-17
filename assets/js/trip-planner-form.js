@@ -103,7 +103,7 @@ export default function setupTripPlannerForm(elem) {
   // Initializes the date picker.
   // Unfortunately, we can't use a function to format the date.
   // So, it won't be in the user's locale.
-  flatpickr(dateInputDisplay, {
+  flatpickr(elem.querySelector("#trip-plan-datepicker .flatpickr"), {
     allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
     dateFormat: "l, F j, Y at h:i K",
     enableTime: true,
@@ -114,7 +114,8 @@ export default function setupTripPlannerForm(elem) {
         dateInputHidden.value = formatDate(selectedDates[0]);
         dateInputDisplay.value = i18nDate(selectedDates[0]);
       }
-    }
+    },
+    wrap: true // works with adjacent icon
   });
 
   // The first input 'Now' is the default input.

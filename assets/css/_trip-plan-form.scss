@@ -209,6 +209,8 @@
 }
 
 .trip-planner-form {
+  padding-top: 1rem;
+
   h2 {
     font-size: 16px;
     font-weight: bold;
@@ -270,14 +272,67 @@
     color: $brand-primary;
   }
 
-  // desktop view only
-  [name='plan[date_time_display]'] + i.fa-calendar {
-    float: right;
-    pointer-events: none; // allow click-through
+  .flatpickr {
     position: relative;
-    right: 1rem;
-    top: -1.9rem;
+
+    .form-control[readonly] {
+      background-color: $body-bg;
+    }
+
+    a[data-toggle] {
+      position: absolute;
+      right: .75rem;
+      top: .5rem;
+    }
   }
+
+  .flatpickr-mobile {
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius;
+    width: calc(100% - 2.5rem);
+
+    & ~ a[data-toggle] {
+      position: unset;
+    }
+  }
+}
+
+.flatpickr-months {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+
+  .flatpickr-month {
+    color: inherit;
+  }
+}
+
+.flatpickr-current-month {
+  font-size: $font-size-base-xxl;
+  font-weight: inherit;
+
+  .flatpickr-monthDropdown-months {
+    font-weight: inherit;
+  }
+
+  input.cur-year[disabled],
+  input.cur-year[disabled]:hover {
+    color: inherit;
+  }
+}
+
+.flatpickr-time input {
+  font-size: inherit;
+}
+
+.flatpickr-day {
+  font-weight: $font-weight-medium;
+}
+
+.flatpickr-calendar {
+  font-family: $font-family-base;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .flatpickr-day.selected {

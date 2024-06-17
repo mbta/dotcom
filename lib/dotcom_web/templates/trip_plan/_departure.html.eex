@@ -24,8 +24,12 @@
   </fieldset>
   <div id="trip-plan-datepicker" class="m-trip-plan__departure-last" style="display: none">
     <input type="hidden" name="plan[date_time]" id="date-time-hidden">
-    <input type="text" name="plan[date_time_display]" id="date-time-display">
-    <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+    <div class="flatpickr">
+      <input type="text" name="plan[date_time_display]" id="date-time-display" data-input>
+      <a class="input-button" title="toggle" data-toggle>
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+      </a>
+    </div>
   </div>
   <div class="error-container">
     <%= date_error(@errors) %>
