@@ -104,6 +104,7 @@ export default function setupTripPlannerForm(elem) {
   // Unfortunately, we can't use a function to format the date.
   // So, it won't be in the user's locale.
   flatpickr(dateInputDisplay, {
+    allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
     dateFormat: "l, F j, Y at h:i K",
     enableTime: true,
     maxDate,
