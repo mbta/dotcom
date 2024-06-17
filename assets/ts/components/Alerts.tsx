@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Alert as AlertType } from "../__v3api";
+import { Alert as AlertType, Lifecycle } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
 import renderSVG from "../helpers/render-svg";
@@ -45,6 +45,38 @@ export const iconForAlert = ({
     default:
       return renderSVG("c-svg__icon-alerts-triangle", alertIcon);
   }
+};
+
+export const humanLifecycle = (lifecycle: Lifecycle): string | null => {
+  switch (lifecycle) {
+    case "upcoming":
+    case "ongoing_upcoming":
+      return "Upcoming";
+    case "ongoing":
+      return "Ongoing";
+    case "new":
+    case "unknown":
+    default:
+      return null;
+  }
+};
+
+export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
+  const alertClasses = ["u-small-caps", "c-alert-item__badge"];
+  if (alert.priority === "system") {
+    alertClasses.push("c-alert-item__badge--system");
+  }
+  if (
+    alert.lifecycle === "upcoming" ||
+    alert.lifecycle === "ongoing_upcoming"
+  ) {
+    alertClasses.push("c-alert-item__badge--upcoming");
+  }
+  return (
+    <span className={alertClasses.join(" ")}>
+      {humanLifecycle(alert.lifecycle)}
+    </span>
+  );
 };
 
 export const effectNameForAlert = (alert: AlertType): string =>
@@ -195,6 +227,7 @@ export const Alert = ({
         <div className="c-alert-item__top-text-container">
           <div className="c-alert-item__effect">
             {`${effectNameForAlert(alert)} `}
+            {humanLifecycle(alert.lifecycle) ? alertLabel(alert) : null}
           </div>
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: headerContent }} />

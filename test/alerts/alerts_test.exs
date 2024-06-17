@@ -65,6 +65,42 @@ defmodule AlertsTest do
     end
   end
 
+  describe "human_label/1" do
+    @future_active_period [{Timex.shift(@now, days: 8), Timex.shift(@now, days: 20)}]
+
+    test "returns Ongoing when lifecycle is ongoing and time not in active period" do
+      assert human_label(%Alert{
+               effect: :cancellation,
+               active_period: @future_active_period,
+               lifecycle: :ongoing
+             }) == "Ongoing"
+    end
+
+    test "returns Upcoming when lifecycle is ongoing and time not in active period" do
+      assert human_label(%Alert{
+               effect: :cancellation,
+               active_period: @future_active_period,
+               lifecycle: :upcoming
+             }) == "Upcoming"
+    end
+
+    test "returns empty string when lifecycle is new and time not in active period" do
+      assert human_label(%Alert{
+               effect: :cancellation,
+               active_period: @future_active_period,
+               lifecycle: :new
+             }) == ""
+    end
+
+    test "returns Upcoming when lifecycle is upcoming and active period is empty" do
+      assert human_label(%Alert{
+               effect: :cancellation,
+               active_period: [],
+               lifecycle: :upcoming
+             }) == "Upcoming"
+    end
+  end
+
   describe "icon/1" do
     test "return :none, :cancel, :snow, :shuttle or :alert" do
       assert icon(%Alert{effect: :detour, priority: :low}) == :none

@@ -169,6 +169,20 @@
   margin-top: $space-12;
 }
 
+.c-alert-item__badge {
+  background-color: $service-alert-yellow-darker;
+  border-radius: calc(#{$base-spacing} / 4);
+  padding: calc(#{$base-spacing} / 8) calc(#{$base-spacing} / 2);
+}
+
+.c-alert-item__badge--upcoming {
+  background-color: $service-alert-gray-darker;
+}
+
+.c-alert-item__badge--system {
+  background-color: $service-alert-yellow;
+}
+
 .m-alerts__mode-buttons {
   display: flex;
   margin-left: calc(-#{$grid-gutter-width} / 4);

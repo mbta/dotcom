@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-import Alerts, { iconForAlert } from "../Alerts";
+import Alerts, { alertLabel, iconForAlert, humanLifecycle } from "../Alerts";
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 import { Alert, InformedEntitySet } from "../../__v3api";
 import { isAmenityAlert } from "../../models/alert";
@@ -166,6 +166,36 @@ describe("iconForAlert", () => {
     expect(JSON.stringify(renderer.create(icon!).toJSON())).toMatch(
       "shuttle-default"
     );
+  });
+
+  describe("alertLabel", () => {
+    test("it returns a system label for system alerts", () => {
+      const label = alertLabel({
+        ...highAlert,
+        priority: "system",
+        lifecycle: "ongoing_upcoming"
+      });
+      const labelComponent = JSON.stringify(renderer.create(label!).toJSON());
+      expect(labelComponent).toMatch("badge--system");
+      expect(labelComponent).toMatch("badge--upcoming");
+    });
+  });
+
+  describe("humanLifecycle", () => {
+    it("returns correct value for others", () => {
+      let label = humanLifecycle("ongoing_upcoming");
+      expect(label).toMatch("Upcoming");
+      label = humanLifecycle("ongoing");
+      expect(label).toMatch("Ongoing");
+      label = humanLifecycle("upcoming");
+      expect(label).toMatch("Upcoming");
+      label = humanLifecycle("new");
+      expect(label).toBeNull();
+      label = humanLifecycle("unknown");
+      expect(label).toBeNull();
+      label = humanLifecycle("something" as any);
+      expect(label).toBeNull();
+    });
   });
 
   test("renders alert icon for system alerts", () => {
