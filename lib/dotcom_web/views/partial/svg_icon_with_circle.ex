@@ -218,6 +218,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   def title(%Routes.Route{id: "Green-" <> branch}),
     do: DotcomWeb.ViewHelpers.mode_name(:green_line) <> " #{branch}"
 
+  def title(%Routes.Route{external_agency_name: "Massport", long_name: name}), do: name
+  def title(%Routes.Route{external_agency_name: "Logan Express", long_name: name}), do: name
   def title(%Routes.Route{custom_route?: true, long_name: name}), do: name
   def title(%Routes.Route{type: type}), do: DotcomWeb.ViewHelpers.mode_name(type)
   def title(_icon), do: ""

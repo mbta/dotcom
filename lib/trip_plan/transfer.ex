@@ -32,7 +32,8 @@ defmodule TripPlan.Transfer do
           mode: %TransitDetail{route: route_from}
         }
         | _
-      ]) do
+      ])
+      when not is_nil(to_stop) and not is_nil(from_stop) do
     same_station?(from_stop.id, to_stop.id) and subway?(route_to) and subway?(route_from)
   end
 
@@ -56,13 +57,13 @@ defmodule TripPlan.Transfer do
 
   def maybe_transfer?([
         first_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = first_route}
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = first_route}
         },
         middle_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = middle_route}
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = middle_route}
         },
         last_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = last_route}
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = last_route}
         }
       ]) do
     @multi_ride_transfers
@@ -73,8 +74,8 @@ defmodule TripPlan.Transfer do
   end
 
   def maybe_transfer?([
-        %Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = from_route}},
-        %Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = to_route}}
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = from_route}},
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = to_route}}
       ]) do
     if from_route === to_route and
          Enum.all?([from_route, to_route], &bus?/1) do
@@ -101,8 +102,8 @@ defmodule TripPlan.Transfer do
   end
 
   def bus_to_subway_transfer?([
-        %Leg{mode: %TransitDetail{route: from_route}},
-        %Leg{mode: %TransitDetail{route: to_route}}
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = from_route}},
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = to_route}}
       ]) do
     bus?(from_route) && subway?(to_route)
   end

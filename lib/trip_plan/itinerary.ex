@@ -108,7 +108,9 @@ defmodule TripPlan.Itinerary do
   end
 
   defp leg_intermediate(%Leg{mode: %TransitDetail{intermediate_stops: stops}}) do
-    Enum.map(stops, & &1.id)
+    stops
+    |> Enum.reject(&is_nil/1)
+    |> Enum.map(& &1.id)
   end
 
   defp leg_intermediate(_) do

@@ -112,10 +112,16 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   # Massport shuttle routes
-  def line_icon(%Route{custom_route?: true, long_name: "Massport" <> _, name: name}, _)
+  def line_icon(%Route{external_agency_name: "Massport", name: name}, _)
       when is_binary(name) do
     route_number = String.slice(name, 0..1)
     svg("icon-massport-#{route_number}.svg")
+  end
+
+  # Logan Express shuttle routes
+  def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
+      when is_binary(name) do
+    svg("icon-logan-express-#{name}.svg")
   end
 
   def line_icon(%Route{} = route, size) do
@@ -238,6 +244,10 @@ defmodule DotcomWeb.ViewHelpers do
   @doc "Returns a css class: a string with hyphens."
   @spec route_to_class(Routes.Route.t()) :: String.t()
   def route_to_class(nil), do: ""
+
+  def route_to_class(%Routes.Route{external_agency_name: "Logan Express", name: name}) do
+    "logan-express-#{name}"
+  end
 
   def route_to_class(route) do
     route

@@ -71,6 +71,9 @@ defmodule Dotcom.TripPlanner.FarePasses do
     %Leg{leg | mode: mode_with_fares}
   end
 
+  def leg_with_fares(%Leg{from: %NamedPosition{stop: nil}} = leg), do: leg
+  def leg_with_fares(%Leg{to: %NamedPosition{stop: nil}} = leg), do: leg
+
   def leg_with_fares(%Leg{mode: %TransitDetail{route: route}} = leg) do
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop.id
@@ -139,6 +142,8 @@ defmodule Dotcom.TripPlanner.FarePasses do
 
   @spec highest_month_pass(Leg.t()) :: Fare.t() | nil
   defp highest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
+  defp highest_month_pass(%Leg{from: %NamedPosition{stop: nil}}), do: nil
+  defp highest_month_pass(%Leg{to: %NamedPosition{stop: nil}}), do: nil
 
   defp highest_month_pass(
          %Leg{
@@ -156,6 +161,8 @@ defmodule Dotcom.TripPlanner.FarePasses do
 
   @spec lowest_month_pass(Leg.t()) :: Fare.t() | nil
   defp lowest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
+  defp lowest_month_pass(%Leg{from: %NamedPosition{stop: nil}}), do: nil
+  defp lowest_month_pass(%Leg{to: %NamedPosition{stop: nil}}), do: nil
 
   defp lowest_month_pass(
          %Leg{
@@ -173,6 +180,8 @@ defmodule Dotcom.TripPlanner.FarePasses do
 
   @spec reduced_pass(Leg.t()) :: Fare.t() | nil
   defp reduced_pass(%Leg{mode: %PersonalDetail{}}), do: nil
+  defp reduced_pass(%Leg{from: %NamedPosition{stop: nil}}), do: nil
+  defp reduced_pass(%Leg{to: %NamedPosition{stop: nil}}), do: nil
 
   defp reduced_pass(
          %Leg{

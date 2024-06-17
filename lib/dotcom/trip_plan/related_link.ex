@@ -69,6 +69,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
   defp optional_icon(nil), do: []
 
   defp optional_icon(icon_name) do
+    # IO.inspect(icon_name, label: "icon name")
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
@@ -81,14 +82,24 @@ defmodule Dotcom.TripPlan.RelatedLink do
     end
   end
 
-  defp route_link(%Route{custom_route?: true} = route, _, _) do
+  defp route_link(
+         %Route{external_agency_name: "Logan Express", name: name, long_name: long_name} = route,
+         _,
+         _
+       ) do
     url =
-      if String.starts_with?(route.long_name, "Logan Express") do
-        "https://www.massport.com/logan-airport/getting-to-logan/logan-express"
+      if name == "BB" do
+        "https://www.massport.com/logan-airport/to-from-logan/transportation-options/logan-express/back-bay/"
       else
-        "https://massport.com/"
+        route_name = String.split(long_name, " ") |> List.first()
+        "https://www.massport.com/logan-airport/getting-to-logan/logan-express/#{route_name}"
       end
 
+    new("#{long_name} schedules", url, route)
+  end
+
+  defp route_link(%Route{external_agency_name: "Massport"}, _, _) do
+    url = "https://massport.com/"
     new("Massport schedules", url, :massport_shuttle)
   end
 
@@ -108,7 +119,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   defp fare_links(itinerary) do
-    for %Leg{mode: %TransitDetail{route: %Route{custom_route?: false} = route}} = leg <-
+    for %Leg{mode: %TransitDetail{route: %Route{external_agency_name: nil} = route}} = leg <-
           itinerary.legs do
       fare_link(route, leg)
     end

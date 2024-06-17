@@ -362,7 +362,7 @@ defmodule DotcomWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
   end
 
-  def icon_for_route(%Route{type: 3, custom_route?: false} = route) do
+  def icon_for_route(%Route{type: 3, external_agency_name: nil} = route) do
     DotcomWeb.ViewHelpers.bus_icon_pill(route)
   end
 
@@ -370,6 +370,7 @@ defmodule DotcomWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 
+  @spec datetime_from_query(nil | Dotcom.TripPlan.Query.t()) :: any()
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
   def datetime_from_query(nil), do: Util.now() |> Dotcom.TripPlan.DateTime.round_minute()

@@ -52,14 +52,17 @@ defmodule Dotcom.TripPlanner.Parser do
     %Leg{
       from: place(leg.from),
       mode: mode(leg, agency_name),
-      start: leg.start,
-      stop: leg.end,
+      start: time(leg.start),
+      stop: time(leg.end),
       to: place(leg.to),
       polyline: leg.leg_geometry.points,
       distance: miles(leg.distance),
       duration: minutes(leg.duration)
     }
   end
+
+  defp time(%Schema.LegTime{estimated: nil, scheduled_time: time}), do: time
+  defp time(%Schema.LegTime{estimated: %{time: time}}), do: time
 
   @spec place(Schema.Place.t()) :: NamedPosition.t()
   def place(%Schema.Place{
@@ -141,7 +144,7 @@ defmodule Dotcom.TripPlanner.Parser do
       name: short_name || id,
       long_name: route_name(agency_name, short_name, long_name),
       type: type,
-      color: color
+      color: route_color(agency_name, short_name, color)
     }
   end
 
@@ -156,19 +159,29 @@ defmodule Dotcom.TripPlanner.Parser do
     if long_name, do: long_name, else: short_name
   end
 
+  defp route_color("Logan Express", "WO", _), do: "00954c"
+  defp route_color("Logan Express", "BB", _), do: "f16823"
+  defp route_color("Logan Express", "PB", _), do: "704c9f"
+  defp route_color(_, _, color), do: color
+
+  #  only create a %Stop{} if the GTFS ID is from MBTA
+  defp build_stop(stop, attributes \\ %{})
+
   defp build_stop(
          %Schema.Stop{
-           gtfs_id: gtfs_id,
+           gtfs_id: "mbta-ma-us:" <> gtfs_id,
            name: name
          },
-         attributes \\ %{}
+         attributes
        ) do
     %Stops.Stop{
-      id: id_from_gtfs(gtfs_id),
+      id: gtfs_id,
       name: name
     }
     |> struct(attributes)
   end
+
+  defp build_stop(_, _), do: nil
 
   defp id_from_gtfs(gtfs_id) do
     case String.split(gtfs_id, ":") do

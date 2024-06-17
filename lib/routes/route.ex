@@ -67,8 +67,8 @@ defmodule Routes.Route do
   @silver_line_set MapSet.new(@silver_line)
 
   @spec type_atom(t | type_int | String.t()) :: route_type
-  def type_atom(%__MODULE__{id: "Massport" <> _}), do: :massport_shuttle
-  def type_atom(%__MODULE__{id: "Logan Express" <> _}), do: :logan_express
+  def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
+  def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
@@ -99,6 +99,8 @@ defmodule Routes.Route do
   def types_for_mode(:silver_line), do: [3]
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
+  def icon_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
+  def icon_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
   def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_line
   def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
@@ -108,8 +110,6 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Green-C"}), do: :green_line_c
   def icon_atom(%__MODULE__{id: "Green-D"}), do: :green_line_d
   def icon_atom(%__MODULE__{id: "Green-E"}), do: :green_line_e
-  def icon_atom(%__MODULE__{id: "Massport" <> _}), do: :massport_shuttle
-  def icon_atom(%__MODULE__{id: "Logan Express" <> _}), do: :logan_express
 
   for silver_line_route <- @silver_line do
     def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)

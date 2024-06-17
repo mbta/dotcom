@@ -3,7 +3,6 @@ defmodule Dotcom.TripPlan.ItineraryRow do
 
   alias Routes.Route
   alias Dotcom.TripPlan.IntermediateStop
-  alias OpenTripPlannerClient.Schema
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias TripPlan.PersonalDetail.Step
 
@@ -55,6 +54,10 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   def route_type(%__MODULE__{route: %Route{type: type}}), do: type
   def route_type(_row), do: nil
 
+  def route_name(%__MODULE__{route: %Route{external_agency_name: agency, long_name: name}})
+      when is_binary(agency) and is_binary(name),
+      do: name
+
   def route_name(%__MODULE__{route: %Route{custom_route?: true, long_name: name}}), do: name
   def route_name(%__MODULE__{route: %Route{name: name}}), do: name
   def route_name(_row), do: nil
@@ -64,9 +67,12 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   """
   @spec from_leg(Leg.t(), Leg.t() | nil) :: t
   def from_leg(leg, next_leg) do
-    trip = leg |> Leg.trip_id() |> parse_trip_id()
     transit? = Leg.transit?(leg)
     route = if(transit?, do: leg.mode.route)
+
+    trip =
+      if(route && is_nil(route.external_agency_name), do: leg |> Leg.trip_id() |> parse_trip_id())
+
     stop = name_from_position(leg.from)
 
     %__MODULE__{
@@ -74,16 +80,13 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       transit?: Leg.transit?(leg),
       route: route,
       trip: trip,
-      departure: leg_time(leg.start),
+      departure: leg.start,
       steps: get_steps(leg.mode, next_leg),
       additional_routes: get_additional_routes(route, trip, leg, stop),
       duration: leg.duration,
       distance: leg.distance
     }
   end
-
-  defp leg_time(%Schema.LegTime{estimated: nil, scheduled_time: time}), do: time
-  defp leg_time(%Schema.LegTime{estimated: %{time: time}}), do: time
 
   @spec fetch_alerts(t, [Alerts.Alert.t()]) :: t
   def fetch_alerts(row, alerts)
@@ -169,7 +172,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
     do: Enum.map(steps, &format_personal_to_personal_step/1)
 
   defp get_steps(%TransitDetail{intermediate_stops: stops}, _next_leg) do
-    for stop <- stops do
+    for stop <- stops, stop do
       %IntermediateStop{
         description: stop.name,
         stop: stop
