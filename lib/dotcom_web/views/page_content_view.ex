@@ -13,6 +13,22 @@ defmodule DotcomWeb.CMS.PageView do
 
   @doc "Universal wrapper for CMS page content"
   @spec render_page(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
+
+  def render_page(%CMS.Page.Diversions{} = page, conn) do
+    sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
+    sidebar_right = has_right_rail?(page)
+    sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
+
+    render(
+      "_diversions.html",
+      page: page,
+      sidebar_left: sidebar_left,
+      sidebar_right: sidebar_right,
+      sidebar_class: sidebar_layout,
+      conn: conn
+    )
+  end
+
   def render_page(page, conn) do
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)

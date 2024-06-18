@@ -1,11 +1,48 @@
 defmodule CMS.HelpersTest do
   use ExUnit.Case, async: true
+
   import CMS.Helpers
 
   alias CMS.Helpers
   alias Phoenix.HTML
 
   doctest CMS.Helpers
+
+  describe "parse_page_types/1" do
+    test "it parses the page type" do
+      # Setup
+      page_type = Faker.Cat.breed()
+
+      data = %{
+        "field_page_type" => [
+          %{
+            "name" => page_type
+          }
+        ]
+      }
+
+      # Exercise / Verify
+      assert [^page_type] = parse_page_types(data)
+    end
+  end
+
+  describe "parse_related_transit/1" do
+    test "it parses the related transit data" do
+      # Setup
+      related_transit = Faker.Cat.breed()
+
+      data = %{
+        "field_related_transit" => [
+          %{
+            "name" => related_transit
+          }
+        ]
+      }
+
+      # Exercise / Verify
+      assert [^related_transit] = parse_related_transit(data)
+    end
+  end
 
   describe "handle_html/1" do
     test "removes unsafe html tags from safe content" do

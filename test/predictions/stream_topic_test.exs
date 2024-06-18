@@ -7,7 +7,7 @@ defmodule Predictions.StreamTopicTest do
 
   import Mox
   import Predictions.StreamTopic
-  import Test.Support.Factory.RoutePattern
+  import Test.Support.Factories.RoutePatterns.RoutePattern
 
   alias Predictions.StreamTopic
 

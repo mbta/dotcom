@@ -8,7 +8,7 @@ defmodule PredictedScheduleTest do
   import PredictedSchedule
   import Mock
   import Mox
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers

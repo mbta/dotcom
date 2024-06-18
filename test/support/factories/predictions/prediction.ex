@@ -1,4 +1,4 @@
-defmodule Test.Support.Factory.Prediction do
+defmodule Test.Support.Factories.Predictions.Prediction do
   @moduledoc """
   Generated fake data for %RoutePattern{}
   """

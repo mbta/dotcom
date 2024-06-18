@@ -10,17 +10,20 @@ defmodule Alerts.Parser do
     def parse(%JsonApi.Item{type: "alert", id: id, attributes: attributes}) do
       Alerts.Alert.new(
         id: id,
-        header: attributes["header"],
-        informed_entity: parse_informed_entity(attributes["informed_entity"]),
         active_period: Enum.map(attributes["active_period"], &active_period/1),
-        effect: effect(attributes),
+        banner: description(attributes["banner"]),
         cause: cause(attributes["cause"]),
-        severity: severity(attributes["severity"]),
-        lifecycle: lifecycle(attributes["lifecycle"]),
-        updated_at: parse_time(attributes["updated_at"]),
+        created_at: parse_time(attributes["created_at"]),
         description: description(attributes["description"]),
-        url: description(attributes["url"]),
-        banner: description(attributes["banner"])
+        effect: effect(attributes),
+        header: attributes["header"],
+        image_alt_text: parse_informed_entity(attributes["informed_entity"]) |> create_alt_text(),
+        image_url: attributes["image_url"],
+        informed_entity: parse_informed_entity(attributes["informed_entity"]),
+        lifecycle: lifecycle(attributes["lifecycle"]),
+        severity: severity(attributes["severity"]),
+        updated_at: parse_time(attributes["updated_at"]),
+        url: description(attributes["url"])
       )
     end
 
@@ -213,6 +216,14 @@ defmodule Alerts.Parser do
         _ ->
           :unknown
       end
+    end
+
+    defp create_alt_text(informed_entities) do
+      informed_entities
+      |> Enum.map(& &1.route)
+      |> MapSet.new()
+      |> Enum.join(", ")
+      |> (fn routes -> "Line map of the " <> routes <> " route(s) closures" end).()
     end
   end
 

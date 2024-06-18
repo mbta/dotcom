@@ -3,7 +3,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
   import DotcomWeb.ScheduleController.Predictions
   import Mox
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   setup %{conn: conn} do
     conn =

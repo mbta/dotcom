@@ -3,7 +3,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
 
   import DotcomWeb.ScheduleController.TripInfo
   import Mox
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   alias DotcomWeb.ScheduleController.TripInfo
   alias Schedules.{Schedule, Trip}

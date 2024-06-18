@@ -4,7 +4,7 @@ defmodule DotcomWeb.PlacesControllerTest do
 
   import DotcomWeb.PlacesController
   import Mox
-  import Test.Support.Factory.LocationService
+  import Test.Support.Factories.LocationService.LocationService
 
   setup :verify_on_exit!
 

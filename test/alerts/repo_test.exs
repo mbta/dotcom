@@ -1,11 +1,14 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
-  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, Repo, InformedEntitySet}
 
-  @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
+  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, InformedEntitySet, Repo}
+  alias Test.Support.Factories
+
+  @now Timex.now()
 
   setup_all do
     start_supervised(Store)
+
     :ok
   end
 
@@ -38,7 +41,7 @@ defmodule Alerts.RepoTest do
     end
   end
 
-  describe "by_route_ids/1" do
+  describe "by_route_ids/2" do
     @orange_entity %InformedEntity{route: "Orange"}
     @red_entity %InformedEntity{route: "Red"}
     @blue_entity %InformedEntity{route: "Blue"}
@@ -53,6 +56,50 @@ defmodule Alerts.RepoTest do
       assert orange_alert in alerts
       assert red_alert in alerts
       refute blue_alert in alerts
+    end
+
+    test "returns an empty list of alerts when given an empty list of ids" do
+      assert [] = Repo.by_route_ids([], @now)
+    end
+  end
+
+  describe "diversions_by_route_id/2" do
+    test "returns only diversions for the given route_ids" do
+      # Setup
+      diversion = Factories.Alerts.Alert.build(:alert, effect: :shuttle)
+      non_diversion = Factories.Alerts.Alert.build(:alert, effect: :delay)
+
+      Store.update([diversion, non_diversion], nil)
+
+      diversion_route =
+        diversion.informed_entity.route |> MapSet.to_list() |> List.first()
+
+      non_diversion_route =
+        non_diversion.informed_entity.route |> MapSet.to_list() |> List.first()
+
+      # Exercise
+      diversions =
+        Repo.diversions_by_route_ids([diversion_route, non_diversion_route], Timex.now())
+
+      # Verify
+      assert [^diversion] = diversions
+    end
+
+    test "attaches an image url to the alert if it doesn't already have one" do
+      # Setup
+      diversion = Factories.Alerts.Alert.build(:alert, effect: :shuttle, image_url: nil)
+
+      Store.update([diversion], nil)
+
+      diversion_route =
+        diversion.informed_entity.route |> MapSet.to_list() |> List.first()
+
+      # Exercise
+      diversions =
+        Repo.diversions_by_route_ids([diversion_route], Timex.now())
+
+      # Verify
+      assert diversions |> List.first() |> Map.get(:image_url) != nil
     end
   end
 

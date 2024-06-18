@@ -76,7 +76,8 @@ defmodule Alerts.ParserTest do
                    |> Timex.Timezone.convert("America/New_York"),
                  description: "Affected routes: 18",
                  priority: :low,
-                 url: "www.mbta.com"
+                 url: "www.mbta.com",
+                 image_alt_text: "Line map of the 18 route(s) closures"
                }
     end
 
