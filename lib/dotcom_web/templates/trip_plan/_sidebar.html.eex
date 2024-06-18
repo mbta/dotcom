@@ -6,8 +6,7 @@
   form_options = [
     as: :plan,
     method: :get,
-    toggle_element_collapse: itineraries?,
-    class: "trip-planner-form",
+    class: "trip-planner-form #{if(itineraries?, do: "hidden-sm-down")}",
     id: "plan"
   ]
 

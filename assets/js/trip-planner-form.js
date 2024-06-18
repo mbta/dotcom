@@ -4,17 +4,10 @@ import flatpickr from "flatpickr";
 import { format } from "date-fns";
 
 /**
- * Formats a date into a string in the format util.ex parse/1 expects.
- */
-function formatDate(date) {
-  return format(date, "yyyy-MM-dd HH:mm aa");
-}
-
-/**
  * Formats a date into a string in the user's locale.
  */
-function i18nDate(date) {
-  const formatter = new Intl.DateTimeFormat(navigator.language, {
+function i18nDate(date, locale = navigator.language) {
+  const formatter = new Intl.DateTimeFormat(locale, {
     month: "long",
     weekday: "long",
     day: "numeric",
@@ -45,31 +38,12 @@ function updateAccordionTitle(elem, modeCheckboxes) {
   }
 }
 
+const SERVER_FORMAT = "Y-m-d G:i K";
+
 /**
  * Initializes the trip planner inputs and sets all listeners.
  */
 export default function setupTripPlannerForm(elem) {
-  // Gets all radio inputs in the form.
-  // Now, Leave at, and Arrive by.
-  const inputs = Array.prototype.slice.call(
-    elem.querySelectorAll("input[type='radio']")
-  );
-
-  // Handles toggling of radio inputs.
-  inputs.forEach(input => {
-    input.addEventListener("click", event => {
-      event.target.parentElement.classList.add("active");
-      event.target.setAttribute("checked", "checked");
-
-      inputs.forEach(otherInput => {
-        if (otherInput !== input) {
-          otherInput.parentElement.classList.remove("active");
-          otherInput.removeAttribute("checked");
-        }
-      });
-    });
-  });
-
   // Gets data that is injected into the template.
   // This is how we get the user selections from the query params to set controls.
   let data = elem.querySelector("#data").innerHTML;
@@ -86,63 +60,26 @@ export default function setupTripPlannerForm(elem) {
     time === "now" ? data.dateTime : data.chosenDateTime
   );
 
-  // We have two inputs. One is for display and the other is hidden.
-  // The display shows a string from i18nDate.
-  const dateInputDisplay = elem.querySelector(
-    "#trip-plan-datepicker #date-time-display"
-  );
-  dateInputDisplay.value = i18nDate(dateTime);
-
-  // The hidden input is what gets sent to the server.
-  // It uses a string from formatDate.
-  const dateInputHidden = elem.querySelector(
-    "#trip-plan-datepicker #date-time-hidden"
-  );
-  dateInputHidden.value = formatDate(dateTime);
-
   // Initializes the date picker.
-  // Unfortunately, we can't use a function to format the date.
-  // So, it won't be in the user's locale.
   flatpickr(elem.querySelector("#trip-plan-datepicker .flatpickr"), {
     allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
-    dateFormat: "l, F j, Y at h:i K",
+    altInput: true, // allow different format to be sent to server
+    dateFormat: "Y-m-d G:i K", // this gets sent to the server
+    defaultDate: dateTime,
     enableTime: true,
     maxDate,
     minDate,
-    onChange(selectedDates, _dateStr, _instance) {
-      if (selectedDates.length > 0) {
-        dateInputHidden.value = formatDate(selectedDates[0]);
-        dateInputDisplay.value = i18nDate(selectedDates[0]);
+    formatDate: (date, formatString, locale) => {
+      if (formatString === SERVER_FORMAT) {
+        // Formats a date into a string in the format util.ex parse/1 expects.
+        return format(date, "yyyy-MM-dd HH:mm aa");
       }
+
+      // if not being sent to the server, use localized format
+      return i18nDate(date, locale);
     },
     wrap: true // works with adjacent icon
   });
-
-  // The first input 'Now' is the default input.
-  // Clicking on it will hide the time inputs.
-  inputs.slice(0, 1).forEach(input => {
-    input.addEventListener("click", _event => {
-      dateInputHidden.value = formatDate(minDate);
-      dateInputDisplay.value = i18nDate(minDate);
-
-      elem
-        .querySelector("#trip-plan-datepicker")
-        .style.setProperty("display", "none");
-    });
-  });
-
-  // If the second or third input is chosen, we want to show the time inputs.
-  inputs.slice(1).forEach(input => {
-    input.addEventListener("click", _event => {
-      elem
-        .querySelector("#trip-plan-datepicker")
-        .style.setProperty("display", "block");
-    });
-  });
-
-  // Get the time selector that corresponds with the set time and click it.
-  // This covers the case where the user has selected a time and the page is reloaded.
-  elem.querySelector(`input[value="${time}"]`).click();
 
   // When someone makes mode selections, we update the title of the accordion.
   const modeCheckboxes = elem.querySelectorAll(
