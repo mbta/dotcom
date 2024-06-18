@@ -211,6 +211,8 @@ defmodule DotcomWeb.CustomerSupportController do
   defp simple_filename(name), do: String.replace(name, ~r/(\s)+/, "-")
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
+    Logger.warning("#{__MODULE__} form validation failed: #{inspect(errors)}")
+
     render(
       conn,
       "index.html",
@@ -222,6 +224,8 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   defp render_form(conn, %{errors: errors}) do
+    Logger.warning("#{__MODULE__} form validation failed: #{inspect(errors)}")
+
     render(
       conn,
       "index.html",
