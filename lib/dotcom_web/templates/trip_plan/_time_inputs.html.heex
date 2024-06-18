@@ -11,18 +11,17 @@
   </script>
 
   <% select_now? = @chosen_time == "now" or is_nil(@chosen_time) %>
-  <% toggle_active = JS.remove_class("active", to: ["[data-toggle=buttons] label"]) |> JS.add_class("active") %>
 
   <fieldset id="when" aria-label="When to travel">
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class={"btn btn-secondary #{if(select_now?, do: "active")}"} for="now" phx-click={toggle_active}>
-        <input type="radio" name="plan[time]" id="now" autocomplete="off" value="now" phx-click={JS.hide(to: "#trip-plan-datepicker")}> Now
+    <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-secondary" for="now">
+        <input type="radio" name="plan[time]" id="now" checked={select_now?} value="now" phx-click={JS.hide(to: "#trip-plan-datepicker")}> Now
       </label>
-      <label class={"btn btn-secondary #{if(@chosen_time == "depart", do: "active")}"} for="depart" phx-click={toggle_active}>
-        <input type="radio" name="plan[time]" id="depart" autocomplete="off" value="depart" phx-click={JS.show(to: "#trip-plan-datepicker")}> Leave at
+      <label class="btn btn-secondary" for="depart">
+        <input type="radio" name="plan[time]" id="depart" checked={@chosen_time == "depart"} value="depart" phx-click={JS.show(to: "#trip-plan-datepicker")}> Leave at
       </label>
-      <label class={"btn btn-secondary #{if(@chosen_time == "arrive", do: "active")}"} for="arrive" phx-click={toggle_active}>
-        <input type="radio" name="plan[time]" id="arrive" autocomplete="off" value="arrive" phx-click={JS.show(to: "#trip-plan-datepicker")}> Arrive by
+      <label class="btn btn-secondary" for="arrive">
+        <input type="radio" name="plan[time]" id="arrive" checked={@chosen_time == "arrive"} value="arrive" phx-click={JS.show(to: "#trip-plan-datepicker")}> Arrive by
       </label>
     </div>
     <div id="trip-plan-datepicker" class="m-trip-plan__departure-last" phx-mounted={if(select_now?, do: JS.hide())}>

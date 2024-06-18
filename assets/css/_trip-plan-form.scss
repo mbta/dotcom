@@ -235,6 +235,10 @@
     .btn+.btn {
       margin-left: 0;
     }
+
+    label:has(:checked) {
+      @extend .active;
+    }
   }
 
   input {
