@@ -98,6 +98,7 @@ defmodule TripPlan.Itinerary do
   def intermediate_stop_ids(itinerary) do
     itinerary
     |> Enum.flat_map(&leg_intermediate/1)
+    |> Enum.reject(&is_nil/1)
     |> Enum.uniq()
   end
 

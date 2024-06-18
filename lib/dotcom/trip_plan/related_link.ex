@@ -69,7 +69,6 @@ defmodule Dotcom.TripPlan.RelatedLink do
   defp optional_icon(nil), do: []
 
   defp optional_icon(icon_name) do
-    # IO.inspect(icon_name, label: "icon name")
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
