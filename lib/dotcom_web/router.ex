@@ -11,6 +11,8 @@ defmodule DotcomWeb.Router do
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
     end
+
+    plug(DotcomWeb.Plugs.CSPHeaders)
   end
 
   pipeline :browser do
@@ -18,7 +20,6 @@ defmodule DotcomWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:fetch_cookies)
-    plug(:put_secure_browser_headers)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
