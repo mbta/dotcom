@@ -18,6 +18,8 @@ defmodule Schedules.Parser do
           pickup_type :: integer
         }
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @spec parse(Item.t()) :: record
   def parse(item) do
     arrival = arrival_time(item)
@@ -136,7 +138,7 @@ defmodule Schedules.Parser do
   end
 
   def display_time(arrival_time, departure_time, route_id) when is_binary(route_id) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
     display_time(arrival_time, departure_time, route)
   end
 

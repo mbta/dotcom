@@ -19,6 +19,7 @@ defmodule DotcomWeb.StopController do
   alias Util.AndOr
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type routes_map_t :: %{
@@ -61,7 +62,7 @@ defmodule DotcomWeb.StopController do
         |> redirect(to: stop_path(conn, :show, @stops_repo.get_parent(stop)))
         |> halt()
       else
-        routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+        routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
 
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
@@ -178,14 +179,14 @@ defmodule DotcomWeb.StopController do
     do: route_pattern
 
   defp add_polyline(%RoutePattern{route_id: route_id} = route_pattern) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
     polyline = Polyline.new(route_pattern, color: "#" <> route.color, weight: 4)
     Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
   @spec api(Conn.t(), map) :: Conn.t()
   def api(conn, %{"id" => stop_id}) do
-    routes_by_stop = Routes.Repo.by_stop(stop_id)
+    routes_by_stop = @routes_repo.by_stop(stop_id)
     grouped_routes = grouped_routes(routes_by_stop)
     routes_map = routes_map(grouped_routes, stop_id, conn.assigns.date_time)
     json_safe_routes = json_safe_routes(routes_map)

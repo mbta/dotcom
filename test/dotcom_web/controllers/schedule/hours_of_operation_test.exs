@@ -2,7 +2,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
   use DotcomWeb.ConnCase, async: true
   @moduletag :external
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   test "if route is nil, assigns nothing", %{conn: conn} do
     conn =
@@ -27,7 +27,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
   test "uses schedules for each Green line branch", %{conn: conn} do
     conn =
       conn
-      |> assign(:route, @routes_repo_api.green_line())
+      |> assign(:route, @routes_repo.green_line())
       |> assign(:date, Util.service_date())
       |> DotcomWeb.ScheduleController.HoursOfOperation.call([])
 

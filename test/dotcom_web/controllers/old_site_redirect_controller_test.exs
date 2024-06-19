@@ -3,7 +3,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
 
   import Mox
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   setup :verify_on_exit!
 
@@ -22,7 +22,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
 
     test "Redirects all bus routes correctly", %{conn: conn} do
       3
-      |> @routes_repo_api.by_type()
+      |> @routes_repo.by_type()
       |> Enum.each(fn %Routes.Route{name: name, id: route_id} ->
         old_bus_url = "/schedules_and_maps/anything?route=#{name}"
 

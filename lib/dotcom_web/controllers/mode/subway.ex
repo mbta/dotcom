@@ -4,10 +4,12 @@ defmodule DotcomWeb.Mode.SubwayController do
       "Schedule information for MBTA subway lines in Greater Boston, " <>
         "including real-time updates and arrival predictions."
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   def route_type, do: 1
 
   def routes do
-    Routes.Repo.all()
+    @routes_repo.all()
     |> Routes.Group.group()
     |> Keyword.get(:subway, [])
   end

@@ -13,9 +13,9 @@ defmodule Dotcom.TripPlan.Alerts do
   alias TripPlan.{Itinerary, Leg, TransitDetail}
 
   @default_opts [
-    route_by_id: &Routes.Repo.get/1,
     trip_by_id: &Schedules.Repo.trip/1
   ]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
   @spec filter_for_itinerary([Alert.t()], Itinerary.t(), Keyword.t()) :: [Alert.t()]
@@ -50,7 +50,7 @@ defmodule Dotcom.TripPlan.Alerts do
   end
 
   defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}, opts) do
-    route = Keyword.get(opts, :route_by_id).(route_id)
+    route = @routes_repo.get(route_id)
     trip = Keyword.get(opts, :trip_by_id).(trip_id)
 
     route_type =

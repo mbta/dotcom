@@ -10,6 +10,8 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
   alias Plug.Conn
   alias Routes.Route
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @impl Plug
   def init([]), do: []
 
@@ -37,12 +39,12 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
   @spec get_route(String.t()) :: Route.t() | nil
   defp get_route("Green") do
     "Green-B"
-    |> Routes.Repo.get()
+    |> @routes_repo.get()
     |> Route.to_naive()
   end
 
   defp get_route(route) do
-    Routes.Repo.get(route)
+    @routes_repo.get(route)
   end
 
   @spec parse_route_response({:ok, Route.t() | nil} | {:error, any}, [Route.t()]) :: [Route.t()]

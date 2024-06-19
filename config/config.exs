@@ -15,6 +15,7 @@ config :dotcom, :location_service, LocationService
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo,
   route_patterns: RoutePatterns.Repo,
+  routes: Routes.Repo,
   stops: Stops.Repo
 
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis

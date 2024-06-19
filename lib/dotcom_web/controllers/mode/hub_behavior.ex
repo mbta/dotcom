@@ -16,6 +16,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
   defmacro __using__(opts) do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
+      @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
       use DotcomWeb, :controller
 
@@ -25,7 +26,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
         unquote(__MODULE__).index(__MODULE__, conn, Map.merge(params, Map.new(unquote(opts))))
       end
 
-      def routes, do: Routes.Repo.by_type(route_type())
+      def routes, do: @routes_repo.by_type(route_type())
 
       defoverridable routes: 0
     end

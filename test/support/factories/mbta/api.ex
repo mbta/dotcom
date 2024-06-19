@@ -202,6 +202,21 @@ defmodule Test.Support.Factories.Mbta.Api do
     )
   end
 
+  def shape_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "polyline" => Faker.Lorem.characters()
+          },
+          type: "shape"
+        },
+        attrs
+      )
+    )
+  end
+
   defp formatted_datetime do
     Faker.DateTime.forward(1)
     |> Timex.format!("{ISO:Extended}")

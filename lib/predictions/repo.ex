@@ -10,6 +10,7 @@ defmodule Predictions.Repo do
   alias Routes.Route
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @default_params [
@@ -215,7 +216,7 @@ defmodule Predictions.Repo do
         Schedules.Repo.trip(trip_id)
       end
 
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
 
     [
       %Predictions.Prediction{
@@ -259,7 +260,7 @@ defmodule Predictions.Repo do
     if prediction.route == nil do
       []
     else
-      route = Routes.Repo.get(prediction.route.id)
+      route = @routes_repo.get(prediction.route.id)
 
       if Route.subway?(route.type, prediction.route.id) && prediction_in_the_past do
         []

@@ -14,6 +14,8 @@ defmodule Stops.Repo do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   for {old_id, gtfs_id} <-
         "priv/stops/stop_id_to_gtfs.csv"
         |> File.stream!()
@@ -158,7 +160,7 @@ defmodule Stops.Repo do
   end
 
   defp get_stop_connections(_, stop_id) do
-    Routes.Repo.by_stop(stop_id)
+    @routes_repo.by_stop(stop_id)
   end
 
   defp branch_feature(%Route{id: "Green-B"}), do: :"Green-B"

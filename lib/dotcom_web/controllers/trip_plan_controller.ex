@@ -14,6 +14,7 @@ defmodule DotcomWeb.TripPlanController do
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, Transfer, TransitDetail}
 
   @location_service Application.compile_env!(:dotcom, :location_service)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
@@ -236,7 +237,7 @@ defmodule DotcomWeb.TripPlanController do
 
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan_params)
+    itinerary_row_lists = itinerary_row_lists(itineraries, plan_params)
 
     conn
     |> render(
@@ -277,7 +278,7 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   defp leg_with_fares(%Leg{mode: %TransitDetail{}} = leg) do
-    route = Routes.Repo.get(leg.mode.route_id)
+    route = @routes_repo.get(leg.mode.route_id)
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
@@ -391,10 +392,9 @@ defmodule DotcomWeb.TripPlanController do
   defp cents_for_max(nil), do: 0
   defp cents_for_max(%Fare{cents: cents}), do: cents
 
-  @spec itinerary_row_lists([Itinerary.t()], route_mapper, map) :: [ItineraryRowList.t()]
-  defp itinerary_row_lists(itineraries, route_mapper, plan) do
-    deps = %ItineraryRow.Dependencies{route_mapper: route_mapper}
-    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, deps, to_and_from(plan)))
+  @spec itinerary_row_lists([Itinerary.t()], map) :: [ItineraryRowList.t()]
+  defp itinerary_row_lists(itineraries, plan) do
+    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, to_and_from(plan)))
   end
 
   @spec assign_initial_map(Plug.Conn.t(), any()) :: Plug.Conn.t()
@@ -466,7 +466,7 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   defp get_route(id, itineraries) do
-    case Routes.Repo.get(id) do
+    case @routes_repo.get(id) do
       %Route{} = route -> route
       nil -> get_route_from_itinerary(itineraries, id)
     end

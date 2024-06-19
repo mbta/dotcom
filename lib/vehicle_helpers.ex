@@ -8,10 +8,15 @@ defmodule VehicleHelpers do
   alias DotcomWeb.ScheduleController.VehicleLocations
   alias Predictions.Prediction
   alias Routes.{Route, Shape}
+  alias Stops.Stop
   alias Schedules.Trip
+  alias DotcomWeb.ScheduleController.VehicleLocations
+
+  import Routes.Route, only: [vehicle_name: 1]
   alias Stops.Stop
   alias Vehicles.Vehicle
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
@@ -89,7 +94,7 @@ defmodule VehicleHelpers do
 
     vehicle_shape_ids
     |> MapSet.difference(route_shape_ids)
-    |> Enum.map(&Routes.Repo.get_shape(&1))
+    |> Enum.map(&@routes_repo.get_shape(&1))
     |> Enum.flat_map(fn
       [] ->
         []

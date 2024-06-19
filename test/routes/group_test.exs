@@ -2,14 +2,12 @@ defmodule Routes.GroupTest do
   use ExUnit.Case, async: true
   alias Routes.Route
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
-
   @light_rail %Route{
     type: 0,
     id: "light",
     name: "light rail"
   }
-  @green @routes_repo_api.green_line()
+  @green Routes.Repo.green_line()
   @subway %Route{
     type: 1,
     id: "subway",

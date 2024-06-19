@@ -7,6 +7,8 @@ defmodule DotcomWeb.FareController do
 
   plug(:meta_description)
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @options %{
     nearby_fn: %{
       retail: &Fares.RetailLocations.get_nearby/1,
@@ -127,7 +129,7 @@ defmodule DotcomWeb.FareController do
     one_way_fares =
       stop_id
       # Get fare_class for all routes at this stop and at connecting stops
-      |> Routes.Repo.by_stop(include: "stop.connecting_stops")
+      |> @routes_repo.by_stop(include: "stop.connecting_stops")
       |> Enum.map(&display_fare_class/1)
       |> Enum.uniq()
       # Sort in same order as @display_fare_classes

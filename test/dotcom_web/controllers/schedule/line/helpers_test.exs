@@ -11,7 +11,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   alias Routes.{Route}
   alias Stops.{RouteStop, RouteStops, Stop}
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @stop %Stop{
     id: "110",
@@ -800,7 +800,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
     test "for bus" do
       assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
 
-      assert @routes_repo_api.get_shapes("1", direction_id: 0) == [
+      assert @routes_repo.get_shapes("1", direction_id: 0) == [
                %Routes.Shape{
                  direction_id: 0,
                  id: "010090",
@@ -861,7 +861,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         }
       end)
 
-      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
+      shapes = @routes_repo.get_shapes("Red", direction_id: 0)
 
       stops =
         Enum.flat_map(shapes, & &1.stop_ids)
@@ -873,7 +873,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
     test "returns an empty list when given no stops" do
       stops = %{}
-      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
+      shapes = @routes_repo.get_shapes("Red", direction_id: 0)
 
       assert Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0) == []
     end

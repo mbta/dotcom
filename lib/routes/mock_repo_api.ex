@@ -4,9 +4,9 @@ defmodule Routes.MockRepoApi do
   In some cases we are returning just a subset of what the actual API would return, given that this file is for testing purposes
   """
 
-  @behaviour Routes.RepoApi
+  @behaviour Routes.Repo.Behaviour
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def all do
     [
       get("Red"),
@@ -35,7 +35,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("1") do
     %Routes.Route{
       color: "FFC72C",
@@ -51,7 +51,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("83") do
     %Routes.Route{
       color: "FFC72C",
@@ -70,7 +70,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("47") do
     %Routes.Route{
       color: "FFC72C",
@@ -89,7 +89,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("741") do
     %Routes.Route{
       id: "741",
@@ -103,7 +103,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("746") do
     %Routes.Route{
       color: "7C878E",
@@ -119,7 +119,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("Massport-TEST") do
     %Routes.Route{
       description: "Massport Generated Route",
@@ -132,7 +132,7 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("Red") do
     %Routes.Route{
       id: "Red",
@@ -147,10 +147,10 @@ defmodule Routes.MockRepoApi do
     }
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get(_any), do: nil
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop("place-kencl") do
     [
       %Routes.Route{
@@ -183,12 +183,12 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop(_stop) do
     []
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop("place-kencl", type: 3) do
     [
       %Routes.Route{
@@ -209,12 +209,12 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop("place-bmmnl", type: 0) do
     []
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shape("903_0018") do
     [
       %Routes.Shape{
@@ -228,7 +228,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Red", direction_id: 0) do
     [
       %Routes.Shape{
@@ -289,7 +289,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Red", direction_id: 1) do
     [
       %Routes.Shape{
@@ -348,7 +348,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Green-E", direction_id: 0) do
     [
       %Routes.Shape{
@@ -381,7 +381,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Green-B", direction_id: 0) do
     [
       %Routes.Shape{
@@ -420,7 +420,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Green-D", direction_id: 0) do
     [
       %Routes.Shape{
@@ -454,7 +454,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("CR-Kingston", direction_id: 0) do
     [
       %Routes.Shape{
@@ -480,7 +480,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("CR-Providence", direction_id: 1) do
     [
       %Routes.Shape{
@@ -525,7 +525,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("1", direction_id: 0) do
     [
       %Routes.Shape{
@@ -564,7 +564,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("1", direction_id: 1) do
     [
       %Routes.Shape{
@@ -603,7 +603,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("Boat-F4", direction_id: 0) do
     [
       %Routes.Shape{
@@ -618,10 +618,10 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("27", direction_id: 0), do: []
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("36", direction_id: 1) do
     [
       %Routes.Shape{
@@ -803,7 +803,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("100", direction_id: 1) do
     [
       %Routes.Shape{
@@ -843,7 +843,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes("100", [direction_id: 1], false) do
     [
       %Routes.Shape{
@@ -908,22 +908,22 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type(1) do
     all() |> Enum.filter(&(&1.type == 1))
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type([1]) do
     by_type(1)
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type([0, 1, 2, 3, 4]) do
     all()
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type(3) do
     [
       %Routes.Route{
@@ -968,7 +968,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction("1994", 0) do
     [
       %Routes.Route{
@@ -1013,12 +1013,12 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction("1994", 1) do
     []
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction("place-kencl", 0) do
     [
       %Routes.Route{
@@ -1135,7 +1135,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction("place-kencl", 1) do
     [
       %Routes.Route{
@@ -1264,7 +1264,7 @@ defmodule Routes.MockRepoApi do
     ]
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def green_line do
     %Routes.Route{
       color: "00843D",

@@ -17,9 +17,9 @@ defmodule Routes.Repo do
 
   @default_opts [include: "route_patterns"]
 
-  @behaviour Routes.RepoApi
+  @behaviour Routes.Repo.Behaviour
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def all do
     case cached_all(@default_opts) do
       {:ok, routes} -> routes
@@ -42,7 +42,7 @@ defmodule Routes.Repo do
 
   # Used to spoof any Massport route as the data doesn't exist in the API
   # But is in the GTFS data
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("Massport-" <> id) do
     %Route{
       description: "Massport Generated Route",
@@ -71,7 +71,7 @@ defmodule Routes.Repo do
     end
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
     shapes = Keyword.put(opts, :route, route_id) |> cached_get_shapes()
 
@@ -109,7 +109,7 @@ defmodule Routes.Repo do
     shapes
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def get_shape(shape_id) do
     case Shapes.by_id(shape_id) do
@@ -121,7 +121,7 @@ defmodule Routes.Repo do
     end
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
 
@@ -148,7 +148,7 @@ defmodule Routes.Repo do
     by_type_uncached(types)
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop(stop_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
@@ -163,7 +163,7 @@ defmodule Routes.Repo do
     stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
@@ -178,7 +178,7 @@ defmodule Routes.Repo do
     stop_id |> MBTA.Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_with_route_pattern(stop_id) do
     case do_by_stop_with_route_pattern(stop: stop_id, include: "route_patterns") do
       %{data: data} ->
@@ -221,7 +221,7 @@ defmodule Routes.Repo do
      |> Enum.sort_by(& &1.sort_order)}
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def green_line do
     %Route{
       id: "Green",

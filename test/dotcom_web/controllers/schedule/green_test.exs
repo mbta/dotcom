@@ -5,9 +5,9 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @green_line @routes_repo_api.green_line()
+  @green_line Routes.Repo.green_line()
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug

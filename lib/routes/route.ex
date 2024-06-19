@@ -1,7 +1,7 @@
 defmodule Routes.Route do
   @moduledoc "Data model and helpers corresponding to the V3 API Route resource."
 
-  alias Routes.Repo
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @derive Jason.Encoder
 
@@ -146,7 +146,7 @@ defmodule Routes.Route do
   """
   @spec to_naive(__MODULE__.t()) :: __MODULE__.t()
   def to_naive(%__MODULE__{id: "Green-" <> _, type: 0}) do
-    Repo.green_line()
+    @routes_repo.green_line()
   end
 
   def to_naive(%__MODULE__{} = route) do

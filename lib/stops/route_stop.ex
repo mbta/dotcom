@@ -8,6 +8,7 @@ defmodule Stops.RouteStop do
   alias Routes.{Route, Shape}
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defstruct [
@@ -269,7 +270,7 @@ defmodule Stops.RouteStop do
       route_stop.id
       |> @stops_repo.get_parent()
       |> Map.get(:id)
-      |> Routes.Repo.by_stop(include: "stop.connecting_stops")
+      |> @routes_repo.by_stop(include: "stop.connecting_stops")
       |> Enum.reject(fn route ->
         route.id == route_stop.route.id ||
           route.description == :rail_replacement_bus

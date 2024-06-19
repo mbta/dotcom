@@ -31,9 +31,6 @@ config :dotcom,
 
 config :dotcom, route_populate_caches?: config_env() == :prod
 
-routes_repo = if config_env() == :test, do: Routes.MockRepoApi, else: Routes.Repo
-config :dotcom, :routes_repo_api, routes_repo
-
 predictions_broadcast_interval_ms = if config_env() == :test, do: 50, else: 10_000
 
 config :dotcom, predictions_broadcast_interval_ms: predictions_broadcast_interval_ms

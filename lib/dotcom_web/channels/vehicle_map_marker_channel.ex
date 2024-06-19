@@ -7,6 +7,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
   alias Vehicles.Vehicle
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   intercept(["reset", "add", "update", "remove"])
@@ -44,7 +45,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
         }
   @spec build_marker(Vehicles.Vehicle.t()) :: data_map
   def build_marker(%Vehicles.Vehicle{} = vehicle) do
-    route = Routes.Repo.get(vehicle.route_id)
+    route = @routes_repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
 

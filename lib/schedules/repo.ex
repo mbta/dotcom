@@ -15,6 +15,7 @@ defmodule Schedules.Repo do
   alias Schedules.{Parser, Schedule}
   alias Util
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -244,7 +245,7 @@ defmodule Schedules.Repo do
     |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
                     early_departure?, last_stop?, stop_sequence, pickup_type} ->
       %Schedules.Schedule{
-        route: Routes.Repo.get(route_id),
+        route: @routes_repo.get(route_id),
         trip: trip(trip_id),
         platform_stop_id: stop_id,
         stop: @stops_repo.get_parent(stop_id),
