@@ -31,7 +31,7 @@
 
     <%= if branchesEmpty? do%>
       <div class="col-md-12 m-schedule-page__main-content">
-        <div class="m-schedule-line__main-content <%= if Routes.Route.type_atom(@route.type) == :ferry, do: 'ferry' %>">
+        <div class="m-schedule-line__main-content <%= if Routes.Route.type_atom(@route.type) == :ferry, do: "ferry" %>">
           <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
         </div>
       </div>

@@ -27,7 +27,6 @@ defmodule CMS.CustomHTML5Scrubber do
     "draggable",
     "dropzone",
     "hidden",
-    "href",
     "id",
     "inert",
     "itemid",
