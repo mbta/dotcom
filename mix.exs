@@ -71,17 +71,17 @@ defmodule DotCom.Mixfile do
       # latest version 1.0.7; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
-      {:credo, "1.7.6", only: [:dev, :test]},
+      {:credo, "1.7.7", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:ex_aws, "2.5.3"},
+      {:ex_aws, "2.5.4"},
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
-      {:ex_doc, "0.32.2", only: :dev},
+      {:ex_doc, "0.34.0", only: :dev},
       {:ex_machina, "2.7.0", only: :test},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.1; cannot upgrade because expects castore >= 1
@@ -92,8 +92,7 @@ defmodule DotCom.Mixfile do
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
       {:hammer, "6.2.1"},
-      # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
-      {:html_sanitize_ex, "1.3.0"},
+      {:html_sanitize_ex, "1.4.3"},
       # latest version 2.2.1; cannot upgrade because api has changed
       {:httpoison, "1.8.2"},
       {:inflex, "2.1.0"},
@@ -118,7 +117,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
       {:phoenix_live_view, "0.20.14"},
       {:phoenix_pubsub, "2.1.3"},
-      {:plug, "1.15.3"},
+      {:plug, "1.16.0"},
       {:plug_cowboy, "2.7.1"},
       # latest version is 5.0.0; cannot upgrade because we use Poison.Parser.parse!
       {:poison, "3.1.0"},
@@ -133,10 +132,10 @@ defmodule DotCom.Mixfile do
          github: "samueljseay/recaptcha",
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
-      {:recase, "0.7.0"},
+      {:recase, "0.8.0"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.5.1"},
-      {:req, "0.4.14", override: true},
+      {:req, "0.5.0", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
@@ -145,14 +144,14 @@ defmodule DotCom.Mixfile do
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
-      {:telemetry_metrics_splunk, "0.0.5-alpha"},
+      {:telemetry_metrics_splunk, "0.0.6-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
-      {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
+      {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]}
     ]
   end
 end

@@ -1,4 +1,4 @@
-<section id="<%= @month_number %>-<%= @year %>" class="m-event-list__month <%= if @month_number == @month, do: 'm-event-list__month--active' %>">
+<section id="<%= @month_number %>-<%= @year %>" class="m-event-list__month <%= if @month_number == @month, do: "m-event-list__month--active" %>">
   <% header_id = "header-#{@month_number}" %>
   <% panel_id = "panel-#{@month_number}" %>
 

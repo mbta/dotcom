@@ -10,7 +10,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
 
   @opts [
     location_fn: &TestHelpers.location_fn/2,
-    schedule_for_trip_fn: &TestHelpers.schedule_for_trip_fn/2
+    schedule_for_trip_fn: &TestHelpers.schedule_for_trip_fn/1
   ]
 
   setup %{conn: conn} do
