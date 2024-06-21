@@ -21,7 +21,6 @@ defmodule Routes.Repo.Behaviour do
   Returns a list of shapes
   """
   @callback get_shapes(String.t(), Keyword.t()) :: [Shape.t()]
-  @callback get_shapes(String.t(), Keyword.t(), boolean) :: [Shape.t()]
 
   @doc """
   Given a shape ID, returns a list of shapes matching it

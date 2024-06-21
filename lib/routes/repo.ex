@@ -10,7 +10,7 @@ defmodule Routes.Repo do
   alias Dotcom.Cache.KeyGenerator
   alias JsonApi
   alias MBTA.Api.Shapes
-  alias Routes.{Route, Shape}
+  alias Routes.Route
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
@@ -72,10 +72,9 @@ defmodule Routes.Repo do
   end
 
   @impl Routes.Repo.Behaviour
-  def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
-    shapes = Keyword.put(opts, :route, route_id) |> cached_get_shapes()
-
-    filter_shapes_by_priority(shapes, filter_negative_priority?)
+  def get_shapes(route_id, opts) do
+    Keyword.put(opts, :route, route_id)
+    |> cached_get_shapes()
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
@@ -95,18 +94,6 @@ defmodule Routes.Repo do
 
         shapes
     end
-  end
-
-  @spec filter_shapes_by_priority([Shape.t()], boolean) :: [Shape.t()]
-  defp filter_shapes_by_priority(shapes, true) do
-    for shape <- shapes,
-        shape.priority >= 0 do
-      shape
-    end
-  end
-
-  defp filter_shapes_by_priority(shapes, false) do
-    shapes
   end
 
   @impl Routes.Repo.Behaviour
