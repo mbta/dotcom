@@ -118,7 +118,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
       {:phoenix_live_view, "0.20.14"},
       {:phoenix_pubsub, "2.1.3"},
-      {:plug, "1.15.3"},
+      {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.1"},
       # latest version is 5.0.0; cannot upgrade because we use Poison.Parser.parse!
       {:poison, "3.1.0"},
