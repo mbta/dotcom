@@ -7,6 +7,7 @@ defmodule Predictions.RepoTest do
   alias Predictions.Repo
   alias Routes.Route
   alias Stops.Stop
+  alias Test.Support.Factory
 
   setup do
     cache = Application.get_env(:dotcom, :cache)
@@ -14,7 +15,7 @@ defmodule Predictions.RepoTest do
     cache.flush()
 
     stub(Stops.Repo.Mock, :get_parent, fn id ->
-      %Stop{id: id}
+      Factory.Repo.build(:stop, %{id: id})
     end)
 
     %{cache: cache}
