@@ -110,29 +110,12 @@ defmodule Routes.Repo do
 
   @impl Routes.Repo.Behaviour
   def by_type(types) when is_list(types) do
-    types = Enum.sort(types)
-
-    case by_type_cached(types) do
-      {:ok, routes} -> routes
-      {:error, _} -> []
-    end
+    all()
+    |> Enum.filter(fn route -> route.type in types end)
   end
 
   def by_type(type) do
     by_type([type])
-  end
-
-  @spec by_type_uncached([0..4]) :: {:ok, [Route.t()]} | {:error, any}
-  defp by_type_uncached(types) do
-    case all() do
-      [] -> {:error, "no routes"}
-      routes -> {:ok, Enum.filter(routes, fn route -> route.type in types end)}
-    end
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp by_type_cached(types) do
-    by_type_uncached(types)
   end
 
   @impl Routes.Repo.Behaviour
