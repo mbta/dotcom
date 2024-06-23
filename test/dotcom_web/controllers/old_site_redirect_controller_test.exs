@@ -3,7 +3,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
 
   import Mox
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  alias Test.Support.Factory
 
   setup :verify_on_exit!
 
@@ -21,9 +21,27 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Redirects all bus routes correctly", %{conn: conn} do
-      3
-      |> @routes_repo.by_type()
-      |> Enum.each(fn %Routes.Route{name: name, id: route_id} ->
+      # via old_route_to_route_id/1
+      bus_routes =
+        [
+          {"SL1", "741"},
+          {"SL2", "742"},
+          {"SL3", "743"},
+          {"SL4", "751"},
+          {"SL5", "749"},
+          {"CT1", "701"},
+          {"CT2", "747"},
+          {"CT3", "708"}
+        ]
+        |> Enum.map(
+          &Factory.Repo.build(:route, %{
+            id: elem(&1, 1),
+            name: elem(&1, 0),
+            type: 3
+          })
+        )
+
+      Enum.each(bus_routes, fn %Routes.Route{name: name, id: route_id} ->
         old_bus_url = "/schedules_and_maps/anything?route=#{name}"
 
         assert redirected_to(get(conn, old_bus_url), :moved_permanently) =~

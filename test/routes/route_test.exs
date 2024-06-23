@@ -1,7 +1,11 @@
 defmodule Routes.RouteTest do
   use ExUnit.Case, async: true
-  alias Routes.{Repo, Route}
-  import Route
+
+  import Mox
+  import Routes.Route
+  alias Routes.Route
+
+  setup :verify_on_exit!
 
   describe "type_atom/1" do
     test "returns an atom for the route type" do
@@ -171,11 +175,16 @@ defmodule Routes.RouteTest do
 
   describe "to_naive/1" do
     test "turns a green line branch into a generic green line route" do
+      stub(Routes.Repo.Mock, :green_line, fn ->
+        Routes.Repo.green_line()
+      end)
+
       for branch <- ["B", "C", "D", "E"] do
-        assert Route.to_naive(%Routes.Route{
-                 id: "Green-" <> branch,
-                 name: "Green Line " <> branch
-               }) == Repo.green_line()
+        assert %Route{id: "Green"} =
+                 Route.to_naive(%Routes.Route{
+                   id: "Green-" <> branch,
+                   name: "Green Line " <> branch
+                 })
       end
     end
 

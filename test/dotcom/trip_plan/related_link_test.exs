@@ -6,7 +6,6 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
   import Test.Support.Factories.TripPlanner.TripPlanner
 
-  alias Routes.Route
   alias TripPlan.Itinerary
 
   setup_all do
@@ -121,10 +120,9 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       url = "http://custom.url"
       legs = Enum.map(itinerary.legs, &%{&1 | url: url})
       itinerary = %TripPlan.Itinerary{itinerary | legs: legs}
-      mapper = fn _route -> %Route{custom_route?: true} end
 
       assert [%Dotcom.TripPlan.RelatedLink{text: "Route information", url: ^url}] =
-               links_for_itinerary(itinerary, route_by_id: mapper)
+               links_for_itinerary(itinerary)
     end
   end
 

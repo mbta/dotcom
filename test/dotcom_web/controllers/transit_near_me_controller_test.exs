@@ -114,10 +114,12 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         %JsonApi{data: stops}
       end)
 
-      # routes gets called twice per stop (once per direction)
-      expect(MBTA.Api.Mock, :get_json, length(stops) * 2, fn "/routes/", opts ->
-        assert opts[:stop] in Enum.map(stops, & &1.id)
-        %JsonApi{data: []}
+      # routes gets called twice per stop (once per direction) x 2 per each location param
+      expect(Routes.Repo.Mock, :by_stop, length(stops) * 2 * 2, fn stop_id, opts ->
+        assert stop_id in Enum.map(stops, & &1.id)
+        assert opts[:direction_id] in [0, 1]
+
+        []
       end)
 
       # attempts to find parent stop for each stop

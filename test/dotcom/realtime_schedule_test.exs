@@ -185,6 +185,10 @@ defmodule Dotcom.RealtimeScheduleTest do
   test "stop_data/3 returns stop" do
     expect(Predictions.Repo.Mock, :all_no_cache, 3, fn _ -> @predictions end)
 
+    expect(Routes.Repo.Mock, :by_stop_with_route_pattern, fn _ ->
+      @route_with_patterns
+    end)
+
     opts = [
       routes_fn: fn _ -> @route_with_patterns end,
       schedules_fn: fn _, _ -> @schedules end,
@@ -309,8 +313,11 @@ defmodule Dotcom.RealtimeScheduleTest do
   end
 
   test "stop_data/3 returns nil" do
+    expect(Routes.Repo.Mock, :by_stop_with_route_pattern, fn _ ->
+      []
+    end)
+
     opts = [
-      routes_fn: fn _ -> [] end,
       schedules_fn: fn _, _ -> [] end,
       alerts_fn: fn _, _ -> [] end
     ]

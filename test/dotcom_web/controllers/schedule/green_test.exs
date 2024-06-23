@@ -5,8 +5,6 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
 
   @moduletag :external
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @green_line Routes.Repo.green_line()
 
   setup_all do

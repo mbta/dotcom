@@ -2,7 +2,7 @@ defmodule Stops.RouteStopsTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.{Routes.Shape, Stops.Stop}
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -521,16 +521,14 @@ defmodule Stops.RouteStopsTest do
     end
 
     test "doesn't crash if we didn't have stops and/or shapes" do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/", _ -> %JsonApi{data: [build(:route_item)]} end)
-
       Stops.Repo.Mock
-      |> stub(:get_parent, fn _ -> %Stop{} end)
-      |> stub(:get, fn _ -> %Stop{} end)
+      |> stub(:get_parent, fn _ -> Stop.build(:stop) end)
+      |> stub(:get, fn _ -> Stop.build(:stop) end)
       |> stub(:stop_features, fn _, _ -> [] end)
 
       direction_id = 0
-      good_stops = [%Stop{}, %Stop{}, %Stop{}, %Stop{}]
-      good_shapes = @routes_repo.get_shapes("Red", direction_id: direction_id)
+      good_stops = Stop.build_list(4, :stop)
+      good_shapes = Shape.build_list(3, :shape)
 
       for stops <- [[], good_stops], shapes <- [[], good_shapes], stops == [] or shapes == [] do
         actual = RouteStops.by_direction(stops, shapes, @red, direction_id)

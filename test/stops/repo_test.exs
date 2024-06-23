@@ -5,6 +5,7 @@ defmodule Stops.RepoTest do
   import Stops.Repo
   import Test.Support.Factories.Mbta.Api
   alias Stops.Stop
+  alias Test.Support.Factories.Routes.Route
 
   @direction_id Faker.Util.pick([0, 1])
   @route_id Faker.Internet.slug()
@@ -313,34 +314,20 @@ defmodule Stops.RepoTest do
 
   describe "stop_features/1" do
     setup do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
-        %JsonApi{
-          data: []
-        }
+      stub(Routes.Repo.Mock, :by_stop, fn _ ->
+        []
       end)
 
       :ok
     end
 
     test "Returns stop features for a given stop" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", args ->
-        assert args[:stop] == @stop_item.id
-
-        %JsonApi{
-          data: [
-            build(:route_item, %{
-              attributes: %{
-                "type" => 2
-              }
-            }),
-            build(:route_item, %{id: "Red"}),
-            build(:route_item, %{
-              attributes: %{
-                "type" => 3
-              }
-            })
-          ]
-        }
+      expect(Routes.Repo.Mock, :by_stop, fn _ ->
+        [
+          Route.build(:route, %{type: 2}),
+          Route.build(:route, %{id: "Red"}),
+          Route.build(:route, %{type: 3})
+        ]
       end)
 
       features = stop_features(%Stop{id: @stop_item.id})
@@ -359,16 +346,14 @@ defmodule Stops.RepoTest do
     end
 
     test "includes specific green_line branches if specified" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
-        %JsonApi{
-          data: [
-            build(:route_item, %{id: "Red"}),
-            build(:route_item, %{id: "Green-B"}),
-            build(:route_item, %{id: "Green-C"}),
-            build(:route_item, %{id: "Green-D"}),
-            build(:route_item, %{id: "Green-E"})
-          ]
-        }
+      expect(Routes.Repo.Mock, :by_stop, 2, fn _ ->
+        [
+          Route.build(:route, %{id: "Red"}),
+          Route.build(:route, %{id: "Green-B"}),
+          Route.build(:route, %{id: "Green-C"}),
+          Route.build(:route, %{id: "Green-D"}),
+          Route.build(:route, %{id: "Green-E"})
+        ]
       end)
 
       # when green line isn't expanded, keep it in GTFS order

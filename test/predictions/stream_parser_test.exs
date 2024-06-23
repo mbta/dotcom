@@ -9,6 +9,9 @@ defmodule Predictions.StreamParserTest do
   alias Stops.Stop
 
   setup do
+    Routes.Repo.Mock
+    |> stub(:get, fn id -> %Route{id: id} end)
+
     Stops.Repo.Mock
     |> stub(:get, fn id -> %Stops.Stop{id: id} end)
     |> stub(:get_parent, fn id when is_binary(id) -> %Stops.Stop{id: id} end)
@@ -19,7 +22,6 @@ defmodule Predictions.StreamParserTest do
 
   describe "parse/1" do
     setup_with_mocks([
-      {Routes.Repo, [:passthrough], [get: fn "route_id" -> %Route{id: "route_id"} end]},
       {Schedules.Repo, [:passthrough], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
     ]) do
       :ok

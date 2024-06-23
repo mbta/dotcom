@@ -810,10 +810,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
-        %JsonApi{
-          data: [build(:route_item)]
-        }
+      expect(Routes.Repo.Mock, :get, fn id ->
+        %Routes.Route{id: id}
       end)
 
       rfq = TripPlanController.routes_for_query(itineraries)
@@ -821,8 +819,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "sets custom_route? flag for routes not present in API", %{itineraries: itineraries} do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
-        {:error, %JsonApi.Error{code: "not_found"}}
+      expect(Routes.Repo.Mock, :get, fn _ ->
+        nil
       end)
 
       itineraries =

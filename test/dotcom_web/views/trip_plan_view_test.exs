@@ -77,6 +77,14 @@ defmodule DotcomWeb.TripPlanViewTest do
 
   setup :verify_on_exit!
 
+  setup do
+    stub(Routes.Repo.Mock, :green_line, fn ->
+      Routes.Repo.green_line()
+    end)
+
+    :ok
+  end
+
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
       from: {:error, :unknown},
@@ -1211,6 +1219,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "when there's a free shuttle and then a transfer to a paid leg, the total should include the cost of the paid leg(s)" do
+      expect(Routes.Repo.Mock, :get, fn id ->
+        %Route{id: id}
+      end)
+
       itinerary = %Itinerary{
         legs: [
           %Leg{
@@ -1280,10 +1292,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         start: nil,
         stop: nil
       }
-
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        {:error, nil}
-      end)
 
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end

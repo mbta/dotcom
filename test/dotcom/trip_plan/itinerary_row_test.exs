@@ -4,9 +4,11 @@ defmodule TripPlan.ItineraryRowTest do
   import Dotcom.TripPlan.ItineraryRow
   import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner
+
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
+  alias Test.Support.Factories.{Routes.Route, Stops.Stop}
   alias TripPlan.NamedPosition
 
   setup :verify_on_exit!
@@ -341,9 +343,9 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
-      stub(Stops.Repo.Mock, :get_parent, fn id ->
-        %Stops.Stop{id: id}
-      end)
+      # stubs instead of expect because these don't always get called
+      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
 
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row

@@ -12,7 +12,6 @@ defmodule Routes.RepoTest do
   setup do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
-    # stub_with(Routes.Repo.Mock, Routes.MockRepoApi)
 
     :ok
   end
@@ -26,6 +25,14 @@ defmodule Routes.RepoTest do
       end)
 
       assert [%Route{} | _] = all()
+    end
+
+    test "handles error" do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        {:error, :timeout}
+      end)
+
+      assert [] = all()
     end
 
     test "for bus, parses a short name instead of a long one" do
@@ -107,8 +114,14 @@ defmodule Routes.RepoTest do
   describe "by_type/1" do
     test "only returns routes of a given type" do
       expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        # return routes from a variety of types
+        data =
+          Enum.flat_map(0..4, fn type ->
+            build_list(4, :route_item, %{attributes: %{"type" => type}})
+          end)
+
         %JsonApi{
-          data: build_list(10, :route_item)
+          data: data
         }
       end)
 
@@ -119,9 +132,27 @@ defmodule Routes.RepoTest do
       assert Enum.all?(routes, fn route -> route.type == type end)
     end
 
-    # test "filtering by a list keeps the routes in their global order" do
-    #   assert by_type([0, 1, 2, 3, 4]) == all()
-    # end
+    test "handles empty response" do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        %JsonApi{
+          data: []
+        }
+      end)
+
+      type = Faker.Util.pick(0..4)
+      routes = by_type(type)
+      assert routes == []
+    end
+
+    test "handles error" do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        {:error, %JsonApi.Error{}}
+      end)
+
+      type = Faker.Util.pick(0..4)
+      routes = by_type(type)
+      assert routes == []
+    end
   end
 
   describe "get/1" do
@@ -203,6 +234,16 @@ defmodule Routes.RepoTest do
       assert [] = by_stop(stop_id)
     end
 
+    test "handles error" do
+      stop_id = Faker.Internet.slug()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        {:error, %JsonApi.Error{}}
+      end)
+
+      assert [] = by_stop(stop_id)
+    end
+
     test "can include additional routes via stop connections" do
       stop_id = Faker.Internet.slug()
       connecting_stops = build_list(3, :stop_item)
@@ -250,8 +291,18 @@ defmodule Routes.RepoTest do
         }
       end)
 
-      _ = by_stop_and_direction(stop_id, 0)
-      _ = by_stop_and_direction(stop_id, 1)
+      assert by_stop_and_direction(stop_id, 0)
+      assert by_stop_and_direction(stop_id, 1)
+    end
+
+    test "handles error" do
+      stop_id = Faker.App.name()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+        {:error, %JsonApi.Error{}}
+      end)
+
+      assert by_stop_and_direction(stop_id, 0)
     end
   end
 
@@ -355,27 +406,49 @@ defmodule Routes.RepoTest do
       assert Enum.count(shapes) == length(shape_items)
       assert %Routes.Shape{} = List.first(shapes)
     end
+
+    test "handles error" do
+      expect(MBTA.Api.Mock, :get_json, fn "/shapes/", _ ->
+        {:error, %JsonApi.Error{}}
+      end)
+
+      shapes = get_shapes(@route_id, direction_id: @direction_id)
+      assert shapes == []
+    end
   end
 
   describe "get_shape/1" do
-    shape_id = Faker.Internet.slug()
+    test "returns shape" do
+      shape_id = Faker.Internet.slug()
 
-    expect(MBTA.Api.Mock, :get_json, fn "/shapes/" <> id ->
-      assert id == shape_id
+      expect(MBTA.Api.Mock, :get_json, fn "/shapes/" <> id ->
+        assert id == shape_id
 
-      %JsonApi{
-        data: [
-          build(:shape_item, %{id: id})
-        ]
-      }
-    end)
+        %JsonApi{
+          data: [
+            build(:shape_item, %{id: id})
+          ]
+        }
+      end)
 
-    shape =
-      shape_id
-      |> get_shape()
-      |> List.first()
+      shape =
+        shape_id
+        |> get_shape()
+        |> List.first()
 
-    assert %Routes.Shape{} = shape
+      assert %Routes.Shape{} = shape
+    end
+
+    test "handles error" do
+      shape_id = Faker.Internet.slug()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/shapes/" <> id ->
+        assert id == shape_id
+        {:error, %JsonApi.Error{}}
+      end)
+
+      assert get_shape(shape_id) == []
+    end
   end
 
   describe "green_line" do

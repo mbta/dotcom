@@ -6,8 +6,11 @@ defmodule DotcomWeb.ScheduleViewTest do
   alias Stops.Stop
 
   import DotcomWeb.ScheduleView
+  import Mox
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
+
+  setup :verify_on_exit!
 
   describe "template_for_tab/1" do
     test "returns the template corresponding to a tab value" do
@@ -312,6 +315,10 @@ defmodule DotcomWeb.ScheduleViewTest do
 
   describe "route_header_class/1" do
     test "returns a line-specific background class for silver line and subway" do
+      expect(Routes.Repo.Mock, :green_line, fn ->
+        Routes.Repo.green_line()
+      end)
+
       assert header_class(%Route{type: 3, id: "741"}) == "u-bg--silver-line"
       assert header_class(%Route{type: 0, id: "Green-B"}) == "u-bg--green-line"
       assert header_class(%Route{type: 1, id: "Red"}) == "u-bg--red-line"
