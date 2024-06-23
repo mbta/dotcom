@@ -260,9 +260,7 @@ defmodule Predictions.Repo do
     if prediction.route == nil do
       []
     else
-      route = @routes_repo.get(prediction.route.id)
-
-      if Route.subway?(route.type, prediction.route.id) && prediction_in_the_past do
+      if Route.subway?(prediction.route.type, prediction.route.id) && prediction_in_the_past do
         []
       else
         [prediction]
