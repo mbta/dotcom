@@ -82,8 +82,7 @@ defmodule Predictions.Stream do
 
   defp to_predictions(%JsonApi{data: data}) do
     data
-    |> Enum.filter(&(&1.type == "prediction"))
-    |> Enum.filter(&Repo.has_trip?/1)
+    |> Enum.filter(&(&1.type == "prediction" && Repo.has_trip?(&1)))
     |> Enum.map(&StreamParser.parse/1)
   end
 
