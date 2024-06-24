@@ -174,6 +174,9 @@ defmodule DotcomWeb.TripPlanControllerTest do
       %Stops.Stop{}
     end)
 
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
     conn = default_conn()
 
     end_of_rating =
