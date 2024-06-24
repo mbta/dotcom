@@ -151,7 +151,9 @@ defmodule DotCom.Mixfile do
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
-      {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]}
+      {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]},
+      {:yaml_elixir, "2.9.0", only: [:dev]},
+      {:ymlr, "5.1.3", only: [:dev]}
     ]
   end
 end
