@@ -11,6 +11,7 @@ import {
 import {
   alertsByStop,
   isActiveDiversion,
+  isCurrentLifecycle,
   isHighSeverityOrHighPriority
 } from "../../../models/alert";
 import { hasPredictionTime } from "../../../models/prediction";
@@ -81,8 +82,12 @@ const connectionsFor = (
   return connections;
 };
 
+const visibleAlert = (alert: Alert): boolean => {
+  return isHighSeverityOrHighPriority(alert) && isCurrentLifecycle(alert);
+};
+
 const hasHighPriorityAlert = (stopId: StopId, alerts: Alert[]): boolean =>
-  alertsByStop(alerts, stopId).filter(isHighSeverityOrHighPriority).length > 0;
+  alertsByStop(alerts, stopId).filter(visibleAlert).length > 0;
 
 const routeForStop = (
   stopTree: StopTree,

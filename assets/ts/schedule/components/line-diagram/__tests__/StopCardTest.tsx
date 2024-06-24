@@ -111,6 +111,15 @@ const alertB: Alert = {
   informed_entity: { stop: ["b"] } as InformedEntitySet,
   active_period: aroundNow()
 } as Alert;
+const alertC: Alert = {
+  id: "MOCK-ALERT-C",
+  severity: 7,
+  priority: "high",
+  lifecycle: "upcoming",
+  effect: "detour",
+  informed_entity: { stop: ["a"] } as InformedEntitySet,
+  active_period: aroundNow()
+} as Alert;
 
 const handleStopClick = () => {};
 
@@ -249,6 +258,23 @@ describe("StopCard", () => {
       ".m-schedule-diagram__stop-link .c-svg__icon-alerts-triangle"
     );
     expect(alerts.length).toEqual(1);
+  });
+
+  it.only("should not show upcoming alerts", () => {
+    const { container } = render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          routeStopList={testRouteStopList}
+          stopId={"a"}
+          alerts={[alertC]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
+    expect(container.querySelector(".c-svg__icon-alerts-triangle")).toBeNull();
   });
 
   it("should show tooltip content", () => {
