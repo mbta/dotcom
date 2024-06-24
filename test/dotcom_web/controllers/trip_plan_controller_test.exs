@@ -195,11 +195,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert conn.assigns.map_data
     end
 
-    test "assigns modes to empty map", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
-      assert conn.assigns.modes == %{}
-    end
-
     test "sets a custom meta description", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
       assert conn.assigns.meta_description
@@ -893,21 +888,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
                  }
                }
              }
-    end
-  end
-
-  describe "Date and time selector" do
-    test "renders a date and time selector", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
-      rendered = html_response(conn, 200)
-
-      # check there are date and time selectors:
-      refute Floki.find(rendered, "div[id=\"plan-time-select\"]") == []
-      refute Floki.find(rendered, "select[id=\"plan_date_time_hour\"]") == []
-      refute Floki.find(rendered, "select[id=\"plan_date_time_minute\"]") == []
-      refute Floki.find(rendered, "select[id=\"plan_date_time_am_pm\"]") == []
-
-      refute Floki.find(rendered, "div[id=\"plan-date\"]") == []
     end
   end
 end

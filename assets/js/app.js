@@ -44,6 +44,7 @@ import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
 import setupAlgoliaAutocomplete from "../ts/ui/autocomplete/index";
+import setupTripPlannerForm from "./trip-planner-form.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -52,17 +53,27 @@ import { LiveSocket } from "phoenix_live_view";
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
+
 let Hooks = {};
+
 Hooks.AlgoliaAutocomplete = {
   mounted() {
     setupAlgoliaAutocomplete(this.el);
   }
 };
+
 Hooks.ScrollIntoView = {
   mounted() {
     this.el.scrollIntoView({ behavior: "smooth" });
   }
 };
+
+Hooks.TripPlannerForm = {
+  mounted() {
+    setupTripPlannerForm(this.el);
+  }
+};
+
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: Hooks

@@ -167,14 +167,8 @@ describe("passes smoke test", () => {
 
     // opens the date picker
     cy.contains("#trip-plan-datepicker").should("not.exist");
-    cy.get("#trip-plan-departure-title").click();
-    cy.get("#trip-plan-datepicker");
-
-    // updates title with selected departure option
     cy.get('label[for="arrive"]').click();
-    cy.get("#trip-plan-departure-title").should("include.text", "Arrive by");
-    cy.get('label[for="depart"]').click();
-    cy.get("#trip-plan-departure-title").should("include.text", "Depart at");
+    cy.get("#trip-plan-datepicker");
 
     // shortcut /from/ - marker A prepopulated
     cy.visit("/trip-planner/from/North+Station");

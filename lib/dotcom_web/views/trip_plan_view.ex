@@ -402,6 +402,7 @@ defmodule DotcomWeb.TripPlanView do
 
   def format_plan_type_for_title(nil) do
     time = Dotcom.TripPlan.DateTime.round_minute(Util.now())
+
     ["Depart at ", Timex.format!(time, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
 

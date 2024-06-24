@@ -2,6 +2,7 @@ defmodule Util do
   @moduledoc "Utilities module"
 
   require Logger
+
   use Timex
 
   {:ok, endpoint} = Application.compile_env(:dotcom, :util_endpoint)
@@ -20,6 +21,18 @@ defmodule Util do
     |> to_local_time()
 
     # to_local_time(utc_now_fn.())
+  end
+
+  def date_as_js_string(%DateTime{} = date_time) do
+    Timex.format!(date_time, "%FT%H:%M", :strftime)
+  end
+
+  def date_as_js_string(%Date{} = date) do
+    Timex.format!(date, "%FT%H:%M", :strftime)
+  end
+
+  def date_as_js_string(%NaiveDateTime{} = naive_date_time) do
+    Timex.format!(naive_date_time, "%FT%H:%M", :strftime)
   end
 
   @doc "Today's date in the America/New_York timezone."
@@ -47,6 +60,20 @@ defmodule Util do
       :lt -> false
     end
   end
+
+  def parse_date_time(%DateTime{} = date_time) do
+    date_time
+  end
+
+  def parse_date_time(%NaiveDateTime{} = date_time) do
+    date_time
+  end
+
+  def parse_date_time(string) when is_binary(string) do
+    Timex.parse!(string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
+  end
+
+  def parse_date_time(_), do: Timex.now()
 
   @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   def parse(date_params) do
@@ -82,6 +109,8 @@ defmodule Util do
        }) do
     "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
   end
+
+  defp date_to_string(date) when is_binary(date), do: date
 
   defp date_to_string(%DateTime{} = date) do
     date

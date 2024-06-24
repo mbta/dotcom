@@ -145,7 +145,7 @@
 .m-trip-plan__optimize-for {
   @include icon-size-inline(1em);
 
-  margin-bottom: 0;
+  margin-bottom: .75rem;
   margin-top: $base-spacing;
 
   .c-svg__icon-accessible-default {
@@ -172,4 +172,181 @@
 
 .m-trip-plan__hidden {
   display: none;
+}
+
+.c-trip-plan-widget__inputs {
+  label {
+    margin-bottom: .75rem;
+  }
+}
+
+#trip-planner-form {
+  .c-accordion-ui {
+    border-radius: $border-radius;
+    margin-top: .75rem;
+  }
+
+  .c-accordion-ui__content {
+    background: white;
+    border-bottom: solid 1px $brand-primary;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  .c-accordion-ui__target {
+    border-bottom: none;
+  }
+
+  .c-accordion-ui__trigger {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+
+    &.collapsed {
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}
+
+.trip-planner-form {
+  padding-top: 1rem;
+
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+  }
+}
+
+#trip-planner-inputs {
+  margin: .75rem 0;
+  width: 100%;
+
+  #trip-plan-datepicker {
+    margin-bottom: 1rem;
+    margin-top: .75rem;
+  }
+
+  .btn-group {
+    width: 100%;
+
+    .btn+.btn {
+      margin-left: 0;
+    }
+
+    label:has(:checked) {
+      @extend .active;
+    }
+  }
+
+  input {
+    padding: calc(#{$base-spacing} / 2);
+  }
+
+  label {
+    border-color: $brand-primary;
+    border-width: 1px 0;
+    font-weight: 400;
+    padding: calc(#{$base-spacing} / 2);
+    text-transform: capitalize;
+    width: 33.33%;
+  }
+
+  label.active {
+    background-color: $brand-primary-lightest;
+    color: $brand-primary;
+    font-weight: 700;
+  }
+
+  label:first-child,
+  label:last-child {
+    border-left-width: 1px;
+    border-right-width: 1px;
+  }
+
+  input[type='text'] {
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius;
+    width: 100%;
+  }
+
+  i.fa-calendar {
+    color: $brand-primary;
+  }
+
+  .flatpickr {
+    position: relative;
+
+    .form-control[readonly] {
+      background-color: $body-bg;
+    }
+
+    a[data-toggle] {
+      position: absolute;
+      right: .75rem;
+      top: .5rem;
+    }
+  }
+
+  .flatpickr-mobile {
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius;
+    width: calc(100% - 2.5rem);
+
+    & ~ a[data-toggle] {
+      position: unset;
+    }
+  }
+}
+
+.flatpickr-months {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+
+  .flatpickr-month {
+    color: inherit;
+  }
+}
+
+.flatpickr-current-month {
+  font-size: $font-size-base-xxl;
+  font-weight: inherit;
+
+  .flatpickr-monthDropdown-months {
+    font-weight: inherit;
+  }
+
+  input.cur-year[disabled],
+  input.cur-year[disabled]:hover {
+    color: inherit;
+  }
+}
+
+.flatpickr-time input {
+  font-size: inherit;
+}
+
+.flatpickr-day {
+  font-weight: $font-weight-medium;
+}
+
+.flatpickr-calendar {
+  font-family: $font-family-base;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.flatpickr-day.selected {
+  background-color: $brand-primary;
+  border-color: $white;
+  color: $white;
+
+  &:hover {
+    background-color: $brand-primary-lightest;
+    border-color: $white;
+    color: $brand-primary;
+  }
 }
