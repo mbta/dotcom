@@ -260,7 +260,7 @@ describe("StopCard", () => {
     expect(alerts.length).toEqual(1);
   });
 
-  it.only("should not show upcoming alerts", () => {
+  it("should not show upcoming alerts", () => {
     const { container } = render(
       <redux.Provider store={store}>
         <StopCard
