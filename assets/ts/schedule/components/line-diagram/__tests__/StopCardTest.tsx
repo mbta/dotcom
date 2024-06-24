@@ -8,9 +8,10 @@ import {
   HeadsignWithCrowding,
   InformedEntitySet,
   Prediction,
+  Route,
   Schedule
 } from "../../../../__v3api";
-import { RouteStop, RouteStopRoute, StopTree } from "../../__schedule";
+import { RouteStop, StopTree } from "../../__schedule";
 import { TripPrediction } from "../../__trips";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopPredictions from "../StopPredictions";
@@ -159,7 +160,7 @@ describe("StopCard", () => {
     jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
       () =>
         (({
-          route: { type: 1 } as RouteStopRoute,
+          route: { type: 1 } as Route,
           stop_features: [],
           connections: []
         } as unknown) as RouteStop)
@@ -188,7 +189,7 @@ describe("StopCard", () => {
     jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
       () =>
         (({
-          route: { type: 1 } as RouteStopRoute,
+          route: { type: 1 } as Route,
           stop_features: [],
           connections: []
         } as unknown) as RouteStop)
@@ -216,7 +217,7 @@ describe("StopCard", () => {
     jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
       () =>
         (({
-          route: { type: 3 } as RouteStopRoute,
+          route: { type: 3 } as Route,
           stop_features: [],
           connections: []
         } as unknown) as RouteStop)

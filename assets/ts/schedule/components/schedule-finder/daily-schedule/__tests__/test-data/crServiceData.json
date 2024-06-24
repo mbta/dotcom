@@ -22,8 +22,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "04:15 AM",
@@ -62,8 +61,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "06:03 AM",
@@ -102,8 +100,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "07:05 AM",
@@ -142,8 +139,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "08:04 AM",
@@ -182,8 +178,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "08:50 AM",
@@ -222,8 +217,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "09:40 AM",
@@ -262,8 +256,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "11:00 AM",
@@ -302,8 +295,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "11:45 AM",
@@ -342,8 +334,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "12:20 PM",
@@ -382,8 +373,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "01:35 PM",
@@ -422,8 +412,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "02:40 PM",
@@ -472,8 +461,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "02:45 PM",
@@ -512,8 +500,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "03:40 PM",
@@ -562,8 +549,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "04:15 PM",
@@ -612,8 +598,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "04:40 PM",
@@ -662,8 +647,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "05:03 PM",
@@ -712,8 +696,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "05:20 PM",
@@ -762,8 +745,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "05:45 PM",
@@ -802,8 +784,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "06:20 PM",
@@ -842,8 +823,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "06:30 PM",
@@ -882,8 +862,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "07:50 PM",
@@ -922,8 +901,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "08:15 PM",
@@ -962,8 +940,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "09:10 PM",
@@ -1002,8 +979,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "10:00 PM",
@@ -1042,8 +1018,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "10:30 PM",
@@ -1082,8 +1057,7 @@
         "0": "Forge Park/495",
         "1": "South Station"
       },
-      "description": "commuter_rail",
-      "custom_route?": false
+      "description": "commuter_rail"
     },
     "departure": {
       "time": "11:50 PM",

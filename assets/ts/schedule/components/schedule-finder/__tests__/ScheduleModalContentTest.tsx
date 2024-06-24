@@ -213,7 +213,6 @@ describe("ScheduleModalContent", () => {
     act(() => {
       const ferryRoute = {
         color: "008EAA",
-        "custom_route?": false,
         description: "ferry",
         direction_destinations: { 0: "Charlestown", 1: "Long Wharf" },
         direction_names: { 0: "Outbound", 1: "Inbound" },

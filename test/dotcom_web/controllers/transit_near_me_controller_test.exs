@@ -270,7 +270,6 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
               group_name: :bus,
               routes: [
                 %{
-                  custom_route?: false,
                   description: :key_bus_route,
                   direction_destinations: :unknown,
                   direction_names: %{"0" => "Outbound", "1" => "Inbound"},
@@ -281,7 +280,6 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
                   href: "/39"
                 },
                 %{
-                  custom_route?: false,
                   description: :supplemental_bus,
                   direction_destinations: :unknown,
                   direction_names: %{"0" => "Outbound", "1" => "Inbound"},
@@ -292,7 +290,6 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
                   href: "/170"
                 },
                 %{
-                  custom_route?: false,
                   description: :local_bus,
                   direction_destinations: :unknown,
                   direction_names: %{"0" => "Outbound", "1" => "Inbound"},

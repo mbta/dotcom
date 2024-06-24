@@ -1,14 +1,11 @@
 import React from "react";
 import { sortBy } from "lodash";
-import { RouteStopRoute } from "../__schedule";
 import { TooltipWrapper, modeIcon } from "../../../helpers/icon";
 import { isABusRoute, isACommuterRailRoute } from "../../../models/route";
 import { routeBgClass } from "../../../helpers/css";
 import { Route } from "../../../__v3api";
 
-const filteredConnections = (
-  connections: RouteStopRoute[]
-): RouteStopRoute[] => {
+const filteredConnections = (connections: Route[]): Route[] => {
   const firstCRIndex = connections.findIndex(
     connection => connection.type === 2
   );
@@ -47,7 +44,7 @@ const connectionName = (connection: Route): string => {
 
 const StopConnections = (
   route_id: string,
-  connections: RouteStopRoute[]
+  connections: Route[]
 ): JSX.Element => (
   <div className="m-schedule-diagram__connections">
     {filteredConnections(connections).map((connectingRoute: Route) => (

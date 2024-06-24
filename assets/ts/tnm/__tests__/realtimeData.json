@@ -20,7 +20,6 @@
       "direction_names": { "1": "Northbound", "0": "Southbound" },
       "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
       "description": "rapid_transit",
-      "custom_route?": false,
       "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
@@ -113,7 +112,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "North Station", "0": "Haverhill" },
       "description": "commuter_rail",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -220,7 +218,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "Wellington", "0": "Malden Center" },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -340,7 +337,6 @@
         "0": "Woodland Road, Stoneham"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -451,7 +447,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -562,7 +557,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
@@ -679,7 +673,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
@@ -787,7 +780,6 @@
         "0": "Lebanon Street, Malden"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -964,7 +956,6 @@
       "direction_names": { "1": "Inbound", "0": "Outbound" },
       "direction_destinations": { "1": "Wellington", "0": "Linden Square" },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1078,7 +1069,6 @@
         "0": "Melrose Highlands"
       },
       "description": "commuter_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1133,7 +1123,6 @@
         "0": "Redstone Shopping Center"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1253,7 +1242,6 @@
         "0": "Reading Depot"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1353,7 +1341,6 @@
         "0": "Reading Depot"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1473,7 +1460,6 @@
         "0": "Kennedy Drive or Jack Satter House"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
@@ -1638,7 +1624,6 @@
         "0": "Saugus Center"
       },
       "description": "local_bus",
-      "custom_route?": false,
       "alerts": []
     },
     "predicted_schedules_by_route_pattern": {

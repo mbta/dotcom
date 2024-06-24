@@ -167,7 +167,6 @@ const route = {
     1: "End"
   },
   description: "key_bus_route",
-  "custom_route?": false,
   header: "",
   alerts: [],
   line_id: null

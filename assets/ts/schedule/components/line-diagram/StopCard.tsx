@@ -21,7 +21,7 @@ import {
   isSubwayRoute
 } from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
-import { RouteStop, RouteStopRoute, StopId, StopTree } from "../__schedule";
+import { RouteStop, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
@@ -64,20 +64,13 @@ const lineName = ({ name, route: routeStopRoute }: RouteStop): string => {
 const hasLivePredictions = (liveData?: LiveData): boolean =>
   !!liveData && liveData.headsigns.some(hasPredictionTime);
 
-const connectionsFor = (
-  routeStop: RouteStop,
-  stopTree: StopTree
-): RouteStopRoute[] => {
+const connectionsFor = (routeStop: RouteStop, stopTree: StopTree): Route[] => {
   const { connections } = routeStop;
   const greenLineConnections = connections.filter(isAGreenLineRoute);
   if (routeStop.route && hasBranches(stopTree) && greenLineConnections.length) {
     // If we can connect to other Green Line routes, they can connect back to
     // this route as well.
-    const routeStopRoute: RouteStopRoute = {
-      ...routeStop.route,
-      "custom_route?": false
-    };
-    return [routeStopRoute, ...connections];
+    return [routeStop.route, ...connections];
   }
   return connections;
 };
@@ -89,10 +82,7 @@ const visibleAlert = (alert: Alert): boolean => {
 const hasHighPriorityAlert = (stopId: StopId, alerts: Alert[]): boolean =>
   alertsByStop(alerts, stopId).filter(visibleAlert).length > 0;
 
-const routeForStop = (
-  stopTree: StopTree,
-  stopId: StopId
-): RouteStopRoute | null => {
+const routeForStop = (stopTree: StopTree, stopId: StopId): Route | null => {
   const { route } = stopForId(stopTree, stopId);
   return route;
 };
@@ -107,7 +97,7 @@ const hasUpcomingDeparturesIfSubway = (
   return !!liveData && liveData.headsigns.length > 0;
 };
 
-const schedulesButtonLabel = (route: RouteStopRoute | null): string => {
+const schedulesButtonLabel = (route: Route | null): string => {
   return route && isSubwayRoute(route)
     ? "View upcoming departures"
     : "View schedule";
