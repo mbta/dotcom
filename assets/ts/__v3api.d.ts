@@ -125,6 +125,7 @@ export interface Route {
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;
+  external_agency_name?: string | null;
   fare_class?: FareClassType;
   id: string;
   long_name: string;

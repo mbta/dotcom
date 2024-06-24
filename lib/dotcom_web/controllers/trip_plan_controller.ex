@@ -489,7 +489,8 @@ defmodule DotcomWeb.TripPlanController do
       type: type
     } = Enum.find(legs, &(Leg.route_id(&1) == {:ok, id}))
 
-    custom_route = %Route{
+    %Route{
+      external_agency_name: if(type == "2", do: "Massport"),
       description: description,
       id: mode.route_id,
       long_name: long_name,
@@ -498,25 +499,6 @@ defmodule DotcomWeb.TripPlanController do
       custom_route?: true,
       color: "000000"
     }
-
-    case {type, description} do
-      # Workaround for Massport buses, manually assign type
-      {"2", "BUS"} ->
-        %Route{
-          custom_route
-          | type: "Massport-" <> type
-        }
-
-      # Handle MBTA busses not present via api
-      {"1", "BUS"} ->
-        %Route{
-          custom_route
-          | type: 3
-        }
-
-      _ ->
-        custom_route
-    end
   end
 
   defp meta_description(conn, _) do

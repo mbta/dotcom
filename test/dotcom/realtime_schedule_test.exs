@@ -295,6 +295,7 @@ defmodule Dotcom.RealtimeScheduleTest do
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
           direction_names: %{"0" => "Southbound", "1" => "Northbound"},
+          external_agency_name: nil,
           header: "Orange Line",
           id: "Orange",
           long_name: "Orange Line",
