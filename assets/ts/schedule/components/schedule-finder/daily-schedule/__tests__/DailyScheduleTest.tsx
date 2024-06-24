@@ -3,12 +3,7 @@ import renderer, { act } from "react-test-renderer";
 import { ReactWrapper, mount } from "enzyme";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import * as dailyScheduleModule from "../DailySchedule";
-import {
-  DatesNotes,
-  DirectionId,
-  Service,
-  ServiceTypicality
-} from "../../../../../__v3api";
+import { DatesNotes, Service, ServiceTypicality } from "../../../../../__v3api";
 import { ServiceInSelector } from "../../../__schedule";
 import { render, screen } from "@testing-library/react";
 
@@ -431,7 +426,6 @@ describe("parseResults", () => {
             "1": "Nubian Station"
           },
           description: "key_bus_route",
-          "custom_route?": false,
           color: "FFC72C"
         },
         departure: {
@@ -482,7 +476,6 @@ describe("parseResults", () => {
             "1": "Nubian Station"
           },
           description: "key_bus_route",
-          "custom_route?": false,
           color: "FFC72C"
         },
         departure: {

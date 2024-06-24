@@ -97,17 +97,14 @@ export interface LineDiagramVehicle {
   tooltip: string;
 }
 
-interface RouteStopRoute extends Route {
-  "custom_route?": boolean;
-}
 export interface RouteStop {
   id: string;
   name: string;
   zone: string | null;
   branch: string | null;
   station_info: Stop & { parent_id: string | null; child_ids: string[] };
-  route: RouteStopRoute | null;
-  connections: RouteStopRoute[];
+  route: Route | null;
+  connections: Route[];
   stop_features: string[];
   "terminus?": boolean;
   "is_beginning?": boolean;

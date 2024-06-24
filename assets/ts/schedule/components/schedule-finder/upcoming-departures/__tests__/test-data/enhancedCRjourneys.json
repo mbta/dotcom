@@ -23,8 +23,7 @@
         "1": "South Station"
       },
       "description": "commuter_rail",
-      "custom_route?": false,
-      "color": "80276C"
+            "color": "80276C"
     },
     "realtime": {
       "scheduled_time": ["1:55", " ", "PM"],
@@ -85,8 +84,7 @@
         "1": "South Station"
       },
       "description": "commuter_rail",
-      "custom_route?": false,
-      "color": "80276C"
+            "color": "80276C"
     },
     "realtime": {
       "scheduled_time": ["3:30", " ", "PM"],

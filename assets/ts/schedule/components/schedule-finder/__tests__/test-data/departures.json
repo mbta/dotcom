@@ -23,7 +23,6 @@
         "1": "Dudley"
       },
       "description": "key_bus_route",
-      "custom_route?": false,
       "color": "FFC72C"
     },
     "realtime": {
@@ -85,7 +84,6 @@
         "1": "Dudley"
       },
       "description": "key_bus_route",
-      "custom_route?": false,
       "color": "FFC72C"
     },
     "realtime": {

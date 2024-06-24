@@ -206,7 +206,6 @@ defmodule DotcomWeb.PartialViewTest do
         method: :alerts_path,
         item: %Routes.Route{
           color: "00843D",
-          custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{0 => "Heath Street", 1 => "North Station"},
           direction_names: %{0 => "Westbound", 1 => "Eastbound"},

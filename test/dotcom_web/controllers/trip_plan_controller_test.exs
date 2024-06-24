@@ -811,28 +811,26 @@ defmodule DotcomWeb.TripPlanControllerTest do
       {:ok, %{itineraries: itineraries}}
     end
 
-    test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
-      stub(Routes.Repo.Mock, :get, fn id ->
-        %Routes.Route{id: id, custom_route?: false}
+    test "doesn't set external_agency_name flag for regular routes", %{itineraries: itineraries} do
+      expect(Routes.Repo.Mock, :get, fn id ->
+        %Routes.Route{id: id}
       end)
 
       rfq = TripPlanController.routes_for_query(itineraries)
-      assert Enum.all?(rfq, fn {_route_id, route} -> !route.custom_route? end)
+      assert Enum.all?(rfq, fn {_route_id, route} -> !route.external_agency_name end)
     end
 
-    test "sets custom_route? flag for routes not present in API", %{itineraries: itineraries} do
-      expect(Routes.Repo.Mock, :get, fn _ ->
-        nil
-      end)
-
+    test "sets external_agency_name value for routes not present in API", %{
+      itineraries: itineraries
+    } do
+      # set up itineraries which have a leg type associated with external agency
       itineraries =
         Enum.map(itineraries, fn i ->
           legs =
             Enum.map(i.legs, fn l ->
               case l do
                 %{mode: %{route_id: _route_id}} ->
-                  mode = %{l.mode | route_id: "UNKNOWN"}
-                  %{l | mode: mode}
+                  %{l | type: "Logan Express"}
 
                 _ ->
                   l
@@ -842,8 +840,14 @@ defmodule DotcomWeb.TripPlanControllerTest do
           %{i | legs: legs}
         end)
 
+      # set up leg route to not be present in the V3 API, causing the fallback
+      # to populate the external_agency_name value
+      expect(Routes.Repo.Mock, :get, fn _ ->
+        nil
+      end)
+
       rfq = TripPlanController.routes_for_query(itineraries)
-      assert Enum.all?(rfq, fn {_route_id, route} -> route.custom_route? end)
+      assert Enum.all?(rfq, fn {_route_id, route} -> route.external_agency_name end)
     end
 
     test "identifies subsequent subway legs as free when trip is from the airport" do
