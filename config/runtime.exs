@@ -234,7 +234,7 @@ case config_env() do
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} www.instagram.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
                "connect-src 'self' *.googleapis.com #{sentry_dsn_host || ""}",
-               "frame-src 'self' data.mbta.com data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
+               "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
              ],
              "; "
            )
@@ -245,7 +245,7 @@ case config_env() do
            Enum.join(
              [
                "default-src 'none'",
-               "img-src 'self' cdn.mbta.com #{System.get_env("CMS_API_BASE_URL", "")} *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
+               "img-src 'self' cdn.mbta.com #{System.get_env("CMS_API_BASE_URL", "")} *.google.com *.googleapis.com *.gstatic.com mbta-map-tiles-dev.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
                "style-src 'self' 'unsafe-inline' localhost:* www.gstatic.com",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' localhost:* www.instagram.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com",
                "font-src 'self' localhost:*",
