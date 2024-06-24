@@ -49,7 +49,7 @@ defmodule Alerts.HistoricalAlert do
         :stop -> @stops_repo
       end
 
-    case apply(module, :get, [id]) do
+    case module.get([id]) do
       %{name: name} when not is_nil(name) -> name
       _ -> id
     end
