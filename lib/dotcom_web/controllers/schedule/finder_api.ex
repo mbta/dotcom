@@ -84,6 +84,10 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     json(conn, journeys)
   end
 
+  def departures(conn, _) do
+    ControllerHelpers.return_invalid_arguments_error(conn)
+  end
+
   @spec get_trip_info(Plug.Conn.t(), Trip.id_t(), Route.t(), String.t(), String.t(), String.t()) ::
           Plug.Conn.t()
   def get_trip_info(
