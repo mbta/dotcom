@@ -2,36 +2,33 @@ defmodule AWSLocation.Request do
   @moduledoc """
   Constructs and dispatches requests to AWS Location service
   """
+
   @aws Application.compile_env!(:dotcom, :aws)
 
-  @base_request_body %{
-    FilterBBox: [-71.9380, 41.3193, -69.6189, 42.8266],
-    MaxResults: 50
-  }
-
-  @spec new(String.t() | [float] | nil) :: ExAws.Operation.RestQuery.t()
-  # "Searches for text"
-  def new(text) when is_binary(text) do
-    @base_request_body
+  @doc """
+  Searches for a location based on text or a lat, long pair.
+  """
+  @spec new(String.t() | [float], map()) :: LocationService.Address.result()
+  def new(text, options) when is_binary(text) do
+    options
     |> Map.put_new(:Text, text)
     |> request()
   end
 
-  # "Searches for a position"
-  def new([lat, lon]) when is_number(lon) and is_number(lat) do
-    @base_request_body
+  def new([lat, lon], options) when is_number(lon) and is_number(lat) do
+    options
     |> Map.put_new(:Position, [lon, lat])
     |> request()
   end
 
   @doc "Autocompletes some text, limiting the number of results returned"
-  @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
-  def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
+  @spec autocomplete(String.t(), number, map()) :: LocationService.Suggestion.result()
+  def autocomplete(text, limit, options) when 1 <= limit and limit <= 15 do
     @aws.request(%ExAws.Operation.RestQuery{
       http_method: :post,
       body:
-        @base_request_body
-        |> Map.put(:Text, search)
+        options
+        |> Map.put(:Text, text)
         |> Map.put(:MaxResults, limit),
       service: :places,
       path: place_index_path(:suggestions)

@@ -1,0 +1,53 @@
+# Evaluate Boston Location
+
+## Section
+
+```elixir
+defmodule EvaluateBostonLocation.Helpers do
+  @moduledoc false
+
+  @doc """
+  Get autocomplete results to the given location.
+  """
+  def get_autocomplete_results(location, options) do
+    {:ok, results} = LocationService.autocomplete(location, 5, options)
+
+    Enum.map(results, & &1.address)
+  end
+end
+
+alias EvaluateBostonLocation.Helpers
+```
+
+```elixir
+Application.start(:yamerl)
+
+write_path =
+  System.tmp_dir!()
+  |> Path.join("autocompletions.yml")
+  |> IO.inspect()
+
+bias_options = %{
+  BiasPosition: [42.35483511240896, -71.06606866833201]
+}
+
+bounding_options = %{
+  FilterBBox: [-71.9380, 41.3193, -69.6189, 42.8266]
+}
+
+locations =
+  File.cwd!()
+  |> Path.join("/livebooks/locations.yml")
+  |> YamlElixir.read_from_file!()
+  |> Enum.map(fn location ->
+    %{
+      given: location,
+      bias_options_results: Helpers.get_autocomplete_results(location, bias_options),
+      bounding_options_results: Helpers.get_autocomplete_results(location, bounding_options)
+    }
+  end)
+
+yaml = Ymlr.document!(locations)
+
+File.write!(write_path, yaml)
+```
