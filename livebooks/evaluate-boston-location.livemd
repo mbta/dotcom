@@ -27,9 +27,9 @@ write_path =
   |> Path.join("autocompletions.yml")
   |> IO.inspect()
 
+# Boston Common
 bias_options = %{
-  # Boston Commons
-  BiasPosition: [42.35483511240896, -71.06606866833201]
+  BiasPosition: [-71.06606866833201, 42.35483511240896]
 }
 
 bounding_options = %{
