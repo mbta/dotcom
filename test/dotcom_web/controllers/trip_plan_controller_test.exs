@@ -810,8 +810,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
-      expect(Routes.Repo.Mock, :get, fn id ->
-        %Routes.Route{id: id}
+      stub(Routes.Repo.Mock, :get, fn id ->
+        %Routes.Route{id: id, custom_route?: false}
       end)
 
       rfq = TripPlanController.routes_for_query(itineraries)

@@ -12,7 +12,7 @@ defmodule Test.Support.Factories.Routes.Route do
     type = attrs[:type] || Faker.Util.pick([0, 1, 2, 3, 4])
     fare_class = fare_class(attrs, type)
 
-    %Route{
+    route = %Route{
       id: FactoryHelpers.build(:id),
       type: type,
       name: Faker.App.name(),
@@ -40,6 +40,8 @@ defmodule Test.Support.Factories.Routes.Route do
       fare_class: fare_class,
       line_id: FactoryHelpers.build(:id)
     }
+
+    merge_attributes(route, attrs)
   end
 
   defp fare_class(%{fare_class: fare_class}, _), do: fare_class

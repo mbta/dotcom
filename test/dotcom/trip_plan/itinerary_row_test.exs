@@ -6,7 +6,6 @@ defmodule TripPlan.ItineraryRowTest do
   import Test.Support.Factories.TripPlanner.TripPlanner
 
   alias Dotcom.TripPlan.ItineraryRow
-  alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
   alias Test.Support.Factories.{Routes.Route, Stops.Stop}
   alias TripPlan.NamedPosition
@@ -15,7 +14,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
-      row = %ItineraryRow{route: %Route{id: "route"}}
+      row = %ItineraryRow{route: %Routes.Route{id: "route"}}
 
       assert route_id(row) == "route"
     end
@@ -29,7 +28,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_type/1" do
     test "returns the route type when a route is present" do
-      row = %ItineraryRow{route: %Route{type: 0}}
+      row = %ItineraryRow{route: %Routes.Route{type: 0}}
 
       assert route_type(row) == 0
     end
@@ -43,7 +42,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_name/1" do
     test "returns the route name when a route is present" do
-      row = %ItineraryRow{route: %Route{name: "Red Line"}}
+      row = %ItineraryRow{route: %Routes.Route{name: "Red Line"}}
 
       assert route_name(row) == "Red Line"
     end

@@ -3,7 +3,7 @@ defmodule Alerts.HistoricalAlertTest do
 
   import Alerts.HistoricalAlert
   import Mox
-  import Test.Support.Factory.Repo
+  import Test.Support.Factories.Routes.Route
 
   alias Alerts.{Alert, HistoricalAlert, InformedEntity}
 

@@ -798,7 +798,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
     test "for bus" do
       route_id = Faker.Internet.slug()
       direction_id = Faker.Util.pick([0, 1])
-      shapes = Factory.Repo.build_list(5, :shape)
+      shapes = Factories.Routes.Shape.build_list(5, :shape)
 
       expect(Routes.Repo.Mock, :get_shapes, 2, fn ^route_id, opts ->
         assert opts[:direction_id] == direction_id
@@ -827,12 +827,13 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_branches/4" do
     test "returns a list of RouteStops, one for each branch of the line" do
-      stub(Routes.Repo.Mock, :by_stop, fn _, _ -> Factory.Repo.build_list(2, :route) end)
+      stub(Routes.Repo.Mock, :by_stop, fn _, _ -> Factories.Routes.Route.build_list(2, :route) end)
+
       stub(Stops.Repo.Mock, :get, fn id -> %Stop{id: id} end)
       stub(Stops.Repo.Mock, :get_parent, fn id -> %Stop{id: id} end)
       stub(Stops.Repo.Mock, :stop_features, fn _, _ -> [] end)
 
-      shapes = Factory.Repo.build_list(3, :shape)
+      shapes = Factories.Routes.Shape.build_list(3, :shape)
 
       stops =
         Enum.flat_map(shapes, & &1.stop_ids)
@@ -852,7 +853,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       route_id = Faker.Internet.slug()
       direction_id = Faker.Util.pick([0, 1])
       stops = %{}
-      shapes = Factory.Repo.build_list(3, :shape)
+      shapes = Factories.Routes.Shape.build_list(3, :shape)
 
       assert Helpers.get_branches(shapes, stops, %Route{id: route_id}, direction_id) == []
     end

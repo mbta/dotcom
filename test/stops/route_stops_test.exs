@@ -2,9 +2,9 @@ defmodule Stops.RouteStopsTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.{Routes.Shape, Stops.Stop}
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
+  alias Test.Support.Factories.{Routes.Shape, Stops.Stop}
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
@@ -555,7 +555,7 @@ defmodule Stops.RouteStopsTest do
             name: "Red Line",
             type: 1
           },
-          station_info: %Stop{
+          station_info: %Stops.Stop{
             id: "place-alfcl",
             name: "Alewife",
             type: :station

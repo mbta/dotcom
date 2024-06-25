@@ -41,8 +41,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
     end)
 
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> Factory.Repo.build(:stop) end)
-    expect(Routes.Repo.Mock, :get, fn id -> Factory.Repo.build(:route, %{id: id}) end)
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
+    expect(Routes.Repo.Mock, :get, fn id -> Factories.Routes.Route.build(:route, %{id: id}) end)
 
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push

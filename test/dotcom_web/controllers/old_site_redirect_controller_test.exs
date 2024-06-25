@@ -3,7 +3,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
 
   import Mox
 
-  alias Test.Support.Factory
+  alias Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 
@@ -34,7 +34,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
           {"CT3", "708"}
         ]
         |> Enum.map(
-          &Factory.Repo.build(:route, %{
+          &Route.build(:route, %{
             id: elem(&1, 1),
             name: elem(&1, 0),
             type: 3

@@ -1,7 +1,7 @@
 defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
 
-  alias Test.Support.Factory.{MbtaApi, Repo}
+  alias Test.Support.Factories.{Mbta.Api, Routes.Route, Stops.Stop}
 
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
@@ -43,11 +43,11 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
           ]
         )
 
-      stub(Routes.Repo.Mock, :get, fn id -> Repo.build(:route, %{id: id}) end)
-      stub(Stops.Repo.Mock, :get_parent, fn id -> Repo.build(:stop, %{id: id}) end)
+      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
 
       stub(MBTA.Api.Mock, :get_json, fn "/trips" <> _, [] ->
-        %JsonApi{data: [MbtaApi.build(:trip_item)]}
+        %JsonApi{data: [Api.build(:trip_item)]}
       end)
 
       {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary)}}

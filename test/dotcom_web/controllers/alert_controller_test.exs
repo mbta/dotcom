@@ -8,7 +8,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
   import Mox
-  import Test.Support.Factory.Repo
+  import Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 
