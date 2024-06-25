@@ -28,6 +28,7 @@ write_path =
   |> IO.inspect()
 
 bias_options = %{
+  # Boston Commons
   BiasPosition: [42.35483511240896, -71.06606866833201]
 }
 
