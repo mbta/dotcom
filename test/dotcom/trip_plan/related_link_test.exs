@@ -4,7 +4,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
 
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
 
   alias Routes.Route
   alias TripPlan.Itinerary

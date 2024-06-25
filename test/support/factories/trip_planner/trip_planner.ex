@@ -1,4 +1,4 @@
-defmodule Test.Support.Factory do
+defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   @moduledoc """
   Provides generated test data via ExMachina and Faker.
   """

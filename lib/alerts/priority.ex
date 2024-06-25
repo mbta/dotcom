@@ -8,6 +8,11 @@ defmodule Alerts.Priority do
   @type priority_level :: :high | :low | :system
   @ongoing_effects Alerts.Alert.ongoing_effects()
 
+  @priority_levels [:high, :low, :system]
+
+  @spec priority_levels() :: [priority_level]
+  def priority_levels, do: @priority_levels
+
   @spec priority(map, DateTime.t()) :: priority_level
   def priority(map, now \\ Util.now())
 

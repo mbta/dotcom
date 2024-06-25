@@ -3,7 +3,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
   alias DotcomWeb.TransitNearMeController.Location
 
   import Mox
-  import Test.Support.Factory.LocationService
+  import Test.Support.Factories.LocationService
 
   setup :verify_on_exit!
 

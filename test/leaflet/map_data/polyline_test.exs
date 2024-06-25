@@ -1,7 +1,7 @@
 defmodule Leaflet.MapData.PolylineTest do
   use ExUnit.Case, async: true
 
-  import Test.Support.Factory.RoutePattern
+  import Test.Support.Factories.RoutePatterns.RoutePattern
 
   alias Leaflet.MapData.Polyline
 

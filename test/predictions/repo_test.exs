@@ -2,7 +2,7 @@ defmodule Predictions.RepoTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.Mbta.Api
 
   alias Predictions.Repo
   alias Routes.Route

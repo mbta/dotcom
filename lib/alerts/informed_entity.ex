@@ -10,32 +10,44 @@ defmodule Alerts.InformedEntity do
             activities: @empty_activities
 
   @type t :: %Alerts.InformedEntity{
+          activities: MapSet.t(activity),
+          direction_id: 0 | 1 | nil,
+          facility: String.t() | nil,
           route: String.t() | nil,
           route_type: String.t() | nil,
           stop: String.t() | nil,
-          trip: String.t() | nil,
-          direction_id: 0 | 1 | nil,
-          facility: String.t() | nil,
-          activities: MapSet.t(activity_type)
+          trip: String.t() | nil
         }
 
-  @type activity_type ::
+  @type activity ::
           :board
-          | :exit
-          | :ride
-          | :park_car
           | :bringing_bike
+          | :exit
+          | :park_car
+          | :ride
           | :store_bike
-          | :using_wheelchair
           | :using_escalator
+          | :using_wheelchair
 
   alias __MODULE__, as: IE
 
-  @doc """
+  @activities [
+    :board,
+    :bringing_bike,
+    :exit,
+    :park_car,
+    :ride,
+    :store_bike,
+    :using_escalator,
+    :using_wheelchair
+  ]
 
+  @spec activities() :: list(activity)
+  def activities(), do: @activities
+
+  @doc """
   Given a keyword list (with keys matching our fields), returns a new
   InformedEntity.  Additional keys are ignored.
-
   """
   @spec from_keywords(list) :: IE.t()
   def from_keywords(options) do

@@ -4,13 +4,13 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
-  alias Test.Support.Factory
+  alias Test.Support.Factories
   alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
   doctest DotcomWeb.TripPlanController
 
   import Mox
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.Mbta.Api
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -166,7 +166,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end)
 
     stub(LocationService.Mock, :geocode, fn name ->
-      {:ok, Test.Support.Factory.LocationService.build_list(2, :address, %{formatted: name})}
+      {:ok, Factories.LocationService.build_list(2, :address, %{formatted: name})}
     end)
 
     stub(Stops.Repo.Mock, :get_parent, fn _ ->
@@ -803,7 +803,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   describe "routes_for_query/1" do
     setup do
-      itineraries = Factory.build_list(3, :itinerary)
+      itineraries = Factories.TripPlanner.TripPlanner.build_list(3, :itinerary)
       {:ok, %{itineraries: itineraries}}
     end
 

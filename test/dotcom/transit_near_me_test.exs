@@ -4,7 +4,7 @@ defmodule Dotcom.TransitNearMeTest do
   import Mox
 
   import Mox
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   alias LocationService.Address
   alias Predictions.Prediction

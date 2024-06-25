@@ -5,7 +5,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
 
   @date_time ~N[2017-06-27T11:43:00]
   @from build(:stop_named_position, stop_id: "place-sstat")
