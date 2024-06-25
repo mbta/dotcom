@@ -8,7 +8,7 @@ defmodule AWSLocation.Request do
   @doc """
   Searches for a location based on text or a lat, long pair.
   """
-  @spec new(String.t() | [float], map()) :: {:ok, term()} | {:error, term()}
+  @spec new(String.t() | [float], map()) :: ExAws.Operation.RestQuery.t()
   def new(text, options) when is_binary(text) do
     options
     |> Map.put_new(:Text, text)
