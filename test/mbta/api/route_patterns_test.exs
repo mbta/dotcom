@@ -1,4 +1,4 @@
-defmodule Mbta.Api.RoutePatternsTest do
+defmodule MBTA.Api.RoutePatternsTest do
   use ExUnit.Case, async: false
 
   import Mox

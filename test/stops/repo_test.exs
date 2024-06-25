@@ -3,7 +3,7 @@ defmodule Stops.RepoTest do
 
   import Mox
   import Stops.Repo
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
   alias Stops.Stop
   alias Test.Support.Factories.Routes.Route
 

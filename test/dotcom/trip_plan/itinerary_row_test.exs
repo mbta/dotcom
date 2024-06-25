@@ -328,10 +328,10 @@ defmodule TripPlan.ItineraryRowTest do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
         cond do
           String.contains?(path, "trips") ->
-            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:trip_item)]}
+            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:trip_item)]}
 
           String.contains?(path, "routes") ->
-            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:route_item)]}
+            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:route_item)]}
 
           true ->
             %JsonApi{data: []}

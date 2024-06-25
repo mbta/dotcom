@@ -1,7 +1,7 @@
 defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
 
-  alias Test.Support.Factories.{Mbta.Api, Routes.Route, Stops.Stop}
+  alias Test.Support.Factories.{MBTA.Api, Routes.Route, Stops.Stop}
 
   import Dotcom.TripPlan.ItineraryRowList
   import Mox

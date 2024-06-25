@@ -3,7 +3,7 @@ defmodule Routes.RepoTest do
 
   import Mox
   import Routes.Repo
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
   alias Routes.Route
 
   @route_id Faker.App.name()

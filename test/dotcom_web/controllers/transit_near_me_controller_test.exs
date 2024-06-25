@@ -2,7 +2,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
   use DotcomWeb.ConnCase, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
 
   alias DotcomWeb.TransitNearMeController
   alias Leaflet.{MapData, MapData.Marker}
