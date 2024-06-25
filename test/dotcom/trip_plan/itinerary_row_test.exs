@@ -7,7 +7,7 @@ defmodule TripPlan.ItineraryRowTest do
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias TripPlan.{Leg, NamedPosition, PersonalDetail}
+  alias TripPlan.NamedPosition
 
   setup :verify_on_exit!
 
@@ -350,15 +350,21 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "formats transfer steps differently based on subsequent Leg" do
-      leg = %Leg{
-        @personal_leg
-        | mode: %PersonalDetail{
-            steps: [
-              %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
-              | @personal_leg.mode.steps
-            ]
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
+      leg =
+        build(
+          :leg,
+          %{
+            mode:
+              build(
+                :personal_detail,
+                %{steps: [build(:step, %{relative_direction: :depart, street_name: "Transfer"})]}
+              )
           }
-      }
+        )
 
       %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @deps, @personal_leg)
       %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @deps, @transit_leg)
