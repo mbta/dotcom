@@ -6,13 +6,19 @@
 defmodule EvaluateBostonLocation.Helpers do
   @moduledoc false
 
+  @filter ~r/,\s(MA|NH|RI),\s/
+
   @doc """
   Get autocomplete results to the given location.
   """
   def get_autocomplete_results(location, options) do
     {:ok, results} = LocationService.autocomplete(location, 5, options)
 
-    Enum.map(results, & &1.address)
+    results
+    |> Enum.map(& &1.address)
+    |> Enum.filter(fn address ->
+      Regex.match?(@filter, address)
+    end)
   end
 end
 
@@ -27,8 +33,8 @@ write_path =
   |> Path.join("autocompletions.yml")
   |> IO.inspect()
 
-# Boston Common
 bias_options = %{
+  # Boston Commons
   BiasPosition: [-71.06606866833201, 42.35483511240896]
 }
 
