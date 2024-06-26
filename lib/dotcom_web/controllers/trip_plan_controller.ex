@@ -5,18 +5,18 @@ defmodule DotcomWeb.TripPlanController do
 
   use DotcomWeb, :controller
 
+  require Logger
+
   alias Dotcom.TripPlan.{ItineraryRow, ItineraryRowList, Query, RelatedLink}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias Fares.{Fare, Month, OneWay}
   alias Routes.Route
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, Transfer, TransitDetail}
 
-  require Logger
+  @location_service Application.compile_env!(:dotcom, :location_service)
 
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
-
-  @location_service Application.compile_env!(:dotcom, :location_service)
 
   plug(:assign_initial_map)
   plug(:breadcrumbs)

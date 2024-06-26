@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   use DotcomWeb, :controller
 
+  require Logger
+
   alias Dotcom.TransitNearMe
   alias DotcomWeb.Plugs.DateInRating
   alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleLocations, VehicleTooltips}
@@ -12,18 +14,16 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   alias Stops.Stop
   alias Vehicles.Vehicle
 
-  require Logger
-
-  @type simple_vehicle :: %{
-          id: String.t(),
-          headsign: String.t() | nil,
-          status: String.t(),
-          trip_name: String.t() | nil,
-          crowding: Vehicle.crowding() | nil,
-          tooltip: String.t()
-        }
-
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  @typep simple_vehicle :: %{
+           id: String.t(),
+           headsign: String.t() | nil,
+           status: String.t(),
+           trip_name: String.t() | nil,
+           crowding: Vehicle.crowding() | nil,
+           tooltip: String.t()
+         }
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => route_id, "direction_id" => direction_id_str}) do

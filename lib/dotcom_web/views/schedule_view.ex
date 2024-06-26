@@ -6,6 +6,8 @@ defmodule DotcomWeb.ScheduleView do
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
 
+  require Routes.Route
+
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
@@ -13,8 +15,6 @@ defmodule DotcomWeb.ScheduleView do
   alias Plug.Conn
   alias Routes.Route
   alias Stops.Stop
-
-  require Routes.Route
 
   @subway_order [
     "Red",

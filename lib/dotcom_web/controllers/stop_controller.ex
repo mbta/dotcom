@@ -18,13 +18,13 @@ defmodule DotcomWeb.StopController do
   alias Stops.Stop
   alias Util.AndOr
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type routes_map_t :: %{
           group_name: atom,
           routes: [route_with_directions]
         }
-
-  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)

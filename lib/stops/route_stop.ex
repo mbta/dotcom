@@ -24,6 +24,8 @@ defmodule Stops.RouteStop do
   alias Routes.{Route, Shape}
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   defstruct [
     :id,
     :name,
@@ -54,8 +56,6 @@ defmodule Stops.RouteStop do
           is_beginning?: boolean,
           closed_stop_info: Stop.ClosedStopInfo.t() | nil
         }
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   def to_json_safe(%RouteStop{connections: connections, route: route} = map) do
     %{

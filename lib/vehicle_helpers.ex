@@ -12,13 +12,13 @@ defmodule VehicleHelpers do
   alias Stops.Stop
   alias Vehicles.Vehicle
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
   @type tooltip_index :: %{
           optional({Trip.id_t() | nil, Stop.id_t()}) => VehicleTooltip.t(),
           optional(Stop.id_t()) => VehicleTooltip.t()
         }
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @doc """
   There are multiple places where vehicle tooltips are used. This function is called from the controller to

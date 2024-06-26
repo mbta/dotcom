@@ -12,6 +12,11 @@ defmodule Dotcom.TripPlan.RelatedLink do
   alias Routes.Route
   alias TripPlan.{Itinerary, Leg}
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @default_opts [
+    route_by_id: &Routes.Repo.get/1
+  ]
+
   defstruct text: "",
             url: "",
             icon_name: nil
@@ -22,11 +27,6 @@ defmodule Dotcom.TripPlan.RelatedLink do
           icon_name: icon_name
         }
   @type icon_name :: Routes.Route.gtfs_route_type() | Routes.Route.subway_lines_type() | nil
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    route_by_id: &Routes.Repo.get/1
-  ]
 
   @doc "Returns a new RelatedLink"
   @spec new(text, url, icon_name) :: t when text: iodata, url: String.t()
