@@ -3,13 +3,13 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   Functions for showing timetable content.
   """
 
-  alias Schedules.Schedule
-  alias DotcomWeb.ViewHelpers, as: Helpers
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Stops.Stop
-  alias Routes.Route
-
   import Phoenix.HTML.Tag, only: [content_tag: 3]
+
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias DotcomWeb.ViewHelpers, as: Helpers
+  alias Routes.Route
+  alias Schedules.Schedule
+  alias Stops.Stop
 
   @type vehicle_tooltip_key :: {Schedules.Trip.id_t(), Stops.Stop.id_t()}
 

@@ -2,11 +2,14 @@ defmodule DotcomWeb.CMS.ParagraphView do
   @moduledoc """
   Handles rendering of partial content from the CMS.
   """
+
   use DotcomWeb, :view
 
   alias CMS.API
   alias CMS.Field.{Image, Link}
   alias CMS.Partial.{Paragraph, Teaser}
+  alias Dotcom.ContentRewriter
+  alias DotcomWeb.CMS.TeaserView
 
   alias Paragraph.{
     Accordion,
@@ -19,8 +22,6 @@ defmodule DotcomWeb.CMS.ParagraphView do
   }
 
   alias Plug.Conn
-  alias Dotcom.ContentRewriter
-  alias DotcomWeb.CMS.TeaserView
 
   @doc "Map paragraph module names to their templates"
   for type <- Paragraph.get_types() do

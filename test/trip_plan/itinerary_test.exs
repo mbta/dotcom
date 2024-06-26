@@ -1,8 +1,10 @@
 defmodule TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
+
   import Test.Support.Factory
   import TripPlan.Itinerary
-  alias TripPlan.{TransitDetail, Leg, PersonalDetail, TransitDetail}
+
+  alias TripPlan.{Leg, PersonalDetail, TransitDetail}
 
   @from build(:stop_named_position)
   @to build(:stop_named_position)

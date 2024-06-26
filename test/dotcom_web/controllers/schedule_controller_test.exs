@@ -1,14 +1,14 @@
 defmodule DotcomWeb.ScheduleControllerTest do
   use DotcomWeb.ConnCase, async: false
 
+  import Mock
+
   alias CMS.Partial.Teaser
+  alias DotcomWeb.ScheduleController
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
   alias Schedules.Sort
   alias Stops.RouteStops
-  alias DotcomWeb.ScheduleController
-
-  import Mock
 
   @moduletag :external
 

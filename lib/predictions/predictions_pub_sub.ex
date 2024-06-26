@@ -9,7 +9,7 @@ defmodule Predictions.PredictionsPubSub do
 
   use GenServer
 
-  alias Predictions.{Prediction, Store, StreamTopic, StreamSupervisor}
+  alias Predictions.{Prediction, Store, StreamSupervisor, StreamTopic}
 
   @broadcast_interval_ms Application.compile_env!(:dotcom, [:predictions_broadcast_interval_ms])
   @subscribers :prediction_subscriptions_registry

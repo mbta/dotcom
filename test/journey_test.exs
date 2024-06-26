@@ -1,9 +1,10 @@
 defmodule JourneyTest do
   use ExUnit.Case, async: true
+
   import Journey
 
-  alias Schedules.Schedule
   alias Predictions.Prediction
+  alias Schedules.Schedule
 
   @time ~N[2017-01-01T22:30:00]
 

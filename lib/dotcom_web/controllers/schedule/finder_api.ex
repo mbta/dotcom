@@ -5,22 +5,25 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
     "Departure" here is analogous to PredictedSchedule.t()
   """
-  use DotcomWeb, :controller
 
-  alias Predictions.Prediction
-  alias Routes.Route
-  alias Schedules.{Schedule, Trip}
-  alias Dotcom.TransitNearMe
-  alias DotcomWeb.ControllerHelpers
-  alias DotcomWeb.ScheduleController.TripInfo, as: Trips
-  alias DotcomWeb.ScheduleController.VehicleLocations, as: Vehicles
+  use DotcomWeb, :controller
 
   import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
 
   require Logger
 
-  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  alias Dotcom.TransitNearMe
+  alias DotcomWeb.ControllerHelpers
+  alias DotcomWeb.ScheduleController.TripInfo, as: Trips
+  alias DotcomWeb.ScheduleController.VehicleLocations, as: Vehicles
+  alias Predictions.Prediction
+  alias Routes.Route
+  alias Schedules.{Schedule, Trip}
+
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+  # How many seconds a departure is considered recent
+  @recent_departure_max_age 600
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
 
   @type react_keys :: :date | :direction | :is_current
   @type react_strings :: [{react_keys, String.t()}]
@@ -32,9 +35,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
           trip: Trip.t() | nil,
           realtime: TransitNearMe.time_data() | nil
         }
-
-  # How many seconds a departure is considered recent
-  @recent_departure_max_age 600
 
   # Leverage the JourneyList module to return a simplified set of trips
   @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()

@@ -2,14 +2,15 @@ defmodule VehicleHelpers do
   @moduledoc """
   Various functions for working on lists of vehicle to show on a map, or render tooltips.
   """
-  alias Vehicles.Vehicle
-  alias Predictions.Prediction
-  alias Routes.{Route, Shape}
-  alias Stops.Stop
-  alias Schedules.Trip
-  alias DotcomWeb.ScheduleController.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
+
+  alias DotcomWeb.ScheduleController.VehicleLocations
+  alias Predictions.Prediction
+  alias Routes.{Route, Shape}
+  alias Schedules.Trip
+  alias Stops.Stop
+  alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 

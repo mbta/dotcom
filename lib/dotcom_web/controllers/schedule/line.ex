@@ -2,16 +2,18 @@ defmodule DotcomWeb.ScheduleController.Line do
   @moduledoc """
   Actions to support rendering lines for a schedule
   """
+
   @behaviour Plug
+
+  import Phoenix.Controller, only: [redirect: 2]
   import Plug.Conn, only: [assign: 3, halt: 1]
   import UrlHelpers, only: [update_url: 2]
-  import Phoenix.Controller, only: [redirect: 2]
 
-  alias Plug.Conn
-  alias Routes.Route
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias DotcomWeb.ScheduleController.Line.Maps
-  alias Stops.{RouteStops, RouteStop}
+  alias Plug.Conn
+  alias Routes.Route
+  alias Stops.{RouteStop, RouteStops}
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1

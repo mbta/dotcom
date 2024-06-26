@@ -1,7 +1,8 @@
 defmodule DotcomWeb.TransitNearMeView do
   use DotcomWeb, :view
-  alias Phoenix.HTML
+
   alias Dotcom.React
+  alias Phoenix.HTML
 
   @spec render_react(map) :: HTML.safe()
   def render_react(assigns) do

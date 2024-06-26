@@ -1,16 +1,16 @@
 defmodule DotcomWeb.ScheduleController.FinderApiTest do
   use DotcomWeb.ConnCase
 
-  @moduletag :external
+  import Mock
 
+  alias DotcomWeb.ScheduleController.FinderApi
   alias Predictions.Prediction
   alias Routes.Route
-  alias Services.Repo, as: ServicesRepo
   alias Schedules.{Schedule, Trip}
-  alias DotcomWeb.ScheduleController.FinderApi
+  alias Services.Repo, as: ServicesRepo
   alias Stops.Stop
 
-  import Mock
+  @moduletag :external
 
   @now Util.now()
   @schedule_time Timex.shift(@now, minutes: 3)

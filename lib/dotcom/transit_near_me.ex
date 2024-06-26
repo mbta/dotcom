@@ -5,15 +5,30 @@ defmodule Dotcom.TransitNearMe do
 
   require Logger
 
+  alias DotcomWeb.ViewHelpers
   alias LocationService.Address
   alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias DotcomWeb.ViewHelpers
   alias Stops.{Nearby, Stop}
   alias Util.Distance
   alias Vehicles.Vehicle
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @default_opts [
+    stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
+    schedules_fn: &Schedules.Repo.schedules_for_stop/2
+  ]
+
+  @stops_without_predictions [
+    "place-lake",
+    "place-clmnl",
+    "place-river",
+    "place-hsmnl"
+  ]
+
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   defstruct stops: [],
             distances: %{},
@@ -72,21 +87,6 @@ defmodule Dotcom.TransitNearMe do
           required(:track) => String.t() | nil,
           required(:schedule_relationship) => Prediction.schedule_relationship()
         }
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
-    schedules_fn: &Schedules.Repo.schedules_for_stop/2
-  ]
-
-  @stops_without_predictions [
-    "place-lake",
-    "place-clmnl",
-    "place-river",
-    "place-hsmnl"
-  ]
-
-  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   @spec build(Address.t(), Keyword.t()) :: stops_with_distances
   def build(%Address{} = location, opts) do

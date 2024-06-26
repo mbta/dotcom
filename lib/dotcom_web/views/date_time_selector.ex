@@ -1,9 +1,12 @@
 defmodule DateTimeSelector do
   @moduledoc "Reusable customizable selector for date and time"
+
   use DotcomWeb, :view
-  alias Phoenix.{HTML.Form}
-  alias DotcomWeb.PartialView.SvgIconWithCircle
+
   import Phoenix.HTML.Tag
+
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Phoenix.{HTML.Form}
 
   @minute_options 0..55
                   |> Enum.filter(&(Integer.mod(&1, 5) == 0))

@@ -1,12 +1,13 @@
 defmodule DotcomWeb.ScheduleController.TimetableController do
   @moduledoc "Handles the Timetable tab for commuter rail routes."
+
   use DotcomWeb, :controller
 
-  alias Plug.Conn
-  alias Routes.Route
-  alias RoutePatterns.RoutePattern
-  alias Stops.Stop
   alias DotcomWeb.ScheduleView
+  alias Plug.Conn
+  alias RoutePatterns.RoutePattern
+  alias Routes.Route
+  alias Stops.Stop
 
   require Logger
 

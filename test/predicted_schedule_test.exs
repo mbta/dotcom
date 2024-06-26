@@ -1,14 +1,14 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: false
 
-  alias Schedules.{Schedule, ScheduleCondensed, Trip}
-  alias Stops.Stop
-  alias Predictions.Prediction
-
-  import PredictedSchedule
   import Mock
   import Mox
+  import PredictedSchedule
   import Test.Support.Factory.Prediction
+
+  alias Predictions.Prediction
+  alias Schedules.{Schedule, ScheduleCondensed, Trip}
+  alias Stops.Stop
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers

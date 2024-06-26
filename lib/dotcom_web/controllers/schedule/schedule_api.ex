@@ -2,13 +2,14 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
   @moduledoc """
     API for retrieving schedules by trip for a service defined by date
   """
+
   use DotcomWeb, :controller
 
-  alias Fares.Format
+  import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
+
+  alias Fares.{Format, OneWay}
   alias Routes.Route
   alias Schedules.Repo
-  alias Fares.{OneWay}
-  import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   def show(conn, %{
         "id" => route_id,

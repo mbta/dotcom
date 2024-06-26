@@ -1,10 +1,12 @@
 defmodule DotcomWeb.Schedule.LineControllerTest do
   use DotcomWeb.ConnCase, async: false
-  @moduletag :external
 
-  alias Services.Service
-  alias DotcomWeb.ScheduleController.LineController
   import Mock
+
+  alias DotcomWeb.ScheduleController.LineController
+  alias Services.Service
+
+  @moduletag :external
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug

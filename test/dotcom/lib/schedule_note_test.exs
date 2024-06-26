@@ -1,8 +1,8 @@
 defmodule Dotcom.ScheduleNoteTest do
   use ExUnit.Case, async: true
 
-  alias Routes.Route
   alias Dotcom.ScheduleNote
+  alias Routes.Route
 
   @red_line %Route{id: "Red"}
   @blue_line %Route{id: "Blue"}

@@ -1,7 +1,8 @@
 defmodule DotcomWeb.ScheduleController.AlertsController do
   use DotcomWeb, :controller
-  alias Routes.Route
+
   alias DotcomWeb.ScheduleView
+  alias Routes.Route
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.ScheduleController.Defaults)

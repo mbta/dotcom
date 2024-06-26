@@ -1,14 +1,14 @@
 defmodule Stops.RouteStopTest do
   use ExUnit.Case, async: false
-  @moduletag :external
 
   import Mock
   import Stops.RouteStop
 
-  alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
+  alias Routes.{Route, Shape}
   alias Stops.{RouteStop, Stop}
 
+  @moduletag :external
   @stop %Stop{name: "Braintree", id: "place-brntn"}
   @green_route %Route{id: "Green", type: 0}
   @green_b_route %Route{id: "Green-B", type: 1}

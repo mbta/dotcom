@@ -2,9 +2,9 @@ defmodule DotcomWeb.ScheduleController.CMSTest do
   use DotcomWeb.ConnCase
 
   alias CMS.Partial.Teaser
+  alias DotcomWeb.ScheduleController.CMS
   alias Plug.Conn
   alias Routes.Route
-  alias DotcomWeb.ScheduleController.CMS
   alias Util.AsyncAssign
 
   describe "call/1" do

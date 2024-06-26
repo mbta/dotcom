@@ -2,29 +2,31 @@ defmodule Dotcom.TripPlan.RelatedLink do
   @moduledoc """
   A link related to a particular itinerary.
   """
-  @type t :: %__MODULE__{
-          text: iodata,
-          url: String.t(),
-          icon_name: icon_name
-        }
-  @type icon_name :: Routes.Route.gtfs_route_type() | Routes.Route.subway_lines_type() | nil
 
-  defstruct text: "",
-            url: "",
-            icon_name: nil
+  # Need a view in order to use the components. Ideally we'd have a separate
+  # module, but that doesn't work at the moment.
+  import DotcomWeb.Router.Helpers
+  import Phoenix.HTML.Link, only: [link: 2]
+
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Routes.Route
+  alias TripPlan.{Itinerary, Leg}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
     route_by_id: &Routes.Repo.get/1
   ]
 
-  import Phoenix.HTML.Link, only: [link: 2]
-  # Need a view in order to use the components. Ideally we'd have a separate
-  # module, but that doesn't work at the moment.
-  import DotcomWeb.Router.Helpers
-  alias TripPlan.{Itinerary, Leg}
-  alias Routes.Route
-  alias DotcomWeb.PartialView.SvgIconWithCircle
+  defstruct text: "",
+            url: "",
+            icon_name: nil
+
+  @type t :: %__MODULE__{
+          text: iodata,
+          url: String.t(),
+          icon_name: icon_name
+        }
+  @type icon_name :: Routes.Route.gtfs_route_type() | Routes.Route.subway_lines_type() | nil
 
   @doc "Returns a new RelatedLink"
   @spec new(text, url, icon_name) :: t when text: iodata, url: String.t()

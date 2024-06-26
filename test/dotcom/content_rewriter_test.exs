@@ -2,12 +2,12 @@ defmodule Dotcom.ContentRewriterTest do
   use DotcomWeb.ConnCase, async: false
 
   import Dotcom.ContentRewriter
-  import Mock
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
+  import Mock
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
 
-  alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Dotcom.ContentRewriters.ResponsiveTables
+  alias DotcomWeb.PartialView.SvgIconWithCircle
 
   describe "rewrite" do
     test "it returns non-table content unchanged", %{conn: conn} do

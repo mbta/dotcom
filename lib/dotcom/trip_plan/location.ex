@@ -1,6 +1,6 @@
 defmodule Dotcom.TripPlan.Location do
-  alias Phoenix.HTML
   alias Dotcom.TripPlan.Query
+  alias Phoenix.HTML
   alias TripPlan.NamedPosition
 
   @location_service Application.compile_env!(:dotcom, :location_service)

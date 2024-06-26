@@ -1,14 +1,14 @@
 defmodule DotcomWeb.StopListViewTest do
   use DotcomWeb.ConnCase, async: true
 
-  import Phoenix.HTML, only: [safe_to_string: 1]
   import DotcomWeb.ScheduleView.StopList
+  import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias CMS.Repo
-  alias Routes.Route
-  alias Schedules.Departures
   alias Dotcom.StopBubble
   alias DotcomWeb.ScheduleView
+  alias Routes.Route
+  alias Schedules.Departures
   alias Stops.RouteStop
 
   @assigns %{

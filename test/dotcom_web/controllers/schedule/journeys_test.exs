@@ -5,10 +5,10 @@ defmodule DotcomWeb.ScheduleController.JourneysTest do
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
   import UrlHelpers, only: [update_url: 2]
 
+  alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
-  alias Predictions.Prediction
 
   @route %Route{id: "86", type: 3, name: "86"}
   @date_time ~N[2017-02-11T22:30:00]

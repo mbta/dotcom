@@ -6,9 +6,9 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   import Test.Support.Factory.Prediction
 
   alias DotcomWeb.ScheduleController.TripInfo
+  alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
-  alias Predictions.Prediction
 
   @time ~N[2017-02-10T20:00:00]
   @date Timex.to_date(@time)

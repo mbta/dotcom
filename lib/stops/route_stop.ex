@@ -18,11 +18,27 @@ defmodule Stops.RouteStop do
   ```
 
   """
-  alias Routes.{Route, Shape}
+
+  alias __MODULE__, as: RouteStop
   alias RoutePatterns.RoutePattern
+  alias Routes.{Route, Shape}
   alias Stops.Stop
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  defstruct [
+    :id,
+    :name,
+    :branch,
+    :station_info,
+    :route,
+    connections: {:error, :not_fetched},
+    zone: {:error, :not_fetched},
+    stop_features: {:error, :not_fetched},
+    terminus?: false,
+    is_beginning?: false,
+    closed_stop_info: nil
+  ]
 
   @type branch_name_t :: String.t() | nil
   @type direction_id_t :: 0 | 1
@@ -40,22 +56,6 @@ defmodule Stops.RouteStop do
           is_beginning?: boolean,
           closed_stop_info: Stop.ClosedStopInfo.t() | nil
         }
-
-  defstruct [
-    :id,
-    :name,
-    :branch,
-    :station_info,
-    :route,
-    connections: {:error, :not_fetched},
-    zone: {:error, :not_fetched},
-    stop_features: {:error, :not_fetched},
-    terminus?: false,
-    is_beginning?: false,
-    closed_stop_info: nil
-  ]
-
-  alias __MODULE__, as: RouteStop
 
   def to_json_safe(%RouteStop{connections: connections, route: route} = map) do
     %{

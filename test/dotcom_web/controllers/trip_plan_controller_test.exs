@@ -1,16 +1,14 @@
 defmodule DotcomWeb.TripPlanControllerTest do
   use DotcomWeb.ConnCase, async: true
 
-  alias Fares.Fare
-  alias Dotcom.TripPlan.Query
-  alias DotcomWeb.TripPlanController
-  alias Test.Support.Factory
-  alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
-
-  doctest DotcomWeb.TripPlanController
-
   import Mox
   import Test.Support.Factory.MbtaApi
+
+  alias Dotcom.TripPlan.Query
+  alias DotcomWeb.TripPlanController
+  alias Fares.Fare
+  alias Test.Support.Factory
+  alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -139,6 +137,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
     start: DateTime.from_unix!(0),
     stop: DateTime.from_unix!(0)
   }
+
+  doctest DotcomWeb.TripPlanController
 
   setup :verify_on_exit!
 

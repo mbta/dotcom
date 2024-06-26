@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
   use DotcomWeb.ConnCase, async: true
 
-  alias DotcomWeb.Plugs.{RecentlyVisited, Cookies}
+  alias DotcomWeb.Plugs.{Cookies, RecentlyVisited}
   alias Routes.Route
 
   describe "call/2" do
