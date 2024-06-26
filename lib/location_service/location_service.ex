@@ -15,23 +15,31 @@ defmodule LocationService do
 
   @behaviour LocationService.Behaviour
 
+  @default_options %{
+    FilterBBox: [-71.9380, 41.3193, -69.6189, 42.8266],
+    MaxResults: 50
+  }
+
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def geocode(address) when is_binary(address) do
-    Request.new(address)
+  def geocode(address, options \\ @default_options) when is_binary(address) do
+    Request.new(address, options)
     |> Result.handle_response(address)
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
-    Request.new([latitude, longitude])
+  def reverse_geocode(latitude, longitude, options \\ @default_options)
+      when is_float(latitude) and is_float(longitude) do
+    Request.new([latitude, longitude], options)
     |> Result.handle_response([latitude, longitude])
   end
 
+  def autocomplete(text, limit, options \\ @default_options)
+
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
-    Request.autocomplete(search, limit)
-    |> Result.handle_response(%{search: search, limit: limit})
+  def autocomplete(text, limit, options) when 1 <= limit and limit <= 15 do
+    Request.autocomplete(text, limit, options)
+    |> Result.handle_response(%{search: text, limit: limit})
   end
 
-  def autocomplete(_, _), do: {:error, :invalid_arguments}
+  def autocomplete(_, _, _), do: {:error, :invalid_arguments}
 end
