@@ -54,7 +54,7 @@ defmodule DotcomWeb.ErrorView do
   #     error_type: "Maintenance",
   #     error_title: "Service change in effect.",
   #     error_description: "This page is down for maintenance.",
-  #     error_instructions: "Please check back after at least 24 hours, or try searching for what you're looking for below."
+  #     error_instructions: "Please check back after at least 24 hours..."
   #   }))
   # end
 
