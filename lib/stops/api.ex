@@ -2,18 +2,13 @@ defmodule Stops.Api do
   @moduledoc """
   Wrapper around the remote stop information service.
   """
+
   require Logger
+
   alias JsonApi.Item
   alias MBTA.Api
   alias Stops.Stop
-  alias Stops.Stop.ParkingLot.{Capacity, Payment, Utilization, Manager}
-
-  @type fare_facility ::
-          :fare_vending_retailer
-          | :fare_vending_machine
-          | :fare_media_assistant
-          | :fare_media_assistance_facility
-          | :ticket_window
+  alias Stops.Stop.ParkingLot.{Capacity, Manager, Payment, Utilization}
 
   @default_params [
     include: "parent_station,facilities,child_stops",
@@ -35,6 +30,13 @@ defmodule Stops.Api do
     fare_media_assistance_facility
     ticket_window
   )a
+
+  @type fare_facility ::
+          :fare_vending_retailer
+          | :fare_vending_machine
+          | :fare_media_assistant
+          | :fare_media_assistance_facility
+          | :ticket_window
 
   @doc """
   Returns a Stop by its GTFS ID.

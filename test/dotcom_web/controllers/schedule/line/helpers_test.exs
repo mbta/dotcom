@@ -3,11 +3,10 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   import Mox
   import Test.Support.Factory.MbtaApi
-  alias Routes.{Route}
-  alias DotcomWeb.ScheduleController.Line.Helpers
-  alias Stops.{RouteStops, RouteStop, Stop}
 
-  doctest Helpers
+  alias DotcomWeb.ScheduleController.Line.Helpers
+  alias Routes.{Route}
+  alias Stops.{RouteStop, RouteStops, Stop}
 
   @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
@@ -18,6 +17,8 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   }
 
   @route_stops %{"1" => [@stop]}
+
+  doctest Helpers
 
   setup :verify_on_exit!
 

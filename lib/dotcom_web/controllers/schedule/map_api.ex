@@ -2,13 +2,14 @@ defmodule DotcomWeb.ScheduleController.MapApi do
   @moduledoc """
     API for retrieving Map data by route and variant
   """
+
   use DotcomWeb, :controller
 
-  alias Leaflet.MapData
-  alias Routes.Route
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias DotcomWeb.ScheduleController.Line.Maps
+  alias Leaflet.MapData
+  alias Routes.Route
 
   @type direction_id :: 0 | 1
 

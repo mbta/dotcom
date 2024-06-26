@@ -1,9 +1,10 @@
 defmodule DotcomWeb.RedirectorTest do
   use DotcomWeb.ConnCase, async: true
+
   import Phoenix.ConnTest, only: [redirected_to: 2]
 
-  alias DotcomWeb.Router.Helpers
   alias DotcomWeb.Redirector
+  alias DotcomWeb.Router.Helpers
 
   test "passes along the redirect path when 'to' is defined" do
     opts = [to: "my-path"]

@@ -1,10 +1,11 @@
 defmodule DotcomWeb.TransitNearMeController do
   use DotcomWeb, :controller
+
+  alias Dotcom.TransitNearMe
+  alias DotcomWeb.PartialView.FullscreenError
+  alias DotcomWeb.TransitNearMeController.Location
   alias Leaflet.{MapData, MapData.Marker}
   alias Plug.Conn
-  alias Dotcom.TransitNearMe
-  alias DotcomWeb.PartialView.{FullscreenError}
-  alias DotcomWeb.TransitNearMeController.Location
   alias Stops.Stop
 
   def index(conn, _params) do

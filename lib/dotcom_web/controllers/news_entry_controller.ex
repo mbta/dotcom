@@ -3,9 +3,9 @@ defmodule DotcomWeb.NewsEntryController do
 
   alias CMS.Page.NewsEntry
   alias CMS.Repo
-  alias Plug.Conn
   alias Dotcom.Pagination
   alias DotcomWeb.ControllerHelpers
+  alias Plug.Conn
 
   def index(conn, params) do
     page = current_page(params)

@@ -4,9 +4,11 @@ defmodule Util.Distance do
   Helper functions for working with distances between Util.Position items.
 
   """
-  alias Util.Position
-  alias Fares.ProposedLocations.Location
+
   import Util.Position
+
+  alias Fares.ProposedLocations.Location
+  alias Util.Position
 
   @degrees_to_radians :math.pi() / 180
   # mean diameter in miles

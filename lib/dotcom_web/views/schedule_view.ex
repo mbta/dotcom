@@ -1,21 +1,20 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
+
   use DotcomWeb, :view
 
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
 
-  require Routes.Route
-
   alias CMS.Partial.RoutePdf
+  alias Dotcom.MapHelpers
+  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Dotcom.MapHelpers
-  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
   alias Stops.Stop
 
-  defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
+  require Routes.Route
 
   @subway_order [
     "Red",
@@ -27,6 +26,8 @@ defmodule DotcomWeb.ScheduleView do
     "Blue",
     "Mattapan"
   ]
+
+  defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
   @spec template_for_tab(String.t()) :: String.t()
   @doc "Returns the template for the selected tab."

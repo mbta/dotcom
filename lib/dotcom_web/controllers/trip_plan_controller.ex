@@ -4,12 +4,19 @@ defmodule DotcomWeb.TripPlanController do
   """
 
   use DotcomWeb, :controller
-  require Logger
+
+  alias Dotcom.TripPlan.{ItineraryRow, ItineraryRowList, Query, RelatedLink}
+  alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias Fares.{Fare, Month, OneWay}
   alias Routes.Route
-  alias Dotcom.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
-  alias Dotcom.TripPlan.Map, as: TripPlanMap
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, Transfer, TransitDetail}
+
+  require Logger
+
+  @type route_map :: %{optional(Route.id_t()) => Route.t()}
+  @type route_mapper :: (Route.id_t() -> Route.t() | nil)
+
+  @location_service Application.compile_env!(:dotcom, :location_service)
 
   plug(:assign_initial_map)
   plug(:breadcrumbs)
@@ -17,11 +24,6 @@ defmodule DotcomWeb.TripPlanController do
   plug(:wheelchair)
   plug(:meta_description)
   plug(:assign_params)
-
-  @type route_map :: %{optional(Route.id_t()) => Route.t()}
-  @type route_mapper :: (Route.id_t() -> Route.t() | nil)
-
-  @location_service Application.compile_env!(:dotcom, :location_service)
 
   def index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
     conn

@@ -1,13 +1,13 @@
 defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   use DotcomWeb.ChannelCase, async: false
 
-  alias Leaflet.MapData.Marker
-  alias DotcomWeb.{VehicleMapMarkerChannel, UserSocket}
-  alias Vehicles.Vehicle
-
   import Mock
   import Mox
   import Test.Support.Factory.MbtaApi
+
+  alias DotcomWeb.{UserSocket, VehicleMapMarkerChannel}
+  alias Leaflet.MapData.Marker
+  alias Vehicles.Vehicle
 
   @vehicles [
     %Vehicle{

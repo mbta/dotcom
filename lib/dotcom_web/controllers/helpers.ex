@@ -5,10 +5,10 @@ defmodule DotcomWeb.ControllerHelpers do
   import Phoenix.Controller, only: [render: 3, put_view: 2, put_layout: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
+  alias DotcomWeb.CMSController
   alias Phoenix.Controller
   alias Plug.Conn
   alias Routes.{Group, Route}
-  alias DotcomWeb.CMSController
   alias Timex.Format.DateTime.Formatters.Strftime
 
   @req Application.compile_env!(:dotcom, :req_module)

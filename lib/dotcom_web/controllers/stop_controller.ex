@@ -2,31 +2,32 @@ defmodule DotcomWeb.StopController do
   @moduledoc """
   Page for display of information about in individual stop or station.
   """
+
   use DotcomWeb, :controller
 
   alias Alerts.Alert
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
-  alias Plug.Conn
-  alias Leaflet.MapData.Polyline
   alias Dotcom.JsonHelpers
-  alias Routes.{Group, Route}
-  alias RoutePatterns.RoutePattern
-  alias Services.Service
   alias Dotcom.TransitNearMe
+  alias Leaflet.MapData.Polyline
+  alias Plug.Conn
+  alias RoutePatterns.RoutePattern
+  alias Routes.{Group, Route}
+  alias Services.Service
   alias Stops.Stop
   alias Util.AndOr
+
+  @type routes_map_t :: %{
+          group_name: atom,
+          routes: [route_with_directions]
+        }
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
-
-  @type routes_map_t :: %{
-          group_name: atom,
-          routes: [route_with_directions]
-        }
 
   def index(conn, _params) do
     redirect(conn, to: stop_path(conn, :show, :subway))

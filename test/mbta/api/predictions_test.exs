@@ -3,7 +3,7 @@ defmodule MBTA.Api.PredictionsTest do
 
   import Mox
 
-  alias MBTA.Api.{Predictions, Mock}
+  alias MBTA.Api.{Mock, Predictions}
 
   setup :set_mox_global
   setup :verify_on_exit!

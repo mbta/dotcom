@@ -3,8 +3,9 @@ defmodule DotcomWeb.ScheduleView.StopList do
   Functions likely associated with an earlier version of the schedules page,
   which manage to still be invoked in other pages.
   """
-  alias DotcomWeb.ViewHelpers
+
   alias Dotcom.StopBubble
+  alias DotcomWeb.ViewHelpers
 
   @spec stop_bubble_row_params(map(), boolean) :: [StopBubble.Params.t()]
   def stop_bubble_row_params(assigns, first_stop? \\ true) do

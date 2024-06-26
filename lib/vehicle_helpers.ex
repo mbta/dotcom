@@ -2,22 +2,23 @@ defmodule VehicleHelpers do
   @moduledoc """
   Various functions for working on lists of vehicle to show on a map, or render tooltips.
   """
-  alias Vehicles.Vehicle
-  alias Predictions.Prediction
-  alias Routes.{Route, Shape}
-  alias Stops.Stop
-  alias Schedules.Trip
-  alias DotcomWeb.ScheduleController.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  alias DotcomWeb.ScheduleController.VehicleLocations
+  alias Predictions.Prediction
+  alias Routes.{Route, Shape}
+  alias Schedules.Trip
+  alias Stops.Stop
+  alias Vehicles.Vehicle
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
   @type tooltip_index :: %{
           optional({Trip.id_t() | nil, Stop.id_t()}) => VehicleTooltip.t(),
           optional(Stop.id_t()) => VehicleTooltip.t()
         }
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @doc """
   There are multiple places where vehicle tooltips are used. This function is called from the controller to

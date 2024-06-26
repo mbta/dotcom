@@ -1,9 +1,9 @@
 defmodule DotcomWeb.StopViewTest do
-  use ExUnit.Case
   use DotcomWeb.ConnCase
+  use ExUnit.Case
 
-  alias Phoenix.HTML
   alias DotcomWeb.StopView
+  alias Phoenix.HTML
   alias Stops.Stop
 
   describe "feature_icons/1" do

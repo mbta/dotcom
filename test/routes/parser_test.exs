@@ -2,8 +2,9 @@ defmodule Routes.ParserTest do
   use ExUnit.Case, async: true
 
   import Routes.Parser
-  alias Routes.Shape
+
   alias JsonApi.Item
+  alias Routes.Shape
 
   describe "parse_route/1" do
     test "does not pick an empty name for bus routes" do

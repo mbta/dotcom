@@ -7,9 +7,10 @@ defmodule Dotcom.TripPlan.Alerts do
   * at the stops they'll be interacting with
   * at the times they'll be travelling
   """
-  alias TripPlan.{Itinerary, Leg, TransitDetail}
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
+  alias TripPlan.{Itinerary, Leg, TransitDetail}
 
   @default_opts [
     route_by_id: &Routes.Repo.get/1,

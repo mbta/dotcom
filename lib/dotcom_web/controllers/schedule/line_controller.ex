@@ -2,13 +2,14 @@ defmodule DotcomWeb.ScheduleController.LineController do
   @moduledoc "Handles the page that shows the map and line diagram for a given route."
 
   use DotcomWeb, :controller
+
+  alias Dotcom.ScheduleNote
+  alias DotcomWeb.{ScheduleView, ViewHelpers}
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.{Group, Route}
   alias Services.Repo, as: ServicesRepo
   alias Services.Service
-  alias Dotcom.ScheduleNote
-  alias DotcomWeb.{ScheduleView, ViewHelpers}
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)

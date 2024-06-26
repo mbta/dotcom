@@ -2,11 +2,10 @@ defmodule DotcomWeb.PageViewTest do
   use Dotcom.ViewCase, async: true
 
   alias CMS.Field.{Image, Link}
-  alias CMS.Partial.Banner
-  alias CMS.Partial.Teaser
+  alias CMS.Partial.{Banner, Teaser}
+  alias DotcomWeb.PageView
   alias Phoenix.HTML
   alias Plug.Conn
-  alias DotcomWeb.PageView
 
   describe "banners" do
     test "renders _banner.html for important banners" do
@@ -79,8 +78,8 @@ defmodule DotcomWeb.PageViewTest do
   end
 
   describe "alerts/1" do
-    alias Alerts.InformedEntitySet, as: IESet
     alias Alerts.Alert
+    alias Alerts.InformedEntitySet, as: IESet
 
     @tag :external
     test "renders properly" do

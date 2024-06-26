@@ -3,27 +3,27 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   Provides JSON endpoints for retrieving line diagram data.
   """
 
-  require Logger
-
   use DotcomWeb, :controller
 
-  alias DotcomWeb.Plugs.DateInRating
-  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleTooltips, VehicleLocations}
   alias Dotcom.TransitNearMe
+  alias DotcomWeb.Plugs.DateInRating
+  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleLocations, VehicleTooltips}
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Stop
   alias Vehicles.Vehicle
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  require Logger
 
-  @typep simple_vehicle :: %{
-           id: String.t(),
-           headsign: String.t() | nil,
-           status: String.t(),
-           trip_name: String.t() | nil,
-           crowding: Vehicle.crowding() | nil,
-           tooltip: String.t()
-         }
+  @type simple_vehicle :: %{
+          id: String.t(),
+          headsign: String.t() | nil,
+          status: String.t(),
+          trip_name: String.t() | nil,
+          crowding: Vehicle.crowding() | nil,
+          tooltip: String.t()
+        }
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => route_id, "direction_id" => direction_id_str}) do
