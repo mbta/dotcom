@@ -10,13 +10,15 @@ defmodule Telemetry.Helper do
 
   You can pass in a filter so that you only see telemetry events for a specific module.
   E.g., if you want to see all telemetry events for Phoenix you can pass in `[:phoenix]`.
-  For more specific events you can pass in more specific names like `[:phoenix, :router_dispatch]` or `[:phoenix, :router_dispatch, :stop]`.
+  For more specific events you can pass in more specific names like `[:phoenix, :router_dispatch]`
+  or `[:phoenix, :router_dispatch, :stop]`.
   """
   def attach(filter \\ nil) do
     # Start the tracer
     :dbg.start()
 
-    # Create tracer process with a function that pattern matches out the three arguments the telemetry calls are made with.
+    # Create tracer process with a function that pattern matches out the three arguments the
+    # telemetry calls are made with.
     :dbg.tracer(
       :process,
       {

@@ -1,22 +1,6 @@
 defmodule Stops.RouteStop do
   @moduledoc """
-  A helper module for generating some contextual information about stops on a route. RouteStops contain
-  the following information:
-  ```
-    # RouteStop info for South Station on the Red Line (direction_id: 0)
-    %Stops.RouteStop{
-      id: "place-sstat",                                  # The id that the stop is typically identified by (i.e. the parent stop's id)
-      name: "South Station"                               # Stop's display name
-      zone: "1A"                                          # Commuter rail zone (will be nil if stop doesn't have CR routes)
-      route: %Route{id: "Red"...}                         # The full Route for the parent route
-      branch: nil                                         # Name of the branch that this stop is on for this route. will be nil unless the stop is actually on a branch.
-      station_info: %Stop{id: "place-sstat"...}           # Full Stops.Stop struct for the parent stop.
-
-      stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
-      terminus?: false                                 # Whether this is either the first or last stop on the route.
-    }
-  ```
-
+  A helper module for generating some contextual information about stops on a route.
   """
 
   alias __MODULE__, as: RouteStop
@@ -44,17 +28,25 @@ defmodule Stops.RouteStop do
   @type direction_id_t :: 0 | 1
 
   @type t :: %__MODULE__{
+          # The id that the stop is typically identified by (i.e. the parent stop's id)
           id: Stop.id_t(),
-          name: String.t(),
-          zone: String.t() | {:error, :not_fetched},
+          # Name of the branch that this stop is on for this route, if on one.
           branch: branch_name_t,
-          station_info: Stop.t(),
-          route: Route.t() | nil,
+          closed_stop_info: Stop.ClosedStopInfo.t() | nil,
           connections: [Route.t()] | {:error, :not_fetched},
-          stop_features: [Stops.Repo.Behaviour.stop_feature()] | {:error, :not_fetched},
-          terminus?: boolean,
           is_beginning?: boolean,
-          closed_stop_info: Stop.ClosedStopInfo.t() | nil
+          # Stop's display name
+          name: String.t(),
+          # The full Route for the parent route
+          route: Route.t() | nil,
+          # Full Stops.Stop struct for the parent stop.
+          station_info: Stop.t(),
+          # Display icons.
+          stop_features: [Stops.Repo.Behaviour.stop_feature()] | {:error, :not_fetched},
+          # Whether this is either the first or last stop on the route.
+          terminus?: boolean,
+          # Commuter rail zone (will be nil if stop doesn't have CR routes)
+          zone: String.t() | {:error, :not_fetched}
         }
 
   def to_json_safe(%RouteStop{connections: connections, route: route} = map) do
@@ -66,7 +58,9 @@ defmodule Stops.RouteStop do
   end
 
   @doc """
-  Given a list of route patterns with stops and a route, generates a list of RouteStops representing all stops on that route. If the route has branches, the branched stops appear grouped together in order as part of the list.
+  Given a list of route patterns with stops and a route,
+  generates a list of RouteStops representing all stops on that route.
+  If the route has branches, the branched stops appear grouped together in order as part of the list.
   """
   @spec list_from_route_patterns(
           [{RoutePattern.t(), [Stop.t()]}],
@@ -90,7 +84,8 @@ defmodule Stops.RouteStop do
         _direction_id,
         use_route_id_for_branch_name?
       ) do
-    # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &merge_branch_list/2.
+    # If there is only one route pattern, we know that we won't need to deal with merging branches.
+    # We just return whatever the list of stops is without calling &merge_branch_list/2.
     list_from_route_pattern(
       route_pattern_with_stops,
       route,
@@ -155,8 +150,9 @@ defmodule Stops.RouteStop do
   defp branch_name(%RoutePattern{name: name}, false), do: name
 
   @doc """
-  Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
-  the branched stops appear grouped together in order as part of the list.
+  Given a route and a list of that route's shapes,
+  generates a list of RouteStops representing all stops on that route.
+  If the route has branches, the branched stops appear grouped together in order as part of the list.
   """
   @spec list_from_shapes([Shape.t()], [Stop.t()], Route.t(), direction_id_t) ::
           [RouteStop.t()]
