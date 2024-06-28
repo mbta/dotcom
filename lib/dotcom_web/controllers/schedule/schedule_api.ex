@@ -73,7 +73,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
       fn trip_id ->
         services_by_trip[trip_id]
         |> List.first()
-        |> (fn sched -> sched.time end).()
+        |> Map.get(:time)
       end,
       &date_sorter/2
     )

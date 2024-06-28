@@ -68,7 +68,7 @@ defmodule Dotcom.TripPlan.Map do
 
     polyline
     |> Polyline.decode()
-    |> (fn line -> Enum.concat([[from], line, [to]]) end).()
+    |> Kernel.then(fn line -> Enum.concat([[from], line, [to]]) end)
     |> Polyline.encode()
   end
 
