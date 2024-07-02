@@ -9,6 +9,8 @@ defmodule AlertsTest do
 
   setup :verify_on_exit!
 
+  @now Timex.now()
+
   describe "new/1" do
     test "with no params, returns a default struct" do
       assert new() == %Alert{}

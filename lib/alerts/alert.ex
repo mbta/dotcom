@@ -45,7 +45,7 @@ defmodule Alerts.Alert do
     :station_closure,
     :detour
   ]
-  
+
   @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
 
   defstruct id: "",
