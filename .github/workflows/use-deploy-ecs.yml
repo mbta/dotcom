@@ -19,7 +19,7 @@ on:
       docker-repo:
         required: true
         description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
-    outputs: 
+    outputs:
       deployment-env:
         value: ${{ jobs.deploy.outputs.deployment-env }}
         description: "The environment that was deployed to"
@@ -94,12 +94,26 @@ jobs:
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
-      - uses: mbta/actions/deploy-ecs@v2
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition dotcom-${{ inputs.deployment-env }}-template --query taskDefinition > task-definition.json
+
+      - name: Render Amazon ECS task definition
+        id: render-web-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          role-to-assume: ${{ secrets.aws-role-arn }}
-          ecs-cluster: dotcom
-          ecs-service: dotcom-${{ inputs.deployment-env }}
-          docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          task-definition: task-definition.json
+          container-name: dotcom
+          image: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+
+      - name: Deploy to Amazon ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-web-container.outputs.task-definition }}
+          service: dotcom-${{ inputs.deployment-env }}
+          cluster: dotcom
+          wait-for-service-stability: true
+
   smoke:
     runs-on: ubuntu-latest
     needs: deploy
