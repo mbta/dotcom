@@ -41,26 +41,18 @@ defmodule Fares do
 
   @doc """
   Calculate the fare between a pair of stops.
-
-  NB: origin and destination can be Stop IDs or names.
   """
   @spec fare_for_stops(
           :commuter_rail | :ferry,
-          String.t(),
-          String.t(),
-          String.t() | Trip.t() | nil
+          Stop.id_t(),
+          Stop.id_t()
         ) ::
           {:ok, Fares.Fare.fare_name()}
           | :error
-  def fare_for_stops(route_type_atom, origin, destination, trip_details \\ nil)
-
-  def fare_for_stops(:commuter_rail, origin, destination, trip_details) do
-    with origin_zone when not is_nil(origin_zone) <- zone_for_stop(origin),
-         dest_zone when not is_nil(dest_zone) <- zone_for_stop(destination) do
+  def fare_for_stops(:commuter_rail, origin_id, destination_id) do
+    with origin_zone when not is_nil(origin_zone) <- zone_for_stop(origin_id),
+         dest_zone when not is_nil(dest_zone) <- zone_for_stop(destination_id) do
       cond do
-        foxboro_pilot?(trip_details) ->
-          {:ok, calculate_foxboro_zones(origin_zone, dest_zone)}
-
         combo_zone?(origin_zone) ->
           {:ok, calculate_combo(origin_zone, dest_zone, destination)}
 
@@ -75,7 +67,7 @@ defmodule Fares do
     end
   end
 
-  def fare_for_stops(:ferry, origin, destination, _) do
+  def fare_for_stops(:ferry, origin, destination) do
     {:ok, calculate_ferry(origin, destination)}
   end
 
@@ -112,18 +104,6 @@ defmodule Fares do
     general_combo_zone = general_zone(combo_zone)
     general_other_zone = general_zone(other_zone)
     calculate_commuter_rail(general_combo_zone, general_other_zone)
-  end
-
-  def calculate_foxboro_zones(start_zone, "1A") when start_zone != "1A" do
-    calculate_commuter_rail(start_zone, "1")
-  end
-
-  def calculate_foxboro_zones("1A", end_zone) when end_zone != "1A" do
-    calculate_commuter_rail("1", end_zone)
-  end
-
-  def calculate_foxboro_zones(start_zone, end_zone) do
-    calculate_commuter_rail(start_zone, end_zone)
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
@@ -170,12 +150,6 @@ defmodule Fares do
   defp calculate_ferry(_origin, _destination) do
     :commuter_ferry
   end
-
-  @spec foxboro_pilot?(Trip.t() | nil) :: boolean
-  defp foxboro_pilot?(%Trip{name: id, id: "CR-Weekday-Fall-19" <> _}),
-    do: id in @foxboro_reverse_commute_set
-
-  defp foxboro_pilot?(_), do: false
 
   @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
   def silver_line_rapid_transit?(<<id::binary>>),

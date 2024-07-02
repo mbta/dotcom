@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   use DotcomWeb, :controller
 
-  import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
+  import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 3]
 
   require Logger
 
@@ -19,10 +19,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-
-  import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
-
-  require Logger
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   # How many seconds a departure is considered recent
@@ -413,11 +409,9 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   defp add_computed_fares_to_trip_info(trip_info, route) do
     origin = List.first(trip_info.times)
-    trip = PredictedSchedule.trip(origin)
     stop = PredictedSchedule.stop(origin)
 
     fare_params = %{
-      trip: trip,
       route: route,
       origin: stop.id,
       destination: trip_info.destination_id
@@ -449,7 +443,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   defp compute_fare(fare_params) do
     fares_for_service(
       fare_params.route,
-      fare_params.trip,
       fare_params.origin,
       fare_params.destination
     )

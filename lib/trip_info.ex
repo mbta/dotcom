@@ -94,9 +94,8 @@ defmodule TripInfo do
        )
        when is_binary(origin_id) and is_binary(destination_id) do
     route = PredictedSchedule.route(time)
-    trip = PredictedSchedule.trip(time)
     duration = duration(times, origin_id)
-    base_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
+    base_fare = OneWay.recommended_fare(route, origin_id, destination_id)
 
     %TripInfo{
       route: route,

@@ -98,7 +98,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
     |> Enum.map(
       &Map.merge(
         &1,
-        fares_for_service(origin.route, origin.trip, origin.stop.id, &1.stop.id)
+        fares_for_service(origin.route, origin.stop.id, &1.stop.id)
       )
     )
   end
@@ -149,10 +149,10 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
     %{schedules: time_formatted_schedules, duration: duration}
   end
 
-  @spec fares_for_service(map, map, String.t(), String.t()) :: map
-  def fares_for_service(route, trip, origin, destination) do
+  @spec fares_for_service(map, String.t(), String.t()) :: map
+  def fares_for_service(route, origin, destination) do
     %{
-      price: route |> OneWay.recommended_fare(trip, origin, destination) |> Format.price(),
+      price: route |> OneWay.recommended_fare(origin, destination) |> Format.price(),
       fare_link:
         fare_link(
           Route.type_atom(route.type),

@@ -1,12 +1,21 @@
 defmodule Fares.MonthTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   alias Fares.{Fare, Month}
   alias Routes.Route
-  alias Schedules.Trip
+
+  import Mox
 
   @default_filters [reduced: nil, duration: :month]
+
+  setup :verify_on_exit!
+
+  setup do
+    stub(Routes.Repo.Mock, :get, fn id -> %Route{id: id} end)
+    stub(Stops.Repo.Mock, :get, fn id -> %Stops.Stop{id: id} end)
+
+    :ok
+  end
 
   describe "nil route" do
     test "returns nil if no route is provided" do
@@ -32,29 +41,13 @@ defmodule Fares.MonthTest do
     test "returns a reduced month pass" do
       fare_fn = fn [reduced: :any, duration: :month, mode: :subway] -> @reduced_fares end
 
-      assert %Fare{cents: 3_000} = Month.reduced_pass(%Route{type: 0}, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 3_000} = Month.reduced_pass(%Route{type: 0}, nil, nil, fare_fn)
     end
 
     test "accepts a Route ID" do
       fare_fn = fn [reduced: :any, duration: :month, mode: :subway] -> @reduced_fares end
-
-      assert %Fare{cents: 3_000} = Month.reduced_pass("Red", nil, nil, nil, fare_fn)
-    end
-
-    test "accepts a Trip ID" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      trip_id = "CR-Weekday-Fall-19-751"
-
-      assert %Fares.Fare{
-               additional_valid_modes: [:subway, :bus, :ferry],
-               cents: 13_600,
-               duration: :month,
-               media: [:senior_card, :student_card],
-               mode: :commuter_rail,
-               name: {:zone, "4"},
-               price_label: nil,
-               reduced: :any
-             } = Month.reduced_pass(route, trip_id, "place-sstat", "place-PB-0194")
+      route_id = Faker.Internet.slug()
+      assert %Fare{cents: 3_000} = Month.reduced_pass(route_id, nil, nil, fare_fn)
     end
   end
 
@@ -77,15 +70,16 @@ defmodule Fares.MonthTest do
     test "returns the lowest and highest month pass fares that are not discounted" do
       fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
 
-      assert %Fare{cents: 9_000} = Month.recommended_pass(@subway_route, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass(@subway_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(@subway_route, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(@subway_route, nil, nil, fare_fn)
     end
 
     test "accepts a Route ID" do
+      route_id = Faker.Internet.slug()
       fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
 
-      assert %Fare{cents: 9_000} = Month.recommended_pass("Red", nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass("Red", nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(route_id, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(route_id, nil, nil, fare_fn)
     end
   end
 
@@ -120,8 +114,8 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fare{cents: 5_500} = Month.recommended_pass(local_route, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.base_pass(local_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(local_route, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(local_route, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest month pass fares that are not discounted for the express bus" do
@@ -131,9 +125,9 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
-      assert %Fare{cents: 13_600} = Month.recommended_pass(express_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 13_600} = Month.recommended_pass(express_route, nil, nil, fare_fn)
 
-      assert %Fare{cents: 13_600} = Month.base_pass(express_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 13_600} = Month.base_pass(express_route, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway pass fares for the SL1, SL2, and SL3 routes" do
@@ -145,12 +139,12 @@ defmodule Fares.MonthTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fare{cents: 9_000} = Month.recommended_pass(sl1, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass(sl1, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.recommended_pass(sl2, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass(sl2, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.recommended_pass(sl3, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass(sl3, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl1, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl1, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl2, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl2, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl3, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl3, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest bus pass fares for the SL4 and SL5 routes" do
@@ -161,18 +155,18 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fare{cents: 5_500} = Month.recommended_pass(sl4, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.base_pass(sl4, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.recommended_pass(sl5, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.base_pass(sl5, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(sl4, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(sl4, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(sl5, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(sl5, nil, nil, fare_fn)
     end
   end
 
   describe "commuter rail" do
     test "returns the lowest and highest one-way fares that are not discounted for a trip originating in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "place-north"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:zone, "7"}] ->
         [
@@ -199,17 +193,25 @@ defmodule Fares.MonthTest do
         ]
       end
 
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
+
       assert %Fare{cents: 35_000} =
-               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
       assert %Fare{cents: 36_000} =
-               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.base_pass(route, origin_id, destination_id, fare_fn)
     end
 
     test "returns the lowest and highest one-way fares that are not discounted for a trip terminating in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "Ballardvale"
-      destination_id = "place-north"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:zone, "4"}] ->
         [
@@ -236,17 +238,25 @@ defmodule Fares.MonthTest do
         ]
       end
 
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
+
       assert %Fare{cents: 27_100} =
-               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
 
       assert %Fare{cents: 28_100} =
-               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.base_pass(route, origin_id, destination_id, fare_fn)
     end
 
     test "returns an interzone fares that are not discounted for a trip that does not originate/terminate in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "Ballardvale"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:interzone, "4"}] ->
         [
@@ -273,34 +283,19 @@ defmodule Fares.MonthTest do
         ]
       end
 
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
+
       assert %Fare{cents: 12_900} =
-               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
       assert %Fare{cents: 13_900} =
-               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
-    end
-
-    test "returns zone-based fares for standard trips on Foxboro pilot" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      trip_1 = %Trip{name: "751", id: "CR-Weekday-Fall-19-751"}
-      trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
-
-      assert %Fare{name: {:zone, "4"}} =
-               Month.recommended_pass(route, trip_1, "place-sstat", "place-PB-0194")
-
-      assert %Fare{name: {:interzone, "3"}} =
-               Month.recommended_pass(route, trip_2, "place-FB-0118", "place-PB-0194")
-    end
-
-    test "accepts a Trip ID" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      trip_id = "CR-Weekday-Fall-19-751"
-
-      assert %Fare{name: {:zone, "4"}} =
-               Month.recommended_pass(route, trip_id, "place-sstat", "place-PB-0194")
-
-      assert %Fare{name: {:zone, "4"}} =
-               Month.base_pass(route, trip_id, "place-sstat", "place-PB-0194")
+               Month.base_pass(route, origin_id, destination_id, fare_fn)
     end
 
     test "returns nil if no matching fares found" do
@@ -310,7 +305,7 @@ defmodule Fares.MonthTest do
 
       fare_fn = fn _ -> [] end
 
-      assert Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn) == nil
+      assert Month.recommended_pass(route, origin_id, destination_id, fare_fn) == nil
     end
   end
 
@@ -346,9 +341,9 @@ defmodule Fares.MonthTest do
       end
 
       assert %Fare{cents: 8_000} =
-               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, origin_id, destination_id, fare_fn)
 
-      assert %Fare{cents: 9_000} = Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(route, origin_id, destination_id, fare_fn)
     end
   end
 end
