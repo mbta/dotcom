@@ -6,7 +6,6 @@ defmodule Fares do
   """
 
   alias Routes.Route
-  alias Schedules.Trip
   alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -17,11 +16,6 @@ defmodule Fares do
 
   @express_routes ~w(170 325 326 352 354 426 428 434 450 459 501 502 503 504 505)
   @express_route_set MapSet.new(@express_routes)
-
-  @foxboro_reverse_commute ~w(741 743 745 750 752 754 756)
-  @foxboro_reverse_commute_set MapSet.new(@foxboro_reverse_commute)
-
-  @terminus_stops ["place-sstat", "place-north", "North Station", "South Station"]
 
   # For the time being, these stops are ONLY served by the Winthrop Ferry
   @winthrop_ferry_stops ["Boat-Aquarium", "Boat-Fan", "Boat-Quincy", "Boat-Winthrop"]
@@ -52,16 +46,7 @@ defmodule Fares do
   def fare_for_stops(:commuter_rail, origin_id, destination_id) do
     with origin_zone when not is_nil(origin_zone) <- zone_for_stop(origin_id),
          dest_zone when not is_nil(dest_zone) <- zone_for_stop(destination_id) do
-      cond do
-        combo_zone?(origin_zone) ->
-          {:ok, calculate_combo(origin_zone, dest_zone, destination)}
-
-        combo_zone?(dest_zone) ->
-          {:ok, calculate_combo(dest_zone, origin_zone, origin)}
-
-        true ->
-          {:ok, calculate_commuter_rail(origin_zone, dest_zone)}
-      end
+      {:ok, calculate_commuter_rail(origin_zone, dest_zone)}
     else
       _ -> :error
     end
@@ -73,7 +58,7 @@ defmodule Fares do
 
   defp zone_for_stop(stop_id) do
     case @stops_repo.get(stop_id) do
-      %{zone: zone} -> zone
+      %Stops.Stop{zone: zone} -> zone
       _ -> nil
     end
   end
@@ -92,18 +77,6 @@ defmodule Fares do
     total_zones = abs(String.to_integer(start_zone) - String.to_integer(end_zone)) + 1
 
     {:interzone, "#{total_zones}"}
-  end
-
-  @spec calculate_combo(zone, zone, Stop.id_t()) :: {:interzone, binary} | {:zone, any}
-  defp calculate_combo(combo_zone, _other_zone, other_stop_id)
-       when other_stop_id in @terminus_stops do
-    {:zone, terminus_zone(combo_zone)}
-  end
-
-  defp calculate_combo(combo_zone, other_zone, _other_stop_id) do
-    general_combo_zone = general_zone(combo_zone)
-    general_other_zone = general_zone(other_zone)
-    calculate_commuter_rail(general_combo_zone, general_other_zone)
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
@@ -203,27 +176,5 @@ defmodule Fares do
       Access.key(:fares, %{}),
       Access.key(fare_type)
     ])
-  end
-
-  defp combo_zone?(zone), do: String.contains?(zone, "-")
-
-  defp terminus_zone(zone) do
-    if combo_zone?(zone) do
-      zone
-      |> String.split("-")
-      |> List.first()
-    else
-      zone
-    end
-  end
-
-  defp general_zone(zone) do
-    if combo_zone?(zone) do
-      zone
-      |> String.split("-")
-      |> List.last()
-    else
-      zone
-    end
   end
 end
