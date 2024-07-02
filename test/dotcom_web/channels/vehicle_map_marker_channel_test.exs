@@ -7,6 +7,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
   alias DotcomWeb.{UserSocket, VehicleMapMarkerChannel}
   alias Leaflet.MapData.Marker
+  alias Test.Support.Factories
   alias Vehicles.Vehicle
 
   @vehicles [

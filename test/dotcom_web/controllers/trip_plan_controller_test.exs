@@ -2,7 +2,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
   use DotcomWeb.ConnCase, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
 
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController

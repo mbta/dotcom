@@ -7,7 +7,7 @@ defmodule DotcomWeb.TripPlanController do
 
   require Logger
 
-  alias Dotcom.TripPlan.{ItineraryRow, ItineraryRowList, Query, RelatedLink}
+  alias Dotcom.TripPlan.{ItineraryRowList, Query, RelatedLink}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias Fares.{Fare, Month, OneWay}
   alias Routes.Route

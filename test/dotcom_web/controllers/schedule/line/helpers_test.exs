@@ -2,15 +2,11 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
 
-  alias Routes.{Route}
   alias DotcomWeb.ScheduleController.Line.Helpers
   alias Routes.Route
-  alias Stops.{RouteStops, RouteStop, Stop}
-  alias DotcomWeb.ScheduleController.Line.Helpers
-  alias Routes.{Route}
   alias Stops.{RouteStop, RouteStops, Stop}
+  alias Test.Support.Factories
 
   @stop %Stop{
     id: "110",
