@@ -3,11 +3,11 @@ defmodule TripPlan.ItineraryRowTest do
 
   import Dotcom.TripPlan.ItineraryRow
   import Mox
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias TripPlan.{Leg, NamedPosition, PersonalDetail}
+  alias TripPlan.NamedPosition
 
   setup :verify_on_exit!
 
@@ -327,10 +327,10 @@ defmodule TripPlan.ItineraryRowTest do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
         cond do
           String.contains?(path, "trips") ->
-            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:trip_item)]}
 
           String.contains?(path, "routes") ->
-            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:route_item)]}
 
           true ->
             %JsonApi{data: []}
@@ -350,15 +350,21 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "formats transfer steps differently based on subsequent Leg" do
-      leg = %Leg{
-        @personal_leg
-        | mode: %PersonalDetail{
-            steps: [
-              %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
-              | @personal_leg.mode.steps
-            ]
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
+      leg =
+        build(
+          :leg,
+          %{
+            mode:
+              build(
+                :personal_detail,
+                %{steps: [build(:step, %{relative_direction: :depart, street_name: "Transfer"})]}
+              )
           }
-      }
+        )
 
       %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @deps, @personal_leg)
       %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @deps, @transit_leg)

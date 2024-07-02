@@ -1,7 +1,7 @@
 defmodule TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
 
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
   import TripPlan.Itinerary
 
   alias TripPlan.{Leg, PersonalDetail, TransitDetail}

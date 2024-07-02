@@ -1,4 +1,4 @@
-defmodule Test.Support.Factory.LocationService do
+defmodule Test.Support.Factories.LocationService do
   @moduledoc """
   Data generation for LocationService outputs.
   """

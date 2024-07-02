@@ -8,6 +8,12 @@ defmodule Alerts.PriorityTest do
 
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
+  describe "priority_levels/0" do
+    test "returns a list" do
+      assert is_list(priority_levels())
+    end
+  end
+
   describe "priority/2" do
     test "Delay alerts are low if severity is under 5 and the route type is bus and the cause is traffic" do
       alert = %Alert{

@@ -1,9 +1,10 @@
-defmodule Test.Support.Factory do
+defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   @moduledoc """
   Provides generated test data via ExMachina and Faker.
   """
   use ExMachina
 
+  alias Test.Support.FactoryHelpers
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   def itinerary_factory do
@@ -13,7 +14,7 @@ defmodule Test.Support.Factory do
       start: start,
       stop: Faker.DateTime.between(start, Timex.shift(start, minutes: 75)),
       legs: Faker.random_between(1, 4) |> build_list(:leg),
-      accessible?: Faker.Util.pick([true, false, nil])
+      accessible?: Faker.Util.pick([true, false]) |> FactoryHelpers.nullable_item()
     }
   end
 
@@ -66,11 +67,11 @@ defmodule Test.Support.Factory do
 
   def transit_detail_factory do
     %TransitDetail{
-      route_id: "Blue",
-      trip_id: "59736724",
+      route_id: FactoryHelpers.build(:id),
+      trip_id: FactoryHelpers.build(:id),
       intermediate_stop_ids:
         Enum.random([
-          ["place-orhte"],
+          FactoryHelpers.build_list(13, :id),
           []
         ])
     }
@@ -79,7 +80,7 @@ defmodule Test.Support.Factory do
   def stop_named_position_factory do
     %NamedPosition{
       name: Faker.Address.street_name(),
-      stop_id: nil,
+      stop_id: FactoryHelpers.build(:id),
       latitude: Faker.Address.latitude(),
       longitude: Faker.Address.longitude()
     }

@@ -9,7 +9,7 @@ defmodule DotcomWeb.TripPlanViewTest do
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
-  alias Test.Support.Factory
+  alias Test.Support.Factories.TripPlanner.TripPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -224,7 +224,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      from = Factory.build(:stop_named_position)
+      from = TripPlanner.build(:stop_named_position)
 
       query = %Query{
         from: {:ok, from},
@@ -617,8 +617,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Factory.build(:leg, mode: Factory.build(:personal_detail)),
-              Factory.build(:leg, mode: Factory.build(:personal_detail))
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -631,9 +631,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Factory.build(:leg, mode: Factory.build(:personal_detail)),
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
               @bus_leg,
-              Factory.build(:leg, mode: Factory.build(:personal_detail))
+              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -763,11 +763,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
       conn =
         assign(conn, :query, %Query{
-          from: Factory.build(:named_position),
-          to: Factory.build(:stop_named_position),
+          from: TripPlanner.build(:named_position),
+          to: TripPlanner.build(:stop_named_position),
           time: {:depart_at, Util.now()},
           wheelchair: true,
-          itineraries: {:ok, Factory.build_list(3, :itinerary)}
+          itineraries: {:ok, TripPlanner.build_list(3, :itinerary)}
         })
 
       assert %{

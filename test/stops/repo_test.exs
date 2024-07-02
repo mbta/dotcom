@@ -3,7 +3,7 @@ defmodule Stops.RepoTest do
 
   import Mox
   import Stops.Repo
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.Mbta.Api
   alias Stops.Stop
 
   @direction_id Faker.Util.pick([0, 1])

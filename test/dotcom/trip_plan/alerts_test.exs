@@ -3,7 +3,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
   @moduletag :external
 
   import Dotcom.TripPlan.Alerts
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
 
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE

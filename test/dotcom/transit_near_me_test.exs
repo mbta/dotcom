@@ -2,7 +2,7 @@ defmodule Dotcom.TransitNearMeTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   alias Dotcom.TransitNearMe
   alias LocationService.Address
@@ -682,8 +682,8 @@ defmodule Dotcom.TransitNearMeTest do
     @prediction1 build(:prediction, %{
                    departing?: true,
                    direction_id: @direction_id,
-                   id: Faker.Internet.slug(),
                    route: @route,
+                   schedule_relationship: nil,
                    stop: @stop,
                    stop_sequence: @stop_sequence,
                    time: @prediction_time1,
@@ -701,8 +701,8 @@ defmodule Dotcom.TransitNearMeTest do
     @prediction2 build(:prediction, %{
                    departing?: true,
                    direction_id: @direction_id,
-                   id: Faker.Internet.slug(),
                    route: @route,
+                   schedule_relationship: nil,
                    stop: @stop,
                    stop_sequence: @stop_sequence,
                    time: @prediction_time2,
@@ -720,8 +720,8 @@ defmodule Dotcom.TransitNearMeTest do
     @prediction3 build(:prediction, %{
                    departing?: true,
                    direction_id: @direction_id,
-                   id: Faker.Internet.slug(),
                    route: @route,
+                   schedule_relationship: nil,
                    stop: @stop,
                    stop_sequence: @stop_sequence,
                    time: @prediction_time3,

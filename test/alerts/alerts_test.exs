@@ -9,6 +9,8 @@ defmodule AlertsTest do
 
   setup :verify_on_exit!
 
+  @now Timex.now()
+
   describe "new/1" do
     test "with no params, returns a default struct" do
       assert new() == %Alert{}
@@ -21,6 +23,18 @@ defmodule AlertsTest do
                effect: :detour,
                informed_entity: Alerts.InformedEntitySet.new(entities)
              }
+    end
+  end
+
+  describe "ongoing_effects/0" do
+    test "returns a list" do
+      assert is_list(ongoing_effects())
+    end
+  end
+
+  describe "lifecycles/0" do
+    test "returns a list" do
+      assert is_list(lifecycles())
     end
   end
 

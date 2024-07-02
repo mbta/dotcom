@@ -3,7 +3,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
   import Mock
   import Mox
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.Mbta.Api
 
   alias DotcomWeb.{UserSocket, VehicleMapMarkerChannel}
   alias Leaflet.MapData.Marker

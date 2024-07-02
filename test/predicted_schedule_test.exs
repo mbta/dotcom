@@ -4,7 +4,7 @@ defmodule PredictedScheduleTest do
   import Mock
   import Mox
   import PredictedSchedule
-  import Test.Support.Factory.Prediction
+  import Test.Support.Factories.Predictions.Prediction
 
   alias Predictions.Prediction
   alias Schedules.{Schedule, ScheduleCondensed, Trip}

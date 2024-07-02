@@ -46,6 +46,8 @@ defmodule Alerts.Alert do
     :detour
   ]
 
+  @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
+
   defstruct id: "",
             header: "",
             informed_entity: %IESet{},
@@ -94,7 +96,9 @@ defmodule Alerts.Alert do
           | :unknown
 
   @type severity :: 0..10
+
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
+
   @type id_t :: String.t()
   @type t :: %Alerts.Alert{
           id: id_t(),
@@ -154,6 +158,9 @@ defmodule Alerts.Alert do
 
   @spec ongoing_effects :: [effect]
   def ongoing_effects, do: @ongoing_effects
+
+  @spec lifecycles :: [lifecycle]
+  def lifecycles, do: @lifecycles
 
   @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) :: Enumerable.t()
   @doc "Helper function for retrieving InformedEntity values for an alert"
