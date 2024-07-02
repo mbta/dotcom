@@ -5,33 +5,60 @@ defmodule Routes.Route do
 
   @derive Jason.Encoder
 
-  defstruct id: "",
-            type: 0,
-            name: "",
-            long_name: "",
-            color: "",
-            sort_order: 99_999,
-            direction_names: %{0 => "Outbound", 1 => "Inbound"},
-            direction_destinations: :unknown,
-            description: :unknown,
-            fare_class: :unknown_fare,
+  defstruct color: "",
             custom_route?: false,
-            line_id: ""
+            description: :unknown,
+            direction_destinations: :unknown,
+            direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            external_agency_name: nil,
+            fare_class: :unknown_fare,
+            id: "",
+            line_id: "",
+            long_name: "",
+            name: "",
+            sort_order: 99_999,
+            type: 0
 
   @type id_t :: String.t()
+
+  @typedoc """
+  The Route type is mostly based on the GTFS routes.txt fields.
+
+  ## Fields
+  * `:color` - A hex code representing the color to be shown on wayfinding,
+    corresponding to the GTFS routes.txt `route_color` field.
+  * `:custom_route?` - `true` if this data comes from outside the MBTA GTFS.
+  * `:description` - corresponds to the GTFS routes.txt `route_desc` field
+  * `:direction_destinations` - map describing the terminus for each direction,
+    as might be described on a vehicle headsign
+  * `:direction_names` - map describing the name of each direction, e.g.
+    "Inbound" or "Outbound"
+  * `:external_agency_name` - `nil` if this route is part of the MBTA service,
+    otherwise a string representing the name of the associated transit agency,
+    e.g. "Massport"
+  * `:fare_class` - corresponds to the GTFS routes.txt `route_fare_class` field
+  * `:id` - corresponds to the GTFS routes.txt `route_id` field
+  * `:line_id` - corresponds to the GTFS routes.txt `line_id` field
+  * `:long_name` - corresponds to the GTFS routes.txt `route_long_name` field
+  * `:name` - Usually corresponds to the GTFS routes.txt `route_short_name`
+    field, falling back on `route_long_name` if no short name is present.
+  * `:sort_order` - corresponds to the GTFS routes.txt `route_sort_order` field
+  * `:type` - corresponds to the GTFS routes.txt `route_type` field
+  """
   @type t :: %__MODULE__{
-          id: id_t,
-          type: type_int(),
-          name: String.t(),
-          long_name: String.t(),
           color: String.t(),
-          sort_order: non_neg_integer,
-          direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
-          direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
-          description: gtfs_route_desc,
-          fare_class: gtfs_fare_class,
           custom_route?: boolean,
-          line_id: String.t() | nil
+          description: gtfs_route_desc,
+          direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
+          direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
+          external_agency_name: String.t() | nil,
+          fare_class: gtfs_fare_class,
+          id: id_t,
+          line_id: String.t() | nil,
+          long_name: String.t(),
+          name: String.t(),
+          sort_order: non_neg_integer,
+          type: type_int()
         }
   @type gtfs_route_type ::
           :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
@@ -65,6 +92,8 @@ defmodule Routes.Route do
   @silver_line_set MapSet.new(@silver_line)
 
   @spec type_atom(t | type_int | String.t()) :: route_type
+  def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
+  def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
@@ -101,6 +130,8 @@ defmodule Routes.Route do
   def types_for_mode(:silver_line), do: [3]
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
+  def icon_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
+  def icon_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
   def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_line
   def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
@@ -252,20 +283,12 @@ defmodule Routes.Route do
   end
 
   @spec to_json_safe(t) :: map
-  def to_json_safe(%__MODULE__{
-        id: id,
-        type: type,
-        name: name,
-        long_name: long_name,
-        color: color,
-        sort_order: sort_order,
-        direction_names: direction_names,
-        direction_destinations: direction_destinations,
-        description: description,
-        fare_class: fare_class,
-        custom_route?: custom_route?,
-        line_id: line_id
-      }) do
+  def to_json_safe(
+        %__MODULE__{
+          direction_names: direction_names,
+          direction_destinations: direction_destinations
+        } = route
+      ) do
     direction_destinations_value =
       if direction_destinations == :unknown,
         do: nil,
@@ -275,21 +298,12 @@ defmodule Routes.Route do
         }
 
     %{
-      id: id,
-      type: type,
-      name: name,
-      long_name: long_name,
-      color: color,
-      sort_order: sort_order,
-      direction_names: %{
-        "0" => direction_names[0],
-        "1" => direction_names[1]
-      },
-      direction_destinations: direction_destinations_value,
-      description: description,
-      fare_class: fare_class,
-      custom_route?: custom_route?,
-      line_id: line_id
+      Map.from_struct(route)
+      | direction_names: %{
+          "0" => direction_names[0],
+          "1" => direction_names[1]
+        },
+        direction_destinations: direction_destinations_value
     }
   end
 end
@@ -303,17 +317,9 @@ end
 defimpl Poison.Encoder, for: Routes.Route do
   def encode(
         %Routes.Route{
-          id: id,
-          type: type,
-          name: name,
-          long_name: long_name,
-          color: color,
-          sort_order: sort_order,
           direction_names: direction_names,
-          direction_destinations: direction_destinations,
-          description: description,
-          custom_route?: custom_route?
-        },
+          direction_destinations: direction_destinations
+        } = route,
         options
       ) do
     direction_destinations_value =
@@ -323,16 +329,9 @@ defimpl Poison.Encoder, for: Routes.Route do
 
     Poison.Encoder.encode(
       %{
-        id: id,
-        type: type,
-        name: name,
-        long_name: long_name,
-        color: color,
-        sort_order: sort_order,
-        direction_names: encoded_directions(direction_names),
-        direction_destinations: direction_destinations_value,
-        description: description,
-        custom_route?: custom_route?
+        Map.from_struct(route)
+        | direction_names: encoded_directions(direction_names),
+          direction_destinations: direction_destinations_value
       },
       options
     )

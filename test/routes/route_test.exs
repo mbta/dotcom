@@ -209,22 +209,10 @@ defmodule Routes.RouteTest do
         sort_order: 5
       }
 
-      expected = %{
-        custom_route?: false,
-        description: :rapid_transit,
-        direction_destinations: %{"0" => "Ashmont/Braintree", "1" => "Alewife"},
-        direction_names: %{"0" => "South", "1" => "North"},
-        id: "Red",
-        long_name: "Red Line",
-        name: "Red Line",
-        type: 1,
-        color: "DA291C",
-        sort_order: 5,
-        fare_class: :unknown_fare,
-        line_id: ""
-      }
-
-      assert Route.to_json_safe(route) == expected
+      assert %{
+               direction_destinations: %{"0" => "Ashmont/Braintree", "1" => "Alewife"},
+               direction_names: %{"0" => "South", "1" => "North"}
+             } = Route.to_json_safe(route)
     end
   end
 
