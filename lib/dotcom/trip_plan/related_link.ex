@@ -92,9 +92,12 @@ defmodule Dotcom.TripPlan.RelatedLink do
       String.starts_with?(route.id, "Massport") ->
         new("Massport schedules", "https://massport.com/", icon_name)
 
-      route.custom_route? ->
-        leg = Enum.find(itinerary.legs, &match?(%TripPlan.Leg{url: url} when url != nil, &1))
-        new("Route information", leg.url, icon_name)
+      route.external_agency_name == "Logan Express" ->
+        new(
+          "Logan Express schedules",
+          "https://www.massport.com/logan-airport/getting-to-logan/logan-express",
+          icon_name
+        )
 
       true ->
         base_text =
@@ -115,7 +118,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
     for leg <- itinerary,
         {:ok, route_id} <- [Leg.route_id(leg)],
-        %Route{custom_route?: false} = route <- [route_by_id.(route_id)] do
+        %Route{external_agency_name: nil} = route <- [route_by_id.(route_id)] do
       fare_link(route, leg)
     end
     |> Enum.uniq()

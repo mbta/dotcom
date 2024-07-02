@@ -197,7 +197,6 @@ defmodule Routes.RouteTest do
   describe "to_json_safe/1" do
     test "converts a Route to a Json string with safe object keys" do
       route = %Route{
-        custom_route?: false,
         description: :rapid_transit,
         direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
         direction_names: %{0 => "South", 1 => "North"},

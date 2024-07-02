@@ -23,22 +23,13 @@
         "1": "Dudley"
       },
       "description": "key_bus_route",
-      "custom_route?": false,
       "color": "FFC72C"
     },
     "realtime": {
-      "scheduled_time": [
-        "1:47",
-        " ",
-        "PM"
-      ],
+      "scheduled_time": ["1:47", " ", "PM"],
       "prediction": {
         "track": null,
-        "time": [
-          "8",
-          " ",
-          "min"
-        ],
+        "time": ["8", " ", "min"],
         "status": null,
         "seconds": 491
       },
@@ -108,22 +99,13 @@
         "1": "Dudley"
       },
       "description": "key_bus_route",
-      "custom_route?": false,
       "color": "FFC72C"
     },
     "realtime": {
-      "scheduled_time": [
-        "1:36",
-        " ",
-        "PM"
-      ],
+      "scheduled_time": ["1:36", " ", "PM"],
       "prediction": {
         "track": null,
-        "time": [
-          "9",
-          " ",
-          "min"
-        ],
+        "time": ["9", " ", "min"],
         "status": null,
         "seconds": 546
       },

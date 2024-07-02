@@ -490,16 +490,19 @@ defmodule DotcomWeb.TripPlanController do
     } = Enum.find(legs, &(Leg.route_id(&1) == {:ok, id}))
 
     %Route{
-      external_agency_name: if(type == "2", do: "Massport"),
+      external_agency_name: agency_name(type),
       description: description,
       id: mode.route_id,
       long_name: long_name,
       name: name,
       type: type,
-      custom_route?: true,
       color: "000000"
     }
   end
+
+  defp agency_name("Logan Express"), do: "Logan Express"
+  defp agency_name("2"), do: "Massport"
+  defp agency_name(_), do: nil
 
   defp meta_description(conn, _) do
     conn

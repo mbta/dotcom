@@ -97,8 +97,7 @@
               "1": "Alewife",
               "0": "Ashmont/Braintree"
             },
-            "description": "rapid_transit",
-            "custom_route?": false
+            "description": "rapid_transit"
           },
           "directions": [
             {
@@ -230,8 +229,7 @@
               "1": "South Station",
               "0": "Logan Airport"
             },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "directions": [
             {
@@ -308,8 +306,7 @@
               "1": "South Station",
               "0": "Design Center"
             },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "directions": [
             {
@@ -386,8 +383,7 @@
               "1": "South Station",
               "0": "Chelsea"
             },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "directions": [
             {
@@ -469,8 +465,7 @@
               "1": "South Station",
               "0": "Fairmount"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -531,8 +526,7 @@
               "1": "South Station",
               "0": "Worcester"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -625,8 +619,7 @@
               "1": "South Station",
               "0": "Forge Park/495"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -728,8 +721,7 @@
               "1": "South Station",
               "0": "Greenbush"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -790,8 +782,7 @@
               "1": "South Station",
               "0": "Kingston or Plymouth"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -868,8 +859,7 @@
               "1": "South Station",
               "0": "Middleborough/Lakeville"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -930,8 +920,7 @@
               "1": "South Station",
               "0": "Needham Heights"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -992,8 +981,7 @@
               "1": "South Station",
               "0": "Wickford Junction"
             },
-            "description": "commuter_rail",
-            "custom_route?": false
+            "description": "commuter_rail"
           },
           "directions": [
             {
@@ -1128,8 +1116,7 @@
               "0": "Harvard",
               "1": "Dudley"
             },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "direction_id": 0
         }
@@ -1172,8 +1159,7 @@
               "0": "Oak Square",
               "1": "University Park or Kendall/MIT"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": null
         },
@@ -1192,8 +1178,7 @@
               "0": "Central Square, Cambridge",
               "1": "Boston Medical Center"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": 1
         },
@@ -1212,8 +1197,7 @@
               "0": "Rindge Avenue",
               "1": "Central Square, Cambridge"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": null
         },
@@ -1232,8 +1216,7 @@
               "0": "Sullivan",
               "1": "Central Square, Cambridge"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": null
         }
@@ -1276,8 +1259,7 @@
               "0": "Central Square, Cambridge",
               "1": "Broadway Station"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": 0
         },
@@ -1296,8 +1278,7 @@
               "0": "Oak Square",
               "1": "University Park or Kendall/MIT"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": 0
         },
@@ -1316,8 +1297,7 @@
               "0": "Cedarwood",
               "1": "Central Square, Cambridge"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": null
         },
@@ -1336,8 +1316,7 @@
               "0": "Central Square, Cambridge",
               "1": "Boston Medical Center"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": 0
         },
@@ -1356,8 +1335,7 @@
               "0": "North Waltham",
               "1": "Central Square, Cambridge"
             },
-            "description": "local_bus",
-            "custom_route?": false
+            "description": "local_bus"
           },
           "direction_id": 0
         }
