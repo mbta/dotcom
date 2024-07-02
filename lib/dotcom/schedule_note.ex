@@ -2,16 +2,13 @@ defmodule Dotcom.ScheduleNote do
   @moduledoc """
   Represents text describing the schedule for a subway route
   """
-  alias Routes.Route
+
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Link
-  alias Phoenix.HTML
-  alias DotcomWeb.Router.Helpers
 
-  @type exception :: %{
-          type: String.t(),
-          service: String.t()
-        }
+  alias DotcomWeb.Router.Helpers
+  alias Phoenix.HTML
+  alias Routes.Route
 
   defstruct peak_service: "",
             offpeak_service: "",
@@ -19,6 +16,11 @@ defmodule Dotcom.ScheduleNote do
             sunday_service: "",
             exceptions: [],
             alternate_text: nil
+
+  @type exception :: %{
+          type: String.t(),
+          service: String.t()
+        }
 
   @type t :: %__MODULE__{
           peak_service: String.t(),

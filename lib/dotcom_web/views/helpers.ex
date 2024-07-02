@@ -12,9 +12,9 @@ defmodule DotcomWeb.ViewHelpers do
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
   import Plug.Conn
 
-  alias Routes.Route
-  alias Plug.Conn
   alias Phoenix.HTML.Safe
+  alias Plug.Conn
+  alias Routes.Route
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 

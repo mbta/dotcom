@@ -216,7 +216,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
         |> assign(:route, route)
         |> assign(:direction_id, 1)
         |> assign_alerts([])
-        |> (fn conn -> conn.assigns.alerts end).()
+        |> Kernel.then(fn conn -> conn.assigns.alerts end)
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -231,7 +231,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
         |> assign(:route, route)
         |> assign(:direction_id, 0)
         |> assign_alerts([])
-        |> (fn conn -> conn.assigns.alerts end).()
+        |> Kernel.then(fn conn -> conn.assigns.alerts end)
 
       expected = [@commuter_rail_alert, @worcester_alert]
       assert alerts == expected
@@ -246,7 +246,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
         |> assign(:route, route)
         |> assign(:direction_id, nil)
         |> assign_alerts([])
-        |> (fn conn -> conn.assigns.alerts end).()
+        |> Kernel.then(fn conn -> conn.assigns.alerts end)
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -260,7 +260,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
         |> assign_alerts([])
-        |> (fn conn -> conn.assigns.alerts end).()
+        |> Kernel.then(fn conn -> conn.assigns.alerts end)
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -294,7 +294,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
         |> assign(:route, route)
         |> assign(:direction_id, 0)
         |> assign_alerts([])
-        |> (fn conn -> conn.assigns.alerts end).()
+        |> Kernel.then(fn conn -> conn.assigns.alerts end)
 
       expected = [@commuter_rail_alert, @worcester_alert, worcester_ambiguous_alert]
       assert alerts == expected

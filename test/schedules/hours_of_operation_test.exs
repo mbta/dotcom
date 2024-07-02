@@ -1,9 +1,12 @@
 defmodule Schedules.HoursOfOperationTest do
   @moduledoc false
+
   use ExUnit.Case, async: true
+
   import Mox
   import Schedules.HoursOfOperation
-  alias Schedules.{HoursOfOperation, Departures}
+
+  alias Schedules.{Departures, HoursOfOperation}
 
   setup :verify_on_exit!
 

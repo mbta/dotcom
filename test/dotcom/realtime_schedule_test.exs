@@ -3,17 +3,15 @@ defmodule Dotcom.RealtimeScheduleTest do
 
   import Mox
 
-  import Mox
-
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias Alerts.InformedEntitySet, as: IESet
+  alias Dotcom.JsonHelpers
+  alias Dotcom.RealtimeSchedule
   alias Predictions.Prediction
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias Dotcom.JsonHelpers
-  alias Dotcom.RealtimeSchedule
   alias Stops.Stop
 
   @now DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")

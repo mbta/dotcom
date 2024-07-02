@@ -1,13 +1,12 @@
 defmodule DotcomWeb.ScheduleController.LineTest do
   use DotcomWeb.ConnCase, async: false
-  @moduletag :external
 
   import Mock
 
-  alias Services.Service
   alias DotcomWeb.ScheduleController.Line
+  alias Services.Service
 
-  doctest DotcomWeb.ScheduleController.Line
+  @moduletag :external
 
   @base_end_date ~D[2022-12-08]
 
@@ -225,6 +224,8 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       valid_days: [1, 2, 3, 4, 5]
     }
   ]
+
+  doctest DotcomWeb.ScheduleController.Line
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
 

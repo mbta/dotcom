@@ -1,11 +1,12 @@
 defmodule JourneyListTest do
   use ExUnit.Case, async: true
+
   import JourneyList
 
-  alias Schedules.{Schedule, Trip}
-  alias Stops.Stop
   alias Predictions.Prediction
   alias Routes.Route
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
 
   @time ~N[2017-01-01T22:30:00]
   @route %Route{id: "86", type: 3, name: "86"}

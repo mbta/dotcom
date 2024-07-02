@@ -3,14 +3,13 @@ defmodule Stops.Repo do
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
 
+  @behaviour Stops.Repo.Behaviour
+
   use Nebulex.Caching.Decorators
 
   alias Dotcom.Cache.KeyGenerator
-  alias Stops.{Api, Stop}
-  alias Stops.Repo.Behaviour
   alias Routes.Route
-
-  @behaviour Stops.Repo.Behaviour
+  alias Stops.{Api, Repo.Behaviour, Stop}
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
@@ -21,7 +20,7 @@ defmodule Stops.Repo do
         |> CSV.decode!(headers: true)
         |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
         |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
-    @impl Stops.Repo.Behaviour
+    @impl Behaviour
     def old_id_to_gtfs_id(unquote(old_id)) do
       unquote(gtfs_id)
     end
@@ -31,7 +30,7 @@ defmodule Stops.Repo do
     nil
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def get(id) when is_binary(id) do
     case stop(id) do
       {:ok, s} -> s
@@ -39,7 +38,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def get!(id) do
     case stop(id) do
       {:ok, %Stop{} = s} -> s
@@ -47,12 +46,12 @@ defmodule Stops.Repo do
     end
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def has_parent?(nil), do: false
   def has_parent?(%Stop{parent_id: nil}), do: false
   def has_parent?(%Stop{parent_id: _}), do: true
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def get_parent(nil), do: nil
 
   def get_parent(%Stop{parent_id: nil} = stop) do
@@ -77,7 +76,7 @@ defmodule Stops.Repo do
     Api.by_gtfs_id(id)
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
@@ -91,7 +90,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
@@ -104,7 +103,7 @@ defmodule Stops.Repo do
     |> Enum.uniq()
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route_type(route_type, opts \\ []) do
     {route_type, opts}
@@ -113,7 +112,7 @@ defmodule Stops.Repo do
     |> Enum.uniq_by(& &1.id)
   end
 
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_trip(trip_id) do
     Api.by_trip(trip_id)
@@ -122,7 +121,7 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @impl Stops.Repo.Behaviour
+  @impl Behaviour
   def stop_features(%Stop{} = stop, opts \\ []) do
     [
       route_features(stop.id, opts),

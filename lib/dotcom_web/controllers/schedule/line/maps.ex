@@ -2,10 +2,11 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   @moduledoc """
   Handles Map information for the line controller
   """
-  alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
-  alias Stops.{Repo, Stop}
-  alias RoutePatterns.RoutePattern
+
   alias Dotcom.MapHelpers
+  alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
+  alias RoutePatterns.RoutePattern
+  alias Stops.{Repo, Stop}
 
   @doc """
   Returns a tuple {String.t, MapData.t} where the first element

@@ -1,6 +1,6 @@
 defmodule Fares.RetailLocations do
-  alias __MODULE__.Location
   alias __MODULE__.Data
+  alias __MODULE__.Location
 
   @doc """
     Takes a latitude and longitude and returns the four closest retail locations for purchasing fares.

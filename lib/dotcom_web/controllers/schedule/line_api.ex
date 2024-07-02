@@ -3,13 +3,13 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   Provides JSON endpoints for retrieving line diagram data.
   """
 
-  require Logger
-
   use DotcomWeb, :controller
 
-  alias DotcomWeb.Plugs.DateInRating
-  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleTooltips, VehicleLocations}
+  require Logger
+
   alias Dotcom.TransitNearMe
+  alias DotcomWeb.Plugs.DateInRating
+  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleLocations, VehicleTooltips}
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Stop
   alias Vehicles.Vehicle

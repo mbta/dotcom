@@ -1,13 +1,13 @@
 defmodule DotcomWeb.TransitNearMeControllerTest do
   use DotcomWeb.ConnCase, async: true
 
-  alias LocationService.Address
-  alias Leaflet.{MapData, MapData.Marker}
-  alias DotcomWeb.TransitNearMeController
-  alias Stops.Stop
-
   import Mox
   import Test.Support.Factories.Mbta.Api
+
+  alias DotcomWeb.TransitNearMeController
+  alias Leaflet.{MapData, MapData.Marker}
+  alias LocationService.Address
+  alias Stops.Stop
 
   @orange_line %{
     id: "Orange",

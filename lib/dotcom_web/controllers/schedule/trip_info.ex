@@ -5,13 +5,16 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
   there's a trip we want to display.
 
   """
+
   @behaviour Plug
-  alias Plug.Conn
+
   import Plug.Conn, only: [assign: 3]
 
   require Routes.Route
-  alias Routes.Route
+
   alias DotcomWeb.ScheduleController.VehicleLocations
+  alias Plug.Conn
+  alias Routes.Route
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 

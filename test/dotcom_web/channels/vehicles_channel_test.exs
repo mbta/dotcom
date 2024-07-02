@@ -1,7 +1,7 @@
 defmodule DotcomWeb.VehicleChannelTest do
   use DotcomWeb.ChannelCase
 
-  alias DotcomWeb.{VehicleChannel, UserSocket}
+  alias DotcomWeb.{UserSocket, VehicleChannel}
   alias Vehicles.Vehicle
 
   @vehicles [

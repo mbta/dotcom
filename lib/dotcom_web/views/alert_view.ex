@@ -1,13 +1,16 @@
 defmodule DotcomWeb.AlertView do
   @moduledoc "Helper functions related to displaying Alerts on the web site."
+
   use DotcomWeb, :view
-  alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}
-  alias Routes.Route
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Stops.Stop
+
   import DotcomWeb.ViewHelpers
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
+
+  alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Routes.Route
+  alias Stops.Stop
 
   @doc """
 

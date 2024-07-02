@@ -2,12 +2,13 @@ defmodule DotcomWeb.ProjectController do
   @moduledoc """
   Controller for project-related CMS content
   """
+
   use DotcomWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}
   alias CMS.Page.{Project, ProjectUpdate}
-  alias Plug.Conn
   alias DotcomWeb.ProjectView
+  alias Plug.Conn
 
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"

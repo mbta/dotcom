@@ -2,10 +2,11 @@ defmodule DotcomWeb.StopView do
   @moduledoc """
   View helpers for the Stop controller
   """
+
   use DotcomWeb, :view
 
-  alias Phoenix.HTML.Safe
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Phoenix.HTML.Safe
   alias Routes.Route
 
   @doc """

@@ -1,9 +1,10 @@
 defmodule JourneyListFilterTest do
   use ExUnit.Case, async: true
+
   import Journey.Filter
 
-  alias Schedules.Schedule
   alias Predictions.Prediction
+  alias Schedules.Schedule
 
   describe "Journey.find_max_earlier_departure_schedule_time/2" do
     test "finds max earlier departure time" do

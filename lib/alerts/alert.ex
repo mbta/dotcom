@@ -1,7 +1,52 @@
 defmodule Alerts.Alert do
   @moduledoc "Module for representation of an alert, including information such as description, severity or additional URL to learn more"
-  alias Alerts.Priority
+
+  use Timex
+
   alias Alerts.InformedEntitySet, as: IESet
+  alias Alerts.Priority
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  @ongoing_effects [
+    :cancellation,
+    :detour,
+    :no_service,
+    :service_change,
+    :snow_route,
+    :shuttle,
+    :stop_closure,
+    :stop_shoveling
+  ]
+
+  @all_types [
+    :access_issue,
+    :amber_alert,
+    :delay,
+    :dock_closure,
+    :dock_issue,
+    :extra_service,
+    :elevator_closure,
+    :escalator_closure,
+    :policy_change,
+    :schedule_change,
+    :station_closure,
+    :station_issue,
+    :stop_moved,
+    :summary,
+    :suspension,
+    :track_change,
+    :unknown | @ongoing_effects
+  ]
+
+  @diversion_effects [
+    :shuttle,
+    :stop_closure,
+    :station_closure,
+    :detour
+  ]
+  
+  @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
 
   defstruct id: "",
             header: "",
@@ -72,50 +117,6 @@ defmodule Alerts.Alert do
         }
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow
-
-  use Timex
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-  @ongoing_effects [
-    :cancellation,
-    :detour,
-    :no_service,
-    :service_change,
-    :snow_route,
-    :shuttle,
-    :stop_closure,
-    :stop_shoveling
-  ]
-
-  @all_types [
-    :access_issue,
-    :amber_alert,
-    :delay,
-    :dock_closure,
-    :dock_issue,
-    :extra_service,
-    :elevator_closure,
-    :escalator_closure,
-    :policy_change,
-    :schedule_change,
-    :station_closure,
-    :station_issue,
-    :stop_moved,
-    :summary,
-    :suspension,
-    :track_change,
-    :unknown | @ongoing_effects
-  ]
-
-  @diversion_effects [
-    :shuttle,
-    :stop_closure,
-    :station_closure,
-    :detour
-  ]
-
-  @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
 
   @spec new(Keyword.t()) :: t()
   def new(keywords \\ [])

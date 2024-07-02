@@ -82,7 +82,7 @@ defmodule TripInfo do
     List
     |> apply(list_function, [times])
     |> PredictedSchedule.stop()
-    |> (fn stop -> stop.id end).()
+    |> Map.get(:id)
   end
 
   defp do_from_list(

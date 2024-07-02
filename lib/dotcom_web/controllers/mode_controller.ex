@@ -1,10 +1,11 @@
 defmodule DotcomWeb.ModeController do
   @moduledoc false
+
   use DotcomWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}
-  alias DotcomWeb.{Mode}
-  alias Routes.{Route}
+  alias DotcomWeb.Mode
+  alias Routes.Route
 
   plug(DotcomWeb.Plugs.RecentlyVisited)
   plug(DotcomWeb.Plug.Mticket)

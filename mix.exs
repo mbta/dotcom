@@ -70,7 +70,6 @@ defmodule DotCom.Mixfile do
   defp deps do
     [
       {:absinthe_client, "0.1.0"},
-      {:benchfella, "0.3.5", [only: :dev]},
       # latest version 1.0.7; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},

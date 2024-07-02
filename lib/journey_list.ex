@@ -4,9 +4,9 @@ defmodule JourneyList do
   a form to be used in the schedule views.
   """
 
+  alias PredictedSchedule.Group
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
-  alias PredictedSchedule.Group
 
   defstruct journeys: [],
             expansion: :none

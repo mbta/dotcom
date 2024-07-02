@@ -39,7 +39,8 @@ defmodule PredictedSchedule.Group do
   # at the user selected stop.
   # So, we filter the predictions so that they
   # 1) either match up to the schedule pairs, or
-  # 2) we have two predictions with the same trip_id, and one of them is for the departure stop and the other for the destination.
+  # 2) we have two predictions with the same trip_id, and one of them is for the departure stop and the other
+  # for the destination.
 
   @spec filter_relevant_predictions(
           prediction_map_t,

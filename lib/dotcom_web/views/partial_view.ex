@@ -2,17 +2,18 @@ defmodule DotcomWeb.PartialView do
   @moduledoc """
   Handles rendering of partial components and CMS content.
   """
+
   use DotcomWeb, :view
 
-  alias CMS.{Partial.Teaser, Repo}
-  alias Plug.Conn
-  alias Routes.Route
-  alias DotcomWeb.CMS.TeaserView
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-
-  import DotcomWeb.CMSView, only: [file_description: 1]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
   import DotcomWeb.CMS.TeaserView, only: [transit_svg: 1, transit_tag: 1, handle_fields: 2]
+  import DotcomWeb.CMSView, only: [file_description: 1]
+
+  alias CMS.{Partial.Teaser, Repo}
+  alias DotcomWeb.CMS.TeaserView
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Plug.Conn
+  alias Routes.Route
 
   defdelegate fa_icon_for_file_type(mime), to: Dotcom.FontAwesomeHelpers
 

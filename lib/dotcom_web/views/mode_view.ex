@@ -1,13 +1,14 @@
 defmodule DotcomWeb.ModeView do
   @moduledoc false
+
   use DotcomWeb, :view
 
   alias Alerts.Match
-  alias Plug.Conn
-  alias Routes.Route
   alias Dotcom.MapHelpers
   alias DotcomWeb.PartialView
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Plug.Conn
+  alias Routes.Route
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
     # Note that we do not sort the commuter rail routes by name as we

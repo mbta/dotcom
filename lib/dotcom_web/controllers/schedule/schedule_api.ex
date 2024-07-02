@@ -2,13 +2,14 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
   @moduledoc """
     API for retrieving schedules by trip for a service defined by date
   """
+
   use DotcomWeb, :controller
 
-  alias Fares.Format
+  import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
+
+  alias Fares.{Format, OneWay}
   alias Routes.Route
   alias Schedules.Repo
-  alias Fares.{OneWay}
-  import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   def show(conn, %{
         "id" => route_id,
@@ -72,7 +73,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
       fn trip_id ->
         services_by_trip[trip_id]
         |> List.first()
-        |> (fn sched -> sched.time end).()
+        |> Map.get(:time)
       end,
       &date_sorter/2
     )

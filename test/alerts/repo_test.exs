@@ -1,6 +1,7 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
-  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, Repo, InformedEntitySet}
+
+  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, InformedEntitySet, Repo}
 
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 

@@ -4,16 +4,17 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
 
   An optional to and from name can be passed in.
   """
-  alias Dotcom.TripPlan.ItineraryRow
-  alias TripPlan.Itinerary
-  alias Stops.Stop
 
-  @typep destination :: {String.t(), Stop.id_t(), DateTime.t(), [Alerts.Alert.t()]}
+  alias Dotcom.TripPlan.ItineraryRow
+  alias Stops.Stop
+  alias TripPlan.Itinerary
 
   defstruct rows: [],
             destination: nil,
             accessible?: false,
             alerts?: false
+
+  @typep destination :: {String.t(), Stop.id_t(), DateTime.t(), [Alerts.Alert.t()]}
 
   @type t :: %__MODULE__{
           rows: [ItineraryRow.t()],

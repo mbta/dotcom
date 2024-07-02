@@ -3,10 +3,11 @@ defmodule VehicleTooltip do
   Represents a vehicle with its associated status information, used to render tooltips on schedule and
   line representations
   """
-  alias Vehicles.Vehicle
+
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Trip
+  alias Vehicles.Vehicle
 
   defstruct vehicle: %Vehicle{},
             prediction: %Prediction{},

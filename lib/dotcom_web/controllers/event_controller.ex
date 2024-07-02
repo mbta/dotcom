@@ -1,13 +1,14 @@
 defmodule DotcomWeb.EventController do
   @moduledoc "Handles fetching event data for event views"
+
   use DotcomWeb, :controller
 
   alias CMS.{API, Page, Repo}
   alias CMS.Page.Event
-  alias Plug.Conn
   alias Dotcom.IcalendarGenerator
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.EventView
+  alias Plug.Conn
 
   plug(DotcomWeb.Plugs.YearMonth)
   plug(:assign_events)

@@ -5,7 +5,8 @@ defmodule TripPlan.Leg do
   An Itinerary can take multiple modes of transportation (walk, bus,
   train, &c). Leg represents a single mode of travel during journey.
   """
-  alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition}
+
+  alias TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
 
   @derive {Jason.Encoder, only: [:from, :to, :mode]}
   defstruct start: DateTime.from_unix!(-1),

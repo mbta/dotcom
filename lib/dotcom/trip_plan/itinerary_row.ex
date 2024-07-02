@@ -1,33 +1,10 @@
 defmodule Dotcom.TripPlan.ItineraryRow do
   @moduledoc false
 
-  alias Routes.Route
   alias Dotcom.TripPlan.IntermediateStop
+  alias Routes.Route
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias TripPlan.PersonalDetail.Step
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-  @typep name_and_id :: {String.t(), String.t() | nil}
-  @typep step :: String.t()
-
-  defmodule Dependencies do
-    @moduledoc false
-
-    @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
-    @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
-    @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
-
-    defstruct route_mapper: &Routes.Repo.get/1,
-              trip_mapper: &Schedules.Repo.trip/1,
-              alerts_repo: &Alerts.Repo.all/1
-
-    @type t :: %__MODULE__{
-            route_mapper: route_mapper,
-            trip_mapper: trip_mapper,
-            alerts_repo: alerts_repo
-          }
-  end
 
   defstruct stop: {nil, nil},
             route: nil,
@@ -40,6 +17,8 @@ defmodule Dotcom.TripPlan.ItineraryRow do
             distance: 0.0,
             duration: 0
 
+  @typep name_and_id :: {String.t(), String.t() | nil}
+  @typep step :: String.t()
   @type t :: %__MODULE__{
           stop: name_and_id,
           transit?: boolean,
@@ -52,6 +31,26 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           distance: Float.t(),
           duration: Integer.t()
         }
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  defmodule Dependencies do
+    @moduledoc false
+
+    defstruct route_mapper: &Routes.Repo.get/1,
+              trip_mapper: &Schedules.Repo.trip/1,
+              alerts_repo: &Alerts.Repo.all/1
+
+    @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
+    @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
+    @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
+
+    @type t :: %__MODULE__{
+            route_mapper: route_mapper,
+            trip_mapper: trip_mapper,
+            alerts_repo: alerts_repo
+          }
+  end
 
   def route_id(%__MODULE__{route: %Route{id: id}}), do: id
   def route_id(_row), do: nil

@@ -6,9 +6,6 @@ defmodule DotcomWeb.CmsRouterHelpers do
   fetch using "/type/:id" In the case where we are using the
   id, we delegate to the Phoenix helpers from RouterHelpers.
   """
-  alias Plug.Conn
-  alias DotcomWeb.Router.Helpers, as: RouterHelpers
-  alias DotcomWeb.ViewHelpers
 
   alias CMS.Page.{
     Event,
@@ -18,6 +15,9 @@ defmodule DotcomWeb.CmsRouterHelpers do
   }
 
   alias CMS.Partial.Teaser
+  alias DotcomWeb.Router.Helpers, as: RouterHelpers
+  alias DotcomWeb.ViewHelpers
+  alias Plug.Conn
 
   @spec news_entry_path(
           Conn.t() | nil,

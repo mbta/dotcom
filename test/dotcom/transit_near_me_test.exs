@@ -4,11 +4,11 @@ defmodule Dotcom.TransitNearMeTest do
   import Mox
   import Test.Support.Factories.Predictions.Prediction
 
+  alias Dotcom.TransitNearMe
   alias LocationService.Address
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias Dotcom.TransitNearMe
   alias Stops.Stop
 
   @address %Address{

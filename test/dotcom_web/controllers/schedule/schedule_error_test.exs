@@ -1,10 +1,10 @@
 defmodule DotcomWeb.ScheduleController.ScheduleErrorTest do
   use DotcomWeb.ConnCase, async: false
 
+  alias DotcomWeb.ScheduleController.ScheduleError
   alias JsonApi.Error
   alias Routes.Route
   alias Schedules.Schedule
-  alias DotcomWeb.ScheduleController.ScheduleError
 
   describe "call/0" do
     test "does not check schedules when date_in_rating: true", %{conn: conn} do

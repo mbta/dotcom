@@ -1,12 +1,13 @@
 defmodule DotcomWeb.ModeViewTest do
   @moduledoc false
+
   use ExUnit.Case, async: true
 
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias Alerts.Alert
-  alias Routes.Route
   alias DotcomWeb.ModeView
+  alias Routes.Route
 
   describe "mode_group_header/3" do
     test "renders an h2 if is_homepage? == false" do
