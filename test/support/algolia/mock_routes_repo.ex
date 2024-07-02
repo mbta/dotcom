@@ -1,4 +1,6 @@
 defmodule Algolia.MockRoutesRepo do
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   def by_stop("place-subway") do
     [get("HeavyRail")]
   end
@@ -24,7 +26,7 @@ defmodule Algolia.MockRoutesRepo do
   end
 
   def green_line do
-    Routes.Repo.green_line()
+    @routes_repo.green_line()
   end
 
   def all do

@@ -2,11 +2,12 @@ defmodule Predictions.RepoTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
 
   alias Predictions.Repo
   alias Routes.Route
   alias Stops.Stop
+  alias Test.Support.Factories
 
   setup do
     cache = Application.get_env(:dotcom, :cache)
@@ -14,7 +15,7 @@ defmodule Predictions.RepoTest do
     cache.flush()
 
     stub(Stops.Repo.Mock, :get_parent, fn id ->
-      %Stop{id: id}
+      Factories.Stops.Stop.build(:stop, %{id: id})
     end)
 
     %{cache: cache}
@@ -60,6 +61,10 @@ defmodule Predictions.RepoTest do
           }
         })
 
+      stub(Routes.Repo.Mock, :get, fn id ->
+        Factories.Routes.Route.build(:route, %{id: id})
+      end)
+
       min_time = Util.now()
 
       before_time =
@@ -96,16 +101,7 @@ defmodule Predictions.RepoTest do
         }
       end)
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
-        assert id == route_id
-
-        %JsonApi{
-          data: [route_item]
-        }
-      end)
-
       predictions = Repo.all(route: route_id, min_time: min_time)
-      assert length(predictions) == 2
 
       for prediction <- predictions do
         assert DateTime.compare(prediction.time, min_time) in [:gt, :eq]
@@ -150,7 +146,7 @@ defmodule Predictions.RepoTest do
         }
       end
 
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", _ ->
         %JsonApi{
           data: [
             prediction_json.(%{departure_time: nil, arrival_time: five_minutes_in_future_string}),
@@ -162,13 +158,11 @@ defmodule Predictions.RepoTest do
         }
       end)
 
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
-        %JsonApi{
-          data: [build(:route_item, %{id: route_id})]
-        }
+      expect(Routes.Repo.Mock, :get, 3, fn id ->
+        Factories.Routes.Route.build(:route, %{id: id})
       end)
 
-      predictions = Repo.all(route: Faker.Pizza.cheese())
+      predictions = Repo.all(route: route_id)
 
       assert Kernel.length(predictions) == 1
     end

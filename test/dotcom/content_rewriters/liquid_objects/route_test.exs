@@ -4,11 +4,11 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.RouteTest do
 
   import Dotcom.ContentRewriters.LiquidObjects.Route
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   describe "route_request/1" do
     test "it handles route requests for a valid/existing route ID" do
-      assert route_request("83") == {:ok, "83" |> @routes_repo_api.get() |> Map.get(:long_name)}
+      assert route_request("83") == {:ok, "83" |> @routes_repo.get() |> Map.get(:long_name)}
     end
 
     test "it reports when there are no results (valid request, but no repo matches)" do

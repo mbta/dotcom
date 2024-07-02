@@ -5,22 +5,26 @@ defmodule DotcomWeb.AlertControllerTest do
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
+
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
   import Mox
+  import Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 
   setup do
-    stub(MBTA.Api.Mock, :get_json, fn _, _ ->
-      %JsonApi{
-        data: []
-      }
+    stub(Routes.Repo.Mock, :by_type, fn route_type ->
+      build_list(2, :route, %{type: route_type})
     end)
 
     :ok
   end
 
   test "renders commuter rail", %{conn: conn} do
+    expect(Routes.Repo.Mock, :by_type, fn 2 ->
+      build_list(2, :route, %{type: 2})
+    end)
+
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
     assert html_response(conn, 200) =~ "Commuter Rail"
   end
@@ -51,6 +55,10 @@ defmodule DotcomWeb.AlertControllerTest do
     end
 
     test "sets a custom meta description", %{conn: conn} do
+      expect(Routes.Repo.Mock, :by_type, fn 3 ->
+        build_list(2, :route, %{type: 3})
+      end)
+
       conn = get(conn, alert_path(conn, :show, :bus))
       assert conn.assigns.meta_description
     end
@@ -276,6 +284,10 @@ defmodule DotcomWeb.AlertControllerTest do
 
   describe "mTicket detection" do
     test "mTicket matched", %{conn: conn} do
+      expect(Routes.Repo.Mock, :by_type, fn 2 ->
+        build_list(4, :route, %{type: 2})
+      end)
+
       response =
         conn
         |> put_req_header("user-agent", "Java/1.8.0_91")
@@ -288,6 +300,10 @@ defmodule DotcomWeb.AlertControllerTest do
     end
 
     test "mTicket not matched", %{conn: conn} do
+      expect(Routes.Repo.Mock, :by_type, fn 2 ->
+        build_list(4, :route, %{type: 2})
+      end)
+
       response =
         conn
         |> get(alert_path(conn, :show, "commuter-rail"))

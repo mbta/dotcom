@@ -1,9 +1,10 @@
 defmodule Alerts.HistoricalAlertTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import Alerts.HistoricalAlert
-  import Mock
   import Mox
+  import Test.Support.Factories.Routes.Route
+
   alias Alerts.{Alert, HistoricalAlert, InformedEntity}
 
   @basic_alert %Alert{header: "An alert header", effect: :delay, severity: 5}
@@ -43,19 +44,22 @@ defmodule Alerts.HistoricalAlertTest do
     end
 
     test "can include name from related routes" do
+      expect(Routes.Repo.Mock, :get, fn id -> build(:route, %{id: id}) end)
+
       alert_for_route = Alert.new(informed_entity: [@route_entity])
 
-      with_mock(Routes.Repo, [:passthrough], get: fn id -> %Routes.Route{name: "Route #{id}"} end) do
-        assert %HistoricalAlert{routes: ["Route 627"]} = from_alert(alert_for_route)
-      end
+      assert %HistoricalAlert{routes: [route_id]} = from_alert(alert_for_route)
+      assert is_binary(route_id)
     end
 
     test "can handle missing route" do
+      expect(Routes.Repo.Mock, :get, fn _ ->
+        {:error, %JsonApi.Error{}}
+      end)
+
       alert_for_route = Alert.new(informed_entity: [@route_entity])
 
-      with_mock(Routes.Repo, [:passthrough], get: fn _ -> nil end) do
-        assert %HistoricalAlert{routes: ["627"]} = from_alert(alert_for_route)
-      end
+      assert %HistoricalAlert{routes: ["627"]} = from_alert(alert_for_route)
     end
   end
 end

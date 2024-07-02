@@ -10,16 +10,16 @@ defmodule Routes.Repo do
   alias Dotcom.Cache.KeyGenerator
   alias JsonApi
   alias MBTA.Api.Shapes
-  alias Routes.{Route, Shape}
+  alias Routes.Route
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
   @default_opts [include: "route_patterns"]
 
-  @behaviour Routes.RepoApi
+  @behaviour Routes.Repo.Behaviour
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def all do
     case cached_all(@default_opts) do
       {:ok, routes} -> routes
@@ -42,7 +42,7 @@ defmodule Routes.Repo do
 
   # Used to spoof any Massport route as the data doesn't exist in the API
   # But is in the GTFS data
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def get("Massport-" <> id) do
     %Route{
       description: "Massport Generated Route",
@@ -71,11 +71,10 @@ defmodule Routes.Repo do
     end
   end
 
-  @impl Routes.RepoApi
-  def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
-    shapes = Keyword.put(opts, :route, route_id) |> cached_get_shapes()
-
-    filter_shapes_by_priority(shapes, filter_negative_priority?)
+  @impl Routes.Repo.Behaviour
+  def get_shapes(route_id, opts) do
+    Keyword.put(opts, :route, route_id)
+    |> cached_get_shapes()
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
@@ -97,19 +96,7 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec filter_shapes_by_priority([Shape.t()], boolean) :: [Shape.t()]
-  defp filter_shapes_by_priority(shapes, true) do
-    for shape <- shapes,
-        shape.priority >= 0 do
-      shape
-    end
-  end
-
-  defp filter_shapes_by_priority(shapes, false) do
-    shapes
-  end
-
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def get_shape(shape_id) do
     case Shapes.by_id(shape_id) do
@@ -121,34 +108,17 @@ defmodule Routes.Repo do
     end
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_type(types) when is_list(types) do
-    types = Enum.sort(types)
-
-    case by_type_cached(types) do
-      {:ok, routes} -> routes
-      {:error, _} -> []
-    end
+    all()
+    |> Enum.filter(fn route -> route.type in types end)
   end
 
   def by_type(type) do
     by_type([type])
   end
 
-  @spec by_type_uncached([0..4]) :: {:ok, [Route.t()]} | {:error, any}
-  defp by_type_uncached(types) do
-    case all() do
-      [] -> {:error, "no routes"}
-      routes -> {:ok, Enum.filter(routes, fn route -> route.type in types end)}
-    end
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp by_type_cached(types) do
-    by_type_uncached(types)
-  end
-
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop(stop_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
@@ -163,7 +133,7 @@ defmodule Routes.Repo do
     stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
@@ -178,7 +148,7 @@ defmodule Routes.Repo do
     stop_id |> MBTA.Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def by_stop_with_route_pattern(stop_id) do
     case do_by_stop_with_route_pattern(stop: stop_id, include: "route_patterns") do
       %{data: data} ->
@@ -221,7 +191,7 @@ defmodule Routes.Repo do
      |> Enum.sort_by(& &1.sort_order)}
   end
 
-  @impl Routes.RepoApi
+  @impl Routes.Repo.Behaviour
   def green_line do
     %Route{
       id: "Green",

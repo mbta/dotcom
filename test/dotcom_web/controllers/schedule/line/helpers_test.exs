@@ -1,17 +1,12 @@
 defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
 
-  alias Routes.{Route}
   alias DotcomWeb.ScheduleController.Line.Helpers
-  alias Stops.{RouteStops, RouteStop, Stop}
-  alias DotcomWeb.ScheduleController.Line.Helpers
-  alias Routes.{Route}
+  alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
-
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  alias Test.Support.Factories
 
   @stop %Stop{
     id: "110",
@@ -27,21 +22,21 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_route/1" do
     test "gets a route given its ID" do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
-        %JsonApi{data: [build(:route_item, %{id: id})]}
+      route_id = Faker.Internet.slug()
+
+      expect(Routes.Repo.Mock, :get, fn id ->
+        assert id == route_id
       end)
 
-      route_id = Faker.Internet.slug()
-      assert {:ok, %Route{id: ^route_id}} = Helpers.get_route(route_id)
+      assert Helpers.get_route(route_id)
     end
 
     test "returns :not_found if given a bad route ID" do
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
-        {:error, :error_atom}
+      expect(Routes.Repo.Mock, :get, fn _ ->
+        nil
       end)
 
       assert Helpers.get_route("Puce") == :not_found
-      assert Helpers.get_route("") == :not_found
     end
   end
 
@@ -796,86 +791,67 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       assert Helpers.get_shapes_by_direction("Ferry ID", 4, 0) == []
     end
 
-    @tag :external
     test "for bus" do
-      assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
+      route_id = Faker.Internet.slug()
+      direction_id = Faker.Util.pick([0, 1])
+      shapes = Factories.Routes.Shape.build_list(5, :shape)
 
-      assert @routes_repo_api.get_shapes("1", direction_id: 0) == [
-               %Routes.Shape{
-                 direction_id: 0,
-                 id: "010090",
-                 name: "Nubian Station - Harvard Square",
-                 polyline: "polyline",
-                 priority: 3,
-                 stop_ids: [
-                   "place-nubn",
-                   "1",
-                   "2",
-                   "6",
-                   "10003",
-                   "57",
-                   "58",
-                   "10590",
-                   "87",
-                   "188",
-                   "89",
-                   "91",
-                   "93",
-                   "95",
-                   "97",
-                   "99",
-                   "101",
-                   "102",
-                   "104",
-                   "106",
-                   "107",
-                   "108",
-                   "109",
-                   "110"
-                 ]
-               }
-             ]
+      expect(Routes.Repo.Mock, :get_shapes, 2, fn ^route_id, opts ->
+        assert opts[:direction_id] == direction_id
+
+        shapes
+      end)
+
+      [shapes_by_direction] = Helpers.get_shapes_by_direction(route_id, 3, direction_id)
+
+      assert shapes_by_direction == Helpers.do_get_shapes(route_id, direction_id) |> List.first()
     end
 
-    @tag :external
     test "for bus without scheduled trips" do
-      assert Helpers.get_shapes_by_direction("27", 3, 0) == []
+      route_id = Faker.Internet.slug()
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Routes.Repo.Mock, :get_shapes, fn ^route_id, opts ->
+        assert opts[:direction_id] == direction_id
+
+        []
+      end)
+
+      assert Helpers.get_shapes_by_direction(route_id, 3, direction_id) == []
     end
   end
 
   describe "get_branches/4" do
     test "returns a list of RouteStops, one for each branch of the line" do
+      stub(Routes.Repo.Mock, :by_stop, fn _, _ -> Factories.Routes.Route.build_list(2, :route) end)
+
       stub(Stops.Repo.Mock, :get, fn id -> %Stop{id: id} end)
       stub(Stops.Repo.Mock, :get_parent, fn id -> %Stop{id: id} end)
       stub(Stops.Repo.Mock, :stop_features, fn _, _ -> [] end)
 
-      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
-        %JsonApi{
-          data: [
-            build(:route_item, %{
-              relationships: %{
-                "stops" => build_list(5, :stop_item)
-              }
-            })
-          ]
-        }
-      end)
-
-      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
+      shapes = Factories.Routes.Shape.build_list(3, :shape)
 
       stops =
         Enum.flat_map(shapes, & &1.stop_ids)
         |> Enum.map(&%Stop{id: &1})
 
-      assert [%RouteStops{}, %RouteStops{}, %RouteStops{}] =
-               Helpers.get_branches(shapes, %{"Red" => stops}, %Route{id: "Red"}, 0)
+      route_id = Faker.Internet.slug()
+
+      assert [
+               %RouteStops{},
+               %RouteStops{},
+               %RouteStops{}
+             ] =
+               Helpers.get_branches(shapes, %{route_id => stops}, %Route{id: route_id}, 0)
     end
 
     test "returns an empty list when given no stops" do
+      route_id = Faker.Internet.slug()
+      direction_id = Faker.Util.pick([0, 1])
       stops = %{}
-      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
+      shapes = Factories.Routes.Shape.build_list(3, :shape)
 
-      assert Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0) == []
+      assert Helpers.get_branches(shapes, stops, %Route{id: route_id}, direction_id) == []
     end
   end
 

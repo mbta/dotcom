@@ -12,6 +12,7 @@ defmodule DotcomWeb.ControllerHelpers do
   alias Timex.Format.DateTime.Formatters.Strftime
 
   @req Application.compile_env!(:dotcom, :req_module)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @valid_resp_headers [
     "content-type",
@@ -77,7 +78,7 @@ defmodule DotcomWeb.ControllerHelpers do
 
   @spec filtered_grouped_routes([atom]) :: [{atom, [Route.t()]}]
   def filtered_grouped_routes(filters) do
-    Routes.Repo.all()
+    @routes_repo.all()
     |> Group.group()
     |> filter_routes(filters)
   end
@@ -90,7 +91,7 @@ defmodule DotcomWeb.ControllerHelpers do
   end
 
   @spec green_routes() :: [Route.t()]
-  def green_routes, do: Enum.map(GreenLine.branch_ids(), &Routes.Repo.get(&1))
+  def green_routes, do: Enum.map(GreenLine.branch_ids(), &@routes_repo.get(&1))
 
   @spec assign_alerts(Conn.t(), Keyword.t()) :: Conn.t()
   def assign_alerts(

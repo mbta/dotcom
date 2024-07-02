@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @default_opts [
@@ -81,7 +82,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     GreenLine.branch_ids()
     |> Enum.flat_map(fn route_id ->
       find_locations(
-        %Plug.Conn{conn | assigns: %{conn.assigns | route: Routes.Repo.get(route_id)}},
+        %Plug.Conn{conn | assigns: %{conn.assigns | route: @routes_repo.get(route_id)}},
         opts
       )
     end)

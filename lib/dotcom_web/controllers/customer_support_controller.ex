@@ -78,6 +78,8 @@ defmodule DotcomWeb.CustomerSupportController do
     }
   }
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   plug(:set_service_options)
   plug(:assign_ip)
   plug(:meta_description)
@@ -421,7 +423,7 @@ defmodule DotcomWeb.CustomerSupportController do
     bus_ferry_cr_options =
       for route_type <- 2..4, into: %{} do
         options =
-          Routes.Repo.by_type(route_type)
+          @routes_repo.by_type(route_type)
           |> Enum.map(fn route ->
             route.name
           end)

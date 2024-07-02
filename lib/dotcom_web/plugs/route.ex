@@ -4,6 +4,9 @@ defmodule DotcomWeb.Plugs.Route do
   Assigns @route based on a `route` parameter in the conn.
 
   """
+
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
@@ -12,7 +15,7 @@ defmodule DotcomWeb.Plugs.Route do
 
   @impl true
   def call(%{params: %{"route" => route_id}} = conn, []) do
-    case Routes.Repo.get(route_id) do
+    case @routes_repo.get(route_id) do
       nil ->
         DotcomWeb.ControllerHelpers.render_404(conn)
 

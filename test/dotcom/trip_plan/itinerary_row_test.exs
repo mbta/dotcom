@@ -4,16 +4,17 @@ defmodule TripPlan.ItineraryRowTest do
   import Dotcom.TripPlan.ItineraryRow
   import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner
+
   alias Dotcom.TripPlan.ItineraryRow
-  alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
+  alias Test.Support.Factories.{Routes.Route, Stops.Stop}
   alias TripPlan.NamedPosition
 
   setup :verify_on_exit!
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
-      row = %ItineraryRow{route: %Route{id: "route"}}
+      row = %ItineraryRow{route: %Routes.Route{id: "route"}}
 
       assert route_id(row) == "route"
     end
@@ -27,7 +28,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_type/1" do
     test "returns the route type when a route is present" do
-      row = %ItineraryRow{route: %Route{type: 0}}
+      row = %ItineraryRow{route: %Routes.Route{type: 0}}
 
       assert route_type(row) == 0
     end
@@ -41,7 +42,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_name/1" do
     test "returns the route name when a route is present" do
-      row = %ItineraryRow{route: %Route{name: "Red Line"}}
+      row = %ItineraryRow{route: %Routes.Route{name: "Red Line"}}
 
       assert route_name(row) == "Red Line"
     end
@@ -327,10 +328,10 @@ defmodule TripPlan.ItineraryRowTest do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
         cond do
           String.contains?(path, "trips") ->
-            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:trip_item)]}
+            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:trip_item)]}
 
           String.contains?(path, "routes") ->
-            %JsonApi{data: [Test.Support.Factories.Mbta.Api.build(:route_item)]}
+            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:route_item)]}
 
           true ->
             %JsonApi{data: []}
@@ -341,9 +342,9 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
-      stub(Stops.Repo.Mock, :get_parent, fn id ->
-        %Stops.Stop{id: id}
-      end)
+      # stubs instead of expect because these don't always get called
+      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
 
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row

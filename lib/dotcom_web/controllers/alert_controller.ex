@@ -9,6 +9,7 @@ defmodule DotcomWeb.AlertController do
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
   plug(DotcomWeb.Plug.Mticket)
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @valid_ids ~w(subway commuter-rail bus ferry access)s
@@ -125,7 +126,7 @@ defmodule DotcomWeb.AlertController do
   end
 
   defp routes(%{assigns: %{route_type: route_type}} = conn, _opts),
-    do: assign(conn, :routes, Routes.Repo.by_type(route_type))
+    do: assign(conn, :routes, @routes_repo.by_type(route_type))
 
   defp routes(conn, _opts), do: conn
 

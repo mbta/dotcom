@@ -13,9 +13,6 @@ defmodule Dotcom.TripPlan.RelatedLink do
   alias TripPlan.{Itinerary, Leg}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    route_by_id: &Routes.Repo.get/1
-  ]
 
   defstruct text: "",
             url: "",
@@ -65,8 +62,6 @@ defmodule Dotcom.TripPlan.RelatedLink do
   @doc "Builds a list of related links for an Itinerary"
   @spec links_for_itinerary(Itinerary.t(), Keyword.t()) :: [t]
   def links_for_itinerary(itinerary, opts \\ []) do
-    opts = Keyword.merge(@default_opts, opts)
-
     for func <- [&route_links/2, &fare_links/2],
         link <- func.(itinerary, opts) do
       link
@@ -135,7 +130,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
     new(["View ", text, " fare information"], url)
   end
 
-  defp fare_link_text(type) when type in [:commuter_rail, :ferry, :bus, :subway] do
+  defp fare_link_text(type) do
     Atom.to_string(type) |> String.replace("_", " ")
   end
 
@@ -154,6 +149,8 @@ defmodule Dotcom.TripPlan.RelatedLink do
   defp fare_link_url_opts(type, _leg) when type in [:bus, :subway] do
     {"#{type}-fares", []}
   end
+
+  defp fare_link_url_opts(_, _leg), do: {"", []}
 
   # if there are multiple fare links, show fare overview link
   defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1,

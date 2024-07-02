@@ -20,10 +20,15 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
 
+  import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
+
+  require Logger
+
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   # How many seconds a departure is considered recent
   @recent_departure_max_age 600
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @type react_keys :: :date | :direction | :is_current
   @type react_strings :: [{react_keys, String.t()}]
@@ -157,7 +162,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     schedule_route_id = route_id |> get_route_id(trip_id)
 
     if schedule_route_id do
-      route = Routes.Repo.get(schedule_route_id)
+      route = @routes_repo.get(schedule_route_id)
       get_trip_info(conn, trip_id, route, date, direction, origin)
     else
       _ = Logger.warning("route_id_not_found route_id=#{route_id}, trip_id=#{trip_id}")

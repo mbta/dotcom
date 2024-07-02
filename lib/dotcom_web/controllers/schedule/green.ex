@@ -30,6 +30,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:route_pdfs)
   plug(:channels)
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @task_timeout 10_000
 
   def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
@@ -62,7 +63,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   end
 
   def route(conn, _params) do
-    assign(conn, :route, Routes.Repo.green_line())
+    assign(conn, :route, @routes_repo.green_line())
   end
 
   def stops_on_routes(
@@ -149,7 +150,7 @@ defmodule DotcomWeb.ScheduleController.Green do
     |> Enum.map(fn route_id ->
       %{
         conn
-        | assigns: %{conn.assigns | route: Routes.Repo.get(route_id)},
+        | assigns: %{conn.assigns | route: @routes_repo.get(route_id)},
           params: Map.put(conn.params, "route", route_id)
       }
     end)

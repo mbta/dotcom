@@ -9,6 +9,7 @@ defmodule Fares do
   alias Schedules.Trip
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @silver_line_rapid_transit ~w(741 742 743 746)
@@ -213,7 +214,7 @@ defmodule Fares do
         Route.type_atom(route_or_atom)
 
       <<id::binary>> ->
-        Routes.Repo.get(id) |> to_fare_atom
+        @routes_repo.get(id) |> to_fare_atom
 
       _ ->
         route_or_atom

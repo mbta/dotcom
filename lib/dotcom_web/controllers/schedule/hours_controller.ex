@@ -6,6 +6,8 @@ defmodule DotcomWeb.ScheduleController.HoursController do
   alias DotcomWeb.ControllerHelpers
   alias Routes.Route
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   # uses a date URL parameter to set conn.assigns.date
   plug(DotcomWeb.Plugs.Date)
 
@@ -32,7 +34,7 @@ defmodule DotcomWeb.ScheduleController.HoursController do
   end
 
   defp do_hours_of_operation(conn, route_id, hours_fn) do
-    case Routes.Repo.get(route_id) do
+    case @routes_repo.get(route_id) do
       %Route{description: description, id: id} ->
         hours_of_operation =
           hours_fn.(

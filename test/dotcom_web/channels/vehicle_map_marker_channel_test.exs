@@ -3,10 +3,11 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
   import Mock
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
 
   alias DotcomWeb.{UserSocket, VehicleMapMarkerChannel}
   alias Leaflet.MapData.Marker
+  alias Test.Support.Factories
   alias Vehicles.Vehicle
 
   @vehicles [
@@ -20,6 +21,12 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
     }
   ]
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+    :ok
+  end
+
   setup :verify_on_exit!
 
   setup_all do
@@ -30,15 +37,13 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
   test "sends vehicles and marker data" do
     MBTA.Api.Mock
-    |> expect(:get_json, fn "/routes/" <> _, _ ->
-      %JsonApi{links: %{}, data: [build(:route_item)]}
-    end)
     |> expect(:get_json, fn "/trips/" <> _, _ ->
       %JsonApi{links: %{}, data: [build(:trip_item)]}
     end)
 
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{name: "Somewhere"} end)
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
+    expect(Routes.Repo.Mock, :get, fn id -> Factories.Routes.Route.build(:route, %{id: id}) end)
 
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push
@@ -122,12 +127,11 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       departing?: true
     }
 
-    stub(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-    stub(Stops.Repo.Mock, :get, fn _ -> stop end)
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
+    expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+    expect(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
+    expect(Routes.Repo.Mock, :get, fn _ -> route end)
 
     with_mocks [
-      {Routes.Repo, [:passthrough], [get: fn _ -> route end]},
       {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]}
     ] do
       assert {:ok, _, socket} =

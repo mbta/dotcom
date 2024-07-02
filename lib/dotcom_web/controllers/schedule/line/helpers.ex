@@ -4,11 +4,11 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   """
 
   alias RoutePatterns.RoutePattern
-  alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
   alias Stops.{RouteStop, RouteStops, Stop}
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type query_param :: String.t() | nil
@@ -30,11 +30,11 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @spec do_get_route(String.t()) :: Route.t() | nil
   defp do_get_route("Green") do
-    RoutesRepo.green_line()
+    @routes_repo.green_line()
   end
 
   defp do_get_route(route_id) do
-    RoutesRepo.get(route_id)
+    @routes_repo.get(route_id)
   end
 
   @doc """
@@ -162,7 +162,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @spec do_get_shapes(Route.id_t(), direction_id) :: [Shape.t()]
   def do_get_shapes(route_id, direction_id) do
-    RoutesRepo.get_shapes(route_id, direction_id: direction_id)
+    @routes_repo.get_shapes(route_id, direction_id: direction_id)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id) ::
@@ -214,7 +214,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
     shape_name =
       branch_id
-      |> RoutesRepo.get()
+      |> @routes_repo.get()
       |> Map.get(:direction_destinations)
       |> Map.values()
       |> Enum.join(" - ")

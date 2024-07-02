@@ -28,12 +28,12 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
   @doc """
   Builds a ItineraryRowList from the given itinerary
   """
-  @spec from_itinerary(Itinerary.t(), ItineraryRow.Dependencies.t(), opts) :: t
+  @spec from_itinerary(Itinerary.t(), opts) :: t
   def from_itinerary(
         %Itinerary{legs: legs, accessible?: accessible?} = itinerary,
-        deps,
         opts \\ []
       ) do
+    deps = %ItineraryRow.Dependencies{}
     alerts = get_alerts(itinerary, deps)
     rows = get_rows(itinerary, deps, opts, alerts)
 
@@ -65,7 +65,6 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
     |> deps.alerts_repo.()
     |> Dotcom.TripPlan.Alerts.filter_for_itinerary(
       itinerary,
-      route_by_id: deps.route_mapper,
       trip_by_id: deps.trip_mapper
     )
   end

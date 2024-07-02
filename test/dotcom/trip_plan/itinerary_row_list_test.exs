@@ -1,7 +1,7 @@
 defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
 
-  alias Dotcom.TripPlan.ItineraryRow
+  alias Test.Support.Factories.{MBTA.Api, Routes.Route, Stops.Stop}
 
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
@@ -43,20 +43,18 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
           ]
         )
 
-      deps = %ItineraryRow.Dependencies{
-        route_mapper: &route_mapper/1,
-        trip_mapper: &trip_mapper/1,
-        alerts_repo: &alerts_repo/1
-      }
+      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
 
-      stub(Stops.Repo.Mock, :get_parent, fn id -> %Stops.Stop{id: id} end)
+      stub(MBTA.Api.Mock, :get_json, fn "/trips" <> _, [] ->
+        %JsonApi{data: [Api.build(:trip_item)]}
+      end)
 
-      {:ok,
-       %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary, deps), deps: deps}}
+      {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary)}}
     end
 
     @tag :external
-    test "ItineraryRow contains given stop name when no stop_id present", %{deps: deps} do
+    test "ItineraryRow contains given stop name when no stop_id present" do
       from = build(:stop_named_position, stop_id: nil)
       to = build(:stop_named_position, stop_id: "place-sstat")
       date_time = ~N[2017-06-27T11:43:00]
@@ -67,7 +65,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
           legs: [build(:leg, from: from)] ++ build_list(3, :leg) ++ [build(:leg, to: to)]
         )
 
-      itinerary_row_list = from_itinerary(itinerary, deps)
+      itinerary_row_list = from_itinerary(itinerary)
 
       itinerary_destination =
         itinerary.legs |> Enum.reject(& &1.from.stop_id) |> List.first() |> Map.get(:from)
@@ -128,12 +126,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       assert Enum.empty?(intersection)
     end
 
-    test "Distance is given with personal steps", %{itinerary: itinerary, deps: deps} do
+    test "Distance is given with personal steps", %{itinerary: itinerary} do
       leg =
         build(:leg, mode: build(:personal_detail))
 
       personal_itinerary = %{itinerary | legs: [leg]}
-      row_list = from_itinerary(personal_itinerary, deps)
+      row_list = from_itinerary(personal_itinerary)
 
       for {_step, distance} <- Enum.flat_map(row_list, & &1.steps) do
         assert distance
@@ -148,16 +146,16 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       end
     end
 
-    test "Uses to name when one is provided", %{itinerary: itinerary, deps: deps} do
+    test "Uses to name when one is provided", %{itinerary: itinerary} do
       {destination, stop_id, _datetime, _alerts} =
-        from_itinerary(itinerary, deps, to: "Final Destination").destination
+        from_itinerary(itinerary, to: "Final Destination").destination
 
       assert destination == "Final Destination"
       refute stop_id
     end
 
     @tag :external
-    test "Does not replace to stop_id", %{deps: deps} do
+    test "Does not replace to stop_id" do
       to = build(:stop_named_position, stop_id: "place-north")
 
       itinerary =
@@ -167,13 +165,13 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
         )
 
       {name, id, _datetime, _alerts} =
-        itinerary |> from_itinerary(deps, to: "Final Destination") |> Map.get(:destination)
+        itinerary |> from_itinerary(to: "Final Destination") |> Map.get(:destination)
 
       assert name == "Final Destination"
       assert id == "place-north"
     end
 
-    test "Uses given from name when one is provided", %{deps: deps} do
+    test "Uses given from name when one is provided" do
       from = build(:named_position)
 
       itinerary =
@@ -183,21 +181,21 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
         )
 
       {name, nil} =
-        itinerary |> from_itinerary(deps, from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
+        itinerary |> from_itinerary(from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
 
       assert name == "Starting Point"
     end
 
-    test "Does not replace from stop_id", %{itinerary: itinerary, deps: deps} do
+    test "Does not replace from stop_id", %{itinerary: itinerary} do
       {name, id} =
-        itinerary |> from_itinerary(deps, from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
+        itinerary |> from_itinerary(from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
 
       assert name == "Starting Point"
       assert id == "place-sstat"
     end
 
     @tag :external
-    test "Returns additional routes for Green Line legs", %{itinerary: itinerary, deps: deps} do
+    test "Returns additional routes for Green Line legs", %{itinerary: itinerary} do
       green_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
@@ -211,7 +209,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       }
 
       personal_itinerary = %{itinerary | legs: [green_leg]}
-      itinerary_rows = from_itinerary(personal_itinerary, deps)
+      itinerary_rows = from_itinerary(personal_itinerary)
 
       additional_routes =
         itinerary_rows.rows |> List.first() |> Map.get(:additional_routes) |> Enum.map(& &1.id)
@@ -219,16 +217,16 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       assert additional_routes == ["Green-B", "Green-D"]
     end
 
-    test "Uses accessible? flag from itinerary", %{itinerary: itinerary, deps: deps} do
-      accessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: true}, deps)
-      inaccessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: false}, deps)
+    test "Uses accessible? flag from itinerary", %{itinerary: itinerary} do
+      accessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: true})
+      inaccessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: false})
 
       assert accessible_itinerary_rows.accessible?
       refute inaccessible_itinerary_rows.accessible?
     end
 
     @tag :external
-    test "Alerts for intermediate steps parsed correctly", %{itinerary: itinerary, deps: deps} do
+    test "Alerts for intermediate steps parsed correctly", %{itinerary: itinerary} do
       red_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
@@ -241,7 +239,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       }
 
       itinerary = %{itinerary | legs: [red_leg]}
-      itinerary_rows = from_itinerary(itinerary, deps, to: "place-pktrm")
+      itinerary_rows = from_itinerary(itinerary, to: "place-pktrm")
       rows = Map.get(itinerary_rows, :rows)
       assert length(List.first(rows).steps) == 1
       intermediate_step = List.first(List.first(rows).steps)
@@ -254,8 +252,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
     @tag :external
     test "Alerts for stations mid travel and destination parsed correctly", %{
-      itinerary: itinerary,
-      deps: deps
+      itinerary: itinerary
     } do
       red_leg = %TripPlan.Leg{
         start: @date_time,
@@ -281,7 +278,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       }
 
       itinerary = %{itinerary | legs: [red_leg, green_leg]}
-      itinerary_rows = from_itinerary(itinerary, deps, to: "place-kencl")
+      itinerary_rows = from_itinerary(itinerary, to: "place-kencl")
       {_destination, _id, _datetime, destination_alerts} = Map.get(itinerary_rows, :destination)
       assert length(destination_alerts) == 1
       assert List.first(destination_alerts).id == 2
@@ -289,30 +286,6 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       assert length(transfer_alerts) == 1
       assert List.first(transfer_alerts).id == 1
     end
-  end
-
-  defp route_mapper("Blue" = id) do
-    %Routes.Route{type: 1, id: id, name: "Subway"}
-  end
-
-  defp route_mapper("Red" = id) do
-    %Routes.Route{type: 1, id: id, name: "Subway"}
-  end
-
-  defp route_mapper("CR-Lowell" = id) do
-    %Routes.Route{type: 2, id: id, name: "Commuter Rail"}
-  end
-
-  defp route_mapper("1" = id) do
-    %Routes.Route{type: 3, id: id, name: "Bus"}
-  end
-
-  defp route_mapper("Green-" <> branch = id) when branch in ["B", "C", "D", "E"] do
-    %Routes.Route{type: 0, id: id, name: "Subway"}
-  end
-
-  defp route_mapper(_) do
-    nil
   end
 
   defp stop_mapper("place-north") do
@@ -337,54 +310,5 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
   defp stop_mapper(_) do
     nil
-  end
-
-  defp trip_mapper("34170028" = trip_id) do
-    %Schedules.Trip{id: trip_id}
-  end
-
-  defp trip_mapper("Green-1" = trip_id) do
-    %Schedules.Trip{id: trip_id, direction_id: 1}
-  end
-
-  defp trip_mapper(_) do
-    %Schedules.Trip{id: "trip_id"}
-  end
-
-  defp alerts_repo(_) do
-    [
-      Alerts.Alert.new(
-        id: 1,
-        effect: :access_issue,
-        active_period: [{nil, nil}],
-        informed_entity: [
-          %Alerts.InformedEntity{stop: "place-pktrm", activities: MapSet.new([:board, :exit])}
-        ]
-      ),
-      Alerts.Alert.new(
-        id: 2,
-        effect: :access_issue,
-        active_period: [{nil, nil}],
-        informed_entity: [
-          %Alerts.InformedEntity{stop: "place-kencl", activities: MapSet.new([:board, :exit])}
-        ]
-      ),
-      Alerts.Alert.new(
-        id: 3,
-        effect: :access_issue,
-        active_period: [{nil, nil}],
-        informed_entity: [
-          %Alerts.InformedEntity{stop: "place-dwnxg", activities: MapSet.new([:ride])}
-        ]
-      ),
-      Alerts.Alert.new(
-        id: 4,
-        effect: :access_issue,
-        active_period: [{nil, nil}],
-        informed_entity: [
-          %Alerts.InformedEntity{stop: "place-dwnxg", activities: MapSet.new([:park_car])}
-        ]
-      )
-    ]
   end
 end

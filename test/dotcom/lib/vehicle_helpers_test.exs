@@ -36,6 +36,8 @@ defmodule Dotcom.VehicleHelpersTest do
     }
   ]
 
+  setup :verify_on_exit!
+
   setup do
     stub(Stops.Repo.Mock, :get, fn _ ->
       @station
@@ -45,11 +47,6 @@ defmodule Dotcom.VehicleHelpersTest do
   end
 
   setup_with_mocks([
-    {Routes.Repo, [],
-     [
-       get: fn id -> %Routes.Route{id: id} end,
-       get_shape: fn "9850002" -> [@shape] end
-     ]},
     {Schedules.Repo, [:passthrough],
      [
        trip: fn
@@ -248,6 +245,10 @@ defmodule Dotcom.VehicleHelpersTest do
 
   describe "get_vehicle_polylines/2" do
     test "vehicle polyline not in route polylines" do
+      expect(Routes.Repo.Mock, :get_shape, fn _ ->
+        [@shape]
+      end)
+
       vehicle_polylines = get_vehicle_polylines(@locations, [])
       assert [<<_::binary>>] = vehicle_polylines
     end

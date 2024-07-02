@@ -32,21 +32,19 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           duration: Integer.t()
         }
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defmodule Dependencies do
     @moduledoc false
 
-    defstruct route_mapper: &Routes.Repo.get/1,
-              trip_mapper: &Schedules.Repo.trip/1,
+    defstruct trip_mapper: &Schedules.Repo.trip/1,
               alerts_repo: &Alerts.Repo.all/1
 
-    @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
     @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
     @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
 
     @type t :: %__MODULE__{
-            route_mapper: route_mapper,
             trip_mapper: trip_mapper,
             alerts_repo: alerts_repo
           }
@@ -67,7 +65,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   @spec from_leg(Leg.t(), Dependencies.t(), Leg.t() | nil) :: t
   def from_leg(leg, deps, next_leg) do
     trip = leg |> Leg.trip_id() |> parse_trip_id(deps.trip_mapper)
-    route = leg |> Leg.route_id() |> parse_route_id(deps.route_mapper)
+    route = leg |> Leg.route_id() |> parse_route_id()
     stop = name_from_position(leg.from)
 
     %__MODULE__{
@@ -77,7 +75,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       trip: trip,
       departure: leg.start,
       steps: get_steps(leg.mode, next_leg),
-      additional_routes: get_additional_routes(route, trip, leg, stop, deps),
+      additional_routes: get_additional_routes(route, trip, leg, stop),
       duration: leg.duration,
       distance: leg.distance
     }
@@ -180,10 +178,10 @@ defmodule Dotcom.TripPlan.ItineraryRow do
     end
   end
 
-  @spec parse_route_id(:error | {:ok, String.t()}, Dependencies.route_mapper()) ::
+  @spec parse_route_id(:error | {:ok, String.t()}) ::
           Routes.Route.t() | nil
-  defp parse_route_id(:error, _route_mapper), do: nil
-  defp parse_route_id({:ok, route_id}, route_mapper), do: route_mapper.(route_id)
+  defp parse_route_id(:error), do: nil
+  defp parse_route_id({:ok, route_id}), do: @routes_repo.get(route_id)
 
   @spec parse_trip_id(:error | {:ok, String.t()}, Dependencies.trip_mapper()) ::
           Schedules.Trip.t() | nil
@@ -216,29 +214,27 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           Route.t(),
           Schedules.Trip.t(),
           Leg.t(),
-          name_and_id,
-          Dependencies.t()
+          name_and_id
         ) :: [Route.t()]
   defp get_additional_routes(
          %Route{id: "Green" <> _line = route_id},
          trip,
          leg,
-         {_name, from_stop_id},
-         deps
+         {_name, from_stop_id}
        )
        when not is_nil(trip) do
     stop_pairs = GreenLine.stops_on_routes(trip.direction_id)
     {_to_stop_name, to_stop_id} = name_from_position(leg.to)
-    available_routes(route_id, from_stop_id, to_stop_id, stop_pairs, deps.route_mapper)
+    available_routes(route_id, from_stop_id, to_stop_id, stop_pairs)
   end
 
-  defp get_additional_routes(_route, _trip, _leg, _from, _deps), do: []
+  defp get_additional_routes(_route, _trip, _leg, _from), do: []
 
-  defp available_routes(current_route_id, from_stop_id, to_stop_id, stop_pairs, route_mapper) do
+  defp available_routes(current_route_id, from_stop_id, to_stop_id, stop_pairs) do
     GreenLine.branch_ids()
     |> List.delete(current_route_id)
     |> Enum.filter(&both_stops_on_route?(&1, from_stop_id, to_stop_id, stop_pairs))
-    |> Enum.map(route_mapper)
+    |> Enum.map(&@routes_repo.get/1)
   end
 
   defp both_stops_on_route?(route_id, from_stop_id, to_stop_id, stop_pairs) do

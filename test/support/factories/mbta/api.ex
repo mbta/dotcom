@@ -1,4 +1,4 @@
-defmodule Test.Support.Factories.Mbta.Api do
+defmodule Test.Support.Factories.MBTA.Api do
   @moduledoc """
   Generated fake data for MBTA.Api
   """
@@ -198,6 +198,21 @@ defmodule Test.Support.Factories.Mbta.Api do
         fn _k, v1, v2 ->
           Map.merge(v1, v2)
         end
+      )
+    )
+  end
+
+  def shape_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "polyline" => Faker.Lorem.characters()
+          },
+          type: "shape"
+        },
+        attrs
       )
     )
   end

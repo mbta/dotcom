@@ -12,7 +12,7 @@ defmodule DotcomWeb.ScheduleControllerTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -215,7 +215,7 @@ defmodule DotcomWeb.ScheduleControllerTest do
     @tag :skip
     test "Bus line with variant", %{conn: conn} do
       direction = 1
-      variant = List.last(@routes_repo_api.get_shapes("36", direction_id: direction)).id
+      variant = List.last(@routes_repo.get_shapes("36", direction_id: direction)).id
 
       conn =
         get(

@@ -40,6 +40,8 @@ defmodule TripPlan.Leg do
           duration: Integer.t()
         }
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @doc "Returns the route ID for the leg, if present"
   @spec route_id(t) :: {:ok, Routes.Route.id_t()} | :error
   def route_id(%__MODULE__{mode: %TransitDetail{route_id: route_id}}), do: {:ok, route_id}
@@ -106,7 +108,7 @@ defmodule TripPlan.Leg do
          from: %NamedPosition{stop_id: origin_id},
          to: %NamedPosition{stop_id: destination_id}
        }) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
 
     if route do
       Routes.Route.type_atom(route) == :commuter_rail and

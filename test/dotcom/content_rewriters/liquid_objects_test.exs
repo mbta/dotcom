@@ -10,7 +10,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
   alias Fares.{Format, Repo}
   alias Routes
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do
@@ -72,7 +72,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
 
     @tag :external
     test "it handles route requests" do
-      assert replace(~s(route:83)) == "83" |> @routes_repo_api.get() |> Map.get(:long_name)
+      assert replace(~s(route:83)) == "83" |> @routes_repo.get() |> Map.get(:long_name)
     end
 
     test "it returns a liquid object when not otherwise handled" do

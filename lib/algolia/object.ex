@@ -5,13 +5,14 @@ defprotocol Algolia.Object do
 end
 
 defimpl Algolia.Object, for: Stops.Stop do
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   def object_id(stop), do: "stop-" <> stop.id
   def url(stop), do: Util.site_path(:stop_path, [:show, stop])
 
   def data(stop) do
-    routes_for_stop = Routes.Repo.by_stop(stop.id)
+    routes_for_stop = @routes_repo.by_stop(stop.id)
 
     %{
       _geoloc: %{

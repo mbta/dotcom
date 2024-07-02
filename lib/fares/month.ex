@@ -8,6 +8,8 @@ defmodule Fares.Month do
   alias Schedules.Trip
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @type fare_fn :: (Keyword.t() -> [Fare.t()])
 
   @spec recommended_pass(
@@ -23,7 +25,7 @@ defmodule Fares.Month do
 
   def recommended_pass(route_id, trip, origin_id, destination_id, fare_fn)
       when is_binary(route_id) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
     recommended_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
@@ -51,7 +53,7 @@ defmodule Fares.Month do
   def base_pass(nil, _, _, _, _), do: nil
 
   def base_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
     base_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
@@ -78,7 +80,7 @@ defmodule Fares.Month do
   def reduced_pass(nil, _, _, _, _), do: nil
 
   def reduced_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
-    route = Routes.Repo.get(route_id)
+    route = @routes_repo.get(route_id)
     reduced_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 

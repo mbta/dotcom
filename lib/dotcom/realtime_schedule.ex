@@ -12,12 +12,12 @@ defmodule Dotcom.RealtimeSchedule do
   alias Dotcom.TransitNearMe
   alias Predictions.Prediction
   alias RoutePatterns.RoutePattern
-  alias Routes.Repo, as: RoutesRepo
   alias Routes.Route
   alias Schedules.RepoCondensed, as: SchedulesRepo
   alias Schedules.ScheduleCondensed
   alias Stops.Stop
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   # the long timeout is to address a worst-case scenario of cold schedule cache
@@ -28,7 +28,6 @@ defmodule Dotcom.RealtimeSchedule do
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   @default_opts [
-    routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,
     alerts_fn: &Alerts.Repo.by_route_ids/2
   ]
@@ -50,12 +49,11 @@ defmodule Dotcom.RealtimeSchedule do
   @spec do_stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
   defp do_stop_data(stop_ids, now, opts) do
     opts = Keyword.merge(@default_opts, opts)
-    routes_fn = Keyword.fetch!(opts, :routes_fn)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
     alerts_fn = Keyword.fetch!(opts, :alerts_fn)
 
     # stage 1, get routes
-    routes_task = Task.async(fn -> get_routes(stop_ids, routes_fn) end)
+    routes_task = Task.async(fn -> get_routes(stop_ids) end)
     route_with_patterns = Task.await(routes_task)
 
     # stage 2, get stops, predictions, schedules, and alerts
@@ -94,13 +92,13 @@ defmodule Dotcom.RealtimeSchedule do
     Map.take(stop, [:id, :name, :accessibility, :address, :parking_lots])
   end
 
-  @spec get_routes([Stop.id_t()], fun()) :: [route_with_patterns_t]
-  defp get_routes(stop_ids, routes_fn) do
+  @spec get_routes([Stop.id_t()]) :: [route_with_patterns_t]
+  defp get_routes(stop_ids) do
     stop_ids
     |> Enum.map(
       &Task.async(fn ->
         &1
-        |> routes_fn.()
+        |> @routes_repo.by_stop_with_route_pattern()
         |> Enum.map(fn {route, route_patterns} ->
           {&1, JsonHelpers.stringified_route(route), route_patterns}
         end)
