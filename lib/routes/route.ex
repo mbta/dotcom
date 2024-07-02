@@ -3,7 +3,7 @@ defmodule Routes.Route do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @derive Jason.Encoder
+  @derive {Jason.Encoder, except: [:external_agency_name]}
 
   defstruct color: "",
             custom_route?: false,
