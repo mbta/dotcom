@@ -75,6 +75,7 @@ const DepartureTimes = ({
           <DeparturesWithBadge
             alerts={alertsForDirection}
             departuresLength={departures.length}
+            timeListLength={timeList.length}
           >
             {timeList.length > 0 ? (
               <div className="departure-card__times">{timeList}</div>

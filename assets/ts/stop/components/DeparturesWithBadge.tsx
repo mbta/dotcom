@@ -29,24 +29,15 @@ const toInformativeAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   return undefined;
 };
 
-const alertBadgeWrapper = (alertBadge: JSX.Element): JSX.Element => {
-  return (
-    <div
-      className="departure-card__alert"
-      style={{ float: "right", whiteSpace: "nowrap", marginTop: "0.25rem" }}
-    >
-      {alertBadge}
-    </div>
-  );
-};
-
 const DeparturesWithBadge = ({
   alerts,
   departuresLength,
+  timeListLength,
   children
 }: {
   alerts: Alert[];
   departuresLength: number;
+  timeListLength: number;
   children: ReactNode;
 }): ReactElement | null => {
   const suppressiveAlerts = alerts.filter(alert =>
@@ -59,14 +50,19 @@ const DeparturesWithBadge = ({
 
   return (
     <>
-      {priorityBadge ? (
-        <div className="font-helvetica-neue fs-14" style={{ float: "right" }}>
-          See alternatives
+      {priorityBadge && timeListLength === 1 ? (
+        <div>
+          <div className="font-helvetica-neue fs-14">See alternatives</div>
+          <div
+            className="departure-card__alert"
+            style={{ whiteSpace: "nowrap", marginTop: "0.25rem" }}
+          >
+            {displayBadge}
+          </div>
         </div>
       ) : (
         children
       )}
-      {alertBadgeWrapper(displayBadge)}
     </>
   );
 };
