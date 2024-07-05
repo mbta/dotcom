@@ -48,6 +48,8 @@ const DeparturesWithBadge = ({
   if (!(priorityBadge || secondaryBadge)) return <>{children}</>;
   const displayBadge = (priorityBadge || secondaryBadge)!;
 
+  // if the priority badge is present and there is only one departure, show the badge
+  // this is because we check for predictions and return a single time list if there are none
   return (
     <>
       {priorityBadge && timeListLength === 1 ? (

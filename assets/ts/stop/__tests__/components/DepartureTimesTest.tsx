@@ -218,7 +218,7 @@ describe("DepartureTimes", () => {
       />
     );
     await waitFor(() => {
-      expect(screen.getByText("Detour")).toBeDefined();
+      expect(screen.getByText("Delayed")).toBeDefined();
       expect(screen.getByText("45 min")).toBeDefined();
       expect(screen.queryByText("See alternatives")).toBeNull();
     });
