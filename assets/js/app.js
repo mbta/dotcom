@@ -50,10 +50,6 @@ import setupTripPlannerForm from "./trip-planner-form.js";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 
-if (typeof globalThis === "undefined") {
-  var globalThis = Function("return this")();
-}
-
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
