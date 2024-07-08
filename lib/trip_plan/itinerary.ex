@@ -16,20 +16,24 @@ defmodule TripPlan.Itinerary do
   @derive {Jason.Encoder, except: [:passes]}
   @enforce_keys [:start, :stop]
   defstruct [
+    :duration,
     :start,
     :stop,
     :passes,
     :tag,
+    :walk_distance,
     legs: [],
     accessible?: false
   ]
 
   @type t :: %__MODULE__{
+          duration: non_neg_integer(),
           start: DateTime.t(),
           stop: DateTime.t(),
           legs: [Leg.t()],
           accessible?: boolean | nil,
           passes: passes(),
+          walk_distance: float(),
           tag: OpenTripPlannerClient.ItineraryTag.tag()
         }
 
@@ -86,6 +90,7 @@ defmodule TripPlan.Itinerary do
     itinerary
     |> Enum.map(&Leg.walking_distance/1)
     |> Enum.sum()
+    |> Float.round(2)
   end
 
   @doc "Return a lost of all of the "

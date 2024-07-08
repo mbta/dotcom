@@ -9,16 +9,11 @@ defmodule TripPlan.Leg do
   alias TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
 
   @derive {Jason.Encoder, only: [:from, :to, :mode]}
-  defstruct start: DateTime.from_unix!(-1),
-            stop: DateTime.from_unix!(0),
+  defstruct start: Timex.now(),
+            stop: Timex.now(),
             mode: nil,
             from: nil,
             to: nil,
-            name: nil,
-            long_name: nil,
-            type: nil,
-            description: nil,
-            url: nil,
             polyline: "",
             distance: 0.0,
             duration: 0
@@ -28,23 +23,16 @@ defmodule TripPlan.Leg do
           start: DateTime.t(),
           stop: DateTime.t(),
           mode: mode,
-          from: NamedPosition.t() | nil,
+          from: NamedPosition.t(),
           to: NamedPosition.t(),
-          name: String.t(),
-          long_name: String.t(),
-          type: String.t(),
-          description: String.t(),
-          url: String.t(),
           polyline: String.t(),
           distance: Float.t(),
           duration: Integer.t()
         }
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @doc "Returns the route ID for the leg, if present"
   @spec route_id(t) :: {:ok, Routes.Route.id_t()} | :error
-  def route_id(%__MODULE__{mode: %TransitDetail{route_id: route_id}}), do: {:ok, route_id}
+  def route_id(%__MODULE__{mode: %TransitDetail{route: route}}), do: {:ok, route.id}
   def route_id(%__MODULE__{}), do: :error
 
   @doc "Returns the trip ID for the leg, if present"
@@ -54,7 +42,7 @@ defmodule TripPlan.Leg do
 
   @spec route_trip_ids(t) :: {:ok, {Routes.Route.id_t(), Schedules.Trip.id_t()}} | :error
   def route_trip_ids(%__MODULE__{mode: %TransitDetail{} = mode}) do
-    {:ok, {mode.route_id, mode.trip_id}}
+    {:ok, {mode.route.id, mode.trip_id}}
   end
 
   def route_trip_ids(%__MODULE__{}) do
@@ -84,7 +72,7 @@ defmodule TripPlan.Leg do
   def stop_is_silver_line_airport?([], _), do: false
 
   def stop_is_silver_line_airport?([leg], key) when not is_nil(leg) do
-    route_id = leg.mode.route_id
+    route_id = leg.mode.route.id
 
     stop_id =
       leg

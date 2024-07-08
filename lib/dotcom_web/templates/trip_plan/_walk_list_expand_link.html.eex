@@ -16,7 +16,7 @@
             <strong class="pe-8">
               Walk to <%= @next_stop_name %>
             </strong>
-            <%= "(#{display_meters_as_miles(@itinerary_row.distance)} mi, #{display_seconds_as_minutes(@itinerary_row.duration)} min)" %>
+            <%= "(#{@itinerary_row.distance} mi, #{@itinerary_row.duration} min)" %>
             <div class="expand-show-details">
               <span class="expand-show-details--hide">Hide</span>
               <span class="expand-show-details--show">Show</span>

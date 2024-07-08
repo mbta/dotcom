@@ -10,7 +10,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Routes.Route
-  alias TripPlan.{Itinerary, Leg}
+  alias TripPlan.{Itinerary, Leg, TransitDetail}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -60,10 +60,10 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   @doc "Builds a list of related links for an Itinerary"
-  @spec links_for_itinerary(Itinerary.t(), Keyword.t()) :: [t]
-  def links_for_itinerary(itinerary, opts \\ []) do
-    for func <- [&route_links/2, &fare_links/2],
-        link <- func.(itinerary, opts) do
+  @spec links_for_itinerary(Itinerary.t()) :: [t]
+  def links_for_itinerary(itinerary) do
+    for func <- [&route_links/1, &fare_links/1],
+        link <- func.(itinerary) do
       link
     end
   end
@@ -74,51 +74,54 @@ defmodule Dotcom.TripPlan.RelatedLink do
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
-  defp route_links(itinerary, opts) do
-    route_by_id = Keyword.get(opts, :route_by_id)
+  defp route_links(itinerary) do
     not_shuttle? = fn route -> route.description !== :rail_replacement_bus end
 
-    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary),
-        %Route{} = route <- [route_by_id.(route_id)],
+    for %Leg{mode: %TransitDetail{route: route, trip_id: trip_id}} <- itinerary.legs,
         not_shuttle?.(route) do
       route_link(route, trip_id, itinerary)
     end
   end
 
+  defp route_link(
+         %Route{external_agency_name: "Logan Express", name: name, long_name: long_name} = route,
+         _,
+         _
+       ) do
+    url =
+      if name == "BB" do
+        "https://www.massport.com/logan-airport/to-from-logan/transportation-options/logan-express/back-bay/"
+      else
+        route_name = String.split(long_name, " ") |> List.first()
+        "https://www.massport.com/logan-airport/getting-to-logan/logan-express/#{route_name}"
+      end
+
+    new("#{long_name} schedules", url, route)
+  end
+
+  defp route_link(%Route{external_agency_name: "Massport"}, _, _) do
+    url = "https://massport.com/"
+    new("Massport schedules", url, :massport_shuttle)
+  end
+
   defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
 
-    cond do
-      String.starts_with?(route.id, "Massport") ->
-        new("Massport schedules", "https://massport.com/", icon_name)
+    base_text =
+      if Route.type_atom(route) == :bus do
+        ["Route ", route.name]
+      else
+        route.name
+      end
 
-      route.external_agency_name == "Logan Express" ->
-        new(
-          "Logan Express schedules",
-          "https://www.massport.com/logan-airport/getting-to-logan/logan-express",
-          icon_name
-        )
-
-      true ->
-        base_text =
-          if Route.type_atom(route) == :bus do
-            ["Route ", route.name]
-          else
-            route.name
-          end
-
-        date = Date.to_iso8601(itinerary.start)
-        url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
-        new([base_text, " schedules"], url, icon_name)
-    end
+    date = Date.to_iso8601(itinerary.start)
+    url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
+    new([base_text, " schedules"], url, icon_name)
   end
 
-  defp fare_links(itinerary, opts) do
-    route_by_id = Keyword.get(opts, :route_by_id)
-
-    for leg <- itinerary,
-        {:ok, route_id} <- [Leg.route_id(leg)],
-        %Route{external_agency_name: nil} = route <- [route_by_id.(route_id)] do
+  defp fare_links(itinerary) do
+    for %Leg{mode: %TransitDetail{route: %Route{external_agency_name: nil} = route}} = leg <-
+          itinerary.legs do
       fare_link(route, leg)
     end
     |> Enum.uniq()
@@ -133,7 +136,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
     new(["View ", text, " fare information"], url)
   end
 
-  defp fare_link_text(type) do
+  defp fare_link_text(type) when type in [:commuter_rail, :ferry, :bus, :subway] do
     Atom.to_string(type) |> String.replace("_", " ")
   end
 
@@ -152,8 +155,6 @@ defmodule Dotcom.TripPlan.RelatedLink do
   defp fare_link_url_opts(type, _leg) when type in [:bus, :subway] do
     {"#{type}-fares", []}
   end
-
-  defp fare_link_url_opts(_, _leg), do: {"", []}
 
   # if there are multiple fare links, show fare overview link
   defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1,

@@ -48,12 +48,16 @@ defmodule TripPlan.Transfer do
   - no transfers from a shuttle to any other mode
   """
   @spec maybe_transfer?([Leg.t()]) :: boolean
-  def maybe_transfer?([%Leg{mode: %TransitDetail{route_id: "Shuttle-" <> _}} | _]), do: false
-
   def maybe_transfer?([
-        first_leg = %Leg{mode: %TransitDetail{route_id: first_route}},
-        middle_leg = %Leg{mode: %TransitDetail{route_id: middle_route}},
-        last_leg = %Leg{mode: %TransitDetail{route_id: last_route}}
+        first_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = first_route}
+        },
+        middle_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = middle_route}
+        },
+        last_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = last_route}
+        }
       ]) do
     @multi_ride_transfers
     |> Map.get(Fares.to_fare_atom(first_route), [])
@@ -63,8 +67,8 @@ defmodule TripPlan.Transfer do
   end
 
   def maybe_transfer?([
-        %Leg{mode: %TransitDetail{route_id: from_route}},
-        %Leg{mode: %TransitDetail{route_id: to_route}}
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = from_route}},
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = to_route}}
       ]) do
     if from_route === to_route and
          Enum.all?([from_route, to_route], &bus?/1) do
@@ -91,10 +95,10 @@ defmodule TripPlan.Transfer do
   end
 
   def bus_to_subway_transfer?([
-        %Leg{mode: %TransitDetail{route_id: from_route}},
-        %Leg{mode: %TransitDetail{route_id: to_route}}
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = from_route}},
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = to_route}}
       ]) do
-    Fares.to_fare_atom(from_route) == :bus && Fares.to_fare_atom(to_route) == :subway
+    bus?(from_route) && subway?(to_route)
   end
 
   def bus_to_subway_transfer?(_), do: false
