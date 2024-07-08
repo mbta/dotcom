@@ -2,16 +2,25 @@ defmodule OneWayTest do
   use ExUnit.Case, async: true
 
   alias Routes.Route
-  alias Schedules.Trip
 
   import Fares.OneWay
+  import Mox
 
   @default_filters [duration: :single_trip]
 
+  setup :verify_on_exit!
+
+  setup do
+    stub(Routes.Repo.Mock, :get, fn id -> %Route{id: id} end)
+    stub(Stops.Repo.Mock, :get, fn id -> %Stops.Stop{id: id} end)
+
+    :ok
+  end
+
   test "returns nil if no route is provided for all fare types" do
-    refute recommended_fare(nil, nil, nil, nil)
-    refute base_fare(nil, nil, nil, nil)
-    refute reduced_fare(nil, nil, nil, nil)
+    refute recommended_fare(nil, nil, nil)
+    refute base_fare(nil, nil, nil)
+    refute reduced_fare(nil, nil, nil)
   end
 
   describe "subway" do
@@ -41,8 +50,8 @@ defmodule OneWayTest do
         @subway_fares
       end
 
-      assert %Fares.Fare{cents: 225} = recommended_fare(@route, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 275} = base_fare(@route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = recommended_fare(@route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = base_fare(@route, nil, nil, fare_fn)
     end
 
     test "returns the reduced fares for subway" do
@@ -61,7 +70,7 @@ defmodule OneWayTest do
         @subway_fares ++ [reduced_subway_fare]
       end
 
-      assert reduced_subway_fare == reduced_fare(@route, nil, nil, nil, fare_fn)
+      assert reduced_subway_fare == reduced_fare(@route, nil, nil, fare_fn)
     end
 
     test "returns no reduced fare for subway" do
@@ -69,7 +78,7 @@ defmodule OneWayTest do
         @subway_fares
       end
 
-      assert nil == reduced_fare(@route, nil, nil, nil, fare_fn)
+      assert nil == reduced_fare(@route, nil, nil, fare_fn)
     end
   end
 
@@ -116,8 +125,8 @@ defmodule OneWayTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = recommended_fare(local_route, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 200} = base_fare(local_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = recommended_fare(local_route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 200} = base_fare(local_route, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest one-way trip fare that is not discounted for the express bus" do
@@ -127,9 +136,9 @@ defmodule OneWayTest do
         Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
-      assert %Fares.Fare{cents: 400} = recommended_fare(express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 400} = recommended_fare(express_route, nil, nil, fare_fn)
 
-      assert %Fares.Fare{cents: 500} = base_fare(express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 500} = base_fare(express_route, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway fare for for SL1 route (id=741)" do
@@ -139,8 +148,8 @@ defmodule OneWayTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = recommended_fare(sl1, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 275} = base_fare(sl1, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = recommended_fare(sl1, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = base_fare(sl1, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway fare for for SL2 route (id=742)" do
@@ -150,8 +159,8 @@ defmodule OneWayTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = recommended_fare(sl2, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 275} = base_fare(sl2, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = recommended_fare(sl2, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = base_fare(sl2, nil, nil, fare_fn)
     end
 
     test "returns lowest and highest the subway fare for for SL3 route (id=743)" do
@@ -161,8 +170,8 @@ defmodule OneWayTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = recommended_fare(sl3, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 275} = base_fare(sl3, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = recommended_fare(sl3, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = base_fare(sl3, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest bus fare for for SL4 route (id=751)" do
@@ -172,8 +181,8 @@ defmodule OneWayTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = recommended_fare(sl4, nil, nil, nil, fare_fn)
-      assert %Fares.Fare{cents: 200} = base_fare(sl4, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = recommended_fare(sl4, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 200} = base_fare(sl4, nil, nil, fare_fn)
     end
 
     test "returns the reduced fares for local bus" do
@@ -194,16 +203,15 @@ defmodule OneWayTest do
         Enum.filter(@bus_fares ++ [reduced_local_bus_fare], &(&1.name == :local_bus))
       end
 
-      assert reduced_local_bus_fare == reduced_fare(local_route, nil, nil, nil, fare_fn)
+      assert reduced_local_bus_fare == reduced_fare(local_route, nil, nil, fare_fn)
     end
   end
 
   describe "commuter rail" do
-    @tag :external
     test "returns the lowest and highest one-way fare that is not discounted for a trip originating in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "place-north"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:zone, "7"}] ->
         [
@@ -218,17 +226,24 @@ defmodule OneWayTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 1050} =
-               recommended_fare(route, nil, origin_id, destination_id, fare_fn)
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
-      assert %Fares.Fare{cents: 1050} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 1050} =
+               recommended_fare(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
+
+      assert %Fares.Fare{cents: 1050} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
-    @tag :external
     test "returns the lowest and highest one-way fare that is not discounted for a trip terminating in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "Ballardvale"
-      destination_id = "place-north"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:zone, "4"}] ->
         [
@@ -243,17 +258,24 @@ defmodule OneWayTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 825} =
-               recommended_fare(route, nil, origin_id, destination_id, fare_fn)
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
 
-      assert %Fares.Fare{cents: 825} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 825} =
+               recommended_fare(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
+
+      assert %Fares.Fare{cents: 825} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
-    @tag :external
     test "returns an interzone fare that is not discounted for a trip that does not originate/terminate in Zone 1A" do
       route = %Route{type: 2}
-      origin_id = "Ballardvale"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       fare_fn = fn @default_filters ++ [name: {:interzone, "4"}] ->
         [
@@ -268,92 +290,51 @@ defmodule OneWayTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 401} =
-               recommended_fare(route, nil, origin_id, destination_id, fare_fn)
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
-      assert %Fares.Fare{cents: 401} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 401} =
+               recommended_fare(route, origin_id, destination_id, fare_fn)
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
+
+      assert %Fares.Fare{cents: 401} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
-    @tag :external
     test "excludes weekend commuter rail rates" do
       route = %Route{type: 2}
-      origin_id = "place-north"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
+
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
       assert %Fares.Fare{cents: 1100, duration: :single_trip} =
-               recommended_fare(route, nil, origin_id, destination_id)
-
-      assert %Fares.Fare{cents: 1100, duration: :single_trip} =
-               base_fare(route, nil, origin_id, destination_id)
+               recommended_fare(route, origin_id, destination_id)
     end
 
     test "returns the appropriate fare for Foxboro Special Events" do
       route = %Route{type: 2, id: "CR-Foxboro"}
-      trip = %Trip{name: "9743"}
       south_station_id = "place-sstat"
       foxboro_id = "place-PB-0194"
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               recommended_fare(route, trip, south_station_id, foxboro_id)
+               recommended_fare(route, south_station_id, foxboro_id)
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               base_fare(route, trip, south_station_id, foxboro_id)
+               base_fare(route, south_station_id, foxboro_id)
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               recommended_fare(route, trip, foxboro_id, south_station_id)
+               recommended_fare(route, foxboro_id, south_station_id)
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               base_fare(route, trip, foxboro_id, south_station_id)
+               base_fare(route, foxboro_id, south_station_id)
     end
 
-    @tag :external
-    test "returns zone-based fares for standard trips on Foxboro pilot" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      trip_1 = %Trip{name: "751", id: "CR-Weekday-Fall-19-751"}
-      trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
-
-      assert %Fares.Fare{name: {:zone, "4"}} =
-               recommended_fare(route, trip_1, "place-sstat", "place-PB-0194")
-
-      assert %Fares.Fare{name: {:interzone, "3"}} =
-               recommended_fare(route, trip_2, "place-FB-0118", "place-PB-0194")
-    end
-
-    @tag :external
-    test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
-      route = %Route{type: 2, id: "CR-Fairmount"}
-      trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
-
-      assert %Fares.Fare{name: {:zone, "1A"}} =
-               recommended_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
-    end
-
-    @tag :external
-    test "does not apply pilot/discounted fare for reverse commutes until Fall 2019" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      trip = %Trip{name: "743", id: "CR-Weekday-Spring-19-743"}
-
-      assert %Fares.Fare{name: {:zone, "3"}} =
-               recommended_fare(route, trip, "place-sstat", "place-FB-0148")
-    end
-
-    @tag :external
-    test "returns interzone fare for reverse commute trips to and from Foxboro" do
-      route = %Route{type: 2, id: "CR-Franklin"}
-      inbound_trip = %Trip{name: "750", id: "CR-Weekday-Fall-19-750"}
-      outbound_trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
-
-      south_station_id = "place-sstat"
-      foxboro_id = "place-PB-0194"
-
-      assert %Fares.Fare{name: {:interzone, "4"}} =
-               recommended_fare(route, inbound_trip, foxboro_id, south_station_id)
-
-      assert %Fares.Fare{name: {:interzone, "4"}} =
-               recommended_fare(route, outbound_trip, south_station_id, foxboro_id)
-    end
-
-    @tag :external
     test "returns nil if no matching fares found" do
       route = %Route{type: 2, id: "CapeFlyer"}
       origin_id = "place-sstat"
@@ -361,7 +342,7 @@ defmodule OneWayTest do
 
       fare_fn = fn _ -> [] end
 
-      assert recommended_fare(route, nil, origin_id, destination_id, fare_fn) == nil
+      assert recommended_fare(route, origin_id, destination_id, fare_fn) == nil
     end
 
     test "returns a free fare for any bus shuttle rail replacements" do
@@ -376,17 +357,16 @@ defmodule OneWayTest do
       destination_id = "place-WR-0099"
 
       assert %Fares.Fare{cents: 0, name: :free_fare} =
-               recommended_fare(route, nil, origin_id, destination_id)
+               recommended_fare(route, origin_id, destination_id)
 
       assert %Fares.Fare{cents: 0, name: :free_fare} =
-               base_fare(route, nil, origin_id, destination_id)
+               base_fare(route, origin_id, destination_id)
     end
 
-    @tag :external
     test "returns the reduced fares for commuter rail" do
       route = %Route{type: 2}
-      origin_id = "place-north"
-      destination_id = "Haverhill"
+      origin_id = Faker.Internet.slug()
+      destination_id = Faker.Internet.slug()
 
       reduced_cr_fare = %Fares.Fare{
         additional_valid_modes: [],
@@ -413,7 +393,11 @@ defmodule OneWayTest do
         ]
       end
 
-      assert reduced_cr_fare == reduced_fare(route, nil, origin_id, destination_id, fare_fn)
+      Stops.Repo.Mock
+      |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
+      |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
+
+      assert reduced_cr_fare == reduced_fare(route, origin_id, destination_id, fare_fn)
     end
   end
 
@@ -437,9 +421,9 @@ defmodule OneWayTest do
       end
 
       assert %Fares.Fare{cents: 350} =
-               recommended_fare(route, nil, origin_id, destination_id, fare_fn)
+               recommended_fare(route, origin_id, destination_id, fare_fn)
 
-      assert %Fares.Fare{cents: 350} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 350} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
     test "returns the reduced fares for ferry" do
@@ -472,7 +456,7 @@ defmodule OneWayTest do
         ]
       end
 
-      assert reduced_ferry_fare == reduced_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert reduced_ferry_fare == reduced_fare(route, origin_id, destination_id, fare_fn)
     end
   end
 
@@ -496,14 +480,13 @@ defmodule OneWayTest do
       route = %Route{id: "Massport-TEST-1", type: "Massport-TEST-1"}
       origin_id = "Test Origin"
       destination_id = "Test Destination"
-      trip = %Trip{name: "9743"}
 
       assert %Fares.Fare{
                cents: 500,
                duration: :single_trip,
                name: "Massport-TEST-1",
                mode: :massport_shuttle
-             } == base_fare(route, trip, origin_id, destination_id, fare_fn)
+             } == base_fare(route, origin_id, destination_id, fare_fn)
     end
   end
 end

@@ -279,15 +279,14 @@ defmodule DotcomWeb.TripPlanController do
 
   defp leg_with_fares(%Leg{mode: %TransitDetail{}} = leg) do
     route = @routes_repo.get(leg.mode.route_id)
-    trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
 
     fares =
       if Leg.fare_complete_transit_leg?(leg) do
-        recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
-        base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
-        reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
+        recommended_fare = OneWay.recommended_fare(route, origin_id, destination_id)
+        base_fare = OneWay.base_fare(route, origin_id, destination_id)
+        reduced_fare = OneWay.reduced_fare(route, origin_id, destination_id)
 
         %{
           highest_one_way_fare: base_fare,
@@ -339,13 +338,13 @@ defmodule DotcomWeb.TripPlanController do
 
   defp highest_month_pass(
          %Leg{
-           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           mode: %TransitDetail{route_id: route_id},
            from: %NamedPosition{stop_id: origin_id},
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
-      Month.base_pass(route_id, trip_id, origin_id, destination_id)
+      Month.base_pass(route_id, origin_id, destination_id)
     else
       nil
     end
@@ -356,13 +355,13 @@ defmodule DotcomWeb.TripPlanController do
 
   defp lowest_month_pass(
          %Leg{
-           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           mode: %TransitDetail{route_id: route_id},
            from: %NamedPosition{stop_id: origin_id},
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
-      Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
+      Month.recommended_pass(route_id, origin_id, destination_id)
     else
       nil
     end
@@ -373,13 +372,13 @@ defmodule DotcomWeb.TripPlanController do
 
   defp reduced_pass(
          %Leg{
-           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           mode: %TransitDetail{route_id: route_id},
            from: %NamedPosition{stop_id: origin_id},
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
-      Month.reduced_pass(route_id, trip_id, origin_id, destination_id)
+      Month.reduced_pass(route_id, origin_id, destination_id)
     else
       nil
     end
