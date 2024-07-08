@@ -33,9 +33,8 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
         %Itinerary{legs: legs, accessible?: accessible?} = itinerary,
         opts \\ []
       ) do
-    deps = %ItineraryRow.Dependencies{}
-    alerts = get_alerts(itinerary, deps)
-    rows = get_rows(itinerary, deps, opts, alerts)
+    alerts = get_alerts(itinerary)
+    rows = get_rows(itinerary, opts, alerts)
 
     %__MODULE__{
       rows: rows,
@@ -45,28 +44,25 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
     }
   end
 
-  @spec get_rows(Itinerary.t(), ItineraryRow.Dependencies.t(), opts, [Alerts.Alert.t()]) :: [
+  @spec get_rows(Itinerary.t(), opts, [Alerts.Alert.t()]) :: [
           ItineraryRow.t()
         ]
-  defp get_rows(itinerary, deps, opts, alerts) do
+  defp get_rows(itinerary, opts, alerts) do
     rows =
       for {leg, index} <- Enum.with_index(itinerary.legs) do
         leg
-        |> ItineraryRow.from_leg(deps, Enum.at(itinerary.legs, index + 1))
+        |> ItineraryRow.from_leg(Enum.at(itinerary.legs, index + 1))
         |> ItineraryRow.fetch_alerts(alerts)
       end
 
     update_from_name(rows, opts[:from])
   end
 
-  @spec get_alerts(Itinerary.t(), ItineraryRow.Dependencies.t()) :: [Alerts.Alert.t()]
-  defp get_alerts(itinerary, deps) do
+  @spec get_alerts(Itinerary.t()) :: [Alerts.Alert.t()]
+  defp get_alerts(itinerary) do
     itinerary.start
-    |> deps.alerts_repo.()
-    |> Dotcom.TripPlan.Alerts.filter_for_itinerary(
-      itinerary,
-      trip_by_id: deps.trip_mapper
-    )
+    |> Alerts.Repo.all()
+    |> Dotcom.TripPlan.Alerts.filter_for_itinerary(itinerary)
   end
 
   @spec get_destination([TripPlan.Leg.t()], Keyword.t(), [Alerts.Alert.t()]) :: destination
@@ -74,7 +70,9 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
     last_leg = List.last(legs)
 
     {name, stop_id} =
-      last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
+      last_leg
+      |> Map.get(:to)
+      |> ItineraryRow.name_from_position()
 
     alerts = Alerts.Stop.match(alerts, stop_id)
     {destination_name(name, opts[:to]), stop_id, last_leg.stop, alerts}

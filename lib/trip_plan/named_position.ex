@@ -3,13 +3,13 @@ defmodule TripPlan.NamedPosition do
 
   @derive Jason.Encoder
   defstruct name: "",
-            stop_id: nil,
+            stop: nil,
             latitude: nil,
             longitude: nil
 
   @type t :: %__MODULE__{
           name: String.t(),
-          stop_id: Stops.Stop.id_t() | nil,
+          stop: Stops.Stop.t() | nil,
           latitude: float | nil,
           longitude: float | nil
         }
@@ -19,8 +19,12 @@ defmodule TripPlan.NamedPosition do
     def longitude(%{longitude: longitude}), do: longitude
   end
 
-  def to_keywords(%__MODULE__{name: name, stop_id: stop_id, latitude: lat, longitude: lon}) do
-    [name: name, stop_id: stop_id, lat_lon: {lat, lon}]
+  def to_keywords(%__MODULE__{name: name, stop: stop, latitude: lat, longitude: lon}) do
+    if stop do
+      [name: name, stop_id: stop.id, lat_lon: {lat, lon}]
+    else
+      [name: name, lat_lon: {lat, lon}]
+    end
   end
 
   def new(%LocationService.Address{} = address) do

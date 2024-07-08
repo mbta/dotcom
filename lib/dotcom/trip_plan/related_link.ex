@@ -142,7 +142,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
     link_opts =
-      for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
+      for {key, stop_id} <- [origin: leg.from.stop.id, destination: leg.to.stop.id],
           is_binary(stop_id) do
         # fetch a parent stop ID
         stop_id = @stops_repo.get_parent(stop_id).id

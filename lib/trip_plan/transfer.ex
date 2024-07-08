@@ -26,14 +26,15 @@ defmodule TripPlan.Transfer do
   @doc "Searches a list of legs for evidence of an in-station subway transfer."
   @spec subway_transfer?([Leg.t()]) :: boolean
   def subway_transfer?([
-        %Leg{to: %NamedPosition{stop_id: to_stop}, mode: %TransitDetail{route_id: route_to}},
+        %Leg{to: %NamedPosition{stop: to_stop}, mode: %TransitDetail{route: route_to}},
         %Leg{
-          from: %NamedPosition{stop_id: from_stop},
-          mode: %TransitDetail{route_id: route_from}
+          from: %NamedPosition{stop: from_stop},
+          mode: %TransitDetail{route: route_from}
         }
         | _
-      ]) do
-    same_station?(from_stop, to_stop) and subway?(route_to) and subway?(route_from)
+      ])
+      when not is_nil(to_stop) and not is_nil(from_stop) do
+    same_station?(from_stop.id, to_stop.id) and subway?(route_to) and subway?(route_from)
   end
 
   def subway_transfer?([_ | legs]), do: subway_transfer?(legs)

@@ -1,4 +1,7 @@
 defmodule Dotcom.TripPlan.Map do
+  @moduledoc """
+  Handles generating the maps displayed within the TripPlan Controller
+  """
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias Routes.Route
@@ -6,12 +9,6 @@ defmodule Dotcom.TripPlan.Map do
   alias Util.Position
 
   @type t :: MapData.t()
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-  @moduledoc """
-  Handles generating the maps displayed within the TripPlan Controller
-  """
 
   def initial_map_data do
     {630, 400}
@@ -146,12 +143,8 @@ defmodule Dotcom.TripPlan.Map do
   end
 
   @spec tooltip_for_position(NamedPosition.t()) :: String.t()
-  defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position) do
-    case @stops_repo.get_parent(stop_id) do
-      nil -> position.name
-      stop -> stop.name
-    end
-  end
+  defp tooltip_for_position(%NamedPosition{name: name, stop: nil}), do: name
+  defp tooltip_for_position(%NamedPosition{stop: %Stops.Stop{name: name}}), do: name
 
   @spec z_index(map) :: 0 | 1
   def z_index(%{current: idx, start: idx}), do: 100

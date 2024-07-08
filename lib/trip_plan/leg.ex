@@ -62,9 +62,9 @@ defmodule TripPlan.Leg do
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t()]
   def stop_ids(%__MODULE__{from: from, to: to}) do
-    for %NamedPosition{stop_id: stop_id} <- [from, to],
-        stop_id do
-      stop_id
+    for %NamedPosition{stop: stop} <- [from, to],
+        stop do
+      stop.id
     end
   end
 
@@ -76,7 +76,7 @@ defmodule TripPlan.Leg do
 
     stop_id =
       leg
-      |> Kernel.get_in([Access.key(key), Access.key(:stop_id)])
+      |> Kernel.get_in([Access.key(key), Access.key(:stop), Access.key(:id)])
 
     Fares.silver_line_airport_stop?(route_id, stop_id)
   end
@@ -92,15 +92,13 @@ defmodule TripPlan.Leg do
   # between stops where we don't know the zones
   @spec leg_missing_zone?(t) :: boolean
   defp leg_missing_zone?(%__MODULE__{
-         mode: %TransitDetail{route_id: route_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
+         mode: %TransitDetail{route: route},
+         from: %NamedPosition{stop: origin},
+         to: %NamedPosition{stop: destination}
        }) do
-    route = @routes_repo.get(route_id)
-
     if route do
       Routes.Route.type_atom(route) == :commuter_rail and
-        not Enum.all?([origin_id, destination_id], &Stops.Stop.has_zone?(&1))
+        not Enum.all?([origin, destination], &Stops.Stop.has_zone?(&1))
     else
       true
     end

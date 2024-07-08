@@ -10,10 +10,9 @@ defmodule DotcomWeb.TripPlanController do
   alias Dotcom.TripPlan.{ItineraryRowList, Query, RelatedLink}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias Routes.Route
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, Transfer, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   @location_service Application.compile_env!(:dotcom, :location_service)
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
@@ -49,7 +48,7 @@ defmodule DotcomWeb.TripPlanController do
         latitude: String.to_float(latitude),
         longitude: String.to_float(longitude),
         name: name,
-        stop_id: nil
+        stop: nil
       }
 
       do_from(conn, destination)
@@ -84,14 +83,8 @@ defmodule DotcomWeb.TripPlanController do
           from: destination,
           to: nil,
           mode: %PersonalDetail{},
-          description: "",
           start: now,
-          stop: now,
-          name: "",
-          long_name: "",
-          type: "",
-          url: "",
-          polyline: ""
+          stop: now
         }
       ])
 
@@ -119,7 +112,7 @@ defmodule DotcomWeb.TripPlanController do
         latitude: String.to_float(latitude),
         longitude: String.to_float(longitude),
         name: name,
-        stop_id: nil
+        stop: nil
       }
 
       do_to(conn, destination)
@@ -154,14 +147,8 @@ defmodule DotcomWeb.TripPlanController do
           from: nil,
           to: destination,
           mode: %PersonalDetail{},
-          description: "",
           start: now,
-          stop: now,
-          name: "",
-          long_name: "",
-          type: "",
-          url: "",
-          polyline: ""
+          stop: now
         }
       ])
 

@@ -17,6 +17,8 @@ defmodule Dotcom.TripPlan.ItineraryRow do
             distance: 0.0,
             duration: 0
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @typep name_and_id :: {String.t(), String.t() | nil}
   @typep step :: String.t()
   @type t :: %__MODULE__{
@@ -31,9 +33,6 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           distance: Float.t(),
           duration: Integer.t()
         }
-
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defmodule Dependencies do
     @moduledoc false
@@ -56,16 +55,24 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   def route_type(%__MODULE__{route: %Route{type: type}}), do: type
   def route_type(_row), do: nil
 
+  def route_name(%__MODULE__{route: %Route{external_agency_name: agency, long_name: name}})
+      when is_binary(agency) and is_binary(name),
+      do: name
+
   def route_name(%__MODULE__{route: %Route{name: name}}), do: name
   def route_name(_row), do: nil
 
   @doc """
   Builds an ItineraryRow struct from the given leg and options
   """
-  @spec from_leg(Leg.t(), Dependencies.t(), Leg.t() | nil) :: t
-  def from_leg(leg, deps, next_leg) do
-    trip = leg |> Leg.trip_id() |> parse_trip_id(deps.trip_mapper)
-    route = leg |> Leg.route_id() |> parse_route_id()
+  @spec from_leg(Leg.t(), Leg.t() | nil) :: t
+  def from_leg(leg, next_leg) do
+    transit? = Leg.transit?(leg)
+    route = if(transit?, do: leg.mode.route)
+
+    trip =
+      if(route && is_nil(route.external_agency_name), do: leg |> Leg.trip_id() |> parse_trip_id())
+
     stop = name_from_position(leg.from)
 
     %__MODULE__{
@@ -134,12 +141,12 @@ defmodule Dotcom.TripPlan.ItineraryRow do
     Enum.map(steps, &match_step(&1, alerts))
   end
 
-  def match_step(%IntermediateStop{stop_id: nil} = step, _alerts) do
+  def match_step(%IntermediateStop{stop: nil} = step, _alerts) do
     step
   end
 
   def match_step(step, alerts) do
-    %{step | alerts: Alerts.Stop.match(alerts, step.stop_id, activities: ~w(ride)a)}
+    %{step | alerts: Alerts.Stop.match(alerts, step.stop.id, activities: ~w(ride)a)}
   end
 
   def intermediate_alerts?(%__MODULE__{steps: steps}) do
@@ -148,12 +155,8 @@ defmodule Dotcom.TripPlan.ItineraryRow do
 
   @spec name_from_position(NamedPosition.t()) ::
           {String.t(), String.t()}
-  def name_from_position(%NamedPosition{stop_id: stop_id, name: name})
-      when not is_nil(stop_id) do
-    case @stops_repo.get_parent(stop_id) do
-      nil -> {name, nil}
-      stop -> {stop.name, stop.id}
-    end
+  def name_from_position(%NamedPosition{stop: %Stops.Stop{id: id}, name: name}) do
+    {name, id}
   end
 
   def name_from_position(%NamedPosition{name: name}) do
@@ -168,25 +171,19 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   defp get_steps(%PersonalDetail{steps: steps}, _next_leg),
     do: Enum.map(steps, &format_personal_to_personal_step/1)
 
-  defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, _next_leg) do
-    for {:ok, stop} <- Task.async_stream(stop_ids, fn id -> @stops_repo.get_parent(id) end),
-        stop do
+  defp get_steps(%TransitDetail{intermediate_stops: stops}, _next_leg) do
+    for stop <- stops, stop do
       %IntermediateStop{
         description: stop.name,
-        stop_id: stop.id
+        stop: stop
       }
     end
   end
 
-  @spec parse_route_id(:error | {:ok, String.t()}) ::
-          Routes.Route.t() | nil
-  defp parse_route_id(:error), do: nil
-  defp parse_route_id({:ok, route_id}), do: @routes_repo.get(route_id)
-
-  @spec parse_trip_id(:error | {:ok, String.t()}, Dependencies.trip_mapper()) ::
+  @spec parse_trip_id(:error | {:ok, String.t()}) ::
           Schedules.Trip.t() | nil
-  defp parse_trip_id(:error, _trip_mapper), do: nil
-  defp parse_trip_id({:ok, trip_id}, trip_mapper), do: trip_mapper.(trip_id)
+  defp parse_trip_id(:error), do: nil
+  defp parse_trip_id({:ok, trip_id}), do: Schedules.Repo.trip(trip_id)
 
   defp format_personal_to_personal_step(%{relative_direction: :depart, street_name: "Transfer"}),
     do: %IntermediateStop{description: "Depart"}

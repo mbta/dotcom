@@ -301,7 +301,7 @@ defmodule DotcomWeb.TripPlanView do
         "_itinerary_row_step.html",
         step: step.description,
         alerts: step.alerts,
-        stop_id: step.stop_id,
+        stop_id: if(step.stop, do: step.stop.id, else: ""),
         itinerary_idx: itinerary_id,
         row_idx: row_id,
         mode_class: mode_class,
@@ -370,6 +370,7 @@ defmodule DotcomWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 
+  @spec datetime_from_query(nil | Dotcom.TripPlan.Query.t()) :: any()
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
   def datetime_from_query(nil), do: Util.now() |> Dotcom.TripPlan.DateTime.round_minute()
