@@ -1,6 +1,5 @@
 defmodule Fares.FareTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   alias Fares.Fare
 

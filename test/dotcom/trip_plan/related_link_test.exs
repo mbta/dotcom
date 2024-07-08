@@ -1,19 +1,20 @@
 defmodule Dotcom.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
+  import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner
 
+  alias Test.Support.Factories.Stops.Stop
   alias TripPlan.Itinerary
 
-  setup_all do
+  setup :verify_on_exit!
+
+  setup do
     itinerary =
       build(:itinerary,
-        legs: [
-          build(:leg, mode: build(:transit_detail))
-        ]
+        legs: [build(:transit_leg)]
       )
 
     {:ok, %{itinerary: itinerary}}
@@ -21,33 +22,58 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
 
   describe "links_for_itinerary/1" do
     test "returns a list of related links", %{itinerary: itinerary} do
-      {expected_route, expected_icon} =
-        case Itinerary.route_ids(itinerary) do
-          ["Blue"] -> {"Blue Line schedules", :blue_line}
-          ["Red"] -> {"Red Line schedules", :red_line}
-          ["1"] -> {"Route 1 schedules", :bus}
-          ["350"] -> {"Route 350 schedules", :bus}
-          ["CR-Lowell"] -> {"Lowell Line schedules", :commuter_rail}
-        end
+      %{legs: [%{from: from, to: to, mode: %{route: route}}]} = itinerary
+
+      expect(
+        Stops.Repo.Mock,
+        :get_parent,
+        if(route.type in [2, 4], do: 2, else: 0),
+        fn id -> %Stops.Stop{id: id} end
+      )
 
       [trip_id] = Itinerary.trip_ids(itinerary)
       assert [route_link, fare_link] = links_for_itinerary(itinerary)
-      assert text(route_link) == expected_route
       assert url(route_link) =~ Timex.format!(itinerary.start, "date={ISOdate}")
-      assert url(route_link) =~ ~s(trip=#{String.replace(trip_id, ":", "%3A")})
-      assert route_link.icon_name == expected_icon
+      assert url(route_link) =~ ~s(trip=#{trip_id}) |> URI.encode()
       assert fare_link.text == "View fare information"
-      # fare URL is tested later
+
+      if route.type == 3 do
+        assert text(route_link) == "Route #{route.name} schedules"
+      else
+        assert text(route_link) == "#{route.name} schedules"
+      end
+
+      case route.type do
+        4 ->
+          assert route_link.icon_name == :ferry
+
+          assert fare_link.url ==
+                   "/fares/ferry?origin=#{from.stop.id}&destination=#{to.stop.id}" |> URI.encode()
+
+        3 ->
+          assert route_link.icon_name == :bus
+          assert fare_link.url == "/fares/bus-fares"
+
+        2 ->
+          assert route_link.icon_name == :commuter_rail
+
+          assert fare_link.url ==
+                   "/fares/commuter_rail?origin=#{from.stop.id}&destination=#{to.stop.id}"
+                   |> URI.encode()
+
+        _ ->
+          assert route_link.icon_name == :subway
+          assert fare_link.url == "/fares/subway-fares"
+      end
     end
 
     test "returns a non-empty list for multiple kinds of itineraries" do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Stop.build(:stop) end)
+
       for _i <- 0..100 do
         itinerary =
           build(:itinerary,
-            legs: [
-              build(:leg, mode: build(:transit_detail)),
-              build(:leg, mode: build(:transit_detail))
-            ]
+            legs: build_list(2, :transit_leg)
           )
 
         assert [_ | _] = links_for_itinerary(itinerary)
@@ -57,12 +83,10 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     test "with multiple types of fares, returns one link to the fare overview", %{
       itinerary: itinerary
     } do
-      for _i <- 0..10 do
-        leg =
-          build(:leg, %{
-            mode: build(:transit_detail)
-          })
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Stop.build(:stop) end)
 
+      for _i <- 0..10 do
+        leg = build(:transit_leg)
         itinerary = %Itinerary{itinerary | legs: [leg | itinerary.legs]}
 
         links = links_for_itinerary(itinerary)
@@ -70,21 +94,31 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
         # we only have one expected text, assert that we've cleaned up the text
         # to be only "View fare information".
         expected_text_url = fn leg ->
-          case leg.mode do
-            %{route_id: id} when id in ["1", "350"] ->
+          case leg.mode.route.type do
+            3 ->
               {"bus", fare_path(DotcomWeb.Endpoint, :show, "bus-fares", [])}
 
-            %{route_id: id} when id in ["Red", "Blue"] ->
+            type when type in [0, 1] ->
               {"subway", fare_path(DotcomWeb.Endpoint, :show, "subway-fares", [])}
 
-            %{route_id: "CR-Lowell"} ->
+            2 ->
               {"commuter rail",
                fare_path(
                  DotcomWeb.Endpoint,
                  :show,
                  :commuter_rail,
-                 origin: fare_stop_id(leg.from.stop_id),
-                 destination: fare_stop_id(leg.to.stop_id)
+                 origin: leg.from.stop.id,
+                 destination: leg.to.stop.id
+               )}
+
+            4 ->
+              {"ferry",
+               fare_path(
+                 DotcomWeb.Endpoint,
+                 :show,
+                 :ferry,
+                 origin: leg.from.stop.id,
+                 destination: leg.to.stop.id
                )}
 
             _ ->
@@ -114,18 +148,4 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       end
     end
   end
-
-  describe "links_for_itinerary/2" do
-    test "returns custom links for custom routes", %{itinerary: itinerary} do
-      url = "http://custom.url"
-      legs = Enum.map(itinerary.legs, &%{&1 | url: url})
-      itinerary = %TripPlan.Itinerary{itinerary | legs: legs}
-
-      assert [%Dotcom.TripPlan.RelatedLink{text: "Route information", url: ^url}] =
-               links_for_itinerary(itinerary)
-    end
-  end
-
-  defp fare_stop_id("North Station"), do: "place-north"
-  defp fare_stop_id(other), do: other
 end

@@ -11,9 +11,7 @@ defmodule Fares.MonthTest do
   setup :verify_on_exit!
 
   setup do
-    stub(Routes.Repo.Mock, :get, fn id -> %Route{id: id} end)
     stub(Stops.Repo.Mock, :get, fn id -> %Stops.Stop{id: id} end)
-
     :ok
   end
 
@@ -43,12 +41,6 @@ defmodule Fares.MonthTest do
 
       assert %Fare{cents: 3_000} = Month.reduced_pass(%Route{type: 0}, nil, nil, fare_fn)
     end
-
-    test "accepts a Route ID" do
-      fare_fn = fn [reduced: :any, duration: :month, mode: :subway] -> @reduced_fares end
-      route_id = Faker.Internet.slug()
-      assert %Fare{cents: 3_000} = Month.reduced_pass(route_id, nil, nil, fare_fn)
-    end
   end
 
   describe "subway" do
@@ -72,14 +64,6 @@ defmodule Fares.MonthTest do
 
       assert %Fare{cents: 9_000} = Month.recommended_pass(@subway_route, nil, nil, fare_fn)
       assert %Fare{cents: 9_000} = Month.base_pass(@subway_route, nil, nil, fare_fn)
-    end
-
-    test "accepts a Route ID" do
-      route_id = Faker.Internet.slug()
-      fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
-
-      assert %Fare{cents: 9_000} = Month.recommended_pass(route_id, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.base_pass(route_id, nil, nil, fare_fn)
     end
   end
 

@@ -7,16 +7,15 @@ defmodule DotcomWeb.TripPlanViewTest do
   import Schedules.Repo, only: [end_of_rating: 0]
 
   alias Fares.Fare
-  alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias Test.Support.Factories.TripPlanner.TripPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
     additional_valid_modes: [:bus],
-    cents: 290,
+    cents: 240,
     duration: :single_trip,
-    media: [:charlie_ticket, :cash],
+    media: [:charlie_card, :charlie_ticket, :cash],
     mode: :subway,
     name: :subway,
     price_label: nil,
@@ -27,7 +26,7 @@ defmodule DotcomWeb.TripPlanViewTest do
     additional_valid_modes: [:bus],
     cents: 240,
     duration: :single_trip,
-    media: [:charlie_card],
+    media: [:charlie_card, :charlie_ticket, :cash],
     mode: :subway,
     name: :subway,
     price_label: nil,
@@ -78,8 +77,22 @@ defmodule DotcomWeb.TripPlanViewTest do
   setup :verify_on_exit!
 
   setup do
-    stub(Routes.Repo.Mock, :green_line, fn ->
-      Routes.Repo.green_line()
+    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", [route: "Red", date: "1970-01-01"] ->
+      {:error,
+       [
+         %JsonApi.Error{
+           code: "no_service",
+           source: %{
+             "parameter" => "date"
+           },
+           detail: "The current rating does not describe service on that date.",
+           meta: %{
+             "end_date" => "2024-06-15",
+             "start_date" => "2024-05-10",
+             "version" => "Spring 2024, 2024-05-17T21:10:15+00:00, version D"
+           }
+         }
+       ]}
     end)
 
     :ok
@@ -178,7 +191,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "plan_error_description" do
-    @tag :external
     test "renders too_future error" do
       end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
 
@@ -191,7 +203,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert error =~ end_of_rating
     end
 
-    @tag :external
     test "renders past error" do
       end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
 
@@ -249,7 +260,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "mode_class/1" do
     test "returns the icon atom if a route is present" do
-      row = %ItineraryRow{route: %Route{id: "Red"}}
+      row = %ItineraryRow{route: %Routes.Route{id: "Red"}}
 
       assert mode_class(row) == "red-line"
     end
@@ -292,7 +303,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       transit?: true,
       stop: {"Park Street", "place-park"},
       steps: ["Boylston", "Arlington", "Copley"],
-      route: %Route{id: "Green", name: "Green Line", type: 1}
+      route: %Routes.Route{id: "Green", name: "Green Line", type: 1}
     }
 
     test "builds bubble_params for each step" do
@@ -425,45 +436,37 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
-  describe "display_meters_as_miles/1" do
-    test "123.456 mi" do
-      assert display_meters_as_miles(123.456 * 1609.34) == "123.5"
-    end
-
-    test "0.123 mi" do
-      assert display_meters_as_miles(0.123 * 1609.34) == "0.1"
-    end
-
-    test "10.001 mi" do
-      assert display_meters_as_miles(10.001 * 1609.34) == "10.0"
-    end
-  end
-
-  describe "display_seconds_as_minutes/1" do
-    test "converts seconds to minutes" do
-      assert display_seconds_as_minutes(5) == "1"
-      assert display_seconds_as_minutes(59) == "1"
-      assert display_seconds_as_minutes(100) == "2"
-    end
-  end
-
   describe "format_additional_route/2" do
-    @tag :external
     test "Correctly formats Green Line route" do
-      route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "Eastbound"}}
+      destination = Test.Support.Factories.Stops.Stop.build(:stop, %{name: "Destination"})
+
+      expect(Stops.Repo.Mock, :by_route, 8, fn route_id, direction_id ->
+        if route_id == "Green-B" && direction_id == 1 do
+          [destination]
+        else
+          Test.Support.Factories.Stops.Stop.build_list(3, :stop)
+        end
+      end)
+
+      route = %Routes.Route{
+        name: "Green Line B",
+        id: "Green-B",
+        direction_names: %{1 => "Eastbound"}
+      }
+
       actual = route |> format_additional_route(1) |> IO.iodata_to_binary()
-      assert actual == "Green Line (B) Eastbound towards Government Center"
+      assert actual == "Green Line (B) Eastbound towards #{destination.name}"
     end
   end
 
   describe "icon_for_routes/1" do
     test "returns a list of icons for the given routes" do
       routes = [
-        %Route{
+        %Routes.Route{
           id: "Red",
           type: 1
         },
-        %Route{
+        %Routes.Route{
           id: "Green",
           type: 0
         }
@@ -481,7 +484,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   describe "icon_for_route/1" do
     test "non-subway transit legs" do
       for {gtfs_type, expected_icon_class} <- [{2, "commuter-rail"}, {3, "bus"}, {4, "ferry"}] do
-        route = %Route{
+        route = %Routes.Route{
           id: "id",
           type: gtfs_type
         }
@@ -499,7 +502,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             {"Blue", 1, "blue-line"},
             {"Green", 0, "green-line"}
           ] do
-        route = %Route{
+        route = %Routes.Route{
           id: id,
           type: type
         }
@@ -522,13 +525,18 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "transfer_route_name/1" do
     test "for subway" do
-      assert transfer_route_name(%Route{id: "Mattapan", type: 0, name: "Mattapan Trolley"}) ==
+      stub(Routes.Repo.Mock, :green_line, fn ->
+        Routes.Repo.green_line()
+      end)
+
+      assert transfer_route_name(%Routes.Route{id: "Mattapan", type: 0, name: "Mattapan Trolley"}) ==
                "Mattapan Trolley"
 
-      assert transfer_route_name(%Route{id: "Green", type: 0, name: "Green Line"}) == "Green Line"
+      assert transfer_route_name(%Routes.Route{id: "Green", type: 0, name: "Green Line"}) ==
+               "Green Line"
 
       for branch <- ["B", "C", "D", "E"] do
-        assert transfer_route_name(%Route{
+        assert transfer_route_name(%Routes.Route{
                  id: "Green-" <> branch,
                  type: 0,
                  name: "Green Line " <> branch
@@ -536,87 +544,87 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       end
 
       for line <- ["Red", "Orange", "Blue"] do
-        assert transfer_route_name(%Route{id: line, type: 1, name: line <> " Line"}) ==
+        assert transfer_route_name(%Routes.Route{id: line, type: 1, name: line <> " Line"}) ==
                  line <> " Line"
       end
     end
 
     test "for other modes" do
-      assert transfer_route_name(%Route{id: "CR-Fitchburg", type: 2, name: "Fitchburg Line"}) ==
+      assert transfer_route_name(%Routes.Route{
+               id: "CR-Fitchburg",
+               type: 2,
+               name: "Fitchburg Line"
+             }) ==
                "Commuter Rail"
 
-      assert transfer_route_name(%Route{id: "77", type: 3, name: "77"}) == "Bus"
+      assert transfer_route_name(%Routes.Route{id: "77", type: 3, name: "77"}) == "Bus"
 
-      assert transfer_route_name(%Route{id: "Boat-Hingham", type: 4, name: "Hingham Ferry"}) ==
+      assert transfer_route_name(%Routes.Route{id: "Boat-Hingham", type: 4, name: "Hingham Ferry"}) ==
                "Ferry"
     end
   end
 
   describe "transfer_note/1" do
+    setup do
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
+      :ok
+    end
+
     @note_text "Total may be less with <a href=\"https://www.mbta.com/fares/transfers\">transfers</a>"
     @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
-    leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
-    @bus_leg leg_for_route.("77")
-    @other_bus_leg leg_for_route.("28")
-    @subway_leg leg_for_route.("Red")
-    @other_subway_leg leg_for_route.("Orange")
-    @cr_leg leg_for_route.("CR-Lowell")
-    @ferry_leg leg_for_route.("Boat-F4")
-    @express_bus_leg leg_for_route.("505")
-    @sl_rapid_leg leg_for_route.("741")
-    @sl_bus_leg leg_for_route.("751")
+    defp bus_leg, do: TripPlanner.build(:bus_leg)
+    defp subway_leg, do: TripPlanner.build(:subway_leg)
+    defp cr_leg, do: TripPlanner.build(:cr_leg)
+    defp ferry_leg, do: TripPlanner.build(:ferry_leg)
+    defp xp_leg, do: TripPlanner.build(:express_bus_leg)
+    defp sl_rapid_leg, do: TripPlanner.build(:sl_rapid_leg)
+    defp sl_bus_leg, do: TripPlanner.build(:sl_bus_leg)
 
-    @tag :external
     test "shows note for subway-bus transfer" do
-      note = %{@base_itinerary | legs: [@subway_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [subway_leg(), bus_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for bus-subway transfer" do
-      note = %{@base_itinerary | legs: [@bus_leg, @subway_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [bus_leg(), subway_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for bus-bus transfer" do
-      note = %{@base_itinerary | legs: [@bus_leg, @other_bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [bus_leg(), bus_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for SL4-bus transfer" do
-      note = %{@base_itinerary | legs: [@sl_bus_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [sl_bus_leg(), bus_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for SL1-bus transfer" do
-      note = %{@base_itinerary | legs: [@sl_rapid_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [sl_rapid_leg(), bus_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for express bus-subway transfer" do
-      note = %{@base_itinerary | legs: [@express_bus_leg, @subway_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [xp_leg(), subway_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "shows note for express bus-local bus transfer" do
-      note = %{@base_itinerary | legs: [@express_bus_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [xp_leg(), bus_leg()]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    @tag :external
     test "no note when transfer involves ferry" do
-      note = %{@base_itinerary | legs: [@ferry_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [ferry_leg(), bus_leg()]} |> transfer_note
       refute note
     end
 
-    @tag :external
     test "no note when transfer involves commuter rail" do
-      note = %{@base_itinerary | legs: [@cr_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [cr_leg(), bus_leg()]} |> transfer_note
       refute note
     end
 
@@ -625,8 +633,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
+              TripPlanner.build(:walking_leg),
+              TripPlanner.build(:walking_leg)
             ]
         }
         |> transfer_note
@@ -639,9 +647,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail)),
-              @bus_leg,
-              TripPlanner.build(:leg, mode: TripPlanner.build(:personal_detail))
+              TripPlanner.build(:walking_leg),
+              bus_leg(),
+              TripPlanner.build(:walking_leg)
             ]
         }
         |> transfer_note
@@ -649,18 +657,24 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
-    @tag :external
     test "no note for subway-subway transfer - handles parent stops" do
-      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
-      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
+      expect(Stops.Repo.Mock, :get_parent, 2, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
+      leg1 = %{subway_leg() | to: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
+      leg2 = %{subway_leg() | from: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
       note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
 
-    @tag :external
     test "no note for subway-subway transfer - handles child stops" do
-      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
-      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
+      expect(Stops.Repo.Mock, :get_parent, 2, fn _ ->
+        %Stops.Stop{id: "place-dwnxg"}
+      end)
+
+      leg1 = %{subway_leg() | to: %NamedPosition{stop: %Stops.Stop{id: "70020"}}}
+      leg2 = %{subway_leg() | from: %NamedPosition{stop: %Stops.Stop{id: "70021"}}}
       note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
@@ -704,15 +718,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "index.html" do
-    plan_datetime_selector_fields = %{
-      dateEl: %{
-        container: "plan-date",
-        input: "plan-date-input",
-        select: "plan-date-select",
-        label: "plan-date-label"
-      }
-    }
-
     @index_assigns %{
       date: Util.now(),
       date_time: Util.now(),
@@ -720,37 +725,60 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       modes: %{},
       wheelchair: false,
       initial_map_data: Dotcom.TripPlan.Map.initial_map_data(),
-      plan_datetime_selector_fields: plan_datetime_selector_fields
+      chosen_date_time: nil,
+      chosen_time: nil
     }
 
-    @tag :external
     test "renders the form with all fields", %{conn: conn} do
-      html =
+      form =
         "_sidebar.html"
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 
-      # two blocks because of the <noscript> block
-      assert [{"div", _, form}, {"div", _, _no_script_form}] = Floki.find(html, ".plan-date-time")
-      assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
-      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
-      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))
-      assert [{"select", _, _hour_options}] = Floki.find(form, ~s([name="plan[date_time][hour]"]))
+      # to and from selection
+      assert [{"input", _, _}] = Floki.find(form, ~s([name="plan[to]"]))
+      assert [{"input", _, _}] = Floki.find(form, ~s([name="plan[from]"]))
 
-      assert [{"select", _, _minute_options}] =
-               Floki.find(form, ~s([name="plan[date_time][minute]"]))
+      # time selection - now, arrive, depart
+      assert [{"input", _, _}, {"input", _, _}, {"input", _, _}] =
+               Floki.find(form, ~s([name="plan[time]"]))
+
+      # datepicker
+      assert [{"input", _, _}] = Floki.find(form, ~s([name="plan[date_time]"]))
+
+      # wheelchair checkbox
+      assert [{"input", _, _}] = Floki.find(form, ~s([name="plan[wheelchair]"]))
+
+      # modes. each appears twice because of being duplicated in the <noscript>
+      assert [{"input", _, []} | _] = Floki.find(form, ~s([name="plan[modes][subway]"]))
+      assert [{"input", _, []} | _] = Floki.find(form, ~s([name="plan[modes][ferry]"]))
+      assert [{"input", _, []} | _] = Floki.find(form, ~s([name="plan[modes][bus]"]))
+      assert [{"input", _, []} | _] = Floki.find(form, ~s([name="plan[modes][commuter_rail]"]))
     end
 
-    @tag :external
     test "includes a text field for the javascript datepicker to attach to", %{conn: conn} do
       html =
         "_sidebar.html"
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 
-      # two inputs because of the <noscript> block
-      assert [{"input", _, _}, {"input", _, _}] =
-               Floki.find(html, ~s(input#plan-date-input[type="text"]))
+      assert [
+               {
+                 "div",
+                 attributes,
+                 [
+                   {
+                     "div",
+                     [{"class", "flatpickr"}],
+                     [{"input", _, _}, {"a", _, _}]
+                   }
+                 ]
+               }
+             ] = Floki.find(html, "#trip-plan-datepicker")
+
+      assert Enum.find(attributes, fn {prop, value} ->
+               prop == "phx-mounted"
+             end)
     end
   end
 
@@ -785,7 +813,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                    "latitude" => _,
                    "longitude" => _,
                    "name" => _,
-                   "stop_id" => _
+                   "stop" => _
                  },
                  "itineraries" => itineraries,
                  "time_type" => "depart_at",
@@ -794,7 +822,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                    "latitude" => _,
                    "longitude" => _,
                    "name" => _,
-                   "stop_id" => _
+                   "stop" => _
                  },
                  "wheelchair" => true
                }
@@ -844,14 +872,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       stop: nil,
       legs: [
         %TripPlan.Leg{
-          description: "WALK",
           from: %TripPlan.NamedPosition{
             latitude: 42.365486,
             longitude: -71.103802,
             name: "Central",
-            stop_id: nil
+            stop: nil
           },
-          long_name: nil,
           mode: %TripPlan.PersonalDetail{
             distance: 24.274,
             steps: [
@@ -863,41 +889,33 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               }
             ]
           },
-          name: "",
           polyline: "eoqaGzm~pLTe@BE@A",
           to: %TripPlan.NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
-            stop_id: "70069"
-          },
-          type: nil,
-          url: nil
+            stop: %Stops.Stop{id: "70069"}
+          }
         },
         %TripPlan.Leg{
-          description: "SUBWAY",
           from: %TripPlan.NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
-            stop_id: "70069"
+            stop: %Stops.Stop{id: "70069"}
           },
-          long_name: "Red Line",
           mode: %TripPlan.TransitDetail{
             fares: @fares,
-            intermediate_stop_ids: ["70071", "70073"],
-            route_id: "Red",
+            intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+            route: %Routes.Route{id: "Red"},
             trip_id: "43870769C0"
           },
-          name: "Red Line",
           to: %TripPlan.NamedPosition{
             latitude: 42.356395,
             longitude: -71.062424,
             name: "Park Street",
-            stop_id: "70075"
-          },
-          type: "1",
-          url: "http://www.mbta.com"
+            stop: %Stops.Stop{id: "70075"}
+          }
         }
       ],
       passes: %{
@@ -956,7 +974,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "gets the highest one-way fare" do
-      assert get_one_way_total_by_type(@itinerary, :highest_one_way_fare) == 290
+      assert get_one_way_total_by_type(@itinerary, :highest_one_way_fare) == 240
     end
 
     test "gets the total for a reduced one-way fare" do
@@ -1002,14 +1020,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         stop: nil,
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             from: %TripPlan.NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
-              stop_id: nil
+              stop: nil
             },
-            long_name: nil,
             mode: %TripPlan.PersonalDetail{
               distance: 24.274,
               steps: [
@@ -1021,91 +1037,79 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                 }
               ]
             },
-            name: "",
             polyline: "eoqaGzm~pLTe@BE@A",
             to: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
-            },
-            type: nil,
-            url: nil
+              stop: %Stops.Stop{id: "70069"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: @fares,
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           },
           %TripPlan.Leg{
-            description: "BUS",
             from: %TripPlan.NamedPosition{
               latitude: 42.362804,
               longitude: -71.099509,
               name: "Massachusetts Ave @ Sidney St",
-              stop_id: "73"
+              stop: %Stops.Stop{id: "73"}
             },
-            long_name: "Harvard Square - Dudley Station",
             mode: %TripPlan.TransitDetail{
               fares: bus_fares,
-              intermediate_stop_ids: ["74", "75", "77", "79", "80"],
-              route_id: "1",
+              intermediate_stops: [
+                %Stops.Stop{id: "74"},
+                %Stops.Stop{id: "75"},
+                %Stops.Stop{id: "77"},
+                %Stops.Stop{id: "79"},
+                %Stops.Stop{id: "80"}
+              ],
+              route: %Routes.Route{id: "1"},
               trip_id: "44170977"
             },
-            name: "1",
             to: %TripPlan.NamedPosition{
               latitude: 42.342478,
               longitude: -71.084701,
               name: "Massachusetts Ave @ Huntington Ave",
-              stop_id: "82"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "82"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: @fares,
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           }
         ]
       }
@@ -1133,63 +1137,13 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "includes a shuttle fare" do
-      itinerary = %Itinerary{
-        legs: [
-          %Leg{
-            description: "BUS",
-            from: %NamedPosition{
-              latitude: 42.370864,
-              longitude: -71.077534,
-              name: "Lechmere",
-              stop_id: "9070092"
-            },
-            long_name: "Green Line Shuttle",
-            mode: %TransitDetail{
-              fares: @shuttle_fares,
-              intermediate_stop_ids: ["9070093"],
-              route_id: "Shuttle-LechmereNorthStation",
-              trip_id: "43831675C0-LechmereNorthStation1"
-            },
-            name: "Green Line Shuttle",
-            to: %NamedPosition{
-              latitude: 42.36573,
-              longitude: -71.063989,
-              name: "North Station",
-              stop_id: "9070090"
-            },
-            type: "1"
-          },
-          %Leg{
-            description: "TRAM",
-            from: %NamedPosition{
-              latitude: 42.365577,
-              longitude: -71.06129,
-              name: "North Station",
-              stop_id: "70206"
-            },
-            long_name: "Green Line C",
-            mode: %TransitDetail{
-              fares: %{
-                highest_one_way_fare: @highest_one_way_fare,
-                lowest_one_way_fare: @lowest_one_way_fare,
-                reduced_one_way_fare: @reduced_one_way_fare
-              },
-              intermediate_stop_ids: ["70204", "70202", "70197", "70159", "70157"],
-              route_id: "Green-C",
-              trip_id: "43829886C0-LechmereNorthStation"
-            },
-            name: "C",
-            to: %NamedPosition{
-              latitude: 42.350126,
-              longitude: -71.077376,
-              name: "Copley",
-              stop_id: "70155"
-            },
-            type: "1"
-          }
-        ],
+      shuttle_leg = TripPlanner.build(:shuttle_leg)
+      bus_leg = TripPlanner.build(:subway_leg)
+
+      itinerary = %TripPlan.Itinerary{
         start: nil,
-        stop: nil
+        stop: nil,
+        legs: [shuttle_leg, bus_leg]
       }
 
       expected_fares = %{
@@ -1197,7 +1151,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           mode: %{
             fares: @shuttle_fares,
             mode_name: "Bus",
-            name: "Shuttle",
+            name: "Free Service",
             mode: :bus
           }
         },
@@ -1219,81 +1173,16 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "when there's a free shuttle and then a transfer to a paid leg, the total should include the cost of the paid leg(s)" do
-      expect(Routes.Repo.Mock, :get, fn id ->
-        %Route{id: id}
-      end)
+      free_leg =
+        TripPlanner.build(:shuttle_leg)
 
-      itinerary = %Itinerary{
-        legs: [
-          %Leg{
-            description: "BUS",
-            from: %TripPlan.NamedPosition{
-              latitude: 42.436807,
-              longitude: -71.070338,
-              name: "Oak Grove Busway",
-              stop_id: "9328"
-            },
-            long_name: "Oak Grove - Government Center",
-            mode: %TransitDetail{
-              fares: @shuttle_fares,
-              intermediate_stop_ids: [
-                "53270",
-                "5271",
-                "28743",
-                "29001",
-                "9070028",
-                "9170206",
-                "9070024",
-                "65"
-              ],
-              route_id: "Shuttle-GovernmentCenterOakGrove",
-              trip_id: "Orange-AugSuperSurge-Weekday-N-0-16:28:30"
-            },
-            name: "Orange Line Shuttle",
-            to: %NamedPosition{
-              latitude: 42.360043,
-              longitude: -71.0598,
-              name: "Cambridge St @ Government Ctr Sta",
-              stop_id: "4510"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
-          },
-          %Leg{
-            description: "TRAM",
-            from: %NamedPosition{
-              latitude: 42.359705,
-              longitude: -71.059215,
-              name: "Government Center",
-              stop_id: "70202"
-            },
-            long_name: "Green Line D",
-            mode: %TransitDetail{
-              fares: %{
-                highest_one_way_fare: @highest_one_way_fare,
-                lowest_one_way_fare: @lowest_one_way_fare,
-                reduced_one_way_fare: @reduced_one_way_fare
-              },
-              intermediate_stop_ids: ["70198"],
-              route_id: "Green-D",
-              trip_id: "52140322-CloseUnionGovtGovtCtrNorthSta2"
-            },
-            name: "D",
-            to: %TripPlan.NamedPosition{
-              latitude: 42.353214,
-              longitude: -71.064545,
-              name: "Boylston",
-              stop_id: "70159"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
-          }
-        ],
-        start: nil,
-        stop: nil
-      }
+      paid_leg =
+        TripPlanner.build(:subway_leg)
 
-      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
+      itinerary =
+        %TripPlan.Itinerary{start: nil, stop: nil, legs: [free_leg, paid_leg]}
+
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 240
     end
 
     test "removes cash from payment options for Commuter Rail" do
@@ -1337,14 +1226,13 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert format_mode(subway) == "Subway"
     end
 
-    @tag :external
     test "gets the highest one-way fare correctly with subway -> subway xfer" do
       subway_leg_for_route =
         &%Leg{
           from: %NamedPosition{},
           to: %NamedPosition{},
           mode: %TransitDetail{
-            route_id: &1,
+            route: %Routes.Route{id: &1},
             fares: %{
               highest_one_way_fare: %Fares.Fare{
                 additional_valid_modes: [:bus],
@@ -1373,14 +1261,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       red_leg = %{
         subway_leg_for_route.("Red")
         | to: %NamedPosition{
-            stop_id: "place-dwnxg"
+            stop: %Stops.Stop{id: "place-dwnxg"}
           }
       }
 
       orange_leg = %{
         subway_leg_for_route.("Orange")
         | from: %NamedPosition{
-            stop_id: "place-dwnxg"
+            stop: %Stops.Stop{id: "place-dwnxg"}
           }
       }
 
@@ -1399,14 +1287,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         stop: nil,
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             from: %TripPlan.NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
-              stop_id: nil
+              stop: nil
             },
-            long_name: nil,
             mode: %TripPlan.PersonalDetail{
               distance: 24.274,
               steps: [
@@ -1418,44 +1304,36 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                 }
               ]
             },
-            name: "",
             polyline: "eoqaGzm~pLTe@BE@A",
             to: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
-            },
-            type: nil,
-            url: nil
+              stop: %Stops.Stop{id: "70069"}
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
-              stop_id: "70069"
+              stop: %Stops.Stop{id: "70069"}
             },
-            long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
               fares: %{
                 highest_one_way_fare: nil,
                 lowest_one_way_fare: nil
               },
-              intermediate_stop_ids: ["70071", "70073"],
-              route_id: "Red",
+              intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
+              route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
-              stop_id: "70075"
-            },
-            type: "1",
-            url: "http://www.mbta.com"
+              stop: %Stops.Stop{id: "70075"}
+            }
           }
         ]
       }
@@ -1463,28 +1341,27 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 0
     end
 
-    @tag :external
     test "shows a transfer note", %{conn: conn} do
       fares_with_transfer =
         Map.put(@fares_assigns, :itinerary, %{
           @fares_assigns.itinerary
           | legs: [
               %Leg{
-                mode: %TransitDetail{route_id: "77"},
+                mode: %TransitDetail{route: %Routes.Route{id: "77"}},
                 from: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 },
                 to: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 }
               },
               %Leg{
-                mode: %TransitDetail{route_id: "1"},
+                mode: %TransitDetail{route: %Routes.Route{id: "1"}},
                 from: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 },
                 to: %TripPlan.NamedPosition{
-                  stop_id: ""
+                  stop: nil
                 }
               }
             ]
@@ -1511,7 +1388,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         Map.put(@fares_assigns, "itinerary", %{
           @fares_assigns.itinerary
           | legs: [
-              %Leg{mode: %TransitDetail{route_id: "77"}}
+              %Leg{mode: %TransitDetail{route: %Routes.Route{id: "77"}}}
             ]
         })
 
@@ -1531,19 +1408,18 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert transfer_note == []
     end
 
-    @tag :external
     test "renders the Fare Calculator", %{conn: conn} do
       leg_for_route =
         &%Leg{
           from: %TripPlan.NamedPosition{
-            stop_id: ""
+            stop: nil
           },
           mode: %TransitDetail{
-            route_id: &1,
+            route: %Routes.Route{id: &1},
             fares: @fares
           },
           to: %TripPlan.NamedPosition{
-            stop_id: ""
+            stop: nil
           }
         }
 
@@ -1597,14 +1473,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "includes Logan in the trip", %{conn: conn} do
       legs = [
         %TripPlan.Leg{
-          description: "BUS",
           from: %TripPlan.NamedPosition{
             latitude: 42.366494,
             longitude: -71.017289,
             name: "Terminal C - Arrivals Level",
-            stop_id: "17094"
+            stop: %Stops.Stop{id: "17094"}
           },
-          long_name: "Logan Airport Terminals - South Station",
           mode: %TripPlan.TransitDetail{
             fares: %{
               highest_one_way_fare: %Fares.Fare{
@@ -1629,19 +1503,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               },
               reduced_one_way_fare: nil
             },
-            intermediate_stop_ids: ["17095", "17096", "74614", "74615", "74616"],
-            route_id: "741",
+            intermediate_stops: [
+              %Stops.Stop{id: "17095"},
+              %Stops.Stop{id: "17096"},
+              %Stops.Stop{id: "74614"},
+              %Stops.Stop{id: "74615"},
+              %Stops.Stop{id: "74616"}
+            ],
+            route: %Routes.Route{id: "741"},
             trip_id: "44812009"
           },
-          name: "SL1",
           to: %TripPlan.NamedPosition{
             latitude: 42.352271,
             longitude: -71.055242,
             name: "South Station",
-            stop_id: "74617"
-          },
-          type: "1",
-          url: "http://www.mbta.com"
+            stop: %Stops.Stop{id: "74617"}
+          }
         }
       ]
 
@@ -1727,26 +1604,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       sl_from_logan_itinerary = %Itinerary{
         legs: [
           %Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 510.2
             }
           },
           %Leg{
-            description: "BUS",
             from: %NamedPosition{
               name: "Terminal C - Arrivals Level",
-              stop_id: "17094"
+              stop: %Stops.Stop{id: "17094"}
             },
             mode: %TransitDetail{
-              route_id: "741"
+              route: %Routes.Route{id: "741"}
             },
-            name: "SL1",
             to: %NamedPosition{
               name: "South Station",
-              stop_id: "74617"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "74617"}
+            }
           }
         ],
         start: DateTime.from_unix!(0),
@@ -1760,49 +1633,40 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       login_sl_plus_subway_itinerary = %TripPlan.Itinerary{
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 385.75800000000004
             }
           },
           %TripPlan.Leg{
-            description: "BUS",
             from: %TripPlan.NamedPosition{
               name: "Terminal A",
-              stop_id: "17091"
+              stop: %Stops.Stop{id: "17091"}
             },
             mode: %TripPlan.TransitDetail{
-              route_id: "741"
+              route: %Routes.Route{id: "741"}
             },
-            name: "SL1",
             to: %TripPlan.NamedPosition{
               name: "South Station",
-              stop_id: "74617"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "74617"}
+            }
           },
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 0.0
-            },
-            name: ""
+            }
           },
           %TripPlan.Leg{
-            description: "SUBWAY",
             from: %TripPlan.NamedPosition{
               name: "South Station",
-              stop_id: "70080"
+              stop: %Stops.Stop{id: "70080"}
             },
             mode: %TripPlan.TransitDetail{
-              route_id: "Red"
+              route: %Routes.Route{id: "Red"}
             },
-            name: "Red Line",
             to: %TripPlan.NamedPosition{
               name: "Downtown Crossing",
-              stop_id: "70078"
-            },
-            type: "1"
+              stop: %Stops.Stop{id: "70078"}
+            }
           }
         ],
         start: DateTime.from_unix!(0),
@@ -1816,13 +1680,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       no_transit_legs_itinerary = %TripPlan.Itinerary{
         legs: [
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 385.75800000000004
             }
           },
           %TripPlan.Leg{
-            description: "WALK",
             mode: %TripPlan.PersonalDetail{
               distance: 0.0
             }
@@ -1844,11 +1706,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         intermediate_stop_count: 11,
         branch_name: "Green-E",
         branch_display: "Green-E branch",
-        route: %Route{id: "Green-E"},
+        route: %Routes.Route{id: "Green-E"},
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered =
@@ -1866,11 +1728,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         intermediate_stop_count: 11,
         branch_name: "Green-E",
         branch_display: "Green-E branch",
-        route: %Route{id: "Green-E"},
+        route: %Routes.Route{id: "Green-E"},
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered =
@@ -1888,11 +1750,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         intermediate_stop_count: 9,
         branch_name: "Braintree",
         branch_display: "Braintree branch",
-        route: %Route{id: "Red"},
+        route: %Routes.Route{id: "Red"},
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered =
@@ -1910,11 +1772,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         intermediate_stop_count: 9,
         branch_name: "Braintree",
         branch_display: "Braintree branch",
-        route: %Route{id: "Red"},
+        route: %Routes.Route{id: "Red"},
         vehicle_tooltip: nil,
         expanded: true,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered =

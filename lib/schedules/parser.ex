@@ -105,6 +105,8 @@ defmodule Schedules.Parser do
     nil
   end
 
+  def trip(%JsonApi{data: []}), do: nil
+
   def stop_id(%JsonApi.Item{
         relationships: %{
           "stop" => [

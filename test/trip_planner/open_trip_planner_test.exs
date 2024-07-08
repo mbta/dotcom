@@ -5,10 +5,10 @@ defmodule TripPlanner.OpenTripPlannerTest do
   alias TripPlanner.OpenTripPlanner
 
   import Mox
-  import Test.Support.Factory
+  import Test.Support.Factories.TripPlanner.TripPlanner
 
   @date_time Faker.DateTime.forward(2)
-  @from build(:stop_named_position, stop_id: "place-sstat")
+  @from build(:stop_named_position)
   @to build(:named_position)
   @opts [arrive_by: @date_time]
 
@@ -34,7 +34,7 @@ defmodule TripPlanner.OpenTripPlannerTest do
       assert length(tags) > 0
 
       for tag <- tags do
-        assert tag.module_info[:attributes][:behaviour] == [
+        assert tag.module_info()[:attributes][:behaviour] == [
                  OpenTripPlannerClient.ItineraryTag.Behaviour
                ]
       end
