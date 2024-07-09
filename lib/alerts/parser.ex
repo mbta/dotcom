@@ -45,10 +45,18 @@ defmodule Alerts.Parser do
         route: entity["route"],
         stop: entity["stop"],
         trip: entity["trip"],
-        direction_id: entity["direction_id"],
+        direction_id: do_direction_id(entity["direction_id"]),
         facility: entity["facility"],
         activities: MapSet.new(Enum.map(entity["activities"], &do_activity/1))
       }
+    end
+
+    defp do_direction_id(nil) do
+      MapSet.new()
+    end
+
+    defp do_direction_id(direction_id) do
+      MapSet.new([direction_id])
     end
 
     @spec do_activity(String.t()) :: Alerts.InformedEntity.activity_type()

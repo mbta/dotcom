@@ -3,8 +3,7 @@ defmodule Alerts.Alert do
 
   use Timex
 
-  alias Alerts.InformedEntitySet, as: IESet
-  alias Alerts.Priority
+  alias Alerts.{InformedEntity, InformedEntitySet, Priority}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -50,7 +49,7 @@ defmodule Alerts.Alert do
 
   defstruct id: "",
             header: "",
-            informed_entity: %IESet{},
+            informed_entity: %InformedEntitySet{},
             active_period: [],
             effect: :unknown,
             severity: 5,
@@ -103,7 +102,7 @@ defmodule Alerts.Alert do
   @type t :: %Alerts.Alert{
           id: id_t(),
           header: String.t(),
-          informed_entity: IESet.t(),
+          informed_entity: InformedEntitySet.t(),
           active_period: [period_pair],
           cause: String.t(),
           effect: effect,
@@ -129,6 +128,7 @@ defmodule Alerts.Alert do
     keywords
     |> build_struct()
     |> set_priority()
+    |> set_direction_ids()
     |> ensure_entity_set()
   end
 
@@ -137,7 +137,33 @@ defmodule Alerts.Alert do
     alert
     |> struct!(keywords)
     |> set_priority()
+    |> set_direction_ids()
     |> ensure_entity_set()
+  end
+
+  defp set_direction_ids(%__MODULE__{effect: :station_closure} = alert) do
+    informed_entities = Enum.map(alert.informed_entity, &set_direction_id/1)
+
+    Map.put(alert, :informed_entity, informed_entities)
+  end
+
+  defp set_direction_ids(%__MODULE__{} = alert), do: alert
+
+  defp set_direction_id(%InformedEntity{} = entity) do
+    stop = Stops.Repo.get(entity.stop)
+
+    if entity.direction_id == MapSet.new() && stop.child_ids == [] do
+      direction_id =
+        stop.id
+        |> RoutePatterns.Repo.by_stop_id()
+        |> Enum.filter(&(&1.route_id == entity.route))
+        |> Enum.map(& &1.direction_id)
+        |> MapSet.new()
+
+      %InformedEntity{entity | direction_id: direction_id}
+    else
+      entity
+    end
   end
 
   @spec set_priority(map) :: map
@@ -150,7 +176,7 @@ defmodule Alerts.Alert do
 
   @spec ensure_entity_set(map) :: t()
   defp ensure_entity_set(alert) do
-    %__MODULE__{alert | informed_entity: IESet.new(alert.informed_entity)}
+    %__MODULE__{alert | informed_entity: InformedEntitySet.new(alert.informed_entity)}
   end
 
   @spec all_types :: [effect]
@@ -164,11 +190,19 @@ defmodule Alerts.Alert do
 
   @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) :: Enumerable.t()
   @doc "Helper function for retrieving InformedEntity values for an alert"
-  def get_entity(%__MODULE__{informed_entity: %IESet{route: set}}, :route), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{stop: set}}, :stop), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{route_type: set}}, :route_type), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{trip: set}}, :trip), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{direction_id: set}}, :direction_id), do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route: set}}, :route), do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{stop: set}}, :stop), do: set
+
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route_type: set}}, :route_type),
+    do: set
+
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{trip: set}}, :trip), do: set
+
+  def get_entity(
+        %__MODULE__{informed_entity: %InformedEntitySet{direction_id: set}},
+        :direction_id
+      ),
+      do: set
 
   def access_alert_types do
     [elevator_closure: "Elevator", escalator_closure: "Escalator", access_issue: "Other"]
