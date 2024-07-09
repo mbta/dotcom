@@ -40,21 +40,7 @@ defmodule Routes.Repo do
     result
   end
 
-  # Used to spoof any Massport route as the data doesn't exist in the API
-  # But is in the GTFS data
   @impl Routes.Repo.Behaviour
-  def get("Massport-" <> id) do
-    %Route{
-      description: "Massport Generated Route",
-      id: "Massport-" <> id,
-      long_name: "Massport-" <> id,
-      name: "Massport-" <> id,
-      type: "Massport-" <> id,
-      custom_route?: true,
-      color: "000000"
-    }
-  end
-
   def get(id) when is_binary(id) do
     opts = @default_opts
 

@@ -29,8 +29,7 @@ const journey = ({
       "0": "Stoughton or Wickford Junction",
       "1": "South Station"
     },
-    description: "commuter_rail",
-    "custom_route?": false
+    description: "commuter_rail"
   },
   departure: {
     time: "05:30 AM",

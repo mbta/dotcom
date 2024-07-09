@@ -496,7 +496,6 @@
         "direction_names": { "0": "Southbound", "1": "Northbound" },
         "direction_destinations": { "0": "Forest Hills", "1": "Oak Grove" },
         "description": "rapid_transit",
-        "custom_route?": false,
         "alerts": [{}]
       },
       "stops_with_directions": [
@@ -521,7 +520,7 @@
                   "headsign": "Forest Hills",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["1", " ", "min"],
@@ -531,7 +530,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["14", " ", "min"],
@@ -553,7 +552,7 @@
                   "headsign": "Oak Grove",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["5", " ", "min"],
@@ -563,7 +562,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["26", " ", "min"],
@@ -592,7 +591,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Haverhill", "1": "North Station" },
         "description": "commuter_rail",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -617,7 +615,7 @@
                   "headsign": "Haverhill",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["5:26", " ", "PM"],
@@ -627,7 +625,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["5:46", " ", "PM"],
@@ -649,7 +647,7 @@
                   "headsign": "North Station",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["5:53", " ", "PM"],
@@ -683,7 +681,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Malden Center", "1": "Wellington" },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -708,7 +705,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["10", " ", "min"],
@@ -718,7 +715,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["50", " ", "min"],
@@ -740,7 +737,7 @@
                   "headsign": "Wellington",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["12", " ", "min"],
@@ -750,7 +747,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["52", " ", "min"],
@@ -782,7 +779,6 @@
           "1": "Wellington"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -807,7 +803,7 @@
                   "headsign": "Woodland Rd",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["3", " ", "min"],
@@ -817,7 +813,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["39", " ", "min"],
@@ -839,7 +835,7 @@
                   "headsign": "Wellington",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["27", " ", "min"],
@@ -849,7 +845,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["71", " ", "min"],
@@ -878,7 +874,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -903,7 +898,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["7", " ", "min"],
@@ -913,7 +908,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["8", " ", "min"],
@@ -935,7 +930,7 @@
                   "headsign": "Sullivan",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["arriving"],
@@ -945,7 +940,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["9", " ", "min"],
@@ -974,7 +969,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": [{}]
       },
       "stops_with_directions": [
@@ -999,7 +993,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["15", " ", "min"],
@@ -1009,7 +1003,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["45", " ", "min"],
@@ -1031,7 +1025,7 @@
                   "headsign": "Sullivan",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["16", " ", "min"],
@@ -1041,7 +1035,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["46", " ", "min"],
@@ -1070,7 +1064,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": [{}]
       },
       "stops_with_directions": [
@@ -1095,7 +1088,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["17", " ", "min"],
@@ -1105,7 +1098,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["35", " ", "min"],
@@ -1127,7 +1120,7 @@
                   "headsign": "Sullivan",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["18", " ", "min"],
@@ -1137,7 +1130,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["36", " ", "min"],
@@ -1169,7 +1162,6 @@
           "1": "Wellington"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1194,7 +1186,7 @@
                   "headsign": "Lebanon Loop",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["16", " ", "min"],
@@ -1204,7 +1196,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["29", " ", "min"],
@@ -1238,7 +1230,7 @@
                   "headsign": "Wellington",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["15", " ", "min"],
@@ -1248,7 +1240,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["31", " ", "min"],
@@ -1265,7 +1257,7 @@
                   "headsign": "Wellington",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["70", " ", "min"],
@@ -1275,7 +1267,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["92", " ", "min"],
@@ -1304,7 +1296,6 @@
         "direction_names": { "0": "Outbound", "1": "Inbound" },
         "direction_destinations": { "0": "Linden Square", "1": "Wellington" },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1329,7 +1320,7 @@
                   "headsign": "Linden Square",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["2", " ", "min"],
@@ -1339,7 +1330,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["23", " ", "min"],
@@ -1361,7 +1352,7 @@
                   "headsign": "Wellington",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["4", " ", "min"],
@@ -1371,7 +1362,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["23", " ", "min"],
@@ -1403,7 +1394,6 @@
           "1": "Oak Grove"
         },
         "description": "commuter_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1461,7 +1451,6 @@
           "1": "Malden Center"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1486,7 +1475,7 @@
                   "headsign": "Redstone",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["2", " ", "min"],
@@ -1496,7 +1485,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["34", " ", "min"],
@@ -1518,7 +1507,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["25", " ", "min"],
@@ -1528,7 +1517,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": null,
                         "time": ["61", " ", "min"],
@@ -1560,7 +1549,6 @@
           "1": "Malden Center"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1585,7 +1573,7 @@
                   "headsign": "Reading Depot",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["72", " ", "min"],
@@ -1607,7 +1595,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["44", " ", "min"],
@@ -1617,7 +1605,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["77", " ", "min"],
@@ -1649,7 +1637,6 @@
           "1": "Malden Center"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1674,7 +1661,7 @@
                   "headsign": "Reading Depot",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["47", " ", "min"],
@@ -1684,7 +1671,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["107", " ", "min"],
@@ -1706,7 +1693,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["8", " ", "min"],
@@ -1716,7 +1703,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "2",
                         "time": ["102", " ", "min"],
@@ -1748,7 +1735,6 @@
           "1": "Malden Center"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1773,7 +1759,7 @@
                   "headsign": "Kennedy Dr",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["24", " ", "min"],
@@ -1783,7 +1769,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["69", " ", "min"],
@@ -1805,7 +1791,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["62", " ", "min"],
@@ -1815,7 +1801,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["107", " ", "min"],
@@ -1832,7 +1818,7 @@
                   "headsign": "Malden",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["1", " ", "min"],
@@ -1842,7 +1828,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["68", " ", "min"],
@@ -1874,7 +1860,6 @@
           "1": "Malden Center"
         },
         "description": "local_bus",
-        "custom_route?": false,
         "alerts": []
       },
       "stops_with_directions": [
@@ -1916,7 +1901,7 @@
                   "headsign": "Saugus Center via Square One Mall",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["8", " ", "min"],
@@ -1926,7 +1911,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["66", " ", "min"],
@@ -1965,7 +1950,7 @@
                   "headsign": "Malden via Square One Mall",
                   "times": [
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["62", " ", "min"],
@@ -1975,7 +1960,7 @@
                       "delay": 0
                     },
                     {
-                      "prediction": { 
+                      "prediction": {
                         "schedule_relationship": null,
                         "track": "1",
                         "time": ["arriving"],
@@ -2024,7 +2009,6 @@
                 "1": "Oak Grove"
               },
               "description": "rapid_transit",
-              "custom_route?": false,
               "alerts": [{}]
             }
           ]
@@ -2044,7 +2028,6 @@
                 "1": "North Station"
               },
               "description": "commuter_rail",
-              "custom_route?": false,
               "alerts": []
             }
           ]
@@ -2064,7 +2047,6 @@
                 "1": "Wellington"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2079,7 +2061,6 @@
                 "1": "Wellington"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2094,7 +2075,6 @@
                 "1": "Sullivan"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2109,7 +2089,6 @@
                 "1": "Sullivan"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": [{}]
             },
             {
@@ -2124,7 +2103,6 @@
                 "1": "Sullivan"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": [{}]
             },
             {
@@ -2139,7 +2117,6 @@
                 "1": "Wellington"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2154,7 +2131,6 @@
                 "1": "Wellington"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2169,7 +2145,6 @@
                 "1": "Oak Grove"
               },
               "description": "commuter_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2184,7 +2159,6 @@
                 "1": "Malden Center"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2199,7 +2173,6 @@
                 "1": "Malden Center"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2214,7 +2187,6 @@
                 "1": "Malden Center"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2229,7 +2201,6 @@
                 "1": "Malden Center"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             },
             {
@@ -2244,7 +2215,6 @@
                 "1": "Malden Center"
               },
               "description": "local_bus",
-              "custom_route?": false,
               "alerts": []
             }
           ]

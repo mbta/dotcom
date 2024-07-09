@@ -1,6 +1,8 @@
 [
   {
-    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": true }],
+    "stop_data": [
+      { "type": "terminus", "branch": null, "has_disruption?": true }
+    ],
     "route_stop": {
       "zone": null,
       "stop_features": ["parking_lot"],
@@ -44,9 +46,7 @@
         "severity": "3",
         "effect": "detour",
         "lifecycle": "ongoing",
-        "active_period": [
-          ["2020-09-01 12:00", "2023-01-01 01:00"]
-        ]
+        "active_period": [["2020-09-01 12:00", "2023-01-01 01:00"]]
       }
     ]
   },
@@ -89,8 +89,7 @@
           "id": "Orange",
           "direction_names": { "0": "Southbound", "1": "Northbound" },
           "direction_destinations": { "0": "Forest Hills", "1": "Oak Grove" },
-          "description": "rapid_transit",
-          "custom_route?": false
+          "description": "rapid_transit"
         },
         {
           "type": 0,
@@ -102,8 +101,7 @@
             "0": "Cleveland Circle",
             "1": "North Station"
           },
-          "description": "rapid_transit",
-          "custom_route?": false
+          "description": "rapid_transit"
         }
       ],
       "closed_stop_info": null,
@@ -157,8 +155,7 @@
             "0": "Bedford VA Hospital",
             "1": "Alewife"
           },
-          "description": "local_bus",
-          "custom_route?": false
+          "description": "local_bus"
         },
         {
           "type": 3,
@@ -167,8 +164,7 @@
           "id": "67",
           "direction_names": { "0": "Outbound", "1": "Inbound" },
           "direction_destinations": { "0": "Turkey Hill", "1": "Alewife" },
-          "description": "local_bus",
-          "custom_route?": false
+          "description": "local_bus"
         }
       ],
       "closed_stop_info": null,
@@ -181,7 +177,9 @@
     ]
   },
   {
-    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": false }],
+    "stop_data": [
+      { "type": "terminus", "branch": null, "has_disruption?": false }
+    ],
     "route_stop": {
       "zone": null,
       "stop_features": ["parking_lot", "access"],
@@ -219,8 +217,7 @@
           "id": "BOAT-A",
           "direction_names": { "0": "Outbound", "1": "Inbound" },
           "direction_destinations": { "0": "Boston", "1": "Atlantis" },
-          "description": "ferry",
-          "custom_route?": false
+          "description": "ferry"
         }
       ],
       "closed_stop_info": null,

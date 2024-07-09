@@ -315,7 +315,6 @@ defmodule DotcomWeb.ViewHelpersTest do
           html_escape(
             direction_with_headsign(
               %Routes.Route{
-                custom_route?: false,
                 description: :rail_replacement_bus,
                 direction_destinations: %{0 => nil, 1 => nil},
                 direction_names: %{0 => "", 1 => ""},

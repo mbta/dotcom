@@ -3,10 +3,9 @@ defmodule Routes.Route do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @derive {Jason.Encoder, except: [:external_agency_name]}
+  @derive Jason.Encoder
 
   defstruct color: "",
-            custom_route?: false,
             description: :unknown,
             direction_destinations: :unknown,
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
@@ -27,7 +26,6 @@ defmodule Routes.Route do
   ## Fields
   * `:color` - A hex code representing the color to be shown on wayfinding,
     corresponding to the GTFS routes.txt `route_color` field.
-  * `:custom_route?` - `true` if this data comes from outside the MBTA GTFS.
   * `:description` - corresponds to the GTFS routes.txt `route_desc` field
   * `:direction_destinations` - map describing the terminus for each direction,
     as might be described on a vehicle headsign
@@ -47,7 +45,6 @@ defmodule Routes.Route do
   """
   @type t :: %__MODULE__{
           color: String.t(),
-          custom_route?: boolean,
           description: gtfs_route_desc,
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},

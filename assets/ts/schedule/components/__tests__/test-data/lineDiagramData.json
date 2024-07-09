@@ -1,6 +1,6 @@
 {
   "stop_tree": {
-    "by_id": { 
+    "by_id": {
       "a": {
         "id": "a",
         "value": {
@@ -37,8 +37,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,
@@ -51,9 +50,11 @@
               "long_name": "Wonderland - Wellington",
               "id": "110",
               "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": { "0": "Wonderland", "1": "Wellington" },
-              "description": "local_bus",
-              "custom_route?": false
+              "direction_destinations": {
+                "0": "Wonderland",
+                "1": "Wellington"
+              },
+              "description": "local_bus"
             }
           ],
           "closed_stop_info": null,
@@ -96,8 +97,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,
@@ -110,9 +110,11 @@
               "long_name": "Wonderland - Wellington",
               "id": "110",
               "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": { "0": "Wonderland", "1": "Wellington" },
-              "description": "local_bus",
-              "custom_route?": false
+              "direction_destinations": {
+                "0": "Wonderland",
+                "1": "Wellington"
+              },
+              "description": "local_bus"
             }
           ],
           "closed_stop_info": null,
@@ -155,8 +157,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route",
-            "custom_route?": false
+            "description": "key_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,
@@ -169,9 +170,11 @@
               "long_name": "Wonderland - Wellington",
               "id": "110",
               "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": { "0": "Wonderland", "1": "Wellington" },
-              "description": "local_bus",
-              "custom_route?": false
+              "direction_destinations": {
+                "0": "Wonderland",
+                "1": "Wellington"
+              },
+              "description": "local_bus"
             }
           ],
           "closed_stop_info": null,

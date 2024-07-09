@@ -20,7 +20,6 @@ defmodule Dotcom.RealtimeScheduleTest do
   @stop %Stop{id: "place-ogmnl"}
 
   @route %Route{
-    custom_route?: false,
     description: :rapid_transit,
     direction_destinations: %{0 => "Forest Hills", 1 => "Oak Grove"},
     direction_names: %{0 => "Southbound", 1 => "Northbound"},
@@ -81,7 +80,6 @@ defmodule Dotcom.RealtimeScheduleTest do
       direction_id: 1,
       id: "prediction-40709316-70036-190",
       route: %Routes.Route{
-        custom_route?: false,
         description: :rapid_transit,
         direction_destinations: %{0 => "Forest Hills", 1 => "Oak Grove"},
         direction_names: %{0 => "Southbound", 1 => "Northbound"},
@@ -291,7 +289,6 @@ defmodule Dotcom.RealtimeScheduleTest do
         route: %{
           __struct__: Routes.Route,
           alerts: @alerts |> Enum.map(&JsonHelpers.stringified_alert(&1, @now)),
-          custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
           direction_names: %{"0" => "Southbound", "1" => "Northbound"},
