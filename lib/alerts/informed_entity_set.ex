@@ -59,11 +59,6 @@ defmodule Alerts.InformedEntitySet do
     Map.put(set, :activities, map_set)
   end
 
-  defp add_entity_field_to_set({:direction_id, %MapSet{} = value}, set) do
-    map_set = MapSet.union(set.direction_id, MapSet.new(value))
-    Map.put(set, :direction_id, map_set)
-  end
-
   defp add_entity_field_to_set({key, value}, set) do
     map_set = Map.get(set, key)
     map_set = MapSet.put(map_set, value)

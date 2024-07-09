@@ -5,13 +5,13 @@ defmodule Alerts.InformedEntity do
             route_type: nil,
             stop: nil,
             trip: nil,
-            direction_id: MapSet.new(),
+            direction_id: nil,
             facility: nil,
             activities: @empty_activities
 
   @type t :: %Alerts.InformedEntity{
           activities: MapSet.t(activity),
-          direction_id: MapSet.t(integer()),
+          direction_id: 0 | 1 | nil,
           facility: String.t() | nil,
           route: String.t() | nil,
           route_type: String.t() | nil,

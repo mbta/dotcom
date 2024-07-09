@@ -54,11 +54,6 @@ defmodule RoutePatterns.Repo do
     |> api_all()
   end
 
-  def by_route_and_stop_id(route_id, stop_id) do
-    [route: route_id, stop: stop_id]
-    |> api_all()
-  end
-
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp api_all(opts) do
     case RoutePatternsApi.all(opts) do

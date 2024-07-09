@@ -152,13 +152,13 @@ defmodule Alerts.Alert do
   defp set_direction_id(%InformedEntity{} = entity) do
     stop = Stops.Repo.get(entity.stop)
 
-    if entity.direction_id == MapSet.new() && stop.child_ids == [] do
+    if entity.direction_id == nil && stop.child_ids == [] do
       direction_id =
         stop.id
         |> RoutePatterns.Repo.by_stop_id()
         |> Enum.filter(&(&1.route_id == entity.route))
         |> Enum.map(& &1.direction_id)
-        |> MapSet.new()
+        |> List.first()
 
       %InformedEntity{entity | direction_id: direction_id}
     else
