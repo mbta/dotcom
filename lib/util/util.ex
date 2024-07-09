@@ -73,6 +73,16 @@ defmodule Util do
     Timex.parse!(string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
   end
 
+  def parse_date_time(map) when is_map(map) do
+    case parse(map) do
+      {:error, _} ->
+        Timex.now()
+
+      date_time ->
+        date_time
+    end
+  end
+
   def parse_date_time(_), do: Timex.now()
 
   @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
