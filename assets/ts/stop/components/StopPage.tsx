@@ -64,7 +64,7 @@ const StopPage = ({
       routesResult.errorData,
       facilities.errorData
     ]
-      .filter(error => error === undefined)
+      .filter(error => error !== undefined)
       .join(" ");
     throw new Error(errorMessage);
   }
