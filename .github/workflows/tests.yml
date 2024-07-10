@@ -165,7 +165,7 @@ jobs:
       - uses: ./.github/actions/setup-all
       - uses: mbta/actions/dialyzer@v2
         with:
-          cmd-line: "--ignore-exit-status"
+          cmd-line: "--ignore-exit-status --format github"
 
   type_typescript:
     name: Type checks / TypeScript

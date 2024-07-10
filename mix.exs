@@ -19,9 +19,7 @@ defmodule DotCom.Mixfile do
         "coveralls.html": :test
       ],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :ex_aws, :ex_aws_ses],
-        flags: [:unmatched_returns],
-        ignore_warnings: ".dialyzer.ignore-warnings"
+        plt_add_apps: [:mix]
       ],
       deps: deps(),
 
