@@ -5,6 +5,7 @@ defmodule Alerts.Alert do
 
   alias Alerts.{InformedEntity, InformedEntitySet, Priority}
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @ongoing_effects [
@@ -150,12 +151,12 @@ defmodule Alerts.Alert do
   defp set_direction_ids(%__MODULE__{} = alert), do: alert
 
   defp set_direction_id(%InformedEntity{direction_id: nil, route_type: 1} = entity) do
-    stop = Stops.Repo.get(entity.stop)
+    stop = @stops_repo.get(entity.stop)
 
-    if stop.child_ids == [] do
+    if stop && stop.child? do
       direction_id =
         stop.id
-        |> RoutePatterns.Repo.by_stop_id()
+        |> @route_patterns_repo.by_stop_id()
         |> Enum.filter(&(&1.route_id == entity.route))
         |> List.first()
         |> Map.get(:direction_id)
