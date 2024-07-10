@@ -142,6 +142,15 @@
   @extend %shared-autocomplete;
 }
 
+#trip-from,
+#trip-to {
+  @extend %shared-autocomplete;
+
+  .aa-InputWrapper {
+    padding-left: .5rem;
+  }
+}
+
 %large-autocomplete {
   --aa-search-input-height: 2.5rem;
 
