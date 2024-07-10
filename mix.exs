@@ -115,9 +115,9 @@ defmodule DotCom.Mixfile do
       {:phoenix, "1.6.16"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
-      {:phoenix_live_dashboard, "0.8.3"},
+      {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
-      {:phoenix_live_view, "0.20.14"},
+      {:phoenix_live_view, "0.20.16"},
       {:phoenix_pubsub, "2.1.3"},
       {:plug, "1.16.0"},
       {:plug_cowboy, "2.7.1"},
