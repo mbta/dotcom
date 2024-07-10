@@ -1,4 +1,10 @@
 defmodule DotcomWeb.Live.TripPlanner do
+  @moduledoc """
+  The entire Trip Planner experience, including submitting and validating user
+  input, querying and parsing results from OpenTripPlanner, and rendering the
+  results in a list and map format.
+  """
+
   use DotcomWeb, :live_view
 
   def mount(_params, _session, socket) do
