@@ -149,10 +149,10 @@ defmodule Alerts.Alert do
 
   defp set_direction_ids(%__MODULE__{} = alert), do: alert
 
-  defp set_direction_id(%InformedEntity{} = entity) do
+  defp set_direction_id(%InformedEntity{direction_id: nil, route_type: 1} = entity) do
     stop = Stops.Repo.get(entity.stop)
 
-    if entity.direction_id == nil && stop.child_ids == [] do
+    if stop.child_ids == [] do
       direction_id =
         stop.id
         |> RoutePatterns.Repo.by_stop_id()
@@ -165,6 +165,8 @@ defmodule Alerts.Alert do
       entity
     end
   end
+
+  defp set_direction_id(entity), do: entity
 
   @spec set_priority(map) :: map
   defp set_priority(%__MODULE__{} = alert) do
