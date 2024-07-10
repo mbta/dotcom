@@ -247,6 +247,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live, :basic_auth])
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
+      live("/trip-planner", Live.TripPlanner)
     end
   end
 
