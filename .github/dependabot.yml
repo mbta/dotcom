@@ -5,30 +5,13 @@
 
 version: 2
 updates:
-  - package-ecosystem: "mix" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "daily"
-      time: "09:00"
-    ignore:
-      - dependency-name: "castore"
-      - dependency-name: "excoveralls"
-      - dependency-name: "html_sanitize_ex"
-      - dependency-name: "httpoison"
-      - dependency-name: "phoenix"
-      - dependency-name: "phoenix_html"
-      - dependency-name: "poison"
-      - dependency-name: "sentry"
-      - dependency-name: "timex" 
-    open-pull-requests-limit: 1
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "assets" # Location of package manifests
     schedule:
-      interval: "daily"
-      time: "09:00"
+      interval: "monthly"
     open-pull-requests-limit: 2
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 1
+      interval: "monthly"
+    open-pull-requests-limit: 2
