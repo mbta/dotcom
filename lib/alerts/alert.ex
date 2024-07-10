@@ -157,8 +157,8 @@ defmodule Alerts.Alert do
         stop.id
         |> RoutePatterns.Repo.by_stop_id()
         |> Enum.filter(&(&1.route_id == entity.route))
-        |> Enum.map(& &1.direction_id)
         |> List.first()
+        |> Map.get(:direction_id)
 
       %InformedEntity{entity | direction_id: direction_id}
     else
