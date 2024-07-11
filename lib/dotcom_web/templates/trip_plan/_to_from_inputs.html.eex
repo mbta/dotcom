@@ -24,7 +24,7 @@
       ></input>
       <input id="from_latitude" name="plan[from_latitude]" type="hidden" value="<%= @from_position.latitude %>">
       <input id="from_longitude" name="plan[from_longitude]" type="hidden" value="<%= @from_position.longitude %>">
-      <input id="from_stop_id" name="plan[from_stop_id]" type="hidden" value="<%= @from_position.stop_id %>">
+      <input id="from_stop_id" name="plan[from_stop_id]" type="hidden" value="<%= if(@from_position.stop, do: @from_position.stop.id, else: "") %>">
       <i aria-hidden="true" id="trip-plan__loading-indicator--from" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
       <i id="trip-plan__reset--from" class="c-form__reset-icon fa fa-times-circle"></i>
       <div id="trip-plan__announcer--from" aria-live="polite" class="sr-only"></div>
@@ -59,7 +59,7 @@
       ></input>
       <input id="to_latitude" name="plan[to_latitude]" type="hidden" value="<%= @to_position.latitude %>">
       <input id="to_longitude" name="plan[to_longitude]" type="hidden" value="<%= @to_position.longitude %>">
-      <input id="to_stop_id" name="plan[to_stop_id]" type="hidden" value="<%= @to_position.stop_id %>">
+      <input id="to_stop_id" name="plan[to_stop_id]" type="hidden" value="<%= if(@to_position.stop, do: @to_position.stop.id, else: "") %>">
       <i aria-hidden="true" id="trip-plan__loading-indicator--to" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
       <i id="trip-plan__reset--to" class="c-form__reset-icon fa fa-times-circle"></i>
       <div id="trip-plan__announcer--to" aria-live="polite" class="sr-only"></div>

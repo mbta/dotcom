@@ -4,15 +4,25 @@ defmodule TripPlan.TransitDetail do
   """
 
   alias Fares.Fare
+  alias OpenTripPlannerClient.Schema.Leg
 
   @derive {Jason.Encoder, except: [:fares]}
-  defstruct [:fares, route_id: "", trip_id: "", intermediate_stop_ids: []]
+  defstruct fares: %{
+              highest_one_way_fare: nil,
+              lowest_one_way_fare: nil,
+              reduced_one_way_fare: nil
+            },
+            mode: :TRANSIT,
+            route: nil,
+            trip_id: "",
+            intermediate_stops: []
 
   @type t :: %__MODULE__{
-          route_id: Routes.Route.id_t(),
+          fares: fares,
+          mode: Leg.mode(),
+          route: Routes.Route.t(),
           trip_id: Schedules.Trip.id_t(),
-          intermediate_stop_ids: [Stops.Stop.id_t()],
-          fares: fares
+          intermediate_stops: [Stops.Stop.t()]
         }
 
   @type fares :: %{

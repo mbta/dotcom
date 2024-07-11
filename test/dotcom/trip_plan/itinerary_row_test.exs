@@ -6,15 +6,16 @@ defmodule TripPlan.ItineraryRowTest do
   import Test.Support.Factories.TripPlanner.TripPlanner
 
   alias Dotcom.TripPlan.ItineraryRow
+  alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias Test.Support.Factories.{Routes.Route, Stops.Stop}
-  alias TripPlan.NamedPosition
+  alias Test.Support.Factories.MBTA.Api
+  alias TripPlan.{Leg, NamedPosition, PersonalDetail}
 
   setup :verify_on_exit!
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
-      row = %ItineraryRow{route: %Routes.Route{id: "route"}}
+      row = %ItineraryRow{route: %Route{id: "route"}}
 
       assert route_id(row) == "route"
     end
@@ -28,7 +29,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_type/1" do
     test "returns the route type when a route is present" do
-      row = %ItineraryRow{route: %Routes.Route{type: 0}}
+      row = %ItineraryRow{route: %Route{type: 0}}
 
       assert route_type(row) == 0
     end
@@ -42,7 +43,7 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_name/1" do
     test "returns the route name when a route is present" do
-      row = %ItineraryRow{route: %Routes.Route{name: "Red Line"}}
+      row = %ItineraryRow{route: %Route{name: "Red Line"}}
 
       assert route_name(row) == "Red Line"
     end
@@ -62,8 +63,11 @@ defmodule TripPlan.ItineraryRowTest do
       departure: DateTime.from_unix!(2),
       transit?: true,
       steps: [
-        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop_id: "intermediate_stop"},
-        %Dotcom.TripPlan.IntermediateStop{description: "step2", stop_id: nil}
+        %Dotcom.TripPlan.IntermediateStop{
+          description: "step1",
+          stop: %Stops.Stop{id: "intermediate_stop"}
+        },
+        %Dotcom.TripPlan.IntermediateStop{description: "step2", stop: nil}
       ],
       additional_routes: []
     }
@@ -295,7 +299,7 @@ defmodule TripPlan.ItineraryRowTest do
       transit?: true,
       steps: [
         %Dotcom.TripPlan.IntermediateStop{alerts: [Alert.new()]},
-        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop_id: "intermediate_stop"}
+        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop: %Stops.Stop{}}
       ],
       additional_routes: []
     }
@@ -305,33 +309,26 @@ defmodule TripPlan.ItineraryRowTest do
   end
 
   describe "name_from_position" do
-    test "doesn't return stop id if mapper returns nil" do
-      stub(Stops.Repo.Mock, :get_parent, fn "ignored" ->
-        nil
-      end)
-
-      stop_id = "ignored"
+    test "doesn't return stop id if stop is nil" do
       name = "stop name"
 
       assert {^name, nil} =
-               name_from_position(%NamedPosition{stop_id: stop_id, name: name})
+               name_from_position(%NamedPosition{stop: nil, name: name})
     end
   end
 
   describe "from_leg/3" do
-    @deps %ItineraryRow.Dependencies{}
-    @leg build(:leg)
-    @personal_leg build(:leg, mode: build(:personal_detail))
-    @transit_leg build(:leg, mode: build(:transit_detail))
+    @personal_leg build(:walking_leg)
+    @transit_leg build(:transit_leg)
 
     setup do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
         cond do
           String.contains?(path, "trips") ->
-            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:trip_item)]}
+            %JsonApi{data: [Api.build(:trip_item)]}
 
           String.contains?(path, "routes") ->
-            %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:route_item)]}
+            %JsonApi{data: [Api.build(:route_item)]}
 
           true ->
             %JsonApi{data: []}
@@ -342,33 +339,29 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
-      # stubs instead of expect because these don't always get called
-      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
-      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
+      leg = build(:transit_leg)
 
-      row = from_leg(@leg, @deps, nil)
-      assert %ItineraryRow{} = row
-    end
-
-    test "formats transfer steps differently based on subsequent Leg" do
       stub(Stops.Repo.Mock, :get_parent, fn id ->
         %Stops.Stop{id: id}
       end)
 
-      leg =
-        build(
-          :leg,
-          %{
-            mode:
-              build(
-                :personal_detail,
-                %{steps: [build(:step, %{relative_direction: :depart, street_name: "Transfer"})]}
-              )
-          }
-        )
+      row = from_leg(leg, nil)
+      assert %ItineraryRow{} = row
+    end
 
-      %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @deps, @personal_leg)
-      %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @deps, @transit_leg)
+    test "formats transfer steps differently based on subsequent Leg" do
+      leg = %Leg{
+        @personal_leg
+        | mode: %PersonalDetail{
+            steps: [
+              %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
+              | @personal_leg.mode.steps
+            ]
+          }
+      }
+
+      %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @personal_leg)
+      %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @transit_leg)
       assert xfer_step_to_personal.description != xfer_step_to_transit.description
     end
   end

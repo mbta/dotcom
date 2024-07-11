@@ -16,20 +16,24 @@ defmodule TripPlan.Itinerary do
   @derive {Jason.Encoder, except: [:passes]}
   @enforce_keys [:start, :stop]
   defstruct [
+    :duration,
     :start,
     :stop,
     :passes,
     :tag,
+    :walk_distance,
     legs: [],
     accessible?: false
   ]
 
   @type t :: %__MODULE__{
+          duration: non_neg_integer(),
           start: DateTime.t(),
           stop: DateTime.t(),
           legs: [Leg.t()],
           accessible?: boolean | nil,
           passes: passes(),
+          walk_distance: float(),
           tag: OpenTripPlannerClient.ItineraryTag.tag()
         }
 
@@ -76,7 +80,7 @@ defmodule TripPlan.Itinerary do
   def stop_ids(%__MODULE__{} = itinerary) do
     itinerary
     |> positions
-    |> Enum.map(& &1.stop_id)
+    |> Enum.map(& &1.stop.id)
     |> Enum.uniq()
   end
 
@@ -86,6 +90,7 @@ defmodule TripPlan.Itinerary do
     itinerary
     |> Enum.map(&Leg.walking_distance/1)
     |> Enum.sum()
+    |> Float.round(2)
   end
 
   @doc "Return a lost of all of the "
@@ -93,6 +98,7 @@ defmodule TripPlan.Itinerary do
   def intermediate_stop_ids(itinerary) do
     itinerary
     |> Enum.flat_map(&leg_intermediate/1)
+    |> Enum.reject(&is_nil/1)
     |> Enum.uniq()
   end
 
@@ -102,8 +108,10 @@ defmodule TripPlan.Itinerary do
     end
   end
 
-  defp leg_intermediate(%Leg{mode: %TransitDetail{intermediate_stop_ids: ids}}) do
-    ids
+  defp leg_intermediate(%Leg{mode: %TransitDetail{intermediate_stops: stops}}) do
+    stops
+    |> Enum.reject(&is_nil/1)
+    |> Enum.map(& &1.id)
   end
 
   defp leg_intermediate(_) do

@@ -9,16 +9,11 @@ defmodule TripPlan.Leg do
   alias TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
 
   @derive {Jason.Encoder, only: [:from, :to, :mode]}
-  defstruct start: DateTime.from_unix!(-1),
-            stop: DateTime.from_unix!(0),
+  defstruct start: Timex.now(),
+            stop: Timex.now(),
             mode: nil,
             from: nil,
             to: nil,
-            name: nil,
-            long_name: nil,
-            type: nil,
-            description: nil,
-            url: nil,
             polyline: "",
             distance: 0.0,
             duration: 0
@@ -28,23 +23,16 @@ defmodule TripPlan.Leg do
           start: DateTime.t(),
           stop: DateTime.t(),
           mode: mode,
-          from: NamedPosition.t() | nil,
+          from: NamedPosition.t(),
           to: NamedPosition.t(),
-          name: String.t(),
-          long_name: String.t(),
-          type: String.t(),
-          description: String.t(),
-          url: String.t(),
           polyline: String.t(),
           distance: Float.t(),
           duration: Integer.t()
         }
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @doc "Returns the route ID for the leg, if present"
   @spec route_id(t) :: {:ok, Routes.Route.id_t()} | :error
-  def route_id(%__MODULE__{mode: %TransitDetail{route_id: route_id}}), do: {:ok, route_id}
+  def route_id(%__MODULE__{mode: %TransitDetail{route: route}}), do: {:ok, route.id}
   def route_id(%__MODULE__{}), do: :error
 
   @doc "Returns the trip ID for the leg, if present"
@@ -54,7 +42,7 @@ defmodule TripPlan.Leg do
 
   @spec route_trip_ids(t) :: {:ok, {Routes.Route.id_t(), Schedules.Trip.id_t()}} | :error
   def route_trip_ids(%__MODULE__{mode: %TransitDetail{} = mode}) do
-    {:ok, {mode.route_id, mode.trip_id}}
+    {:ok, {mode.route.id, mode.trip_id}}
   end
 
   def route_trip_ids(%__MODULE__{}) do
@@ -74,9 +62,9 @@ defmodule TripPlan.Leg do
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t()]
   def stop_ids(%__MODULE__{from: from, to: to}) do
-    for %NamedPosition{stop_id: stop_id} <- [from, to],
-        stop_id do
-      stop_id
+    for %NamedPosition{stop: stop} <- [from, to],
+        stop do
+      stop.id
     end
   end
 
@@ -84,11 +72,11 @@ defmodule TripPlan.Leg do
   def stop_is_silver_line_airport?([], _), do: false
 
   def stop_is_silver_line_airport?([leg], key) when not is_nil(leg) do
-    route_id = leg.mode.route_id
+    route_id = leg.mode.route.id
 
     stop_id =
       leg
-      |> Kernel.get_in([Access.key(key), Access.key(:stop_id)])
+      |> Kernel.get_in([Access.key(key), Access.key(:stop), Access.key(:id)])
 
     Fares.silver_line_airport_stop?(route_id, stop_id)
   end
@@ -104,15 +92,13 @@ defmodule TripPlan.Leg do
   # between stops where we don't know the zones
   @spec leg_missing_zone?(t) :: boolean
   defp leg_missing_zone?(%__MODULE__{
-         mode: %TransitDetail{route_id: route_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
+         mode: %TransitDetail{route: route},
+         from: %NamedPosition{stop: origin},
+         to: %NamedPosition{stop: destination}
        }) do
-    route = @routes_repo.get(route_id)
-
     if route do
       Routes.Route.type_atom(route) == :commuter_rail and
-        not Enum.all?([origin_id, destination_id], &Stops.Stop.has_zone?(&1))
+        not Enum.all?([origin, destination], &Stops.Stop.has_zone?(&1))
     else
       true
     end

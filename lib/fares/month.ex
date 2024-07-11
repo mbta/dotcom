@@ -7,8 +7,6 @@ defmodule Fares.Month do
   alias Routes.Route
   alias Stops.Stop
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @type fare_fn :: (Keyword.t() -> [Fare.t()])
 
   @spec recommended_pass(
@@ -20,12 +18,6 @@ defmodule Fares.Month do
           Fare.t() | nil
   def recommended_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def recommended_pass(nil, _, _, _), do: nil
-
-  def recommended_pass(route_id, origin_id, destination_id, fare_fn)
-      when is_binary(route_id) do
-    route = @routes_repo.get(route_id)
-    recommended_pass(route, origin_id, destination_id, fare_fn)
-  end
 
   def recommended_pass(route, origin_id, destination_id, fare_fn) do
     route
@@ -43,11 +35,6 @@ defmodule Fares.Month do
   def base_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def base_pass(nil, _, _, _), do: nil
 
-  def base_pass(route_id, origin_id, destination_id, fare_fn) when is_binary(route_id) do
-    route = @routes_repo.get(route_id)
-    base_pass(route, origin_id, destination_id, fare_fn)
-  end
-
   def base_pass(route, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(origin_id, destination_id, fare_fn)
@@ -55,7 +42,7 @@ defmodule Fares.Month do
   end
 
   @spec reduced_pass(
-          Route.t() | Route.id_t(),
+          Route.t(),
           Stop.id_t(),
           Stop.id_t(),
           fare_fn()
@@ -63,11 +50,6 @@ defmodule Fares.Month do
           Fare.t() | nil
   def reduced_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def reduced_pass(nil, _, _, _), do: nil
-
-  def reduced_pass(route_id, origin_id, destination_id, fare_fn) when is_binary(route_id) do
-    route = @routes_repo.get(route_id)
-    reduced_pass(route, origin_id, destination_id, fare_fn)
-  end
 
   def reduced_pass(route, origin_id, destination_id, fare_fn) do
     route

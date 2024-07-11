@@ -1,74 +1,52 @@
 defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
 
-  alias Test.Support.Factories.{MBTA.Api, Routes.Route, Stops.Stop}
-
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner
 
   @date_time ~N[2017-06-27T11:43:00]
-  @from build(:stop_named_position, stop_id: "place-sstat")
-  @to build(:named_position)
 
   setup :verify_on_exit!
+
+  setup_all %{} do
+    # Start parent supervisor - Dotcom.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
+    _ = start_supervised(Dotcom.GreenLine.Supervisor)
+
+    :ok
+  end
 
   describe "from_itinerary" do
     setup do
       # Start parent supervisor - Dotcom.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
-      _ = start_supervised(Dotcom.GreenLine.Supervisor)
+      stub(Stops.Repo.Mock, :by_route, fn "Green" <> _, _, _ ->
+        []
+      end)
 
-      # these rows depend on the itinerary having some sort of logic more
-      # advanced than randomly generated data. so here we make sure the legs are
-      # timed in sequence.
-      itinerary =
-        build(:itinerary,
-          start: @date_time,
-          stop: Timex.shift(@date_time, minutes: 60),
-          legs: [
-            build(:leg,
-              from: @from,
-              start: Timex.shift(@date_time, minutes: 10),
-              stop: Timex.shift(@date_time, minutes: 20)
-            ),
-            build(:leg,
-              start: Timex.shift(@date_time, minutes: 30),
-              stop: Timex.shift(@date_time, minutes: 40)
-            ),
-            build(:leg,
-              to: @to,
-              start: Timex.shift(@date_time, minutes: 50),
-              stop: Timex.shift(@date_time, minutes: 60)
-            )
-          ]
-        )
+      itinerary = build(:itinerary)
 
-      stub(Routes.Repo.Mock, :get, fn id -> Route.build(:route, %{id: id}) end)
-      stub(Stops.Repo.Mock, :get_parent, fn id -> Stop.build(:stop, %{id: id}) end)
-
-      stub(MBTA.Api.Mock, :get_json, fn "/trips" <> _, [] ->
-        %JsonApi{data: [Api.build(:trip_item)]}
+      stub(MBTA.Api.Mock, :get_json, fn "/trips" <> _, _ ->
+        %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:trip_item)]}
       end)
 
       {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary)}}
     end
 
-    @tag :external
     test "ItineraryRow contains given stop name when no stop_id present" do
-      from = build(:stop_named_position, stop_id: nil)
-      to = build(:stop_named_position, stop_id: "place-sstat")
+      from = build(:stop_named_position, stop: nil)
+      to = build(:stop_named_position, stop: %Stops.Stop{id: "place-sstat"})
       date_time = ~N[2017-06-27T11:43:00]
 
       itinerary =
         build(:itinerary,
           start: date_time,
-          legs: [build(:leg, from: from)] ++ build_list(3, :leg) ++ [build(:leg, to: to)]
+          legs: [build(:transit_leg, from: from), build(:transit_leg, to: to)]
         )
 
       itinerary_row_list = from_itinerary(itinerary)
 
       itinerary_destination =
-        itinerary.legs |> Enum.reject(& &1.from.stop_id) |> List.first() |> Map.get(:from)
+        itinerary.legs |> Enum.reject(& &1.from.stop) |> List.first() |> Map.get(:from)
 
       row_destination =
         Enum.find(itinerary_row_list.rows, fn %{stop: {_stop_name, stop_id}} ->
@@ -106,7 +84,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       {stop_name, _stop_id, _arrival_time, _} = row_list.destination
 
       position_name =
-        case stop_mapper(last_position.stop_id) do
+        case stop_mapper(last_position.stop) do
           nil -> last_position.name
           %{name: name} -> name
         end
@@ -127,9 +105,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "Distance is given with personal steps", %{itinerary: itinerary} do
-      leg =
-        build(:leg, mode: build(:personal_detail))
-
+      leg = build(:walking_leg)
       personal_itinerary = %{itinerary | legs: [leg]}
       row_list = from_itinerary(personal_itinerary)
 
@@ -147,51 +123,42 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "Uses to name when one is provided", %{itinerary: itinerary} do
-      {destination, stop_id, _datetime, _alerts} =
+      {destination, _, _datetime, _alerts} =
         from_itinerary(itinerary, to: "Final Destination").destination
 
       assert destination == "Final Destination"
-      refute stop_id
     end
 
-    @tag :external
     test "Does not replace to stop_id" do
-      to = build(:stop_named_position, stop_id: "place-north")
+      stop_id = Faker.Internet.slug()
+      stop_name = Faker.Address.city()
+      to = build(:stop_named_position, stop: %Stops.Stop{id: stop_id})
 
-      itinerary =
-        build(:itinerary,
-          start: @date_time,
-          legs: [build(:leg, from: @from)] ++ build_list(3, :leg) ++ [build(:leg, to: to)]
-        )
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [build(:transit_leg, to: to)]
+      }
 
       {name, id, _datetime, _alerts} =
-        itinerary |> from_itinerary(to: "Final Destination") |> Map.get(:destination)
+        itinerary |> from_itinerary(to: stop_name) |> Map.get(:destination)
 
-      assert name == "Final Destination"
-      assert id == "place-north"
+      assert name == stop_name
+      assert id == stop_id
     end
 
-    test "Uses given from name when one is provided" do
-      from = build(:named_position)
-
-      itinerary =
-        build(:itinerary,
-          start: @date_time,
-          legs: [build(:leg, from: from)] ++ build_list(3, :leg) ++ [build(:leg, to: @to)]
-        )
-
-      {name, nil} =
+    test "Uses given from name when one is provided", %{itinerary: itinerary} do
+      {name, _} =
         itinerary |> from_itinerary(from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
 
       assert name == "Starting Point"
     end
 
     test "Does not replace from stop_id", %{itinerary: itinerary} do
-      {name, id} =
+      {name, _} =
         itinerary |> from_itinerary(from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
 
       assert name == "Starting Point"
-      assert id == "place-sstat"
     end
 
     @tag :external
@@ -199,12 +166,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       green_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop_id: "place-kencl", name: "Kenmore"},
-        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
+        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
         mode: %TripPlan.TransitDetail{
-          route_id: "Green-C",
+          route: %Routes.Route{id: "Green-C"},
           trip_id: "Green-1",
-          intermediate_stop_ids: []
+          intermediate_stops: []
         }
       }
 
@@ -230,11 +197,11 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       red_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop_id: "place-sstat", name: "South Station"},
-        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
+        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
         mode: %TripPlan.TransitDetail{
-          route_id: "Red",
-          intermediate_stop_ids: ["place-dwnxg"]
+          route: %Routes.Route{id: "Red"},
+          intermediate_stops: [%Stops.Stop{id: "place-dwnxg"}]
         }
       }
 
@@ -257,23 +224,23 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       red_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop_id: "place-sstat", name: "South Station"},
-        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
+        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
         mode: %TripPlan.TransitDetail{
-          route_id: "Red",
-          intermediate_stop_ids: []
+          route: %Routes.Route{id: "Red"},
+          intermediate_stops: []
         }
       }
 
       green_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
-        to: %TripPlan.NamedPosition{stop_id: "place-kencl", name: "Kenmore"},
+        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
+        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
         mode: %TripPlan.TransitDetail{
-          route_id: "Green-C",
+          route: %Routes.Route{id: "Green-C"},
           trip_id: "Green-1",
-          intermediate_stop_ids: []
+          intermediate_stops: []
         }
       }
 

@@ -1,4 +1,7 @@
 defmodule Dotcom.TripPlan.Map do
+  @moduledoc """
+  Handles generating the maps displayed within the TripPlan Controller
+  """
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias Routes.Route
@@ -6,17 +9,6 @@ defmodule Dotcom.TripPlan.Map do
   alias Util.Position
 
   @type t :: MapData.t()
-  @type route_mapper :: (String.t() -> Route.t() | nil)
-
-  @default_opts [
-    route_mapper: &Routes.Repo.get/1
-  ]
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-  @moduledoc """
-  Handles generating the maps displayed within the TripPlan Controller
-  """
 
   def initial_map_data do
     {630, 400}
@@ -29,20 +21,15 @@ defmodule Dotcom.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map([Leg.t()], Keyword.t()) :: t
-  def itinerary_map(itinerary, opts \\ []) do
-    itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
-  end
-
-  @spec itinerary_map_data([Leg.t()], Keyword.t()) :: MapData.t()
-  defp itinerary_map_data(itinerary, opts) do
+  @spec itinerary_map([Leg.t()]) :: t
+  def itinerary_map(itinerary) do
     markers =
       itinerary
       |> markers_for_legs()
       |> Enum.with_index()
       |> Enum.map(fn {marker, idx} -> %{marker | id: "marker-#{idx}"} end)
 
-    paths = Enum.map(itinerary, &build_leg_path(&1, opts[:route_mapper]))
+    paths = Enum.map(itinerary, &build_leg_path(&1))
 
     {600, 600}
     |> MapData.new()
@@ -50,9 +37,9 @@ defmodule Dotcom.TripPlan.Map do
     |> MapData.add_polylines(paths)
   end
 
-  @spec build_leg_path(Leg.t(), route_mapper) :: LeafletPolyline.t()
-  defp build_leg_path(leg, route_mapper) do
-    color = leg_color(leg, route_mapper)
+  @spec build_leg_path(Leg.t()) :: LeafletPolyline.t()
+  defp build_leg_path(leg) do
+    color = leg_color(leg)
     path_weight = if Leg.transit?(leg), do: 5, else: 1
 
     leg.polyline
@@ -145,22 +132,19 @@ defmodule Dotcom.TripPlan.Map do
   def stop_icon_size("map-pin-b"), do: nil
   def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
-  @spec leg_color(Leg.t(), route_mapper) :: String.t()
-  defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do
-    with route <- route_mapper.(route_id), do: "#" <> route.color
+  @spec leg_color(Leg.t()) :: String.t()
+  defp leg_color(%Leg{mode: %TransitDetail{route: %Route{color: color}}})
+       when not is_nil(color) do
+    "#" <> color
   end
 
-  defp leg_color(_leg, _route_mapper) do
+  defp leg_color(_) do
     "#000000"
   end
 
   @spec tooltip_for_position(NamedPosition.t()) :: String.t()
-  defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position) do
-    case @stops_repo.get_parent(stop_id) do
-      nil -> position.name
-      stop -> stop.name
-    end
-  end
+  defp tooltip_for_position(%NamedPosition{name: name, stop: nil}), do: name
+  defp tooltip_for_position(%NamedPosition{stop: %Stops.Stop{name: name}}), do: name
 
   @spec z_index(map) :: 0 | 1
   def z_index(%{current: idx, start: idx}), do: 100

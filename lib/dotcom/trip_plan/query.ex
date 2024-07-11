@@ -1,16 +1,8 @@
 defmodule Dotcom.TripPlan.Query do
   @moduledoc "Fetch trip plan via OTP and handle response"
 
-  alias OpenTripPlannerClient.ItineraryTag.{
-    EarliestArrival,
-    LeastWalking,
-    MostDirect,
-    ShortestTrip
-  }
-
-  alias TripPlan.Api.OpenTripPlanner
-
   alias TripPlan.{Itinerary, NamedPosition}
+  alias TripPlanner.OpenTripPlanner
 
   defstruct [
     :from,
@@ -48,9 +40,6 @@ defmodule Dotcom.TripPlan.Query do
     defp encode_value({:itineraries, {:ok, itineraries}}), do: [{"itineraries", itineraries}]
     defp encode_value(values), do: [values]
   end
-
-  @otp_depart_at_tags [EarliestArrival, MostDirect, LeastWalking]
-  @otp_arrive_by_tags [ShortestTrip, MostDirect, LeastWalking]
 
   @type query_itineraries :: {:ok, [Itinerary.t()]} | {:error, any()}
   @type position :: NamedPosition.t() | {:error, any()} | nil
@@ -104,22 +93,11 @@ defmodule Dotcom.TripPlan.Query do
     query
   end
 
-  @spec fetch_itineraries(t, Keyword.t()) :: OpenTripPlannerClient.Behaviour.plan()
+  @spec fetch_itineraries(t, Keyword.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
   defp fetch_itineraries(
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
          opts
        ) do
-    opts =
-      Keyword.put_new(
-        opts,
-        :tags,
-        if Keyword.has_key?(opts, :arrive_by) do
-          @otp_arrive_by_tags
-        else
-          @otp_depart_at_tags
-        end
-      )
-
     OpenTripPlanner.plan(from, to, opts)
   end
 

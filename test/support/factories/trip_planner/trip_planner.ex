@@ -4,83 +4,166 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   """
   use ExMachina
 
-  alias Test.Support.FactoryHelpers
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlanner.Parser
+  alias OpenTripPlannerClient.Test.Factory
+  alias TripPlan.NamedPosition
 
   def itinerary_factory do
-    start = Faker.DateTime.forward(1)
-
-    %Itinerary{
-      start: start,
-      stop: Faker.DateTime.between(start, Timex.shift(start, minutes: 75)),
-      legs: Faker.random_between(1, 4) |> build_list(:leg),
-      accessible?: Faker.Util.pick([true, false]) |> FactoryHelpers.nullable_item()
-    }
+    Factory.build(:itinerary)
+    |> limit_route_types()
+    |> Parser.parse()
   end
 
   def leg_factory do
-    start = Faker.DateTime.forward(1)
-    stop = Faker.DateTime.between(start, Timex.shift(start, minutes: 75))
-    from = Faker.Util.pick([build(:named_position), build(:stop_named_position)])
-    to = Faker.Util.pick([build(:named_position), build(:stop_named_position)])
-    mode = Faker.Util.pick([build(:personal_detail), build(:transit_detail)])
+    [:walking_leg, :transit_leg]
+    |> Faker.Util.pick()
+    |> Factory.build()
+  end
 
-    description =
-      case mode do
-        %TransitDetail{} ->
-          Faker.Util.pick(~w(BUS SUBWAY RAIL TRAM FERRY)a)
+  def walking_leg_factory do
+    Factory.build(:walking_leg)
+    |> Parser.parse()
+  end
 
-        _ ->
-          "WALK"
-      end
+  def transit_leg_factory do
+    Factory.build(:transit_leg)
+    |> limit_route_types()
+    |> Parser.parse()
+  end
 
-    %Leg{
-      start: start,
-      stop: stop,
-      from: from,
-      to: to,
-      mode: mode,
-      polyline: Faker.Lorem.characters(),
-      type: "MBTA",
-      url: "https://www.mbta.com",
-      description: description
-    }
+  def subway_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          type: 1
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def bus_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          type: 3
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def express_bus_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          gtfs_id: "mbta-ma-us:" <> Faker.Util.pick(Fares.express()),
+          type: 3
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def sl_rapid_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          gtfs_id: "mbta-ma-us:" <> Faker.Util.pick(Fares.silver_line_rapid_transit()),
+          type: 3
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def sl_bus_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          gtfs_id: "mbta-ma-us:" <> Faker.Util.pick(["751", "749"]),
+          type: 3
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def cr_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          type: 2
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def ferry_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          type: 4
+        })
+    })
+    |> Parser.parse()
+  end
+
+  def shuttle_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route:
+        Factory.build(:route, %{
+          type: 3,
+          desc: "Rail Replacement Bus"
+        })
+    })
+    |> Parser.parse()
   end
 
   def personal_detail_factory do
-    steps = Faker.random_between(1, 4) |> build_list(:step)
-
-    %PersonalDetail{
-      distance: Enum.map(steps, & &1.distance) |> Enum.sum(),
-      steps: steps
-    }
+    Factory.build(:walking_leg)
+    |> Parser.parse()
+    |> Map.get(:mode)
   end
 
   def step_factory do
-    %PersonalDetail.Step{
-      distance: Faker.random_uniform() * 1000,
-      relative_direction: Faker.Util.pick(~w(left right depart continue)a),
-      absolute_direction: Faker.Util.pick(~w(north east south west)a),
-      street_name: Faker.Address.street_name()
-    }
+    Factory.build(:step)
+    |> Parser.step()
   end
 
   def transit_detail_factory do
-    %TransitDetail{
-      route_id: FactoryHelpers.build(:id),
-      trip_id: FactoryHelpers.build(:id),
-      intermediate_stop_ids:
-        Enum.random([
-          FactoryHelpers.build_list(13, :id),
-          []
-        ])
+    Factory.build(:transit_leg)
+    |> limit_route_types()
+    |> Parser.parse()
+    |> Map.get(:mode)
+  end
+
+  # OpenTripPlannerClient supports a greater number of route_type values than
+  # Dotcom does! Tweak that here.
+  defp limit_route_types(%OpenTripPlannerClient.Schema.Itinerary{legs: legs} = itinerary) do
+    %OpenTripPlannerClient.Schema.Itinerary{
+      itinerary
+      | legs: Enum.map(legs, &limit_route_types/1)
     }
   end
+
+  defp limit_route_types(%OpenTripPlannerClient.Schema.Leg{route: route} = leg)
+       when route.type > 4 do
+    %OpenTripPlannerClient.Schema.Leg{
+      leg
+      | route: %OpenTripPlannerClient.Schema.Route{route | type: Faker.Util.pick([0, 1, 2, 3, 4])}
+    }
+  end
+
+  defp limit_route_types(leg), do: leg
 
   def stop_named_position_factory do
     %NamedPosition{
       name: Faker.Address.street_name(),
-      stop_id: FactoryHelpers.build(:id),
+      stop: Test.Support.Factories.Stops.Stop.build(:stop),
       latitude: Faker.Address.latitude(),
       longitude: Faker.Address.longitude()
     }
@@ -89,7 +172,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   def named_position_factory do
     %NamedPosition{
       name: Faker.Address.city(),
-      stop_id: nil,
+      stop: nil,
       latitude: Faker.Address.latitude(),
       longitude: Faker.Address.longitude()
     }

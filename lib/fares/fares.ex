@@ -145,11 +145,14 @@ defmodule Fares do
 
   def express, do: @express_routes
 
-  @type fare_atom :: Route.gtfs_route_type() | :express_bus
+  @type fare_atom :: Route.gtfs_route_type() | :express_bus | :free_service
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
   def to_fare_atom(route_or_atom) do
     case route_or_atom do
+      %Route{description: :rail_replacement_bus} ->
+        :free_service
+
       %Route{type: 3, id: id} ->
         cond do
           silver_line_rapid_transit?(id) -> :subway

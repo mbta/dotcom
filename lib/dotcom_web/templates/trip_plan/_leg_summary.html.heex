@@ -4,7 +4,7 @@
     <strong class="pe-8">
       Ride the <%= @branch_display %>
     </strong> 
-    <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{display_seconds_as_minutes(@itinerary_row.duration)} min)" %>
+    <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{@itinerary_row.duration} min)" %>
     <%= if @itinerary_row.trip do %>
       <div class="fs-14">
         <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
