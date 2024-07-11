@@ -84,23 +84,6 @@ defmodule Alerts.RepoTest do
       # Verify
       assert [^diversion] = diversions
     end
-
-    test "attaches an image url to the alert if it doesn't already have one" do
-      # Setup
-      diversion = Factories.Alerts.Alert.build(:alert, effect: :shuttle, image_url: nil)
-
-      Store.update([diversion], nil)
-
-      diversion_route =
-        diversion.informed_entity.route |> MapSet.to_list() |> List.first()
-
-      # Exercise
-      diversions =
-        Repo.diversions_by_route_ids([diversion_route], Timex.now())
-
-      # Verify
-      assert diversions |> List.first() |> Map.get(:image_url) != nil
-    end
   end
 
   describe "by_route_types/1" do

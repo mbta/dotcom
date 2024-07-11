@@ -30,15 +30,12 @@ defmodule Alerts.Repo do
 
   @doc """
   Get alerts that are diversion types: shuttle, station_closure, suspension.
-
-  Try to attach an image URL to the alert if it doesn't already have one.
   """
   @spec diversions_by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)
     |> Enum.filter(&Alert.diversion?/1)
-    |> Enum.map(&maybe_attach_image_url/1)
   end
 
   @spec by_route_types(Enumerable.t(), DateTime.t()) :: [Alert.t()]
@@ -67,17 +64,5 @@ defmodule Alerts.Repo do
     now
     |> Store.all_alerts()
     |> Enum.filter(&(&1.priority == priority))
-  end
-
-  # This function is used to attach an image URL to an alert if it doesn't already have one.
-  # It should be removed once alerts support image URLs.
-  defp maybe_attach_image_url(alert) do
-    if is_nil(alert.image_url) do
-      image_url = "/sites/default/files/diversion-diagrams/alert-#{alert.id}.png"
-
-      Map.put(alert, :image_url, image_url)
-    else
-      alert
-    end
   end
 end

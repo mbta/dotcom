@@ -17,8 +17,8 @@ defmodule Alerts.Parser do
         description: description(attributes["description"]),
         effect: effect(attributes),
         header: attributes["header"],
-        image_alt_text: parse_informed_entity(attributes["informed_entity"]) |> create_alt_text(),
-        image_url: attributes["image_url"],
+        image_alternative_text: attributes["image_alternative_text"],
+        image: attributes["image"],
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
         severity: severity(attributes["severity"]),
@@ -216,14 +216,6 @@ defmodule Alerts.Parser do
         _ ->
           :unknown
       end
-    end
-
-    defp create_alt_text(informed_entities) do
-      informed_entities
-      |> Enum.map(& &1.route)
-      |> MapSet.new()
-      |> Enum.join(", ")
-      |> (fn routes -> "Line map of the " <> routes <> " route(s) closures" end).()
     end
   end
 
