@@ -11,7 +11,7 @@ export const addAlertItemEventHandlers = () => {
       alertItem.addEventListener("click", handleAlertItemClick);
       alertItem.addEventListener("keydown", handleAlertItemKeyPress);
 
-      if (alertItem.querySelector("object")) {
+      if (alertItem.querySelector("img")) {
         alertItem.click();
       }
     });
