@@ -12,21 +12,6 @@ defmodule DotcomWeb.PredictionsChannelTest do
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
 
-  @route_39 "39"
-  @stop_fh "place-forhl"
-  @direction 1
-
-  @prediction39 %Prediction{
-    id: "prediction39",
-    direction_id: @direction,
-    route: %Route{id: @route_39, type: 3},
-    stop: %Stop{id: @stop_fh},
-    trip: %Trip{id: "trip_id"},
-    time: Timex.shift(Util.now(), hours: 2)
-  }
-
-  @channel_name "predictions:stop:#{@stop_fh}"
-
   setup do
     socket = socket(UserSocket, "", %{})
     {:ok, socket: socket}
