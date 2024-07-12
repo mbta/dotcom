@@ -1,5 +1,6 @@
 defmodule LocationServiceTest do
   use ExUnit.Case, async: true
+
   import LocationService
   import Mox
 
@@ -104,7 +105,7 @@ defmodule LocationServiceTest do
              %{
                "Results" => [
                  %{
-                   "Text" => "Test Location"
+                   "Text" => "Test Location, MA, "
                  }
                ]
              }
@@ -114,7 +115,7 @@ defmodule LocationServiceTest do
 
       assert {:ok, result} = autocomplete("Tes", 2)
 
-      assert [%LocationService.Suggestion{address: "Test Location"}] = result
+      assert [%LocationService.Suggestion{address: "Test Location, MA, "}] = result
     end
 
     test "can parse a response with error" do
@@ -123,6 +124,37 @@ defmodule LocationServiceTest do
       end)
 
       assert {:error, :internal_error} = autocomplete("test", 2)
+    end
+
+    test "filters by states" do
+      expect(ExAws.Mock, :request, fn _ ->
+        {:ok,
+         %{
+           status_code: 200,
+           body:
+             %{
+               "Results" => [
+                 %{
+                   "Text" => "Test Location, MA, "
+                 },
+                 %{
+                   "Text" => "Test Location, NH, "
+                 },
+                 %{
+                   "Text" => "Test Location, RI, "
+                 },
+                 %{
+                   "Text" => "Test Location, VT, "
+                 }
+               ]
+             }
+             |> Jason.encode!()
+         }}
+      end)
+
+      {:ok, results} = autocomplete("Test Location", 4)
+
+      assert Kernel.length(results) == 3
     end
   end
 end
