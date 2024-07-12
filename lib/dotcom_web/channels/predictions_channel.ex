@@ -2,8 +2,11 @@ defmodule DotcomWeb.PredictionsChannel do
   @moduledoc """
   Channel allowing clients to subscribe to streams of predictions.
   """
+
   use DotcomWeb, :channel
+
   require Routes.Route
+
   alias Routes.Route
   alias Phoenix.{Channel, Socket}
   alias Predictions.{Prediction, PredictionsPubSub}
@@ -48,9 +51,17 @@ defmodule DotcomWeb.PredictionsChannel do
     |> Enum.reject(fn prediction ->
       is_nil(prediction.trip) ||
         is_skipped_or_cancelled?(prediction) ||
+        no_departure_time?(prediction) ||
         is_in_past?(prediction) ||
         terminal_stop?(prediction)
     end)
+  end
+
+  # Used to filter out predictions that have an arrival time but no departure time.
+  # This is common when shuttles are being used at non-terminal stops.
+  defp no_departure_time?(prediction) do
+    prediction.arrival_time != nil &&
+      prediction.departure_time == nil
   end
 
   # Keeping this style until we change all of these.
