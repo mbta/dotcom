@@ -9,7 +9,7 @@ defmodule DotcomWeb.PredictionsChannel do
 
   alias Routes.Route
   alias Phoenix.{Channel, Socket}
-  alias Predictions.{Prediction, PredictionsPubSub}
+  alias Predictions.{Prediction, PubSub}
 
   @impl Channel
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
@@ -19,7 +19,7 @@ defmodule DotcomWeb.PredictionsChannel do
       Application.get_env(
         :dotcom,
         :predictions_subscribe_fn,
-        &PredictionsPubSub.subscribe/1
+        &PubSub.subscribe/1
       )
 
     case predictions_subscribe_fn.(topic) do
@@ -36,7 +36,7 @@ defmodule DotcomWeb.PredictionsChannel do
 
   @impl Channel
   def terminate(_, socket) do
-    GenServer.cast(Predictions.PredictionsPubSub, {:closed_channel, socket.channel_pid})
+    GenServer.cast(PubSub, {:closed_channel, socket.channel_pid})
   end
 
   @impl Channel

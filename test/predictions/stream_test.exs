@@ -65,8 +65,9 @@ defmodule Predictions.StreamTest do
 
       test_pid = self()
 
-      broadcast_fn = fn Predictions.PubSub, "predictions", :broadcast ->
+      broadcast_fn = fn Phoenix.PubSub, "predictions", :broadcast ->
         send(test_pid, :broadcast)
+
         :ok
       end
 
@@ -128,7 +129,7 @@ defmodule Predictions.StreamTest do
           %MBTA.Api.Stream.Event{event: :remove, data: @predictions_data}
         ])
 
-      broadcast_fn = fn Predictions.PubSub, "predictions", _ ->
+      broadcast_fn = fn Phoenix.PubSub, "predictions", _ ->
         {:error, "something went wrong"}
       end
 

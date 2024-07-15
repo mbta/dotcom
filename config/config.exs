@@ -18,6 +18,9 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo,
   stops: Stops.Repo
 
+config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub
+config :dotcom, :predictions_store, Predictions.Store
+
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
 config :dotcom, :redix, Redix
 config :dotcom, :redix_pub_sub, Redix.PubSub

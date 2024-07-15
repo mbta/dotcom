@@ -5,6 +5,7 @@ defmodule Predictions.Store do
   be retrieved using `fetch/1` for any combination of values specified of
   `fetch_keys`.
   """
+
   use GenServer
 
   require Logger
@@ -25,8 +26,8 @@ defmodule Predictions.Store do
         ]
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
-  def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @spec fetch(fetch_keys) :: [Prediction.t()]
@@ -47,13 +48,13 @@ defmodule Predictions.Store do
 
   # Server
   @impl GenServer
-  def init(opts) do
-    table = :ets.new(Keyword.get(opts, :name, __MODULE__), [:public])
+  def init(_) do
+    table = :ets.new(__MODULE__, [:public])
     periodic_delete()
     {:ok, table}
   end
 
-  @impl true
+  @impl GenServer
   def handle_cast({_, []}, table), do: {:noreply, table}
 
   def handle_cast({event, predictions}, table) when event in [:add, :update] do
@@ -74,13 +75,13 @@ defmodule Predictions.Store do
 
   def handle_cast(_, table), do: {:noreply, table}
 
-  @impl true
+  @impl GenServer
   def handle_call({:fetch, keys}, _from, table) do
     predictions = predictions_for_keys(table, keys)
     {:reply, predictions, table}
   end
 
-  @impl true
+  @impl Genserver
   def handle_info(:periodic_delete, table) do
     now = Util.now() |> DateTime.to_unix()
 

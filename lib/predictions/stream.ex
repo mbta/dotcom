@@ -94,7 +94,7 @@ defmodule Predictions.Stream do
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
   @spec broadcast(broadcast_fn) :: :ok
   defp broadcast(broadcast_fn) do
-    Predictions.PubSub
+    Phoenix.PubSub
     |> broadcast_fn.("predictions", :broadcast)
     |> log_errors()
   end

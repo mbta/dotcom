@@ -8,6 +8,9 @@ defmodule Predictions.Supervisor do
 
   use Supervisor
 
+  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
+  @predictions_store Application.compile_env!(:dotcom, [:predictions_store])
+
   def start_link(_) do
     Supervisor.start_link(__MODULE__, [])
   end
@@ -15,12 +18,12 @@ defmodule Predictions.Supervisor do
   @impl Supervisor
   def init(_) do
     children = [
-      {Phoenix.PubSub, [name: Predictions.PubSub]},
+      {Phoenix.PubSub, [name: @predictions_phoenix_pub_sub]},
       {Registry, keys: :unique, name: :prediction_streams_registry},
       {Registry, keys: :duplicate, name: :prediction_subscriptions_registry},
       Predictions.Store,
       Predictions.StreamSupervisor,
-      Predictions.PredictionsPubSub
+      Predictions.PubSub
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
