@@ -29,7 +29,9 @@
   <%= if @alert.description do %>
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
       <%= if @alert.image do %>
-        <img src="<%= @alert.image %>" alt="<%= @alert.image_alternative_text %>" class="w-100" />
+        <a href="<%= @alert.image %>" target="_blank">
+          <img src="<%= @alert.image %>" alt="<%= @alert.image_alternative_text %>" class="w-100" />
+        </a>
       <% end %>
       <div class="c-alert-item__description">
         <%= format_alert_description(@alert.description) %>
