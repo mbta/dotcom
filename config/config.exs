@@ -19,6 +19,7 @@ config :dotcom, :repo_modules,
   stops: Stops.Repo
 
 config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub
+config :dotcom, :predictions_pub_sub, Predictions.PubSub
 config :dotcom, :predictions_store, Predictions.Store
 
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis

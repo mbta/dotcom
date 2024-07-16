@@ -34,13 +34,13 @@ defmodule Predictions.PubSub do
   end
 
   @spec subscribe(String.t()) :: [Prediction.t()]
-  @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()] | {:error, term()}
-  def subscribe(topic, server \\ __MODULE__) do
+  @spec subscribe(String.t()) :: [Prediction.t()] | {:error, term()}
+  def subscribe(topic) do
     case StreamTopic.new(topic) do
       %StreamTopic{} = stream_topic ->
         :ok = StreamTopic.start_streams(stream_topic)
 
-        {registry_key, predictions} = GenServer.call(server, {:subscribe, stream_topic})
+        {registry_key, predictions} = GenServer.call(__MODULE__, {:subscribe, stream_topic})
 
         for key <- StreamTopic.registration_keys(stream_topic) do
           Registry.register(@subscribers, registry_key, key)

@@ -9,20 +9,15 @@ defmodule DotcomWeb.PredictionsChannel do
 
   alias Routes.Route
   alias Phoenix.{Channel, Socket}
-  alias Predictions.{Prediction, PubSub}
+  alias Predictions.Prediction
+
+  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 
   @impl Channel
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
           {:ok, %{predictions: [Prediction.t()]}, Socket.t()} | {:error, map()}
   def join("predictions:" <> topic, _message, socket) do
-    predictions_subscribe_fn =
-      Application.get_env(
-        :dotcom,
-        :predictions_subscribe_fn,
-        &PubSub.subscribe/1
-      )
-
-    case predictions_subscribe_fn.(topic) do
+    case @predictions_pub_sub.subscribe(topic) do
       {:error, _reason} ->
         {:error,
          %{
@@ -36,13 +31,14 @@ defmodule DotcomWeb.PredictionsChannel do
 
   @impl Channel
   def terminate(_, socket) do
-    GenServer.cast(PubSub, {:closed_channel, socket.channel_pid})
+    GenServer.cast(@predictions_pub_sub, {:closed_channel, socket.channel_pid})
   end
 
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:new_predictions, predictions}, socket) do
     :ok = push(socket, "data", %{predictions: filter_new(predictions)})
+
     {:noreply, socket}
   end
 

@@ -35,6 +35,7 @@ defmodule Predictions.PubSubTest do
       {:reply, [], :foo}
     end)
 
+    # Ensure no streams are running so that we can test stream creation
     Predictions.StreamSupervisor
     |> DynamicSupervisor.which_children()
     |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
@@ -65,6 +66,16 @@ defmodule Predictions.PubSubTest do
       assert verify_predictions == setup_predictions
     end
 
+    test "adds a subscriber to the registry", context do
+      # Exercise
+      assert Registry.count(:prediction_subscriptions_registry) == 0
+
+      PubSub.subscribe(context.channel)
+
+      # Verify
+      assert Registry.count(:prediction_subscriptions_registry) == 1
+    end
+
     test "starts a stream when none exists", context do
       # Exercise
       assert Supervisor.count_children(StreamSupervisor)[:active] == 0
@@ -73,14 +84,6 @@ defmodule Predictions.PubSubTest do
 
       # Verify
       assert Supervisor.count_children(StreamSupervisor)[:active] == 1
-    end
-
-    test "adds a subscriber to the registry", context do
-      # Exercise
-      PubSub.subscribe(context.channel)
-
-      # Verify
-      assert Registry.count(:prediction_subscriptions_registry) == 1
     end
   end
 
@@ -96,10 +99,8 @@ defmodule Predictions.PubSubTest do
 
       PubSub.handle_call({:subscribe, topic}, {pid, nil}, state)
 
-      # Verify
       assert :ets.lookup(ets_table, pid) != []
 
-      # Exercise
       PubSub.handle_cast({:closed_channel, pid}, state)
 
       # Verify
@@ -148,8 +149,7 @@ defmodule Predictions.PubSubTest do
       PubSub.handle_info(:broadcast, state)
 
       # Verify
-      assert_receive {:trace, ^pid, :receive, {:dispatch, _, _, {:reply, [], :foo}}},
-                     1000
+      assert_receive {:trace, ^pid, :receive, {:dispatch, _, _, {:reply, [], :foo}}}
     end
 
     test "dispatches to pids", context do
@@ -168,7 +168,7 @@ defmodule Predictions.PubSubTest do
       PubSub.handle_info({:dispatch, [self()], keys, []}, state)
 
       # Verify
-      assert_receive {:new_predictions, {:reply, [], :foo}}, 1000
+      assert_receive {:new_predictions, {:reply, [], :foo}}
     end
 
     test "broadcasts on a timer" do
@@ -176,7 +176,7 @@ defmodule Predictions.PubSubTest do
       PubSub.handle_info(:timed_broadcast, %{})
 
       # Verify
-      assert_receive :broadcast, 1000
+      assert_receive :broadcast
     end
   end
 end
