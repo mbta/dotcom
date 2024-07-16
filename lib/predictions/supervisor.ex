@@ -9,7 +9,6 @@ defmodule Predictions.Supervisor do
   use Supervisor
 
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
-  @predictions_store Application.compile_env!(:dotcom, [:predictions_store])
 
   def start_link(_) do
     Supervisor.start_link(__MODULE__, [])

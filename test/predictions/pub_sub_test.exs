@@ -9,8 +9,10 @@ defmodule Predictions.PubSubTest do
   @stop Faker.Lorem.word()
   @channel "stop:#{@stop}"
 
+  @predictions_store Application.compile_env!(:dotcom, :predictions_store)
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
 
+  setup :set_mox_global
   setup :verify_on_exit!
 
   describe "subscribe/2" do
@@ -19,9 +21,11 @@ defmodule Predictions.PubSubTest do
         [RoutePattern.build(:route_pattern)]
       end)
 
-      predictions = PubSub.subscribe(@channel)
+      expect(@predictions_store, :fetch, fn _ ->
+        {:reply, [], :foo}
+      end)
 
-      assert predictions == []
+      assert {:reply, [], :foo} = PubSub.subscribe(@channel)
     end
   end
 

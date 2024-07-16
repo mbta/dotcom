@@ -14,7 +14,7 @@ Mox.defmock(LocationService.Mock, for: LocationService.Behaviour)
 Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)
 Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
 Mox.defmock(Predictions.Phoenix.PubSub.Mock, for: Phoenix.Channel)
-Mox.defmock(Predictions.Store.Mock, for: GenServer)
+Mox.defmock(Predictions.Store.Mock, for: Predictions.Store.Behaviour)
 
 # Repos
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)

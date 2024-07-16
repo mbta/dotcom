@@ -11,39 +11,29 @@ defmodule Predictions.Store do
   require Logger
 
   alias Predictions.Prediction
-  alias Routes.Route
-  alias Schedules.Trip
-  alias Stops.Stop
-  alias Vehicles.Vehicle
+  alias Predictions.Store.Behaviour
 
-  @type fetch_keys :: [
-          prediction_id: Prediction.id_t(),
-          route: Route.id_t(),
-          stop: Stop.id_t(),
-          direction: 0 | 1,
-          trip: Trip.id_t(),
-          vehicle_id: Vehicle.id_t()
-        ]
+  @behaviour Behaviour
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  @spec fetch(fetch_keys) :: [Prediction.t()]
+  @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"
+  @impl Behaviour
+  def clear(keys) do
+    GenServer.cast(__MODULE__, {:remove, Enum.map(fetch(keys), & &1.id)})
+  end
+
+  @impl Behaviour
   def fetch(keys) do
     GenServer.call(__MODULE__, {:fetch, keys})
   end
 
-  @spec update({atom, [Prediction.t()]}) :: :ok
+  @impl Behaviour
   def update({event, predictions}) do
     GenServer.cast(__MODULE__, {event, predictions})
-  end
-
-  @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"
-  @spec clear(fetch_keys) :: :ok
-  def clear(keys) do
-    GenServer.cast(__MODULE__, {:remove, Enum.map(fetch(keys), & &1.id)})
   end
 
   # Server
@@ -81,7 +71,7 @@ defmodule Predictions.Store do
     {:reply, predictions, table}
   end
 
-  @impl Genserver
+  @impl GenServer
   def handle_info(:periodic_delete, table) do
     now = Util.now() |> DateTime.to_unix()
 
@@ -103,7 +93,7 @@ defmodule Predictions.Store do
     {:noreply, table}
   end
 
-  @spec predictions_for_keys(:ets.table(), fetch_keys) :: [Prediction.t()]
+  @spec predictions_for_keys(:ets.table(), Behaviour.fetch_keys()) :: [Prediction.t()]
   defp predictions_for_keys(table, opts) do
     match_pattern = {
       Keyword.get(opts, :prediction_id, :_) || :_,
