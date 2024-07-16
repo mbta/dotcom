@@ -18,6 +18,7 @@ config :dotcom, :repo_modules,
   stops: Stops.Repo.Mock
 
 config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub.Mock
+config :dotcom, :predictions_pub_sub, Predictions.PubSub.Mock
 config :dotcom, :predictions_store, Predictions.Store.Mock
 
 config :dotcom, :redis, Dotcom.Redis.Mock

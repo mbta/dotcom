@@ -10,6 +10,7 @@ defmodule Predictions.PubSub do
   use GenServer
 
   alias Predictions.{Prediction, Store, StreamSupervisor, StreamTopic}
+  alias Predictions.PubSub.Behaviour
 
   @broadcast_interval_ms Application.compile_env!(:dotcom, [:predictions_broadcast_interval_ms])
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
@@ -19,9 +20,9 @@ defmodule Predictions.PubSub do
   @type registry_value :: {Store.fetch_keys(), binary()}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
-  # Client
+  @behaviour Behaviour
 
-  @spec start_link() :: GenServer.on_start()
+  # Client
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
     name = Keyword.get(opts, :name, __MODULE__)
@@ -33,8 +34,7 @@ defmodule Predictions.PubSub do
     )
   end
 
-  @spec subscribe(String.t()) :: [Prediction.t()]
-  @spec subscribe(String.t()) :: [Prediction.t()] | {:error, term()}
+  @impl Behaviour
   def subscribe(topic) do
     case StreamTopic.new(topic) do
       %StreamTopic{} = stream_topic ->
