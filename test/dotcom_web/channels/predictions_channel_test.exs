@@ -24,40 +24,42 @@ defmodule DotcomWeb.PredictionsChannelTest do
     |> DynamicSupervisor.which_children()
     |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
 
-    {:ok, channel: channel, socket: socket}
+    {:ok, %{channel: channel, socket: socket}}
   end
 
   describe "join/3" do
     test "filters skipped or cancelled predictions", context do
+      canonical_prediction = Prediction.build(:canonical_prediction)
+
+      filtered_prediction =
+        canonical_prediction
+        |> Map.put(:schedule_relationship, :skipped)
+
       expect(@predictions_pub_sub, :subscribe, fn _ ->
-        []
+        [canonical_prediction, filtered_prediction]
       end)
 
-      {:ok, %{predictions: []}, _} = PredictionsChannel.join(context.channel, nil, context.socket)
+      {:ok, %{predictions: predictions}, _} =
+        PredictionsChannel.join(context.channel, nil, context.socket)
+
+      assert predictions == [canonical_prediction]
     end
 
     test "filters predictions with no departure time", context do
+      canonical_prediction = Prediction.build(:canonical_prediction)
+
+      filtered_prediction =
+        canonical_prediction
+        |> Map.put(:departure_time, nil)
+
       expect(@predictions_pub_sub, :subscribe, fn _ ->
-        []
+        [canonical_prediction, filtered_prediction]
       end)
 
-      {:ok, %{predictions: []}, _} = PredictionsChannel.join(context.channel, nil, context.socket)
-    end
+      {:ok, %{predictions: predictions}, _} =
+        PredictionsChannel.join(context.channel, nil, context.socket)
 
-    test "filters predictions in the past", context do
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
-        []
-      end)
-
-      {:ok, %{predictions: []}, _} = PredictionsChannel.join(context.channel, nil, context.socket)
-    end
-
-    test "filters predictions for terminal stops", context do
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
-        []
-      end)
-
-      {:ok, %{predictions: []}, _} = PredictionsChannel.join(context.channel, nil, context.socket)
+      assert predictions == [canonical_prediction]
     end
   end
 

@@ -1,8 +1,10 @@
 defmodule Predictions.StreamTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   alias JsonApi.Item
   alias Predictions.Stream
+
+  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
 
   @predictions_data %JsonApi{
     data: [
@@ -65,7 +67,7 @@ defmodule Predictions.StreamTest do
 
       test_pid = self()
 
-      broadcast_fn = fn Phoenix.PubSub, "predictions", :broadcast ->
+      broadcast_fn = fn @predictions_phoenix_pub_sub, "predictions", :broadcast ->
         send(test_pid, :broadcast)
 
         :ok
@@ -129,7 +131,7 @@ defmodule Predictions.StreamTest do
           %MBTA.Api.Stream.Event{event: :remove, data: @predictions_data}
         ])
 
-      broadcast_fn = fn Phoenix.PubSub, "predictions", _ ->
+      broadcast_fn = fn @predictions_phoenix_pub_sub, "predictions", _ ->
         {:error, "something went wrong"}
       end
 

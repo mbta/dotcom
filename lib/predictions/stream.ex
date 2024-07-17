@@ -11,6 +11,8 @@ defmodule Predictions.Stream do
   alias Phoenix.PubSub
   alias Predictions.{Repo, Store, StreamParser, StreamTopic}
 
+  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
+
   @type event_type :: :reset | :add | :update | :remove
 
   def start_link(opts) do
@@ -94,7 +96,7 @@ defmodule Predictions.Stream do
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
   @spec broadcast(broadcast_fn) :: :ok
   defp broadcast(broadcast_fn) do
-    PubSub
+    @predictions_phoenix_pub_sub
     |> broadcast_fn.("predictions", :broadcast)
     |> log_errors()
   end
