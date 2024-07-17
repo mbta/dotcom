@@ -64,8 +64,32 @@ defmodule DotcomWeb.PredictionsChannelTest do
   end
 
   describe "handle_info/2" do
+    test "pushes predictions to the channel", context do
+      predictions = Prediction.build_list(3, :canonical_prediction)
+
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        predictions
+      end)
+
+      {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
+
+      PredictionsChannel.handle_info({:new_predictions, predictions}, socket)
+
+      assert_push("data", %{predictions: ^predictions})
+    end
   end
 
   describe "terminate/2" do
+    test "casts a closed channel message", context do
+      predictions = Prediction.build_list(3, :canonical_prediction)
+
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        predictions
+      end)
+
+      {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
+
+      assert :ok = PredictionsChannel.terminate(nil, socket)
+    end
   end
 end

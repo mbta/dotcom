@@ -31,10 +31,8 @@ defmodule Test.Support.Factories.Predictions.Prediction do
   @doc """
   A canonical prediction is one that should not be filtered out before being pushed to the client.
 
-  1. Route is a subway and schedule relationship is not cancelled or skipped
+  1. If the route is a subway then the schedule relationship is not cancelled or skipped
   2. Has a departure time
-  3. Is not in the past
-  4. Is not a terminal stop
   """
   def canonical_prediction_factory do
     route = Route.build(:route, id: Faker.Lorem.word(), type: 0)
