@@ -30,13 +30,17 @@ defmodule Alerts.Repo do
 
   @doc """
   Get alerts that are diversion types: shuttle, station_closure, suspension.
+
+  We sort them so that earlier alerts are displaed first.
   """
   @spec diversions_by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)
     |> Enum.filter(&Alert.diversion?/1)
-    |> Enum.sort(&(List.first(&1.active_period) > List.first(&2.priority)))
+    |> Enum.sort(fn a, b ->
+      a.active_period |> List.first() |> elem(0) < b.active_period |> List.first() |> elem(0)
+    end)
   end
 
   @spec by_route_types(Enumerable.t(), DateTime.t()) :: [Alert.t()]
