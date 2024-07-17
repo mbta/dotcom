@@ -45,6 +45,7 @@ defmodule Predictions.PubSubTest do
 
   describe "subscribe/2" do
     test "returns predictions", context do
+      # Setup
       setup_predictions = Prediction.build_list(3, :prediction)
 
       expect(@route_patterns_repo, :by_stop_id, fn stop ->

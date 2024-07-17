@@ -29,6 +29,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
   describe "join/3" do
     test "filters skipped or cancelled predictions", context do
+      # Setup
       canonical_prediction = Prediction.build(:canonical_prediction)
 
       filtered_prediction =
@@ -39,13 +40,16 @@ defmodule DotcomWeb.PredictionsChannelTest do
         [canonical_prediction, filtered_prediction]
       end)
 
+      # Exercise
       {:ok, %{predictions: predictions}, _} =
         PredictionsChannel.join(context.channel, nil, context.socket)
 
+      # Verify
       assert predictions == [canonical_prediction]
     end
 
     test "filters predictions with no departure time", context do
+      # Setup
       canonical_prediction = Prediction.build(:canonical_prediction)
 
       filtered_prediction =
@@ -56,15 +60,18 @@ defmodule DotcomWeb.PredictionsChannelTest do
         [canonical_prediction, filtered_prediction]
       end)
 
+      # Exercise
       {:ok, %{predictions: predictions}, _} =
         PredictionsChannel.join(context.channel, nil, context.socket)
 
+      # Verify
       assert predictions == [canonical_prediction]
     end
   end
 
   describe "handle_info/2" do
     test "pushes predictions to the channel", context do
+      # Setup
       predictions = Prediction.build_list(3, :canonical_prediction)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
@@ -73,14 +80,17 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
       {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
 
+      # Exercise
       PredictionsChannel.handle_info({:new_predictions, predictions}, socket)
 
+      # Verify
       assert_push("data", %{predictions: ^predictions})
     end
   end
 
   describe "terminate/2" do
     test "casts a closed channel message", context do
+      # Setup
       predictions = Prediction.build_list(3, :canonical_prediction)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
@@ -89,6 +99,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
       {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
 
+      # Exercise / Verify
       assert :ok = PredictionsChannel.terminate(nil, socket)
     end
   end
