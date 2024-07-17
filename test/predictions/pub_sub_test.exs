@@ -84,6 +84,8 @@ defmodule Predictions.PubSubTest do
       PubSub.subscribe(context.channel)
 
       # Verify
+      Process.sleep(1000)
+
       assert Supervisor.count_children(StreamSupervisor)[:active] == 1
     end
   end
@@ -120,12 +122,16 @@ defmodule Predictions.PubSubTest do
       StreamTopic.start_streams(topic)
       PubSub.handle_call({:subscribe, topic}, {pid, nil}, state)
 
+      Process.sleep(1000)
+
       assert Supervisor.count_children(StreamSupervisor)[:active] == 1
 
       # Exercise
       PubSub.handle_cast({:closed_channel, pid}, state)
 
       # Verify
+      Process.sleep(1000)
+
       assert Supervisor.count_children(StreamSupervisor)[:active] == 0
     end
   end
