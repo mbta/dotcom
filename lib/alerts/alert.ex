@@ -115,10 +115,11 @@ defmodule Alerts.Alert do
   ]
 
   @diversion_effects [
+    :detour,
     :shuttle,
-    :stop_closure,
     :station_closure,
-    :detour
+    :stop_closure,
+    :suspension
   ]
 
   @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]

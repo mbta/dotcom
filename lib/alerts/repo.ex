@@ -36,6 +36,7 @@ defmodule Alerts.Repo do
     route_ids
     |> by_route_ids(now)
     |> Enum.filter(&Alert.diversion?/1)
+    |> Enum.sort(&(List.first(&1.active_period) > List.first(&2.priority)))
   end
 
   @spec by_route_types(Enumerable.t(), DateTime.t()) :: [Alert.t()]
