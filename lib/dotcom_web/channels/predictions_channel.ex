@@ -30,16 +30,16 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   @impl Channel
-  def terminate(_, socket) do
-    GenServer.cast(@predictions_pub_sub, {:closed_channel, socket.channel_pid})
-  end
-
-  @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:new_predictions, predictions}, socket) do
     :ok = push(socket, "data", %{predictions: filter_new(predictions)})
 
     {:noreply, socket}
+  end
+
+  @impl Channel
+  def terminate(_, socket) do
+    GenServer.cast(@predictions_pub_sub, {:closed_channel, socket.channel_pid})
   end
 
   defp filter_new(predictions) do

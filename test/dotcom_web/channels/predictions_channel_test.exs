@@ -60,4 +60,10 @@ defmodule DotcomWeb.PredictionsChannelTest do
       {:ok, %{predictions: []}, _} = PredictionsChannel.join(context.channel, nil, context.socket)
     end
   end
+
+  describe "handle_info/2" do
+  end
+
+  describe "terminate/2" do
+  end
 end
