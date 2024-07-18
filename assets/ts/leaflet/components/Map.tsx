@@ -2,6 +2,7 @@ import React, { ReactElement, useLayoutEffect } from "react";
 import { uniqBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
 import {
+  Browser,
   Icon,
   LatLngBounds,
   Marker as LeafletMarker,
@@ -93,7 +94,8 @@ const Component = ({
         ref={mapRef}
         bounds={boundsOrByMarkers}
         center={position}
-        dragging={false}
+        dragging={!Browser.mobile}
+        tapHold={!Browser.mobile}
         zoom={nonNullZoom}
         {...defaultZoomOpts}
       >
