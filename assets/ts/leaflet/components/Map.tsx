@@ -98,7 +98,9 @@ const Component = ({
         ref={mapRef}
         bounds={boundsOrByMarkers}
         center={position}
+        dragging={!Browser.mobile}
         gestureHandling={true}
+        tap={!Browser.mobile}
         zoom={nonNullZoom}
         {...defaultZoomOpts}
       >
