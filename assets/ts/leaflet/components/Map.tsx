@@ -93,6 +93,7 @@ const Component = ({
         ref={mapRef}
         bounds={boundsOrByMarkers}
         center={position}
+        dragging={false}
         zoom={nonNullZoom}
         {...defaultZoomOpts}
       >
