@@ -242,6 +242,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/preview", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live, :basic_auth])
+
+    live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
+      live("/trip-planner", Live.TripPlanner)
+    end
+  end
+
   scope "/api", DotcomWeb do
     pipe_through([:secure, :browser])
 

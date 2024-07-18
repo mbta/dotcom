@@ -47,13 +47,15 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     ".c-search-bar__autocomplete-results"
   );
   if (!container || !panelContainer) throw new Error("container needed");
+
+  const INPUT_CLASSNAME = "c-form__input-container";
   const options: AutocompleteOptions<Item> = {
     id: container.id || "search",
     container,
     panelContainer,
     detachedMediaQuery: "none",
     classNames: {
-      input: "c-form__input-container"
+      input: INPUT_CLASSNAME
     },
     initialState: {
       query:
@@ -69,7 +71,16 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     plugins: getPlugins(container.dataset),
     renderer: reactRenderer
   };
-  setupVeilCloseListener(autocomplete(options));
+  const autocompleteWidget = autocomplete(options);
+  setupVeilCloseListener(autocompleteWidget);
+
+  // close on blur too
+  const input = container.querySelector(`.${INPUT_CLASSNAME}`);
+  if (input) {
+    input.addEventListener("blur", () => {
+      autocompleteWidget.setIsOpen(false);
+    });
+  }
 }
 
 export default setupAlgoliaAutocomplete;
