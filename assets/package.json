@@ -28,6 +28,7 @@
     "hogan.js": "^3.0.2",
     "jquery": "^3.5.1",
     "leaflet": "^1.4.0",
+    "leaflet-gesture-handling": "^1.2.2",
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": "^4.17.21",
     "mobile-detect": "^1.4.5",

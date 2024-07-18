@@ -5,11 +5,15 @@ import {
   Browser,
   Icon,
   LatLngBounds,
+  Map as LeafletMap,
   Marker as LeafletMarker,
   MarkerOptions
 } from "leaflet";
 import Leaflet from "react-leaflet";
 import { MapData, MapMarker, IconOpts } from "./__mapdata";
+import { GestureHandling } from "leaflet-gesture-handling";
+
+LeafletMap.addInitHook("addHandler", "gestureHandling", GestureHandling);
 
 export interface ZoomOpts {
   maxZoom: number;
@@ -94,8 +98,7 @@ const Component = ({
         ref={mapRef}
         bounds={boundsOrByMarkers}
         center={position}
-        dragging={!Browser.mobile}
-        tapHold={!Browser.mobile}
+        gestureHandling={true}
         zoom={nonNullZoom}
         {...defaultZoomOpts}
       >
