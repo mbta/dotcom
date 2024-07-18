@@ -9,7 +9,7 @@ import { format } from "date-fns";
 function i18nDate(date, locale = navigator.language) {
   const formatter = new Intl.DateTimeFormat(locale, {
     month: "long",
-    weekday: "long",
+    weekday: "short",
     day: "numeric",
     hour: "numeric",
     minute: "numeric"
