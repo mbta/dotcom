@@ -145,8 +145,7 @@ defmodule DotCom.Mixfile do
       {:telemetry_metrics_splunk, "0.0.6-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
-      # latest version is 3.7.11; cannot upgrade because tests fail
-      {:timex, "3.1.24"},
+      {:timex, "3.7.11"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
       {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]},

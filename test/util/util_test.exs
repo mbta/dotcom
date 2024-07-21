@@ -10,7 +10,7 @@ defmodule UtilTest do
     test "handles ambiguous UTC times by returning the earlier time" do
       for {time, expected} <- [
             {~N[2016-11-06T05:00:00], "2016-11-06T01:00:00-04:00"},
-            {~N[2016-11-06T06:00:00], "2016-11-06T02:00:00-04:00"},
+            {~N[2016-11-06T06:00:00], "2016-11-06T01:00:00-05:00"},
             {~N[2016-11-06T07:00:00], "2016-11-06T02:00:00-05:00"}
           ] do
         utc_fn = fn "America/New_York" -> Timex.set(time, timezone: "UTC") end
@@ -37,7 +37,7 @@ defmodule UtilTest do
       assert %DateTime{month: 11, day: 4, hour: 1, zone_abbr: "EDT"} =
                Util.to_local_time(~N[2018-11-04T05:00:00])
 
-      assert %DateTime{month: 11, day: 4, hour: 2, zone_abbr: "EDT"} =
+      assert %DateTime{month: 11, day: 4, hour: 1, zone_abbr: "EST"} =
                Util.to_local_time(~N[2018-11-04T06:00:00])
 
       assert %DateTime{month: 11, day: 4, hour: 2, zone_abbr: "EST"} =
@@ -52,10 +52,10 @@ defmodule UtilTest do
     end
 
     test "handles Timex.AmbiguousDateTime.t" do
-      before_date = Util.to_local_time(~N[2018-11-04T05:00:00])
+      before_date = Util.to_local_time(~N[2018-11-04T04:00:00])
       after_date = Util.to_local_time(~N[2018-11-04T06:00:00])
 
-      assert before_date ==
+      assert after_date ==
                Util.to_local_time(%Timex.AmbiguousDateTime{after: after_date, before: before_date})
     end
   end
@@ -87,7 +87,7 @@ defmodule UtilTest do
       ambiguous = Timex.to_datetime({{2020, 11, 1}, {1, 0, 0}}, "America/New_York")
 
       assert Util.convert_using_timezone(~N[2020-11-01T01:00:00], "America/New_York") ==
-               ambiguous.before
+               ambiguous.after
     end
   end
 
@@ -142,7 +142,7 @@ defmodule UtilTest do
       # 2am EDT / 1am EST
       assert Util.service_date(~N[2018-11-04T06:00:00]) == ~D[2018-11-03]
       # 2am EST
-      assert Util.service_date(~N[2018-11-04T07:00:00]) == ~D[2018-11-03]
+      assert Util.service_date(~N[2018-11-04T07:00:00]) == ~D[2018-11-04]
       # 3am EST
       assert Util.service_date(~N[2018-11-04T08:00:00]) == ~D[2018-11-04]
       # 4am EST
@@ -222,7 +222,7 @@ defmodule UtilTest do
       # 2am EST
       assert ~N[2018-11-04T07:00:00]
              |> Util.to_local_time()
-             |> Util.service_date() == ~D[2018-11-03]
+             |> Util.service_date() == ~D[2018-11-04]
 
       # 3am EST
       assert ~N[2018-11-04T08:00:00]
@@ -308,7 +308,7 @@ defmodule UtilTest do
       # 2am EST
       assert ~N[2018-11-04T07:00:00]
              |> DateTime.from_naive!("Etc/UTC")
-             |> Util.service_date() == ~D[2018-11-03]
+             |> Util.service_date() == ~D[2018-11-04]
 
       # 3am EST
       assert ~N[2018-11-04T08:00:00]

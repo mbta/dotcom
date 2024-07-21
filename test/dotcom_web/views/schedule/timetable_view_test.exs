@@ -145,7 +145,11 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
       header_schedules = [%Schedules.Schedule{trip: trip}]
 
       trip_schedules = %{
-        {"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip, stop: original_stop}
+        {"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{
+          stop: original_stop,
+          time: Timex.now(),
+          trip: trip
+        }
       }
 
       assigns =

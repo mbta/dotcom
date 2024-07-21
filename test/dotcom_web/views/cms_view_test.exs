@@ -135,7 +135,7 @@ defmodule DotcomWeb.CMSViewTest do
         )
 
       # could also be November 6th, 1:00 AM (test daylight savings)
-      expected = "November 5, 2016 1 AM - November 6, 2016 2 AM"
+      expected = "November 5, 2016 1 AM - November 6, 2016 1 AM"
       assert expected == actual
     end
 

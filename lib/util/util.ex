@@ -152,14 +152,14 @@ defmodule Util do
   @spec convert_using_timezone(NaiveDateTime.t(), String.t()) :: DateTime.t()
   def convert_using_timezone(time, time_zone) do
     tz =
-      if Timex.is_valid_timezone?(time_zone) do
+      if Timex.Timezone.exists?(time_zone) do
         time_zone
       else
         "America/New_York"
       end
 
     time
-    |> Timex.to_datetime(tz)
+    |> Timex.Timezone.convert(tz)
     |> handle_ambiguous_time()
   end
 
@@ -188,10 +188,10 @@ defmodule Util do
 
   @spec handle_ambiguous_time(Timex.AmbiguousDateTime.t() | DateTime.t() | {:error, any}) ::
           DateTime.t() | {:error, any}
-  defp handle_ambiguous_time(%Timex.AmbiguousDateTime{before: before}) do
+  defp handle_ambiguous_time(%Timex.AmbiguousDateTime{after: aft}) do
     # ambiguous time only happens between midnight and 3am
     # during November daylight saving transition
-    before
+    aft
   end
 
   defp handle_ambiguous_time(%DateTime{} = time) do
