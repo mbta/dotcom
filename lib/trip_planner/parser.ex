@@ -10,9 +10,11 @@ defmodule Dotcom.TripPlanner.Parser do
      MBTA system.
   """
 
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias Dotcom.TripPlanner.FarePasses
   alias OpenTripPlannerClient.Schema
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec parse(Schema.Itinerary.t()) :: Itinerary.t()
   def parse(
@@ -166,15 +168,11 @@ defmodule Dotcom.TripPlanner.Parser do
 
   defp build_stop(
          %Schema.Stop{
-           gtfs_id: "mbta-ma-us:" <> gtfs_id,
-           name: name
+           gtfs_id: "mbta-ma-us:" <> gtfs_id
          },
          attributes
        ) do
-    %Stops.Stop{
-      id: gtfs_id,
-      name: name
-    }
+    @stops_repo.get(gtfs_id)
     |> struct(attributes)
   end
 

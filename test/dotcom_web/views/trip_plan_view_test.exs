@@ -8,7 +8,7 @@ defmodule DotcomWeb.TripPlanViewTest do
 
   alias Fares.Fare
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
-  alias Test.Support.Factories.TripPlanner.TripPlanner
+  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -77,6 +77,10 @@ defmodule DotcomWeb.TripPlanViewTest do
   setup :verify_on_exit!
 
   setup do
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
     stub(MBTA.Api.Mock, :get_json, fn "/schedules/", [route: "Red", date: "1970-01-01"] ->
       {:error,
        [
