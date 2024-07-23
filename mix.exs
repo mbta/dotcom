@@ -83,8 +83,9 @@ defmodule DotCom.Mixfile do
       {:ex_aws, "2.5.4"},
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
-      {:ex_doc, "0.34.0", only: :dev},
-      {:ex_machina, "2.7.0"},
+      {:ex_doc, "0.34.2", only: :dev},
+      # we can't make this [:dev, :test] only until `open_trip_planner_client` is updated
+      {:ex_machina, "2.8.0", override: true},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.1; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
@@ -103,21 +104,21 @@ defmodule DotCom.Mixfile do
       {:mail, "0.3.1"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
-      {:nebulex, "2.6.1"},
+      {:nebulex, "2.6.2"},
       {:nebulex_redis_adapter, "2.4.0"},
       {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.1"]},
       {:parallel_stream, "1.1.0"},
-      # latest version 1.7.12
+      # latest version 1.7.14
       {:phoenix, "1.6.16"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
-      {:phoenix_live_view, "0.20.16"},
+      {:phoenix_live_view, "0.20.17"},
       {:phoenix_pubsub, "2.1.3"},
-      {:plug, "1.16.0"},
+      {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.1"},
-      # latest version is 5.0.0; cannot upgrade because we use Poison.Parser.parse!
+      # latest version is 6.0.0; cannot upgrade because we use Poison.Parser.parse!
       {:poison, "3.1.0"},
       {:polyline, "1.4.0"},
       {:poolboy, "1.5.2"},
@@ -130,10 +131,10 @@ defmodule DotCom.Mixfile do
          github: "samueljseay/recaptcha",
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
-      {:recase, "0.8.0"},
+      {:recase, "0.8.1"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.5.1"},
-      {:req, "0.5.0", override: true},
+      {:req, "0.5.4", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
@@ -145,12 +146,11 @@ defmodule DotCom.Mixfile do
       {:telemetry_metrics_splunk, "0.0.6-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
-      # latest version is 3.7.11; cannot upgrade because tests fail
-      {:timex, "3.1.24"},
+      {:timex, "3.7.11"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
       {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]},
-      {:yaml_elixir, "2.9.0", only: [:dev]},
+      {:yaml_elixir, "2.11.0", only: [:dev]},
       {:ymlr, "5.1.3", only: [:dev]}
     ]
   end

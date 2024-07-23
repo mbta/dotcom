@@ -112,6 +112,10 @@ defmodule Feedback.Mailer do
     end
   end
 
+  def formatted_utc_timestamp(%Timex.AmbiguousDateTime{after: aft}) do
+    formatted_utc_timestamp(aft)
+  end
+
   def formatted_utc_timestamp(date) do
     date
     |> Timex.Timezone.convert("Etc/UTC")

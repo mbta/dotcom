@@ -97,7 +97,7 @@ defmodule DotcomWeb.EventViewTest do
         )
 
       # could also be November 6th, 1:00 AM (test daylight savings)
-      expected = "Sat, Nov 5, 2016 1 AM - Sun, Nov 6, 2016 2 AM"
+      expected = "Sat, Nov 5, 2016 1 AM - Sun, Nov 6, 2016 1 AM"
       assert expected == actual
     end
 
