@@ -2,19 +2,24 @@ defmodule TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.TripPlanner.TripPlanner
   import TripPlan.Itinerary
 
-  alias TripPlan.{TransitDetail, Leg, PersonalDetail, TransitDetail}
+  alias Test
+  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias TripPlan.{Leg, PersonalDetail, TransitDetail}
 
-  @from build(:stop_named_position)
-  @to build(:stop_named_position)
-  @transit_leg build(:transit_leg, from: @from, to: @to)
+  @from TripPlanner.build(:stop_named_position)
+  @to TripPlanner.build(:stop_named_position)
 
   setup :verify_on_exit!
 
   setup do
-    itinerary = build(:itinerary, legs: [@transit_leg])
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
+    transit_leg = TripPlanner.build(:transit_leg, from: @from, to: @to)
+    itinerary = TripPlanner.build(:itinerary, legs: [transit_leg])
     %{itinerary: itinerary}
   end
 
@@ -75,8 +80,8 @@ defmodule TripPlan.ItineraryTest do
   describe "positions/1" do
     test "returns all named positions for the itinerary" do
       itinerary =
-        build(:itinerary,
-          legs: build_list(3, :walking_leg, from: @from, to: @to)
+        TripPlanner.build(:itinerary,
+          legs: TripPlanner.build_list(3, :walking_leg, from: @from, to: @to)
         )
 
       [first, second, third] = itinerary.legs

@@ -12,6 +12,10 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
   setup :verify_on_exit!
 
   setup do
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
     itinerary =
       build(:itinerary,
         legs: [build(:transit_leg)]

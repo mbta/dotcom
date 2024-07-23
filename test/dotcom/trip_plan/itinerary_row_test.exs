@@ -3,15 +3,22 @@ defmodule TripPlan.ItineraryRowTest do
 
   import Dotcom.TripPlan.ItineraryRow
   import Mox
-  import Test.Support.Factories.TripPlanner.TripPlanner
 
+  alias Alerts.{Alert, InformedEntity}
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
-  alias Alerts.{Alert, InformedEntity}
-  alias Test.Support.Factories.MBTA.Api
+  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
   alias TripPlan.{Leg, NamedPosition, PersonalDetail}
 
   setup :verify_on_exit!
+
+  setup do
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
+    :ok
+  end
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -318,8 +325,12 @@ defmodule TripPlan.ItineraryRowTest do
   end
 
   describe "from_leg/3" do
-    @personal_leg build(:walking_leg)
-    @transit_leg build(:transit_leg)
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
+    @personal_leg TripPlanner.build(:walking_leg)
+    @transit_leg TripPlanner.build(:transit_leg)
 
     setup do
       stub(MBTA.Api.Mock, :get_json, fn path, _ ->
@@ -339,7 +350,7 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
-      leg = build(:transit_leg)
+      leg = TripPlanner.build(:transit_leg)
 
       stub(Stops.Repo.Mock, :get_parent, fn id ->
         %Stops.Stop{id: id}

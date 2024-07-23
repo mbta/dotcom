@@ -3,24 +3,28 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   import Dotcom.TripPlan.Alerts
   import Mox
-  import Test.Support.Factories.TripPlanner.TripPlanner
 
-  alias Alerts.Alert
-  alias Alerts.InformedEntity, as: IE
+  alias Alerts.{Alert, InformedEntity}
+  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
   alias TripPlan.Itinerary
 
   setup :verify_on_exit!
 
   setup do
-    leg = build(:transit_leg)
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
+    leg = TripPlanner.build(:transit_leg)
 
     itinerary =
-      build(:itinerary,
+      TripPlanner.build(:itinerary,
         legs: [leg]
       )
 
     [route_id] = Itinerary.route_ids(itinerary)
     [trip_id] = Itinerary.trip_ids(itinerary)
+
     {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id, route: leg.mode.route}}
   end
 
@@ -29,7 +33,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -37,10 +41,10 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{route: route_id}]
+          informed_entity: [%InformedEntity{route: route_id}]
         )
 
-      bad_alert = Alert.update(good_alert, informed_entity: [%IE{route: "not_valid"}])
+      bad_alert = Alert.update(good_alert, informed_entity: [%InformedEntity{route: "not_valid"}])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
@@ -48,7 +52,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> ^trip_id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: trip_id})
+            Api.build(:trip_item, %{id: trip_id})
           ]
         }
       end)
@@ -56,10 +60,10 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{trip: trip_id}]
+          informed_entity: [%InformedEntity{trip: trip_id}]
         )
 
-      bad_alert = Alert.update(good_alert, informed_entity: [%IE{trip: "not_valid"}])
+      bad_alert = Alert.update(good_alert, informed_entity: [%InformedEntity{trip: "not_valid"}])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
@@ -70,7 +74,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{
+            Api.build(:trip_item, %{
               id: id,
               attributes: %{"direction_id" => 1}
             })
@@ -81,11 +85,13 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{route: route_id, direction_id: 1}]
+          informed_entity: [%InformedEntity{route: route_id, direction_id: 1}]
         )
 
       bad_alert =
-        Alert.update(good_alert, informed_entity: [%IE{route: route_id, direction_id: 0}])
+        Alert.update(good_alert,
+          informed_entity: [%InformedEntity{route: route_id, direction_id: 0}]
+        )
 
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
@@ -97,7 +103,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -105,10 +111,12 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{route_type: route.type}]
+          informed_entity: [%InformedEntity{route_type: route.type}]
         )
 
-      bad_alert = Alert.update(good_alert, informed_entity: [%IE{route_type: route.type + 1}])
+      bad_alert =
+        Alert.update(good_alert, informed_entity: [%InformedEntity{route_type: route.type + 1}])
+
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
@@ -116,7 +124,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -126,11 +134,13 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{stop: stop_id}]
+          informed_entity: [%InformedEntity{stop: stop_id}]
         )
 
       bad_alert =
-        Alert.update(good_alert, informed_entity: [%IE{stop: stop_id, route: "different route"}])
+        Alert.update(good_alert,
+          informed_entity: [%InformedEntity{stop: stop_id, route: "different route"}]
+        )
 
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
@@ -139,7 +149,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -147,7 +157,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       good_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
-          informed_entity: [%IE{route: route_id}]
+          informed_entity: [%InformedEntity{route: route_id}]
         )
 
       bad_alert = Alert.update(good_alert, active_period: [invalid_active_period(itinerary)])

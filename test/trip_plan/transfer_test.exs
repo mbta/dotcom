@@ -3,20 +3,28 @@ defmodule TransferTest do
 
   import Mox
   import TripPlan.Transfer
-  import Test.Support.Factories.TripPlanner.TripPlanner
 
+  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   setup :verify_on_exit!
 
+  setup do
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      Stop.build(:stop)
+    end)
+
+    :ok
+  end
+
   describe "maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
-    defp bus_leg, do: build(:bus_leg)
-    defp subway_leg, do: build(:subway_leg)
-    defp cr_leg, do: build(:cr_leg)
-    defp ferry_leg, do: build(:ferry_leg)
-    defp xp_leg, do: build(:express_bus_leg)
-    defp sl_rapid_leg, do: build(:sl_rapid_leg)
-    defp shuttle_leg, do: build(:shuttle_leg)
+    defp bus_leg, do: TripPlanner.build(:bus_leg)
+    defp subway_leg, do: TripPlanner.build(:subway_leg)
+    defp cr_leg, do: TripPlanner.build(:cr_leg)
+    defp ferry_leg, do: TripPlanner.build(:ferry_leg)
+    defp xp_leg, do: TripPlanner.build(:express_bus_leg)
+    defp sl_rapid_leg, do: TripPlanner.build(:sl_rapid_leg)
+    defp shuttle_leg, do: TripPlanner.build(:shuttle_leg)
 
     test "if from or to is nil" do
       refute [nil, nil] |> maybe_transfer?

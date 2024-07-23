@@ -3,7 +3,8 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
-  import Test.Support.Factories.TripPlanner.TripPlanner
+
+  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
 
   @date_time ~N[2017-06-27T11:43:00]
 
@@ -23,7 +24,11 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
         []
       end)
 
-      itinerary = build(:itinerary)
+      stub(Stops.Repo.Mock, :get, fn _ ->
+        Stop.build(:stop)
+      end)
+
+      itinerary = TripPlanner.build(:itinerary)
 
       stub(MBTA.Api.Mock, :get_json, fn "/trips" <> _, _ ->
         %JsonApi{data: [Test.Support.Factories.MBTA.Api.build(:trip_item)]}
@@ -33,14 +38,17 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "ItineraryRow contains given stop name when no stop_id present" do
-      from = build(:stop_named_position, stop: nil)
-      to = build(:stop_named_position, stop: %Stops.Stop{id: "place-sstat"})
+      from = TripPlanner.build(:stop_named_position, stop: nil)
+      to = TripPlanner.build(:stop_named_position, stop: %Stops.Stop{id: "place-sstat"})
       date_time = ~N[2017-06-27T11:43:00]
 
       itinerary =
-        build(:itinerary,
+        TripPlanner.build(:itinerary,
           start: date_time,
-          legs: [build(:transit_leg, from: from), build(:transit_leg, to: to)]
+          legs: [
+            TripPlanner.build(:transit_leg, from: from),
+            TripPlanner.build(:transit_leg, to: to)
+          ]
         )
 
       itinerary_row_list = from_itinerary(itinerary)
@@ -105,7 +113,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "Distance is given with personal steps", %{itinerary: itinerary} do
-      leg = build(:walking_leg)
+      leg = TripPlanner.build(:walking_leg)
       personal_itinerary = %{itinerary | legs: [leg]}
       row_list = from_itinerary(personal_itinerary)
 
@@ -132,12 +140,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     test "Does not replace to stop_id" do
       stop_id = Faker.Internet.slug()
       stop_name = Faker.Address.city()
-      to = build(:stop_named_position, stop: %Stops.Stop{id: stop_id})
+      to = TripPlanner.build(:stop_named_position, stop: %Stops.Stop{id: stop_id})
 
       itinerary = %TripPlan.Itinerary{
         start: nil,
         stop: nil,
-        legs: [build(:transit_leg, to: to)]
+        legs: [TripPlanner.build(:transit_leg, to: to)]
       }
 
       {name, id, _datetime, _alerts} =
