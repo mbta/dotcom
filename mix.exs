@@ -84,8 +84,7 @@ defmodule DotCom.Mixfile do
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.34.2", only: :dev},
-      # we can't make this [:dev, :test] only until `open_trip_planner_client` is updated
-      {:ex_machina, "2.8.0", override: true},
+      {:ex_machina, "2.8.0", only: [:dev, :test], override: true},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.1; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
@@ -106,7 +105,7 @@ defmodule DotCom.Mixfile do
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.2"},
       {:nebulex_redis_adapter, "2.4.0"},
-      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.1"]},
+      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.2"]},
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
       {:phoenix, "1.6.16"},
