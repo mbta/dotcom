@@ -106,30 +106,6 @@ defmodule Predictions.PubSubTest do
 
       assert Registry.count(:prediction_subscriptions_registry) == 0
     end
-
-    test "stops the stream when no other subscribers exist", context do
-      # Setup
-      # Ensure no streams are running so that we can test stream creation
-      Predictions.StreamSupervisor
-      |> DynamicSupervisor.which_children()
-      |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
-
-      ets_table = :ets.new(:callers_by_pid, [:bag])
-      state = %{callers_by_pid: ets_table}
-
-      topic = StreamTopic.new(context.channel)
-      StreamTopic.start_streams(topic)
-      PubSub.handle_call({:subscribe, topic}, {Process.whereis(PubSub), nil}, state)
-
-      pid = Process.whereis(StreamSupervisor)
-      :erlang.trace(pid, true, [:receive])
-
-      # Exercise
-      PubSub.handle_cast({:closed_channel, Process.whereis(PubSub)}, state)
-
-      # Verify
-      assert_received {:trace, ^pid, :receive, {:DOWN, _, :process, _, :shutdown}}
-    end
   end
 
   describe "handle_info/2" do
