@@ -35,11 +35,6 @@ defmodule Predictions.PubSubTest do
       {:reply, [], :foo}
     end)
 
-    # Ensure no streams are running so that we can test stream creation
-    Predictions.StreamSupervisor
-    |> DynamicSupervisor.which_children()
-    |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
-
     {:ok, %{channel: channel, stop: stop}}
   end
 
@@ -114,6 +109,11 @@ defmodule Predictions.PubSubTest do
 
     test "stops the stream when no other subscribers exist", context do
       # Setup
+      # Ensure no streams are running so that we can test stream creation
+      Predictions.StreamSupervisor
+      |> DynamicSupervisor.which_children()
+      |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
+
       ets_table = :ets.new(:callers_by_pid, [:bag])
       state = %{callers_by_pid: ets_table}
 
@@ -128,7 +128,7 @@ defmodule Predictions.PubSubTest do
       PubSub.handle_cast({:closed_channel, Process.whereis(PubSub)}, state)
 
       # Verify
-      assert_receive {:trace, ^pid, :receive, {:DOWN, _, :process, _, :shutdown}}, 1000
+      assert_received {:trace, ^pid, :receive, {:DOWN, _, :process, _, :shutdown}}
     end
   end
 
