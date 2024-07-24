@@ -10,10 +10,10 @@ defmodule Predictions.Store.Behaviour do
   alias Vehicles.Vehicle
 
   @type fetch_keys :: [
+          direction: 0 | 1,
           prediction_id: Prediction.id_t(),
           route: Route.id_t(),
           stop: Stop.id_t(),
-          direction: 0 | 1,
           trip: Trip.id_t(),
           vehicle_id: Vehicle.id_t()
         ]
