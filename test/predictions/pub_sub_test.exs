@@ -79,15 +79,14 @@ defmodule Predictions.PubSubTest do
 
     test "subscribes to a topic", context do
       # Setup
-      stream_supervisor_pid = Process.whereis(StreamSupervisor)
-      :erlang.trace(stream_supervisor_pid, true, [:receive])
+      pid = Process.whereis(StreamSupervisor)
+      :erlang.trace(pid, true, [:receive])
 
       # Exercise
       PubSub.subscribe(context.channel)
 
       # Verify
-      assert_received {:trace, ^stream_supervisor_pid, :receive,
-                       {:"$gen_call", {_, _}, {:start_child, _}}}
+      assert_received {:trace, ^pid, :receive, {_, {_, _}, {:start_child, _}}}
     end
   end
 
@@ -116,23 +115,20 @@ defmodule Predictions.PubSubTest do
     test "stops the stream when no other subscribers exist", context do
       # Setup
       ets_table = :ets.new(:callers_by_pid, [:bag])
-      pid = Process.whereis(PubSub)
       state = %{callers_by_pid: ets_table}
 
       topic = StreamTopic.new(context.channel)
       StreamTopic.start_streams(topic)
-      PubSub.handle_call({:subscribe, topic}, {pid, nil}, state)
+      PubSub.handle_call({:subscribe, topic}, {Process.whereis(PubSub), nil}, state)
 
-      stream_supervisor_pid = Process.whereis(StreamSupervisor)
-      :erlang.trace(stream_supervisor_pid, true, [:receive])
+      pid = Process.whereis(StreamSupervisor)
+      :erlang.trace(pid, true, [:receive])
 
       # Exercise
-      PubSub.handle_cast({:closed_channel, pid}, state)
+      PubSub.handle_cast({:closed_channel, Process.whereis(PubSub)}, state)
 
       # Verify
-      assert_receive {:trace, ^stream_supervisor_pid, :receive,
-                      {:DOWN, _, :process, _, :shutdown}},
-                     1000
+      assert_receive {:trace, ^pid, :receive, {:DOWN, _, :process, _, :shutdown}}, 1000
     end
   end
 
