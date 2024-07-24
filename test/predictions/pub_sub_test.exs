@@ -40,6 +40,8 @@ defmodule Predictions.PubSubTest do
     |> DynamicSupervisor.which_children()
     |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
 
+    Process.sleep(1000)
+
     {:ok, %{channel: channel, stop: stop}}
   end
 
