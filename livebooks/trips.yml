@@ -1,0 +1,4 @@
+---
+- name: No mode grouping
+  from: Malden Center Station
+  to: North Station
