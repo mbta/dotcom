@@ -5,55 +5,46 @@ defmodule Predictions.Store do
   be retrieved using `fetch/1` for any combination of values specified of
   `fetch_keys`.
   """
+
   use GenServer
 
   require Logger
 
   alias Predictions.Prediction
-  alias Routes.Route
-  alias Schedules.Trip
-  alias Stops.Stop
-  alias Vehicles.Vehicle
+  alias Predictions.Store.Behaviour
 
-  @type fetch_keys :: [
-          prediction_id: Prediction.id_t(),
-          route: Route.id_t(),
-          stop: Stop.id_t(),
-          direction: 0 | 1,
-          trip: Trip.id_t(),
-          vehicle_id: Vehicle.id_t()
-        ]
+  @behaviour Behaviour
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
-  def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
-  end
-
-  @spec fetch(fetch_keys) :: [Prediction.t()]
-  def fetch(keys) do
-    GenServer.call(__MODULE__, {:fetch, keys})
-  end
-
-  @spec update({atom, [Prediction.t()]}) :: :ok
-  def update({event, predictions}) do
-    GenServer.cast(__MODULE__, {event, predictions})
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"
-  @spec clear(fetch_keys) :: :ok
+  @impl Behaviour
   def clear(keys) do
     GenServer.cast(__MODULE__, {:remove, Enum.map(fetch(keys), & &1.id)})
   end
 
+  @impl Behaviour
+  def fetch(keys) do
+    GenServer.call(__MODULE__, {:fetch, keys})
+  end
+
+  @impl Behaviour
+  def update({event, predictions}) do
+    GenServer.cast(__MODULE__, {event, predictions})
+  end
+
   # Server
   @impl GenServer
-  def init(opts) do
-    table = :ets.new(Keyword.get(opts, :name, __MODULE__), [:public])
+  def init(_) do
+    table = :ets.new(__MODULE__, [:public])
     periodic_delete()
     {:ok, table}
   end
 
-  @impl true
+  @impl GenServer
   def handle_cast({_, []}, table), do: {:noreply, table}
 
   def handle_cast({event, predictions}, table) when event in [:add, :update] do
@@ -74,13 +65,13 @@ defmodule Predictions.Store do
 
   def handle_cast(_, table), do: {:noreply, table}
 
-  @impl true
+  @impl GenServer
   def handle_call({:fetch, keys}, _from, table) do
     predictions = predictions_for_keys(table, keys)
     {:reply, predictions, table}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:periodic_delete, table) do
     now = Util.now() |> DateTime.to_unix()
 
@@ -102,7 +93,7 @@ defmodule Predictions.Store do
     {:noreply, table}
   end
 
-  @spec predictions_for_keys(:ets.table(), fetch_keys) :: [Prediction.t()]
+  @spec predictions_for_keys(:ets.table(), Behaviour.fetch_keys()) :: [Prediction.t()]
   defp predictions_for_keys(table, opts) do
     match_pattern = {
       Keyword.get(opts, :prediction_id, :_) || :_,

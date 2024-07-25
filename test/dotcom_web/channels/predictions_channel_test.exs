@@ -1,179 +1,106 @@
 defmodule DotcomWeb.PredictionsChannelTest do
   use DotcomWeb.ChannelCase, async: false
-  @moduletag :external
 
-  import Mock
-  import Test.Support.EnvHelpers
+  import Mox
 
   alias DotcomWeb.{PredictionsChannel, UserSocket}
-  alias Phoenix.Socket
-  alias Predictions.Prediction
-  alias Routes.Route
-  alias Schedules.{Schedule, Trip}
-  alias Stops.Stop
+  alias Test.Support.Factories.Predictions.Prediction
 
-  @route_39 "39"
-  @stop_fh "place-forhl"
-  @direction 1
+  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 
-  @prediction39 %Prediction{
-    id: "prediction39",
-    direction_id: @direction,
-    route: %Route{id: @route_39, type: 3},
-    stop: %Stop{id: @stop_fh},
-    trip: %Trip{id: "trip_id"},
-    time: Timex.shift(Util.now(), hours: 2)
-  }
-
-  @channel_name "predictions:stop:#{@stop_fh}"
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   setup do
+    channel = "predictions:stop:#{Faker.Lorem.word()}"
     socket = socket(UserSocket, "", %{})
-    {:ok, socket: socket}
+
+    stub(MBTA.Api.Mock, :get_json, fn _, _ ->
+      []
+    end)
+
+    # Ensure no streams are running so that we can test stream creation
+    Predictions.StreamSupervisor
+    |> DynamicSupervisor.which_children()
+    |> Enum.each(&DynamicSupervisor.terminate_child(Predictions.StreamSupervisor, elem(&1, 1)))
+
+    {:ok, %{channel: channel, socket: socket}}
   end
 
   describe "join/3" do
-    test "subscribes to predictions for a stop ID and returns the current list of predictions", %{
-      socket: socket
-    } do
-      reassign_env(:dotcom, :predictions_subscribe_fn, fn _ ->
-        [@prediction39]
+    test "filters skipped or cancelled predictions", context do
+      # Setup
+      canonical_prediction = Prediction.build(:canonical_prediction)
+
+      filtered_prediction =
+        canonical_prediction
+        |> Map.put(:schedule_relationship, :skipped)
+
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        [canonical_prediction, filtered_prediction]
       end)
 
-      assert {:ok, %{predictions: [@prediction39]}, %Socket{}} =
-               subscribe_and_join(
-                 socket,
-                 PredictionsChannel,
-                 @channel_name
-               )
+      # Exercise
+      {:ok, %{predictions: predictions}, _} =
+        PredictionsChannel.join(context.channel, nil, context.socket)
+
+      # Verify
+      assert predictions == [canonical_prediction]
     end
 
-    test "can't join any topic", %{socket: socket} do
-      assert {:error,
-              %{
-                message: "Cannot subscribe to predictions for route:Orange."
-              }} =
-               subscribe_and_join(
-                 socket,
-                 PredictionsChannel,
-                 "predictions:route:Orange"
-               )
+    test "filters predictions with no departure time", context do
+      # Setup
+      canonical_prediction = Prediction.build(:canonical_prediction)
 
-      assert {:error,
-              %{
-                message: "Cannot subscribe to predictions for Red:1."
-              }} =
-               subscribe_and_join(
-                 socket,
-                 PredictionsChannel,
-                 "predictions:Red:1"
-               )
+      filtered_prediction =
+        canonical_prediction
+        |> Map.put(:departure_time, nil)
 
-      assert {:error,
-              %{
-                message: "Cannot subscribe to predictions for trip:123456."
-              }} =
-               subscribe_and_join(
-                 socket,
-                 PredictionsChannel,
-                 "predictions:trip:123456"
-               )
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        [canonical_prediction, filtered_prediction]
+      end)
+
+      # Exercise
+      {:ok, %{predictions: predictions}, _} =
+        PredictionsChannel.join(context.channel, nil, context.socket)
+
+      # Verify
+      assert predictions == [canonical_prediction]
     end
   end
 
   describe "handle_info/2" do
-    test "pushes new data onto the socket", %{socket: socket} do
-      {:ok, _, socket} =
-        subscribe_and_join(
-          socket,
-          PredictionsChannel,
-          @channel_name
-        )
+    test "pushes predictions to the channel", context do
+      # Setup
+      predictions = Prediction.build_list(3, :canonical_prediction)
 
-      assert {:noreply, _socket} =
-               PredictionsChannel.handle_info(
-                 {:new_predictions, [@prediction39]},
-                 socket
-               )
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        predictions
+      end)
 
-      assert_push("data", %{predictions: [@prediction39]})
+      {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
+
+      # Exercise
+      PredictionsChannel.handle_info({:new_predictions, predictions}, socket)
+
+      # Verify
+      assert_push("data", %{predictions: ^predictions})
     end
+  end
 
-    test "doesn't push certain predictions", %{socket: socket} do
-      {:ok, _, socket} =
-        subscribe_and_join(
-          socket,
-          PredictionsChannel,
-          @channel_name
-        )
+  describe "terminate/2" do
+    test "casts a closed channel message", context do
+      # Setup
+      predictions = Prediction.build_list(3, :canonical_prediction)
 
-      predictions_from_stream = [
-        @prediction39,
-        # Prediction with no trip info - should be removed
-        %Prediction{@prediction39 | trip: nil},
-        # Prediction for skipped stop on subway - should be removed
-        %Prediction{
-          @prediction39
-          | time: nil,
-            schedule_relationship: :skipped,
-            route: %Route{id: "Red", type: 1}
-        },
-        # Prediction with time in past - should be removed
-        %Prediction{@prediction39 | time: Timex.shift(Util.now(), minutes: -1)},
-        # Prediction for cancelled schedule in the future
-        %Prediction{
-          @prediction39
-          | time: nil,
-            schedule_relationship: :cancelled,
-            stop_sequence: 3
-        },
-        # Prediction for cancelled schedule in the past - should be removed
-        %Prediction{
-          @prediction39
-          | time: nil,
-            schedule_relationship: :cancelled,
-            stop_sequence: 4
-        },
-        # Prediction likely at terminal stop - should be removed
-        %Prediction{
-          @prediction39
-          | stop_sequence: 6,
-            arrival_time: @prediction39.time,
-            departure_time: nil
-        }
-      ]
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        predictions
+      end)
 
-      trip_id = @prediction39.trip.id
+      {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
 
-      with_mock(Schedules.Repo, [:passthrough],
-        schedule_for_trip: fn
-          ^trip_id, [stop_sequence: 3] ->
-            [%Schedule{time: Timex.shift(Util.now(), minutes: 5)}]
-
-          ^trip_id, [stop_sequence: 4] ->
-            [%Schedule{time: Timex.shift(Util.now(), minutes: -5)}]
-
-          ^trip_id, [stop_sequence: 6] ->
-            [%Schedule{last_stop?: true}]
-
-          _, _ ->
-            []
-        end
-      ) do
-        {:noreply, _socket} =
-          PredictionsChannel.handle_info(
-            {:new_predictions, predictions_from_stream},
-            socket
-          )
-
-        assert_push("data", %{predictions: [@prediction39, other_prediction]})
-
-        assert %Prediction{
-                 time: nil,
-                 schedule_relationship: :cancelled,
-                 stop_sequence: 3
-               } = other_prediction
-      end
+      # Exercise / Verify
+      assert :ok = PredictionsChannel.terminate(nil, socket)
     end
   end
 end

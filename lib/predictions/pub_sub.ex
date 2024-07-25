@@ -1,4 +1,4 @@
-defmodule Predictions.PredictionsPubSub do
+defmodule Predictions.PubSub do
   @moduledoc """
   Allow channels to subscribe to prediction streams, which are collected into an
   ETS table keyed by prediction ID, route ID, stop ID, direction ID, trip ID,
@@ -10,16 +10,19 @@ defmodule Predictions.PredictionsPubSub do
   use GenServer
 
   alias Predictions.{Prediction, Store, StreamSupervisor, StreamTopic}
+  alias Predictions.PubSub.Behaviour
 
   @broadcast_interval_ms Application.compile_env!(:dotcom, [:predictions_broadcast_interval_ms])
+  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
+  @predictions_store Application.compile_env!(:dotcom, [:predictions_store])
   @subscribers :prediction_subscriptions_registry
 
   @type registry_value :: {Store.fetch_keys(), binary()}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
-  # Client
+  @behaviour Behaviour
 
-  @spec start_link() :: GenServer.on_start()
+  # Client
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
     name = Keyword.get(opts, :name, __MODULE__)
@@ -31,14 +34,13 @@ defmodule Predictions.PredictionsPubSub do
     )
   end
 
-  @spec subscribe(String.t()) :: [Prediction.t()]
-  @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()] | {:error, term()}
-  def subscribe(topic, server \\ __MODULE__) do
+  @impl Behaviour
+  def subscribe(topic) do
     case StreamTopic.new(topic) do
       %StreamTopic{} = stream_topic ->
         :ok = StreamTopic.start_streams(stream_topic)
 
-        {registry_key, predictions} = GenServer.call(server, {:subscribe, stream_topic})
+        {registry_key, predictions} = GenServer.call(__MODULE__, {:subscribe, stream_topic})
 
         for key <- StreamTopic.registration_keys(stream_topic) do
           Registry.register(@subscribers, registry_key, key)
@@ -54,9 +56,9 @@ defmodule Predictions.PredictionsPubSub do
   # Server
 
   @impl GenServer
-  def init(opts) do
-    subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
-    subscribe_fn.(Predictions.PubSub, "predictions")
+  def init(_) do
+    Phoenix.PubSub.subscribe(@predictions_phoenix_pub_sub, "predictions")
+
     broadcast_timer(50)
 
     callers = :ets.new(:callers_by_pid, [:bag])
@@ -82,7 +84,7 @@ defmodule Predictions.PredictionsPubSub do
     filter_names = Enum.map(streams, &elem(&1, 1))
     :ets.insert(state.callers_by_pid, Enum.map(filter_names, &{from_pid, &1}))
     registry_key = self()
-    {:reply, {registry_key, Store.fetch(fetch_keys)}, state, :hibernate}
+    {:reply, {registry_key, @predictions_store.fetch(fetch_keys)}, state, :hibernate}
   end
 
   @impl GenServer
@@ -117,7 +119,7 @@ defmodule Predictions.PredictionsPubSub do
         fn {pid, {_, _}} -> pid end
       )
       |> Enum.each(fn {fetch_keys, pids} ->
-        new_predictions = Store.fetch(fetch_keys)
+        new_predictions = @predictions_store.fetch(fetch_keys)
         send(self(), {:dispatch, Enum.uniq(pids), fetch_keys, new_predictions})
       end)
     end)

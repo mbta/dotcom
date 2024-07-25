@@ -2,7 +2,9 @@ defmodule Predictions.StreamSupervisor do
   @moduledoc """
   DynamicSupervisor managing streams of predictions from the API.
   """
+
   use DynamicSupervisor
+
   alias Predictions.Store
   alias Predictions.StreamSupervisor.Worker
   alias Predictions.StreamTopic
