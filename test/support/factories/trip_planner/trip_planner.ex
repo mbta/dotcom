@@ -5,7 +5,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   use ExMachina
 
   alias Dotcom.TripPlanner.Parser
-  alias OpenTripPlannerClient.Test.Factory
+  alias OpenTripPlannerClient.Test.Support.Factory
   alias TripPlan.NamedPosition
 
   def itinerary_factory do

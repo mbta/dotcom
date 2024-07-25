@@ -88,7 +88,7 @@ defmodule DotCom.Mixfile do
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.1; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
-      {:faker, "0.18.0"},
+      {:faker, "0.18.0", only: [:dev, :test]},
       {:floki, "0.36.2"},
       {:gen_stage, "1.2.1"},
       {:gettext, "0.24.0"},
@@ -105,7 +105,7 @@ defmodule DotCom.Mixfile do
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.2"},
       {:nebulex_redis_adapter, "2.4.0"},
-      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.2"]},
+      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.3"]},
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
       {:phoenix, "1.6.16"},
