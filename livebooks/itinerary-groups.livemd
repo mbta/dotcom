@@ -14,12 +14,14 @@ defmodule ItineraryGroups.Helpers do
     |> Kernel.then(&Map.put(trip, "groups", &1))
   end
 
-  defp address_to_named_position(address) do
-    address
-    |> LocationService.geocode()
-    |> Kernel.elem(1)
-    |> List.first()
-    |> TripPlan.NamedPosition.new()
+  defp named_position(stop) do
+    %TripPlan.NamedPosition{
+      stop: Stops.Repo.get(stop)
+    }
+  end
+
+  defp format_datetime(datetime) do
+    Timex.format!(datetime, "%H:%M %p", :strftime)
   end
 
   defp group(itineraries) do
@@ -30,50 +32,68 @@ defmodule ItineraryGroups.Helpers do
 
   defp groups_to_strings(groups) do
     Enum.map(groups, fn {_, group} ->
-      itineraries_to_strings(group)
+      %{
+        departures: departures(group),
+        legs: group |> List.first() |> Map.get(:legs) |> legs_to_string()
+      }
     end)
+    |> Enum.reject(fn group -> Kernel.length(group.legs) == 0 end)
   end
 
-  defp itineraries_to_strings(itineraries) when is_list(itineraries) do
-    Enum.map(itineraries, &itinerary_to_string/1)
+  defp departures(group) do
+    Enum.map(group, &itinerary_to_departure/1)
   end
 
-  defp itinerary_to_string(itinerary) do
-    itinerary
-    |> Map.get(:legs)
-    |> Enum.reject(fn leg -> leg.to.name === leg.from.name end)
-    |> Enum.map(&leg_to_string/1)
+  defp itinerary_to_departure(itinerary) do
+    format_datetime(itinerary.start)
   end
 
   defp leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
     {"WALK", leg.from.name, leg.to.name}
   end
 
+  defp leg_to_string(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+    "WALK #{leg.distance} MILES FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
+  defp leg_to_string(%TripPlan.Leg{mode: %{mode: "BUS"} = mode} = leg) do
+    "TAKE THE #{mode.route.id} BUS FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
+  defp leg_to_string(%TripPlan.Leg{mode: %{mode: _} = mode} = leg) do
+    "TAKE THE #{mode.route.long_name} #{mode.mode} FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
   defp leg_to_tuple(%TripPlan.Leg{mode: %{mode: mode}} = leg) do
     {mode, leg.from.name, leg.to.name}
   end
 
-  defp leg_to_string(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
-    "WALK FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  defp leg_to_string(%TripPlan.Leg{mode: %{mode: mode}} = leg) do
-    "TAKE #{mode} FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
   defp legs_to_hash(legs) do
     legs
+    |> Enum.reject(&short_walking_leg?/1)
     |> Enum.map(&leg_to_tuple/1)
     |> :erlang.phash2()
   end
 
+  defp legs_to_string(legs) do
+    legs
+    |> Enum.reject(&short_walking_leg?/1)
+    |> Enum.map(&leg_to_string/1)
+  end
+
   defp plan(from, to) do
     TripPlanner.OpenTripPlanner.plan(
-      address_to_named_position(from),
-      address_to_named_position(to),
+      named_position(from),
+      named_position(to),
       []
     )
   end
+
+  def short_walking_leg?(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+    leg.distance <= 0.2
+  end
+
+  def short_walking_leg?(_), do: false
 end
 
 alias ItineraryGroups.Helpers
