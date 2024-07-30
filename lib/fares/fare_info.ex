@@ -221,7 +221,13 @@ defmodule Fares.FareInfo do
       day_pass_price: "11.00",
       week_pass_price: "22.50"
     },
-    %{mode: :the_ride, ada_ride: "3.35", premium_ride: "5.60"},
+    %{
+      mode: :the_ride,
+      ada_ride: "3.35",
+      ada_ride_reduced: "1.70",
+      premium_ride: "5.60",
+      premium_ride_reduced: "2.80"
+    },
     # Logan Express Back Bay
     %{mode: :massport_shuttle, name: "Massport-32511", single_trip: "3.00"},
     # Logan Express Framingham
@@ -670,23 +676,40 @@ defmodule Fares.FareInfo do
     fares ++ reduced_fares
   end
 
-  def mapper(%{mode: :the_ride, ada_ride: ada_ride, premium_ride: premium_ride}) do
+  def mapper(%{
+        mode: :the_ride,
+        ada_ride: ada_ride,
+        premium_ride: premium_ride,
+        ada_ride_reduced: ada_ride_reduced,
+        premium_ride_reduced: premium_ride_reduced
+      }) do
     [
       %Fare{
         mode: :the_ride,
         name: :ada_ride,
-        media: [:senior_card],
-        reduced: :senior_disabled,
+        reduced: nil,
         duration: :single_trip,
         cents: dollars_to_cents(ada_ride)
       },
       %Fare{
         mode: :the_ride,
         name: :premium_ride,
-        media: [:senior_card],
-        reduced: :senior_disabled,
         duration: :single_trip,
         cents: dollars_to_cents(premium_ride)
+      },
+      %Fare{
+        mode: :the_ride,
+        name: :ada_ride,
+        reduced: :any,
+        duration: :single_trip,
+        cents: dollars_to_cents(ada_ride_reduced)
+      },
+      %Fare{
+        mode: :the_ride,
+        name: :premium_ride,
+        reduced: :any,
+        duration: :single_trip,
+        cents: dollars_to_cents(premium_ride_reduced)
       }
     ]
   end

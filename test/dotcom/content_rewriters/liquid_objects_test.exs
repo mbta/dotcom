@@ -5,12 +5,13 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import DotcomWeb.ViewHelpers, only: [fa: 1, svg: 1]
+  import Mox
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Fares.{Format, Repo}
   alias Routes
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  setup :verify_on_exit!
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do
@@ -62,6 +63,14 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(fare:local_bus:cash)) == results |> List.first() |> Format.price()
     end
 
+    test "it handles reduced fare requests for the RIDE" do
+      ada = replace(~s(fare:ada_ride))
+      ada_reduced = replace(~s(fare:ada_ride:reduced))
+      assert ada
+      assert ada_reduced
+      assert ada != ada_reduced
+    end
+
     test "it handles bad fare requests" do
       assert replace(~s(fare:spaceship)) ==
                ~s({{ fare:<span class="text-danger">spaceship</span> }})
@@ -70,9 +79,11 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
                ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
     end
 
-    @tag :external
     test "it handles route requests" do
-      assert replace(~s(route:83)) == "83" |> @routes_repo.get() |> Map.get(:long_name)
+      route_id = Faker.Internet.slug()
+      route_name = Faker.App.name()
+      expect(Routes.Repo.Mock, :get, fn ^route_id -> %Routes.Route{long_name: route_name} end)
+      assert replace(~s(route:#{route_id})) == route_name
     end
 
     test "it returns a liquid object when not otherwise handled" do
