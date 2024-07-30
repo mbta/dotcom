@@ -14,10 +14,18 @@ defmodule ItineraryGroups.Helpers do
     |> Kernel.then(&Map.put(trip, "groups", &1))
   end
 
-  defp named_position(stop) do
-    %TripPlan.NamedPosition{
-      stop: Stops.Repo.get(stop)
-    }
+  defp combined_leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+    unique_leg_to_tuple(leg)
+  end
+
+  defp combined_leg_to_tuple(%TripPlan.Leg{mode: %{route: route}} = leg) do
+    {route.id, leg.from.name, leg.to.name}
+  end
+
+  defp departures(group) do
+    group
+    |> Enum.take(5)
+    |> Enum.map(&itinerary_to_departure/1)
   end
 
   defp format_datetime(datetime) do
@@ -26,7 +34,7 @@ defmodule ItineraryGroups.Helpers do
 
   defp group(itineraries) do
     itineraries
-    |> Enum.group_by(&legs_to_hash/1)
+    |> Enum.group_by(&unique_legs_to_hash/1)
     |> groups_to_strings()
   end
 
@@ -34,22 +42,27 @@ defmodule ItineraryGroups.Helpers do
     Enum.map(groups, fn {_, group} ->
       %{
         departures: departures(group),
-        legs: group |> List.first() |> Map.get(:legs) |> legs_to_string()
+        legs:
+          group
+          |> Enum.uniq_by(&itinerary_to_hash/1)
+          |> Enum.map(fn itinerary ->
+            itinerary |> Map.get(:legs) |> legs_to_string()
+          end)
       }
     end)
     |> Enum.reject(fn group -> Kernel.length(group.legs) == 0 end)
-  end
-
-  defp departures(group) do
-    Enum.map(group, &itinerary_to_departure/1)
   end
 
   defp itinerary_to_departure(itinerary) do
     format_datetime(itinerary.start)
   end
 
-  defp leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
-    {"WALK", leg.from.name, leg.to.name}
+  defp itinerary_to_hash(itinerary) do
+    itinerary
+    |> Map.get(:legs)
+    |> Enum.reject(&short_walking_leg?/1)
+    |> Enum.map(&combined_leg_to_tuple/1)
+    |> :erlang.phash2()
   end
 
   defp leg_to_string(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
@@ -64,21 +77,25 @@ defmodule ItineraryGroups.Helpers do
     "TAKE THE #{mode.route.long_name} #{mode.mode} FROM #{leg.from.name} TO #{leg.to.name}"
   end
 
-  defp leg_to_tuple(%TripPlan.Leg{mode: %{mode: mode}} = leg) do
-    {mode, leg.from.name, leg.to.name}
-  end
-
-  defp legs_to_hash(legs) do
-    legs
-    |> Enum.reject(&short_walking_leg?/1)
-    |> Enum.map(&leg_to_tuple/1)
-    |> :erlang.phash2()
-  end
-
   defp legs_to_string(legs) do
     legs
     |> Enum.reject(&short_walking_leg?/1)
     |> Enum.map(&leg_to_string/1)
+  end
+
+  defp named_position(stop) do
+    stop = Stops.Repo.get(stop)
+
+    parent_stop =
+      if stop.child? do
+        Stops.Repo.get(stop.parent_id)
+      else
+        nil
+      end
+
+    %TripPlan.NamedPosition{
+      stop: parent_stop || stop
+    }
   end
 
   defp plan(from, to) do
@@ -86,6 +103,7 @@ defmodule ItineraryGroups.Helpers do
       named_position(from),
       named_position(to),
       []
+      # [depart_at: DateTime.from_naive!(~N[2024-07-31T08:30:00], "America/New_York")]
     )
   end
 
@@ -94,6 +112,21 @@ defmodule ItineraryGroups.Helpers do
   end
 
   def short_walking_leg?(_), do: false
+
+  defp unique_leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+    {"WALK", leg.from.name, leg.to.name}
+  end
+
+  defp unique_leg_to_tuple(%TripPlan.Leg{mode: %{route: route}} = leg) do
+    {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
+  end
+
+  defp unique_legs_to_hash(legs) do
+    legs
+    |> Enum.reject(&short_walking_leg?/1)
+    |> Enum.map(&unique_leg_to_tuple/1)
+    |> :erlang.phash2()
+  end
 end
 
 alias ItineraryGroups.Helpers

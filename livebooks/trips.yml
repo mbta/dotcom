@@ -1,16 +1,8 @@
 ---
 - check: No mode grouping
-  name: Malden Center Station to North Station
-  from: place-mlmnl
-  to: place-north
-- check: No mode grouping
   name: Symphony to Fenwood Rd
   from: place-symcl
   to: place-fenwd
-- check: No local/express bus grouping
-  name: Washington St @ Market St to Tremont St @ Hibbard Rd
-  from: '973'
-  to: '986'
 - check: Group same parent stop, different child stops
   name: Forest Hills to Roslindale Village
   from: place-forhl
