@@ -63,6 +63,14 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(fare:local_bus:cash)) == results |> List.first() |> Format.price()
     end
 
+    test "it handles reduced fare requests for the RIDE" do
+      ada = replace(~s(fare:ada_ride))
+      ada_reduced = replace(~s(fare:ada_ride:reduced))
+      assert ada
+      assert ada_reduced
+      assert ada != ada_reduced
+    end
+
     test "it handles bad fare requests" do
       assert replace(~s(fare:spaceship)) ==
                ~s({{ fare:<span class="text-danger">spaceship</span> }})
