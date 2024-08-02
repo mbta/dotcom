@@ -125,6 +125,7 @@ module.exports = {
             options: {
               postcssOptions: {
                 plugins: [
+                  "tailwindcss",
                   postcssPresetEnv({
                     autoprefixer: { grid: true },
                     enableClientSidePolyfills: true
@@ -180,7 +181,7 @@ module.exports = {
       patterns: [
         { from: "static/**/*", to: "../.." },
         // copy the font files out of the fontawesome package to the fonts directory
-        { from: "**/*", to: "../fonts", context: "node_modules/@fortawesome/fontawesome-free/webfonts"}
+        { from: "**/*", to: "../fonts", context: "node_modules/@fortawesome/fontawesome-free/webfonts" }
       ]
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
