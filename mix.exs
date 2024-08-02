@@ -94,6 +94,13 @@ defmodule DotCom.Mixfile do
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
       {:hammer, "6.2.1"},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1},
       {:html_sanitize_ex, "1.4.3"},
       # latest version 2.2.1; cannot upgrade because api has changed
       {:httpoison, "1.8.2"},
@@ -107,14 +114,14 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.0"},
       {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.3"]},
       {:parallel_stream, "1.1.0"},
-      # latest version 1.7.14
-      {:phoenix, "1.6.16"},
+      {:phoenix, "1.7.14"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
-      {:phoenix_live_view, "0.20.17"},
+      {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
       {:phoenix_pubsub, "2.1.3"},
+      {:phoenix_view, "~> 2.0"},
       {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.1"},
       # latest version is 6.0.0; cannot upgrade because we use Poison.Parser.parse!

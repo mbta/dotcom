@@ -1,4 +1,4 @@
-<% error = get_flash(@conn, :info) %>
+<% error = Phoenix.Flash.get(@conn, :info) %>
 <%= if error, do: DotcomWeb.PartialView.FullscreenError.render_error(error) %>
 <div class="container">
   <h1>Transit Near Me</h1>
