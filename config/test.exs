@@ -17,6 +17,10 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo.Mock,
   stops: Stops.Repo.Mock
 
+config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub.Mock
+config :dotcom, :predictions_pub_sub, Predictions.PubSub.Mock
+config :dotcom, :predictions_store, Predictions.Store.Mock
+
 config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
 config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock

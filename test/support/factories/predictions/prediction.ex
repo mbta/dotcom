@@ -2,6 +2,7 @@ defmodule Test.Support.Factories.Predictions.Prediction do
   @moduledoc """
   Generated fake data for %Predictions.Prediction{}
   """
+
   use ExMachina
 
   alias Predictions.Prediction
@@ -25,5 +26,19 @@ defmodule Test.Support.Factories.Predictions.Prediction do
       trip: Trip.build(:trip) |> FactoryHelpers.nullable_item(),
       vehicle_id: FactoryHelpers.build(:nullable_id)
     }
+  end
+
+  @doc """
+  A canonical prediction is one that should not be filtered out before being pushed to the client.
+
+  1. If the route is a subway then the schedule relationship is not cancelled or skipped
+  2. Has a departure time
+  """
+  def canonical_prediction_factory do
+    route = Route.build(:route, id: Faker.Lorem.word(), type: 0)
+    schedule_relationship = :added
+    trip = Trip.build(:trip)
+
+    build(:prediction, route: route, schedule_relationship: schedule_relationship, trip: trip)
   end
 end

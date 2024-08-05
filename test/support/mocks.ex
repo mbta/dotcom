@@ -6,16 +6,16 @@ Mox.defmock(HTTPoison.Mock, for: HTTPoison.Base)
 Mox.defmock(Req.Mock, for: Req.Behaviour)
 
 # Internal
+Mox.defmock(CMS.Api.Mock, for: CMS.Api.Behaviour)
 Mox.defmock(Dotcom.Redis.Mock, for: Dotcom.Redis.Behaviour)
 Mox.defmock(Dotcom.Redix.Mock, for: Dotcom.Redix.Behaviour)
 Mox.defmock(Dotcom.Redix.PubSub.Mock, for: Dotcom.Redix.PubSub.Behaviour)
 Mox.defmock(LocationService.Mock, for: LocationService.Behaviour)
-
-Mox.defmock(CMS.Api.Mock, for: CMS.Api.Behaviour)
-Mox.defmock(LocationService.Mock, for: LocationService.Behaviour)
 Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)
 Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
-Mox.defmock(ExAws.Mock, for: ExAws.Behaviour)
+Mox.defmock(Predictions.Phoenix.PubSub.Mock, for: Phoenix.Channel)
+Mox.defmock(Predictions.PubSub.Mock, for: [GenServer, Predictions.PubSub.Behaviour])
+Mox.defmock(Predictions.Store.Mock, for: Predictions.Store.Behaviour)
 
 # Repos
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)

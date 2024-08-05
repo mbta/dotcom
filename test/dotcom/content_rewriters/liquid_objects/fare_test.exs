@@ -99,13 +99,23 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
     test "it handles the ride fare requests" do
       assert [
                name: :ada_ride,
-               reduced: :senior_disabled,
+               reduced: nil,
                duration: :single_trip
              ]
              |> Repo.all()
              |> fare_result() == "$3.35"
 
-      assert fare_request("subway:ada_ride") == {:ok, "$3.35"}
+      assert fare_request("ada_ride") == {:ok, "$3.35"}
+
+      assert [
+               name: :ada_ride,
+               reduced: :any,
+               duration: :single_trip
+             ]
+             |> Repo.all()
+             |> fare_result() == "$1.70"
+
+      assert fare_request("ada_ride:reduced") == {:ok, "$1.70"}
     end
 
     test "it handles mticket fare requests" do

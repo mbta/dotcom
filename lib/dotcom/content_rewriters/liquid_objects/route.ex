@@ -5,7 +5,9 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Route do
 
   """
 
-  alias Routes.{Repo, Route}
+  alias Routes.Route
+
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @type request_error :: {:error, {:empty | :unmatched, String.t()}}
   @type request_tuple :: {:ok, String.t()}
@@ -23,7 +25,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Route do
   defp compose_args(route), do: {:ok, route}
 
   @spec request_route(request_tuple | request_error) :: Route.t() | request_error | nil
-  defp request_route({:ok, route}), do: Repo.get(route)
+  defp request_route({:ok, route}), do: @routes_repo.get(route)
   defp request_route(error), do: error
 
   @spec process_results(Route.t() | request_error | nil) :: {:ok, String.t()} | request_error

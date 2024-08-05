@@ -175,7 +175,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   end
 
   defp parse_token(value, good, bad) when value in @fare_ride do
-    {filter_insert(good, name: value, reduced: "senior_disabled"), bad}
+    {filter_insert(good, name: value), bad}
   end
 
   defp parse_token(value, good, bad) when value in @fare_media do
