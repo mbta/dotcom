@@ -95,6 +95,7 @@ const ScheduleModalContent = ({
         >
           <a
             href="https://forms.office.com/Pages/ResponsePage.aspx?id=meVYdQbwH0iXF7GJ5nMIYrcr-0ws2DJAoeo-oGBUIR9UOFZUVVNLTFhWWFdWV1c2UUJQNU5LTEMwQS4u"
+            rel="noreferrer"
             style={{
               color: "black",
               display: "block"
