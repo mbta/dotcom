@@ -14,6 +14,8 @@ COPY assets/package.json ./assets/package.json
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
-RUN mix deps.get
-RUN npm --prefix assets install --package-lock-only --ignore-scripts --no-save --audit false --fund false --loglevel verbose
-CMD elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server
+CMD mix deps.get \
+     && npm install --no-save \
+     && mix phx.digest \
+     && npm --prefix assets install --package-lock-only --ignore-scripts --no-save --audit false --fund false --loglevel verbose \
+     && elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server
