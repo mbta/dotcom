@@ -97,9 +97,7 @@ const ScheduleModalContent = ({
             href="https://forms.office.com/Pages/ResponsePage.aspx?id=meVYdQbwH0iXF7GJ5nMIYrcr-0ws2DJAoeo-oGBUIR9UOFZUVVNLTFhWWFdWV1c2UUJQNU5LTEMwQS4u"
             style={{
               color: "black",
-              display: "block",
-              height: "100%",
-              width: "100%"
+              display: "block"
             }}
             target="_blank"
           >
