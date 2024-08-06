@@ -14,6 +14,8 @@ COPY assets/package.json ./assets/package.json
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
+EXPOSE 4001
+
 CMD mix deps.get \
      && npm install --no-save \
      && mix phx.digest \
