@@ -229,12 +229,11 @@ case config_env() do
            Enum.join(
              [
                "default-src 'none'",
-               "connect-src wss://#{host}",
                "img-src 'self' cdn.mbta.com #{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")} px.ads.linkedin.com www.linkedin.com www.facebook.com *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
                "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")} cdn.jsdelivr.net",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
-               "connect-src 'self' *.googleapis.com #{sentry_dsn_host || ""} www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net",
+               "connect-src 'self' wss://#{host} *.googleapis.com #{sentry_dsn_host || ""} www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net",
                "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
              ],
              "; "
@@ -246,7 +245,6 @@ case config_env() do
            Enum.join(
              [
                "default-src 'none'",
-               "connect-src wss://#{host}",
                "img-src 'self' cdn.mbta.com #{System.get_env("CMS_API_BASE_URL", "")} *.google.com *.googleapis.com *.gstatic.com mbta-map-tiles-dev.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
                "style-src 'self' 'unsafe-inline' localhost:* www.gstatic.com",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' localhost:* www.instagram.com *.google.com www.gstatic.com www.googletagmanager.com www.google-analytics.com *.googleapis.com data.mbta.com",
