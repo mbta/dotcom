@@ -1,4 +1,4 @@
-import AlgoliaAutocomplete from "./algolia-autocomplete";
+import AlgoliaAutocomplete, { AlgoliaAutocompleteInternalLocation } from "./algolia-autocomplete";
 import LeafletMap from "./leaflet-map";
 import ScrollIntoView from "./scroll-into-view";
 import TripPlannerForm from "./trip-planner-form";
@@ -13,6 +13,7 @@ import TripPlannerForm from "./trip-planner-form";
  */
 const Hooks = {
   AlgoliaAutocomplete,
+  AlgoliaAutocompleteInternalLocation,
   LeafletMap,
   ScrollIntoView,
   TripPlannerForm

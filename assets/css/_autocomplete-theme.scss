@@ -142,13 +142,41 @@
   @extend %shared-autocomplete;
 }
 
-#trip-from,
-#trip-to {
+#trip-plan-from,
+#trip-plan-to {
   @extend %shared-autocomplete;
 
-  .aa-InputWrapper {
-    padding-left: .5rem;
+  .aa-InputWrapperPrefix {
+    order: unset;
   }
+
+  .aa-SubmitButton {
+    user-select: none;
+  }
+
+  .c-search-bar__autocomplete-results {
+    position: relative;
+
+    // Autocomplete.JS doesn't support multiple instances per page, and one way
+    // this manifests is it totally bungles the dynamic positioning of elements.
+    // Hence the need to wrangle with !important.
+    /* stylelint-disable declaration-no-important */
+    .aa-Panel {
+      left: 0 !important;
+      margin-top: .25rem;
+      top: 0 !important;
+      width: 100% !important;
+    }
+    /* stylelint-enable declaration-no-important */
+  }
+}
+
+#trip-plan-from .aa-SubmitButton {
+  @include fa-icon-solid($fa-var-a);
+}
+
+#trip-plan-to .aa-SubmitButton {
+  @include fa-icon-solid($fa-var-b);
 }
 
 %large-autocomplete {

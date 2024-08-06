@@ -113,4 +113,54 @@ const AlgoliaItemTemplate: SourceTemplates<Item>["item"] = ({
   );
 };
 
+export const AlgoliaItemTemplateInternal: SourceTemplates<Item>["item"] = ({
+  item,
+  components
+}) => {
+  const { index } = item as AutocompleteItem;
+  const attribute = getTitleAttribute(item);
+  const featureIcons = getFeatureIcons(item, index);
+  const iconHtml = isContentItem(item)
+    ? contentIcon(item)
+    : getIcon(item, index);
+  return (
+    <div className="aa-ItemContent">
+      <span
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: iconHtml
+        }}
+      />
+      {!isContentItem(item) &&
+        featureIcons.map((feature: string) => (
+          <span
+            key={uniqueId()}
+            className="c-search-result__feature-icons"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: feature }}
+          />
+        ))}
+      <span className="aa-ItemContentBody">
+        <span className="aa-ItemContentTitle">
+          <span className={isStopItem(item) ? "notranslate" : undefined}>
+            {components.Highlight({
+              hit: item,
+              attribute
+            })}
+          </span>
+          &nbsp;
+          {isRouteItem(item) && item.route.type === 3 && (
+            <span className="c-search-result__long-name notranslate">
+              {components.Highlight({
+                hit: item,
+                attribute: ["route", "long_name"]
+              })}
+            </span>
+          )}
+        </span>
+      </span>
+    </div>
+  );
+};
+
 export default AlgoliaItemTemplate;

@@ -145,6 +145,7 @@ defmodule DotcomWeb do
       import DotcomWeb.ErrorHelpers
       import DotcomWeb.Gettext
       alias DotcomWeb.Router.Helpers
+      import DotcomWeb.ViewHelpers
 
       import DotcomWeb.Components
     end

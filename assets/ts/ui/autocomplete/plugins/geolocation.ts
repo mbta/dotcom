@@ -1,7 +1,7 @@
 import { LocationItem } from "../__autocomplete";
 import { STATE_CHANGE_HANDLERS } from "../helpers";
 import { AutocompleteJSPlugin } from "../plugins";
-import getGeolocationTemplate from "../templates/geolocation";
+import getGeolocationTemplate from "../templates/geolocation-to-url";
 
 /**
  * Generates a plugin for Algolia Autocomplete which enables geolocation. This
