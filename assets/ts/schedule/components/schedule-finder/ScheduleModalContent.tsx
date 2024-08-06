@@ -46,6 +46,13 @@ const ScheduleModalContent = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
+  const isBetaTestCandidate = (): boolean => {
+    const isIPhone = /iPhone/.test(navigator.userAgent);
+    const isRandom = Math.random() <= 0.3;
+
+    return isIPhone && isRandom;
+  };
+
   const serviceToday = services.some(service =>
     isInCurrentService(service, stringToDateObject(today))
   );
@@ -77,7 +84,28 @@ const ScheduleModalContent = ({
           stopsByDirection={stops}
         />
       </div>
-
+      {!isBetaTestCandidate() ? null : (
+        <div
+          style={{
+            background: "#DCD3E8",
+            margin: "0 -1.5rem",
+            padding: "10px",
+            textAlign: "center"
+          }}
+        >
+          <a
+            href="https://forms.office.com/Pages/ResponsePage.aspx?id=meVYdQbwH0iXF7GJ5nMIYrcr-0ws2DJAoeo-oGBUIR9UOFZUVVNLTFhWWFdWV1c2UUJQNU5LTEMwQS4u"
+            rel="noreferrer"
+            style={{
+              color: "black",
+              display: "block"
+            }}
+            target="_blank"
+          >
+            Sign up to test the new <strong>MBTA app &#x2192;</strong>
+          </a>
+        </div>
+      )}
       {!isSubwayRoute(route) ? null : (
         <DailyScheduleSubway
           stops={stops}
