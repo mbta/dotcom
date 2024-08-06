@@ -35,6 +35,9 @@ services:
             - REDIS_PORT=30001
         expose:
             - 4001
+        ports:
+            - 4001:4001
+            - 8092:8092
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
             interval: 15s
