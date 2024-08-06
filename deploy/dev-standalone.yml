@@ -1,112 +1,47 @@
 services:
+    redis:
+        network_mode: host
+        image: grokzen/redis-cluster
+        container_name: redis
+        restart: on-failure
+        ports:
+            - 30001-30006:30001-30006
+        environment:
+            - INITIAL_PORT=30001
+            - REDIS_CLUSTER_IP=0.0.0.0
+            - IP=0.0.0.0
+        healthcheck:
+            test: ["CMD", "redis-cli", "-p", "30001", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+            start_period: 5s
     dotcom:
+        network_mode: host
+        depends_on:
+            - redis
         build:
             context: ../
             dockerfile: ./deploy/dotcom/dev/1/Dockerfile
-        env_file:
-            - ../.env
-        depends_on:
-            redis-cluster-init:
-                condition: service_started
         environment:
             - MIX_ENV=dev
+            - CMS_API_BASE_URL=https://live-mbta.pantheonsite.io
+            - OPEN_TRIP_PLANNER_URL=http://otp2-local.mbtace.com
             - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
             - MBTA_API_BASE_URL=${MBTA_API_BASE_URL}
             - MBTA_API_KEY=${MBTA_API_KEY}
             - PORT=4001
-            - REDIS_HOST=10.0.0.11
-            - REDIS_PORT=6379
             - WEBPACK_PORT=8092
             - WARM_CACHES=false
+            - REDIS_PORT=30001
         expose:
             - 4001
-        ports:
-            - 4001:4001
-            - 8092:8092
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
-            interval: 10s
+            interval: 15s
             retries: 5
-            start_period: 180s
-            timeout: 10s
+            start_period: 100s
+            timeout: 30s
         volumes:
             - ../:/app
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.1
-    redis-cluster-init:
-        image: redis:7.2.4
-        command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes
-        depends_on:
-            redis-1: 
-                condition: service_healthy
-            redis-2: 
-                condition: service_healthy
-            redis-3: 
-                condition: service_healthy
-            redis-4: 
-                condition: service_healthy
-            redis-5: 
-                condition: service_healthy
-            redis-6: 
-                condition: service_healthy
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.10
-    redis-1: &redis
-        build:
-            context: ../
-            dockerfile: ./deploy/redis/Dockerfile
-        healthcheck:
-            test: [ "CMD", "redis-cli", "PING"]
-            timeout: 10s
-            interval: 3s
-            retries: 10
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.11
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.11
-    redis-2:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.12
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.12
-    redis-3:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.13
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.13
-    redis-4:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.14
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.14
-    redis-5:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.15
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.15
-    redis-6:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.16
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.16
-networks:
-    dotcom_network:
-        driver: bridge
-        ipam:
-            config:
-                - subnet: 10.0.0.0/24
-                  gateway: 10.0.0.254

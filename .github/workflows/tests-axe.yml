@@ -41,9 +41,8 @@ jobs:
           aws-region: us-east-1
           mask-aws-account-id: true
       - run: npm install --ignore-scripts
-      - run: cp .env.template .env # The docker compose expects an .env file
       - name: docker compose up
-        run: docker compose --file deploy/dev-standalone.yml up --build --detach --wait
+        run: docker compose --file deploy/dev-standalone.yml up --detach --wait
       - uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
         with:
           args: npx playwright test axe
