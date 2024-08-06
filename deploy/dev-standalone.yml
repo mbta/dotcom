@@ -1,6 +1,5 @@
 services:
     redis:
-        network_mode: host
         image: grokzen/redis-cluster
         container_name: redis
         restart: on-failure
@@ -17,7 +16,6 @@ services:
             retries: 5
             start_period: 5s
     dotcom:
-        network_mode: host
         depends_on:
             - redis
         build:
@@ -40,8 +38,8 @@ services:
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
             interval: 15s
-            retries: 5
-            start_period: 100s
-            timeout: 30s
+            retries: 10
+            start_period: 180s
+            timeout: 60s
         volumes:
             - ../:/app
