@@ -12,6 +12,8 @@ services:
             timeout: 5s
             retries: 5
             start_period: 5s
+        volumes:
+            - ../:/app
     dotcom:
         network_mode: host
         depends_on:
@@ -43,7 +45,6 @@ services:
             timeout: 60s
         volumes:
             - ../:/app
-
     a11y-test:
         image: mcr.microsoft.com/playwright:v1.42.1-jammy
         healthcheck:
