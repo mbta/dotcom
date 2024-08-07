@@ -16,7 +16,7 @@ services:
         network_mode: host
         depends_on:
             redis:
-                condition: service_healthy
+                condition: service_started
         build:
             context: ../
             dockerfile: ./deploy/dotcom/dev/1/Dockerfile
@@ -37,15 +37,17 @@ services:
             - 4001
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
-            interval: 30s
+            interval: 60s
             retries: 20
-            start_period: 180s
+            start_period: 240s
             timeout: 60s
         volumes:
             - ../:/app
 
     a11y-test:
         image: mcr.microsoft.com/playwright:v1.42.1-jammy
+        healthcheck:
+            disable: true
         depends_on:
             dotcom:
                 condition: service_healthy
