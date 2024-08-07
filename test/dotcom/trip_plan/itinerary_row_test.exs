@@ -50,9 +50,11 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "route_name/1" do
     test "returns the route name when a route is present" do
-      row = %ItineraryRow{route: %Route{name: "Red Line"}}
+      long_name = "#{Faker.Color.name()} Line"
 
-      assert route_name(row) == "Red Line"
+      row = %ItineraryRow{route: %Route{long_name: long_name}}
+
+      assert route_name(row) == long_name
     end
 
     test "returns nil when a route is not present" do

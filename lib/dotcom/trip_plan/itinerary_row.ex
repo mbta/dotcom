@@ -59,7 +59,9 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       when is_binary(agency) and is_binary(long_name),
       do: long_name
 
-  def route_name(%__MODULE__{route: %Route{long_name: long_name}}), do: long_name
+  def route_name(%__MODULE__{route: %Route{long_name: long_name}})
+      when is_binary(long_name),
+      do: long_name
 
   def route_name(%__MODULE__{route: %Route{name: name}}), do: name
   def route_name(_row), do: nil

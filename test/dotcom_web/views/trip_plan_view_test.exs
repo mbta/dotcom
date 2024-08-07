@@ -307,7 +307,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       transit?: true,
       stop: {"Park Street", "place-park"},
       steps: ["Boylston", "Arlington", "Copley"],
-      route: %Routes.Route{id: "Green", name: "Green Line", type: 1}
+      route: %Routes.Route{id: "Green", long_name: "Green Line", type: 1}
     }
 
     test "builds bubble_params for each step" do
