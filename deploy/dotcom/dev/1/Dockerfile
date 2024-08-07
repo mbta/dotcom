@@ -17,7 +17,5 @@ RUN mix local.rebar --force
 EXPOSE 4001
 
 CMD mix deps.get \
-     && npm install --no-save \
-     && mix phx.digest \
      && npm --prefix assets install --package-lock-only --ignore-scripts --no-save --audit false --fund false --loglevel verbose \
      && elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server

@@ -1,10 +1,7 @@
 services:
     redis:
         image: grokzen/redis-cluster
-        container_name: redis
-        restart: on-failure
-        ports:
-            - 30001-30006:30001-30006
+        network_mode: host
         environment:
             - INITIAL_PORT=30001
             - REDIS_CLUSTER_IP=0.0.0.0
@@ -16,8 +13,10 @@ services:
             retries: 5
             start_period: 5s
     dotcom:
+        network_mode: host
         depends_on:
-            - redis
+            redis:
+                condition: service_healthy
         build:
             context: ../
             dockerfile: ./deploy/dotcom/dev/1/Dockerfile
@@ -32,17 +31,30 @@ services:
             - PORT=4001
             - WEBPACK_PORT=8092
             - WARM_CACHES=false
+            - REDIS_HOST=localhost
             - REDIS_PORT=30001
         expose:
             - 4001
-        ports:
-            - 4001:4001
-            - 8092:8092
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
-            interval: 15s
-            retries: 10
+            interval: 30s
+            retries: 20
             start_period: 180s
             timeout: 60s
         volumes:
             - ../:/app
+
+    a11y-test:
+        image: mcr.microsoft.com/playwright:v1.42.1-jammy
+        depends_on:
+            dotcom:
+                condition: service_healthy
+        volumes:
+            - ../:/app
+        working_dir: /app
+        entrypoint: /bin/sh
+        command: -c "npx playwright test axe"
+        network_mode: host
+        environment:
+            - CI=true
+            - PLAYWRIGHT_HTML_OPEN=never
