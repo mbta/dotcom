@@ -6,12 +6,7 @@ RUN apt-get install -y nodejs
 
 WORKDIR /app
 
-COPY mix.exs .
-COPY mix.lock .
-COPY config .
-COPY package.json .
-COPY assets/package.json ./assets/package.json
-COPY assets/webpack.config* .
+COPY . .
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
