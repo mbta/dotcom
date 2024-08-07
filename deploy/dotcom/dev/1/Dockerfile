@@ -16,4 +16,5 @@ EXPOSE 4001
 CMD mix deps.get \
      && npm ci \
      && npm --prefix assets run webpack:build:react \
+     && mix phx.digest \
      && elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server
