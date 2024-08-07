@@ -14,5 +14,6 @@ RUN mix local.rebar --force
 EXPOSE 4001
 
 CMD mix deps.get \
-     && npm --prefix assets install --package-lock-only --ignore-scripts --no-save --audit false --fund false --loglevel verbose \
+     && npm ci \
+     && npm --prefix assets run webpack:build:react \
      && elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server
