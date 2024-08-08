@@ -47,10 +47,7 @@ const ScheduleModalContent = ({
   const { id: routeId } = route;
 
   const isBetaTestCandidate = (): boolean => {
-    const isIPhone = /iPhone/.test(navigator.userAgent);
-    const isRandom = Math.random() <= 0.3;
-
-    return isIPhone && isRandom;
+    return /iPhone/.test(navigator.userAgent);
   };
 
   const serviceToday = services.some(service =>
