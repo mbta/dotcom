@@ -115,8 +115,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_pubsub, "2.1.3"},
       {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.1"},
-      # latest version is 6.0.0; cannot upgrade because we use Poison.Parser.parse!
-      {:poison, "3.1.0"},
+      {:poison, "6.0.0"},
       {:polyline, "1.4.0"},
       {:poolboy, "1.5.2"},
       # Needed for rstar; workaround for mix local.hex bug
