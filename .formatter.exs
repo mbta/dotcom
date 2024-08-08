@@ -1,8 +1,8 @@
 [
+  import_deps: [:phoenix],
+  plugins: [Phoenix.LiveView.HTMLFormatter],
   inputs: [
-    "mix.exs",
-    "{config,lib,test}/**/*.{ex,exs}",
-    "lib/dotcom_web/**/*.{heex,.eex}",
-    "rel/**/*.{ex,exs}"
+    "{config,lib,rel,test}/**/*.{heex,ex,eex,exs}",
+    "*.{heex,ex,exs}"
   ]
 ]
