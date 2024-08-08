@@ -1,8 +1,8 @@
 [
+  import_deps: [:phoenix],
   inputs: [
-    "mix.exs",
-    "{config,lib,test}/**/*.{ex,exs}",
-    "lib/dotcom_web/**/*.{heex,.eex}",
+    "*.{heex,ex,exs}",
+    "{config,lib,test}/**/*.{heex,eex,ex,exs}",
     "rel/**/*.{ex,exs}"
   ]
 ]
