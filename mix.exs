@@ -105,13 +105,14 @@ defmodule DotCom.Mixfile do
       {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.3"]},
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
-      {:phoenix, "1.6.16"},
+      {:phoenix, "~> 1.7"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
       {:phoenix_live_view, "0.20.17"},
       {:phoenix_pubsub, "2.1.3"},
+      {:phoenix_view, "~> 2.0"},
       {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.1"},
       {:poison, "6.0.0"},

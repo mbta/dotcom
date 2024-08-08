@@ -3,7 +3,7 @@
   <div>
     <strong class="pe-8">
       Ride the <%= @branch_display %>
-    </strong> 
+    </strong>
     <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{@itinerary_row.duration} min)" %>
     <%= if @itinerary_row.trip do %>
       <div class="fs-14">
@@ -19,7 +19,7 @@
       Details
       <%= if Map.get(assigns, :alerts?, false) do %>
         <span class="itinerary-has-alerts-icon">
-          <%= fa "exclamation-triangle" %>
+          <%= fa("exclamation-triangle") %>
         </span>
       <% end %>
     </div>

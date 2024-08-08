@@ -2,17 +2,31 @@
 <header class="header--new">
   <div class="container new">
     <div class="header-navbar new">
-      <a class="font-body font-white m-menu__toggle u-bold hidden-js" data-nav="toggle-mobile-nav" href={static_page_path(@conn, :menu)}>Menu</a>
-      <button class="font-body m-menu__toggle u-bold hidden-no-js" data-nav="toggle-mobile-nav" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
+      <a
+        class="font-body font-white m-menu__toggle u-bold hidden-js"
+        data-nav="toggle-mobile-nav"
+        href={static_page_path(@conn, :menu)}
+      >
+        Menu
+      </a>
+      <button
+        class="font-body m-menu__toggle u-bold hidden-no-js"
+        data-nav="toggle-mobile-nav"
+        type="button"
+        aria-expanded="false"
+        aria-controls="navmenu"
+      >
+        Menu
+      </button>
       <a class="navbar-logo" href="/" data-nav="logo">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
-          <%= svg "mbta-logo.svg" %>
-          <%= svg "mbta-name-and-logo.svg" %>
+          <%= svg("mbta-logo.svg") %>
+          <%= svg("mbta-name-and-logo.svg") %>
         </div>
       </a>
 
-      <%= render "_new_nav_desktop.html", assigns %>
+      <%= render("_new_nav_desktop.html", assigns) %>
       <div class="search-wrapper">
         <div class="search">
           <.algolia_autocomplete
@@ -26,11 +40,18 @@
         </div>
       </div>
 
-      <button class="header-search__toggle" data-nav="toggle-nav-search" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">
+      <button
+        class="header-search__toggle"
+        data-nav="toggle-nav-search"
+        type="button"
+        aria-expanded="false"
+        aria-controls="search-header-mobile__container"
+        aria-label="Search MBTA.com"
+      >
         <i class="fa fa-fw fa-search" aria-hidden="true"></i>
         <i class="fa fa-fw fa-close" aria-hidden="true"></i>
       </button>
     </div>
   </div>
-  <%= render "_new_nav_mobile.html", assigns %>
+  <%= render("_new_nav_mobile.html", assigns) %>
 </header>
