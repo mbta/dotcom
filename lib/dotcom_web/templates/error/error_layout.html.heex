@@ -1,4 +1,3 @@
-
 <div class="container error-page">
   <div class="font-small error-pre-title">
     <%= @error_code <> " Error \u2022 " <> @error_type %>
@@ -7,7 +6,7 @@
   <div class="heading-1 error-title"><%= @error_title %></div>
   <div class="error-page-flex">
     <div class="error-svg-container">
-      <%= svg(@error_code <> ".svg")%>
+      <%= svg(@error_code <> ".svg") %>
     </div>
     <div class="error-details-container">
       <!-- This error title appears for MD-XL screens -->
@@ -24,7 +23,10 @@
         algolia_indexes={[:stops, :routes, :drupal]}
         placeholder="Search the MBTA"
       />
-      <div class="error-links font-body">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
+      <div class="error-links font-body">
+        Or, go to <a class="font-link" href="/">the MBTA's home page</a>
+        or <a class="font-link" href="/customer-support">report an issue</a>.
+      </div>
     </div>
   </div>
 </div>

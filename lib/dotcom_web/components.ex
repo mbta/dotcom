@@ -103,10 +103,7 @@ defmodule DotcomWeb.Components do
       )
 
     ~H"""
-    <div
-      phx-hook="AlgoliaAutocomplete"
-      id={@id}
-    >
+    <div phx-hook="AlgoliaAutocomplete" id={@id}>
       <div
         class="c-search-bar__autocomplete"
         data-geolocation={@geolocation}

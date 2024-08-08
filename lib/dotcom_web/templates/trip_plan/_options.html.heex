@@ -2,8 +2,9 @@
   <h2>When</h2>
   <%= render("_time_inputs.html", assigns) %>
   <h2>Modes</h2>
-  <%=
-    DotcomWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
+  <%= DotcomWeb.PartialView.render(
+    "_accordion_ui.html",
+    Map.merge(assigns, %{
       multiselectable: true,
       parent_view: DotcomWeb.TripPlanView,
       sections: [
@@ -14,7 +15,7 @@
           title: "All Modes"
         }
       ]
-    }))
-  %>
+    })
+  ) %>
   <%= render("_optimize_for.html", Map.merge(assigns, %{form: @parent_form})) %>
 </div>

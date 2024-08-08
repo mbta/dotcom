@@ -22,7 +22,6 @@ defmodule Dotcom.BodyTag do
   defp class_name(conn) do
     [
       javascript_class(),
-      error_class(conn),
       mticket_class(conn),
       preview_class(conn)
     ]
@@ -31,18 +30,6 @@ defmodule Dotcom.BodyTag do
   end
 
   defp javascript_class, do: "no-js"
-
-  defp error_class(%{private: %{phoenix_view: view_module}}) do
-    case view_module do
-      DotcomWeb.ErrorView -> "not-found"
-      Dotcom.CrashView -> "not-found"
-      _ -> ""
-    end
-  end
-
-  defp error_class(_conn) do
-    ""
-  end
 
   @spec mticket_class(Plug.Conn.t()) :: String.t()
   defp mticket_class(%{host: "mticket.mbtace.com"}), do: "mticket"

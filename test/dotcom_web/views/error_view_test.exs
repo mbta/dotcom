@@ -4,11 +4,6 @@ defmodule DotcomWeb.ErrorViewTest do
   import Phoenix.View, only: [render_to_string: 3]
   import Phoenix.Controller
 
-  test "adds 'not-found' to body class on 404 pages" do
-    conn = get(default_conn(), "/not-found")
-    assert html_response(conn, 404) =~ "not-found"
-  end
-
   test "renders 404.html", %{conn: conn} do
     assert render_to_string(DotcomWeb.ErrorView, "404.html", conn: conn) =~
              "Sorry! We missed your stop."
