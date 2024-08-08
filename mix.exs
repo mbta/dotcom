@@ -94,7 +94,7 @@ defmodule DotCom.Mixfile do
       {:hammer, "6.2.1"},
       {:html_sanitize_ex, "1.4.3"},
       # latest version 2.2.1; cannot upgrade because api has changed
-      {:httpoison, "1.8.2"},
+      {:httpoison, "2.2.1"},
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
