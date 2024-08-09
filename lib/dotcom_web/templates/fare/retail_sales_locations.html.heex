@@ -20,16 +20,25 @@
         />
       </p>
       <%= if Application.get_env(:dotcom, :dev_server?) do %>
-        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}></script>
+        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
+        </script>
       <% else %>
-        <script defer src={static_url(@conn, "/js/tnm.js")}></script>
+        <script defer src={static_url(@conn, "/js/tnm.js")}>
+        </script>
       <% end %>
     </div>
     <%= if !is_nil(@fare_sales_locations) do %>
       <%= if Enum.empty?(@fare_sales_locations) do %>
-        <p class="error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+        <p class="error-message">
+          Please enter an address that is within 100 miles of an MBTA service area.
+        </p>
       <% else %>
-        <%= render "_nearby_locations.html", conn: @conn, address: @address, locations: @fare_sales_locations, search_position: @search_position %>
+        <%= render("_nearby_locations.html",
+          conn: @conn,
+          address: @address,
+          locations: @fare_sales_locations,
+          search_position: @search_position
+        ) %>
       <% end %>
     <% end %>
   </div>
@@ -39,14 +48,22 @@
       <p>
         Learn more about fare prices, pass types, and how to pay your fare on the T.
       </p>
-      <%= link "Learn more about MBTA fares", to: cms_static_page_path(@conn, "/fares"), target: "_blank", class: "c-call-to-action" %>
+      <%= link("Learn more about MBTA fares",
+        to: cms_static_page_path(@conn, "/fares"),
+        target: "_blank",
+        class: "c-call-to-action"
+      ) %>
     </div>
     <div class="m-schedule-page__schedule-notes mt-2">
       <h3 class="mt-0">Suggest a Retailer</h3>
       <p>
         Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf.
       </p>
-      <%= link "Fill out the form", to: "https://form.asana.com/?k=WXmGhGmZFkehGfely4967Q&d=15492006741476", target: "_blank", class: "c-call-to-action" %>
+      <%= link("Fill out the form",
+        to: "https://form.asana.com/?k=WXmGhGmZFkehGfely4967Q&d=15492006741476",
+        target: "_blank",
+        class: "c-call-to-action"
+      ) %>
     </div>
   </div>
 </div>

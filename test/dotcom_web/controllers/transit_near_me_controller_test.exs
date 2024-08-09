@@ -93,7 +93,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.status == 200
       assert conn.assigns.location == :no_address
       assert conn.assigns.stops_json == %{stops: []}
-      assert get_flash(conn) == %{}
+      assert conn.assigns.flash == %{}
     end
   end
 
@@ -143,7 +143,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == stop.id))
       end
 
-      assert get_flash(conn) == %{}
+      assert conn.assigns.flash == %{}
     end
 
     test "flashes an error if location has no stops nearby", %{conn: conn} do
@@ -172,7 +172,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert {:ok, [%Address{}]} = conn.assigns.location
       assert conn.assigns.stops_json.stops == []
 
-      assert get_flash(conn) == %{
+      assert conn.assigns.flash == %{
                "info" => %DotcomWeb.PartialView.FullscreenError{
                  body:
                    "There doesn't seem to be any stations found near the given address. Please try a different address to continue.",
@@ -201,7 +201,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.location == location_error
       assert conn.assigns.stops_json.stops == []
 
-      assert get_flash(conn) == %{
+      assert conn.assigns.flash == %{
                "info" => %DotcomWeb.PartialView.FullscreenError{
                  body: "We are unable to locate that address.",
                  heading: "We’re sorry"
@@ -225,7 +225,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.location == {:error, :internal_error}
       assert conn.assigns.stops_json == %{stops: []}
 
-      assert get_flash(conn) == %{
+      assert conn.assigns.flash == %{
                "info" => %DotcomWeb.PartialView.FullscreenError{
                  body: "There was an error locating that address. Please try again.",
                  heading: "We’re sorry"
