@@ -163,14 +163,6 @@ if config_env() == :prod do
       protocol_options: [
         max_header_value_length: 16_384,
         max_request_line_length: 16_384
-      ],
-      # dispatch websockets but don't dispatch any other URLs, to avoid parsing invalid URLs
-      # see https://hexdocs.pm/phoenix/Phoenix.Endpoint.CowboyHandler.html
-      dispatch: [
-        {:_,
-         [
-           {:_, Phoenix.Endpoint.Cowboy2Handler, {DotcomWeb.Endpoint, []}}
-         ]}
       ]
     ],
     url: [host: host, scheme: "https", port: 443],
