@@ -213,3 +213,52 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
+
+# Extract the host fron the sentry dsn
+sentry_dsn_host =
+  case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
+    nil -> ""
+    [match | _] -> match
+  end
+
+# Set the content security policy
+case config_env() do
+  :prod ->
+    config :dotcom,
+           :content_security_policy_definition,
+           Enum.join(
+             [
+               "default-src 'none'",
+               "img-src 'self' cdn.mbta.com #{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")} px.ads.linkedin.com www.linkedin.com www.facebook.com *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
+               "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")} cdn.jsdelivr.net",
+               "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com",
+               "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
+               "connect-src 'self' wss://#{host} *.googleapis.com #{sentry_dsn_host || ""} www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net",
+               "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
+             ],
+             "; "
+           )
+
+  :dev ->
+    config :dotcom,
+           :content_security_policy_definition,
+           Enum.join(
+             [
+               "default-src 'none'",
+               "img-src 'self' cdn.mbta.com #{System.get_env("CMS_API_BASE_URL", "")} *.google.com *.googleapis.com *.gstatic.com mbta-map-tiles-dev.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com",
+               "style-src 'self' 'unsafe-inline' localhost:* www.gstatic.com",
+               "script-src 'self' 'unsafe-eval' 'unsafe-inline' localhost:* www.instagram.com *.google.com www.gstatic.com www.googletagmanager.com www.google-analytics.com *.googleapis.com data.mbta.com",
+               "font-src 'self' localhost:*",
+               "connect-src 'self' localhost:* ws://localhost:* *.googleapis.com",
+               "frame-src 'self' localhost:* data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
+             ],
+             "; "
+           )
+
+  :test ->
+    config :dotcom, :content_security_policy_definition, ""
+
+  # Unknown env, reject all
+  _ ->
+    config :dotcom, :content_security_policy_definition, "default-src 'none'"
+end
