@@ -106,7 +106,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                 },
                 "mode" => %{
                   "trip_id" => "60166270",
-                  "route_id" => "4",
+                  "route" => %{
+                    "id" => "4"
+                  },
                   "intermediate_stop_ids" => [
                     "233",
                     "234",
@@ -317,7 +319,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                 },
                 "mode" => %{
                   "trip_id" => "60564830",
-                  "route_id" => "Green-D",
+                  "route" => %{
+                    "id" => "Green-D"
+                  },
                   "intermediate_stop_ids" => [
                     "70204",
                     "70202"
@@ -376,7 +380,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                 },
                 "mode" => %{
                   "trip_id" => "60392520",
-                  "route_id" => "Red",
+                  "route" => %{
+                    "id" => "Red"
+                  },
                   "intermediate_stop_ids" => [
                     "70077"
                   ]
@@ -405,7 +411,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                 },
                 "mode" => %{
                   "trip_id" => "60455437",
-                  "route_id" => "Orange",
+                  "route" => %{
+                    "id" => "Orange"
+                  },
                   "intermediate_stop_ids" => [
                     "70024",
                     "70022"
@@ -470,7 +478,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                 },
                 "mode" => %{
                   "trip_id" => "60392519",
-                  "route_id" => "Red",
+                  "route" => %{
+                    "id" => "Red"
+                  },
                   "intermediate_stop_ids" => []
                 },
                 "from" => %{

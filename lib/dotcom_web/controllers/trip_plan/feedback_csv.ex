@@ -3,6 +3,8 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
   Handle formatting feedback into a spreadsheet-friendly format.
   """
 
+  require Logger
+
   alias TripPlan.PersonalDetail.Step
 
   @headers [
@@ -132,7 +134,7 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
     "#{place_description(from)} to #{place_description(to)} via #{mode_description(mode)}"
   end
 
-  defp mode_description(%{"route_id" => route_id, "trip_id" => trip_id}),
+  defp mode_description(%{"route" => %{"id" => route_id}, "trip_id" => trip_id}),
     do: route_id <> " route on trip " <> trip_id
 
   defp mode_description(%{"steps" => steps, "distance" => distance}) do
@@ -152,5 +154,14 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
       end)
 
     "walking #{distance} meters:\n\t#{step_description}"
+  end
+
+  defp mode_description(mode) do
+    trip_id = Map.get(mode, "trip_id")
+    type = Map.get(mode, "mode")
+
+    Logger.error("#{__MODULE__} error=unknown_mode trip_id=#{trip_id} type=#{type}")
+
+    "unknown"
   end
 end
