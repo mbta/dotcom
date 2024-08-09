@@ -238,6 +238,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     trip_stops =
       conn.assigns.route.id
       |> @route_patterns_repo.by_route_id(
+        date: conn.assigns.date,
         direction_id: conn.assigns.direction_id,
         canonical: Routes.Route.type_atom(conn.assigns.route) in [:commuter_rail, :subway]
       )
