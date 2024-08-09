@@ -156,11 +156,11 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
     "walking #{distance} meters:\n\t#{step_description}"
   end
 
-  defp mode_description(itinerary) do
-    mode = Map.get(itinerary, "mode")
-    trip_id = Map.get(itinerary, "trip_id")
+  defp mode_description(mode) do
+    trip_id = Map.get(mode, "trip_id")
+    type = Map.get(mode, "mode")
 
-    Logger.error("#{__MODULE__} error=unknown mode=#{mode} trip_id=#{trip_id}")
+    Logger.error("#{__MODULE__} error=unknown_mode trip_id=#{trip_id} type=#{type}")
 
     "unknown"
   end
