@@ -55,9 +55,13 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   def route_type(%__MODULE__{route: %Route{type: type}}), do: type
   def route_type(_row), do: nil
 
-  def route_name(%__MODULE__{route: %Route{external_agency_name: agency, long_name: name}})
-      when is_binary(agency) and is_binary(name),
-      do: name
+  def route_name(%__MODULE__{route: %Route{external_agency_name: agency, long_name: long_name}})
+      when is_binary(agency) and is_binary(long_name),
+      do: long_name
+
+  def route_name(%__MODULE__{route: %Route{long_name: long_name}})
+      when is_binary(long_name),
+      do: long_name
 
   def route_name(%__MODULE__{route: %Route{name: name}}), do: name
   def route_name(_row), do: nil

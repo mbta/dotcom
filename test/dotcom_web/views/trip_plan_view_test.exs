@@ -303,28 +303,31 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "bubble_params/1 for a transit row" do
-    @itinerary_row %ItineraryRow{
-      transit?: true,
-      stop: {"Park Street", "place-park"},
-      steps: ["Boylston", "Arlington", "Copley"],
-      route: %Routes.Route{id: "Green", name: "Green Line", type: 1}
-    }
-
     test "builds bubble_params for each step" do
-      params = bubble_params(@itinerary_row, nil)
+      id = Faker.Color.name()
+      long_name = "#{id} Line"
+
+      itinerary_row = %ItineraryRow{
+        transit?: true,
+        stop: {"Park Street", "place-park"},
+        steps: ["Boylston", "Arlington", "Copley"],
+        route: %Routes.Route{id: id, long_name: long_name, type: 1}
+      }
+
+      params = bubble_params(itinerary_row, nil)
 
       for {_step, param} <- params do
         assert [
                  %Dotcom.StopBubble.Params{
-                   route_id: "Green",
+                   route_id: ^id,
                    route_type: 1,
                    render_type: :stop,
-                   bubble_branch: "Green Line"
+                   bubble_branch: ^long_name
                  }
                ] = param
       end
 
-      assert Enum.map(params, &elem(&1, 0)) == [:transfer | @itinerary_row.steps]
+      assert Enum.map(params, &elem(&1, 0)) == [:transfer | itinerary_row.steps]
     end
   end
 
