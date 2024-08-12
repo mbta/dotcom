@@ -1,3 +1,4 @@
+<% label = Alerts.Alert.human_label(@alert) %>
 <% alert_icon_type = Alerts.Alert.icon(@alert) %>
 <li tabindex="0"
     class="c-alert-item c-alert-item--<%= @alert.priority %>
@@ -11,6 +12,9 @@
     <div class="c-alert-item__top-text-container">
       <div class="c-alert-item__effect">
         <%= "#{effect_name(@alert)} " %>
+        <%= unless label == "" do
+          content_tag(:span, [label], class: alert_label_class(@alert))
+        end %>
       </div>
       <div class="c-alert-item__content">
         <%= replace_urls_with_links(@alert.header) %>
