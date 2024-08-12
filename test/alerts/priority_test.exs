@@ -378,7 +378,7 @@ defmodule Alerts.PriorityTest do
   end
 
   describe "urgent_period?/2" do
-    test "returns false when given no information" do
+    test "returns true when given no information" do
       assert urgent_period?({nil, nil}, @now) == true
     end
 
