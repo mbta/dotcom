@@ -87,15 +87,8 @@ defmodule DotcomWeb.CMS.PageView do
   # Checks if any paragraphs have been assigned to the right rail.
   # If the paragraph is a ContentList.t(), ensure it has teasers.
   defp right_rail_check(paragraph) do
-    if Paragraph.right_rail?(paragraph) do
-      if Map.has_key?(paragraph, :teasers) do
-        if Enum.empty?(paragraph.teasers), do: false, else: true
-      else
-        true
-      end
-    else
-      false
-    end
+    Paragraph.right_rail?(paragraph) &&
+      Map.get(paragraph, :teasers, []) != []
   end
 
   @spec get_project_url_paths(String.t()) :: [String.t()]
