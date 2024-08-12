@@ -13,7 +13,6 @@ defmodule DotcomWeb.CMS.PageView do
 
   @doc "Universal wrapper for CMS page content"
   @spec render_page(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
-
   def render_page(%CMS.Page.Diversions{} = page, conn) do
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)
@@ -84,11 +83,20 @@ defmodule DotcomWeb.CMS.PageView do
     Enum.any?(paragraphs, &right_rail_check(&1))
   end
 
+  defp teasers?(%{teasers: teasers}) do
+    if Enum.empty?(teasers), do: false, else: true
+  end
+
+  defp teasers?(_), do: true
+
   # Checks if any paragraphs have been assigned to the right rail.
   # If the paragraph is a ContentList.t(), ensure it has teasers.
   defp right_rail_check(paragraph) do
-    Paragraph.right_rail?(paragraph) &&
-      Map.get(paragraph, :teasers, []) != []
+    if Paragraph.right_rail?(paragraph) do
+      teasers?(paragraph)
+    else
+      false
+    end
   end
 
   @spec get_project_url_paths(String.t()) :: [String.t()]
