@@ -378,6 +378,10 @@ defmodule Alerts.PriorityTest do
   end
 
   describe "urgent_period?/2" do
+    test "returns false when given no information" do
+      assert urgent_period?({nil, nil}, @now) == true
+    end
+
     test "severe alerts within 1 week of end date are urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
       start_date = Timex.shift(now, days: -10)

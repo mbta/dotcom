@@ -10,6 +10,7 @@ defmodule CMS.Page do
 
   alias CMS.Page.{
     Basic,
+    Diversions,
     Event,
     EventAgenda,
     Landing,
@@ -71,6 +72,10 @@ defmodule CMS.Page do
 
   defp parse(%{"type" => [%{"target_id" => "redirect"}]} = api_data, _preview_opts) do
     Redirect.from_api(api_data)
+  end
+
+  defp parse(%{"field_page_type" => [%{"name" => "Diversions"}]} = api_data, preview_opts) do
+    Diversions.from_api(api_data, preview_opts)
   end
 
   # For all other node/content types from the CMS, use a common struct/template

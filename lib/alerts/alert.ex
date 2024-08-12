@@ -40,27 +40,31 @@ defmodule Alerts.Alert do
   ]
 
   @diversion_effects [
+    :detour,
     :shuttle,
     :stop_closure,
     :station_closure,
-    :detour
+    :suspension
   ]
 
-  @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
+  @lifecycles [:new, :ongoing, :ongoing_upcoming, :unknown, :upcoming]
 
   defstruct id: "",
-            header: "",
-            informed_entity: %InformedEntitySet{},
             active_period: [],
-            effect: :unknown,
-            severity: 5,
-            lifecycle: :unknown,
+            banner: "",
             cause: "",
-            updated_at: Timex.now(),
+            created_at: nil,
             description: "",
+            effect: :unknown,
+            header: "",
+            image: nil,
+            image_alternative_text: nil,
+            informed_entity: %InformedEntitySet{},
+            lifecycle: :unknown,
             priority: :low,
-            url: "",
-            banner: ""
+            severity: 5,
+            updated_at: Timex.now(),
+            url: ""
 
   @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
 
@@ -102,18 +106,21 @@ defmodule Alerts.Alert do
   @type id_t :: String.t()
   @type t :: %Alerts.Alert{
           id: id_t(),
-          header: String.t(),
-          informed_entity: InformedEntitySet.t(),
           active_period: [period_pair],
+          banner: String.t() | nil,
           cause: String.t(),
-          effect: effect,
-          severity: severity,
-          lifecycle: lifecycle,
-          updated_at: DateTime.t(),
+          created_at: DateTime.t() | nil,
           description: String.t() | nil,
+          effect: effect,
+          header: String.t(),
+          image: String.t() | nil,
+          image_alternative_text: String.t() | nil,
+          informed_entity: InformedEntitySet.t(),
+          lifecycle: lifecycle,
           priority: Priority.priority_level(),
-          url: String.t() | nil,
-          banner: String.t() | nil
+          severity: severity,
+          updated_at: DateTime.t(),
+          url: String.t() | nil
         }
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow
@@ -285,8 +292,13 @@ defmodule Alerts.Alert do
   def high_severity_or_high_priority?(_), do: false
 
   @spec diversion?(t) :: boolean()
-  def diversion?(%{effect: effect}),
-    do: effect in @diversion_effects
+  def diversion?(alert) do
+    alert.effect in @diversion_effects &&
+      alert.active_period
+      |> List.first()
+      |> Kernel.elem(0)
+      |> Timex.after?(alert.created_at)
+  end
 
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do

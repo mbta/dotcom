@@ -1,13 +1,13 @@
 defmodule Alerts.InformedEntity do
-  @fields [:route, :route_type, :stop, :trip, :direction_id, :facility, :activities]
-  @empty_activities MapSet.new()
-  defstruct route: nil,
-            route_type: nil,
-            stop: nil,
-            trip: nil,
+  @moduledoc false
+
+  defstruct activities: MapSet.new(),
             direction_id: nil,
             facility: nil,
-            activities: @empty_activities
+            route: nil,
+            route_type: nil,
+            stop: nil,
+            trip: nil
 
   @type t :: %Alerts.InformedEntity{
           activities: MapSet.t(activity),
@@ -29,8 +29,6 @@ defmodule Alerts.InformedEntity do
           | :using_escalator
           | :using_wheelchair
 
-  alias __MODULE__, as: IE
-
   @activities [
     :board,
     :bringing_bike,
@@ -49,7 +47,7 @@ defmodule Alerts.InformedEntity do
   Given a keyword list (with keys matching our fields), returns a new
   InformedEntity.  Additional keys are ignored.
   """
-  @spec from_keywords(list) :: IE.t()
+  @spec from_keywords(list) :: Alerts.InformedEntity.t()
   def from_keywords(options) do
     options
     |> Enum.map(&ensure_value_type/1)
@@ -72,13 +70,14 @@ defmodule Alerts.InformedEntity do
   Otherwise the nil can match any value in the other InformedEntity.
 
   """
-  @spec match?(IE.t(), IE.t()) :: boolean
-  def match?(%IE{} = first, %IE{} = second) do
+  @spec match?(Alerts.InformedEntity.t(), Alerts.InformedEntity.t()) :: boolean
+  def match?(%__MODULE__{} = first, %__MODULE__{} = second) do
     share_a_key?(first, second) && do_match?(first, second)
   end
 
+  @spec mapsets_match?(MapSet.t(), MapSet.t()) :: boolean()
   def mapsets_match?(%MapSet{} = a, %MapSet{} = b)
-      when a == @empty_activities or b == @empty_activities,
+      when a == %MapSet{} or b == %MapSet{},
       do: true
 
   def mapsets_match?(%MapSet{} = a, %MapSet{} = b), do: has_intersect?(a, b)
@@ -86,7 +85,9 @@ defmodule Alerts.InformedEntity do
   defp has_intersect?(a, b), do: Enum.any?(a, &(&1 in b))
 
   defp do_match?(f, s) do
-    @fields
+    __MODULE__.__struct__()
+    |> Map.keys()
+    |> List.delete(:__struct__)
     |> Enum.all?(&key_match(Map.get(f, &1), Map.get(s, &1)))
   end
 
@@ -97,7 +98,9 @@ defmodule Alerts.InformedEntity do
   defp key_match(_, _), do: false
 
   defp share_a_key?(first, second) do
-    @fields
+    __MODULE__.__struct__()
+    |> Map.keys()
+    |> List.delete(:__struct__)
     |> Enum.any?(&shared_key(Map.get(first, &1), Map.get(second, &1)))
   end
 

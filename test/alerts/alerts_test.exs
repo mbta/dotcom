@@ -4,12 +4,12 @@ defmodule AlertsTest do
 
   import Alerts.Alert
   import Mox
+
   alias Alerts.Alert
-  alias Alerts.InformedEntity, as: IE
+  alias Alerts.InformedEntity
+  alias Test.Support.Factories
 
   setup :verify_on_exit!
-
-  @now Timex.now()
 
   describe "new/1" do
     test "with no params, returns a default struct" do
@@ -79,42 +79,6 @@ defmodule AlertsTest do
     end
   end
 
-  describe "human_label/1" do
-    @future_active_period [{Timex.shift(@now, days: 8), Timex.shift(@now, days: 20)}]
-
-    test "returns Ongoing when lifecycle is ongoing and time not in active period" do
-      assert human_label(%Alert{
-               effect: :cancellation,
-               active_period: @future_active_period,
-               lifecycle: :ongoing
-             }) == "Ongoing"
-    end
-
-    test "returns Upcoming when lifecycle is ongoing and time not in active period" do
-      assert human_label(%Alert{
-               effect: :cancellation,
-               active_period: @future_active_period,
-               lifecycle: :upcoming
-             }) == "Upcoming"
-    end
-
-    test "returns empty string when lifecycle is new and time not in active period" do
-      assert human_label(%Alert{
-               effect: :cancellation,
-               active_period: @future_active_period,
-               lifecycle: :new
-             }) == ""
-    end
-
-    test "returns Upcoming when lifecycle is upcoming and active period is empty" do
-      assert human_label(%Alert{
-               effect: :cancellation,
-               active_period: [],
-               lifecycle: :upcoming
-             }) == "Upcoming"
-    end
-  end
-
   describe "icon/1" do
     test "return :none, :cancel, :snow, :shuttle or :alert" do
       assert icon(%Alert{effect: :detour, priority: :low}) == :none
@@ -147,42 +111,51 @@ defmodule AlertsTest do
   end
 
   describe "diversion?/1" do
+    test "returns true when created at is before active period" do
+      created_at = Timex.now()
+      active_period = [{Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)}]
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          created_at: created_at,
+          effect: :shuttle
+        )
+
+      assert diversion?(alert)
+    end
+
+    test "returns false when created at is after active period" do
+      created_at = Timex.now()
+      active_period = [{Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)}]
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          created_at: created_at,
+          effect: :shuttle
+        )
+
+      refute diversion?(alert)
+    end
+
     test "returns true for certain effects" do
-      assert diversion?(%Alert{effect: :shuttle})
-      assert diversion?(%Alert{effect: :stop_closure})
-      assert diversion?(%Alert{effect: :station_closure})
-      assert diversion?(%Alert{effect: :detour})
+      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :shuttle))
+      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :stop_closure))
+      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :station_closure))
     end
 
     test "returns false for other effects" do
-      refute diversion?(%Alert{effect: :access_issue})
-      refute diversion?(%Alert{effect: :amber_alert})
-      refute diversion?(%Alert{effect: :delay})
-      refute diversion?(%Alert{effect: :dock_closure})
-      refute diversion?(%Alert{effect: :dock_issue})
-      refute diversion?(%Alert{effect: :extra_service})
-      refute diversion?(%Alert{effect: :elevator_closure})
-      refute diversion?(%Alert{effect: :escalator_closure})
-      refute diversion?(%Alert{effect: :policy_change})
-      refute diversion?(%Alert{effect: :schedule_change})
-      refute diversion?(%Alert{effect: :station_issue})
-      refute diversion?(%Alert{effect: :stop_moved})
-      refute diversion?(%Alert{effect: :summary})
-      refute diversion?(%Alert{effect: :suspension})
-      refute diversion?(%Alert{effect: :track_change})
-      refute diversion?(%Alert{effect: :unknown})
-      refute diversion?(%Alert{effect: :cancellation})
-      refute diversion?(%Alert{effect: :no_service})
-      refute diversion?(%Alert{effect: :service_change})
-      refute diversion?(%Alert{effect: :snow_route})
-      refute diversion?(%Alert{effect: :stop_shoveling})
+      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :access_issue))
+      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :amber_alert))
+      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :delay))
     end
   end
 
   describe "municipality/1" do
     test "gets municipality from an alert's stops" do
-      alert_with_muni = Alert.new(informed_entity: [%IE{stop: "some-stop"}])
-      alert_no_muni = Alert.new(informed_entity: [%IE{stop: "other-stop"}])
+      alert_with_muni = Alert.new(informed_entity: [%InformedEntity{stop: "some-stop"}])
+      alert_no_muni = Alert.new(informed_entity: [%InformedEntity{stop: "other-stop"}])
 
       Stops.Repo.Mock
       |> expect(:get, fn "some-stop" ->

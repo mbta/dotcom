@@ -3,7 +3,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
   import Dotcom.TripPlan.Query
   import Mox
-  import Test.Support.Factories.LocationService
+  import Test.Support.Factories.LocationService.LocationService
   alias Dotcom.TripPlan.Query
   alias TripPlan.NamedPosition
 

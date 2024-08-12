@@ -36,7 +36,8 @@ defmodule Alerts.ParserTest do
                  "updated_at" => "2016-06-20T16:09:29-04:00",
                  "description" => "Affected routes: 18",
                  "banner" => "Test banner copy",
-                 "url" => "www.mbta.com"
+                 "url" => "www.mbta.com",
+                 "image_alternative_text" => "Line map of the 18 route(s) closures"
                }
              }) ==
                %Alerts.Alert{
@@ -73,7 +74,8 @@ defmodule Alerts.ParserTest do
                    |> Timex.Timezone.convert("America/New_York"),
                  description: "Affected routes: 18",
                  priority: :low,
-                 url: "www.mbta.com"
+                 url: "www.mbta.com",
+                 image_alternative_text: "Line map of the 18 route(s) closures"
                }
     end
 

@@ -5,6 +5,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Dotcom.TripPlan.Query
   alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
+  import Test.Support.Factories.LocationService.LocationService
+
   doctest DotcomWeb.TripPlanController
 
   import Mox
@@ -79,7 +81,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end)
 
     stub(LocationService.Mock, :geocode, fn name ->
-      {:ok, Test.Support.Factories.LocationService.build_list(2, :address, %{formatted: name})}
+      {:ok, build_list(2, :address, %{formatted: name})}
     end)
 
     stub(Stops.Repo.Mock, :get_parent, fn _ ->

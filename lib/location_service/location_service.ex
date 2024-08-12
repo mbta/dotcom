@@ -8,14 +8,14 @@ defmodule LocationService do
   use Nebulex.Caching.Decorators
 
   alias AWSLocation.Request
-  alias LocationService.Result
+  alias LocationService.{Behaviour, Result}
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
 
   @filter ~r/,\s(MA|NH|RI),\s/
 
-  @behaviour LocationService.Behaviour
+  @behaviour Behaviour
 
   @bias_options %{
     BiasPosition: [-71.0660, 42.3548],
