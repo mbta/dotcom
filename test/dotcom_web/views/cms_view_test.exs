@@ -38,6 +38,7 @@ defmodule DotcomWeb.CMSViewTest do
 
     test "renders a page without a sidebar menu", %{basic_page: basic_page} do
       basic_page = %{basic_page | sidebar_menu: nil}
+
       fake_conn = %{
         assigns: %{},
         request_path: "/"
