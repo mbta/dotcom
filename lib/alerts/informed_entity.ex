@@ -1,15 +1,17 @@
 defmodule Alerts.InformedEntity do
   @moduledoc false
 
-  defstruct activities: MapSet.new(),
-            direction_id: nil,
-            facility: nil,
-            route: nil,
-            route_type: nil,
-            stop: nil,
-            trip: nil
+  @fields activities: MapSet.new(),
+          direction_id: nil,
+          facility: nil,
+          route: nil,
+          route_type: nil,
+          stop: nil,
+          trip: nil
 
-  @type t :: %Alerts.InformedEntity{
+  defstruct @fields
+
+  @type t :: %__MODULE__{
           activities: MapSet.t(activity),
           direction_id: 0 | 1 | nil,
           facility: String.t() | nil,
@@ -45,9 +47,9 @@ defmodule Alerts.InformedEntity do
 
   @doc """
   Given a keyword list (with keys matching our fields), returns a new
-  InformedEntity.  Additional keys are ignored.
+  InformedEntity. Additional keys are ignored.
   """
-  @spec from_keywords(list) :: Alerts.InformedEntity.t()
+  @spec from_keywords(list) :: __MODULE__.t()
   def from_keywords(options) do
     options
     |> Enum.map(&ensure_value_type/1)
@@ -70,7 +72,7 @@ defmodule Alerts.InformedEntity do
   Otherwise the nil can match any value in the other InformedEntity.
 
   """
-  @spec match?(Alerts.InformedEntity.t(), Alerts.InformedEntity.t()) :: boolean
+  @spec match?(__MODULE__.t(), __MODULE__.t()) :: boolean
   def match?(%__MODULE__{} = first, %__MODULE__{} = second) do
     share_a_key?(first, second) && do_match?(first, second)
   end
@@ -85,9 +87,8 @@ defmodule Alerts.InformedEntity do
   defp has_intersect?(a, b), do: Enum.any?(a, &(&1 in b))
 
   defp do_match?(f, s) do
-    __MODULE__.__struct__()
-    |> Map.keys()
-    |> List.delete(:__struct__)
+    @fields
+    |> Keyword.keys()
     |> Enum.all?(&key_match(Map.get(f, &1), Map.get(s, &1)))
   end
 
@@ -98,9 +99,8 @@ defmodule Alerts.InformedEntity do
   defp key_match(_, _), do: false
 
   defp share_a_key?(first, second) do
-    __MODULE__.__struct__()
-    |> Map.keys()
-    |> List.delete(:__struct__)
+    @fields
+    |> Keyword.keys()
     |> Enum.any?(&shared_key(Map.get(first, &1), Map.get(second, &1)))
   end
 

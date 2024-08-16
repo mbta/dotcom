@@ -72,7 +72,9 @@ defmodule AlertsTest do
   end
 
   describe "human_label/1" do
-    @future_active_period [{Timex.shift(@now, days: 8), Timex.shift(@now, days: 20)}]
+    @future_active_period [
+      {Timex.shift(Timex.now(), days: 8), Timex.shift(Timex.now(), days: 20)}
+    ]
 
     test "returns Ongoing when lifecycle is ongoing and time not in active period" do
       assert human_label(%Alert{
