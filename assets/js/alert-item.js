@@ -10,6 +10,10 @@ export const addAlertItemEventHandlers = () => {
     [...document.querySelectorAll(`.${ITEM_SELECTOR}`)].forEach(alertItem => {
       alertItem.addEventListener("click", handleAlertItemClick);
       alertItem.addEventListener("keydown", handleAlertItemKeyPress);
+
+      if (document.querySelector(".diversions-template") && alertItem.querySelector("img")) {
+        alertItem.click();
+      }
     });
   }
 };

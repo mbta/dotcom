@@ -18,6 +18,7 @@ defmodule DotcomWeb.CMSViewTest do
 
     test "renders a sidebar menu", %{basic_page: basic_page} do
       fake_conn = %{
+        assigns: %{},
         query_params: %{},
         request_path: basic_page.sidebar_menu.links |> List.first() |> Map.get(:url)
       }
@@ -37,7 +38,11 @@ defmodule DotcomWeb.CMSViewTest do
 
     test "renders a page without a sidebar menu", %{basic_page: basic_page} do
       basic_page = %{basic_page | sidebar_menu: nil}
-      fake_conn = %{request_path: "/"}
+
+      fake_conn = %{
+        assigns: %{},
+        request_path: "/"
+      }
 
       rendered =
         "page.html"
@@ -58,7 +63,10 @@ defmodule DotcomWeb.CMSViewTest do
         ]
       }
 
-      fake_conn = %{request_path: "/"}
+      fake_conn = %{
+        assigns: %{},
+        request_path: "/"
+      }
 
       rendered =
         "page.html"
@@ -79,7 +87,11 @@ defmodule DotcomWeb.CMSViewTest do
     end
 
     test "renders a diversion as a generic page", %{diversion: diversion} do
-      fake_conn = %{request_path: "/", path_info: ["diversions", "diversion-2"]}
+      fake_conn = %{
+        assigns: %{},
+        path_info: ["diversions", "diversion-2"],
+        request_path: "/"
+      }
 
       rendered =
         "page.html"

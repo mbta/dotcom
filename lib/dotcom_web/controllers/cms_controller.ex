@@ -19,6 +19,7 @@ defmodule DotcomWeb.CMSController do
 
   @generic [
     Page.Basic,
+    Page.Diversions,
     Page.Person,
     Page.Landing,
     Page.Project,
@@ -135,6 +136,17 @@ defmodule DotcomWeb.CMSController do
       _ ->
         render_404(conn)
     end
+  end
+
+  defp render_page(conn, %Page.Diversions{} = page) do
+    conn
+    |> assign(
+      :alerts,
+      Alerts.Repo.diversions_by_route_ids(page.related_transit, conn.assigns.date_time)
+    )
+    |> assign(:breadcrumbs, page.breadcrumbs)
+    |> assign(:page, page)
+    |> render("diversions.html", conn: conn)
   end
 
   defp render_page(conn, %Page.Basic{} = page) do

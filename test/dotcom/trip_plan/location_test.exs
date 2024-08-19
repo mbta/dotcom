@@ -4,7 +4,7 @@ defmodule Dotcom.TripPlan.LocationTest do
   alias TripPlan.NamedPosition
 
   import Mox
-  import Test.Support.Factories.LocationService
+  import Test.Support.Factories.LocationService.LocationService
 
   setup :verify_on_exit!
 
