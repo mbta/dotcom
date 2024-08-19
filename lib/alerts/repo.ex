@@ -39,7 +39,10 @@ defmodule Alerts.Repo do
     |> by_route_ids(now)
     |> Enum.filter(&Alert.diversion?/1)
     |> Enum.sort(fn a, b ->
-      a.active_period |> List.first() |> elem(0) < b.active_period |> List.first() |> elem(0)
+      first = a.active_period |> List.first() |> elem(0)
+      second = b.active_period |> List.first() |> elem(0)
+
+      Timex.before?(first, second)
     end)
   end
 
