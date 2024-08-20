@@ -120,12 +120,12 @@ export interface SimpleStopMap {
 }
 
 export interface ScheduleNote {
-  peak_service: string;
+  alternate_text: string | null;
+  exceptions: ServiceException[];
   offpeak_service: string | null;
+  peak_service: string;
   saturday_service: string;
   sunday_service: string;
-  exceptions: ServiceException[];
-  alternate_text: string | null;
 }
 
 export interface ServiceException {
