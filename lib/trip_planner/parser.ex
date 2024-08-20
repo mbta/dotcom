@@ -160,7 +160,7 @@ defmodule Dotcom.TripPlanner.Parser do
 
   defp route_color("Logan Express", "WO", _), do: "00954c"
   defp route_color("Logan Express", "BB", _), do: "f16823"
-  defp route_color("Logan Express", "PB", _), do: "704c9f"
+  defp route_color("Logan Express", "DV", _), do: "704c9f"
   defp route_color(_, _, color), do: color
 
   #  only create a %Stop{} if the GTFS ID is from MBTA
