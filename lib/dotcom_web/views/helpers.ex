@@ -53,7 +53,7 @@ defmodule DotcomWeb.ViewHelpers do
   def subway_lines, do: @subway_lines
 
   def svg(unknown) do
-    {:error, {:unknown_svg, unknown}}
+    raise ArgumentError, message: "unknown SVG #{unknown}"
   end
 
   def redirect_path(conn, path) do
@@ -115,26 +115,13 @@ defmodule DotcomWeb.ViewHelpers do
   def line_icon(%Route{external_agency_name: "Massport", name: name}, _)
       when is_binary(name) do
     route_number = String.slice(name, 0..1)
-
-    case svg("icon-massport-#{route_number}.svg") do
-      {:error, {:unknown_svg, _}} ->
-        svg("icon-mode-bus-default.svg")
-
-      icon ->
-        icon
-    end
+    svg("icon-massport-#{route_number}.svg")
   end
 
   # Logan Express shuttle routes
   def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
       when is_binary(name) do
-    case svg("icon-logan-express-#{name}.svg") do
-      {:error, {:unknown_svg, _}} ->
-        svg("icon-mode-bus-default.svg")
-
-      icon ->
-        icon
-    end
+    svg("icon-logan-express-#{name}.svg")
   end
 
   def line_icon(%Route{} = route, size) do
