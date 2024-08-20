@@ -55,9 +55,19 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   def route_type(%__MODULE__{route: %Route{type: type}}), do: type
   def route_type(_row), do: nil
 
+  @doc """
+  Returns the name of the route for the given row.
+  If there is an external agency name, we use the long name.
+  If it is a bus, we use the short name.
+  For all others, we use the long name.
+  """
   def route_name(%__MODULE__{route: %Route{external_agency_name: agency, long_name: long_name}})
       when is_binary(agency) and is_binary(long_name),
       do: long_name
+
+  def route_name(%__MODULE__{route: %Route{name: name, type: 3}})
+      when is_binary(name),
+      do: "#{name} bus"
 
   def route_name(%__MODULE__{route: %Route{long_name: long_name}})
       when is_binary(long_name),
