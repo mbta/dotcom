@@ -362,11 +362,6 @@ defmodule DotcomWeb.ViewHelpersTest do
       assert [{"span", _, _}] = Floki.find(rendered, ".c-svg__#{Path.rootname(svg_name)}")
     end
 
-    test "provides fallback for unknown SVG" do
-      rendered = svg("icon-massport-fake") |> safe_to_string()
-      assert rendered =~ "icon-mode-bus-default"
-    end
-
     test "throw exception for unknown SVG" do
       assert_raise ArgumentError, fn ->
         svg("???")
