@@ -52,8 +52,8 @@ defmodule DotcomWeb.ViewHelpers do
 
   def subway_lines, do: @subway_lines
 
-  def svg(unknown) do
-    raise ArgumentError, message: "unknown SVG #{unknown}"
+  def svg(_) do
+    svg("icon-mode-bus-default.svg")
   end
 
   def redirect_path(conn, path) do
