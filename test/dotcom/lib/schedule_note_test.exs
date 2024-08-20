@@ -37,24 +37,6 @@ defmodule Dotcom.ScheduleNoteTest do
       )
     end
 
-    test "handles lines with exceptions to offpeak service" do
-      note_for_mattapan = ScheduleNote.new(@mattapan)
-
-      assert(
-        note_for_mattapan.peak_service && note_for_mattapan.saturday_service &&
-          note_for_mattapan.sunday_service
-      )
-
-      assert %{
-               exceptions: [
-                 %{
-                   type: "weekend mornings and late night",
-                   service: "26 minutes"
-                 }
-               ]
-             } = note_for_mattapan
-    end
-
     test "returns alternate HTML text for special cases" do
       note_for_cr_foxboro = ScheduleNote.new(@foxboro)
       assert(note_for_cr_foxboro.alternate_text)
