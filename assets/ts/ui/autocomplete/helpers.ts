@@ -1,7 +1,9 @@
 import { omit } from "lodash";
-import { OnActiveParams, OnSubmitParams } from "@algolia/autocomplete-core";
-import { OnStateChangeProps } from "@algolia/autocomplete-js";
+import { createElement, Fragment } from "react";
+import { render } from "react-dom";
+import { AutocompleteRenderer } from "@algolia/autocomplete-js";
 import {
+  AutocompleteItem,
   ContentItem,
   Item,
   LocationItem,
@@ -10,7 +12,11 @@ import {
   SearchResultItem,
   StopItem
 } from "./__autocomplete";
-import { isLGDown } from "../../helpers/media-breakpoints";
+import { parseQuery } from "../../helpers/query";
+
+export function isAlgoliaItem(x: Item): x is AutocompleteItem {
+  return Object.keys(x).includes("objectID");
+}
 
 export function isStopItem(x: Item): x is StopItem {
   return Object.keys(x).includes("stop");
@@ -42,43 +48,38 @@ export const getTitleAttribute = (item: Item): string[] => {
   return Object.keys(item._highlightResult);
 };
 
-const navStateChange: (
-  props: OnStateChangeProps<Item> | OnActiveParams<Item>
-) => void = ({ state }) => {
-  // grey out the page and disable scrolling when search is open
-  if (isLGDown()) {
-    if (state.isOpen) {
-      document.documentElement.dataset.navOpen = "true";
-    } else {
-      delete document.documentElement.dataset.navOpen;
-    }
-  }
-};
+export type UrlType =
+  | "transit-near-me"
+  | "retail-sales-locations"
+  | "proposed-sales-locations";
 
-export const STATE_CHANGE_HANDLERS: Record<
-  string,
-  (props: OnStateChangeProps<Item> | OnActiveParams<Item>) => void
-> = {
-  nav: navStateChange
-};
-
-export const SUBMIT_HANDLERS: Record<
-  string,
-  (props: OnSubmitParams<Item>) => void
-> = {
-  to_search_page({ state }) {
-    window.location.assign(`/search?query=${state.query}`);
-  }
-};
-
-export type WithUrls<T> = T & { urls: Record<string, string> };
+export type WithUrls<T> = T & { urls: Record<UrlType, string> };
 
 // The backend returns all possible URLs, use urlType to get the desired one
 export const itemWithUrl = (
   initialItem: WithUrls<LocationItem | PopularItem>,
-  urlType: string
+  urlType?: UrlType
 ): Omit<typeof initialItem, "urls"> => {
   const item = omit(initialItem, "urls");
-  item.url = initialItem.urls[urlType];
+  if (urlType) {
+    item.url = initialItem.urls[urlType];
+  }
   return item;
 };
+
+export function getLikelyQueryParams(): string | undefined {
+  const searchParams = parseQuery(
+    window.location.search,
+    window.decodeURIComponent
+  );
+  const { query, name, address, latitude, longitude } = searchParams;
+  const latlon =
+    latitude && longitude ? `${latitude}, ${longitude}` : undefined;
+  return query || name || address || latlon;
+}
+
+export const customRenderer = {
+  createElement,
+  Fragment,
+  render
+} as AutocompleteRenderer;

@@ -5,12 +5,10 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
   id="test-autocomplete"
 >
   
-   
+    
   <div
     class="c-search-bar__autocomplete"
-    data-algolia="routes,stops,drupal"
-    data-geolocation=""
-    data-locations=""
+    data-config="basic-config"
     data-placeholder="Search for routes, info, and more"
   >
     <div
@@ -96,7 +94,7 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="aa-Input c-form__input-container"
+            class="aa-Input"
             enterkeyhint="search"
             id="search-input"
             maxlength="512"

@@ -15,7 +15,6 @@ module.exports = {
     "!./sentry.ts",
     "!**/*.d.ts",
     "!./ie-warning/**",
-    "!./ui/autocomplete/templates/**",
     "!./phoenix-hooks/**"
   ],
   coverageReporters: ["html"],
