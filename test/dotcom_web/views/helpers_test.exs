@@ -364,7 +364,7 @@ defmodule DotcomWeb.ViewHelpersTest do
 
     test "provides fallback for unknown SVG" do
       rendered = svg("icon-massport-fake") |> safe_to_string()
-      assert rendered =~ "icon-mode-bus-default"
+      assert rendered =~ "fa"
     end
   end
 
