@@ -21,28 +21,10 @@ defmodule DotcomWeb.Live.TripPlanner do
     <div style="display: grid; grid-template-columns: 1fr 3fr; gap: .5rem;">
       <section>
         <label>
-          From
-          <.algolia_autocomplete
-            id="trip-from"
-            algolia_indexes={[:stops]}
-            geolocation={true}
-            locations_count={5}
-            placeholder="Enter a location"
-            popular_locations={true}
-            initial_state={true}
-          />
+          From <.algolia_autocomplete id="trip-from" placeholder="Enter a location" />
         </label>
         <label>
-          To
-          <.algolia_autocomplete
-            id="trip-to"
-            algolia_indexes={[:stops]}
-            geolocation={true}
-            locations_count={5}
-            placeholder="Enter a location"
-            popular_locations={true}
-            initial_state={true}
-          />
+          To <.algolia_autocomplete id="trip-to" placeholder="Enter a location" />
         </label>
       </section>
       <div id="trip-planner-map-wrapper" phx-update="ignore">

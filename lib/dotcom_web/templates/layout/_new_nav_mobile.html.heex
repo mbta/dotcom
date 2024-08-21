@@ -36,12 +36,6 @@
     <div class="m-menu__language m-menu__section"></div>
   </div>
   <div class="m-menu__search" data-nav="search">
-    <.algolia_autocomplete
-      id="header-mobile"
-      geolocation={true}
-      locations_count={2}
-      locations_url_type="transit-near-me"
-      algolia_indexes={[:stops, :routes, :drupal]}
-    />
+    <.algolia_autocomplete id="header-mobile" config_type="basic-config" />
   </div>
 </nav>
