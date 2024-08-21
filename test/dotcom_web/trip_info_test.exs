@@ -64,7 +64,7 @@ defmodule TripInfoTest do
       additional_valid_modes: [],
       cents: 170,
       duration: :single_trip,
-      media: [:charlie_card, :charlie_ticket, :cash],
+      media: [:charlie_card, :charlie_ticket, :contactless_payment, :cash],
       mode: :bus,
       name: :local_bus,
       reduced: nil
