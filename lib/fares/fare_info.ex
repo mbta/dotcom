@@ -390,7 +390,7 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:charlie_card, :charlie_ticket, :cash],
+          media: [:charlie_card, :charlie_ticket, :contactless_payment, :cash],
           reduced: nil,
           cents: dollars_to_cents(charlie_card_price),
           additional_valid_modes: [:bus]
@@ -439,7 +439,7 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:charlie_card, :charlie_ticket, :cash],
+          media: [:charlie_card, :charlie_ticket, :contactless_payment, :cash],
           reduced: nil,
           cents: dollars_to_cents(charlie_card_price)
       },
