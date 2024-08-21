@@ -32,7 +32,7 @@
   </div>
   <%= if @alert.description do %>
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
-      <%= if @alert.image do %>
+      <%= if Map.get(@alert, :image) do %>
         <a href="<%= @alert.image %>" target="_blank">
           <img src="<%= @alert.image %>" alt="<%= @alert.image_alternative_text %>" class="w-100" />
         </a>
