@@ -19,7 +19,6 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const options: AutocompleteOptions<any> = {
     ...config,
-    id: container.id || "search",
     container,
     panelContainer,
     placeholder: container.dataset.placeholder
