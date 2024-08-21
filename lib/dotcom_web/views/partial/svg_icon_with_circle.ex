@@ -1,6 +1,6 @@
 defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   alias Dotcom.Components.Icons.SvgIcon
-  alias DotcomWeb.ViewHelpers, as: Helpers
+  alias DotcomWeb.ViewHelpers
   alias Phoenix.HTML.Tag
   alias Routes.Route
 
@@ -19,7 +19,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   @spec svg_icon_with_circle(t()) :: Phoenix.HTML.Safe.t()
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
-    |> Helpers.line_icon(args.size)
+    |> ViewHelpers.line_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
 
@@ -49,12 +49,12 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   def svg_icon_with_circle(%__MODULE__{icon: mode} = args)
       when mode in [:subway, :bus, :logan_express, :massport_shuttle, :commuter_rail, :ferry] do
     mode
-    |> Helpers.mode_icon(args.size)
+    |> ViewHelpers.mode_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
 
   def svg_icon_with_circle(%__MODULE__{icon: :parking_lot} = args) do
-    Helpers.fa("square-parking")
+    ViewHelpers.fa("square-parking")
     |> do_svg_icon_with_circle(args)
   end
 
@@ -75,7 +75,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
              :service_none
            ] do
     "icon-#{icon_name(icon)}-#{size}.svg"
-    |> Helpers.svg()
+    |> ViewHelpers.svg()
     |> do_svg_icon_with_circle(args)
   end
 

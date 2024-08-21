@@ -9,12 +9,17 @@ defmodule DotcomWeb.ViewHelpers do
   import DotcomWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Link, only: [link: 2]
-  import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
+  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3, tag: 2]
   import Plug.Conn
 
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
+
+  # Icons we know we have SVGs for, modify if new icons are added/removed
+  # These names are equivalent to the route names from the Massport GTFS
+  @massport_icon_names ["11", "22", "33", "44", "55", "66", "77", "88", "99"]
+  @logan_express_icon_names ["BB", "BT", "DV", "FH", "WO"]
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -52,8 +57,11 @@ defmodule DotcomWeb.ViewHelpers do
 
   def subway_lines, do: @subway_lines
 
-  def svg(unknown) do
-    raise ArgumentError, message: "unknown SVG #{unknown}"
+  def svg(unknown_name) do
+    report_missing_icon(unknown_name)
+
+    # An alternate fallback icon
+    content_tag(:span, fa("circle-dot", font_family: "fa-regular"))
   end
 
   def redirect_path(conn, path) do
@@ -115,19 +123,34 @@ defmodule DotcomWeb.ViewHelpers do
   def line_icon(%Route{external_agency_name: "Massport", name: name}, _)
       when is_binary(name) do
     route_number = String.slice(name, 0..1)
-    svg("icon-massport-#{route_number}.svg")
+
+    if route_number in @massport_icon_names do
+      svg("icon-massport-#{route_number}.svg")
+    else
+      report_missing_icon("route Massport #{route_number}")
+      svg("icon-mode-bus-default.svg")
+    end
   end
 
   # Logan Express shuttle routes
   def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
       when is_binary(name) do
-    svg("icon-logan-express-#{name}.svg")
+    if name in @logan_express_icon_names do
+      svg("icon-logan-express-#{name}.svg")
+    else
+      report_missing_icon("route Logan Express #{name}")
+      svg("icon-mode-bus-default.svg")
+    end
   end
 
   def line_icon(%Route{} = route, size) do
     route
     |> Route.icon_atom()
     |> mode_icon(size)
+  end
+
+  defp report_missing_icon(message) do
+    Sentry.capture_message("Missing icon #{message}")
   end
 
   def bus_icon_pill(route) do

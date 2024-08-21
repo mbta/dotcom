@@ -234,8 +234,8 @@ defmodule Fares.FareInfo do
     %{mode: :massport_shuttle, name: "Massport-FH", single_trip: "9.00"},
     # Logan Express Braintree
     %{mode: :massport_shuttle, name: "Massport-BT", single_trip: "9.00"},
-    # Logan Express Peabody
-    %{mode: :massport_shuttle, name: "Massport-PB", single_trip: "9.00"},
+    # Logan Express Danvers
+    %{mode: :massport_shuttle, name: "Massport-DV", single_trip: "9.00"},
     # Logan Express Woburn
     %{mode: :massport_shuttle, name: "Massport-WO", single_trip: "9.00"}
   ]
