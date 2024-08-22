@@ -39,6 +39,8 @@ ADD ./assets /root/assets
 
 WORKDIR /root/assets
 RUN npm ci --ignore-scripts
+# required so that Tailwind styles used in Elixir templates are built
+COPY ./lib/dotcom_web/ /root/lib/dotcom_web
 # Compile JS/CSS, copy images and fonts to priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create react_renderer/dist/app.js

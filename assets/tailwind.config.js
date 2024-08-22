@@ -6,6 +6,10 @@ const fs = require("fs")
 const path = require("path")
 
 module.exports = {
+    prefix: "tw-",
+    corePlugins: {
+        preflight: false
+    },
     content: [
         "./js/**/*.js",
         "./ts/**/*.ts",
@@ -72,5 +76,5 @@ module.exports = {
                 }
             }, { values })
         })
-    ],  
+    ],
 }

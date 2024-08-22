@@ -49,14 +49,14 @@ defmodule DotcomWeb.SearchView do
     ]
   end
 
-  @spec icon(Result.result()) :: Phoenix.HTML.safe() | String.t()
-  defp icon(%Event{}), do: fa("calendar")
-  defp icon(%NewsEntry{}), do: fa("newspaper-o")
-  defp icon(%Person{}), do: fa("user")
-  defp icon(%LandingPage{}), do: fa("file-o")
-  defp icon(%Page{}), do: fa("file-o")
-  defp icon(%Link{}), do: fa("file-o")
-  defp icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
+  @spec search_icon(Result.result()) :: Phoenix.HTML.safe() | String.t()
+  defp search_icon(%Event{}), do: fa("calendar")
+  defp search_icon(%NewsEntry{}), do: fa("newspaper-o")
+  defp search_icon(%Person{}), do: fa("user")
+  defp search_icon(%LandingPage{}), do: fa("file-o")
+  defp search_icon(%Page{}), do: fa("file-o")
+  defp search_icon(%Link{}), do: fa("file-o")
+  defp search_icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
   @spec fragment(Result.result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
   defp fragment(%NewsEntry{highlights: higlights}, conn), do: highlights(higlights, conn)
