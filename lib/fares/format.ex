@@ -24,15 +24,16 @@ defmodule Fares.Format do
     |> Util.AndOr.join(:or)
   end
 
+  def media(:cash), do: "cash"
   def media(:charlie_card), do: "CharlieCard"
   def media(:charlie_ticket), do: "CharlieTicket"
   def media(:commuter_ticket), do: "CharlieTicket"
+  def media(:contactless_payment), do: "contactless payment"
   def media(:mticket), do: "mTicket App"
-  def media(:cash), do: "cash"
-  def media(:senior_card), do: "Senior CharlieCard or TAP ID"
-  def media(:student_card), do: "Student CharlieCard"
   def media(:paper_ferry), do: "paper ferry ticket"
+  def media(:senior_card), do: "Senior CharlieCard or TAP ID"
   def media(:special_event), do: "Special Event Ticket"
+  def media(:student_card), do: "Student CharlieCard"
 
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t() | Summary.t()) :: String.t()
