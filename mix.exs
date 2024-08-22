@@ -119,7 +119,8 @@ defmodule DotCom.Mixfile do
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
-      {:phoenix_live_view, "0.20.17"},
+      # currently release candidate, but used in Phoenix 1.7 generator: https://github.com/phoenix-diff/phoenix-diff/blob/f320791d24bc3248fbdde557978235829313aa06/priv/data/sample-app/1.7.14/default/mix.exs#L42
+      {:phoenix_live_view, "~> 1.0.0-rc.6", override: true},
       {:phoenix_pubsub, "2.1.3"},
       {:phoenix_view, "~> 2.0"},
       {:plug, "1.16.1"},
