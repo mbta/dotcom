@@ -125,6 +125,7 @@ module.exports = {
             options: {
               postcssOptions: {
                 plugins: [
+                  "tailwindcss",
                   postcssPresetEnv({
                     autoprefixer: { grid: true },
                     enableClientSidePolyfills: true
