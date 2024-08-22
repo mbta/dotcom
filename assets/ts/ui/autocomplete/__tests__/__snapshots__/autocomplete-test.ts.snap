@@ -5,18 +5,16 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
   id="test-autocomplete"
 >
   
-   
+    
   <div
     class="c-search-bar__autocomplete"
-    data-algolia="routes,stops,drupal"
-    data-geolocation=""
-    data-locations=""
+    data-config="basic-config"
     data-placeholder="Search for routes, info, and more"
   >
     <div
       aria-expanded="false"
       aria-haspopup="listbox"
-      aria-labelledby="search-label"
+      aria-labelledby="autocomplete-1-label"
       class="aa-Autocomplete"
       role="combobox"
     >
@@ -31,8 +29,8 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
         >
           <label
             class="aa-Label"
-            for="search-input"
-            id="search-label"
+            for="autocomplete-1-input"
+            id="autocomplete-1-label"
           >
             <button
               class="aa-SubmitButton"
@@ -92,13 +90,13 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
         >
           <input
             aria-autocomplete="both"
-            aria-labelledby="search-label"
+            aria-labelledby="autocomplete-1-label"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="aa-Input c-form__input-container"
+            class="aa-Input"
             enterkeyhint="search"
-            id="search-input"
+            id="autocomplete-1-input"
             maxlength="512"
             placeholder="Search for routes, info, and more"
             spellcheck="false"

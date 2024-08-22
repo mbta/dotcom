@@ -10,27 +10,25 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
   const iconHtml = getPopularIcon(item.icon);
   const featureIcons = getFeatureIcons(item, "popular");
   return (
-    <a href={item.url} className="aa-ItemLink">
-      <div className="aa-ItemContent">
+    <div className="aa-ItemContent">
+      <span
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: iconHtml
+        }}
+      />
+      {featureIcons.map((feature: string) => (
         <span
+          key={uniqueId()}
+          className="c-search-result__feature-icons"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: iconHtml
-          }}
+          dangerouslySetInnerHTML={{ __html: feature }}
         />
-        {featureIcons.map((feature: string) => (
-          <span
-            key={uniqueId()}
-            className="c-search-result__feature-icons"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: feature }}
-          />
-        ))}
-        <span className="aa-ItemContentBody">
-          <span className="aa-ItemContentTitle notranslate">{item.name}</span>
-        </span>
-      </div>
-    </a>
+      ))}
+      <span className="aa-ItemContentBody">
+        <span className="aa-ItemContentTitle notranslate">{item.name}</span>
+      </span>
+    </div>
   );
 };
 

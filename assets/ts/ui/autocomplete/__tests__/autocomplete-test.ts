@@ -1,19 +1,23 @@
-import setupAlgoliaAutocomplete from "../autocomplete/index";
+import setupAlgoliaAutocomplete from "./../index";
 import { within } from "@testing-library/dom";
 
 const body = `
-  <div
-    id="test-autocomplete"
-  >
-   <div class="c-search-bar__autocomplete"
-      data-geolocation
-      data-locations
-      data-algolia="routes,stops,drupal"
-      data-placeholder="Search for routes, info, and more"
-    ></div>
+  <div id="test-autocomplete">
+    <div class="c-search-bar__autocomplete" data-config="basic-config" data-placeholder="Search for routes, info, and more"></div>
     <div class="c-search-bar__autocomplete-results"></div>
   </div>
+
   <div id="test-autocomplete-no-attributes"></div>
+
+  <div id="test-autocomplete-bad">
+    <div class="c-search-bar__autocomplete"></div>
+    <div class="c-search-bar__autocomplete-results"></div>
+  </div>
+
+  <div id="test-autocomplete-worse">
+    <div class="c-search-bar__autocomplete" data-config="fake"></div>
+    <div class="c-search-bar__autocomplete-results"></div>
+  </div>
 `;
 
 describe("Algolia v1 autocomplete", () => {
@@ -47,14 +51,19 @@ describe("Algolia v1 autocomplete", () => {
     }).toThrowWithMessage(Error, "container needed");
   });
 
-  it("doesn't instantiate with invalid container", () => {
+  it("instantiates with container without data attributes", () => {
+    const container = document.getElementById("test-autocomplete-bad");
+    expect(container).toBeDefined();
     expect(() => {
-      // @ts-expect-error
-      setupAlgoliaAutocomplete(null);
-    }).toThrow();
-    const badContainer = document.getElementById("test-doesnt-exist");
+      setupAlgoliaAutocomplete(container!);
+    }).toThrowWithMessage(Error, "config needed");
+  });
+
+  it("instantiates with container with bad data attributes", () => {
+    const container = document.getElementById("test-autocomplete-worse");
+    expect(container).toBeDefined();
     expect(() => {
-      setupAlgoliaAutocomplete(badContainer!);
-    }).toThrow();
+      setupAlgoliaAutocomplete(container!);
+    }).toThrowWithMessage(Error, "config needed");
   });
 });

@@ -25,13 +25,8 @@
       <p>
         <.algolia_autocomplete
           id="proposed-sales-locations"
-          geolocation={true}
-          popular_locations={true}
-          locations_count={5}
-          locations_url_type="proposed-sales-locations"
+          config_type="proposed-locations"
           placeholder="Enter a location"
-          submit_handler={nil}
-          initial_state={true}
         />
       </p>
       <%= if Application.get_env(:dotcom, :dev_server?) do %>

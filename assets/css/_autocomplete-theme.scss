@@ -140,6 +140,30 @@
 
 #header-mobile {
   @extend %shared-autocomplete;
+
+  .aa-InputWrapper {
+    padding-left: 1rem;
+  }
+
+  .aa-ClearButton {
+    padding-right: var(--aa-spacing-half);
+  }
+
+  .c-search-bar__autocomplete-results {
+    position: relative;
+
+    // Autocomplete.JS doesn't support multiple instances per page, and one way
+    // this manifests is it totally bungles the dynamic positioning of elements.
+    // Hence the need to wrangle with !important.
+    /* stylelint-disable declaration-no-important */
+    .aa-Panel {
+      left: 0 !important;
+      margin-top: .25rem;
+      top: 0 !important;
+      width: 100% !important;
+    }
+    /* stylelint-enable declaration-no-important */
+  }
 }
 
 #trip-from,

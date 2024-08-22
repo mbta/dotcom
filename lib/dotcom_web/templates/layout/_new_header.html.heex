@@ -29,14 +29,7 @@
       <%= render("_new_nav_desktop.html", assigns) %>
       <div class="search-wrapper">
         <div class="search">
-          <.algolia_autocomplete
-            id="header-desktop"
-            geolocation={true}
-            locations_count={2}
-            locations_url_type="transit-near-me"
-            algolia_indexes={[:stops, :routes, :drupal]}
-            state_change_listener="nav"
-          />
+          <.algolia_autocomplete id="header-desktop" config_type="basic-config" />
         </div>
       </div>
 

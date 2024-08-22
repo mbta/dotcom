@@ -5,37 +5,8 @@ defmodule DotcomWeb.Components do
   technology.
   """
   use Phoenix.Component
-  alias Algolia.Query
 
   attr(:id, :string, required: true, doc: "A unique identifier for this search input.")
-
-  attr(:algolia_indexes, :list,
-    required: false,
-    doc:
-      "Enable searching one or more Algolia indexes. Valid indexes are defined in `Algolia.Query.valid_indexes()`."
-  )
-
-  attr(:locations_count, :integer,
-    required: false,
-    doc:
-      "Number of locations returned via the AWS Location Service. Omitting this will result in no location searching"
-  )
-
-  attr(:locations_url_type, :string,
-    required: false,
-    doc: "Type of URL to request for each location.",
-    values: ["transit-near-me", "retail-sales-locations", "proposed-sales-locations"]
-  )
-
-  attr(:popular_locations, :boolean,
-    required: false,
-    doc: "Enable display of popular locations on initial focus."
-  )
-
-  attr(:geolocation, :boolean,
-    required: false,
-    doc: "Enable prompt for user geolocation."
-  )
 
   attr(:placeholder, :string,
     required: false,
@@ -43,19 +14,16 @@ defmodule DotcomWeb.Components do
     default: "Search for routes, info, and more"
   )
 
-  attr(:state_change_listener, :string,
-    doc: "Name of event listener that responds to Autocomplete.js state changes",
-    default: nil
-  )
-
-  attr(:submit_handler, :string,
-    doc: "Name of event handler that responds to Autocomplete.js form submission",
-    default: "to_search_page"
-  )
-
-  attr(:initial_state, :boolean,
-    required: false,
-    doc: "Whether to populate the input's initial query state, based on the URL query params"
+  attr(:config_type, :string,
+    required: true,
+    doc:
+      "A mapping to the AlgoliaJS configuration described in assets/ts/ui/autocomplete/config.ts",
+    values: [
+      "basic-config",
+      "transit-near-me",
+      "retail-locations",
+      "proposed-locations"
+    ]
   )
 
   @doc """
@@ -65,56 +33,28 @@ defmodule DotcomWeb.Components do
 
   ### Usage
 
-  A unique ID value is required. All searches are initialized to `false`, and an
-  error will be raised if no search attributes are set to `true`.
+  A unique ID value is required. A config_type value is required and must map to
+  a configuration defined on the frontend, exported in
+  assets/ts/ui/autocomplete/config.ts. This frontend configuration must refer to
+  a JavaScript object of the AutocompleteSource type, and handle fetching search
+  results and rendering them.
 
   ```elixir
-  <.algolia_autocomplete id="transit-near-me-locations" locations_count={3} locations_url_type="transit-near-me" algolia_indexes={[:stops]} />
-  <.algolia_autocomplete id="cms-search" algolia_indexes={[:drupal]} />
+  <.algolia_autocomplete id="transit-near-me-locations" config_type="transit-near-me" placeholder="Find transit near a location" />
+  <.algolia_autocomplete id="cms-search" config_type="my-custom-project-search-config" placeholder="Find a project" />
   ```
   """
   def algolia_autocomplete(assigns) do
     assigns =
       assigns
-      |> assign_new(:algolia_indexes, fn -> [] end)
-      |> assign_new(:popular_locations, fn -> false end)
-      |> assign_new(:geolocation, fn -> false end)
-      |> assign_new(:locations_count, fn -> false end)
-      |> assign_new(:locations_url_type, fn -> false end)
-      |> assign_new(:submit_handler, fn -> false end)
-      |> assign_new(:initial_state, fn -> false end)
-
-    valid_algolia_indexes =
-      Query.valid_indexes()
-      |> Keyword.take(assigns.algolia_indexes)
-      |> Keyword.keys()
-
-    if valid_algolia_indexes == [] and
-         !assigns.geolocation and
-         !assigns.locations_count do
-      raise "Nothing to search! Please enable at least one search type."
-    end
-
-    assigns =
-      assign(
-        assigns,
-        :valid_indexes,
-        if(length(valid_algolia_indexes) > 0, do: Enum.join(valid_algolia_indexes, ","))
-      )
+      |> assign_new(:config_type, fn -> false end)
 
     ~H"""
-    <div phx-hook="AlgoliaAutocomplete" id={@id}>
+    <div id={@id} phx-hook="AlgoliaAutocomplete">
       <div
         class="c-search-bar__autocomplete"
-        data-geolocation={@geolocation}
-        data-popular-locations={@popular_locations}
-        data-locations-count={@locations_count}
-        data-locations-url-type={@locations_url_type}
-        data-algolia={@valid_indexes}
         data-placeholder={@placeholder}
-        data-state-change-listener={@state_change_listener}
-        data-submit-handler={@submit_handler}
-        data-initial-state={@initial_state}
+        data-config={@config_type}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>

@@ -127,7 +127,7 @@ export function setup(rootElement: HTMLElement): void {
     if ("searchOpen" in header.dataset) {
       // pass focus to search bar
       (rootElement.querySelector(
-        "[data-nav='search'] #input"
+        "[data-nav='search'] .aa-Input"
       ) as HTMLElement)!.focus();
     }
   });
