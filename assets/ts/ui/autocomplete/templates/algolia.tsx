@@ -2,7 +2,7 @@
 import React from "react";
 import { get, uniqueId } from "lodash";
 import { SourceTemplates, VNode } from "@algolia/autocomplete-js";
-import { AutocompleteItem, Item } from "../__autocomplete";
+import { AutocompleteItem } from "../__autocomplete";
 import {
   getTitleAttribute,
   isContentItem,
