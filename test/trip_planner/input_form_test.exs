@@ -47,9 +47,29 @@ defmodule TripPlanner.InputFormTest do
       assert changeset.errors[:to]
       assert changeset.errors[:from]
     end
+
+    test "adds error if from & to are the same" do
+      location = %{
+        "latitude" => "#{Faker.Address.latitude()}",
+        "longitude" => "#{Faker.Address.longitude()}",
+        "name" => "This place",
+        "stop_id" => ""
+      }
+
+      changeset =
+        InputForm.validate_params(%{
+          "from" => location,
+          "to" => location
+        })
+
+      refute changeset.valid?
+
+      assert {"Please select a destination at a different location from the origin.", _} =
+               changeset.errors[:to]
+    end
   end
 
-  describe "NamedPosition" do
+  describe "Location" do
     test "longitude & latitude fields are required" do
       changeset = InputForm.Location.changeset()
       assert {_, [validation: :required]} = changeset.errors[:latitude]

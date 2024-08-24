@@ -15,7 +15,11 @@ defmodule TripPlanner.InputForm do
   end
 
   def changeset(params \\ %{}) do
-    %__MODULE__{}
+    changeset(%__MODULE__{}, params)
+  end
+
+  def changeset(input_form, params) do
+    input_form
     |> cast(params, [])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
@@ -25,10 +29,12 @@ defmodule TripPlanner.InputForm do
     changes =
       params
       |> changeset()
-      |> validate_change(:from, &validate_location/2)
-      |> validate_change(:to, &validate_location/2)
+      |> update_change(:from, &update_location_change/1)
+      |> update_change(:to, &update_location_change/1)
+      |> validate_required(:from, message: "Please specify an origin location.")
+      |> validate_required(:to, message: "Please add a destination.")
+      |> validate_same_locations()
 
-    # too aggressive e.g. it shows when loading the page.
     if changes.errors == [] do
       changes
     else
@@ -36,12 +42,22 @@ defmodule TripPlanner.InputForm do
     end
   end
 
-  defp validate_location(field, %Ecto.Changeset{valid?: false, errors: [_ | _]}) do
-    Keyword.put([], field, "Please enter a location")
-  end
+  # make the parent field blank if the location isn't valid
+  defp update_location_change(%Ecto.Changeset{valid?: false, errors: [_ | _]}), do: nil
+  defp update_location_change(changeset), do: changeset
 
-  defp validate_location(_, _) do
-    []
+  defp validate_same_locations(changeset) do
+    with from_change when not is_nil(from_change) <- get_change(changeset, :from),
+         to_change when to_change === from_change <- get_change(changeset, :to) do
+      add_error(
+        changeset,
+        :to,
+        "Please select a destination at a different location from the origin."
+      )
+    else
+      _ ->
+        changeset
+    end
   end
 
   defmodule Location do
@@ -55,8 +71,8 @@ defmodule TripPlanner.InputForm do
 
     @primary_key false
     typed_embedded_schema do
-      field(:latitude, :float)
-      field(:longitude, :float)
+      field(:latitude, :float, null: false)
+      field(:longitude, :float, null: false)
       field(:name, :string)
       field(:stop_id, :string) :: Stops.Stop.id_t()
     end
