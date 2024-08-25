@@ -58,6 +58,11 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  def handle_event("map_change", %{"id" => id} = params, socket) do
+    {:noreply, push_event(socket, id, location_props(params))}
+  end
+
+  @impl true
   def handle_event("input_change", %{"plan" => params}, socket) do
     params = Map.merge(socket.assigns.params, params, fn _, a, b -> Map.merge(a, b) end)
     {:noreply, assign(socket, :params, params)}
