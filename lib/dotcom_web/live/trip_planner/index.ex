@@ -13,13 +13,9 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   def render(assigns) do
     ~H"""
-    <h1>Trip Planner</h1>
-    <p>
-      (develop the <a href="https://knowyourmeme.com/memes/how-to-draw-an-owl">rest of the owl</a>
-      here)
-    </p>
-    <div style="display: grid; grid-template-columns: 1fr 3fr; gap: .5rem;">
-      <section>
+    <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
+    <div style="row">
+      <section class="col-md-12 col-lg-4">
         <label>
           From <.algolia_autocomplete id="trip-from" placeholder="Enter a location" />
         </label>
@@ -27,8 +23,10 @@ defmodule DotcomWeb.Live.TripPlanner do
           To <.algolia_autocomplete id="trip-to" placeholder="Enter a location" />
         </label>
       </section>
-      <div id="trip-planner-map-wrapper" phx-update="ignore">
-        <div style="height: 400px;" id="trip-planner-map" phx-hook="LeafletMap" />
+      <div class="col-md-12 col-lg-8">
+        <div id="trip-planner-map-wrapper" phx-update="ignore">
+          <div style="height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
+        </div>
       </div>
     </div>
     """
