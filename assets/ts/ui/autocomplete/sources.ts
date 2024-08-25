@@ -38,7 +38,9 @@ export const locationSource = (
 ): AutocompleteSource<LocationItem> => ({
   sourceId: "locations",
   templates: {
-    item: templateWithLink(LocationItemTemplate)
+    item: urlType
+      ? templateWithLink(LocationItemTemplate)
+      : LocationItemTemplate
   },
   getItems() {
     return fetch(`/places/search/${encodeURIComponent(query)}/${number}`)
@@ -62,7 +64,7 @@ export const popularLocationSource = (
 ): AutocompleteSource<PopularItem> => ({
   sourceId: "popular",
   templates: {
-    item: templateWithLink(PopularItemTemplate)
+    item: urlType ? templateWithLink(PopularItemTemplate) : PopularItemTemplate
   },
   getItems() {
     return fetch("/places/popular")
