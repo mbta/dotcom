@@ -8,11 +8,8 @@ const LocationItemTemplate: SourceTemplates<LocationItem>["item"] = ({
 }) => {
   const { address, highlighted_spans } = item;
   return (
-    <>
-      <span
-        aria-hidden="true"
-        className="c-search-result__content-icon fa fa-map-marker"
-      />
+    <div className="aa-ItemContent">
+      <span aria-hidden="true" className="fa fa-fw fa-map-marker" />
       <span
         className="aa-ItemContentTitle"
         // eslint-disable-next-line react/no-danger
@@ -20,7 +17,7 @@ const LocationItemTemplate: SourceTemplates<LocationItem>["item"] = ({
           __html: highlightText(address, highlighted_spans)
         }}
       />
-    </>
+    </div>
   );
 };
 

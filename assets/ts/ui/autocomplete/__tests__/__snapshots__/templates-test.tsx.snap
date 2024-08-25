@@ -34,15 +34,19 @@ exports[`Location template renders 1`] = `
     class="aa-ItemLink"
     href="/transit-near-me?latitude=42.352271&longitude=-71.055242&address=South+Station,+Boston,+MA"
   >
-    <span
-      aria-hidden="true"
-      class="c-search-result__content-icon fa fa-map-marker"
-    />
-    <span
-      class="aa-ItemContentTitle"
+    <div
+      class="aa-ItemContent"
     >
-      South Station, Boston, MA
-    </span>
+      <span
+        aria-hidden="true"
+        class="fa fa-fw fa-map-marker"
+      />
+      <span
+        class="aa-ItemContentTitle"
+      >
+        South Station, Boston, MA
+      </span>
+    </div>
   </a>
 </DocumentFragment>
 `;
