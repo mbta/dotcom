@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Algolia template handles route item 1`] = `
+<DocumentFragment>
+  <a
+    class="aa-ItemLink"
+    href="/schedules/111"
+  >
+    <div
+      class="aa-ItemContent"
+    >
+      <span />
+      <span
+        class="aa-ItemContentBody"
+      >
+        <span
+          class="aa-ItemContentTitle"
+        >
+          <span />
+           
+          <span
+            class="c-search-result__long-name notranslate"
+          />
+        </span>
+      </span>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`Location template renders 1`] = `
+<DocumentFragment>
+  <a
+    class="aa-ItemLink"
+    href="/transit-near-me?latitude=42.352271&longitude=-71.055242&address=South+Station,+Boston,+MA"
+  >
+    <div
+      class="aa-ItemContent"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-fw fa-map-marker"
+      />
+      <span
+        class="aa-ItemContentTitle"
+      >
+        South Station, Boston, MA
+      </span>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`Popular template renders 1`] = `
+<DocumentFragment>
+  <a
+    class="aa-ItemLink"
+    href="/transit-near-me?latitude=42.352271&longitude=-71.055242&name=South+Station"
+  >
+    <div
+      class="aa-ItemContent"
+    >
+      <span />
+      <span
+        class="c-search-result__feature-icons"
+      />
+      <span
+        class="c-search-result__feature-icons"
+      />
+      <span
+        class="c-search-result__feature-icons"
+      />
+      <span
+        class="aa-ItemContentBody"
+      >
+        <span
+          class="aa-ItemContentTitle notranslate"
+        >
+          South Station
+        </span>
+      </span>
+    </div>
+  </a>
+</DocumentFragment>
+`;

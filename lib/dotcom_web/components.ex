@@ -22,6 +22,8 @@ defmodule DotcomWeb.Components do
       "basic-config",
       "transit-near-me",
       "retail-locations",
+      "proposed-locations",
+      "trip-planner"
     ]
   )
 

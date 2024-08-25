@@ -19,7 +19,7 @@ const body = `
     <div class="c-search-bar__autocomplete-results"></div>
   </div>
 `;
-
+const pushToLiveViewFn = jest.fn();
 describe("Algolia v1 autocomplete", () => {
   beforeEach(() => {
     document.body.innerHTML = body;
@@ -28,7 +28,7 @@ describe("Algolia v1 autocomplete", () => {
   it("instantiates with container with data attributes", () => {
     const container = document.getElementById("test-autocomplete");
     expect(container).toBeDefined();
-    setupAlgoliaAutocomplete(container!);
+    setupAlgoliaAutocomplete(container!, pushToLiveViewFn);
     const generatedAutocompleteSearchForm = within(container!).getByRole(
       "search"
     );
@@ -37,7 +37,7 @@ describe("Algolia v1 autocomplete", () => {
 
   it("matches snapshot", () => {
     const container = document.getElementById("test-autocomplete");
-    setupAlgoliaAutocomplete(container!);
+    setupAlgoliaAutocomplete(container!, pushToLiveViewFn);
     expect(container).toMatchSnapshot();
   });
 
@@ -47,7 +47,7 @@ describe("Algolia v1 autocomplete", () => {
     );
     expect(container).toBeDefined();
     expect(() => {
-      setupAlgoliaAutocomplete(container!);
+      setupAlgoliaAutocomplete(container!, pushToLiveViewFn);
     }).toThrowWithMessage(Error, "container needed");
   });
 
@@ -55,7 +55,7 @@ describe("Algolia v1 autocomplete", () => {
     const container = document.getElementById("test-autocomplete-bad");
     expect(container).toBeDefined();
     expect(() => {
-      setupAlgoliaAutocomplete(container!);
+      setupAlgoliaAutocomplete(container!, pushToLiveViewFn);
     }).toThrowWithMessage(Error, "config needed");
   });
 
@@ -63,7 +63,7 @@ describe("Algolia v1 autocomplete", () => {
     const container = document.getElementById("test-autocomplete-worse");
     expect(container).toBeDefined();
     expect(() => {
-      setupAlgoliaAutocomplete(container!);
+      setupAlgoliaAutocomplete(container!, pushToLiveViewFn);
     }).toThrowWithMessage(Error, "config needed");
   });
 });

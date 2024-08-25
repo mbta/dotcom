@@ -7,21 +7,46 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  import DotcomWeb.Components.TripPlanner
+
+  @form_id "trip-planner-form"
+
+  @impl true
+  def mount(params, _session, socket) do
+    pid = self()
+    {:ok, assign(socket, :params, plan_params(params)) |> assign(:pid, pid)}
   end
 
+  defp plan_params(%{"plan" => params}), do: params
+  defp plan_params(_), do: %{}
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    {:noreply, assign(socket, :params, plan_params(params))}
+  end
+
+  @impl true
   def render(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:submitted_values, fn -> nil end)
+      |> assign_new(:do_validation, fn -> false end)
+      |> assign(:form_id, @form_id)
+
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
       <section class="col-md-12 col-lg-4">
-        <label>
-          From <.algolia_autocomplete id="trip-from" placeholder="Enter a location" />
-        </label>
-        <label>
-          To <.algolia_autocomplete id="trip-to" placeholder="Enter a location" />
-        </label>
+        <.input_form
+          params={@params}
+          id={@form_id}
+          do_validation={@do_validation}
+          on_validated_pid={@pid}
+          phx_submit_handler="save_form"
+        />
+        <code :if={@submitted_values}>
+          <%= inspect(@submitted_values) %>
+        </code>
       </section>
       <div class="col-md-12 col-lg-8">
         <div id="trip-planner-map-wrapper" phx-update="ignore">
@@ -30,5 +55,48 @@ defmodule DotcomWeb.Live.TripPlanner do
       </div>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("input_change", %{"plan" => params}, socket) do
+    params = Map.merge(socket.assigns.params, params, fn _, a, b -> Map.merge(a, b) end)
+    {:noreply, assign(socket, :params, params)}
+  end
+
+  @impl true
+  def handle_event("save_form", %{"plan" => params}, socket) do
+    {:noreply,
+     socket
+     |> assign(:do_validation, true)
+     |> push_patch(to: path_with_params(params), replace: true)}
+  end
+
+  @impl true
+  def handle_event(_, _, socket), do: {:noreply, socket}
+
+  @impl true
+  def handle_info({:updated_form, data}, socket) do
+    {:noreply, assign(socket, :submitted_values, data)}
+  end
+
+  defp path_with_params(params) do
+    %{"plan" => params}
+    |> Plug.Conn.Query.encode()
+    |> then(&("/preview/trip-planner?" <> &1))
+  end
+
+  defp location_props(%{"stop" => stop} = props) when is_binary(stop) do
+    Map.take(props, ["name", "latitude", "longitude"])
+    |> Map.put("stop_id", stop)
+  end
+
+  defp location_props(%{"stop" => stop}) when is_map(stop) do
+    Map.take(stop, ["name", "latitude", "longitude"])
+    |> Map.put("stop_id", stop["id"])
+  end
+
+  defp location_props(props) do
+    Map.take(props, ["name", "latitude", "longitude"])
+    |> Map.put_new("name", props["address"])
   end
 end

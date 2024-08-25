@@ -32,6 +32,11 @@
       border-color: $brand-primary-light;
       box-shadow: unset;
     }
+
+    div:has(.text-danger) > & {
+      --aa-input-border-color-rgb: 179, 0, 15;
+      --aa-icon-color-rgb: 179, 0, 15;
+    }
   }
 
   .aa-LoadingIndicator,
@@ -182,4 +187,23 @@
     color: $white;
     transform: scale(-1, 1);
   }
+}
+
+#trip-planner-form--from,
+#trip-planner-form--to {
+  .aa-InputWrapperPrefix {
+    order: unset;
+  }
+
+  .aa-SubmitButton {
+    user-select: none;
+  }
+}
+
+#trip-planner-form--from .aa-SubmitButton {
+  @include fa-icon-solid($fa-var-a);
+}
+
+#trip-planner-form--to .aa-SubmitButton {
+  @include fa-icon-solid($fa-var-b);
 }

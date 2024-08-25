@@ -23,7 +23,7 @@ import PopularItemTemplate from "../templates/popular";
 import { templateWithLink } from "../templates/helpers";
 
 const mockComponentHighlight = jest.fn();
-function mockTemplateParam<T extends BaseItem>(item: T, query: string) {
+export function mockTemplateParam<T extends BaseItem>(item: T, query: string) {
   return {
     item,
     state: {

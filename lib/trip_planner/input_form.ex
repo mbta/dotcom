@@ -85,6 +85,8 @@ defmodule TripPlanner.InputForm do
       field(:stop_id, :string) :: Stops.Stop.id_t()
     end
 
+    def fields, do: __MODULE__.__schema__(:fields)
+
     def changeset(form \\ %__MODULE__{}, params \\ %{}) do
       form
       |> cast(params, [:latitude, :longitude, :name, :stop_id])
