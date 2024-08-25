@@ -1,10 +1,11 @@
 @import '@algolia/autocomplete-theme-classic';
 
-// WIP as we upgrade all of the search bars
-%shared-autocomplete {
+// styles that will be used for every instance
+[phx-hook='AlgoliaAutocomplete'] {
   .aa-Autocomplete {
     --aa-icon-color-rgb: 22, 92, 150; // $brand-primary;
     --aa-primary-color-rgb: 22, 92, 150; // $brand-primary;
+    --aa-input-border-color-rgb: 22, 92, 150;
   }
 
   .aa-Label {
@@ -24,7 +25,8 @@
   }
 
   .aa-Form {
-    border: 3px solid $brand-primary;
+    border-color: rgb(var(--aa-input-border-color-rgb));
+    border-width: 3px;
 
     &:focus-within {
       border-color: $brand-primary-light;
@@ -109,7 +111,7 @@
       text-decoration: none;
     }
 
-    [class*=c-svg__icon] {
+    [class*='c-svg__icon'] {
       width: 1em;
     }
   }
@@ -118,36 +120,6 @@
   .aa-ItemContentBody {
     display: unset;
   }
-}
-
-#header-desktop {
-  --aa-search-input-height: 2.25rem;
-
-  @extend %shared-autocomplete;
-
-  .aa-Form {
-    border-radius: .5rem;
-  }
-
-  .aa-InputWrapper {
-    padding-left: 1rem;
-  }
-
-  .aa-ClearButton {
-    padding-right: var(--aa-spacing-half);
-  }
-}
-
-#header-mobile {
-  @extend %shared-autocomplete;
-
-  .aa-InputWrapper {
-    padding-left: 1rem;
-  }
-
-  .aa-ClearButton {
-    padding-right: var(--aa-spacing-half);
-  }
 
   .c-search-bar__autocomplete-results {
     position: relative;
@@ -155,30 +127,42 @@
     // Autocomplete.JS doesn't support multiple instances per page, and one way
     // this manifests is it totally bungles the dynamic positioning of elements.
     // Hence the need to wrangle with !important.
-    /* stylelint-disable declaration-no-important */
+    // stylelint-disable declaration-no-important
     .aa-Panel {
       left: 0 !important;
       margin-top: .25rem;
       top: 0 !important;
       width: 100% !important;
     }
-    /* stylelint-enable declaration-no-important */
+    // stylelint-enable declaration-no-important
   }
 }
 
-#trip-from,
-#trip-to {
-  @extend %shared-autocomplete;
+#header-desktop {
+  --aa-search-input-height: 2.25rem;
 
+  .aa-Form {
+    border-radius: .5rem;
+  }
+}
+
+#header-desktop,
+#header-mobile {
   .aa-InputWrapper {
-    padding-left: .5rem;
+    padding-left: 1rem;
+  }
+
+  .aa-ClearButton {
+    padding-right: var(--aa-spacing-half);
   }
 }
 
-%large-autocomplete {
+// a larger-format search box, with the search icon displayed as white on blue.
+#error-page,
+#proposed-sales-locations,
+#sales-locations,
+#transit-near-me-locations {
   --aa-search-input-height: 2.5rem;
-
-  @extend %shared-autocomplete;
 
   .aa-Form {
     border-radius: .25rem;
@@ -192,35 +176,10 @@
   // Search icon is white, reversed, large, on a blue background.
   .aa-SubmitButton {
     @include fa-size($fa-size-scale-lg);
-    background-color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+    background-color: rgba(var(--aa-icon-color-rgb),
+      var(--aa-icon-color-alpha));
     border-radius: .25rem;
     color: $white;
     transform: scale(-1, 1);
-  }
-}
-
-#error-page {
-  @extend %large-autocomplete;
-}
-
-#proposed-sales-locations,
-#sales-locations,
-#transit-near-me-locations {
-  @extend %large-autocomplete;
-
-  .c-search-bar__autocomplete-results {
-    position: relative;
-
-    // Autocomplete.JS doesn't support multiple instances per page, and one way
-    // this manifests is it totally bungles the dynamic positioning of elements.
-    // Hence the need to wrangle with !important.
-    /* stylelint-disable declaration-no-important */
-    .aa-Panel {
-      left: 0 !important;
-      margin-top: .25rem;
-      top: 0 !important;
-      width: 100% !important;
-    }
-    /* stylelint-enable declaration-no-important */
   }
 }
