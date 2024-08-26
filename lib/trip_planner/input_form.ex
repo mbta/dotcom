@@ -8,6 +8,12 @@ defmodule TripPlanner.InputForm do
   use TypedEctoSchema
   import Ecto.Changeset
 
+  @error_messages %{
+    from: "Please specify an origin location.",
+    to: "Please add a destination.",
+    from_to_same: "Please select a destination at a different location from the origin."
+  }
+
   @primary_key false
   typed_embedded_schema do
     embeds_one(:from, __MODULE__.Location)
@@ -18,8 +24,8 @@ defmodule TripPlanner.InputForm do
     changeset(%__MODULE__{}, params)
   end
 
-  def changeset(input_form, params) do
-    input_form
+  def changeset(form, params) do
+    form
     |> cast(params, [])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
@@ -31,8 +37,8 @@ defmodule TripPlanner.InputForm do
       |> changeset()
       |> update_change(:from, &update_location_change/1)
       |> update_change(:to, &update_location_change/1)
-      |> validate_required(:from, message: "Please specify an origin location.")
-      |> validate_required(:to, message: "Please add a destination.")
+      |> validate_required(:from, message: error_message(:from))
+      |> validate_required(:to, message: error_message(:to))
       |> validate_same_locations()
 
     if changes.errors == [] do
@@ -52,13 +58,15 @@ defmodule TripPlanner.InputForm do
       add_error(
         changeset,
         :to,
-        "Please select a destination at a different location from the origin."
+        error_message(:from_to_same)
       )
     else
       _ ->
         changeset
     end
   end
+
+  def error_message(key), do: @error_messages[key]
 
   defmodule Location do
     @moduledoc """
@@ -77,18 +85,24 @@ defmodule TripPlanner.InputForm do
       field(:stop_id, :string) :: Stops.Stop.id_t()
     end
 
-    def changeset(struct \\ %__MODULE__{}, params \\ %{}) do
-      struct
+    def changeset(form \\ %__MODULE__{}, params \\ %{}) do
+      form
       |> cast(params, [:latitude, :longitude, :name, :stop_id])
-      |> add_default_name()
       |> validate_required([:latitude, :longitude])
+      |> add_default_name()
     end
 
     defp add_default_name(changeset) do
-      struct = apply_changes(changeset)
+      if is_nil(changeset.data.name) and
+           (changed?(changeset, :latitude) or changed?(changeset, :longitude)) do
+        {_, latitude} = fetch_field(changeset, :latitude)
+        {_, longitude} = fetch_field(changeset, :longitude)
 
-      if is_nil(struct.name) and not is_nil(struct.latitude) and not is_nil(struct.longitude) do
-        put_change(changeset, :name, "#{struct.latitude}, #{struct.longitude}")
+        put_change(
+          changeset,
+          :name,
+          "#{latitude}, #{longitude}"
+        )
       else
         changeset
       end

@@ -3,6 +3,19 @@ defmodule TripPlanner.InputFormTest do
 
   alias TripPlanner.InputForm
 
+  @from_params %{
+    "latitude" => "#{Faker.Address.latitude()}",
+    "longitude" => "#{Faker.Address.longitude()}"
+  }
+  @to_params %{
+    "latitude" => "#{Faker.Address.latitude()}",
+    "longitude" => "#{Faker.Address.longitude()}"
+  }
+  @params %{
+    "from" => @from_params,
+    "to" => @to_params
+  }
+
   test "from & to fields are required" do
     changeset = InputForm.changeset(%{})
     assert {_, [validation: :required]} = changeset.errors[:from]
@@ -11,18 +24,7 @@ defmodule TripPlanner.InputFormTest do
 
   describe "validate_params/1" do
     test "validates to & from" do
-      changeset =
-        InputForm.validate_params(%{
-          "from" => %{
-            "latitude" => "42",
-            "longitude" => "23"
-          },
-          "to" => %{
-            "latitude" => "123",
-            "longitude" => "23423"
-          }
-        })
-
+      changeset = InputForm.validate_params(@params)
       assert changeset.valid?
     end
 
@@ -49,23 +51,16 @@ defmodule TripPlanner.InputFormTest do
     end
 
     test "adds error if from & to are the same" do
-      location = %{
-        "latitude" => "#{Faker.Address.latitude()}",
-        "longitude" => "#{Faker.Address.longitude()}",
-        "name" => "This place",
-        "stop_id" => ""
-      }
-
       changeset =
         InputForm.validate_params(%{
-          "from" => location,
-          "to" => location
+          "from" => @from_params,
+          "to" => @from_params
         })
 
       refute changeset.valid?
 
-      assert {"Please select a destination at a different location from the origin.", _} =
-               changeset.errors[:to]
+      expected_error = InputForm.error_message(:from_to_same)
+      assert {^expected_error, _} = changeset.errors[:to]
     end
   end
 
