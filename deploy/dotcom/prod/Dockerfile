@@ -52,11 +52,13 @@ WORKDIR /root
 # Add frontend assets, required by phx.digest
 COPY --from=assets-builder /root/priv/static ./priv/static
 
+# package source code for Sentry
+RUN mix sentry.package_source_code
+
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
 RUN mix do compile, phx.digest
 RUN mix release
-
 
 # 4) Use the nodejs container for the runtime environment
 # Since we're server-rendering the React templates, we need a Javascript engine running inside the container.

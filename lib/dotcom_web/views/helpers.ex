@@ -150,7 +150,7 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   defp report_missing_icon(message) do
-    Sentry.capture_message("Missing icon #{message}")
+    Sentry.capture_message("Missing icon %s", interpolation_parameters: [message])
   end
 
   def bus_icon_pill(route) do

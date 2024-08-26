@@ -2,6 +2,7 @@ defmodule DotcomWeb.Endpoint do
   @moduledoc false
 
   use Phoenix.Endpoint, otp_app: :dotcom
+  use Sentry.PlugCapture
 
   @session_options store: :cookie,
                    key: "_site_key",
@@ -57,6 +58,7 @@ defmodule DotcomWeb.Endpoint do
     json_decoder: Poison
   )
 
+  plug(Sentry.PlugContext)
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
