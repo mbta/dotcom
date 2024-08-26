@@ -2,8 +2,6 @@ defmodule DotcomWeb.Router do
   @moduledoc false
 
   use DotcomWeb, :router
-  use Plug.ErrorHandler
-  use Sentry.Plug
 
   alias DotcomWeb.StaticPage
 
