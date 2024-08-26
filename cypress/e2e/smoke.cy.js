@@ -3,7 +3,7 @@
  * fail if the page responds in a server error or a 404 error, or if any of the
  * endpoints called in the background during the test fail. This group of tests
  * is intended to be shallow, with more in-depth functionality tested elsewhere.
- * 
+ *
  * More testing done on critical user journeys, in the Playwright end-to-end
  * testing scenarios.
  */
@@ -47,8 +47,9 @@ describe("passes smoke test", () => {
   it("fares sales locations", () => {
     cy.visit("/fare-transformation/proposed-sales-locations");
     cy.get('input[placeholder="Enter a location"]').type("Boston Common");
-    cy.get("#search-locations-list").should("have.length.greaterThan", 0);
-    cy.get("#search-locations-list li")
+    cy.wait(1000);
+    cy.get(".c-search-bar__autocomplete-results .aa-List").should("have.length.greaterThan", 0);
+    cy.get(".c-search-bar__autocomplete-results .aa-List li")
       .first()
       .click();
     cy.url().should("contain", "address=Boston");
@@ -56,8 +57,8 @@ describe("passes smoke test", () => {
 
     cy.visit("/fares/retail-sales-locations");
     cy.get('input[placeholder="Enter a location"]').type("Harvard Square");
-    cy.get("#search-locations-list li").should("have.length.greaterThan", 0);
-    cy.get("#search-locations-list li")
+    cy.get(".c-search-bar__autocomplete-results .aa-List li").should("have.length.greaterThan", 0);
+    cy.get(".c-search-bar__autocomplete-results .aa-List li")
       .first()
       .click();
     cy.url().should("contain", "address=Harvard+Square");

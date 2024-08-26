@@ -28,7 +28,8 @@ function setupAlgoliaAutocomplete(
     placeholder: container.dataset.placeholder
   };
   const autocompleteWidget = autocomplete(options);
-  // close on input blur
+
+  // close on input blur – comment out to use the autocomplete debug: true setting
   const input = container.querySelector(".aa-Input");
   if (input) {
     input.addEventListener("blur", () => {
