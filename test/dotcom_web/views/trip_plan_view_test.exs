@@ -1717,7 +1717,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{
+          duration: 2,
+          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+        }
       }
 
       rendered =
@@ -1739,7 +1742,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{
+          duration: 2,
+          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+        }
       }
 
       rendered =
@@ -1761,7 +1767,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         vehicle_tooltip: nil,
         expanded: nil,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{
+          duration: 2,
+          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+        }
       }
 
       rendered =
@@ -1783,7 +1792,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         vehicle_tooltip: nil,
         expanded: true,
         conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 2, trip: %{headsign: nil, direction_id: 0}}
+        itinerary_row: %{
+          duration: 2,
+          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+        }
       }
 
       rendered =
