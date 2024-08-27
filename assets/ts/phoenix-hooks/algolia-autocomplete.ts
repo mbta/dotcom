@@ -1,32 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { ViewHook } from "phoenix_live_view";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
-import {
-  Item,
-  LocationItem,
-  PopularItem,
-  StopItem
-} from "../ui/autocomplete/__autocomplete";
-import { Stop } from "../__v3api";
+import { Item } from "../ui/autocomplete/__autocomplete";
 
 function valueFromData(data: Partial<Item>, fieldName: string): string {
-  switch (fieldName) {
-    case "stop_id":
-      return (data as StopItem).stop?.id || (data as PopularItem).stop_id || "";
-    case "name":
-      return (
-        (data as StopItem).stop?.name ||
-        (data as LocationItem).address ||
-        (data as PopularItem).name ||
-        ""
-      );
-    default:
-      return (
-        ((data as StopItem).stop?.[fieldName as keyof Stop] as string) ||
-        ((data as Item)[fieldName as keyof Item] as string) ||
-        ""
-      );
-  }
+  return (data[fieldName as keyof Item] as string) || "";
 }
 
 function fieldNameFromInput(inputEl: HTMLInputElement): string | undefined {

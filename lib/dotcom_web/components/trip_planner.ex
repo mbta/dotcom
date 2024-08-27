@@ -57,7 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner do
               name={location_f[subfield].name}
             />
           </.inputs_for>
-          <p :for={{msg, _} <- f[field].errors} class="text-danger u-bold">
+          <p :for={{msg, _} <- f[field].errors} :if={@do_validation} class="text-danger u-bold">
             <%= msg %>
           </p>
         </.algolia_autocomplete>
@@ -69,7 +69,8 @@ defmodule DotcomWeb.Components.TripPlanner do
     """
   end
 
-  defp create_form(%{do_validation: true, params: params, on_validated_pid: on_validated_pid}) do
+  defp create_form(%{do_validation: true, params: params, on_validated_pid: on_validated_pid})
+       when is_pid(on_validated_pid) do
     changeset = InputForm.validate_params(params)
 
     case Ecto.Changeset.apply_action(changeset, :insert) do

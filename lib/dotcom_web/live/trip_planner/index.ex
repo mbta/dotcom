@@ -64,8 +64,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   def handle_event("input_change", %{"plan" => params}, socket) do
-    params = Map.merge(socket.assigns.params, params, fn _, a, b -> Map.merge(a, b) end)
-    {:noreply, assign(socket, :params, params)}
+    merged_params =
+      socket.assigns.params
+      |> Map.merge(params, fn _, a, b -> Map.merge(a, b) end)
+
+    {:noreply,
+     assign(socket, %{
+       do_validation: false,
+       params: merged_params
+     })}
   end
 
   @impl true
@@ -90,18 +97,25 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> then(&("/preview/trip-planner?" <> &1))
   end
 
-  defp location_props(%{"stop" => stop} = props) when is_binary(stop) do
-    Map.take(props, ["name", "latitude", "longitude"])
-    |> Map.put("stop_id", stop)
+  # Selected from list of popular locations
+  defp location_props(%{"stop_id" => stop} = props) when is_binary(stop) do
+    Map.take(props, ["name", "latitude", "longitude", "stop_id"])
   end
 
+  # GTFS stop
   defp location_props(%{"stop" => stop}) when is_map(stop) do
     Map.take(stop, ["name", "latitude", "longitude"])
     |> Map.put("stop_id", stop["id"])
   end
 
+  # From AWS
+  defp location_props(%{"address" => address} = props) do
+    Map.take(props, ["latitude", "longitude"])
+    |> Map.put_new("name", address)
+  end
+
+  # Geolocated
   defp location_props(props) do
     Map.take(props, ["name", "latitude", "longitude"])
-    |> Map.put_new("name", props["address"])
   end
 end
