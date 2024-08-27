@@ -77,6 +77,7 @@ defmodule DotCom.Mixfile do
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "0.2.0"},
+      {:ecto, "3.12.1"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_aws, "2.5.4"},
@@ -106,6 +107,7 @@ defmodule DotCom.Mixfile do
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
       {:phoenix, "~> 1.7"},
+      {:phoenix_ecto, "4.6.2"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.4"},
@@ -142,6 +144,7 @@ defmodule DotCom.Mixfile do
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       {:timex, "3.7.11"},
+      {:typed_ecto_schema, "0.4.1"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
       {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]},
