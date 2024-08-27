@@ -17,6 +17,7 @@ jobs:
     with:
       deployment-env: ${{ github.event.inputs.env }}
     secrets:
+      aws-account-id: ${{ secrets.TID_AWS_ACCOUNT_ID }}
       aws-role-arn: ${{ secrets.AWS_ROLE_ARN }}
       docker-repo: ${{ secrets.DOCKER_REPO }}
 

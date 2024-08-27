@@ -21,7 +21,7 @@ on:
         description: "AWS_ROLE_ARN value"
       aws-account-id:
         required: true
-        description: "TID_AWS_ACCOUNT_ID value:"
+        description: "TID_AWS_ACCOUNT_ID value"
 
 concurrency:
   group: deploy-monitor-${{ inputs.deployment-env }}

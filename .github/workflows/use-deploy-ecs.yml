@@ -13,6 +13,9 @@ on:
         required: false
         description: "Additional tag to apply to the docker image"
     secrets:
+      aws-account-id:
+        required: true
+        description: "TID_AWS_ACCOUNT_ID value"
       aws-role-arn:
         required: true
         description: "AWS_ROLE_ARN value"
@@ -158,5 +161,5 @@ jobs:
     with:
       deployment-env: ${{ inputs.deployment-env }}
     secrets:
+      aws-account-id: ${{ secrets.aws-account-id }}
       aws-role-arn: ${{ secrets.aws-role-arn }}
-      aws-account-id: ${{ secrets.TID_AWS_ACCOUNT_ID }}
