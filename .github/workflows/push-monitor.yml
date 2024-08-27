@@ -52,6 +52,8 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Build, tag, and push image to Amazon ECR
         id: ecr
         uses: mbta/actions/build-push-ecr@v2
