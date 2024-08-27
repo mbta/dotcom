@@ -1,45 +1,44 @@
-<% subway? = @mode == :subway%>
+<% subway? = @mode == :subway %>
 <% h_level_route = if @mode == :commuter_rail, do: :h3, else: :h2 %>
 <div class="container">
   <div class="page-section">
     <h1>MBTA Stations</h1>
-    <%= render "_search_bar.html" %>
+    <%= render("_search_bar.html") %>
     <div id="stop-search__location-results">
       <div id="stop-search__location-results--header"></div>
       <div id="stop-search__location-results--body"></div>
     </div>
-    <%= mode_tab_list %ModeTabList{
-      links: for mode <- [:subway, "commuter-rail", :ferry] do
-        {mode, stop_path(@conn, :show, mode)}
-      end,
+    <%= mode_tab_list(%ModeTabList{
+      links:
+        for mode <- [:subway, "commuter-rail", :ferry] do
+          {mode, stop_path(@conn, :show, mode)}
+        end,
       selected_mode: @mode,
       stacked_label: "Explore stations by mode:"
-    } %>
+    }) %>
     <%= if !Enum.empty?(@mode_hubs) do %>
       <div class="page-section">
         <h2>
-          <%=svg_icon_with_circle(%SvgIconWithCircle{icon: @mode})%>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @mode}) %>
           <span>
-            <%= mode_name(@mode)%>
-            Stations
+            <%= mode_name(@mode) %> Stations
           </span>
         </h2>
-        <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
+        <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn) %>
       </div>
     <% end %>
-    <%
-      types = Routes.Route.types_for_mode(@mode)
-      stops = Enum.filter(@stop_info, fn {route, _} -> Enum.member?(types, route.type) end)
-    %>
+    <% types = Routes.Route.types_for_mode(@mode)
+    stops = Enum.filter(@stop_info, fn {route, _} -> Enum.member?(types, route.type) end) %>
     <%= for {route, detailed_stops} <- stops do %>
       <div class="page-section stops-for-route">
         <%= content_tag h_level_route do %>
-          <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
+          <%= if subway?,
+            do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)}) %>
           <span class="notranslate"><%= route.name %></span>
         <% end %>
-          <%= if @route_hubs[route.id] do %>
-            <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
-          <% end %>
+        <%= if @route_hubs[route.id] do %>
+          <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn) %>
+        <% end %>
         <div {if subway?, do: "toggle-element-collapse"} id={"stops-#{route.id}"}>
           <%= if subway? do %>
             <h3>Stations</h3>
@@ -66,14 +65,17 @@
         <%= if subway? do %>
           <span class="stops-view-all-btn hidden-md-up hidden-no-js" data-toggle-route={route.id}>
             Showing major stops.
-            <a data-toggle="collapse" data-toggle-collapse={route.id} href={"#stops-#{route.id}"} >
-              View all <%= fa "angle-down" %>
+            <a data-toggle="collapse" data-toggle-collapse={route.id} href={"#stops-#{route.id}"}>
+              View all <%= fa("angle-down") %>
             </a>
           </span>
-          <div class="stops-view-all-btn stops-hide-all-btn hidden-md-up hidden-no-js" data-toggle-route={route.id}>
+          <div
+            class="stops-view-all-btn stops-hide-all-btn hidden-md-up hidden-no-js"
+            data-toggle-route={route.id}
+          >
             Showing all <%= route.name %> stops.
-            <a data-toggle="collapse" href={"#stops-#{route.id}"} data-toggle-collapse={route.id} >
-              Hide <%= fa "angle-up" %>
+            <a data-toggle="collapse" href={"#stops-#{route.id}"} data-toggle-collapse={route.id}>
+              Hide <%= fa("angle-up") %>
             </a>
           </div>
         <% end %>

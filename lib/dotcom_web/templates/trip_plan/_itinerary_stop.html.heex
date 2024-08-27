@@ -1,7 +1,7 @@
 <div class="itinerary-stop">
   <%= if @stop_id do %>
-    <%= link @stop_name, to: stop_path(@conn, :show, @stop_id), class: "notranslate" %>
-    <%= render "_itinerary_alert.html", assigns %>
+    <%= link(@stop_name, to: stop_path(@conn, :show, @stop_id), class: "notranslate") %>
+    <%= render("_itinerary_alert.html", assigns) %>
   <% else %>
     <span class="notranslate"><%= @stop_name %></span>
   <% end %>

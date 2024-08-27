@@ -12,11 +12,11 @@
               <%= img_tag(image.url, alt: image.alt, class: "img-thumbnail") %>
             <% end %>
             <figcaption>
-            <%= if image.caption do %>
-              <%= image.caption %>
-            <% else %>
-              <p><%= image.alt %></p>
-            <% end %>
+              <%= if image.caption do %>
+                <%= image.caption %>
+              <% else %>
+                <p><%= image.alt %></p>
+              <% end %>
             </figcaption>
           </figure>
         </div>

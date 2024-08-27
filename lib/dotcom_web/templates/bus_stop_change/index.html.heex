@@ -1,16 +1,16 @@
-<%
-  all_alerts = if assigns[:past_alerts] do
+<% all_alerts =
+  if assigns[:past_alerts] do
     Enum.concat(@past_alerts, @alerts)
   else
     @alerts
   end
 
-  alerts_grouped_by_municipality = if assigns[:past_alerts] do
+alerts_grouped_by_municipality =
+  if assigns[:past_alerts] do
     keyed_by_municipality(@past_alerts ++ @alerts)
   else
     keyed_by_municipality(@alerts)
-  end
- %>
+  end %>
 <div class="container">
   <div class="page-section">
     <h1>Bus Stop Changes</h1>

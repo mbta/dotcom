@@ -2,7 +2,10 @@
   <div class="page-section project-hero-image">
     <figure class="c-media c-media--image c-media--wide">
       <div class="c-media__content">
-        <%= img_tag @page.featured_image.url, alt: @page.featured_image.alt, class: "c-media__element img-fluid" %>
+        <%= img_tag(@page.featured_image.url,
+          alt: @page.featured_image.alt,
+          class: "c-media__element img-fluid"
+        ) %>
       </div>
     </figure>
   </div>
@@ -16,7 +19,6 @@
   <% end %>
 </div>
 
-<%# DEPRECATED: Render the Contact information component (now served by paragraph) %>
 <%= if Project.contact?(@page) do %>
   <div class="page-section project-contact">
     <div class="callout">
@@ -29,7 +31,7 @@
       <% end %>
       <%= if @page.media_email do %>
         <div class="contact-element-email">
-          <%= link @page.media_email, to: "mailto:#{@page.media_email}" %>
+          <%= link(@page.media_email, to: "mailto:#{@page.media_email}") %>
         </div>
       <% end %>
       <%= if @page.media_phone do %>

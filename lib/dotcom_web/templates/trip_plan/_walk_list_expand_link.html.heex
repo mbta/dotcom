@@ -1,9 +1,7 @@
 <div class="route-branch-stop">
-    <%=
-    assigns
-    |> walk_row_params()
-    |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(false, nil)
-  %>
+  <%= assigns
+  |> walk_row_params()
+  |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(false, nil) %>
   <div class="route-branch-stop-info">
     <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @next_stop_name)),
              class: "toggle-detail-list",
@@ -11,7 +9,7 @@
              data: [toggle: "collapse", target: "##{@target_id}"] do %>
       <div class="leg-summary-container">
         <div class="leg-summary">
-          <%= svg "walk.svg" %>
+          <%= svg("walk.svg") %>
           <div>
             <strong class="pe-8">
               Walk to <%= @next_stop_name %>
@@ -23,7 +21,7 @@
               Details
               <%= if Map.get(assigns, :alerts?, false) do %>
                 <span class="itinerary-has-alerts-icon">
-                  <%= fa "exclamation-triangle" %>
+                  <%= fa("exclamation-triangle") %>
                 </span>
               <% end %>
             </div>

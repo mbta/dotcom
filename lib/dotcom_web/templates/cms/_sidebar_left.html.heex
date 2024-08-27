@@ -7,9 +7,14 @@
     <%= for link <- @page.sidebar_menu.links do %>
       <li>
         <%= if @conn.request_path == link.url do %>
-          <span class="c-cms__sidebar-link c-cms__sidebar-link--is-current"><%= link.title %></span>
+          <span class="c-cms__sidebar-link c-cms__sidebar-link--is-current">
+            <%= link.title %>
+          </span>
         <% else %>
-          <%= link link.title, to: cms_static_page_path(@conn, link.url), class: "c-cms__sidebar-link" %>
+          <%= link(link.title,
+            to: cms_static_page_path(@conn, link.url),
+            class: "c-cms__sidebar-link"
+          ) %>
         <% end %>
       </li>
     <% end %>

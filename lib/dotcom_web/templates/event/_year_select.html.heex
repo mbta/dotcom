@@ -4,10 +4,8 @@
     <%= content_tag(
       :option,
       year,
-      [
-        value: build_nav_path(@conn, 1, year),
-        selected: year == @year
-      ]
+      value: build_nav_path(@conn, 1, year),
+      selected: year == @year
     ) %>
   <% end %>
 </select>

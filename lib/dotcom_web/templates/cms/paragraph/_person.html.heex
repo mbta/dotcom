@@ -3,7 +3,11 @@
 </div>
 
 <div>
-  <div><strong><%= @person.name%></strong></div>
-  <div><%= @person.position%></div>
-  <div><%= link "View Bio", to: cms_static_page_path(@conn, @person.path_alias || "/node/#{@person.id}") %></div>
+  <div><strong><%= @person.name %></strong></div>
+  <div><%= @person.position %></div>
+  <div>
+    <%= link("View Bio",
+      to: cms_static_page_path(@conn, @person.path_alias || "/node/#{@person.id}")
+    ) %>
+  </div>
 </div>

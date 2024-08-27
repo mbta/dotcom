@@ -4,7 +4,7 @@
       <%= for people <- Enum.chunk_every(@content.people, 2, 2, []) do %>
         <%= for person <- people do %>
           <div class="col-xs-12 col-sm-6 people-grid-large">
-            <%= render "_person.html", person: person, conn: @conn %>
+            <%= render("_person.html", person: person, conn: @conn) %>
           </div>
         <% end %>
       <% end %>
@@ -12,7 +12,7 @@
       <%= for people <- Enum.chunk_every(@content.people, 3, 3, []) do %>
         <%= for person <- people do %>
           <div class="col-xs-12 col-sm-6 col-md-4 people-grid-small">
-            <%= render "_person.html", person: person, conn: @conn %>
+            <%= render("_person.html", person: person, conn: @conn) %>
           </div>
         <% end %>
       <% end %>

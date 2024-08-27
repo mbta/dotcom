@@ -4,10 +4,8 @@
 
 <div class="m-trip-plan-farecalc__table-cell">
   <span class="m-trip-plan-farecalc__label">Base: </span>
-  <%=
-    price = Format.price(@pass)
-    if price != "", do: price, else: "None"
-  %>
+  <%= price = Format.price(@pass)
+  if price != "", do: price, else: "None" %>
 </div>
 
 <div class="m-trip-plan-farecalc__table-cell">

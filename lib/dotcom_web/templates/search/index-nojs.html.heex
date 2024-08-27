@@ -2,14 +2,17 @@
   <div class="search-results-facets col-md-3">
     <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
         fn f -> %>
-      <input name="search[offset]" type="hidden" value="0">
-      <%= hidden_input :search, :query, value: @query %>
+      <input name="search[offset]" type="hidden" value="0" />
+      <%= hidden_input(:search, :query, value: @query) %>
       <%= if @facets["content_type"] != [] do %>
         <div class="search-results-facet" data-facet="search">
           <fieldset>
-            <legend class="h2 search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></legend>
+            <legend class="h2 search-filter-heading" data-heading="search-filter">
+              Filter by type<%= render_toggle_filter() %>
+            </legend>
             <ul class="search-filter-container" data-container="search-filter">
-              <%= for option <- @facets["content_type"], do: render_filter_option(f, :content_type, option) %>
+              <%= for option <- @facets["content_type"],
+                      do: render_filter_option(f, :content_type, option) %>
             </ul>
           </fieldset>
         </div>
@@ -20,10 +23,12 @@
   <div class="col-md-9">
     <div class="search-results-documents">
       <%= if @stats.total == 1 do %>
-        <h3 class="search-summary">Showing 1 result for <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
+        <h3 class="search-summary">
+          Showing 1 result for <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
         </h3>
       <% else %>
-        <h3 class="search-summary">Showing results <%= @stats.showing_from %>-<%= @stats.showing_to %> of <%= @stats.total %> for
+        <h3 class="search-summary">
+          Showing results <%= @stats.showing_from %>-<%= @stats.showing_to %> of <%= @stats.total %> for
           <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
         </h3>
       <% end %>
@@ -39,8 +44,10 @@
       </ul>
     </div>
     <div class="search-pagination">
-      <%= render DotcomWeb.PaginationHelpers, "_responsive_pagination.html", pagination: @pagination,
-                                                                        link_context: @link_context %>
+      <%= render(DotcomWeb.PaginationHelpers, "_responsive_pagination.html",
+        pagination: @pagination,
+        link_context: @link_context
+      ) %>
     </div>
   </div>
 </div>

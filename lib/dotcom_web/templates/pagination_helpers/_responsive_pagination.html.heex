@@ -2,14 +2,22 @@
 <%= if @pagination.range != [] do %>
   <div class="pagination-box clearfix">
     <%= if @pagination.previous != nil do %>
-      <a class="pagination-prev" href={offset_link(link, @pagination.previous)}><i aria-hidden="true" class="fa fa-caret-left "></i> Previous</a>
+      <a class="pagination-prev" href={offset_link(link, @pagination.previous)}>
+        <i aria-hidden="true" class="fa fa-caret-left "></i> Previous
+      </a>
     <% else %>
-      <a class="pagination-prev disabled"><i aria-hidden="true" class="fa fa-caret-left "></i> Previous</a>
+      <a class="pagination-prev disabled">
+        <i aria-hidden="true" class="fa fa-caret-left "></i> Previous
+      </a>
     <% end %>
     <%= if @pagination.next != nil do %>
-      <a class="pagination-next" href={offset_link(link, @pagination.next)}>Next <i aria-hidden="true" class="fa fa-caret-right "></i></a>
+      <a class="pagination-next" href={offset_link(link, @pagination.next)}>
+        Next <i aria-hidden="true" class="fa fa-caret-right "></i>
+      </a>
     <% else %>
-      <a class="pagination-next disabled">Next <i aria-hidden="true" class="fa fa-caret-right "></i></a>
+      <a class="pagination-next disabled">
+        Next <i aria-hidden="true" class="fa fa-caret-right "></i>
+      </a>
     <% end %>
     <div class="pagination-list">
       <%= if @pagination.prefix != [] do %>
@@ -23,7 +31,10 @@
       <%= for page <- @pagination.range do %>
         <% selected_class = if page == @pagination.current, do: "active", else: "" %>
         <% hidden_class = if page in @pagination.mobile_range, do: "", else: "hidden-sm-down" %>
-        <a href={offset_link(link, page)} class={"pagination-num #{selected_class} #{hidden_class}"}>
+        <a
+          href={offset_link(link, page)}
+          class={"pagination-num #{selected_class} #{hidden_class}"}
+        >
           <%= page %>
         </a>
       <% end %>

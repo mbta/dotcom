@@ -3,10 +3,10 @@
     <div class="tab-select-btn-group">
       <div class="stacked-tab-label"><strong><%= args.stacked_label %></strong></div>
       <%= for {tab_item_name, title, href} <- args.links do %>
-        <%
-        selected_class = if selected?(tab_item_name, args.selected), do: "tab-select-btn-selected", else: ""
-        slug = slug(title)
-        %>
+        <% selected_class =
+          if selected?(tab_item_name, args.selected), do: "tab-select-btn-selected", else: ""
+
+        slug = slug(title) %>
         <%= Phoenix.HTML.Link.link to: "#{href}\##{slug}", data: [scroll: "false"], id: slug, class: "btn #{selected_class}" do %>
           <%= if icon = args.icon_map[title] do %>
             <%= icon %>

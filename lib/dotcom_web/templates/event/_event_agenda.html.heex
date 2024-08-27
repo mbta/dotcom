@@ -5,35 +5,37 @@
         <%= if not Enum.empty?(files) do %>
           <% %{url: url, type: _type} = List.first(files) %>
           <a href={url}>
-           <%= agenda_title(title) %>
+            <%= agenda_title(title) %>
           </a>
         <% else %>
           <%= agenda_title(title) %>
         <% end %>
 
-        <% more_content? = (Enum.any?(sub_topics) || @is_ended and not is_nil(bookmark) || has_description?(description)) %>
+        <% more_content? =
+          Enum.any?(sub_topics) || (@is_ended and not is_nil(bookmark)) ||
+            has_description?(description) %>
         <%= if more_content? do %>
-        <div class="agenda-topic__content">
-          <%= if @is_ended, do: agenda_video_bookmark(bookmark) %>
-          <%= if has_description?(description) do %>
-            <%= Dotcom.ContentRewriter.rewrite(description, @conn) %>
-          <% end %>
+          <div class="agenda-topic__content">
+            <%= if @is_ended, do: agenda_video_bookmark(bookmark) %>
+            <%= if has_description?(description) do %>
+              <%= Dotcom.ContentRewriter.rewrite(description, @conn) %>
+            <% end %>
 
-          <%= if Enum.any?(sub_topics) do %>
-            <ol class="agenda-subtopics">
-              <%= for %CMS.Partial.Paragraph.AgendaSubTopic{description: sub_description, title: sub_title} <- sub_topics do %>
-                <li class="agenda-subtopic">
-                  <%= agenda_title(sub_title, :h4) %>
-                  <%= if has_description?(sub_description) do %>
-                    <div class="agenda-topic__content">
-                      <%= Dotcom.ContentRewriter.rewrite(sub_description, @conn) %>
-                    </div>
-                  <% end %>
-                </li>
-              <% end %>
-            </ol>
-          <% end %>
-        </div>
+            <%= if Enum.any?(sub_topics) do %>
+              <ol class="agenda-subtopics">
+                <%= for %CMS.Partial.Paragraph.AgendaSubTopic{description: sub_description, title: sub_title} <- sub_topics do %>
+                  <li class="agenda-subtopic">
+                    <%= agenda_title(sub_title, :h4) %>
+                    <%= if has_description?(sub_description) do %>
+                      <div class="agenda-topic__content">
+                        <%= Dotcom.ContentRewriter.rewrite(sub_description, @conn) %>
+                      </div>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ol>
+            <% end %>
+          </div>
         <% end %>
       </li>
     <% end %>

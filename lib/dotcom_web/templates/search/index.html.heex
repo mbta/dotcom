@@ -5,13 +5,15 @@
         <h1 class="c-search__results-title">Search</h1>
       </div>
       <div class="c-search col-md-8">
-        <%= DotcomWeb.PartialView.render("_search_input.html",
+        <%= DotcomWeb.PartialView.render(
+          "_search_input.html",
           Map.merge(assigns, %{
             placeholder: "Search for routes, places, information, and more",
             aria_label: "Search MBTA.com",
             prefix: "global",
             autocomplete?: false
-          })) %>
+          })
+        ) %>
         <button id="show-facets" class="btn btn-primary c-search__filter-button">
           Filter by type
         </button>
@@ -31,20 +33,22 @@
         There was a problem performing your search; please try again in a few minutes.
       </div>
     </div>
-    <div id="search-results-container" class="col-md-8">
-    </div>
+    <div id="search-results-container" class="col-md-8"></div>
   </div>
 
   <div class="hidden-js">
     <%= cond do
       assigns[:empty_query] ->
-        render "empty_query.html", assigns
+        render("empty_query.html", assigns)
+
       assigns[:results] && assigns[:results] == [] ->
-        render "no_results.html", assigns
+        render("no_results.html", assigns)
+
       assigns[:show_error] ->
-        render "error.html", assigns
+        render("error.html", assigns)
+
       true ->
-        render "index-nojs.html", assigns
+        render("index-nojs.html", assigns)
     end %>
   </div>
 </div>

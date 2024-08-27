@@ -9,10 +9,10 @@
       <hr />
       <section aria-labelledby={"##{menu_section}-section"} class="row">
         <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-        <section aria-labelledby={"##{section_name}-section"} class="col-sm-4">
-          <h3 id={"##{section_name}-section"} class="font-small"><%= section_name %></h3>
-          <%= Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1) %>
-        </section>
+          <section aria-labelledby={"##{section_name}-section"} class="col-sm-4">
+            <h3 id={"##{section_name}-section"} class="font-small"><%= section_name %></h3>
+            <%= Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1) %>
+          </section>
         <% end %>
       </section>
     </div>

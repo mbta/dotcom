@@ -1,17 +1,21 @@
-
 <% header_id = "header-#{@id}" %>
 <% panel_id = "panel-#{@id}" %>
 
-<button class="c-expandable-block__link"
+<button
+  class="c-expandable-block__link"
   data-target={"##{panel_id}"}
   tabIndex="0"
   id={header_id}
   aria-expanded={@initially_expanded}
   aria-controls={panel_id}
-  data-toggle="collapse">
+  data-toggle="collapse"
+>
   <h3 class="c-expandable-block__header">
     <%= if @header.iconSvgText do %>
-      <%= content_tag(:span, svg(@header.iconSvgText), class: "notranslate c-expandable-block__header-icon", aria: [hidden: "true"]) %>
+      <%= content_tag(:span, svg(@header.iconSvgText),
+        class: "notranslate c-expandable-block__header-icon",
+        aria: [hidden: "true"]
+      ) %>
     <% end %>
     <div class="c-expandable-block__header-container">
       <%= @header.text %>
@@ -26,7 +30,7 @@
   id={panel_id}
   aria-labelledby={header_id}
 >
-<%= @inner_content %>
+  <%= @inner_content %>
 </div>
 <noscript>
   <%= if not @initially_expanded do %>
@@ -37,7 +41,7 @@
       id={panel_id}
       aria-labelledby={header_id}
     >
-    <%= @inner_content %>
+      <%= @inner_content %>
     </div>
   <% end %>
 </noscript>

@@ -1,13 +1,14 @@
 <nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main navigation">
   <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content_redesign(@conn) do %>
-    <a class="m-menu--desktop__toggle"
+    <a
+      class="m-menu--desktop__toggle"
       href={href}
       data-nav="toggle-desktop-nav"
       role="button"
       aria-expanded="false"
-      aria-controls={to_camelcase(name)}>
-      {name}
-      <span class="c-indicator--angle"></span>
+      aria-controls={to_camelcase(name)}
+    >
+      {name} <span class="c-indicator--angle"></span>
     </a>
 
     <div class="m-menu--desktop__menu">
@@ -25,25 +26,25 @@
                     <div class="m-menu__section-heading">Emergency Contacts</div>
                     <small>24 hours, 7 days a week</small>
                     <div class="m-menu__feature_phone">
-                      <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
+                      <strong>Transit Police:</strong> <%= tel_link("617-222-1212") %>
                     </div>
                     <div class="m-menu__feature_phone">
-                      <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+                      <strong>TTY:</strong> <%= tel_link("617-222-1200") %>
                     </div>
                   </div>
-                <%end %>
+                <% end %>
               </div>
             <% end %>
             <%= for %{sub_menu_section: special_section} <- sub_menus do %>
               <%= if special_section == "Most popular fares" do %>
                 <div class="m-menu-desktop__section-feature">
-                  <%= render "_new_nav_popular_fares.html" %>
+                  <%= render("_new_nav_popular_fares.html") %>
                 </div>
               <% end %>
 
               <%= if special_section == "Contact numbers" do %>
                 <div class="m-menu-desktop__section-feature">
-                  <%= render "_new_nav_contact_numbers.html" %>
+                  <%= render("_new_nav_contact_numbers.html") %>
                 </div>
               <% end %>
             <% end %>

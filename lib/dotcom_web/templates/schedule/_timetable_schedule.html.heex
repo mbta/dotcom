@@ -1,12 +1,13 @@
 <%= if @trip_schedule do %>
-  <%
-    trip_id = @schedule.trip.id
-  %>
+  <% trip_id = @schedule.trip.id %>
   <span class="m-timetable__schedule">
     <span class="m-timetable__left-icons">
       <span class="m-timetable__track-change-icon">
         <%= if @track_change != nil do %>
-          <%= content_tag(:i, "", class: "track-change-icon notranslate fa fa-shuffle no-margin-right", aria: [hidden: "true"]) %>
+          <%= content_tag(:i, "",
+            class: "track-change-icon notranslate fa fa-shuffle no-margin-right",
+            aria: [hidden: "true"]
+          ) %>
           <%= content_tag(:span, "Track Change", class: "sr-only") %>
         <% else %>
           &nbsp;
@@ -18,7 +19,9 @@
           <%= content_tag(:span, "Flag Stop", class: "sr-only") %>
         <% else %>
           <%= if @trip_schedule.early_departure? do %>
-            <%= content_tag(:span, svg("icon-early-departure-stop-default.svg"), aria: [hidden: "true"]) %>
+            <%= content_tag(:span, svg("icon-early-departure-stop-default.svg"),
+              aria: [hidden: "true"]
+            ) %>
             <%= content_tag(:span, "Early Departure", class: "sr-only") %>
           <% else %>
             &nbsp;
@@ -30,7 +33,7 @@
       <%= format_schedule_time(@trip_schedule.time) %>
     </span>
     <span class="m-timetable__vehicle-icon" id={"#{@stop.name}-#{trip_id}"}>
-        &nbsp;
+      &nbsp;
     </span>
   </span>
 <% else %>

@@ -1,10 +1,11 @@
-<% has_related_files = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
-<% sidebar_class = if has_related_files, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
+<% has_related_files =
+  @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
+<% sidebar_class =
+  if has_related_files, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
 
 <%= if !is_nil(@event.registration_link) or !is_nil(@event.event_agenda) do %>
   <div class="container m-event-details">
     <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
-
       <div class="c-cms__header">
         <div class="c-cms__title">
           <div class="m-event__date-range u-gray">
@@ -16,8 +17,11 @@
 
       <div class="c-cms__content mt-3">
         <div class="c-cms__body">
-
-          <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed mt-0" %>
+          <%= render("_meeting_info.html",
+            conn: @conn,
+            event: @event,
+            style: "c-paragraph--right-rail u-full-bleed mt-0"
+          ) %>
 
           <div class="m-event-section">
             <h2 class="mt-0">Event Description</h2>
@@ -27,7 +31,9 @@
               <%= if @event.agenda_file do %>
                 <div>
                   <%= link to: @event.agenda_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
+                    <span class="content-file-icon">
+                      <%= fa_icon_for_file_type(@event.agenda_file.type) %>
+                    </span>
                     <%= file_description(@event.agenda_file) %>
                   <% end %>
                 </div>
@@ -35,7 +41,9 @@
               <%= if @event.minutes_file do %>
                 <div>
                   <%= link to: @event.minutes_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
+                    <span class="content-file-icon">
+                      <%= fa_icon_for_file_type(@event.minutes_file.type) %>
+                    </span>
                     <%= file_description(@event.minutes_file) %>
                   <% end %>
                 </div>
@@ -44,7 +52,9 @@
                 <%= for file <- @event.files do %>
                   <div>
                     <%= link to: file.url, target: "_blank" do %>
-                      <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
+                      <span class="content-file-icon">
+                        <%= fa_icon_for_file_type(file.type) %>
+                      </span>
                       <%= file_description(file) %>
                     <% end %>
                   </div>
@@ -57,7 +67,11 @@
           <%= if agenda_visible?(@event.event_agenda, @conn.query_params) do %>
             <section class="m-event__agenda">
               <h2 class="mt-0">Agenda</h2>
-              <%= render "_event_agenda.html", conn: @conn, agenda: @event.event_agenda, is_ended: ended?(@event) %>
+              <%= render("_event_agenda.html",
+                conn: @conn,
+                agenda: @event.event_agenda,
+                is_ended: ended?(@event)
+              ) %>
             </section>
           <% end %>
 
@@ -70,18 +84,14 @@
         </div>
 
         <div class="c-cms__sidebar">
-          <%= render "_meeting_info.html", conn: @conn, event: @event, style: nil %>
+          <%= render("_meeting_info.html", conn: @conn, event: @event, style: nil) %>
         </div>
-
       </div>
     </div>
   </div>
-
 <% else %>
-
   <div class="container">
     <div class={"c-cms #{sidebar_class}"}>
-
       <div class="c-cms__header">
         <div class="c-cms__title">
           <h1 class="c-cms__title-text"><%= @event.title %></h1>
@@ -93,14 +103,17 @@
           <div class="page-section">
             <h2>Meeting Info</h2>
             <div class="event-inline-block">
-              <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
+              <span class="event-info-label">Date:</span> <%= render_duration(
+                @event.start_time,
+                @event.end_time
+              ) %>
             </div>
             <div class="event-inline-block">
               <%= link to: event_icalendar_path(@conn, :show, @event) do %>
-                <%= fa "calendar" %> Add to Calendar
+                <%= fa("calendar") %> Add to Calendar
               <% end %>
             </div>
-            <p><%= render "_address.html", event: @event %></p>
+            <p><%= render("_address.html", event: @event) %></p>
             <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
           </div>
 
@@ -137,7 +150,9 @@
                 <h3>Agenda</h3>
                 <div>
                   <%= link to: @event.agenda_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
+                    <span class="content-file-icon">
+                      <%= fa_icon_for_file_type(@event.agenda_file.type) %>
+                    </span>
                     <%= file_description(@event.agenda_file) %>
                   <% end %>
                 </div>
@@ -149,7 +164,9 @@
                 <h3>Minutes</h3>
                 <div>
                   <%= link to: @event.minutes_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
+                    <span class="content-file-icon">
+                      <%= fa_icon_for_file_type(@event.minutes_file.type) %>
+                    </span>
                     <%= file_description(@event.minutes_file) %>
                   <% end %>
                 </div>
@@ -162,7 +179,9 @@
                 <%= for file <- @event.files do %>
                   <div>
                     <%= link to: file.url, target: "_blank" do %>
-                      <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
+                      <span class="content-file-icon">
+                        <%= fa_icon_for_file_type(file.type) %>
+                      </span>
                       <%= file_description(file) %>
                     <% end %>
                   </div>
@@ -174,5 +193,4 @@
       </div>
     </div>
   </div>
-
 <% end %>

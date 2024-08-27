@@ -1,6 +1,5 @@
 <div class="container">
   <div class="c-cms c-cms--no-sidebar">
-
     <div class="c-cms__header">
       <div class="c-cms__title">
         <h1 class="c-cms__title-text"><%= @news_entry.title %></h1>
@@ -32,11 +31,11 @@
               <% end %>
 
               <%= if (email = @news_entry.media_email) do %>
-                <div class="contact-element-email"><%= link email, to: "mailto:#{email}" %></div>
+                <div class="contact-element-email"><%= link(email, to: "mailto:#{email}") %></div>
               <% end %>
 
               <%= if (phone = @news_entry.media_phone) do %>
-                <div class="contact-element-phone"><%= tel_link phone %></div>
+                <div class="contact-element-phone"><%= tel_link(phone) %></div>
               <% end %>
             </div>
           </div>
@@ -44,7 +43,7 @@
 
         <div class="page-section">
           <%= if render_recent_news?(@recent_news) do %>
-            <%= render "_recent_news.html", conn: @conn, recent_news: @recent_news %>
+            <%= render("_recent_news.html", conn: @conn, recent_news: @recent_news) %>
           <% end %>
         </div>
       </div>
