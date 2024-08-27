@@ -95,8 +95,9 @@ defmodule TripPlanner.InputForm do
     end
 
     defp add_default_name(changeset) do
-      if is_nil(changeset.data.name) and
-           (changed?(changeset, :latitude) or changed?(changeset, :longitude)) do
+      has_name? = changed?(changeset, :name) || not is_nil(changeset.data.name)
+
+      if not has_name? and (changed?(changeset, :latitude) or changed?(changeset, :longitude)) do
         {_, latitude} = fetch_field(changeset, :latitude)
         {_, longitude} = fetch_field(changeset, :longitude)
 
