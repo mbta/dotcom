@@ -157,4 +157,6 @@ jobs:
     uses: ./.github/workflows/push-monitor.yml
     with:
       deployment-env: ${{ inputs.deployment-env }}
-    secrets: inherit
+    secrets:
+      aws-role-arn: ${{ secrets.aws-role-arn }}
+      aws-account-id: ${{ secrets.TID_AWS_ACCOUNT_ID }}
