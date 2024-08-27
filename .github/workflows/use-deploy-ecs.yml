@@ -160,8 +160,6 @@ jobs:
     name: Redeploy Dotcom Monitor ${{ inputs.deployment-env }} if needed
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
       - uses: dorny/paths-filter@v3
         id: changes
         with:
