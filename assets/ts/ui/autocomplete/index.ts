@@ -5,7 +5,11 @@ import configs from "./config";
  * Creates the Algolia Autocomplete instances for various search experiences on
  * MBTA.com.
  */
-function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
+function setupAlgoliaAutocomplete(
+  wrapper: HTMLElement,
+  pushToLiveView?: Function,
+  initialState?: Function
+): void {
   const container = wrapper.querySelector<HTMLElement>(
     ".c-search-bar__autocomplete"
   );
@@ -18,13 +22,14 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
   if (!config) throw new Error("config needed");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const options: AutocompleteOptions<any> = {
-    ...config,
+    ...config({ pushToLiveView, initialState }),
     container,
     panelContainer,
     placeholder: container.dataset.placeholder
   };
   const autocompleteWidget = autocomplete(options);
-  // close on input blur
+
+  // close on input blur – comment out to use the autocomplete debug: true setting
   const input = container.querySelector(".aa-Input");
   if (input) {
     input.addEventListener("blur", () => {

@@ -13,13 +13,16 @@ on:
         required: false
         description: "Additional tag to apply to the docker image"
     secrets:
+      aws-account-id:
+        required: true
+        description: "TID_AWS_ACCOUNT_ID value"
       aws-role-arn:
         required: true
         description: "AWS_ROLE_ARN value"
       docker-repo:
         required: true
         description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
-    outputs: 
+    outputs:
       deployment-env:
         value: ${{ jobs.deploy.outputs.deployment-env }}
         description: "The environment that was deployed to"
@@ -132,44 +135,31 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.42.1-jammy
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: .tool-versions
-        cache: npm
-        cache-dependency-path: package-lock.json
-    - run: npm install --ignore-scripts
-    - run: npx playwright install --with-deps chromium
-    - run: npx playwright test all-scenarios
-      env:
-        CI: true
-        HOME: /root
-        HOST: ${{ needs.deploy.outputs.deployment-host }}
-    - uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
-        path: playwright-report
-        retention-days: 30
-
-  monitor:
-    runs-on: ubuntu-latest
-    needs: deploy
-    name: Redeploy Dotcom Monitor ${{ inputs.deployment-env }} if needed
-    steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
-      - uses: dorny/paths-filter@v3
-        id: changes
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
-          filters: |
-            monitor:
-              - 'deploy/monitor/**'
-              - 'integration/**'
-      - uses: ./.github/workflows/push-monitor.yml
-        if: steps.changes.outputs.monitor == 'true'
+          node-version-file: .tool-versions
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm install --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test all-scenarios
+        env:
+          CI: true
+          HOME: /root
+          HOST: ${{ needs.deploy.outputs.deployment-host }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
         with:
-          deployment-env: ${{ inputs.deployment-env }}
+          name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
+          path: playwright-report
+          retention-days: 30
+  monitor:
+    uses: ./.github/workflows/push-monitor.yml
+    with:
+      deployment-env: ${{ inputs.deployment-env }}
+    secrets:
+      aws-account-id: ${{ secrets.aws-account-id }}
+      aws-role-arn: ${{ secrets.aws-role-arn }}

@@ -4,7 +4,9 @@ import { SearchResponse } from "@algolia/client-search";
 import { LocationItem, PopularItem, AutocompleteItem } from "./__autocomplete";
 import { UrlType, WithUrls, itemWithUrl } from "./helpers";
 import AlgoliaItemTemplate from "./templates/algolia";
-import GeolocationTemplate from "./templates/geolocation";
+import GeolocationTemplate, {
+  OnLocationFoundFn
+} from "./templates/geolocation";
 import { templateWithLink } from "./templates/helpers";
 import LocationItemTemplate from "./templates/location";
 import PopularItemTemplate from "./templates/popular";
@@ -15,11 +17,12 @@ import PopularItemTemplate from "./templates/popular";
  */
 export const geolocationSource = (
   setIsOpen: StateUpdater<boolean>,
-  urlType?: UrlType
+  urlType?: UrlType,
+  onLocationFound?: OnLocationFoundFn
 ): AutocompleteSource<LocationItem> => ({
   sourceId: "geolocation",
   templates: {
-    item: GeolocationTemplate(setIsOpen, urlType)
+    item: GeolocationTemplate(setIsOpen, urlType, onLocationFound)
   },
   getItems() {
     // a hack to make the template appear, no backend is queried in this case
@@ -38,7 +41,9 @@ export const locationSource = (
 ): AutocompleteSource<LocationItem> => ({
   sourceId: "locations",
   templates: {
-    item: templateWithLink(LocationItemTemplate)
+    item: urlType
+      ? templateWithLink(LocationItemTemplate)
+      : LocationItemTemplate
   },
   getItems() {
     return fetch(`/places/search/${encodeURIComponent(query)}/${number}`)
@@ -62,7 +67,7 @@ export const popularLocationSource = (
 ): AutocompleteSource<PopularItem> => ({
   sourceId: "popular",
   templates: {
-    item: templateWithLink(PopularItemTemplate)
+    item: urlType ? templateWithLink(PopularItemTemplate) : PopularItemTemplate
   },
   getItems() {
     return fetch("/places/popular")

@@ -13,19 +13,21 @@ defmodule DotcomWeb.ComponentsTest do
     end
 
     test "renders with AlgoliaAutocomplete hook and appropriate data attributes" do
-      assert """
-             <div id="testID" phx-hook="AlgoliaAutocomplete">
-               <div class="c-search-bar__autocomplete" data-placeholder="Search for routes, info, and more" data-config="basic-config"></div>
-               <div class="c-search-bar__autocomplete-results"></div>
-             </div>
-             """ =~
-               render_component(
-                 &algolia_autocomplete/1,
-                 %{
-                   id: "testID",
-                   config_type: "basic-config"
-                 }
-               )
+      id = Faker.String.base64(5)
+      config = "basic-config"
+
+      html =
+        render_component(&algolia_autocomplete/1, %{
+          id: id,
+          config_type: config
+        })
+
+      assert html =~ ~s(<div class="c-search-bar__autocomplete-results"></div>)
+
+      assert html =~
+               ~s(<div class="c-search-bar__autocomplete" data-placeholder="Search for routes, info, and more" data-config="#{config}"></div>)
+
+      assert html =~ ~s(<div id="#{id}" phx-hook="AlgoliaAutocomplete" phx-update="ignore">)
     end
   end
 end

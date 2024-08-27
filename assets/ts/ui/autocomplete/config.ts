@@ -3,8 +3,10 @@ import {
   AutocompleteOptions,
   AutocompleteSource
 } from "@algolia/autocomplete-js";
+import { OnSelectParams } from "@algolia/autocomplete-core";
 import {
   AutocompleteItem,
+  ContentItem,
   Item,
   LocationItem,
   PopularItem
@@ -18,6 +20,7 @@ import {
 import { isLGDown } from "../../helpers/media-breakpoints";
 import { customRenderer, getLikelyQueryParams } from "./helpers";
 import { debouncePromise } from "../../helpers/debounce";
+import { Route, Stop } from "../../__v3api";
 
 // prevent search from firing too frequently
 const debounced = debouncePromise(
@@ -133,11 +136,76 @@ const PROPOSED_RETAIL: Partial<AutocompleteOptions<any>> = {
   }
 };
 
-const ALL: Record<string, ConfigurationOptions> = {
-  "basic-config": BASIC,
-  "transit-near-me": TNM,
-  "retail-locations": RETAIL,
-  "proposed-locations": PROPOSED_RETAIL
+/**
+ * This configuration is intended for use within a form, and will update form
+ * values or internal LiveView state instead of navigating to any URL. Further
+ * LiveView integration enables the ability to update other components, such as
+ * a map, from the selected location values.
+ */
+const TRIP_PLANNER = ({
+  pushToLiveView,
+  initialState
+}: {
+  pushToLiveView: Function;
+  initialState: Function;
+}): Partial<AutocompleteOptions<any>> => {
+  const onSelect = ({
+    item,
+    setQuery
+  }: OnSelectParams<AutocompleteItem>): void => {
+    const name: string =
+      (item.route as Route)?.name ||
+      (item.stop as Stop)?.name ||
+      ((item as unknown) as LocationItem).address ||
+      (item as ContentItem).content_title ||
+      ((item as unknown) as PopularItem).name ||
+      "";
+    setQuery(name);
+    pushToLiveView(item);
+  };
+
+  return {
+    ...baseOptions,
+    initialState: {
+      query: initialState()
+    },
+    onReset: (): void => {
+      pushToLiveView({});
+    },
+    getSources({ query, setIsOpen, setQuery }) {
+      if (!query)
+        return debounced([
+          {
+            ...geolocationSource(
+              setIsOpen,
+              undefined,
+              ({ latitude, longitude }) => {
+                const name = `Near ${latitude}, ${longitude}`;
+                setQuery(name);
+                pushToLiveView({ latitude, longitude, name });
+              }
+            ),
+            onSelect
+          },
+          {
+            ...popularLocationSource(),
+            onSelect
+          }
+        ]);
+      return debounced([
+        { ...algoliaSource(query, ["stops"], false), onSelect },
+        { ...locationSource(query, 5), onSelect }
+      ]);
+    }
+  };
+};
+
+const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
+  "basic-config": () => BASIC,
+  "transit-near-me": () => TNM,
+  "retail-locations": () => RETAIL,
+  "proposed-locations": () => PROPOSED_RETAIL,
+  "trip-planner": TRIP_PLANNER
 };
 
 export default ALL;

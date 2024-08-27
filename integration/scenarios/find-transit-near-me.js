@@ -7,10 +7,10 @@ exports.scenario = async ({ page, baseURL }) => {
     .getByPlaceholder('Enter a location')
     .pressSequentially('Boston City Hall');
 
-  await page.locator("#search-locations-list[role='listbox']")
-    .getByRole("option")
-    .first()
-    .click();
+  await page.waitForTimeout(1000);
+  await page.waitForSelector(".c-search-bar__autocomplete-results .aa-List");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
 
   await page.waitForSelector("div.m-tnm-sidebar__route");
   await expect

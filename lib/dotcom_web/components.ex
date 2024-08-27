@@ -22,9 +22,15 @@ defmodule DotcomWeb.Components do
       "basic-config",
       "transit-near-me",
       "retail-locations",
-      "proposed-locations"
+      "proposed-locations",
+      "trip-planner"
     ]
   )
+
+  slot :inner_block,
+    required: false,
+    doc:
+      "Additional content to render beneath the autocomplete component. With config_type='trip-planner', this can be used to render additional form elements to capture additional details about selected locations."
 
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
@@ -50,13 +56,16 @@ defmodule DotcomWeb.Components do
       |> assign_new(:config_type, fn -> false end)
 
     ~H"""
-    <div id={@id} phx-hook="AlgoliaAutocomplete">
-      <div
-        class="c-search-bar__autocomplete"
-        data-placeholder={@placeholder}
-        data-config={@config_type}
-      />
-      <div class="c-search-bar__autocomplete-results" />
+    <div>
+      <div id={@id} phx-hook="AlgoliaAutocomplete" phx-update="ignore">
+        <div
+          class="c-search-bar__autocomplete"
+          data-placeholder={@placeholder}
+          data-config={@config_type}
+        />
+        <div class="c-search-bar__autocomplete-results" />
+      </div>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
