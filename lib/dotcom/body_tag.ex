@@ -9,17 +9,8 @@ defmodule Dotcom.BodyTag do
     UI elements.
   """
 
-  alias Phoenix.HTML.Tag
-
-  @spec render(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
-  def render(conn) do
-    Tag.tag(
-      :body,
-      class: class_name(conn)
-    )
-  end
-
-  defp class_name(conn) do
+  @spec class_name(Plug.Conn.t()) :: String.t()
+  def class_name(conn) do
     [
       javascript_class(),
       mticket_class(conn),

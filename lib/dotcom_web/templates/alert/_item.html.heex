@@ -1,10 +1,12 @@
 <% label = Alerts.Alert.human_label(@alert) %>
 <% alert_icon_type = Alerts.Alert.icon(@alert) %>
-<li tabindex="0"
-    class="c-alert-item c-alert-item--<%= @alert.priority %>
-           <%= if @alert.description, do: "js-toggle-alert" %>
-           <%= if @alert.description, do: "c-alert-item--expandable" %>"
-           <%= if @alert.description, do: raw("aria-expanded=\"false\" role=\"button\"") %>>
+<li
+  tabindex="0"
+  class={"c-alert-item c-alert-item--#{@alert.priority}
+    #{if @alert.description, do: "js-toggle-alert"}
+    #{if @alert.description, do: "c-alert-item--expandable"}"}
+  {if @alert.description, do: raw("aria-expanded=\"false\" role=\"button\"")}
+>
   <div class="c-alert-item__icon">
     <%= alert_icon(alert_icon_type) %>
   </div>
@@ -25,16 +27,16 @@
     </div>
     <%= if @alert.description do %>
       <div class="c-alert-item__top-caret-container">
-        <%= fa "angle-up", class: "c-alert-item__caret--up" %>
-        <%= fa "angle-down", class: "c-alert-item__caret--down" %>
+        <%= fa("angle-up", class: "c-alert-item__caret--up") %>
+        <%= fa("angle-down", class: "c-alert-item__caret--down") %>
       </div>
     <% end %>
   </div>
   <%= if @alert.description do %>
-    <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
+    <div class={"c-alert-item__bottom c-alert-item__bottom--#{@alert.priority}"}>
       <%= if Map.get(@alert, :image) do %>
-        <a href="<%= @alert.image %>" target="_blank">
-          <img src="<%= @alert.image %>" alt="<%= @alert.image_alternative_text %>" class="w-100" />
+        <a href={@alert.image} target="_blank">
+          <img src={@alert.image} alt={@alert.image_alternative_text} class="w-100" />
         </a>
       <% end %>
       <div class="c-alert-item__description">

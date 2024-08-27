@@ -1,24 +1,19 @@
-<%
-  icon = get_icon_atom(args.icon)
-  hyphenated_class = "icon-#{CSSHelpers.atom_to_class(icon)}"
-  data_toggle = if args.show_tooltip?, do: "data-toggle=tooltip", else: ""
-  title = if args.show_tooltip?, do: icon_title(icon), else: ""
-  %><svg
+<svg
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   version="1.1"
   width="30"
   height="30"
-  viewbox="<%= viewbox(icon) %>"
+  viewbox={viewbox(get_icon_atom(args.icon))}
   preserveAspectRatio="xMidYMid meet"
   role="img"
   tabindex="0"
-  aria-label="<%= title %>"
-  class="icon <%= hyphenated_class %> <%= args.class %>"
-  <%= data_toggle %>
-  title="<%= title %>"
-  >
-  <g fill-rule="evenodd" class="notranslate icon-image <%= hyphenated_class %>-image">
-    <%= get_path(icon) %>
+  aria-label={title}
+  class={"icon icon-#{CSSHelpers.atom_to_class(get_icon_atom(args.icon))} #{args.class}"}
+  {if args.show_tooltip?, do: "data-toggle=tooltip", else: ""}
+  title={if args.show_tooltip?, do: icon_title(get_icon_atom(args.icon)), else: ""}
+>
+  <g fill-rule="evenodd" class={"notranslate icon-image #{hyphenated_class}-image"}>
+    <%= get_path(get_icon_atom(args.icon)) %>
   </g>
 </svg>

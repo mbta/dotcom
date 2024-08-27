@@ -4,7 +4,7 @@
       <li class="agenda-topic">
         <%= if not Enum.empty?(files) do %>
           <% %{url: url, type: _type} = List.first(files) %>
-          <a href="<%= url %>">
+          <a href={url}>
            <%= agenda_title(title) %>
           </a>
         <% else %>

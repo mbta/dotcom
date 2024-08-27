@@ -56,7 +56,7 @@ defmodule Dotcom.Components.Precompiler do
     path =
       Path.join(
         component_folder_path(component, section),
-        "/component.html.eex"
+        "/component.html.heex"
       )
 
     module = component_module(component, section)

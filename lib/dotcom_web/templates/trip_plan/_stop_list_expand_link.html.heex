@@ -1,4 +1,4 @@
-<div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
+<div class={"route-branch-stop#{if @expanded, do: " expanded", else: ""}"}>
   <%=
     stop_branch = assigns[:stop] && @stop.branch
     assigns

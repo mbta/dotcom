@@ -5,7 +5,7 @@
     <!-- Previous months button. A JS script sets up a listener for button click -->
     <div class="m-view-previous-events hidden">
       <li class="list-group-item">
-        <a tabindex="0" role="button" class="m-previous-events-button" data-group="<%= render_event_month_slug(@month_number, @year) %>">
+        <a tabindex="0" role="button" class="m-previous-events-button" data-group={render_event_month_slug(@month_number, @year)}>
           View Previous <%= render_event_month(@month_number, @year) %> Events
           <i class="fa fa-angle-down down" aria-hidden="true"></i>
         </a>

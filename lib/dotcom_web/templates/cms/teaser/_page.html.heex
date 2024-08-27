@@ -1,5 +1,5 @@
 <%= if @teaser.image && :image in @fields do %>
-  <img class="c-content-teaser__image" src="<%= @teaser.image.url %>" alt="<%= @teaser.image.alt %>" />
+  <img class="c-content-teaser__image" src={@teaser.image.url} alt={@teaser.image.alt} />
 <% end %>
 
 <%= if @teaser.topic && :topic in @fields do %>

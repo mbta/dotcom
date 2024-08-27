@@ -3,7 +3,7 @@
   [{:transfer, transfer_bubbles} | step_bubble_params] = bubble_params(@itinerary_row, @row_idx)
 %>
 
-<div class="itinerary-row-container <%= @mode_class %>">
+<div class={"itinerary-row-container #{@mode_class}"}>
   <%=
     route_name = ItineraryRow.route_name(@itinerary_row)
     render "_itinerary_transfer_stop.html",

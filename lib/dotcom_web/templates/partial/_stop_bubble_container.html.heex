@@ -1,7 +1,7 @@
-<div class="route-branch-stop-bubble <%= @class %>">
+<div class={"route-branch-stop-bubble #{@class}"}>
   <%= if assigns[:merge_indent] == :above do %>
     <div class="merge-stop-spacer"></div>
-    <div class="route-branch-indent-start" data-branch="<%= assigns[:bubble_branch] %>"></div>
+    <div class="route-branch-indent-start" data-branch={assigns[:bubble_branch]}></div>
   <% end %>
   <%= case {@vehicle_tooltip, @render_type, @show_checkmark?} do
     {_, :empty, _} ->
@@ -21,6 +21,6 @@
     <%= content_tag :div, [], class: "route-branch-stop-bubble-line #{@class} direction-#{@direction_id}", data: [branch: assigns[:bubble_branch]] %>
   <% end %>
   <%= if assigns[:merge_indent] == :below do %>
-    <div class="route-branch-indent-start" data-branch="<%= assigns[:bubble_branch] %>"></div>
+    <div class="route-branch-indent-start" data-branch={assigns[:bubble_branch]}></div>
   <% end %>
 </div>

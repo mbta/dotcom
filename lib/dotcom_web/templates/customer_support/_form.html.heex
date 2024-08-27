@@ -12,7 +12,7 @@
   <section>
     <h3>Message</h3>
     <%= support_error_tag @errors, "service" %>
-    <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "has-success") %>">
+    <fieldset class={"form-group #{class_for_error("service", @errors, "has-danger", "has-success")}"}>
       <legend class="form-control-label">Category*</legend>
       <div id="service" class="service-radios">
         <%= for {text, value, _subjects} <- @service_options do %>
@@ -23,7 +23,7 @@
         <% end %>
       </div>
     </fieldset>
-    <div id="subject" class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
+    <div id="subject" class={"form-group #{class_for_error("subject", @errors, "has-danger", "has-success")}"}>
       <%= label f, :subject, "Subject*", [for: "support_subject", class: "form-control-label"] %>
       <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select", "aria-describedby": "subjectHelp" %>
       <small id="subjectHelp" class="form-text">Please choose a Category to view available Subject values.</small>
@@ -32,7 +32,7 @@
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
       <%= text_input f, :ticket_number, class: "support-form-input support-form-input--small form-control" %>
     </div>
-    <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "has-success") %>">
+    <div class={"form-group #{class_for_error("comments", @errors, "has-danger", "has-success")}"}>
       <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
       <%= textarea f, :comments, id: "comments", class: "support-form-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000", rows: "3", placeholder: placeholder_text("comments"), required: "required", value: assigns[:comments] %>
@@ -60,7 +60,7 @@
         label_text: "This is an ADA/accessibility complaint/feedback"
       })
       %>
-      <span aria-hidden="true" class="ada-icon fa fa-wheelchair">
+      <span aria-hidden="true" class="ada-icon fa fa-wheelchair"/>
 
     </div>
     <div class="form-group">
@@ -74,7 +74,7 @@
       </div>
       <div class="col-sm-6">
         <%= support_error_tag @errors, "vehicle" %>
-        <div class="form-group <%= class_for_error("vehicle", @errors, "has-danger", "has-success") %>">
+        <div class={"form-group #{class_for_error("vehicle", @errors, "has-danger", "has-success")}"}>
           <div>
             <%= label f, "Vehicle", [id: "vehicleLabel", for: "vehicle", class: "form-control-label"] %>
             <span data-toggle="tooltip" data-placement="right" title="Vehicle numbers are usually displayed overhead at either end of the vehicle, and always displayed on the exterior.">
@@ -86,10 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="u-padding-top form-group <%= if !Enum.empty?(@errors) do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
+    <div class={"u-padding-top form-group #{if !Enum.empty?(@errors) do class_for_error("upload", @errors, "has-danger", "has-success") end}"}>
       <%= support_error_tag @errors, "upload" %>
       <span id="upload-photo-error"></span>
-      <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
+      <div class={"photo-preview-container #{unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up"}"} tabindex="-1">
       </div>
       <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload photo</a>
       <%= file_input f, :photo, accept: "image/*", id: "photo", multiple: true %>
@@ -108,17 +108,17 @@
     </div>
     <div id="contactInfoForm">
       <h3>Contact Info</h3>
-      <div class="form-group <%= class_for_error("first_name", @errors, "has-danger", "has-success") %>">
+      <div class={"form-group #{class_for_error("first_name", @errors, "has-danger", "has-success")}"}>
         <%= label f, :first_name, "First Name*", [for: "first_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "first_name" %>
         <%= text_input f, :first_name, placeholder: placeholder_text("first_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("first_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "first_name", id: "first_name" %>
       </div>
-      <div class="form-group <%= class_for_error("last_name", @errors, "has-danger", "has-success") %>">
+      <div class={"form-group #{class_for_error("last_name", @errors, "has-danger", "has-success")}"}>
         <%= label f, :name, "Last Name*", [for: "last_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "last_name" %>
         <%= text_input f, :last_name, placeholder: placeholder_text("last_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("last_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "last_name", id: "last_name" %>
       </div>
-      <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
+      <div class={"form-group #{class_for_error("email", @errors, "has-danger", "has-success")}"}>
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
         <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
@@ -128,7 +128,7 @@
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
         <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-input support-form-input--small form-control", "aria-describedby": "phoneHelp", autocomplete: "tel", id: "phone" %>
       </div>
-      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> mb-0 mt-1">
+      <div class={"form-group #{class_for_error("privacy", @errors, "has-danger", "has-success")} mb-0 mt-1"}>
         <%= support_error_tag @errors, "privacy" %>
         <%= DotcomWeb.PartialView.render("_checkbox.html", %{
           form: f,
@@ -150,7 +150,7 @@
         %>
       </div>
     </div> <!-- End contact info section -->
-    <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "has-success") %>">
+    <div class={"form-group #{class_for_error("recaptcha", @errors, "has-danger", "has-success")}"}>
       <%= support_error_tag @errors, "recaptcha" %>
       <%= raw Recaptcha.Template.display(noscript: true) %>
       <button class="btn btn-primary submit-button" type="submit" id="support-submit">

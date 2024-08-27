@@ -4,9 +4,9 @@
   See documentation at https://a11y-dialog.netlify.app
 %>
 <div
-  class="m-event-overlay <%= @class %>"
-  id="<%= @id %>"
-  aria-label="Event summary for <%= @event.title %>"
+  class={"m-event-overlay #{@class}"}
+  id={@id}
+  aria-label={"Event summary for #{@event.title}"}
   aria-hidden="true"
 >
   <div role="document">
@@ -27,7 +27,7 @@
           conn: @conn,
           class: "popup-version",
           path: @event.path %>
-      <div class="m-event__time-information <%= if ended?(@event) do %>gray<% end %>">
+      <div class={"m-event__time-information #{if ended?(@event), do: "gray"}"}>
         <% %{date: date, time: time} = get_formatted_date_time_map(@event.date, @event.date_end, "{WDshort}, {Mshort} {D}, {YYYY}") %>
         <div class="m-event__date-range m-event__bold-date">
           <%= date %>

@@ -8,11 +8,11 @@
     <meta name="author" content="">
 
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
-    <link rel="stylesheet" href="<%= static_url(@conn, "/css/style_guide.css") %>">
-    <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>">
-    <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>">
-    <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
-    <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href={static_url(@conn, "/css/style_guide.css")}>
+    <link rel="stylesheet" href={static_url(@conn, "/css/core.css")}>
+    <link rel="stylesheet" href={static_url(@conn, "/css/app.css")}>
+    <link rel="preload" href={static_url(@conn, "/js/app.js")} as="script">
+    <link rel="icon" href={static_url(@conn, "/favicon.ico")} sizes="16x16" type="image/vnd.microsoft.icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
 
@@ -32,12 +32,12 @@
         <%= if has_styleguide_subpages?(@conn) do %>
           <%= render Phoenix.Controller.view_module(@conn), "_sidebar_nav.html", assigns %>
         <% end %>
-        <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
+        <div class={"main-content col-sm-12#{styleguide_main_content_class(assigns)} #{Map.get(@conn.params, "section")}"}>
           <%= @inner_content %>
         </div>
       </main>
       <footer></footer>
-      <script src="<%= static_url(@conn, "/js/app.js") %>"></script>
+      <script src={static_url(@conn, "/js/app.js")}></script>
     </div>
   </body>
 </html>

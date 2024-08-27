@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="page-section <%= assigns[:card_class] %>" id="schedules">
+  <div class={"page-section #{assigns[:card_class]}"} id="schedules">
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
         <% h_level_section = if @home, do: :h2, else: :h1 %>
@@ -13,7 +13,7 @@
                                                                     date_time: @date_time) %>
         </div>
         <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
-        <div class="m-mode__group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">
+        <div class={"m-mode__group #{CSSHelpers.atom_to_class(route_type)}"} id={route_type}>
           <%= mode_group_header(route_type, mode_page, @home) %>
           <%=
                 render "_grid_buttons.html", routes: Keyword.get(@grouped_routes, route_type, [:the_ride]),

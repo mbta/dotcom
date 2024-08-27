@@ -1,4 +1,4 @@
-<div class="c-paragraph <%= if @style do @style end %>">
+<div class={"c-paragraph #{if @style, do: @style}"}>
   <h2>Meeting Info</h2>
   <div class="u-small-caps u-bold mb-05 mt-1">Date and Time</div>
   <% %{date: date, time: time} = get_formatted_date_time_map(@event.start_time, @event.end_time, "{WDfull}, {Mfull} {D}, {YYYY}") %>

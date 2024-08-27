@@ -14,5 +14,5 @@ checked_value = assigns[:checked_value] || "on"
 <div class="c-checkbox">
   <%= checkbox(@form, @field, id: id, class: "c-checkbox__input", checked: assigns[:checked],
       checked_value: checked_value, required: assigns[:required]) %>
-  <label id="<%= [id, "_label"] %>" for="<%= id %>" class="c-checkbox__label"><%= @label_text %></label>
+  <label id={[id, "_label"]} for={id} class="c-checkbox__label"><%= @label_text %></label>
 </div>

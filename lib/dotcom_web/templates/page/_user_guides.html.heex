@@ -26,11 +26,11 @@
         ]
       %>
       <%= for {header, image, link} <- guides do %>
-        <a class="guide" href="<%= link %>">
-          <img src="<%= image %>" alt=""></img>
+        <a class="guide" href={link}>
+          <img src={image} alt="">
           <h3><%= header %></h3>
         </a>
       <% end %>
     </div>
-  </container>
+  </div>
 </section>

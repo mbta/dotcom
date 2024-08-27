@@ -7,7 +7,7 @@
           <% mode_name = Routes.Route.type_name(mode) %>
           <div class="m-homepage__alerts-mode">
             <h3>
-              <a href="<%= alerts_mode_url(mode) %>">
+              <a href={alerts_mode_url(mode)}>
                 <%= svg(alerts_mode_icon_name(mode)) %>
                 <span class="header-text"><%= mode_name %></span>
               </a>
@@ -19,9 +19,9 @@
                 alerts at this time
               </p>
             <% else %>
-              <ul class="m-homepage__alerts-route <%= mode %>">
+              <ul class={"m-homepage__alerts-route #{mode}"}>
                 <%= for route <- routes do %>
-                  <li><a href="<%= alerts_route_url(route) %>" class="u-small-caps">
+                  <li><a href={alerts_route_url(route)} class="u-small-caps">
                     <%= alerts_render_route_link_content(mode, route) %>
                   </a></li>
                 <% end %>
@@ -33,7 +33,7 @@
     </div>
     <div class="m-homepage__alerts-accessibility">
       <h2>
-        <a href="<%= alerts_access_url() %>">
+        <a href={alerts_access_url()}>
           <%= svg("icon-accessibility.svg") %>
           <span class="header-text">Station Accessibility</span>
         </a>
@@ -52,7 +52,7 @@
             <% else %>
               <ul class="m-homepage__alerts-stops">
                 <%= for stop <- stops do %>
-                  <li><a href="<%= alerts_stop_url(stop) %>"><%= stop.name %></a></li>
+                  <li><a href={alerts_stop_url(stop)}><%= stop.name %></a></li>
                 <% end %>
               </ul>
             <% end %>

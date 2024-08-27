@@ -1,3 +1,3 @@
-<span class="vehicle-bubble <%= if @green_line? do %>vehicle-bubble__green<% end %>">
+<span class={"vehicle-bubble #{if @green_line?, do: "vehicle-bubble__green"}"}>
   <%= bw_circle_icon(@route_type, :default) %>
 </span>

@@ -31,6 +31,6 @@
     |> List.flatten()
     |> Enum.intersperse(" ")
 %>
-<div class="c-paragraph <%= type_and_classes %>">
+<div class={"c-paragraph #{type_and_classes}"}>
   <%= render_paragraph_content(@paragraph, @conn) %>
 </div>

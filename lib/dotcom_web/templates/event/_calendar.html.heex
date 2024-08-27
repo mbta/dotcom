@@ -25,8 +25,8 @@
             <%= if todays_events != nil do %>
               <%= for event <- todays_events do %>
                 <% event_ended = ended?(event) %>
-                <button class="m-event-calendar__event" data-a11y-dialog-show="<%= event.id  %>">
-                  <i class="fa fa-circle <%= if event_ended, do: "ended" %>" aria-hidden="true"></i>
+                <button class="m-event-calendar__event" data-a11y-dialog-show={event.id }>
+                  <i class={"fa fa-circle #{if event_ended, do: "ended"}"} aria-hidden="true"></i>
                   <%= if !event_ended do%>
                     <div class='m-event-calendar__event-time'><%= format_time(event.date) %></div>
                   <% end %>
@@ -41,7 +41,7 @@
 
                   <noscript>
                     <%= link to: cms_static_page_path(@conn, event.path), class: "m-event-calendar__event m-event-calendar__event-title", title: event.title do %>
-                      <i class="fa fa-circle <%= if event_ended, do: "ended" %>" aria-hidden="true"></i>
+                      <i class={"fa fa-circle #{if event_ended, do: "ended"}"} aria-hidden="true"></i>
                       <%= if !event_ended do%>
                         <div class="m-event-calendar__event-time"><%= format_time(event.date) %></div>
                       <% end %>

@@ -1,5 +1,5 @@
 <div class="tab-selector-container">
-  <nav class="<%= args.class %>" role="navigation">
+  <nav class={args.class} role="navigation">
     <div class="tab-select-btn-group">
       <div class="stacked-tab-label"><strong><%= args.stacked_label %></strong></div>
       <%= for {tab_item_name, title, href} <- args.links do %>

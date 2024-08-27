@@ -3,11 +3,11 @@
 <% panel_id = "panel-#{@id}" %>
 
 <button class="c-expandable-block__link"
-  data-target="#<%= panel_id %>"
+  data-target={"##{panel_id}"}
   tabIndex="0"
-  id="<%= header_id %>"
-  aria-expanded="<%= @initially_expanded %>"
-  aria-controls="<%= panel_id %>"
+  id={header_id}
+  aria-expanded={@initially_expanded}
+  aria-controls={panel_id}
   data-toggle="collapse">
   <h3 class="c-expandable-block__header">
     <%= if @header.iconSvgText do %>
@@ -20,11 +20,11 @@
   </h3>
 </button>
 <div
-  class="c-expandable-block__panel collapse<%= if @initially_expanded do %> in<% end %> js-focus-on-expand"
+  class={"c-expandable-block__panel collapse#{if @initially_expanded, do: " in"} js-focus-on-expand"}
   tabIndex="0"
   role="region"
-  id="<%= panel_id %>"
-  aria-labelledby="<%= header_id %>"
+  id={panel_id}
+  aria-labelledby={header_id}
 >
 <%= @inner_content %>
 </div>
@@ -34,8 +34,8 @@
       class="c-expandable-block__panel collapse in"
       tabIndex="0"
       role="region"
-      id="<%= panel_id %>"
-      aria-labelledby="<%= header_id %>"
+      id={panel_id}
+      aria-labelledby={header_id}
     >
     <%= @inner_content %>
     </div>

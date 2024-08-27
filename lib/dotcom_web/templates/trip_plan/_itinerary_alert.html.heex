@@ -3,13 +3,13 @@
   <a
     class="m-trip-plan__alert-toggle js-trip-plan-alert-toggle"
     data-toggle="collapse"
-    data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
+    data-target={"#itinerary-alert-#{@itinerary_idx}-#{@row_idx}-#{@stop_id}"}
     aria-expanded="false"
-    aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
+    aria-controls={"itinerary-alert-#{@itinerary_idx}-#{@row_idx}-#{@stop_id}"}
     >
     (view alert)
   </a>
-  <div class="collapse" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>">
+  <div class="collapse" id={"itinerary-alert-#{@itinerary_idx}-#{@row_idx}-#{@stop_id}"}>
     <%= for alert <- @alerts do %>
       <ul class="c-alert-group">
         <%= DotcomWeb.AlertView.render "_item.html", alert: alert, extra_id: ItineraryRow.route_id(assigns[:itinerary_row]), date_time: @conn.assigns.date_time %>

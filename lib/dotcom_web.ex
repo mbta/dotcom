@@ -147,7 +147,7 @@ defmodule DotcomWeb do
       alias DotcomWeb.Router.Helpers
 
       import DotcomWeb.Components
-      import DotcomWeb.CoreComponents
+      # import DotcomWeb.CoreComponents
     end
   end
 

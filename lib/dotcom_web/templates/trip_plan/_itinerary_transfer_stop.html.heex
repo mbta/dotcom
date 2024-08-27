@@ -1,4 +1,4 @@
-<div class="route-branch-stop-list route-branch-stop <%= @mode %>">
+<div class={"route-branch-stop-list route-branch-stop #{@mode}"}>
   <%= DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
   <div class="itinerary-transfer-row itinerary-step">
     <%= render "_itinerary_stop.html", assigns %>

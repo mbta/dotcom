@@ -3,7 +3,7 @@
    mode_class = mode_class(@itinerary_row)
 %>
 
-<div class="itinerary-row-container <%= mode_class %> route-branch-stop-list">
+<div class={"itinerary-row-container #{mode_class} route-branch-stop-list"}>
   <%=
     template = if @itinerary_row.transit?, do: "transit", else: "personal"
     render "_itinerary_row_#{template}.html",

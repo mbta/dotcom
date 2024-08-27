@@ -9,11 +9,11 @@
 
       <div class="m-events-hub__nav--navigation-toggle">
         <%= link to: build_nav_path(@conn, @month, @year, true), role: "button", tabindex: "0", aria: [label: "List view"] do %>
-          <i class="fa fa-list-ul m-nav-toggle-icon <%= if !assigns[:calendar_view], do: "active-view" %>"></i>
+          <i class={"fa fa-list-ul m-nav-toggle-icon #{if !assigns[:calendar_view], do: "active-view"}"}></i>
         <% end %>
 
         <%= link to: build_nav_path(@conn, @month, @year, true), role: "button", tabindex: "0", aria: [label: "Calendar view"] do %>
-          <i class="fa fa-th-large m-nav-toggle-icon <%= if assigns[:calendar_view], do: "active-view" %>"></i>
+          <i class={"fa fa-th-large m-nav-toggle-icon #{if assigns[:calendar_view], do: "active-view"}"}></i>
         <% end %>
       </div>
     </nav>

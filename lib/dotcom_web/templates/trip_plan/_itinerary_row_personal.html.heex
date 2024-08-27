@@ -3,7 +3,7 @@
   [{:transfer, transfer_bubbles} | steps] = bubble_params(@itinerary_row, @row_idx)
 %>
 
-<div class="itinerary-row-container <%= @mode_class %>">
+<div class={"itinerary-row-container #{@mode_class}"}>
   <%=
   render "_itinerary_transfer_stop.html",
     Map.merge(assigns, %{mode: "personal",

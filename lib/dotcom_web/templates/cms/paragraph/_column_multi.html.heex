@@ -14,7 +14,7 @@
   <%= extend_width_if has_cards?, :cards do %>
     <div class="c-multi-column__row row">
       <%= for column <- @content.columns do %>
-        <div class="c-multi-column__column col-sm-6 col-md-<%= grid(@content) %>">
+        <div class={"c-multi-column__column col-sm-6 col-md-#{grid(@content)}"}>
 
           <%= for paragraph <- column.paragraphs do %>
             <%= render_paragraph_content(paragraph, @conn) %>
