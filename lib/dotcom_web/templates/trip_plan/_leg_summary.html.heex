@@ -7,7 +7,15 @@
     <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{@itinerary_row.duration} min)" %>
     <%= if @itinerary_row.trip do %>
       <div class="fs-14">
-        <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
+        <%= if @itinerary_row.trip.name && @itinerary_row.trip.name != "" do %>
+          Train <%= @itinerary_row.trip.name %> <%= Routes.Route.direction_name(
+            @route,
+            @itinerary_row.trip.direction_id
+          )
+          |> String.downcase() %>
+        <% else %>
+          <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
+        <% end %>
         <%= if @itinerary_row.trip.headsign && @itinerary_row.trip.headsign != "" do %>
           towards <%= @itinerary_row.trip.headsign %>
         <% end %>
