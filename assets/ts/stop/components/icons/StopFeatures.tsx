@@ -20,7 +20,7 @@ const StopFeatures = ({
         )}
       />
       <CommuterRailZoneIcon zoneNumber={stop.zone} />
-      <AccessibilityIcon stop={stop} routes={routes} />
+      <AccessibilityIcon stop={stop} />
       <ParkingIcon stop={stop} />
     </span>
   );
