@@ -14,9 +14,13 @@ const StopFeatures = ({
 }): ReactElement<HTMLElement> => {
   return (
     <span className="m-stop-page__header-features mb-6">
-      <ModeIcons routes={routes} />
+      <ModeIcons
+        routes={routes.filter(
+          route => route.description !== "rail_replacement_bus"
+        )}
+      />
       <CommuterRailZoneIcon zoneNumber={stop.zone} />
-      <AccessibilityIcon stop={stop} routes={routes} />
+      <AccessibilityIcon stop={stop} />
       <ParkingIcon stop={stop} />
     </span>
   );

@@ -1,14 +1,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { Route, Stop } from "../../../../__v3api";
+import { Stop } from "../../../../__v3api";
 import AccessibilityIcon from "../../../components/icons/AccessibilityIcon";
 
 describe("AccessibilityIcon", () => {
   it("should return an empty element for non accessilbe stops", () => {
-    const stop = { accessibility: ["none"] };
+    const stop = ({ accessibility: [] } as unknown) as Stop;
     render(
       <div data-testid="empty">
-        <AccessibilityIcon stop={stop as Stop} routes={[]} />
+        <AccessibilityIcon stop={stop} />
       </div>
     );
     expect(screen.getByTestId("empty")).toBeEmptyDOMElement();
@@ -18,18 +18,7 @@ describe("AccessibilityIcon", () => {
     const stop = { accessibility: ["accessible"] };
     render(
       <div data-testid="empty">
-        <AccessibilityIcon stop={stop as Stop} routes={[]} />
-      </div>
-    );
-    expect(screen.getByTestId("empty")).not.toBeEmptyDOMElement();
-  });
-
-  it("should return an icon for a bus stop", () => {
-    const stop = { accessibility: ["none"] };
-    const routes = [{ type: 3 }];
-    render(
-      <div data-testid="empty">
-        <AccessibilityIcon stop={stop as Stop} routes={routes as Route[]} />
+        <AccessibilityIcon stop={stop as Stop} />
       </div>
     );
     expect(screen.getByTestId("empty")).not.toBeEmptyDOMElement();
