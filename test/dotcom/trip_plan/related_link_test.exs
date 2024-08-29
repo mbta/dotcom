@@ -42,9 +42,9 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       assert fare_link.text == "View fare information"
 
       if route.type == 3 do
-        assert text(route_link) == "Route #{route.name} schedules"
+        assert text(route_link) == "#{route.name} Bus schedules"
       else
-        assert text(route_link) == "#{route.name} schedules"
+        assert text(route_link) == "#{route.long_name} schedules"
       end
 
       case route.type do
