@@ -106,17 +106,20 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
-
-    base_text =
-      if Route.type_atom(route) == :bus do
-        ["Route ", route.name]
-      else
-        route.name
-      end
-
     date = Date.to_iso8601(itinerary.start)
     url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
-    new([base_text, " schedules"], url, icon_name)
+
+    route
+    |> link_text()
+    |> new(url, icon_name)
+  end
+
+  defp link_text(%Route{type: 3} = route) do
+    "#{route.name} Bus schedules"
+  end
+
+  defp link_text(route) do
+    "#{route.long_name} schedules"
   end
 
   defp fare_links(itinerary) do
