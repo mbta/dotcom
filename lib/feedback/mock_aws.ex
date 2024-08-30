@@ -1,6 +1,6 @@
 defmodule Feedback.MockAws do
   @moduledoc """
-  Mock ExAws functions so that we aren't dependent on AWS in development.
+  Mock AWS functions so that we aren't dependent on AWS in development.
   """
   require Logger
 
