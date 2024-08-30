@@ -3,64 +3,29 @@ defmodule LocationServiceTest do
 
   import LocationService
   import Mox
+  import Test.Support.Factories.AwsClient
 
   setup :verify_on_exit!
 
-  setup do
-    body_string =
-      %{
-        "Results" => [
-          %{
-            "Place" => %{
-              "Label" => "Somewhere",
-              "Geometry" => %{"Point" => [Faker.Address.longitude(), Faker.Address.latitude()]}
-            }
-          }
-        ]
-      }
-      |> Jason.encode!()
-
-    good_response = %{status_code: 200, body: body_string}
-    {:ok, no_results} = Jason.encode(%{"Results" => []})
-    no_results = %{status_code: 200, body: no_results}
-    %{good_response: good_response, no_results: no_results}
-  end
-
   describe "geocode/1" do
-    test "can parse a response with results", %{good_response: good_response} do
+    test "can handle a response with results" do
       address = Faker.Address.street_address()
 
-      expect(ExAws.Mock, :request, fn operation ->
-        assert %ExAws.Operation.RestQuery{body: %{Text: ^address}} = operation
-        {:ok, good_response}
+      expect(AwsClient.Mock, :search_place_index_for_text, fn _, input, _ ->
+        assert input[:Text] == address
+        response = build(:search_place_index_for_text_response)
+        {:ok, response, %{}}
       end)
 
-      assert {:ok, body} = geocode(address)
-      assert [%LocationService.Address{} | _] = body
+      assert [%LocationService.Address{} | _] = geocode(address)
     end
 
-    test "can parse a response with no results", %{no_results: no_results} do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:ok, no_results}
+    test "can handle a response with error" do
+      expect(AwsClient.Mock, :search_place_index_for_text, fn _, _, _ ->
+        {:error, "Some error message"}
       end)
 
-      assert {:error, :zero_results} = geocode("test no results")
-    end
-
-    test "can parse a response with no body" do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:ok, %{status_code: 412}}
-      end)
-
-      assert {:error, :internal_error} = geocode("test no body")
-    end
-
-    test "can parse a response with error" do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:error, {:http_error, 500, "bad news"}}
-      end)
-
-      assert {:error, :internal_error} = geocode("test error")
+      assert {:error, :internal_error} = Faker.Address.street_address() |> geocode()
     end
   end
 
@@ -69,92 +34,48 @@ defmodule LocationServiceTest do
       latitude = Faker.Address.latitude()
       longitude = Faker.Address.longitude()
 
-      expect(ExAws.Mock, :request, fn operation ->
-        assert %ExAws.Operation.RestQuery{body: %{Position: coordinates}} = operation
-        assert [^longitude, ^latitude] = coordinates
-
-        {:ok,
-         %{
-           status_code: 200,
-           body:
-             %{
-               "Results" => [
-                 %{
-                   "Place" => %{
-                     "Label" => "Geocoded page",
-                     "Geometry" => %{"Point" => coordinates}
-                   }
-                 }
-               ]
-             }
-             |> Jason.encode!()
-         }}
+      expect(AwsClient.Mock, :search_place_index_for_position, fn _, input, _ ->
+        assert input[:Position] == [longitude, latitude]
+        response = build(:search_place_index_for_position_response)
+        {:ok, response, %{}}
       end)
 
-      assert {:ok, [%LocationService.Address{}]} = reverse_geocode(latitude, longitude)
+      assert [%LocationService.Address{} | _] = reverse_geocode(latitude, longitude)
+    end
+
+    test "can handle a response with error" do
+      expect(AwsClient.Mock, :search_place_index_for_position, fn _, _, _ ->
+        {:error, "Some error message"}
+      end)
+
+      latitude = Faker.Address.latitude()
+      longitude = Faker.Address.longitude()
+      assert {:error, :internal_error} = reverse_geocode(latitude, longitude)
     end
   end
 
   describe "autocomplete/2" do
     test "can parse a response with results" do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:ok,
-         %{
-           status_code: 200,
-           body:
-             %{
-               "Results" => [
-                 %{
-                   "Text" => "Test Location, MA, "
-                 }
-               ]
-             }
-             |> Jason.encode!()
-         }}
+      text = Faker.Company.name()
+
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, input, _ ->
+        assert input[:Text] == text
+        response = build(:search_place_index_for_suggestions_response)
+        response = put_in(response["Summary"]["Text"], text)
+        {:ok, response, %{}}
       end)
 
-      assert {:ok, result} = autocomplete("Tes", 2)
-
-      assert [%LocationService.Suggestion{address: "Test Location, MA, "}] = result
+      suggestions = autocomplete(text, 2)
+      assert [%LocationService.Suggestion{} | _] = suggestions
     end
 
-    test "can parse a response with error" do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:error, {:http_error, 500, "bad news"}}
+    test "can handle a response with error" do
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _, _ ->
+        {:error, "Some error message"}
       end)
 
-      assert {:error, :internal_error} = autocomplete("test", 2)
-    end
-
-    test "filters by states" do
-      expect(ExAws.Mock, :request, fn _ ->
-        {:ok,
-         %{
-           status_code: 200,
-           body:
-             %{
-               "Results" => [
-                 %{
-                   "Text" => "Test Location, MA, "
-                 },
-                 %{
-                   "Text" => "Test Location, NH, "
-                 },
-                 %{
-                   "Text" => "Test Location, RI, "
-                 },
-                 %{
-                   "Text" => "Test Location, VT, "
-                 }
-               ]
-             }
-             |> Jason.encode!()
-         }}
-      end)
-
-      {:ok, results} = autocomplete("Test Location", 4)
-
-      assert Kernel.length(results) == 3
+      text = Faker.Company.name()
+      assert {:error, :internal_error} = autocomplete(text, 2)
     end
   end
 end
