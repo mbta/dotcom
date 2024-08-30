@@ -78,5 +78,17 @@ defmodule AwsClient.Behaviour do
   @impl __MODULE__
   def send_raw_email(message), do: AWS.SES.send_raw_email(client(), message)
 
-  defp(client, do: AWS.Client.create())
+  defp client do
+    case :aws_credentials.get_credentials() do
+      %{
+        access_key_id: access_key_id,
+        secret_access_key: secret_access_key,
+        token: token
+      } ->
+        AWS.Client.create(access_key_id, secret_access_key, token, "us-east-1")
+
+      _ ->
+        AWS.Client.create("us-east-1")
+    end
+  end
 end

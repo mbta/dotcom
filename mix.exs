@@ -71,6 +71,7 @@ defmodule DotCom.Mixfile do
     [
       {:absinthe_client, "0.1.1"},
       {:aws, "1.0.2"},
+      {:aws_credentials, "0.3.2"},
       {:castore, "1.0.8"},
       {:crc, "0.10.5"},
       {:credo, "1.7.7", only: [:dev, :test]},
