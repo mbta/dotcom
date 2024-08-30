@@ -1,6 +1,7 @@
 # This file houses definitions for defining Mox mocks.
 
 # External
+Mox.defmock(AwsClient.Mock, for: AwsClient.Behaviour)
 Mox.defmock(ExAws.Mock, for: ExAws.Behaviour)
 Mox.defmock(HTTPoison.Mock, for: HTTPoison.Base)
 Mox.defmock(Req.Mock, for: Req.Behaviour)
