@@ -152,3 +152,8 @@
 //
 @import 'vendor/fixedsticky'; // needs refactor
 @import 'utilities';
+
+// TailwindCSS
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';

@@ -31,7 +31,7 @@
         <%= for result <- @results do %>
           <li>
             <%= link to: track_search_click(result.url, "search") do %>
-              <%= icon(result) %><%= result.title %>
+              <%= search_icon(result) %><%= result.title %>
             <% end %>
             <div><%= fragment(result, @conn) %></div>
           </li>
