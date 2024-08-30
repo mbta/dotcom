@@ -1,4 +1,7 @@
 defmodule Test.Support.Factories.AwsClient do
+  @moduledoc """
+  Module for generating outputs to the functions in AwsClient.Behaviour
+  """
   use ExMachina
 
   def search_place_index_for_position_response_factory do
