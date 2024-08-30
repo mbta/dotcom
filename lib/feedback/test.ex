@@ -16,12 +16,8 @@ defmodule Feedback.Test do
     end
   end
 
-  def mock_config(:ses) do
-    :ok
-  end
-
-  def mock_perform(%{params: %{"RawMessage.Data" => raw_message}}, _config) do
-    parsed_message = raw_message |> Base.decode64!() |> RFC2822.parse()
+  def send_email(%{"RawMessage" => %{"Data" => raw_message}}) do
+    parsed_message = raw_message |> RFC2822.parse()
 
     attachments =
       if parsed_message.multipart do

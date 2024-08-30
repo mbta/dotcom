@@ -7,8 +7,7 @@ config :dotcom,
 if config_env() == :test do
   config :dotcom,
     time_fetcher: Feedback.FakeDateTime,
-    exaws_config_fn: &Feedback.Test.mock_config/1,
-    exaws_perform_fn: &Feedback.Test.mock_perform/2,
+    send_email_fn: &Feedback.Test.send_email/1,
     feedback_rate_limit: 1_000,
     support_ticket_to_email: "test@test.com",
     support_ticket_from_email: "from@test.com",
@@ -17,6 +16,5 @@ end
 
 if config_env() == :dev do
   config :dotcom,
-    exaws_config_fn: &Feedback.MockAws.config/1,
-    exaws_perform_fn: &Feedback.MockAws.perform/2
+    send_email_fn: &Feedback.MockAws.send_email/1
 end

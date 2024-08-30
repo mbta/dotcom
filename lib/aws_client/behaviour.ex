@@ -41,6 +41,11 @@ defmodule AwsClient.Behaviour do
               | {:error, {:unexpected_response, any()}}
               | {:error, AWS.S3.list_objects_errors()}
 
+  @callback send_raw_email(AWS.SES.send_raw_email_request()) ::
+              {:ok, AWS.SES.send_raw_email_response(), any()}
+              | {:error, {:unexpected_response, any()}}
+              | {:error, AWS.SES.send_raw_email_errors()}
+
   @behaviour __MODULE__
 
   @impl __MODULE__
@@ -70,5 +75,8 @@ defmodule AwsClient.Behaviour do
   def put_object(bucket, object_key, contents),
     do: AWS.S3.put_object(client(), bucket, object_key, contents)
 
-  defp client, do: AWS.Client.create()
+  @impl __MODULE__
+  def send_raw_email(message), do: AWS.SES.send_raw_email(client(), message)
+
+  defp(client, do: AWS.Client.create())
 end

@@ -6,11 +6,7 @@ defmodule Feedback.MockAws do
 
   alias Mail.Parsers.RFC2822
 
-  def config(:ses) do
-    :ok
-  end
-
-  def perform(%{params: %{"RawMessage.Data" => raw_message}}, _config) do
+  def send_email(%{"RawMessage" => %{"Data" => raw_message}}) do
     _ =
       raw_message
       |> Base.decode64!()
