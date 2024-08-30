@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 
 import flatpickr from "flatpickr";
-import { format } from "date-fns";
+import { addMinutes, format, getMinutes } from "date-fns";
 
 /**
  * Formats a date into a string in the user's locale.
@@ -16,6 +16,25 @@ function i18nDate(date, locale = navigator.language) {
   });
 
   return formatter.format(date);
+}
+
+/**
+ * Set the date and time to the current time.
+ */
+function setDateTimeNow(flatpickrInstance) {
+  flatpickrInstance.setDate(new Date());
+}
+
+/**
+ * Set the date and time to the nearest 5 minutes.
+ */
+function setDateTime5Minutes(flatpickrInstance) {
+  const now = new Date();
+  const minutes = getMinutes(now);
+  const roundedMinutes = Math.ceil(minutes / 5) * 5;
+  const newDate = addMinutes(now, roundedMinutes - minutes);
+
+  flatpickrInstance.setDate(newDate);
 }
 
 /**
@@ -61,24 +80,39 @@ export default function setupTripPlannerForm(elem) {
   );
 
   // Initializes the date picker.
-  flatpickr(elem.querySelector("#trip-plan-datepicker .flatpickr"), {
-    allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
-    altInput: true, // allow different format to be sent to server
-    dateFormat: "Y-m-d G:i K", // this gets sent to the server
-    defaultDate: dateTime,
-    enableTime: true,
-    maxDate,
-    minDate,
-    formatDate: (date, formatString, locale) => {
-      if (formatString === SERVER_FORMAT) {
-        // Formats a date into a string in the format util.ex parse/1 expects.
-        return format(date, "yyyy-MM-dd HH:mm aa");
-      }
+  const flatpickrInstance = flatpickr(
+    elem.querySelector("#trip-plan-datepicker .flatpickr"),
+    {
+      allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
+      altInput: true, // allow different format to be sent to server
+      dateFormat: "Y-m-d G:i K", // this gets sent to the server
+      defaultDate: dateTime,
+      enableTime: true,
+      maxDate,
+      minDate,
+      formatDate: (date, formatString, locale) => {
+        if (formatString === SERVER_FORMAT) {
+          // Formats a date into a string in the format util.ex parse/1 expects.
+          return format(date, "yyyy-MM-dd HH:mm aa");
+        }
 
-      // if not being sent to the server, use localized format
-      return i18nDate(date, locale);
-    },
-    wrap: true // works with adjacent icon
+        // if not being sent to the server, use localized format
+        return i18nDate(date, locale);
+      },
+      wrap: true // works with adjacent icon
+    }
+  );
+
+  // When the user selects Leave At or Arrive By, we set the default time to the nearest 5 minutes.
+  elem.querySelectorAll("input#depart, input#arrive").forEach(input => {
+    input.addEventListener("click", _event => {
+      setDateTime5Minutes(flatpickrInstance);
+    });
+  });
+
+  // When the user selects Now, we set the default time to the current time.
+  elem.querySelector("input#now").addEventListener("click", _event => {
+    setDateTimeNow(flatpickrInstance);
   });
 
   // When someone makes mode selections, we update the title of the accordion.
