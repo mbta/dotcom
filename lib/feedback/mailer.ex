@@ -75,7 +75,10 @@ defmodule Feedback.Mailer do
         &@aws_client.send_raw_email/1
       )
 
-    %{"RawMessage" => %{"Data" => RFC2822.render(message)}}
+    message
+    |> RFC2822.render()
+    |> Base.encode64()
+    |> then(&%{"RawMessage" => %{"Data" => &1}})
     |> send_email_fn.()
   end
 

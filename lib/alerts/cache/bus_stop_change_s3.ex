@@ -97,7 +97,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
 
     Enum.map(keys, fn key ->
       result =
-        @aws_client.get_object(@bucket, "#{bucket_prefix()}/#{key}")
+        @aws_client.get_object(@bucket, key)
 
       case result do
         {:ok, %{"Body" => alert_data}, _} ->
@@ -121,7 +121,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     |> Task.async_stream(
       fn {id, contents} ->
         case @aws_client.put_object(@bucket, "#{bucket_prefix()}/#{id}", %{"Body" => contents}) do
-          {:ok, nil, _} ->
+          {:ok, _, _} ->
             :ok
 
           error ->
