@@ -19,9 +19,6 @@ defmodule DotcomWeb.PlacesController do
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
 
-      {:error, :zero_results} ->
-        ControllerHelpers.return_zero_results_error(conn)
-
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
     end
@@ -35,9 +32,6 @@ defmodule DotcomWeb.PlacesController do
 
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
-
-      {:error, :zero_results} ->
-        ControllerHelpers.return_zero_results_error(conn)
     end
   end
 
@@ -52,9 +46,6 @@ defmodule DotcomWeb.PlacesController do
 
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
-
-      {:error, :zero_results} ->
-        ControllerHelpers.return_zero_results_error(conn)
     end
   end
 
@@ -116,23 +107,20 @@ defmodule DotcomWeb.PlacesController do
       {:ok, suggestions} ->
         json(conn, %{result: with_coordinates(suggestions)})
 
-      {:error, error} ->
-        case error do
-          :zero_results ->
-            json(conn, %{result: []})
-
-          _ ->
-            ControllerHelpers.return_internal_error(conn)
-        end
+      {:error, _} ->
+        ControllerHelpers.return_internal_error(conn)
     end
   end
 
-  @spec with_coordinates([Suggestion.t()]) :: [
+  @spec with_coordinates([Address.t()]) :: [
           %{
             required(:latitude) => number,
             required(:longitude) => number,
-            required(:address) => String.t(),
-            required(:highlighted_spans) => [LocationService.Utils.HighlightedSpan.t()] | nil,
+            required(:formatted) => String.t(),
+            required(:street_address) => String.t(),
+            required(:municipality) => String.t(),
+            required(:state) => String.t(),
+            required(:highlighted_spans) => [map()] | nil,
             required(:url) => nil,
             required(:urls) => %{
               required(:"transit-near-me") => String.t(),
@@ -141,14 +129,12 @@ defmodule DotcomWeb.PlacesController do
             }
           }
         ]
-  defp with_coordinates(suggestions) do
-    suggestions
-    |> Enum.map(&{&1, @location_service.geocode(&1.address)})
-    |> Enum.filter(&match?({_suggestion, {:ok, [%Address{} | _]}}, &1))
-    |> Enum.map(fn {suggestion, {:ok, [address | _]}} ->
+  defp with_coordinates(addresses) do
+    addresses
+    |> Enum.map(fn address ->
       address
       |> Map.take([:latitude, :longitude])
-      |> Map.merge(Map.from_struct(suggestion))
+      |> Map.merge(Map.from_struct(address))
       |> add_urls()
     end)
   end
@@ -156,9 +142,17 @@ defmodule DotcomWeb.PlacesController do
   defp add_urls(map) do
     params =
       case map do
-        %{address: _} -> Map.take(map, [:address, :latitude, :longitude])
-        %{name: _} -> Map.take(map, [:name, :latitude, :longitude])
-        %{latitude: _} -> Map.take(map, [:latitude, :longitude])
+        %{street_address: street_address} ->
+          Map.take(map, [:latitude, :longitude]) |> Map.put_new(:address, street_address)
+
+        %{address: _} ->
+          Map.take(map, [:address, :latitude, :longitude])
+
+        %{name: _} ->
+          Map.take(map, [:name, :latitude, :longitude])
+
+        %{latitude: _} ->
+          Map.take(map, [:latitude, :longitude])
       end
 
     map
@@ -190,21 +184,27 @@ defmodule DotcomWeb.PlacesController do
     [
       %{
         icon: "airplane",
+        municipality: "East Boston",
+        state: "MA",
         name: "Boston Logan Airport",
-        features: [],
+        features: ["blue_line", "silver_line", "ferry", "bus"],
         latitude: 42.365396,
         longitude: -71.017547
       },
       %{
         icon: "station",
+        municipality: "Boston",
+        state: "MA",
         name: "South Station",
-        features: ["red_line", "bus", "commuter_rail", "access"],
+        features: ["red_line", "silver_line", "bus", "commuter_rail", "access"],
         latitude: 42.352271,
         longitude: -71.055242,
         stop_id: "place-sstat"
       },
       %{
         icon: "station",
+        municipality: "Boston",
+        state: "MA",
         name: "North Station",
         features: [
           "orange_line",

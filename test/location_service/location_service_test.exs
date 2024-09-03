@@ -64,16 +64,23 @@ defmodule LocationServiceTest do
   describe "autocomplete/2" do
     test "can parse a response with results" do
       text = Faker.Company.name()
+      response = build(:search_place_index_for_suggestions_response)
+      expected_place_ids = response["Results"] |> Enum.map(& &1["PlaceId"])
 
       expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, input ->
         assert input["Text"] == text
-        response = build(:search_place_index_for_suggestions_response)
         response = put_in(response["Summary"]["Text"], text)
         {:ok, response, %{}}
       end)
 
+      expect(AwsClient.Mock, :get_place, length(expected_place_ids), fn _, place_id ->
+        assert place_id in expected_place_ids
+        response = %{"Place" => build(:place)}
+        {:ok, response, %{}}
+      end)
+
       suggestions = autocomplete(text, 2)
-      assert {:ok, [%LocationService.Suggestion{} | _]} = suggestions
+      assert {:ok, [%LocationService.Address{} | _]} = suggestions
     end
 
     test "can handle a response with error" do

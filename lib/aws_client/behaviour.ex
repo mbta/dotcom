@@ -27,6 +27,11 @@ defmodule AwsClient.Behaviour do
               | {:error, {:unexpected_response, any()}}
               | {:error, AWS.Location.search_place_index_for_text_errors()}
 
+  @callback get_place(String.t(), String.t()) ::
+              {:ok, AWS.Location.get_place_response(), any()}
+              | {:error, {:unexpected_response, any()}}
+              | {:error, AWS.Location.get_place_errors()}
+
   @type bucket_name :: String.t()
   @type bucket_prefix :: String.t()
   @type bucket_object_key :: String.t()
@@ -62,6 +67,11 @@ defmodule AwsClient.Behaviour do
   @impl __MODULE__
   def search_place_index_for_text(index_name, input) do
     AWS.Location.search_place_index_for_text(client(), index_name, input)
+  end
+
+  @impl __MODULE__
+  def get_place(index_name, place_id) do
+    AWS.Location.get_place(client(), index_name, place_id)
   end
 
   @impl __MODULE__

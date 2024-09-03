@@ -35,12 +35,24 @@ type SearchResultItem = {
 export type LocationItem = {
   longitude: number;
   latitude: number;
-  address: string;
+  formatted: string;
   highlighted_spans: HighlightedSpan[];
+  street_address: string;
+  municipality: string;
+  state: string;
   url: string;
 };
 
-export type PopularItem = typeof TripPlannerLocControls.POPULAR[number];
+export type PopularItem = {
+  icon: "airplane" | "station";
+  name: string;
+  features: string[];
+  latitude: number;
+  longitude: number;
+  url: string;
+  state: string;
+  municipality: string;
+};
 
 export type AutocompleteItem = RouteItem | StopItem | ContentItem;
 export type Item = AutocompleteItem | LocationItem | PopularItem;
