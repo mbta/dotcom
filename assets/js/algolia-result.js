@@ -223,7 +223,7 @@ function _iconFromRoute(route) {
 export function getPopularIcon(icon) {
   switch (icon) {
     case "airplane":
-      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane" });
+      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane-departure" });
     default:
       return Icons.getFeatureIcon(icon);
   }
