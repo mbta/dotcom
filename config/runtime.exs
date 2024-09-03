@@ -120,8 +120,6 @@ config :dotcom, :telemetry_metrics_splunk,
   token: System.get_env("TELEMETRY_METRICS_SPLUNK_TOKEN"),
   url: "https://http-inputs-mbta.splunkcloud.com/services/collector"
 
-config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
-
 if config_env() != :test do
   config :dotcom, :algolia_config,
     app_id: System.get_env("ALGOLIA_APP_ID"),
@@ -182,7 +180,7 @@ if config_env() == :prod do
 end
 
 config :dotcom, LocationService,
-  aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
+  aws_index: System.get_env("AWS_PLACE_INDEX_NAME", "dotcom-dev-esri")
 
 config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),

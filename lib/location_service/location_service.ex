@@ -95,7 +95,6 @@ defmodule LocationService do
   end
 
   defp index do
-    prefix = Application.get_env(:dotcom, :aws_index_prefix)
-    "#{prefix}-esri"
+    Application.get_env(:dotcom, __MODULE__)[:aws_index]
   end
 end
