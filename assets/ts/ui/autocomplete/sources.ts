@@ -89,7 +89,7 @@ export const popularLocationSource = (
  */
 export const algoliaSource = (
   query: string,
-  indexes: string[] = ["routes", "stops", "drupal"],
+  indexesWithParams: Record<string, Record<string, unknown>>,
   withLink: boolean = true
 ): AutocompleteSource<AutocompleteItem> => ({
   sourceId: "algolia",
@@ -104,7 +104,7 @@ export const algoliaSource = (
       },
       body: JSON.stringify({
         algoliaQuery: query,
-        algoliaIndexes: indexes
+        algoliaIndexesWithParams: indexesWithParams
       })
     })
       .then(res => res.json())

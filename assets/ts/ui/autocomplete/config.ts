@@ -75,7 +75,28 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
   getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
     if (!query) return [geolocationSource(setIsOpen, "transit-near-me")];
     return debounced([
-      algoliaSource(query),
+      algoliaSource(query, {
+        routes: {
+          hitsPerPage: 5
+        },
+        stops: {
+          hitsPerPage: 2
+        },
+        drupal: {
+          hitsPerPage: 2,
+          facetFilters: [
+            [
+              "_content_type:page",
+              "_content_type:search_result",
+              "_content_type:diversion",
+              "_content_type:landing_page",
+              "_content_type:person",
+              "_content_type:project",
+              "_content_type:project_update"
+            ]
+          ]
+        }
+      }),
       locationSource(query, 2, "transit-near-me")
     ]);
   }
@@ -193,7 +214,10 @@ const TRIP_PLANNER = ({
           }
         ]);
       return debounced([
-        { ...algoliaSource(query, ["stops"], false), onSelect },
+        {
+          ...algoliaSource(query, { stops: { hitsPerPage: 5 } }, false),
+          onSelect
+        },
         { ...locationSource(query, 5), onSelect }
       ]);
     }

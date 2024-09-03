@@ -84,24 +84,31 @@ describe("popularLocationSource", () => {
 
 describe("algoliaSource", () => {
   test("defines a template", () => {
-    expect(algoliaSource("query").templates.item).toBeTruthy();
+    expect(algoliaSource("query", {}).templates.item).toBeTruthy();
   });
   test("defines a getItems function", () => {
     const query = "new project";
-    const indexes = ["drupal_test"];
+    const indexes = { drupal_test: {} };
     expect(
       algoliaSource(query, indexes).getItems({ query } as OnInputParams<
         AutocompleteItem
       >)
     ).toBeTruthy();
     expect(global.fetch).toHaveBeenCalledWith("/search/query", {
-      body: JSON.stringify({ algoliaQuery: query, algoliaIndexes: indexes }),
+      body: JSON.stringify({
+        algoliaQuery: query,
+        algoliaIndexesWithParams: indexes
+      }),
       headers: { "Content-Type": "application/json" },
       method: "POST"
     });
   });
   test("has optional getItemUrl", () => {
-    expect(algoliaSource("question", [], false)).not.toContainKey("getItemUrl");
-    expect(algoliaSource("question")).toContainKey("getItemUrl");
+    expect(
+      algoliaSource("question", { stops: { hitsPerPage: 7 } }, false)
+    ).not.toContainKey("getItemUrl");
+    expect(
+      algoliaSource("question", { stops: { hitsPerPage: 7 } })
+    ).toContainKey("getItemUrl");
   });
 });

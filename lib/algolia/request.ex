@@ -26,7 +26,7 @@ defmodule Algolia.Query.Request do
           attributesToHighlight: String.t() | [String.t()]
         }
   @spec new(String.t(), String.t()) :: t()
-  def new(index_name, query) when index_name in @supported_index_keys do
+  def new(index_name, query, params \\ %{}) when index_name in @supported_index_keys do
     algolia_index = Keyword.fetch!(@supported_indexes, String.to_atom(index_name))
 
     %__MODULE__{
@@ -34,47 +34,12 @@ defmodule Algolia.Query.Request do
       query: query,
       attributesToHighlight: highlight(index_name)
     }
-    |> with_hit_size(index_name)
-    |> with_facet_filters(index_name)
+    |> Map.update!(:params, &Map.merge(&1, params))
   end
 
   defp highlight("routes"), do: ["route.name", "route.long_name"]
   defp highlight("stops"), do: "stop.name"
   defp highlight("drupal"), do: "content_title"
-
-  defp with_hit_size(request, indexName) do
-    %__MODULE__{
-      request
-      | params: %{request.params | "hitsPerPage" => hit_size(indexName)}
-    }
-  end
-
-  defp hit_size("routes"), do: 5
-  defp hit_size("stops"), do: 2
-  defp hit_size("drupal"), do: 2
-
-  @spec with_facet_filters(t(), String.t()) :: t()
-  defp with_facet_filters(request, "drupal") do
-    %__MODULE__{
-      request
-      | params: %{
-          request.params
-          | "facetFilters" => [
-              [
-                "_content_type:page",
-                "_content_type:search_result",
-                "_content_type:diversion",
-                "_content_type:landing_page",
-                "_content_type:person",
-                "_content_type:project",
-                "_content_type:project_update"
-              ]
-            ]
-        }
-    }
-  end
-
-  defp with_facet_filters(request, _), do: request
 
   def encode(%__MODULE__{} = request) do
     request
