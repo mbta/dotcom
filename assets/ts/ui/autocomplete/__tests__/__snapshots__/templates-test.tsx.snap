@@ -7,22 +7,28 @@ exports[`Algolia template handles route item 1`] = `
     href="/schedules/111"
   >
     <div
-      class="aa-ItemContent"
+      class="aa-ItemContent tw-mt-1"
     >
-      <span />
-      <span
-        class="aa-ItemContentBody"
+      <div
+        class="tw-flex-grow"
       >
-        <span
-          class="aa-ItemContentTitle"
+        <div
+          class="tw-flex tw-items-baseline tw-gap-1"
         >
-          <span />
-           
           <span
-            class="c-search-result__long-name notranslate"
+            class="tw-basis-4 tw-flex-shrink-0"
           />
-        </span>
-      </span>
+          <div
+            class="aa-ItemContentTitle tw-flex-grow tw-font-normal"
+          >
+            <span />
+             
+            <span
+              class="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal notranslate"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </a>
 </DocumentFragment>
@@ -37,15 +43,24 @@ exports[`Location template renders 1`] = `
     <div
       class="aa-ItemContent"
     >
-      <span
-        aria-hidden="true"
-        class="fa fa-fw fa-map-marker"
-      />
-      <span
-        class="aa-ItemContentTitle"
+      <div
+        class="tw-flex tw-items-baseline tw-gap-1"
       >
-        South Station, Boston, MA
-      </span>
+        <span
+          aria-hidden="true"
+          class="fa fa-fw fa-map-marker tw-basis-4 tw-flex-shrink-0"
+        />
+        <span
+          class="aa-ItemContentTitle tw-flex-grow"
+        >
+          123 Main St
+        </span>
+      </div>
+      <div
+        class="tw-text-nowrap tw-flex-grow-0 tw-text-gray-500 tw-text-sm tw-font-normal"
+      >
+        Town, MA
+      </div>
     </div>
   </a>
 </DocumentFragment>
@@ -60,25 +75,49 @@ exports[`Popular template renders 1`] = `
     <div
       class="aa-ItemContent"
     >
-      <span />
-      <span
-        class="c-search-result__feature-icons"
-      />
-      <span
-        class="c-search-result__feature-icons"
-      />
-      <span
-        class="c-search-result__feature-icons"
-      />
-      <span
-        class="aa-ItemContentBody"
+      <div
+        class="tw-flex-grow tw-mt-1"
       >
-        <span
-          class="aa-ItemContentTitle notranslate"
+        <div
+          class="tw-flex tw-items-baseline tw-flex-grow"
         >
-          South Station
-        </span>
-      </span>
+          <div
+            class="tw-basis-6"
+          />
+          <strong
+            class="aa-ItemContentTitle notranslate"
+          >
+            South Station
+          </strong>
+        </div>
+        <div
+          class="tw-flex tw-gap-1 tw-mt-2 tw-mb-1"
+        >
+          <span
+            class="c-search-result__feature-icons"
+          />
+          <span
+            class="c-search-result__feature-icons"
+          />
+          <span
+            class="c-search-result__feature-icons"
+          />
+          <span
+            class="c-search-result__feature-icons"
+          >
+            <span
+              class="c-icon__cr-zone"
+            >
+              Zone 1A
+            </span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal"
+      >
+        Town, MA
+      </div>
     </div>
   </a>
 </DocumentFragment>

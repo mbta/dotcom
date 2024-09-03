@@ -177,7 +177,7 @@ const TRIP_PLANNER = ({
     const name: string =
       (item.route as Route)?.name ||
       (item.stop as Stop)?.name ||
-      ((item as unknown) as LocationItem).address ||
+      ((item as unknown) as LocationItem).formatted ||
       (item as ContentItem).content_title ||
       ((item as unknown) as PopularItem).name ||
       "";

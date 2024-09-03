@@ -166,7 +166,7 @@ describe("AlgoliaResult", () => {
   };
   const locationHits = {
     bostonCommon: {
-      address: "Boston Common, Tremont Street, Boston, MA, USA",
+      street_address: "Boston Common, Tremont Street, Boston, MA, USA",
       highlighted_spans: [
         { length: 2, offset: 3 },
         { length: 5, offset: 9 }

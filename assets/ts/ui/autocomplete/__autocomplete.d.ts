@@ -2,7 +2,6 @@ import { Hit } from "@algolia/client-search";
 import { BaseItem } from "@algolia/autocomplete-core";
 import { Route, RouteType, Stop } from "../../__v3api";
 import { HighlightedSpan } from "../../helpers/text";
-import { TripPlannerLocControls } from "../../../js/trip-planner-location-controls";
 
 type AlgoliaItem = Hit<{ index: string }> & BaseItem;
 

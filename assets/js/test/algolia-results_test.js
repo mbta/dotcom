@@ -137,7 +137,8 @@ describe("AlgoliaResults", () => {
         const hit = {
           stop: {
             id: "stop-id",
-            name: "pre_stop-name"
+            name: "pre_stop-name",
+            "station?": true
           },
           _highlightResult: {
             stop: {
@@ -164,7 +165,6 @@ describe("AlgoliaResults", () => {
         expect(result).to.be.a("string");
         expect(result).to.have.string("/stops/" + hit.stop.id);
         expect(result).to.have.string(hit._highlightResult.stop.name.value);
-        expect(result).to.have.string("stop-icon");
         expect(result).to.have.string("green-line-b-icon");
         expect(result).to.have.string("bus-icon");
         expect(result).to.have.string("Zone 8");
@@ -290,7 +290,8 @@ describe("AlgoliaResults", () => {
               hitTitle: "title1",
               stop: {
                 id: "id1",
-                name: "name1"
+                name: "name1",
+                "station?": true
               },
               _highlightResult: {
                 stop: {
@@ -308,7 +309,8 @@ describe("AlgoliaResults", () => {
               hitTitle: "title2",
               stop: {
                 id: "id2",
-                name: "name2"
+                name: "name2",
+                "station?": true
               },
               _highlightResult: {
                 stop: {
