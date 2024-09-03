@@ -7,21 +7,28 @@ defmodule LocationServiceTest do
 
   setup :verify_on_exit!
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    :ok
+  end
+
   describe "geocode/1" do
     test "can handle a response with results" do
       address = Faker.Address.street_address()
 
-      expect(AwsClient.Mock, :search_place_index_for_text, fn _, input, _ ->
-        assert input[:Text] == address
+      expect(AwsClient.Mock, :search_place_index_for_text, fn _, input ->
+        assert input["Text"] == address
         response = build(:search_place_index_for_text_response)
         {:ok, response, %{}}
       end)
 
-      assert [%LocationService.Address{} | _] = geocode(address)
+      assert {:ok, [%LocationService.Address{} | _]} = geocode(address)
     end
 
     test "can handle a response with error" do
-      expect(AwsClient.Mock, :search_place_index_for_text, fn _, _, _ ->
+      expect(AwsClient.Mock, :search_place_index_for_text, fn _, _ ->
         {:error, "Some error message"}
       end)
 
@@ -34,17 +41,17 @@ defmodule LocationServiceTest do
       latitude = Faker.Address.latitude()
       longitude = Faker.Address.longitude()
 
-      expect(AwsClient.Mock, :search_place_index_for_position, fn _, input, _ ->
-        assert input[:Position] == [longitude, latitude]
+      expect(AwsClient.Mock, :search_place_index_for_position, fn _, input ->
+        assert input["Position"] == [longitude, latitude]
         response = build(:search_place_index_for_position_response)
         {:ok, response, %{}}
       end)
 
-      assert [%LocationService.Address{} | _] = reverse_geocode(latitude, longitude)
+      assert {:ok, [%LocationService.Address{} | _]} = reverse_geocode(latitude, longitude)
     end
 
     test "can handle a response with error" do
-      expect(AwsClient.Mock, :search_place_index_for_position, fn _, _, _ ->
+      expect(AwsClient.Mock, :search_place_index_for_position, fn _, _ ->
         {:error, "Some error message"}
       end)
 
@@ -58,19 +65,19 @@ defmodule LocationServiceTest do
     test "can parse a response with results" do
       text = Faker.Company.name()
 
-      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, input, _ ->
-        assert input[:Text] == text
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, input ->
+        assert input["Text"] == text
         response = build(:search_place_index_for_suggestions_response)
         response = put_in(response["Summary"]["Text"], text)
         {:ok, response, %{}}
       end)
 
       suggestions = autocomplete(text, 2)
-      assert [%LocationService.Suggestion{} | _] = suggestions
+      assert {:ok, [%LocationService.Suggestion{} | _]} = suggestions
     end
 
     test "can handle a response with error" do
-      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _, _ ->
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _ ->
         {:error, "Some error message"}
       end)
 
