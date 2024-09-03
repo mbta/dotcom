@@ -2,6 +2,7 @@ defmodule AwsClient.Behaviour do
   @moduledoc """
   The behaviour for interacting with the AWS client
   """
+  @callback client() :: AWS.Client.t()
   @callback search_place_index_for_position(
               String.t(),
               AWS.Location.search_place_index_for_position_request()
@@ -78,7 +79,8 @@ defmodule AwsClient.Behaviour do
   @impl __MODULE__
   def send_raw_email(message), do: AWS.SES.send_raw_email(client(), message)
 
-  defp client do
+  @impl __MODULE__
+  def client do
     case :aws_credentials.get_credentials() do
       %{
         access_key_id: access_key_id,
