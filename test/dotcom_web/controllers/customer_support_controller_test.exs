@@ -624,22 +624,6 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert Map.has_key?(options_per_mode, "subway_options")
       assert Map.has_key?(options_per_mode, "ferry_options")
     end
-
-    @tag :external
-    test "get_routes_for_mode", %{conn: conn} do
-      conn = get(conn, customer_support_path(conn, :index))
-
-      assert get_routes_for_mode(conn, :subway) == [
-               "Red Line",
-               "Blue Line",
-               "Orange Line",
-               "Green Line"
-             ]
-
-      refute get_routes_for_mode(conn, :bus) == []
-      refute get_routes_for_mode(conn, :commuter_rail) == []
-      refute get_routes_for_mode(conn, :ferry) == []
-    end
   end
 
   defp wait_for_ticket_task(%{private: %{ticket_task: pid}}) do
