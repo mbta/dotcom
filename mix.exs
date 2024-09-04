@@ -130,12 +130,7 @@ defmodule DotCom.Mixfile do
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.4.0"},
       {:quixir, "0.9.3", [only: :test]},
-      # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
-      {:recaptcha,
-       [
-         github: "samueljseay/recaptcha",
-         ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
-       ]},
+      {:recaptcha, "3.1.0"},
       {:recase, "0.8.1"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.5.1"},
