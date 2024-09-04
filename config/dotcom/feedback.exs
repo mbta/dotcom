@@ -7,7 +7,6 @@ config :dotcom,
 if config_env() == :test do
   config :dotcom,
     time_fetcher: Feedback.FakeDateTime,
-    send_email_fn: &Feedback.Test.send_email/1,
     feedback_rate_limit: 1_000,
     support_ticket_to_email: "test@test.com",
     support_ticket_from_email: "from@test.com",

@@ -8,7 +8,7 @@ defmodule Feedback.Mailer do
 
   @aws_client Application.compile_env(:dotcom, :aws_client)
 
-  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
+  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
     ada_complaint = if message.ada_complaint, do: "Yes", else: "No"

@@ -7,7 +7,7 @@ defmodule Feedback.Test do
     file = Application.get_env(:dotcom, :test_mail_file)
     body = File.read!(file)
 
-    case Poison.decode(body) do
+    case Jason.decode(body) do
       {:ok, parsed} ->
         parsed
 
@@ -26,18 +26,17 @@ defmodule Feedback.Test do
         []
       end
 
-    message_json =
+    message =
       %{
         to: parsed_message.headers["to"],
         text: parsed_message.body,
         attachments: attachments |> Enum.map(&simplify_attachment/1)
       }
-      |> Poison.encode!()
 
     file = Application.get_env(:dotcom, :test_mail_file)
-    File.write!(file, message_json)
+    File.write!(file, Jason.encode!(message))
 
-    {:ok, :status_info_that_gets_ignored_by_caller}
+    {:ok, message, %{}}
   end
 
   defp simplify_attachment(%Mail.Message{

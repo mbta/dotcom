@@ -13,7 +13,7 @@ defmodule Feedback.MockAws do
       |> RFC2822.parse()
       |> log_email()
 
-    {:ok, :status_info_that_gets_ignored_by_caller}
+    {:ok, :status_info_that_gets_ignored_by_caller, :ok}
   end
 
   defp log_email(%Mail.Message{headers: %{"to" => to}, body: body}) do
