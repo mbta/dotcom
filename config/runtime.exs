@@ -191,7 +191,7 @@ config :dotcom, DotcomWeb.ViewHelpers,
 
 config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
-  secret: System.get_env("RECAPTCHA_PRIVATE_KEY")
+  secret: System.get_env("RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")
 
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
