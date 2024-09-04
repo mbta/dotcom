@@ -1,3 +1,13 @@
+// TailwindCSS
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// Tailwind overrides
+input[type=text]:focus {
+  --tw-ring-color: transparent;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -153,7 +163,3 @@
 @import 'vendor/fixedsticky'; // needs refactor
 @import 'utilities';
 
-// TailwindCSS
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
