@@ -52,7 +52,7 @@ defmodule Feedback.RepoTest do
     test "returns ok and logs success" do
       log =
         capture_log(fn ->
-          assert {:ok, _} = send_ticket(@message)
+          assert {:ok, _, _} = send_ticket(@message)
         end)
 
       assert log =~ "[info]"
