@@ -12,7 +12,7 @@ defmodule Mix.Tasks.Algolia.Update do
   @shortdoc "Update data in Algolia indexes"
   @impl Mix.Task
   def run(args) do
-    _ = Application.ensure_all_started(:dotcom)
+    Mix.Task.run("app.start")
 
     {opts, _, _} = OptionParser.parse(args, switches: [host: :string])
 
