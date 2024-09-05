@@ -23,7 +23,7 @@ const AlgoliaAutocomplete: Partial<ViewHook> = {
       const pushToLiveView = (data: Partial<Item>): void => {
         if (hook.el.querySelector("[data-config='trip-planner']")) {
           // this will fail outside of a LiveView, that's fine
-          hook.pushEventTo(hook.el, "map_change", {
+          hook.pushEvent("map_change", {
             id: hook.el.id,
             ...data
           });
