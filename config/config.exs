@@ -30,7 +30,6 @@ config :dotcom, :otp_module, OpenTripPlannerClient
 config :dotcom, :req_module, Req
 
 config :sentry,
-  filter: Dotcom.SentryFilter,
   json_library: Poison
 
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do
