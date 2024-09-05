@@ -60,6 +60,7 @@ RUN mix sentry.package_source_code
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
 RUN mix do compile, phx.digest
+RUN mix sentry.package_source_code
 RUN mix release
 
 # 4) Use the nodejs container for the runtime environment

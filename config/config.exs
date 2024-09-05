@@ -30,7 +30,9 @@ config :dotcom, :otp_module, OpenTripPlannerClient
 config :dotcom, :req_module, Req
 
 config :sentry,
-  json_library: Poison
+  enable_source_code_context: true,
+  root_source_code_paths: [File.cwd!()],
+  context_lines: 5
 
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do
   import_config("../#{config_file}")
