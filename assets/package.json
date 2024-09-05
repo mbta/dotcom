@@ -8,7 +8,7 @@
     "@algolia/autocomplete-theme-classic": "^1.11.1",
     "@algolia/client-search": "^4.20.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
-    "@sentry/react": "^7.0.0",
+    "@sentry/react": "^8.28.0",
     "@types/dot-prop-immutable": "^1.5.0",
     "a11y-dialog": "^7.0.3",
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git#ad94896",
