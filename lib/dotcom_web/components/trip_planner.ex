@@ -2,9 +2,11 @@ defmodule DotcomWeb.Components.TripPlanner do
   @moduledoc """
   Reusable components mainly used for the Trip Planner
   """
+
   use Phoenix.Component
 
   import DotcomWeb.Components, only: [algolia_autocomplete: 1]
+  import DotcomWeb.CoreComponents, only: [input: 1]
 
   alias TripPlanner.InputForm
 
@@ -16,6 +18,8 @@ defmodule DotcomWeb.Components.TripPlanner do
   attr :do_validation, :boolean,
     default: false,
     doc: "Whether to run the form validation on render."
+
+  attr :show_date_time, :boolean, default: false
 
   @doc """
   A form to plan trips. Use in a LiveView and specify the phx-action:
@@ -62,11 +66,51 @@ defmodule DotcomWeb.Components.TripPlanner do
           </p>
         </.algolia_autocomplete>
       </div>
-      <button type="submit" class="btn btn-primary">
+      <fieldset>
+        <legend>When</legend>
+        <a
+          phx-click="hide-date-time"
+          class="tw-py-3 tw-px-4 tw-inline-flex tw-items-center tw-gap-x-2 tw-text-sm tw-font-medium tw-rounded-lg tw-border tw-border-transparent tw-bg-blue-100 tw-text-white"
+        >
+          Now
+        </a>
+        <a phx-click="show-date-time" class="tw-underline">Leave At</a>
+        <a phx-click="show-date-time" class="tw-underline">Arrive By</a>
+        <div :if={@show_date_time}>
+          <p>I am the date time picker</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Mode</legend>
+        <.input type="checkbox" id="subway" name="subway" label="Subway" checked />
+        <.input type="checkbox" id="bus" name="bus" label="Bus" checked />
+        <.input type="checkbox" id="commuter_rail" name="commuter_rail" label="Commuter Rail" checked />
+        <.input type="checkbox" id="ferry" name="ferry" label="Ferry" checked />
+      </fieldset>
+      <hr />
+      <fieldset>
+        <.input
+          type="checkbox"
+          id="prefer_accessible_routes"
+          name="prefer_accessible_routes"
+          label="Prefer accessible routes"
+          checked
+        />
+      </fieldset>
+      <hr />
+      <button type="submit">
         Get trip suggestions
       </button>
     </.form>
     """
+  end
+
+  def handle_event("hide-date-time", _, socket) do
+    {:no_reply, assign(socket, show_date_time: false)}
+  end
+
+  def handle_event("show-date-time", _, socket) do
+    {:no_reply, assign(socket, show_date_time: true)}
   end
 
   defp create_form(%{do_validation: true, params: params, on_validated_pid: on_validated_pid})
