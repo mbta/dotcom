@@ -10,7 +10,7 @@ const ErrorPage: FallbackRender = errorData => {
     <div className="container error-page">
       <div className="row">
         <div className="col-md-6">
-          <h1 className="mt-1">Oh no! We&#39;re experiencing delays.</h1>
+          <h1 className="u-mt-1">Oh no! We&#39;re experiencing delays.</h1>
           <p className="error-paragraph u-bold">
             Something went wrong on our end.
           </p>

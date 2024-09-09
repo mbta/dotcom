@@ -13,7 +13,7 @@ const StopFeatures = ({
   routes: Route[];
 }): ReactElement<HTMLElement> => {
   return (
-    <span className="m-stop-page__header-features mb-6">
+    <span className="m-stop-page__header-features u-mb-6">
       <ModeIcons
         routes={routes.filter(
           route => route.description !== "rail_replacement_bus"

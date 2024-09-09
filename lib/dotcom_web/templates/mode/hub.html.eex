@@ -53,7 +53,7 @@
           <% end %>
         </div>
         <%= if @paragraph do %>
-          <div class="c-cms__sidebar mt-1" style="padding: 0">
+          <div class="c-cms__sidebar u-mt-1" style="padding: 0">
             <%= DotcomWeb.CMS.ParagraphView.render_paragraph(@paragraph, @conn) %>
           </div>
         <% end %>

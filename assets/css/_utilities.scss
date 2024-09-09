@@ -251,43 +251,43 @@
 
 // quick margin utilities loosely based off Bootstrap v4
 /* stylelint-disable declaration-no-important */
-.mb-0 {
+.u-mb-0 {
   margin-bottom: 0 !important;
 }
 
-.mb-05 {
+.u-mb-05 {
   margin-bottom: calc(#{$base-spacing} / 2) !important;
 }
 
-.mb-1 {
+.u-mb-1 {
   margin-bottom: $base-spacing !important;
 }
 
-.mb-2 {
+.u-mb-2 {
   margin-bottom: $base-spacing * 2 !important;
 }
 
-.mt-0 {
+.u-mt-0 {
   margin-top: 0 !important;
 }
 
-.mt-05 {
+.u-mt-05 {
   margin-top: calc(#{$base-spacing} / 2) !important;
 }
 
-.mt-1 {
+.u-mt-1 {
   margin-top: $base-spacing !important;
 }
 
-.mt-2 {
+.u-mt-2 {
   margin-top: $base-spacing * 2 !important;
 }
 
-.mt-3 {
+.u-mt-3 {
   margin-top: $base-spacing * 3 !important;
 }
 
-.mr-025 {
+.u-mr-025 {
   margin-right: $base-spacing * .25 !important;
 }
 /* stylelint-enable declaration-no-important */

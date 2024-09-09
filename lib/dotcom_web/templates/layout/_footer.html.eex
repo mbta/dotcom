@@ -70,7 +70,7 @@
             </div>
           </div>
           <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
-          <div class="container m-footer__policy-links mt-16">
+          <div class="container m-footer__policy-links u-mt-16">
             <%= link "Privacy Policy", to: "/policies/privacy-policy", class: "me-16" %>
             <%= link "Terms of Use", to: "/policies/terms-use" %>
           </div>

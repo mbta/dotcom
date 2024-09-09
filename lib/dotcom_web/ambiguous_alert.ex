@@ -59,12 +59,12 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
         Phoenix.HTML.Tag.content_tag(
           :div,
           [
-            DotcomWeb.ViewHelpers.fa("calendar", class: "mr-025"),
+            DotcomWeb.ViewHelpers.fa("calendar", class: "u-mr-025"),
             date_tag(start_date) || "Present",
             " — ",
             date_tag(end_date) || "Present"
           ],
-          class: "u-small-caps u-bold mb-1"
+          class: "u-small-caps u-bold u-mb-1"
         )
       end
     end)

@@ -94,7 +94,7 @@ const RapidTransitHoursOfOperation = ({
 
   return (
     <>
-      <div className="u-bg-primary-light-contrast p-16 mt-16">
+      <div className="u-bg-primary-light-contrast p-16 u-mt-16">
         <h3 style={{ marginTop: "0rem" }}>Today&#39;s Service</h3>
         <br />
         {earliestTrain && latestTrain && (

@@ -128,7 +128,7 @@
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
         <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-input support-form-input--small form-control", "aria-describedby": "phoneHelp", autocomplete: "tel", id: "phone" %>
       </div>
-      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> mb-0 mt-1">
+      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> u-mb-0 u-mt-1">
         <%= support_error_tag @errors, "privacy" %>
         <%= DotcomWeb.PartialView.render("_checkbox.html", %{
           form: f,

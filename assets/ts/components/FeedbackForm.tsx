@@ -153,7 +153,7 @@ const FeedbackForm = ({
         )}
       </span>
       {showComment && (
-        <div id={commentId} className="mt-05">
+        <div id={commentId} className="u-mt-05">
           <div className="form-group">
             <label className="w-100">
               <strong>{commentLabel}</strong>

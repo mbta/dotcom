@@ -22,14 +22,14 @@ const StopPageHeader = ({
           style={{ alignItems: "center" }}
         >
           <div className="d-flex">
-            <h1 className="stop-page__header--fontsize mt-8">{stop.name}</h1>
+            <h1 className="stop-page__header--fontsize u-mt-8">{stop.name}</h1>
           </div>
           <div>
-            <div className="mt-8 d-flex justify-content-end">
+            <div className="u-mt-8 d-flex justify-content-end">
               <StopFeatures stop={stop} routes={routes} />
             </div>
             <div
-              className="mt-n8 pb-8 fs-14 u-nowrap"
+              className="u-mt-n8 pb-8 fs-14 u-nowrap"
               style={{ float: "right" }}
             >
               {!isStopAStation(stop) && `Stop ${stop.id}`}

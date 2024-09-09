@@ -266,7 +266,7 @@ const DailyScheduleSubway = ({
           header={{
             text: "Train Frequency",
             iconSvgText: null,
-            classOverride: "mt-8"
+            classOverride: "u-mt-8"
           }}
           initiallyExpanded={false}
           id="train-frequency"
@@ -282,7 +282,7 @@ const DailyScheduleSubway = ({
       <div className="d-flex pt-8 pb-18 fs-18">
         <a
           href={`/trip-planner/from/${stopLatLong}`}
-          className="btn btn-secondary btn-block mt-8"
+          className="btn btn-secondary btn-block u-mt-8"
         >
           Plan Your Trip
         </a>
