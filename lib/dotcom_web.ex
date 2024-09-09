@@ -134,6 +134,8 @@ defmodule DotcomWeb do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      # Use all MBTA Metro components
+      use MbtaMetro
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
@@ -147,7 +149,6 @@ defmodule DotcomWeb do
       alias DotcomWeb.Router.Helpers
 
       import DotcomWeb.Components
-      import DotcomWeb.CoreComponents
     end
   end
 
