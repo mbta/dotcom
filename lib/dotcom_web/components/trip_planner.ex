@@ -2,7 +2,7 @@ defmodule DotcomWeb.Components.TripPlanner do
   @moduledoc """
   Reusable components mainly used for the Trip Planner
   """
-  use Phoenix.Component
+  use DotcomWeb, :component
 
   import DotcomWeb.Components, only: [algolia_autocomplete: 1]
 
@@ -41,7 +41,7 @@ defmodule DotcomWeb.Components.TripPlanner do
       phx-change="input_change"
       phx-submit={@phx_submit_handler}
     >
-      <div :for={field <- [:from, :to]} class="mb-1">
+      <div :for={field <- [:from, :to]} class="mb-2">
         <.algolia_autocomplete
           config_type="trip-planner"
           placeholder="Enter a location"
@@ -57,9 +57,9 @@ defmodule DotcomWeb.Components.TripPlanner do
               name={location_f[subfield].name}
             />
           </.inputs_for>
-          <p :for={{msg, _} <- f[field].errors} :if={@do_validation} class="text-danger u-bold">
+          <.error :for={{msg, _} <- f[field].errors} :if={@do_validation}>
             <%= msg %>
-          </p>
+          </.error>
         </.algolia_autocomplete>
       </div>
       <button type="submit" class="btn btn-primary">
