@@ -6,7 +6,7 @@ const fs = require("fs")
 const path = require("path")
 
 module.exports = {
-    prefix: "tw-",
+    important: true,
     corePlugins: {
         preflight: false
     },
@@ -15,7 +15,8 @@ module.exports = {
         "./ts/**/*.ts",
         "./ts/**/*.tsx",
         "../lib/dotcom_web.ex",
-        "../lib/dotcom_web/**/*.*ex"
+        "../lib/dotcom_web/**/*.*ex",
+        "../deps/mbta_metro/**/*.*ex"
     ],
     theme: {
         extend: {
