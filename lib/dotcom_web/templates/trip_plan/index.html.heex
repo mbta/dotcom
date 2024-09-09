@@ -14,10 +14,10 @@
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
           <% metadata = trip_plan_metadata(@conn) %>
           <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Jason.encode!(%{itineraryData: itinerary_data, metadata: metadata})) %></script>
-          <div id="react-root"></div>
           <%= if Application.get_env(:dotcom, :dev_server?) do %>
-            <script defer src={ "#{Application.get_env(:dotcom, :webpack_path)}/tripplanresults.js" }></script>
+            <DotcomWeb.Components.TripPlanner.ItineraryGroups.itinerary_groups groups={@groups} />
           <% else %>
+            <div id="react-root"></div>
             <script defer src={ static_url(@conn, "/js/react.js") }></script>
             <script defer src={ static_url(@conn, "/js/tripplanresults.js") }></script>
           <% end %>
