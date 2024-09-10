@@ -6,11 +6,6 @@
       <link rel="stylesheet" href={ static_url(@conn, "/css/map.css") }>
       <%= case assigns[:query] do %>
        <% %{itineraries: {:ok, _}} -> %>
-          <p id="results-summary" class="no-trips page-section" autofocus phx-hook="ScrollIntoView">
-            <% l = length(@itineraries) %>
-            <%= "We found #{l} #{Inflex.inflect("trip", l)} for you" %>
-          </p>
-          <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
           <% metadata = trip_plan_metadata(@conn) %>
           <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Jason.encode!(%{itineraryData: itinerary_data, metadata: metadata})) %></script>
