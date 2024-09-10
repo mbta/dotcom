@@ -14,7 +14,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   """
   def itinerary_group(assigns) do
     ~H"""
-    <div class="itinerary-group tw-m-3 tw-p-3 tw-border-solid tw-border-1 tw-border-indigo-200">
+    <div class="itinerary-group tw-m-3 tw-mt-0 tw-p-3 tw-border-solid tw-border-1 tw-border-indigo-200">
       <div class="itinerary-group-legs">
         <ol>
           <%= for variation <- @group do %>
