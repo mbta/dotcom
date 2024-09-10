@@ -8,14 +8,7 @@
        <% %{itineraries: {:ok, _}} -> %>
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
           <% metadata = trip_plan_metadata(@conn) %>
-          <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Jason.encode!(%{itineraryData: itinerary_data, metadata: metadata})) %></script>
-          <%= if Application.get_env(:dotcom, :dev_server?) do %>
-            <DotcomWeb.Components.TripPlanner.ItineraryGroups.itinerary_groups groups={@groups} />
-          <% else %>
-            <div id="react-root"></div>
-            <script defer src={ static_url(@conn, "/js/react.js") }></script>
-            <script defer src={ static_url(@conn, "/js/tripplanresults.js") }></script>
-          <% end %>
+          <DotcomWeb.Components.TripPlanner.ItineraryGroups.itinerary_groups groups={@groups} />
        <% _ -> %>
         <%= if assigns[:map_data] do %>
           <% %{map_data: map_data} = assigns %>
