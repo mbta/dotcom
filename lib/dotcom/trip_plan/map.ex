@@ -2,10 +2,10 @@ defmodule Dotcom.TripPlan.Map do
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
   """
+  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias Routes.Route
-  alias TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Util.Position
 
   @type t :: MapData.t()

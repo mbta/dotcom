@@ -5,9 +5,8 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
   An optional to and from name can be passed in.
   """
 
-  alias Dotcom.TripPlan.ItineraryRow
+  alias Dotcom.TripPlan.{Itinerary, ItineraryRow}
   alias Stops.Stop
-  alias TripPlan.Itinerary
 
   defstruct rows: [],
             destination: nil,

@@ -4,8 +4,7 @@ defmodule Dotcom.TripPlan.QueryTest do
   import Dotcom.TripPlan.Query
   import Mox
   import Test.Support.Factories.LocationService.LocationService
-  alias Dotcom.TripPlan.Query
-  alias TripPlan.NamedPosition
+  alias Dotcom.TripPlan.{Itinerary, NamedPosition, Query}
 
   @date_time Timex.to_datetime(~N[2017-05-30T19:30:00], "America/New_York")
   @date_time_params %{
@@ -275,11 +274,11 @@ defmodule Dotcom.TripPlan.QueryTest do
   describe "get_itineraries/1" do
     test "returns itineraries if present" do
       itineraries = [
-        %TripPlan.Itinerary{
+        %Itinerary{
           start: Util.now(),
           stop: Util.now()
         },
-        %TripPlan.Itinerary{
+        %Itinerary{
           start: Util.now(),
           stop: Util.now()
         }

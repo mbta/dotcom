@@ -1,10 +1,10 @@
-defmodule TripPlanner.OpenTripPlanner do
+defmodule Dotcom.TripPlan.OpenTripPlanner do
   @moduledoc """
   Makes requests to OpenTripPlanner via the OpenTripPlannerClient library, and
   parses the result.
   """
 
-  alias Dotcom.TripPlanner.Parser
+  alias Dotcom.TripPlan.{NamedPosition, Parser}
 
   alias OpenTripPlannerClient.ItineraryTag.{
     EarliestArrival,
@@ -12,8 +12,6 @@ defmodule TripPlanner.OpenTripPlanner do
     MostDirect,
     ShortestTrip
   }
-
-  alias TripPlan.NamedPosition
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 

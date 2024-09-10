@@ -1,7 +1,6 @@
 defmodule Dotcom.TripPlan.Location do
-  alias Dotcom.TripPlan.Query
+  alias Dotcom.TripPlan.{NamedPosition, Query}
   alias Phoenix.HTML
-  alias TripPlan.NamedPosition
 
   @location_service Application.compile_env!(:dotcom, :location_service)
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -124,7 +123,7 @@ defmodule Dotcom.TripPlan.Location do
   @spec do_validate_by_name(LocationService.Behaviour.result(), :to | :from, Query.t(), map) ::
           Query.t()
   defp do_validate_by_name({:ok, [%LocationService.Address{} = result | _]}, field, query, params) do
-    pos = TripPlan.NamedPosition.new(result)
+    pos = NamedPosition.new(result)
 
     query
     |> Map.put(field, pos)

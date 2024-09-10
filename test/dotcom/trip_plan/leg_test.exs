@@ -1,8 +1,8 @@
-defmodule TripPlan.LegTest do
+defmodule Dotcom.TripPlan.LegTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import TripPlan.Leg
+  import Dotcom.TripPlan.Leg
 
   alias Test.Support.Factories.{Routes.Route, Stops.Stop, TripPlanner.TripPlanner}
 

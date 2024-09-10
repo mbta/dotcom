@@ -1,9 +1,8 @@
 defmodule DotcomWeb.TripPlanControllerTest do
   use DotcomWeb.ConnCase, async: true
 
+  alias Dotcom.TripPlan.{Itinerary, PersonalDetail, Query, TransitDetail}
   alias Fares.Fare
-  alias Dotcom.TripPlan.Query
-  alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
   import Test.Support.Factories.LocationService.LocationService
 
@@ -310,7 +309,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
       for itinerary <- conn.assigns.itineraries do
         for leg <- itinerary.legs do
-          if TripPlan.Leg.transit?(leg) do
+          if Dotcom.TripPlan.Leg.transit?(leg) do
             assert leg.mode.fares == %{
                      highest_one_way_fare: nil,
                      lowest_one_way_fare: nil,

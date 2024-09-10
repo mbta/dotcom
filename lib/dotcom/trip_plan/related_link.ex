@@ -8,9 +8,9 @@ defmodule Dotcom.TripPlan.RelatedLink do
   import DotcomWeb.Router.Helpers
   import PhoenixHTMLHelpers.Link, only: [link: 2]
 
+  alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Routes.Route
-  alias TripPlan.{Itinerary, Leg, TransitDetail}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 

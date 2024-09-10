@@ -4,6 +4,7 @@ defmodule FaresTest do
 
   import Mox
 
+  alias Dotcom.TripPlan.{NamedPosition, Leg, PersonalDetail, PersonalDetail.Step, TransitDetail}
   alias Test.Support.Factories.{Routes.Route, Stops.Stop}
 
   setup :verify_on_exit!
@@ -186,17 +187,17 @@ defmodule FaresTest do
 
   describe "get_fare_by_type/2" do
     test "gets fare by type" do
-      non_transit_leg = %TripPlan.Leg{
-        from: %TripPlan.NamedPosition{
+      non_transit_leg = %Leg{
+        from: %NamedPosition{
           latitude: 42.365486,
           longitude: -71.103802,
           name: "Central",
           stop: nil
         },
-        mode: %TripPlan.PersonalDetail{
+        mode: %PersonalDetail{
           distance: 24.274,
           steps: [
-            %TripPlan.PersonalDetail.Step{
+            %Step{
               absolute_direction: :southeast,
               distance: 24.274,
               relative_direction: :depart,
@@ -205,7 +206,7 @@ defmodule FaresTest do
           ]
         },
         polyline: "eoqaGzm~pLTe@BE@A",
-        to: %TripPlan.NamedPosition{
+        to: %NamedPosition{
           latitude: 42.365304,
           longitude: -71.103621,
           name: "Central",
@@ -229,14 +230,14 @@ defmodule FaresTest do
         cents: 110
       }
 
-      transit_leg = %TripPlan.Leg{
-        from: %TripPlan.NamedPosition{
+      transit_leg = %Leg{
+        from: %NamedPosition{
           latitude: 42.365304,
           longitude: -71.103621,
           name: "Central",
           stop: %Stops.Stop{id: "70069"}
         },
-        mode: %TripPlan.TransitDetail{
+        mode: %TransitDetail{
           fares: %{
             highest_one_way_fare: highest_one_way_fare,
             lowest_one_way_fare: lowest_one_way_fare,
@@ -246,7 +247,7 @@ defmodule FaresTest do
           route: %Routes.Route{id: "Red"},
           trip_id: "43870769C0"
         },
-        to: %TripPlan.NamedPosition{
+        to: %NamedPosition{
           latitude: 42.356395,
           longitude: -71.062424,
           name: "Park Street",

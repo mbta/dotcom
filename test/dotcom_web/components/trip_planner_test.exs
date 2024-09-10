@@ -1,8 +1,8 @@
-defmodule DotcomWeb.Components.TripPlannerTest do
+defmodule DotcomWeb.Components.TripPlannerFormTest do
   @moduledoc false
   use ExUnit.Case
   import Phoenix.LiveViewTest
-  import DotcomWeb.Components.TripPlanner
+  import DotcomWeb.Components.TripPlannerForm
 
   describe "input_form" do
     test "renders the needed inputs" do
@@ -75,12 +75,12 @@ defmodule DotcomWeb.Components.TripPlannerTest do
 
       assert_receive {:updated_form, data}
 
-      assert %TripPlanner.InputForm{
-               from: %TripPlanner.InputForm.Location{
+      assert %Dotcom.TripPlan.InputForm{
+               from: %Dotcom.TripPlan.InputForm.Location{
                  latitude: ^from_lat,
                  longitude: ^from_lon
                },
-               to: %TripPlanner.InputForm.Location{
+               to: %Dotcom.TripPlan.InputForm.Location{
                  latitude: ^to_lat,
                  longitude: ^to_lon
                }

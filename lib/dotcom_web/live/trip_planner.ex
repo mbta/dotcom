@@ -7,7 +7,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.Components.TripPlanner
+  import DotcomWeb.Components.TripPlannerForm
 
   @form_id "trip-planner-form"
 

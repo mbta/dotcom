@@ -1,4 +1,4 @@
-defmodule TripPlan.Leg do
+defmodule Dotcom.TripPlan.Leg do
   @moduledoc """
   A single-mode part of an Itinerary
 
@@ -6,7 +6,7 @@ defmodule TripPlan.Leg do
   train, &c). Leg represents a single mode of travel during journey.
   """
 
-  alias TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
 
   @derive {Jason.Encoder, only: [:from, :to, :mode]}
   defstruct start: Timex.now(),

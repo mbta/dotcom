@@ -7,10 +7,19 @@ defmodule DotcomWeb.TripPlanController do
 
   require Logger
 
-  alias Dotcom.TripPlan.{ItineraryRowList, Query, RelatedLink}
+  alias Dotcom.TripPlan.{
+    Itinerary,
+    ItineraryRowList,
+    Leg,
+    NamedPosition,
+    PersonalDetail,
+    Query,
+    RelatedLink,
+    TransitDetail
+  }
+
   alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias Routes.Route
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   @location_service Application.compile_env!(:dotcom, :location_service)
 
@@ -44,7 +53,7 @@ defmodule DotcomWeb.TripPlanController do
     if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
       [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
-      destination = %TripPlan.NamedPosition{
+      destination = %NamedPosition{
         latitude: String.to_float(latitude),
         longitude: String.to_float(longitude),
         name: name,
@@ -108,7 +117,7 @@ defmodule DotcomWeb.TripPlanController do
     if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
       [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
-      destination = %TripPlan.NamedPosition{
+      destination = %NamedPosition{
         latitude: String.to_float(latitude),
         longitude: String.to_float(longitude),
         name: name,

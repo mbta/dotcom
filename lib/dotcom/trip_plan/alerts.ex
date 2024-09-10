@@ -10,7 +10,7 @@ defmodule Dotcom.TripPlan.Alerts do
 
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
-  alias TripPlan.{Itinerary, Leg, TransitDetail}
+  alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
 
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
   @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]

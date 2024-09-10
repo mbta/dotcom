@@ -1,10 +1,16 @@
 defmodule Dotcom.TripPlan.ItineraryRow do
   @moduledoc false
 
-  alias Dotcom.TripPlan.IntermediateStop
+  alias Dotcom.TripPlan.{
+    IntermediateStop,
+    Leg,
+    NamedPosition,
+    PersonalDetail,
+    PersonalDetail.Step,
+    TransitDetail
+  }
+
   alias Routes.Route
-  alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
-  alias TripPlan.PersonalDetail.Step
 
   defstruct stop: {nil, nil},
             route: nil,

@@ -1,7 +1,6 @@
 defmodule Dotcom.TripPlan.LocationTest do
   use ExUnit.Case, async: true
-  alias Dotcom.TripPlan.{Location, Query}
-  alias TripPlan.NamedPosition
+  alias Dotcom.TripPlan.{Location, NamedPosition, Query}
 
   import Mox
   import Test.Support.Factories.LocationService.LocationService

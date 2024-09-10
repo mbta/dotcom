@@ -1,4 +1,4 @@
-defmodule TripPlanner.InputForm do
+defmodule Dotcom.TripPlan.InputForm do
   @moduledoc """
   Describes the inputs users can fill to request trip plans.
 

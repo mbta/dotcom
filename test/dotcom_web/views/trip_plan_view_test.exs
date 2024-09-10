@@ -6,10 +6,20 @@ defmodule DotcomWeb.TripPlanViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Schedules.Repo, only: [end_of_rating: 0]
 
+  alias Dotcom.TripPlan.{
+    IntermediateStop,
+    Itinerary,
+    ItineraryRow,
+    Leg,
+    NamedPosition,
+    PersonalDetail,
+    PersonalDetail.Step,
+    Query,
+    TransitDetail
+  }
+
   alias Fares.Fare
-  alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
-  alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
     additional_valid_modes: [:bus],
@@ -803,7 +813,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert %DateTime{} = time
     end
 
-    test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
+    test "returns with encdoded %Query{}", %{conn: conn} do
       conn =
         assign(conn, :query, %Query{
           from: TripPlanner.build(:named_position),
@@ -874,21 +884,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       round_trip_total: "$5.80"
     }
 
-    @itinerary %TripPlan.Itinerary{
+    @itinerary %Itinerary{
       start: nil,
       stop: nil,
       legs: [
-        %TripPlan.Leg{
-          from: %TripPlan.NamedPosition{
+        %Leg{
+          from: %NamedPosition{
             latitude: 42.365486,
             longitude: -71.103802,
             name: "Central",
             stop: nil
           },
-          mode: %TripPlan.PersonalDetail{
+          mode: %PersonalDetail{
             distance: 24.274,
             steps: [
-              %TripPlan.PersonalDetail.Step{
+              %Step{
                 absolute_direction: :southeast,
                 distance: 24.274,
                 relative_direction: :depart,
@@ -897,27 +907,27 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             ]
           },
           polyline: "eoqaGzm~pLTe@BE@A",
-          to: %TripPlan.NamedPosition{
+          to: %NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
             stop: %Stops.Stop{id: "70069"}
           }
         },
-        %TripPlan.Leg{
-          from: %TripPlan.NamedPosition{
+        %Leg{
+          from: %NamedPosition{
             latitude: 42.365304,
             longitude: -71.103621,
             name: "Central",
             stop: %Stops.Stop{id: "70069"}
           },
-          mode: %TripPlan.TransitDetail{
+          mode: %TransitDetail{
             fares: @fares,
             intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
             route: %Routes.Route{id: "Red"},
             trip_id: "43870769C0"
           },
-          to: %TripPlan.NamedPosition{
+          to: %NamedPosition{
             latitude: 42.356395,
             longitude: -71.062424,
             name: "Park Street",
@@ -1022,21 +1032,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         }
       }
 
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: nil,
         stop: nil,
         legs: [
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
               stop: nil
             },
-            mode: %TripPlan.PersonalDetail{
+            mode: %PersonalDetail{
               distance: 24.274,
               steps: [
-                %TripPlan.PersonalDetail.Step{
+                %Step{
                   absolute_direction: :southeast,
                   distance: 24.274,
                   relative_direction: :depart,
@@ -1045,41 +1055,41 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               ]
             },
             polyline: "eoqaGzm~pLTe@BE@A",
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
               stop: %Stops.Stop{id: "70069"}
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
               stop: %Stops.Stop{id: "70069"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               fares: @fares,
               intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
               route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
               stop: %Stops.Stop{id: "70075"}
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.362804,
               longitude: -71.099509,
               name: "Massachusetts Ave @ Sidney St",
               stop: %Stops.Stop{id: "73"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               fares: bus_fares,
               intermediate_stops: [
                 %Stops.Stop{id: "74"},
@@ -1091,27 +1101,27 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               route: %Routes.Route{id: "1"},
               trip_id: "44170977"
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.342478,
               longitude: -71.084701,
               name: "Massachusetts Ave @ Huntington Ave",
               stop: %Stops.Stop{id: "82"}
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
               stop: %Stops.Stop{id: "70069"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               fares: @fares,
               intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
               route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
@@ -1147,7 +1157,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       shuttle_leg = TripPlanner.build(:shuttle_leg)
       bus_leg = TripPlanner.build(:subway_leg)
 
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: nil,
         stop: nil,
         legs: [shuttle_leg, bus_leg]
@@ -1187,7 +1197,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         TripPlanner.build(:subway_leg)
 
       itinerary =
-        %TripPlan.Itinerary{start: nil, stop: nil, legs: [free_leg, paid_leg]}
+        %Itinerary{start: nil, stop: nil, legs: [free_leg, paid_leg]}
 
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 240
     end
@@ -1279,7 +1289,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           }
       }
 
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: nil,
         stop: nil,
         legs: [red_leg, orange_leg]
@@ -1289,21 +1299,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "returns 0 when there is no highest one-way fare" do
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: nil,
         stop: nil,
         legs: [
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.365486,
               longitude: -71.103802,
               name: "Central",
               stop: nil
             },
-            mode: %TripPlan.PersonalDetail{
+            mode: %PersonalDetail{
               distance: 24.274,
               steps: [
-                %TripPlan.PersonalDetail.Step{
+                %Step{
                   absolute_direction: :southeast,
                   distance: 24.274,
                   relative_direction: :depart,
@@ -1312,21 +1322,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               ]
             },
             polyline: "eoqaGzm~pLTe@BE@A",
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
               stop: %Stops.Stop{id: "70069"}
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               latitude: 42.365304,
               longitude: -71.103621,
               name: "Central",
               stop: %Stops.Stop{id: "70069"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               fares: %{
                 highest_one_way_fare: nil,
                 lowest_one_way_fare: nil
@@ -1335,7 +1345,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               route: %Routes.Route{id: "Red"},
               trip_id: "43870769C0"
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               latitude: 42.356395,
               longitude: -71.062424,
               name: "Park Street",
@@ -1355,19 +1365,19 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           | legs: [
               %Leg{
                 mode: %TransitDetail{route: %Routes.Route{id: "77"}},
-                from: %TripPlan.NamedPosition{
+                from: %NamedPosition{
                   stop: nil
                 },
-                to: %TripPlan.NamedPosition{
+                to: %NamedPosition{
                   stop: nil
                 }
               },
               %Leg{
                 mode: %TransitDetail{route: %Routes.Route{id: "1"}},
-                from: %TripPlan.NamedPosition{
+                from: %NamedPosition{
                   stop: nil
                 },
-                to: %TripPlan.NamedPosition{
+                to: %NamedPosition{
                   stop: nil
                 }
               }
@@ -1418,14 +1428,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "renders the Fare Calculator", %{conn: conn} do
       leg_for_route =
         &%Leg{
-          from: %TripPlan.NamedPosition{
+          from: %NamedPosition{
             stop: nil
           },
           mode: %TransitDetail{
             route: %Routes.Route{id: &1},
             fares: @fares
           },
-          to: %TripPlan.NamedPosition{
+          to: %NamedPosition{
             stop: nil
           }
         }
@@ -1479,14 +1489,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "includes Logan in the trip", %{conn: conn} do
       legs = [
-        %TripPlan.Leg{
-          from: %TripPlan.NamedPosition{
+        %Leg{
+          from: %NamedPosition{
             latitude: 42.366494,
             longitude: -71.017289,
             name: "Terminal C - Arrivals Level",
             stop: %Stops.Stop{id: "17094"}
           },
-          mode: %TripPlan.TransitDetail{
+          mode: %TransitDetail{
             fares: %{
               highest_one_way_fare: %Fares.Fare{
                 additional_valid_modes: [],
@@ -1520,7 +1530,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             route: %Routes.Route{id: "741"},
             trip_id: "44812009"
           },
-          to: %TripPlan.NamedPosition{
+          to: %NamedPosition{
             latitude: 42.352271,
             longitude: -71.055242,
             name: "South Station",
@@ -1611,7 +1621,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       sl_from_logan_itinerary = %Itinerary{
         legs: [
           %Leg{
-            mode: %TripPlan.PersonalDetail{
+            mode: %PersonalDetail{
               distance: 510.2
             }
           },
@@ -1637,40 +1647,40 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "returns true for all other itineraries" do
-      login_sl_plus_subway_itinerary = %TripPlan.Itinerary{
+      login_sl_plus_subway_itinerary = %Itinerary{
         legs: [
-          %TripPlan.Leg{
-            mode: %TripPlan.PersonalDetail{
+          %Leg{
+            mode: %PersonalDetail{
               distance: 385.75800000000004
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               name: "Terminal A",
               stop: %Stops.Stop{id: "17091"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               route: %Routes.Route{id: "741"}
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               name: "South Station",
               stop: %Stops.Stop{id: "74617"}
             }
           },
-          %TripPlan.Leg{
-            mode: %TripPlan.PersonalDetail{
+          %Leg{
+            mode: %PersonalDetail{
               distance: 0.0
             }
           },
-          %TripPlan.Leg{
-            from: %TripPlan.NamedPosition{
+          %Leg{
+            from: %NamedPosition{
               name: "South Station",
               stop: %Stops.Stop{id: "70080"}
             },
-            mode: %TripPlan.TransitDetail{
+            mode: %TransitDetail{
               route: %Routes.Route{id: "Red"}
             },
-            to: %TripPlan.NamedPosition{
+            to: %NamedPosition{
               name: "Downtown Crossing",
               stop: %Stops.Stop{id: "70078"}
             }
@@ -1684,15 +1694,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "returns true for an itinerary without any transit legs" do
-      no_transit_legs_itinerary = %TripPlan.Itinerary{
+      no_transit_legs_itinerary = %Itinerary{
         legs: [
-          %TripPlan.Leg{
-            mode: %TripPlan.PersonalDetail{
+          %Leg{
+            mode: %PersonalDetail{
               distance: 385.75800000000004
             }
           },
-          %TripPlan.Leg{
-            mode: %TripPlan.PersonalDetail{
+          %Leg{
+            mode: %PersonalDetail{
               distance: 0.0
             }
           }
@@ -1719,7 +1729,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         conn: %{query_params: %{}, request_path: ""},
         itinerary_row: %{
           duration: 2,
-          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+          trip: %{headsign: nil, direction_id: 0, name: Faker.App.name()}
         }
       }
 
@@ -1744,7 +1754,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         conn: %{query_params: %{}, request_path: ""},
         itinerary_row: %{
           duration: 2,
-          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+          trip: %{headsign: nil, direction_id: 0, name: Faker.App.name()}
         }
       }
 
@@ -1769,7 +1779,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         conn: %{query_params: %{}, request_path: ""},
         itinerary_row: %{
           duration: 2,
-          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+          trip: %{headsign: nil, direction_id: 0, name: Faker.App.name()}
         }
       }
 
@@ -1794,7 +1804,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         conn: %{query_params: %{}, request_path: ""},
         itinerary_row: %{
           duration: 2,
-          trip: %{headsign: nil, direction_id: 0, name: Faker.Name.name()}
+          trip: %{headsign: nil, direction_id: 0, name: Faker.App.name()}
         }
       }
 
