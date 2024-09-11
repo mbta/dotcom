@@ -164,7 +164,7 @@ defmodule Stops.Api do
       fare_facilities: fare_facilities,
       bike_storage: bike_storage(item),
       child?: child?(item),
-      station?: station?(item),
+      station?: item.attributes["location_type"] == 1,
       has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
       has_charlie_card_vendor?: MapSet.member?(fare_facilities, :fare_media_assistant),
       latitude: item.attributes["latitude"],
@@ -177,11 +177,6 @@ defmodule Stops.Api do
     }
 
     {:ok, stop}
-  end
-
-  @spec station?(Item.t()) :: boolean
-  defp station?(%Item{} = item) do
-    item.attributes["location_type"] == 1 or item.relationships["facilities"] != []
   end
 
   defp type(%Item{attributes: %{"location_type" => 0}}) do
