@@ -357,6 +357,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     id in stop_ids or parent_id in stop_ids
   end
 
+  defp contains_stop?(_stops, _), do: false
+
   # Some shuttle stops must be placed manually within the existing stops. Each
   # key is a scheduled stop ID from a shuttle, and the corresponding value is
   # the name of the canonical rail stop it should be placed adjacent to in the
