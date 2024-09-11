@@ -59,7 +59,7 @@ defmodule DotcomWeb.TripPlanController do
         {:ok, [geocoded_from | _]} ->
           do_from(conn, NamedPosition.new(geocoded_from))
 
-        {:error, _} ->
+        _ ->
           # redirect to the initial index page
           redirect(conn, to: trip_plan_path(conn, :index))
       end
@@ -123,7 +123,7 @@ defmodule DotcomWeb.TripPlanController do
         {:ok, [geocoded_to | _]} ->
           do_to(conn, NamedPosition.new(geocoded_to))
 
-        {:error, _} ->
+        _ ->
           # redirect to the initial index page
           redirect(conn, to: trip_plan_path(conn, :index))
       end
