@@ -1,6 +1,6 @@
 import Config
 
-config :dotcom, :aws, ExAws.Mock
+config :dotcom, :aws_client, AwsClient.Mock
 
 config :dotcom, :cache, Dotcom.Cache.TestCache
 
@@ -36,3 +36,7 @@ config :dotcom, :secure_pipeline,
     host: nil,
     rewrite_on: [:x_forwarded_proto]
   ]
+
+# Credentials that always show widget and pass backend validation:
+config :recaptcha,
+  http_client: Recaptcha.Http.MockClient

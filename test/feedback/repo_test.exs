@@ -1,9 +1,10 @@
 defmodule Feedback.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import ExUnit.CaptureLog, only: [capture_log: 1]
   import Feedback.Repo
-  import Mock
+  import Mox
+  import Test.Support.EnvHelpers, only: [set_log_level: 1]
 
   @message %Feedback.Message{
     comments: "This is great",
@@ -23,36 +24,23 @@ defmodule Feedback.RepoTest do
     incident_date_time: Timex.now()
   }
 
+  setup :verify_on_exit!
+
   describe "send_ticket/1" do
     setup do
-      old_level = Logger.level()
-
-      on_exit(fn ->
-        Logger.configure(level: old_level)
-      end)
-
-      Logger.configure(level: :info)
-    end
-
-    setup_with_mocks([
-      {Feedback.Mailer, [],
-       [
-         send_heat_ticket: fn message, _ ->
-           if message == @message do
-             {:ok, %{}}
-           else
-             {:error, "Something went wrong"}
-           end
-         end
-       ]}
-    ]) do
-      :ok
+      set_log_level(:info)
     end
 
     test "returns ok and logs success" do
+      expect(AwsClient.Mock, :send_raw_email, fn message ->
+        assert message["RawMessage"]["Data"]
+
+        Feedback.Test.send_email(message)
+      end)
+
       log =
         capture_log(fn ->
-          assert {:ok, _} = send_ticket(@message)
+          assert {:ok, _, _} = send_ticket(@message)
         end)
 
       assert log =~ "[info]"
@@ -61,6 +49,10 @@ defmodule Feedback.RepoTest do
     end
 
     test "returns error and logs error" do
+      expect(AwsClient.Mock, :send_raw_email, fn _ ->
+        {:error, :ignored}
+      end)
+
       log =
         capture_log(fn ->
           assert {:error, _} = send_ticket(@bad_message)

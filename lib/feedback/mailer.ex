@@ -6,7 +6,9 @@ defmodule Feedback.Mailer do
   alias Feedback.Message
   alias Mail.Renderers.RFC2822
 
-  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
+  @aws_client Application.compile_env(:dotcom, :aws_client)
+
+  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
     ada_complaint = if message.ada_complaint, do: "Yes", else: "No"
@@ -66,14 +68,18 @@ defmodule Feedback.Mailer do
       |> Mail.put_subject("MBTA Customer Comment Form")
       |> Mail.put_text(body)
 
-    exaws_config_fn = Application.get_env(:dotcom, :exaws_config_fn, &ExAws.Config.new/1)
-
-    exaws_perform_fn = Application.get_env(:dotcom, :exaws_perform_fn, &ExAws.Operation.perform/2)
+    send_email_fn =
+      Application.get_env(
+        :dotcom,
+        :send_email_fn,
+        &@aws_client.send_raw_email/1
+      )
 
     message
     |> RFC2822.render()
-    |> ExAws.SES.send_raw_email()
-    |> exaws_perform_fn.(exaws_config_fn.(:ses))
+    |> Base.encode64()
+    |> then(&%{"RawMessage" => %{"Data" => &1}})
+    |> send_email_fn.()
   end
 
   @spec topic(Message.t()) :: String.t()

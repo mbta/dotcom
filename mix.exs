@@ -19,7 +19,7 @@ defmodule DotCom.Mixfile do
         "coveralls.html": :test
       ],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :ex_aws, :ex_aws_ses],
+        plt_add_apps: [:mix, :phoenix_live_reload],
         flags: [:unmatched_returns],
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
@@ -70,6 +70,8 @@ defmodule DotCom.Mixfile do
   defp deps do
     [
       {:absinthe_client, "0.1.1"},
+      {:aws, "1.0.2"},
+      {:aws_credentials, "0.3.2"},
       {:castore, "1.0.8"},
       {:crc, "0.10.5"},
       {:credo, "1.7.7", only: [:dev, :test]},
@@ -80,9 +82,6 @@ defmodule DotCom.Mixfile do
       {:ecto, "3.12.1"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:ex_aws, "2.5.4"},
-      {:ex_aws_s3, "2.5.3"},
-      {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.34.2", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
@@ -131,12 +130,7 @@ defmodule DotCom.Mixfile do
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.4.0"},
       {:quixir, "0.9.3", [only: :test]},
-      # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
-      {:recaptcha,
-       [
-         github: "samueljseay/recaptcha",
-         ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
-       ]},
+      {:recaptcha, "3.1.0"},
       {:recase, "0.8.1"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.5.1"},

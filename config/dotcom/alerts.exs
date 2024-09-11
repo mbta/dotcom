@@ -6,6 +6,5 @@ config :dotcom, alerts_api_mfa: {MBTA.Api.Alerts, :all, []}
 
 if config_env() == :test do
   config :dotcom,
-    alerts_api_mfa: {JsonApi, :empty, []},
-    alerts_mock_aws_client: Alerts.TestExAws
+    alerts_api_mfa: {JsonApi, :empty, []}
 end

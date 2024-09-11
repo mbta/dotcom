@@ -13,8 +13,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
 
-  @ex_aws Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws)
-  @ex_aws_s3 Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws.S3)
+  @aws_client Application.compile_env(:dotcom, :aws_client)
   @bucket "mbta-dotcom"
 
   @doc """
@@ -88,18 +87,20 @@ defmodule Alerts.Cache.BusStopChangeS3 do
             )
   def get_stored_alerts do
     keys =
-      @ex_aws_s3.list_objects(@bucket, prefix: bucket_prefix())
-      |> @ex_aws.stream!
-      |> Stream.map(& &1.key)
-      |> Enum.to_list()
+      case @aws_client.list_objects(@bucket, bucket_prefix()) do
+        {:ok, %{"ListBucketResult" => %{"Contents" => objects}}, %{}} ->
+          objects |> Enum.map(& &1["Key"])
+
+        _ ->
+          []
+      end
 
     Enum.map(keys, fn key ->
       result =
-        @ex_aws_s3.get_object(@bucket, key, prefix: bucket_prefix())
-        |> @ex_aws.request()
+        @aws_client.get_object(@bucket, key)
 
       case result do
-        {:ok, %{body: alert_data}} ->
+        {:ok, %{"Body" => alert_data}, _} ->
           decompress_alert(alert_data)
 
         error ->
@@ -119,15 +120,14 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     end)
     |> Task.async_stream(
       fn {id, contents} ->
-        aws_operation = @ex_aws_s3.put_object(@bucket, "#{bucket_prefix()}/#{id}", contents)
+        case @aws_client.put_object(@bucket, "#{bucket_prefix()}/#{id}", %{"Body" => contents}) do
+          {:ok, _, _} ->
+            :ok
 
-        Logger.info(fn ->
-          "module=#{__MODULE__} func=write_alerts operation=#{inspect(aws_operation)}"
-        end)
-
-        aws_operation
-        |> @ex_aws.request()
-        |> log_result(id, "write_alerts")
+          error ->
+            log_result(error, id, "write_alerts")
+            error
+        end
       end,
       max_concurrency: 10
     )
@@ -144,7 +144,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     :erlang.binary_to_term(alert)
   end
 
-  defp log_result({:ok, _}, _alert_id, _func_name) do
+  defp log_result({:ok, _, _}, _alert_id, _func_name) do
     :ok
   end
 

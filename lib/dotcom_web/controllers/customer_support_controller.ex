@@ -440,14 +440,6 @@ defmodule DotcomWeb.CustomerSupportController do
     bus_ferry_cr_options |> Map.put("subway_options", subway_options)
   end
 
-  @spec get_routes_for_mode(Plug.Conn.t(), atom) :: list
-  def get_routes_for_mode(conn, mode) do
-    opts = conn.assigns[:all_options_per_mode]
-
-    str = Atom.to_string(mode)
-    opts["#{str}_options"] || []
-  end
-
   defp set_service_options(conn, _) do
     assign(conn, :service_options, Feedback.Message.service_options())
   end
