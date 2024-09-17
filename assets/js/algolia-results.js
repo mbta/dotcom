@@ -73,7 +73,10 @@ export class AlgoliaResults {
       results.locations.hits.forEach((hit, idx) => {
         const elem = document.getElementById(`hit-location-${idx}`);
         if (elem) {
-          elem.addEventListener("click", this._locationSearch(hit.address));
+          elem.addEventListener(
+            "click",
+            this._locationSearch(hit.street_address)
+          );
         }
       });
       const useLocation = document.getElementById(

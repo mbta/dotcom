@@ -12,14 +12,4 @@ defmodule Test.Support.Factories.LocationService.LocationService do
       longitude: Faker.Address.longitude()
     }
   end
-
-  def suggestion_factory do
-    %LocationService.Suggestion{
-      address: Faker.Address.street_address(),
-      highlighted_spans: %LocationService.Utils.HighlightedSpan{
-        offset: Faker.random_between(0, 10),
-        length: Faker.random_between(0, 10)
-      }
-    }
-  end
 end

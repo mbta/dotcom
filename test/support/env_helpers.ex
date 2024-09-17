@@ -7,7 +7,7 @@ defmodule Test.Support.EnvHelpers do
   a test:
 
   ```
-  reassign_env(:dotcom, :aws_index_prefix, "dotcom-prod")
+  reassign_env(:dotcom, :key, "value")
   ```
   """
   defmacro reassign_env(app, var, value) do

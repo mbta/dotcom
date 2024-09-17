@@ -54,7 +54,7 @@ defmodule Algolia.QueryTest do
       }
 
       encoded = Query.build(full_query)
-      assert {:ok, %{"requests" => [query]}} = Poison.decode(encoded)
+      assert {:ok, %{"requests" => [query]}} = Jason.decode(encoded)
 
       assert %{
                "indexName" => "index",
@@ -66,13 +66,20 @@ defmodule Algolia.QueryTest do
     end
 
     test "can construct and encode a query" do
+      n = Faker.random_between(1, 5)
+
       encoded =
         Query.build(%{
           "algoliaQuery" => "b",
-          "algoliaIndexes" => ["stops", "routes"]
+          "algoliaIndexesWithParams" => %{
+            "stops" => %{
+              "hitsPerPage" => n
+            },
+            "routes" => %{}
+          }
         })
 
-      assert {:ok, %{"requests" => multiple_queries}} = Poison.decode(encoded)
+      assert {:ok, %{"requests" => multiple_queries}} = Jason.decode(encoded)
       assert length(multiple_queries) == 2
 
       assert %{
@@ -83,7 +90,7 @@ defmodule Algolia.QueryTest do
              } = List.first(multiple_queries)
 
       assert params ==
-               "analytics=false&clickAnalytics=true&facetFilters=%5B%5B%5D%5D&facets=%5B%22*%22%5D&hitsPerPage=2"
+               "analytics=false&clickAnalytics=true&facetFilters=%5B%5B%5D%5D&facets=%5B%22*%22%5D&hitsPerPage=#{n}"
     end
   end
 end

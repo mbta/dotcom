@@ -19,16 +19,19 @@ defmodule Algolia.Query do
     |> Poison.encode!()
   end
 
-  def build(%{"algoliaQuery" => query, "algoliaIndexes" => indexes}) do
+  def build(%{"algoliaQuery" => query, "algoliaIndexesWithParams" => indexes_with_params}) do
     requests =
-      Enum.map(indexes, fn idx ->
-        idx
-        |> Request.new(query)
+      indexes_with_params
+      |> Map.to_list()
+      |> Enum.reverse()
+      |> Enum.map(fn {index_name, index_params} ->
+        index_name
+        |> Request.new(query, index_params)
         |> Request.encode()
       end)
 
     %{"requests" => requests}
-    |> Poison.encode!()
+    |> Jason.encode!()
   end
 
   @spec build_query(map) :: map

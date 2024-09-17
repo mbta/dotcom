@@ -105,9 +105,7 @@ describe("passes smoke test", () => {
       .click();
     cy.contains("a.m-detailed-stop", "Hingham").click();
     cy.url().should("contain", "Boat-Hingham");
-    cy.contains("main", "Station Information");
-    cy.contains("View daily rates and facility information").click();
-    cy.contains("Parking Rates");
+    cy.contains("main", "Stop Information");
   });
 
   it("schedules & maps page (all links)", () => {

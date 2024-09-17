@@ -68,8 +68,14 @@ export function GeolocationComponent(props: {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center" }}>
-        {loading} <i aria-hidden="true" className="fa fa-cog fa-spin" />
+      <div className="c-search-bar__my-location ">
+        <div className="tw-basis-6">
+          <span
+            className="c-search-result__content-icon fa fa-fw fa-cog fa-spin"
+            aria-hidden="true"
+          />
+        </div>
+        <span className="aa-ItemContentTitle">{loading}</span>
       </div>
     );
   }
@@ -89,8 +95,8 @@ export function GeolocationComponent(props: {
       }}
     >
       <span>
-        <span
-          className="c-search-result__content-icon fa fa-location-arrow"
+        <div
+          className="c-search-result__content-icon fa fa-location-arrow tw-basis-6"
           aria-hidden="true"
         />
       </span>

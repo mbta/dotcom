@@ -47,6 +47,9 @@ test("itemWithUrl gets a requested URL", () => {
     features: [],
     latitude: 42.365396,
     longitude: -71.017547,
+    municipality: "Town",
+    state: "MA",
+    url: "",
     urls: {
       "transit-near-me": "/transit-near-me/logan",
       "retail-sales-locations": "/retail-locations-somewhere",

@@ -203,9 +203,11 @@ test("Popular template renders", () => {
     longitude: -71.0,
     icon: "station",
     features: ["red_line", "bus", "commuter_rail", "access"],
+    municipality: "Town",
+    state: "MA",
     url:
       "/transit-near-me?latitude=42.352271&longitude=-71.055242&name=South+Station"
-  };
+  } as PopularItem;
   const { asFragment } = renderMockTemplate(
     templateWithLink(PopularItemTemplate)(
       mockTemplateParam<PopularItem>(popularItem, "South Station")
@@ -221,6 +223,10 @@ test("Location template renders", () => {
     latitude: 42.4,
     longitude: -71.0,
     highlighted_spans: [],
+    formatted: "123 Main St, Town, MA, USA",
+    street_address: "123 Main St",
+    municipality: "Town",
+    state: "MA",
     url:
       "/transit-near-me?latitude=42.352271&longitude=-71.055242&address=South+Station,+Boston,+MA"
   };

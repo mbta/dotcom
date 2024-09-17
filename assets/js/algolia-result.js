@@ -223,7 +223,7 @@ function _iconFromRoute(route) {
 export function getPopularIcon(icon) {
   switch (icon) {
     case "airplane":
-      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane" });
+      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane-departure" });
     default:
       return Icons.getFeatureIcon(icon);
   }
@@ -309,7 +309,9 @@ export function getUrl(hit, index) {
       return _contentUrl(hit);
 
     case "locations":
-      return `transit-near-me?address=${encodeURIComponent(hit.address)}`;
+      return `transit-near-me?address=${encodeURIComponent(
+        hit.street_address
+      )}`;
 
     case "usemylocation":
       return "#";
@@ -343,7 +345,7 @@ export function getTitle(hit, type) {
   switch (type) {
     case "locations":
       // eslint-disable-next-line no-case-declarations
-      const { address: text, highlighted_spans: spans } = hit;
+      const { street_address: text, highlighted_spans: spans } = hit;
 
       return highlightText(text, spans);
     case "stops":
@@ -451,20 +453,42 @@ function _getCommuterRailZone(hit) {
   if (hit.zone) {
     return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
   }
+  if (hit.icon === "station") {
+    // the north/south station popular result
+    return [`<span class="c-icon__cr-zone">Zone 1A</span>`];
+  }
   return [];
 }
 
 function _stopIcons(hit, type) {
+  const isBusStop = type === "stops" && !hit.stop["station?"];
+  const featuresToFilter = isBusStop
+    ? ["access", "parking_lot", "bus"]
+    : ["access", "parking_lot"];
   const filteredFeatures = hit.features.filter(
-    feature => feature !== "access" && feature !== "parking_lot"
+    feature => !featuresToFilter.includes(feature)
   );
-
   const alertFeature = _getAlertIcon(hit, type);
   const allFeatures = alertFeature.concat(filteredFeatures);
   const allFeaturesSorted = _sortFeatures(allFeatures);
   const allIcons = _featuresToIcons(allFeaturesSorted);
 
   const zoneIcon = _getCommuterRailZone(hit);
+
+  if (isBusStop) {
+    return hit.routes
+      .filter(route => route.type === 3)
+      .map(route => {
+        return route.display_name
+          .replace("Bus: ", "")
+          .split(", ")
+          .map(
+            num =>
+              `<span class="c-icon__bus-pill--small u-bg--bus tw-mr-1">${num}</span>`
+          )
+          .join("");
+      });
+  }
 
   return allIcons.concat(zoneIcon);
 }

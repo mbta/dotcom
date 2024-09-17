@@ -14,27 +14,31 @@ defmodule Algolia.Query.RequestTest do
       assert %Request{query: ^search_string} = Request.new("drupal", search_string)
     end
 
-    test "changes hitsPerPage param based on index" do
-      assert %Request{params: %{"hitsPerPage" => 5}} = Request.new("routes", "")
-      assert %Request{params: %{"hitsPerPage" => 2}} = Request.new("drupal", "")
-    end
-
     test "changes attributesToHighlight param based on index" do
       assert %Request{attributesToHighlight: "stop.name"} = Request.new("stops", "")
 
       assert %Request{attributesToHighlight: ["route.name", "route.long_name"]} =
                Request.new("routes", "")
     end
-
-    test "changes facetFilters param based on index" do
-      assert %Request{params: %{"facetFilters" => [[]]}} = Request.new("routes", "")
-      assert %Request{params: %{"facetFilters" => facet_filters}} = Request.new("drupal", "")
-      refute facet_filters == [[]]
-    end
   end
 
   test "encode/1 returns a JSON-encodable map with encoded params" do
-    request = Request.new("drupal", "some special search")
+    request =
+      Request.new("drupal", "some special search", %{
+        "hitsPerPage" => 2,
+        "facetFilters" => [
+          [
+            "_content_type:page",
+            "_content_type:search_result",
+            "_content_type:diversion",
+            "_content_type:landing_page",
+            "_content_type:person",
+            "_content_type:project",
+            "_content_type:project_update"
+          ]
+        ]
+      })
+
     encoded = Request.encode(request)
 
     assert encoded == %{

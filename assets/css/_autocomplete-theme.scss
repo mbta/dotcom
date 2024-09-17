@@ -91,7 +91,8 @@
   .aa-Item {
     border-bottom: $border;
     border-radius: 0;
-    font-weight: normal;
+    display: flex;
+    padding: calc(#{$base-spacing} / 2) $base-spacing;
 
     &:hover {
       background-color: $brand-primary-lightest;
@@ -102,25 +103,17 @@
       font-weight: bold;
     }
 
-    > a,
-    > button {
-      color: currentColor;
-      display: flex;
-      font-weight: inherit;
-      gap: .25rem;
-      min-width: 0;
-      padding: calc(#{$base-spacing} / 2) $base-spacing;
-    }
-
     a:hover {
       text-decoration: none;
     }
 
     [class*='c-svg__icon'] {
-      width: 1em;
+      height: auto;
+      top: .15em;
     }
   }
 
+  .aa-ItemLink,
   .aa-ItemContent,
   .aa-ItemContentBody {
     display: unset;
@@ -140,6 +133,26 @@
       width: 100% !important;
     }
     // stylelint-enable declaration-no-important
+  }
+
+  // more specific layout
+  [data-autocomplete-source-id='geolocation'] {
+    .aa-ItemContentTitle {
+      color: $brand-primary;
+    }
+  }
+  [data-autocomplete-source-id='algolia'],
+  [data-autocomplete-source-id='locations'],
+  [data-autocomplete-source-id='popular'] {
+    .fa-map-marker {
+      color: $brand-primary;
+    }
+    .aa-ItemContent {
+      align-items: first baseline;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 }
 

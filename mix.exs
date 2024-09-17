@@ -70,8 +70,9 @@ defmodule DotCom.Mixfile do
   defp deps do
     [
       {:absinthe_client, "0.1.1"},
+      {:address_us, "0.4.2"},
       {:aws, "1.0.2"},
-      {:aws_credentials, "0.3.2"},
+      {:aws_credentials, "0.3.2", optional: true},
       {:castore, "1.0.8"},
       {:crc, "0.10.5"},
       {:credo, "1.7.7", only: [:dev, :test]},
