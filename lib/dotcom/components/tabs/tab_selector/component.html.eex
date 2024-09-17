@@ -7,7 +7,7 @@
         selected_class = if selected?(tab_item_name, args.selected), do: "tab-select-btn-selected", else: ""
         slug = slug(title)
         %>
-        <%= Phoenix.HTML.Link.link to: "#{href}\##{slug}", data: [scroll: "false"], id: slug, class: "btn #{selected_class}" do %>
+        <%= PhoenixHTMLHelpers.Link.link to: "#{href}\##{slug}", data: [scroll: "false"], id: slug, class: "btn #{selected_class}" do %>
           <%= if icon = args.icon_map[title] do %>
             <%= icon %>
           <% end %>

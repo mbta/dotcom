@@ -114,8 +114,7 @@ defmodule DotCom.Mixfile do
       # latest version 1.7.14
       {:phoenix, "~> 1.7"},
       {:phoenix_ecto, "4.6.2"},
-      # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
-      {:phoenix_html, "3.3.3"},
+      {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.4"},
       {:phoenix_live_reload, "1.5.3", [only: :dev]},
       # currently release candidate, but used in Phoenix 1.7 generator: https://github.com/phoenix-diff/phoenix-diff/blob/f320791d24bc3248fbdde557978235829313aa06/priv/data/sample-app/1.7.14/default/mix.exs#L42

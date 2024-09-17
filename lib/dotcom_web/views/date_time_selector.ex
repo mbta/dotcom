@@ -3,7 +3,7 @@ defmodule DateTimeSelector do
 
   use DotcomWeb, :view
 
-  import Phoenix.HTML.Tag
+  import PhoenixHTMLHelpers.Tag
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Phoenix.{HTML.Form}

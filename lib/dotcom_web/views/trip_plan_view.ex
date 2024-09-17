@@ -4,7 +4,6 @@ defmodule DotcomWeb.TripPlanView do
   use DotcomWeb, :view
   require Routes.Route
   alias Fares.{Fare, Format}
-  alias Phoenix.{HTML}
   alias Routes.Route
   alias Dotcom.TripPlan.{ItineraryRow, Query}
   alias DotcomWeb.PartialView.SvgIconWithCircle
@@ -434,11 +433,13 @@ defmodule DotcomWeb.TripPlanView do
   defp transfer_note_text(nil), do: nil
 
   defp transfer_note_text(_) do
-    HTML.Tag.content_tag(
+    PhoenixHTMLHelpers.Tag.content_tag(
       :span,
       [
         "Total may be less with ",
-        HTML.Tag.content_tag(:a, "transfers", href: "https://www.mbta.com/fares/transfers")
+        PhoenixHTMLHelpers.Tag.content_tag(:a, "transfers",
+          href: "https://www.mbta.com/fares/transfers"
+        )
       ]
     )
   end
@@ -450,7 +451,7 @@ defmodule DotcomWeb.TripPlanView do
   defp transfer_note_calculator_text(nil), do: nil
 
   defp transfer_note_calculator_text(_) do
-    HTML.Tag.content_tag(
+    PhoenixHTMLHelpers.Tag.content_tag(
       :span,
       [
         "Total Fare Estimate*"
@@ -459,7 +460,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   def render_to_string(template, data) do
-    template |> render(data) |> HTML.safe_to_string()
+    template |> render(data) |> Phoenix.HTML.safe_to_string()
   end
 
   def itinerary_map(map_data) do
@@ -487,7 +488,7 @@ defmodule DotcomWeb.TripPlanView do
           itinerary_row_list: itinerary_row_list
         )
 
-      access_html = i |> accessibility_icon() |> HTML.safe_to_string()
+      access_html = i |> accessibility_icon() |> Phoenix.HTML.safe_to_string()
 
       one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
 

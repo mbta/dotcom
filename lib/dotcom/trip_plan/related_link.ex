@@ -6,7 +6,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
   # Need a view in order to use the components. Ideally we'd have a separate
   # module, but that doesn't work at the moment.
   import DotcomWeb.Router.Helpers
-  import Phoenix.HTML.Link, only: [link: 2]
+  import PhoenixHTMLHelpers.Link, only: [link: 2]
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Routes.Route

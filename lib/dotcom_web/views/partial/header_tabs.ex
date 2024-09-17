@@ -1,7 +1,7 @@
 defmodule DotcomWeb.PartialView.HeaderTabs do
   use DotcomWeb, :view
   alias Phoenix.HTML
-  alias Phoenix.HTML.Link
+  alias PhoenixHTMLHelpers.Link
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabBadge}
 
   @spec render_tabs([HeaderTab.t()], Keyword.t()) :: HTML.safe()

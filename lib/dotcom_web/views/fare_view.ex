@@ -4,8 +4,6 @@ defmodule DotcomWeb.FareView do
   """
   use DotcomWeb, :view
 
-  alias CMS.Field.Link
-
   alias CMS.Partial.Paragraph.{
     Description,
     DescriptionList

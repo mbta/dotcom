@@ -1,6 +1,6 @@
 defmodule DotcomWeb.SearchHelpers do
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
-  import Phoenix.HTML.Form, only: [form_for: 4, search_input: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
+  import PhoenixHTMLHelpers.Form, only: [form_for: 4, search_input: 3]
   import DotcomWeb.Router.Helpers, only: [search_path: 2]
 
   @form_options [as: :search, method: :get]

@@ -1,8 +1,7 @@
-<% alias Phoenix.HTML.{Tag, Link} %>
-<%= Tag.content_tag :div, class: String.trim("button-group #{args.class}"), id: args.id do %>
+<%= PhoenixHTMLHelpers.Tag.content_tag :div, class: String.trim("button-group #{args.class}"), id: args.id do %>
   <%= for {text, href} <- args.links do %>
-    <%= Tag.content_tag :div, class: "button-container" do %>
-      <%= Link.link(text, to: href, class: "btn button") %>
+    <%= PhoenixHTMLHelpers.Tag.content_tag :div, class: "button-container" do %>
+      <%= PhoenixHTMLHelpers.Link.link(text, to: href, class: "btn button") %>
     <% end %>
   <% end %>
 <% end %>

@@ -1,7 +1,7 @@
 defmodule Util.BreadcrumbHTML do
   import Phoenix.HTML, only: [raw: 1]
 
-  alias Phoenix.HTML.Link
+  alias PhoenixHTMLHelpers.Link
 
   @spec breadcrumb_trail(Plug.Conn.t()) :: Phoenix.HTML.safe()
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")

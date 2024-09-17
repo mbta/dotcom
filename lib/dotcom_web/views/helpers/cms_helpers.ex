@@ -5,7 +5,7 @@ defmodule DotcomWeb.CMSHelpers do
 
   import DotcomWeb.ViewHelpers, only: [route_to_class: 1]
   import CSSHelpers, only: [string_to_class: 1]
-  import Phoenix.HTML.Link
+  import PhoenixHTMLHelpers.Link
 
   alias CMS.API
   alias Routes.{Repo, Route}

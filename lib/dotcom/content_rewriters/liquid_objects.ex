@@ -8,7 +8,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects do
   """
 
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import DotcomWeb.ViewHelpers, only: [fa: 1, svg: 1]
 

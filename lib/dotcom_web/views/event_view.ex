@@ -2,7 +2,7 @@ defmodule DotcomWeb.EventView do
   @moduledoc "Module to display fields on the events view"
   use DotcomWeb, :view
 
-  import Phoenix.HTML.Link
+  import PhoenixHTMLHelpers.Link
 
   import Dotcom.FontAwesomeHelpers
 

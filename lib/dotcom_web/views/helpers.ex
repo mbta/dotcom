@@ -8,8 +8,8 @@ defmodule DotcomWeb.ViewHelpers do
   import Dotcom.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
   import DotcomWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]
-  import Phoenix.HTML.Link, only: [link: 2]
-  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3, tag: 2]
+  import PhoenixHTMLHelpers.Link, only: [link: 2]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3, tag: 2]
   import Plug.Conn
 
   alias Phoenix.HTML.Safe

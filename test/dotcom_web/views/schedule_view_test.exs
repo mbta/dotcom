@@ -7,7 +7,7 @@ defmodule DotcomWeb.ScheduleViewTest do
 
   import DotcomWeb.ScheduleView
   import Mox
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   setup :verify_on_exit!

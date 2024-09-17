@@ -12,7 +12,7 @@
 %>
 <div id="search-<%= @prefix %>__container" class="c-form__input-container">
   <label for="search-<%= @prefix %>__input" class="sr-only"><%= @aria_label %></label>
-  <%= Phoenix.HTML.Form.text_input(
+  <%= PhoenixHTMLHelpers.Form.text_input(
     Map.get(assigns, :form, :query),
     Map.get(assigns, :field, :input),
     id: "search-#{@prefix}__input",

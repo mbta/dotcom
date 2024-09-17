@@ -3,7 +3,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   Deprecated, please add new svgs to the image directory in assets and use the site_web/views/helpers.ex "svg" method
   """
 
-  alias Phoenix.HTML.Tag
+  alias PhoenixHTMLHelpers.Tag
 
   defstruct icon: :bus, class: "", show_tooltip?: true
 

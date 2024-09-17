@@ -56,7 +56,7 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
     active_periods
     |> Enum.map(fn {start_date, end_date} ->
       if start_date || end_date do
-        Phoenix.HTML.Tag.content_tag(
+        PhoenixHTMLHelpers.Tag.content_tag(
           :div,
           [
             DotcomWeb.ViewHelpers.fa("calendar", class: "mr-025"),
@@ -75,7 +75,7 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
   defp date_tag(%DateTime{} = date) do
     with iso <- DateTime.to_iso8601(date),
          {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
-      Phoenix.HTML.Tag.content_tag(:time, readable, datetime: iso)
+      PhoenixHTMLHelpers.Tag.content_tag(:time, readable, datetime: iso)
     end
   end
 
