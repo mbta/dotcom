@@ -2,7 +2,7 @@ defmodule DotcomWeb.Components.TripPlannerForm do
   @moduledoc """
   Reusable components mainly used for the Trip Planner
   """
-  use Phoenix.Component
+  use DotcomWeb, :component
 
   alias Dotcom.TripPlan.InputForm
 
