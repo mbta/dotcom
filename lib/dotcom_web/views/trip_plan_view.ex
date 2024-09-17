@@ -5,11 +5,10 @@ defmodule DotcomWeb.TripPlanView do
   require Routes.Route
   alias Fares.{Fare, Format}
   alias Routes.Route
-  alias Dotcom.TripPlan.{ItineraryRow, Query}
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias DotcomWeb.Plugs.Cookies
-  alias TripPlan.{Itinerary, Leg, Transfer}
   alias Dotcom.StopBubble
+  alias Dotcom.TripPlan.{Itinerary, ItineraryRow, Leg, NamedPosition, Query, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -79,10 +78,10 @@ defmodule DotcomWeb.TripPlanView do
   Fetches value to show in input field, preferring to use the geocoded
   Query value if one is available.
   """
-  @spec get_input_value(Query.t() | nil, map, :to | :from) :: TripPlan.NamedPosition.t()
+  @spec get_input_value(Query.t() | nil, map, :to | :from) :: NamedPosition.t()
   def get_input_value(%Query{} = query, params, field) do
     case Map.get(query, field) do
-      pos = %TripPlan.NamedPosition{} ->
+      pos = %NamedPosition{} ->
         pos
 
       {:error, _} ->
@@ -91,7 +90,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   def get_input_value(nil, params, field) do
-    %TripPlan.NamedPosition{
+    %NamedPosition{
       name: Map.get(params, Atom.to_string(field))
     }
   end
@@ -322,13 +321,13 @@ defmodule DotcomWeb.TripPlanView do
 
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
-  @spec accessibility_icon(TripPlan.Itinerary.t()) :: Phoenix.HTML.Safe.t()
-  defp accessibility_icon(%TripPlan.Itinerary{accessible?: nil}) do
+  @spec accessibility_icon(Itinerary.t()) :: Phoenix.HTML.Safe.t()
+  defp accessibility_icon(%Itinerary{accessible?: nil}) do
     # Unknown accessibilityScore, so can't show a value
     {:safe, ""}
   end
 
-  defp accessibility_icon(%TripPlan.Itinerary{accessible?: accessible?}) do
+  defp accessibility_icon(%Itinerary{accessible?: accessible?}) do
     content_tag(
       :span,
       [
@@ -369,7 +368,7 @@ defmodule DotcomWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 
-  @spec datetime_from_query(nil | Dotcom.TripPlan.Query.t()) :: any()
+  @spec datetime_from_query(nil | Query.t()) :: any()
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
   def datetime_from_query(nil), do: Util.now() |> Dotcom.TripPlan.DateTime.round_minute()
@@ -581,7 +580,7 @@ defmodule DotcomWeb.TripPlanView do
 
   We have to check if there is a bus to subway transfer and manually add the transfer cost of $0.70.
   """
-  @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
+  @spec get_one_way_total_by_type(Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
       itinerary.legs
@@ -635,7 +634,7 @@ defmodule DotcomWeb.TripPlanView do
   defp cr_prefix(%Fare{mode: :commuter_rail}), do: "Commuter Rail "
   defp cr_prefix(_), do: ""
 
-  @spec get_calculated_fares(TripPlan.Itinerary.t()) :: %{mode: fare_calculation}
+  @spec get_calculated_fares(Itinerary.t()) :: %{mode: fare_calculation}
   def get_calculated_fares(itinerary) do
     itinerary.legs
     |> Enum.filter(fn leg -> Leg.transit?(leg) end)

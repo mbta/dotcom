@@ -1,12 +1,10 @@
-defmodule DotcomWeb.Components.TripPlanner do
+defmodule DotcomWeb.Components.TripPlannerForm do
   @moduledoc """
   Reusable components mainly used for the Trip Planner
   """
-  use Phoenix.Component
+  use DotcomWeb, :component
 
-  import DotcomWeb.Components, only: [algolia_autocomplete: 1]
-
-  alias TripPlanner.InputForm
+  alias Dotcom.TripPlan.InputForm
 
   attr :id, :string
   attr :params, :map, default: %{}

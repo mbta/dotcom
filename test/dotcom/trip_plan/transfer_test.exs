@@ -1,11 +1,11 @@
-defmodule TransferTest do
+defmodule Dotcom.TripPlan.TransferTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import TripPlan.Transfer
+  import Dotcom.TripPlan.Transfer
 
+  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
-  alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   setup :verify_on_exit!
 

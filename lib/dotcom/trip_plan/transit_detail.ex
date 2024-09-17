@@ -1,4 +1,4 @@
-defmodule TripPlan.TransitDetail do
+defmodule Dotcom.TripPlan.TransitDetail do
   @moduledoc """
   Additional information for legs taken on public transportation
   """

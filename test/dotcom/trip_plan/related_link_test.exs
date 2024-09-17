@@ -7,7 +7,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
   import Test.Support.Factories.TripPlanner.TripPlanner
 
   alias Test.Support.Factories.Stops.Stop
-  alias TripPlan.Itinerary
+  alias Dotcom.TripPlan.Itinerary
 
   setup :verify_on_exit!
 

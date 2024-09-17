@@ -5,6 +5,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
   import Mox
 
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Dotcom.TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @date_time ~N[2017-06-27T11:43:00]
 
@@ -142,7 +143,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       stop_name = Faker.Address.city()
       to = TripPlanner.build(:stop_named_position, stop: %Stops.Stop{id: stop_id})
 
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: nil,
         stop: nil,
         legs: [TripPlanner.build(:transit_leg, to: to)]
@@ -171,12 +172,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
     @tag :external
     test "Returns additional routes for Green Line legs", %{itinerary: itinerary} do
-      green_leg = %TripPlan.Leg{
+      green_leg = %Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
-        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
-        mode: %TripPlan.TransitDetail{
+        from: %NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
+        to: %NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
+        mode: %TransitDetail{
           route: %Routes.Route{id: "Green-C"},
           trip_id: "Green-1",
           intermediate_stops: []
@@ -202,12 +203,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
     @tag :external
     test "Alerts for intermediate steps parsed correctly", %{itinerary: itinerary} do
-      red_leg = %TripPlan.Leg{
+      red_leg = %Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
-        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
-        mode: %TripPlan.TransitDetail{
+        from: %NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
+        to: %NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
+        mode: %TransitDetail{
           route: %Routes.Route{id: "Red"},
           intermediate_stops: [%Stops.Stop{id: "place-dwnxg"}]
         }
@@ -229,23 +230,23 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     test "Alerts for stations mid travel and destination parsed correctly", %{
       itinerary: itinerary
     } do
-      red_leg = %TripPlan.Leg{
+      red_leg = %Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
-        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
-        mode: %TripPlan.TransitDetail{
+        from: %NamedPosition{stop: %Stops.Stop{id: "place-sstat"}, name: "South Station"},
+        to: %NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
+        mode: %TransitDetail{
           route: %Routes.Route{id: "Red"},
           intermediate_stops: []
         }
       }
 
-      green_leg = %TripPlan.Leg{
+      green_leg = %Leg{
         start: @date_time,
         stop: @date_time,
-        from: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
-        to: %TripPlan.NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
-        mode: %TripPlan.TransitDetail{
+        from: %NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
+        to: %NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
+        mode: %TransitDetail{
           route: %Routes.Route{id: "Green-C"},
           trip_id: "Green-1",
           intermediate_stops: []

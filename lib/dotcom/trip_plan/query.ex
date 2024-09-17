@@ -1,8 +1,7 @@
 defmodule Dotcom.TripPlan.Query do
   @moduledoc "Fetch trip plan via OTP and handle response"
 
-  alias TripPlan.{Itinerary, NamedPosition}
-  alias TripPlanner.OpenTripPlanner
+  alias Dotcom.TripPlan.{Itinerary, NamedPosition, OpenTripPlanner}
 
   defstruct [
     :from,

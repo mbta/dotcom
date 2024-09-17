@@ -1,7 +1,7 @@
-defmodule TripPlanner.InputFormTest do
+defmodule Dotcom.TripPlan.InputFormTest do
   use ExUnit.Case, async: true
 
-  alias TripPlanner.InputForm
+  alias Dotcom.TripPlan.InputForm
 
   @from_params %{
     "latitude" => "#{Faker.Address.latitude()}",

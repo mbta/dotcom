@@ -1,9 +1,9 @@
-defmodule Dotcom.TripPlanner.FarePasses do
+defmodule Dotcom.TripPlan.FarePasses do
   @moduledoc """
   Computing fare passes and prices for trip plan itineraries.
   """
+  alias Dotcom.TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias Fares.{Fare, Month, OneWay}
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   @spec with_passes(Itinerary.t()) :: Itinerary.t()
   def with_passes(itinerary) do

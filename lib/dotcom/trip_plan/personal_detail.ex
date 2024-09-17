@@ -1,4 +1,4 @@
-defmodule TripPlan.PersonalDetail do
+defmodule Dotcom.TripPlan.PersonalDetail do
   @moduledoc """
   Additional information for legs which are taken on personal transportation
   """
@@ -12,7 +12,7 @@ defmodule TripPlan.PersonalDetail do
         }
 end
 
-defmodule TripPlan.PersonalDetail.Step do
+defmodule Dotcom.TripPlan.PersonalDetail.Step do
   @moduledoc """
   A turn-by-turn direction
   """

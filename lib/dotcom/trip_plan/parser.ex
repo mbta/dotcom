@@ -1,4 +1,4 @@
-defmodule Dotcom.TripPlanner.Parser do
+defmodule Dotcom.TripPlan.Parser do
   @moduledoc """
   Parse results from OpenTripPlanner:
 
@@ -10,9 +10,8 @@ defmodule Dotcom.TripPlanner.Parser do
      MBTA system.
   """
 
-  alias Dotcom.TripPlanner.FarePasses
+  alias Dotcom.TripPlan.{FarePasses, Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.Schema
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 

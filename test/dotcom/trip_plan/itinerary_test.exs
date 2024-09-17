@@ -1,12 +1,12 @@
-defmodule TripPlan.ItineraryTest do
+defmodule Dotcom.TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import TripPlan.Itinerary
+  import Dotcom.TripPlan.Itinerary
 
+  alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
   alias Test
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
-  alias TripPlan.{Leg, PersonalDetail, TransitDetail}
 
   @from TripPlanner.build(:stop_named_position)
   @to TripPlanner.build(:stop_named_position)
@@ -101,7 +101,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "walking_distance/1" do
     test "calculates walking distance of itinerary" do
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: DateTime.from_unix(10),
         stop: DateTime.from_unix(13),
         legs: [
@@ -117,7 +117,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "intermediate_stop_ids" do
     test "returns intermediate stop ids if the leg is transit detail and has them" do
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: DateTime.from_unix(10),
         stop: DateTime.from_unix(13),
         legs: [
@@ -135,7 +135,7 @@ defmodule TripPlan.ItineraryTest do
     end
 
     test "does not return duplicate ids" do
-      itinerary = %TripPlan.Itinerary{
+      itinerary = %Itinerary{
         start: DateTime.from_unix(10),
         stop: DateTime.from_unix(13),
         legs: [

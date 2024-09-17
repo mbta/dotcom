@@ -5,8 +5,8 @@ defmodule Dotcom.TripPlan.AlertsTest do
   import Mox
 
   alias Alerts.{Alert, InformedEntity}
+  alias Dotcom.TripPlan.Itinerary
   alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
-  alias TripPlan.Itinerary
 
   setup :verify_on_exit!
 

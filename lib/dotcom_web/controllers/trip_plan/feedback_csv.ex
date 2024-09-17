@@ -5,7 +5,7 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
 
   require Logger
 
-  alias TripPlan.PersonalDetail.Step
+  alias Dotcom.TripPlan.PersonalDetail.Step
 
   @headers [
     "generated_time",

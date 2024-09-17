@@ -1,4 +1,4 @@
-defmodule TripPlan.Transfer do
+defmodule Dotcom.TripPlan.Transfer do
   @moduledoc """
     Tools for handling logic around transfers between transit legs and modes.
     The MBTA allows transfers between services depending on the fare media used
@@ -6,7 +6,7 @@ defmodule TripPlan.Transfer do
 
     This logic may be superseded by the upcoming fares work.
   """
-  alias TripPlan.{Leg, NamedPosition, TransitDetail}
+  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 

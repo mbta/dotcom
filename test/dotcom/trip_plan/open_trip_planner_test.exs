@@ -1,8 +1,7 @@
-defmodule TripPlanner.OpenTripPlannerTest do
+defmodule Dotcom.TripPlan.OpenTripPlannerTest do
   use ExUnit.Case, async: true
 
-  alias TripPlan.NamedPosition
-  alias TripPlanner.OpenTripPlanner
+  alias Dotcom.TripPlan.{NamedPosition, OpenTripPlanner}
 
   import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner

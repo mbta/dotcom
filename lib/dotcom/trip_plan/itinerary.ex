@@ -1,4 +1,4 @@
-defmodule TripPlan.Itinerary do
+defmodule Dotcom.TripPlan.Itinerary do
   @moduledoc """
   A trip at a particular time.
 
@@ -7,11 +7,11 @@ defmodule TripPlan.Itinerary do
   at different times of day.
   """
 
+  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Fares.Fare
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
-  alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
   @derive {Jason.Encoder, except: [:passes]}
   @enforce_keys [:start, :stop]
@@ -119,8 +119,8 @@ defmodule TripPlan.Itinerary do
   end
 end
 
-defimpl Enumerable, for: TripPlan.Itinerary do
-  alias TripPlan.Leg
+defimpl Enumerable, for: Dotcom.TripPlan.Itinerary do
+  alias Dotcom.TripPlan.Leg
 
   def count(_itinerary) do
     {:error, __MODULE__}

@@ -15,6 +15,6 @@
   <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
   <span class="m-trip-plan-results__itinerary-length-distance">
     <%= svg "walk.svg" %>
-    <%= @itinerary |> TripPlan.Itinerary.walking_distance %> mi
+    <%= @itinerary |> Dotcom.TripPlan.Itinerary.walking_distance %> mi
   </span>
 </div>

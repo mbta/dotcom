@@ -1,14 +1,13 @@
-defmodule TripPlan.ItineraryRowTest do
+defmodule Dotcom.TripPlan.ItineraryRowTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.ItineraryRow
   import Mox
 
   alias Alerts.{Alert, InformedEntity}
-  alias Dotcom.TripPlan.ItineraryRow
+  alias Dotcom.TripPlan.{ItineraryRow, Leg, NamedPosition, PersonalDetail}
   alias Routes.Route
   alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
-  alias TripPlan.{Leg, NamedPosition, PersonalDetail}
 
   setup :verify_on_exit!
 
