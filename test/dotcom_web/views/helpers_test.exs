@@ -3,7 +3,7 @@ defmodule DotcomWeb.ViewHelpersTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ViewHelpers
-  import Phoenix.HTML.Tag, only: [tag: 2, content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.{Repo, Route}
 

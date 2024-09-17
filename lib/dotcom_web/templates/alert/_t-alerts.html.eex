@@ -7,7 +7,7 @@
       <a href="https://alerts.mbta.com/login/new" class="m-alerts-ad__link m-alerts-ad__link--login">Sign in</a>
     </div>
     <div class="m-alerts-ad__image">
-      <%= DotcomWeb.Endpoint |> static_url("/images/t-alerts-phone.png") |> Phoenix.HTML.Tag.img_tag() %>
+      <%= DotcomWeb.Endpoint |> static_url("/images/t-alerts-phone.png") |> PhoenixHTMLHelpers.Tag.img_tag() %>
     </div>
   </div>
 </div>

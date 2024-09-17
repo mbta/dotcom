@@ -4,7 +4,7 @@ defmodule DotcomWeb.CustomerSupportView do
   """
   use DotcomWeb, :view
   alias Routes.Route
-  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3]
 
   alias Feedback.Message
 

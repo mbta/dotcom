@@ -4,7 +4,7 @@ defmodule DotcomWeb.Mode.CommuterRailController do
       "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, " <>
         "including real-time updates and arrival predictions."
 
-  import Phoenix.HTML.Link, only: [link: 2]
+  import PhoenixHTMLHelpers.Link, only: [link: 2]
 
   def route_type, do: 2
 

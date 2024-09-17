@@ -59,8 +59,8 @@ defmodule BuildCalendar do
               url: nil,
               today?: false
 
-    import Phoenix.HTML.Tag
-    import Phoenix.HTML.Link
+    import PhoenixHTMLHelpers.Tag
+    import PhoenixHTMLHelpers.Link
 
     @spec td(t) :: Phoenix.HTML.Safe.t()
     def td(%Day{month_relation: :previous} = day) do

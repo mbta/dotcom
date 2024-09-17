@@ -1,6 +1,6 @@
 defmodule DotcomWeb.PageView do
   @moduledoc false
-  import Phoenix.HTML.Tag
+  import PhoenixHTMLHelpers.Tag
   import DotcomWeb.CMSHelpers
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 

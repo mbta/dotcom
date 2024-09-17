@@ -2,7 +2,7 @@ defmodule Journey do
   @moduledoc """
   Represents a schedule at a stop (origin or destination) or a pair of stops (origin and destination)
   """
-  alias Phoenix.HTML.Tag
+  alias PhoenixHTMLHelpers.Tag
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
 

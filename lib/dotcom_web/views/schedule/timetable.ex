@@ -3,7 +3,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   Functions for showing timetable content.
   """
 
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias DotcomWeb.ViewHelpers, as: Helpers

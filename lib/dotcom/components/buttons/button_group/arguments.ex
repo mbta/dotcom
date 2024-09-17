@@ -2,7 +2,7 @@ defmodule Dotcom.Components.Buttons.ButtonGroup do
   @moduledoc """
   Convenience function for rendering a formatted list of links. Links should be passed as
   a list of [{text, href}]. The link text can either be a string, or a list of child elements
-  like what would be passed to Phoenix.HTML.Link.
+  like what would be passed to PhoenixHTMLHelpers.Link.
   """
   defstruct class: "",
             id: nil,

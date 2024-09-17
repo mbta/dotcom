@@ -9,7 +9,7 @@ defmodule Dotcom.BodyTag do
     UI elements.
   """
 
-  alias Phoenix.HTML.Tag
+  alias PhoenixHTMLHelpers.Tag
 
   @spec render(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render(conn) do

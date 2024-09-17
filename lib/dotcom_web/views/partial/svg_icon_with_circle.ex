@@ -1,7 +1,7 @@
 defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   alias Dotcom.Components.Icons.SvgIcon
   alias DotcomWeb.ViewHelpers
-  alias Phoenix.HTML.Tag
+  alias PhoenixHTMLHelpers.Tag
   alias Routes.Route
 
   defstruct icon: nil,

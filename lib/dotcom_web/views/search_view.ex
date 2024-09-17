@@ -18,7 +18,7 @@ defmodule DotcomWeb.SearchView do
 
   defdelegate fa_icon_for_file_type(mime), to: Dotcom.FontAwesomeHelpers
 
-  @spec render_filter_option(Phoenix.HTML.Form, atom, map) :: Phoenix.HTML.safe()
+  @spec render_filter_option(PhoenixHTMLHelpers.Form, atom, map) :: Phoenix.HTML.safe()
   def render_filter_option(form, type, option) do
     id = "#{type}_#{option.value}"
     name = "search[#{type}][#{option.value}]"
