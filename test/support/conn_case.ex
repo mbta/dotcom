@@ -39,7 +39,8 @@ defmodule DotcomWeb.ConnCase do
           project_path: 2,
           project_path: 3,
           project_update_path: 3,
-          project_update_path: 4
+          project_update_path: 4,
+          static_path: 2
         ]
 
       import DotcomWeb.CmsRouterHelpers
@@ -47,6 +48,8 @@ defmodule DotcomWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint DotcomWeb.Endpoint
+
+      use DotcomWeb, :verified_routes
 
       import DotcomWeb.ConnCase, only: [default_conn: 0]
     end

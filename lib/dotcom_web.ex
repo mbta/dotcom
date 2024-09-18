@@ -16,6 +16,8 @@ defmodule DotcomWeb do
   below.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon robots.txt)
+
   def model do
     quote do
       # Define common model functionality
@@ -73,7 +75,8 @@ defmodule DotcomWeb do
           project_path: 2,
           project_path: 3,
           project_update_path: 3,
-          project_update_path: 4
+          project_update_path: 4,
+          static_url: 2
         ]
 
       import DotcomWeb.CmsRouterHelpers
@@ -149,7 +152,18 @@ defmodule DotcomWeb do
       alias DotcomWeb.Router.Helpers
 
       import DotcomWeb.Components
-      import DotcomWeb.CoreComponents
+
+      # Routes generation with the ~p sigil
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: DotcomWeb.Endpoint,
+        router: DotcomWeb.Router,
+        statics: DotcomWeb.static_paths()
     end
   end
 
