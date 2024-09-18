@@ -112,26 +112,27 @@ const AlgoliaItemTemplate: SourceTemplates<AutocompleteItem>["item"] = ({
           </div>
         </div>
         {!isContentItem(item) && featureIcons.length > 0 && (
-          <div className="tw-flex tw-gap-1 tw-mt-2 tw-mb-1">
-            {featureIcons.map((feature: string) => (
-              <span
-                key={uniqueId()}
-                className="c-search-result__feature-icons"
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: feature }}
-              />
-            ))}
+          <div className="tw-mt-2 tw-mb-1 tw-flex tw-justify-between tw-items-baseline">
+            <div className="tw-flex tw-gap-1">
+              {featureIcons.map((feature: string) => (
+                <span
+                  key={uniqueId()}
+                  className="c-search-result__feature-icons"
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: feature }}
+                />
+              ))}
+            </div>
+            {isStopItem(item) && (
+              <div className="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal">
+                {`${item.stop.municipality}, ${
+                  item.stop.address ? stateAbbr(item.stop.address) : "MA"
+                }`}
+              </div>
+            )}
           </div>
         )}
       </div>
-
-      {isStopItem(item) && (
-        <div className="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal">
-          {`${item.stop.municipality}, ${
-            item.stop.address ? stateAbbr(item.stop.address) : "MA"
-          }`}
-        </div>
-      )}
     </div>
   );
 };
