@@ -484,7 +484,7 @@ function _stopIcons(hit, type) {
           .split(", ")
           .map(
             num =>
-              `<span class="c-icon__bus-pill--small u-bg--bus tw-mr-1">${num}</span>`
+              `<span class="c-icon__bus-pill--small u-bg--bus mr-1">${num}</span>`
           )
           .join("");
       });

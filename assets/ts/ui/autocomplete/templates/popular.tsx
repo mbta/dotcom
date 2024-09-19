@@ -11,10 +11,10 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
   const featureIcons = getFeatureIcons(item, "popular");
   return (
     <div className="aa-ItemContent">
-      <div className="tw-flex-grow tw-mt-1">
-        <div className="tw-flex tw-items-baseline tw-flex-grow">
+      <div className="flex-grow mt-1">
+        <div className="flex items-baseline flex-grow">
           <div
-            className="tw-basis-6"
+            className="basis-6"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: iconHtml
@@ -24,7 +24,7 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
             {item.name}
           </strong>
         </div>
-        <div className="tw-flex tw-gap-1 tw-mt-2 tw-mb-1">
+        <div className="flex gap-1 mt-2 mb-1">
           {featureIcons.map((feature: string) => (
             <span
               key={uniqueId()}
@@ -35,7 +35,7 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
           ))}
         </div>
       </div>
-      <div className="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal">{`${item.municipality}, ${item.state}`}</div>
+      <div className="text-nowrap text-gray-500 text-sm font-normal">{`${item.municipality}, ${item.state}`}</div>
     </div>
   );
 };
