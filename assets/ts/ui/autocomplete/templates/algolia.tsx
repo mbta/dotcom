@@ -112,12 +112,11 @@ const AlgoliaItemTemplate: SourceTemplates<AutocompleteItem>["item"] = ({
           </div>
         </div>
         {!isContentItem(item) && featureIcons.length > 0 && (
-          <div className="mt-2 mb-1 flex justify-between items-baseline">
+          <div className="mt-2 mb-1 flex justify-between items-center">
             <div className="flex gap-1">
               {featureIcons.map((feature: string) => (
                 <span
                   key={uniqueId()}
-                  className="c-search-result__feature-icons"
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: feature }}
                 />
