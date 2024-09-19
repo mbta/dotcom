@@ -5,7 +5,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
 
   use Phoenix.Component
 
-  alias TripPlan.{Leg, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
 
   attr :group, :map
 
@@ -14,14 +14,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   """
   def itinerary_group(assigns) do
     ~H"""
-    <div class="itinerary-group tw-m-3 tw-mt-0 tw-p-3 tw-border-solid tw-border-1 tw-border-indigo-200">
+    <div class="itinerary-group m-3 mt-0 p-3 border-solid border-1 border-indigo-200">
       <div class="itinerary-group-legs">
-        <ol>
+        <ol class="list-decimal">
           <%= for variation <- @group do %>
             <li class="itinerary-group-leg">
               <h6>
                 DEPARTURE TIME
-                <span class="tw-text-small tw-text-slate-500">
+                <span class="text-small text-slate-500">
                   <%= format_datetime(variation.departure) %>
                 </span>
               </h6>
