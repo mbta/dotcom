@@ -72,7 +72,7 @@ const ExternalMapLink = ({
       className="c-call-to-action"
     >
       {displayString}
-      {renderFa("ps-5", "fa-solid fa-arrow-up-right-from-square")}
+      {renderFa("u-ps-5", "fa-solid fa-arrow-up-right-from-square")}
     </a>
   );
 };

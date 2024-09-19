@@ -196,20 +196,20 @@ const DailyScheduleSubway = ({
 
   return (
     <div>
-      <div className="u-highlight-gray m-n24">
-        <div className="m-24">
-          <div className="d-flex pt-10">
+      <div className="u-highlight-gray u-m-n24">
+        <div className="u-m-24">
+          <div className="d-flex u-pt-10">
             <RouteIcon
               tag={toLower(routeId)}
-              extraClasses="schedule__icon-header--size me-8"
+              extraClasses="schedule__icon-header--size u-me-8"
             />
             <div className="fs-18 u-bold">{originStopName}</div>
           </div>
-          <div className="fs-12 u-bold pb-10">To {destinationName}</div>
+          <div className="fs-12 u-bold u-pb-10">To {destinationName}</div>
         </div>
       </div>
-      <h3 className="pt-18">Daily Schedule</h3>
-      <div className="pt-8">
+      <h3 className="u-pt-18">Daily Schedule</h3>
+      <div className="u-pt-8">
         <SelectContainer>
           <select
             value={selectedSchedule}
@@ -244,17 +244,17 @@ const DailyScheduleSubway = ({
         </SelectContainer>
       </div>
       <div
-        className="d-flex justify-content-space-between pt-8"
+        className="d-flex justify-content-space-between u-pt-8"
         style={{ gap: "2%" }}
         aria-live="polite"
       >
-        <div className="w-100 u-highlight ps-16 pt-16 pb-16">
+        <div className="u-w-100 u-highlight u-ps-16 u-pt-16 u-pb-16">
           <div className="fs-14">First Train</div>
           <div className="fs-18 u-bold">
             {firstTrainHours && formatToBostonTime(firstTrainHours)}
           </div>
         </div>
-        <div className="w-100 u-highlight ps-16 pt-16 pb-16">
+        <div className="u-w-100 u-highlight u-ps-16 u-pt-16 u-pb-16">
           <div className="fs-14">Last Train</div>
           <div className="fs-18 u-bold">
             {lastTrainHours && formatToBostonTime(lastTrainHours)}
@@ -266,23 +266,23 @@ const DailyScheduleSubway = ({
           header={{
             text: "Train Frequency",
             iconSvgText: null,
-            classOverride: "mt-8"
+            classOverride: "u-mt-8"
           }}
           initiallyExpanded={false}
           id="train-frequency"
         >
           <div className="m-schedule-page__sidebar-hours">
             <div className="font-weight-bold fs-14">Regular schedule</div>
-            <div className="fs-16 pt-8">
+            <div className="fs-16 u-pt-8">
               Trains depart every {scheduleNoteText}
             </div>
           </div>
         </ExpandableBlock>
       )}
-      <div className="d-flex pt-8 pb-18 fs-18">
+      <div className="d-flex u-pt-8 u-pb-18 fs-18">
         <a
           href={`/trip-planner/from/${stopLatLong}`}
-          className="btn btn-secondary btn-block mt-8"
+          className="btn btn-secondary btn-block u-mt-8"
         >
           Plan Your Trip
         </a>

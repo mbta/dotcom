@@ -10,7 +10,7 @@ const CommuterRailZoneIcon = ({
   }
 
   return (
-    <div className="m-stop-page__header-feature mt-n5">
+    <div className="m-stop-page__header-feature u-mt-n5">
       <span className="m-stop-page__icon c-icon__cr-zone">
         Zone {zoneNumber}
       </span>

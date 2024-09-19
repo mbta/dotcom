@@ -22,7 +22,7 @@ const ExternalRiptaConnection = ({
 }): ReactElement<HTMLElement> => {
   if (containsRIPTARoute(stop)) {
     return (
-      <div className="mt-16 m-external-connections">
+      <div className="u-mt-16 m-external-connections">
         <div className="u-small-caps u-bold">EXTERNAL CONNECTIONS</div>
         <div className="m-route-pills">
           <PillLink

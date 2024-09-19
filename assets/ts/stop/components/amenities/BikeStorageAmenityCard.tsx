@@ -60,10 +60,10 @@ const BikeStorageAmenityCard = ({
         hasBikeStorage && (
           <AmenityModal headerText={`Bike Storage at ${stopName}`}>
             {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
-            <h2 className="h3 mt-8">Facility Information</h2>
+            <h2 className="h3 u-mt-8">Facility Information</h2>
             {hasPedalAndPark && (
               <AmenityImage
-                className="mt-8 mb-1"
+                className="u-mt-8 u-mb-1"
                 src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
                 altText="MBTA Pedal and Park bike storage"
               />

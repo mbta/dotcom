@@ -13,7 +13,7 @@
         <div class="leg-summary">
           <%= svg "walk.svg" %>
           <div>
-            <strong class="pe-8">
+            <strong class="u-pe-8">
               Walk to <%= @next_stop_name %>
             </strong>
             <%= "(#{@itinerary_row.distance} mi, #{@itinerary_row.duration} min)" %>

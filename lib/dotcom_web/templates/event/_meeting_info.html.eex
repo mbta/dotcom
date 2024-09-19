@@ -1,6 +1,6 @@
 <div class="c-paragraph <%= if @style do @style end %>">
   <h2>Meeting Info</h2>
-  <div class="u-small-caps u-bold mb-05 mt-1">Date and Time</div>
+  <div class="u-small-caps u-bold u-mb-05 u-mt-1">Date and Time</div>
   <% %{date: date, time: time} = get_formatted_date_time_map(@event.start_time, @event.end_time, "{WDfull}, {Mfull} {D}, {YYYY}") %>
   <div><%= date %></div>
   <div><%= time %></div>
@@ -9,7 +9,7 @@
       <%= fa "calendar-plus-o" %> Add to Calendar
     <% end %>
   <% end %>
-  <div class="u-small-caps u-bold mb-05 mt-1">Location</div>
+  <div class="u-small-caps u-bold u-mb-05 u-mt-1">Location</div>
   <%= if @event.location do %>
     <div><%= @event.location %></div>
     <div><%= @event.street_address %></div>
@@ -17,6 +17,6 @@
   <% else %>
     <div><%= @event.imported_address %></div>
   <% end %>
-  <div class="u-small-caps u-bold mb-05 mt-1">Intended Audience</div>
+  <div class="u-small-caps u-bold u-mb-05 u-mt-1">Intended Audience</div>
   <div><%= @event.who %></div>
 </div>

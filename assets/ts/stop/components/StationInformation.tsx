@@ -40,7 +40,7 @@ const StationInformation = ({
         latitude={stop.latitude}
         longitude={stop.longitude}
       />
-      <div className="station-amenities mt-24">
+      <div className="station-amenities u-mt-24">
         {isStation && (
           <>
             <h3 className="hidden-md-up">Bringing your car or bike</h3>

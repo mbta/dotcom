@@ -25,7 +25,7 @@ const displayNoUpcomingTrips = (
   message = "No more trips today"
 ): JSX.Element => {
   return (
-    <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
+    <div className="c-alert-item--low u-m-8 d-flex justify-content-center align-items-center u-pb-40 u-pt-40">
       {message}
     </div>
   );
