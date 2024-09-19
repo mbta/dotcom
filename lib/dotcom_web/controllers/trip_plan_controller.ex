@@ -228,20 +228,18 @@ defmodule DotcomWeb.TripPlanController do
       query
       |> Query.get_itineraries()
 
-    groups = TripPlanner.OpenTripPlanner.group(itineraries)
     itinerary_row_lists = itinerary_row_lists(itineraries, plan_params)
 
     conn
     |> render(
-      groups: groups,
-      itineraries: itineraries,
-      itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1)),
-      itinerary_row_lists: itinerary_row_lists,
-      plan_error: MapSet.to_list(query.errors),
       query: query,
+      itineraries: itineraries,
+      plan_error: MapSet.to_list(query.errors),
+      routes: Enum.map(itineraries, &routes_for_itinerary(&1)),
+      itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1)),
       related_links:
         filter_duplicate_links(Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1))),
-      routes: Enum.map(itineraries, &routes_for_itinerary(&1))
+      itinerary_row_lists: itinerary_row_lists
     )
   end
 
