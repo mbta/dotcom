@@ -320,13 +320,13 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          MapsHelpers.lookupPlace(hit.street_address).then(res => {
+          MapsHelpers.lookupPlace(hit.formatted).then(res => {
             // this doesnt work
             const { latitude, longitude } = res;
             this.setStopValue(ac, hit);
             this.setAutocompleteValue(
               ac,
-              hit.street_address,
+              hit.formatted,
               lat,
               lng,
               latitude,

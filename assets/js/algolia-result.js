@@ -309,9 +309,7 @@ export function getUrl(hit, index) {
       return _contentUrl(hit);
 
     case "locations":
-      return `transit-near-me?address=${encodeURIComponent(
-        hit.street_address
-      )}`;
+      return `transit-near-me?address=${encodeURIComponent(hit.formatted)}`;
 
     case "usemylocation":
       return "#";
@@ -345,7 +343,7 @@ export function getTitle(hit, type) {
   switch (type) {
     case "locations":
       // eslint-disable-next-line no-case-declarations
-      const { street_address: text, highlighted_spans: spans } = hit;
+      const { formatted: text, highlighted_spans: spans } = hit;
 
       return highlightText(text, spans);
     case "stops":
