@@ -4,7 +4,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   parses the result.
   """
 
-  alias Dotcom.TripPlan.{NamedPosition, Parser}
+  alias Dotcom.TripPlan.{InputForm, Leg, NamedPosition, Parser, PersonalDetail}
 
   alias OpenTripPlannerClient.ItineraryTag.{
     EarliestArrival,
@@ -18,8 +18,17 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @doc """
   Requests to OpenTripPlanner's /plan GraphQL endpoint and parses the response..
   """
+  @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
   @spec plan(NamedPosition.t(), NamedPosition.t(), Keyword.t()) ::
           OpenTripPlannerClient.Behaviour.plan_result()
+
+  def plan(%InputForm{} = input_form) do
+    input_form
+    |> InputForm.to_params()
+    |> @otp_module.plan()
+    |> parse()
+  end
+
   def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
     with from <- NamedPosition.to_keywords(from),
          to <- NamedPosition.to_keywords(to),
@@ -39,7 +48,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   defp parse({:error, _} = error), do: error
 
-  defp parse({:ok, itineraries}) do
+  defp parse({:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}) do
     {:ok, Enum.map(itineraries, &Parser.parse/1)}
   end
 
@@ -69,11 +78,11 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     end)
   end
 
-  defp combined_leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+  defp combined_leg_to_tuple(%Leg{mode: %PersonalDetail{}} = leg) do
     unique_leg_to_tuple(leg)
   end
 
-  defp combined_leg_to_tuple(%TripPlan.Leg{mode: %{route: route}} = leg) do
+  defp combined_leg_to_tuple(%Leg{mode: %{route: route}} = leg) do
     {route.id, leg.from.name, leg.to.name}
   end
 
@@ -85,7 +94,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     |> :erlang.phash2()
   end
 
-  defp short_walking_leg?(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
+  defp short_walking_leg?(%Leg{mode: %PersonalDetail{}} = leg) do
     leg.distance <= 0.2
   end
 
@@ -98,11 +107,11 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     |> :erlang.phash2()
   end
 
-  defp unique_leg_to_tuple(%TripPlan.Leg{mode: %TripPlan.PersonalDetail{}} = leg) do
-    {"WALK", leg.from.name, leg.to.name}
+  defp unique_leg_to_tuple(%Leg{mode: %PersonalDetail{}} = leg) do
+    {:WALK, leg.from.name, leg.to.name}
   end
 
-  defp unique_leg_to_tuple(%TripPlan.Leg{mode: %{route: route}} = leg) do
+  defp unique_leg_to_tuple(%Leg{mode: %{route: route}} = leg) do
     {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
   end
 end

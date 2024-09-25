@@ -76,7 +76,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end)
 
     stub(OpenTripPlannerClient.Mock, :plan, fn _from, _to, _opts ->
-      {:ok, []}
+      {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
     end)
 
     stub(LocationService.Mock, :geocode, fn name ->

@@ -73,50 +73,46 @@ exports[`Popular template renders 1`] = `
     href="/transit-near-me?latitude=42.352271&longitude=-71.055242&name=South+Station"
   >
     <div
-      class="aa-ItemContent"
+      class="aa-ItemContent mt-1"
     >
       <div
-        class="flex-grow mt-1"
+        class="flex-grow"
       >
         <div
-          class="flex items-baseline flex-grow"
+          class="flex items-baseline gap-1"
         >
           <div
-            class="basis-6"
+            class="basis-4 flex-shrink-0"
           />
           <strong
-            class="aa-ItemContentTitle notranslate"
+            class="aa-ItemContentTitle notranslate flex-grow"
           >
             South Station
           </strong>
         </div>
         <div
-          class="flex gap-1 mt-2 mb-1"
+          class="mt-2 mb-1 flex justify-between items-center"
         >
-          <span
-            class="c-search-result__feature-icons"
-          />
-          <span
-            class="c-search-result__feature-icons"
-          />
-          <span
-            class="c-search-result__feature-icons"
-          />
-          <span
-            class="c-search-result__feature-icons"
+          <div
+            class="flex gap-1"
           >
-            <span
-              class="c-icon__cr-zone"
-            >
-              Zone 1A
+            <span />
+            <span />
+            <span />
+            <span>
+              <span
+                class="c-icon__cr-zone text-sm"
+              >
+                Zone 1A
+              </span>
             </span>
-          </span>
+          </div>
+          <div
+            class="text-nowrap text-gray-500 text-sm font-normal"
+          >
+            Town, MA
+          </div>
         </div>
-      </div>
-      <div
-        class="text-nowrap text-gray-500 text-sm font-normal"
-      >
-        Town, MA
       </div>
     </div>
   </a>

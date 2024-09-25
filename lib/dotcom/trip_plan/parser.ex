@@ -80,10 +80,10 @@ defmodule Dotcom.TripPlan.Parser do
     }
   end
 
-  def mode(%Schema.Leg{distance: distance, mode: "WALK", steps: steps}, _) do
+  def mode(%Schema.Leg{distance: distance, mode: :WALK, steps: steps}, _) do
     %PersonalDetail{
       distance: miles(distance),
-      steps: Enum.map(steps, &step/1)
+      steps: steps
     }
   end
 
@@ -103,22 +103,6 @@ defmodule Dotcom.TripPlan.Parser do
       route: build_route(route, agency_name),
       trip_id: id_from_gtfs(trip.gtfs_id)
     }
-  end
-
-  def step(%Schema.Step{
-        distance: distance,
-        absolute_direction: absolute_direction,
-        relative_direction: relative_direction,
-        street_name: street_name
-      }) do
-    struct(PersonalDetail.Step, %{
-      distance: miles(distance),
-      street_name: street_name,
-      absolute_direction:
-        if(absolute_direction, do: String.downcase(absolute_direction) |> String.to_atom()),
-      relative_direction:
-        if(relative_direction, do: String.downcase(relative_direction) |> String.to_atom())
-    })
   end
 
   defp build_route(

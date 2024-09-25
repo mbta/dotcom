@@ -2,10 +2,9 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
   @moduledoc """
   Handle formatting feedback into a spreadsheet-friendly format.
   """
+  alias OpenTripPlannerClient.Schema.Step
 
   require Logger
-
-  alias Dotcom.TripPlan.PersonalDetail.Step
 
   @headers [
     "generated_time",
@@ -139,19 +138,18 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
 
   defp mode_description(%{"steps" => steps, "distance" => distance}) do
     step_description =
-      Enum.map_join(steps, ";\n\t", fn %{
-                                         "relative_direction" => direction,
-                                         "street_name" => street_name
-                                       } ->
-        relative_direction = String.to_atom(direction)
-
-        [
-          Step.human_relative_direction(relative_direction),
-          Step.human_relative_preposition(relative_direction),
-          street_name
-        ]
-        |> Enum.join(" ")
+      steps
+      |> Enum.map(fn step ->
+        # since this is happening after data serialization, re-create the atom
+        # keys so that Nestru can re-decode it and compute the appropriate text
+        # via Step.walk_summary/1
+        Enum.map(step, fn {k, v} ->
+          {String.to_atom(k), v}
+        end)
+        |> Enum.into(%{})
       end)
+      |> Nestru.decode_from_list!(Step)
+      |> Enum.map_join(";\n\t", &Step.walk_summary/1)
 
     "walking #{distance} meters:\n\t#{step_description}"
   end

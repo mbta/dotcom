@@ -59,33 +59,33 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                   "steps" => [
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "depart",
+                      "relative_direction" => "DEPART",
                       "distance" => 48.24,
-                      "absolute_direction" => "northeast"
+                      "absolute_direction" => "NORTHEAST"
                     },
                     %{
                       "street_name" => "Lovejoy Wharf",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 11.98,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "Causeway Street",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 34.42,
-                      "absolute_direction" => "northeast"
+                      "absolute_direction" => "NORTHEAST"
                     },
                     %{
                       "street_name" => "Medford Street",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 11.87,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 9.7,
-                      "absolute_direction" => "southwest"
+                      "absolute_direction" => "SOUTHWEST"
                     }
                   ],
                   "distance" => 116.22
@@ -135,21 +135,21 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                   "steps" => [
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "depart",
+                      "relative_direction" => "DEPART",
                       "distance" => 38.73,
-                      "absolute_direction" => "northwest"
+                      "absolute_direction" => "NORTHWEST"
                     },
                     %{
                       "street_name" => "South Station - Main Entry, Dewey Square",
-                      "relative_direction" => "enter_station",
+                      "relative_direction" => "ENTER_STATION",
                       "distance" => 0,
-                      "absolute_direction" => "north"
+                      "absolute_direction" => "NORTH"
                     },
                     %{
                       "street_name" => "Bus Shuttle Outbound",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 24.69,
-                      "absolute_direction" => "west"
+                      "absolute_direction" => "WEST"
                     }
                   ],
                   "distance" => 63.41
@@ -180,117 +180,117 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                   "steps" => [
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "depart",
+                      "relative_direction" => "DEPART",
                       "distance" => 93.09,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "Haverhill Street",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 7.01,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "Valenti Way",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 37.13,
-                      "absolute_direction" => "northeast"
+                      "absolute_direction" => "NORTHEAST"
                     },
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 265.07,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 13.85,
-                      "absolute_direction" => "southwest"
+                      "absolute_direction" => "SOUTHWEST"
                     },
                     %{
                       "street_name" => "New Sudbury Street",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 28.52,
-                      "absolute_direction" => "southwest"
+                      "absolute_direction" => "SOUTHWEST"
                     },
                     %{
                       "street_name" => "service road",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 8.69,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 26.43,
-                      "absolute_direction" => "southwest"
+                      "absolute_direction" => "SOUTHWEST"
                     },
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 109.53,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "Hanover Street",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 8.11,
-                      "absolute_direction" => "southwest"
+                      "absolute_direction" => "SOUTHWEST"
                     },
                     %{
                       "street_name" => "Congress Street",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 457.48,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 7.27,
-                      "absolute_direction" => "west"
+                      "absolute_direction" => "WEST"
                     },
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 247.97,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "left",
+                      "relative_direction" => "LEFT",
                       "distance" => 212.42,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "Federal Street",
-                      "relative_direction" => "slightly_left",
+                      "relative_direction" => "SLIGHTLY_LEFT",
                       "distance" => 68.29,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "path",
-                      "relative_direction" => "continue",
+                      "relative_direction" => "CONTINUE",
                       "distance" => 92.88,
-                      "absolute_direction" => "southeast"
+                      "absolute_direction" => "SOUTHEAST"
                     },
                     %{
                       "street_name" => "sidewalk",
-                      "relative_direction" => "right",
+                      "relative_direction" => "RIGHT",
                       "distance" => 24.93,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "South Station - Main Entry, Dewey Square",
-                      "relative_direction" => "enter_station",
+                      "relative_direction" => "ENTER_STATION",
                       "distance" => 0,
-                      "absolute_direction" => "north"
+                      "absolute_direction" => "NORTH"
                     },
                     %{
                       "street_name" => "Bus Shuttle Outbound",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 24.69,
-                      "absolute_direction" => "west"
+                      "absolute_direction" => "WEST"
                     }
                   ],
                   "distance" => 1733.35
@@ -345,21 +345,21 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                   "steps" => [
                     %{
                       "street_name" => "Red Line - Ashmont/Braintree | Stairs",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 17.37,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "pathway",
-                      "relative_direction" => "continue",
+                      "relative_direction" => "CONTINUE",
                       "distance" => 0,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "Red Line - Ashmont/Braintree",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 9.14,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     }
                   ],
                   "distance" => 26.52
@@ -437,27 +437,27 @@ defmodule DotcomWeb.TripPlan.FeedbackCSVTest do
                   "steps" => [
                     %{
                       "street_name" => "Red Line - Ashmont/Braintree",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 65.23,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "Red Line - Ashmont/Braintree",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 0,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "Orange Line - Oak Grove",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 21.34,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     },
                     %{
                       "street_name" => "Red Line - Ashmont/Braintree",
-                      "relative_direction" => "follow_signs",
+                      "relative_direction" => "FOLLOW_SIGNS",
                       "distance" => 51.18,
-                      "absolute_direction" => "south"
+                      "absolute_direction" => "SOUTH"
                     }
                   ],
                   "distance" => 137.74

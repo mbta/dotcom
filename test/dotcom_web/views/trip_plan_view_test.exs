@@ -13,12 +13,12 @@ defmodule DotcomWeb.TripPlanViewTest do
     Leg,
     NamedPosition,
     PersonalDetail,
-    PersonalDetail.Step,
     Query,
     TransitDetail
   }
 
   alias Fares.Fare
+  alias OpenTripPlannerClient.Schema.Step
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
 
   @highest_one_way_fare %Fares.Fare{

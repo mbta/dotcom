@@ -8,7 +8,9 @@ defmodule Dotcom.TripPlan.InputForm do
   use TypedEctoSchema
   import Ecto.Changeset
 
-  @valid_modes [:commuter_rail, :subway, :bus, :ferry]
+  alias OpenTripPlannerClient.PlanParams
+
+  @valid_modes [:RAIL, :SUBWAY, :BUS, :FERRY]
   @time_types [:now, :leave_at, :arrive_by]
 
   @error_messages %{
@@ -31,6 +33,26 @@ defmodule Dotcom.TripPlan.InputForm do
 
   def time_types, do: @time_types
   def valid_modes, do: @valid_modes
+
+  def to_params(%__MODULE__{
+        from: from,
+        to: to,
+        datetime_type: datetime_type,
+        datetime: datetime,
+        modes: modes,
+        wheelchair: wheelchair
+      }) do
+    %{
+      fromPlace: PlanParams.to_place_param(from),
+      toPlace: PlanParams.to_place_param(to),
+      arriveBy: datetime_type == :arrive_by,
+      date: PlanParams.to_date_param(datetime),
+      time: PlanParams.to_time_param(datetime),
+      transportModes: PlanParams.to_modes_param(modes),
+      wheelchair: wheelchair
+    }
+    |> PlanParams.new()
+  end
 
   def changeset(params \\ %{}) do
     changeset(%__MODULE__{}, params)

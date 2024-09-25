@@ -4,15 +4,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   """
   use DotcomWeb, :live_component
 
-  import DotcomWeb.ViewHelpers, only: [mode_name: 1, svg: 1]
+  import DotcomWeb.ViewHelpers, only: [svg: 1]
   import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
 
-  alias Dotcom.TripPlan.InputForm
+  alias Dotcom.TripPlan.{InputForm, OpenTripPlanner}
 
+  @all_modes [:RAIL, :SUBWAY, :BUS, :FERRY]
   @form_defaults %{
     "datetime_type" => :now,
     "datetime" => NaiveDateTime.local_now(),
-    "modes" => [:commuter_rail, :subway, :bus, :ferry],
+    "modes" => @all_modes,
     "wheelchair" => true
   }
 
@@ -27,16 +28,18 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
      assign(socket, %{
        form: form,
        location_keys: InputForm.Location.fields(),
-       show_datepicker: false
+       show_datepicker: input_value(form, :datetime_type) != :now
      })}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
-    <section>
+    <section class="px-10 py-8 lg:px-20 lg:py-12 mb-4 bg-gray-100">
       <.form
         :let={f}
+        class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
+        id={@id}
         for={@form}
         method="get"
         phx-change="validate"
@@ -71,7 +74,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             type="radio"
             phx-click="toggle_datepicker"
             phx-target={@myself}
-            phx-update="ignore"
           >
             <:input_item
               :for={type <- Ecto.Enum.values(InputForm, :datetime_type)}
@@ -107,28 +109,76 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             <%= msg %>
           </.form_error>
         </.fieldset>
-        <.fieldset legend="Modes">
-          <.accordion open>
-            <:heading>
-              <%= input_value(@form, :modes) |> selected_modes() %>
-            </:heading>
-            <:content>
-              <.mode_selector field={f[:modes]} modes={modes()} />
-            </:content>
-            <:extra :if={used_input?(f[:modes])}>
-              <.form_error :for={{msg, _} <- f[:modes].errors}>
-                <%= msg %>
-              </.form_error>
-            </:extra>
-          </.accordion>
-        </.fieldset>
-        <div class="inline-flex items-center">
-          <.form_input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
-          <%= svg("icon-accessible-small.svg") %>
+        <div>
+          <.fieldset legend="Modes">
+            <.accordion open>
+              <:heading>
+                <%= selected_modes(input_value(@form, :modes)) %>
+              </:heading>
+              <:content>
+                <div class="flex flex-col gap-1">
+                  <input
+                    :if={input_value(@form, :modes) == []}
+                    type="hidden"
+                    name={input_name(@form, :modes)}
+                    value=""
+                    checked="true"
+                  />
+                  <label
+                    :for={
+                      {mode_name, mode_value} <- [
+                        {"Commuter Rail", :RAIL},
+                        {"Subway", :SUBWAY},
+                        {"Bus", :BUS},
+                        {"Ferry", :FERRY}
+                      ]
+                    }
+                    for={@id <> "_#{mode_value}"}
+                    class="rounded border-solid border-2 border-transparent has-[:checked]:bg-slate-100 has-[:checked]:font-semibold has-[:focus-within]:border-slate-400
+                py-1 px-2 mb-0 inline-flex items-center gap-2"
+                  >
+                    <div class="relative">
+                      <input
+                        id={input_id(@form, :modes)  <> "_#{mode_value}"}
+                        type="checkbox"
+                        class="peer sr-only"
+                        name={input_name(@form, :modes) <> "[]"}
+                        value={mode_value}
+                        checked={
+                          if(input_value(@form, :modes),
+                            do:
+                              mode_value in input_value(@form, :modes) ||
+                                "#{mode_value}" in input_value(@form, :modes)
+                          )
+                        }
+                      />
+                      <div class="h-8 overflow-hidden rounded-full border-2 border-solid border-slate-200 bg-slate-100 w-14 peer-checked:border-slate-400 peer-checked:bg-slate-300">
+                      </div>
+                      <div class="absolute w-6 h-6 rounded-full shadow-lg shadow-indigo-500/40 left-1 top-1 transition opacity-50 peer-checked:translate-x-full peer-checked:opacity-100">
+                        <%= mode_icon(mode_value) %>
+                      </div>
+                    </div>
+                    <%= mode_name %>
+                  </label>
+                </div>
+              </:content>
+              <:extra :if={used_input?(f[:modes])}>
+                <.form_error :for={{msg, _} <- f[:modes].errors}>
+                  <%= msg %>
+                </.form_error>
+              </:extra>
+            </.accordion>
+          </.fieldset>
+          <div class="inline-flex items-center">
+            <.form_input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
+            <%= svg("icon-accessible-small.svg") %>
+          </div>
         </div>
-        <.button type="submit" phx-disable-with="Planning your trip...">
-          Get trip suggestions
-        </.button>
+        <div class="col-start-2 justify-self-end">
+          <.button type="submit" phx-disable-with="Planning your trip...">
+            Get trip suggestions
+          </.button>
+        </div>
       </.form>
     </section>
     """
@@ -154,28 +204,47 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     |> Ecto.Changeset.apply_action(:update)
     |> case do
       {:ok, data} ->
-        _ = socket.assigns.on_submit.(data)
-
-        data
-        |> Ecto.Changeset.change()
-        |> Phoenix.Component.to_form()
+        %{on_submit: on_submit} = socket.assigns
+        {:noreply, assign(socket, :plan, plan(data, on_submit))}
 
       {:error, changeset} ->
-        changeset
-        |> Phoenix.Component.to_form()
+        form =
+          changeset
+          |> Phoenix.Component.to_form()
+
+        {:noreply, assign(socket, %{form: form})}
     end
-    |> then(fn form ->
-      {:noreply, assign(socket, %{form: form})}
-    end)
   end
 
-  defp modes do
-    InputForm
-    |> Ecto.Enum.values(:modes)
-    |> Enum.map(&{mode_name(&1), &1})
+  defp plan(data, on_submit) do
+    _ = on_submit.(data)
+    result = OpenTripPlanner.plan(data)
+    _ = on_submit.(result)
+    result
   end
 
-  defp selected_modes([:commuter_rail, :subway, :bus, :ferry]) do
+  defp mode_atom(mode) do
+    case mode do
+      :RAIL -> :commuter_rail
+      :SUBWAY -> :subway
+      :BUS -> :bus
+      :FERRY -> :ferry
+      other when is_binary(other) and other != "" -> String.to_atom(other)
+      _ -> :unknown
+    end
+  end
+
+  defp mode_name(mode) do
+    case mode_atom(mode) do
+      :unknown ->
+        ""
+
+      other ->
+        DotcomWeb.ViewHelpers.mode_name(other)
+    end
+  end
+
+  defp selected_modes(modes) when modes == @all_modes do
     "All modes"
   end
 
@@ -187,8 +256,29 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   defp selected_modes(modes) do
     modes
     |> Enum.map(&mode_name/1)
+    |> Enum.reject(&(&1 == ""))
     |> Enum.intersperse(", ")
     |> List.insert_at(-2, "and ")
     |> Enum.join("")
+  end
+
+  defp mode_icon(:RAIL),
+    do: get_mode_icon("icon-mode-commuter-rail.svg")
+
+  defp mode_icon(:SUBWAY),
+    do: get_mode_icon("icon-mode-subway.svg")
+
+  defp mode_icon(:BUS),
+    do: get_mode_icon("icon-mode-bus.svg")
+
+  defp mode_icon(:FERRY),
+    do: get_mode_icon("icon-mode-ferry.svg")
+
+  defp get_mode_icon(path) do
+    :mbta_metro
+    |> Application.app_dir("priv/static/images")
+    |> Path.join(path)
+    |> File.read!()
+    |> Phoenix.HTML.raw()
   end
 end
