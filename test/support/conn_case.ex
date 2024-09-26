@@ -40,7 +40,8 @@ defmodule DotcomWeb.ConnCase do
           project_path: 3,
           project_update_path: 3,
           project_update_path: 4,
-          static_path: 2
+          static_path: 2,
+          static_url: 2
         ]
 
       import DotcomWeb.CmsRouterHelpers
