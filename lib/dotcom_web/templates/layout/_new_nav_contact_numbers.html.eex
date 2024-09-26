@@ -1,7 +1,6 @@
 <div class="m-menu__feature top-section">
   <h3 class="m-menu__section-heading">Information & Support</h3>
   <small>Monday thru Friday: 6:30 AM - 8 PM</small>
-  <small>Saturday thru Sunday: 8 AM - 4 PM</small>
   <div class="m-menu__feature_phone">
     <strong>Main:</strong> <%= tel_link "617-222-3200" %>
   </div>
