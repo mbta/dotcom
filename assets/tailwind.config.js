@@ -23,7 +23,7 @@ module.exports = {
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
-    "../deps/mbta_metro/lib/mbta_metro/**/*.ex"
+    "../deps/mbta_metro/lib/mbta_metro/**/*.ex" // remove after updating Elixir lib
   ],
   theme: {
     extend: {
