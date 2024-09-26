@@ -106,7 +106,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.0"},
       {
         :open_trip_planner_client,
-        [github: "thecristen/open_trip_planner_client", tag: "v0.10.0"]
+        [github: "thecristen/open_trip_planner_client", tag: "v0.10.2"]
       },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14

@@ -5,7 +5,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
 
   use Phoenix.Component
 
-  alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
+  import DotcomWeb.Components.TripPlanner.Leg
 
   attr :group, :map
 
@@ -25,11 +25,16 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
                   <%= format_datetime(variation.departure) %>
                 </span>
               </h6>
-              <h6>DIRECTIONS</h6>
-              <ul>
+              <ul class="list-none">
                 <%= for leg <- variation.legs do %>
                   <li>
-                    <%= leg_to_string(leg) %>
+                    <.leg
+                      start_time={leg.start}
+                      end_time={leg.stop}
+                      from={leg.from}
+                      to={leg.to}
+                      mode={leg.mode}
+                    />
                   </li>
                 <% end %>
               </ul>
@@ -43,23 +48,5 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
 
   defp format_datetime(datetime) do
     Timex.format!(datetime, "%-I:%M %p", :strftime)
-  end
-
-  defp leg_to_string(%Leg{mode: %PersonalDetail{}} = leg) do
-    "WALK #{leg.distance} MILES FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  defp leg_to_string(%Leg{mode: %TransitDetail{mode: "BUS"} = mode} = leg) do
-    "TAKE THE #{mode.route.id} BUS FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  defp leg_to_string(%Leg{mode: %TransitDetail{mode: _} = mode} = leg) do
-    "TAKE THE #{mode.route.long_name} #{mode.mode} FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  defp leg_to_string(%Leg{mode: %struct{}}) do
-    Sentry.capture_message("Missing leg type %s", interpolation_parameters: [struct])
-
-    "UNKNOWN #{struct}"
   end
 end

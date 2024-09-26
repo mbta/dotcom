@@ -159,7 +159,7 @@ defmodule Dotcom.TripPlan.Parser do
     |> struct(attributes)
   end
 
-  defp build_stop(_, _), do: nil
+  defp build_stop(stop, _), do: struct(Stops.Stop, stop)
 
   defp id_from_gtfs(gtfs_id) do
     case String.split(gtfs_id, ":") do
