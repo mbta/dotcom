@@ -1,7 +1,7 @@
 const isAlertsPage = () => {
   const url = window.location.href;
 
-  return /\/alerts\/(\w)+/.test(url);
+  return /\/alerts\/[\w.-]+/.test(url);
 };
 
 const isIPhone = () => {
@@ -11,13 +11,13 @@ const isIPhone = () => {
 const isSchedulePage = () => {
   const url = window.location.href;
 
-  return /\/schedules\/(\w)+\/line/.test(url);
+  return /\/schedules\/[\w.-]+\/line/.test(url);
 };
 
 const isStopPage = () => {
   const url = window.location.href;
 
-  return /\/stops\/(\w)+/.test(url);
+  return /\/stops\/[\w.-]+/.test(url);
 };
 
 // Show the mobile app banner
