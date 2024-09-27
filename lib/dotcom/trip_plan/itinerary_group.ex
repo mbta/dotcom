@@ -1,12 +1,13 @@
 defmodule Dotcom.TripPlan.ItineraryGroups do
-  alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail}
-
-  @doc """
+  @moduledoc """
   Group itineraries by unique legs.
 
   A unique leg is defined as a leg that has a unique combination of mode, from, and to.
   But, this does not include walking legs that are less than 0.2 miles.
   """
+
+  alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail}
+
   @spec from_itineraries([Itinerary.t()]) :: [
           %{departure: DateTime.t(), arrival: DateTime.t(), legs: [Leg.t()]}
         ]

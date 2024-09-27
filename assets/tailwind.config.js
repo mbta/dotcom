@@ -1,13 +1,6 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 
-const {
-  colors,
-  content,
-  fontFamily,
-  plugins,
-  safelist
-} = require("mbta_metro");
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
@@ -17,27 +10,26 @@ module.exports = {
   },
   blocklist: ["container", "collapse"],
   content: [
-    ...content,
     "./js/**/*.js",
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex",
-    "../deps/mbta_metro/lib/mbta_metro/components/(accordion|feedback|input_group).ex" // add button and input after fixing fonts... but really just include everything after fixing blocked names
+    "../lib/dotcom_web/**/*.*ex"
   ],
   theme: {
     extend: {
       colors: {
-        ...colors
+        white: '#fff',
+        primary: {
+          DEFAULT: '#165c96',
+          darkest: '#0b2f4c',
+          light: '#5da9e8',
+          lightest: '#cee0f4'
+        }
       }
-    },
-    fontFamily: {
-      ...fontFamily
     }
   },
-  safelist: [...safelist],
   plugins: [
-    ...plugins,
     require("@tailwindcss/forms"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:

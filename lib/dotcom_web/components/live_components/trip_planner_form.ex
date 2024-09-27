@@ -5,8 +5,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   use DotcomWeb, :live_component
 
   import DotcomWeb.ViewHelpers, only: [svg: 1]
-  import MbtaMetro.Components.Feedback
-  import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
 
   alias Dotcom.TripPlan.{InputForm, OpenTripPlanner}
@@ -70,20 +68,27 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           </.algolia_autocomplete>
         </div>
         <.fieldset legend="When">
-          <.input_group
-            id={input_id(@form, :datetime_type)}
-            field={f[:datetime_type]}
-            type="radio"
-            phx-click="toggle_datepicker"
-            phx-target={@myself}
-          >
-            <:inputs
+          <ul class="m-0 p-0 flex flex-col sm:flex-row list-none">
+            <li
               :for={type <- Ecto.Enum.values(InputForm, :datetime_type)}
-              id={input_name(@form, :datetime_type) <> "_#{type}"}
-              value={type}
-              checked={input_value(@form, :datetime_type) == type}
-            />
-          </.input_group>
+              class={[
+                "border border-solid border-slate-300 bg-white",
+                "has-[:checked]:bg-primary-lightest has-[:checked]:border-primary",
+                "first:max-sm:rounded-t-lg last:max-sm:rounded-b-lg",
+                "sm:first:rounded-l-lg sm:last:rounded-r-lg"
+              ]}
+            >
+              <.input
+                id={input_id(@form, :datetime_type) <> "_#{type}"}
+                type="radio"
+                field={f[:datetime_type]}
+                value={type}
+                checked={input_value(@form, :datetime_type) == type}
+                phx-click="toggle_datepicker"
+                phx-target={@myself}
+              />
+            </li>
+          </ul>
 
           <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
@@ -126,9 +131,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               <:content>
                 <div class="flex flex-col gap-1">
                   <input
-                    :if={input_value(@form, :modes) == []}
-                    type="hidden"
-                    name={input_name(@form, :modes)}
+                    type="checkbox"
+                    class="peer sr-only"
+                    name={input_name(@form, :modes) <> "[]"}
                     value=""
                     checked="true"
                   />
@@ -141,31 +146,24 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                         {"Ferry", :FERRY}
                       ]
                     }
-                    for={@id <> "_#{mode_value}"}
-                    class="rounded border-solid border-2 border-transparent has-[:checked]:bg-slate-100 has-[:checked]:font-semibold has-[:focus-within]:border-slate-400
-                py-1 px-2 mb-0 inline-flex items-center gap-2"
+                    for={input_id(@form, :modes) <> "_#{mode_value}"}
+                    class="rounded border-solid border-2 border-transparent hover:bg-zinc-100 has-[:checked]:font-semibold py-1 px-2 mb-0 inline-flex items-center gap-2"
                   >
-                    <div class="relative">
-                      <input
-                        id={input_id(@form, :modes)  <> "_#{mode_value}"}
-                        type="checkbox"
-                        class="peer sr-only"
-                        name={input_name(@form, :modes) <> "[]"}
-                        value={mode_value}
-                        checked={
-                          if(input_value(@form, :modes),
-                            do:
-                              mode_value in input_value(@form, :modes) ||
-                                "#{mode_value}" in input_value(@form, :modes)
-                          )
-                        }
-                      />
-                      <div class="h-8 overflow-hidden rounded-full border-2 border-solid border-slate-200 bg-slate-100 w-14 peer-checked:border-slate-400 peer-checked:bg-slate-300">
-                      </div>
-                      <div class="absolute w-6 h-6 rounded-full shadow-lg shadow-indigo-500/40 left-1 top-1 transition opacity-50 peer-checked:translate-x-full peer-checked:opacity-100">
-                        <%= mode_icon(mode_value) %>
-                      </div>
-                    </div>
+                    <span class="w-6 h-6"><%= mode_icon(mode_value) %></span>
+                    <input
+                      type="checkbox"
+                      class="shrink-0 mt-1 mr-3 border-silver-700 rounded focus:border-primary checked:border-primary-darkest"
+                      id={input_id(@form, :modes)  <> "_#{mode_value}"}
+                      name={input_name(@form, :modes) <> "[]"}
+                      value={mode_value}
+                      checked={
+                        if(input_value(@form, :modes),
+                          do:
+                            mode_value in input_value(@form, :modes) ||
+                              "#{mode_value}" in input_value(@form, :modes)
+                        )
+                      }
+                    />
                     <%= mode_name %>
                   </label>
                 </div>
@@ -257,6 +255,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   defp selected_modes([]), do: "No transit modes selected"
+  defp selected_modes(nil), do: "No transit modes selected"
 
   defp selected_modes([mode]), do: mode_name(mode) <> " Only"
   defp selected_modes([mode1, mode2]), do: mode_name(mode1) <> " and " <> mode_name(mode2)
@@ -271,20 +270,20 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   defp mode_icon(:RAIL),
-    do: get_mode_icon("icon-mode-commuter-rail.svg")
+    do: get_mode_icon("icon-mode-commuter-rail-default.svg")
 
   defp mode_icon(:SUBWAY),
-    do: get_mode_icon("icon-mode-subway.svg")
+    do: get_mode_icon("icon-mode-subway-default.svg")
 
   defp mode_icon(:BUS),
-    do: get_mode_icon("icon-mode-bus.svg")
+    do: get_mode_icon("icon-mode-bus-default.svg")
 
   defp mode_icon(:FERRY),
-    do: get_mode_icon("icon-mode-ferry.svg")
+    do: get_mode_icon("icon-mode-ferry-default.svg")
 
   defp get_mode_icon(path) do
-    :mbta_metro
-    |> Application.app_dir("priv/static/images")
+    :dotcom
+    |> Application.app_dir("priv/static/icon-svg")
     |> Path.join(path)
     |> File.read!()
     |> Phoenix.HTML.raw()

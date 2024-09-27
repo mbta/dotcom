@@ -141,8 +141,6 @@ defmodule DotcomWeb do
       import PhoenixHTMLHelpers.Link
       import PhoenixHTMLHelpers.Tag
       import PhoenixHTMLHelpers.Format
-      # Use all MBTA Metro components
-      use MbtaMetro
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
