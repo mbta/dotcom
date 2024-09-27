@@ -5,6 +5,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   use DotcomWeb, :live_component
 
   import DotcomWeb.ViewHelpers, only: [svg: 1]
+  import MbtaMetro.Components.Feedback
+  import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
 
   alias Dotcom.TripPlan.{InputForm, OpenTripPlanner}
@@ -62,9 +64,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                 name={location_f[subfield].name}
               />
             </.inputs_for>
-            <.form_error :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])}>
+            <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
               <%= msg %>
-            </.form_error>
+            </.feedback>
           </.algolia_autocomplete>
         </div>
         <.fieldset legend="When">
@@ -75,7 +77,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             phx-click="toggle_datepicker"
             phx-target={@myself}
           >
-            <:input_item
+            <:inputs
               :for={type <- Ecto.Enum.values(InputForm, :datetime_type)}
               id={input_name(@form, :datetime_type) <> "_#{type}"}
               value={type}
@@ -83,13 +85,14 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             />
           </.input_group>
 
-          <.form_error
+          <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
+            kind={:error}
           >
             <%= msg %>
-          </.form_error>
-          <.form_label :if={@show_datepicker} for="timepick">
+          </.feedback>
+          <.label :if={@show_datepicker} for="timepick">
             <input
               id="timepick"
               type="datetime-local"
@@ -98,20 +101,25 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               value={input_value(@form, :datetime)}
             />
             <span class="sr-only">Date and time to leave at or arrive by</span>
-          </.form_label>
-          <.form_error
+          </.label>
+          <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
+            kind={:error}
           >
             <%= msg %>
-          </.form_error>
-          <.form_error :for={{msg, _} <- f[:datetime].errors} :if={used_input?(f[:datetime])}>
+          </.feedback>
+          <.feedback
+            :for={{msg, _} <- f[:datetime].errors}
+            :if={used_input?(f[:datetime])}
+            kind={:error}
+          >
             <%= msg %>
-          </.form_error>
+          </.feedback>
         </.fieldset>
         <div>
           <.fieldset legend="Modes">
-            <.accordion open>
+            <.accordion>
               <:heading>
                 <%= selected_modes(input_value(@form, :modes)) %>
               </:heading>
@@ -163,14 +171,14 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                 </div>
               </:content>
               <:extra :if={used_input?(f[:modes])}>
-                <.form_error :for={{msg, _} <- f[:modes].errors}>
+                <.feedback :for={{msg, _} <- f[:modes].errors} kind={:error}>
                   <%= msg %>
-                </.form_error>
+                </.feedback>
               </:extra>
             </.accordion>
           </.fieldset>
           <div class="inline-flex items-center">
-            <.form_input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
+            <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
             <%= svg("icon-accessible-small.svg") %>
           </div>
         </div>

@@ -137,8 +137,10 @@ defmodule DotcomWeb do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       import Phoenix.HTML
-      import PhoenixHTMLHelpers.Form
-      use PhoenixHTMLHelpers
+      import PhoenixHTMLHelpers.Form, except: [label: 1]
+      import PhoenixHTMLHelpers.Link
+      import PhoenixHTMLHelpers.Tag
+      import PhoenixHTMLHelpers.Format
       # Use all MBTA Metro components
       use MbtaMetro
 

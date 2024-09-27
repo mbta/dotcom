@@ -23,7 +23,7 @@ module.exports = {
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
-    "../deps/mbta_metro/lib/mbta_metro/**/*.ex" // remove after updating Elixir lib
+    "../deps/mbta_metro/lib/mbta_metro/components/(accordion|feedback|input_group).ex" // add button and input after fixing fonts... but really just include everything after fixing blocked names
   ],
   theme: {
     extend: {
