@@ -8,8 +8,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Components.LiveComponents.TripPlannerForm
+  alias Dotcom.TripPlan.ItineraryGroups
 
-  import DotcomWeb.Components.TripPlanner.ItineraryGroups, only: [itinerary_groups: 1]
+  import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
   @form_id "trip-planner-form"
 
@@ -37,11 +38,10 @@ defmodule DotcomWeb.Live.TripPlanner do
         on_submit={fn data -> send(self(), {:updated_form, data}) end}
       />
       <section>
-        <p :if={@submitted_values} class="text-emerald-700">
-          Output summary goes here
-          <code class="text-emerald-700">
-            <%= inspect(@submitted_values) %>
-          </code>
+        <p :if={@submitted_values && @groups} class="text-lg text-emerald-700">
+          <%= Enum.count(@groups) %> ways to get from <%= @submitted_values.from.name %> to <%= @submitted_values.to.name %>, using <%= inspect(
+            @submitted_values.modes
+          ) %>
         </p>
       </section>
       <section class="flex w-full border border-solid border-slate-400">
@@ -49,7 +49,9 @@ defmodule DotcomWeb.Live.TripPlanner do
           <%= inspect(@error) %>
         </div>
         <div :if={@groups} class="w-full p-4">
-          <.itinerary_groups groups={@groups} />
+          <%= for group <- @groups do %>
+            <.itinerary_group group={group} />
+          <% end %>
         </div>
         <div id="trip-planner-map-wrapper" class="w-full" phx-update="ignore">
           <div style="min-height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
@@ -75,7 +77,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   def handle_info({:updated_form, {:ok, itineraries}}, socket) do
-    groups = Dotcom.TripPlan.OpenTripPlanner.group(itineraries)
+    groups = ItineraryGroups.from_itineraries(itineraries)
     {:noreply, assign(socket, %{error: nil, groups: groups})}
   end
 

@@ -68,7 +68,7 @@ defmodule Dotcom.TripPlan.Parser do
         name: name
       }) do
     stop =
-      if(match?(%Schema.Stop{}, stop),
+      if(stop,
         do: build_stop(stop, %{latitude: latitude, longitude: longitude})
       )
 
@@ -146,20 +146,19 @@ defmodule Dotcom.TripPlan.Parser do
   defp route_color("Logan Express", "DV", _), do: "704c9f"
   defp route_color(_, _, color), do: color
 
-  #  only create a %Stop{} if the GTFS ID is from MBTA
-  defp build_stop(stop, attributes \\ %{})
+  defp build_stop(stop, attributes \\ %{}) do
+    case stop.gtfs_id do
+      "mbta-ma-us:" <> gtfs_id ->
+        @stops_repo.get(gtfs_id)
+        |> struct(attributes)
 
-  defp build_stop(
-         %Schema.Stop{
-           gtfs_id: "mbta-ma-us:" <> gtfs_id
-         },
-         attributes
-       ) do
-    @stops_repo.get(gtfs_id)
-    |> struct(attributes)
+      _ ->
+        stop
+        |> Map.from_struct()
+        |> Map.merge(attributes)
+        |> then(&struct(Stops.Stop, &1))
+    end
   end
-
-  defp build_stop(stop, _), do: struct(Stops.Stop, stop)
 
   defp id_from_gtfs(gtfs_id) do
     case String.split(gtfs_id, ":") do

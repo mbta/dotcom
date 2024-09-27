@@ -59,9 +59,11 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
 
   def transit(assigns) do
     ~H"""
-    <%= ViewHelpers.line_icon(@route, :default) %> (<%= @route.name %>) on trip <%= @trip_id %>
+    <div class="text-lg">
+      <%= ViewHelpers.line_icon(@route, :default) %> (<%= @route.name %>) on trip <%= @trip_id %>
+    </div>
     <ul class="list-decimal">
-      <li :for={stop <- @stops}>
+      <li :for={stop <- @stops} class="text-sm text-zinc-500">
         <%= stop.name %> <%= if Stop.accessible?(stop),
           do: SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
       </li>
@@ -72,7 +74,7 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
   def walking_steps(assigns) do
     ~H"""
     <ul class="list-decimal">
-      <li :for={step <- @steps}>
+      <li :for={step <- @steps} class="text-sm text-zinc-500">
         <%= Step.walk_summary(step) %>
       </li>
     </ul>
