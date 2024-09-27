@@ -45,6 +45,8 @@ import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
 import Hooks from "../ts/phoenix-hooks/index.ts";
 
+import mobileAppBanner from "./mobile-app-banner.js";
+
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
@@ -135,3 +137,5 @@ eventPageSetup();
 previousEventsButton();
 pslPageSetup();
 accordionInit();
+
+mobileAppBanner();
