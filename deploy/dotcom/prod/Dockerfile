@@ -21,7 +21,7 @@ RUN mix local.hex --force && \
 
 ADD . .
 
-RUN mix deps.get --only prod
+RUN mix deps.get
 
 # 2) Build the frontend assets within a node.js container instead of installing node/npm
 FROM node:18.17.1-buster as assets-builder
