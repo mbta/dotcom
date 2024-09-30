@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.TripPlannerForm do
   use DotcomWeb, :component
 
   alias Dotcom.TripPlan.InputForm
+  alias MbtaMetro.Components.Button
 
   attr :id, :string
   attr :params, :map, default: %{}
@@ -60,9 +61,9 @@ defmodule DotcomWeb.Components.TripPlannerForm do
           </p>
         </.algolia_autocomplete>
       </div>
-      <button type="submit" class="btn btn-primary">
+      <Button.button type="submit">
         Get trip suggestions
-      </button>
+      </Button.button>
     </.form>
     """
   end
