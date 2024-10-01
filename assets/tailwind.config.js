@@ -2,16 +2,10 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin")
-const fs = require("fs")
-const path = require("path")
 
 const {colors, content, fontFamily, plugins, safelist} = require("mbta_metro")
 
 module.exports = {
-    prefix: "tw-",
-    corePlugins: {
-        preflight: false
-    },
     content: [
         ...content,
         "./js/**/*.js",

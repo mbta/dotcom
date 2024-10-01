@@ -61,7 +61,7 @@ defmodule DotcomWeb.Components.TripPlannerForm do
           </p>
         </.algolia_autocomplete>
       </div>
-      <Button.button type="submit">
+      <Button.button color="green" type="submit">
         Get trip suggestions
       </Button.button>
     </.form>
