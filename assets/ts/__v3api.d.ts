@@ -257,16 +257,16 @@ export type TimePeriodPairs = [string, string];
 export interface Alert {
   id: string;
   active_period: TimePeriodPairs[];
-  header: string;
-  informed_entity: InformedEntitySet;
-  effect: string;
-  severity: number;
-  lifecycle: Lifecycle;
-  updated_at: string;
-  description: string;
-  priority: Priority;
-  url: string | null;
   banner: string | null;
+  header: string;
+  description: string;
+  effect: string;
+  informed_entity: InformedEntitySet;
+  lifecycle: Lifecycle;
+  priority: Priority;
+  severity: number;
+  updated_at: string;
+  url: string | null;
 }
 
 interface DatesNotes {
