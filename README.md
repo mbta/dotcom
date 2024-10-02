@@ -124,7 +124,7 @@ For details on environment configuration, including optional variables, see
 The easiest way to develop MBTA dotcom is to use Docker Compose.
 
 ```
-docker compose -f deploy/dev.yml up -d
+docker compose -f deploy/dev.yml up -d --build
 ```
 
 This will set up Redis in cluster mode and run two versions of Dotcom with nginx load balancing requests between them.

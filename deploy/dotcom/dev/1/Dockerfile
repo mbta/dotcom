@@ -16,6 +16,7 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 
 RUN mix deps.get
+RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
 CMD elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server

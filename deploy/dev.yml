@@ -50,6 +50,7 @@ services:
             timeout: 10s
         volumes:
             - ../:/app
+            - /app/_build
             - /app/deps
             - /app/assets/node_modules
         networks:
@@ -85,6 +86,7 @@ services:
             timeout: 10s
         volumes:
             - ../:/app
+            - /app/_build
             - /app/deps
             - /app/assets/node_modules
         networks:
