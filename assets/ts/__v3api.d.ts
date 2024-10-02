@@ -261,8 +261,8 @@ export interface Alert {
   header: string;
   description: string;
   effect: string;
-  image: string;
-  image_alternative_text: string;
+  image?: string;
+  image_alternative_text?: string;
   informed_entity: InformedEntitySet;
   lifecycle: Lifecycle;
   priority: Priority;
