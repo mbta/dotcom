@@ -8,5 +8,14 @@ WORKDIR /app
 
 COPY mix.exs .
 COPY mix.lock .
+COPY package.json .
+COPY assets/package.json ./assets/package.json
+COPY assets/package-lock.json ./assets/package-lock.json
+
+RUN mix local.hex --force
+RUN mix local.rebar --force
+
 RUN mix deps.get
+RUN npm run install --ignore-scripts --audit false --fund false --loglevel verbose
+
 CMD elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
