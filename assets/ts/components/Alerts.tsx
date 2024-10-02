@@ -175,7 +175,7 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
     ref={panel => panel && panel.focus()}
   >
     {alert.image && (
-      <a href={alert.image} target="_blank">
+      <a href={alert.image} target="_blank" rel="noopener noreferrer">
         <img
           src={alert.image}
           alt={alert.image_alternative_text}
