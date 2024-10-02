@@ -174,6 +174,15 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
     aria-labelledby={`alert-${alert.id}`}
     ref={panel => panel && panel.focus()}
   >
+    {alert.image && (
+      <a href={alert.image} target="_blank">
+        <img
+          src={alert.image}
+          alt={alert.image_alternative_text}
+          className="w-100"
+        />
+      </a>
+    )}
     <div className="c-alert-item__description">
       <div
         // eslint-disable-next-line react/no-danger
