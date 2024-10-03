@@ -1,4 +1,3 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -177,13 +176,6 @@ module.exports = {
   },
 
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: "static/**/*", to: "../.." },
-        // copy the font files out of the fontawesome package to the fonts directory
-        { from: "**/*", to: "../fonts", context: "node_modules/@fortawesome/fontawesome-free/webfonts"}
-      ]
-    }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
     new webpack.ProvidePlugin({
       Tether: "tether",
