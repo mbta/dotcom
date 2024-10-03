@@ -10,10 +10,13 @@ COPY mix.exs .
 COPY mix.lock .
 COPY package.json .
 COPY assets/package.json ./assets/package.json
+COPY assets/package-lock.json ./assets/package-lock.json
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
 RUN mix deps.get
-RUN npm --prefix assets install --package-lock-only --ignore-scripts --no-save --audit false --fund false --loglevel verbose
+RUN mix deps.compile
+RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
+
 CMD elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server

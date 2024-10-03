@@ -50,6 +50,9 @@ services:
             timeout: 10s
         volumes:
             - ../:/app
+            - /app/_build
+            - /app/deps
+            - /app/assets/node_modules
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.2
@@ -83,6 +86,9 @@ services:
             timeout: 10s
         volumes:
             - ../:/app
+            - /app/_build
+            - /app/deps
+            - /app/assets/node_modules
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.3
