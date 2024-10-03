@@ -52,7 +52,9 @@ defmodule Dotcom.TripPlan.Parser do
       to: place(leg.to),
       polyline: leg.leg_geometry.points,
       distance: miles(leg.distance),
-      duration: minutes(leg.duration)
+      duration: minutes(leg.duration),
+      realtime: leg.real_time,
+      realtime_state: leg.realtime_state
     }
     |> FarePasses.leg_with_fares()
   end
@@ -68,7 +70,7 @@ defmodule Dotcom.TripPlan.Parser do
         name: name
       }) do
     stop =
-      if(match?(%Schema.Stop{}, stop),
+      if(stop,
         do: build_stop(stop, %{latitude: latitude, longitude: longitude})
       )
 
@@ -80,10 +82,10 @@ defmodule Dotcom.TripPlan.Parser do
     }
   end
 
-  def mode(%Schema.Leg{distance: distance, mode: "WALK", steps: steps}, _) do
+  def mode(%Schema.Leg{distance: distance, mode: :WALK, steps: steps}, _) do
     %PersonalDetail{
       distance: miles(distance),
-      steps: Enum.map(steps, &step/1)
+      steps: steps
     }
   end
 
@@ -103,22 +105,6 @@ defmodule Dotcom.TripPlan.Parser do
       route: build_route(route, agency_name),
       trip_id: id_from_gtfs(trip.gtfs_id)
     }
-  end
-
-  def step(%Schema.Step{
-        distance: distance,
-        absolute_direction: absolute_direction,
-        relative_direction: relative_direction,
-        street_name: street_name
-      }) do
-    struct(PersonalDetail.Step, %{
-      distance: miles(distance),
-      street_name: street_name,
-      absolute_direction:
-        if(absolute_direction, do: String.downcase(absolute_direction) |> String.to_atom()),
-      relative_direction:
-        if(relative_direction, do: String.downcase(relative_direction) |> String.to_atom())
-    })
   end
 
   defp build_route(
@@ -162,20 +148,19 @@ defmodule Dotcom.TripPlan.Parser do
   defp route_color("Logan Express", "DV", _), do: "704c9f"
   defp route_color(_, _, color), do: color
 
-  #  only create a %Stop{} if the GTFS ID is from MBTA
-  defp build_stop(stop, attributes \\ %{})
+  defp build_stop(stop, attributes \\ %{}) do
+    case stop.gtfs_id do
+      "mbta-ma-us:" <> gtfs_id ->
+        @stops_repo.get(gtfs_id)
+        |> struct(attributes)
 
-  defp build_stop(
-         %Schema.Stop{
-           gtfs_id: "mbta-ma-us:" <> gtfs_id
-         },
-         attributes
-       ) do
-    @stops_repo.get(gtfs_id)
-    |> struct(attributes)
+      _ ->
+        stop
+        |> Map.from_struct()
+        |> Map.merge(attributes)
+        |> then(&struct(Stops.Stop, &1))
+    end
   end
-
-  defp build_stop(_, _), do: nil
 
   defp id_from_gtfs(gtfs_id) do
     case String.split(gtfs_id, ":") do

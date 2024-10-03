@@ -49,10 +49,9 @@ node_modules
 /**/react_renderer/dist
 
 # Since we are building assets from assets,
-# we ignore priv/static. You may want to comment
-# this depending on your deployment strategy.
-/priv/static/*
-!/priv/static/icon-svg/
+# we ignore certain directories in priv/static.
+/priv/static/css
+/priv/static/js
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.

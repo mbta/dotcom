@@ -34,14 +34,14 @@ ARG SENTRY_DSN=""
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
 # copy in static assets
-ADD ./priv/static/icon-svg /root/priv/static/icon-svg
+ADD ./priv/static /root/priv/static
 ADD ./assets /root/assets
 
 WORKDIR /root/assets
 RUN npm ci --ignore-scripts
 # required so that Tailwind styles used in Elixir templates are built
 COPY ./lib/dotcom_web/ /root/lib/dotcom_web
-# Compile JS/CSS, copy images and fonts to priv/static
+# Compile JS/CSS to priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create react_renderer/dist/app.js
 RUN npm run webpack:build:react

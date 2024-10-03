@@ -1,6 +1,8 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 
+const plugin = require("tailwindcss/plugin");
+
 const {
   colors,
   content,
@@ -8,10 +10,8 @@ const {
   plugins,
   safelist
 } = require("mbta_metro");
-const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  important: true,
   corePlugins: {
     preflight: false
   },
@@ -22,9 +22,9 @@ module.exports = {
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex",
-    "../deps/mbta_metro/lib/mbta_metro/**/*.ex" // remove after updating Elixir lib
+    "../lib/dotcom_web/**/*.*ex"
   ],
+  safelist: [...safelist],
   theme: {
     extend: {
       colors: {
@@ -35,7 +35,6 @@ module.exports = {
       ...fontFamily
     }
   },
-  safelist: [...safelist],
   plugins: [
     ...plugins,
     require("@tailwindcss/forms"),

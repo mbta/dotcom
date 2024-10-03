@@ -451,11 +451,11 @@ function _sortFeatures(features) {
 
 function _getCommuterRailZone(hit) {
   if (hit.zone) {
-    return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
+    return [`<span class="c-icon__cr-zone text-sm">Zone ${hit.zone}</span>`];
   }
   if (hit.icon === "station") {
     // the north/south station popular result
-    return [`<span class="c-icon__cr-zone">Zone 1A</span>`];
+    return [`<span class="c-icon__cr-zone text-sm">Zone 1A</span>`];
   }
   return [];
 }

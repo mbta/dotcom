@@ -99,12 +99,15 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
-      {:mbta_metro, ">= 0.0.0", runtime: false},
+      {:mbta_metro, "0.0.11"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.3"},
       {:nebulex_redis_adapter, "2.4.0"},
-      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.3"]},
+      {
+        :open_trip_planner_client,
+        [github: "thecristen/open_trip_planner_client", tag: "v0.10.4"]
+      },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
       {:phoenix, "~> 1.7"},

@@ -8,40 +8,55 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Components.LiveComponents.TripPlannerForm
+  alias Dotcom.TripPlan.ItineraryGroups
+
+  import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
   @form_id "trip-planner-form"
 
   @impl true
   def mount(_params, _session, socket) do
+    socket =
+      socket
+      |> assign(:form_name, @form_id)
+      |> assign(:submitted_values, nil)
+      |> assign(:groups, nil)
+      |> assign(:error, nil)
+
     {:ok, socket}
   end
 
   @impl true
   def render(assigns) do
-    assigns =
-      assigns
-      |> assign_new(:submitted_values, fn -> nil end)
-      |> assign(:form_name, @form_id)
-
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <section class="col-md-12 col-lg-4">
-        <.live_component
-          module={TripPlannerForm}
-          id={@form_name}
-          form_name={@form_name}
-          on_submit={fn data -> send(self(), {:updated_form, data}) end}
-        />
-        <code :if={@submitted_values}>
-          <%= inspect(@submitted_values) %>
-        </code>
+      <.live_component
+        module={TripPlannerForm}
+        id={@form_name}
+        form_name={@form_name}
+        on_submit={fn data -> send(self(), {:updated_form, data}) end}
+      />
+      <section>
+        <p :if={@submitted_values && @groups} class="text-lg text-emerald-700">
+          <%= Enum.count(@groups) %> ways to get from <%= @submitted_values.from.name %> to <%= @submitted_values.to.name %>, using <%= inspect(
+            @submitted_values.modes
+          ) %>
+        </p>
       </section>
-      <div class="col-md-12 col-lg-8">
-        <div id="trip-planner-map-wrapper" phx-update="ignore">
-          <div style="height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
+      <section class="flex w-full border border-solid border-slate-400">
+        <div :if={@error} class="w-full p-4 text-rose-400">
+          <%= inspect(@error) %>
         </div>
-      </div>
+        <div :if={@groups} class="w-full p-4">
+          <%= for group <- @groups do %>
+            <.itinerary_group group={group} />
+          <% end %>
+        </div>
+        <div id="trip-planner-map-wrapper" class="w-full" phx-update="ignore">
+          <div style="min-height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
+        </div>
+      </section>
     </div>
     """
   end
@@ -57,8 +72,17 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_info({:updated_form, data}, socket) do
-    {:noreply, assign(socket, :submitted_values, data)}
+  def handle_info({:updated_form, %Dotcom.TripPlan.InputForm{} = data}, socket) do
+    {:noreply, assign(socket, %{submitted_values: data, groups: nil})}
+  end
+
+  def handle_info({:updated_form, {:ok, itineraries}}, socket) do
+    groups = ItineraryGroups.from_itineraries(itineraries)
+    {:noreply, assign(socket, %{error: nil, groups: groups})}
+  end
+
+  def handle_info({:updated_form, {:error, error}}, socket) do
+    {:noreply, assign(socket, :error, error)}
   end
 
   def handle_info(_info, socket) do

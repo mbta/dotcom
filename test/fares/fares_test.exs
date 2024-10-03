@@ -4,7 +4,7 @@ defmodule FaresTest do
 
   import Mox
 
-  alias Dotcom.TripPlan.{NamedPosition, Leg, PersonalDetail, PersonalDetail.Step, TransitDetail}
+  alias Dotcom.TripPlan.{NamedPosition, Leg, PersonalDetail, PersonalDetail, TransitDetail}
   alias Test.Support.Factories.{Routes.Route, Stops.Stop}
 
   setup :verify_on_exit!
@@ -197,7 +197,7 @@ defmodule FaresTest do
         mode: %PersonalDetail{
           distance: 24.274,
           steps: [
-            %Step{
+            %OpenTripPlannerClient.Schema.Step{
               absolute_direction: :southeast,
               distance: 24.274,
               relative_direction: :depart,

@@ -130,7 +130,6 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   def step_factory do
     Factory.build(:step)
-    |> Parser.step()
   end
 
   def transit_detail_factory do

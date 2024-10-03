@@ -20,7 +20,7 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
         assert to == NamedPosition.to_keywords(@to)
         assert plan_opts[:arrive_by] == @opts[:arrive_by]
         assert plan_opts[:tags]
-        {:ok, []}
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
       end)
 
       assert {:ok, _} = OpenTripPlanner.plan(@from, @to, @opts)

@@ -4,7 +4,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   parses the result.
   """
 
-  alias Dotcom.TripPlan.{NamedPosition, Parser}
+  alias Dotcom.TripPlan.{InputForm, NamedPosition, Parser}
 
   alias OpenTripPlannerClient.ItineraryTag.{
     EarliestArrival,
@@ -18,8 +18,17 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @doc """
   Requests to OpenTripPlanner's /plan GraphQL endpoint and parses the response..
   """
+  @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
   @spec plan(NamedPosition.t(), NamedPosition.t(), Keyword.t()) ::
           OpenTripPlannerClient.Behaviour.plan_result()
+
+  def plan(%InputForm{} = input_form) do
+    input_form
+    |> InputForm.to_params()
+    |> @otp_module.plan()
+    |> parse()
+  end
+
   def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
     with from <- NamedPosition.to_keywords(from),
          to <- NamedPosition.to_keywords(to),
@@ -39,7 +48,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   defp parse({:error, _} = error), do: error
 
-  defp parse({:ok, itineraries}) do
+  defp parse({:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}) do
     {:ok, Enum.map(itineraries, &Parser.parse/1)}
   end
 end

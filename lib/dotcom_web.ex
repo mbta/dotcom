@@ -16,7 +16,7 @@ defmodule DotcomWeb do
   below.
   """
 
-  def static_paths, do: ~w(assets fonts images favicon robots.txt)
+  def static_paths, do: ~w(css js fonts images favicon robots.txt)
 
   def model do
     quote do
@@ -137,10 +137,10 @@ defmodule DotcomWeb do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       import Phoenix.HTML
-      import PhoenixHTMLHelpers.Form
-      use PhoenixHTMLHelpers
-      # Use all MBTA Metro components
-      use MbtaMetro
+      import PhoenixHTMLHelpers.Form, except: [label: 1]
+      import PhoenixHTMLHelpers.Link
+      import PhoenixHTMLHelpers.Tag
+      import PhoenixHTMLHelpers.Format
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
@@ -153,6 +153,7 @@ defmodule DotcomWeb do
       import DotcomWeb.Gettext
       alias DotcomWeb.Router.Helpers
 
+      use MbtaMetro
       import DotcomWeb.Components
 
       # Routes generation with the ~p sigil

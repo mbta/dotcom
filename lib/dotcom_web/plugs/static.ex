@@ -8,11 +8,10 @@ defmodule DotcomWeb.Plugs.Static do
     Plug.Static,
     at: "/",
     from: :dotcom,
-    gzip: true,
+    gzip: Mix.env() == :prod,
     headers: %{"access-control-allow-origin" => "*"},
     cache_control_for_etags: "public, max-age=86400",
-    only:
-      ~w(css fonts icon-svg images js robots.txt google778e4cfd8ca77f44.html loaderio-b4c35b9431db61b4421fcf03e17c3818 loaderio-392aa6a67825336b70393c6be61d56ce),
+    only: DotcomWeb.static_paths(),
     only_matching: ~w(favicon apple-touch-icon)
   )
 
