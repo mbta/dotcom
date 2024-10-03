@@ -16,15 +16,28 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
   attr :start_time, :any
   attr :end_time, :any
   attr :mode, :any
+  attr :realtime, :boolean
+  attr :realtime_state, :string
 
   def leg(assigns) do
+    assigns =
+      assign(
+        assigns,
+        :realtime_class,
+        if(assigns.realtime,
+          do: "bg-emerald-100 border-emerald-600 border-4",
+          else: "bg-zinc-100 border-zinc-300"
+        )
+      )
+
     ~H"""
-    <div class="bg-zinc-100 border-solid border-zinc-300 p-3 m-1">
+    <div class={"border-solid #{@realtime_class} p-3 m-1"}>
       <div class="flex items-center justify-between">
         <strong><%= @from.name %></strong>
         <span><%= format_time(@start_time) %></span>
       </div>
       <div>
+        <p :if={@realtime_state}>Realtime data: <%= @realtime_state %></p>
         <.mode mode={@mode} />
       </div>
       <div class="flex items-center justify-between">

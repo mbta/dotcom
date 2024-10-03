@@ -28,6 +28,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
               from={leg.from}
               to={leg.to}
               mode={leg.mode}
+              realtime={leg.realtime}
+              realtime_state={leg.realtime_state}
             />
           </div>
         </:content>

@@ -52,7 +52,9 @@ defmodule Dotcom.TripPlan.Parser do
       to: place(leg.to),
       polyline: leg.leg_geometry.points,
       distance: miles(leg.distance),
-      duration: minutes(leg.duration)
+      duration: minutes(leg.duration),
+      realtime: leg.real_time,
+      realtime_state: leg.realtime_state
     }
     |> FarePasses.leg_with_fares()
   end
