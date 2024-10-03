@@ -30,6 +30,7 @@
     "leaflet": "^1.4.0",
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": "^4.17.21",
+    "mbta_metro": "^0.0.17",
     "mobile-detect": "^1.4.5",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
@@ -159,7 +160,7 @@
     "jest:watch": "npm run jest -- --watch",
     "jest:cov": "open ts/coverage/index.html",
     "mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js --retries 3",
-    "webpack:watch": "NODE_ENV=development webpack serve --compress --config webpack.config.dev.js --watch-options-stdin",
+    "webpack:watch": "webpack serve --config webpack.config.dev.js --env development --watch-options-stdin",
     "webpack:build": "NODE_ENV=production webpack --config webpack.config.prod.js --env production",
     "webpack:build:react": "NODE_ENV=production webpack --config webpack.config.react_app.js --env production",
     "webpack:analyze": "webpack --config webpack.config.prod.js --env production --profile --json > stats.json && webpack-bundle-analyzer stats.json ../priv/static/js/"

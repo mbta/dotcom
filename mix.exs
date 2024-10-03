@@ -93,20 +93,20 @@ defmodule DotCom.Mixfile do
       {:gettext, "0.25.0"},
       {:hackney, "1.20.1"},
       {:hammer, "6.2.1"},
-      {:heroicons, "0.5.6"},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.1"},
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
+      {:mbta_metro, "0.0.10"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.3"},
       {:nebulex_redis_adapter, "2.4.0"},
       {
         :open_trip_planner_client,
-        [github: "thecristen/open_trip_planner_client", tag: "v0.10.3"]
+        [github: "thecristen/open_trip_planner_client", tag: "v0.10.4"]
       },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14

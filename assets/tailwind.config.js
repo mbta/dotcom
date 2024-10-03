@@ -3,33 +3,40 @@
 
 const plugin = require("tailwindcss/plugin");
 
+const {
+  colors,
+  content,
+  fontFamily,
+  plugins,
+  safelist
+} = require("mbta_metro");
+
 module.exports = {
-  important: true,
   corePlugins: {
     preflight: false
   },
   blocklist: ["container", "collapse"],
   content: [
+    ...content,
     "./js/**/*.js",
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex"
   ],
+  safelist: [...safelist],
   theme: {
     extend: {
       colors: {
-        white: '#fff',
-        primary: {
-          DEFAULT: '#165c96',
-          darkest: '#0b2f4c',
-          light: '#5da9e8',
-          lightest: '#cee0f4'
-        }
+        ...colors
       }
+    },
+    fontFamily: {
+      ...fontFamily
     }
   },
   plugins: [
+    ...plugins,
     require("@tailwindcss/forms"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:

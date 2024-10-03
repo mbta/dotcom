@@ -153,6 +153,7 @@ defmodule DotcomWeb do
       import DotcomWeb.Gettext
       alias DotcomWeb.Router.Helpers
 
+      use MbtaMetro
       import DotcomWeb.Components
 
       # Routes generation with the ~p sigil
