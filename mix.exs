@@ -6,7 +6,7 @@ defmodule DotCom.Mixfile do
       # app and version expected by `mix compile.app`
       app: :dotcom,
       version: "0.0.1",
-      elixir: "~> 1.12",
+      elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       # configures `mix compile` to embed all code and priv content in the _build directory instead of using symlinks
@@ -93,24 +93,21 @@ defmodule DotCom.Mixfile do
       {:gettext, "0.25.0"},
       {:hackney, "1.20.1"},
       {:hammer, "6.2.1"},
-      {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.5",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.1"},
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
+      {:mbta_metro, "0.0.11"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.3"},
       {:nebulex_redis_adapter, "2.4.0"},
-      {:open_trip_planner_client, [github: "thecristen/open_trip_planner_client", tag: "v0.9.3"]},
+      {
+        :open_trip_planner_client,
+        [github: "thecristen/open_trip_planner_client", tag: "v0.10.4"]
+      },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
       {:phoenix, "~> 1.7"},

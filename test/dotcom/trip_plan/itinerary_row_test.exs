@@ -366,7 +366,10 @@ defmodule Dotcom.TripPlan.ItineraryRowTest do
         @personal_leg
         | mode: %PersonalDetail{
             steps: [
-              %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
+              %OpenTripPlannerClient.Schema.Step{
+                relative_direction: :DEPART,
+                street_name: "Transfer"
+              }
               | @personal_leg.mode.steps
             ]
           }

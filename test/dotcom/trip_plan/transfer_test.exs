@@ -107,7 +107,7 @@ defmodule Dotcom.TripPlan.TransferTest do
         %Leg{
           mode: %PersonalDetail{
             steps: [
-              %PersonalDetail.Step{
+              %OpenTripPlannerClient.Schema.Step{
                 street_name: "Path"
               }
             ]
@@ -143,7 +143,7 @@ defmodule Dotcom.TripPlan.TransferTest do
         %Leg{
           mode: %PersonalDetail{
             steps: [
-              %PersonalDetail.Step{
+              %OpenTripPlannerClient.Schema.Step{
                 street_name: "Path"
               }
             ]

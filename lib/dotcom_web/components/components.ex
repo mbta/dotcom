@@ -6,6 +6,8 @@ defmodule DotcomWeb.Components do
   """
   use Phoenix.Component
 
+  alias Heroicons
+
   attr(:id, :string, required: true, doc: "A unique identifier for this search input.")
 
   attr(:placeholder, :string,

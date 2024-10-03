@@ -32,7 +32,7 @@ defmodule Dotcom.TripPlan.QueryTest do
     end)
 
     stub(OpenTripPlannerClient.Mock, :plan, fn _, _, _ ->
-      {:ok, []}
+      {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
     end)
 
     :ok
@@ -47,7 +47,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         assert Keyword.get(opts, :tags)
         assert Keyword.get(opts, :mode) == ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"]
 
-        {:ok, []}
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
       end)
 
       params = %{"from" => "from address", "to" => "to address"}

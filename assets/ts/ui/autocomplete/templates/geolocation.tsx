@@ -69,7 +69,7 @@ export function GeolocationComponent(props: {
   if (loading) {
     return (
       <div className="c-search-bar__my-location ">
-        <div className="tw-basis-6">
+        <div className="basis-6">
           <span
             className="c-search-result__content-icon fa fa-fw fa-cog fa-spin"
             aria-hidden="true"
@@ -96,7 +96,7 @@ export function GeolocationComponent(props: {
     >
       <span>
         <div
-          className="c-search-result__content-icon fa fa-location-arrow tw-basis-6"
+          className="c-search-result__content-icon fa fa-location-arrow basis-6"
           aria-hidden="true"
         />
       </span>

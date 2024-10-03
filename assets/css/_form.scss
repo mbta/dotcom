@@ -33,6 +33,7 @@
   width: 100%;
 
   &:focus {
+    box-shadow: none;
     outline: 0;
   }
 }

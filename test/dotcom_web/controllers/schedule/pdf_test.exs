@@ -1,8 +1,6 @@
 defmodule DotcomWeb.ScheduleController.PdfTest do
   use DotcomWeb.ConnCase, async: true
 
-  import DotcomWeb.Router.Helpers, only: [static_url: 2, route_pdf_path: 3]
-
   describe "pdf/2" do
     test "redirects to PDF for route when present", %{conn: conn} do
       expected_path = "/sites/default/files/route_pdfs/route087.pdf"

@@ -24,10 +24,10 @@
           <div class="class m-alerts__notice--no-alerts">No alerts here.</div>
         <% else %>
           <%= for {municipality, muni_alerts} <- alerts_grouped_by_municipality do %>
-            <h2 class="mt-0"><%= municipality %></h2>
+            <h2 class="u-mt-0"><%= municipality %></h2>
             <%= for {stop, alerts} <- muni_alerts do %>
               <section style="list-style-type: none; margin-bottom: 1.5rem;">
-                <h3 class="mt-0"><%= affected_stop_link(@conn, stop) %></h3>
+                <h3 class="u-mt-0"><%= affected_stop_link(@conn, stop) %></h3>
                 <%= for alert <- alerts do %>
                   <%= for route <- affected_routes(alert) do %>
                     <span class="c-icon__bus-pill--small u-bg--bus" style="margin-right: .25rem;">

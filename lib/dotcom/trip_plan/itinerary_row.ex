@@ -6,7 +6,6 @@ defmodule Dotcom.TripPlan.ItineraryRow do
     Leg,
     NamedPosition,
     PersonalDetail,
-    PersonalDetail.Step,
     TransitDetail
   }
 
@@ -205,25 +204,19 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   defp parse_trip_id(:error), do: nil
   defp parse_trip_id({:ok, trip_id}), do: Schedules.Repo.trip(trip_id)
 
-  defp format_personal_to_personal_step(%{relative_direction: :depart, street_name: "Transfer"}),
+  defp format_personal_to_personal_step(%{relative_direction: :DEPART, street_name: "Transfer"}),
     do: %IntermediateStop{description: "Depart"}
 
   defp format_personal_to_personal_step(step), do: format_personal_step(step)
 
-  defp format_personal_to_transit_step(%{relative_direction: :depart, street_name: "Transfer"}),
+  defp format_personal_to_transit_step(%{relative_direction: :DEPART, street_name: "Transfer"}),
     do: %IntermediateStop{description: "Transfer"}
 
   defp format_personal_to_transit_step(step), do: format_personal_step(step)
 
   defp format_personal_step(step) do
     %IntermediateStop{
-      description: [
-        Step.human_relative_direction(step.relative_direction),
-        " ",
-        Step.human_relative_preposition(step.relative_direction),
-        " ",
-        step.street_name
-      ]
+      description: OpenTripPlannerClient.Schema.Step.walk_summary(step)
     }
   end
 

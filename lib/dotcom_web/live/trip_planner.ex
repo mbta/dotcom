@@ -7,52 +7,56 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.Components.TripPlannerForm
+  alias DotcomWeb.Components.LiveComponents.TripPlannerForm
+  alias Dotcom.TripPlan.ItineraryGroups
+
+  import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
   @form_id "trip-planner-form"
 
   @impl true
-  def mount(params, _session, socket) do
-    pid = self()
-    {:ok, assign(socket, :params, plan_params(params)) |> assign(:pid, pid)}
-  end
+  def mount(_params, _session, socket) do
+    socket =
+      socket
+      |> assign(:form_name, @form_id)
+      |> assign(:submitted_values, nil)
+      |> assign(:groups, nil)
+      |> assign(:error, nil)
 
-  defp plan_params(%{"plan" => params}), do: params
-  defp plan_params(_), do: %{}
-
-  @impl true
-  def handle_params(params, _uri, socket) do
-    {:noreply, assign(socket, :params, plan_params(params))}
+    {:ok, socket}
   end
 
   @impl true
   def render(assigns) do
-    assigns =
-      assigns
-      |> assign_new(:submitted_values, fn -> nil end)
-      |> assign_new(:do_validation, fn -> false end)
-      |> assign(:form_id, @form_id)
-
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <section class="col-md-12 col-lg-4">
-        <.input_form
-          params={@params}
-          id={@form_id}
-          do_validation={@do_validation}
-          on_validated_pid={@pid}
-          phx_submit_handler="save_form"
-        />
-        <code :if={@submitted_values}>
-          <%= inspect(@submitted_values) %>
-        </code>
+      <.live_component
+        module={TripPlannerForm}
+        id={@form_name}
+        form_name={@form_name}
+        on_submit={fn data -> send(self(), {:updated_form, data}) end}
+      />
+      <section>
+        <p :if={@submitted_values && @groups} class="text-lg text-emerald-700">
+          <%= Enum.count(@groups) %> ways to get from <%= @submitted_values.from.name %> to <%= @submitted_values.to.name %>, using <%= inspect(
+            @submitted_values.modes
+          ) %>
+        </p>
       </section>
-      <div class="col-md-12 col-lg-8">
-        <div id="trip-planner-map-wrapper" phx-update="ignore">
-          <div style="height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
+      <section class="flex w-full border border-solid border-slate-400">
+        <div :if={@error} class="w-full p-4 text-rose-400">
+          <%= inspect(@error) %>
         </div>
-      </div>
+        <div :if={@groups} class="w-full p-4">
+          <%= for group <- @groups do %>
+            <.itinerary_group group={group} />
+          <% end %>
+        </div>
+        <div id="trip-planner-map-wrapper" class="w-full" phx-update="ignore">
+          <div style="min-height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
+        </div>
+      </section>
     </div>
     """
   end
@@ -63,38 +67,26 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event("input_change", %{"plan" => params}, socket) do
-    merged_params =
-      socket.assigns.params
-      |> Map.merge(params, fn _, a, b -> Map.merge(a, b) end)
-
-    {:noreply,
-     assign(socket, %{
-       do_validation: false,
-       params: merged_params
-     })}
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
   end
 
   @impl true
-  def handle_event("save_form", %{"plan" => params}, socket) do
-    {:noreply,
-     socket
-     |> assign(:do_validation, true)
-     |> push_patch(to: path_with_params(params), replace: true)}
+  def handle_info({:updated_form, %Dotcom.TripPlan.InputForm{} = data}, socket) do
+    {:noreply, assign(socket, %{submitted_values: data, groups: nil})}
   end
 
-  @impl true
-  def handle_event(_, _, socket), do: {:noreply, socket}
-
-  @impl true
-  def handle_info({:updated_form, data}, socket) do
-    {:noreply, assign(socket, :submitted_values, data)}
+  def handle_info({:updated_form, {:ok, itineraries}}, socket) do
+    groups = ItineraryGroups.from_itineraries(itineraries)
+    {:noreply, assign(socket, %{error: nil, groups: groups})}
   end
 
-  defp path_with_params(params) do
-    %{"plan" => params}
-    |> Plug.Conn.Query.encode()
-    |> then(&("/preview/trip-planner?" <> &1))
+  def handle_info({:updated_form, {:error, error}}, socket) do
+    {:noreply, assign(socket, :error, error)}
+  end
+
+  def handle_info(_info, socket) do
+    {:noreply, socket}
   end
 
   # Selected from list of popular locations

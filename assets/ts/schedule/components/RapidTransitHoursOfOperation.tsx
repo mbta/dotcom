@@ -8,7 +8,7 @@ import { EnhancedRoute, StopHours, TransitHours } from "../../__v3api";
 import { ScheduleNote } from "./__schedule";
 
 const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => (
-  <div className="fs-14 pt-8">{`Trains depart every ${minuteString}`}</div>
+  <div className="fs-14 u-pt-8">{`Trains depart every ${minuteString}`}</div>
 );
 
 const getScheduleNoteForDate = (
@@ -27,8 +27,8 @@ const getScheduleNoteForDate = (
   if (scheduleNote.offpeak_service && scheduleNote.peak_service) {
     return (
       <>
-        <div className="fs-14 pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
-        <div className="fs-14 pt-8">{`Off-Peak Service: Trains depart every ${scheduleNote.offpeak_service}`}</div>
+        <div className="fs-14 u-pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
+        <div className="fs-14 u-pt-8">{`Off-Peak Service: Trains depart every ${scheduleNote.offpeak_service}`}</div>
       </>
     );
   }
@@ -94,7 +94,7 @@ const RapidTransitHoursOfOperation = ({
 
   return (
     <>
-      <div className="u-bg-primary-light-contrast p-16 mt-16">
+      <div className="u-bg-primary-light-contrast u-p-16 u-mt-16">
         <h3 style={{ marginTop: "0rem" }}>Today&#39;s Service</h3>
         <br />
         {earliestTrain && latestTrain && (

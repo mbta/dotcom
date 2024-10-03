@@ -12,8 +12,8 @@ import Loading from "../../../components/Loading";
 
 const FareRetailLocations = (stop: Stop): JSX.Element => (
   <>
-    <h2 className="h3 mb-8">Fare Retail Locations</h2>
-    <p className="mt-0">
+    <h2 className="h3 u-mb-8">Fare Retail Locations</h2>
+    <p className="u-mt-0">
       This stop does not have fare vending machines, but you can purchase fares
       at a{" "}
       <a
@@ -28,17 +28,17 @@ const FareRetailLocations = (stop: Stop): JSX.Element => (
 
 const FareVendingMachines = (): JSX.Element => (
   <>
-    <h2 className="h3 mb-8">Fare Vending Machines</h2>
+    <h2 className="h3 u-mb-8">Fare Vending Machines</h2>
     <AmenityImage
       src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
       altText="MBTA fare vending machines"
     />
-    <p className="mt-0 mb-0">At fare vending machines, you can:</p>
+    <p className="u-mt-0 u-mb-0">At fare vending machines, you can:</p>
     <ul>
       <li>Purchase a CharlieCard or reload an existing one</li>
       <li>Purchase CharlieTickets</li>
     </ul>
-    <p className="mt-0 mb-0">You can pay for your fare with:</p>
+    <p className="u-mt-0 u-mb-0">You can pay for your fare with:</p>
     <ul>
       <li>Apple Pay</li>
       <li>Google Pay</li>
@@ -52,7 +52,7 @@ const FareVendingMachines = (): JSX.Element => (
 
 const fareTable = (tableData: [string, string][]): React.ReactElement => (
   <>
-    <h2 id="fare-types" className="h3 mt-8">
+    <h2 id="fare-types" className="h3 u-mt-8">
       Fare Types
     </h2>
     <table aria-labelledby="fare-types" className="fare-sales-table">

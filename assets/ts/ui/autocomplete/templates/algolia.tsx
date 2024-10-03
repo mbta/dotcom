@@ -78,17 +78,17 @@ const AlgoliaItemTemplate: SourceTemplates<AutocompleteItem>["item"] = ({
     ? contentIcon(item)
     : getIcon(item, indexName);
   return (
-    <div className="aa-ItemContent tw-mt-1">
-      <div className="tw-flex-grow">
-        <div className="tw-flex tw-items-baseline tw-gap-1">
+    <div className="aa-ItemContent mt-1">
+      <div className="flex-grow">
+        <div className="flex items-baseline gap-1">
           <span
-            className="tw-basis-4 tw-flex-shrink-0"
+            className="basis-4 flex-shrink-0"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: iconHtml
             }}
           />
-          <div className="aa-ItemContentTitle tw-flex-grow tw-font-normal">
+          <div className="aa-ItemContentTitle flex-grow font-normal">
             <span className={isStopItem(item) ? "notranslate" : undefined}>
               {components.Highlight({
                 hit: item,
@@ -96,13 +96,13 @@ const AlgoliaItemTemplate: SourceTemplates<AutocompleteItem>["item"] = ({
               })}
             </span>
             {isStopItem(item) && !item.stop["station?"] && (
-              <span className="tw-text-gray-500 tw-text-sm tw-ml-2">
+              <span className="text-gray-500 text-sm ml-2">
                 #{item.stop.id}
               </span>
             )}
             &nbsp;
             {isRouteItem(item) && item.route.type === 3 && (
-              <span className="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal notranslate">
+              <span className="text-nowrap text-gray-500 text-sm font-normal notranslate">
                 {components.Highlight({
                   hit: item,
                   attribute: ["route", "long_name"]
@@ -112,19 +112,18 @@ const AlgoliaItemTemplate: SourceTemplates<AutocompleteItem>["item"] = ({
           </div>
         </div>
         {!isContentItem(item) && featureIcons.length > 0 && (
-          <div className="tw-mt-2 tw-mb-1 tw-flex tw-justify-between tw-items-baseline">
-            <div className="tw-flex tw-gap-1">
+          <div className="mt-2 mb-1 flex justify-between items-center">
+            <div className="flex gap-1">
               {featureIcons.map((feature: string) => (
                 <span
                   key={uniqueId()}
-                  className="c-search-result__feature-icons"
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: feature }}
                 />
               ))}
             </div>
             {isStopItem(item) && (
-              <div className="tw-text-nowrap tw-text-gray-500 tw-text-sm tw-font-normal">
+              <div className="text-nowrap text-gray-500 text-sm font-normal">
                 {`${item.stop.municipality}, ${
                   item.stop.address ? stateAbbr(item.stop.address) : "MA"
                 }`}

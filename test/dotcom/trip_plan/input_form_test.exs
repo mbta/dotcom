@@ -11,9 +11,14 @@ defmodule Dotcom.TripPlan.InputFormTest do
     "latitude" => "#{Faker.Address.latitude()}",
     "longitude" => "#{Faker.Address.longitude()}"
   }
+  @mode_params InputForm.valid_modes()
   @params %{
     "from" => @from_params,
-    "to" => @to_params
+    "to" => @to_params,
+    "datetime_type" => Faker.Util.pick(InputForm.time_types()) |> to_string(),
+    "datetime" => Faker.DateTime.forward(4) |> to_string(),
+    "modes" => @mode_params |> Enum.map(&to_string/1),
+    "wheelchair" => Faker.Util.pick(["true", "false"])
   }
 
   test "from & to fields are required" do

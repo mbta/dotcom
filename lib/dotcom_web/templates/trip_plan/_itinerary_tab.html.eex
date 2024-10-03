@@ -11,7 +11,7 @@
     <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) |> format_minutes_duration %>
   </span>
 </div>
-<div class="m-trip-plan-results__itinerary-legs mt-05">
+<div class="m-trip-plan-results__itinerary-legs u-mt-05">
   <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
   <span class="m-trip-plan-results__itinerary-length-distance">
     <%= svg "walk.svg" %>

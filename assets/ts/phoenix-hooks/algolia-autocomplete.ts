@@ -1,10 +1,29 @@
 /* eslint-disable no-param-reassign */
 import { ViewHook } from "phoenix_live_view";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
-import { Item } from "../ui/autocomplete/__autocomplete";
+import {
+  Item,
+  LocationItem,
+  StopItem
+} from "../ui/autocomplete/__autocomplete";
+import { Stop } from "../__v3api";
 
 function valueFromData(data: Partial<Item>, fieldName: string): string {
-  return (data[fieldName as keyof Item] as string) || "";
+  if (fieldName === "name") {
+    return (
+      (data[fieldName as keyof Item] as string) ||
+      (data as LocationItem).formatted ||
+      (data as StopItem).stop?.name ||
+      ""
+    );
+  }
+  return (
+    (data[fieldName as keyof Item] as string) ||
+    ((data as StopItem).stop
+      ? ((data as StopItem).stop![fieldName as keyof Stop] as string)
+      : "") ||
+    ""
+  );
 }
 
 function fieldNameFromInput(inputEl: HTMLInputElement): string | undefined {
@@ -22,8 +41,7 @@ const AlgoliaAutocomplete: Partial<ViewHook> = {
 
       const pushToLiveView = (data: Partial<Item>): void => {
         if (hook.el.querySelector("[data-config='trip-planner']")) {
-          // this will fail outside of a LiveView, that's fine
-          hook.pushEventTo(hook.el, "map_change", {
+          hook.pushEvent("map_change", {
             id: hook.el.id,
             ...data
           });
@@ -39,16 +57,21 @@ const AlgoliaAutocomplete: Partial<ViewHook> = {
       };
 
       const initialState = (): string => {
-        const inputValues = Object.fromEntries(
-          [...locationInputs].map(inputEl => {
+        const inputValues = [...locationInputs].map(inputEl => {
+          if (inputEl.value) {
             const fieldName = fieldNameFromInput(inputEl);
             return [fieldName, inputEl.value];
-          })
-        );
+          }
+          return [];
+        });
 
-        // side effect: dispatch event to LV to get initial map markers
-        pushToLiveView(inputValues);
-        return inputValues.name || "";
+        if (inputValues) {
+          const data = Object.fromEntries(inputValues);
+          pushToLiveView(data); // needed for LV to sync with input state on initial load
+          return data.name || "";
+        }
+
+        return "";
       };
 
       setupAlgoliaAutocomplete(hook.el, pushToLiveView, initialState);

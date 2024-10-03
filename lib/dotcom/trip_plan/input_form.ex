@@ -8,16 +8,50 @@ defmodule Dotcom.TripPlan.InputForm do
   use TypedEctoSchema
   import Ecto.Changeset
 
+  alias OpenTripPlannerClient.PlanParams
+
+  @valid_modes [:RAIL, :SUBWAY, :BUS, :FERRY]
+  @time_types [:now, :leave_at, :arrive_by]
+
   @error_messages %{
     from: "Please specify an origin location.",
     to: "Please add a destination.",
-    from_to_same: "Please select a destination at a different location from the origin."
+    from_to_same: "Please select a destination at a different location from the origin.",
+    modes: "Please select at least one mode of transit.",
+    datetime: "Please specify a date and time in the future or select 'Now'."
   }
 
   @primary_key false
   typed_embedded_schema do
     embeds_one(:from, __MODULE__.Location)
     embeds_one(:to, __MODULE__.Location)
+    field(:datetime_type, Ecto.Enum, values: @time_types)
+    field(:datetime, :naive_datetime)
+    field(:modes, {:array, Ecto.Enum}, values: @valid_modes)
+    field(:wheelchair, :boolean, default: true)
+  end
+
+  def time_types, do: @time_types
+  def valid_modes, do: @valid_modes
+
+  def to_params(%__MODULE__{
+        from: from,
+        to: to,
+        datetime_type: datetime_type,
+        datetime: datetime,
+        modes: modes,
+        wheelchair: wheelchair
+      }) do
+    %{
+      fromPlace: PlanParams.to_place_param(from),
+      toPlace: PlanParams.to_place_param(to),
+      arriveBy: datetime_type == :arrive_by,
+      date: PlanParams.to_date_param(datetime),
+      time: PlanParams.to_time_param(datetime),
+      transportModes: PlanParams.to_modes_param(modes),
+      wheelchair: wheelchair
+    }
+    |> PlanParams.new()
   end
 
   def changeset(params \\ %{}) do
@@ -26,26 +60,22 @@ defmodule Dotcom.TripPlan.InputForm do
 
   def changeset(form, params) do
     form
-    |> cast(params, [])
+    |> cast(params, [:datetime_type, :datetime, :modes, :wheelchair])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
   end
 
   def validate_params(params) do
-    changes =
-      params
-      |> changeset()
-      |> update_change(:from, &update_location_change/1)
-      |> update_change(:to, &update_location_change/1)
-      |> validate_required(:from, message: error_message(:from))
-      |> validate_required(:to, message: error_message(:to))
-      |> validate_same_locations()
-
-    if changes.errors == [] do
-      changes
-    else
-      %Ecto.Changeset{changes | action: :update}
-    end
+    params
+    |> changeset()
+    |> update_change(:from, &update_location_change/1)
+    |> update_change(:to, &update_location_change/1)
+    |> validate_required(:from, message: error_message(:from))
+    |> validate_required(:to, message: error_message(:to))
+    |> validate_required([:datetime_type, :modes, :wheelchair])
+    |> validate_same_locations()
+    |> validate_length(:modes, min: 1, message: error_message(:modes))
+    |> validate_chosen_datetime()
   end
 
   # make the parent field blank if the location isn't valid
@@ -64,6 +94,29 @@ defmodule Dotcom.TripPlan.InputForm do
       _ ->
         changeset
     end
+  end
+
+  defp validate_chosen_datetime(changeset) do
+    case get_field(changeset, :datetime_type) do
+      :now ->
+        force_change(changeset, :datetime, Util.now())
+
+      _ ->
+        changeset
+        |> validate_required([:datetime], message: error_message(:datetime))
+        |> validate_change(:datetime, &validate_datetime/2)
+    end
+  end
+
+  defp validate_datetime(field, date) do
+    date
+    |> DateTime.from_naive!("America/New_York")
+    |> then(fn datetime ->
+      case Timex.compare(datetime, Util.now(), :minutes) do
+        -1 -> [{field, error_message(:datetime)}]
+        _ -> []
+      end
+    end)
   end
 
   def error_message(key), do: @error_messages[key]

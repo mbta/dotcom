@@ -1,7 +1,7 @@
 <div class="container">
   <h1>MBTA.com Menu</h1>
 </div>
-<hr class="mt-0 mb-0" />
+<hr class="u-mt-0 u-mb-0" />
 <div class="container m-menu--page">
   <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content_redesign(@conn) do %>
     <div class="page-section">

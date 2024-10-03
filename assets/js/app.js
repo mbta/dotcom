@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Hooks } from "mbta_metro";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -43,7 +44,7 @@ import pslPageSetup from "./psl-page-setup.js";
 import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
-import Hooks from "../ts/phoenix-hooks/index.ts";
+import DotcomHooks from "../ts/phoenix-hooks/index.ts";
 
 import mobileAppBanner from "./mobile-app-banner.js";
 
@@ -57,7 +58,7 @@ let csrfToken = document
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: Hooks
+  hooks: { ...Hooks, ...DotcomHooks }
 });
 
 // connect if there are any LiveViews on the page

@@ -28,7 +28,7 @@ const AccessAmenitiesModal = ({
           <table className="access-amenities-table">
             <thead>
               <tr className="access-amenities-header">
-                <th scope="col" className="ps-16">
+                <th scope="col" className="u-ps-16">
                   {facilityType}
                 </th>
                 <th scope="col" className="status">
@@ -40,7 +40,7 @@ const AccessAmenitiesModal = ({
               {facilities?.map(facility => {
                 return (
                   <tr key={facility.id} className="access-amenities-row fs-14">
-                    <td className="p-16">{facility.attributes.short_name}</td>
+                    <td className="u-p-16">{facility.attributes.short_name}</td>
                     {hasCurrentFacilityAlert(facility.id, alerts) ? (
                       <td className="status">
                         <i className="fa-solid fa-circle amenity-status amenity-out" />

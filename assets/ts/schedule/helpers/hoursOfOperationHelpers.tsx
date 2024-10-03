@@ -7,7 +7,7 @@ const pdfLink = (pdf: SchedulePDF | null): ReactElement<HTMLElement> | null => {
     return null;
   }
   return (
-    <div className="fs-16 pt-16">
+    <div className="fs-16 u-pt-16">
       <a
         key={pdf.url}
         href={pdf.url}

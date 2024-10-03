@@ -46,7 +46,7 @@ export const AmenityLink = ({
 export const AmenityImage = ({
   src,
   altText,
-  className = "mt-1 mb-1"
+  className = "u-mt-1 u-mb-1"
 }: {
   src: string;
   altText: string;
@@ -85,10 +85,10 @@ const AmenityCard = ({
         <div className="c-descriptive-link__text">
           <div className="c-descriptive-link__header">
             {icon}
-            <div className="c-descriptive-link__title mb-0">{headerText}</div>
+            <div className="c-descriptive-link__title u-mb-0">{headerText}</div>
             {badge && <div className="c-descriptive-link__badge">{badge}</div>}
           </div>
-          {children && <div className="mt-8 hidden-sm-down">{children}</div>}
+          {children && <div className="u-mt-8 hidden-sm-down">{children}</div>}
         </div>
         {modalContent && (
           <div className="c-descriptive-link__caret-wrapper">

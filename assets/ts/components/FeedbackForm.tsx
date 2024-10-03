@@ -119,7 +119,7 @@ const FeedbackForm = ({
         setShowConfirmation(true);
       }}
     >
-      <div className="d-inline me-8">
+      <div className="d-inline u-me-8">
         {vote === null ? promptText : "Thanks for your response!"}
       </div>
       <div className="btn-group">
@@ -153,9 +153,9 @@ const FeedbackForm = ({
         )}
       </span>
       {showComment && (
-        <div id={commentId} className="mt-05">
+        <div id={commentId} className="u-mt-05">
           <div className="form-group">
-            <label className="w-100">
+            <label className="u-w-100">
               <strong>{commentLabel}</strong>
               <textarea
                 name="feedback_long"
