@@ -8,8 +8,6 @@ deps
 erl_crash.dump
 build.sh
 deploy.sh
-/priv/static/css
-/priv/static/js
 aws
 dotcom-build.zip
 bin
