@@ -75,7 +75,7 @@
           </div>
         </div>
       <% end %>
-      <div id="mobile-app-banner" style="background: #DCD3E8; display: none; margin: 0 -1.5rem; padding: 10px; text-align: center">
+      <div id="mobile-app-banner" style="background: #DCD3E8; display: none; margin: 0; padding: 10px; text-align: center">
         <a href="https://mbta.com/app" rel="noreferrer" style="color: black; display: block" target="_blank">
           Sign up to test the new <strong>MBTA app &#x2192;</strong>
         </a>
