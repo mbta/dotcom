@@ -43,7 +43,3 @@ if config_env() == :dev do
       ]
     ]
 end
-
-if config_env() == :test do
-  config :dotcom, DotcomWeb.Endpoint, http: [port: 4002]
-end
