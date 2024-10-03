@@ -99,19 +99,24 @@ defmodule Dotcom.TripPlan.InputForm do
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
       :now ->
-        force_change(changeset, :datetime, NaiveDateTime.local_now())
+        force_change(changeset, :datetime, Util.now())
 
       _ ->
         changeset
+        |> validate_required([:datetime], message: error_message(:datetime))
         |> validate_change(:datetime, &validate_datetime/2)
     end
   end
 
   defp validate_datetime(field, date) do
-    case Timex.compare(date, Util.now(), :hours) do
-      -1 -> [{field, error_message(:datetime)}]
-      _ -> []
-    end
+    date
+    |> DateTime.from_naive!("America/New_York")
+    |> then(fn datetime ->
+      case Timex.compare(datetime, Util.now(), :minutes) do
+        -1 -> [{field, error_message(:datetime)}]
+        _ -> []
+      end
+    end)
   end
 
   def error_message(key), do: @error_messages[key]
