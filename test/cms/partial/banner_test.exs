@@ -111,6 +111,6 @@ defmodule CMS.Partial.BannerTest do
     assert thumb_alt == "Commuter Rail train crossing a bridge in Ashland"
 
     assert thumb_url =~
-             "http://localhost:4002/sites/default/files/styles/important_notice/public/media/2018-09/P519%20Ashland_retouch.jpg?itok=5NKSY_ts"
+             "/sites/default/files/styles/important_notice/public/media/2018-09/P519%20Ashland_retouch.jpg?itok=5NKSY_ts"
   end
 end

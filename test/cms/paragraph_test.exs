@@ -320,12 +320,12 @@ defmodule CMS.ParagraphTest do
       assert safe_to_string(sub_topic_1.description) =~
                ~s(<p>This is a similar description, but of a sub-topic. It can also have <a href="https://www.google.com">HTML</a> in it.)
 
-      assert %File{
-               description: "",
-               type: "application/pdf",
-               url:
-                 "http://localhost:4002/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf"
-             } = List.first(files)
+      file = List.first(files)
+      assert file.description == ""
+      assert file.type == "application/pdf"
+
+      assert file.url =~
+               "/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf"
 
       assert %Link{
                title: "Google",

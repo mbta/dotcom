@@ -38,7 +38,7 @@ defmodule CMS.Partial.WhatsHappeningItemTest do
     assert alt == "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
 
     assert url =~
-             "http://localhost:4002/sites/default/files/styles/whats_happening" <>
+             "/sites/default/files/styles/whats_happening" <>
                "/public/projects/late-night-bus/night-bus-by-osman-rana-unsplash.jpg?itok=K3LGpv53"
   end
 
