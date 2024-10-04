@@ -33,6 +33,13 @@ module.exports = {
     },
     fontFamily: {
       ...fontFamily
+    },
+    // match screens to Bootstrap's breakpoints for now
+    screens: {
+      xs: { max: "544px" },
+      sm: { max: "800px" },
+      md: { max: "1088px" },
+      lg: { max: "1344px" }
     }
   },
   plugins: [
