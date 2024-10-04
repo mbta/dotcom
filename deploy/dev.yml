@@ -23,7 +23,7 @@ services:
     dotcom-1:
         build:
             context: ../
-            dockerfile: ./deploy/dotcom/dev/1/Dockerfile
+            dockerfile: ./deploy/dotcom/dev/Dockerfile
         env_file:
             - ../.env
         depends_on:
@@ -36,6 +36,7 @@ services:
             - PORT=4002
             - REDIS_HOST=10.0.0.11
             - REDIS_PORT=6379
+            - SNAME=dotcom1
             - WEBPACK_PORT=8092
         expose:
             - 4002
@@ -59,7 +60,7 @@ services:
     dotcom-2:
         build:
             context: ../
-            dockerfile: ./deploy/dotcom/dev/2/Dockerfile
+            dockerfile: ./deploy/dotcom/dev/Dockerfile
         depends_on:
             dotcom-1:
                 condition: service_healthy
@@ -72,6 +73,7 @@ services:
             - PORT=4003
             - REDIS_HOST=10.0.0.11
             - REDIS_PORT=6379
+            - SNAME=dotcom2
             - WEBPACK_PORT=8093
         expose:
             - 4003

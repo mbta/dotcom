@@ -19,4 +19,4 @@ RUN mix deps.get
 RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
-CMD elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
+CMD elixir --sname $SNAME --cookie foobarbaz -S mix phx.server
