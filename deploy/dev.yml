@@ -62,8 +62,8 @@ services:
             context: ../
             dockerfile: ./deploy/dotcom/dev/Dockerfile
         depends_on:
-            dotcom-1:
-                condition: service_healthy
+            redis-cluster-init:
+                condition: service_started
         env_file:
             - ../.env
         environment:
