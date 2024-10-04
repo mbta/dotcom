@@ -16,7 +16,7 @@ defmodule DotcomWeb do
   below.
   """
 
-  def static_paths, do: ~w(css js fonts images favicon robots.txt)
+  def static_paths, do: ~w(css js fonts icon-svg images favicon robots.txt)
 
   def model do
     quote do
