@@ -22,10 +22,10 @@ defmodule Dotcom.TripPlan.ItineraryTest do
     test "groups itineraries with the same mode, from, and to", %{stops: [a, b, c]} do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
-      bus_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
+      subway_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
 
       itineraries =
-        TripPlanner.build_list(:rand.uniform(5), :itinerary, legs: [bus_a_b_leg, bus_b_c_leg])
+        TripPlanner.build_list(:rand.uniform(5), :itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
 
       # EXERCISE
       grouped_itineraries = ItineraryGroups.from_itineraries(itineraries)
