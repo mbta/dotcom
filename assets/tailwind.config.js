@@ -35,16 +35,20 @@ module.exports = {
       ...fontFamily
     },
     // match screens to Bootstrap's breakpoints for now
+    // matched from $container-max-widths
     screens: {
-      xs: { max: "544px" },
-      sm: { max: "800px" },
-      md: { max: "1088px" },
-      lg: { max: "1344px" }
+      sm: "544px",
+      md: "768px",
+      lg: "960px",
+      xl: "1200px"
     }
   },
   plugins: [
     ...plugins,
-    require("@tailwindcss/forms"),
+    require("@tailwindcss/forms")({
+      // don't make global styles since they conflict with ours
+      strategy: "class"
+    }),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
     //
