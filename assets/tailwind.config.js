@@ -16,6 +16,7 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
+  important: true,
   content: [
     ...content,
     "./js/**/*.js",
@@ -44,11 +45,7 @@ module.exports = {
     }
   },
   plugins: [
-    ...plugins,
-    require("@tailwindcss/forms")({
-      // don't make global styles since they conflict with ours
-      strategy: "class"
-    }),
+    ...plugins(),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
     //
