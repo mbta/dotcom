@@ -3,6 +3,8 @@ services:
     nginx:
         image: nginx:stable-alpine3.17-slim
         depends_on:
+            dotcom-1:
+                condition: service_healthy
             dotcom-2:
                 condition: service_healthy
         volumes:
@@ -62,8 +64,8 @@ services:
             context: ../
             dockerfile: ./deploy/dotcom/dev/Dockerfile
         depends_on:
-            dotcom-1:
-                condition: service_healthy
+            redis-cluster-init:
+                condition: service_started
         env_file:
             - ../.env
         environment:
