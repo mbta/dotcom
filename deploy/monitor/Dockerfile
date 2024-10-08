@@ -7,9 +7,9 @@ RUN useradd -m runner
 USER runner
 WORKDIR /home/runner
 
-COPY package*.json .
+COPY package.json .
 
-RUN npm ci --ignore-scripts
+RUN npm install --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
 RUN ./node_modules/pm2/bin/pm2 install pm2-logrotate
 RUN ./node_modules/pm2/bin/pm2 set pm2-logrotate:max_size 1M
