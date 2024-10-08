@@ -155,6 +155,8 @@ Login to Docker:
 docker login
 ```
 
+Start Rancher Desktop.
+
 ### Run Docker Compose
 
 ```
