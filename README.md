@@ -155,7 +155,7 @@ Login to docker:
 docker login
 ```
 
-### Run docker compose
+### Run Docker Compose
 
 ```
 docker compose -f deploy/dev.yml up -d --build
