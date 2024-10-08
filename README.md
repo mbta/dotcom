@@ -123,6 +123,40 @@ For details on environment configuration, including optional variables, see
 
 The easiest way to develop MBTA dotcom is to use Docker Compose.
 
+### Installing Rancher Desktop
+
+We have tested this setup using [Rancher Desktop](https://rancherdesktop.io) on Mac.
+
+Install Rancher Desktop and then download the [docker-credential-osxkeychain](https://github.com/docker/docker-credential-helpers/releases) binary.
+Add it to your `$PATH`.
+
+Install docker and docker compose:
+
+```
+brew install docker docker-compose
+```
+
+Make sure your `~/.docker/config.json` looks like the following:
+
+```json
+{
+  "auths": {},
+  "cliPluginsExtraDirs": [
+    "/opt/homebrew/lib/docker/cli-plugins"
+  ],
+  "credsStore": "osxkeychain",
+  "currentContext": "rancher-desktop"
+}
+```
+
+Login to docker:
+
+```
+docker login
+```
+
+### Run docker compose
+
 ```
 docker compose -f deploy/dev.yml up -d --build
 ```
