@@ -130,7 +130,7 @@ We have tested this setup using [Rancher Desktop](https://rancherdesktop.io) on 
 Install Rancher Desktop and then download the [docker-credential-osxkeychain](https://github.com/docker/docker-credential-helpers/releases) binary.
 Add it to your `$PATH`.
 
-Install docker and docker compose:
+Install Docker and Docker Compose:
 
 ```
 brew install docker docker-compose
@@ -149,7 +149,7 @@ Make sure your `~/.docker/config.json` looks like the following:
 }
 ```
 
-Login to docker:
+Login to Docker:
 
 ```
 docker login
