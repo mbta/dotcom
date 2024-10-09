@@ -173,7 +173,7 @@ const departuresListFromInfos = (
     const tripId = departureInfos[0]?.trip?.id;
 
     return [
-      <div className="no-real-time-data" key={`${routeId}-${tripId}`}>
+      <div className="text-sm font-helvetica" key={`${routeId}-${tripId}`}>
         No real-time data
       </div>
     ];

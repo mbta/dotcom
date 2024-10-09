@@ -158,12 +158,12 @@
         <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
       </button>
     </div>
-    <div class="error-container form-control-feedback u-p-16 fs-14 hidden" id="support-form-errors" role="alert" aria-live="assertive">
+    <div class="error-container form-control-feedback u-p-16 text-sm hidden" id="support-form-errors" role="alert" aria-live="assertive">
       Please fill out missing fields:
       <ul id="support-form-error-list"></ul>
     </div>
     <%= if !Enum.empty?(@errors) do %>
-      <div class="error-container form-control-feedback u-p-16 fs-14" role="alert" aria-live="assertive">
+      <div class="error-container form-control-feedback u-p-16 text-sm" role="alert" aria-live="assertive">
         Please fill out missing fields:
         <ul>
           <%= for err <- @errors do %>

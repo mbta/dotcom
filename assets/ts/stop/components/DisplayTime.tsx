@@ -82,7 +82,7 @@ const DisplayTime = ({
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
       {isSkipped && schedule && (
-        <div className="fs-14">
+        <div className="text-sm">
           Skipped{" "}
           <BasicTime
             displayType="absolute"
@@ -93,7 +93,7 @@ const DisplayTime = ({
         </div>
       )}
       {isCancelled && schedule && (
-        <div className="fs-14">
+        <div className="text-sm">
           Cancelled{" "}
           <BasicTime
             displayType="absolute"
@@ -112,7 +112,7 @@ const DisplayTime = ({
               targetDate={targetDate}
             />
           </div>
-          <div className="stop-routes__departures-details fs-14">
+          <div className="stop-routes__departures-details text-sm">
             {isDelayedAndDisplayed && schedule && (
               <span className="time-details--delayed">
                 Delayed{" "}

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RouteCardHeader component renders 1`] = `
-"<div className=\\"c-link-block h3 m-tnm-sidebar__route-name u-bg--bus\\">
+"<div className=\\"c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus\\">
   <a className=\\"c-link-block__outer-link\\" href=\\"/schedules/1\\">
     <span className=\\"sr-only\\">
       Go to route

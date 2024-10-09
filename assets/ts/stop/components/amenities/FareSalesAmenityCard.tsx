@@ -12,7 +12,7 @@ import Loading from "../../../components/Loading";
 
 const FareRetailLocations = (stop: Stop): JSX.Element => (
   <>
-    <h2 className="h3 u-mb-8">Fare Retail Locations</h2>
+    <h2 className="text-2xl u-mb-8">Fare Retail Locations</h2>
     <p className="u-mt-0">
       This stop does not have fare vending machines, but you can purchase fares
       at a{" "}
@@ -28,7 +28,7 @@ const FareRetailLocations = (stop: Stop): JSX.Element => (
 
 const FareVendingMachines = (): JSX.Element => (
   <>
-    <h2 className="h3 u-mb-8">Fare Vending Machines</h2>
+    <h2 className="text-2xl u-mb-8">Fare Vending Machines</h2>
     <AmenityImage
       src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
       altText="MBTA fare vending machines"
@@ -52,7 +52,7 @@ const FareVendingMachines = (): JSX.Element => (
 
 const fareTable = (tableData: [string, string][]): React.ReactElement => (
   <>
-    <h2 id="fare-types" className="h3 u-mt-8">
+    <h2 id="fare-types" className="text-2xl">
       Fare Types
     </h2>
     <table aria-labelledby="fare-types" className="fare-sales-table">

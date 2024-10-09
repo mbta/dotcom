@@ -419,18 +419,6 @@ $radius: 4px;
       line-height: 1.95;
     }
   }
-  .departure-list__headsign {
-    @include heading-4();
-    font-weight: bold;
-    margin: 0;
-  }
-}
-
-.departure-card__times {
-  .no-real-time-data {
-    @extend .font-helvetica-neue;
-    @extend .fs-14;
-  }
 }
 
 .stop-departures--realtime {

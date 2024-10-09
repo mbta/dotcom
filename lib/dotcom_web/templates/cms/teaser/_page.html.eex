@@ -9,7 +9,7 @@
 <% end %>
 
 <%= if @teaser.title && :title in @fields do %>
-  <span class="h3 c-content-teaser__title" aria-hidden="true">
+  <span class="font-heading font-bold mt-11 mb-3 text-2xl c-content-teaser__title" aria-hidden="true">
     <%= @teaser.title %>
   </span>
 <% end %>

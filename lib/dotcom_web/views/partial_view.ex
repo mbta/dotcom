@@ -150,7 +150,7 @@ defmodule DotcomWeb.PartialView do
   @spec alert_time_filters(atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
   def alert_time_filters(current_timeframe, path_opts) do
     [
-      content_tag(:h3, "Filter by type", class: "h3"),
+      content_tag(:h3, "Filter by type"),
       content_tag(
         :div,
         Enum.map([nil, :current, :upcoming], &time_filter(&1, current_timeframe, path_opts)),

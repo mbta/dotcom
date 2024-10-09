@@ -55,9 +55,7 @@ Array [
         <div
           className="m-route-pills--subway"
         >
-          <h4
-            className="h4"
-          >
+          <h4>
             subway
           </h4>
           <a

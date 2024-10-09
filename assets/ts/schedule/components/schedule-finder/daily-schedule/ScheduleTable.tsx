@@ -31,7 +31,7 @@ const ScheduleTable = ({
 }: Props): ReactElement<HTMLElement> => {
   if (journeys.length === 0) {
     return (
-      <div className="callout u-bold text-center">
+      <div className="callout font-bold text-center">
         There is no scheduled service for this time period.
       </div>
     );
@@ -56,11 +56,11 @@ const ScheduleTable = ({
   return (
     <>
       <div className="schedule-finder__first-last-trip">
-        <div className="u-small-caps u-bold">First Trip</div>
+        <div className="u-small-caps font-bold">First Trip</div>
         {firstTrip.departure.time}
         {lastTrip && (
           <>
-            <div className="u-small-caps u-bold">Last Trip</div>
+            <div className="u-small-caps font-bold">Last Trip</div>
             {lastTrip.departure.time}
           </>
         )}

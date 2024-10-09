@@ -2,11 +2,9 @@
 @import 'bootstrap';
 @import 'bootstrap-extra';
 @import 'mixins';
-@import 'inter';
 @import 'footer';
 @import 'header';
 @import 'page';
-@import 'headings';
 @import 'vendor/fontawesome';
 @import 'social';
 @import 'layout-core-shared';
@@ -95,30 +93,6 @@ body {
       z-index: 100;
     }
   }
-}
-
-h1 {
-  @include h1();
-}
-
-h2 {
-  @include h2();
-}
-
-h3 {
-  @include h3();
-}
-
-h4 {
-  @include h4();
-}
-
-h5 {
-  @include h5();
-}
-
-h6 {
-  @include h6();
 }
 
 p a,

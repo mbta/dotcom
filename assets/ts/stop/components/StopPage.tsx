@@ -33,7 +33,7 @@ const isStopPageAlert = ({ effect }: Alert): boolean =>
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
     <div className="container">
-      <p className="c-fullscreen-error__heading u-bold">
+      <p className="c-fullscreen-error__heading font-bold">
         Live information could not be loaded.
       </p>
       <p>Please refresh the page to try again.</p>

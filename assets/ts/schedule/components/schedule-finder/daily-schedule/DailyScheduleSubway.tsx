@@ -203,9 +203,9 @@ const DailyScheduleSubway = ({
               tag={toLower(routeId)}
               extraClasses="schedule__icon-header--size u-me-8"
             />
-            <div className="fs-18 u-bold">{originStopName}</div>
+            <div className="text-lg font-bold">{originStopName}</div>
           </div>
-          <div className="fs-12 u-bold u-pb-10">To {destinationName}</div>
+          <div className="text-xs font-bold u-pb-10">To {destinationName}</div>
         </div>
       </div>
       <h3 className="u-pt-18">Daily Schedule</h3>
@@ -249,14 +249,14 @@ const DailyScheduleSubway = ({
         aria-live="polite"
       >
         <div className="u-w-100 u-highlight u-ps-16 u-pt-16 u-pb-16">
-          <div className="fs-14">First Train</div>
-          <div className="fs-18 u-bold">
+          <div className="text-sm">First Train</div>
+          <div className="text-lg font-bold">
             {firstTrainHours && formatToBostonTime(firstTrainHours)}
           </div>
         </div>
         <div className="u-w-100 u-highlight u-ps-16 u-pt-16 u-pb-16">
-          <div className="fs-14">Last Train</div>
-          <div className="fs-18 u-bold">
+          <div className="text-sm">Last Train</div>
+          <div className="text-lg font-bold">
             {lastTrainHours && formatToBostonTime(lastTrainHours)}
           </div>
         </div>
@@ -272,14 +272,14 @@ const DailyScheduleSubway = ({
           id="train-frequency"
         >
           <div className="m-schedule-page__sidebar-hours">
-            <div className="font-weight-bold fs-14">Regular schedule</div>
-            <div className="fs-16 u-pt-8">
+            <div className="font-weight-bold text-sm">Regular schedule</div>
+            <div className="text-base u-pt-8">
               Trains depart every {scheduleNoteText}
             </div>
           </div>
         </ExpandableBlock>
       )}
-      <div className="d-flex u-pt-8 u-pb-18 fs-18">
+      <div className="d-flex u-pt-8 u-pb-18 text-lg">
         <a
           href={`/trip-planner/from/${stopLatLong}`}
           className="btn btn-secondary btn-block u-mt-8"
