@@ -5,16 +5,17 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   use DotcomWeb, :live_component
 
   import DotcomWeb.ViewHelpers, only: [svg: 1]
-  import MbtaMetro.Components.Feedback
-  import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
 
-  alias Dotcom.TripPlan.{InputForm, InputForm.Modes, OpenTripPlanner}
+  import MbtaMetro.Components.{Feedback, InputGroup}
+
+  alias Dotcom.TripPlan.{InputForm, OpenTripPlanner}
+  alias MbtaMetro.Live.DatePicker
 
   @form_defaults %{
     "datetime_type" => :now,
-    "datetime" => NaiveDateTime.local_now(),
-    "modes" => InputForm.initial_modes(),
+    "datetime" => NaiveDateTime.utc_now(),
+    "modes" => @all_modes,
     "wheelchair" => true
   }
 
@@ -99,16 +100,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           >
             <%= msg %>
           </.feedback>
-          <.label :if={@show_datepicker} for="timepick">
-            <input
-              id="timepick"
-              type="datetime-local"
-              step="any"
-              name={input_name(@form, :datetime)}
-              value={input_value(@form, :datetime)}
-            />
-            <span class="sr-only">Date and time to leave at or arrive by</span>
-          </.label>
+          <.live_component
+            :if={@show_datepicker}
+            module={DatePicker}
+            config={datepicker_config()}
+            field={f[:datetime]}
+            id={:datepicker}
+          />
           <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
@@ -165,8 +163,23 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   @impl true
-  def handle_event("toggle_datepicker", %{"value" => datetime_value}, socket) do
-    {:noreply, assign(socket, :show_datepicker, datetime_value !== "now")}
+  @doc """
+  If the user selects "now" for the date and time, hide the datepicker.
+  This will destroy the flatpickr instance.
+
+  If the user selects arrivey by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
+  """
+  def handle_event("toggle_datepicker", %{"value" => "now"}, socket) do
+    {:noreply, assign(socket, show_datepicker: false)}
+  end
+
+  def handle_event("toggle_datepicker", _, socket) do
+    new_socket =
+      socket
+      |> assign(show_datepicker: true)
+      |> push_event("set-datetime", %{datetime: nearest_5_minutes() |> IO.inspect()})
+
+    {:noreply, new_socket}
   end
 
   def handle_event("validate", %{"input_form" => params}, socket) do
@@ -196,10 +209,68 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     end
   end
 
+  defp datepicker_config do
+    %{
+      default_date: Timex.now(),
+      enable_time: true,
+      max_date: Timex.now() |> Timex.shift(days: 3),
+      min_date: Timex.now() |> Timex.shift(days: -3)
+    }
+  end
+
+  defp mode_atom(mode) do
+    case mode do
+      :RAIL -> :commuter_rail
+      :SUBWAY -> :subway
+      :BUS -> :bus
+      :FERRY -> :ferry
+      other when is_binary(other) and other != "" -> String.to_atom(other)
+      _ -> :unknown
+    end
+  end
+
+  defp mode_name(mode) do
+    case mode_atom(mode) do
+      :unknown ->
+        ""
+
+      other ->
+        DotcomWeb.ViewHelpers.mode_name(other)
+    end
+  end
+
+  defp nearest_5_minutes do
+    datetime = Timex.now()
+    minutes = datetime.minute
+    rounded_minutes = Float.ceil(minutes / 5) * 5
+    added_minutes = Kernel.trunc(rounded_minutes - minutes)
+
+    Timex.shift(datetime, minutes: added_minutes)
+  end
+
   defp plan(data, on_submit) do
     _ = on_submit.(data)
     result = OpenTripPlanner.plan(data)
     _ = on_submit.(result)
     result
+  end
+
+  defp selected_modes(modes) when modes == @all_modes do
+    "All modes"
+  end
+
+  defp selected_modes([]), do: "No transit modes selected"
+  defp selected_modes(nil), do: "No transit modes selected"
+
+  defp selected_modes([mode]), do: mode_name(mode) <> " Only"
+  defp selected_modes([mode1, mode2]), do: mode_name(mode1) <> " and " <> mode_name(mode2)
+
+  defp selected_modes(modes) do
+    modes
+    |> Enum.map(&mode_name/1)
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.intersperse(", ")
+    |> List.insert_at(-2, "and ")
+    |> Enum.join("")
   end
 end
