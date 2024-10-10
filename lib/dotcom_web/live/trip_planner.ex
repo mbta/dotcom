@@ -8,7 +8,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Components.LiveComponents.TripPlannerForm
-  alias Dotcom.TripPlan.ItineraryGroups
+  alias Dotcom.TripPlan.{InputForm.Modes, ItineraryGroups}
 
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
@@ -38,10 +38,21 @@ defmodule DotcomWeb.Live.TripPlanner do
         on_submit={fn data -> send(self(), {:updated_form, data}) end}
       />
       <section>
-        <p :if={@submitted_values && @groups} class="text-lg text-emerald-700">
-          <%= Enum.count(@groups) %> ways to get from <%= @submitted_values.from.name %> to <%= @submitted_values.to.name %>, using <%= inspect(
-            @submitted_values.modes
-          ) %>
+        <p :if={@submitted_values} class="text-xl">
+          Planning trips from <strong><%= @submitted_values.from.name %></strong>
+          to <strong><%= @submitted_values.to.name %></strong>
+          <br /> using <strong><%= Modes.selected_modes(@submitted_values.modes) %></strong>,
+          <strong>
+            <%= if @submitted_values.datetime_type == :arrive_by, do: "Arriving by", else: "Leaving" %> <%= @submitted_values.datetime
+            |> Timex.format!("{Mfull} {D}, {h12}:{m} {AM}") %>
+          </strong>
+        </p>
+        <p :if={@submitted_values && @groups} class="text-xl text-emerald-600">
+          Found
+          <strong>
+            <%= Enum.count(@groups) %> <%= Inflex.inflect("way", Enum.count(@groups)) %>
+          </strong>
+          to go.
         </p>
       </section>
       <section class="flex w-full border border-solid border-slate-400">

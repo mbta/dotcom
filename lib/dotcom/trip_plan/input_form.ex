@@ -10,8 +10,7 @@ defmodule Dotcom.TripPlan.InputForm do
 
   alias OpenTripPlannerClient.PlanParams
 
-  @valid_modes [:RAIL, :SUBWAY, :BUS, :FERRY]
-  @time_types [:now, :leave_at, :arrive_by]
+  @time_types ~W(now leave_at arrive_by)a
 
   @error_messages %{
     from: "Please specify an origin location.",
@@ -25,14 +24,19 @@ defmodule Dotcom.TripPlan.InputForm do
   typed_embedded_schema do
     embeds_one(:from, __MODULE__.Location)
     embeds_one(:to, __MODULE__.Location)
+    embeds_one(:modes, __MODULE__.Modes)
     field(:datetime_type, Ecto.Enum, values: @time_types)
     field(:datetime, :naive_datetime)
-    field(:modes, {:array, Ecto.Enum}, values: @valid_modes)
     field(:wheelchair, :boolean, default: true)
   end
 
   def time_types, do: @time_types
-  def valid_modes, do: @valid_modes
+
+  def initial_modes do
+    __MODULE__.Modes.fields()
+    |> Enum.map(&{Atom.to_string(&1), "true"})
+    |> Map.new()
+  end
 
   def to_params(%__MODULE__{
         from: from,
@@ -48,7 +52,7 @@ defmodule Dotcom.TripPlan.InputForm do
       arriveBy: datetime_type == :arrive_by,
       date: PlanParams.to_date_param(datetime),
       time: PlanParams.to_time_param(datetime),
-      transportModes: PlanParams.to_modes_param(modes),
+      transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
       wheelchair: wheelchair
     }
     |> PlanParams.new()
@@ -60,9 +64,10 @@ defmodule Dotcom.TripPlan.InputForm do
 
   def changeset(form, params) do
     form
-    |> cast(params, [:datetime_type, :datetime, :modes, :wheelchair])
+    |> cast(params, [:datetime_type, :datetime, :wheelchair])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
+    |> cast_embed(:modes, required: true)
   end
 
   def validate_params(params) do
@@ -72,10 +77,11 @@ defmodule Dotcom.TripPlan.InputForm do
     |> update_change(:to, &update_location_change/1)
     |> validate_required(:from, message: error_message(:from))
     |> validate_required(:to, message: error_message(:to))
-    |> validate_required([:datetime_type, :modes, :wheelchair])
+    |> validate_required(:modes, message: error_message(:modes))
+    |> validate_required([:datetime_type, :wheelchair])
     |> validate_same_locations()
-    |> validate_length(:modes, min: 1, message: error_message(:modes))
     |> validate_chosen_datetime()
+    |> validate_modes()
   end
 
   # make the parent field blank if the location isn't valid
@@ -91,6 +97,16 @@ defmodule Dotcom.TripPlan.InputForm do
         error_message(:from_to_same)
       )
     else
+      _ ->
+        changeset
+    end
+  end
+
+  defp validate_modes(changeset) do
+    case get_change(changeset, :modes) do
+      %Ecto.Changeset{valid?: false} ->
+        add_error(changeset, :modes, error_message(:modes))
+
       _ ->
         changeset
     end
@@ -162,6 +178,109 @@ defmodule Dotcom.TripPlan.InputForm do
       else
         changeset
       end
+    end
+  end
+
+  defmodule Modes do
+    @moduledoc """
+    Represents the set of modes to be selected for a trip plan, additionally
+    validating that at least one mode is selected. Also provides helper
+    functions for rendering in forms.
+    """
+
+    use TypedEctoSchema
+
+    alias Ecto.Changeset
+    alias OpenTripPlannerClient.PlanParams
+
+    @primary_key false
+    typed_embedded_schema do
+      field(:RAIL, :boolean, default: true)
+      field(:SUBWAY, :boolean, default: true)
+      field(:BUS, :boolean, default: true)
+      field(:FERRY, :boolean, default: true)
+    end
+
+    def fields, do: __MODULE__.__schema__(:fields)
+
+    def changeset(modes, params) do
+      modes
+      |> cast(params, fields())
+      |> validate_at_least_one()
+    end
+
+    defp validate_at_least_one(changeset) do
+      if Enum.all?(fields(), &(get_change(changeset, &1) == false)) do
+        add_error(changeset, :FERRY, "")
+      else
+        changeset
+      end
+    end
+
+    @doc """
+    Translates a mode atom into a short string.
+    """
+    @spec mode_label(PlanParams.mode_t()) :: String.t()
+    def mode_label(:RAIL), do: "Commuter rail"
+    def mode_label(mode), do: Phoenix.Naming.humanize(mode)
+
+    @spec selected_mode_keys(__MODULE__.t()) :: [PlanParams.mode_t()]
+    def selected_mode_keys(%__MODULE__{} = modes) do
+      modes
+      |> Map.from_struct()
+      |> Enum.reject(&(elem(&1, 1) == false))
+      |> Enum.map(&elem(&1, 0))
+    end
+
+    @doc """
+    Summarizes the selected mode values into a single short string.
+    """
+    @spec selected_modes(Changeset.t() | __MODULE__.t() | [PlanParams.mode_t()]) :: String.t()
+    def selected_modes(%Changeset{} = modes_changeset) do
+      modes_changeset
+      |> Changeset.apply_changes()
+      |> selected_modes()
+    end
+
+    def selected_modes(%__MODULE__{} = modes) do
+      modes
+      |> selected_mode_keys()
+      |> selected_modes()
+    end
+
+    def selected_modes([]), do: "No transit modes selected"
+    def selected_modes([mode]), do: mode_name(mode) <> " Only"
+
+    def selected_modes(modes) do
+      if fields() -- modes == [] do
+        "All modes"
+      else
+        fields()
+        |> Enum.filter(&(&1 in modes))
+        |> summarized_modes()
+      end
+    end
+
+    defp summarized_modes([mode1, mode2]) do
+      mode_name(mode1) <> " and " <> mode_name(mode2)
+    end
+
+    defp summarized_modes(modes) do
+      modes
+      |> Enum.map(&mode_name/1)
+      |> Enum.intersperse(", ")
+      |> List.insert_at(-2, "and ")
+      |> Enum.join("")
+    end
+
+    defp mode_name(mode) do
+      case mode do
+        :RAIL -> :commuter_rail
+        :SUBWAY -> :subway
+        :BUS -> :bus
+        :FERRY -> :ferry
+      end
+      |> DotcomWeb.ViewHelpers.mode_name()
     end
   end
 end

@@ -51,7 +51,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         |> element("form")
         |> render_change(%{
           _target: ["input_form", "modes"],
-          input_form: %{modes: [:commuter_rail, :subway, :ferry]}
+          input_form: %{modes: %{RAIL: true, SUBWAY: true, FERRY: true, BUS: false}}
         })
 
       assert html =~ "Commuter Rail, Subway, and Ferry"
@@ -59,7 +59,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       html =
         view
         |> element("form")
-        |> render_change(%{_target: ["input_form", "modes"], input_form: %{modes: [:subway]}})
+        |> render_change(%{
+          _target: ["input_form", "modes"],
+          input_form: %{modes: %{SUBWAY: true, BUS: false, RAIL: false, FERRY: false}}
+        })
 
       assert html =~ "Subway Only"
 
@@ -68,7 +71,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         |> element("form")
         |> render_change(%{
           _target: ["input_form", "modes"],
-          input_form: %{modes: [:subway, :bus]}
+          input_form: %{modes: %{SUBWAY: true, BUS: true, RAIL: false, FERRY: false}}
         })
 
       assert html =~ "Subway and Bus"
