@@ -150,8 +150,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             </.accordion>
           </.fieldset>
           <div class="inline-flex items-center gap-2">
-            <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
-            <%= svg("icon-accessible-small.svg") %>
+            <.input
+              type="checkbox"
+              field={f[:wheelchair]}
+              label="Prefer accessible routes"
+            />
+            <span class="mt-[.365em]" aria-hidden="true"><%= svg("icon-accessible-small.svg") %></span>
           </div>
         </div>
         <div class="col-start-2 justify-self-end">
