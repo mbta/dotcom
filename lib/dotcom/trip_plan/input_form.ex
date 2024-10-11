@@ -10,7 +10,7 @@ defmodule Dotcom.TripPlan.InputForm do
 
   alias OpenTripPlannerClient.PlanParams
 
-  @time_types ~W(now leave_at arrive_by)a
+  @valid_modes [:RAIL, :SUBWAY, :BUS, :FERRY]
 
   @error_messages %{
     from: "Please specify an origin location.",
@@ -24,8 +24,7 @@ defmodule Dotcom.TripPlan.InputForm do
   typed_embedded_schema do
     embeds_one(:from, __MODULE__.Location)
     embeds_one(:to, __MODULE__.Location)
-    embeds_one(:modes, __MODULE__.Modes)
-    field(:datetime_type, Ecto.Enum, values: @time_types)
+    field(:datetime_type, :string)
     field(:datetime, :naive_datetime)
     field(:wheelchair, :boolean, default: true)
   end
