@@ -11,8 +11,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   alias Dotcom.TripPlan.{InputForm.Modes, ItineraryGroups}
 
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
-  import MbtaMetro.Components.Feedback
-  import MbtaMetro.Components.Spinner
+  import MbtaMetro.Components.{Feedback, Spinner}
 
   @form_id "trip-planner-form"
 
