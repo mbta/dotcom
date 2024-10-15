@@ -103,7 +103,7 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
-      {:mbta_metro, "0.0.17"},
+      {:mbta_metro, "0.0.20"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.3"},

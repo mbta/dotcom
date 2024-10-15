@@ -74,7 +74,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             form={f}
             field={:datetime_type}
             id="datetime_type"
-            options={[{"Now", "now"}, {"Leave At", "leave_at"}, {"Arrive By", "arrive_by"}]}
+            options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
             type="radio-button"
             phx-change="toggle_datepicker"
           />
@@ -145,7 +145,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   If the user selects "now" for the date and time, hide the datepicker.
   This will destroy the flatpickr instance.
 
-  If the user selects arrivey by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
+  If the user selects arrive by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
   """
   def handle_event("toggle_datepicker", %{"input_form" => %{"datetime_type" => "now"}}, socket) do
     {:noreply, assign(socket, show_datepicker: false)}
