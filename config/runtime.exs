@@ -232,7 +232,7 @@ case config_env() do
   # Dev is only used for local development, so we don't need, and in
   # fact actively do not want, a restrictive CSP
   :dev ->
-    config :dotcom, :content_security_policy_definition, "*"
+    config :dotcom, :content_security_policy_definition, ""
 
   :test ->
     config :dotcom, :content_security_policy_definition, ""
