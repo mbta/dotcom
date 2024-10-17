@@ -1,7 +1,6 @@
 import Config
 
 config :elixir, ansi_enabled: true
-config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 config :dotcom, :aws_client, AwsClient.Behaviour
 
