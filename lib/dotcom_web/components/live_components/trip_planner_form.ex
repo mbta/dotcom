@@ -11,17 +11,17 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes, OpenTripPlanner}
   alias MbtaMetro.Live.DatePicker
 
-  @form_defaults %{
-    "datetime_type" => "now",
-    "datetime" => Timex.now(),
-    "modes" => InputForm.initial_modes(),
-    "wheelchair" => true
-  }
-
   @impl true
   def mount(socket) do
+    form_defaults = %{
+      "datetime_type" => "now",
+      "datetime" => Timex.now("America/New_York"),
+      "modes" => InputForm.initial_modes(),
+      "wheelchair" => true
+    }
+
     defaults = %{
-      form: %InputForm{} |> InputForm.changeset(@form_defaults) |> to_form(),
+      form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
       location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
@@ -195,7 +195,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
       default_date: Timex.now("America/New_York"),
       enable_time: true,
       max_date: Schedules.Repo.end_of_rating(),
-      min_date: Timex.now()
+      min_date: Timex.today("America/New_York")
     }
   end
 
