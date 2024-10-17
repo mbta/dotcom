@@ -9,7 +9,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
 
-  alias Dotcom.TripPlan.{InputForm, InputForm.Modes, OpenTripPlanner}
+  alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
 
   @form_defaults %{
     "datetime_type" => :now,
@@ -186,8 +186,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     |> Ecto.Changeset.apply_action(:update)
     |> case do
       {:ok, data} ->
-        %{on_submit: on_submit} = socket.assigns
-        {:noreply, assign(socket, :plan, plan(data, on_submit))}
+        send(self(), {:updated_form, data})
+        {:noreply, socket}
 
       {:error, changeset} ->
         form =
@@ -196,12 +196,5 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
         {:noreply, assign(socket, %{form: form})}
     end
-  end
-
-  defp plan(data, on_submit) do
-    _ = on_submit.(data)
-    result = OpenTripPlanner.plan(data)
-    _ = on_submit.(result)
-    result
   end
 end
