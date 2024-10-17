@@ -52,7 +52,7 @@
 
         <div class="c-multi-column__column col-sm-6">
 
-          <div class="c-fare-card__fare h2">
+          <div class="c-fare-card__fare font-heading font-bold mt-11 mb-3 text-3xl">
             <%= Fares.Format.price(fare) %>
           </div>
 

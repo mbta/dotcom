@@ -145,10 +145,10 @@
 }
 
 .c-inline-buttons {
-  margin: -1em -calc(#{$half-gutter} / 2) 1em;
+  margin-bottom: 1em;
 
   .btn {
-    margin: 1em calc(#{$half-gutter} / 2) 0;
+    margin-bottom: 0;
     white-space: normal;
 
     @include media-breakpoint-down(sm) {

@@ -30,14 +30,14 @@ const TripSummary = ({
   <tr className="trip-details-table__summary">
     <td colSpan={3} className="schedule-table__cell">
       <div>
-        <span className="trip-details-table__title u-small-caps u-bold">
+        <span className="trip-details-table__title u-small-caps font-bold">
           Trip length
         </span>
         {departuresWithPredictions(tripInfo.times).length} stops,{" "}
         {tripInfo.duration} minutes total
       </div>
       <div>
-        <span className="trip-details-table__title u-small-caps u-bold">
+        <span className="trip-details-table__title u-small-caps font-bold">
           Fare
         </span>
 

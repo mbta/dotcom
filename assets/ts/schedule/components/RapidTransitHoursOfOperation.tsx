@@ -8,7 +8,7 @@ import { EnhancedRoute, StopHours, TransitHours } from "../../__v3api";
 import { ScheduleNote } from "./__schedule";
 
 const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => (
-  <div className="fs-14 u-pt-8">{`Trains depart every ${minuteString}`}</div>
+  <div className="text-sm u-pt-8">{`Trains depart every ${minuteString}`}</div>
 );
 
 const getScheduleNoteForDate = (
@@ -27,8 +27,8 @@ const getScheduleNoteForDate = (
   if (scheduleNote.offpeak_service && scheduleNote.peak_service) {
     return (
       <>
-        <div className="fs-14 u-pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
-        <div className="fs-14 u-pt-8">{`Off-Peak Service: Trains depart every ${scheduleNote.offpeak_service}`}</div>
+        <div className="text-sm u-pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
+        <div className="text-sm u-pt-8">{`Off-Peak Service: Trains depart every ${scheduleNote.offpeak_service}`}</div>
       </>
     );
   }
@@ -99,8 +99,8 @@ const RapidTransitHoursOfOperation = ({
         <br />
         {earliestTrain && latestTrain && (
           <>
-            <div className="fs-16">First & last trains</div>
-            <div className="fs-18">
+            <div className="text-base">First & last trains</div>
+            <div className="text-lg">
               <b>{earliestTrain}</b> | <b>{latestTrain}</b>
             </div>
           </>
@@ -110,7 +110,7 @@ const RapidTransitHoursOfOperation = ({
         <br />
         <div>
           <button
-            className="btn btn-link text-decoration-underline"
+            className="btn btn-link underline"
             style={{ padding: "0rem" }}
             type="button"
             onClick={openModal}

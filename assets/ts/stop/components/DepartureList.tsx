@@ -82,7 +82,7 @@ const DepartureList = ({
         <div className="departure-list__origin-stop-name notranslate">
           {stop.name} to
         </div>
-        <div className="departure-list__headsign notranslate">{headsign}</div>
+        <div className="text-lg notranslate">{headsign}</div>
       </h2>
       {alerts.length ? <Alerts alerts={alerts} /> : null}
       {noServiceOrNoTrips ||

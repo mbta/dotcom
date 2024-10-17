@@ -11,7 +11,7 @@ const ErrorPage: FallbackRender = errorData => {
       <div className="row">
         <div className="col-md-6">
           <h1 className="u-mt-1">Oh no! We&#39;re experiencing delays.</h1>
-          <p className="error-paragraph u-bold">
+          <p className="error-paragraph font-bold">
             Something went wrong on our end.
           </p>
           <div className="error-links">

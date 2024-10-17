@@ -68,9 +68,9 @@ nav.m-menu--desktop {
     border: 0;
     color: $brand-primary-lightest-contrast;
     cursor: pointer;
-    margin-left: $base-spacing__new;
+    margin-left: 4px;
     outline: none;
-    padding: 0 $base-spacing__new;
+    padding: 0 4px;
     text-decoration: none;
     width: 5em; // arbitrary, but would be too wide otherwise
 
@@ -107,10 +107,10 @@ nav.m-menu--desktop {
   // place for up/down arrows
   .c-indicator--angle {
     @include fa-icon-solid($fa-var-caret-down);
-    margin-left: $base-spacing__new;
+    margin-left: 4px;
     pointer-events: none;
     @include media-breakpoint-only(xxl) {
-      margin-left: $space-2_new;
+      margin-left: 8px;
     }
   }
 
@@ -177,7 +177,7 @@ nav.m-menu--desktop {
   }
 
   .m-menu__link {
-    padding: $space-2_new 0;
+    padding: 8px 0;
   }
 
   // Alternate layout for Contact menu
@@ -190,7 +190,7 @@ nav.m-menu--desktop {
     }
 
     .m-menu-feature.emergency-contacts.desktop {
-      border-radius: 0 $space-2_new $space-2_new;
+      border-radius: 0 8px 8px;
       grid-row: 3 / 4;
       width: unset;
     }
@@ -208,8 +208,8 @@ nav.m-menu--desktop {
   font-size: $font-size-base-sm;
   font-weight: $headings-font-weight;
   line-height: 1.75;
-  margin-bottom: $space-4_new;
-  padding-bottom: $base-spacing__new;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
   text-transform: uppercase;
   white-space: normal;
 
@@ -244,11 +244,11 @@ nav.m-menu--desktop {
 // Contact numbers & Popular fares sections
 .m-menu__feature {
   background-color: $brand-primary-darkest;
-  border-radius: 0 $space-2_new $space-2_new 0;
+  border-radius: 0 8px 8px 0;
   font-size: $font-size-base-sm;
   margin-bottom: 8px;
   margin-top: 1rem;
-  padding: $space-3_new;
+  padding: 12px;
   width: calc(100% - 40px);
 
   // Description list
@@ -261,7 +261,7 @@ nav.m-menu--desktop {
   dt,
   dd {
     border-bottom: 1px solid $brand-primary;
-    padding: $space-2_new 0;
+    padding: 8px 0;
 
     &:last-of-type {
       border-bottom: unset;
@@ -279,7 +279,7 @@ nav.m-menu--desktop {
   dd {
     font-weight: $headings-font-weight;
     margin-bottom: 0;
-    padding-right: $space-4_new;
+    padding-right: 16px;
     text-align: right;
 
     &:last-of-type {
@@ -295,7 +295,7 @@ nav.m-menu--desktop {
   }
 
   @include media-breakpoint-up(sm) {
-    border-radius: 0 $space-2_new $space-2_new;
+    border-radius: 0 8px 8px;
   }
 
   @include media-breakpoint-up(lg) {
@@ -305,7 +305,7 @@ nav.m-menu--desktop {
 
   // CSS for the Contact Numbers split-container
   &.top-section {
-    border-radius: 0 $space-2_new 0 0;
+    border-radius: 0 8px 0 0;
     margin-bottom: 2px;
   }
 
@@ -322,11 +322,11 @@ nav.m-menu--desktop {
   }
 
   &.bottom-section {
-    border-radius: 0 0 $space-2_new;
+    border-radius: 0 0 8px;
     margin-top: 0;
 
     @include media-breakpoint-up(sm) {
-      border-radius: 0 0 $space-2_new $space-2_new;
+      border-radius: 0 0 8px 8px;
     }
 
     .m-menu__feature_phone {
@@ -338,7 +338,7 @@ nav.m-menu--desktop {
 }
 
 .m-menu__feature_phone {
-  padding-top: $space-3_new;
+  padding-top: 12px;
   white-space: normal;
 
   a {

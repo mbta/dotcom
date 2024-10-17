@@ -64,7 +64,7 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
             " — ",
             date_tag(end_date) || "Present"
           ],
-          class: "u-small-caps u-bold u-mb-1"
+          class: "u-small-caps font-bold u-mb-1"
         )
       end
     end)

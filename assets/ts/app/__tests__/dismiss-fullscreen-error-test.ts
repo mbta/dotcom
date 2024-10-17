@@ -4,7 +4,7 @@ const body = `
 <div class="c-fullscreen-error__container js-fullscreen-error" style="display: block">
   <div class="container">
     <a class="c-fullscreen-error__dismiss js-fullscreen-error__dismiss" tabindex="0">Dismiss <i aria-hidden="true" class="notranslate fa fa-times "></i></a>
-    <h1 class="c-fullscreen-error__heading h1">Danger</h1>
+    <h1 class="c-fullscreen-error__heading">Danger</h1>
     <p>Will Robinson</p>
   </div>
 </div>`;

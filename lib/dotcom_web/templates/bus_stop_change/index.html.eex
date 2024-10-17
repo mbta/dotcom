@@ -16,7 +16,7 @@
     <h1>Bus Stop Changes</h1>
     <div class="row">
       <div class="col-lg-3">
-        <div class="h3">Filter by type</div>
+        <div class="font-heading font-bold mt-11 mb-3 text-2xl">Filter by type</div>
         <%= time_filter_buttons(@conn) %>
       </div>
       <div class="col-lg-8 col-lg-offset-1" style="padding-top: 1rem;">

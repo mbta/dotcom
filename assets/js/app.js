@@ -58,7 +58,20 @@ let csrfToken = document
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...Hooks, ...DotcomHooks }
+  hooks: { ...Hooks, ...DotcomHooks },
+  dom: {
+    onBeforeElUpdated(from, to) {
+      // Clone open state of <details>
+      if (from.tagName == "DETAILS") {
+        const openState = from.getAttribute("open");
+        if (openState == "") {
+          to.setAttribute("open", "");
+        } else {
+          to.removeAttribute("open");
+        }
+      }
+    }
+  }
 });
 
 // connect if there are any LiveViews on the page

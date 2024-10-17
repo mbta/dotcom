@@ -14,7 +14,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       >
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Trip length
           </span>
@@ -26,7 +26,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </div>
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Fare
           </span>
@@ -232,7 +232,7 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       >
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Trip length
           </span>
@@ -244,7 +244,7 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </div>
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Fare
           </span>
@@ -528,7 +528,7 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       >
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Trip length
           </span>
@@ -540,7 +540,7 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </div>
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Fare
           </span>
@@ -786,7 +786,7 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       >
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Trip length
           </span>
@@ -798,7 +798,7 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </div>
         <div>
           <span
-            className="trip-details-table__title u-small-caps u-bold"
+            className="trip-details-table__title u-small-caps font-bold"
           >
             Fare
           </span>

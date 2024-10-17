@@ -198,8 +198,6 @@ nav.m-menu--mobile {
 }
 
 .m-menu__link {
-  @include font-link();
-
   align-items: center;
   display: flex;
   padding: 12px 12px 12px 24px;
@@ -220,13 +218,13 @@ nav.m-menu--mobile {
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
-    margin: $space-4_new 0 0 $space-4_new;
+    margin: 16px 0 0 16px;
   }
 
   .m-menu__section {
     border-bottom: 1px solid $brand-primary-light-contrast;
-    padding-bottom: $space-4_new;
-    padding-top: $space-2_new;
+    padding-bottom: 16px;
+    padding-top: 8px;
 
     @include media-breakpoint-only(sm) {
       margin-left: 40px;
@@ -242,7 +240,6 @@ nav.m-menu--mobile {
     margin: 0;
 
     .c-accordion-ui__trigger {
-      @include heading-4();
       border: 2px solid $brand-primary;
       color: $white;
 

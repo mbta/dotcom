@@ -2,7 +2,7 @@
 
 exports[`CrowdingPill renders and matches snapshot 1`] = `
 "<CrowdingPill crowding=\\"not_crowded\\">
-  <div className=\\"u-small-caps u-bold c-crowding-pill c-crowding-pill--not_crowded\\">
+  <div className=\\"u-small-caps font-bold c-crowding-pill c-crowding-pill--not_crowded\\">
     <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--not_crowded\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
     <span className=\\"c-crowding-pill__label\\">
       Not crowded

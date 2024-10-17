@@ -39,7 +39,10 @@ const AccessAmenitiesModal = ({
             <tbody>
               {facilities?.map(facility => {
                 return (
-                  <tr key={facility.id} className="access-amenities-row fs-14">
+                  <tr
+                    key={facility.id}
+                    className="access-amenities-row text-sm"
+                  >
                     <td className="u-p-16">{facility.attributes.short_name}</td>
                     {hasCurrentFacilityAlert(facility.id, alerts) ? (
                       <td className="status">

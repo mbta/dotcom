@@ -63,7 +63,7 @@
     <% end %>
   </h3>
 
-  <div class="c-fare-card__fare h2">
+  <div class="c-fare-card__fare font-heading font-bold mt-11 mb-3 text-3xl">
     <%= price %>
   </div>
 

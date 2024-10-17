@@ -1,7 +1,7 @@
 <% transfer_note = transfer_note_calculator(@itinerary) %>
 <% itinerary_contains_capeflyer = itinerary_satisfies_property?(@itinerary, :contains_capeflyer) %>
 
-<div class="h2 m-trip-plan-farecalc__main-title">Fare Calculator</div>
+<div class="font-heading font-bold mt-11 mb-3 text-3xl m-trip-plan-farecalc__main-title">Fare Calculator</div>
 
 <%= if @show_fares do %>
 

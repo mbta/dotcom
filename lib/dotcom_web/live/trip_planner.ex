@@ -11,6 +11,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   alias Dotcom.TripPlan.{InputForm.Modes, ItineraryGroups}
 
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
+  import MbtaMetro.Components.{Feedback, Spinner}
 
   @form_id "trip-planner-form"
 
@@ -20,8 +21,10 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:form_name, @form_id)
       |> assign(:submitted_values, nil)
-      |> assign(:groups, nil)
       |> assign(:error, nil)
+      |> assign_async(:groups, fn ->
+        {:ok, %{groups: nil}}
+      end)
 
     {:ok, socket}
   end
@@ -31,39 +34,39 @@ defmodule DotcomWeb.Live.TripPlanner do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <.live_component
-        module={TripPlannerForm}
-        id={@form_name}
-        form_name={@form_name}
-        on_submit={fn data -> send(self(), {:updated_form, data}) end}
-      />
-      <section>
-        <p :if={@submitted_values} class="text-xl">
-          Planning trips from <strong><%= @submitted_values.from.name %></strong>
-          to <strong><%= @submitted_values.to.name %></strong>
-          <br /> using <strong><%= Modes.selected_modes(@submitted_values.modes) %></strong>,
-          <strong>
-            <%= if @submitted_values.datetime_type == :arrive_by, do: "Arriving by", else: "Leaving" %> <%= @submitted_values.datetime
-            |> Timex.format!("{Mfull} {D}, {h12}:{m} {AM}") %>
-          </strong>
-        </p>
-        <p :if={@submitted_values && @groups} class="text-xl text-emerald-600">
-          Found
-          <strong>
-            <%= Enum.count(@groups) %> <%= Inflex.inflect("way", Enum.count(@groups)) %>
-          </strong>
-          to go.
-        </p>
+      <.live_component module={TripPlannerForm} id={@form_name} form_name={@form_name} />
+      <section :if={@submitted_values} class="mt-2 mb-6">
+        <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
+        <p><%= time_summary(@submitted_values) %></p>
+        <.async_result :let={groups} assign={@groups}>
+          <:failed :let={{:error, reason}}>
+            <.feedback kind={:error}>
+              <%= Phoenix.Naming.humanize(reason) %>
+            </.feedback>
+          </:failed>
+          <:loading>
+            <.spinner aria_label="Waiting for results" /> Waiting for results...
+          </:loading>
+          <%= if groups do %>
+            <%= if Enum.count(groups) == 0 do %>
+              <.feedback kind={:warning}>No trips found.</.feedback>
+            <% else %>
+              <.feedback kind={:success}>
+                Found <%= Enum.count(groups) %> <%= Inflex.inflect("way", Enum.count(groups)) %> to go.
+              </.feedback>
+            <% end %>
+          <% end %>
+        </.async_result>
       </section>
       <section class="flex w-full border border-solid border-slate-400">
         <div :if={@error} class="w-full p-4 text-rose-400">
           <%= inspect(@error) %>
         </div>
-        <div :if={@groups} class="w-full p-4">
-          <%= for group <- @groups do %>
-            <.itinerary_group group={group} />
-          <% end %>
-        </div>
+        <.async_result :let={groups} assign={@groups}>
+          <div :if={groups} class="w-full p-4">
+            <.itinerary_group :for={group <- groups} group={group} />
+          </div>
+        </.async_result>
         <div id="trip-planner-map-wrapper" class="w-full" phx-update="ignore">
           <div style="min-height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
         </div>
@@ -84,16 +87,22 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   def handle_info({:updated_form, %Dotcom.TripPlan.InputForm{} = data}, socket) do
-    {:noreply, assign(socket, %{submitted_values: data, groups: nil})}
-  end
+    socket =
+      socket
+      |> assign(:submitted_values, data)
+      |> assign(:groups, nil)
+      |> assign_async(:groups, fn ->
+        case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
+          {:ok, itineraries} ->
+            Process.sleep(1200)
+            {:ok, %{groups: ItineraryGroups.from_itineraries(itineraries)}}
 
-  def handle_info({:updated_form, {:ok, itineraries}}, socket) do
-    groups = ItineraryGroups.from_itineraries(itineraries)
-    {:noreply, assign(socket, %{error: nil, groups: groups})}
-  end
+          error ->
+            error
+        end
+      end)
 
-  def handle_info({:updated_form, {:error, error}}, socket) do
-    {:noreply, assign(socket, :error, error)}
+    {:noreply, socket}
   end
 
   def handle_info(_info, socket) do
@@ -120,5 +129,16 @@ defmodule DotcomWeb.Live.TripPlanner do
   # Geolocated
   defp location_props(props) do
     Map.take(props, ["name", "latitude", "longitude"])
+  end
+
+  defp submission_summary(%{from: %{name: from_name}, to: %{name: to_name}, modes: modes}) do
+    "Planning trips from #{from_name} to #{to_name} using #{Modes.selected_modes(modes)}"
+  end
+
+  defp time_summary(%{datetime_type: datetime_type, datetime: datetime}) do
+    preamble = if datetime_type == :arrive_by, do: "Arriving by ", else: "Leaving at "
+    time_description = Timex.format!(datetime, "{h12}:{m}{am}")
+    date_description = Timex.format!(datetime, "{WDfull}, {Mfull} {D}")
+    preamble <> time_description <> " on " <> date_description
   end
 end

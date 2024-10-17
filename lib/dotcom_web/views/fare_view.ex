@@ -136,7 +136,11 @@ defmodule DotcomWeb.FareView do
   defp fare_pass_name(name), do: content_tag(:h3, name, class: "c-fare-pass__name")
 
   @spec fare_pass_price(String.t()) :: HTML.safe()
-  defp fare_pass_price(price), do: content_tag(:span, price, class: "h2 c-fare-pass__price")
+  defp fare_pass_price(price),
+    do:
+      content_tag(:span, price,
+        class: "font-heading font-bold mt-11 mb-3 text-3xl c-fare-pass__price"
+      )
 
   @spec fare_overview_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
   def fare_overview_link(mode, conn) do

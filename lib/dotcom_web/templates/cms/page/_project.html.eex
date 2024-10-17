@@ -20,7 +20,7 @@
 <%= if Project.contact?(@page) do %>
   <div class="page-section project-contact">
     <div class="callout">
-      <h2 class="h3 callout-heading">Contact Information</h2>
+      <h2 class="text-2xl callout-heading">Contact Information</h2>
       <p>For all queries and comments related to <%= @page.title %>, please contact:</p>
       <%= if @page.contact_information do %>
         <div class="contact-element-contact">

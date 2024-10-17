@@ -4,7 +4,7 @@
   <%= for section <- @sections do %>
     <div class="panel">
       <div class="c-accordion-ui__heading<%= if assigns[:sticky] do %> fixedsticky sticky-top<% end %>" role="heading" aria-level="3">
-        <button class="c-accordion-ui__trigger collapsed"
+        <button class="c-accordion-ui__trigger font-headings text-lg collapsed"
             data-target="#<%= section.prefix %>-section"
             aria-expanded="false"
             aria-controls="<%= section.prefix %>-section"

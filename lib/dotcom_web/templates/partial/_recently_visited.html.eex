@@ -1,6 +1,6 @@
 <%= unless Enum.empty?(@routes) do %>
   <div class="c-recently-visited">
-    <%= content_tag(:h2, "Recently Visited Schedules", class: Map.get(assigns, :header_class, "h2")) %>
+    <%= content_tag(:h2, "Recently Visited Schedules", class: Map.get(assigns, :header_class, "")) %>
     <%= render DotcomWeb.ModeView, "_grid_buttons.html",
           conn: @conn,
           routes: @routes,

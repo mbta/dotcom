@@ -15,7 +15,7 @@ exports[`Accordion component renders 1`] = `
       <button
         aria-controls="test-accordion-section"
         aria-expanded={false}
-        className="c-accordion-ui__trigger collapsed"
+        className="c-accordion-ui__trigger font-headings text-lg collapsed"
         onClick={[Function]}
         type="button"
       >

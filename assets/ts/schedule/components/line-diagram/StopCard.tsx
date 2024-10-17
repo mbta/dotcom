@@ -147,7 +147,7 @@ const StopCard = ({
     >
       <section className="m-schedule-diagram__content">
         {stopTree && hasBranchLabel(stopTree, stopId) && (
-          <div className="u-bold u-small-caps">{lineName(routeStop)}</div>
+          <div className="font-bold u-small-caps">{lineName(routeStop)}</div>
         )}
         <header
           className="m-schedule-diagram__stop-heading"

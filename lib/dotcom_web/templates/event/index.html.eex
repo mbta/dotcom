@@ -25,9 +25,9 @@
       <% valid_months = events_by_month |> Enum.map(fn {month_number, _teasers} -> month_number end) %>
 
       <%= if !Enum.empty?(valid_months) do %>
-        <p class="u-bold">Jump to</p>
+        <p class="font-bold">Jump to</p>
         <%= for month <- valid_months do %>
-          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year), class: if(month == @month, do: "u-bold") %>
+          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year), class: if(month == @month, do: "font-bold") %>
         <% end %>
       <% end %>
     </nav>

@@ -133,7 +133,7 @@ export const BusTableRow = ({
         )}
         {trip.headsign}
       </td>
-      <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
+      <td className="schedule-table__cell schedule-table__cell--time u-nowrap font-bold text-right">
         {realtime.prediction!.time}
         {crowdingInformation(journey, trip.id)}
       </td>
@@ -326,7 +326,7 @@ export const upcomingDeparturesTable = (
           </tbody>
         </table>
       ) : (
-        <div className="callout text-center u-bold">
+        <div className="callout text-center font-bold">
           There are currently no realtime departures available.
         </div>
       )}

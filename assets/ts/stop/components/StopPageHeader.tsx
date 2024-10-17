@@ -29,7 +29,7 @@ const StopPageHeader = ({
               <StopFeatures stop={stop} routes={routes} />
             </div>
             <div
-              className="u-mt-n8 u-pb-8 fs-14 u-nowrap"
+              className="u-mt-n8 u-pb-8 text-sm u-nowrap"
               style={{ float: "right" }}
             >
               {!isStopAStation(stop) && `Stop ${stop.id}`}

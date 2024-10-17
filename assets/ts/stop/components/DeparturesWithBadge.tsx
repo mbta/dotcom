@@ -60,7 +60,7 @@ const DeparturesWithBadge = ({
   return (
     <>
       {priorityBadge ? (
-        <div className="font-helvetica-neue fs-14" style={{ float: "right" }}>
+        <div className="font-helvetica-neue text-sm" style={{ float: "right" }}>
           See alternatives
         </div>
       ) : (

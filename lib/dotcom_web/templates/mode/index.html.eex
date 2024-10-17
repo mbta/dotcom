@@ -25,10 +25,10 @@
               %>
         </div>
         <% end %>
-        <h2 class="h2">Maps</h2>
+        <h2>Maps</h2>
         <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
 
-        <h2 class="h2">Fares</h2>
+        <h2>Fares</h2>
 
         <%= PartialView.paragraph("/paragraphs/multi-column/subway-and-bus-fares", @conn) %>
         <%= PartialView.paragraph("/paragraphs/multi-column/commuter-rail-and-ferry-fares", @conn) %>

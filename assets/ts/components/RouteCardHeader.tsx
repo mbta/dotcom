@@ -13,7 +13,7 @@ const RouteCardHeader = ({
   alerts: Alert[];
 }): ReactElement<HTMLElement> => (
   <div
-    className={`c-link-block h3 m-tnm-sidebar__route-name ${routeBgClass(
+    className={`c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name ${routeBgClass(
       route
     )}`}
   >

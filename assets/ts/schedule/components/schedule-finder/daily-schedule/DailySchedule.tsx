@@ -111,7 +111,7 @@ const SchedulesSelect = ({
         </span>
         <SelectContainer>
           <select
-            className="c-select-custom text-center u-bold"
+            className="c-select-custom text-center font-bold"
             defaultValue={defaultSelectedServiceId}
             onChange={e =>
               onSelectService(

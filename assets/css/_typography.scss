@@ -1,68 +1,5 @@
 // Starting 9/27/21, we're starting to set up new base-spacing numbers
-$base-spacing__new: 4px;
-$space-2_new: $base-spacing__new * 2;
-$space-3_new: $base-spacing__new * 3;
-$space-4_new: $base-spacing__new * 4;
-
 $base-line-height: 1.275;
-
-@mixin base-heading__new {
-  font-family: $headings-font-family;
-  font-weight: $headings-font-weight;
-  line-height: $base-line-height;
-}
-
-@mixin heading-1 {
-  @include base-heading__new();
-  font-size: 2.8125rem;
-  @include media-breakpoint-down(lg) {
-    font-size: 2.5rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: 1.75rem;
-  }
-}
-@mixin heading-2 {
-  @include base-heading__new();
-  font-size: 1.9688rem;
-  @include media-breakpoint-down(lg) {
-    font-size: 1.75rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: 1.4219rem;
-  }
-}
-@mixin heading-3 {
-  @include base-heading__new();
-  font-size: 1.4763rem;
-  @include media-breakpoint-down(lg) {
-    font-size: 1.3125rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: 1.1487rem;
-  }
-}
-
-@mixin heading-4 {
-  @include base-heading__new();
-  font-size: 1.2656rem;
-  @include media-breakpoint-down(lg) {
-    font-size: 1.125rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: .9844rem;
-  }
-}
-@mixin heading-5 {
-  @include base-heading__new();
-  font-size: 1.125rem;
-  @include media-breakpoint-down(lg) {
-    font-size: 1rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: .875rem;
-  }
-}
 
 @mixin base-font__new {
   font-family: $font-family-base;
@@ -76,21 +13,15 @@ $base-line-height: 1.275;
   }
 }
 
-@mixin font-body {
-  @include base-font__new();
-  font-weight: 400;
-}
-@mixin font-link {
-  @include base-font__new();
-  font-weight: 500;
-}
 @mixin font-white {
   @include base-font__new();
   color: $white;
   font-weight: 400;
 }
 @mixin font-small {
-  @include base-heading__new();
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $base-line-height;
   font-size: 1rem;
   line-height: $base-line-height;
   text-transform: uppercase;
@@ -102,50 +33,12 @@ $base-line-height: 1.275;
   }
 }
 
-.text-decoration-underline {
-  text-decoration: underline;
-}
-
-.heading-1 { @include heading-1(); }
-
-.heading-2 { @include heading-2(); }
-
-.heading-3 { @include heading-3(); }
-
-.heading-4 { @include heading-4(); }
-
-.heading-5 { @include heading-5(); }
-
-.font-body { @include font-body(); }
-
-.font-link { @include font-link(); }
-
 .font-white { @include font-white(); }
 
 .font-small { @include font-small(); }
 
 .fs-10 {
   font-size: .625rem;
-}
-
-.fs-12 {
-  font-size: .75rem;
-}
-
-.fs-14 {
-  font-size: .875rem;
-}
-
-.fs-16 {
-  font-size: 1rem;
-}
-
-.fs-18 {
-  font-size: 1.125rem;
-}
-
-.font-helvetica-neue {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .text-wrap {

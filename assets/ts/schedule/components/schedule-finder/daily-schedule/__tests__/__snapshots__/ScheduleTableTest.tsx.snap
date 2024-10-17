@@ -6,13 +6,13 @@ exports[`ScheduleTable it renders 1`] = `
     className="schedule-finder__first-last-trip"
   >
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       First Trip
     </div>
     05:36 AM
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       Last Trip
     </div>
@@ -10418,13 +10418,13 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
     className="schedule-finder__first-last-trip"
   >
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       First Trip
     </div>
     04:15 AM
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       Last Trip
     </div>
@@ -11927,13 +11927,13 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
     className="schedule-finder__first-last-trip"
   >
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       First Trip
     </div>
     04:15 AM
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       Last Trip
     </div>
@@ -13411,7 +13411,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
 exports[`ScheduleTable it renders an empty message 1`] = `
 <ScheduleTable>
   <div
-    className="callout u-bold text-center"
+    className="callout font-bold text-center"
   >
     There is no scheduled service for this time period.
   </div>
@@ -13424,13 +13424,13 @@ exports[`ScheduleTable it renders with school trips 1`] = `
     className="schedule-finder__first-last-trip"
   >
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       First Trip
     </div>
     05:36 AM
     <div
-      className="u-small-caps u-bold"
+      className="u-small-caps font-bold"
     >
       Last Trip
     </div>

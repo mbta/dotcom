@@ -1,6 +1,6 @@
 <%= DotcomWeb.PartialView.render_teasers(@featured_content, @conn) %>
 
 <%= unless Enum.empty?(@news) do %>
-  <%= content_tag(:h3, "News", class: "h2") %>
+  <%= content_tag(:h3, "News", class: "text-3xl") %>
   <%= DotcomWeb.PartialView.render_teasers(@news, @conn) %>
 <% end %>

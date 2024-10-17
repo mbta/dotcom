@@ -45,7 +45,7 @@ const BannerContent = ({
 }): ReactElement<HTMLElement> => (
   <div className={bannerContentClass(banner)}>
     <div className="c-banner__top">
-      <h2 className="h2 c-banner__title c-banner__title--default">
+      <h2 className="c-banner__title c-banner__title--default">
         {banner.title}
       </h2>
     </div>

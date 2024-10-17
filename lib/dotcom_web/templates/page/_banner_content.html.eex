@@ -3,7 +3,7 @@
     <div class="c-banner__category u-small-caps">
       <%= link_category(@banner.category)%>
     </div>
-    <h2 class="h2 c-banner__title c-banner__title--<%= @banner.banner_type %>">
+    <h2 class="c-banner__title c-banner__title--<%= @banner.banner_type %>">
       <%= link @banner.title, to: cms_static_page_path(@conn, @banner.utm_url), class: "u-linked-card__primary-link" %>
     </h2>
     <%= if @banner.banner_type == :important do %>

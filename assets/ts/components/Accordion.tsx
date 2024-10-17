@@ -39,7 +39,8 @@ const Accordion = (props: Props): ReactElement<HTMLElement> => {
       <div className="panel">
         <div className="c-accordion-ui__heading" role="heading" aria-level={3}>
           <button
-            className={`c-accordion-ui__trigger ${!isExpanded && "collapsed"}`}
+            className={`c-accordion-ui__trigger font-headings text-lg ${!isExpanded &&
+              "collapsed"}`}
             aria-expanded={isExpanded}
             aria-controls={`${id}-section`}
             onClick={onClick}
