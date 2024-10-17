@@ -29,8 +29,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors
-      }
+        ...colors,
+        "gray-lighter": "#b0b5c0",
+        "gray-light": "#788093",
+        "navy": {
+          500: "#104c8f"
+	},
+        "logan-express-bb": "#f16823",
+        "logan-express-bt": "#06c",
+        "logan-express-dv": "#704c9f",
+        "logan-express-fh": "#e81d2d",
+        "logan-express-wo": "#00954c",
+      },
     },
     fontFamily: {
       ...fontFamily
