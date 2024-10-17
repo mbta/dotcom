@@ -44,7 +44,7 @@ module.exports = {
     }
   },
   plugins: [
-    ...plugins,
+    ...plugins(),
     require("@tailwindcss/forms")({
       // don't make global styles since they conflict with ours
       strategy: "class"

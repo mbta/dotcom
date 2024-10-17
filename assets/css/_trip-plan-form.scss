@@ -220,6 +220,12 @@
   }
 }
 
+#date-picker-calendar {
+  .form-control[readonly] {
+    background-color: $body-bg;
+  }
+}
+
 #trip-planner-inputs {
   margin: .75rem 0;
   width: 100%;
