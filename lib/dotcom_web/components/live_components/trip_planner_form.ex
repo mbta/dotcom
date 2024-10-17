@@ -20,17 +20,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   @impl true
   def mount(socket) do
-    form =
-      %InputForm{}
-      |> InputForm.changeset(@form_defaults)
-      |> to_form()
+    defaults = %{
+      form: %InputForm{} |> InputForm.changeset(@form_defaults) |> to_form(),
+      location_keys: InputForm.Location.fields(),
+      show_datepicker: false
+    }
 
-    {:ok,
-     assign(socket, %{
-       form: form,
-       location_keys: InputForm.Location.fields(),
-       show_datepicker: false
-     })}
+    {:ok, assign(socket, defaults)}
   end
 
   @impl true
@@ -46,7 +42,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-submit="save_form"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1">
+        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
@@ -149,7 +145,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   If the user selects arrive by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
   """
   def handle_event("toggle_datepicker", %{"input_form" => %{"datetime_type" => "now"}}, socket) do
-    {:noreply, assign(socket, show_datepicker: false)}
+    new_socket =
+      socket
+      |> assign(show_datepicker: false)
+      |> push_event("set-datetime", %{datetime: nearest_5_minutes()})
+
+    {:noreply, new_socket}
   end
 
   def handle_event("toggle_datepicker", _, socket) do

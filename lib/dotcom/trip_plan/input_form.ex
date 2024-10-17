@@ -45,7 +45,7 @@ defmodule Dotcom.TripPlan.InputForm do
     %{
       fromPlace: PlanParams.to_place_param(from),
       toPlace: PlanParams.to_place_param(to),
-      arriveBy: datetime_type == :arrive_by,
+      arriveBy: datetime_type == "arrive_by",
       date: PlanParams.to_date_param(datetime),
       time: PlanParams.to_time_param(datetime),
       transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
@@ -110,7 +110,7 @@ defmodule Dotcom.TripPlan.InputForm do
 
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
-      :now ->
+      "now" ->
         force_change(changeset, :datetime, Util.now())
 
       _ ->

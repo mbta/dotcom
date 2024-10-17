@@ -43,7 +43,7 @@ defmodule DotcomWeb.Live.TripPlanner do
           to <strong><%= @submitted_values.to.name %></strong>
           <br /> using <strong><%= Modes.selected_modes(@submitted_values.modes) %></strong>,
           <strong>
-            <%= if @submitted_values.datetime_type == :arrive_by, do: "Arriving by", else: "Leaving" %> <%= @submitted_values.datetime
+            <%= if @submitted_values.datetime_type == "arrive_by", do: "Arriving by", else: "Leaving" %> <%= @submitted_values.datetime
             |> Timex.format!("{Mfull} {D}, {h12}:{m} {AM}") %>
           </strong>
         </p>
