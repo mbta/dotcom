@@ -5,17 +5,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   use DotcomWeb, :live_component
 
   import DotcomWeb.ViewHelpers, only: [svg: 1]
-  import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
-
   import MbtaMetro.Components.{Feedback, InputGroup}
+  import Phoenix.HTML.Form, only: [input_value: 2]
 
-  alias Dotcom.TripPlan.{InputForm, OpenTripPlanner}
+  alias Dotcom.TripPlan.{InputForm, InputForm.Modes, OpenTripPlanner}
   alias MbtaMetro.Live.DatePicker
 
   @form_defaults %{
     "datetime_type" => "now",
-    "datetime" => NaiveDateTime.utc_now(),
-    "modes" => @all_modes,
+    "datetime" => Timex.now(),
+    "modes" => InputForm.initial_modes(),
     "wheelchair" => true
   }
 
@@ -76,7 +75,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             id="datetime_type"
             options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
             type="radio-button"
+            class="mb-0"
             phx-change="toggle_datepicker"
+            phx-update="ignore"
           />
           <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
@@ -196,27 +197,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     }
   end
 
-  defp mode_atom(mode) do
-    case mode do
-      :RAIL -> :commuter_rail
-      :SUBWAY -> :subway
-      :BUS -> :bus
-      :FERRY -> :ferry
-      other when is_binary(other) and other != "" -> String.to_atom(other)
-      _ -> :unknown
-    end
-  end
-
-  defp mode_name(mode) do
-    case mode_atom(mode) do
-      :unknown ->
-        ""
-
-      other ->
-        DotcomWeb.ViewHelpers.mode_name(other)
-    end
-  end
-
   defp nearest_5_minutes do
     datetime = Timex.now("America/New_York")
     minutes = datetime.minute
@@ -231,24 +211,5 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     result = OpenTripPlanner.plan(data)
     _ = on_submit.(result)
     result
-  end
-
-  defp selected_modes(modes) when modes == @all_modes do
-    "All modes"
-  end
-
-  defp selected_modes([]), do: "No transit modes selected"
-  defp selected_modes(nil), do: "No transit modes selected"
-
-  defp selected_modes([mode]), do: mode_name(mode) <> " Only"
-  defp selected_modes([mode1, mode2]), do: mode_name(mode1) <> " and " <> mode_name(mode2)
-
-  defp selected_modes(modes) do
-    modes
-    |> Enum.map(&mode_name/1)
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.intersperse(", ")
-    |> List.insert_at(-2, "and ")
-    |> Enum.join("")
   end
 end
