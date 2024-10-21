@@ -12,7 +12,7 @@
     "redis": "4.6.13"
   },
   "devDependencies": {
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^15.2.9",
     "prettier": "3.2.5"
   },
   "scripts": {
