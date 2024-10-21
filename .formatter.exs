@@ -3,6 +3,7 @@
   plugins: [Phoenix.LiveView.HTMLFormatter],
   inputs: [
     "{config,lib,rel,test}/**/*.{heex,ex,eex,exs}",
-    "*.{heex,ex,exs}"
+    "*.{heex,ex,exs}",
+    "storybook/**/*.exs"
   ]
 ]

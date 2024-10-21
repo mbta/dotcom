@@ -43,8 +43,9 @@ module.exports = {
       xl: "1200px"
     }
   },
+  important: ".dotcom-web",
   plugins: [
-    ...plugins,
+    ...plugins(),
     require("@tailwindcss/forms")({
       // don't make global styles since they conflict with ours
       strategy: "class"

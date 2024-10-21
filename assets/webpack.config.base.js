@@ -35,7 +35,8 @@ module.exports = {
     schedule: ["./ts/schedule-entry.ts"],
     tripplanresults: ["./ts/trip-plan-results-entry.ts"],
     projects: ["./ts/projects-entry.ts"],
-    iewarning: ["./ts/ie-warning-entry.ts"]
+    iewarning: ["./ts/ie-warning-entry.ts"],
+    storybook: ["./js/storybook.js"]
   },
 
   stats: {

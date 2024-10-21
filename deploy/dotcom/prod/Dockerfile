@@ -36,6 +36,7 @@ COPY --from=elixir-builder /root/deps /root/deps
 # copy in static assets
 ADD ./priv/static /root/priv/static
 ADD ./assets /root/assets
+ADD ./storybook /root/storybook
 
 WORKDIR /root/assets
 RUN npm ci --ignore-scripts
@@ -53,6 +54,7 @@ WORKDIR /root
 
 # Add frontend assets, required by phx.digest
 COPY --from=assets-builder /root/priv/static ./priv/static
+COPY --from=assets-builder /root/storybook ./storybook
 
 # package source code for Sentry
 RUN mix sentry.package_source_code

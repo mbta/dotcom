@@ -231,6 +231,8 @@ defmodule DotcomWeb.Router do
 
   scope "/admin", DotcomWeb do
     import Phoenix.LiveView.Router
+    import PhoenixStorybook.Router
+
     pipe_through([:browser, :browser_live, :basic_auth])
 
     live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
@@ -238,6 +240,7 @@ defmodule DotcomWeb.Router do
       live("/", Live.Admin)
       live("/trip-plan-feedback", Live.Admin.TripPlanFeedback)
     end
+    live_storybook "/storybook", backend_module: DotcomWeb.Storybook
   end
 
   scope "/preview", DotcomWeb do

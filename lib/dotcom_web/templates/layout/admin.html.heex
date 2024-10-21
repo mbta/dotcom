@@ -5,7 +5,7 @@
 >
   🚌 Admins Only 🚌
 </marquee>
-<div class="container" style="background-color: white; min-height: 50vh; padding-top: 2rem">
+<div class="container dotcom-web" style="background-color: white; min-height: 50vh; padding-top: 2rem">
   <%= if @socket.view !== DotcomWeb.Live.Admin do %>
     <%= link([fa("arrow-left", class: "fa-fw"), "Back to admin panel"],
       to: Helpers.live_path(@socket, DotcomWeb.Live.Admin),

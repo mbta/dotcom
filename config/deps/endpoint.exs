@@ -39,7 +39,8 @@ if config_env() == :dev do
         ~r{lib/dotcom_web/components/.*(ex)$},
         ~r{lib/dotcom_web/views/.*(ex)$},
         ~r{lib/dotcom_web/templates/.*(heex|eex)$},
-        ~r{lib/dotcom_web/live/.*(heex|ex)$}
+        ~r{lib/dotcom_web/live/.*(heex|ex)$},
+        ~r"storybook/.*(exs)$"
       ]
     ]
 end
