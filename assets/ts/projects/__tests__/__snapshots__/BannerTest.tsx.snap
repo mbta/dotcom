@@ -38,7 +38,7 @@ Array [
             className="c-banner__top"
           >
             <h2
-              className="h2 c-banner__title c-banner__title--default"
+              className="c-banner__title c-banner__title--default"
             >
               Better Bus Project
             </h2>
@@ -72,7 +72,7 @@ Array [
               className="c-banner__top"
             >
               <h2
-                className="h2 c-banner__title c-banner__title--default"
+                className="c-banner__title c-banner__title--default"
               >
                 Better Bus Project
               </h2>
@@ -114,7 +114,7 @@ Array [
             className="c-banner__top"
           >
             <h2
-              className="h2 c-banner__title c-banner__title--default"
+              className="c-banner__title c-banner__title--default"
             >
               Better Bus Project
             </h2>

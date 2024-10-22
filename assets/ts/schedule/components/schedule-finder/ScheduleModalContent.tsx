@@ -59,7 +59,7 @@ const ScheduleModalContent = ({
         today={today}
       />
     ) : (
-      <div className="callout text-center u-bold">
+      <div className="callout text-center font-bold">
         There are no scheduled trips for {formattedDate(today)}.
       </div>
     );

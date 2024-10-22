@@ -1,4 +1,15 @@
-// MBTA METRO
+// MbtaMetro, including Tailwind.
+// Since Dotcom doesn't use Tailwind's Preflight, but some components require
+// it, we can include some of Preflight's styles here.
+*,
+::before,
+::after {
+  border-color: theme('borderColor.DEFAULT', currentColor); /* 2 */
+  border-style: solid; /* 2 */
+  border-width: 0; /* 2 */
+  box-sizing: border-box; /* 1 */
+}
+
 @import '../../deps/mbta_metro/priv/static/assets/default.css';
 
 ////////////////////////////////////////////////////////////////////////////////////////

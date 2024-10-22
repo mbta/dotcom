@@ -3,13 +3,13 @@
 // Used in the error layout page
 .error-page {
   @include media-breakpoint-between(md, xxl) {
-    margin-top: $base-spacing__new * 10;
+    margin-top: 40px;
   }
   @include media-breakpoint-only(sm) {
-    margin: $base-spacing__new * 6 $base-spacing__new * 10;
+    margin: 24px 40px;
   }
   @include media-breakpoint-only(xs) {
-    margin: $base-spacing__new * 4 $base-spacing__new * 6;
+    margin: 16px 24px;
   }
 }
 
@@ -29,9 +29,9 @@
 .error-pre-title {
   color: $gray;
   line-height: 1.4;
-  margin-bottom: $base-spacing__new * 4;
+  margin-bottom: 16px;
   @include media-breakpoint-only(sm) {
-    margin-bottom: $base-spacing__new * 2;
+    margin-bottom: 8px;
   }
 }
 
@@ -47,7 +47,7 @@
   flex-direction: column;
   @include media-breakpoint-up(sm) {
     flex-direction: row-reverse;
-    margin-top: $base-spacing__new * 6;
+    margin-top: 24px;
   }
   @include media-breakpoint-up(xxl) {
     margin-top: 0;
@@ -56,34 +56,34 @@
 
 .error-details-container {
   @include media-breakpoint-only(sm) {
-    margin-right: $base-spacing__new * 6;
-    margin-top: $base-spacing__new * 4;
+    margin-right: 24px;
+    margin-top: 16px;
   }
   @include media-breakpoint-between(md, lg) {
-    margin-right: $base-spacing__new * 10;
+    margin-right: 40px;
   }
   @include media-breakpoint-only(xxl) {
-    margin-right: $base-spacing__new * 15;
+    margin-right: 60px;
   }
 }
 
 .error-svg-container {
   flex: 0 0 auto;
   @include media-breakpoint-only(xxl) {
-    margin: 0 $base-spacing__new * 20;
+    margin: 0 80px;
     width: 380px;
   }
   @include media-breakpoint-between(md,lg) {
-    margin: 0 $base-spacing__new * 10;
+    margin: 0 40px;
     width: 280px;
   }
   @include media-breakpoint-down(sm) {
-    margin: 0 $base-spacing__new * 6;
+    margin: 0 24px;
     width: 220px;
   }
   @include media-breakpoint-only(xs) {
     align-self: center;
-    margin: $base-spacing__new * 5;
+    margin: 20px;
   }
 }
 

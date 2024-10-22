@@ -7,7 +7,7 @@
       ]) %>
     </div>
     <div class="col-xs-12 col-lg-8 col-lg-offset-1">
-      <h2 class="h2">Alerts</h2>
+      <h2>Alerts</h2>
       <%= DotcomWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, show_empty?: true, timeframe: @alerts_timeframe) %>
     </div>
   </div>

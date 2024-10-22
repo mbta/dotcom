@@ -1,7 +1,8 @@
 .c-select-custom {
   appearance: none;
   background-color: $white;
-  border: 0;
+  border: solid $border-width $brand-primary-dark;
+  border-radius: $border-radius;
   overflow: hidden;
   padding-right: $base-spacing * 2;
   text-overflow: ellipsis;
@@ -15,11 +16,10 @@
 }
 
 .c-select-custom__container {
-  background-color: $white;
-  border: solid $border-width $brand-primary-dark;
-  border-radius: $border-radius;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   margin: calc(#{$base-spacing} / 2) 0;
-  padding: $base-spacing * .6; // match button height
   position: relative;
 
   &.error {

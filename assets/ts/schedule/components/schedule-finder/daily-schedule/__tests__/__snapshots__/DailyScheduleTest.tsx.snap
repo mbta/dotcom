@@ -23,7 +23,7 @@ Array [
       >
         <select
           aria-controls="daily-schedule"
-          className="c-select-custom text-center u-bold"
+          className="c-select-custom text-center font-bold"
           defaultValue="BUS319-P-Sa-02"
           onChange={[Function]}
         >
@@ -104,7 +104,7 @@ Array [
       className="schedule-finder__first-last-trip"
     >
       <div
-        className="u-small-caps u-bold"
+        className="u-small-caps font-bold"
       >
         First Trip
       </div>

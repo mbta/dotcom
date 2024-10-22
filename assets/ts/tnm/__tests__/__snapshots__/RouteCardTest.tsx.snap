@@ -6,7 +6,7 @@ exports[`it renders a stop card 1`] = `
   data-mode="bus"
 >
   <div
-    className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
   >
     <a
       className="c-link-block__outer-link"
@@ -140,7 +140,7 @@ exports[`it renders a stop card for the silver line 1`] = `
   data-mode="bus"
 >
   <div
-    className="c-link-block h3 m-tnm-sidebar__route-name u-bg--silver-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--silver-line"
   >
     <a
       className="c-link-block__outer-link"

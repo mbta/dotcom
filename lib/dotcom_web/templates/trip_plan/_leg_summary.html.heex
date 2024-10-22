@@ -6,7 +6,7 @@
     </strong>
     <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{@itinerary_row.duration} min)" %>
     <%= if @itinerary_row.trip do %>
-      <div class="fs-14">
+      <div class="text-sm">
         <%= if @itinerary_row.trip.name && @itinerary_row.trip.name != "" do %>
           Train <%= @itinerary_row.trip.name %> <%= Routes.Route.direction_name(
             @route,
