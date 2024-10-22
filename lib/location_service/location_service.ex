@@ -6,6 +6,8 @@ defmodule LocationService do
   use Nebulex.Caching.Decorators
 
   @aws_client Application.compile_env!(:dotcom, :aws_client)
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(24)
 
   @base_options %{
     "FilterCountries" => ["USA"],
@@ -23,6 +25,7 @@ defmodule LocationService do
   @behaviour LocationService.Behaviour
 
   @impl LocationService.Behaviour
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def autocomplete(text, limit, options \\ @bias_options) do
     options
     |> Map.merge(%{"Text" => text, "MaxResults" => limit})
@@ -30,6 +33,7 @@ defmodule LocationService do
     |> handle_response()
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def geocode(address, options \\ @bounding_options) do
     options
@@ -38,6 +42,7 @@ defmodule LocationService do
     |> handle_response()
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def reverse_geocode(latitude, longitude, options \\ @bounding_options) do
     options
