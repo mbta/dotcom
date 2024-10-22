@@ -1,5 +1,5 @@
 <div class="m-homepage__recommended-routes">
-  <h2 class="h3">
+  <h2 class="text-2xl">
     <%= fa "star" %>
     Recently Visited
   </h2>

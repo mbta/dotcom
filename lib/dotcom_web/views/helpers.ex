@@ -568,7 +568,7 @@ defmodule DotcomWeb.ViewHelpers do
     if Map.has_key?(conn.assigns, key) do
       content_tag :div, class: "callout" do
         [
-          content_tag(:p, conn.assigns[key].header, class: "u-bold"),
+          content_tag(:p, conn.assigns[key].header, class: "font-bold"),
           conn.assigns[key].body
         ]
       end

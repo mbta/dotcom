@@ -27,7 +27,7 @@ defmodule DotcomWeb.PartialView.FullscreenError do
           ) do
             ["Dismiss ", fa("times")]
           end,
-          content_tag(:h1, heading, class: "c-fullscreen-error__heading h1"),
+          content_tag(:h1, heading, class: "c-fullscreen-error__heading"),
           content_tag(:p, body)
         ]
       end

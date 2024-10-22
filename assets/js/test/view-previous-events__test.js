@@ -7,8 +7,8 @@ const { testURL } = testConfig;
 
 const endedEventContent = `
   <div class="m-event__date-circle">
-    <div class="u-bold m-event__month">Month</div>
-    <div class="u-bold m-event__day">Day</div>
+    <div class="font-bold m-event__month">Month</div>
+    <div class="font-bold m-event__day">Day</div>
   </div>
   <div class="u-flex-one">
     <div class="m-event__date-range">Date Range</div>
@@ -22,8 +22,8 @@ const endedEventContent = `
 `;
 const pendingEventContent = `
   <div class="m-event__date-circle">
-    <div class="u-bold m-event__month">Mon</div>
-    <div class="u-bold m-event__day">Day</div>
+    <div class="font-bold m-event__month">Mon</div>
+    <div class="font-bold m-event__day">Day</div>
   </div>
   <div class="u-flex-one">
     <div class="m-event__date-range">Date Range</div>

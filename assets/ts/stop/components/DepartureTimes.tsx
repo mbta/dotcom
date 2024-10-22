@@ -79,13 +79,13 @@ const DepartureTimes = ({
             {timeList.length > 0 ? (
               <div className="departure-card__times">{timeList}</div>
             ) : (
-              <div className="font-helvetica-neue fs-14 u-nowrap">
+              <div className="font-helvetica-neue text-sm u-nowrap">
                 No more trips today
               </div>
             )}
           </DeparturesWithBadge>
         ) : (
-          <div className="font-helvetica-neue fs-14 u-nowrap">
+          <div className="font-helvetica-neue text-sm u-nowrap">
             No trips today
           </div>
         )}

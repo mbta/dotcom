@@ -21,13 +21,13 @@
             |> Map.put(:sub_routes, sub_routes)
         %>
         <%= render grid_template, grid_template_assigns %>
-        <h2 class="h2">Maps</h2>
+        <h2>Maps</h2>
         <%= if mode == :subway || mode == :ferry do %>
           <%= map_image(mode) %>
         <% end %>
         <%= map_buttons(@maps) %>
 
-        <h2 class="h2">Fares</h2>
+        <h2>Fares</h2>
         <%= mode |> mode_fare_card() |> PartialView.paragraph(@conn) %>
 
         <div class="m-mode__passes">
@@ -48,7 +48,7 @@
         </div>
         <div class="m-mode__news">
           <%= unless Enum.empty?(@news) do %>
-            <h3 class="h2">News</h3>
+            <h3 class="text-3xl">News</h3>
             <%= DotcomWeb.PartialView.render_teasers(@news, @conn) %>
           <% end %>
         </div>

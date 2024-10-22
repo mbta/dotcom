@@ -21,7 +21,7 @@
       <div id="close-facets-modal" class="c-search__close-modal-button">
         CLOSE
       </div>
-      <h2 class="h3 c-search__filter-label">
+      <h2 class="text-2xl c-search__filter-label">
         Filter by type
       </h2>
       <div id="search-facets"></div>
