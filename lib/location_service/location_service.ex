@@ -25,7 +25,7 @@ defmodule LocationService do
   @behaviour LocationService.Behaviour
 
   @impl LocationService.Behaviour
-  # @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def autocomplete(text, limit, options \\ @bias_options) do
     options
     |> Map.merge(%{"Text" => text, "MaxResults" => limit})
@@ -33,7 +33,7 @@ defmodule LocationService do
     |> handle_response()
   end
 
-  # @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def geocode(address, options \\ @bounding_options) do
     options
@@ -42,7 +42,7 @@ defmodule LocationService do
     |> handle_response()
   end
 
-  # @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def reverse_geocode(latitude, longitude, options \\ @bounding_options) do
     options
