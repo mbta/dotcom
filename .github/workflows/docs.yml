@@ -23,8 +23,8 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: 26.2
-          elixir-version: 1.16.1
+          otp-version: 27.0
+          elixir-version: 1.17.0
       - run: mix deps.get
       - run: mix docs --formatter html
       - uses: actions/upload-pages-artifact@v3
