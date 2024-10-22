@@ -1,4 +1,4 @@
-defmodule Dotcom.TripPlan.ItineraryTest do
+defmodule Dotcom.TripPlan.ItineraryGroupTest do
   @moduledoc false
 
   use ExUnit.Case, async: true
