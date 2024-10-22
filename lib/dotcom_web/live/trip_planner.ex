@@ -34,29 +34,29 @@ defmodule DotcomWeb.Live.TripPlanner do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <.live_component
-        module={TripPlannerForm}
-        id={@form_name}
-        form_name={@form_name}
-        on_submit={fn data -> send(self(), {:updated_form, data}) end}
-      />
-      <section>
-        <p :if={@submitted_values} class="text-xl">
-          Planning trips from <strong><%= @submitted_values.from.name %></strong>
-          to <strong><%= @submitted_values.to.name %></strong>
-          <br /> using <strong><%= Modes.selected_modes(@submitted_values.modes) %></strong>,
-          <strong>
-            <%= if @submitted_values.datetime_type == "arrive_by", do: "Arriving by", else: "Leaving" %> <%= @submitted_values.datetime
-            |> Timex.format!("{Mfull} {D}, {h12}:{m} {AM}") %>
-          </strong>
-        </p>
-        <p :if={@submitted_values && @groups} class="text-xl text-emerald-600">
-          Found
-          <strong>
-            <%= Enum.count(@groups) %> <%= Inflex.inflect("way", Enum.count(@groups)) %>
-          </strong>
-          to go.
-        </p>
+      <.live_component module={TripPlannerForm} id={@form_name} form_name={@form_name} />
+      <section :if={@submitted_values} class="mt-2 mb-6">
+        <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
+        <p><%= time_summary(@submitted_values) %></p>
+        <.async_result :let={groups} assign={@groups}>
+          <:failed :let={{:error, reason}}>
+            <.feedback kind={:error}>
+              <%= Phoenix.Naming.humanize(reason) %>
+            </.feedback>
+          </:failed>
+          <:loading>
+            <.spinner aria_label="Waiting for results" /> Waiting for results...
+          </:loading>
+          <%= if groups do %>
+            <%= if Enum.count(groups) == 0 do %>
+              <.feedback kind={:warning}>No trips found.</.feedback>
+            <% else %>
+              <.feedback kind={:success}>
+                Found <%= Enum.count(groups) %> <%= Inflex.inflect("way", Enum.count(groups)) %> to go.
+              </.feedback>
+            <% end %>
+          <% end %>
+        </.async_result>
       </section>
       <section class="flex w-full border border-solid border-slate-400">
         <div :if={@error} class="w-full p-4 text-rose-400">

@@ -8,7 +8,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   import MbtaMetro.Components.{Feedback, InputGroup}
   import Phoenix.HTML.Form, only: [input_value: 2]
 
-  alias Dotcom.TripPlan.{InputForm, InputForm.Modes, OpenTripPlanner}
+  alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
   alias MbtaMetro.Live.DatePicker
 
   @impl true
@@ -208,12 +208,5 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     added_minutes = Kernel.trunc(rounded_minutes - minutes)
 
     Timex.shift(datetime, minutes: added_minutes)
-  end
-
-  defp plan(data, on_submit) do
-    _ = on_submit.(data)
-    result = OpenTripPlanner.plan(data)
-    _ = on_submit.(result)
-    result
   end
 end
