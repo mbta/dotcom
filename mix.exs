@@ -30,7 +30,7 @@ defmodule DotCom.Mixfile do
       source_url: "https://github.com/mbta/dotcom",
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
-      docs: [logo: "assets/static/images/mbta-logo-t.png"]
+      docs: [logo: "priv/static/images/mbta-logo-t.png"]
     ]
   end
 
