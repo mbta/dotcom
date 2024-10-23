@@ -29,8 +29,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors
-      }
+        ...colors,
+        "gray-lighter": "#b0b5c0",
+        "gray-light": "#788093",
+        "navy": {
+          500: "#104c8f"
+	},
+      },
     },
     fontFamily: {
       ...fontFamily
