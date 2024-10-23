@@ -5,7 +5,7 @@ defmodule DotcomWeb.Gettext do
   By using [Gettext](http://hexdocs.pm/gettext),
   your module gains a set of macros for translations, for example:
 
-      import DotcomWeb.Gettext
+      use Gettext, backend: DotcomWeb.Gettext
 
       # Simple translation
       gettext "Here is the string to translate"
@@ -20,8 +20,10 @@ defmodule DotcomWeb.Gettext do
 
   See the [Gettext Docs](http://hexdocs.pm/gettext) for detailed usage.
   """
+
   @dialyzer [
     {:nowarn_function, lngettext: 6}
   ]
-  use Gettext, otp_app: :dotcom
+
+  use Gettext.Backend, otp_app: :dotcom
 end
