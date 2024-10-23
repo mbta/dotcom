@@ -4,8 +4,8 @@ const isAlertsPage = () => {
   return /\/alerts\/[\w.-]+/.test(url);
 };
 
-const isIPhone = () => {
-  return /iPhone/.test(navigator.userAgent);
+const isNotAndroid = () => {
+  return !/Android/.test(navigator.userAgent);
 };
 
 const isSchedulePage = () => {
@@ -22,7 +22,7 @@ const isStopPage = () => {
 
 // Show the mobile app banner
 export default function mobileAppBanner() {
-  if (isIPhone() && (isAlertsPage() || isSchedulePage() || isStopPage())) {
+  if (isNotAndroid() && (isAlertsPage() || isSchedulePage() || isStopPage())) {
     document.querySelector("#mobile-app-banner").style.display = "block";
   }
 }
