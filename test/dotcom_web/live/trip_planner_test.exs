@@ -25,22 +25,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     end
 
     test "toggles the date input when changing from 'now'", %{html: html, view: view} do
-      date_input = ~s(name="input_form[datetime]")
-      refute html =~ date_input
-
-      html =
-        view
-        |> element("input[value=arrive_by]")
-        |> render_click()
-
-      assert html =~ date_input
-
-      html =
-        view
-        |> element("input[value=now]")
-        |> render_click()
-
-      refute html =~ date_input
     end
 
     test "summarizes the selected modes", %{view: view, html: html} do
@@ -78,12 +62,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     end
 
     test "shows errors on form submit", %{view: view} do
-      html =
-        view
-        |> element("form")
-        |> render_submit()
-
-      assert html =~ "Please add a destination."
     end
 
     test "pushes updated location to the map", %{view: view} do

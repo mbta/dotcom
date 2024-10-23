@@ -10,8 +10,6 @@ defmodule Dotcom.TripPlan.InputForm do
 
   alias OpenTripPlannerClient.PlanParams
 
-  @time_types ~W(now leave_at arrive_by)a
-
   @error_messages %{
     from: "Please specify an origin location.",
     to: "Please add a destination.",
@@ -25,12 +23,10 @@ defmodule Dotcom.TripPlan.InputForm do
     embeds_one(:from, __MODULE__.Location)
     embeds_one(:to, __MODULE__.Location)
     embeds_one(:modes, __MODULE__.Modes)
-    field(:datetime_type, Ecto.Enum, values: @time_types)
+    field(:datetime_type, :string)
     field(:datetime, :naive_datetime)
     field(:wheelchair, :boolean, default: true)
   end
-
-  def time_types, do: @time_types
 
   def initial_modes do
     __MODULE__.Modes.fields()
@@ -49,7 +45,7 @@ defmodule Dotcom.TripPlan.InputForm do
     %{
       fromPlace: PlanParams.to_place_param(from),
       toPlace: PlanParams.to_place_param(to),
-      arriveBy: datetime_type == :arrive_by,
+      arriveBy: datetime_type == "arrive_by",
       date: PlanParams.to_date_param(datetime),
       time: PlanParams.to_time_param(datetime),
       transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
@@ -114,7 +110,7 @@ defmodule Dotcom.TripPlan.InputForm do
 
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
-      :now ->
+      "now" ->
         force_change(changeset, :datetime, Util.now())
 
       _ ->

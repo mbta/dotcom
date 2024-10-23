@@ -17,7 +17,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
     <div class="mb-3 p-2 border border-2 border-slate-200">
       <% [first | rest] = @group %>
       <div class="text-slate-800 font-bold">Group with <%= Enum.count(@group) %> options</div>
-      <.accordion id="itinerary_group">
+      <.accordion id="itinerary-group">
         <:heading>
           <%= format_datetime_full(first.departure) %> — <%= format_datetime_full(first.arrival) %>
         </:heading>

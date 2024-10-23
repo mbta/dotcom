@@ -5,32 +5,28 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   use DotcomWeb, :live_component
 
   import DotcomWeb.ViewHelpers, only: [svg: 1]
-  import MbtaMetro.Components.Feedback
-  import MbtaMetro.Components.InputGroup
-  import Phoenix.HTML.Form, only: [input_name: 2, input_value: 2, input_id: 2]
+  import MbtaMetro.Components.{Feedback, InputGroup}
+  import Phoenix.HTML.Form, only: [input_value: 2]
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
-
-  @form_defaults %{
-    "datetime_type" => :now,
-    "datetime" => NaiveDateTime.local_now(),
-    "modes" => InputForm.initial_modes(),
-    "wheelchair" => true
-  }
+  alias MbtaMetro.Live.DatePicker
 
   @impl true
   def mount(socket) do
-    form =
-      %InputForm{}
-      |> InputForm.changeset(@form_defaults)
-      |> to_form()
+    form_defaults = %{
+      "datetime_type" => "now",
+      "datetime" => Timex.now("America/New_York"),
+      "modes" => InputForm.initial_modes(),
+      "wheelchair" => true
+    }
 
-    {:ok,
-     assign(socket, %{
-       form: form,
-       location_keys: InputForm.Location.fields(),
-       show_datepicker: input_value(form, :datetime_type) != :now
-     })}
+    defaults = %{
+      form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
+      location_keys: InputForm.Location.fields(),
+      show_datepicker: false
+    }
+
+    {:ok, assign(socket, defaults)}
   end
 
   @impl true
@@ -43,11 +39,11 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         id={@id}
         for={@form}
         method="get"
-        phx-change="validate"
         phx-submit="save_form"
+        phx-change="validate"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1">
+        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
@@ -68,30 +64,18 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             </.feedback>
           </.algolia_autocomplete>
         </div>
-        <.fieldset legend="When">
-          <ul class="m-0 p-0 flex flex-col sm:flex-row list-none">
-            <li
-              :for={type <- Ecto.Enum.values(InputForm, :datetime_type)}
-              class={[
-                "py-0 px-4",
-                "border border-solid border-slate-300 bg-white",
-                "has-[:checked]:bg-blue-50 has-[:checked]:border-blue-600",
-                "first:max-sm:rounded-t-lg last:max-sm:rounded-b-lg",
-                "sm:first:rounded-l-lg sm:last:rounded-r-lg"
-              ]}
-            >
-              <.input
-                id={input_id(@form, :datetime_type) <> "_#{type}"}
-                type="radio"
-                field={f[:datetime_type]}
-                value={type}
-                checked={input_value(@form, :datetime_type) == type}
-                phx-click="toggle_datepicker"
-                phx-target={@myself}
-              />
-            </li>
-          </ul>
-
+        <div>
+          <.input_group
+            legend="When"
+            form={f}
+            field={:datetime_type}
+            id="datetime_type"
+            options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
+            type="radio-button"
+            class="mb-0"
+            phx-change="toggle_datepicker"
+            phx-update="ignore"
+          />
           <.feedback
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
@@ -99,23 +83,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           >
             <%= msg %>
           </.feedback>
-          <.label :if={@show_datepicker} for="timepick">
-            <input
-              id="timepick"
-              type="datetime-local"
-              step="any"
-              name={input_name(@form, :datetime)}
-              value={input_value(@form, :datetime)}
-            />
-            <span class="sr-only">Date and time to leave at or arrive by</span>
-          </.label>
-          <.feedback
-            :for={{msg, _} <- f[:datetime_type].errors}
-            :if={used_input?(f[:datetime_type])}
-            kind={:error}
-          >
-            <%= msg %>
-          </.feedback>
+          <.live_component
+            :if={@show_datepicker}
+            module={DatePicker}
+            config={datepicker_config()}
+            field={f[:datetime]}
+            id={:datepicker}
+          />
           <.feedback
             :for={{msg, _} <- f[:datetime].errors}
             :if={used_input?(f[:datetime])}
@@ -123,10 +97,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           >
             <%= msg %>
           </.feedback>
-        </.fieldset>
+        </div>
         <div>
-          <.fieldset legend="Modes">
-            <.accordion id="input_modes">
+          <.fieldset id="modes" legend="Modes">
+            <.accordion id="accordion">
               <:heading>
                 <%= Modes.selected_modes(input_value(f, :modes)) %>
               </:heading>
@@ -157,7 +131,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           </div>
         </div>
         <div class="col-start-2 justify-self-end">
-          <.button color="green" type="submit" phx-disable-with="Planning your trip...">
+          <.button type="submit" phx-disable-with="Planning your trip...">
             Get trip suggestions
           </.button>
         </div>
@@ -167,8 +141,28 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   @impl true
-  def handle_event("toggle_datepicker", %{"value" => datetime_value}, socket) do
-    {:noreply, assign(socket, :show_datepicker, datetime_value !== "now")}
+  @doc """
+  If the user selects "now" for the date and time, hide the datepicker.
+  This will destroy the flatpickr instance.
+
+  If the user selects arrive by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
+  """
+  def handle_event("toggle_datepicker", %{"input_form" => %{"datetime_type" => "now"}}, socket) do
+    new_socket =
+      socket
+      |> assign(show_datepicker: false)
+      |> push_event("set-datetime", %{datetime: nearest_5_minutes()})
+
+    {:noreply, new_socket}
+  end
+
+  def handle_event("toggle_datepicker", _, socket) do
+    new_socket =
+      socket
+      |> assign(show_datepicker: true)
+      |> push_event("set-datetime", %{datetime: nearest_5_minutes()})
+
+    {:noreply, new_socket}
   end
 
   def handle_event("validate", %{"input_form" => params}, socket) do
@@ -196,5 +190,23 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
         {:noreply, assign(socket, %{form: form})}
     end
+  end
+
+  defp datepicker_config do
+    %{
+      default_date: Timex.now("America/New_York"),
+      enable_time: true,
+      max_date: Schedules.Repo.end_of_rating(),
+      min_date: Timex.today("America/New_York")
+    }
+  end
+
+  defp nearest_5_minutes do
+    datetime = Timex.now("America/New_York")
+    minutes = datetime.minute
+    rounded_minutes = Float.ceil(minutes / 5) * 5
+    added_minutes = Kernel.trunc(rounded_minutes - minutes)
+
+    Timex.shift(datetime, minutes: added_minutes)
   end
 end
