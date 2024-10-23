@@ -41,49 +41,6 @@ defmodule DotcomWeb.Components.ModeIcons do
     """
   end
 
-  # def mode_icon(%{route_name: route_name, type: :subway} = assigns) do
-  #   %{color: color, text: text} =
-  #     case route_name do
-  #       "Blue" ->
-  #         %{color: "bg-blue-500", text: "BL"}
-
-  #       "Orange" ->
-  #         %{color: "bg-orange-500", text: "OL"}
-
-  #       "Red" ->
-  #         %{color: "bg-red-500", text: "RL"}
-
-  #       "B" ->
-  #         %{color: "bg-green-500", text: "B"}
-
-  #       "C" ->
-  #         %{color: "bg-green-500", text: "C"}
-
-  #       "D" ->
-  #         %{color: "bg-green-500", text: "D"}
-
-  #       "E" ->
-  #         %{color: "bg-green-500", text: "E"}
-
-  #       "Mattapan" ->
-  #         %{color: "bg-red-500", text: "M"}
-
-  #       _ ->
-  #         %{color: "bg-silver-500", text: "?"}
-  #     end
-
-  #   assigns =
-  #     assigns
-  #     |> assign(:color, color)
-  #     |> assign(:text, text)
-
-  #   ~H"""
-  #   <.circle_icon class={[@color, @class]}>
-  #     <%= @text %>
-  #   </.circle_icon>
-  #   """
-  # end
-
   def mode_icon(%{type: :blue_line} = assigns) do
     ~H"""
     <.subway_icon class={"bg-blue-500 #{@class}"}>BL</.subway_icon>
@@ -126,6 +83,12 @@ defmodule DotcomWeb.Components.ModeIcons do
     """
   end
 
+  def mode_icon(%{type: :mattapan_line} = assigns) do
+    ~H"""
+    <.subway_icon class={"bg-red-500 #{@class}"}>M</.subway_icon>
+    """
+  end
+
   def mode_icon(%{route_name: "BB", type: :logan_express} = assigns) do
     ~H"""
     <.logan_express_bb_icon class={"h-6 w-6 #{@class}"} />
@@ -135,7 +98,6 @@ defmodule DotcomWeb.Components.ModeIcons do
   def mode_icon(assigns) do
     ~H"""
     <.subway_icon class={"bg-silver-500 #{@class}"}>?</.subway_icon>
-    <pre><%= @type %></pre>
     """
   end
 
