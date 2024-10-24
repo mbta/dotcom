@@ -78,7 +78,7 @@ defmodule DotCom.Mixfile do
       {:credo, "1.7.8", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
-      {:dialyxir, "1.4.4", [only: [:test, :dev], runtime: false]},
+      {:dialyxir, "1.4.4", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:ecto, "3.12.4"},
       {:eflame, "1.0.1", only: :dev},
@@ -141,7 +141,7 @@ defmodule DotCom.Mixfile do
       {:sentry, "10.7.1"},
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
-      {:sweet_xml, "0.7.4", only: [:prod, :dev]},
+      {:sweet_xml, "0.7.4", only: [:dev, :prod]},
       {:telemetry, "1.3.0", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
       {:telemetry_metrics_splunk, "0.0.6-alpha"},
@@ -151,7 +151,7 @@ defmodule DotCom.Mixfile do
       {:typed_ecto_schema, "0.4.1"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
-      {:wallaby, "0.30.9", [runtime: false, only: [:test, :dev]]},
+      {:wallaby, "0.30.9", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.11.0", only: [:dev]},
       {:ymlr, "5.1.3", only: [:dev]}
     ]
