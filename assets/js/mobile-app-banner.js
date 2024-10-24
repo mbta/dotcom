@@ -11,7 +11,7 @@ const isNotCommuterRail = url => {
 };
 
 const isSchedulePage = url => {
-  return /\/schedules\/[\w.-]+\/line/.test(url);
+  return isNotCommuterRail(url) && /\/schedules\/[\w.-]+\/line/.test(url);
 };
 
 const isStopPage = url => {
@@ -22,24 +22,23 @@ const isTransitNearMePage = url => {
   return /\/transit-near-me/.test(url);
 };
 
-const is = url => {
-  return (
-    isAlertsPage(url) ||
-    isSchedulePage(url) ||
-    isStopPage(url) ||
-    isTransitNearMePage(url)
+const isIncludedPage = () => {
+  const url = window.location.href;
+
+  return [isAlertsPage, isSchedulePage, isStopPage, isTransitNearMePage].some(
+    fn => {
+      return fn(url);
+    }
   );
 };
 
-const isNot = url => {
-  return isNotAndroid() && isNotCommuterRail(url);
-};
-
-// Show the mobile app banner
+/**
+ * If the page is one of the pages we want to show the banner on
+ * And the user is not on an Android device
+ * Show the banner
+ */
 export default function mobileAppBanner() {
-  const url = window.location.href;
-
-  if (is(url) && isNot(url)) {
+  if (isIncludedPage() && isNotAndroid()) {
     document.querySelector("#mobile-app-banner").style.display = "block";
   }
 }
