@@ -1,13 +1,13 @@
-const isAlertsPage = url => {
-  return /\/alerts/.test(url);
-};
-
 const isNotAndroid = () => {
   return !/Android/.test(navigator.userAgent);
 };
 
 const isNotCommuterRail = url => {
   return !/\/schedules\/CR-/.test(url);
+};
+
+const isAlertsPage = url => {
+  return isNotCommuterRail(url) && /\/alerts/.test(url);
 };
 
 const isSchedulePage = url => {
