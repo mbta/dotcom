@@ -26,8 +26,10 @@ defmodule DotcomWeb do
 
   def controller do
     quote do
+      use Gettext, backend: DotcomWeb.Gettext
       use Phoenix.Controller, namespace: DotcomWeb
-      import Phoenix.LiveView.Controller
+
+      import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
 
       import DotcomWeb.Router.Helpers,
         except: [
@@ -43,26 +45,23 @@ defmodule DotcomWeb do
           project_update_path: 4
         ]
 
-      import DotcomWeb.CmsRouterHelpers
-      import DotcomWeb.ControllerHelpers
-      import DotcomWeb.Gettext
+      import Phoenix.LiveView.Controller
       import Util.AsyncAssign
+
       alias Util.Breadcrumb
     end
   end
 
   def view do
     quote do
+      use Dotcom.Components.Precompiler
+
       use Phoenix.View,
         root: "lib/dotcom_web/templates",
         namespace: DotcomWeb
 
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [view_module: 1]
-
-      use Dotcom.Components.Precompiler
-
-      import DotcomWeb.Components
+      import DotcomWeb.{Components, CmsRouterHelpers, ViewHelpers}
+      import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
 
       import DotcomWeb.Router.Helpers,
         except: [
@@ -79,11 +78,8 @@ defmodule DotcomWeb do
           static_url: 2
         ]
 
-      import DotcomWeb.CmsRouterHelpers
-      import DotcomWeb.ViewHelpers
-      import DotcomWeb.Views.Helpers.StopHelpers
-      import DotcomWeb.Views.Helpers.AlertHelpers
-      import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
+      import DotcomWeb.Views.Helpers.{AlertHelpers, StopHelpers}
+      import Phoenix.Controller, only: [view_module: 1]
       import UrlHelpers
 
       # Include shared imports and aliases for views
@@ -128,33 +124,23 @@ defmodule DotcomWeb do
 
   def channel do
     quote do
+      use Gettext, backend: DotcomWeb.Gettext
       use Phoenix.Channel
-      import DotcomWeb.Gettext
     end
   end
 
   defp view_helpers do
     quote do
-      # Use all HTML functionality (forms, tags, etc)
-      import Phoenix.HTML
-      import PhoenixHTMLHelpers.Form, except: [label: 1]
-      import PhoenixHTMLHelpers.Link
-      import PhoenixHTMLHelpers.Tag
-      import PhoenixHTMLHelpers.Format
-
-      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      import Phoenix.LiveView.Helpers
-      alias Phoenix.LiveView.JS
-
-      # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
-
-      import DotcomWeb.ErrorHelpers
-      import DotcomWeb.Gettext
-      alias DotcomWeb.Router.Helpers
-
+      use Gettext, backend: DotcomWeb.Gettext
       use MbtaMetro
-      import DotcomWeb.Components
+
+      import DotcomWeb.{Components, ErrorHelpers}
+      import Phoenix.{HTML, LiveView.Helpers, View}
+      import PhoenixHTMLHelpers.Form, except: [label: 1]
+      import PhoenixHTMLHelpers.{Format, Link, Tag}
+
+      alias DotcomWeb.Router.Helpers
+      alias Phoenix.LiveView.JS
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
