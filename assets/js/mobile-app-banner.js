@@ -1,28 +1,44 @@
-const isAlertsPage = () => {
-  const url = window.location.href;
-
-  return /\/alerts\/[\w.-]+/.test(url);
+const isNotAndroid = () => {
+  return !/Android/.test(navigator.userAgent);
 };
 
-const isIPhone = () => {
-  return /iPhone/.test(navigator.userAgent);
+const isNotCommuterRail = url => {
+  return !/\/schedules\/CR-/.test(url);
 };
 
-const isSchedulePage = () => {
-  const url = window.location.href;
-
-  return /\/schedules\/[\w.-]+\/line/.test(url);
+const isAlertsPage = url => {
+  return isNotCommuterRail(url) && /\/alerts/.test(url);
 };
 
-const isStopPage = () => {
-  const url = window.location.href;
+const isSchedulePage = url => {
+  return isNotCommuterRail(url) && /\/schedules\/[\w.-]+\/line/.test(url);
+};
 
+const isStopPage = url => {
   return /\/stops\/[\w.-]+/.test(url);
 };
 
-// Show the mobile app banner
+const isTransitNearMePage = url => {
+  return /\/transit-near-me/.test(url);
+};
+
+const isIncludedPage = () => {
+  const url = window.location.href;
+
+  return [isAlertsPage, isSchedulePage, isStopPage, isTransitNearMePage].some(
+    fn => {
+      return fn(url);
+    }
+  );
+};
+
+/**
+ * If the page is one of the pages we want to show the banner on
+ * And the user is not on an Android device
+ * Show the banner
+ */
 export default function mobileAppBanner() {
-  if (isIPhone() && (isAlertsPage() || isSchedulePage() || isStopPage())) {
+  if (isIncludedPage() && isNotAndroid()) {
     document.querySelector("#mobile-app-banner").style.display = "block";
   }
 }
