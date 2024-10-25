@@ -11,7 +11,7 @@ const isNotFerry = url => {
 };
 
 const isAlertsPage = url => {
-  return isNotCommuterRail(url) && /\/alerts/.test(url);
+  return isNotCommuterRail(url) && isNotFerry(url) && /\/alerts/.test(url);
 };
 
 const isSchedulePage = url => {
