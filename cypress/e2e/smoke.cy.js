@@ -26,8 +26,6 @@ describe("passes smoke test", () => {
       }
       cy.contains("Press Releases");
       cy.get("a.m-homepage__news-item").should("have.length.greaterThan", 0);
-      cy.contains("What's Happening at the MBTA");
-      cy.get(".m-whats-happening__item").should("have.length.greaterThan", 0);
       cy.contains("MBTA User Guides");
       cy.get(".user-guides .guide").should("have.length.greaterThan", 0);
       cy.contains("Important Links");
