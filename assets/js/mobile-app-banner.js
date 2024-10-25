@@ -6,12 +6,20 @@ const isNotCommuterRail = url => {
   return !/\/schedules\/CR-/.test(url);
 };
 
+const isNotFerry = url => {
+  return !/\/schedules\/Boat-/.test(url);
+};
+
 const isAlertsPage = url => {
   return isNotCommuterRail(url) && /\/alerts/.test(url);
 };
 
 const isSchedulePage = url => {
-  return /\/schedules\/[\w.-]+\/line/.test(url);
+  return (
+    isNotCommuterRail(url) &&
+    isNotFerry(url) &&
+    /\/schedules\/[\w.-]+\//.test(url)
+  );
 };
 
 const isStopPage = url => {
