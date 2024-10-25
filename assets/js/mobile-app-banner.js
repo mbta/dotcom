@@ -11,7 +11,7 @@ const isAlertsPage = url => {
 };
 
 const isSchedulePage = url => {
-  return isNotCommuterRail(url) && /\/schedules\/[\w.-]+\/line/.test(url);
+  return /\/schedules\/[\w.-]+\/line/.test(url);
 };
 
 const isStopPage = url => {
