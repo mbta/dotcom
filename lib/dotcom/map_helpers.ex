@@ -55,14 +55,14 @@ defmodule Dotcom.MapHelpers do
 
   @spec image(atom) :: String.t()
   def image(:subway) do
-    static_url(DotcomWeb.Endpoint, "/subway-map-image")
+    "/subway-map-image"
   end
 
   def image(:commuter_rail) do
-    static_url(DotcomWeb.Endpoint, "/cr-map-image")
+    "/cr-map-image"
   end
 
   def image(:ferry) do
-    static_url(DotcomWeb.Endpoint, "/ferry-map-image")
+    "/ferry-map-image"
   end
 end
