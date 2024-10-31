@@ -9,7 +9,7 @@ const {
   fontFamily,
   plugins,
   safelist
-} = require("mbta_metro");
+} = require("../../mbta_metro/assets/js/index");
 
 module.exports = {
   corePlugins: {
@@ -23,7 +23,8 @@ module.exports = {
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex"
+    "../lib/dotcom_web/**/*.*ex",
+    "../../mbta_metro/lib/**/*.*ex",
   ],
   safelist: [...safelist],
   theme: {
