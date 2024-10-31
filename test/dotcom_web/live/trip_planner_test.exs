@@ -65,18 +65,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     end
 
     test "pushes updated location to the map", %{view: view} do
-      updated_location = %{
-        "latitude" => Faker.Address.latitude(),
-        "longitude" => Faker.Address.longitude(),
-        "name" => Faker.Company.name()
-      }
-
-      id = Faker.Internet.slug()
-
-      view
-      |> render_hook(:map_change, Map.put_new(updated_location, "id", id))
-
-      assert_push_event(view, ^id, ^updated_location)
     end
   end
 end

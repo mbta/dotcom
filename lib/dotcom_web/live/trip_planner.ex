@@ -132,6 +132,10 @@ defmodule DotcomWeb.Live.TripPlanner do
     update_pin_in_socket(socket, [to_longitude, to_latitude], 1)
   end
 
+  defp update_to_pin(socket, _params) do
+    socket
+  end
+
   defp update_pin_in_socket(socket, [longitude, latitude], index)
        when longitude != "" and latitude != "" do
     pins =
