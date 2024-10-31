@@ -220,6 +220,8 @@ defmodule DotcomWeb.Router do
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
     end
+
+    get "/vote-test", VoteTestController, :show
   end
 
   scope "/", DotcomWeb do
