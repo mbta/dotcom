@@ -187,6 +187,8 @@ config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
   google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
 
+config :dotcom, google_api_key: System.get_env("GOOGLE_API_KEY")
+
 config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
   secret: System.get_env("RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")
