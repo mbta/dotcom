@@ -130,18 +130,13 @@ defmodule DotcomWeb.PlacesController do
           }
         ]
   defp with_coordinates(addresses) do
-    result =
-      addresses
-      |> Enum.map(fn address ->
-        address
-        |> Map.take([:latitude, :longitude])
-        |> Map.merge(Map.from_struct(address))
-        |> add_urls()
-      end)
-
-    dbg(result)
-
-    result
+    addresses
+    |> Enum.map(fn address ->
+      address
+      |> Map.take([:latitude, :longitude])
+      |> Map.merge(Map.from_struct(address))
+      |> add_urls()
+    end)
   end
 
   defp add_urls(map) do
@@ -162,6 +157,12 @@ defmodule DotcomWeb.PlacesController do
 
     dbg(map)
 
+    vote_params =
+      case map do
+        %{formatted: formatted} -> %{address: formatted}
+        _ -> %{}
+      end
+
     map
     |> Map.put_new(:urls, %{
       "retail-sales-locations" =>
@@ -173,7 +174,7 @@ defmodule DotcomWeb.PlacesController do
           params
         ),
       "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
-      "vote-widget" => vote_path(DotcomWeb.Endpoint, :show, params)
+      "vote-widget" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })
   end
 

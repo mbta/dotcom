@@ -168,11 +168,7 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
     query: getLikelyQueryParams()
   },
   getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
-    if (!query)
-      return debounced([
-        geolocationSource(setIsOpen, "vote-widget"),
-        popularLocationSource("vote-widget")
-      ]);
+    if (!query) return debounced([]);
     return debounced([locationSource(query, 5, "vote-widget")]);
   }
 };
