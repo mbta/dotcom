@@ -158,6 +158,24 @@ const PROPOSED_RETAIL: Partial<AutocompleteOptions<any>> = {
 };
 
 /**
+ * This configuration is used for finding polling locations
+ */
+const VOTE: Partial<AutocompleteOptions<any>> = {
+  ...baseOptions,
+  initialState: {
+    query: getLikelyQueryParams()
+  },
+  getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
+    if (!query)
+      return debounced([
+        geolocationSource(setIsOpen, "vote-widget"),
+        popularLocationSource("vote-widget")
+      ]);
+    return debounced([locationSource(query, 5, "vote-widget")]);
+  }
+};
+
+/**
  * This configuration is intended for use within a form, and will update form
  * values or internal LiveView state instead of navigating to any URL. Further
  * LiveView integration enables the ability to update other components, such as
@@ -229,6 +247,7 @@ const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
   "transit-near-me": () => TNM,
   "retail-locations": () => RETAIL,
   "proposed-locations": () => PROPOSED_RETAIL,
+  "vote-widget": () => VOTE,
   "trip-planner": TRIP_PLANNER
 };
 

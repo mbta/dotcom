@@ -303,6 +303,8 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
+    get("/vote-widget", VoteController, :show)
+
     get("/*path", CMSController, :page)
   end
 
