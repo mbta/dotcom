@@ -160,6 +160,8 @@ defmodule DotcomWeb.PlacesController do
           Map.take(map, [:latitude, :longitude])
       end
 
+    dbg(map)
+
     map
     |> Map.put_new(:urls, %{
       "retail-sales-locations" =>
@@ -171,7 +173,7 @@ defmodule DotcomWeb.PlacesController do
           params
         ),
       "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
-      "vote" => vote_path(DotcomWeb.Endpoint, :show, params)
+      "vote-widget" => vote_path(DotcomWeb.Endpoint, :show, params)
     })
   end
 

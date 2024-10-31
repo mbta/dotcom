@@ -53,6 +53,7 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * scrolling.
    */
   onStateChange({ state }) {
+    console.log("HELLO MA");
     if (isLGDown()) {
       if (state.isOpen) {
         document.documentElement.dataset.navOpen = "true";
@@ -66,6 +67,7 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * more results.
    */
   onSubmit({ state }) {
+    console.log("HELLO WORLD");
     window.location.assign(`/search?query=${state.query}`);
   },
   /**

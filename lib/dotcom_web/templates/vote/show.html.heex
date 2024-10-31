@@ -1,16 +1,16 @@
 <div class="container m-sales-locations">
   <div class="col-md-8">
     <div class="limited-width">
-      <h1>Retail Sales Locations</h1>
+      <h1>Take the T to Vote</h1>
       <p>
-        MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas.
+        Voting is good.
       </p>
 
-      <h2>Find a Store Near You</h2>
+      <h3>Home Address</h3>
       <p>
         <.algolia_autocomplete
-          id="sales-locations"
-          config_type="retail-locations"
+          id="vote-widget"
+          config_type="vote-widget"
           placeholder="Enter a location"
         />
       </p>
@@ -22,40 +22,28 @@
         </script>
       <% end %>
     </div>
-    <%= if !is_nil(@fare_sales_locations) do %>
-      <%= if Enum.empty?(@fare_sales_locations) do %>
-        <p class="error-message">
-          Please enter an address that is within 100 miles of an MBTA service area.
-        </p>
-      <% else %>
-        <%= render("_nearby_locations.html",
-          conn: @conn,
-          address: @address,
-          locations: @fare_sales_locations,
-          search_position: @search_position
-        ) %>
-      <% end %>
-    <% end %>
   </div>
   <div class="col-md-4">
     <div class="m-schedule-page__schedule-notes u-mt-2">
-      <h3 class="u-mt-0">MBTA Fares</h3>
+      <h2 class="mt-0">More Guides</h2>
+      <figure class="c-media c-media--image c-media--wide">
+        <div class="c-media__content">
+          <a class="c-media__link" href="/guides" target="">
+            <img
+              class="image-style-max-2600x2600 c-media__element img-fluid"
+              src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2019-01/meta-guide-MORE-WORDS.png?itok=akfxoExc"
+              alt="Clickable graphic for User Guides"
+            />
+          </a>
+        </div>
+      </figure>
+
       <p>
-        Learn more about fare prices, pass types, and how to pay your fare on the T.
+        Our user guides can help you learn how to navigate the system,
+        get to local events, use accessibility features, and more.
       </p>
-      <%= link("Learn more about MBTA fares",
-        to: cms_static_page_path(@conn, "/fares"),
-        target: "_blank",
-        class: "c-call-to-action"
-      ) %>
-    </div>
-    <div class="m-schedule-page__schedule-notes u-mt-2">
-      <h3 class="u-mt-0">Suggest a Retailer</h3>
-      <p>
-        Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf.
-      </p>
-      <%= link("Fill out the form",
-        to: "https://form.asana.com/?k=WXmGhGmZFkehGfely4967Q&d=15492006741476",
+      <%= link("View all guides",
+        to: cms_static_page_path(@conn, "/guides"),
         target: "_blank",
         class: "c-call-to-action"
       ) %>

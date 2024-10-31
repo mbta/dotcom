@@ -51,8 +51,6 @@ defmodule DotcomWeb.VoteController do
         } = _params,
         proposed_or_retail
       ) do
-    raise "nope"
-
     case {Float.parse(latitude), Float.parse(longitude)} do
       {{lat, ""}, {lng, ""}} ->
         position = %LocationService.Address{
@@ -74,8 +72,6 @@ defmodule DotcomWeb.VoteController do
   end
 
   def find_locations(conn, %{"latitude" => lat, "longitude" => lon} = params, proposed_or_retail) do
-    raise "nope"
-
     address =
       case params do
         %{"address" => value} -> value
