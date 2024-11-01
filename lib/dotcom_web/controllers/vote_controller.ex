@@ -28,6 +28,8 @@ defmodule DotcomWeb.VoteController do
     conn =
       case response do
         {:ok, %{body: %{"pollingLocations" => [polling_location | _]}}} ->
+          polling_location_name = Recase.to_title(polling_location["address"]["locationName"])
+
           params = %{
             "plan" => %{
               "from_latitude" => latitude,
@@ -35,12 +37,13 @@ defmodule DotcomWeb.VoteController do
               "from" => address,
               "to_latitude" => polling_location["latitude"],
               "to_longitude" => polling_location["longitude"],
-              "to" => polling_location["address"]["locationName"]
+              "to" => polling_location_name
             }
           }
 
           conn
           |> assign(:polling_location, polling_location)
+          |> assign(:polling_location_name, polling_location_name)
           |> assign(:trip_plan_path, trip_plan_path(DotcomWeb.Endpoint, :index, params))
 
         _ ->
