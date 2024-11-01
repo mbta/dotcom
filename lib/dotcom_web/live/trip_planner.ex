@@ -125,11 +125,11 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp update_from_pin(socket, %{
          "from" => %{"longitude" => from_longitude, "latitude" => from_latitude}
        }) do
-    update_pin_in_socket(socket, [from_longitude, from_latitude], 0)
+    update_pin_in_socket(socket, [from_longitude, from_latitude], :from)
   end
 
   defp update_to_pin(socket, %{"to" => %{"longitude" => to_longitude, "latitude" => to_latitude}}) do
-    update_pin_in_socket(socket, [to_longitude, to_latitude], 1)
+    update_pin_in_socket(socket, [to_longitude, to_latitude], :to)
   end
 
   defp update_to_pin(socket, _params) do
@@ -159,19 +159,19 @@ defmodule DotcomWeb.Live.TripPlanner do
     socket
   end
 
-  defp place_pin([], pin, 0) do
+  defp place_pin([], pin, :from) do
     [pin]
   end
 
-  defp place_pin([], pin, 1) do
+  defp place_pin([], pin, :to) do
     [[], pin]
   end
 
-  defp place_pin(pins, pin, 0) do
+  defp place_pin(pins, pin, :from) do
     [pin | List.delete_at(pins, 0)]
   end
 
-  defp place_pin(pins, pin, 1) do
+  defp place_pin(pins, pin, :to) do
     [List.first(pins) | [pin]]
   end
 
@@ -181,11 +181,11 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   defp remove_pin([], _index), do: []
 
-  defp remove_pin(pins, 0) do
+  defp remove_pin(pins, :from) do
     [[] | List.delete_at(pins, 0)]
   end
 
-  defp remove_pin(pins, 1) do
+  defp remove_pin(pins, :to) do
     [List.first(pins)]
   end
 
