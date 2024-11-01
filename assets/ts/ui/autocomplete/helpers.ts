@@ -52,7 +52,7 @@ export type UrlType =
   | "transit-near-me"
   | "retail-sales-locations"
   | "proposed-sales-locations"
-  | "vote-widget";
+  | "vote";
 
 export type WithUrls<T> = T & { urls: Record<UrlType, string> };
 

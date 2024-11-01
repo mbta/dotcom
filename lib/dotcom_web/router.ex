@@ -221,7 +221,7 @@ defmodule DotcomWeb.Router do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
     end
 
-    get "/vote-test", VoteTestController, :show
+    get("/vote", VoteController, :show)
   end
 
   scope "/", DotcomWeb do
@@ -304,8 +304,6 @@ defmodule DotcomWeb.Router do
 
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
-
-    get("/vote-widget", VoteController, :show)
 
     get("/*path", CMSController, :page)
   end

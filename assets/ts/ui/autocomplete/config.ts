@@ -53,7 +53,6 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * scrolling.
    */
   onStateChange({ state }) {
-    console.log("HELLO MA");
     if (isLGDown()) {
       if (state.isOpen) {
         document.documentElement.dataset.navOpen = "true";
@@ -67,7 +66,6 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * more results.
    */
   onSubmit({ state }) {
-    console.log("HELLO WORLD");
     window.location.assign(`/search?query=${state.query}`);
   },
   /**
@@ -169,10 +167,10 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
   },
   getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
     if (!query) return debounced([]);
-    return debounced([locationSource(query, 5, "vote-widget")]);
+    return debounced([locationSource(query, 5, "vote")]);
   },
   onReset: (): void => {
-    window.location.assign(`/vote-widget`);
+    window.location.assign(`/vote`);
   }
 };
 
@@ -248,7 +246,7 @@ const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
   "transit-near-me": () => TNM,
   "retail-locations": () => RETAIL,
   "proposed-locations": () => PROPOSED_RETAIL,
-  "vote-widget": () => VOTE,
+  vote: () => VOTE,
   "trip-planner": TRIP_PLANNER
 };
 

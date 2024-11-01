@@ -50,7 +50,7 @@ defmodule DotcomWeb.VoteController do
 
     conn
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Take the T to Vote", cms_static_page_path(conn, "/vote-widget"))
+      Breadcrumb.build("Take the T to Vote", cms_static_page_path(conn, "/vote"))
     ])
     |> render("show.html")
   end
@@ -60,7 +60,7 @@ defmodule DotcomWeb.VoteController do
     |> assign(:polling_location, nil)
     |> assign(:polling_error, false)
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Vote", cms_static_page_path(conn, "/vote-widget"))
+      Breadcrumb.build("Vote", cms_static_page_path(conn, "/vote"))
     ])
     |> render("show.html")
   end

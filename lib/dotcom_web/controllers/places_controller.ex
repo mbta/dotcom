@@ -179,7 +179,7 @@ defmodule DotcomWeb.PlacesController do
           params
         ),
       "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
-      "vote-widget" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
+      "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })
   end
 
