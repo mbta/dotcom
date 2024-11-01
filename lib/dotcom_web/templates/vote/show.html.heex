@@ -11,22 +11,26 @@
       <p>
         Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location.
       </p>
+    </div>
 
-      <h3>Home Address</h3>
-      <p>
-        <.algolia_autocomplete
-          id="vote"
-          config_type="vote"
-          placeholder="Enter your registered address"
-        />
-      </p>
+    <div class="mb-6">
+      <h2 class="mb-6">Find your polling place</h2>
+
+      <p class="font-bold mb-1">Home Address</p>
+      <.algolia_autocomplete
+        id="vote"
+        config_type="vote"
+        placeholder="Enter your registered address"
+      />
     </div>
 
     <div :if={@polling_location != nil}>
-      <h3>Your Polling Place</h3>
+      <p class="font-bold mb-1">Your Polling Place</p>
 
-      <div class="border border-black rounded-md flex flex-col p-6">
-        <div class="font-bold text-lg"><%= @polling_location["address"]["locationName"] %></div>
+      <div class="u-highlight-gray border border-charcoal-80 rounded-md flex flex-col p-6">
+        <div class="font-bold text-lg mb-2">
+          <%= Recase.to_title(@polling_location["address"]["locationName"]) %>
+        </div>
         <div class="mb-6">
           <%= @polling_location["address"]["line1"] %>
           <br />

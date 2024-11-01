@@ -29,7 +29,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors
+        ...colors,
+        charcoal: {
+          "80": "#dddfe3"
+        }
       }
     },
     fontFamily: {
