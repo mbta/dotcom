@@ -7,8 +7,6 @@ defmodule DotcomWeb.VoteController do
 
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
-  alias DotcomWeb.ControllerHelpers
-
   plug(:meta_description)
   plug(:clear_polling_results)
 
