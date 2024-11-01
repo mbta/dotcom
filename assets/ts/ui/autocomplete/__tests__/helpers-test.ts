@@ -53,7 +53,8 @@ test("itemWithUrl gets a requested URL", () => {
     urls: {
       "transit-near-me": "/transit-near-me/logan",
       "retail-sales-locations": "/retail-locations-somewhere",
-      "proposed-sales-locations": "/proposed-locations-near-logan"
+      "proposed-sales-locations": "/proposed-locations-near-logan",
+      vote: "/vote"
     }
   } as WithUrls<PopularItem>;
   const item2 = itemWithUrl(item, "retail-sales-locations");

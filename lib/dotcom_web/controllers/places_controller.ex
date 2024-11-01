@@ -155,8 +155,6 @@ defmodule DotcomWeb.PlacesController do
           Map.take(map, [:latitude, :longitude])
       end
 
-    dbg(map)
-
     vote_params =
       case map do
         %{formatted: formatted} ->
