@@ -69,7 +69,7 @@ defmodule DotcomWeb.VoteController do
     conn
     |> assign(
       :meta_description,
-      "Voting is good."
+      "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
     )
   end
 end
