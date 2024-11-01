@@ -165,7 +165,7 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
   initialState: {
     query: getLikelyQueryParams()
   },
-  getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
+  getSources({ query }): AutocompleteSource<any>[] {
     if (!query) return debounced([]);
     return debounced([locationSource(query, 5, "vote")]);
   },
