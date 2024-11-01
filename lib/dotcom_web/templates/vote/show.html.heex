@@ -14,7 +14,7 @@
       </p>
     </div>
 
-    <div class="mb-6">
+    <div id="polling-place-form" class="mb-6" {if @should_scroll, do: %{"phx-hook" => "ScrollIntoView"}, else: %{}}>
       <h2 class="mb-6">Find Your Polling Place</h2>
 
       <p class="font-bold mb-1">Home Address</p>

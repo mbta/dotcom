@@ -51,6 +51,7 @@ defmodule DotcomWeb.VoteController do
       end
 
     conn
+    |> assign(:should_scroll, true)
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Take the T to Vote", cms_static_page_path(conn, "/vote"))
     ])
@@ -77,5 +78,6 @@ defmodule DotcomWeb.VoteController do
     conn
     |> assign(:polling_location, nil)
     |> assign(:polling_error, false)
+    |> assign(:should_scroll, false)
   end
 end
