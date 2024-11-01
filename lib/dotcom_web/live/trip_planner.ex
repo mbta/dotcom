@@ -155,7 +155,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     socket |> assign(:pins, pins)
   end
 
-  defp update_pin_in_socket(socket, _coordinates, _index) do
+  defp update_pin_in_socket(socket, _coordinates, _direction) do
     socket
   end
 
@@ -175,11 +175,11 @@ defmodule DotcomWeb.Live.TripPlanner do
     [List.first(pins) | [pin]]
   end
 
-  defp place_pin(pins, _pin, _index) do
+  defp place_pin(pins, _pin, _direction) do
     pins
   end
 
-  defp remove_pin([], _index), do: []
+  defp remove_pin([], _direction), do: []
 
   defp remove_pin(pins, :from) do
     [[] | List.delete_at(pins, 0)]
@@ -189,7 +189,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     [List.first(pins)]
   end
 
-  defp remove_pin(pins, _index) do
+  defp remove_pin(pins, _direction) do
     pins
   end
 
