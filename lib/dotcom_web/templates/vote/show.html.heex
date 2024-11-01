@@ -42,21 +42,16 @@
     <div :if={@polling_error} class="flex flex-col">
       <p class="italic">
         We weren't able to find a polling place for your address. You
-        can also try visit the Secretary of State's official site to
-        find your polling place.
+        can also try visit the
+        <a href="https://www.sec.state.ma.us/WhereDoIVoteMA/WhereDoIVote" target="_blank">
+          Secretary of State's official site
+        </a>
+        to find your polling place, and then use the
+        <a href={trip_plan_path(DotcomWeb.Endpoint, :index)} target="_blank">
+          MBTA Trip Planner
+        </a>
+        to plan your trip.
       </p>
-      <div>
-        <a
-          class="btn btn-primary"
-          href="https://www.sec.state.ma.us/WhereDoIVoteMA/WhereDoIVote"
-          target="_blank"
-        >
-          Find your polling place
-        </a>
-        <a class="btn btn-primary" href={trip_plan_path(DotcomWeb.Endpoint, :index)}>
-          Plan Your Trip
-        </a>
-      </div>
     </div>
   </div>
 
