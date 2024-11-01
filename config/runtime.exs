@@ -225,8 +225,9 @@ case config_env() do
                "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")} cdn.jsdelivr.net",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com *.arcgis.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
-               "connect-src 'self' wss://#{host} #{sentry_dsn_host || ""} *.googleapis.com analytics.google.com www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net *.arcgis.com",
-               "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com"
+               "connect-src 'self' child-src blob: ; wss://#{host} #{sentry_dsn_host || ""} *.googleapis.com analytics.google.com www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net",
+               "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com *.arcgis.com",
+               "worker-src blob: ;"
              ],
              "; "
            )
