@@ -136,21 +136,21 @@ defmodule DotcomWeb.Live.TripPlanner do
     socket
   end
 
-  defp update_pin_in_socket(socket, [longitude, latitude], index)
+  defp update_pin_in_socket(socket, [longitude, latitude], direction)
        when longitude != "" and latitude != "" do
     pins =
       place_pin(
         socket.assigns.pins,
         [String.to_float(longitude), String.to_float(latitude)],
-        index
+        direction
       )
 
     socket |> assign(:pins, pins)
   end
 
-  defp update_pin_in_socket(socket, [longitude, latitude], index)
+  defp update_pin_in_socket(socket, [longitude, latitude], direction)
        when longitude == "" or latitude == "" do
-    pins = remove_pin(socket.assigns.pins, index)
+    pins = remove_pin(socket.assigns.pins, direction)
 
     socket |> assign(:pins, pins)
   end
