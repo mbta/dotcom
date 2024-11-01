@@ -11,16 +11,25 @@
         <.algolia_autocomplete
           id="vote-widget"
           config_type="vote-widget"
-          placeholder="Enter a your address"
+          placeholder="Enter your registered address"
         />
       </p>
-      <%= if Application.get_env(:dotcom, :dev_server?) do %>
-        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
-        </script>
-      <% else %>
-        <script defer src={static_url(@conn, "/js/tnm.js")}>
-        </script>
-      <% end %>
+    </div>
+    <div :if={@polling_location != nil}>
+      <h3>Your Polling Place</h3>
+
+      <div class="border border-black rounded-md flex flex-col p-6">
+        <div class="font-bold text-lg"><%= @polling_location["address"]["locationName"] %></div>
+        <div class="mb-6">
+          <%= @polling_location["address"]["line1"] %>
+          <br />
+          <%= @polling_location["address"]["city"] %>, <%= @polling_location["address"]["state"] %>
+          <%= @polling_location["address"]["zip"] %>
+        </div>
+        <a class="rounded-md bg-blue-600 hover:bg-blue-700 text-white p-4 w-full text-center no-underline" href={@trip_plan_path}>Plan Your Trip</a>
+      </div>
+
+      <pre><%= inspect @polling_location, pretty: true %></pre>
     </div>
   </div>
   <div class="col-md-4">

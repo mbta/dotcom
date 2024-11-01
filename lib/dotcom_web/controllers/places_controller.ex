@@ -159,8 +159,13 @@ defmodule DotcomWeb.PlacesController do
 
     vote_params =
       case map do
-        %{formatted: formatted} -> %{address: formatted}
-        _ -> %{}
+        %{formatted: formatted} ->
+          map
+          |> Map.take([:latitude, :longitude])
+          |> Map.put(:address, formatted)
+
+        _ ->
+          %{}
       end
 
     map

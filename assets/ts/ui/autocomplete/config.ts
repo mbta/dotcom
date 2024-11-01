@@ -170,6 +170,9 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
   getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
     if (!query) return debounced([]);
     return debounced([locationSource(query, 5, "vote-widget")]);
+  },
+  onReset: (): void => {
+    window.location.assign(`/vote-widget`);
   }
 };
 
