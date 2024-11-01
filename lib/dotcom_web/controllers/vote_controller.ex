@@ -10,6 +10,7 @@ defmodule DotcomWeb.VoteController do
   alias DotcomWeb.ControllerHelpers
 
   plug(:meta_description)
+  plug(:clear_polling_results)
 
   def show(
         conn,
@@ -57,8 +58,6 @@ defmodule DotcomWeb.VoteController do
 
   def show(conn, _params) do
     conn
-    |> assign(:polling_location, nil)
-    |> assign(:polling_error, false)
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Vote", cms_static_page_path(conn, "/vote"))
     ])
@@ -71,5 +70,11 @@ defmodule DotcomWeb.VoteController do
       :meta_description,
       "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
     )
+  end
+
+  defp clear_polling_results(conn, _) do
+    conn
+    |> assign(:polling_location, nil)
+    |> assign(:polling_error, false)
   end
 end

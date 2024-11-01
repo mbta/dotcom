@@ -3,4 +3,6 @@ defmodule DotcomWeb.VoteView do
   View for the vote widget
   """
   use DotcomWeb, :view
+
+  alias DotcomWeb.ControllerHelpers
 end

@@ -21,6 +21,7 @@
         />
       </p>
     </div>
+
     <div :if={@polling_location != nil}>
       <h3>Your Polling Place</h3>
 
@@ -32,16 +33,33 @@
           <%= @polling_location["address"]["city"] %>, <%= @polling_location["address"]["state"] %>
           <%= @polling_location["address"]["zip"] %>
         </div>
+        <a class="btn btn-primary" href={@trip_plan_path}>
+          Plan Your Trip
+        </a>
+      </div>
+    </div>
+
+    <div :if={@polling_error} class="flex flex-col">
+      <p class="italic">
+        We weren't able to find a polling place for your address. You
+        can also try visit the Secretary of State's official site to
+        find your polling place.
+      </p>
+      <div>
         <a
-          class="rounded-md bg-blue-600 hover:bg-blue-700 text-white p-4 w-full text-center no-underline"
-          href={@trip_plan_path}
+          class="btn btn-primary"
+          href="https://www.sec.state.ma.us/WhereDoIVoteMA/WhereDoIVote"
+          target="_blank"
         >
+          Find your polling place
+        </a>
+        <a class="btn btn-primary" href={trip_plan_path(DotcomWeb.Endpoint, :index)}>
           Plan Your Trip
         </a>
       </div>
     </div>
   </div>
-  
+
   <div class="col-md-4">
     <div class="m-schedule-page__schedule-notes u-mt-2">
       <h2 class="mt-0">More Guides</h2>
