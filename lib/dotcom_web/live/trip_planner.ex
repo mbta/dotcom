@@ -24,7 +24,8 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:error, nil)
       |> assign(:form_name, @form_id)
       |> assign(:map_config, @map_config)
-      |> assign(:pins, [])
+      |> assign(:from, [])
+      |> assign(:to, [])
       |> assign(:submitted_values, nil)
       |> assign_async(:groups, fn ->
         {:ok, %{groups: nil}}
@@ -76,7 +77,7 @@ defmodule DotcomWeb.Live.TripPlanner do
           id="trip-planner-map"
           class="h-96 w-full relative overflow-none"
           config={@map_config}
-          pins={@pins}
+          pins={[@from, @to]}
         />
       </section>
     </div>
@@ -122,75 +123,21 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
-  defp update_from_pin(socket, %{
-         "from" => %{"longitude" => from_longitude, "latitude" => from_latitude}
-       }) do
-    update_pin_in_socket(socket, [from_longitude, from_latitude], :from)
+  defp update_from_pin(socket, %{"from" => from}) do
+    assign(socket, :from, to_geojson(from))
   end
 
-  defp update_to_pin(socket, %{"to" => %{"longitude" => to_longitude, "latitude" => to_latitude}}) do
-    update_pin_in_socket(socket, [to_longitude, to_latitude], :to)
+  defp update_to_pin(socket, %{"to" => to}) do
+    assign(socket, :to, to_geojson(to))
   end
 
-  defp update_to_pin(socket, _params) do
-    socket
-  end
-
-  defp update_pin_in_socket(socket, [longitude, latitude], direction)
+  defp to_geojson(%{"longitude" => longitude, "latitude" => latitude})
        when longitude != "" and latitude != "" do
-    pins =
-      place_pin(
-        socket.assigns.pins,
-        [String.to_float(longitude), String.to_float(latitude)],
-        direction
-      )
-
-    socket |> assign(:pins, pins)
+    [String.to_float(longitude), String.to_float(latitude)]
   end
 
-  defp update_pin_in_socket(socket, [longitude, latitude], direction)
-       when longitude == "" or latitude == "" do
-    pins = remove_pin(socket.assigns.pins, direction)
-
-    socket |> assign(:pins, pins)
-  end
-
-  defp update_pin_in_socket(socket, _coordinates, _direction) do
-    socket
-  end
-
-  defp place_pin([], pin, :from) do
-    [pin]
-  end
-
-  defp place_pin([], pin, :to) do
-    [[], pin]
-  end
-
-  defp place_pin(pins, pin, :from) do
-    [pin | List.delete_at(pins, 0)]
-  end
-
-  defp place_pin(pins, pin, :to) do
-    [List.first(pins) | [pin]]
-  end
-
-  defp place_pin(pins, _pin, _direction) do
-    pins
-  end
-
-  defp remove_pin([], _direction), do: []
-
-  defp remove_pin(pins, :from) do
-    [[] | List.delete_at(pins, 0)]
-  end
-
-  defp remove_pin(pins, :to) do
-    [List.first(pins)]
-  end
-
-  defp remove_pin(pins, _direction) do
-    pins
+  defp to_geojson(_coordinates) do
+    []
   end
 
   defp submission_summary(%{from: %{name: from_name}, to: %{name: to_name}, modes: modes}) do
