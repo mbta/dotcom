@@ -58,4 +58,5 @@ runs:
     shell: bash
     run: |
       git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+      npm install --prefix assets --package-lock-only
       npm run install:ci
