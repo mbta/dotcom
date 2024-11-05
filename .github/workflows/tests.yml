@@ -98,7 +98,6 @@ jobs:
         with:
           path: |
             _build
-            deps
             priv
             react_renderer/dist/app.js
           key: ci-application-cache-${{ github.sha }}
