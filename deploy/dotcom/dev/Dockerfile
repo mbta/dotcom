@@ -19,4 +19,9 @@ RUN mix deps.get
 RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
+COPY priv priv
+COPY lib lib
+COPY assets assets
+COPY storybook storybook
+
 CMD mix deps.get && elixir --sname $SNAME --cookie foobarbaz -S mix phx.server

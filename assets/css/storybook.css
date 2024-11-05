@@ -1,0 +1,18 @@
+/* This is your custom storybook stylesheet. */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "../../deps/mbta_metro/priv/static/assets/variables.light.css";
+@import '../../deps/mbta_metro/priv/static/assets/default.css';
+
+/*
+ * Put your component styling within the Tailwind utilities layer. 
+ * See the https://hexdocs.pm/phoenix_storybook/sandboxing.html guide for more info.
+ */
+
+@layer utilities {
+  * {
+    font-family: system-ui;
+  }
+}
