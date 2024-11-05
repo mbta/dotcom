@@ -40,7 +40,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         for={@form}
         method="get"
         phx-submit="save_form"
-        phx-change="validate"
+        phx-change="handle_change"
         phx-target={@myself}
       >
         <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
@@ -165,7 +165,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     {:noreply, new_socket}
   end
 
-  def handle_event("validate", %{"input_form" => params}, socket) do
+  def handle_event("handle_change", %{"input_form" => params}, socket) do
+    send(self(), {:changed_form, params})
+
     form =
       params
       |> InputForm.validate_params()
@@ -181,6 +183,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     |> case do
       {:ok, data} ->
         send(self(), {:updated_form, data})
+
         {:noreply, socket}
 
       {:error, changeset} ->

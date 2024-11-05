@@ -8,6 +8,7 @@
   border-style: solid; /* 2 */
   border-width: 0; /* 2 */
   box-sizing: border-box; /* 1 */
+  --tw-content: '' !important;
 }
 
 @import '../../deps/mbta_metro/priv/static/assets/default.css';

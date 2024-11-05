@@ -15,13 +15,18 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @form_id "trip-planner-form"
 
+  @map_config Application.compile_env!(:mbta_metro, :map)
+
   @impl true
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:form_name, @form_id)
-      |> assign(:submitted_values, nil)
       |> assign(:error, nil)
+      |> assign(:form_name, @form_id)
+      |> assign(:map_config, @map_config)
+      |> assign(:from, [])
+      |> assign(:to, [])
+      |> assign(:submitted_values, nil)
       |> assign_async(:groups, fn ->
         {:ok, %{groups: nil}}
       end)
@@ -67,22 +72,31 @@ defmodule DotcomWeb.Live.TripPlanner do
             <.itinerary_group :for={group <- groups} group={group} />
           </div>
         </.async_result>
-        <div id="trip-planner-map-wrapper" class="w-full" phx-update="ignore">
-          <div style="min-height: 400px;" id="trip-planner-map" phx-hook="TripPlannerMap" />
-        </div>
+        <.live_component
+          module={MbtaMetro.Live.Map}
+          id="trip-planner-map"
+          class="h-96 w-full relative overflow-none"
+          config={@map_config}
+          pins={[@from, @to]}
+        />
       </section>
     </div>
     """
   end
 
   @impl true
-  def handle_event("map_change", %{"id" => id} = params, socket) do
-    {:noreply, push_event(socket, id, location_props(params))}
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
   end
 
   @impl true
-  def handle_event(_event, _params, socket) do
-    {:noreply, socket}
+  def handle_info({:changed_form, params}, socket) do
+    new_socket =
+      socket
+      |> update_from_pin(params)
+      |> update_to_pin(params)
+
+    {:noreply, new_socket}
   end
 
   @impl true
@@ -109,26 +123,29 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
-  # Selected from list of popular locations
-  defp location_props(%{"stop_id" => stop} = props) when is_binary(stop) do
-    Map.take(props, ["name", "latitude", "longitude", "stop_id"])
+  defp update_from_pin(socket, %{"from" => from}) do
+    assign(socket, :from, to_geojson(from))
   end
 
-  # GTFS stop
-  defp location_props(%{"stop" => stop}) when is_map(stop) do
-    Map.take(stop, ["name", "latitude", "longitude"])
-    |> Map.put("stop_id", stop["id"])
+  defp update_from_pin(socket, _params) do
+    socket
   end
 
-  # From AWS
-  defp location_props(%{"address" => address} = props) do
-    Map.take(props, ["latitude", "longitude"])
-    |> Map.put_new("name", address)
+  defp update_to_pin(socket, %{"to" => to}) do
+    assign(socket, :to, to_geojson(to))
   end
 
-  # Geolocated
-  defp location_props(props) do
-    Map.take(props, ["name", "latitude", "longitude"])
+  defp update_to_pin(socket, _params) do
+    socket
+  end
+
+  defp to_geojson(%{"longitude" => longitude, "latitude" => latitude})
+       when longitude != "" and latitude != "" do
+    [String.to_float(longitude), String.to_float(latitude)]
+  end
+
+  defp to_geojson(_coordinates) do
+    []
   end
 
   defp submission_summary(%{from: %{name: from_name}, to: %{name: to_name}, modes: modes}) do
