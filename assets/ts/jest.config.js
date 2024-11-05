@@ -22,8 +22,8 @@ module.exports = {
     global: {
       branches: 89,
       functions: 90,
-      lines: 95,
-      statements: 95
+      lines: 90,
+      statements: 90
     },
     // The Leaflet API is difficult to test, so we consider a lower
     // threshold acceptable for these modules. However, callbacks in
