@@ -3,6 +3,8 @@ defmodule DotcomWeb.Router do
 
   use DotcomWeb, :router
 
+  import PhoenixStorybook.Router
+
   alias DotcomWeb.StaticPage
 
   pipeline :secure do
@@ -300,6 +302,16 @@ defmodule DotcomWeb.Router do
     get("/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps)
     get("/about_the_mbta/public_meetings", Redirector, to: "/events")
     get("/about_the_mbta/news_events", Redirector, to: "/news")
+  end
+
+  scope "/" do
+    storybook_assets()
+  end
+
+  scope "/", DotcomWeb do
+    # pipe_through([:secure, :browser, :browser_live, :basic_auth])
+    pipe_through(:browser)
+    live_storybook("/storybook", backend_module: Elixir.DotcomWeb.Storybook)
   end
 
   scope "/", DotcomWeb do
