@@ -87,7 +87,9 @@ defmodule Predictions.RepoTest do
                 "arrival_time" => before_time
               },
               relationships: %{
-                "route" => [route_item]
+                "route" => [route_item],
+                "trip" => [],
+                "vehicle" => []
               }
             }) ++
               build_list(2, :prediction_item, %{
@@ -95,7 +97,9 @@ defmodule Predictions.RepoTest do
                   "arrival_time" => after_time
                 },
                 relationships: %{
-                  "route" => [route_item]
+                  "route" => [route_item],
+                  "trip" => [],
+                  "vehicle" => []
                 }
               })
         }

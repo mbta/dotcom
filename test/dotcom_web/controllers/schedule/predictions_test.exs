@@ -6,6 +6,9 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   import Test.Support.Factories.Predictions.Prediction
 
   setup %{conn: conn} do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
     conn =
       conn
       |> assign(:date, ~D[2017-01-01])
@@ -243,8 +246,12 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       trip_id_match = Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
 
       Predictions.Repo.Mock
-      |> expect(:all, fn [route: ^route_id] -> [] end)
-      |> expect(:all, fn [trip: ^trip_id_match] ->
+      |> expect(:all, fn arg ->
+        assert arg[:route] == route_id
+        []
+      end)
+      |> expect(:all, fn arg ->
+        assert arg[:trip] == trip_id_match
         # we transform the data into this form so that we only need to make one repo call
         [prediction_1, prediction_2]
       end)
@@ -286,12 +293,12 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       prediction = build(:prediction, %{stop: %Stops.Stop{id: stop_id_1}})
 
       Predictions.Repo.Mock
-      |> expect(:all, fn [route: id] ->
-        assert id == route_id
+      |> expect(:all, fn arg ->
+        assert arg[:route] == route_id
         []
       end)
-      |> expect(:all, fn [trip: trip_id] ->
-        assert trip_id == Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
+      |> expect(:all, fn arg ->
+        assert arg[:trip] == Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
         # we transform the data into this form so that we only need to make one repo call
         [
           prediction

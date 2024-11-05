@@ -24,8 +24,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       %{html: html, view: view}
     end
 
-    test "toggles the date input when changing from 'now'", %{html: html, view: view} do
-    end
+    # test "toggles the date input when changing from 'now'", %{html: html, view: view} do
+    # end
 
     test "summarizes the selected modes", %{view: view, html: html} do
       assert html =~ "All modes"
@@ -61,10 +61,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert html =~ "Subway and Bus"
     end
 
-    test "shows errors on form submit", %{view: view} do
-    end
+    # test "shows errors on form submit", %{view: view} do
+    # end
 
-    test "pushes updated location to the map", %{view: view} do
-    end
+    # test "pushes updated location to the map", %{view: view} do
+    # end
   end
 end

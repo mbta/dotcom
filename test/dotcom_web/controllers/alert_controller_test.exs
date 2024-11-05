@@ -13,6 +13,9 @@ defmodule DotcomWeb.AlertControllerTest do
   setup :verify_on_exit!
 
   setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
     stub(Routes.Repo.Mock, :by_type, fn route_type ->
       build_list(2, :route, %{type: route_type})
     end)
