@@ -127,8 +127,16 @@ defmodule DotcomWeb.Live.TripPlanner do
     assign(socket, :from, to_geojson(from))
   end
 
+  defp update_from_pin(socket, _params) do
+    socket
+  end
+
   defp update_to_pin(socket, %{"to" => to}) do
     assign(socket, :to, to_geojson(to))
+  end
+
+  defp update_to_pin(socket, _params) do
+    socket
   end
 
   defp to_geojson(%{"longitude" => longitude, "latitude" => latitude})
