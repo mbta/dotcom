@@ -34,6 +34,25 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
+config :esbuild,
+  version: "0.17.11",
+  default: [
+    args: ~w(js/storybook.js --bundle --target=es2017 --outdir=../priv/static/assets),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+config :tailwind,
+  version: "3.4.6",
+  storybook: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/storybook.css
+      --output=../priv/static/assets/storybook.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do
   import_config("../#{config_file}")
 end

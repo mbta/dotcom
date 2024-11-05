@@ -24,6 +24,7 @@ defmodule DotCom.Mixfile do
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
       deps: deps(),
+      aliases: aliases(),
 
       # docs
       name: "MBTA Website",
@@ -83,6 +84,7 @@ defmodule DotCom.Mixfile do
       {:ecto, "3.12.4"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:ex_doc, "0.34.2", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
@@ -123,6 +125,7 @@ defmodule DotCom.Mixfile do
       # currently release candidate, but used in Phoenix 1.7 generator: https://github.com/phoenix-diff/phoenix-diff/blob/f320791d24bc3248fbdde557978235829313aa06/priv/data/sample-app/1.7.14/default/mix.exs#L42
       {:phoenix_live_view, "~> 1.0.0-rc.6", override: true},
       {:phoenix_pubsub, "2.1.3"},
+      {:phoenix_storybook, "~> 0.6.0"},
       {:phoenix_view, "~> 2.0"},
       {:plug, "1.16.1"},
       {:plug_cowboy, "2.7.2"},
@@ -142,6 +145,7 @@ defmodule DotCom.Mixfile do
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
       {:sweet_xml, "0.7.4", only: [:dev, :prod]},
+      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:telemetry, "1.3.0", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
       {:telemetry_metrics_splunk, "0.0.6-alpha"},
@@ -154,6 +158,18 @@ defmodule DotCom.Mixfile do
       {:wallaby, "0.30.9", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.11.0", only: [:dev]},
       {:ymlr, "5.1.3", only: [:dev]}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get", "assets.setup", "assets.build"],
+      "assets.deploy": [
+        "tailwind storybook --minify",
+        "phx.digest"
+      ],
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["tailwind default", "esbuild default"]
     ]
   end
 end
