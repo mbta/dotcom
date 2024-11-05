@@ -37,8 +37,6 @@ COPY --from=elixir-builder /root/deps /root/deps
 ADD ./priv/static /root/priv/static
 ADD ./assets /root/assets
 
-RUN npm i -g husky@latest
-
 WORKDIR /root/assets
 
 RUN npm install --package-lock-only

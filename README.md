@@ -206,18 +206,6 @@ npm install --ignore-scripts
 npx pm2-runtime ./integration/monitor/ecosystem.config.js
 ```
 
-## Commiting Code
-
-When commiting code a bunch of checks are run using [git pre-commit hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
-
-This is configured using the tool [husky](https://typicode.github.io/husky/#/) and should install as part of the regular `npm run install` process
-
-This allows all code changed during a commit to be linted and formatted before being commited.
-
-If you wish to modify the checks ran during the pre-commit process the [pre-commit](.husky/pre-commit) file can be modified with any command line commands/scripts
-
-These checks can be skipped by using the `--no-verify` flag when runnint the `commit` git command
-
 ## Additional Resources
 
 New to the team, or looking for further developer resources?

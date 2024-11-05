@@ -11,10 +11,6 @@
     "pm2": "5.3.1",
     "redis": "4.6.13"
   },
-  "devDependencies": {
-    "lint-staged": "^15.2.2",
-    "prettier": "3.2.5"
-  },
   "scripts": {
     "install": "npm install --prefix assets --omit=optional",
     "install:ci": "npm ci --prefix assets --omit=optional",
@@ -39,9 +35,5 @@
     "test:cypress:run": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
     "test:cypress:open": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open",
     "test:playwright:all": "npx playwright test all-scenarios"
-  },
-  "lint-staged": {
-    "**/*.{ex,exs}": "mix format",
-    "mix.exs": "mix deps.clean --unlock --unused && mix deps.get"
   }
 }
