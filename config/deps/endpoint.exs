@@ -31,7 +31,10 @@ if config_env() == :dev do
     debug_errors: true,
     code_reloader: true,
     check_origin: false,
-    watchers: [npm: ["run", "webpack:watch", cd: Path.expand("../../assets/", __DIR__)]],
+    watchers: [
+      npm: ["run", "webpack:watch", cd: Path.expand("../../assets/", __DIR__)],
+      storybook_tailwind: {Tailwind, :install_and_run, [:storybook, ~w(--watch)]}
+    ],
     live_reload: [
       patterns: [
         ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -39,7 +42,8 @@ if config_env() == :dev do
         ~r{lib/dotcom_web/components/.*(ex)$},
         ~r{lib/dotcom_web/views/.*(ex)$},
         ~r{lib/dotcom_web/templates/.*(heex|eex)$},
-        ~r{lib/dotcom_web/live/.*(heex|ex)$}
+        ~r{lib/dotcom_web/live/.*(heex|ex)$},
+        ~r"storybook/.*(exs)$"
       ]
     ]
 end

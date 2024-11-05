@@ -21,6 +21,7 @@ defmodule Dotcom.BodyTag do
 
   defp class_name(conn) do
     [
+      "dotcom-web",
       javascript_class(),
       mticket_class(conn),
       preview_class(conn)
