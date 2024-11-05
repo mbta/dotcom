@@ -37,8 +37,14 @@ COPY --from=elixir-builder /root/deps /root/deps
 ADD ./priv/static /root/priv/static
 ADD ./assets /root/assets
 
+RUN npm i -g husky@latest
+
 WORKDIR /root/assets
+
+RUN npm install --package-lock-only
 RUN npm ci --ignore-scripts
+RUN npm install -S -install-links ../deps/mbta_metro/priv/
+
 # required so that Tailwind styles used in Elixir templates are built
 COPY ./lib/dotcom_web/ /root/lib/dotcom_web
 # Compile JS/CSS to priv/static
