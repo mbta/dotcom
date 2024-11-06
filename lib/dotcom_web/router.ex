@@ -2,6 +2,24 @@ defmodule DotcomWeb.Router do
   @moduledoc false
 
   use DotcomWeb, :router
+  use Plug.ErrorHandler
+
+  alias DotcomWeb.ControllerHelpers
+
+  @impl Plug.ErrorHandler
+  def handle_errors(conn, %{reason: reason}) do
+    conn
+    |> DotcomWeb.Plugs.SecureHeaders.call([])
+    |> then(fn conn ->
+      case reason do
+        %Phoenix.Router.NoRouteError{plug_status: 404} ->
+          ControllerHelpers.render_404(conn)
+
+        _ ->
+          ControllerHelpers.render_500(conn)
+      end
+    end)
+  end
 
   alias DotcomWeb.StaticPage
 
