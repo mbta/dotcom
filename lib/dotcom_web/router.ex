@@ -16,16 +16,16 @@ defmodule DotcomWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:fetch_cookies)
-    plug(:put_secure_browser_headers_runtime, %{})
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
-    plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
+    plug(DotcomWeb.Plugs.CanonicalHostname)
+    plug(DotcomWeb.Plugs.ClearCookies)
+    plug(DotcomWeb.Plugs.Cookies)
     plug(DotcomWeb.Plugs.CommonFares)
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
-    plug(DotcomWeb.Plugs.ClearCookies)
-    plug(DotcomWeb.Plugs.Cookies)
+    plug(DotcomWeb.Plugs.SecureHeaders)
     plug(:optional_disable_indexing)
   end
 
@@ -320,14 +320,5 @@ defmodule DotcomWeb.Router do
     else
       Plug.Conn.put_resp_header(conn, "x-robots-tag", "noindex")
     end
-  end
-
-  defp put_secure_browser_headers_runtime(conn, default_headers) do
-    runtime_headers = %{
-      "content-security-policy" =>
-        Application.get_env(:dotcom, :content_security_policy_definition)
-    }
-
-    put_secure_browser_headers(conn, Map.merge(default_headers, runtime_headers))
   end
 end

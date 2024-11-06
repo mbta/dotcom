@@ -144,6 +144,23 @@ end
 if config_env() == :prod do
   config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
 
+  # Extract the host fron the sentry dsn
+  sentry_dsn_host =
+    case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
+      nil -> ""
+      [match | _] -> match
+    end
+
+  config :dotcom,
+         :content_security_policy_definition,
+         DotcomWeb.Plug.SecureHeaders.build_csp_directives(
+           img: "#{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")}",
+           style: "#{System.get_env("STATIC_HOST", "")}",
+           script: "#{System.get_env("STATIC_HOST", "")}",
+           font: "#{System.get_env("STATIC_HOST", "")}",
+           connect: "wss://#{host} #{sentry_dsn_host || ""}"
+         )
+
   config :dotcom, DotcomWeb.Endpoint,
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -204,43 +221,4 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
      config_env() != :test do
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
-end
-
-# Extract the host fron the sentry dsn
-sentry_dsn_host =
-  case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
-    nil -> ""
-    [match | _] -> match
-  end
-
-# Set the content security policy
-case config_env() do
-  :prod ->
-    config :dotcom,
-           :content_security_policy_definition,
-           Enum.join(
-             [
-               "default-src 'none'",
-               "img-src 'self' cdn.mbta.com #{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")} px.ads.linkedin.com www.linkedin.com www.facebook.com *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com *.arcgis.com",
-               "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")} cdn.jsdelivr.net",
-               "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com *.arcgis.com",
-               "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
-               "connect-src 'self' wss://#{host} #{sentry_dsn_host || ""} *.googleapis.com analytics.google.com www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net *.arcgis.com *.s3.amazonaws.com",
-               "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com *.arcgis.com",
-               "worker-src blob: ;"
-             ],
-             "; "
-           )
-
-  # Dev is only used for local development, so we don't need, and in
-  # fact actively do not want, a restrictive CSP
-  :dev ->
-    config :dotcom, :content_security_policy_definition, ""
-
-  :test ->
-    config :dotcom, :content_security_policy_definition, ""
-
-  # Unknown env, reject all
-  _ ->
-    config :dotcom, :content_security_policy_definition, "default-src 'none'"
 end
