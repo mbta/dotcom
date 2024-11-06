@@ -17,6 +17,10 @@ defmodule DotcomWeb.Components.ModeIcons do
       :orange_line,
       :red_line,
       :green_line,
+      :green_line_b,
+      :green_line_c,
+      :green_line_d,
+      :green_line_e,
       :blue_line,
       :mattapan_line
     ],
@@ -45,6 +49,12 @@ defmodule DotcomWeb.Components.ModeIcons do
   def mode_icon(%{type: :blue_line} = assigns) do
     ~H"""
     <.subway_icon class={"bg-blue-500 #{@class}"}>BL</.subway_icon>
+    """
+  end
+
+  def mode_icon(%{type: :green_line} = assigns) do
+    ~H"""
+    <.subway_icon class={"bg-green-500 #{@class}"}>GL</.subway_icon>
     """
   end
 
