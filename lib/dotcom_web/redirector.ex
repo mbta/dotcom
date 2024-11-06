@@ -16,7 +16,7 @@ defmodule DotcomWeb.Redirector do
   @spec call(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   def call(%Plug.Conn{params: %{"id" => id}} = conn, to: to) when to not in ["/projects"] do
     case find_record(id, to) do
-      :not_found -> DotcomWeb.ControllerHelpers.render_not_found(conn)
+      :not_found -> DotcomWeb.ControllerHelpers.render_404(conn)
       record -> redirect_to_show(conn, to, record)
     end
   end
