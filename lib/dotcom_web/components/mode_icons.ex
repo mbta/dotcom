@@ -101,7 +101,14 @@ defmodule DotcomWeb.Components.ModeIcons do
   end
 
   def mode_icon(%{route_name: route_name, type: :logan_express} = assigns) do
-    fill_color_class = "fill-logan-express-#{String.downcase(route_name)}"
+    fill_color_class =
+      case route_name do
+        "BB" -> "fill-logan-express-bb"
+        "BT" -> "fill-logan-express-bt"
+        "DV" -> "fill-logan-express-dv"
+        "WO" -> "fill-logan-express-wo"
+        _ -> ""
+      end
 
     assigns = assign(assigns, :fill_color_class, fill_color_class)
 
