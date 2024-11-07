@@ -60,4 +60,3 @@ runs:
       git config --global url."https://github.com/".insteadOf ssh://git@github.com/
       npm install --prefix assets --package-lock-only
       npm run install:ci
-      npm install --prefix assets -S -install-links deps/mbta_metro/priv/
