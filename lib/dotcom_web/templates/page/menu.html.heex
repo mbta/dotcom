@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>MBTA.com Menu</h1>
+  <hr class="m-0" />
+  <div
+    :for={
+      %{menu_section: menu_section, sub_menus: sub_menus} <-
+        DotcomWeb.LayoutView.nav_link_content()
+    }
+    class="page-section"
+  >
+    <h2 id={"#{menu_section}-section"}><%= menu_section %></h2>
+    <hr class="m-0" />
+    <section aria-labelledby={"#{menu_section}-section"} class="row">
+      <section
+        :for={%{links: links, sub_menu_section: section_name} <- sub_menus}
+        aria-labelledby={"#{section_name}-section"}
+        class="col-sm-4"
+      >
+        <h3 id={"#{section_name}-section"} class="font-small mt-6"><%= section_name %></h3>
+        <%= Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1) %>
+      </section>
+    </section>
+  </div>
+</div>

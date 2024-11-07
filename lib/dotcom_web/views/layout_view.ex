@@ -38,11 +38,11 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content_redesign(conn),
+  def nav_link_content,
     do: [
       %{
         menu_section: "Transit",
-        link: static_page_path(conn, :menu) <> "#Transit-section",
+        link: ~p"/menu#Transit-section",
         sub_menus: [
           %{
             sub_menu_section: "Modes of Transit",
@@ -81,7 +81,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: "Fares",
-        link: static_page_path(conn, :menu) <> "#Fares-section",
+        link: ~p"/menu#Fares-section",
         sub_menus: [
           %{
             sub_menu_section: "Fares Info",
@@ -117,7 +117,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: "Contact",
-        link: static_page_path(conn, :menu) <> "#Contact-section",
+        link: ~p"/menu#Contact-section",
         sub_menus: [
           %{
             sub_menu_section: "Customer Support",
@@ -146,7 +146,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: "About",
-        link: static_page_path(conn, :menu) <> "#About-section",
+        link: ~p"/menu#About-section",
         sub_menus: [
           %{
             sub_menu_section: "Get to Know Us",

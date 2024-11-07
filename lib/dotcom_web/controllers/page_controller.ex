@@ -45,6 +45,11 @@ defmodule DotcomWeb.PageController do
     |> render("index.html")
   end
 
+  def menu(conn, _params) do
+    conn
+    |> render("menu.html")
+  end
+
   @spec fares(map) :: Paragraph.t() | nil
   defp fares(query_params) do
     case Repo.get_paragraph("paragraphs/multi-column/homepage-fares", query_params) do

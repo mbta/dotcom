@@ -3,8 +3,6 @@ defmodule DotcomWeb.Router do
 
   use DotcomWeb, :router
 
-  alias DotcomWeb.StaticPage
-
   pipeline :secure do
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
@@ -126,6 +124,7 @@ defmodule DotcomWeb.Router do
     get("/schedules/70A/*path_params", Redirector, to: "/betterbus-61-70-70A")
 
     get("/", PageController, :index)
+    get("/menu", PageController, :menu)
 
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
@@ -216,11 +215,6 @@ defmodule DotcomWeb.Router do
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
-
-    for static_page <- StaticPage.static_pages() do
-      get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
-    end
-
     get("/vote", VoteController, :show)
   end
 
