@@ -16,11 +16,6 @@ defmodule DotcomWeb.ViewHelpers do
   alias Plug.Conn
   alias Routes.Route
 
-  # Icons we know we have SVGs for, modify if new icons are added/removed
-  # These names are equivalent to the route names from the Massport GTFS
-  @massport_icon_names ["11", "22", "33", "44", "55", "66", "77", "88", "99"]
-  @logan_express_icon_names ["BB", "BT", "DV", "FH", "WO"]
-
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @subway_lines [
@@ -124,7 +119,7 @@ defmodule DotcomWeb.ViewHelpers do
       when is_binary(name) do
     route_number = String.slice(name, 0..1)
 
-    if route_number in @massport_icon_names do
+    if route_number in Route.massport_icon_names() do
       svg("icon-massport-#{route_number}.svg")
     else
       report_missing_icon("route Massport #{route_number}")
@@ -135,7 +130,7 @@ defmodule DotcomWeb.ViewHelpers do
   # Logan Express shuttle routes
   def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
       when is_binary(name) do
-    if name in @logan_express_icon_names do
+    if name in Route.logan_express_icon_names() do
       svg("icon-logan-express-#{name}.svg")
     else
       report_missing_icon("route Logan Express #{name}")

@@ -128,7 +128,7 @@ defmodule DotcomWeb do
       use Gettext, backend: DotcomWeb.Gettext
       use MbtaMetro
 
-      import DotcomWeb.{Components, ErrorHelpers}
+      import DotcomWeb.{Components, Components.Gtfs, ErrorHelpers}
       import Phoenix.{HTML, LiveView.Helpers}
       import PhoenixHTMLHelpers.Form, except: [label: 1]
       import PhoenixHTMLHelpers.{Format, Link, Tag}

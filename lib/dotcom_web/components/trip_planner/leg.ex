@@ -5,19 +5,17 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
 
   use DotcomWeb, :component
 
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias DotcomWeb.ViewHelpers
   alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.Schema.Step
   alias Stops.Stop
 
-  attr :from, :any
-  attr :to, :any
-  attr :start_time, :any
-  attr :end_time, :any
-  attr :mode, :any
-  attr :realtime, :boolean
-  attr :realtime_state, :string
+  attr(:from, :any)
+  attr(:to, :any)
+  attr(:start_time, :any)
+  attr(:end_time, :any)
+  attr(:mode, :any)
+  attr(:realtime, :boolean)
+  attr(:realtime_state, :string)
 
   def leg(assigns) do
     assigns =
@@ -50,7 +48,7 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
 
   defp format_time(datetime), do: Timex.format!(datetime, "%-I:%M %p", :strftime)
 
-  attr :mode, :any
+  attr(:mode, :any)
 
   def mode(assigns) do
     case assigns.mode do
@@ -73,12 +71,19 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
   def transit(assigns) do
     ~H"""
     <div class="text-lg">
-      <%= ViewHelpers.line_icon(@route, :default) %> (<%= @route.name %>) on trip <%= @trip_id %>
+      <.route_symbol route={@route} /> (<%= @route.name %>) on trip <%= @trip_id %>
     </div>
     <ul class="list-decimal">
       <li :for={stop <- @stops} class="text-sm text-zinc-500">
-        <%= stop.name %> <%= if Stop.accessible?(stop),
-          do: SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
+        <%= stop.name %>
+        <div :if={Stop.accessible?(stop)} class="inline-flex items-center gap-0.5">
+          <.icon
+            type="icon-svg"
+            name="icon-accessible-small"
+            class="h-3 w-3 mr-0.5"
+            aria-hidden="true"
+          /> Accessible
+        </div>
       </li>
     </ul>
     """

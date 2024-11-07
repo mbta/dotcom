@@ -85,8 +85,15 @@ defmodule Routes.Route do
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
   @type branch_name :: String.t() | nil
 
+  # Icons we know we have SVGs for, modify if new icons are added/removed
+  # These names are equivalent to the route names from the Massport GTFS
+  @logan_express_icon_names ["BB", "BT", "DV", "FH", "WO"]
+  @massport_icon_names ["11", "22", "33", "44", "55", "66", "77", "88", "99"]
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
+
+  def logan_express_icon_names, do: @logan_express_icon_names
+  def massport_icon_names, do: @massport_icon_names
 
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle

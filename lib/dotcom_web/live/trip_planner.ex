@@ -28,8 +28,8 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:from, [])
       |> assign(:to, [])
       |> assign(:submitted_values, nil)
-      |> assign_async(:groups, fn ->
-        {:ok, %{groups: nil}}
+      |> assign_async(:results, fn ->
+        {:ok, %{results: nil}}
       end)
 
     {:ok, socket}
@@ -49,21 +49,19 @@ defmodule DotcomWeb.Live.TripPlanner do
       <section :if={@submitted_values} class="mt-2 mb-6">
         <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
         <p><%= time_summary(@submitted_values) %></p>
-        <.async_result :let={groups} assign={@groups}>
-          <:failed :let={{:error, reason}}>
-            <.feedback kind={:error}>
-              <%= Phoenix.Naming.humanize(reason) %>
-            </.feedback>
+        <.async_result :let={results} assign={@results}>
+          <:failed :let={{:error, _reason}}>
+            <.feedback kind={:error}>Something else went wrong.</.feedback>
           </:failed>
           <:loading>
             <.spinner aria_label="Waiting for results" /> Waiting for results...
           </:loading>
-          <%= if groups do %>
-            <%= if Enum.count(groups) == 0 do %>
+          <%= if results do %>
+            <%= if Enum.count(results) == 0 do %>
               <.feedback kind={:warning}>No trips found.</.feedback>
             <% else %>
               <.feedback kind={:success}>
-                Found <%= Enum.count(groups) %> <%= Inflex.inflect("way", Enum.count(groups)) %> to go.
+                Found <%= Enum.count(results) %> <%= Inflex.inflect("way", Enum.count(results)) %> to go.
               </.feedback>
             <% end %>
           <% end %>
@@ -73,9 +71,9 @@ defmodule DotcomWeb.Live.TripPlanner do
         <div :if={@error} class="w-full p-4 text-rose-400">
           <%= inspect(@error) %>
         </div>
-        <.async_result :let={groups} assign={@groups}>
-          <div :if={groups} class="w-full p-4">
-            <.itinerary_group :for={group <- groups} group={group} />
+        <.async_result :let={results} assign={@results}>
+          <div :if={results} class="w-full p-4">
+            <.itinerary_group :for={result <- results} {result} />
           </div>
         </.async_result>
         <.live_component
@@ -110,12 +108,11 @@ defmodule DotcomWeb.Live.TripPlanner do
     socket =
       socket
       |> assign(:submitted_values, data)
-      |> assign(:groups, nil)
-      |> assign_async(:groups, fn ->
+      |> assign(:results, nil)
+      |> assign_async(:results, fn ->
         case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
           {:ok, itineraries} ->
-            Process.sleep(1200)
-            {:ok, %{groups: ItineraryGroups.from_itineraries(itineraries)}}
+            {:ok, %{results: ItineraryGroups.from_itineraries(itineraries)}}
 
           error ->
             error

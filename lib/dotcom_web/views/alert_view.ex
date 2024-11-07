@@ -5,7 +5,6 @@ defmodule DotcomWeb.AlertView do
 
   import DotcomWeb.ViewHelpers
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
-  import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
 
   alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}
   alias DotcomWeb.PartialView.SvgIconWithCircle
@@ -235,15 +234,6 @@ defmodule DotcomWeb.AlertView do
   defp show_mode_icon?(%Stop{}), do: false
 
   defp show_mode_icon?(%Route{}), do: true
-
-  @spec route_icon(Route.t()) :: Phoenix.HTML.Safe.t()
-  def route_icon(%Route{type: 3, description: :rapid_transit}) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: :silver_line, aria_hidden?: true})
-  end
-
-  def route_icon(%Route{} = route) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Route.icon_atom(route), aria_hidden?: true})
-  end
 
   @spec mode_buttons(atom) :: [Phoenix.HTML.Safe.t()]
   def mode_buttons(selected) do

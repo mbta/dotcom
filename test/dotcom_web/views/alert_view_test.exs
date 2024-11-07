@@ -25,40 +25,6 @@ defmodule DotcomWeb.AlertViewTest do
     end
   end
 
-  describe "route_icon/1" do
-    test "silver line icon" do
-      icon =
-        %Routes.Route{
-          description: :rapid_transit,
-          direction_names: %{0 => "Outbound", 1 => "Inbound"},
-          id: "742",
-          long_name: "Design Center - South Station",
-          name: "SL2",
-          type: 3
-        }
-        |> route_icon()
-        |> safe_to_string()
-
-      icon =~ "Silver Line"
-    end
-
-    test "red line icon" do
-      icon =
-        %Routes.Route{
-          description: :rapid_transit,
-          direction_names: %{0 => "Southbound", 1 => "Northbound"},
-          id: "Red",
-          long_name: "Red Line",
-          name: "Red Line",
-          type: 1
-        }
-        |> route_icon()
-        |> safe_to_string()
-
-      icon =~ "Red Line"
-    end
-  end
-
   describe "alert_updated/1" do
     test "returns the relative offset based on our timezone" do
       now = ~N[2016-10-05T00:02:03]

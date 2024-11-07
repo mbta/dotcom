@@ -16,7 +16,6 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
-  important: true,
   content: [
     ...content,
     "./js/**/*.js",
@@ -25,22 +24,45 @@ module.exports = {
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex"
   ],
-  safelist: [...safelist],
+  safelist: [
+    ...safelist,
+    {
+      pattern: /(bg|text|border|ring)-(logan-express|blue|green|orange|red|silver|bus|ferry|)./
+    }
+  ],
   theme: {
     extend: {
       colors: {
         ...colors,
-        "gray-lighter": "#b0b5c0",
-        "gray-light": "#788093",
-        "navy": {
-          500: "#104c8f"
-	},
-        "logan-express-bb": "#f16823",
-        "logan-express-bt": "#06c",
-        "logan-express-dv": "#704c9f",
-        "logan-express-fh": "#e81d2d",
-        "logan-express-wo": "#00954c",
-      },
+        gray: {
+          DEFAULT: "#494f5c",
+          dark: "#1c1e23",
+          light: "#788093",
+          lighter: "#b0b5c0"
+        },
+        "brand-primary": {
+          DEFAULT: "#165c96",
+          darkest: "#0b2f4c"
+        },
+        "logan-express": {
+          BB: "#f16823",
+          BT: "#0066cc",
+          DV: "#704c9f",
+          FH: "#e81d2d",
+          WO: "#00954c"
+        },
+        massport: "#104c8f",
+        subway: "#494f5c",
+        // These will come from the design system someday
+        "blue-line": "#003da5",
+        "green-line": "#00843d",
+        "orange-line": "#ed8b00",
+        "red-line": "#da291c",
+        "silver-line": "#7c878e",
+        "commuter-rail": "#80276c",
+        bus: "#ffc72c",
+        ferry: "#008eaa"
+      }
     },
     fontFamily: {
       ...fontFamily
@@ -82,6 +104,13 @@ module.exports = {
         ".phx-change-loading&",
         ".phx-change-loading &"
       ])
+    ),
+    plugin(({ addUtilities }) =>
+      addUtilities({
+        ".font-massport": {
+          fontFamily: "Helvetica, sans-serif"
+        }
+      })
     )
   ]
 };

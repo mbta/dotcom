@@ -4,106 +4,142 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   """
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.{TripPlanner.Leg, ModeIcons, Svg}
+  import DotcomWeb.Components.TripPlanner.ItineraryDetail
 
-  alias Dotcom.TripPlan.{TransitDetail, PersonalDetail}
-
-  attr :group, :map
+  attr(:summary, :map)
+  attr(:itineraries, :list)
 
   @doc """
   Renders a single itinerary group.
   """
   def itinerary_group(assigns) do
+    assigns =
+      assign(assigns, :group_id, "group-#{:erlang.phash2(assigns.itineraries)}")
+
     ~H"""
-    <% [first | rest] = @group %>
-    <% [first_leg | rest_of_legs] = first.legs %>
-    <div class="border border-gray-lighter border-solid m-4 p-4">
-      <div class="flex flex-row mb-3">
-        <div class="font-bold text-lg mr-auto">
-          <%= format_datetime_full(first.departure) %> - <%= format_datetime_full(first.arrival) %>
+    <div class="border border-solid m-4 p-4">
+      <div
+        :if={@summary.tag}
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+      >
+        <%= @summary.tag %>
+      </div>
+      <div class="flex flex-row mb-3 font-bold text-lg justify-between">
+        <div>
+          <%= format_datetime_full(@summary.first_start) %> - <%= format_datetime_full(
+            @summary.first_stop
+          ) %>
         </div>
-        <div class="font-bold text-lg">
-          <%= format_trip_duration(%{arrival: first.arrival, departure: first.departure}) %>
+        <div>
+          <%= @summary.duration %> min
         </div>
       </div>
-      <div class="flex flex-row items-center mb-3">
-        <.leg_icon leg={first_leg} mode={first_leg.mode} class="mr-1" />
-        <%= for leg <- rest_of_legs do %>
-          <i class="fa-solid fa-angle-right mr-1 font-black" />
-          <.leg_icon leg={leg} mode={leg.mode} class="mr-1" />
+      <div class="flex flex-wrap gap-1 items-center content-center mb-3">
+        <%= for {summary_leg, index} <- Enum.with_index(@summary.summarized_legs) do %>
+          <.icon :if={index > 0} name="angle-right" class="font-black w-2" />
+          <.leg_icon {summary_leg} />
         <% end %>
       </div>
-      <%= if Enum.count(rest) > 0, do: "Similar trips depart at " %>
-      <span :for={alternative <- rest}>
-        <%= format_datetime_short(alternative.departure) %>
-      </span>
-      <.accordion id="itinerary-group">
-        <:heading>
+      <div class="flex flex-wrap gap-1 items-center mb-3 text-sm text-grey-dark">
+        <div :if={@summary.accessible?} class="inline-flex items-center gap-0.5">
+          <.icon type="icon-svg" name="icon-accessible-small" class="h-3 w-3 mr-0.5" /> Accessible
+          <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
+        </div>
+        <div class="inline-flex items-center gap-0.5">
+          <.icon name="person-walking" class="h-3 w-3" />
+          <%= @summary.walk_distance %> mi
+        </div>
+        <div :if={@summary.total_cost > 0} class="inline-flex items-center gap-0.5">
+          <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
+          <.icon name="wallet" class="h-3 w-3" />
+          <%= Fares.Format.price(@summary.total_cost) %>
+        </div>
+      </div>
+      <div class="flex justify-end items-center">
+        <div :if={Enum.count(@summary.next_starts) > 0} class="grow text-sm text-grey-dark">
+          Similar trips depart at <%= Enum.map(@summary.next_starts, &format_datetime_short/1)
+          |> Enum.join(", ") %>
+        </div>
+        <button class="btn-link font-semibold underline" phx-click={JS.toggle(to: "##{@group_id}")}>
           Details
-        </:heading>
-        <:content>
-          <div :for={leg <- first.legs}>
-            <.leg
-              start_time={leg.start}
-              end_time={leg.stop}
-              from={leg.from}
-              to={leg.to}
-              mode={leg.mode}
-              realtime={leg.realtime}
-              realtime_state={leg.realtime_state}
-            />
-          </div>
-        </:content>
-      </.accordion>
+        </button>
+      </div>
+      <div id={@group_id} class="mt-30" style="display: none;">
+        <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+      </div>
     </div>
     """
   end
 
-  attr :class, :string, default: ""
-  attr :mode, :any, required: true
-  attr :leg, :any, required: true
+  attr(:class, :string, default: "")
+  attr(:leg, :any, required: true)
 
-  defp leg_icon(%{mode: %PersonalDetail{}, leg: %{duration: duration}} = assigns) do
-    assigns = assigns |> assign(:duration, duration)
-
+  defp leg_icon(%{routes: [], cents: 0} = assigns) do
     ~H"""
     <span class={[
-      "flex items-center text-center p-2 rounded-full border border-solid border-gray-light h-6",
+      "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border border-solid border-gray-light",
       @class
     ]}>
-      <.walk_icon height="12px" class="mr-1" />
-      <span class="text-sm font-semibold whitespace-nowrap"><%= @duration %> min</span>
+      <.icon name="person-walking" class="h-4 w-4" />
+      <span><%= @walk_minutes %> min</span>
     </span>
     """
   end
 
-  defp leg_icon(%{mode: %TransitDetail{route: %{name: route_name} = route}} = assigns) do
+  defp leg_icon(%{routes: [%Routes.Route{type: 2} | _]} = assigns) do
+    ~H"""
+    <.route_symbol route={List.first(@routes)} class={@class} />
+    """
+  end
+
+  defp leg_icon(%{routes: [%Routes.Route{}]} = assigns) do
+    ~H"""
+    <.route_symbol route={List.first(@routes)} {assigns} />
+    """
+  end
+
+  defp leg_icon(
+         %{routes: [%Routes.Route{type: type, external_agency_name: agency} | _]} = assigns
+       ) do
+    slashed? = type == 3 && is_nil(agency)
+
     assigns =
       assigns
-      |> assign(:route_name, route_name)
-      |> assign(:icon_atom, Routes.Route.icon_atom(route))
+      |> assign(:slashed?, slashed?)
+      |> assign(
+        :grouped_classes,
+        if(slashed?,
+          do: "[&:not(:first-child)]:rounded-l-none [&:not(:last-child)]:rounded-r-none !px-3",
+          else: "rounded-full ring-white ring-2"
+        )
+      )
 
     ~H"""
-    <.mode_icon type={@icon_atom} route_name={@route_name} class={@class} />
+    <div class="flex items-center -space-x-0.5">
+      <%= for {route, index} <- Enum.with_index(@routes) do %>
+        <.route_symbol route={route} class={"#{@grouped_classes} #{zindex(index)} #{@class}"} />
+        <%= if @slashed? and index < Kernel.length(@routes) - 1 do %>
+          <div class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}></div>
+        <% end %>
+      <% end %>
+    </div>
     """
   end
 
   defp leg_icon(assigns) do
+    inspect(assigns) |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+
     ~H"""
-    <span>Leg</span>
+    <span></span>
     """
+  end
+
+  defp zindex(index) do
+    "z-#{50 - index * 10}"
   end
 
   defp format_datetime_full(datetime) do
     Timex.format!(datetime, "%-I:%M %p", :strftime)
-  end
-
-  defp format_trip_duration(%{arrival: arrival, departure: departure}) do
-    minutes =
-      Timex.diff(arrival, departure, :duration)
-      |> Timex.Duration.to_minutes(truncate: true)
-
-    "#{minutes} min"
   end
 
   defp format_datetime_short(datetime) do
