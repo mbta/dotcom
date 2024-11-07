@@ -18,11 +18,12 @@ defmodule DotcomWeb.Live.TripPlanner do
   @map_config Application.compile_env!(:mbta_metro, :map)
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
     socket =
       socket
       |> assign(:error, nil)
       |> assign(:form_name, @form_id)
+      |> assign(:form_values, Dotcom.TripPlan.AntiCorruptionLayer.convert(params))
       |> assign(:map_config, @map_config)
       |> assign(:from, [])
       |> assign(:to, [])
@@ -39,7 +40,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <.live_component module={TripPlannerForm} id={@form_name} form_name={@form_name} />
+      <.live_component module={TripPlannerForm} id={@form_name} form_name={@form_name} form_values={@form_values} />
       <section :if={@submitted_values} class="mt-2 mb-6">
         <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
         <p><%= time_summary(@submitted_values) %></p>

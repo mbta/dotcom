@@ -13,20 +13,29 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   @impl true
   def mount(socket) do
-    form_defaults = %{
+    {:ok, socket}
+  end
+
+  @impl true
+  def update(assigns, socket) do
+    form_defaults = Map.get(assigns, :form_values, %{
       "datetime_type" => "now",
       "datetime" => Timex.now("America/New_York"),
       "modes" => InputForm.initial_modes(),
       "wheelchair" => true
-    }
+    })
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
       location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
+    new_socket =
+      socket
+      |> assign(assigns)
+      |> assign(defaults)
 
-    {:ok, assign(socket, defaults)}
+    {:ok, new_socket}
   end
 
   @impl true
@@ -40,7 +49,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         for={@form}
         method="get"
         phx-submit="save_form"
-        phx-change="handle_change"
         phx-target={@myself}
       >
         <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
@@ -136,6 +144,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           </.button>
         </div>
       </.form>
+      <div>
+        <code><%= inspect(@form[:datetime_type].value) %></code>
+        <code><%= inspect(@form[:datetime].value) %></code>
+      </div>
     </section>
     """
   end
