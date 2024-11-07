@@ -13,4 +13,4 @@
       layout: null, gaTrack: true, gaId: <%= tag_id %>}, "google_translate_element");
   }
 </script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" integrity={static_integrity(@conn, "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")}></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
