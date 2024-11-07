@@ -4,8 +4,6 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   content security policy directives at funtime.
   """
 
-  import Phoenix.Controller, only: [put_secure_browser_headers: 2]
-
   @base_csp_directives %{
     connect: ~w[
       connect-src
@@ -70,8 +68,6 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   }
 
   @default_secure_headers %{
-    "content-security-policy" =>
-      Application.compile_env(:dotcom, :content_security_policy_definition, ""),
     "strict-transport-security" => "max-age=31536000",
     "x-content-type-options" => "nosniff",
     "x-frame-options" => "DENY",
@@ -86,10 +82,16 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   @impl Plug
   @spec call(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def call(conn, _) do
-    put_secure_browser_headers(conn, @default_secure_headers)
+    Phoenix.Controller.put_secure_browser_headers(conn, default_secure_headers())
   end
 
   def base_csp_directives, do: @base_csp_directives
 
-  def default_secure_headers, do: @default_secure_headers
+  def default_secure_headers,
+    do:
+      @default_secure_headers
+      |> Map.put(
+        "content-security-policy",
+        Application.get_env(:dotcom, :content_security_policy_definition, "")
+      )
 end

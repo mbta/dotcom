@@ -169,7 +169,7 @@ if config_env() == :prod do
            {_, directive} ->
              directive
          end)
-         |> Enum.map_join("; ", &Enum.join/1)
+         |> Enum.map_join("; ", &Enum.join(&1, " "))
 
   config :dotcom, DotcomWeb.Endpoint,
     http: [
