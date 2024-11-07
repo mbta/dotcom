@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
+<link rel="stylesheet" href={static_url(@conn, "/css/map.css")} integrity={static_integrity(@conn, "/css/map.css")}>
 <div>
   <div id="react-stop-root" data-mbta-stop-id="<%= @stop_id %>"></div>
 </div>
@@ -6,7 +6,7 @@
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/stop.js" %>"></script>
 <% else %>
-  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-  <script defer src="<%= static_url(@conn, "/js/leaflet.js") %>"></script>
-  <script defer src="<%= static_url(@conn, "/js/stop.js") %>"></script>
+  <script defer src={static_url(@conn, "/js/react.js")} integrity={static_integrity(@conn, "/js/react.js")}></script>
+  <script defer src={static_url(@conn, "/js/leaflet.js")} integrity={static_integrity(@conn, "/js/leaflet.js")}></script>
+  <script defer src={static_url(@conn, "/js/stop.js")} integrity={static_integrity(@conn, "/js/stop.js")}></script>
 <% end %>
