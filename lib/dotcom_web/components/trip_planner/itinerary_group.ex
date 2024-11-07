@@ -2,12 +2,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   @moduledoc """
   A component to render an itinerary group.
   """
-
-  import DotcomWeb.Components.{ModeIcons, Svg}
-  alias Dotcom.TripPlan.{TransitDetail, PersonalDetail}
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.Leg
+  import DotcomWeb.Components.{TripPlanner.Leg, ModeIcons, Svg}
+
+  alias Dotcom.TripPlan.{TransitDetail, PersonalDetail}
 
   attr :group, :map
 
