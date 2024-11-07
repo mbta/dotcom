@@ -1,6 +1,5 @@
 import { ViewHook } from "phoenix_live_view";
 import L from "leaflet";
-import "../../js/leaflet-css";
 
 const bostonCenter: L.LatLng = L.latLng(42.360718, -71.05891);
 const baseMap = L.tileLayer("https://cdn.mbta.com/osm_tiles/{z}/{x}/{y}.png", {
