@@ -119,21 +119,17 @@ defmodule DotcomWeb.Components.ModeIcons do
 
   def mode_icon(%{type: :commuter_rail} = assigns) do
     ~H"""
-    <span class="bg-purple-500 w-6 h-6 rounded-full flex justify-center items-center">
-      <.icon
-        class={"h-[1.125rem] fill-white #{@class}"}
-        type="icon-svg"
-        name="icon-commuter-rail-default"
-      />
-    </span>
+    <.circle_icon class={"bg-purple-500 #{@class}"}>
+      <.icon class="h-[1.125rem] fill-white" type="icon-svg" name="icon-commuter-rail-default" />
+    </.circle_icon>
     """
   end
 
   def mode_icon(%{type: :ferry} = assigns) do
     ~H"""
-    <span class="bg-[#008eaa] w-6 h-6 rounded-full flex justify-center items-center">
-      <.icon class={"h-[1.125rem] fill-white #{@class}"} type="icon-svg" name="icon-ferry-default" />
-    </span>
+    <.circle_icon class={"bg-[#008eaa] #{@class}"}>
+      <.icon class="h-[1.125rem] fill-white" type="icon-svg" name="icon-ferry-default" />
+    </.circle_icon>
     """
   end
 
