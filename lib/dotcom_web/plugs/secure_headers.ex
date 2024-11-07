@@ -6,20 +6,68 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
 
   import Phoenix.Controller, only: [put_secure_browser_headers: 2]
 
-  @base_csp_directives [
-    default: "default-src 'none'",
-    img:
-      "img-src 'self' cdn.mbta.com px.ads.linkedin.com www.linkedin.com www.facebook.com *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com *.arcgis.com",
-    style: "style-src 'self' 'unsafe-inline' www.gstatic.com cdn.jsdelivr.net",
-    script:
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com *.arcgis.com",
-    font: "font-src 'self'",
-    connect:
-      "connect-src 'self' *.googleapis.com analytics.google.com www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net *.arcgis.com *.s3.amazonaws.com",
-    frame:
-      "frame-src 'self' data.mbta.com www.youtube.com www.google.com cdn.knightlab.com livestream.com www.instagram.com *.arcgis.com",
-    worker: "worker-src blob: ;"
-  ]
+  @base_csp_directives %{
+    connect: ~w[
+      connect-src
+      'self'
+      *.arcgis.com
+      *.googleapis.com
+      *.s3.amazonaws.com
+      analytics.google.com
+      px.ads.linkedin.com
+      stats.g.doubleclick.net
+      www.google-analytics.com
+      www.google.com
+    ],
+    default: ~w[default-src 'none'],
+    font: ~w[font-src 'self'],
+    frame: ~w[
+      frame-src
+      'self'
+      *.arcgis.com
+      cdn.knightlab.com
+      data.mbta.com
+      livestream.com
+      www.youtube.com
+      www.google.com
+      www.instagram.com
+    ],
+    img: ~w[
+      img-src
+      'self'
+      *.arcgis.com
+      *.google.com
+      *.googleapis.com
+      *.gstatic.com
+      *.s3.amazonaws.com
+      cdn.mbta.com
+      data:
+      i.ytimg.com
+      px.ads.linkedin.com
+      www.linkedin.com
+      www.facebook.com
+      www.googletagmanager.com
+    ],
+    script: ~w[
+      script-src
+      'self'
+      'unsafe-eval'
+      'unsafe-inline'
+      *.arcgis.com
+      *.google.com
+      *.googleapis.com
+      connect.facebook.net
+      data.mbta.com
+      insitez.blob.core.windows.net
+      snap.licdn.com
+      www.instagram.com
+      www.google-analytics.com
+      www.gstatic.com
+      www.googletagmanager.com
+    ],
+    style: ~w[style-src 'self' 'unsafe-inline' www.gstatic.com],
+    worker: ~w[worker-src blob: ;]
+  }
 
   @default_secure_headers %{
     "content-security-policy" =>
@@ -41,23 +89,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
     put_secure_browser_headers(conn, @default_secure_headers)
   end
 
+  def base_csp_directives, do: @base_csp_directives
+
   def default_secure_headers, do: @default_secure_headers
-
-  @type csp_directive_src ::
-          :default | :img | :style | :script | :font | :connect | :frame | :worker
-
-  @doc """
-  Used to define the Content-Security-Policy header in prod using runtime
-  values. Add to the `@base_csp_directives` by passing in key-value pairs, e.g.
-  `[script: "www.fancy-js-cdn-host.io"]`
-  """
-  @spec build_csp_directives([{csp_directive_src(), String.t()}]) :: String.t()
-  def build_csp_directives(directives_values) do
-    directives_values
-    |> Enum.reduce(@base_csp_directives, fn {directive, value}, directives ->
-      Keyword.update!(directives, directive, &(&1 <> " " <> value))
-    end)
-    |> Keyword.values()
-    |> Enum.join("; ")
-  end
 end

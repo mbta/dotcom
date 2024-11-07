@@ -151,15 +151,25 @@ if config_env() == :prod do
       [match | _] -> match
     end
 
+  static_host = System.get_env("STATIC_HOST", "")
+
   config :dotcom,
          :content_security_policy_definition,
-         DotcomWeb.Plug.SecureHeaders.build_csp_directives(
-           img: "#{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")}",
-           style: "#{System.get_env("STATIC_HOST", "")}",
-           script: "#{System.get_env("STATIC_HOST", "")}",
-           font: "#{System.get_env("STATIC_HOST", "")}",
-           connect: "wss://#{host} #{sentry_dsn_host || ""}"
-         )
+         DotcomWeb.Plug.SecureHeaders.base_csp_directives()
+         |> Enum.map(fn
+           {:connect, directive} ->
+             directive ++ ["wss://#{host}", sentry_dsn_host]
+
+           {:img, directive} ->
+             directive ++ [static_host, System.get_env("CMS_API_BASE_URL", "")]
+
+           {key, directive} when key in [:font, :script, :style] ->
+             directive ++ [static_host]
+
+           {_, directive} ->
+             directive
+         end)
+         |> Enum.map_join("; ", &Enum.join/1)
 
   config :dotcom, DotcomWeb.Endpoint,
     http: [
