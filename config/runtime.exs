@@ -155,7 +155,7 @@ if config_env() == :prod do
 
   config :dotcom,
          :content_security_policy_definition,
-         DotcomWeb.Plug.SecureHeaders.base_csp_directives()
+         DotcomWeb.Plugs.SecureHeaders.base_csp_directives()
          |> Enum.map(fn
            {:connect, directive} ->
              directive ++ ["wss://#{host}", sentry_dsn_host]
