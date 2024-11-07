@@ -226,7 +226,6 @@ defmodule DotcomWeb.Router do
     get("/vote", VoteController, :show)
   end
 
-
   scope "/" do
     storybook_assets()
   end
