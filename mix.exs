@@ -78,6 +78,7 @@ defmodule DotCom.Mixfile do
       {:crc, "0.10.5"},
       {:credo, "1.7.8", only: [:dev, :test]},
       {:csv, "3.2.1"},
+      {:dart_sass, "~> 0.7", runtime: Mix.env() == :dev},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.4", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
@@ -169,7 +170,7 @@ defmodule DotCom.Mixfile do
         "phx.digest"
       ],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind default", "esbuild default"]
+      "assets.build": ["tailwind default", "esbuild default", "sass theme"]
     ]
   end
 end

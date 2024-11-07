@@ -34,6 +34,13 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
+config :dart_sass,
+  version: "1.77.8",
+  theme: [
+    args: ~w(css/_autocomplete-theme.scss ../priv/static/assets/autocomplete.css --style=compressed --load-path=node_modules/@algolia/autocomplete-theme-classic/dist/theme.css --load-path=node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
 config :esbuild,
   version: "0.17.11",
   default: [

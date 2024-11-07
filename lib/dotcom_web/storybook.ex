@@ -5,5 +5,8 @@ defmodule DotcomWeb.Storybook do
     # assets path are remote path, not local file-system paths
     css_path: "/assets/storybook.css",
     js_path: "/assets/storybook.js",
-    sandbox_class: "dotcom-web"
+    sandbox_class: "dotcom-web",
+    themes: [
+      default: [name: "Colorful", dropdown_class: "text-pink-400"]
+    ]
 end

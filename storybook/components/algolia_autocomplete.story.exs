@@ -5,6 +5,14 @@ defmodule DotcomWeb.Storybook.AlgoliaAutocomplete do
     &DotcomWeb.Components.algolia_autocomplete/1
   end
 
+  def template do
+    """
+    <div class="bg-slate-400 border border-2 border-blue-400 p-4">
+      <.psb-variation />
+    </div>
+    """
+  end
+
   def variations do
     for config_type <- [
           "basic-config",

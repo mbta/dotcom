@@ -33,7 +33,13 @@ if config_env() == :dev do
     check_origin: false,
     watchers: [
       npm: ["run", "webpack:watch", cd: Path.expand("../../assets/", __DIR__)],
-      storybook_tailwind: {Tailwind, :install_and_run, [:storybook, ~w(--watch)]}
+      storybook_tailwind: {Tailwind, :install_and_run, [:storybook, ~w(--watch)]},
+      storybook_esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+      storybook_sass: {
+        DartSass,
+        :install_and_run,
+        [:theme, ~w(--embed-source-map --source-map-urls=absolute --watch)]
+      }
     ],
     live_reload: [
       patterns: [

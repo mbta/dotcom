@@ -23,7 +23,8 @@ module.exports = {
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex"
+    "../lib/dotcom_web/**/*.*ex",
+    "../storybook/components/**.exs"
   ],
   safelist: [...safelist],
   theme: {

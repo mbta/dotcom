@@ -1,4 +1,7 @@
-@import '@algolia/autocomplete-theme-classic';
+@import '@algolia/autocomplete-theme-classic/dist/theme.css';
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import 'colors';
+@import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
 
 // styles that will be used for every instance
 [phx-hook='AlgoliaAutocomplete'] {
