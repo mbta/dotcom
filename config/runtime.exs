@@ -222,7 +222,7 @@ case config_env() do
              [
                "default-src 'none'",
                "img-src 'self' cdn.mbta.com #{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")} px.ads.linkedin.com www.linkedin.com www.facebook.com *.google.com *.googleapis.com *.gstatic.com *.s3.amazonaws.com data: i.ytimg.com www.googletagmanager.com *.arcgis.com",
-               "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")}",
+               "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")} cdn.jsdelivr.net",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} insitez.blob.core.windows.net snap.licdn.com connect.facebook.net www.instagram.com www.google-analytics.com *.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com data.mbta.com *.arcgis.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
                "connect-src 'self' wss://#{host} #{sentry_dsn_host || ""} *.googleapis.com analytics.google.com www.google-analytics.com www.google.com px.ads.linkedin.com stats.g.doubleclick.net *.arcgis.com *.s3.amazonaws.com",

@@ -17,12 +17,12 @@
   <%= raw Poison.encode!(@dynamic_map_data) %>
 </script>
 
-<link rel="stylesheet" href={static_url(@conn, "/css/map.css")} integrity={static_integrity(@conn, "/css/map.css")}>
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/schedule.js" %>"></script>
 <% else %>
-  <script defer src={static_url(@conn, "/js/react.js")} integrity={static_integrity(@conn, "/js/react.js")}></script>
-  <script defer src={static_url(@conn, "/js/schedule.js")} integrity={static_integrity(@conn, "/js/schedule.js")}></script>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
 <% end %>
 
 <div class="page-section m-schedule-line">
