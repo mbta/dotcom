@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { MapData } from "./components/__mapdata";
 import Map from "./components/Map";
-import "../css/leaflet.scss";
+import "../../css/leaflet.scss";
 
 const render = (): void => {
   const dataEl = document.querySelector(".js-map-data");
