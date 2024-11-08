@@ -30,7 +30,8 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   def convert(_), do: convert(%{"plan" => %{}})
 
   defp convert_modes(modes) when is_map(modes) do
-    default_modes = for {k, _} <- Dotcom.TripPlan.InputForm.initial_modes(), into: %{}, do: {k, "false"}
+    default_modes =
+      for {k, _} <- Dotcom.TripPlan.InputForm.initial_modes(), into: %{}, do: {k, "false"}
 
     modes
     |> Enum.reduce(default_modes, fn {key, value}, acc ->

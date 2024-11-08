@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
       })
       |> Map.merge(%{
         "datetime_type" => "now",
-        "datetime" => Timex.now("America/New_York"),
+        "datetime" => Timex.now("America/New_York")
       })
 
     defaults = %{
@@ -34,6 +34,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
       location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
+
     new_socket =
       socket
       |> assign(assigns)

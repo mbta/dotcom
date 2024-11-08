@@ -40,7 +40,12 @@ defmodule DotcomWeb.Live.TripPlanner do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <.live_component module={TripPlannerForm} id={@form_name} form_name={@form_name} form_values={@form_values} />
+      <.live_component
+        module={TripPlannerForm}
+        id={@form_name}
+        form_name={@form_name}
+        form_values={@form_values}
+      />
       <section :if={@submitted_values} class="mt-2 mb-6">
         <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
         <p><%= time_summary(@submitted_values) %></p>
