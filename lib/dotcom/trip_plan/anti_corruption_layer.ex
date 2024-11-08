@@ -3,8 +3,6 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   def convert(%{"plan" => params}) do
     %{
-      "datetime" => Map.get(params, "date_time") |> convert_datetime(),
-      "datetime_type" => Map.get(params, "time", "now"),
       "from" => %{
         "latitude" => Map.get(params, "from_latitude"),
         "longitude" => Map.get(params, "from_longitude"),
@@ -23,15 +21,6 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   end
 
   def convert(_), do: convert(%{"plan" => %{}})
-
-  defp convert_datetime(datetime) when is_binary(datetime) do
-    case Timex.parse(datetime, "%Y-%m-%d %H:%M %p", :strftime) do
-      {:ok, naivedatetime} -> naivedatetime |> Timex.to_datetime("America/New_York")
-      {:error, _} -> Timex.now("America/New_York")
-    end
-  end
-
-  defp convert_datetime(_), do: Timex.now("America/New_York")
 
   defp convert_modes(modes) when is_map(modes) do
     default_modes = for {k, _} <- Dotcom.TripPlan.InputForm.initial_modes(), into: %{}, do: {k, "false"}

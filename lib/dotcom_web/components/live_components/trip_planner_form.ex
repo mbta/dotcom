@@ -18,12 +18,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   @impl true
   def update(assigns, socket) do
-    form_defaults = Map.get(assigns, :form_values, %{
-      "datetime_type" => "now",
-      "datetime" => Timex.now("America/New_York"),
-      "modes" => InputForm.initial_modes(),
-      "wheelchair" => true
-    })
+    form_defaults =
+      assigns
+      |> Map.get(:form_values, %{
+        "modes" => InputForm.initial_modes(),
+        "wheelchair" => true
+      })
+      |> Map.merge(%{
+        "datetime_type" => "now",
+        "datetime" => Timex.now("America/New_York"),
+      })
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
@@ -144,10 +148,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           </.button>
         </div>
       </.form>
-      <div>
-        <code><%= inspect(@form[:datetime_type].value) %></code>
-        <code><%= inspect(@form[:datetime].value) %></code>
-      </div>
     </section>
     """
   end
