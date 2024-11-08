@@ -8,6 +8,11 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   We ignore datetime_type and datetime and allow those to be set to 'now' and the current time respectively.
   """
 
+  @doc"""
+  Given the params from the old trip planner, convert them to the new trip planner form values.
+
+  If no plan is given, then we default to empty form values.
+  """
   def convert(%{"plan" => params}) do
     %{
       "from" => %{
