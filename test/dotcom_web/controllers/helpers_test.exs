@@ -24,18 +24,6 @@ defmodule DotcomWeb.ControllerHelpersTest do
     end
   end
 
-  describe "render_not_found/1" do
-    test "renders the 404 bus page", %{conn: conn} do
-      rendered =
-        conn
-        |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
-        |> render_not_found()
-        |> html_response(404)
-
-      assert rendered =~ "This page is no longer in service."
-    end
-  end
-
   describe "return_internal_error/1" do
     test "renders an 'Internal error' 500 json response" do
       response =

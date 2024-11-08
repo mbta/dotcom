@@ -92,10 +92,7 @@ defmodule DotcomWeb.CMSController do
   end
 
   defp handle_page_response({:error, _}, conn) do
-    conn
-    |> put_status(500)
-    |> put_view(DotcomWeb.ErrorView)
-    |> render("500.html", [])
+    render_500(conn)
   end
 
   @spec render_page(Conn.t(), Page.t()) :: Conn.t()

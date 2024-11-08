@@ -16,10 +16,7 @@ defmodule DotcomWeb.TransitNearMeController do
     |> flash_if_error()
     |> case do
       :error ->
-        conn
-        |> put_status(:internal_server_error)
-        |> put_view(DotcomWeb.ErrorView)
-        |> render("500.html", [])
+        render_500(conn)
 
       %Conn{} = loaded_conn ->
         render(loaded_conn, "index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])

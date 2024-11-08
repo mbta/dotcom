@@ -2,7 +2,7 @@ defmodule DotcomWeb.ControllerHelpers do
   @moduledoc false
 
   import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
-  import Phoenix.Controller, only: [render: 3, put_view: 2, put_layout: 2]
+  import Phoenix.Controller, only: [render: 3, put_view: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
   alias DotcomWeb.CMSController
@@ -39,13 +39,11 @@ defmodule DotcomWeb.ControllerHelpers do
     |> halt()
   end
 
-  def render_not_found(conn) do
+  def render_500(conn) do
     conn
-    |> put_status(:not_found)
-    |> put_layout({DotcomWeb.LayoutView, "root.html"})
+    |> put_status(:internal_server_error)
     |> put_view(DotcomWeb.ErrorView)
-    |> render("404.html", [])
-    |> halt()
+    |> render("500.html", [])
   end
 
   def return_internal_error(conn),
