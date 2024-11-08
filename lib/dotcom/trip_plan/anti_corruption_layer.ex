@@ -1,5 +1,12 @@
 defmodule Dotcom.TripPlan.AntiCorruptionLayer do
-  @moduledoc false
+  @moduledoc """
+  This anti-corruption layer is responsible for converting the data from the old trip planner query params to the new trip planner form values.
+
+  Currently, not all modes are sent. So, we default to setting them to 'false' if they aren't set.
+  Likewise with wheelchair, we default to 'false' if it isn't set because the old trip planner worked by just not setting it rather than setting it to 'false'.
+
+  We ignore datetime_type and datetime and allow those to be set to 'now' and the current time respectively.
+  """
 
   def convert(%{"plan" => params}) do
     %{
