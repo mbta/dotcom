@@ -53,6 +53,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         for={@form}
         method="get"
         phx-submit="save_form"
+        phx-change="handle_change"
         phx-target={@myself}
       >
         <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
