@@ -7,11 +7,11 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  alias DotcomWeb.Components.LiveComponents.TripPlannerForm
-  alias Dotcom.TripPlan.{InputForm.Modes, ItineraryGroups}
-
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
   import MbtaMetro.Components.{Feedback, Spinner}
+
+  alias DotcomWeb.Components.LiveComponents.TripPlannerForm
+  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm.Modes, ItineraryGroups}
 
   @form_id "trip-planner-form"
 
@@ -23,7 +23,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:error, nil)
       |> assign(:form_name, @form_id)
-      |> assign(:form_values, Dotcom.TripPlan.AntiCorruptionLayer.convert(params))
+      |> assign(:form_values, AntiCorruptionLayer.convert(params))
       |> assign(:map_config, @map_config)
       |> assign(:from, [])
       |> assign(:to, [])
