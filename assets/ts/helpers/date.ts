@@ -94,7 +94,7 @@ export const formatRelativeTime = (
     return "<1 minute away";
   }
   if (seconds < secondsInHour) {
-    return `${Math.floor(seconds / secondsInMinute)} min`;
+    return `${Math.round(seconds / secondsInMinute)} min`;
   }
 
   return formatToBostonTime(time, "h:mm aa");
