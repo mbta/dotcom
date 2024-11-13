@@ -18,12 +18,6 @@ defmodule DotcomWeb do
 
   def static_paths, do: ~w(css js fonts icon-svg images favicon robots.txt)
 
-  def model do
-    quote do
-      # Define common model functionality
-    end
-  end
-
   def controller do
     quote do
       use Gettext, backend: DotcomWeb.Gettext
@@ -135,7 +129,7 @@ defmodule DotcomWeb do
       use MbtaMetro
 
       import DotcomWeb.{Components, ErrorHelpers}
-      import Phoenix.{HTML, LiveView.Helpers, View}
+      import Phoenix.{HTML, LiveView.Helpers}
       import PhoenixHTMLHelpers.Form, except: [label: 1]
       import PhoenixHTMLHelpers.{Format, Link, Tag}
 

@@ -71,8 +71,12 @@ defmodule DotcomWeb.FareView do
 
   @spec do_summary_url(atom, String.t()) :: String.t()
   defp do_summary_url(name, anchor \\ "") do
-    fare_path(DotcomWeb.Endpoint, :show, DotcomWeb.StaticPage.convert_path(name) <> "-fares") <>
-      anchor
+    name
+    |> Atom.to_string()
+    |> String.replace("_", "-")
+    |> then(fn name ->
+      fare_path(DotcomWeb.Endpoint, :show, name <> "-fares") <> anchor
+    end)
   end
 
   @spec fare_passes(Route.gtfs_route_type()) :: DescriptionList.t()

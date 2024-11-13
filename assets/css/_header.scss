@@ -430,22 +430,3 @@ nav.m-menu--mobile {
   padding: unset;
   width: 30px;
 }
-
-// /menu page
-.m-menu--page {
-  margin-bottom: 4 * $base-spacing;
-
-  .m-menu__link {
-    padding-left: 0;
-  }
-
-  h3 {
-    line-height: 2;
-    margin-bottom: .5 * $base-spacing;
-    margin-top: $base-spacing;
-  }
-
-  hr {
-    margin: 0;
-  }
-}

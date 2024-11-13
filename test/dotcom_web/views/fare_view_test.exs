@@ -54,7 +54,9 @@ defmodule DotcomWeb.FareViewTest do
           Helpers.fare_path(
             DotcomWeb.Endpoint,
             :show,
-            DotcomWeb.StaticPage.convert_path(mode)
+            mode
+            |> Atom.to_string()
+            |> String.replace("_", "-")
           )
 
         assert summary_url(%Summary{modes: [mode, :bus]}) == expected <> "-fares"
