@@ -23,6 +23,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayerTest do
         "plan" => %{
           "modes" => %{
             "bus" => "true",
+            "ferry" => "false",
             "subway" => "true"
           }
         }
@@ -31,9 +32,9 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayerTest do
       new_params = convert_old_params(old_params)
 
       assert new_params["modes"]["BUS"] == "true"
-      assert new_params["modes"]["SUBWAY"] == "true"
       assert new_params["modes"]["FERRY"] == "false"
       assert new_params["modes"]["RAIL"] == "false"
+      assert new_params["modes"]["SUBWAY"] == "true"
     end
 
     test "defaults to wheelchair false when no wheelchair is given" do
