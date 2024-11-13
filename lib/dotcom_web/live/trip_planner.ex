@@ -23,7 +23,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:error, nil)
       |> assign(:form_name, @form_id)
-      |> assign(:form_values, AntiCorruptionLayer.convert(params))
+      |> assign(:form_values, AntiCorruptionLayer.convert_old_params(params))
       |> assign(:map_config, @map_config)
       |> assign(:from, [])
       |> assign(:to, [])

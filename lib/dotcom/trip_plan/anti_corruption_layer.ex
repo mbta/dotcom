@@ -13,7 +13,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   If no plan is given, then we default to empty form values.
   """
-  def convert(%{"plan" => params}) do
+  def convert_old_params(%{"plan" => params}) do
     %{
       "from" => %{
         "latitude" => Map.get(params, "from_latitude"),
@@ -32,7 +32,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
     }
   end
 
-  def convert(_), do: convert(%{"plan" => %{}})
+  def convert_old_params(_), do: convert_old_params(%{"plan" => %{}})
 
   defp convert_modes(modes) when is_map(modes) do
     default_modes =
