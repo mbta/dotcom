@@ -43,7 +43,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayerTest do
 
       new_params = convert_old_params(old_params)
 
-      assert "false" == new_params["wheelchair"]
+      assert new_params["wheelchair"] == "false"
     end
   end
 end
