@@ -72,7 +72,7 @@ describe("DepartureList", () => {
     );
     expect(screen.queryAllByRole("listitem")).toHaveLength(predictions.length);
     expect(container.querySelector(".c-svg__icon--realtime")).toBeTruthy();
-    expect(screen.queryByText("10 min")).toBeTruthy();
+    expect(screen.queryByText("11 min")).toBeTruthy();
   });
 
   it("should render a schedule when no predictions available", () => {
@@ -89,9 +89,9 @@ describe("DepartureList", () => {
     );
 
     expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
-    expect(screen.queryByText("9 min")).toBeTruthy();
-    expect(screen.queryByText("14 min")).toBeTruthy();
-    expect(screen.queryByText("19 min")).toBeTruthy();
+    expect(screen.queryByText("10 min")).toBeTruthy();
+    expect(screen.queryByText("15 min")).toBeTruthy();
+    expect(screen.queryByText("20 min")).toBeTruthy();
   });
 
   it("should render a prediction time if available", () => {
@@ -109,8 +109,8 @@ describe("DepartureList", () => {
 
     expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
     expect(screen.queryByText("<1 minute away")).toBeTruthy();
-    expect(screen.queryByText("10 min")).toBeTruthy();
-    expect(screen.queryByText("19 min")).toBeTruthy();
+    expect(screen.queryByText("11 min")).toBeTruthy();
+    expect(screen.queryByText("20 min")).toBeTruthy();
   });
 
   it("header has link to schedule page variant ", () => {
