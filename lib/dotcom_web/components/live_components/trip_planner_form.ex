@@ -13,12 +13,17 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   @impl true
   def mount(socket) do
-    form_defaults = %{
-      "datetime_type" => "now",
-      "datetime" => Timex.now("America/New_York"),
-      "modes" => InputForm.initial_modes(),
-      "wheelchair" => true
-    }
+    {:ok, socket}
+  end
+
+  @impl true
+  @doc """
+  If form values are passed in, we merge them with the defaults and submit the form.
+
+  Otherwise, we just render the form.
+  """
+  def update(assigns, socket) do
+    form_defaults = get_form_defaults(assigns)
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
@@ -26,7 +31,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
       show_datepicker: false
     }
 
-    {:ok, assign(socket, defaults)}
+    new_socket =
+      socket
+      |> assign(assigns)
+      |> assign(defaults)
+
+    if assigns[:form_values] do
+      save_form(form_defaults, new_socket)
+    end
+
+    {:ok, new_socket}
   end
 
   @impl true
@@ -177,22 +191,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   def handle_event("save_form", %{"input_form" => params}, socket) do
-    params
-    |> InputForm.validate_params()
-    |> Ecto.Changeset.apply_action(:update)
-    |> case do
-      {:ok, data} ->
-        send(self(), {:updated_form, data})
-
-        {:noreply, socket}
-
-      {:error, changeset} ->
-        form =
-          changeset
-          |> Phoenix.Component.to_form()
-
-        {:noreply, assign(socket, %{form: form})}
-    end
+    {:noreply, save_form(params, socket)}
   end
 
   defp datepicker_config do
@@ -204,6 +203,18 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     }
   end
 
+  defp get_form_defaults(assigns) do
+    assigns
+    |> Map.get(:form_values, %{
+      "modes" => InputForm.initial_modes(),
+      "wheelchair" => true
+    })
+    |> Map.merge(%{
+      "datetime_type" => "now",
+      "datetime" => Timex.now("America/New_York")
+    })
+  end
+
   defp nearest_5_minutes do
     datetime = Timex.now("America/New_York")
     minutes = datetime.minute
@@ -211,5 +222,24 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     added_minutes = Kernel.trunc(rounded_minutes - minutes)
 
     Timex.shift(datetime, minutes: added_minutes)
+  end
+
+  defp save_form(params, socket) do
+    params
+    |> InputForm.validate_params()
+    |> Ecto.Changeset.apply_action(:update)
+    |> case do
+      {:ok, data} ->
+        send(self(), {:updated_form, data})
+
+        socket
+
+      {:error, changeset} ->
+        form =
+          changeset
+          |> Phoenix.Component.to_form()
+
+        assign(socket, %{form: form})
+    end
   end
 end
