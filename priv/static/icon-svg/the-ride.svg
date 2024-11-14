@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36px" height="36px" role="img" version="1.1" viewBox="0 0 36 36">
-    <title>
-        the ride
-    </title>
+<svg width="36px" height="36px" role="img" viewBox="0 0 36 36">
+    <title>The Ride</title>
     <defs>
         <circle id="path-1" cx="18" cy="18" r="18"/>
     </defs>

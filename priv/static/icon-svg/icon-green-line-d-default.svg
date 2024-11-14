@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 48 48">
-    <title>
-        green line D
-    </title>
+<svg role="img" viewBox="0 0 48 48">
+    <title>Green Line D</title>
     <path fill="#00843d" d="m24.03 0a24 24 0 1 0 24 24 24 24 0 0 0 -24-24"/>
     <text fill="#fff" font-family="HelveticaNeue-Bold, Helvetica Neue" font-size="29" font-weight="700" transform="translate(13.25519 34.56984)">
         D
