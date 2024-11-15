@@ -30,6 +30,7 @@ defmodule Test.Support.Factories.Routes.Route do
 
   def logan_express_route_factory(attrs) do
     %{
+      description: nil,
       external_agency_name: "Logan Express",
       name: Faker.Util.pick(@logan_express_icon_names),
       type: 3
@@ -40,6 +41,7 @@ defmodule Test.Support.Factories.Routes.Route do
 
   def massport_route_factory(attrs) do
     %{
+      description: nil,
       external_agency_name: "Massport",
       name: Faker.Util.pick(@massport_icon_names),
       type: 3
