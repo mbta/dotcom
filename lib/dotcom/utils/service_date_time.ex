@@ -13,9 +13,9 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Before today and after next week are open intervals. Today is included in this week.
   """
 
-  require Logger
-
   use Timex
+
+  require Logger
 
   alias Dotcom.Utils
 

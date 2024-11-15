@@ -3,15 +3,14 @@ defmodule DotcomWeb.AlertControllerTest do
 
   use Phoenix.Controller
 
+  import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
+  import Mox
   import Phoenix.LiveViewTest
+  import Test.Support.Factories.Routes.Route
 
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
-
-  import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
-  import Mox
-  import Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 

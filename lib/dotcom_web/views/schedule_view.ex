@@ -3,11 +3,11 @@ defmodule DotcomWeb.ScheduleView do
 
   use DotcomWeb, :view
 
+  require Routes.Route
+
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
   import DotcomWeb.ViewHelpers
-
-  require Routes.Route
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers

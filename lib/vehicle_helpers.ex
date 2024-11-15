@@ -10,10 +10,6 @@ defmodule VehicleHelpers do
   alias Routes.{Route, Shape}
   alias Stops.Stop
   alias Schedules.Trip
-  alias DotcomWeb.ScheduleController.VehicleLocations
-
-  import Routes.Route, only: [vehicle_name: 1]
-  alias Stops.Stop
   alias Vehicles.Vehicle
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
