@@ -1,9 +1,9 @@
-defmodule DotcomWeb.Components.GtfsTest do
+defmodule DotcomWeb.Components.RouteSymbolsTest do
   @moduledoc false
   use ExUnit.Case
 
   import Phoenix.LiveViewTest
-  import DotcomWeb.Components.Gtfs
+  import DotcomWeb.Components.RouteSymbols
   import Test.Support.Factories.Routes.Route
 
   describe "route_symbol/1" do

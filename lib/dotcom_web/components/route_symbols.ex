@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.Gtfs do
+defmodule DotcomWeb.Components.RouteSymbols do
   @moduledoc """
   Reusable components for displaying UI derived from GTFS data.
   """
