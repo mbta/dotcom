@@ -1,4 +1,4 @@
-<svg role="img" viewBox="0 0 8.5 8.5">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" viewBox="0 0 8.5 8.5">
   <title>Logan Express Danvers Shuttle</title>
   <circle fill="#704c9f" cx="4.25" cy="4.25" r="4.25"/>
   <path fill="#b74326" d="M6.95,6.47h0c-.65.79-1.62,1.28-2.7,1.28-1.93,0-3.5-1.57-3.5-3.5,0-.35.05-.69.15-1.01.28-.04.59-.01.92.1.61.25,1.02.68,1.02,1.14.36-.34,1-.43,1.61-.2.78.28,1.25.98,1.08,1.59.25-.14.53-.14.79-.06.31.12.52.36.63.66Z"/>
