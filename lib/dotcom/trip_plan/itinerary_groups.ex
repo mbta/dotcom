@@ -9,8 +9,24 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.ItineraryTag
 
+  @type summarized_leg :: %{
+          routes: [Routes.Route.t()],
+          walk_minutes: non_neg_integer()
+        }
+  @type summary :: %{
+          accessible?: boolean() | nil,
+          duration: non_neg_integer(),
+          first_start: DateTime.t(),
+          first_stop: DateTime.t(),
+          next_starts: [DateTime.t()],
+          summarized_legs: [summarized_leg()],
+          tag: String.t(),
+          total_cost: non_neg_integer(),
+          walk_distance: float()
+        }
+
   @spec from_itineraries([Itinerary.t()]) :: [
-          %{itineraries: [Itinerary.t()], summary: map()}
+          %{itineraries: [Itinerary.t()], summary: summary()}
         ]
   def from_itineraries(itineraries) do
     itineraries
@@ -50,7 +66,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
         legs
         |> Enum.uniq_by(&combined_leg_to_tuple/1)
         |> Enum.map(&to_summarized_leg/1)
-        |> Enum.reduce(%{walk_minutes: 0, cents: 0, routes: []}, &summarize_legs/2)
+        |> Enum.reduce(%{walk_minutes: 0, routes: []}, &summarize_legs/2)
       end)
       |> remove_short_intermediate_walks()
 

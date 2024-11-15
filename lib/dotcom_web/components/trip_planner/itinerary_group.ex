@@ -6,8 +6,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
 
   import DotcomWeb.Components.TripPlanner.ItineraryDetail
 
-  attr(:summary, :map)
-  attr(:itineraries, :list)
+  attr(:summary, :map, doc: "ItineraryGroups.summary()", required: true)
+  attr(:itineraries, :list, doc: "List of %Dotcom.TripPlan.Itinerary{}", required: true)
 
   @doc """
   Renders a single itinerary group.
@@ -72,9 +72,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   end
 
   attr(:class, :string, default: "")
-  attr(:leg, :any, required: true)
+  attr(:routes, :list, required: true, doc: "List of %Routes.Route{}")
+  attr(:walk_minutes, :integer, required: true)
 
-  defp leg_icon(%{routes: [], cents: 0} = assigns) do
+  # No routes
+  defp leg_icon(%{routes: [], walk_minutes: _} = assigns) do
     ~H"""
     <span class={[
       "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border border-solid border-gray-light",
@@ -86,12 +88,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
     """
   end
 
+  # Group of commuter rail routes are summarized to one symbol.
   defp leg_icon(%{routes: [%Routes.Route{type: 2} | _]} = assigns) do
     ~H"""
     <.route_symbol route={List.first(@routes)} class={@class} />
     """
   end
 
+  # No grouping when there's only one route!
   defp leg_icon(%{routes: [%Routes.Route{}]} = assigns) do
     ~H"""
     <.route_symbol route={List.first(@routes)} {assigns} />
