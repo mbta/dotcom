@@ -18,24 +18,24 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
       assert render_component(&route_symbol/1, %{
                route: build(:logan_express_route)
              })
-             |> get_title_text() =~ "Logan Express"
+             |> matches_title?("Logan Express")
 
       assert render_component(&route_symbol/1, %{
                route: build(:logan_express_route, name: "unknown")
              })
-             |> get_title_text() =~ "Shuttle Bus"
+             |> matches_title?("Shuttle Bus")
     end
 
     test "handles Massport, falling back to generic shuttle bus" do
       assert render_component(&route_symbol/1, %{
                route: build(:massport_route)
              })
-             |> get_title_text() =~ "Massport"
+             |> matches_title?("Massport")
 
       assert render_component(&route_symbol/1, %{
                route: build(:massport_route, name: "unknown")
              })
-             |> get_title_text() =~ "Shuttle Bus"
+             |> matches_title?("Shuttle Bus")
     end
 
     test "handles buses" do
@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
       assert render_component(&route_symbol/1, %{
                route: route
              })
-             |> get_title_text() =~ "Silver Line"
+             |> matches_title?("Silver Line")
     end
 
     test "handles Silver Live buses" do
@@ -85,7 +85,7 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
           route: route
         })
 
-      assert icon |> get_title_text() =~ "Shuttle Bus"
+      assert icon |> matches_title?("Shuttle Bus")
       classnames = icon |> Floki.attribute("class") |> List.first()
 
       assert classnames =~ "text-#{String.downcase(replaced_route)}-line" ||
@@ -102,9 +102,12 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
     end
   end
 
-  defp get_title_text(html) do
+  defp matches_title?(html, text) do
     html
     |> Floki.find("title")
     |> Floki.text()
+    |> String.trim()
+    |> Regex.compile!("i")
+    |> Regex.match?(text)
   end
 end
