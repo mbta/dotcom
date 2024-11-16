@@ -1,0 +1,64 @@
+name: Linting & formatting
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eslintts:
+    name: Linting / TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run eslint:ts
+        working-directory: assets
+
+  jslint:
+    name: Linting / JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run eslint:js
+        working-directory: assets
+
+  stylelint:
+    name: Linting / CSS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run stylelint -- css/**/*.scss
+        working-directory: assets
+
+  elixirlint:
+    name: Linting / Elixir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: |
+          git fetch origin main:main
+          mix credo diff main -a --strict
+
+  elixir_format_check:
+    name: Formatting / Elixir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: mix format --check-formatted"
+
+  js_format_check:
+    name: Formatting / JavaScript & TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run prettier:check
+        working-directory: assets

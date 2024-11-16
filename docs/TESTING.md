@@ -1,107 +1,45 @@
 # Tests
 
-Common test suites developers might want to run:
-
-* `mix test` — Elixir tests
-* `npm run --prefix assets mocha && npm run --prefix assets jest` — all of the JavaScript tests
-
-
 Dotcom runs its test suite automatically using Github Actions, mainly from the [`tests.yml`](../.github/workflows/tests.yml) workflow.
 
-Each test can be run locally by invoking the corresponding NPM script. All the tests are noted below.
+Each check can be run locally by invoking the corresponding npm script or mix command. These are noted below.
 
 ## Enabled in Github Actions
 
-### Linting / TypeScript
-```sh
- npm run ci:lint:ts
- # This actually runs the following:
- # cd assets/ts
- # npx eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .
- ```
-*Runs only if a file with the `.ts` or `.tsx` extension was changed.*
+These checks run on every push to `main` and on pull requests.
 
-### Linting / JavaScript
-```sh
- npm run ci:lint:js
- # cd assets
- # git diff --name-only --diff-filter=dx origin/main... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
- ```
-*Runs only if a file with the `.js` extension was changed.*
+### Unit tests
 
-### Linting / CSS
 ```sh
- npm run ci:lint:scss
- # cd assets
- # npx stylelint css/**/*.scss --ignore-path .stylelintignore
- ```
-*Runs only if a file with the `.scss` extension was changed.*
+mix coveralls.html
 
-### Linting / Elixir
-```sh
-npm run ci:lint:ex
-# mix credo diff main -a
+# from the /assets directory
+npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
+npx jest -c ts/jest.config.js
 ```
-*Runs only if a file with the `.ex` or `.exs` extension was changed.*
 
-### Unit tests / Elixir
+### Type checks
 ```sh
-npm run ci:unit:exunit
-# mix test --exclude wallaby --cover
+mix dialyzer --halt-exit-status
+
+# from the /assets directory
+npx tsc --noEmit --skipLibCheck
 ```
-*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
 
-The CI task should also report test coverage on the PR.
+In CI `mix dialyzer` is handled via the `mbta/actions/dialyzer@v1` action. Dialyzer is a static analysis tool which looks at type information. We use it to verify our type specifications and make sure we're calling functions properly.
 
-### Unit tests / JavaScript / Mocha
+### Linting & Formatting
+
 ```sh
-npm run ci:unit:mocha
-# cd assets
-# npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
+mix credo diff main -a --strict
+mix format --check-formatted
+
+# from the /assets directory
+npx eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .
+git diff --name-only --diff-filter=dx origin/main... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
+npx stylelint css/**/*.scss --ignore-path .stylelintignore
+npx prettier --write "{js,ts}/**/*.{js,ts,tsx}" --list-different
 ```
-*Runs only if a file with the `.js` extension was changed.*
-
-### Unit tests / JavaScript & TypeScript / Jest
-```sh
-npm run ci:unit:jest
-# cd assets
-# npx jest -c ts/jest.config.js
-```
-*Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
-
-### Type checks / Elixir
-```sh
-npm run ci:types:ex
-# mix dialyzer --halt-exit-status
-```
-*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
-
-In CI this runs Dialyzer via the `mbta/actions/dialyzer@v1` action. Dialyzer is a static analysis tool which looks at type information. We use it to verify our type specifications and make sure we're calling functions properly.
-
-### Type checks / TypeScript
-```sh
-npm run ci:types:ts
-# cd assets/ts
-# npx tsc --noEmit --skipLibCheck
-```
-*Runs only if a file with the `.ts` or `.tsx` extension was changed.*
-
-### Formatting / Elixir
-```sh
-npm run ci:format:ex
-# mix format --check-formatted
-```
-*Runs only if a file with the `.ex`, `.exs`, or `.eex` extension was changed.*
-
-### Formatting / JavaScript & TypeScript
-```sh
-npm run ci:format:ts
-# cd assets
-# npx prettier --write "{js,ts}/**/*.{js,ts,tsx}" --list-different
-```
-*Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
-
-Frontend code is formatted by Prettier. If using the Prettier plugin for Visual Studio Code, ensure it uses the ignore file `assets/.prettierignore`.
 
 ## Coming soon
 
