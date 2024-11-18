@@ -73,7 +73,22 @@ defmodule DotcomWeb.Components.RouteSymbols do
     """
   end
 
-  def route_symbol(%{route: %Route{name: shuttle_name}} = assigns)
+  def route_symbol(assigns), do: ~H"<.route_icon {assigns} />"
+
+  variant(
+    :size,
+    [
+      small: "w-4 h-4",
+      default: "w-6 h-6"
+    ],
+    default: :default
+  )
+
+  attr(:class, :string, default: "")
+  attr(:rest, :global)
+  attr(:route, Routes.Route, required: true)
+
+  def route_icon(%{route: %Route{name: shuttle_name}} = assigns)
       when is_shuttle_route?(assigns) do
     route_class =
       shuttle_name
@@ -94,21 +109,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
     <.icon type="icon-svg" name="icon-mode-shuttle-default" class={"#{@class} #{@cva_class}"} />
     """
   end
-
-  def route_symbol(assigns), do: ~H"<.route_icon {assigns} />"
-
-  variant(
-    :size,
-    [
-      small: "w-4 h-4",
-      default: "w-6 h-6"
-    ],
-    default: :default
-  )
-
-  attr(:class, :string, default: "")
-  attr(:rest, :global)
-  attr(:route, Routes.Route, required: true)
 
   def route_icon(assigns) when not is_external_route?(assigns) do
     assigns =
