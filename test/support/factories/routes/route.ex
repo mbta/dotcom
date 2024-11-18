@@ -8,6 +8,48 @@ defmodule Test.Support.Factories.Routes.Route do
   alias Routes.Route
   alias Test.Support.FactoryHelpers
 
+  @logan_express_icon_names Route.logan_express_icon_names()
+  @massport_icon_names Route.massport_icon_names()
+
+  def bus_route_factory(attrs) do
+    %{
+      description:
+        Faker.Util.pick([
+          :local_bus,
+          :key_bus_route,
+          :supplemental_bus,
+          :commuter_bus,
+          :community_bus
+        ]),
+      external_agency_name: nil,
+      type: 3
+    }
+    |> Map.merge(attrs)
+    |> route_factory()
+  end
+
+  def logan_express_route_factory(attrs) do
+    %{
+      description: nil,
+      external_agency_name: "Logan Express",
+      name: Faker.Util.pick(@logan_express_icon_names),
+      type: 3
+    }
+    |> Map.merge(attrs)
+    |> route_factory()
+  end
+
+  def massport_route_factory(attrs) do
+    %{
+      description: nil,
+      external_agency_name: "Massport",
+      name: Faker.Util.pick(@massport_icon_names),
+      type: 3
+    }
+    |> Map.merge(attrs)
+    |> route_factory()
+  end
+
   def route_factory(attrs) do
     type = attrs[:type] || Faker.Util.pick([0, 1, 2, 3, 4])
     fare_class = fare_class(attrs, type)

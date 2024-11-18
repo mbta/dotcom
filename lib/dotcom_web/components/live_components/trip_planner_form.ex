@@ -4,7 +4,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   """
   use DotcomWeb, :live_component
 
-  import DotcomWeb.ViewHelpers, only: [svg: 1]
   import MbtaMetro.Components.{Feedback, InputGroup}
   import Phoenix.HTML.Form, only: [input_value: 2]
 
@@ -137,11 +136,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               </:extra>
             </.accordion>
           </.fieldset>
-          <div class="inline-flex items-center gap-2">
+          <div class="inline-flex items-center gap-1">
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
-            <span class="mt-[.365em]" aria-hidden="true">
-              <%= svg("icon-accessible-small.svg") %>
-            </span>
+            <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
         </div>
         <div class="col-start-2 justify-self-end">

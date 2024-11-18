@@ -77,6 +77,7 @@ defmodule DotCom.Mixfile do
       {:crc, "0.10.5"},
       {:credo, "1.7.8", only: [:dev, :test]},
       {:csv, "3.2.1"},
+      {:cva, "0.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.4", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
@@ -111,7 +112,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.1"},
       {
         :open_trip_planner_client,
-        [github: "thecristen/open_trip_planner_client", tag: "v0.10.5"]
+        [github: "thecristen/open_trip_planner_client", tag: "v0.10.6"]
       },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14

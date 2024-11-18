@@ -16,7 +16,6 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
-  important: true,
   content: [
     ...content,
     "./js/**/*.js",
@@ -25,11 +24,44 @@ module.exports = {
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex"
   ],
-  safelist: [...safelist],
+  safelist: [
+    ...safelist,
+    {
+      pattern: /(bg|text|border|ring)-(logan-express|blue|green|orange|red|silver|bus|ferry|)./
+    }
+  ],
   theme: {
     extend: {
       colors: {
-        ...colors
+        ...colors,
+        gray: {
+          DEFAULT: "#494f5c",
+          dark: "#1c1e23",
+          light: "#788093",
+          lighter: "#b0b5c0"
+        },
+        "brand-primary": {
+          DEFAULT: "#165c96",
+          darkest: "#0b2f4c"
+        },
+        "logan-express": {
+          BB: "#f16823",
+          BT: "#0066cc",
+          DV: "#704c9f",
+          FH: "#e81d2d",
+          WO: "#00954c"
+        },
+        massport: "#104c8f",
+        subway: "#494f5c",
+        // These will come from the design system someday
+        "blue-line": "#003da5",
+        "green-line": "#00843d",
+        "orange-line": "#ed8b00",
+        "red-line": "#da291c",
+        "silver-line": "#7c878e",
+        "commuter-rail": "#80276c",
+        bus: "#ffc72c",
+        ferry: "#008eaa"
       }
     },
     fontFamily: {

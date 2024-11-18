@@ -35,6 +35,8 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
+config :mbta_metro, custom_icons: ["#{File.cwd!()}/priv/static/icon-svg/*"]
+
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do
   import_config("../#{config_file}")
 end

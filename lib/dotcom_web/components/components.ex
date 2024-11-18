@@ -6,8 +6,6 @@ defmodule DotcomWeb.Components do
   """
   use Phoenix.Component
 
-  alias Heroicons
-
   attr(:id, :string, required: true, doc: "A unique identifier for this search input.")
 
   attr(:placeholder, :string,
@@ -29,10 +27,11 @@ defmodule DotcomWeb.Components do
     ]
   )
 
-  slot :inner_block,
+  slot(:inner_block,
     required: false,
     doc:
       "Additional content to render beneath the autocomplete component. With config_type='trip-planner', this can be used to render additional form elements to capture additional details about selected locations."
+  )
 
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
