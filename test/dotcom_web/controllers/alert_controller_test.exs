@@ -2,6 +2,9 @@ defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase, async: true
 
   use Phoenix.Controller
+
+  import Phoenix.LiveViewTest
+
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
@@ -92,9 +95,10 @@ defmodule DotcomWeb.AlertControllerTest do
       response = render_alerts_page(conn, :subway, alerts)
 
       expected =
-        %SvgIconWithCircle{icon: :red_line, aria_hidden?: true}
-        |> SvgIconWithCircle.svg_icon_with_circle()
-        |> Phoenix.HTML.safe_to_string()
+        render_component(
+          &DotcomWeb.Components.RouteSymbols.route_symbol/1,
+          %{route: get_route(:subway), size: :default}
+        )
 
       assert response =~ expected
     end
