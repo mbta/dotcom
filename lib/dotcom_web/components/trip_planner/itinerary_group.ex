@@ -113,7 +113,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
       |> assign(
         :grouped_classes,
         if(slashed?,
-          do: "[&:not(:first-child)]:rounded-l-none [&:not(:last-child)]:rounded-r-none !px-3",
+          do: "[&:not(:first-child)]:rounded-l-none [&:not(:last-child)]:rounded-r-none",
           else: "rounded-full ring-white ring-2"
         )
       )

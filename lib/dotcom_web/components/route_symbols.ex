@@ -22,8 +22,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
   variant(
     :size,
     [
-      small: "rounded-[3px] px-[2px] py-[2px] text-sm",
-      default: "rounded-[4px] px-[4px] py-[4px]"
+      small: "rounded-[3px] px-[2px] py-[2px] min-w-6 text-sm",
+      default: "rounded-[4px] px-[4px] py-[4px] min-w-10"
     ],
     default: :default
   )
@@ -67,7 +67,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns = update(assigns, :class, &"#{&1} #{route_class}")
 
     ~H"""
-    <div class={"#{@class} #{@cva_class} font-heading whitespace-nowrap min-w-8 w-min font-bold inline-flex items-center justify-center leading-[1]"}>
+    <div class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}>
       <%= @route.name %>
     </div>
     """
