@@ -49,7 +49,7 @@ defmodule DotcomWeb.PredictionsChannel do
         no_departure_time?(prediction) ||
         skipped_or_cancelled?(prediction)
     end)
-    |> Enum.filter(&is_in_future_seconds?/1)
+    |> Enum.filter(&in_future_seconds?/1)
   end
 
   defp no_trip?(prediction), do: is_nil(prediction.trip)
@@ -63,7 +63,7 @@ defmodule DotcomWeb.PredictionsChannel do
       prediction.schedule_relationship in [:cancelled, :skipped]
   end
 
-  defp is_in_future_seconds?(prediction) do
+  defp in_future_seconds?(prediction) do
     Timex.compare(prediction.departure_time, Util.now(), :seconds) >= 0
   end
 end
