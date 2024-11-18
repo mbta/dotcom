@@ -72,6 +72,40 @@ module.exports = {
         ".phx-change-loading&",
         ".phx-change-loading &"
       ])
+    ),
+    plugin(({ addBase, theme }) =>
+      addBase({
+        "h1, h2, h3, h4, h5, h6": {
+          fontFamily: theme("fontFamily.heading"),
+          fontWeight: theme("fontWeight.bold"),
+          marginTop: theme("spacing.11"),
+          marginBottom: theme("spacing.3"),
+          "&:has(+p)": {
+            marginBottom: theme("spacing.1")
+          }
+        },
+        h1: {
+          fontSize: theme("fontSize.4xl")
+        },
+        h2: {
+          fontSize: theme("fontSize.3xl")
+        },
+        h3: {
+          fontSize: theme("fontSize.2xl")
+        },
+        h4: {
+          fontSize: theme("fontSize.lg")
+        },
+        h5: {
+          fontSize: theme("fontSize.base")
+        },
+        h6: {
+          fontSize: theme("fontSize.sm")
+        },
+        "h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6, p + h3, p + h4, p + h5, p + h6": {
+          marginTop: theme("spacing.4")
+        }
+      })
     )
   ]
 };
