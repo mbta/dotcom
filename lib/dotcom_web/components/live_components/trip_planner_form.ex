@@ -26,7 +26,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
-      location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
 
@@ -56,8 +55,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <.search_box form_name={@form_name} form={f} location_keys={@location_keys} field={:from} />
-        <.search_box form_name={@form_name} form={f} location_keys={@location_keys} field={:to} />
+        <.search_box name={"#{@form_name}--from"} field={f[:from]} />
+        <.search_box name={"#{@form_name}--to"} field={f[:to]} />
         <div>
           <.input_group
             legend="When"
@@ -133,14 +132,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   defp search_box(assigns) do
+    assigns = assigns |> assign(:location_keys, InputForm.Location.fields())
+
     ~H"""
     <div class="mb-1" id="trip-planner-locations" phx-update="ignore">
-      <.algolia_autocomplete
-        config_type="trip-planner"
-        placeholder="Enter a location"
-        id={"#{@form_name}--#{@field}"}
-      >
-        <.inputs_for :let={location_f} field={@form[@field]} skip_hidden={true}>
+      <.algolia_autocomplete config_type="trip-planner" placeholder="Enter a location" id={@name}>
+        <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input
             :for={subfield <- @location_keys}
             type="hidden"
@@ -150,11 +147,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             name={location_f[subfield].name}
           />
         </.inputs_for>
-        <.feedback
-          :for={{msg, _} <- @form[@field].errors}
-          :if={used_input?(@form[@field])}
-          kind={:error}
-        >
+        <.feedback :for={{msg, _} <- @field.errors} :if={used_input?(@field)} kind={:error}>
           <%= msg %>
         </.feedback>
       </.algolia_autocomplete>
