@@ -47,7 +47,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     <section class="px-10 py-8 lg:px-20 lg:py-12 mb-4 bg-gray-100">
       <.form
         :let={f}
-        class="md:grid md:grid-cols-[1fr_max-content_1fr] gap-x-8 gap-y-2"
+        class="flex flex-col md:grid md:grid-cols-[1fr_max-content_1fr] gap-x-8 gap-y-2"
         id={@id}
         for={@form}
         method="get"
@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-target={@myself}
       >
         <.search_box name={"#{@form_name}--from"} field={f[:from]} />
-        <.icon class="fill-brand-primary h-6 w-6 rotate-90 md:rotate-0 self-center justify-self-end my-4 md:my-0" name="right-left" />
+        <.icon class="fill-brand-primary h-6 w-6 rotate-90 self-end md:rotate-0 md:self-center my-4 md:my-0" name="right-left" />
         <.search_box name={"#{@form_name}--to"} field={f[:to]} />
 
         <div>
