@@ -55,9 +55,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <.search_box name={"#{@form_name}--from"} field={f[:from]} />
-        <.icon class="fill-brand-primary h-6 w-6 rotate-90 self-end md:rotate-0 md:self-center my-4 md:my-0" name="right-left" />
-        <.search_box name={"#{@form_name}--to"} field={f[:to]} />
+        <.location_search_box name={"#{@form_name}--from"} field={f[:from]} />
+        <.icon
+          class="fill-brand-primary h-6 w-6 rotate-90 self-end md:rotate-0 md:self-center my-4 md:my-0"
+          name="right-left"
+        />
+        <.location_search_box name={"#{@form_name}--to"} field={f[:to]} />
 
         <div>
           <.input_group
@@ -94,7 +97,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           </.feedback>
         </div>
 
-        <div class="col-start-3" >
+        <div class="col-start-3">
           <.fieldset id="modes" legend="Modes">
             <.accordion id="accordion">
               <:heading>
@@ -134,7 +137,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
     """
   end
 
-  defp search_box(assigns) do
+  defp location_search_box(assigns) do
     assigns = assigns |> assign(:location_keys, InputForm.Location.fields())
 
     ~H"""
