@@ -56,27 +56,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
-          <.algolia_autocomplete
-            config_type="trip-planner"
-            placeholder="Enter a location"
-            id={"#{@form_name}--#{field}"}
-          >
-            <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
-              <input
-                :for={subfield <- @location_keys}
-                type="hidden"
-                class="location-input"
-                id={location_f[subfield].id}
-                value={location_f[subfield].value}
-                name={location_f[subfield].name}
-              />
-            </.inputs_for>
-            <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
-              <%= msg %>
-            </.feedback>
-          </.algolia_autocomplete>
-        </div>
+        <.search_box form_name={@form_name} form={f} location_keys={@location_keys} field={:from} />
+        <.search_box form_name={@form_name} form={f} location_keys={@location_keys} field={:to} />
         <div>
           <.input_group
             legend="When"
@@ -148,6 +129,36 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         </div>
       </.form>
     </section>
+    """
+  end
+
+  defp search_box(assigns) do
+    ~H"""
+    <div class="mb-1" id="trip-planner-locations" phx-update="ignore">
+      <.algolia_autocomplete
+        config_type="trip-planner"
+        placeholder="Enter a location"
+        id={"#{@form_name}--#{@field}"}
+      >
+        <.inputs_for :let={location_f} field={@form[@field]} skip_hidden={true}>
+          <input
+            :for={subfield <- @location_keys}
+            type="hidden"
+            class="location-input"
+            id={location_f[subfield].id}
+            value={location_f[subfield].value}
+            name={location_f[subfield].name}
+          />
+        </.inputs_for>
+        <.feedback
+          :for={{msg, _} <- @form[@field].errors}
+          :if={used_input?(@form[@field])}
+          kind={:error}
+        >
+          <%= msg %>
+        </.feedback>
+      </.algolia_autocomplete>
+    </div>
     """
   end
 
