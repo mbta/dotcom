@@ -45,6 +45,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   def render(assigns) do
     ~H"""
     <section class="px-10 py-8 lg:px-20 lg:py-12 mb-4 bg-gray-100">
+      <!-- <pre><%= inspect @form, pretty: true %></pre> -->
       <.form
         :let={f}
         class="flex flex-col md:grid md:grid-cols-[1fr_max-content_1fr] gap-x-8 gap-y-4 md:gap-y-2"
@@ -55,6 +56,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
+        <h1 class="col-span-3">FROM</h1>
+        <pre class="col-span-3"><%= inspect f[:from].value, pretty: true %></pre>
+
+        <h1 class="col-span-3">TO</h1>
+        <pre class="col-span-3"><%= inspect f[:to].value, pretty: true %></pre>
+
         <.location_search_box name={"#{@form_name}--from"} field={f[:from]} />
         <div class="self-end md:self-center rotate-90 md:rotate-0">
           <button
@@ -144,8 +151,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   defp location_search_box(assigns) do
-    dbg(assigns)
-
     assigns = assigns |> assign(:location_keys, InputForm.Location.fields())
 
     ~H"""
@@ -154,7 +159,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input
             :for={subfield <- @location_keys}
-            type="hidden"
             class="location-input"
             id={location_f[subfield].id}
             value={location_f[subfield].value}
@@ -165,6 +169,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
           <%= msg %>
         </.feedback>
       </.algolia_autocomplete>
+      <pre><%= inspect @field, pretty: true %></pre>
     </div>
     """
   end
