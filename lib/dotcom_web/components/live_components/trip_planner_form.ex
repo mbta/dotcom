@@ -56,10 +56,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-target={@myself}
       >
         <.location_search_box name={"#{@form_name}--from"} field={f[:from]} />
-        <.icon
-          class="fill-brand-primary h-6 w-6 rotate-90 self-end md:rotate-0 md:self-center"
-          name="right-left"
-        />
+        <div class="self-end md:self-center rotate-90 md:rotate-0">
+          <button
+            type="button"
+            phx-click="swap_direction"
+            phx-target={@myself}
+            class="h-6 w-6 p-0 bg-transparent"
+          >
+            <.icon class="fill-brand-primary" name="right-left" />
+          </button>
+        </div>
         <.location_search_box name={"#{@form_name}--to"} field={f[:to]} />
 
         <div>
@@ -138,6 +144,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   end
 
   defp location_search_box(assigns) do
+    dbg(assigns)
+
     assigns = assigns |> assign(:location_keys, InputForm.Location.fields())
 
     ~H"""
@@ -199,6 +207,35 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   def handle_event("save_form", %{"input_form" => params}, socket) do
     {:noreply, save_form(params, socket)}
+  end
+
+  def handle_event(
+        "swap_direction",
+        _params,
+        %{assigns: %{form: %{params: %{"from" => from, "to" => to} = form_params}}} = socket
+      ) do
+    new_form_params =
+      form_params
+      |> Map.put("to", from)
+      |> Map.put("from", to)
+
+    send(self(), {:changed_form, new_form_params})
+
+    # dbg(new_form_params)
+
+    validated_params =
+      new_form_params
+      |> InputForm.validate_params()
+
+    # dbg(validated_params)
+
+    new_form =
+      validated_params
+      |> Phoenix.Component.to_form()
+
+    # dbg(new_form)
+
+    {:noreply, assign(socket, %{form: new_form})}
   end
 
   defp datepicker_config do
