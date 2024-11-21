@@ -136,10 +136,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event("show_itinerary_details" = event, %{"index" => index_str} = params, socket) do
-    dbg(event)
-    dbg(params)
-
+  def handle_event("show_itinerary_details", %{"index" => index_str}, socket) do
     {index, ""} = Integer.parse(index_str)
 
     {:noreply, socket |> assign(:itinerary_details_index, index)}
