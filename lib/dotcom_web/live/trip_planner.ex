@@ -7,6 +7,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
+  import DotcomWeb.Components.TripPlanner.ItineraryDetail
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
   import MbtaMetro.Components.{Feedback, Spinner}
 
@@ -28,6 +29,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:from, [])
       |> assign(:to, [])
       |> assign(:submitted_values, nil)
+      |> assign(:itinerary_details_index, nil)
       |> assign_async(:results, fn ->
         {:ok, %{results: nil}}
       end)
@@ -73,7 +75,7 @@ defmodule DotcomWeb.Live.TripPlanner do
         </div>
         <.async_result :let={results} assign={@results}>
           <div :if={results} class="w-full p-4">
-            <.itinerary_group :for={result <- results} {result} />
+            <.itinerary_panel results={results} details_index={@itinerary_details_index} />
           </div>
         </.async_result>
         <.live_component
@@ -88,7 +90,65 @@ defmodule DotcomWeb.Live.TripPlanner do
     """
   end
 
+  defp itinerary_panel(%{details_index: details_index} = assigns) do
+    case details_index do
+      nil ->
+        ~H"""
+        <.itinerary_panel_with_all_results results={@results} />
+        """
+
+      _ ->
+        ~H"""
+        <.itinerary_panel_with_specific_result results={@results} details_index={@details_index} />
+        """
+    end
+  end
+
+  defp itinerary_panel_with_all_results(assigns) do
+    ~H"""
+    <.itinerary_group :for={{result, index} <- Enum.with_index(@results)} index={index} {result} />
+    """
+  end
+
+  defp itinerary_panel_with_specific_result(
+         %{results: results, details_index: details_index} = assigns
+       ) do
+    assigns =
+      assigns
+      |> assign(
+        :itineraries,
+        results
+        |> Enum.at(details_index)
+        |> Map.get(:itineraries)
+      )
+
+    ~H"""
+    <div class="mt-30">
+      <button type="button" phx-click="show_itinerary_summary" class="btn-link">
+        <p class="flex flex-row items-center">
+          <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
+          <span class="font-medium">View All Options</span>
+        </p>
+      </button>
+      <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+    </div>
+    """
+  end
+
   @impl true
+  def handle_event("show_itinerary_details" = event, %{"index" => index_str} = params, socket) do
+    dbg(event)
+    dbg(params)
+
+    {index, ""} = Integer.parse(index_str)
+
+    {:noreply, socket |> assign(:itinerary_details_index, index)}
+  end
+
+  def handle_event("show_itinerary_summary", _params, socket) do
+    {:noreply, socket |> assign(:itinerary_details_index, nil)}
+  end
+
   def handle_event(_event, _params, socket) do
     {:noreply, socket}
   end
@@ -112,7 +172,10 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign_async(:results, fn ->
         case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
           {:ok, itineraries} ->
-            {:ok, %{results: ItineraryGroups.from_itineraries(itineraries)}}
+            {:ok,
+             %{
+               results: ItineraryGroups.from_itineraries(itineraries)
+             }}
 
           error ->
             error

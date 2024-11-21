@@ -4,8 +4,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   """
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.ItineraryDetail
-
   attr(:summary, :map, doc: "ItineraryGroups.summary()", required: true)
   attr(:itineraries, :list, doc: "List of %Dotcom.TripPlan.Itinerary{}", required: true)
 
@@ -60,12 +58,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
           Similar trips depart at <%= Enum.map(@summary.next_starts, &format_datetime_short/1)
           |> Enum.join(", ") %>
         </div>
-        <button class="btn-link font-semibold underline" phx-click={JS.toggle(to: "##{@group_id}")}>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click="show_itinerary_details"
+          phx-value-group-id={@group_id}
+          phx-value-index={@index}
+        >
           Details
         </button>
-      </div>
-      <div id={@group_id} class="mt-30" style="display: none;">
-        <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
       </div>
     </div>
     """
