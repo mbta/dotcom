@@ -98,8 +98,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_info({:changed_form, params}, socket) do
     new_socket =
       socket
-      |> update_from_pin(params)
-      |> update_to_pin(params)
+      |> update_pins(params)
 
     {:noreply, new_socket}
   end
@@ -123,9 +122,27 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
+  def handle_info(
+        {:autocomplete_change, %{field_name: field_name, location: location}},
+        %{assigns: %{form_values: form_values}} = socket
+      ) do
+    new_form_values = form_values |> Map.put(to_string(field_name), location)
+
+    {:noreply,
+     socket
+     |> assign(:form_values, new_form_values)
+     |> update_pins(new_form_values)}
+  end
+
   def handle_info(info, socket) do
     IO.inspect(info, label: "Fallback handle_info")
     {:noreply, socket}
+  end
+
+  defp update_pins(socket, params) do
+    socket
+    |> update_from_pin(params)
+    |> update_to_pin(params)
   end
 
   defp update_from_pin(socket, %{"from" => from}) do
@@ -144,13 +161,28 @@ defmodule DotcomWeb.Live.TripPlanner do
     socket
   end
 
-  defp to_geojson(%{"longitude" => longitude, "latitude" => latitude})
-       when longitude != "" and latitude != "" do
-    [String.to_float(longitude), String.to_float(latitude)]
+  defp to_geojson(%{"longitude" => longitude, "latitude" => latitude}) do
+    with {:ok, parsed_lat} <- to_float(latitude),
+         {:ok, parsed_long} <- to_float(longitude) do
+      [parsed_long, parsed_lat]
+    else
+      _ -> []
+    end
   end
 
   defp to_geojson(_coordinates) do
     []
+  end
+
+  defp to_float(""), do: :error
+  defp to_float(nil), do: :error
+  defp to_float(arg) when is_float(arg), do: {:ok, arg}
+
+  defp to_float(arg) do
+    case Float.parse(arg) do
+      {result, ""} -> {:ok, result}
+      _ -> :error
+    end
   end
 
   defp submission_summary(%{from: %{name: from_name}, to: %{name: to_name}, modes: modes}) do
