@@ -169,10 +169,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign_async(:results, fn ->
         case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
           {:ok, itineraries} ->
-            {:ok,
-             %{
-               results: ItineraryGroups.from_itineraries(itineraries)
-             }}
+            {:ok, %{results: ItineraryGroups.from_itineraries(itineraries)}}
 
           error ->
             error
