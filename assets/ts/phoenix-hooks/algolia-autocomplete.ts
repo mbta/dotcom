@@ -34,47 +34,15 @@ const AlgoliaAutocomplete: Partial<ViewHook> = {
     const hook = (this as unknown) as ViewHook;
 
     if (hook.el) {
-      const locationInputs =
-        hook.el.parentElement?.querySelectorAll<HTMLInputElement>(
-          "input.location-input"
-        ) || ([] as HTMLInputElement[]);
-
       const pushToLiveView = (data: Partial<Item>): void => {
-        if (hook.el.querySelector("[data-config='trip-planner']")) {
-          hook.pushEvent("map_change", {
-            id: hook.el.id,
-            ...data
-          });
-
-          locationInputs.forEach(inputEl => {
-            const fieldName = fieldNameFromInput(inputEl);
-            if (fieldName) {
-              inputEl.value = valueFromData(data, fieldName);
-              inputEl.dispatchEvent(new Event("change", { bubbles: true }));
-            }
-          });
-        }
+        hook.pushEventTo(hook.el, "autocomplete_change", data);
+        // hook.pushEvent("autocomplete_change", {
+        //   id: hook.el.id,
+        //   ...data
+        // });
       };
 
-      const initialState = (): string => {
-        const inputValues = [...locationInputs].map(inputEl => {
-          if (inputEl.value) {
-            const fieldName = fieldNameFromInput(inputEl);
-            return [fieldName, inputEl.value];
-          }
-          return [];
-        });
-
-        if (inputValues) {
-          const data = Object.fromEntries(inputValues);
-          pushToLiveView(data); // needed for LV to sync with input state on initial load
-          return data.name || "";
-        }
-
-        return "";
-      };
-
-      setupAlgoliaAutocomplete(hook.el, pushToLiveView, initialState);
+      setupAlgoliaAutocomplete(hook.el, pushToLiveView);
     }
   }
 };

@@ -204,11 +204,11 @@ const TRIP_PLANNER = ({
 
   return {
     ...baseOptions,
-    initialState: {
-      query: initialState()
-    },
+    // initialState: {
+    //   query: initialState()
+    // },
     onReset: (): void => {
-      pushToLiveView({});
+      pushToLiveView(null);
     },
     getSources({ query, setIsOpen, setQuery }) {
       if (!query)
