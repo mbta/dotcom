@@ -7,6 +7,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   attr(:summary, :map, doc: "ItineraryGroups.summary()", required: true)
   attr(:itineraries, :list, doc: "List of %Dotcom.TripPlan.Itinerary{}", required: true)
 
+  attr(:index, :integer,
+    doc: "Index into the full list where this itinerary group sits",
+    required: true
+  )
+
   @doc """
   Renders a single itinerary group.
   """
