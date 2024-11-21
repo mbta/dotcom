@@ -8,6 +8,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   import Phoenix.HTML.Form, only: [input_value: 2]
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
+  alias DotcomWeb.LiveComponents.TripPlannerLocationAutocomplete
   alias MbtaMetro.Live.DatePicker
 
   @impl true
@@ -26,7 +27,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
-      location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
 
@@ -56,26 +56,15 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
-          <.algolia_autocomplete
-            config_type="trip-planner"
-            placeholder="Enter a location"
+        <div :for={field <- [:from, :to]} class="mb-1" id={"#{@form_name}--#{field}-wrapper"}>
+          <.live_component
             id={"#{@form_name}--#{field}"}
-          >
-            <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
-              <input
-                :for={subfield <- @location_keys}
-                type="hidden"
-                class="location-input"
-                id={location_f[subfield].id}
-                value={location_f[subfield].value}
-                name={location_f[subfield].name}
-              />
-            </.inputs_for>
-            <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
-              <%= msg %>
-            </.feedback>
-          </.algolia_autocomplete>
+            module={TripPlannerLocationAutocomplete}
+            field={f[field]}
+          />
+          <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
+            <%= msg %>
+          </.feedback>
         </div>
         <div>
           <.input_group

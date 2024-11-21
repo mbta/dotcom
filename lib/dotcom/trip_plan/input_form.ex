@@ -152,7 +152,11 @@ defmodule Dotcom.TripPlan.InputForm do
 
     def fields, do: __MODULE__.__schema__(:fields)
 
-    def changeset(form \\ %__MODULE__{}, params \\ %{}) do
+    def changeset(params \\ %{}) do
+      changeset(%__MODULE__{}, params)
+    end
+
+    def changeset(form, params) do
       form
       |> cast(params, [:latitude, :longitude, :name, :stop_id])
       |> validate_required([:latitude, :longitude])

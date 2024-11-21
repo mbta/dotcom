@@ -89,7 +89,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event(_event, _params, socket) do
+  def handle_event(event, params, socket) do
+    IO.inspect({event, params}, label: "LV: Fallback handle_event")
     {:noreply, socket}
   end
 
@@ -122,7 +123,8 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
-  def handle_info(_info, socket) do
+  def handle_info(info, socket) do
+    IO.inspect(info, label: "Fallback handle_info")
     {:noreply, socket}
   end
 
