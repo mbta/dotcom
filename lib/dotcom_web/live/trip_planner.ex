@@ -39,6 +39,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def render(assigns) do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
+    <pre class="border border-gray-500 p-1"><%= inspect @form_values, pretty: true %></pre>
     <div style="row">
       <.live_component
         module={TripPlannerForm}
@@ -99,6 +100,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     new_socket =
       socket
       |> update_pins(params)
+      |> assign(:form_values, params)
 
     {:noreply, new_socket}
   end

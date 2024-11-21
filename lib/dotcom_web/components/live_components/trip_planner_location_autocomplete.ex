@@ -32,7 +32,6 @@ defmodule DotcomWeb.LiveComponents.TripPlannerLocationAutocomplete do
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input
             :for={subfield <- InputForm.Location.fields()}
-            type="hidden"
             class="location-input"
             id={location_f[subfield].id}
             value={location_f[subfield].value}

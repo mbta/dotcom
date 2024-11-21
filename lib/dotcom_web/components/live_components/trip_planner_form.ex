@@ -56,6 +56,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
+        <button type="button" class="col-span-2" phx-target={@myself} phx-click="swap_direction">
+          Swap
+        </button>
         <div :for={field <- [:from, :to]} class="mb-1" id={"#{@form_name}--#{field}-wrapper"}>
           <.live_component
             id={"#{@form_name}--#{field}"}
@@ -178,6 +181,21 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   def handle_event("save_form", %{"input_form" => params}, socket) do
     {:noreply, save_form(params, socket)}
+  end
+
+  def handle_event(
+        "swap_direction",
+        _params,
+        %{assigns: %{form: %{params: %{"from" => from, "to" => to} = form_params}}} = socket
+      ) do
+    new_form_params =
+      form_params
+      |> Map.put("to", from)
+      |> Map.put("from", to)
+
+    send(self(), {:changed_form, new_form_params})
+
+    {:noreply, socket}
   end
 
   defp datepicker_config do
