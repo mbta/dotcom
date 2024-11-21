@@ -90,7 +90,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     """
   end
 
-  defp itinerary_panel(%{details_index: details_index} = assigns) do
+  defp itinerary_panel(%{results: results, details_index: details_index} = assigns) do
     case details_index do
       nil ->
         ~H"""
@@ -98,8 +98,10 @@ defmodule DotcomWeb.Live.TripPlanner do
         """
 
       _ ->
+        assigns = assign(assigns, :result, Enum.at(results, details_index))
+
         ~H"""
-        <.itinerary_panel_with_specific_result results={@results} details_index={@details_index} />
+        <.itinerary_panel_with_specific_result result={@result} />
         """
     end
   end
@@ -110,17 +112,8 @@ defmodule DotcomWeb.Live.TripPlanner do
     """
   end
 
-  defp itinerary_panel_with_specific_result(
-         %{results: results, details_index: details_index} = assigns
-       ) do
-    assigns =
-      assigns
-      |> assign(
-        :itineraries,
-        results
-        |> Enum.at(details_index)
-        |> Map.get(:itineraries)
-      )
+  defp itinerary_panel_with_specific_result(%{result: result} = assigns) do
+    assigns = assign(assigns, :itineraries, Map.get(result, :itineraries))
 
     ~H"""
     <div class="mt-30">
