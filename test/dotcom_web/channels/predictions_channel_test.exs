@@ -86,6 +86,31 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Verify
       assert_push("data", %{predictions: ^predictions})
     end
+
+    test "filters out past predictions", context do
+      # Setup
+      now = Timex.now() |> Timex.shift(seconds: 1)
+      past = Timex.shift(now, seconds: -15)
+      future = Timex.shift(now, seconds: 15)
+
+      predictions =
+        [past, now, future]
+        |> Enum.map(&Prediction.build(:canonical_prediction, %{departure_time: &1}))
+
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        predictions
+      end)
+
+      {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
+
+      # Exercise
+      PredictionsChannel.handle_info({:new_predictions, predictions}, socket)
+
+      [_past_prediction | expected_predictions] = predictions
+
+      # Verify
+      assert_push("data", %{predictions: ^expected_predictions})
+    end
   end
 
   describe "terminate/2" do
