@@ -1,7 +1,10 @@
 defmodule DotcomWeb.Live.TripPlannerTest do
   use DotcomWeb.ConnCase, async: true
 
+  import Mox
   import Phoenix.LiveViewTest
+
+  setup :verify_on_exit!
 
   test "Preview version behind basic auth", %{conn: conn} do
     conn = get(conn, ~p"/preview/trip-planner")
@@ -66,5 +69,76 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     # test "pushes updated location to the map", %{view: view} do
     # end
+  end
+
+  describe "Trip Planner with results" do
+    setup %{conn: conn} do
+      [username: username, password: password] =
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+
+      %{
+        conn:
+          put_req_header(
+            conn,
+            "authorization",
+            "Basic " <> Base.encode64("#{username}:#{password}")
+          )
+      }
+    end
+
+    test "no results", %{conn: conn} do
+      params = %{
+        "plan" => %{
+          "from_latitude" => "#{Faker.Address.latitude()}",
+          "from_longitude" => "#{Faker.Address.longitude()}",
+          "to_latitude" => "#{Faker.Address.latitude()}",
+          "to_longitude" => "#{Faker.Address.longitude()}"
+        }
+      }
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
+      end)
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      # TODO actually wait for the async_result somehow
+      Process.sleep(1000)
+
+      assert render(view) =~ "No trips found"
+    end
+
+    test "with results", %{conn: conn} do
+      params = %{
+        "plan" => %{
+          "from_latitude" => "#{Faker.Address.latitude()}",
+          "from_longitude" => "#{Faker.Address.longitude()}",
+          "to_latitude" => "#{Faker.Address.latitude()}",
+          "to_longitude" => "#{Faker.Address.longitude()}"
+        }
+      }
+
+      # called during itinerary parsing
+      stub(Stops.Repo.Mock, :get, fn _ ->
+        Test.Support.Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Uhhh the OTP factory will generate with any route_type value but our
+      # parsing will break with unexpected route types
+      itineraries =
+        OpenTripPlannerClient.Test.Support.Factory.build_list(3, :itinerary)
+        |> Enum.map(&Test.Support.Factories.TripPlanner.TripPlanner.limit_route_types/1)
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+      end)
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      # TODO actually wait for the async_result somehow
+      Process.sleep(1000)
+
+      refute render(view) =~ "No trips found"
+    end
   end
 end
