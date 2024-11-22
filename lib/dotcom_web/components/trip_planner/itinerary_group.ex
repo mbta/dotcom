@@ -12,7 +12,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
     required: true
   )
 
-  attr :target, :string, required: true
+  attr :target, :string, doc: "The target that should receive events", required: true
+
+  attr :details_click_event, :string,
+    doc: "The event that fires when 'Details' is clicked",
+    required: true
 
   @doc """
   Renders a single itinerary group.
@@ -67,7 +71,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
         </div>
         <button
           class="btn-link font-semibold underline"
-          phx-click="show_itinerary_details"
+          phx-click={@details_click_event}
           phx-target={@target}
           phx-value-group-id={@group_id}
           phx-value-index={@index}

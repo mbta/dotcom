@@ -62,6 +62,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     <.itinerary_group
       :for={{result, index} <- Enum.with_index(@results)}
       index={index}
+      details_click_event="show_itinerary_details"
       target={@target}
       {result}
     />
