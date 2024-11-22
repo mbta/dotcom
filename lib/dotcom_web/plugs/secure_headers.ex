@@ -25,6 +25,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       frame-src
       'self'
       *.arcgis.com
+      arcgis.com
       cdn.knightlab.com
       data.mbta.com
       livestream.com
