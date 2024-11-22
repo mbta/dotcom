@@ -56,7 +56,7 @@
       href="/news/rss.xml"
     />
 
-    <script :if={Application.get_env(:sentry, :js_dsn)}>
+    <script :if={Application.get_env(:sentry, :js_dsn)} nonce={assigns[:nonce]}>
       window.sentry = {
         dsn: "<%= Application.get_env(:sentry, :js_dsn) %>",
         environment: "<%= Application.get_env(:sentry, :environment_name) %>"
