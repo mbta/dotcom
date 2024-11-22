@@ -48,6 +48,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
     ],
     script: ~w[
       script-src
+      'nonce-{NONCE}'
       'self'
       'unsafe-eval'
       'unsafe-inline'
@@ -82,11 +83,29 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   @impl Plug
   @spec call(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def call(conn, _) do
-    Phoenix.Controller.put_secure_browser_headers(conn, default_secure_headers())
+    nonce = generate_nonce()
+
+    conn
+    |> Plug.Conn.assign(:nonce, nonce)
+    |> Phoenix.Controller.put_secure_browser_headers(default_secure_headers(nonce))
   end
 
   def base_csp_directives, do: @base_csp_directives
 
   def default_secure_headers, do: @default_secure_headers
 
+  def default_secure_headers(nonce) do
+    csp =
+      Application.get_env(:dotcom, :content_security_policy_definition, "")
+      |> String.replace("{NONCE}", nonce)
+
+    @default_secure_headers
+    |> Map.put("content-security-policy", csp)
+  end
+
+  defp generate_nonce do
+    18
+    |> :crypto.strong_rand_bytes()
+    |> Base.encode64()
+  end
 end
