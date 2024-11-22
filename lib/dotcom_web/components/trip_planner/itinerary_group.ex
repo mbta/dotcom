@@ -22,9 +22,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   Renders a single itinerary group.
   """
   def itinerary_group(assigns) do
-    assigns =
-      assign(assigns, :group_id, "group-#{:erlang.phash2(assigns.itineraries)}")
-
     ~H"""
     <div class="border border-solid m-4 p-4">
       <div
@@ -73,7 +70,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
           class="btn-link font-semibold underline"
           phx-click={@details_click_event}
           phx-target={@target}
-          phx-value-group-id={@group_id}
           phx-value-index={@index}
         >
           Details
