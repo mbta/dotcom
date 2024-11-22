@@ -115,6 +115,15 @@
       </div>
       <%= render(__MODULE__, "_footer.html", conn: @conn) %>
     </div>
+
+    <%!-- Begin unnecessary scripts --%>
+    <%!-- React isn't even needed on most pages, but in production app.js will
+    somehow fail to execute unless additional scripts are included here. Let's
+    revisit this when we either refactor app.js or refactor how we bundle
+    scripts for production via Webpack.  --%>
+    <script :if={!dev_server?} defer src={static_url(@conn, "/js/react.js")}>
+    </script>
+    <%!-- End unnecessary scripts --%>
     <!-- Google Tag Manager (noscript) -->
     <noscript :if={google_tag_manager_id()}>
       <iframe
