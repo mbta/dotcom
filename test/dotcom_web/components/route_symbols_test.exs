@@ -103,11 +103,14 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
   end
 
   defp matches_title?(html, text) do
-    html
-    |> Floki.find("title")
-    |> Floki.text()
-    |> String.trim()
+    title =
+      html
+      |> Floki.find("title")
+      |> Floki.text()
+      |> String.trim()
+
+    text
     |> Regex.compile!("i")
-    |> Regex.match?(text)
+    |> Regex.match?(title)
   end
 end
