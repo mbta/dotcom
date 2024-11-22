@@ -25,6 +25,7 @@
   href={static_url(@conn, "/css/map.css")}
   integrity={static_integrity(@conn, "/css/map.css")}
   crossorigin="anonymous"
+  nonce={assigns[:nonce]}
 />
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/schedule.js"}>
@@ -35,6 +36,7 @@
     src={static_url(@conn, "/js/react.js")}
     integrity={static_integrity(@conn, "/js/react.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
   <script
@@ -42,6 +44,7 @@
     src={static_url(@conn, "/js/schedule.js")}
     integrity={static_integrity(@conn, "/js/schedule.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
 <% end %>

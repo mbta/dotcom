@@ -79,6 +79,7 @@
       href={static_url(@conn, "/css/core.css")}
       integrity={static_integrity(@conn, "/css/core.css")}
       crossorigin="anonymous"
+      nonce={assigns[:nonce]}
     />
     <link
       :if={!dev_server?}
@@ -86,6 +87,7 @@
       href={static_url(@conn, "/css/app.css")}
       integrity={static_integrity(@conn, "/css/app.css")}
       crossorigin="anonymous"
+      nonce={assigns[:nonce]}
     />
     <script
       :if={!dev_server?}
@@ -93,6 +95,7 @@
       src={static_url(@conn, "/js/vendors.js")}
       integrity={static_integrity(@conn, "/js/vendors.js")}
       crossorigin="anonymous"
+      nonce={assigns[:nonce]}
     >
     </script>
     <script
@@ -101,6 +104,7 @@
       src={static_url(@conn, "/js/app.js")}
       integrity={static_integrity(@conn, "/js/app.js")}
       crossorigin="anonymous"
+      nonce={assigns[:nonce]}
     >
     </script>
   </head>
@@ -151,6 +155,7 @@
       src={static_url(@conn, "/js/react.js")}
       integrity={static_integrity(@conn, "/js/react.js")}
       crossorigin="anonymous"
+      nonce={assigns[:nonce]}
     >
     </script>
     <%!-- End unnecessary scripts --%>

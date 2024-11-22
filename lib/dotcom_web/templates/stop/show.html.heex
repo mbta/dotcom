@@ -3,6 +3,7 @@
   href={static_url(@conn, "/css/map.css")}
   integrity={static_integrity(@conn, "/css/map.css")}
   crossorigin="anonymous"
+  nonce={assigns[:nonce]}
 />
 <div>
   <div id="react-stop-root" data-mbta-stop-id={@stop_id}></div>
@@ -17,6 +18,7 @@
     src={static_url(@conn, "/js/react.js")}
     integrity={static_integrity(@conn, "/js/react.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
   <script
@@ -24,6 +26,7 @@
     src={static_url(@conn, "/js/leaflet.js")}
     integrity={static_integrity(@conn, "/js/leaflet.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
   <script
@@ -31,6 +34,7 @@
     src={static_url(@conn, "/js/stop.js")}
     integrity={static_integrity(@conn, "/js/stop.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
 <% end %>

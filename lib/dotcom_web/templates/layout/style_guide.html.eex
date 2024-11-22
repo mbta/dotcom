@@ -37,7 +37,7 @@
         </div>
       </main>
       <footer></footer>
-      <script src="<%= static_url(@conn, "/js/app.js") %>"></script>
+      <script nonce={assigns[:nonce]} src="<%= static_url(@conn, "/js/app.js") %>"></script>
     </div>
   </body>
 </html>

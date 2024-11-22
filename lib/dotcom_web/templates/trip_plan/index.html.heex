@@ -8,6 +8,7 @@
         href={static_url(@conn, "/css/map.css")}
         integrity={static_integrity(@conn, "/css/map.css")}
         crossorigin="anonymous"
+        nonce={assigns[:nonce]}
       />
       <%= case assigns[:query] do %>
         <% %{itineraries: {:ok, _}} -> %>
@@ -39,6 +40,7 @@
               src={static_url(@conn, "/js/react.js")}
               integrity={static_integrity(@conn, "/js/react.js")}
               crossorigin="anonymous"
+              nonce={assigns[:nonce]}
             >
             </script>
             <script
@@ -46,6 +48,7 @@
               src={static_url(@conn, "/js/tripplanresults.js")}
               integrity={static_integrity(@conn, "/js/tripplanresults.js")}
               crossorigin="anonymous"
+              nonce={assigns[:nonce]}
             >
             </script>
           <% end %>
@@ -66,6 +69,7 @@
               href={static_url(@conn, "/css/map.css")}
               integrity={static_integrity(@conn, "/css/map.css")}
               crossorigin="anonymous"
+              nonce={assigns[:nonce]}
             />
             <div class="trip-plan-initial-map map" id="react-root"></div>
             <%= if Application.get_env(:dotcom, :dev_server?) do %>
@@ -80,6 +84,7 @@
                 src={static_url(@conn, "/js/react.js")}
                 integrity={static_integrity(@conn, "/js/react.js")}
                 crossorigin="anonymous"
+                nonce={assigns[:nonce]}
               >
               </script>
               <script
@@ -87,6 +92,7 @@
                 src={static_url(@conn, "/js/tripplanner.js")}
                 integrity={static_integrity(@conn, "/js/tripplanner.js")}
                 crossorigin="anonymous"
+                nonce={assigns[:nonce]}
               >
               </script>
             <% end %>

@@ -7,6 +7,7 @@
     src={static_url(@conn, "/js/react.js")}
     integrity={static_integrity(@conn, "/js/react.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
   <script
@@ -14,6 +15,7 @@
     src={static_url(@conn, "/js/projects.js")}
     integrity={static_integrity(@conn, "/js/projects.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
 <% end %>

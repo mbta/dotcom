@@ -23,6 +23,7 @@
           src={static_url(@conn, "/js/tnm.js")}
           integrity={static_integrity(@conn, "/js/tnm.js")}
           crossorigin="anonymous"
+          nonce={assigns[:nonce]}
         >
         </script>
       <% end %>

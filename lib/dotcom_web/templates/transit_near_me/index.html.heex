@@ -10,6 +10,7 @@
   href={static_url(@conn, "/css/map.css")}
   integrity={static_integrity(@conn, "/css/map.css")}
   crossorigin="anonymous"
+  nonce={assigns[:nonce]}
 />
 <script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain">
   <%= raw Poison.encode!(@map_data) %>
@@ -30,6 +31,7 @@
     src={static_url(@conn, "/js/react.js")}
     integrity={static_integrity(@conn, "/js/react.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
   <script
@@ -37,6 +39,7 @@
     src={static_url(@conn, "/js/tnm.js")}
     integrity={static_integrity(@conn, "/js/tnm.js")}
     crossorigin="anonymous"
+    nonce={assigns[:nonce]}
   >
   </script>
 <% end %>
