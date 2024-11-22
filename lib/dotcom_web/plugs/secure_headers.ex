@@ -87,11 +87,6 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
 
   def base_csp_directives, do: @base_csp_directives
 
-  def default_secure_headers,
-    do:
-      @default_secure_headers
-      |> Map.put(
-        "content-security-policy",
-        Application.get_env(:dotcom, :content_security_policy_definition, "")
-      )
+  def default_secure_headers, do: @default_secure_headers
+
 end

@@ -5,8 +5,14 @@ defmodule DotcomWeb.Plugs.Static do
 
   use Plug.Builder
 
-  import DotcomWeb.Plugs.SecureHeaders, only: [default_secure_headers: 0]
   import Phoenix.Controller, only: [redirect: 2]
+
+  alias DotcomWeb.Plugs.SecureHeaders
+
+  # A very simplified Content Security Policy for static files served by this
+  # application. We actually serve styles and scripts from our CDN, covered by
+  # the Content Security Policy generated in DotcomWeb.Plugs.SecureHeaders
+  @static_csp "default-src 'none'; img-src 'self'; font-src 'self';"
 
   plug(:check_if_apple_touch_icon_request)
 
@@ -15,7 +21,10 @@ defmodule DotcomWeb.Plugs.Static do
     at: "/",
     from: :dotcom,
     gzip: Mix.env() == :prod,
-    headers: default_secure_headers() |> Map.put("access-control-allow-origin", "*"),
+    headers:
+      SecureHeaders.default_secure_headers()
+      |> Map.put("access-control-allow-origin", "*")
+      |> Map.put("content-security-policy", @static_csp),
     cache_control_for_etags: "max-age=86400",
     only: DotcomWeb.static_paths(),
     only_matching: ~w(favicon apple-touch-icon)
