@@ -12,6 +12,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
     required: true
   )
 
+  attr :target, :string, required: true
+
   @doc """
   Renders a single itinerary group.
   """
@@ -66,6 +68,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
         <button
           class="btn-link font-semibold underline"
           phx-click="show_itinerary_details"
+          phx-target={@target}
           phx-value-group-id={@group_id}
           phx-value-index={@index}
         >

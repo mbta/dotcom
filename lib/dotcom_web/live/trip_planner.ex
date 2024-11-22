@@ -27,7 +27,6 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:from, [])
       |> assign(:to, [])
       |> assign(:submitted_values, nil)
-      |> assign(:itinerary_details_index, nil)
       |> assign_async(:results, fn ->
         {:ok, %{results: nil}}
       end)
@@ -71,7 +70,6 @@ defmodule DotcomWeb.Live.TripPlanner do
       <.live_component
         module={TripPlannerResultsSection}
         id="trip-planner-results"
-        itinerary_details_index={@itinerary_details_index}
         results={@results}
         error={@error}
         map_config={@map_config}
@@ -83,16 +81,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event("show_itinerary_details", %{"index" => index_str}, socket) do
-    {index, ""} = Integer.parse(index_str)
-
-    {:noreply, socket |> assign(:itinerary_details_index, index)}
-  end
-
-  def handle_event("show_itinerary_summary", _params, socket) do
-    {:noreply, socket |> assign(:itinerary_details_index, nil)}
-  end
-
   def handle_event(_event, _params, socket) do
     {:noreply, socket}
   end
