@@ -73,11 +73,35 @@
     <script :if={dev_server?} defer src={"#{webpack_path}/app.js"}>
     </script>
 
-    <link :if={!dev_server?} rel="stylesheet" href={static_url(@conn, "/css/core.css")} />
-    <link :if={!dev_server?} rel="stylesheet" href={static_url(@conn, "/css/app.css")} />
-    <script :if={!dev_server?} defer src={static_url(@conn, "/js/vendors.js")}>
+    <link
+      :if={!dev_server?}
+      rel="stylesheet"
+      href={static_url(@conn, "/css/core.css")}
+      integrity={static_integrity(@conn, "/css/core.css")}
+      crossorigin="anonymous"
+    />
+    <link
+      :if={!dev_server?}
+      rel="stylesheet"
+      href={static_url(@conn, "/css/app.css")}
+      integrity={static_integrity(@conn, "/css/app.css")}
+      crossorigin="anonymous"
+    />
+    <script
+      :if={!dev_server?}
+      defer
+      src={static_url(@conn, "/js/vendors.js")}
+      integrity={static_integrity(@conn, "/js/vendors.js")}
+      crossorigin="anonymous"
+    >
     </script>
-    <script :if={!dev_server?} defer src={static_url(@conn, "/js/app.js")}>
+    <script
+      :if={!dev_server?}
+      defer
+      src={static_url(@conn, "/js/app.js")}
+      integrity={static_integrity(@conn, "/js/app.js")}
+      crossorigin="anonymous"
+    >
     </script>
   </head>
   <%= content_tag(:body, class: Dotcom.BodyTag.class_name(@conn)) do %>
@@ -121,7 +145,13 @@
     somehow fail to execute unless additional scripts are included here. Let's
     revisit this when we either refactor app.js or refactor how we bundle
     scripts for production via Webpack.  --%>
-    <script :if={!dev_server?} defer src={static_url(@conn, "/js/react.js")}>
+    <script
+      :if={!dev_server?}
+      defer
+      src={static_url(@conn, "/js/react.js")}
+      integrity={static_integrity(@conn, "/js/react.js")}
+      crossorigin="anonymous"
+    >
     </script>
     <%!-- End unnecessary scripts --%>
     <!-- Google Tag Manager (noscript) -->
