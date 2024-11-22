@@ -138,7 +138,7 @@ describe("passes smoke test", () => {
             // default direction was 0 so verify it goes back
             cy.contains("Change Direction").click();
             cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=0");
-          } else if(url.includes("schedule_direction%5Bdirection_id%5D=0")) {
+          } else if (url.includes("schedule_direction%5Bdirection_id%5D=0")) {
             // default direction was 1 so verify it goes back
             cy.contains("Change Direction").click();
             cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=1");
@@ -188,18 +188,18 @@ describe("passes smoke test", () => {
       'input[placeholder="Search for routes, places, information, and more"]'
     ).type("Charles");
     cy.url().should("contain", "query=Charles");
-    cy.contains("#search-results-container", "Charlestown Ferry");
-    cy.contains("#search-results-container", "Charles/MGH");
-    cy.contains("#search-results-container", "Charlestown Navy Yard");
-    cy.contains("#search-results-container", "Red Blue Connector");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charlestown Ferry");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charles/MGH");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charlestown Navy Yard");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Red Blue Connector");
     cy.get("#facet-label-stops").click(); // show stops and stations only
-    cy.contains("#search-results-container", "Red Line").should("not.exist");
-    cy.contains("#search-results-container", "Charlestown Ferry").should(
+    cy.contains("#search-results-container .c-search-result__hit-name", "Red Line").should("not.exist");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charlestown Ferry").should(
       "not.exist"
     );
-    cy.contains("#search-results-container", "Charles/MGH");
-    cy.contains("#search-results-container", "Charlestown Navy Yard");
-    cy.contains("#search-results-container", "Red Blue Connector").should(
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charles/MGH");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Charlestown Navy Yard");
+    cy.contains("#search-results-container .c-search-result__hit-name", "Red Blue Connector").should(
       "not.exist"
     );
   });
