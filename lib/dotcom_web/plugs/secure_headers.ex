@@ -5,6 +5,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   """
 
   @base_csp_directives %{
+    base: ~w[base-uri 'none'],
     connect: ~w[
       connect-src
       'self'
@@ -14,8 +15,9 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       analytics.google.com
       px.ads.linkedin.com
       stats.g.doubleclick.net
-      www.google-analytics.com
-      www.google.com
+      https://*.google-analytics.com
+      https://*.analytics.google.com
+      https://*.googletagmanager.com
     ],
     default: ~w[default-src 'none'],
     font: ~w[font-src 'self'],
@@ -29,6 +31,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       www.youtube.com
       www.google.com
       www.instagram.com
+      https://www.googletagmanager.com
     ],
     img: ~w[
       img-src
@@ -44,13 +47,13 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       px.ads.linkedin.com
       www.linkedin.com
       www.facebook.com
-      www.googletagmanager.com
+      https://*.google-analytics.com
     ],
     script: ~w[
       script-src
       'nonce-{NONCE}'
       'self'
-      'unsafe-eval'
+      'strict-dynamic'
       'unsafe-inline'
       *.arcgis.com
       *.google.com
@@ -62,9 +65,10 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       www.instagram.com
       www.google-analytics.com
       www.gstatic.com
-      www.googletagmanager.com
+      https://*.googletagmanager.com
     ],
     style: ~w[style-src 'self' 'unsafe-inline' www.gstatic.com],
+    require: ~w[require-trusted-types-for 'script'],
     worker: ~w[worker-src blob: ;]
   }
 
