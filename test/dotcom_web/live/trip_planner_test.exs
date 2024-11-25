@@ -71,7 +71,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     # end
   end
 
-  describe "Trip Planner with results" do
+  describe "Trip Planner with no results" do
     setup %{conn: conn} do
       [username: username, password: password] =
         Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
@@ -86,7 +86,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       }
     end
 
-    test "no results", %{conn: conn} do
+    test "shows 'No trips found' text", %{conn: conn} do
       params = %{
         "plan" => %{
           "from_latitude" => "#{Faker.Address.latitude()}",
@@ -102,23 +102,15 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
-      # TODO actually wait for the async_result somehow
-      Process.sleep(1000)
-
-      assert render(view) =~ "No trips found"
+      assert render_async(view) =~ "No trips found"
     end
+  end
 
-    test "with results", %{conn: conn} do
-      params = %{
-        "plan" => %{
-          "from_latitude" => "#{Faker.Address.latitude()}",
-          "from_longitude" => "#{Faker.Address.longitude()}",
-          "to_latitude" => "#{Faker.Address.latitude()}",
-          "to_longitude" => "#{Faker.Address.longitude()}"
-        }
-      }
+  describe "Trip Planner with results" do
+    setup %{conn: conn} do
+      [username: username, password: password] =
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
 
-      # called during itinerary parsing
       stub(Stops.Repo.Mock, :get, fn _ ->
         Test.Support.Factories.Stops.Stop.build(:stop)
       end)
@@ -133,12 +125,51 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
+      %{
+        conn:
+          put_req_header(
+            conn,
+            "authorization",
+            "Basic " <> Base.encode64("#{username}:#{password}")
+          ),
+        params: %{
+          "plan" => %{
+            "from_latitude" => "#{Faker.Address.latitude()}",
+            "from_longitude" => "#{Faker.Address.longitude()}",
+            "to_latitude" => "#{Faker.Address.latitude()}",
+            "to_longitude" => "#{Faker.Address.longitude()}"
+          }
+        }
+      }
+    end
+
+    test "starts out with no 'View All Options' button", %{conn: conn, params: params} do
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
-      # TODO actually wait for the async_result somehow
-      Process.sleep(1000)
+      refute render_async(view) =~ "View All Options"
+    end
 
-      refute render(view) =~ "No trips found"
+    test "clicking 'Details' button opens details view", %{conn: conn, params: params} do
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      render_async(view)
+      view |> element("button[phx-value-index=\"0\"]", "Details") |> render_click()
+
+      assert render_async(view) =~ "View All Options"
+    end
+
+    test "clicking 'View All Options' button from details view closes it", %{
+      conn: conn,
+      params: params
+    } do
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      render_async(view)
+
+      view |> element("button[phx-value-index=\"0\"]", "Details") |> render_click()
+      view |> element("button", "View All Options") |> render_click()
+
+      refute render_async(view) =~ "View All Options"
     end
   end
 end
