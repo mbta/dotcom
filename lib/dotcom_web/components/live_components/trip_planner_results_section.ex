@@ -41,23 +41,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
-  defp itinerary_panel(%{results: results, details_index: details_index} = assigns) do
-    case details_index do
-      nil ->
-        ~H"""
-        <.itinerary_panel_with_all_results results={@results} target={@target} />
-        """
-
-      _ ->
-        assigns = assign(assigns, :result, Enum.at(results, details_index))
-
-        ~H"""
-        <.itinerary_panel_with_specific_result result={@result} target={@target} />
-        """
-    end
-  end
-
-  defp itinerary_panel_with_all_results(assigns) do
+  defp itinerary_panel(%{details_index: nil} = assigns) do
     ~H"""
     <.itinerary_group
       :for={{result, index} <- Enum.with_index(@results)}
@@ -69,8 +53,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
-  defp itinerary_panel_with_specific_result(%{result: result} = assigns) do
-    assigns = assign(assigns, :itineraries, Map.get(result, :itineraries))
+  defp itinerary_panel(%{results: results, details_index: details_index} = assigns) do
+    assigns =
+      assign(assigns, :itineraries, results |> Enum.at(details_index) |> Map.get(:itineraries))
 
     ~H"""
     <div class="mt-30">
