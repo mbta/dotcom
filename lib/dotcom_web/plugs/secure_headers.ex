@@ -53,8 +53,6 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
     script: ~w[
       script-src
       'nonce-{NONCE}'
-      'self'
-      'strict-dynamic'
       'unsafe-inline'
       *.arcgis.com
       *.google.com
@@ -67,6 +65,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       www.google-analytics.com
       www.gstatic.com
       https://*.googletagmanager.com
+      'self'
     ],
     style: ~w[style-src 'self' 'unsafe-inline' www.gstatic.com],
     require: ~w[require-trusted-types-for 'script'],
