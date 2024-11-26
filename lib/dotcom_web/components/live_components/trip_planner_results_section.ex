@@ -46,7 +46,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     <.itinerary_group
       :for={{result, index} <- Enum.with_index(@results)}
       index={index}
-      details_click_event="show_itinerary_details"
+      details_click_event="set_expanded_itinerary_index"
       target={@target}
       {result}
     />
@@ -59,7 +59,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
     ~H"""
     <div class="mt-30">
-      <button type="button" phx-click="show_itinerary_summary" phx-target={@target} class="btn-link">
+      <button
+        type="button"
+        phx-click="set_expanded_itinerary_index"
+        phx-value-index="nil"
+        phx-target={@target}
+        class="btn-link"
+      >
         <p class="flex flex-row items-center">
           <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
           <span class="font-medium">View All Options</span>
@@ -71,14 +77,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   @impl true
-  def handle_event("show_itinerary_details", %{"index" => index_str}, socket) do
-    {index, ""} = Integer.parse(index_str)
+  def handle_event("set_expanded_itinerary_index", %{"index" => index_str}, socket) do
+    index =
+      case Integer.parse(index_str) do
+        {index, ""} -> index
+        _ -> nil
+      end
 
     {:noreply, socket |> assign(:expanded_itinerary_index, index)}
-  end
-
-  @impl true
-  def handle_event("show_itinerary_summary", _params, socket) do
-    {:noreply, socket |> assign(:expanded_itinerary_index, nil)}
   end
 end
