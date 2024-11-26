@@ -7,10 +7,9 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
   import MbtaMetro.Components.{Feedback, Spinner}
 
-  alias DotcomWeb.Components.LiveComponents.TripPlannerForm
+  alias DotcomWeb.Components.LiveComponents.{TripPlannerForm, TripPlannerResultsSection}
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm.Modes, ItineraryGroups}
 
   @form_id "trip-planner-form"
@@ -67,23 +66,16 @@ defmodule DotcomWeb.Live.TripPlanner do
           <% end %>
         </.async_result>
       </section>
-      <section class="flex w-full border border-solid border-slate-400">
-        <div :if={@error} class="w-full p-4 text-rose-400">
-          <%= inspect(@error) %>
-        </div>
-        <.async_result :let={results} assign={@results}>
-          <div :if={results} class="w-full p-4">
-            <.itinerary_group :for={result <- results} {result} />
-          </div>
-        </.async_result>
-        <.live_component
-          module={MbtaMetro.Live.Map}
-          id="trip-planner-map"
-          class="h-96 w-full relative overflow-none"
-          config={@map_config}
-          pins={[@from, @to]}
-        />
-      </section>
+
+      <.live_component
+        module={TripPlannerResultsSection}
+        id="trip-planner-results"
+        results={@results}
+        error={@error}
+        map_config={@map_config}
+        from={@from}
+        to={@to}
+      />
     </div>
     """
   end

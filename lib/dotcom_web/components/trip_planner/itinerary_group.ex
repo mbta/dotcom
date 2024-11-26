@@ -4,18 +4,24 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   """
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.ItineraryDetail
-
   attr(:summary, :map, doc: "ItineraryGroups.summary()", required: true)
   attr(:itineraries, :list, doc: "List of %Dotcom.TripPlan.Itinerary{}", required: true)
+
+  attr(:index, :integer,
+    doc: "Index into the full list where this itinerary group sits",
+    required: true
+  )
+
+  attr :target, :string, doc: "The target that should receive events", required: true
+
+  attr :details_click_event, :string,
+    doc: "The event that fires when 'Details' is clicked",
+    required: true
 
   @doc """
   Renders a single itinerary group.
   """
   def itinerary_group(assigns) do
-    assigns =
-      assign(assigns, :group_id, "group-#{:erlang.phash2(assigns.itineraries)}")
-
     ~H"""
     <div class="border border-solid m-4 p-4">
       <div
@@ -60,12 +66,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
           Similar trips depart at <%= Enum.map(@summary.next_starts, &format_datetime_short/1)
           |> Enum.join(", ") %>
         </div>
-        <button class="btn-link font-semibold underline" phx-click={JS.toggle(to: "##{@group_id}")}>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click={@details_click_event}
+          phx-target={@target}
+          phx-value-index={@index}
+        >
           Details
         </button>
-      </div>
-      <div id={@group_id} class="mt-30" style="display: none;">
-        <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
       </div>
     </div>
     """

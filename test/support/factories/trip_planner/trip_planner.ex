@@ -141,22 +141,22 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   # OpenTripPlannerClient supports a greater number of route_type values than
   # Dotcom does! Tweak that here.
-  defp limit_route_types(%OpenTripPlannerClient.Schema.Itinerary{legs: legs} = itinerary) do
+  def limit_route_types(%OpenTripPlannerClient.Schema.Itinerary{legs: legs} = itinerary) do
     %OpenTripPlannerClient.Schema.Itinerary{
       itinerary
       | legs: Enum.map(legs, &limit_route_types/1)
     }
   end
 
-  defp limit_route_types(%OpenTripPlannerClient.Schema.Leg{route: route} = leg)
-       when route.type > 4 do
+  def limit_route_types(%OpenTripPlannerClient.Schema.Leg{route: route} = leg)
+      when route.type > 4 do
     %OpenTripPlannerClient.Schema.Leg{
       leg
       | route: %OpenTripPlannerClient.Schema.Route{route | type: Faker.Util.pick([0, 1, 2, 3, 4])}
     }
   end
 
-  defp limit_route_types(leg), do: leg
+  def limit_route_types(leg), do: leg
 
   def stop_named_position_factory do
     %NamedPosition{
