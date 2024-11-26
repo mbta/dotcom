@@ -24,8 +24,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryGroup do
   Renders a single itinerary group.
   """
   def itinerary_group(assigns) do
-    ItinerarySummary
-
     ~H"""
     <div class="border border-solid m-4 p-4">
       <div
