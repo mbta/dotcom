@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
 
     ~H"""
     <div>
-      <p>Depart at</p>
+      <p class="text-sm mb-2 mt-3">Depart at</p>
       <div class="flex">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
