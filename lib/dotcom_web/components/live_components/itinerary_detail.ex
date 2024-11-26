@@ -10,10 +10,31 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
 
   alias Dotcom.TripPlan.PersonalDetail
 
-  def render(assigns) do
+  @impl true
+  def mount(socket) do
+    {:ok, socket |> assign(:selected_trip_index, 0)}
+  end
+
+  @impl true
+  def render(%{itineraries: itineraries, selected_trip_index: selected_trip_index} = assigns) do
+    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_trip_index))
+
     ~H"""
     <div>
-      <.specific_itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+      <p>Depart at</p>
+      <div class="flex">
+        <button
+          :for={{itinerary, index} <- Enum.with_index(@itineraries)}
+          type="button"
+          class="btn btn-secondary"
+          phx-click="set_selected_trip_index"
+          phx-value-trip-index={index}
+          phx-target={@myself}
+        >
+          <%= Timex.format!(itinerary.start, "%-I:%M%p", :strftime) %>
+        </button>
+      </div>
+      <.specific_itinerary_detail itinerary={@selected_itinerary} />
     </div>
     """
   end
@@ -29,11 +50,11 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
       )
 
     ~H"""
-    <details class="mt-4">
-      <summary class="border border-2 border-brand-primary px-3 py-2 flex items-center hover:border-brand-primary-darkest hover:bg-gray-lighter">
+    <div class="mt-4">
+      <div>
         Depart at <%= Timex.format!(@itinerary.start, "%-I:%M%p", :strftime) %>
         <.route_symbol :for={route <- @all_routes} route={route} class="ml-2" />
-      </summary>
+      </div>
       <div :for={leg <- @itinerary.legs}>
         <.leg
           start_time={leg.start}
@@ -45,7 +66,14 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
           realtime_state={leg.realtime_state}
         />
       </div>
-    </details>
+    </div>
     """
+  end
+
+  @impl true
+  def handle_event("set_selected_trip_index", %{"trip-index" => index_str}, socket) do
+    {index, ""} = Integer.parse(index_str)
+
+    {:noreply, socket |> assign(:selected_trip_index, index)}
   end
 end
