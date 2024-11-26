@@ -1,14 +1,24 @@
-defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
+defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
   @moduledoc """
-  A component to render an itinerary in detail..
+  The section of the trip planner page that shows the map and
+  the summary or details panel
   """
-  use DotcomWeb, :component
+
+  use DotcomWeb, :live_component
 
   import DotcomWeb.Components.TripPlanner.Leg
 
   alias Dotcom.TripPlan.PersonalDetail
 
-  def itinerary_detail(assigns) do
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.specific_itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+    </div>
+    """
+  end
+
+  defp specific_itinerary_detail(assigns) do
     assigns =
       assign(
         assigns,

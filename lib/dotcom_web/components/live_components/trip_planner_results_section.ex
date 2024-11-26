@@ -6,8 +6,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   use DotcomWeb, :live_component
 
-  import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
+  import DotcomWeb.Components.TripPlanner.ItinerarySummary
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
+
+  alias DotcomWeb.Components.LiveComponents.ItineraryDetail
 
   @impl true
   def mount(socket) do
@@ -80,7 +82,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         <.itinerary_summary summary={@summary} />
       </div>
 
-      <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+      <.live_component id="itinerary_detail" module={ItineraryDetail} itineraries={@itineraries} />
     </div>
     """
   end
