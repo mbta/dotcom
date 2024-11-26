@@ -42,7 +42,8 @@ module.exports = {
         },
         "brand-primary": {
           DEFAULT: "#165c96",
-          darkest: "#0b2f4c"
+          darkest: "#0b2f4c",
+          lightest: "#cee0f4"
         },
         "logan-express": {
           BB: "#f16823",

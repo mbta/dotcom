@@ -17,7 +17,12 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
 
   @impl true
   def render(%{itineraries: itineraries, selected_trip_index: selected_trip_index} = assigns) do
-    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_trip_index))
+    assigns =
+      assigns
+      |> assign(:selected_itinerary, Enum.at(itineraries, selected_trip_index))
+      |> assign(:border_classes, "border border-brand-primary rounded")
+      |> assign(:layout_classes, "px-2.5 py-1.5 mr-2")
+      |> assign(:text_classes, "text-brand-primary text-lg")
 
     ~H"""
     <div>
@@ -26,7 +31,11 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
         <button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
           type="button"
-          class="btn btn-secondary"
+          class={[
+            @border_classes,
+            @layout_classes,
+            "hover:bg-brand-primary-lightest #{if @selected_trip_index == index, do: "bg-brand-primary-lightest", else: "bg-transparent"}"
+          ]}
           phx-click="set_selected_trip_index"
           phx-value-trip-index={index}
           phx-target={@myself}
