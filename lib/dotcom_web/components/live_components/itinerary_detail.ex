@@ -28,23 +28,40 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
     <div>
       <p>Depart at</p>
       <div class="flex">
-        <button
+        <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          type="button"
-          class={[
-            @border_classes,
-            @layout_classes,
-            "hover:bg-brand-primary-lightest #{if @selected_trip_index == index, do: "bg-brand-primary-lightest", else: "bg-transparent"}"
-          ]}
+          active={@selected_trip_index == index}
           phx-click="set_selected_trip_index"
           phx-value-trip-index={index}
           phx-target={@myself}
         >
           <%= Timex.format!(itinerary.start, "%-I:%M%p", :strftime) %>
-        </button>
+        </.depart_at_button>
       </div>
       <.specific_itinerary_detail itinerary={@selected_itinerary} />
     </div>
+    """
+  end
+
+  attr :active, :boolean
+  attr :rest, :global
+  slot :inner_block
+
+  defp depart_at_button(%{active: active} = assigns) do
+    background_class = if active, do: "bg-brand-primary-lightest", else: "bg-transparent"
+    assigns = assign(assigns, :background_class, background_class)
+
+    ~H"""
+    <button
+      type="button"
+      class={[
+        "border border-brand-primary rounded px-2.5 py-1.5 mr-2 text-brand-primary text-lg",
+        "hover:bg-brand-primary-lightest #{@background_class}"
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </button>
     """
   end
 
