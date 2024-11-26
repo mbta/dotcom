@@ -17,12 +17,7 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
 
   @impl true
   def render(%{itineraries: itineraries, selected_trip_index: selected_trip_index} = assigns) do
-    assigns =
-      assigns
-      |> assign(:selected_itinerary, Enum.at(itineraries, selected_trip_index))
-      |> assign(:border_classes, "border border-brand-primary rounded")
-      |> assign(:layout_classes, "px-2.5 py-1.5 mr-2")
-      |> assign(:text_classes, "text-brand-primary text-lg")
+    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_trip_index))
 
     ~H"""
     <div>
