@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   use DotcomWeb, :live_component
 
-  import DotcomWeb.Components.TripPlanner.ItineraryDetail
+  import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
   @impl true
@@ -54,8 +54,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   defp itinerary_panel(%{results: results, details_index: details_index} = assigns) do
+    result = results |> Enum.at(details_index)
+
     assigns =
-      assign(assigns, :itineraries, results |> Enum.at(details_index) |> Map.get(:itineraries))
+      assigns
+      |> assign(:itineraries, result |> Map.get(:itineraries))
+      |> assign(:summary, result |> Map.get(:summary))
 
     ~H"""
     <div class="mt-30">
@@ -71,6 +75,11 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
           <span class="font-medium">View All Options</span>
         </p>
       </button>
+
+      <div class="border-b-[1px] border-gray-lighter">
+        <.itinerary_summary summary={@summary} />
+      </div>
+
       <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
     </div>
     """
