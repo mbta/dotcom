@@ -69,7 +69,6 @@ defmodule DotcomWeb do
           project_path: 3,
           project_update_path: 3,
           project_update_path: 4,
-          static_integrity: 2,
           static_url: 2
         ]
 
