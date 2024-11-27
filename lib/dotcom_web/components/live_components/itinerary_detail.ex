@@ -12,12 +12,14 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
 
   @impl true
   def mount(socket) do
-    {:ok, socket |> assign(:selected_trip_index, 0)}
+    {:ok, socket |> assign(:selected_itinerary_index, 0)}
   end
 
   @impl true
-  def render(%{itineraries: itineraries, selected_trip_index: selected_trip_index} = assigns) do
-    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_trip_index))
+  def render(
+        %{itineraries: itineraries, selected_itinerary_index: selected_itinerary_index} = assigns
+      ) do
+    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_itinerary_index))
 
     ~H"""
     <div>
@@ -25,8 +27,8 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
       <div class="flex">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          active={@selected_trip_index == index}
-          phx-click="set_selected_trip_index"
+          active={@selected_itinerary_index == index}
+          phx-click="set_selected_itinerary_index"
           phx-value-trip-index={index}
           phx-target={@myself}
         >
@@ -92,9 +94,9 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
   end
 
   @impl true
-  def handle_event("set_selected_trip_index", %{"trip-index" => index_str}, socket) do
+  def handle_event("set_selected_itinerary_index", %{"trip-index" => index_str}, socket) do
     {index, ""} = Integer.parse(index_str)
 
-    {:noreply, socket |> assign(:selected_trip_index, index)}
+    {:noreply, socket |> assign(:selected_itinerary_index, index)}
   end
 end
