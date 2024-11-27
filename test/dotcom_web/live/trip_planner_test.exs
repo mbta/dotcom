@@ -204,8 +204,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         OtpFactory.build(:itinerary)
         |> limit_route_types()
 
-      # TODO: Right now, the headsign (which is what we actually want
-      # to show) is not available from OTP client, but we're rendering
+      # Right now, the headsign (which is what we actually want to
+      # show) is not available from OTP client, but we're rendering
       # the trip ID in its place. Once the headsign is available, we
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
