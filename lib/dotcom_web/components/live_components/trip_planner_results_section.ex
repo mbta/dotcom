@@ -34,6 +34,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         map_config={@map_config}
         from={@from}
         to={@to}
+        hide_on_mobile={@expanded_itinerary_index == nil}
       />
     </section>
     """
@@ -83,12 +84,21 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
-  defp map(assigns) do
+  defp map(%{hide_on_mobile: hide_on_mobile} = assigns) do
+    display_classes =
+      if hide_on_mobile do
+        "hidden md:block"
+      else
+        ""
+      end
+
+    assigns = assign(assigns, :display_classes, display_classes)
+
     ~H"""
     <.live_component
       module={MbtaMetro.Live.Map}
       id="trip-planner-map"
-      class="h-96 w-full relative overflow-none"
+      class={["h-96 w-full relative overflow-none", @display_classes]}
       config={@map_config}
       pins={[@from, @to]}
     />
