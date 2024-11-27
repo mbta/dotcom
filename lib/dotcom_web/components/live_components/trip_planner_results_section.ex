@@ -30,12 +30,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
           />
         </div>
       </.async_result>
-      <.live_component
-        module={MbtaMetro.Live.Map}
-        id="trip-planner-map"
-        class="h-96 w-full relative overflow-none"
-        config={@map_config}
-        pins={[@from, @to]}
+      <.map
+        map_config={@map_config}
+        from={@from}
+        to={@to}
       />
     </section>
     """
@@ -82,6 +80,18 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
       <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
     </div>
+    """
+  end
+
+  defp map(assigns) do
+    ~H"""
+    <.live_component
+      module={MbtaMetro.Live.Map}
+      id="trip-planner-map"
+      class="h-96 w-full relative overflow-none"
+      config={@map_config}
+      pins={[@from, @to]}
+    />
     """
   end
 
