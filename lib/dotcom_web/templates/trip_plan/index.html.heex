@@ -3,12 +3,7 @@
   <div class="trip-plan-container">
     <%= render("_sidebar.html", assigns) %>
     <div class="trip-plan-body">
-      <link
-        rel="stylesheet"
-        href={static_url(@conn, "/css/map.css")}
-        integrity={static_integrity(@conn, "/css/map.css")}
-        crossorigin="anonymous"
-      />
+      <link rel="stylesheet" href={static_url(@conn, "/css/map.css")} />
       <%= case assigns[:query] do %>
         <% %{itineraries: {:ok, _}} -> %>
           <p
@@ -34,19 +29,9 @@
             >
             </script>
           <% else %>
-            <script
-              defer
-              src={static_url(@conn, "/js/react.js")}
-              integrity={static_integrity(@conn, "/js/react.js")}
-              crossorigin="anonymous"
-            >
+            <script defer src={static_url(@conn, "/js/react.js")}>
             </script>
-            <script
-              defer
-              src={static_url(@conn, "/js/tripplanresults.js")}
-              integrity={static_integrity(@conn, "/js/tripplanresults.js")}
-              crossorigin="anonymous"
-            >
+            <script defer src={static_url(@conn, "/js/tripplanresults.js")}>
             </script>
           <% end %>
         <% _ -> %>
@@ -61,12 +46,7 @@
             <script id="js-trip-planner-map-data" type="text/plain">
               <%= raw Poison.encode!(map_data) %>
             </script>
-            <link
-              rel="stylesheet"
-              href={static_url(@conn, "/css/map.css")}
-              integrity={static_integrity(@conn, "/css/map.css")}
-              crossorigin="anonymous"
-            />
+            <link rel="stylesheet" href={static_url(@conn, "/css/map.css")} />
             <div class="trip-plan-initial-map map" id="react-root"></div>
             <%= if Application.get_env(:dotcom, :dev_server?) do %>
               <script
@@ -75,19 +55,9 @@
               >
               </script>
             <% else %>
-              <script
-                defer
-                src={static_url(@conn, "/js/react.js")}
-                integrity={static_integrity(@conn, "/js/react.js")}
-                crossorigin="anonymous"
-              >
+              <script defer src={static_url(@conn, "/js/react.js")}>
               </script>
-              <script
-                defer
-                src={static_url(@conn, "/js/tripplanner.js")}
-                integrity={static_integrity(@conn, "/js/tripplanner.js")}
-                crossorigin="anonymous"
-              >
+              <script defer src={static_url(@conn, "/js/tripplanner.js")}>
               </script>
             <% end %>
           <% end %>
