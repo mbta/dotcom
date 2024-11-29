@@ -25,50 +25,48 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     assigns = assign(assigns, :grid_column_layout, grid_column_layout)
 
     ~H"""
-    <div>
-      <section class={"flex flex-col md:grid #{@grid_column_layout} md:grid-rows-[min-content_1fr] w-full border border-solid border-slate-400"}>
-        <div :if={@error} class="w-full p-4 text-rose-400">
-          <%= inspect(@error) %>
-        </div>
-        <.async_result :let={results} assign={@results}>
-          <div
-            :if={results && @expanded_itinerary_index}
-            class="row-start-1 col-start-1 h-min w-full p-4"
+    <section class={"flex flex-col md:grid #{@grid_column_layout} md:grid-rows-[min-content_1fr] w-full border border-solid border-slate-400"}>
+      <div :if={@error} class="w-full p-4 text-rose-400">
+        <%= inspect(@error) %>
+      </div>
+      <.async_result :let={results} assign={@results}>
+        <div
+          :if={results && @expanded_itinerary_index}
+          class="row-start-1 col-start-1 h-min w-full p-4"
+        >
+          <button
+            type="button"
+            phx-click="set_expanded_itinerary_index"
+            phx-value-index="nil"
+            phx-target={@myself}
+            class="btn-link"
           >
-            <button
-              type="button"
-              phx-click="set_expanded_itinerary_index"
-              phx-value-index="nil"
-              phx-target={@myself}
-              class="btn-link"
-            >
-              <span class="flex flex-row items-center">
-                <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
-                <span class="font-medium">View All Options</span>
-              </span>
-            </button>
-          </div>
-        </.async_result>
+            <span class="flex flex-row items-center">
+              <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
+              <span class="font-medium">View All Options</span>
+            </span>
+          </button>
+        </div>
+      </.async_result>
 
-        <.map
-          map_config={@map_config}
-          from={@from}
-          to={@to}
-          hide_on_mobile={@expanded_itinerary_index == nil}
-          class="row-span-2"
-        />
+      <.map
+        map_config={@map_config}
+        from={@from}
+        to={@to}
+        hide_on_mobile={@expanded_itinerary_index == nil}
+        class="row-span-2"
+      />
 
-        <.async_result :let={results} assign={@results}>
-          <div :if={results} class="w-full p-4 row-start-2 col-start-1">
-            <.itinerary_panel
-              results={results}
-              details_index={@expanded_itinerary_index}
-              target={@myself}
-            />
-          </div>
-        </.async_result>
-      </section>
-    </div>
+      <.async_result :let={results} assign={@results}>
+        <div :if={results} class="w-full p-4 row-start-2 col-start-1">
+          <.itinerary_panel
+            results={results}
+            details_index={@expanded_itinerary_index}
+            target={@myself}
+          />
+        </div>
+      </.async_result>
+    </section>
     """
   end
 
