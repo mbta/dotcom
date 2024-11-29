@@ -16,27 +16,61 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   @impl true
   def render(assigns) do
+    grid_column_layout = "md:grid-cols-[1fr_1fr]"
+
+    grid_column_layout =
+      case assigns.results.result do
+        nil -> "md:grid-cols-[1fr]"
+        _ -> "md:grid-cols-[1fr_1fr]"
+      end
+
+    assigns = assign(assigns, :grid_column_layout, grid_column_layout)
+
     ~H"""
-    <section class="flex w-full border border-solid border-slate-400">
-      <div :if={@error} class="w-full p-4 text-rose-400">
-        <%= inspect(@error) %>
-      </div>
-      <.async_result :let={results} assign={@results}>
-        <div :if={results} class="w-full p-4">
-          <.itinerary_panel
-            results={results}
-            details_index={@expanded_itinerary_index}
-            target={@myself}
-          />
+    <div>
+      <section class={"flex flex-col md:grid #{@grid_column_layout} md:grid-rows-[min-content_1fr] w-full border border-solid border-slate-400"}>
+        <div :if={@error} class="w-full p-4 text-rose-400">
+          <%= inspect(@error) %>
         </div>
-      </.async_result>
-      <.map
-        map_config={@map_config}
-        from={@from}
-        to={@to}
-        hide_on_mobile={@expanded_itinerary_index == nil}
-      />
-    </section>
+        <.async_result :let={results} assign={@results}>
+          <div
+            :if={results && @expanded_itinerary_index}
+            class="row-start-1 col-start-1 h-min w-full p-4"
+          >
+            <button
+              type="button"
+              phx-click="set_expanded_itinerary_index"
+              phx-value-index="nil"
+              phx-target={@myself}
+              class="btn-link"
+            >
+              <span class="flex flex-row items-center">
+                <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
+                <span class="font-medium">View All Options</span>
+              </span>
+            </button>
+          </div>
+        </.async_result>
+
+        <.map
+          map_config={@map_config}
+          from={@from}
+          to={@to}
+          hide_on_mobile={@expanded_itinerary_index == nil}
+          class="row-span-2"
+        />
+
+        <.async_result :let={results} assign={@results}>
+          <div :if={results} class="w-full p-4 row-start-2 col-start-1">
+            <.itinerary_panel
+              results={results}
+              details_index={@expanded_itinerary_index}
+              target={@myself}
+            />
+          </div>
+        </.async_result>
+      </section>
+    </div>
     """
   end
 
@@ -62,19 +96,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
     ~H"""
     <div class="mt-30">
-      <button
-        type="button"
-        phx-click="set_expanded_itinerary_index"
-        phx-value-index="nil"
-        phx-target={@target}
-        class="btn-link"
-      >
-        <p class="flex flex-row items-center">
-          <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
-          <span class="font-medium">View All Options</span>
-        </p>
-      </button>
-
       <div class="border-b-[1px] border-gray-lighter">
         <.itinerary_summary summary={@summary} />
       </div>
@@ -98,7 +119,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     <.live_component
       module={MbtaMetro.Live.Map}
       id="trip-planner-map"
-      class={["h-96 w-full relative overflow-none", @display_classes]}
+      class={["h-64 md:h-96 w-full relative overflow-none", @display_classes, @class]}
       config={@map_config}
       pins={[@from, @to]}
     />
