@@ -7,7 +7,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   use DotcomWeb, :live_component
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
-  import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
 
   @impl true
   def mount(socket) do
@@ -43,13 +42,32 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   defp itinerary_panel(%{details_index: nil} = assigns) do
     ~H"""
-    <.itinerary_group
-      :for={{result, index} <- Enum.with_index(@results)}
-      index={index}
-      details_click_event="set_expanded_itinerary_index"
-      target={@target}
-      {result}
-    />
+    <div
+      :for={{%{summary: summary}, index} <- Enum.with_index(@results)}
+      class="border border-solid m-4 p-4"
+    >
+      <div
+        :if={summary.tag}
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+      >
+        <%= summary.tag %>
+      </div>
+      <.itinerary_summary summary={summary} />
+      <div class="flex justify-end items-center">
+        <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
+          Similar trips depart at <%= Enum.map(summary.next_starts, &format_datetime_short/1)
+          |> Enum.join(", ") %>
+        </div>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click="set_expanded_itinerary_index"
+          phx-target={@target}
+          phx-value-index={index}
+        >
+          Details
+        </button>
+      </div>
+    </div>
     """
   end
 
@@ -94,5 +112,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       end
 
     {:noreply, socket |> assign(:expanded_itinerary_index, index)}
+  end
+
+  def format_datetime_short(datetime) do
+    Timex.format!(datetime, "%-I:%M", :strftime)
   end
 end
