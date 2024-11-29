@@ -16,8 +16,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   @impl true
   def render(assigns) do
-    grid_column_layout = "md:grid-cols-[1fr_1fr]"
-
     grid_column_layout =
       case assigns.results.result do
         nil -> "md:grid-cols-[1fr]"
