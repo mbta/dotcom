@@ -3,9 +3,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
   import Mox
   import Phoenix.LiveViewTest
-  import Test.Support.Factories.TripPlanner.TripPlanner, only: [limit_route_types: 1]
 
-  alias OpenTripPlannerClient.Test.Support.Factory, as: OtpFactory
+  alias Test.Support.Factories.TripPlanner.TripPlanner, as: TripPlannerFactory
 
   setup :verify_on_exit!
 
@@ -16,11 +15,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   end
 
   defp stub_populated_otp_results() do
-    # Uhhh the OTP factory will generate with any route_type value but our
-    # parsing will break with unexpected route types
-    itineraries =
-      OtpFactory.build_list(3, :itinerary)
-      |> Enum.map(&limit_route_types/1)
+    itineraries = TripPlannerFactory.build_list(3, :otp_itinerary)
 
     stub_otp_results(itineraries)
   end
@@ -207,9 +202,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       trip_time_display_2 = "10:46AM"
       trip_id_2 = "trip_id_2"
 
-      base_itinerary =
-        OtpFactory.build(:itinerary)
-        |> limit_route_types()
+      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
       # Right now, the headsign (which is what we actually want to
       # show) is not available from OTP client, but we're rendering
@@ -247,9 +240,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       trip_time_display_2 = "10:46AM"
       trip_id_2 = "trip_id_2"
 
-      base_itinerary =
-        OtpFactory.build(:itinerary)
-        |> limit_route_types()
+      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
       # Right now, the headsign (which is what we actually want to
       # show) is not available from OTP client, but we're rendering
