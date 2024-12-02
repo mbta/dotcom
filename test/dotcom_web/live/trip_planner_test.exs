@@ -235,5 +235,43 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert render_async(view) =~ trip_id_2
       refute render_async(view) =~ trip_id_1
     end
+
+    test "'Depart At' button state is not preserved when leaving details view", %{
+      conn: conn,
+      params: params
+    } do
+      trip_time_1 = ~T[09:26:00]
+      trip_id_1 = "trip_id_1"
+
+      trip_time_2 = ~T[10:46:00]
+      trip_time_display_2 = "10:46AM"
+      trip_id_2 = "trip_id_2"
+
+      base_itinerary =
+        OtpFactory.build(:itinerary)
+        |> limit_route_types()
+
+      # Right now, the headsign (which is what we actually want to
+      # show) is not available from OTP client, but we're rendering
+      # the trip ID in its place. Once the headsign is available, we
+      # should update these updates and the assertions below to use
+      # the headsign instead of the trip ID.
+      stub_otp_results([
+        update_trip_details(base_itinerary, trip_id: "trip_id_1", start_time: trip_time_1),
+        update_trip_details(base_itinerary, trip_id: "trip_id_2", start_time: trip_time_2)
+      ])
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      render_async(view)
+
+      view |> element("button", "Details") |> render_click()
+      view |> element("button", trip_time_display_2) |> render_click()
+      view |> element("button", "View All Options") |> render_click()
+      view |> element("button", "Details") |> render_click()
+
+      assert render_async(view) =~ trip_id_1
+      refute render_async(view) =~ trip_id_2
+    end
   end
 end

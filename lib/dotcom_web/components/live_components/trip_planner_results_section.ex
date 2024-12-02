@@ -149,7 +149,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         _ -> nil
       end
 
-    {:noreply, socket |> assign(:expanded_itinerary_index, index)}
+    {:noreply,
+     socket
+     |> assign(:expanded_itinerary_index, index)
+     |> assign(:selected_itinerary_detail_index, 0)}
   end
 
   @impl true
