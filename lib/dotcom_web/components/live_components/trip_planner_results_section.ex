@@ -48,12 +48,16 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         </div>
       </.async_result>
 
-      <.map
-        map_config={@map_config}
-        from={@from}
-        to={@to}
-        hide_on_mobile={@expanded_itinerary_index == nil}
-        class="row-span-2"
+      <.live_component
+        module={MbtaMetro.Live.Map}
+        id="trip-planner-map"
+        class={[
+          "h-64 md:h-96 w-full",
+          "relative overflow-none row-span-2",
+          @expanded_itinerary_index == nil && "hidden md:block"
+        ]}
+        config={@map_config}
+        pins={[@from, @to]}
       />
 
       <.async_result :let={results} assign={@results}>
@@ -97,27 +101,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
       <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
     </div>
-    """
-  end
-
-  defp map(%{hide_on_mobile: hide_on_mobile} = assigns) do
-    display_classes =
-      if hide_on_mobile do
-        "hidden md:block"
-      else
-        ""
-      end
-
-    assigns = assign(assigns, :display_classes, display_classes)
-
-    ~H"""
-    <.live_component
-      module={MbtaMetro.Live.Map}
-      id="trip-planner-map"
-      class={["h-64 md:h-96 w-full relative overflow-none", @display_classes, @class]}
-      config={@map_config}
-      pins={[@from, @to]}
-    />
     """
   end
 
