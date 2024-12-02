@@ -114,7 +114,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     {:noreply, socket |> assign(:expanded_itinerary_index, index)}
   end
 
-  def format_datetime_short(datetime) do
+  defp format_datetime_short(datetime) do
     Timex.format!(datetime, "%-I:%M", :strftime)
   end
 end
