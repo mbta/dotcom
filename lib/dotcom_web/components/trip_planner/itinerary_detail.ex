@@ -1,25 +1,23 @@
-defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
+defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   @moduledoc """
   The section of the trip planner page that shows the map and
   the summary or details panel
   """
 
-  use DotcomWeb, :live_component
+  use DotcomWeb, :component
 
   import DotcomWeb.Components.TripPlanner.Leg
 
   alias Dotcom.TripPlan.PersonalDetail
 
-  @impl true
-  def mount(socket) do
-    {:ok, socket |> assign(:selected_itinerary_index, 0)}
-  end
-
-  @impl true
-  def render(
-        %{itineraries: itineraries, selected_itinerary_index: selected_itinerary_index} = assigns
+  def itinerary_detail(
+        %{
+          itineraries: itineraries,
+          selected_itinerary_detail_index: selected_itinerary_detail_index
+        } = assigns
       ) do
-    assigns = assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_itinerary_index))
+    assigns =
+      assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_itinerary_detail_index))
 
     ~H"""
     <div>
@@ -27,10 +25,10 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
       <div class="flex">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          active={@selected_itinerary_index == index}
-          phx-click="set_selected_itinerary_index"
+          active={@selected_itinerary_detail_index == index}
+          phx-click="set_selected_itinerary_detail_index"
           phx-value-trip-index={index}
-          phx-target={@myself}
+          phx-target={@target}
         >
           <%= Timex.format!(itinerary.start, "%-I:%M%p", :strftime) %>
         </.depart_at_button>
@@ -91,12 +89,5 @@ defmodule DotcomWeb.Components.LiveComponents.ItineraryDetail do
       </div>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("set_selected_itinerary_index", %{"trip-index" => index_str}, socket) do
-    {index, ""} = Integer.parse(index_str)
-
-    {:noreply, socket |> assign(:selected_itinerary_index, index)}
   end
 end

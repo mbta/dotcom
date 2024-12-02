@@ -6,14 +6,15 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   use DotcomWeb, :live_component
 
-  import DotcomWeb.Components.TripPlanner.ItinerarySummary
+  import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
   import DotcomWeb.Components.TripPlanner.ItineraryGroup, only: [itinerary_group: 1]
-
-  alias DotcomWeb.Components.LiveComponents.ItineraryDetail
 
   @impl true
   def mount(socket) do
-    {:ok, socket |> assign(:expanded_itinerary_index, nil)}
+    {:ok,
+     socket
+     |> assign(:expanded_itinerary_index, nil)
+     |> assign(:selected_itinerary_detail_index, 0)}
   end
 
   @impl true
@@ -28,6 +29,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
           <.itinerary_panel
             results={results}
             details_index={@expanded_itinerary_index}
+            selected_itinerary_detail_index={@selected_itinerary_detail_index}
             target={@myself}
           />
         </div>
@@ -82,7 +84,11 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         <.itinerary_summary summary={@summary} />
       </div>
 
-      <.live_component id="itinerary_detail" module={ItineraryDetail} itineraries={@itineraries} />
+      <.itinerary_detail
+        itineraries={@itineraries}
+        selected_itinerary_detail_index={@selected_itinerary_detail_index}
+        target={@target}
+      />
     </div>
     """
   end
@@ -96,5 +102,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       end
 
     {:noreply, socket |> assign(:expanded_itinerary_index, index)}
+  end
+
+  @impl true
+  def handle_event("set_selected_itinerary_detail_index", %{"trip-index" => index_str}, socket) do
+    {index, ""} = Integer.parse(index_str)
+
+    {:noreply, socket |> assign(:selected_itinerary_detail_index, index)}
   end
 end
