@@ -200,6 +200,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
+      trip_time_1 = ~T[09:26:00]
+      trip_id_1 = "trip_id_1"
+
+      trip_time_2 = ~T[10:46:00]
+      trip_time_display_2 = "10:46AM"
+      trip_id_2 = "trip_id_2"
+
       base_itinerary =
         OtpFactory.build(:itinerary)
         |> limit_route_types()
@@ -210,8 +217,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: "trip_id_1", start_time: ~T[09:26:00]),
-        update_trip_details(base_itinerary, trip_id: "trip_id_2", start_time: ~T[10:46:00])
+        update_trip_details(base_itinerary, trip_id: "trip_id_1", start_time: trip_time_1),
+        update_trip_details(base_itinerary, trip_id: "trip_id_2", start_time: trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -220,13 +227,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       view |> element("button", "Details") |> render_click()
 
-      assert render_async(view) =~ "trip_id_1"
-      refute render_async(view) =~ "trip_id_2"
+      assert render_async(view) =~ trip_id_1
+      refute render_async(view) =~ trip_id_2
 
-      view |> element("button", "10:46AM") |> render_click()
+      view |> element("button", trip_time_display_2) |> render_click()
 
-      assert render_async(view) =~ "trip_id_2"
-      refute render_async(view) =~ "trip_id_1"
+      assert render_async(view) =~ trip_id_2
+      refute render_async(view) =~ trip_id_1
     end
   end
 end
