@@ -9,13 +9,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
   setup :verify_on_exit!
 
-  def stub_otp_results(itineraries) do
+  defp stub_otp_results(itineraries) do
     expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
       {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
     end)
   end
 
-  def stub_populated_otp_results() do
+  defp stub_populated_otp_results() do
     # Uhhh the OTP factory will generate with any route_type value but our
     # parsing will break with unexpected route types
     itineraries =
@@ -25,7 +25,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub_otp_results(itineraries)
   end
 
-  def update_trip_details(itinerary, trip_id: trip_id, start_time: start_time) do
+  defp update_trip_details(itinerary, trip_id: trip_id, start_time: start_time) do
     updated_transit_leg =
       itinerary.legs
       |> Enum.at(1)
