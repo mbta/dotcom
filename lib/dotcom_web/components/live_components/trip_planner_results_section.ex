@@ -103,6 +103,14 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
+  defp itinerary_panel(assigns) do
+    inspect(assigns) |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+
+    ~H"""
+    <div>Error loading planned trips</div>
+    """
+  end
+
   @impl true
   def handle_event("set_expanded_itinerary_index", %{"index" => index_str}, socket) do
     index =
