@@ -123,7 +123,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   defp itinerary_panel(assigns) do
-    inspect(assigns) |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+    Sentry.capture_message("Error loading planned trips",
+      extra: %{assigns: assigns},
+      tags: %{feature: "Trip Planner"}
+    )
 
     ~H"""
     <div>Error loading planned trips</div>
