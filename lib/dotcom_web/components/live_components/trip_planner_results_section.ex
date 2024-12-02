@@ -104,12 +104,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   defp itinerary_panel(%{results: results, details_index: details_index} = assigns) do
-    result = results |> Enum.at(details_index)
+    %{itineraries: itineraries, summary: summary} = results |> Enum.at(details_index)
 
     assigns =
       assigns
-      |> assign(:itineraries, result |> Map.get(:itineraries))
-      |> assign(:summary, result |> Map.get(:summary))
+      |> assign(:itineraries, itineraries)
+      |> assign(:summary, summary)
 
     ~H"""
     <div class="mt-30">
