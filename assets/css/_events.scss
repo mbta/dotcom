@@ -181,10 +181,6 @@ $mobile-control-height: 73px;
   cursor: pointer;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .m-event {
   padding: 16px;
   @include media-breakpoint-down(xs) {

@@ -17,12 +17,51 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   @impl true
   def render(assigns) do
     ~H"""
-    <section class="flex w-full border border-solid border-slate-400">
+    <section class={[
+      "flex flex-col",
+      "md:grid md:grid-rows-[min-content_1fr]",
+      @results.result == nil && "md:grid-cols-[1fr]",
+      @results.result != nil && "md:grid-cols-[1fr_1fr]",
+      "w-full",
+      "border border-solid border-slate-400"
+    ]}>
       <div :if={@error} class="w-full p-4 text-rose-400">
         <%= inspect(@error) %>
       </div>
       <.async_result :let={results} assign={@results}>
-        <div :if={results} class="w-full p-4">
+        <div
+          :if={results && @expanded_itinerary_index}
+          class="row-start-1 col-start-1 h-min w-full p-4"
+        >
+          <button
+            type="button"
+            phx-click="set_expanded_itinerary_index"
+            phx-value-index="nil"
+            phx-target={@myself}
+            class="btn-link"
+          >
+            <span class="flex flex-row items-center">
+              <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
+              <span class="font-medium">View All Options</span>
+            </span>
+          </button>
+        </div>
+      </.async_result>
+
+      <.live_component
+        module={MbtaMetro.Live.Map}
+        id="trip-planner-map"
+        class={[
+          "h-64 md:h-96 w-full",
+          "relative overflow-none row-span-2",
+          @expanded_itinerary_index == nil && "hidden md:block"
+        ]}
+        config={@map_config}
+        pins={[@from, @to]}
+      />
+
+      <.async_result :let={results} assign={@results}>
+        <div :if={results} class="w-full p-4 row-start-2 col-start-1">
           <.itinerary_panel
             results={results}
             details_index={@expanded_itinerary_index}
@@ -30,13 +69,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
           />
         </div>
       </.async_result>
-      <.live_component
-        module={MbtaMetro.Live.Map}
-        id="trip-planner-map"
-        class="h-96 w-full relative overflow-none"
-        config={@map_config}
-        pins={[@from, @to]}
-      />
     </section>
     """
   end
@@ -63,19 +95,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
     ~H"""
     <div class="mt-30">
-      <button
-        type="button"
-        phx-click="set_expanded_itinerary_index"
-        phx-value-index="nil"
-        phx-target={@target}
-        class="btn-link"
-      >
-        <p class="flex flex-row items-center">
-          <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
-          <span class="font-medium">View All Options</span>
-        </p>
-      </button>
-
       <div class="border-b-[1px] border-gray-lighter">
         <.itinerary_summary summary={@summary} />
       </div>
