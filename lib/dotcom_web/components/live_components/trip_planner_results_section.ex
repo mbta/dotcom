@@ -16,16 +16,15 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   @impl true
   def render(assigns) do
-    grid_column_layout =
-      case assigns.results.result do
-        nil -> "md:grid-cols-[1fr]"
-        _ -> "md:grid-cols-[1fr_1fr]"
-      end
-
-    assigns = assign(assigns, :grid_column_layout, grid_column_layout)
-
     ~H"""
-    <section class={"flex flex-col md:grid #{@grid_column_layout} md:grid-rows-[min-content_1fr] w-full border border-solid border-slate-400"}>
+    <section class={[
+      "flex flex-col",
+      "md:grid md:grid-rows-[min-content_1fr]",
+      @results.result == nil && "md:grid-cols-[1fr]",
+      @results.result != nil && "md:grid-cols-[1fr_1fr]",
+      "w-full",
+      "border border-solid border-slate-400"
+    ]}>
       <div :if={@error} class="w-full p-4 text-rose-400">
         <%= inspect(@error) %>
       </div>
