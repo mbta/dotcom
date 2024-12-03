@@ -23,4 +23,14 @@ describe("AccessibilityIcon", () => {
     );
     expect(screen.getByTestId("empty")).not.toBeEmptyDOMElement();
   });
+
+  it("should not return an icon for an accessible stop", () => {
+    const stop = { accessibility: ["escalator_up"] };
+    render(
+      <div data-testid="empty">
+        <AccessibilityIcon stop={stop as Stop} />
+      </div>
+    );
+    expect(screen.getByTestId("empty")).toBeEmptyDOMElement();
+  });
 });
