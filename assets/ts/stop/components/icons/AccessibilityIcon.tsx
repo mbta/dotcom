@@ -7,7 +7,7 @@ const AccessibilityIcon = ({
 }: {
   stop: Stop;
 }): ReactElement<HTMLElement> | null => {
-  if (stop.accessibility.length === 0) return null;
+  if (!stop.accessibility.includes("accessible")) return null;
   return (
     <div className="m-stop-page__access-icon">
       <span className="m-stop-page__icon">
