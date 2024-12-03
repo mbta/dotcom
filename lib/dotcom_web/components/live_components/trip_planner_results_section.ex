@@ -10,7 +10,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
   @impl true
   def mount(socket) do
-    {:ok, socket |> assign(:expanded_itinerary_index, nil)}
+    {:ok,
+     socket
+     |> assign(:expanded_itinerary_index, nil)
+     |> assign(:selected_itinerary_detail_index, 0)}
   end
 
   @impl true
@@ -64,6 +67,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
           <.itinerary_panel
             results={results}
             details_index={@expanded_itinerary_index}
+            selected_itinerary_detail_index={@selected_itinerary_detail_index}
             target={@myself}
           />
         </div>
@@ -117,7 +121,11 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         <.itinerary_summary summary={@summary} />
       </div>
 
-      <.itinerary_detail :for={itinerary <- @itineraries} itinerary={itinerary} />
+      <.itinerary_detail
+        itineraries={@itineraries}
+        selected_itinerary_detail_index={@selected_itinerary_detail_index}
+        target={@target}
+      />
     </div>
     """
   end
@@ -141,7 +149,17 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         _ -> nil
       end
 
-    {:noreply, socket |> assign(:expanded_itinerary_index, index)}
+    {:noreply,
+     socket
+     |> assign(:expanded_itinerary_index, index)
+     |> assign(:selected_itinerary_detail_index, 0)}
+  end
+
+  @impl true
+  def handle_event("set_selected_itinerary_detail_index", %{"trip-index" => index_str}, socket) do
+    {index, ""} = Integer.parse(index_str)
+
+    {:noreply, socket |> assign(:selected_itinerary_detail_index, index)}
   end
 
   defp format_datetime_short(datetime) do

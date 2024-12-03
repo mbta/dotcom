@@ -13,6 +13,11 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
     |> Parser.parse()
   end
 
+  def otp_itinerary_factory do
+    Factory.build(:itinerary)
+    |> limit_route_types()
+  end
+
   def leg_factory do
     [:walking_leg, :transit_leg]
     |> Faker.Util.pick()
