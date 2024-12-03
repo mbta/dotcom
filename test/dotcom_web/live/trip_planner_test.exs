@@ -195,12 +195,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_time_1 = ~T[09:26:00]
-      trip_id_1 = "trip_id_1"
+      trip_datetime_1 = Faker.DateTime.forward(2)
+      trip_time_1 = trip_datetime_1 |> DateTime.to_time()
+      trip_id_1 = Faker.UUID.v4()
 
-      trip_time_2 = ~T[10:46:00]
-      trip_time_display_2 = "10:46AM"
-      trip_id_2 = "trip_id_2"
+      trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
+      trip_time_2 = trip_datetime_2 |> DateTime.to_time()
+      trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
+      trip_id_2 = Faker.UUID.v4()
 
       base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
@@ -210,8 +212,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: "trip_id_1", start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: "trip_id_2", start_time: trip_time_2)
+        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
+        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -233,12 +235,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_time_1 = ~T[09:26:00]
-      trip_id_1 = "trip_id_1"
+      trip_datetime_1 = Faker.DateTime.forward(2)
+      trip_time_1 = trip_datetime_1 |> DateTime.to_time()
+      trip_id_1 = Faker.UUID.v4()
 
-      trip_time_2 = ~T[10:46:00]
-      trip_time_display_2 = "10:46AM"
-      trip_id_2 = "trip_id_2"
+      trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
+      trip_time_2 = trip_datetime_2 |> DateTime.to_time()
+      trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
+      trip_id_2 = Faker.UUID.v4()
 
       base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
@@ -248,8 +252,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: "trip_id_1", start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: "trip_id_2", start_time: trip_time_2)
+        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
+        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
