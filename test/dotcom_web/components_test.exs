@@ -1,6 +1,8 @@
 defmodule DotcomWeb.ComponentsTest do
   @moduledoc false
   use ExUnit.Case
+
+  import Phoenix.Component
   import Phoenix.LiveViewTest
   import DotcomWeb.Components
 
@@ -28,6 +30,29 @@ defmodule DotcomWeb.ComponentsTest do
                ~s(<div class="c-search-bar__autocomplete" data-placeholder="Search for routes, info, and more" data-config="#{config}"></div>)
 
       assert html =~ ~s(<div id="#{id}" phx-hook="AlgoliaAutocomplete" phx-update="ignore">)
+    end
+  end
+
+  describe "error_container" do
+    test "optionally shows a title" do
+      assigns = %{
+        title: Faker.Lorem.sentence(2),
+        content: Faker.Lorem.sentence(4)
+      }
+
+      str =
+        rendered_to_string(~H"""
+        <.error_container title={assigns.title}>
+          <%= assigns.content %>
+        </.error_container>
+        """)
+
+      assert str =~ assigns.title
+      assert str =~ assigns.content
+
+      assert rendered_to_string(~H"""
+             <.error_container><%= assigns.content %></.error_container>
+             """) =~ assigns.content
     end
   end
 end
