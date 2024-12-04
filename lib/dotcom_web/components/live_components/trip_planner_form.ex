@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
+        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations">
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
