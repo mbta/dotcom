@@ -50,9 +50,11 @@ defmodule DotcomWeb.Live.TripPlanner do
         <p><%= time_summary(@submitted_values) %></p>
         <.async_result :let={results} assign={@results}>
           <:failed :let={{:error, errors}}>
-            <.feedback :for={%OpenTripPlannerClient.Error{message: message} <- errors} kind={:error}>
-              <%= message %>
-            </.feedback>
+            <.error_container title="Unable to plan your trip">
+              <p :for={%OpenTripPlannerClient.Error{message: message} <- errors} class="last:mb-0">
+                <%= message %>
+              </p>
+            </.error_container>
           </:failed>
           <:loading>
             <.spinner aria_label="Waiting for results" /> Waiting for results...
