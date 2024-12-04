@@ -108,7 +108,7 @@ defmodule DotCom.Mixfile do
       # Mail kept at 0.3.1 as we experienced inconsistent photo attachment and
       # email encoding success with later version
       {:mail, "0.3.1"},
-      {:mbta_metro, "0.0.58"},
+      {:mbta_metro, "0.0.60"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},
       {:nebulex, "2.6.4"},
