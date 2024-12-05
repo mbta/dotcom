@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   def walking_leg(assigns) do
     ~H"""
-    <hr class="my-2 border-t-solid border-slate-200"/>
+    <hr class="my-2 border-t-solid border-slate-200" />
     <.accordion id={@leg.polyline}>
       <:heading>
         <.icon name="person-walking" class="w-5 h-5 mr-1 fill-black" />
@@ -35,7 +35,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             Walk
           </div>
           <div class="text-sm">
-            <%= @leg.duration %> min, <%= @leg.distance %> mi
+            {@leg.duration} min, {@leg.distance} mi
           </div>
         </div>
       </:heading>
@@ -43,7 +43,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
         <.list class="w-full m-0 ps-0">
           <:item :for={step <- @leg.mode.steps}>
             <span class="text-sm">
-              <%= Step.walk_summary(step) %>
+              {Step.walk_summary(step)}
             </span>
           </:item>
         </.list>
