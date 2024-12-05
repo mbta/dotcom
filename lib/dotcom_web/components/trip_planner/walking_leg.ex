@@ -19,7 +19,6 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
     - `distance` (float) in miles
     - `duration` (integer) in minutes
     - `mode` with a list of `steps` (list of `Step` structs)
-    - `polyline` (string) to use as the accordion ID
   """
 
   attr :leg, :map, required: true
@@ -27,7 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
   def walking_leg(assigns) do
     ~H"""
     <hr class="my-2 border-t-solid border-slate-200" />
-    <.accordion id={@leg.polyline}>
+    <.accordion>
       <:heading>
         <.icon name="person-walking" class="w-5 h-5 mr-1 fill-black" />
         <div class="text-black">

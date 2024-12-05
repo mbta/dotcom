@@ -108,7 +108,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         </div>
         <div>
           <.fieldset id="modes" legend="Modes">
-            <.accordion id="accordion" variant="contained">
+            <.accordion variant="contained">
               <:heading>
                 <%= Modes.selected_modes(input_value(f, :modes)) %>
               </:heading>
