@@ -194,9 +194,9 @@ defmodule Services.Service do
       dates
       |> Stream.reject(fn date -> Enum.member?(removed_dates, date) end)
       |> Stream.reject(fn date -> Timex.weekday(date) not in valid_days end)
-      |> Enum.uniq()
+      |> Enum.to_list()
 
-    explicitly_added_dates ++ valid_dates
+    Enum.uniq(explicitly_added_dates ++ valid_dates)
   end
 
   @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
