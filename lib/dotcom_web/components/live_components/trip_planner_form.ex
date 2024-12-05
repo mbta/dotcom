@@ -124,12 +124,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                   </.inputs_for>
                 </div>
               </:content>
-              <:extra :if={used_input?(f[:modes])}>
-                <.error_container :for={{msg, _} <- f[:modes].errors}>
-                  <%= msg %>
-                </.error_container>
-              </:extra>
             </.accordion>
+            <.error_container :for={{msg, _} <- f[:modes].errors}>
+              <%= msg %>
+            </.error_container>
           </.fieldset>
           <div class="inline-flex items-center gap-1">
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
