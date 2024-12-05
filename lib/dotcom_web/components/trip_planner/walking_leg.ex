@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
   @moduledoc """
-
+  A walking leg of a trip.
+  Includes a summary of the walk (time and distance) and a list of steps.
   """
 
   use Phoenix.Component
@@ -11,7 +12,17 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   alias OpenTripPlannerClient.Schema.Step
 
-  attr :leg, :map
+  @doc """
+  Renders a walking leg.
+
+  Must be given a `leg` with a:
+    - `distance` (float) in miles
+    - `duration` (integer) in minutes
+    - `mode` with a list of `steps` (list of `Step` structs)
+    - `polyline` (string) to use as the accordion ID
+  """
+
+  attr :leg, :map, required: true
 
   def walking_leg(assigns) do
     ~H"""
