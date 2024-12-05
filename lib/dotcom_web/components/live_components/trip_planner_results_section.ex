@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   def mount(socket) do
     {:ok,
      socket
-     |> assign(:itinerary_panel_view, :collapsed)}
+     |> assign(:itinerary_selection, :summary)}
   end
 
   @impl true
@@ -31,12 +31,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       </div>
       <.async_result :let={results} assign={@results}>
         <div
-          :if={results && @itinerary_panel_view != :collapsed}
+          :if={results && @itinerary_selection != :summary}
           class="row-start-1 col-start-1 h-min w-full p-4"
         >
           <button
             type="button"
-            phx-click="set_expanded_itinerary_index"
+            phx-click="set_itinerary_group_index"
             phx-value-index="nil"
             phx-target={@myself}
             class="btn-link"
@@ -55,7 +55,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         class={[
           "h-64 md:h-96 w-full",
           "relative overflow-none row-span-2",
-          @itinerary_panel_view == :collapsed && "hidden md:block"
+          @itinerary_selection == :summary && "hidden md:block"
         ]}
         config={@map_config}
         pins={[@from, @to]}
@@ -65,7 +65,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         <div :if={results} class="w-full p-4 row-start-2 col-start-1">
           <.itinerary_panel
             results={results}
-            itinerary_panel_view={@itinerary_panel_view}
+            itinerary_selection={@itinerary_selection}
             target={@myself}
           />
         </div>
@@ -74,7 +74,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
-  defp itinerary_panel(%{itinerary_panel_view: :collapsed} = assigns) do
+  defp itinerary_panel(%{itinerary_selection: :summary} = assigns) do
     ~H"""
     <div
       :for={{%{summary: summary}, index} <- Enum.with_index(@results)}
@@ -94,7 +94,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         </div>
         <button
           class="btn-link font-semibold underline"
-          phx-click="set_expanded_itinerary_index"
+          phx-click="set_itinerary_group_index"
           phx-target={@target}
           phx-value-index={index}
         >
@@ -108,18 +108,21 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   defp itinerary_panel(
          %{
            results: results,
-           itinerary_panel_view:
-             {:expanded,
-              %{itinerary_index: itinerary_index, specific_trip_index: specific_trip_index}}
+           itinerary_selection:
+             {:detail,
+              %{
+                itinerary_group_index: itinerary_group_index,
+                itinerary_index: itinerary_index
+              }}
          } = assigns
        ) do
-    %{itineraries: itineraries, summary: summary} = results |> Enum.at(itinerary_index)
+    %{itineraries: itineraries, summary: summary} = results |> Enum.at(itinerary_group_index)
 
     assigns =
       assigns
       |> assign(:itineraries, itineraries)
       |> assign(:summary, summary)
-      |> assign(:specific_trip_index, specific_trip_index)
+      |> assign(:itinerary_index, itinerary_index)
 
     ~H"""
     <div class="mt-30">
@@ -129,7 +132,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
       <.itinerary_detail
         itineraries={@itineraries}
-        selected_itinerary_detail_index={@specific_trip_index}
+        selected_itinerary_detail_index={@itinerary_index}
         target={@target}
       />
     </div>
@@ -148,37 +151,37 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   @impl true
-  def handle_event("set_expanded_itinerary_index", %{"index" => index_str}, socket) do
-    itinerary_panel_view =
+  def handle_event("set_itinerary_group_index", %{"index" => index_str}, socket) do
+    itinerary_selection =
       case Integer.parse(index_str) do
         {index, ""} ->
-          {:expanded, %{itinerary_index: index, specific_trip_index: 0}}
+          {:detail, %{itinerary_group_index: index, itinerary_index: 0}}
 
         _ ->
-          :collapsed
+          :summary
       end
 
     {:noreply,
      socket
      |> assign(
-       :itinerary_panel_view,
-       itinerary_panel_view
+       :itinerary_selection,
+       itinerary_selection
      )}
   end
 
   @impl true
   def handle_event(
-        "set_selected_itinerary_detail_index",
+        "set_itinerary_index",
         %{"trip-index" => index_str},
-        %{assigns: %{itinerary_panel_view: {:expanded, itinerary_panel_view}}} = socket
+        %{assigns: %{itinerary_selection: {:detail, itinerary_selection}}} = socket
       ) do
     {index, ""} = Integer.parse(index_str)
 
     {:noreply,
      socket
      |> assign(
-       :itinerary_panel_view,
-       {:expanded, %{itinerary_panel_view | specific_trip_index: index}}
+       :itinerary_selection,
+       {:detail, %{itinerary_selection | itinerary_index: index}}
      )}
   end
 

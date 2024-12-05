@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
           active={@selected_itinerary_detail_index == index}
-          phx-click="set_selected_itinerary_detail_index"
+          phx-click="set_itinerary_index"
           phx-value-trip-index={index}
           phx-target={@target}
         >
