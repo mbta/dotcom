@@ -6,7 +6,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.Leg
+  import DotcomWeb.Components.TripPlanner.Leg, only: [leg: 1]
+  import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
   alias Dotcom.TripPlan.PersonalDetail
 
@@ -77,15 +78,19 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <.route_symbol :for={route <- @all_routes} route={route} class="ml-2" />
       </div>
       <div :for={leg <- @itinerary.legs}>
-        <.leg
-          start_time={leg.start}
-          end_time={leg.stop}
-          from={leg.from}
-          to={leg.to}
-          mode={leg.mode}
-          realtime={leg.realtime}
-          realtime_state={leg.realtime_state}
-        />
+        <%= if match?(%PersonalDetail{}, leg.mode) do %>
+          <.walking_leg leg={leg} />
+        <% else %>
+          <.leg
+            start_time={leg.start}
+            end_time={leg.stop}
+            from={leg.from}
+            to={leg.to}
+            mode={leg.mode}
+            realtime={leg.realtime}
+            realtime_state={leg.realtime_state}
+          />
+        <% end %>
       </div>
     </div>
     """
