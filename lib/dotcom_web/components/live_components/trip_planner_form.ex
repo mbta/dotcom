@@ -26,7 +26,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
     defaults = %{
       form: %InputForm{} |> InputForm.changeset(form_defaults) |> to_form(),
-      location_keys: InputForm.Location.fields(),
       show_datepicker: false
     }
 
@@ -46,9 +45,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   def render(assigns) do
     ~H"""
     <section class="px-10 py-8 lg:px-20 lg:py-12 mb-4 bg-gray-100">
+      <!-- <pre><%= inspect @form, pretty: true %></pre> -->
       <.form
         :let={f}
-        class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
+        class="flex flex-col md:grid md:grid-cols-[1fr_max-content_1fr] gap-x-8 gap-y-4 md:gap-y-2"
         id={@id}
         for={@form}
         method="get"
@@ -56,27 +56,25 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
-          <.algolia_autocomplete
-            config_type="trip-planner"
-            placeholder="Enter a location"
-            id={"#{@form_name}--#{field}"}
+        <h1 class="col-span-3">FROM</h1>
+        <pre class="col-span-3"><%= inspect f[:from].value, pretty: true %></pre>
+
+        <h1 class="col-span-3">TO</h1>
+        <pre class="col-span-3"><%= inspect f[:to].value, pretty: true %></pre>
+
+        <.location_search_box name={"#{@form_name}--from"} field={f[:from]} />
+        <div class="self-end md:self-center rotate-90 md:rotate-0">
+          <button
+            type="button"
+            phx-click="swap_direction"
+            phx-target={@myself}
+            class="h-6 w-6 p-0 bg-transparent"
           >
-            <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
-              <input
-                :for={subfield <- @location_keys}
-                type="hidden"
-                class="location-input"
-                id={location_f[subfield].id}
-                value={location_f[subfield].value}
-                name={location_f[subfield].name}
-              />
-            </.inputs_for>
-            <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
-              <%= msg %>
-            </.feedback>
-          </.algolia_autocomplete>
+            <.icon class="fill-brand-primary" name="right-left" />
+          </button>
         </div>
+        <.location_search_box name={"#{@form_name}--to"} field={f[:to]} />
+
         <div>
           <.input_group
             legend="When"
@@ -111,7 +109,8 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             <%= msg %>
           </.feedback>
         </div>
-        <div>
+
+        <div class="col-start-3">
           <.fieldset id="modes" legend="Modes">
             <.accordion id="accordion">
               <:heading>
@@ -141,13 +140,37 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
         </div>
-        <div class="col-start-2 justify-self-end">
+        <div class="col-start-3 justify-self-end">
           <.button type="submit" phx-disable-with="Planning your trip...">
             Get trip suggestions
           </.button>
         </div>
       </.form>
     </section>
+    """
+  end
+
+  defp location_search_box(assigns) do
+    assigns = assigns |> assign(:location_keys, InputForm.Location.fields())
+
+    ~H"""
+    <div class="mb-1" id="trip-planner-locations" phx-update="ignore">
+      <.algolia_autocomplete config_type="trip-planner" placeholder="Enter a location" id={@name}>
+        <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
+          <input
+            :for={subfield <- @location_keys}
+            class="location-input"
+            id={location_f[subfield].id}
+            value={location_f[subfield].value}
+            name={location_f[subfield].name}
+          />
+        </.inputs_for>
+        <.feedback :for={{msg, _} <- @field.errors} :if={used_input?(@field)} kind={:error}>
+          <%= msg %>
+        </.feedback>
+      </.algolia_autocomplete>
+      <pre><%= inspect @field, pretty: true %></pre>
+    </div>
     """
   end
 
@@ -189,6 +212,35 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
 
   def handle_event("save_form", %{"input_form" => params}, socket) do
     {:noreply, save_form(params, socket)}
+  end
+
+  def handle_event(
+        "swap_direction",
+        _params,
+        %{assigns: %{form: %{params: %{"from" => from, "to" => to} = form_params}}} = socket
+      ) do
+    new_form_params =
+      form_params
+      |> Map.put("to", from)
+      |> Map.put("from", to)
+
+    send(self(), {:changed_form, new_form_params})
+
+    # dbg(new_form_params)
+
+    validated_params =
+      new_form_params
+      |> InputForm.validate_params()
+
+    # dbg(validated_params)
+
+    new_form =
+      validated_params
+      |> Phoenix.Component.to_form()
+
+    # dbg(new_form)
+
+    {:noreply, assign(socket, %{form: new_form})}
   end
 
   defp datepicker_config do
