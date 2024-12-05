@@ -1,8 +1,8 @@
 <div id="trip-planner-form" phx-hook="TripPlannerForm">
   <h2>When</h2>
-  <%= render("_time_inputs.html", assigns) %>
+  {render("_time_inputs.html", assigns)}
   <h2>Modes</h2>
-  <%= DotcomWeb.PartialView.render(
+  {DotcomWeb.PartialView.render(
     "_accordion_ui.html",
     Map.merge(assigns, %{
       multiselectable: true,
@@ -16,6 +16,6 @@
         }
       ]
     })
-  ) %>
-  <%= render("_optimize_for.html", Map.merge(assigns, %{form: @parent_form})) %>
+  )}
+  {render("_optimize_for.html", Map.merge(assigns, %{form: @parent_form}))}
 </div>

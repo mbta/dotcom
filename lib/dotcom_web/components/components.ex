@@ -66,7 +66,7 @@ defmodule DotcomWeb.Components do
         />
         <div class="c-search-bar__autocomplete-results" />
       </div>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end

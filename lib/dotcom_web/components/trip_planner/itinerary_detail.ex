@@ -31,7 +31,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           phx-value-trip-index={index}
           phx-target={@target}
         >
-          <%= Timex.format!(itinerary.start, "%-I:%M%p", :strftime) %>
+          {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
         </.depart_at_button>
       </div>
       <.specific_itinerary_detail itinerary={@selected_itinerary} />
@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
       ]}
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </button>
     """
   end
@@ -74,7 +74,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     ~H"""
     <div class="mt-4">
       <div>
-        Depart at <%= Timex.format!(@itinerary.start, "%-I:%M%p", :strftime) %>
+        Depart at {Timex.format!(@itinerary.start, "%-I:%M%p", :strftime)}
         <.route_symbol :for={route <- @all_routes} route={route} class="ml-2" />
       </div>
       <div :for={leg <- @itinerary.legs}>

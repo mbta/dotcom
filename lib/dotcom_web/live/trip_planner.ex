@@ -46,8 +46,8 @@ defmodule DotcomWeb.Live.TripPlanner do
         form_values={@form_values}
       />
       <section :if={@submitted_values} class="mt-2 mb-6">
-        <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
-        <p><%= time_summary(@submitted_values) %></p>
+        <p class="text-lg font-semibold mb-0">{submission_summary(@submitted_values)}</p>
+        <p>{time_summary(@submitted_values)}</p>
         <.async_result :let={results} assign={@results}>
           <:failed :let={{:error, errors}}>
             <.error_container title="Unable to plan your trip">
@@ -64,7 +64,7 @@ defmodule DotcomWeb.Live.TripPlanner do
               <.feedback kind={:warning}>No trips found.</.feedback>
             <% else %>
               <.feedback kind={:success}>
-                Found <%= Enum.count(results) %> <%= Inflex.inflect("way", Enum.count(results)) %> to go.
+                Found {Enum.count(results)} {Inflex.inflect("way", Enum.count(results))} to go.
               </.feedback>
             <% end %>
           <% end %>

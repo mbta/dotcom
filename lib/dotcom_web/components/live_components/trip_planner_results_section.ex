@@ -28,7 +28,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       "border border-solid border-slate-400"
     ]}>
       <div :if={@error} class="w-full p-4 text-rose-400">
-        <%= inspect(@error) %>
+        {inspect(@error)}
       </div>
       <.async_result :let={results} assign={@results}>
         <div
@@ -86,13 +86,13 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         :if={summary.tag}
         class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
       >
-        <%= summary.tag %>
+        {summary.tag}
       </div>
       <.itinerary_summary summary={summary} />
       <div class="flex justify-end items-center">
         <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
-          Similar trips depart at <%= Enum.map(summary.next_starts, &format_datetime_short/1)
-          |> Enum.join(", ") %>
+          Similar trips depart at {Enum.map(summary.next_starts, &format_datetime_short/1)
+          |> Enum.join(", ")}
         </div>
         <button
           class="btn-link font-semibold underline"
