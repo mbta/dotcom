@@ -119,7 +119,8 @@ if ("outerHTML" in SVGElement.prototype) {
 // breakpoints defined in assets/css/_variables.scss
 const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
-/* submitOnEvents(["blur", "change"]);
+/*
+submitOnEvents(["blur", "change"]);
 googleAnalytics();
 setupGlobalNavigation();
 collapse();
@@ -156,8 +157,4 @@ eventPageSetup();
 previousEventsButton();
 pslPageSetup();
 accordionInit();
-<<<<<<< HEAD
-=======
-
-mobileAppBanner(); */
->>>>>>> 9f0057db (use kino live view)
+*/
