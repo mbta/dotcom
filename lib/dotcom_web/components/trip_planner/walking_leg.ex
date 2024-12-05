@@ -25,7 +25,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   def walking_leg(assigns) do
     ~H"""
-    <hr class="my-2 border-t-solid border-slate-200" />
+    <hr class="my-2 border-t-solid border-slate-300" />
     <.accordion>
       <:heading>
         <.icon name="person-walking" class="w-5 h-5 mr-1 fill-black" />
