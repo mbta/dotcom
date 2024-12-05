@@ -90,19 +90,19 @@ defmodule Services.ServiceTest do
   end
 
   describe "serves_date?/2" do
-    test "computes if the date is covered by a Service" do
-      # date in added_dates
+    test "returns true if the date is in added_dates" do
       assert Service.serves_date?(
                %Service{
-                 added_dates: ["2022-12-15", "2022-12-14"],
-                 start_date: ~D[2022-12-14],
-                 end_date: ~D[2022-12-15],
-                 valid_days: []
+                 added_dates: ["2022-12-15"],
+                 start_date: ~D[2022-12-01],
+                 end_date: ~D[2022-12-14],
+                 valid_days: [1, 2, 3, 5]
                },
                ~D[2022-12-15]
              )
+    end
 
-      # date in removed_dates
+    test "returns false if the date is in removed_dates" do
       refute Service.serves_date?(
                %Service{
                  removed_dates: ["2022-12-15", "2022-12-14"],
@@ -112,8 +112,9 @@ defmodule Services.ServiceTest do
                },
                ~D[2022-12-15]
              )
+    end
 
-      # date is on right valid_days
+    test "returns true if the date is on a 'valid_days' day of the week" do
       assert Service.serves_date?(
                %Service{
                  start_date: ~D[2022-12-11],
@@ -122,8 +123,9 @@ defmodule Services.ServiceTest do
                },
                ~D[2022-12-15]
              )
+    end
 
-      # date not on right valid_days
+    test "returns false if the date is not on a 'valid_days' day of the week" do
       refute Service.serves_date?(
                %Service{
                  start_date: ~D[2022-12-11],
