@@ -49,8 +49,12 @@ defmodule DotcomWeb.Live.TripPlanner do
         <p class="text-lg font-semibold mb-0"><%= submission_summary(@submitted_values) %></p>
         <p><%= time_summary(@submitted_values) %></p>
         <.async_result :let={results} assign={@results}>
-          <:failed :let={{:error, _reason}}>
-            <.feedback kind={:error}>Something else went wrong.</.feedback>
+          <:failed :let={{:error, errors}}>
+            <.error_container title="Unable to plan your trip">
+              <p :for={%OpenTripPlannerClient.Error{message: message} <- errors} class="last:mb-0">
+                <%= message %>
+              </p>
+            </.error_container>
           </:failed>
           <:loading>
             <.spinner aria_label="Waiting for results" /> Waiting for results...

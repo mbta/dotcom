@@ -4,7 +4,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
   """
   use DotcomWeb, :live_component
 
-  import MbtaMetro.Components.{Feedback, InputGroup}
+  import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_value: 2]
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
         phx-change="handle_change"
         phx-target={@myself}
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
+        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations">
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
@@ -72,9 +72,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                 name={location_f[subfield].name}
               />
             </.inputs_for>
-            <.feedback :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])} kind={:error}>
+            <.error_container :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])}>
               <%= msg %>
-            </.feedback>
+            </.error_container>
           </.algolia_autocomplete>
         </div>
         <div>
@@ -89,13 +89,12 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             phx-change="toggle_datepicker"
             phx-update="ignore"
           />
-          <.feedback
+          <.error_container
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
-            kind={:error}
           >
             <%= msg %>
-          </.feedback>
+          </.error_container>
           <.live_component
             :if={@show_datepicker}
             module={DatePicker}
@@ -103,13 +102,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             field={f[:datetime]}
             id={:datepicker}
           />
-          <.feedback
-            :for={{msg, _} <- f[:datetime].errors}
-            :if={used_input?(f[:datetime])}
-            kind={:error}
-          >
+          <.error_container :for={{msg, _} <- f[:datetime].errors} :if={used_input?(f[:datetime])}>
             <%= msg %>
-          </.feedback>
+          </.error_container>
         </div>
         <div>
           <.fieldset id="modes" legend="Modes">
@@ -130,9 +125,9 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                 </div>
               </:content>
               <:extra :if={used_input?(f[:modes])}>
-                <.feedback :for={{msg, _} <- f[:modes].errors} kind={:error}>
+                <.error_container :for={{msg, _} <- f[:modes].errors}>
                   <%= msg %>
-                </.feedback>
+                </.error_container>
               </:extra>
             </.accordion>
           </.fieldset>

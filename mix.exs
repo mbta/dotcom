@@ -1,4 +1,5 @@
 defmodule DotCom.Mixfile do
+  @moduledoc false
   use Mix.Project
 
   def project do
@@ -107,14 +108,14 @@ defmodule DotCom.Mixfile do
       # Mail kept at 0.3.1 as we experienced inconsistent photo attachment and
       # email encoding success with later version
       {:mail, "0.3.1"},
-      {:mbta_metro, "0.0.58"},
+      {:mbta_metro, "0.0.60"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},
       {:nebulex, "2.6.4"},
       {:nebulex_redis_adapter, "2.4.1"},
       {
         :open_trip_planner_client,
-        [github: "thecristen/open_trip_planner_client", tag: "v0.10.6"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.11.1"]
       },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14
