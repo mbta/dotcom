@@ -104,7 +104,9 @@ defmodule DotCom.Mixfile do
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
       {:logster, "1.1.1"},
-      {:mail, "0.4.1"},
+      # Mail kept at 0.3.1 as we experienced inconsistent photo attachment and
+      # email encoding success with later version
+      {:mail, "0.3.1"},
       {:mbta_metro, "0.0.58"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},

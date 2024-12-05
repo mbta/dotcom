@@ -4,7 +4,7 @@ defmodule Feedback.Mailer do
   require Logger
 
   alias Feedback.Message
-  alias Mail.Renderers.RFC2822
+  alias Mail.{Encoders.Base64, Renderers.RFC2822}
 
   @aws_client Application.compile_env(:dotcom, :aws_client)
 
@@ -77,7 +77,7 @@ defmodule Feedback.Mailer do
 
     message
     |> RFC2822.render()
-    |> Base.encode64()
+    |> Base64.encode()
     |> then(&%{"RawMessage" => %{"Data" => &1}})
     |> send_email_fn.()
   end

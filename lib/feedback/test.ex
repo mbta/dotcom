@@ -17,7 +17,7 @@ defmodule Feedback.Test do
   end
 
   def send_email(%{"RawMessage" => %{"Data" => raw_message}}) do
-    parsed_message = raw_message |> Base.decode64!() |> RFC2822.parse()
+    parsed_message = raw_message |> Mail.Encoders.Base64.decode() |> RFC2822.parse()
 
     attachments =
       if parsed_message.multipart do
