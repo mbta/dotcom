@@ -184,6 +184,7 @@ defmodule Services.Service do
         |> Interval.new()
         |> Enum.map(& &1)
       end
+      |> Enum.map(&Timex.to_date/1)
 
     removed_dates = parse_listed_dates(removed_dates)
 

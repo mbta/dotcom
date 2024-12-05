@@ -108,7 +108,7 @@ defmodule Services.ServiceTest do
                  removed_dates: ["2022-12-15", "2022-12-14"],
                  start_date: ~D[2022-12-11],
                  end_date: ~D[2022-12-22],
-                 valid_days: []
+                 valid_days: [1, 2, 3, 4, 5, 6, 7]
                },
                ~D[2022-12-15]
              )
