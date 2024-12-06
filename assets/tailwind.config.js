@@ -39,7 +39,8 @@ module.exports = {
           dark: "#1c1e23",
           light: "#788093",
           lighter: "#b0b5c0",
-          lightest: "#e9eaed"
+          lightest: "#e9eaed",
+          "bordered-background": "#f2f3f5"
         },
         "brand-primary": {
           DEFAULT: "#165c96",
