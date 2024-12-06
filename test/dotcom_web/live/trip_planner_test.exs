@@ -20,7 +20,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub_otp_results(itineraries)
   end
 
-  defp update_trip_details(itinerary, trip_id: trip_id, start_time: start_time) do
+  defp update_trip_id(itinerary, trip_id) do
     updated_transit_leg =
       itinerary.legs
       |> Enum.at(1)
@@ -28,6 +28,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     itinerary
     |> Map.update!(:legs, &List.replace_at(&1, 1, updated_transit_leg))
+  end
+
+  defp update_start_time(itinerary, start_time) do
+    itinerary
     |> Map.put(:start, DateTime.new!(Date.utc_today(), start_time, "America/New_York"))
   end
 
@@ -212,8 +216,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
+        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -252,8 +256,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
+        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
