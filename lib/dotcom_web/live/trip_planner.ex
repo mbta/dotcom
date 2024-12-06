@@ -52,7 +52,7 @@ defmodule DotcomWeb.Live.TripPlanner do
           <:failed :let={{:error, errors}}>
             <.error_container title="Unable to plan your trip">
               <p :for={%OpenTripPlannerClient.Error{message: message} <- errors} class="last:mb-0">
-                <%= message %>
+                {message}
               </p>
             </.error_container>
           </:failed>

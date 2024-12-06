@@ -73,7 +73,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               />
             </.inputs_for>
             <.error_container :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])}>
-              <%= msg %>
+              {msg}
             </.error_container>
           </.algolia_autocomplete>
         </div>
@@ -93,7 +93,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
           >
-            <%= msg %>
+            {msg}
           </.error_container>
           <.live_component
             :if={@show_datepicker}
@@ -103,7 +103,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             id={:datepicker}
           />
           <.error_container :for={{msg, _} <- f[:datetime].errors} :if={used_input?(f[:datetime])}>
-            <%= msg %>
+            {msg}
           </.error_container>
         </div>
         <div>
@@ -126,7 +126,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               </:content>
             </.accordion>
             <.error_container :for={{msg, _} <- f[:modes].errors}>
-              <%= msg %>
+              {msg}
             </.error_container>
           </.fieldset>
           <div class="inline-flex items-center gap-1">

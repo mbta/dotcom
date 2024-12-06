@@ -81,8 +81,8 @@ defmodule DotcomWeb.Components do
 
     ~H"""
     <div class={"error-container rounded #{@padding_class}"}>
-      <p :if={@title} class="font-bold mb-2"><%= @title %></p>
-      <%= render_slot(@inner_block) %>
+      <p :if={@title} class="font-bold mb-2">{@title}</p>
+      {render_slot(@inner_block)}
     </div>
     """
   end

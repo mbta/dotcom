@@ -43,7 +43,7 @@ defmodule DotcomWeb.ComponentsTest do
       str =
         rendered_to_string(~H"""
         <.error_container title={assigns.title}>
-          <%= assigns.content %>
+          {assigns.content}
         </.error_container>
         """)
 
@@ -51,7 +51,7 @@ defmodule DotcomWeb.ComponentsTest do
       assert str =~ assigns.content
 
       assert rendered_to_string(~H"""
-             <.error_container><%= assigns.content %></.error_container>
+             <.error_container>{assigns.content}</.error_container>
              """) =~ assigns.content
     end
   end
