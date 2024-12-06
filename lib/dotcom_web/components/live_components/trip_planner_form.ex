@@ -73,7 +73,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
               />
             </.inputs_for>
             <.error_container :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])}>
-              <%= msg %>
+              {msg}
             </.error_container>
           </.algolia_autocomplete>
         </div>
@@ -93,7 +93,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             :for={{msg, _} <- f[:datetime_type].errors}
             :if={used_input?(f[:datetime_type])}
           >
-            <%= msg %>
+            {msg}
           </.error_container>
           <.live_component
             :if={@show_datepicker}
@@ -103,14 +103,14 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
             id={:datepicker}
           />
           <.error_container :for={{msg, _} <- f[:datetime].errors} :if={used_input?(f[:datetime])}>
-            <%= msg %>
+            {msg}
           </.error_container>
         </div>
         <div>
           <.fieldset id="modes" legend="Modes">
-            <.accordion id="accordion">
+            <.accordion variant="contained">
               <:heading>
-                <%= Modes.selected_modes(input_value(f, :modes)) %>
+                {Modes.selected_modes(input_value(f, :modes))}
               </:heading>
               <:content>
                 <div class="flex flex-col gap-05 px-2">
@@ -124,12 +124,10 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerForm do
                   </.inputs_for>
                 </div>
               </:content>
-              <:extra :if={used_input?(f[:modes])}>
-                <.error_container :for={{msg, _} <- f[:modes].errors}>
-                  <%= msg %>
-                </.error_container>
-              </:extra>
             </.accordion>
+            <.error_container :for={{msg, _} <- f[:modes].errors}>
+              {msg}
+            </.error_container>
           </.fieldset>
           <div class="inline-flex items-center gap-1">
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />

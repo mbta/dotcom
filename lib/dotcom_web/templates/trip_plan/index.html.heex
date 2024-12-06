@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="trip-plan-title">Trip Planner</h1>
   <div class="trip-plan-container">
-    <%= render("_sidebar.html", assigns) %>
+    {render("_sidebar.html", assigns)}
     <div class="trip-plan-body">
       <link rel="stylesheet" href={static_url(@conn, "/css/map.css")} />
       <%= case assigns[:query] do %>
@@ -13,9 +13,9 @@
             phx-hook="ScrollIntoView"
           >
             <% l = length(@itineraries) %>
-            <%= "We found #{l} #{Inflex.inflect("trip", l)} for you" %>
+            {"We found #{l} #{Inflex.inflect("trip", l)} for you"}
           </p>
-          <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
+          <p class="instructions page-section">{itinerary_explanation(@query, @modes)}</p>
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
           <% metadata = trip_plan_metadata(@conn) %>
           <script id="js-tp-itinerary-data" type="text/plain">
