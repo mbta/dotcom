@@ -15,39 +15,15 @@ on:
         description: "Environment to deploy to"
         required: true
         type: string
-    secrets:
-      aws-role-arn:
-        required: true
-        description: "AWS_ROLE_ARN value"
-      aws-account-id:
-        required: true
-        description: "TID_AWS_ACCOUNT_ID value"
 
 concurrency:
   group: deploy-monitor-${{ inputs.deployment-env }}
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: Check for changes in monitoring setup
-    runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.changes.outputs.monitor == 'true' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            monitor:
-              - 'deploy/monitor/**'
-              - 'integration/**'
   push:
-    name: Deploy new version
+    name: push-monitor
     runs-on: ubuntu-latest
-    needs: check
-    if: ${{ needs.check.outputs.changed }}
     permissions:
       id-token: write
       contents: read
@@ -58,13 +34,13 @@ jobs:
         id: ecr
         uses: mbta/actions/build-push-ecr@v2
         with:
-          docker-repo: "${{ secrets.aws-account-id }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
+          docker-repo: "${{ secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
-          role-to-assume: ${{ secrets.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
       - name: Deploy Monitor to ${{ inputs.deployment-env }}
         uses: mbta/actions/deploy-ecs@v2
         with:
-          role-to-assume: ${{ secrets.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-${{ inputs.deployment-env }}
           docker-tag: ${{ steps.ecr.outputs.docker-tag }}
