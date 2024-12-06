@@ -76,6 +76,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <%= if match?(%PersonalDetail{}, leg.mode) do %>
           <.walking_leg leg={leg} />
         <% else %>
+          <.transit_leg leg={leg} />
         <% end %>
       </div>
     </div>
