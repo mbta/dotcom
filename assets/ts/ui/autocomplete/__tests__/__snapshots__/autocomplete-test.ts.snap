@@ -28,6 +28,7 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
           class="aa-InputWrapperPrefix"
         >
           <label
+            arialabel="Submit"
             class="aa-Label"
             for="autocomplete-1-input"
             id="autocomplete-1-label"

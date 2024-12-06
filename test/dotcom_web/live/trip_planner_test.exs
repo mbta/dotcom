@@ -14,7 +14,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     end)
   end
 
-  defp stub_populated_otp_results() do
+  defp stub_populated_otp_results do
     itineraries = TripPlannerFactory.build_list(3, :otp_itinerary)
 
     stub_otp_results(itineraries)
@@ -267,6 +267,18 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       assert render_async(view) =~ trip_id_1
       refute render_async(view) =~ trip_id_2
+    end
+
+    test "displays error message from the Open Trip Planner client", %{conn: conn, params: params} do
+      error_message = Faker.Lorem.sentence()
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:error, [%OpenTripPlannerClient.Error{message: error_message}]}
+      end)
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      assert render_async(view) =~ error_message
     end
   end
 end

@@ -166,7 +166,8 @@ defmodule DotcomWeb.StopControllerTest do
             %JsonApi.Item{
               id: "",
               attributes: %{
-                "schedule_type" => "Weekday"
+                "schedule_type" => "Weekday",
+                "valid_days" => [1, 2, 3, 4, 5, 6, 7]
               },
               relationships: %{},
               type: "service"

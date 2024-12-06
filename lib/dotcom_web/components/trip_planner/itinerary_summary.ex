@@ -11,12 +11,10 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     <div>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          <%= format_datetime_full(@summary.first_start) %> - <%= format_datetime_full(
-            @summary.first_stop
-          ) %>
+          {format_datetime_full(@summary.first_start)} - {format_datetime_full(@summary.first_stop)}
         </div>
         <div>
-          <%= @summary.duration %> min
+          {@summary.duration} min
         </div>
       </div>
       <div class="flex flex-wrap gap-1 items-center content-center mb-3">
@@ -32,12 +30,12 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         </div>
         <div class="inline-flex items-center gap-0.5">
           <.icon name="person-walking" class="h-3 w-3" />
-          <%= @summary.walk_distance %> mi
+          {@summary.walk_distance} mi
         </div>
         <div :if={@summary.total_cost > 0} class="inline-flex items-center gap-0.5">
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
           <.icon name="wallet" class="h-3 w-3" />
-          <%= Fares.Format.price(@summary.total_cost) %>
+          {Fares.Format.price(@summary.total_cost)}
         </div>
       </div>
     </div>
@@ -56,7 +54,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       @class
     ]}>
       <.icon name="person-walking" class="h-4 w-4" />
-      <span><%= @walk_minutes %> min</span>
+      <span>{@walk_minutes} min</span>
     </span>
     """
   end

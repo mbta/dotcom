@@ -34,13 +34,13 @@
 
       <div class="u-highlight-gray border border-silver-100 rounded-md flex flex-col p-6">
         <div class="font-bold text-lg mb-2">
-          <%= @polling_location_name %>
+          {@polling_location_name}
         </div>
         <div class="mb-6">
-          <%= @polling_location["address"]["line1"] %>
+          {@polling_location["address"]["line1"]}
           <br />
-          <%= @polling_location["address"]["city"] %>, <%= @polling_location["address"]["state"] %>
-          <%= @polling_location["address"]["zip"] %>
+          {@polling_location["address"]["city"]}, {@polling_location["address"]["state"]}
+          {@polling_location["address"]["zip"]}
         </div>
         <a class="btn btn-primary" href={@trip_plan_path}>
           Plan your trip
@@ -83,11 +83,11 @@
         Our user guides can help you learn how to navigate the system,
         get to local events, use accessibility features, and more.
       </p>
-      <%= link("View all guides",
+      {link("View all guides",
         to: cms_static_page_path(@conn, "/guides"),
         target: "_blank",
         class: "c-call-to-action"
-      ) %>
+      )}
     </div>
   </div>
 </div>

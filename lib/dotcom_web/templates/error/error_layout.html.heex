@@ -1,21 +1,21 @@
 <div class="container error-page">
   <div class="font-small error-pre-title">
-    <%= @error_code <> " Error \u2022 " <> @error_type %>
+    {@error_code <> " Error \u2022 " <> @error_type}
   </div>
   <!-- This error title appears for XS-S screens -->
-  <div class="font-heading font-bold mt-11 mb-3 text-4xl error-title"><%= @error_title %></div>
+  <div class="font-heading font-bold mt-11 mb-3 text-4xl error-title">{@error_title}</div>
   <div class="error-page-flex">
     <div class="error-svg-container">
-      <%= svg(@error_code <> ".svg") %>
+      {svg(@error_code <> ".svg")}
     </div>
     <div class="error-details-container">
       <!-- This error title appears for MD-XL screens -->
       <div class="font-heading font-bold mt-11 mb-3 text-4xl error-title">
-        <%= @error_title %>
+        {@error_title}
       </div>
       <p class="error-paragraph">
-        <strong><%= @error_description %></strong>
-        <%= @error_instructions %>
+        <strong>{@error_description}</strong>
+        {@error_instructions}
       </p>
       <.algolia_autocomplete
         id="error-page"

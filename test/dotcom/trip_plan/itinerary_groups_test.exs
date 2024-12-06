@@ -1,4 +1,4 @@
-defmodule Dotcom.TripPlan.ItineraryGroupTest do
+defmodule Dotcom.TripPlan.ItineraryGroupsTest do
   @moduledoc false
 
   use ExUnit.Case, async: true
@@ -83,7 +83,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
     end
   end
 
-  test "ignores short walking distances of < 0.2 miles", %{stops: [a, b, c]} do
+  test "ignores short walking distances of < 0.2 miles when grouping", %{stops: [a, b, c]} do
     # SETUP
     bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
     walk_b_c_leg = TripPlanner.build(:walking_leg, from: b, to: c) |> Map.put(:distance, 0.199)
@@ -100,5 +100,27 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
 
     # VERIFY
     assert Kernel.length(grouped_itineraries) == 1
+  end
+
+  test "ignores intermediate legs with short walking durations of < 5 minutes when summarizing",
+       %{stops: [a, b, c]} do
+    bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
+
+    walk_b_c_leg =
+      TripPlanner.build(:walking_leg, from: b, to: c)
+      |> Map.merge(%{distance: 0.5, duration: 4})
+
+    walk_c_b_leg =
+      TripPlanner.build(:walking_leg, from: c, to: b)
+      |> Map.merge(%{distance: 0.5, duration: 6})
+
+    bus_b_a_leg = TripPlanner.build(:bus_leg, from: b, to: a)
+
+    itinerary =
+      TripPlanner.build(:itinerary, legs: [bus_a_b_leg, walk_b_c_leg, walk_c_b_leg, bus_b_a_leg])
+
+    [%{summary: %{summarized_legs: legs}}] = ItineraryGroups.from_itineraries([itinerary])
+
+    assert [_, %{walk_minutes: 6}, _] = legs
   end
 end

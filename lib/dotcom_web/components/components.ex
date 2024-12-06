@@ -66,7 +66,23 @@ defmodule DotcomWeb.Components do
         />
         <div class="c-search-bar__autocomplete-results" />
       </div>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  def error_container(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:title, fn -> nil end)
+      |> assign_new(:padding_class, fn %{title: title} ->
+        if(title, do: "p-6", else: "px-4 py-2")
+      end)
+
+    ~H"""
+    <div class={"error-container rounded #{@padding_class}"}>
+      <p :if={@title} class="font-bold mb-2">{@title}</p>
+      {render_slot(@inner_block)}
     </div>
     """
   end

@@ -24,4 +24,5 @@ if config_env() == :test do
 end
 
 config :open_trip_planner_client,
-  timezone: "America/New_York"
+  timezone: "America/New_York",
+  fallback_error_message: "Please try again or send us feedback at mbta.com/customer-support"

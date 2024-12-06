@@ -31,16 +31,16 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
     ~H"""
     <div class={"border-solid #{@realtime_class} p-3 m-1"}>
       <div class="flex items-center justify-between">
-        <strong><%= @from.name %></strong>
-        <span><%= format_time(@start_time) %></span>
+        <strong>{@from.name}</strong>
+        <span>{format_time(@start_time)}</span>
       </div>
       <div>
-        <p :if={@realtime_state}>Realtime data: <%= @realtime_state %></p>
+        <p :if={@realtime_state}>Realtime data: {@realtime_state}</p>
         <.mode mode={@mode} />
       </div>
       <div class="flex items-center justify-between">
-        <strong><%= @to.name %></strong>
-        <span><%= format_time(@end_time) %></span>
+        <strong>{@to.name}</strong>
+        <span>{format_time(@end_time)}</span>
       </div>
     </div>
     """
@@ -71,11 +71,11 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
   def transit(assigns) do
     ~H"""
     <div class="text-lg">
-      <.route_symbol route={@route} /> (<%= @route.name %>) on trip <%= @trip_id %>
+      <.route_symbol route={@route} /> ({@route.name}) on trip {@trip_id}
     </div>
     <ul class="list-decimal">
       <li :for={stop <- @stops} class="text-sm text-zinc-500">
-        <%= stop.name %>
+        {stop.name}
         <div :if={Stop.accessible?(stop)} class="inline-flex items-center gap-0.5">
           <.icon
             type="icon-svg"
@@ -93,7 +93,7 @@ defmodule DotcomWeb.Components.TripPlanner.Leg do
     ~H"""
     <ul class="list-decimal">
       <li :for={step <- @steps} class="text-sm text-zinc-500">
-        <%= Step.walk_summary(step) %>
+        {Step.walk_summary(step)}
       </li>
     </ul>
     """

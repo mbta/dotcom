@@ -16,6 +16,7 @@ import {
   VNode
 } from "@algolia/autocomplete-js";
 import { BaseItem } from "@algolia/autocomplete-core";
+import { HighlightResultOption } from "@algolia/client-search";
 import AlgoliaItemTemplate from "../templates/algolia";
 import { GeolocationComponent } from "../templates/geolocation";
 import LocationItemTemplate from "../templates/location";
@@ -105,7 +106,9 @@ describe("Algolia template", () => {
       content_title: "Page One",
       index: "drupal",
       objectID: "sdfsda",
-      _highlightResult: { content_title: { matchedWords: ["one"] } }
+      _highlightResult: {
+        content_title: { matchedWords: ["one"] } as HighlightResultOption
+      }
     } as AutocompleteItem;
 
     renderAlgoliaTemplate(contentItem, "one");
@@ -119,7 +122,9 @@ describe("Algolia template", () => {
       content_title: "Page Two",
       index: "drupal",
       objectID: "sdfsda",
-      _highlightResult: { content_title: { matchedWords: [] } }
+      _highlightResult: {
+        content_title: { matchedWords: [] as string[] } as HighlightResultOption
+      }
     } as AutocompleteItem;
 
     renderAlgoliaTemplate(contentItemNoMatch, "searched text");
@@ -137,7 +142,9 @@ describe("Algolia template", () => {
       content_title: "Fancy search result",
       index: "drupal",
       objectID: "sdfsda",
-      _highlightResult: { content_title: { matchedWords: ["search "] } }
+      _highlightResult: {
+        content_title: { matchedWords: ["search "] } as HighlightResultOption
+      }
     } as AutocompleteItem;
 
     renderAlgoliaTemplate(searchItem, "search result");
@@ -176,7 +183,7 @@ describe("Algolia template", () => {
             matchedWords: ["111"],
             matchLevel: "full",
             fullyHighlighted: true
-          },
+          } as HighlightResultOption,
           long_name: {
             value: "Woodlawn - Haymarket Station",
             matchedWords: [],

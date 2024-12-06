@@ -184,18 +184,19 @@ defmodule Services.Service do
         |> Interval.new()
         |> Enum.map(& &1)
       end
+      |> Enum.map(&Timex.to_date/1)
 
     removed_dates = parse_listed_dates(removed_dates)
 
-    (dates ++ parse_listed_dates(added_dates))
-    |> Enum.reject(fn date ->
-      # if valid_days is an empty array, the service's dates are likely those in
-      # added_dates, so we can ignore evaluating the day of the week here
-      Enum.member?(removed_dates, date) ||
-        if valid_days != [], do: Timex.weekday(date) not in valid_days
-    end)
-    |> Enum.map(&Timex.to_date/1)
-    |> Enum.uniq()
+    explicitly_added_dates = parse_listed_dates(added_dates)
+
+    valid_dates =
+      dates
+      |> Stream.reject(fn date -> Enum.member?(removed_dates, date) end)
+      |> Stream.reject(fn date -> Timex.weekday(date) not in valid_days end)
+      |> Enum.to_list()
+
+    Enum.uniq(explicitly_added_dates ++ valid_dates)
   end
 
   @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
@@ -204,5 +205,6 @@ defmodule Services.Service do
     |> Enum.map(&Timex.parse(&1, "{ISOdate}"))
     |> Enum.filter(&(elem(&1, 0) == :ok))
     |> Enum.map(&elem(&1, 1))
+    |> Enum.map(&Timex.to_date/1)
   end
 end

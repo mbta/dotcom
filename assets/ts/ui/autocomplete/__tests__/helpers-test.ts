@@ -1,4 +1,4 @@
-import { HighlightResult, Hit } from "@algolia/client-search";
+import { HighlightResultOption, Hit } from "@algolia/client-search";
 import { Route, Stop } from "../../../__v3api";
 import {
   ContentItem,
@@ -31,7 +31,7 @@ test("getTitleAttribute indicates name to highlight", () => {
   const contentItemWithHighlightResult = {
     ...testContentItem,
     _highlightResult: {
-      _content_title: { value: "thing" } as HighlightResult<ContentItem>
+      _content_title: { value: "thing" } as HighlightResultOption
     }
   } as Hit<Item>;
 

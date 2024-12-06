@@ -8,7 +8,7 @@
     }
     class="page-section"
   >
-    <h2 id={"#{menu_section}-section"}><%= menu_section %></h2>
+    <h2 id={"#{menu_section}-section"}>{menu_section}</h2>
     <hr class="m-0" />
     <section aria-labelledby={"#{menu_section}-section"} class="row">
       <section
@@ -16,8 +16,8 @@
         aria-labelledby={"#{section_name}-section"}
         class="col-sm-4"
       >
-        <h3 id={"#{section_name}-section"} class="font-small mt-6"><%= section_name %></h3>
-        <%= Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1) %>
+        <h3 id={"#{section_name}-section"} class="font-small mt-6">{section_name}</h3>
+        {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
       </section>
     </section>
   </div>

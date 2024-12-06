@@ -4,9 +4,9 @@
     <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content()) do %>
       <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
         <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading">
-          <%= menu_section %>
+          {menu_section}
         </h2>
-        <%= DotcomWeb.PartialView.render(
+        {DotcomWeb.PartialView.render(
           "_accordion_ui_no_bootstrap.html",
           Map.merge(assigns, %{
             id: menu_section,
@@ -21,14 +21,14 @@
                 }
               end
           })
-        ) %>
+        )}
 
         <%= for %{sub_menu_section: sub_menu_section} <- sub_menus do %>
           <%= if sub_menu_section == "Most popular fares" do %>
-            <%= render("_new_nav_popular_fares.html") %>
+            {render("_new_nav_popular_fares.html")}
           <% end %>
           <%= if sub_menu_section == "Contact numbers" do %>
-            <%= render("_new_nav_contact_numbers.html") %>
+            {render("_new_nav_contact_numbers.html")}
           <% end %>
         <% end %>
       </nav>

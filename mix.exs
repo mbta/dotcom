@@ -1,4 +1,5 @@
 defmodule DotCom.Mixfile do
+  @moduledoc false
   use Mix.Project
 
   def project do
@@ -105,7 +106,7 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:kino_live_component, "0.0.3"},
       {:logster, "1.1.1"},
-      {:mail, "0.4.1"},
+      {:mail, "0.3.1"},
       {:mbta_metro, "0.0.64"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},
@@ -113,7 +114,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.1"},
       {
         :open_trip_planner_client,
-        [github: "thecristen/open_trip_planner_client", tag: "v0.10.6"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.11.1"]
       },
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.14

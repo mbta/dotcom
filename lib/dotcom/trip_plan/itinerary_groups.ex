@@ -6,8 +6,12 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   But, this does not include walking legs that are less than 0.2 miles.
   """
 
+  import DotcomWeb.TripPlanView, only: [get_one_way_total_by_type: 2]
+
   alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.ItineraryTag
+
+  @short_walk_threshold_minutes 5
 
   @type summarized_leg :: %{
           routes: [Routes.Route.t()],
@@ -31,8 +35,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   def from_itineraries(itineraries) do
     itineraries
     |> Enum.group_by(&unique_legs_to_hash/1)
-    |> Enum.map(&group_departures/1)
-    |> Enum.reject(&Enum.empty?(&1))
+    |> Enum.map(&to_summarized_group/1)
+    |> Enum.reject(&Enum.empty?(&1.itineraries))
     |> Enum.sort_by(fn
       %{itineraries: [%{tag: tag} | _] = _} ->
         Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
@@ -57,33 +61,47 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
   end
 
-  defp group_departures({_hash, grouped_itineraries}) do
-    summarized_legs =
-      grouped_itineraries
-      |> Enum.map(& &1.legs)
-      |> Enum.zip_with(&Function.identity/1)
-      |> Enum.map(fn legs ->
-        legs
-        |> Enum.uniq_by(&combined_leg_to_tuple/1)
-        |> Enum.map(&to_summarized_leg/1)
-        |> Enum.reduce(%{walk_minutes: 0, routes: []}, &summarize_legs/2)
-      end)
-      |> remove_short_intermediate_walks()
+  defp to_summarized_group({_hash, grouped_itineraries}) do
+    %{
+      itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
+      summary: summary(grouped_itineraries)
+    }
+  end
 
-    summary =
-      grouped_itineraries
-      |> Enum.map(fn itinerary ->
-        itinerary
-        |> Map.take([:start, :stop, :tag, :duration, :accessible?, :walk_distance])
-        |> Map.put(
-          :total_cost,
-          DotcomWeb.TripPlanView.get_one_way_total_by_type(itinerary, :highest_one_way_fare)
-        )
-      end)
-      |> summarize_itineraries()
-      |> Map.put(:summarized_legs, summarized_legs)
+  defp summary(itineraries) do
+    itineraries
+    |> Enum.map(&to_map_with_fare/1)
+    |> to_summary()
+    |> Map.put(:summarized_legs, to_summarized_legs(itineraries))
+  end
 
-    %{itineraries: ItineraryTag.sort_tagged(grouped_itineraries), summary: summary}
+  defp to_summarized_legs(itineraries) do
+    itineraries
+    |> to_transposed_legs()
+    |> Enum.map(&aggregate_legs/1)
+    |> remove_short_intermediate_walks()
+  end
+
+  defp to_transposed_legs(itineraries) do
+    itineraries
+    |> Enum.map(& &1.legs)
+    |> Enum.zip_with(&Function.identity/1)
+  end
+
+  defp aggregate_legs(legs) do
+    legs
+    |> Enum.uniq_by(&combined_leg_to_tuple/1)
+    |> Enum.map(&to_summarized_leg/1)
+    |> Enum.reduce(%{walk_minutes: 0, routes: []}, &summarize_legs/2)
+  end
+
+  defp to_map_with_fare(itinerary) do
+    itinerary
+    |> Map.take([:start, :stop, :tag, :duration, :accessible?, :walk_distance])
+    |> Map.put(
+      :total_cost,
+      get_one_way_total_by_type(itinerary, :highest_one_way_fare)
+    )
   end
 
   defp remove_short_intermediate_walks(summarized_legs) do
@@ -91,12 +109,12 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.with_index()
     |> Enum.reject(fn {leg, index} ->
       index > 0 && index < Kernel.length(summarized_legs) - 1 &&
-        (leg.routes == [] && leg.walk_minutes < 5)
+        (leg.routes == [] && leg.walk_minutes < @short_walk_threshold_minutes)
     end)
-    |> Enum.map(&elem(&1, 0))
+    |> Enum.map(fn {leg, _} -> leg end)
   end
 
-  defp summarize_itineraries(itinerary_maps) do
+  defp to_summary(itinerary_maps) do
     # for most of the summary we can reflect the first itinerary
     [
       %{

@@ -21,12 +21,12 @@
       <a class="navbar-logo" href="/" data-nav="logo">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
-          <%= svg("mbta-logo.svg") %>
-          <%= svg("mbta-name-and-logo.svg") %>
+          {svg("mbta-logo.svg")}
+          {svg("mbta-name-and-logo.svg")}
         </div>
       </a>
 
-      <%= render("_new_nav_desktop.html", assigns) %>
+      {render("_new_nav_desktop.html", assigns)}
       <div class="search-wrapper">
         <div class="search">
           <.algolia_autocomplete id="header-desktop" config_type="basic-config" />
@@ -46,5 +46,5 @@
       </button>
     </div>
   </div>
-  <%= render("_new_nav_mobile.html", assigns) %>
+  {render("_new_nav_mobile.html", assigns)}
 </header>

@@ -68,7 +68,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
     ~H"""
     <div class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}>
-      <%= @route.name %>
+      {@route.name}
     </div>
     """
   end
