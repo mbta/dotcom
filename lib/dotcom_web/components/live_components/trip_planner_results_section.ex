@@ -74,37 +74,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
     """
   end
 
-  defp itinerary_panel(%{itinerary_selection: :summary} = assigns) do
-    ~H"""
-    <div
-      :for={{%{summary: summary}, index} <- Enum.with_index(@results)}
-      class="border border-solid m-4 p-4"
-    >
-      <div
-        :if={summary.tag}
-        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
-      >
-        <%= summary.tag %>
-      </div>
-      <.itinerary_summary summary={summary} />
-      <div class="flex justify-end items-center">
-        <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
-          Similar trips depart at <%= Enum.map(summary.next_starts, &format_datetime_short/1)
-          |> Enum.join(", ") %>
-        </div>
-        <button
-          class="btn-link font-semibold underline"
-          phx-click="set_itinerary_group_index"
-          phx-target={@target}
-          phx-value-index={index}
-        >
-          Details
-        </button>
-      </div>
-    </div>
-    """
-  end
-
   defp itinerary_panel(
          %{
            results: results,
@@ -140,13 +109,33 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
   end
 
   defp itinerary_panel(assigns) do
-    Sentry.capture_message("Error loading planned trips",
-      extra: %{assigns: assigns},
-      tags: %{feature: "Trip Planner"}
-    )
-
     ~H"""
-    <div>Error loading planned trips</div>
+    <div
+      :for={{%{summary: summary}, index} <- Enum.with_index(@results)}
+      class="border border-solid m-4 p-4"
+    >
+      <div
+        :if={summary.tag}
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+      >
+        <%= summary.tag %>
+      </div>
+      <.itinerary_summary summary={summary} />
+      <div class="flex justify-end items-center">
+        <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
+          Similar trips depart at <%= Enum.map(summary.next_starts, &format_datetime_short/1)
+          |> Enum.join(", ") %>
+        </div>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click="set_itinerary_group_index"
+          phx-target={@target}
+          phx-value-index={index}
+        >
+          Details
+        </button>
+      </div>
+    </div>
     """
   end
 
