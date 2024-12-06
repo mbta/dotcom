@@ -235,6 +235,28 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute render_async(view) =~ trip_id_1
     end
 
+    test "'Depart At' buttons don't appear if there would only be one", %{
+      conn: conn,
+      params: params
+    } do
+      trip_time_1 = Faker.DateTime.forward(2) |> DateTime.to_time()
+      trip_time_display_1 = trip_time_1 |> Timex.format!("%-I:%M", :strftime)
+
+      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
+
+      stub_otp_results([
+        base_itinerary |> update_start_time(trip_time_1)
+      ])
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      render_async(view)
+
+      view |> element("button", "Details") |> render_click()
+
+      refute view |> element("button", trip_time_display_1) |> has_element?()
+    end
+
     test "'Depart At' button state is not preserved when leaving details view", %{
       conn: conn,
       params: params
