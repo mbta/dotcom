@@ -106,7 +106,7 @@ defmodule DotCom.Mixfile do
       {:kino_live_component, "0.0.3"},
       {:logster, "1.1.1"},
       {:mail, "0.4.1"},
-      {:mbta_metro, path: "../mbta_metro"},
+      {:mbta_metro, "0.0.64"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},
       {:nebulex, "2.6.4"},
