@@ -20,7 +20,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub_otp_results(itineraries)
   end
 
-  defp update_trip_details(itinerary, trip_id: trip_id, start_time: start_time) do
+  defp update_trip_id(itinerary, trip_id) do
     updated_transit_leg =
       itinerary.legs
       |> Enum.at(1)
@@ -28,6 +28,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     itinerary
     |> Map.update!(:legs, &List.replace_at(&1, 1, updated_transit_leg))
+  end
+
+  defp update_start_time(itinerary, start_time) do
+    itinerary
     |> Map.put(:start, DateTime.new!(Date.utc_today(), start_time, "America/New_York"))
   end
 
@@ -212,8 +216,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
+        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -229,6 +233,28 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       assert render_async(view) =~ trip_id_2
       refute render_async(view) =~ trip_id_1
+    end
+
+    test "'Depart At' buttons don't appear if there would only be one", %{
+      conn: conn,
+      params: params
+    } do
+      trip_time_1 = Faker.DateTime.forward(2) |> DateTime.to_time()
+      trip_time_display_1 = trip_time_1 |> Timex.format!("%-I:%M", :strftime)
+
+      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
+
+      stub_otp_results([
+        base_itinerary |> update_start_time(trip_time_1)
+      ])
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      render_async(view)
+
+      view |> element("button", "Details") |> render_click()
+
+      refute view |> element("button", trip_time_display_1) |> has_element?()
     end
 
     test "'Depart At' button state is not preserved when leaving details view", %{
@@ -252,8 +278,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        update_trip_details(base_itinerary, trip_id: trip_id_1, start_time: trip_time_1),
-        update_trip_details(base_itinerary, trip_id: trip_id_2, start_time: trip_time_2)
+        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")

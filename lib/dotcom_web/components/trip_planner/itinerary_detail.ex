@@ -22,6 +22,28 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
     ~H"""
     <div>
+      <.depart_at_buttons
+        selected_itinerary_detail_index={@selected_itinerary_detail_index}
+        itineraries={@itineraries}
+        target={@target}
+      />
+      <.specific_itinerary_detail itinerary={@selected_itinerary} />
+    </div>
+    """
+  end
+
+  attr :itineraries, :list
+  attr :selected_itinerary_detail_index, :integer
+  attr :target, :string
+
+  defp depart_at_buttons(%{itineraries: [_]} = assigns) do
+    ~H"""
+    """
+  end
+
+  defp depart_at_buttons(assigns) do
+    ~H"""
+    <div>
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div class="flex">
         <.depart_at_button
@@ -34,7 +56,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
         </.depart_at_button>
       </div>
-      <.specific_itinerary_detail itinerary={@selected_itinerary} />
     </div>
     """
   end
