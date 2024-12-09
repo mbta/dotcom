@@ -24,7 +24,7 @@ describe("AccessibilityIcon", () => {
     expect(screen.getByTestId("empty")).not.toBeEmptyDOMElement();
   });
 
-  it("should not return an icon for an accessible stop", () => {
+  it("should not return an icon for an inaccessible stop even if it has some accessibility features", () => {
     const stop = { accessibility: ["escalator_up"] };
     render(
       <div data-testid="empty">
