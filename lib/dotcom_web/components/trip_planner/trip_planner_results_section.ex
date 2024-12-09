@@ -1,22 +1,14 @@
-defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
+defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
   @moduledoc """
   The section of the trip planner page that shows the map and
   the summary or details panel
   """
 
-  use DotcomWeb, :live_component
+  use DotcomWeb, :component
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
-  @impl true
-  def mount(socket) do
-    {:ok,
-     socket
-     |> assign(:itinerary_selection, :summary)}
-  end
-
-  @impl true
-  def render(assigns) do
+  def trip_planner_results_section(assigns) do
     ~H"""
     <section class={[
       "flex flex-col",
@@ -38,7 +30,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
             type="button"
             phx-click="set_itinerary_group_index"
             phx-value-index="nil"
-            phx-target={@myself}
             class="btn-link"
           >
             <span class="flex flex-row items-center">
@@ -63,11 +54,7 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
 
       <.async_result :let={results} assign={@results}>
         <div :if={results} class="w-full p-4 row-start-2 col-start-1">
-          <.itinerary_panel
-            results={results}
-            itinerary_selection={@itinerary_selection}
-            target={@myself}
-          />
+          <.itinerary_panel results={results} itinerary_selection={@itinerary_selection} />
         </div>
       </.async_result>
     </section>
@@ -102,7 +89,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       <.itinerary_detail
         itineraries={@itineraries}
         selected_itinerary_detail_index={@itinerary_index}
-        target={@target}
       />
     </div>
     """
@@ -129,7 +115,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
         <button
           class="btn-link font-semibold underline"
           phx-click="set_itinerary_group_index"
-          phx-target={@target}
           phx-value-index={index}
         >
           Details
@@ -137,41 +122,6 @@ defmodule DotcomWeb.Components.LiveComponents.TripPlannerResultsSection do
       </div>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("set_itinerary_group_index", %{"index" => index_str}, socket) do
-    itinerary_selection =
-      case Integer.parse(index_str) do
-        {index, ""} ->
-          {:detail, %{itinerary_group_index: index, itinerary_index: 0}}
-
-        _ ->
-          :summary
-      end
-
-    {:noreply,
-     socket
-     |> assign(
-       :itinerary_selection,
-       itinerary_selection
-     )}
-  end
-
-  @impl true
-  def handle_event(
-        "set_itinerary_index",
-        %{"trip-index" => index_str},
-        %{assigns: %{itinerary_selection: {:detail, itinerary_selection}}} = socket
-      ) do
-    {index, ""} = Integer.parse(index_str)
-
-    {:noreply,
-     socket
-     |> assign(
-       :itinerary_selection,
-       {:detail, %{itinerary_selection | itinerary_index: index}}
-     )}
   end
 
   defp format_datetime_short(datetime) do

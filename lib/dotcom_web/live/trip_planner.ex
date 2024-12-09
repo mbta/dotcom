@@ -8,8 +8,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   import MbtaMetro.Components.{Feedback, Spinner}
+  import DotcomWeb.Components.TripPlanner.TripPlannerResultsSection
 
-  alias DotcomWeb.Components.LiveComponents.{TripPlannerForm, TripPlannerResultsSection}
+  alias DotcomWeb.Components.LiveComponents.{TripPlannerForm}
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm.Modes, ItineraryGroups}
 
   @form_id "trip-planner-form"
@@ -30,6 +31,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign_async(:results, fn ->
         {:ok, %{results: nil}}
       end)
+      |> assign(:itinerary_selection, :summary)
 
     {:ok, socket}
   end
@@ -71,17 +73,51 @@ defmodule DotcomWeb.Live.TripPlanner do
         </.async_result>
       </section>
 
-      <.live_component
-        module={TripPlannerResultsSection}
-        id="trip-planner-results"
+      <.trip_planner_results_section
         results={@results}
         error={@error}
         map_config={@map_config}
         from={@from}
         to={@to}
+        itinerary_selection={@itinerary_selection}
       />
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("set_itinerary_group_index", %{"index" => index_str}, socket) do
+    itinerary_selection =
+      case Integer.parse(index_str) do
+        {index, ""} ->
+          {:detail, %{itinerary_group_index: index, itinerary_index: 0}}
+
+        _ ->
+          :summary
+      end
+
+    {:noreply,
+     socket
+     |> assign(
+       :itinerary_selection,
+       itinerary_selection
+     )}
+  end
+
+  @impl true
+  def handle_event(
+        "set_itinerary_index",
+        %{"trip-index" => index_str},
+        %{assigns: %{itinerary_selection: {:detail, itinerary_selection}}} = socket
+      ) do
+    {index, ""} = Integer.parse(index_str)
+
+    {:noreply,
+     socket
+     |> assign(
+       :itinerary_selection,
+       {:detail, %{itinerary_selection | itinerary_index: index}}
+     )}
   end
 
   @impl true

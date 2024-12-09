@@ -29,7 +29,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           active={@selected_itinerary_detail_index == index}
           phx-click="set_itinerary_index"
           phx-value-trip-index={index}
-          phx-target={@target}
         >
           {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
         </.depart_at_button>
