@@ -65,8 +65,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "6 \u2013 13 minutes",
       peak_service: "4 \u2013 5 minutes",
-      saturday_service: "9 minutes",
-      sunday_service: "9 minutes"
+      saturday_service: "9 \u2013 13 minutes",
+      sunday_service: "9 \u2013 13 minutes"
     }
   end
 
@@ -74,8 +74,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "8 \u2013 15 minutes",
+      sunday_service: "8 \u2013 20 minutes"
     }
   end
 
@@ -83,8 +83,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "8 \u2013 15 minutes",
+      sunday_service: "8 \u2013 20 minutes"
     }
   end
 
@@ -92,8 +92,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "8 \u2013 15 minutes",
+      sunday_service: "8 \u2013 20 minutes"
     }
   end
 
@@ -101,8 +101,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "8 \u2013 15 minutes",
+      sunday_service: "8 \u2013 20 minutes"
     }
   end
 
@@ -110,8 +110,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "8 \u2013 15 minutes",
+      sunday_service: "8 \u2013 20 minutes"
     }
   end
 
