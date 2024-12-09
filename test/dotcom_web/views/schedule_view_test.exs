@@ -456,4 +456,14 @@ defmodule DotcomWeb.ScheduleViewTest do
       assert station?(%Stop{id: "11257", station?: false}) == false
     end
   end
+
+  describe "frequent_bus_badge/1" do
+    test "returns a badge if the route description is 'Frequent Route'" do
+      refute frequent_bus_badge(%Route{type: 3, description: :key_bus_route}) == nil
+    end
+
+    test "returns nothing otherwise" do
+      assert frequent_bus_badge(%Route{type: 3, description: :community_bus}) == nil
+    end
+  end
 end
