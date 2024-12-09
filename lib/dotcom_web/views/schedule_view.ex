@@ -413,6 +413,7 @@ defmodule DotcomWeb.ScheduleView do
     stop.station?
   end
 
+  @spec frequent_bus_badge(Route.t()) :: Safe.t() | nil
   def frequent_bus_badge(%Route{description: :key_bus_route}) do
     content_tag :div,
       class: "bg-white rounded-full h-8 w-fit flex gap-2 items-center py-1 pl-1 pr-3 mb-6" do
