@@ -77,9 +77,12 @@ defmodule Routes.Parser do
   def parse_gtfs_desc("Ferry"), do: :ferry
   def parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
   def parse_gtfs_desc("Key Bus"), do: :key_bus_route
+  def parse_gtfs_desc("Frequent Bus"), do: :frequent_bus_route
   def parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
   def parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
   def parse_gtfs_desc("Community Bus"), do: :community_bus
+  def parse_gtfs_desc("Coverage Bus"), do: :coverage_bus
+  def parse_gtfs_desc("Regional Rail"), do: :regional_rail
   def parse_gtfs_desc(_), do: :unknown
 
   @spec parse_gtfs_fare_class(String.t()) :: Route.gtfs_fare_class()
