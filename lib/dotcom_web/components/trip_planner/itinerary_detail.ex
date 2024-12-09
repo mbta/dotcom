@@ -36,14 +36,9 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   attr :selected_itinerary_detail_index, :integer
   attr :target, :string
 
-  defp depart_at_buttons(%{itineraries: [_]} = assigns) do
-    ~H"""
-    """
-  end
-
   defp depart_at_buttons(assigns) do
     ~H"""
-    <div>
+    <div :if={Enum.count(@itineraries) > 1}>
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div class="flex">
         <.depart_at_button
