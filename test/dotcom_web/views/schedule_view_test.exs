@@ -458,7 +458,11 @@ defmodule DotcomWeb.ScheduleViewTest do
   end
 
   describe "frequent_bus_badge/1" do
-    test "returns a badge if the route description is 'Frequent Route'" do
+    test "returns a badge for frequent bus routes" do
+      refute frequent_bus_badge(%Route{type: 3, description: :frequent_bus_route}) == nil
+    end
+
+    test "returns a badge for key bus routes" do
       refute frequent_bus_badge(%Route{type: 3, description: :key_bus_route}) == nil
     end
 
