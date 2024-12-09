@@ -5,6 +5,7 @@ defmodule DotcomWeb.ScheduleView do
 
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
+  import DotcomWeb.ViewHelpers
 
   require Routes.Route
 
@@ -410,5 +411,21 @@ defmodule DotcomWeb.ScheduleView do
   @spec station?(Stops.Stop.t()) :: boolean()
   def station?(stop) do
     stop.station?
+  end
+
+  def frequent_bus_badge(%Route{description: :key_bus_route}) do
+    content_tag :div,
+      class: "bg-white rounded-full h-8 w-fit flex gap-2 items-center py-1 pl-1 pr-3 mb-6" do
+      [
+        svg("icon-frequent-bus.svg"),
+        content_tag :span, class: "text-sm font-bold" do
+          "Service every 15 minutes or better"
+        end
+      ]
+    end
+  end
+
+  def frequent_bus_badge(_route) do
+    nil
   end
 end
