@@ -6,18 +6,12 @@ defmodule DotcomWeb.Components.RouteSymbols do
   use Phoenix.Component
 
   import MbtaMetro.Components.Icon
+  import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
   alias Routes.Route
 
   @logan_express_icon_names Route.logan_express_icon_names()
   @massport_icon_names Route.massport_icon_names()
-
-  defguardp is_external_route?(assigns) when not is_nil(assigns.route.external_agency_name)
-
-  defguardp is_shuttle_route?(assigns)
-            when assigns.route.type == 3 and
-                   assigns.route.description == :rail_replacement_bus and
-                   not is_external_route?(assigns)
 
   variant(
     :size,
@@ -55,8 +49,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
   <.route_symbol route={%Routes.Route{type: 3}} data-toggle="tooltip" />
   ```
   """
-  def route_symbol(%{route: %Route{description: description, type: 3}} = assigns)
-      when not is_external_route?(assigns) and not is_shuttle_route?(assigns) and
+  def route_symbol(%{route: %Route{description: description, type: 3} = route} = assigns)
+      when not is_external?(route) and not is_shuttle?(route) and
              description != :rapid_transit do
     route_class =
       if(Routes.Route.silver_line?(assigns.route),
@@ -88,8 +82,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
   attr(:rest, :global)
   attr(:route, Routes.Route, required: true)
 
-  def route_icon(%{route: %Route{name: shuttle_name}} = assigns)
-      when is_shuttle_route?(assigns) do
+  def route_icon(%{route: %Route{name: shuttle_name} = route} = assigns)
+      when is_shuttle?(route) do
     route_class =
       shuttle_name
       |> String.replace(" Shuttle", "")
@@ -110,7 +104,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     """
   end
 
-  def route_icon(assigns) when not is_external_route?(assigns) do
+  def route_icon(%{route: route} = assigns) when not is_external?(route) do
     assigns =
       assigns
       |> assign_new(:icon_name, fn %{route: route, size: size} ->
