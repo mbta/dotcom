@@ -8,6 +8,8 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
+  alias Dotcom.TripPlan
+
   def trip_planner_results_section(assigns) do
     ~H"""
     <section class={[
@@ -39,19 +41,41 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
           </button>
         </div>
       </.async_result>
+      <.async_result :let={results} assign={@results}>
+        <%= if results && @itinerary_selection != :summary do %>
+          <% {:detail, %{itinerary_group_index: itinerary_group_index, itinerary_index: itinerary_index}} = @itinerary_selection %>
+          <% itinerary = Enum.at(results, itinerary_group_index).itineraries |> Enum.at(itinerary_index) %>
+          <% itinerary_map = TripPlan.Map.itinerary_map(itinerary) %>
+          <% lines = TripPlan.Map.get_lines(itinerary_map) %>
+          <% points = TripPlan.Map.get_points(itinerary_map) %>
+          <.live_component
+            module={MbtaMetro.Live.Map}
+            id="trip-planner-map"
+            class={[
+              "h-64 md:h-96 w-full",
+              "relative overflow-none row-span-2",
+              @itinerary_selection == :summary && "hidden md:block"
+            ]}
+            config={@map_config}
+            lines={lines}
+            pins={[@from, @to]}
+            points={points}
+          />
+        <% else %>
+          <.live_component
+            module={MbtaMetro.Live.Map}
+            id="trip-planner-map"
+            class={[
+              "h-64 md:h-96 w-full",
+              "relative overflow-none row-span-2",
+              @itinerary_selection == :summary && "hidden md:block"
+            ]}
+            config={@map_config}
+            pins={[@from, @to]}
+          />
+        <% end %>
 
-      <.live_component
-        module={MbtaMetro.Live.Map}
-        id="trip-planner-map"
-        class={[
-          "h-64 md:h-96 w-full",
-          "relative overflow-none row-span-2",
-          @itinerary_selection == :summary && "hidden md:block"
-        ]}
-        config={@map_config}
-        pins={[@from, @to]}
-      />
-
+      </.async_result>
       <.async_result :let={results} assign={@results}>
         <div :if={results} class="w-full p-4 row-start-2 col-start-1">
           <.itinerary_panel results={results} itinerary_selection={@itinerary_selection} />

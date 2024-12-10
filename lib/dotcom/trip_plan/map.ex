@@ -53,7 +53,7 @@ defmodule Dotcom.TripPlan.Map do
 
   This just gets the longitude and latitude from each marker.
   """
-  def get_points(map) do
+  def get_points(itinerary_map) do
     itinerary_map
     |> Map.get(:markers, [])
     |> Enum.map(&marker_to_point/1)
@@ -78,7 +78,7 @@ defmodule Dotcom.TripPlan.Map do
 
   defp polyline_to_line(polyline) do
     %{
-      color: Map.get(polyline, :color, "black"),
+      color: Map.get(polyline, :color) |> tailwind_color(),
       coordinates: Map.get(polyline, :positions, []) |> invert_coordinates(),
       width: Map.get(polyline, :weight, 4)
     }
@@ -197,4 +197,13 @@ defmodule Dotcom.TripPlan.Map do
   def z_index(%{current: idx, start: idx}), do: 100
   def z_index(%{current: idx, end: idx}), do: 100
   def z_index(%{}), do: 0
+
+  defp tailwind_color("#003DA5"), do: "blue-500"
+  defp tailwind_color("#80276C"), do: "purple-500"
+  defp tailwind_color("#00843D"), do: "green-500"
+  defp tailwind_color("#ED8B00"), do: "orange-500"
+  defp tailwind_color("#DA291C"), do: "red-500"
+  defp tailwind_color("#7C878E"), do: "silver-500"
+
+  defp tailwind_color(_), do: "black"
 end
