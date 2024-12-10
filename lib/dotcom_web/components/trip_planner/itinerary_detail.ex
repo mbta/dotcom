@@ -40,7 +40,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     ~H"""
     <div :if={Enum.count(@itineraries) > 1}>
       <p class="text-sm mb-2 mt-3">Depart at</p>
-      <div class="flex">
+      <div class="flex flex-wrap gap-2">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
           active={@selected_itinerary_detail_index == index}
@@ -66,7 +66,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     <button
       type="button"
       class={[
-        "border border-brand-primary rounded px-2.5 py-1.5 mr-2 text-brand-primary text-lg",
+        "border border-brand-primary rounded px-2.5 py-1.5 text-brand-primary text-lg",
         "hover:bg-brand-primary-lightest #{@background_class}"
       ]}
       {@rest}
