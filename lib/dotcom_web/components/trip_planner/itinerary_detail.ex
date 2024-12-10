@@ -6,10 +6,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.Leg, only: [leg: 1]
+  import DotcomWeb.Components.TripPlanner.Place
+  import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
-  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
 
   def itinerary_detail(
         %{
@@ -78,35 +79,26 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp specific_itinerary_detail(assigns) do
     assigns =
-      assign(
-        assigns,
-        :all_routes,
-        assigns.itinerary.legs
-        |> Enum.reject(&match?(%PersonalDetail{}, &1.mode))
-        |> Enum.map(& &1.mode.route)
-      )
+      assigns
+      |> assign(:start_place, List.first(assigns.itinerary.legs).from)
+      |> assign(:start_time, List.first(assigns.itinerary.legs).start)
+      |> assign(:end_place, List.last(assigns.itinerary.legs).to)
+      |> assign(:end_time, List.last(assigns.itinerary.legs).stop)
 
     ~H"""
     <div class="mt-4">
-      <div>
-        Depart at {Timex.format!(@itinerary.start, "%-I:%M%p", :strftime)}
-        <.route_symbol :for={route <- @all_routes} route={route} class="ml-2" />
-      </div>
-      <div :for={leg <- @itinerary.legs}>
+      <.place place={@start_place} time={@start_time} />
+      <div
+        :for={leg <- @itinerary.legs}
+        class={"#{if(match?(%TransitDetail{}, leg.mode), do: "bg-gray-bordered-background")}"}
+      >
         <%= if match?(%PersonalDetail{}, leg.mode) do %>
           <.walking_leg leg={leg} />
         <% else %>
-          <.leg
-            start_time={leg.start}
-            end_time={leg.stop}
-            from={leg.from}
-            to={leg.to}
-            mode={leg.mode}
-            realtime={leg.realtime}
-            realtime_state={leg.realtime_state}
-          />
+          <.transit_leg leg={leg} />
         <% end %>
       </div>
+      <.place place={@end_place} time={@end_time} />
     </div>
     """
   end
