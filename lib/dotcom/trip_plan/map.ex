@@ -199,9 +199,9 @@ defmodule Dotcom.TripPlan.Map do
   def z_index(%{}), do: 0
 
   defp tailwind_color("#003DA5"), do: "blue-500"
-  defp tailwind_color("#80276C"), do: "purple-500"
   defp tailwind_color("#00843D"), do: "green-500"
   defp tailwind_color("#ED8B00"), do: "orange-500"
+  defp tailwind_color("#80276C"), do: "purple-500"
   defp tailwind_color("#DA291C"), do: "red-500"
   defp tailwind_color("#7C878E"), do: "silver-500"
 
