@@ -54,7 +54,7 @@ defmodule Dotcom.TripPlan.ItineraryTest do
       test_calculated_ids =
         Enum.flat_map(itinerary, fn leg ->
           case leg.mode do
-            %TransitDetail{trip_id: trip_id} -> [trip_id]
+            %TransitDetail{trip: %{id: trip_id}} -> [trip_id]
             _ -> []
           end
         end)
@@ -68,7 +68,7 @@ defmodule Dotcom.TripPlan.ItineraryTest do
       test_calculated_ids =
         Enum.flat_map(itinerary.legs, fn leg ->
           case leg.mode do
-            %TransitDetail{} = td -> [{td.route.id, td.trip_id}]
+            %TransitDetail{} = td -> [{td.route.id, td.trip.id}]
             _ -> []
           end
         end)

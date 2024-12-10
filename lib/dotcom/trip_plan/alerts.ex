@@ -42,7 +42,7 @@ defmodule Dotcom.TripPlan.Alerts do
     end
   end
 
-  defp mode_entities(%TransitDetail{route: route, trip_id: trip_id}) do
+  defp mode_entities(%TransitDetail{route: route, trip: %{id: trip_id}}) do
     trip =
       if is_nil(route.external_agency_name) do
         Schedules.Repo.trip(trip_id)
