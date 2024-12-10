@@ -25,18 +25,20 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
     <.dynamic_tag
       tag_name={@tag_name}
       href={@stop_url}
-      class="bg-gray-bordered-background px-3 py-2 rounded flex flex-nowrap items-center gap-2 w-full hover:no-underline text-black"
+      class="bg-gray-bordered-background px-3 py-2 rounded-lg grid grid-cols-[1.5rem_auto_1fr] items-center gap-2 w-full hover:no-underline text-black"
     >
-      <.location_icon route={@route} class="grow-0 h-6 w-6" />
-      <strong class="grow-0">{@place.name}</strong>
-      <.icon
-        :if={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
-        type="icon-svg"
-        name="icon-accessible-default"
-        class="h-6 w-6 ml-0.5 grow-0"
-        aria-hidden="true"
-      />
-      <time class="grow text-right">{format_time(@time)}</time>
+      <.location_icon route={@route} class="h-6 w-6" />
+      <strong class="flex items-center gap-2">
+        {@place.name}
+        <.icon
+          :if={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
+          type="icon-svg"
+          name="icon-accessible-default"
+          class="h-5 w-5 ml-0.5 shrink-0"
+          aria-hidden="true"
+        />
+      </strong>
+      <time class="text-right no-wrap">{format_time(@time)}</time>
     </.dynamic_tag>
     """
   end
