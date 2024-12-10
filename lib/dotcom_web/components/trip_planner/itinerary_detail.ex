@@ -65,39 +65,49 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp specific_itinerary_detail(assigns) do
     assigns =
-      assign(
-        assigns,
+      assigns
+      |> assign(
         :all_routes,
         assigns.itinerary.legs
         |> Enum.reject(&match?(%PersonalDetail{}, &1.mode))
         |> Enum.map(& &1.mode.route)
       )
+      |> assign(:start_place, List.first(assigns.itinerary.legs).from)
+      |> assign(:start_time, List.first(assigns.itinerary.legs).start)
+      |> assign(:end_place, List.last(assigns.itinerary.legs).to)
+      |> assign(:end_time, List.last(assigns.itinerary.legs).stop)
 
     ~H"""
     <div class="mt-4">
+      <.place place={@start_place} time={@start_time} />
       <div
         :for={leg <- @itinerary.legs}
-        class={"my-1 #{if(match?(%TransitDetail{}, leg.mode), do: "bg-gray-bordered-background")}"}
+        class={"#{if(match?(%TransitDetail{}, leg.mode), do: "bg-gray-bordered-background")}"}
       >
-        <.place
-          place={leg.from}
-          time={leg.start}
-          route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
-        />
         <%= if match?(%PersonalDetail{}, leg.mode) do %>
           <.walking_leg leg={leg} />
         <% else %>
+          <.place
+            place={leg.from}
+            time={leg.start}
+            route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
+          />
           <.transit_leg leg={leg} />
+          <.place
+            place={leg.to}
+            time={leg.stop}
+            route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
+          />
         <% end %>
-        <.place
-          place={leg.to}
-          time={leg.stop}
-          route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
-        />
       </div>
+      <.place place={@end_place} time={@end_time} />
     </div>
     """
   end
+
+  attr :place, :map, required: true
+  attr :time, :any, required: true
+  attr :route, :map, default: nil
 
   defp place(assigns) do
     stop_url = stop_url(assigns.route, assigns.place.stop)
