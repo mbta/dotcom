@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
       />
       <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
-        <%= if Enum.count(@leg.mode.intermediate_stops) == 1 do %>
+        <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
           <.leg_summary leg={@leg} />
           <.leg_details leg={@leg} />
         <% else %>
@@ -73,13 +73,15 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp leg_line_class(_), do: ""
 
   defp leg_summary(assigns) do
+    assigns = assign(assigns, :stops_count, Enum.count(assigns.leg.mode.intermediate_stops) + 1)
+
     ~H"""
     <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_max-content] pl-4">
       <.route_symbol route={@leg.mode.route} />
       <span class="font-semibold">{@leg.mode.trip_id}</span>
       <div class="text-sm col-start-2 row-start-2">
         Ride the {route_name(@leg.mode.route)}
-        <span class="font-semibold">{Enum.count(@leg.mode.intermediate_stops) + 1} stops</span>
+        <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
     </div>
     """
