@@ -26,7 +26,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
       <.depart_at_buttons
         selected_itinerary_detail_index={@selected_itinerary_detail_index}
         itineraries={@itineraries}
-        target={@target}
       />
       <.specific_itinerary_detail itinerary={@selected_itinerary} />
     </div>
@@ -35,7 +34,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   attr :itineraries, :list
   attr :selected_itinerary_detail_index, :integer
-  attr :target, :string
 
   defp depart_at_buttons(assigns) do
     ~H"""
