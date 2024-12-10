@@ -72,26 +72,27 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
               }}
          } = assigns
        ) do
-    %{itineraries: itineraries, summary: summary} = results |> Enum.at(itinerary_group_index)
+    with %{itineraries: itineraries, summary: summary} <-
+           results |> Enum.at(itinerary_group_index) do
+      assigns =
+        assigns
+        |> assign(:itineraries, itineraries)
+        |> assign(:summary, summary)
+        |> assign(:itinerary_index, itinerary_index)
 
-    assigns =
-      assigns
-      |> assign(:itineraries, itineraries)
-      |> assign(:summary, summary)
-      |> assign(:itinerary_index, itinerary_index)
+      ~H"""
+      <div class="mt-30">
+        <div class="border-b-[1px] border-gray-lighter">
+          <.itinerary_summary summary={@summary} />
+        </div>
 
-    ~H"""
-    <div class="mt-30">
-      <div class="border-b-[1px] border-gray-lighter">
-        <.itinerary_summary summary={@summary} />
+        <.itinerary_detail
+          itineraries={@itineraries}
+          selected_itinerary_detail_index={@itinerary_index}
+        />
       </div>
-
-      <.itinerary_detail
-        itineraries={@itineraries}
-        selected_itinerary_detail_index={@itinerary_index}
-      />
-    </div>
-    """
+      """
+    end
   end
 
   defp itinerary_panel(assigns) do
