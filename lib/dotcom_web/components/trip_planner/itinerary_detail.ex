@@ -65,12 +65,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   defp specific_itinerary_detail(assigns) do
     assigns =
       assigns
-      |> assign(
-        :all_routes,
-        assigns.itinerary.legs
-        |> Enum.reject(&match?(%PersonalDetail{}, &1.mode))
-        |> Enum.map(& &1.mode.route)
-      )
       |> assign(:start_place, List.first(assigns.itinerary.legs).from)
       |> assign(:start_time, List.first(assigns.itinerary.legs).start)
       |> assign(:end_place, List.last(assigns.itinerary.legs).to)
