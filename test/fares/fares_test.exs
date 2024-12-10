@@ -245,7 +245,7 @@ defmodule FaresTest do
           },
           intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
           route: %Routes.Route{id: "Red"},
-          trip_id: "43870769C0"
+          trip: %Schedules.Trip{id: "43870769C0"}
         },
         to: %NamedPosition{
           latitude: 42.356395,

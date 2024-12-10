@@ -925,7 +925,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             fares: @fares,
             intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
             route: %Routes.Route{id: "Red"},
-            trip_id: "43870769C0"
+            trip: %Schedules.Trip{id: "43870769C0"}
           },
           to: %NamedPosition{
             latitude: 42.356395,
@@ -1073,7 +1073,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               fares: @fares,
               intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
               route: %Routes.Route{id: "Red"},
-              trip_id: "43870769C0"
+              trip: %Schedules.Trip{id: "43870769C0"}
             },
             to: %NamedPosition{
               latitude: 42.356395,
@@ -1099,7 +1099,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                 %Stops.Stop{id: "80"}
               ],
               route: %Routes.Route{id: "1"},
-              trip_id: "44170977"
+              trip: %Schedules.Trip{id: "44170977"}
             },
             to: %NamedPosition{
               latitude: 42.342478,
@@ -1119,7 +1119,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               fares: @fares,
               intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
               route: %Routes.Route{id: "Red"},
-              trip_id: "43870769C0"
+              trip: %Schedules.Trip{id: "43870769C0"}
             },
             to: %NamedPosition{
               latitude: 42.356395,
@@ -1343,7 +1343,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               },
               intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
               route: %Routes.Route{id: "Red"},
-              trip_id: "43870769C0"
+              trip: %Schedules.Trip{id: "43870769C0"}
             },
             to: %NamedPosition{
               latitude: 42.356395,
@@ -1528,7 +1528,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
               %Stops.Stop{id: "74616"}
             ],
             route: %Routes.Route{id: "741"},
-            trip_id: "44812009"
+            trip: %Schedules.Trip{id: "44812009"}
           },
           to: %NamedPosition{
             latitude: 42.352271,

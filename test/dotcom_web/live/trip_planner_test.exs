@@ -20,11 +20,11 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub_otp_results(itineraries)
   end
 
-  defp update_trip_id(itinerary, trip_id) do
+  defp update_trip_headsign(itinerary, headsign) do
     updated_transit_leg =
       itinerary.legs
       |> Enum.at(1)
-      |> update_in([:trip, :gtfs_id], fn _ -> "ma_mbta_us:#{trip_id}" end)
+      |> update_in([:trip, :trip_headsign], fn _ -> headsign end)
 
     itinerary
     |> Map.update!(:legs, &List.replace_at(&1, 1, updated_transit_leg))
@@ -201,12 +201,12 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     } do
       trip_datetime_1 = Faker.DateTime.forward(2)
       trip_time_1 = trip_datetime_1 |> DateTime.to_time()
-      trip_id_1 = Faker.UUID.v4()
+      trip_headsign_1 = Faker.App.name()
 
       trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
       trip_time_2 = trip_datetime_2 |> DateTime.to_time()
       trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
-      trip_id_2 = Faker.UUID.v4()
+      trip_headsign_2 = Faker.App.name()
 
       base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
@@ -216,8 +216,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
-        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
+        base_itinerary |> update_trip_headsign(trip_headsign_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_headsign(trip_headsign_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -226,13 +226,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       view |> element("button", "Details") |> render_click()
 
-      assert render_async(view) =~ trip_id_1
-      refute render_async(view) =~ trip_id_2
+      assert render_async(view) =~ trip_headsign_1
+      refute render_async(view) =~ trip_headsign_2
 
       view |> element("button", trip_time_display_2) |> render_click()
 
-      assert render_async(view) =~ trip_id_2
-      refute render_async(view) =~ trip_id_1
+      assert render_async(view) =~ trip_headsign_2
+      refute render_async(view) =~ trip_headsign_1
     end
 
     test "'Depart At' buttons don't appear if there would only be one", %{
@@ -263,12 +263,12 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     } do
       trip_datetime_1 = Faker.DateTime.forward(2)
       trip_time_1 = trip_datetime_1 |> DateTime.to_time()
-      trip_id_1 = Faker.UUID.v4()
+      trip_headsign_1 = Faker.App.name()
 
       trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
       trip_time_2 = trip_datetime_2 |> DateTime.to_time()
       trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
-      trip_id_2 = Faker.UUID.v4()
+      trip_headsign_2 = Faker.App.name()
 
       base_itinerary = TripPlannerFactory.build(:otp_itinerary)
 
@@ -278,8 +278,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # should update these updates and the assertions below to use
       # the headsign instead of the trip ID.
       stub_otp_results([
-        base_itinerary |> update_trip_id(trip_id_1) |> update_start_time(trip_time_1),
-        base_itinerary |> update_trip_id(trip_id_2) |> update_start_time(trip_time_2)
+        base_itinerary |> update_trip_headsign(trip_headsign_1) |> update_start_time(trip_time_1),
+        base_itinerary |> update_trip_headsign(trip_headsign_2) |> update_start_time(trip_time_2)
       ])
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
@@ -291,8 +291,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       view |> element("button", "View All Options") |> render_click()
       view |> element("button", "Details") |> render_click()
 
-      assert render_async(view) =~ trip_id_1
-      refute render_async(view) =~ trip_id_2
+      assert render_async(view) =~ trip_headsign_1
+      refute render_async(view) =~ trip_headsign_2
     end
 
     test "displays error message from the Open Trip Planner client", %{conn: conn, params: params} do

@@ -179,7 +179,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
         to: %NamedPosition{stop: %Stops.Stop{id: "place-pktrm"}, name: "Park Street"},
         mode: %TransitDetail{
           route: %Routes.Route{id: "Green-C"},
-          trip_id: "Green-1",
+          trip: %Schedules.Trip{id: "Green-1"},
           intermediate_stops: []
         }
       }
@@ -248,7 +248,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
         to: %NamedPosition{stop: %Stops.Stop{id: "place-kencl"}, name: "Kenmore"},
         mode: %TransitDetail{
           route: %Routes.Route{id: "Green-C"},
-          trip_id: "Green-1",
+          trip: %Schedules.Trip{id: "Green-1"},
           intermediate_stops: []
         }
       }

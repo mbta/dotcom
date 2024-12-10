@@ -77,9 +77,9 @@ defmodule Dotcom.TripPlan.RelatedLink do
   defp route_links(itinerary) do
     not_shuttle? = fn route -> route.description !== :rail_replacement_bus end
 
-    for %Leg{mode: %TransitDetail{route: route, trip_id: trip_id}} <- itinerary.legs,
+    for %Leg{mode: %TransitDetail{route: route, trip: trip}} <- itinerary.legs,
         not_shuttle?.(route) do
-      route_link(route, trip_id, itinerary)
+      route_link(route, if(trip, do: trip.id), itinerary)
     end
   end
 
@@ -104,10 +104,10 @@ defmodule Dotcom.TripPlan.RelatedLink do
     new("Massport schedules", url, :massport_shuttle)
   end
 
-  defp route_link(route, trip_id, itinerary) do
+  defp route_link(route, _, itinerary) do
     icon_name = Route.icon_atom(route)
     date = Date.to_iso8601(itinerary.start)
-    url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
+    url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date)
 
     route
     |> link_text()

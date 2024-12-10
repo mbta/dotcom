@@ -48,7 +48,7 @@ defmodule Dotcom.TripPlan.LegTest do
 
   describe "trip_id/1" do
     test "returns {:ok, id} for a transit leg", context do
-      trip_id = context.transit_leg.mode.trip_id
+      trip_id = context.transit_leg.mode.trip.id
       assert {:ok, ^trip_id} = trip_id(context.transit_leg)
     end
 

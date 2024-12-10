@@ -14,14 +14,14 @@ defmodule Dotcom.TripPlan.TransitDetail do
             },
             mode: :TRANSIT,
             route: nil,
-            trip_id: "",
+            trip: nil,
             intermediate_stops: []
 
   @type t :: %__MODULE__{
           fares: fares,
           mode: Leg.mode(),
           route: Routes.Route.t(),
-          trip_id: Schedules.Trip.id_t(),
+          trip: Schedules.Trip.t(),
           intermediate_stops: [Stops.Stop.t()]
         }
 
