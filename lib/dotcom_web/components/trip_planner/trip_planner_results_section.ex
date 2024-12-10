@@ -43,8 +43,11 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
       </.async_result>
       <.async_result :let={results} assign={@results}>
         <%= if results && @itinerary_selection != :summary do %>
-          <% {:detail, %{itinerary_group_index: itinerary_group_index, itinerary_index: itinerary_index}} = @itinerary_selection %>
-          <% itinerary = Enum.at(results, itinerary_group_index).itineraries |> Enum.at(itinerary_index) %>
+          <% {:detail,
+           %{itinerary_group_index: itinerary_group_index, itinerary_index: itinerary_index}} =
+            @itinerary_selection %>
+          <% itinerary =
+            Enum.at(results, itinerary_group_index).itineraries |> Enum.at(itinerary_index) %>
           <% itinerary_map = TripPlan.Map.itinerary_map(itinerary) %>
           <% lines = TripPlan.Map.get_lines(itinerary_map) %>
           <% points = TripPlan.Map.get_points(itinerary_map) %>
@@ -74,7 +77,6 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
             pins={[@from, @to]}
           />
         <% end %>
-
       </.async_result>
       <.async_result :let={results} assign={@results}>
         <div :if={results} class="w-full p-4 row-start-2 col-start-1">
