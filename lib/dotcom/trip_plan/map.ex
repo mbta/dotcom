@@ -2,6 +2,7 @@ defmodule Dotcom.TripPlan.Map do
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
   """
+
   alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
@@ -15,7 +16,6 @@ defmodule Dotcom.TripPlan.Map do
     |> MapData.new(14)
   end
 
-  # Maps for results
   @doc """
   Returns the static map data and source URL
   Accepts a function that will return either a
@@ -35,6 +35,53 @@ defmodule Dotcom.TripPlan.Map do
     |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_polylines(paths)
+  end
+
+  @doc """
+  Given an `itinerary_map`, convert the polylines to lines (for maplibre-gl-js).
+
+  This involves changing some key names and inverting lat/long to long/lat.
+  """
+  def get_lines(itinerary_map) do
+    itinerary_map
+    |> Map.get(:polylines, [])
+    |> Enum.map(&polyline_to_line/1)
+  end
+
+  @doc """
+  Given an `itinerary_map`, convert the markers to points (for maplibre-gl-js).
+
+  This just gets the longitude and latitude from each marker.
+  """
+  def get_points(map) do
+    itinerary_map
+    |> Map.get(:markers, [])
+    |> Enum.map(&marker_to_point/1)
+    |> Enum.reject(&is_nil/1)
+  end
+
+  defp invert_coordinates(coordinates) do
+    coordinates
+    |> Enum.map(&invert_coordinate/1)
+    |> Enum.reject(&is_nil/1)
+  end
+
+  defp invert_coordinate([a, b]), do: [b, a]
+
+  defp invert_coordinate(_), do: nil
+
+  defp marker_to_point(%{longitude: longitude, latitude: latitude}) do
+    [longitude, latitude]
+  end
+
+  defp marker_to_point(_), do: nil
+
+  defp polyline_to_line(polyline) do
+    %{
+      color: Map.get(polyline, :color, "black"),
+      coordinates: Map.get(polyline, :positions, []) |> invert_coordinates(),
+      width: Map.get(polyline, :weight, 4)
+    }
   end
 
   @spec build_leg_path(Leg.t()) :: LeafletPolyline.t()
