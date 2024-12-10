@@ -95,6 +95,8 @@ defmodule Dotcom.TripPlan.Map do
   end
 
   @spec extend_to_endpoints(String.t(), Leg.t()) :: String.t()
+  defp extend_to_endpoints(polyline, _leg) when not is_binary(polyline), do: ""
+
   defp extend_to_endpoints(polyline, %{from: from, to: to})
        when is_map(from) and is_map(to) do
     from = {Position.longitude(from), Position.latitude(from)}
@@ -106,9 +108,7 @@ defmodule Dotcom.TripPlan.Map do
     |> Polyline.encode()
   end
 
-  defp extend_to_endpoints(_polyline, _leg) do
-    ""
-  end
+  defp extend_to_endpoints(_polyline, _leg), do: ""
 
   @spec markers_for_legs([Leg.t()]) :: [Marker.t()]
   defp markers_for_legs(legs) do
