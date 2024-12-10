@@ -9,6 +9,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
+  import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
   alias Dotcom.TripPlan.TransitDetail
   alias Routes.Route
@@ -73,17 +74,54 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp leg_line_class(_), do: ""
 
   defp leg_summary(assigns) do
-    assigns = assign(assigns, :stops_count, Enum.count(assigns.leg.mode.intermediate_stops) + 1)
+    assigns =
+      assigns
+      |> assign(:stops_count, Enum.count(assigns.leg.mode.intermediate_stops) + 1)
+      |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
     <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_max-content] pl-4">
       <.route_symbol route={@leg.mode.route} />
-      <span class="font-semibold">{@leg.mode.trip_id}</span>
+      <span class="font-semibold">{@headsign}</span>
       <div class="text-sm col-start-2 row-start-2">
-        Ride the {route_name(@leg.mode.route)}
+        <.ride_message mode={@leg.mode} />
         <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
     </div>
+    """
+  end
+
+  # Massport trips might not have headsigns, so use the route names instead
+  defp headsign(%{route: %Route{} = route}) when is_external?(route) do
+    route_name(route)
+  end
+
+  defp headsign(%{trip: %{headsign: headsign}}) when not is_nil(headsign) do
+    headsign
+  end
+
+  defp headsign(_), do: nil
+
+  defp ride_message(%{mode: %{route: %Route{} = route}} = assigns)
+       when is_external?(route) do
+    assigns =
+      assigns
+      |> assign(:vehicle_name, vehicle_name(route))
+
+    ~H"""
+    Ride the {@vehicle_name}
+    """
+  end
+
+  defp ride_message(%{mode: %{route: route, trip: trip}} = assigns) do
+    assigns =
+      assigns
+      |> assign(:route_name, route_name(route))
+      |> assign(:train_number, train_number(trip))
+      |> assign(:vehicle_name, vehicle_name(route))
+
+    ~H"""
+    Ride the {@route_name} {if @train_number, do: "Train #{@train_number}", else: @vehicle_name}
     """
   end
 
@@ -91,13 +129,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   # If there is an external agency name, we use the long name.
   # If it is a bus, we use the short name.
   # For all others, we use the long name.
-  defp route_name(%Route{external_agency_name: agency, long_name: long_name})
-       when is_binary(agency) and is_binary(long_name),
-       do: long_name
+  defp route_name(%Route{} = route) when is_external?(route),
+    do: route.long_name
 
   defp route_name(%Route{name: name, type: 3})
        when is_binary(name),
-       do: "#{name} bus"
+       do: name
 
   defp route_name(%Route{long_name: long_name})
        when is_binary(long_name),
@@ -105,6 +142,21 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp route_name(%Route{name: name}), do: name
   defp route_name(_), do: nil
+
+  defp train_number(%Schedules.Trip{name: name}) when not is_nil(name), do: name
+  defp train_number(_), do: nil
+
+  defp vehicle_name(%Route{} = route) when is_shuttle?(route) do
+    "shuttle bus"
+  end
+
+  defp vehicle_name(%Route{} = route) do
+    route
+    |> Route.vehicle_name()
+    |> String.downcase()
+  end
+
+  defp vehicle_name(nil), do: nil
 
   defp leg_details(assigns) do
     ~H"""
