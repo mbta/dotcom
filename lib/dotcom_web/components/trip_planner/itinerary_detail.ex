@@ -86,10 +86,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     ~H"""
     <div class="mt-4">
       <.place place={@start_place} time={@start_time} />
-      <div
-        :for={leg <- @itinerary.legs}
-        class={"#{if(match?(%TransitDetail{}, leg.mode), do: "bg-gray-bordered-background")}"}
-      >
+      <div :for={leg <- @itinerary.legs}>
         <.segment leg={leg} />
       </div>
       <.place place={@end_place} time={@end_time} />
