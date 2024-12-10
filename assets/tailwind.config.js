@@ -22,7 +22,8 @@ module.exports = {
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex"
+    "../lib/dotcom_web/**/*.*ex",
+    "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
   ],
   safelist: [
     ...safelist,
