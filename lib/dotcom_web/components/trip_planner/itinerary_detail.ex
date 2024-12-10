@@ -86,17 +86,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <%= if match?(%PersonalDetail{}, leg.mode) do %>
           <.walking_leg leg={leg} />
         <% else %>
-          <.place
-            place={leg.from}
-            time={leg.start}
-            route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
-          />
           <.transit_leg leg={leg} />
-          <.place
-            place={leg.to}
-            time={leg.stop}
-            route={if(match?(%TransitDetail{}, leg.mode), do: leg.mode.route)}
-          />
         <% end %>
       </div>
       <.place place={@end_place} time={@end_time} />

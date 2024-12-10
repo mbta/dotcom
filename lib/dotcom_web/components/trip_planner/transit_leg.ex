@@ -7,8 +7,10 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   use Phoenix.Component
 
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
+  import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
+  alias Dotcom.TripPlan.TransitDetail
   alias Routes.Route
 
   @doc """
@@ -21,22 +23,34 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   def transit_leg(assigns) do
     ~H"""
-    <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
-      <%= if Enum.count(@leg.mode.intermediate_stops) == 1 do %>
-        <.leg_summary leg={@leg} />
-        <.leg_details leg={@leg} />
-      <% else %>
-        <details class="group">
-          <summary class="flex cursor-pointer list-none gap-2 relative">
-            <.leg_summary leg={@leg} />
-            <.icon
-              name="chevron-up"
-              class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
-            />
-          </summary>
+    <div>
+      <.place
+        place={@leg.from}
+        time={@leg.start}
+        route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+      />
+      <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
+        <%= if Enum.count(@leg.mode.intermediate_stops) == 1 do %>
+          <.leg_summary leg={@leg} />
           <.leg_details leg={@leg} />
-        </details>
-      <% end %>
+        <% else %>
+          <details class="group">
+            <summary class="flex cursor-pointer list-none gap-2 relative">
+              <.leg_summary leg={@leg} />
+              <.icon
+                name="chevron-up"
+                class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
+              />
+            </summary>
+            <.leg_details leg={@leg} />
+          </details>
+        <% end %>
+      </div>
+      <.place
+        place={@leg.to}
+        time={@leg.stop}
+        route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+      />
     </div>
     """
   end
