@@ -4,7 +4,7 @@ defmodule FaresTest do
 
   import Mox
 
-  alias Dotcom.TripPlan.{NamedPosition, Leg, PersonalDetail, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias Test.Support.Factories.{Routes.Route, Stops.Stop}
 
   setup :verify_on_exit!
