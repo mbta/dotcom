@@ -90,14 +90,22 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         :for={leg <- @itinerary.legs}
         class={"#{if(match?(%TransitDetail{}, leg.mode), do: "bg-gray-bordered-background")}"}
       >
-        <%= if match?(%PersonalDetail{}, leg.mode) do %>
-          <.walking_leg leg={leg} />
-        <% else %>
-          <.transit_leg leg={leg} />
-        <% end %>
+        <.segment leg={leg} />
       </div>
       <.place place={@end_place} time={@end_time} />
     </div>
+    """
+  end
+
+  defp segment(%{leg: %{mode: %PersonalDetail{}}} = assigns) do
+    ~H"""
+    <.walking_leg leg={@leg} />
+    """
+  end
+
+  defp segment(assigns) do
+    ~H"""
+    <.transit_leg leg={@leg} />
     """
   end
 end
