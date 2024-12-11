@@ -10,7 +10,9 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
+  alias Alerts.Match
   alias Dotcom.TripPlan.LegToSegmentHelper
+  alias Dotcom.TripPlan.{Alerts, PersonalDetail, TransitDetail}
 
   def itinerary_detail(
         %{
@@ -77,16 +79,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp specific_itinerary_detail(assigns) do
     assigns =
-      assign(
-        assigns,
-        :segments,
-        LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs)
-      )
+      assigns
+      |> assign_new(:alerts, fn -> Alerts.from_itinerary(assigns.itinerary) end)
+      |> assign(:segments, LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs))
 
     ~H"""
     <div class="mt-4">
       <div :for={segment <- @segments}>
-        <.segment segment={segment} />
+        <.segment segment={segment} alerts={@alerts} />
       </div>
     </div>
     """
@@ -115,7 +115,17 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     assigns = assign(assigns, :leg, leg)
 
     ~H"""
-    <.transit_leg leg={@leg} />
+    <.transit_leg leg={@leg} alerts={alerts_for_leg(@alerts, @leg)} />
     """
   end
+
+  defp alerts_for_leg(alerts, leg) when is_list(alerts) do
+    Match.match(
+      alerts,
+      Alerts.leg_entities(leg),
+      leg.start
+    )
+  end
+
+  defp alerts_for_leg(_, _), do: []
 end

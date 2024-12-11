@@ -14,6 +14,16 @@ defmodule Dotcom.TripPlan.Alerts do
   alias Alerts.InformedEntity, as: IE
   alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
 
+  @spec from_itinerary(Itinerary.t()) :: [Alerts.Alert.t()]
+  def from_itinerary(itinerary) do
+    itinerary.start
+    |> Alerts.Repo.all()
+    |> Alerts.Match.match(
+      entities(itinerary),
+      itinerary.start
+    )
+  end
+
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
   @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]
   def filter_for_itinerary(alerts, itinerary) do
@@ -37,7 +47,7 @@ defmodule Dotcom.TripPlan.Alerts do
     |> Enum.uniq()
   end
 
-  defp leg_entities(%Leg{mode: mode} = leg) do
+  def leg_entities(%Leg{mode: mode} = leg) do
     for entity <- mode_entities(mode),
         stop_id <- Leg.stop_ids(leg) do
       %{entity | stop: stop_id}
@@ -48,7 +58,10 @@ defmodule Dotcom.TripPlan.Alerts do
     []
   end
 
-  defp mode_entities(%TransitDetail{route: %{id: route_id, type: route_type}, trip: %{id: trip_id, direction_id: direction_id}}) do
+  defp mode_entities(%TransitDetail{
+         route: %{id: route_id, type: route_type},
+         trip: %{id: trip_id, direction_id: direction_id}
+       }) do
     [%IE{route_type: route_type, route: route_id, trip: trip_id, direction_id: direction_id}]
   end
 

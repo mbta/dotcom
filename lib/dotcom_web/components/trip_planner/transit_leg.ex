@@ -17,9 +17,10 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   @doc """
   Renders a transit leg.
 
-  Must be given a `leg`
+  Must be given a `leg` and a list of `alerts`
   """
 
+  attr :alerts, :list, default: []
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
@@ -32,12 +33,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       />
       <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
         <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
-          <.leg_summary leg={@leg} />
+          <.leg_summary leg={@leg} alerts={@alerts} />
           <.leg_details leg={@leg} />
         <% else %>
           <details class="group">
             <summary class="flex cursor-pointer list-none gap-2 relative">
-              <.leg_summary leg={@leg} />
+              <.leg_summary leg={@leg} alerts={@alerts} />
               <.icon
                 name="chevron-up"
                 class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
@@ -81,13 +82,25 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
-    <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_max-content] pl-4">
+    <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_auto] pl-4">
       <.route_symbol route={@leg.mode.route} />
       <span class="font-semibold">{@headsign}</span>
       <div class="text-sm col-start-2 row-start-2">
         <.ride_message mode={@leg.mode} />
         <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
+      <%= if @alerts do %>
+        <div :for={alert <- @alerts} class="col-start-2 mb-2 mr-4">
+          <div class="flex items-center gap-2 mb-1">
+            <.icon name="triangle-exclamation" class="w-4 h-4" />
+            {Phoenix.Naming.humanize(alert.effect)}
+            <button class="btn-link text-sm">Show details</button>
+          </div>
+          <div class="bg-white p-2 text-sm">
+            {alert.header}
+          </div>
+        </div>
+      <% end %>
     </div>
     """
   end
