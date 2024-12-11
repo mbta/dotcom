@@ -212,26 +212,12 @@ const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
 };
 /* eslint-enable camelcase */
 
-// enable sorting of services by rating dates,
-// service type, service typicality, and service dates
-export const serviceComparator = (
-  {
-    type: type1,
-    valid_days: validDays1,
-    typicality: typicality1,
-    start_date: date1
-  }: Service,
-  {
-    type: type2,
-    valid_days: validDays2,
-    typicality: typicality2,
-    start_date: date2
-  }: Service
-): number =>
-  serviceTypeOrder[type2] - serviceTypeOrder[type1] ||
-  validDays1[0] - validDays2[0] ||
-  serviceTypicalityOrder[typicality2] - serviceTypicalityOrder[typicality1] ||
-  stringToDateObject(date1).getTime() - stringToDateObject(date2).getTime();
+// enable sorting of services by service type, service typicality, and start
+export const serviceComparator = [
+  (service: Service) => -serviceTypeOrder[service.type],
+  (service: Service) => -serviceTypicalityOrder[service.typicality],
+  "start_date"
+];
 
 // group names may have extra verbiage
 export const optGroupComparator = (groupA: string, groupB: string): number => {

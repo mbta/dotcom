@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Dictionary, each, join, split } from "lodash";
+import { Dictionary, each, join, sortBy, split } from "lodash";
 import { DirectionId, Service } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { stringToDateObject } from "../../../../helpers/date";
@@ -123,6 +123,10 @@ const SchedulesSelect = ({
               .sort(optGroupComparator)
               .map((group: string) => {
                 const groupedServices = servicesByOptGroup[group];
+                const sortedService =
+                  group === "Holiday Schedules"
+                    ? sortBy(groupedServices, "start_date")
+                    : sortBy(groupedServices, serviceComparator);
                 /* istanbul ignore next */
                 if (groupedServices.length <= 0) return null;
 
@@ -130,7 +134,7 @@ const SchedulesSelect = ({
                   <ServiceOptGroup
                     key={group}
                     label={group}
-                    services={groupedServices.sort(serviceComparator)}
+                    services={sortedService}
                     todayServiceId={todayServiceId}
                   />
                 );
