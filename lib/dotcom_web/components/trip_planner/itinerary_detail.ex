@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
-  alias DotcomWeb.Components.TripPlanner.LegToSegmentHelper
+  alias Dotcom.TripPlan.LegToSegmentHelper
 
   def itinerary_detail(
         %{

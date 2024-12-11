@@ -1,10 +1,10 @@
-defmodule DotcomWeb.Components.TripPlanner.LegToSegmentHelperTest do
+defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
   @moduledoc false
 
   use ExUnit.Case, async: true
 
+  alias Dotcom.TripPlan.LegToSegmentHelper
   alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
-  alias DotcomWeb.Components.TripPlanner.LegToSegmentHelper
 
   test "works for a typical walking-transit-walking itinerary and puts a location on either end" do
     assert [

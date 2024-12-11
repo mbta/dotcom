@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.TripPlanner.LegToSegmentHelper do
+defmodule Dotcom.TripPlan.LegToSegmentHelper do
   alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
 
   def legs_to_segments(legs) do
