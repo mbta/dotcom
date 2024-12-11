@@ -203,8 +203,8 @@
   }
 }
 
-#trip-planner-form--from,
-#trip-planner-form--to {
+#trip-planner-input-form--from,
+#trip-planner-input-form--to {
   .aa-InputWrapperPrefix {
     order: unset;
   }
@@ -214,10 +214,10 @@
   }
 }
 
-#trip-planner-form--from .aa-SubmitButton {
+#trip-planner-input-form--from .aa-SubmitButton {
   @include fa-icon-solid($fa-var-a);
 }
 
-#trip-planner-form--to .aa-SubmitButton {
+#trip-planner-input-form--to .aa-SubmitButton {
   @include fa-icon-solid($fa-var-b);
 }

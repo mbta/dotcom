@@ -6,6 +6,7 @@ defmodule Dotcom.TripPlan.InputForm do
   """
 
   use TypedEctoSchema
+
   import Ecto.Changeset
 
   alias OpenTripPlannerClient.PlanParams
@@ -60,15 +61,10 @@ defmodule Dotcom.TripPlan.InputForm do
 
   def changeset(form, params) do
     form
-    |> cast(params, [:datetime_type, :datetime, :wheelchair])
+    |> cast(params, [:datetime, :datetime_type, :wheelchair])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
     |> cast_embed(:modes, required: true)
-  end
-
-  def validate_params(params) do
-    params
-    |> changeset()
     |> update_change(:from, &update_location_change/1)
     |> update_change(:to, &update_location_change/1)
     |> validate_required(:from, message: error_message(:from))
@@ -191,10 +187,10 @@ defmodule Dotcom.TripPlan.InputForm do
 
     @primary_key false
     typed_embedded_schema do
-      field(:RAIL, :boolean, default: true)
-      field(:SUBWAY, :boolean, default: true)
-      field(:BUS, :boolean, default: true)
-      field(:FERRY, :boolean, default: true)
+      field(:RAIL, :boolean, default: false)
+      field(:SUBWAY, :boolean, default: false)
+      field(:BUS, :boolean, default: false)
+      field(:FERRY, :boolean, default: false)
     end
 
     def fields, do: __MODULE__.__schema__(:fields)
@@ -244,7 +240,9 @@ defmodule Dotcom.TripPlan.InputForm do
       |> selected_modes()
     end
 
-    def selected_modes([]), do: "No transit modes selected"
+    def selected_modes(%{RAIL: true, SUBWAY: true, BUS: true, FERRY: true}), do: "All modes"
+
+    def selected_modes(%{}), do: "No transit modes selected"
     def selected_modes([mode]), do: mode_name(mode) <> " Only"
 
     def selected_modes(modes) do

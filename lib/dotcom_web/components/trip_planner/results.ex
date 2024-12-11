@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
+defmodule DotcomWeb.Components.TripPlanner.Results do
   @moduledoc """
   The section of the trip planner page that shows the map and
   the summary or details panel
@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
 
   alias Dotcom.TripPlan
 
-  def trip_planner_results_section(assigns) do
+  def results(assigns) do
     ~H"""
     <section class={[
       "flex flex-col",
