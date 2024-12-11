@@ -65,7 +65,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp leg_line_class(%Route{} = route) do
     route
-    |> Routes.Route.icon_atom()
+    |> Route.to_naive()
+    |> Route.icon_atom()
     |> CSSHelpers.atom_to_class()
     |> then(&"border-#{&1}")
   end
