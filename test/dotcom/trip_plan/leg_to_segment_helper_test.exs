@@ -44,4 +44,13 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
                %Leg{mode: %TransitDetail{}}
              ])
   end
+
+  test "works if there is just one transit leg" do
+    assert [
+             {:transit_segment, _}
+           ] =
+             LegToSegmentHelper.legs_to_segments([
+               %Leg{mode: %TransitDetail{}}
+             ])
+  end
 end
