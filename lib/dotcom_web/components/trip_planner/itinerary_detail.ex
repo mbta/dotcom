@@ -113,6 +113,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp segment(%{segment: {:transit_segment, leg}} = assigns) do
     assigns = assign(assigns, :leg, leg)
+
     ~H"""
     <.transit_leg leg={@leg} />
     """
