@@ -4,7 +4,6 @@ import { Service } from "../../../../__v3api";
 import { shortDate, stringToDateObject } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
-  serviceDays,
   dedupeServices,
   isInCurrentService
 } from "../../../../helpers/service";
@@ -12,7 +11,6 @@ import {
 interface Props {
   label: string;
   services: Service[];
-  multipleWeekdays: boolean;
   todayServiceId: string;
   nowDate?: Date;
 }
@@ -20,20 +18,15 @@ interface Props {
 const ServiceOptGroup = ({
   label,
   services,
-  multipleWeekdays,
   todayServiceId,
   nowDate = new Date()
 }: Props): ReactElement<HTMLElement> | null =>
   services.length === 0 ? null : (
     <optgroup label={label}>
       {dedupeServices(services).map(service => {
-        const isMultipleWeekday =
-          multipleWeekdays &&
-          service.type === "weekday" &&
-          service.typicality !== "holiday_service";
-
         const startDate = stringToDateObject(service.start_date);
         const endDate = stringToDateObject(service.end_date);
+        const dateRange = `${shortDate(startDate)} to ${shortDate(endDate)}`;
         let optionText = "";
 
         if (
@@ -42,7 +35,7 @@ const ServiceOptGroup = ({
         ) {
           optionText = service.description;
         } else if (
-          service.typicality === "holiday_service" &&
+          ["extra_service", "holiday_service"].includes(service.typicality) &&
           service.added_dates &&
           service.added_dates_notes
         ) {
@@ -53,14 +46,9 @@ const ServiceOptGroup = ({
             stringToDateObject(addedDate)
           )}`;
         } else if (label === ServiceGroupNames.OTHER) {
-          optionText = isMultipleWeekday
-            ? `${serviceDays(service)} schedule`
-            : service.description;
-          optionText += `, ${shortDate(startDate)} to ${shortDate(endDate)}`;
+          optionText = `${service.description}, ${dateRange}`;
         } else {
-          optionText = isMultipleWeekday
-            ? `${serviceDays(service)} schedule`
-            : service.description;
+          optionText = service.description;
           if (service.rating_description) {
             optionText += `, ${service.rating_description}`;
           }

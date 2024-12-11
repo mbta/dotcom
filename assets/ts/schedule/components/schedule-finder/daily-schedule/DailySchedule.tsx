@@ -4,7 +4,6 @@ import { DirectionId, Service } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { stringToDateObject } from "../../../../helpers/date";
 import {
-  hasMultipleWeekdaySchedules,
   groupServicesByDateRating,
   isCurrentValidService,
   serviceStartDateComparator,
@@ -132,9 +131,6 @@ const SchedulesSelect = ({
                     key={group}
                     label={group}
                     services={groupedServices.sort(serviceComparator)}
-                    multipleWeekdays={hasMultipleWeekdaySchedules(
-                      groupedServices
-                    )}
                     todayServiceId={todayServiceId}
                   />
                 );
