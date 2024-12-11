@@ -4,6 +4,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   import Mox
   import Phoenix.LiveViewTest
 
+  alias OpenTripPlannerClient.Test.Support.Factory
   alias Test.Support.Factories.TripPlanner.TripPlanner, as: TripPlannerFactory
 
   setup :verify_on_exit!
@@ -20,19 +21,27 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub_otp_results(itineraries)
   end
 
-  defp update_trip_headsign(itinerary, headsign) do
-    updated_transit_leg =
-      itinerary.legs
-      |> Enum.at(1)
-      |> update_in([:trip, :trip_headsign], fn _ -> headsign end)
+  # For a list of headsigns, create a bunch of itineraries that would be grouped
+  # by the Trip Planner's logic
+  defp grouped_itineraries_from_headsigns([initial_headsign | _] = headsigns) do
+    # Only MBTA transit legs show the headsigns right now, so ensure the
+    # generated legs are MBTA-only
+    base_leg =
+      Factory.build(:transit_leg, %{
+        agency: Factory.build(:agency, %{name: "MBTA"}),
+        route:
+          Factory.build(:route, %{gtfs_id: "mbta-ma-us:internal", type: Faker.Util.pick(0..4)}),
+        trip: Factory.build(:trip, %{trip_headsign: initial_headsign})
+      })
 
-    itinerary
-    |> Map.update!(:legs, &List.replace_at(&1, 1, updated_transit_leg))
-  end
+    base_itinerary = Factory.build(:itinerary, legs: [base_leg])
 
-  defp update_start_time(itinerary, start_time) do
-    itinerary
-    |> Map.put(:start, DateTime.new!(Date.utc_today(), start_time, "America/New_York"))
+    Enum.reduce(headsigns, [], fn headsign, itineraries ->
+      leg = update_in(base_leg, [:trip, :trip_headsign], fn _ -> headsign end)
+      itinerary = update_in(base_itinerary, [:legs], fn _ -> [leg] end)
+      [itinerary | itineraries]
+    end)
+    |> Enum.reverse()
   end
 
   test "Preview version behind basic auth", %{conn: conn} do
@@ -199,26 +208,15 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_datetime_1 = Faker.DateTime.forward(2)
-      trip_time_1 = trip_datetime_1 |> DateTime.to_time()
       trip_headsign_1 = Faker.App.name()
-
-      trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
-      trip_time_2 = trip_datetime_2 |> DateTime.to_time()
-      trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
       trip_headsign_2 = Faker.App.name()
 
-      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
-
-      # Right now, the headsign (which is what we actually want to
-      # show) is not available from OTP client, but we're rendering
-      # the trip ID in its place. Once the headsign is available, we
-      # should update these updates and the assertions below to use
-      # the headsign instead of the trip ID.
-      stub_otp_results([
-        base_itinerary |> update_trip_headsign(trip_headsign_1) |> update_start_time(trip_time_1),
-        base_itinerary |> update_trip_headsign(trip_headsign_2) |> update_start_time(trip_time_2)
-      ])
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok,
+         %OpenTripPlannerClient.Plan{
+           itineraries: grouped_itineraries_from_headsigns([trip_headsign_1, trip_headsign_2])
+         }}
+      end)
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
@@ -229,7 +227,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert render_async(view) =~ trip_headsign_1
       refute render_async(view) =~ trip_headsign_2
 
-      view |> element("button", trip_time_display_2) |> render_click()
+      view |> element("#itinerary-detail-departure-times button:last-child") |> render_click()
 
       assert render_async(view) =~ trip_headsign_2
       refute render_async(view) =~ trip_headsign_1
@@ -239,14 +237,12 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_time_1 = Faker.DateTime.forward(2) |> DateTime.to_time()
-      trip_time_display_1 = trip_time_1 |> Timex.format!("%-I:%M", :strftime)
-
-      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
-
-      stub_otp_results([
-        base_itinerary |> update_start_time(trip_time_1)
-      ])
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok,
+         %OpenTripPlannerClient.Plan{
+           itineraries: TripPlannerFactory.build_list(1, :otp_itinerary)
+         }}
+      end)
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
@@ -254,40 +250,29 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       view |> element("button", "Details") |> render_click()
 
-      refute view |> element("button", trip_time_display_1) |> has_element?()
+      refute view |> element("#itinerary-detail-departure-times") |> has_element?()
     end
 
     test "'Depart At' button state is not preserved when leaving details view", %{
       conn: conn,
       params: params
     } do
-      trip_datetime_1 = Faker.DateTime.forward(2)
-      trip_time_1 = trip_datetime_1 |> DateTime.to_time()
       trip_headsign_1 = Faker.App.name()
-
-      trip_datetime_2 = trip_datetime_1 |> DateTime.shift(hour: 1)
-      trip_time_2 = trip_datetime_2 |> DateTime.to_time()
-      trip_time_display_2 = trip_time_2 |> Timex.format!("%-I:%M", :strftime)
       trip_headsign_2 = Faker.App.name()
 
-      base_itinerary = TripPlannerFactory.build(:otp_itinerary)
-
-      # Right now, the headsign (which is what we actually want to
-      # show) is not available from OTP client, but we're rendering
-      # the trip ID in its place. Once the headsign is available, we
-      # should update these updates and the assertions below to use
-      # the headsign instead of the trip ID.
-      stub_otp_results([
-        base_itinerary |> update_trip_headsign(trip_headsign_1) |> update_start_time(trip_time_1),
-        base_itinerary |> update_trip_headsign(trip_headsign_2) |> update_start_time(trip_time_2)
-      ])
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok,
+         %OpenTripPlannerClient.Plan{
+           itineraries: grouped_itineraries_from_headsigns([trip_headsign_1, trip_headsign_2])
+         }}
+      end)
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
       render_async(view)
 
       view |> element("button", "Details") |> render_click()
-      view |> element("button", trip_time_display_2) |> render_click()
+      view |> element("#itinerary-detail-departure-times button:last-child") |> render_click()
       view |> element("button", "View All Options") |> render_click()
       view |> element("button", "Details") |> render_click()
 
