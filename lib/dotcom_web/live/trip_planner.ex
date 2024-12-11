@@ -44,7 +44,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     <div style="row">
       <.input_form input_form={@input_form} />
       <.results_summary input_form={@input_form} results={@results} />
-      <.map input_form={@input_form} />
+      <.map input_form={@input_form} results={@results} />
     </div>
     """
   end
