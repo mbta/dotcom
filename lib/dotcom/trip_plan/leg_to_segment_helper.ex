@@ -1,4 +1,9 @@
 defmodule Dotcom.TripPlan.LegToSegmentHelper do
+  @moduledoc"""
+  A simple algorithm to convert legs as returned by Open Trip Planner
+  into segments to be displayed by our trip planner tool.
+  """
+
   alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
 
   def legs_to_segments(legs) do
