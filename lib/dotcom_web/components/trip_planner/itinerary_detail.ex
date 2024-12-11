@@ -10,7 +10,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
-  alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
+  alias Alerts.Match
+  alias Dotcom.TripPlan.{Alerts, PersonalDetail, TransitDetail}
 
   def itinerary_detail(
         %{
@@ -78,6 +79,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   defp specific_itinerary_detail(assigns) do
     assigns =
       assigns
+      |> assign_new(:alerts, fn -> Alerts.from_itinerary(assigns.itinerary) end)
       |> assign(:start_place, List.first(assigns.itinerary.legs).from)
       |> assign(:start_time, List.first(assigns.itinerary.legs).start)
       |> assign(:end_place, List.last(assigns.itinerary.legs).to)
@@ -93,11 +95,21 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <%= if match?(%PersonalDetail{}, leg.mode) do %>
           <.walking_leg leg={leg} />
         <% else %>
-          <.transit_leg leg={leg} />
+          <.transit_leg leg={leg} alerts={alerts_for_leg(@alerts, leg)} />
         <% end %>
       </div>
       <.place place={@end_place} time={@end_time} />
     </div>
     """
   end
+
+  defp alerts_for_leg(alerts, leg) when is_list(alerts) do
+    Match.match(
+      alerts,
+      Alerts.leg_entities(leg),
+      leg.start
+    )
+  end
+
+  defp alerts_for_leg(_, _), do: []
 end
