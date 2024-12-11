@@ -23,7 +23,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   def transit_leg(assigns) do
     ~H"""
-    <div>
+    <div class="bg-gray-bordered-background">
       <.place
         place={@leg.from}
         time={@leg.start}
