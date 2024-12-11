@@ -8,7 +8,30 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
-  def trip_planner_results_section(assigns) do
+  alias Dotcom.TripPlan
+
+  def trip_planner_results_section(
+        %{itinerary_selection: itinerary_selection, results: itinerary_results} = assigns
+      ) do
+    assigns =
+      if itinerary_results.result && itinerary_selection != :summary do
+        {:detail,
+         %{itinerary_group_index: itinerary_group_index, itinerary_index: itinerary_index}} =
+          itinerary_selection
+
+        itinerary =
+          Enum.at(itinerary_results.result, itinerary_group_index).itineraries
+          |> Enum.at(itinerary_index)
+
+        itinerary_map = TripPlan.Map.itinerary_map(itinerary)
+        lines = TripPlan.Map.get_lines(itinerary_map)
+        points = TripPlan.Map.get_points(itinerary_map)
+
+        assign(assigns, %{lines: lines, points: points})
+      else
+        assign(assigns, %{lines: [], points: []})
+      end
+
     ~H"""
     <section class={[
       "flex flex-col",
@@ -49,7 +72,9 @@ defmodule DotcomWeb.Components.TripPlanner.TripPlannerResultsSection do
           @itinerary_selection == :summary && "hidden md:block"
         ]}
         config={@map_config}
+        lines={@lines}
         pins={[@from, @to]}
+        points={@points}
       />
 
       <.async_result :let={results} assign={@results}>
