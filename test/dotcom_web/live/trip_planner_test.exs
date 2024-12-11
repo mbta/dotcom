@@ -31,7 +31,11 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         agency: Factory.build(:agency, %{name: "MBTA"}),
         route:
           Factory.build(:route, %{gtfs_id: "mbta-ma-us:internal", type: Faker.Util.pick(0..4)}),
-        trip: Factory.build(:trip, %{trip_headsign: initial_headsign})
+        trip:
+          Factory.build(:trip, %{
+            direction_id: Faker.Util.pick(["0", "1"]),
+            trip_headsign: initial_headsign
+          })
       })
 
     base_itinerary = Factory.build(:itinerary, legs: [base_leg])
