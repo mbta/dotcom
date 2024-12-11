@@ -77,21 +77,29 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp specific_itinerary_detail(assigns) do
     assigns =
-      assigns
-      |> assign(:start_place, List.first(assigns.itinerary.legs).from)
-      |> assign(:start_time, List.first(assigns.itinerary.legs).start)
-      |> assign(:end_place, List.last(assigns.itinerary.legs).to)
-      |> assign(:end_time, List.last(assigns.itinerary.legs).stop)
-      |> assign(:segments, LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs))
+      assign(
+        assigns,
+        :segments,
+        LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs)
+      )
 
     ~H"""
     <div class="mt-4">
-      <.place place={@start_place} time={@start_time} />
       <div :for={segment <- @segments}>
         <.segment segment={segment} />
       </div>
-      <.place place={@end_place} time={@end_time} />
     </div>
+    """
+  end
+
+  defp segment(%{segment: {:location_segment, %{time: time, place: place}}} = assigns) do
+    assigns =
+      assigns
+      |> assign(:time, time)
+      |> assign(:place, place)
+
+    ~H"""
+    <.place place={@place} time={@time} />
     """
   end
 
@@ -105,7 +113,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp segment(%{segment: {:transit_segment, leg}} = assigns) do
     assigns = assign(assigns, :leg, leg)
-
     ~H"""
     <.transit_leg leg={@leg} />
     """

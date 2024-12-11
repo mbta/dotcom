@@ -6,11 +6,13 @@ defmodule DotcomWeb.Components.TripPlanner.LegToSegmentHelperTest do
   alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
   alias DotcomWeb.Components.TripPlanner.LegToSegmentHelper
 
-  test "works for a typical walking-transit-walking itinerary" do
+  test "works for a typical walking-transit-walking itinerary and puts a location on either end" do
     assert [
+             {:location_segment, _},
              {:walking_segment, _},
              {:transit_segment, _},
-             {:walking_segment, _}
+             {:walking_segment, _},
+             {:location_segment, _}
            ] =
              LegToSegmentHelper.legs_to_segments([
                %Leg{mode: %PersonalDetail{}},
