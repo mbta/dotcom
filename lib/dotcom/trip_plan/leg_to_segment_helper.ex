@@ -32,11 +32,11 @@ defmodule Dotcom.TripPlan.LegToSegmentHelper do
     ]
   end
 
-  defp append_end_location([{_, leg} = last_leg]) do
-    [last_leg, {:location_segment, %{time: leg.stop, place: leg.to}}]
+  defp append_end_location([{_, leg} = last_segment]) do
+    [last_segment, {:location_segment, %{time: leg.stop, place: leg.to}}]
   end
 
-  defp append_end_location([first_leg | rest_of_legs]) do
-    [first_leg | append_end_location(rest_of_legs)]
+  defp append_end_location([first_segment | rest_of_segments]) do
+    [first_segment | append_end_location(rest_of_segments)]
   end
 end
