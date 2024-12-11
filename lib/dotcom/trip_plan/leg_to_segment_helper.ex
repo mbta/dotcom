@@ -1,5 +1,5 @@
 defmodule Dotcom.TripPlan.LegToSegmentHelper do
-  @moduledoc"""
+  @moduledoc """
   A simple algorithm to convert legs as returned by Open Trip Planner
   into segments to be displayed by our trip planner tool.
   """
