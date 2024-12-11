@@ -1,15 +1,13 @@
 import {
   ServiceGroupNames,
   groupServicesByDateRating,
-  serviceDays,
-  hasMultipleWeekdaySchedules,
   isInCurrentRating,
   isCurrentValidService,
   isInFutureRating,
   optGroupComparator,
   isInFutureService
 } from "../service";
-import { Service, DayInteger } from "../../__v3api";
+import { Service } from "../../__v3api";
 import { Dictionary } from "lodash";
 import { shortDate, stringToDateObject } from "../date";
 
@@ -340,33 +338,4 @@ it("isInFutureRating evaluates whether date falls within service future rating d
   expect(
     isInFutureRating(serviceWithoutRating, stringToDateObject("2020-08-08"))
   ).toBe(false);
-});
-
-it("hasMultipleWeekdaySchedules indicates presence of multiple weekday schedules", () => {
-  expect(hasMultipleWeekdaySchedules(services)).toEqual(true);
-
-  const simplerServices = [services[0], services[2], services[3]];
-  expect(hasMultipleWeekdaySchedules(simplerServices)).toEqual(false);
-});
-
-it("serviceDays lists weekday days of service", () => {
-  expect(serviceDays(services[0])).toEqual("Weekday");
-  expect(serviceDays(services[1])).toEqual("Friday");
-  expect(serviceDays(services[2])).toEqual("");
-  expect(serviceDays(services[3])).toEqual("");
-  expect(serviceDays(services[4])).toEqual("");
-
-  const someDays = {
-    ...services[0],
-    valid_days: [1, 3, 4] as DayInteger[]
-  };
-
-  expect(serviceDays(someDays)).toEqual("Monday, Wednesday, Thursday");
-
-  const someConsecutiveDays = {
-    ...services[0],
-    valid_days: [1, 2, 3, 4] as DayInteger[]
-  };
-
-  expect(serviceDays(someConsecutiveDays)).toEqual("Monday - Thursday");
 });

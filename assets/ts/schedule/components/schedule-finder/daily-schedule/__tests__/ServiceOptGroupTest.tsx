@@ -14,7 +14,6 @@ describe("ServiceOptGroup", () => {
         <ServiceOptGroup
           label={"Group label"}
           services={services}
-          multipleWeekdays={false}
           todayServiceId=""
         />
       )
@@ -25,12 +24,7 @@ describe("ServiceOptGroup", () => {
   it("returns null if no services", () => {
     createReactRoot();
     const tree = renderer.create(
-      <ServiceOptGroup
-        label={""}
-        services={[]}
-        multipleWeekdays={false}
-        todayServiceId=""
-      />
+      <ServiceOptGroup label={""} services={[]} todayServiceId="" />
     );
     expect(tree.toJSON()).toBeNull();
   });
@@ -91,7 +85,6 @@ describe("ServiceOptGroup", () => {
             "n"
           )
         )}
-        multipleWeekdays={false}
         todayServiceId="n"
         nowDate={new Date("2019-09-07")}
       />
@@ -106,7 +99,6 @@ describe("ServiceOptGroup", () => {
       <ServiceOptGroup
         label={"Test services"}
         services={servicesList}
-        multipleWeekdays={false}
         todayServiceId="fs"
       />
     );
@@ -120,7 +112,6 @@ describe("ServiceOptGroup", () => {
       <ServiceOptGroup
         label={"Test services"}
         services={servicesList}
-        multipleWeekdays={false}
         todayServiceId=""
       />
     );
