@@ -8,12 +8,12 @@ exports.scenario = async ({ page, baseURL }) => {
   // The tab button takes me to the left side nav rather than the search results :(.
   await page
     .locator("input#search-global__input")
-    .pressSequentially("Blue Line");
+    .pressSequentially("Orange Line");
   await page.waitForSelector("div#search-results-container");
   await page.locator("div.c-search-result__hit a").first().click();
 
   await expect(page.locator("h1.schedule__route-name")).toHaveText(
-    "Blue Line",
+    "Orange Line",
   );
   await page.waitForSelector("li.m-schedule-diagram__stop");
   await page.waitForSelector("div.m-schedule-diagram__predictions");
