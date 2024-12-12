@@ -28,11 +28,12 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         phx-change="input_form_change"
         phx-submit="input_form_submit"
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations" phx-update="ignore">
+        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations">
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
             id={"trip-planner-input-form--#{field}"}
+            phx-update="ignore"
           >
             <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
               <input
@@ -44,7 +45,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
                 name={location_f[subfield].name}
               />
             </.inputs_for>
-            <.error_container :for={{msg, _} <- f[field].errors} :if={used_input?(f[field])}>
+            <.error_container :for={{msg, _} <- f[field].errors}>
               {msg}
             </.error_container>
           </.algolia_autocomplete>
@@ -60,10 +61,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             class="mb-0"
             phx-update="ignore"
           />
-          <.error_container
-            :for={{msg, _} <- f[:datetime_type].errors}
-            :if={used_input?(f[:datetime_type])}
-          >
+          <.error_container :for={{msg, _} <- f[:datetime_type].errors}}>
             {msg}
           </.error_container>
           <.live_component
@@ -73,7 +71,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             field={f[:datetime]}
             id={:datepicker}
           />
-          <.error_container :for={{msg, _} <- f[:datetime].errors} :if={used_input?(f[:datetime])}>
+          <.error_container :for={{msg, _} <- f[:datetime].errors}}>
             {msg}
           </.error_container>
         </div>

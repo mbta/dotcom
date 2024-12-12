@@ -32,7 +32,10 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </button>
       </div>
       <div :if={Enum.count(@results.itinerary_groups) > 0} class="w-full p-4 row-start-2 col-start-1">
-        <div :if={@results.itinerary_group_selection != nil} class="row-start-1 col-start-1 h-min w-full p-4">
+        <div
+          :if={@results.itinerary_group_selection != nil}
+          class="row-start-1 col-start-1 h-min w-full p-4"
+        >
           <button type="button" phx-click="reset_itinerary_group" class="btn-link">
             <span class="flex flex-row items-center">
               <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
