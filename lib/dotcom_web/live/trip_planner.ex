@@ -10,11 +10,12 @@ defmodule DotcomWeb.Live.TripPlanner do
   import MbtaMetro.Components.{Feedback, Spinner}
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
 
+  alias Dotcom.TripPlan
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, InputForm, ItineraryGroups}
 
   @state %{
     input_form: %{
-      changeset: %Ecto.Changeset{},
+      changeset: %Ecto.Changeset{}
     },
     map: %{
       config: Application.compile_env(:mbta_metro, :map),
@@ -27,7 +28,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       itinerary_groups: [],
       itinerary_group_selection: nil,
       itinerary_selection: nil,
-      loading?: false,
+      loading?: false
     }
   }
 
@@ -41,7 +42,10 @@ defmodule DotcomWeb.Live.TripPlanner do
     new_socket =
       socket
       |> assign(@state)
-      |> assign(:input_form, Map.put(@state.input_form, :changeset, query_params_to_changeset(params)))
+      |> assign(
+        :input_form,
+        Map.put(@state.input_form, :changeset, query_params_to_changeset(params))
+      )
 
     {:ok, new_socket}
   end
@@ -67,7 +71,9 @@ defmodule DotcomWeb.Live.TripPlanner do
     """
   end
 
-  def handle_async("get_itinerary_groups", {:ok, itinerary_groups}, socket) when is_list(itinerary_groups) do
+  @impl true
+  def handle_async("get_itinerary_groups", {:ok, itinerary_groups}, socket)
+      when is_list(itinerary_groups) do
     new_socket =
       socket
       |> assign(:results, Map.put(@state.results, :itinerary_groups, itinerary_groups))
@@ -75,6 +81,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, new_socket}
   end
 
+  @impl true
   def handle_async("get_itinerary_groups", {:ok, result}, socket) when is_binary(result) do
     new_socket =
       socket
@@ -125,7 +132,18 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event("select_itinerary", index, socket) do
+  def handle_event("reset_itinerary_group", _, socket) do
+    new_socket =
+      socket
+      |> assign(:results, Map.put(socket.assigns.results, :itinerary_group_selection, nil))
+
+    {:noreply, new_socket}
+  end
+
+  @impl true
+  def handle_event("select_itinerary", %{"index" => index}, socket) do
+    index = String.to_integer(index)
+
     new_socket =
       socket
       |> assign(:results, Map.put(socket.assigns.results, :itinerary_selection, index))
@@ -134,7 +152,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_event("select_itinerary_group", index, socket) do
+  def handle_event("select_itinerary_group", %{"index" => index}, socket) do
+    index = String.to_integer(index)
+
     new_map = %{
       lines: itinerary_groups_to_lines(socket.assigns.results.itinerary_groups, index),
       points: itinerary_groups_to_points(socket.assigns.results.itinerary_groups, index)
@@ -143,7 +163,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     new_socket =
       socket
       |> assign(:results, Map.put(socket.assigns.results, :itinerary_group_selection, index))
-      |> assign(:results, Map.merge(socket.assigns.map, new_map))
+      |> assign(:map, Map.merge(socket.assigns.map, new_map))
 
     {:noreply, new_socket}
   end
@@ -199,7 +219,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     %{
       "datetime" => Timex.now("America/New_York"),
       "datetime_type" => "now",
-      "modes" => InputForm.initial_modes(),
+      "modes" => InputForm.initial_modes()
     }
     |> Map.merge(AntiCorruptionLayer.convert_old_params(params))
     |> InputForm.changeset()
@@ -239,6 +259,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp itinerary_groups_to_itinerary_map(itinerary_groups, index) do
     itinerary_groups
     |> Enum.at(index)
+    |> Map.get(:itineraries)
+    |> Enum.random()
     |> TripPlan.Map.itinerary_map()
   end
 

@@ -20,7 +20,10 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
           <.feedback kind={:warning}>No trips found.</.feedback>
         <% else %>
           <.feedback kind={:success}>
-            Found {Enum.count(@results.itinerary_groups)} {Inflex.inflect("way", Enum.count(@results.itinerary_groups))} to go.
+            Found {Enum.count(@results.itinerary_groups)} {Inflex.inflect(
+              "way",
+              Enum.count(@results.itinerary_groups)
+            )} to go.
           </.feedback>
         <% end %>
       <% end %>
@@ -29,7 +32,9 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
   end
 
   defp submission_summary(%{from: from, to: to, modes: modes}) do
-    "Planning trips from #{from.changes.name} to #{to.changes.name} using #{InputForm.Modes.selected_modes(modes.changes)}"
+    modes_string = modes.changes |> InputForm.Modes.selected_modes() |> String.downcase()
+
+    "Planning trips from #{from.changes.name} to #{to.changes.name} using #{modes_string}"
   end
 
   defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do

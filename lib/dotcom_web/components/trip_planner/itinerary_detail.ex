@@ -12,28 +12,25 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   alias Dotcom.TripPlan.LegToSegmentHelper
 
-  def itinerary_detail(
-        %{
-          itineraries: itineraries,
-          selected_itinerary_detail_index: selected_itinerary_detail_index
-        } = assigns
-      ) do
-    assigns =
-      assign(assigns, :selected_itinerary, Enum.at(itineraries, selected_itinerary_detail_index))
+  def itinerary_detail(assigns) do
+    itinerary_group =
+      Enum.at(assigns.results.itinerary_groups, assigns.results.itinerary_group_selection || 0)
+
+    itinerary = Enum.at(itinerary_group.itineraries, assigns.results.itinerary_selection || 0)
+
+    assigns = %{
+      itinerary: itinerary,
+      itinerary_selection: assigns.results.itinerary_selection,
+      itineraries: itinerary_group.itineraries
+    }
 
     ~H"""
     <div>
-      <.depart_at_buttons
-        selected_itinerary_detail_index={@selected_itinerary_detail_index}
-        itineraries={@itineraries}
-      />
-      <.specific_itinerary_detail itinerary={@selected_itinerary} />
+      <.depart_at_buttons itineraries={@itineraries} itinerary_selection={@itinerary_selection} />
+      <.specific_itinerary_detail itinerary={@itinerary} />
     </div>
     """
   end
-
-  attr :itineraries, :list
-  attr :selected_itinerary_detail_index, :integer
 
   defp depart_at_buttons(assigns) do
     ~H"""
@@ -42,7 +39,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
       <div class="flex flex-wrap gap-2">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          active={@selected_itinerary_detail_index == index}
+          active={@itinerary_selection == index}
           phx-click="set_itinerary_index"
           phx-value-trip-index={index}
         >
@@ -52,10 +49,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     </div>
     """
   end
-
-  attr :active, :boolean
-  attr :rest, :global
-  slot :inner_block
 
   defp depart_at_button(%{active: active} = assigns) do
     background_class = if active, do: "bg-brand-primary-lightest", else: "bg-transparent"
@@ -68,7 +61,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         "border border-brand-primary rounded px-2.5 py-1.5 text-brand-primary text-lg",
         "hover:bg-brand-primary-lightest #{@background_class}"
       ]}
-      {@rest}
     >
       {render_slot(@inner_block)}
     </button>
