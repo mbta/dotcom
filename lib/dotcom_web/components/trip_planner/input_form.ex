@@ -33,7 +33,6 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             config_type="trip-planner"
             placeholder="Enter a location"
             id={"trip-planner-input-form--#{field}"}
-            phx-update="ignore"
           >
             <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
               <input
@@ -61,7 +60,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             class="mb-0"
             phx-update="ignore"
           />
-          <.error_container :for={{msg, _} <- f[:datetime_type].errors}}>
+          <.error_container :for={{msg, _} <- f[:datetime_type].errors}>
             {msg}
           </.error_container>
           <.live_component
@@ -71,7 +70,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             field={f[:datetime]}
             id={:datepicker}
           />
-          <.error_container :for={{msg, _} <- f[:datetime].errors}}>
+          <.error_container :for={{msg, _} <- f[:datetime].errors}>
             {msg}
           </.error_container>
         </div>

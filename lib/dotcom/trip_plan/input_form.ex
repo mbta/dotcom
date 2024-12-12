@@ -73,7 +73,6 @@ defmodule Dotcom.TripPlan.InputForm do
     |> validate_required([:datetime_type, :wheelchair])
     |> validate_same_locations()
     |> validate_chosen_datetime()
-    |> validate_modes()
   end
 
   # make the parent field blank if the location isn't valid
@@ -89,16 +88,6 @@ defmodule Dotcom.TripPlan.InputForm do
         error_message(:from_to_same)
       )
     else
-      _ ->
-        changeset
-    end
-  end
-
-  defp validate_modes(changeset) do
-    case get_change(changeset, :modes) do
-      %Ecto.Changeset{valid?: false} ->
-        add_error(changeset, :modes, error_message(:modes))
-
       _ ->
         changeset
     end
@@ -242,7 +231,7 @@ defmodule Dotcom.TripPlan.InputForm do
 
     def selected_modes(%{RAIL: true, SUBWAY: true, BUS: true, FERRY: true}), do: "All modes"
 
-    def selected_modes(%{}), do: "No transit modes selected"
+    def selected_modes(%{}), do: "Walking directions only"
     def selected_modes([mode]), do: mode_name(mode) <> " Only"
 
     def selected_modes(modes) do
@@ -254,6 +243,8 @@ defmodule Dotcom.TripPlan.InputForm do
         |> summarized_modes()
       end
     end
+
+    defp summarized_modes([]), do: "No transit modes selected"
 
     defp summarized_modes([mode1, mode2]) do
       mode_name(mode1) <> " and " <> mode_name(mode2)
