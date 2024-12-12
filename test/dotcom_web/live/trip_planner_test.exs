@@ -40,12 +40,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     base_itinerary = Factory.build(:itinerary, legs: [base_leg])
 
-    Enum.reduce(headsigns, [], fn headsign, itineraries ->
+    Enum.map(headsigns, fn headsign ->
       leg = update_in(base_leg, [:trip, :trip_headsign], fn _ -> headsign end)
-      itinerary = update_in(base_itinerary, [:legs], fn _ -> [leg] end)
-      [itinerary | itineraries]
+      %{base_itinerary | legs: [leg]}
     end)
-    |> Enum.reverse()
   end
 
   test "Preview version behind basic auth", %{conn: conn} do
