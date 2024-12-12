@@ -82,6 +82,20 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
+    error =
+      errors
+      |> Enum.map(errors, &Map.get(&1, :description))
+      |> Enum.join(", ")
+
+    new_socket =
+      socket
+      |> assign(:results, Map.put(@state.results, :error, error))
+
+    {:noreply, new_socket}
+  end
+
+  @impl true
   def handle_async("get_itinerary_groups", {:ok, result}, socket) when is_binary(result) do
     new_socket =
       socket
@@ -90,6 +104,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, new_socket}
   end
 
+  @impl true
   def handle_async("get_itinerary_groups", {:exit, reason}, socket) do
     new_socket =
       socket
