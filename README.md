@@ -105,6 +105,12 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
     Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
 
 
+1. Update the MBTA Metro assets. From the root of this repo:
+    ```
+    mix mbta_metro.update_assets
+    ```
+
+
 1. Set up required environment variables:
     ```
     cp .env.template .env
@@ -121,57 +127,13 @@ For details on environment configuration, including optional variables, see
 
 ## Running the Server
 
-The easiest way to develop MBTA dotcom is to use Docker Compose.
+To run the server, you'll need to have a Redis instance running. You can either install it manually, or run it via Docker:
 
-```
-docker compose -f deploy/dev.yml up -d --build
-```
-
-This will set up Redis in cluster mode and run two versions of Dotcom with nginx load balancing requests between them.
-Visit http://localhost:4001 to hit the load balancer.
-http://localhost:4002 and http://localhost:4003 will take you directly to either of the two nodes.
-
-You can even connect to individual Elixir nodes in order to run commands.
-Let's say you want to connect to dotcom2 (the one running at http://localhost:4003).
-
-```
-docker exec -it deploy-dotcom-2-1 iex --sname foobarbaz --cookie foobarbaz
-
-iex(foobarbaz@0b061394460f)1> node = :dotcom2@0b061394460f
-:dotcom2@0b061394460f
-iex(foobarbaz@0b061394460f)2> Node.connect(node)
-true
-iex(foobarbaz@0b061394460f)3> :rpc.call(node, Dotcom.Cache.Multilevel, :get, ["cms.repo|important-notices"])
-...
+``` shell
+docker run --rm -p 6379:6379 redis:7.2.4
 ```
 
-Note that the address (the @... part) will be different every time.
-
----
-
-If you choose not to use Docker Compose, you'll still have to run Redis cluster.
-The easiest way to get it running is to download and compile it.
-
-```
-cd $HOME
-wget https://github.com/redis/redis/archive/7.2.4.tar.gz
-tar xvf 7.2.4.tar.gz
-cd redis-7.2.4
-make
-./utils/create-cluster/create-cluster start
-./utils/create-cluster/create-cluster create -f
-```
-
-When you're done with it:
-
-```
-./utils/create-cluster/create-cluster stop
-cd $HOME
-rm 7.2.4.tar.gz
-rm -rf redis-7.2.4
-```
-
-Start the server with `iex -S mix phx.server`
+Then, start the server with `iex -S mix phx.server`
 
 Then, visit the site at http://localhost:4001.
 
