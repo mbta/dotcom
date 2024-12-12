@@ -23,7 +23,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         :let={f}
         class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
         id="trip-planner-input-form"
-        for={@input_form}
+        for={@changeset}
         method="get"
         phx-change="input_form_change"
         phx-submit="input_form_submit"

@@ -7,30 +7,23 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   def results_summary(assigns) do
     ~H"""
-    <section :if={@input_form.action && @input_form.valid?} class="mt-2 mb-6">
-      <p class="text-lg font-semibold mb-0">{submission_summary(@input_form.changes)}</p>
-      <p>{time_summary(@input_form.changes)}</p>
-      <.async_result :let={results} assign={@results}>
-        <:failed :let={{:error, errors}}>
-          <.error_container title="Unable to plan your trip">
-            <p :for={%OpenTripPlannerClient.Error{message: message} <- errors} class="last:mb-0">
-              {message}
-            </p>
-          </.error_container>
-        </:failed>
-        <:loading>
-          <.spinner aria_label="Waiting for results" /> Waiting for results...
-        </:loading>
-        <%= if results do %>
-          <%= if Enum.count(results) == 0 do %>
-            <.feedback kind={:warning}>No trips found.</.feedback>
-          <% else %>
-            <.feedback kind={:success}>
-              Found {Enum.count(results)} {Inflex.inflect("way", Enum.count(results))} to go.
-            </.feedback>
-          <% end %>
+    <section :if={@changeset.action && @changeset.valid?} class="mt-2 mb-6">
+      <p class="text-lg font-semibold mb-0">{submission_summary(@changeset.changes)}</p>
+      <p>{time_summary(@changeset.changes)}</p>
+      <%= if @results.loading? do %>
+        <.spinner aria_label="Waiting for results" /> Waiting for results...
+      <% else %>
+        <%= if @results.error do %>
+          <.feedback kind={:error}>{@results.error}</.feedback>
         <% end %>
-      </.async_result>
+        <%= if Enum.count(@results.itinerary_groups) == 0 do %>
+          <.feedback kind={:warning}>No trips found.</.feedback>
+        <% else %>
+          <.feedback kind={:success}>
+            Found {Enum.count(@results.itinerary_groups)} {Inflex.inflect("way", Enum.count(@results.itinerary_groups))} to go.
+          </.feedback>
+        <% end %>
+      <% end %>
     </section>
     """
   end
