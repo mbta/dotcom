@@ -40,9 +40,16 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     base_itinerary = Factory.build(:itinerary, legs: [base_leg])
 
-    Enum.map(headsigns, fn headsign ->
+    headsigns
+    |> Enum.with_index()
+    |> Enum.map(fn {headsign, index} ->
       leg = update_in(base_leg, [:trip, :trip_headsign], fn _ -> headsign end)
-      %{base_itinerary | legs: [leg]}
+
+      %{
+        base_itinerary
+        | legs: [leg],
+          start: Timex.shift(base_itinerary.start, minutes: 10 * index)
+      }
     end)
   end
 
