@@ -217,8 +217,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_headsign_1 = Faker.App.name()
-      trip_headsign_2 = Faker.App.name()
+      trip_headsign_1 = "Headsign:#{Faker.App.name()}"
+      trip_headsign_2 = "Headsign:#{Faker.App.name()}"
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
         {:ok,
@@ -266,8 +266,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       conn: conn,
       params: params
     } do
-      trip_headsign_1 = Faker.App.name()
-      trip_headsign_2 = Faker.App.name()
+      trip_headsign_1 = "Headsign:#{Faker.App.name()}"
+      trip_headsign_2 = "Headsign:#{Faker.App.name()}"
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
         {:ok,
