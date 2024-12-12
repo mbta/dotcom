@@ -25,11 +25,19 @@ defmodule Dotcom.TripPlan.LegToSegmentHelper do
     {:transit_segment, leg}
   end
 
+  defp prepend_start_location([{:transit_segment, _} | _] = segments) do
+    segments
+  end
+
   defp prepend_start_location([{_, leg} | _] = segments) do
     [
       {:location_segment, %{time: leg.start, place: leg.from}}
       | segments
     ]
+  end
+
+  defp append_end_location([{:transit_segment, _} = last_segment]) do
+    [last_segment]
   end
 
   defp append_end_location([{_, leg} = last_segment]) do
