@@ -32,8 +32,6 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     "Planning trips from #{from.changes.name} to #{to.changes.name} using #{InputForm.Modes.selected_modes(modes.changes)}"
   end
 
-  defp submission_summary(foo), do: IO.inspect(foo)
-
   defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do
     preamble = if datetime_type == "arrive_by", do: "Arriving by ", else: "Leaving at "
     time_description = Timex.format!(datetime, "{h12}:{m}{am}")
