@@ -172,7 +172,7 @@ describe("passes smoke test", () => {
     cy.get('img.leaflet-marker-icon[src="/icon-svg/icon-map-pin-a.svg"]');
 
     // shortcut /to/ - marker B prepopulated
-    cy.visit("/trip-planner/to/South+Station");
+    cy.visit("/trip-planner/to/North+Station");
     cy.get('img.leaflet-marker-icon[src="/icon-svg/icon-map-pin-b.svg"]');
   });
 
