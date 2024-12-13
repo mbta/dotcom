@@ -6,13 +6,14 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use Phoenix.Component
 
+  import DotcomWeb.Components.TripPlanner.AlertGroup, only: [alert_group: 1]
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
   alias Alerts.Match
-  alias Dotcom.TripPlan.{Alerts, NamedPosition, TransitDetail}
+  alias Dotcom.TripPlan.{Alerts, TransitDetail}
   alias Routes.Route
 
   @doc """
@@ -96,11 +97,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         <.ride_message mode={@leg.mode} />
         <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
-      <%= if @alerts do %>
-        <div :for={alert <- @alerts} class="col-start-2 mb-2 mr-4">
-          <.alert alert={alert} />
-        </div>
-      <% end %>
+      <.alert_group alerts={@alerts} />
     </div>
     """
   end
@@ -183,24 +180,6 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         {stop.name}
       </li>
     </ul>
-    """
-  end
-
-  defp alert(assigns) do
-    ~H"""
-    <details class="group">
-      <summary class="flex items-center gap-1.5 mb-1">
-        <.icon name="triangle-exclamation" class="w-3 h-3" />
-        <span>
-          <span class="text-sm">{Phoenix.Naming.humanize(@alert.effect)}</span>
-          <span class="group-open:hidden cursor-pointer btn-link text-xs">Show Details</span>
-          <span class="hidden group-open:inline cursor-pointer btn-link text-xs">Hide Details</span>
-        </span>
-      </summary>
-      <div class="bg-white p-2 text-sm">
-        {@alert.header}
-      </div>
-    </details>
     """
   end
 
