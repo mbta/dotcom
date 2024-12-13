@@ -182,11 +182,13 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp alert(assigns) do
     ~H"""
     <details class="group">
-      <summary class="flex items-center gap-2 mb-1">
-        <.icon name="triangle-exclamation" class="w-4 h-4" />
-        {Phoenix.Naming.humanize(@alert.effect)}
-        <span class="group-open:hidden btn-link text-sm">Show Details</span>
-        <span class="hidden group-open:inline btn-link text-sm">Hide Details</span>
+      <summary class="flex items-center gap-1.5 mb-1">
+        <.icon name="triangle-exclamation" class="w-3 h-3" />
+        <span>
+          <span class="text-sm">{Phoenix.Naming.humanize(@alert.effect)}</span>
+          <span class="group-open:hidden cursor-pointer btn-link text-xs">Show Details</span>
+          <span class="hidden group-open:inline cursor-pointer btn-link text-xs">Hide Details</span>
+        </span>
       </summary>
       <div class="bg-white p-2 text-sm">
         {@alert.header}
