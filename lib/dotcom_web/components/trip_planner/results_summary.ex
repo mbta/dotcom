@@ -7,7 +7,13 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   def results_summary(assigns) do
     ~H"""
-    <section :if={@results.loading? || (Enum.count(@results.itinerary_groups) > 0) || (@changeset.action && @changeset.valid?)} class="mt-2 mb-6">
+    <section
+      :if={
+        @results.loading? || Enum.count(@results.itinerary_groups) > 0 ||
+          (@changeset.action && @changeset.valid?)
+      }
+      class="mt-2 mb-6"
+    >
       <p class="text-lg font-semibold mb-0">{submission_summary(@changeset.changes)}</p>
       <p>{time_summary(@changeset.changes)}</p>
       <%= if @results.loading? do %>
