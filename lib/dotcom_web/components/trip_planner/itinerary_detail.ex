@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   alias Alerts.Match
   alias Dotcom.TripPlan.LegToSegmentHelper
-  alias Dotcom.TripPlan.{Alerts, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.Alerts
 
   def itinerary_detail(
         %{

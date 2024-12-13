@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
   attr :place, :map, required: true
   attr :time, :any, required: true
   attr :route, :map, default: nil
+  attr :alerts, :list, default: []
 
   def place(assigns) do
     stop_url = stop_url(assigns.route, assigns.place.stop)
@@ -22,24 +23,32 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
       })
 
     ~H"""
-    <.dynamic_tag
-      tag_name={@tag_name}
-      href={@stop_url}
-      class="bg-gray-bordered-background px-3 py-2 rounded-lg grid grid-cols-[1.5rem_auto_1fr] items-center gap-2 w-full hover:no-underline text-black"
-    >
-      <.location_icon route={@route} class="h-6 w-6" />
-      <strong class="flex items-center gap-2">
-        {@place.name}
-        <.icon
-          :if={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
-          type="icon-svg"
-          name="icon-accessible-default"
-          class="h-5 w-5 ml-0.5 shrink-0"
-          aria-hidden="true"
-        />
-      </strong>
-      <time class="text-right no-wrap">{format_time(@time)}</time>
-    </.dynamic_tag>
+    <div class="bg-gray-bordered-background px-3 py-2 rounded-lg">
+      <.dynamic_tag
+        tag_name={@tag_name}
+        href={@stop_url}
+        class="grid grid-cols-[1.5rem_auto_1fr] items-center gap-2 w-full hover:no-underline text-black"
+      >
+        <.location_icon route={@route} class="h-6 w-6" />
+        <strong class="flex items-center gap-2">
+          {@place.name}
+          <.icon
+            :if={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
+            type="icon-svg"
+            name="icon-accessible-default"
+            class="h-5 w-5 ml-0.5 shrink-0"
+            aria-hidden="true"
+          />
+        </strong>
+        <time class="text-right no-wrap">{format_time(@time)}</time>
+      </.dynamic_tag>
+
+      <%= if @alerts do %>
+        <div :for={alert <- @alerts} class="col-start-2 mb-2 mr-4">
+          <.alert alert={alert} />
+        </div>
+      <% end %>
+    </div>
     """
   end
 
@@ -70,4 +79,22 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
   end
 
   defp format_time(datetime), do: Timex.format!(datetime, "%-I:%M %p", :strftime)
+
+  defp alert(assigns) do
+    ~H"""
+    <details class="group">
+      <summary class="flex items-center gap-1.5 mb-1">
+        <.icon name="triangle-exclamation" class="w-3 h-3" />
+        <span>
+          <span class="text-sm">{Phoenix.Naming.humanize(@alert.effect)}</span>
+          <span class="group-open:hidden cursor-pointer btn-link text-xs">Show Details</span>
+          <span class="hidden group-open:inline cursor-pointer btn-link text-xs">Hide Details</span>
+        </span>
+      </summary>
+      <div class="bg-white p-2 text-sm">
+        {@alert.header}
+      </div>
+    </details>
+    """
+  end
 end

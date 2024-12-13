@@ -54,6 +54,20 @@ defmodule Dotcom.TripPlan.Alerts do
     end
   end
 
+  def leg_entities_from(%Leg{mode: mode} = leg) do
+    for entity <- mode_entities(mode),
+        stop_id <- Leg.stop_ids_from(leg) do
+      %{entity | stop: stop_id}
+    end
+  end
+
+  def leg_entities_to(%Leg{mode: mode} = leg) do
+    for entity <- mode_entities(mode),
+        stop_id <- Leg.stop_ids_to(leg) do
+      %{entity | stop: stop_id}
+    end
+  end
+
   defp mode_entities(%TransitDetail{route: route}) when is_external?(route) do
     []
   end
