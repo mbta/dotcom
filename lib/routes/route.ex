@@ -92,6 +92,12 @@ defmodule Routes.Route do
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
 
+  defguard is_external?(route) when not is_nil(route.external_agency_name)
+
+  defguard is_shuttle?(route)
+           when route.type == 3 and route.description == :rail_replacement_bus and
+                  not is_external?(route)
+
   def logan_express_icon_names, do: @logan_express_icon_names
   def massport_icon_names, do: @massport_icon_names
 

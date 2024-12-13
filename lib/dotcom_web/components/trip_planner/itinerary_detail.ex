@@ -39,7 +39,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     ~H"""
     <div :if={Enum.count(@itineraries) > 1}>
       <p class="text-sm mb-2 mt-3">Depart at</p>
-      <div class="flex flex-wrap gap-2">
+      <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
           active={@selected_itinerary_detail_index == index}
