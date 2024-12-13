@@ -91,17 +91,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       </div>
       <%= if @alerts do %>
         <div :for={alert <- @alerts} class="col-start-2 mb-2 mr-4">
-          <details class="group">
-            <summary class="flex items-center gap-2 mb-1">
-              <.icon name="triangle-exclamation" class="w-4 h-4" />
-              {Phoenix.Naming.humanize(alert.effect)}
-              <span class="group-open:hidden btn-link text-sm">Show Details</span>
-              <span class="hidden group-open:inline btn-link text-sm">Hide Details</span>
-            </summary>
-            <div class="bg-white p-2 text-sm">
-              {alert.header}
-            </div>
-          </details>
+          <.alert alert={alert} />
         </div>
       <% end %>
     </div>
@@ -186,6 +176,22 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         {stop.name}
       </li>
     </ul>
+    """
+  end
+
+  defp alert(assigns) do
+    ~H"""
+    <details class="group">
+      <summary class="flex items-center gap-2 mb-1">
+        <.icon name="triangle-exclamation" class="w-4 h-4" />
+        {Phoenix.Naming.humanize(@alert.effect)}
+        <span class="group-open:hidden btn-link text-sm">Show Details</span>
+        <span class="hidden group-open:inline btn-link text-sm">Hide Details</span>
+      </summary>
+      <div class="bg-white p-2 text-sm">
+        {@alert.header}
+      </div>
+    </details>
     """
   end
 end
