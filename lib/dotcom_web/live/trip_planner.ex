@@ -16,7 +16,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   @state %{
     input_form: %{
       changeset: %Ecto.Changeset{},
-      hash: :erlang.phash2(%{})
     },
     map: %{
       config: Application.compile_env(:mbta_metro, :map),
@@ -33,12 +32,14 @@ defmodule DotcomWeb.Live.TripPlanner do
     }
   }
 
-  @doc """
-  Set the initial state of the live view to @state.input_form
-
-  Clean any query parameters and convert them to a changeset for the input form.
-  """
   @impl true
+  @doc """
+  Prepare the live view:
+
+  - Set the initial state of the live view.
+  - Clean any query parameters and convert them to a changeset for the input form.
+  - Then, submit the form if the changeset is valid (i.e., the user visited with valid query parameters).
+  """
   def mount(params, _session, socket) do
     changeset = query_params_to_changeset(params)
 
@@ -52,6 +53,14 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  @doc """
+  The live view is made up of four subcomponents:
+
+  - InputForm: The form for the user to input their trip details
+  - ResultsSummary: A summary of the user's input and the number of results found
+  - Map: A map showing the user's trip details based on results and the selected itinerary group
+  - Results: Itinerary groups and itinerary details
+  """
   def render(assigns) do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
@@ -73,6 +82,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # When itinerary groups are found, we add them to the results state.
   def handle_async("get_itinerary_groups", {:ok, itinerary_groups}, socket)
       when is_list(itinerary_groups) do
     new_socket =
@@ -83,6 +93,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
   def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
     error =
       errors
@@ -96,15 +107,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  def handle_async("get_itinerary_groups", {:ok, result}, socket) when is_binary(result) do
-    new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :error, result))
-
-    {:noreply, new_socket}
-  end
-
-  @impl true
+  # Triggered when the async operation fails, we add the error to the results state.
   def handle_async("get_itinerary_groups", {:exit, reason}, socket) do
     new_socket =
       socket
@@ -114,6 +117,11 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Triggered every time the form changes:
+  #
+  # - Update the input form state with the new changeset
+  # - Update the map state with the new pins
+  # - Reset the results state
   def handle_event("input_form_change", %{"input_form" => params}, socket) do
     changeset = InputForm.changeset(params)
     pins = input_form_to_pins(changeset)
@@ -123,19 +131,26 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
       |> assign(:results, @state.results)
+      |> maybe_round_datetime()
 
     {:noreply, new_socket}
   end
 
   @impl true
+  # Triggered when the form is submitted:
+  #
+  # - Convert the params to a changeset and submit it
   def handle_event("input_form_submit", %{"input_form" => params}, socket) do
     new_socket =
-      submit_valid_changeset(socket, InputForm.changeset(params))
+      submit_changeset(socket, InputForm.changeset(params))
 
     {:noreply, new_socket}
   end
 
   @impl true
+  # Triggered when the user selects to view all itinerary groups after selecting a particular one
+  #
+  # - Reset the itinerary group and itinerary selections
   def handle_event("reset_itinerary_group", _, socket) do
     new_results = %{
       itinerary_group_selection: nil,
@@ -150,6 +165,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Triggered when the user selects a particular itinerary
+  #
+  # - Update the itinerary selection
   def handle_event("select_itinerary", %{"index" => index}, socket) do
     index = String.to_integer(index)
 
@@ -161,6 +179,10 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Triggered when the user selects a particular itinerary group
+  #
+  # - Update the itinerary group selection
+  # - Update the map state with the new lines and points
   def handle_event("select_itinerary_group", %{"index" => index}, socket) do
     index = String.to_integer(index)
 
@@ -173,23 +195,6 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:results, Map.put(socket.assigns.results, :itinerary_group_selection, index))
       |> assign(:map, Map.merge(socket.assigns.map, new_map))
-
-    {:noreply, new_socket}
-  end
-
-  @impl true
-  def handle_event("toggle_datepicker", %{"input_form" => %{"datetime_type" => "now"}}, socket) do
-    new_socket =
-      socket
-      |> push_event("set-datetime", %{datetime: nearest_5_minutes()})
-
-    {:noreply, new_socket}
-  end
-
-  def handle_event("toggle_datepicker", _, socket) do
-    new_socket =
-      socket
-      |> push_event("set-datetime", %{datetime: nearest_5_minutes()})
 
     {:noreply, new_socket}
   end
@@ -252,6 +257,37 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> TripPlan.Map.get_points()
   end
 
+  # Round the datetime to the nearest 5 minutes if:
+  #
+  # - The datetime type is not 'now'
+  # - The datetime is before the nearest 5 minutes
+  #
+  # We standardize the datetime because it could be a NaiveDateTime or a DateTime or nil.
+  defp maybe_round_datetime(socket) do
+    datetime =
+      socket.assigns.input_form.changeset.changes
+      |> Map.get(:datetime)
+      |> standardize_datetime()
+    datetime_type = socket.assigns.input_form.changeset.changes.datetime_type
+    future = nearest_5_minutes()
+
+    if datetime_type != "now" && Timex.before?(datetime, future) do
+      push_event(socket, "set-datetime", %{datetime: future})
+    else
+      socket
+    end
+  end
+
+  # Check the input form change set for validity and submit the form if it is.
+  defp maybe_submit_form(socket) do
+    if socket.assigns.input_form.changeset.valid? do
+      submit_changeset(socket, socket.assigns.input_form.changeset)
+    else
+      socket
+    end
+  end
+
+  # Round the current time to the nearest 5 minutes.
   defp nearest_5_minutes do
     datetime = Timex.now("America/New_York")
     minutes = datetime.minute
@@ -261,6 +297,8 @@ defmodule DotcomWeb.Live.TripPlanner do
     Timex.shift(datetime, minutes: added_minutes)
   end
 
+  # Convert query parameters to a changeset for the input form.
+  # Use an anti corruption layer to convert old query parameters to new ones.
   defp query_params_to_changeset(params) do
     %{
       "datetime" => Timex.now("America/New_York"),
@@ -271,6 +309,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> InputForm.changeset()
   end
 
+  # Destructure the latitude and longitude from a map to a GeoJSON array.
   defp to_geojson(%{longitude: longitude, latitude: latitude}) do
     [longitude, latitude]
   end
@@ -279,15 +318,24 @@ defmodule DotcomWeb.Live.TripPlanner do
     []
   end
 
-  defp maybe_submit_form(socket) do
-    if socket.assigns.input_form.changeset.valid? do
-      submit_valid_changeset(socket, socket.assigns.input_form.changeset)
-    else
-      socket
-    end
+  # Convert a NaiveDateTime to a DateTime in the America/New_York timezone.
+  defp standardize_datetime(%NaiveDateTime{} = datetime) do
+    Timex.to_datetime(datetime, "America/New_York")
   end
 
-  defp submit_valid_changeset(socket, changeset) do
+  # The lack of a datetime means we should use the nearest 5 minutes.
+  defp standardize_datetime(nil), do: nearest_5_minutes()
+
+  # If the datetime is already a DateTime, we don't need to do anything.
+  defp standardize_datetime(datetime), do: datetime
+
+  # Set an action on the changeset and submit it.
+  #
+  # - Update the input form state with the new changeset
+  # - Update the map state with the new pins
+  # - Set the results state to loading
+  # - Start an async operation to get the itinerary groups
+  defp submit_changeset(socket, changeset) do
     new_changeset = Map.put(changeset, :action, :submit)
 
     socket

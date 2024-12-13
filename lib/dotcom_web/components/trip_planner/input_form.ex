@@ -58,7 +58,6 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
             type="radio-button"
             class="mb-0"
-            phx-update="ignore"
           />
           <.error_container :for={{msg, _} <- f[:datetime_type].errors}>
             {msg}
