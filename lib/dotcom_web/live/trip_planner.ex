@@ -200,15 +200,18 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Default if we receieve an event we don't handle.
   def handle_event(_event, _params, socket) do
     {:noreply, socket}
   end
 
   @impl true
+  # Default if we receive an info message we don't handle.
   def handle_info(_info, socket) do
     {:noreply, socket}
   end
 
+  # Run an OTP plan on the changeset data and return itinerary groups or an error.
   defp get_itinerary_groups(%Ecto.Changeset{valid?: true} = changeset) do
     {:ok, data} = Ecto.Changeset.apply_action(changeset, :submit)
 
@@ -221,22 +224,30 @@ defmodule DotcomWeb.Live.TripPlanner do
     end
   end
 
+  # If the changeset is invalid, we return an empty list of itinerary groups.
   defp get_itinerary_groups(_), do: []
 
+  # Convert the input form changeset to a list of pins for the map.
+  # I.e., add pins for the from and to locations.
   defp input_form_to_pins(%{changes: %{from: from, to: to}}) do
     [to_geojson(from.changes), to_geojson(to.changes)]
   end
 
+  # If `from` is set but `to` isn't, then we return only the one pin.
   defp input_form_to_pins(%{changes: %{from: from}}) do
     [to_geojson(from.changes)]
   end
 
+  # If `to` is set but `from` isn't, we return an empty first pin so that to shows up as the 'B' pin.
   defp input_form_to_pins(%{changes: %{to: to}}) do
     [[], to_geojson(to.changes)]
   end
 
+  # If neither `from` nor `to` are set, we return an empty list of pins.
   defp input_form_to_pins(_), do: []
 
+  # Get the itinerary group at the given index and convert it to a map.
+  # Selects a random itinerary from the group as they will all be the same.
   defp itinerary_groups_to_itinerary_map(itinerary_groups, index) do
     itinerary_groups
     |> Enum.at(index)
@@ -245,12 +256,14 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> TripPlan.Map.itinerary_map()
   end
 
+  # Get the itinerary map at the given index and convert it to lines.
   defp itinerary_groups_to_lines(itinerary_groups, index) do
     itinerary_groups
     |> itinerary_groups_to_itinerary_map(index)
     |> TripPlan.Map.get_lines()
   end
 
+  # Get the itinerary map at the given index and convert it to points.
   defp itinerary_groups_to_points(itinerary_groups, index) do
     itinerary_groups
     |> itinerary_groups_to_itinerary_map(index)
