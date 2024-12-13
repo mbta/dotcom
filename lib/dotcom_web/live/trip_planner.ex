@@ -15,7 +15,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @state %{
     input_form: %{
-      changeset: %Ecto.Changeset{},
+      changeset: %Ecto.Changeset{}
     },
     map: %{
       config: Application.compile_env(:mbta_metro, :map),
@@ -268,6 +268,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket.assigns.input_form.changeset.changes
       |> Map.get(:datetime)
       |> standardize_datetime()
+
     datetime_type = socket.assigns.input_form.changeset.changes.datetime_type
     future = nearest_5_minutes()
 
