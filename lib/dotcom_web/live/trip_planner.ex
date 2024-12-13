@@ -85,8 +85,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
     error =
       errors
-      |> Enum.map(errors, &Map.get(&1, :description))
-      |> Enum.join(", ")
+      |> Enum.map_join(", ", &Map.get(&1, :description))
 
     new_socket =
       socket
