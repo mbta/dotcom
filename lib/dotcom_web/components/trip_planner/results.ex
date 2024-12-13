@@ -21,10 +21,10 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       "border border-solid border-slate-400"
     ]}>
       <div
-        :if={Enum.count(@results.itinerary_groups) > 0 && @results.itinerary_selection}
+        :if={Enum.count(@results.itinerary_groups) > 0 && @results.itinerary_group_selection}
         class="row-start-1 col-start-1 h-min w-full p-4"
       >
-        <button type="button" class="btn-link">
+        <button type="button" phx-click="reset_itinerary_group" class="btn-link">
           <span class="flex flex-row items-center">
             <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
             <span class="font-medium">View All Options</span>
@@ -32,17 +32,6 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </button>
       </div>
       <div :if={Enum.count(@results.itinerary_groups) > 0} class="w-full p-4 row-start-2 col-start-1">
-        <div
-          :if={@results.itinerary_group_selection != nil}
-          class="row-start-1 col-start-1 h-min w-full p-4"
-        >
-          <button type="button" phx-click="reset_itinerary_group" class="btn-link">
-            <span class="flex flex-row items-center">
-              <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
-              <span class="font-medium">View All Options</span>
-            </span>
-          </button>
-        </div>
         <.itinerary_panel results={@results} />
       </div>
     </section>

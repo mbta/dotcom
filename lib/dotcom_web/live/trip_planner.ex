@@ -15,7 +15,8 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @state %{
     input_form: %{
-      changeset: %Ecto.Changeset{}
+      changeset: %Ecto.Changeset{},
+      hash: :erlang.phash2(%{})
     },
     map: %{
       config: Application.compile_env(:mbta_metro, :map),
@@ -39,13 +40,13 @@ defmodule DotcomWeb.Live.TripPlanner do
   """
   @impl true
   def mount(params, _session, socket) do
+    changeset = query_params_to_changeset(params)
+
     new_socket =
       socket
       |> assign(@state)
-      |> assign(
-        :input_form,
-        Map.put(@state.input_form, :changeset, query_params_to_changeset(params))
-      )
+      |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
+      |> maybe_submit_form()
 
     {:ok, new_socket}
   end
@@ -85,7 +86,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
     error =
       errors
-      |> Enum.map_join(", ", &Map.get(&1, :description))
+      |> Enum.map_join(", ", &Map.get(&1, :message))
 
     new_socket =
       socket
@@ -126,31 +127,24 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, new_socket}
   end
 
-  @doc """
-  Manually set the action on the changeset so the input form knows that it is "dirty" and set the changeset in the input form.
-
-  Reset the results to clear out the live view and then get new results if the changeset is valid.
-  """
   @impl true
   def handle_event("input_form_submit", %{"input_form" => params}, socket) do
-    changeset = params |> InputForm.changeset() |> Map.put(:action, :submit)
-    pins = input_form_to_pins(changeset)
-
     new_socket =
-      socket
-      |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
-      |> assign(:map, Map.put(@state.map, :pins, pins))
-      |> assign(:results, Map.put(@state.results, :loading?, true))
-      |> start_async("get_itinerary_groups", fn -> get_itinerary_groups(changeset) end)
+      submit_valid_changeset(socket, InputForm.changeset(params))
 
     {:noreply, new_socket}
   end
 
   @impl true
   def handle_event("reset_itinerary_group", _, socket) do
+    new_results = %{
+      itinerary_group_selection: nil,
+      itinerary_selection: nil
+    }
+
     new_socket =
       socket
-      |> assign(:results, Map.put(socket.assigns.results, :itinerary_group_selection, nil))
+      |> assign(:results, Map.merge(socket.assigns.results, new_results))
 
     {:noreply, new_socket}
   end
@@ -183,12 +177,6 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, new_socket}
   end
 
-  @doc """
-  If the user selects "now" for the date and time, hide the datepicker.
-  This will destroy the flatpickr instance.
-
-  If the user selects arrive by or leave at, then we show the datepicker and set the time to the nearest 5 minutes.
-  """
   @impl true
   def handle_event("toggle_datepicker", %{"input_form" => %{"datetime_type" => "now"}}, socket) do
     new_socket =
@@ -230,33 +218,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   defp get_itinerary_groups(_), do: []
 
-  defp query_params_to_changeset(params) do
-    %{
-      "datetime" => Timex.now("America/New_York"),
-      "datetime_type" => "now",
-      "modes" => InputForm.initial_modes()
-    }
-    |> Map.merge(AntiCorruptionLayer.convert_old_params(params))
-    |> InputForm.changeset()
-  end
-
-  defp nearest_5_minutes do
-    datetime = Timex.now("America/New_York")
-    minutes = datetime.minute
-    rounded_minutes = Float.ceil(minutes / 5) * 5
-    added_minutes = Kernel.trunc(rounded_minutes - minutes)
-
-    Timex.shift(datetime, minutes: added_minutes)
-  end
-
-  defp to_geojson(%{longitude: longitude, latitude: latitude}) do
-    [longitude, latitude]
-  end
-
-  defp to_geojson(_) do
-    []
-  end
-
   defp input_form_to_pins(%{changes: %{from: from, to: to}}) do
     [to_geojson(from.changes), to_geojson(to.changes)]
   end
@@ -289,5 +250,50 @@ defmodule DotcomWeb.Live.TripPlanner do
     itinerary_groups
     |> itinerary_groups_to_itinerary_map(index)
     |> TripPlan.Map.get_points()
+  end
+
+  defp nearest_5_minutes do
+    datetime = Timex.now("America/New_York")
+    minutes = datetime.minute
+    rounded_minutes = Float.ceil(minutes / 5) * 5
+    added_minutes = Kernel.trunc(rounded_minutes - minutes)
+
+    Timex.shift(datetime, minutes: added_minutes)
+  end
+
+  defp query_params_to_changeset(params) do
+    %{
+      "datetime" => Timex.now("America/New_York"),
+      "datetime_type" => "now",
+      "modes" => InputForm.initial_modes()
+    }
+    |> Map.merge(AntiCorruptionLayer.convert_old_params(params))
+    |> InputForm.changeset()
+  end
+
+  defp to_geojson(%{longitude: longitude, latitude: latitude}) do
+    [longitude, latitude]
+  end
+
+  defp to_geojson(_) do
+    []
+  end
+
+  defp maybe_submit_form(socket) do
+    if socket.assigns.input_form.changeset.valid? do
+      submit_valid_changeset(socket, socket.assigns.input_form.changeset)
+    else
+      socket
+    end
+  end
+
+  defp submit_valid_changeset(socket, changeset) do
+    new_changeset = Map.put(changeset, :action, :submit)
+
+    socket
+    |> assign(:input_form, Map.put(@state.input_form, :changeset, new_changeset))
+    |> assign(:map, Map.put(@state.map, :pins, input_form_to_pins(new_changeset)))
+    |> assign(:results, Map.put(@state.results, :loading?, true))
+    |> start_async("get_itinerary_groups", fn -> get_itinerary_groups(new_changeset) end)
   end
 end

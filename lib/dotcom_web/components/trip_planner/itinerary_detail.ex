@@ -40,8 +40,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         <.depart_at_button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
           active={@itinerary_selection == index}
-          phx-click="set_itinerary_index"
-          phx-value-trip-index={index}
+          phx-click="select_itinerary"
+          phx-value-index={index}
         >
           {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
         </.depart_at_button>
@@ -49,6 +49,10 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     </div>
     """
   end
+
+  attr :active, :boolean
+  attr :rest, :global
+  slot :inner_block
 
   defp depart_at_button(%{active: active} = assigns) do
     background_class = if active, do: "bg-brand-primary-lightest", else: "bg-transparent"
@@ -61,6 +65,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
         "border border-brand-primary rounded px-2.5 py-1.5 text-brand-primary text-lg",
         "hover:bg-brand-primary-lightest #{@background_class}"
       ]}
+      {@rest}
     >
       {render_slot(@inner_block)}
     </button>
