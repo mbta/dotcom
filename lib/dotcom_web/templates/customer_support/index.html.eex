@@ -4,9 +4,12 @@
     <div class="row">
       <div class="col-md-8">
         <div class="support-confirmation support-confirmation--success <%= if @show_form, do: "hidden-xs-up" %>" id="<%= if !show_error_message(@conn), do: "support-result" %>" tabindex="-1">
-          <%= fa "check-circle" %>
-          Thank you for your feedback.
-          <br>Your comments have been sent to our Customer Support team.
+          <p>
+            <%= fa "check-circle" %> Thank you for submitting your feedback. Our Customer Support team will review your comments soon.
+          </p>
+          <p>
+            If you provided your contact info, check your email for a confirmation with an incident number. If you don’t receive a confirmation within 10 minutes, try submitting your feedback again or call us at <a href="tel:617-222-3200">617-222-3200</a>.
+          </p>
         </div>
         <div class="support-confirmation support-confirmation--error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
           <div id="<%= if show_error_message(@conn), do: "support-result" %>">
