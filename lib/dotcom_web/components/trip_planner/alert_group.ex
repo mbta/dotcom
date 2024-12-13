@@ -6,11 +6,12 @@ defmodule DotcomWeb.Components.TripPlanner.AlertGroup do
   use DotcomWeb, :component
 
   attr :alerts, :list, required: true
+  attr :class, :string, default: ""
 
   def alert_group(assigns) do
     ~H"""
     <%= if @alerts do %>
-      <div :for={alert <- @alerts} class="col-start-2 mb-2 mr-4">
+      <div :for={alert <- @alerts} class={@class}>
         <.alert alert={alert} />
       </div>
     <% end %>

@@ -97,7 +97,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         <.ride_message mode={@leg.mode} />
         <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
-      <.alert_group alerts={@alerts} />
+      <.alert_group class="col-start-2 mb-2 mr-4" alerts={@alerts} />
     </div>
     """
   end
