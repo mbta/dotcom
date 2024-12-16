@@ -66,16 +66,26 @@ defmodule DotcomWeb.Live.TripPlanner do
     <div style="row">
       <.input_form changeset={@input_form.changeset} />
       <.results_summary changeset={@input_form.changeset} results={@results} />
-      <.live_component
-        module={MbtaMetro.Live.Map}
-        id="trip-planner-map"
-        class="h-64 md:h-96 w-full"
-        config={@map.config}
-        lines={@map.lines}
-        pins={@map.pins}
-        points={@map.points}
-      />
-      <.results results={@results} />
+      <div class={[
+        "flex flex-col md:grid",
+        Enum.count(@results.itinerary_groups) > 0 && "md:grid-cols-2",
+        Enum.count(@results.itinerary_groups) == 0 && "md:grid-cols-1"
+      ]}>
+        <.live_component
+          module={MbtaMetro.Live.Map}
+          id="trip-planner-map"
+          class={[
+            "h-64 md:h-96 w-full",
+            @results.itinerary_group_selection == nil && "hidden md:block",
+            @results.itinerary_group_selection != nil && "block"
+          ]}
+          config={@map.config}
+          lines={@map.lines}
+          pins={@map.pins}
+          points={@map.points}
+        />
+        <.results class="row-start-1 col-start-1" results={@results} />
+      </div>
     </div>
     """
   end

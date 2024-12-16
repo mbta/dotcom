@@ -11,16 +11,13 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   def results(assigns) do
     ~H"""
     <section class={[
-      "flex flex-col",
-      "md:grid md:grid-rows-[min-content_1fr]",
-      Enum.count(@results.itinerary_groups) == 0 && "md:grid-cols-[1fr]",
-      Enum.count(@results.itinerary_groups) != 0 && "md:grid-cols-[1fr_1fr]",
       "w-full",
-      "border border-solid border-slate-400"
+      "border border-solid border-slate-400",
+      @class
     ]}>
       <div
         :if={Enum.count(@results.itinerary_groups) > 0 && @results.itinerary_group_selection}
-        class="row-start-1 col-start-1 h-min w-full p-4"
+        class="h-min w-full p-4"
       >
         <button type="button" phx-click="reset_itinerary_group" class="btn-link">
           <span class="flex flex-row items-center">
