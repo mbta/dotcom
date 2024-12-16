@@ -45,7 +45,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
     href: "/cr-providence"
   }
   @bus_10 %{id: "10", description: :local_bus, name: "10", type: 3, href: "/bus-10"}
-  @bus_39 %{id: "39", description: :key_bus_route, name: "39", type: 3, href: "/bus-39"}
+  @bus_39 %{id: "39", description: :frequent_bus_route, name: "39", type: 3, href: "/bus-39"}
   @bus_170 %{id: "170", description: :supplemental_bus, name: "170", type: 3, href: "/bus-170"}
 
   @back_bay %Stop{
@@ -270,7 +270,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
               group_name: :bus,
               routes: [
                 %{
-                  description: :key_bus_route,
+                  description: :frequent_bus_route,
                   direction_destinations: :unknown,
                   direction_names: %{"0" => "Outbound", "1" => "Inbound"},
                   id: "39",

@@ -175,24 +175,6 @@ defmodule Routes.RepoTest do
     end
   end
 
-  test "key bus routes are tagged" do
-    route_id = Faker.Internet.slug()
-    key_route_id = Faker.Internet.slug()
-
-    expect(MBTA.Api.Mock, :get_json, 2, fn "/routes/" <> id, _ ->
-      if id == key_route_id do
-        %JsonApi{data: [build(:route_item, %{attributes: %{"description" => "Key Bus"}})]}
-      else
-        %JsonApi{data: [build(:route_item)]}
-      end
-    end)
-
-    assert %Route{description: :key_bus_route} = get(key_route_id)
-
-    %Route{description: description} = get(route_id)
-    refute description == :key_bus_route
-  end
-
   test "frequent bus routes are tagged" do
     route_id = Faker.Internet.slug()
     frequent_route_id = Faker.Internet.slug()

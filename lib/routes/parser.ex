@@ -76,7 +76,6 @@ defmodule Routes.Parser do
   def parse_gtfs_desc("Local Bus"), do: :local_bus
   def parse_gtfs_desc("Ferry"), do: :ferry
   def parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
-  def parse_gtfs_desc("Key Bus"), do: :key_bus_route
   def parse_gtfs_desc("Frequent Bus"), do: :frequent_bus_route
   def parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
   def parse_gtfs_desc("Commuter Bus"), do: :commuter_bus

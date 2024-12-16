@@ -67,7 +67,7 @@ defmodule DotcomWeb.ControllerHelpers do
     grouped_routes
     |> Enum.map(fn {mode, lines} ->
       if mode in filter_lines do
-        {mode, lines |> Enum.filter(&Route.key_route?/1)}
+        {mode, lines |> Enum.filter(&Route.frequent_route?/1)}
       else
         {mode, lines}
       end

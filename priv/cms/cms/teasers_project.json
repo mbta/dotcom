@@ -367,7 +367,7 @@
             "branch": null,
             "custom": [
               "local_bus",
-              "key_bus_routes",
+              "frequent_bus_routes",
               "misc"
             ]
           }
@@ -602,7 +602,7 @@
             "branch": null,
             "custom": [
               "local_bus",
-              "key_bus_routes",
+              "frequent_bus_routes",
               "misc"
             ]
           }
@@ -623,7 +623,7 @@
             "branch": null,
             "custom": [
               "local_bus",
-              "key_bus_routes",
+              "frequent_bus_routes",
               "misc"
             ]
           }
