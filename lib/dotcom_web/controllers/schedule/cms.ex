@@ -91,7 +91,7 @@ defmodule DotcomWeb.ScheduleController.CMS do
 
       bus
       when bus in [
-             :key_bus_route,
+             :frequent_bus_route,
              :local_bus,
              :commuter_bus,
              :supplemental_bus,

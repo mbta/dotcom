@@ -48,6 +48,13 @@ end
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
 redis_port_env = System.get_env("REDIS_PORT", "6379")
 
+redis_mode =
+  if System.get_env("REDIS_STANDALONE") == nil do
+    :redis_cluster
+  else
+    :standalone
+  end
+
 redis_host =
   if redis_host_env == "",
     do: "127.0.0.1",
@@ -58,14 +65,17 @@ redis_port =
     do: 6379,
     else: String.to_integer(redis_port_env)
 
+redis_conn_opts = [
+  host: redis_host,
+  port: redis_port
+]
+
 redis_config = [
-  mode: :redis_cluster,
+  mode: redis_mode,
+  conn_opts: redis_conn_opts,
   redis_cluster: [
     configuration_endpoints: [
-      conn_opts: [
-        host: redis_host,
-        port: redis_port
-      ]
+      conn_opts: redis_conn_opts
     ]
   ],
   stats: true,
@@ -73,7 +83,7 @@ redis_config = [
 ]
 
 # This is used by PubSub, we only use the first node in the cluster
-config :dotcom, :redis_config, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
+config :dotcom, :redis_config, redis_conn_opts
 
 # Set caches that use the Redis cluster
 config :dotcom, Dotcom.Cache.Multilevel,

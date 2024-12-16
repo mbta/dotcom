@@ -103,7 +103,7 @@ defmodule Dotcom.TripPlan.Parser do
       mode: mode,
       intermediate_stops: Enum.map(stops, &build_stop/1),
       route: build_route(route, agency_name),
-      trip_id: id_from_gtfs(trip.gtfs_id)
+      trip: build_trip(trip)
     }
   end
 
@@ -129,6 +129,22 @@ defmodule Dotcom.TripPlan.Parser do
       type: type,
       color: route_color(agency_name, short_name, color),
       description: Routes.Parser.parse_gtfs_desc(desc)
+    }
+  end
+
+  defp build_trip(%Schema.Trip{
+         direction_id: direction_id,
+         gtfs_id: gtfs_id,
+         trip_headsign: headsign,
+         trip_short_name: name
+       }) do
+    id = id_from_gtfs(gtfs_id)
+
+    %Schedules.Trip{
+      direction_id: if(direction_id in ["0", "1"], do: String.to_integer(direction_id)),
+      id: id,
+      name: name,
+      headsign: headsign
     }
   end
 

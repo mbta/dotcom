@@ -212,26 +212,12 @@ const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
 };
 /* eslint-enable camelcase */
 
-// enable sorting of services by rating dates,
-// service type, service typicality, and service dates
-export const serviceComparator = (
-  {
-    type: type1,
-    valid_days: validDays1,
-    typicality: typicality1,
-    start_date: date1
-  }: Service,
-  {
-    type: type2,
-    valid_days: validDays2,
-    typicality: typicality2,
-    start_date: date2
-  }: Service
-): number =>
-  serviceTypeOrder[type2] - serviceTypeOrder[type1] ||
-  validDays1[0] - validDays2[0] ||
-  serviceTypicalityOrder[typicality2] - serviceTypicalityOrder[typicality1] ||
-  stringToDateObject(date1).getTime() - stringToDateObject(date2).getTime();
+// enable sorting of services by service type, service typicality, and start
+export const serviceComparator = [
+  (service: Service) => -serviceTypeOrder[service.type],
+  (service: Service) => -serviceTypicalityOrder[service.typicality],
+  "start_date"
+];
 
 // group names may have extra verbiage
 export const optGroupComparator = (groupA: string, groupB: string): number => {
@@ -239,47 +225,4 @@ export const optGroupComparator = (groupA: string, groupB: string): number => {
   const a = optGroupNames.find(name => groupA.includes(name));
   const b = optGroupNames.find(name => groupB.includes(name));
   return optGroupOrder[b!] - optGroupOrder[a!];
-};
-
-export const hasMultipleWeekdaySchedules = (services: Service[]): boolean =>
-  services.filter(
-    service =>
-      service.type === "weekday" && service.typicality !== "holiday_service"
-  ).length > 1;
-
-const dayIntegerToString = (day: DayInteger): string =>
-  [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ][day - 1];
-
-const daysAreConsecutive = (days: DayInteger[]): boolean => {
-  const [day, nextDay, ...rest] = days;
-  if (rest.length === 0) return day + 1 === nextDay;
-  if (day + 1 !== nextDay) return false;
-  return daysAreConsecutive([nextDay, ...rest]);
-};
-
-export const serviceDays = ({
-  type,
-  valid_days: validDays
-}: Service): string => {
-  if (type === "saturday" || type === "sunday") return "";
-
-  if (validDays.length === 1) return `${dayIntegerToString(validDays[0])}`;
-
-  if (daysAreConsecutive(validDays)) {
-    return validDays[0] === 1 && validDays[validDays.length - 1] === 5
-      ? "Weekday"
-      : `${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
-          validDays[validDays.length - 1]
-        )}`;
-  }
-
-  return `${validDays.map(dayIntegerToString).join(", ")}`;
 };

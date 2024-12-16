@@ -66,7 +66,7 @@ defmodule Routes.Route do
           | :local_bus
           | :ferry
           | :rail_replacement_bus
-          | :key_bus_route
+          | :frequent_bus_route
           | :supplemental_bus
           | :commuter_bus
           | :community_bus
@@ -91,6 +91,12 @@ defmodule Routes.Route do
   @massport_icon_names ["11", "22", "33", "44", "55", "66", "77", "88", "99"]
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
+
+  defguard is_external?(route) when not is_nil(route.external_agency_name)
+
+  defguard is_shuttle?(route)
+           when route.type == 3 and route.description == :rail_replacement_bus and
+                  not is_external?(route)
 
   def logan_express_icon_names, do: @logan_express_icon_names
   def massport_icon_names, do: @massport_icon_names
@@ -234,10 +240,10 @@ defmodule Routes.Route do
   def vehicle_atom(4), do: :ferry
   def vehicle_atom(_), do: :subway
 
-  @spec key_route?(t) :: boolean
-  def key_route?(%__MODULE__{description: :key_bus_route}), do: true
-  def key_route?(%__MODULE__{description: :rapid_transit}), do: true
-  def key_route?(%__MODULE__{}), do: false
+  @spec frequent_route?(t) :: boolean
+  def frequent_route?(%__MODULE__{description: :frequent_bus_route}), do: true
+  def frequent_route?(%__MODULE__{description: :rapid_transit}), do: true
+  def frequent_route?(%__MODULE__{}), do: false
 
   defmacro subway?(type, id) do
     quote do

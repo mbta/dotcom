@@ -170,7 +170,7 @@ describe("Algolia template", () => {
           "0": "Woodlawn",
           "1": "Haymarket Station"
         },
-        description: "key_bus_route",
+        description: "frequent_bus_route",
         color: "FFC72C"
       },
       rank: 5,

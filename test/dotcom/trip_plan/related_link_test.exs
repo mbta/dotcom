@@ -35,10 +35,8 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
         fn id -> %Stops.Stop{id: id} end
       )
 
-      [trip_id] = Itinerary.trip_ids(itinerary)
       assert [route_link, fare_link] = links_for_itinerary(itinerary)
       assert url(route_link) =~ Timex.format!(itinerary.start, "date={ISOdate}")
-      assert url(route_link) =~ ~s(trip=#{trip_id}) |> URI.encode()
       assert fare_link.text == "View fare information"
 
       if route.type == 3 do

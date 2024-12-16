@@ -229,7 +229,7 @@
               "1": "South Station",
               "0": "Logan Airport"
             },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "directions": [
             {
@@ -306,7 +306,7 @@
               "1": "South Station",
               "0": "Design Center"
             },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "directions": [
             {
@@ -383,7 +383,7 @@
               "1": "South Station",
               "0": "Chelsea"
             },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "directions": [
             {
@@ -1116,7 +1116,7 @@
               "0": "Harvard",
               "1": "Dudley"
             },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "direction_id": 0
         }

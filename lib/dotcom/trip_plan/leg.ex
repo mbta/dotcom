@@ -41,12 +41,12 @@ defmodule Dotcom.TripPlan.Leg do
 
   @doc "Returns the trip ID for the leg, if present"
   @spec trip_id(t) :: {:ok, Schedules.Trip.id_t()} | :error
-  def trip_id(%__MODULE__{mode: %TransitDetail{trip_id: trip_id}}), do: {:ok, trip_id}
+  def trip_id(%__MODULE__{mode: %TransitDetail{trip: %{id: trip_id}}}), do: {:ok, trip_id}
   def trip_id(%__MODULE__{}), do: :error
 
   @spec route_trip_ids(t) :: {:ok, {Routes.Route.id_t(), Schedules.Trip.id_t()}} | :error
   def route_trip_ids(%__MODULE__{mode: %TransitDetail{} = mode}) do
-    {:ok, {mode.route.id, mode.trip_id}}
+    {:ok, {mode.route.id, mode.trip.id}}
   end
 
   def route_trip_ids(%__MODULE__{}) do

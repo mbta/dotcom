@@ -141,6 +141,15 @@ defmodule DotcomWeb.Router do
     get("/schedules/70A", Redirector, to: "/betterbus-61-70-70A")
     get("/schedules/70A/*path_params", Redirector, to: "/betterbus-61-70-70A")
 
+    # bus routes eliminated by the Bus Network Redesign
+    get("/schedules/117", Redirector,
+      to: "/projects/bus-network-redesign/phase-1-service-changes#116"
+    )
+
+    get("/schedules/117/*path_params", Redirector,
+      to: "/projects/bus-network-redesign/phase-1-service-changes#116"
+    )
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 

@@ -16,7 +16,7 @@ defmodule Test.Support.Factories.Routes.Route do
       description:
         Faker.Util.pick([
           :local_bus,
-          :key_bus_route,
+          :frequent_bus_route,
           :supplemental_bus,
           :commuter_bus,
           :community_bus
@@ -72,7 +72,7 @@ defmodule Test.Support.Factories.Routes.Route do
           :local_bus,
           :ferry,
           :rail_replacement_bus,
-          :key_bus_route,
+          :frequent_bus_route,
           :supplemental_bus,
           :commuter_bus,
           :community_bus,
