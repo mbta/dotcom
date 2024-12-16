@@ -22,7 +22,7 @@
         "0": "Harvard",
         "1": "Dudley"
       },
-      "description": "key_bus_route",
+      "description": "frequent_bus_route",
       "color": "FFC72C"
     },
     "realtime": {
@@ -83,7 +83,7 @@
         "0": "Harvard",
         "1": "Dudley"
       },
-      "description": "key_bus_route",
+      "description": "frequent_bus_route",
       "color": "FFC72C"
     },
     "realtime": {

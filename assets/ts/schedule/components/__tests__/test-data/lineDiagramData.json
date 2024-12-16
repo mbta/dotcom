@@ -37,7 +37,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,
@@ -97,7 +97,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,
@@ -157,7 +157,7 @@
             "id": "111",
             "direction_names": { "0": "Outbound", "1": "Inbound" },
             "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
-            "description": "key_bus_route"
+            "description": "frequent_bus_route"
           },
           "name": "Elm St opp Haskell Ave",
           "terminus?": true,

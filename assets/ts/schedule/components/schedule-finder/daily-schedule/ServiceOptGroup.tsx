@@ -5,6 +5,7 @@ import { shortDate, stringToDateObject } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
   dedupeServices,
+  isInAddedDates,
   isInCurrentService
 } from "../../../../helpers/service";
 
@@ -57,7 +58,10 @@ const ServiceOptGroup = ({
         if (service.id === todayServiceId) {
           // if it's the only service this rating, this service might not
           // technically be now - adjust text for that
-          if (isInCurrentService(service, nowDate)) {
+          if (
+            isInCurrentService(service, nowDate) ||
+            isInAddedDates(service, nowDate)
+          ) {
             optionText += " (now)";
           } else {
             optionText += ` (Starting ${format(startDate, "MMMM d, y")})`;

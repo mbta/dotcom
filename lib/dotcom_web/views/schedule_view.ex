@@ -419,7 +419,7 @@ defmodule DotcomWeb.ScheduleView do
       class: "bg-white rounded-full h-8 w-fit flex gap-2 items-center py-1 pl-1 pr-3 mb-6" do
       [
         svg("icon-frequent-bus.svg"),
-        content_tag :span, class: "text-sm font-bold" do
+        content_tag :span, class: "text-sm font-bold text-black" do
           "Service every 15 minutes or better"
         end
       ]

@@ -40,9 +40,12 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
     modes
     |> Enum.reduce(default_modes, fn {key, value}, acc ->
-      Map.put(acc, String.upcase(key), value)
+      Map.put(acc, convert_mode(key), value)
     end)
   end
 
   defp convert_modes(_), do: Dotcom.TripPlan.InputForm.initial_modes()
+
+  defp convert_mode("commuter_rail"), do: "RAIL"
+  defp convert_mode(mode), do: String.upcase(mode)
 end

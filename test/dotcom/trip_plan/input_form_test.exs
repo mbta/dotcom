@@ -32,15 +32,15 @@ defmodule Dotcom.TripPlan.InputFormTest do
     assert {_, [validation: :required]} = changeset.errors[:modes]
   end
 
-  describe "validate_params/1" do
+  describe "changeset/1" do
     test "validates to & from" do
-      changeset = InputForm.validate_params(@params)
+      changeset = InputForm.changeset(@params)
       assert changeset.valid?
     end
 
     test "adds from & to errors" do
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           "from" => %{
             "latitude" => "",
             "longitude" => "",
@@ -62,7 +62,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
 
     test "adds error if from & to are the same" do
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           "from" => @from_params,
           "to" => @from_params
         })
@@ -73,22 +73,9 @@ defmodule Dotcom.TripPlan.InputFormTest do
       assert {^expected_error, _} = changeset.errors[:to]
     end
 
-    test "at least one mode required" do
-      changeset =
-        InputForm.validate_params(%{
-          @params
-          | "modes" => %{RAIL: false, BUS: false, FERRY: false, SUBWAY: false}
-        })
-
-      refute changeset.valid?
-
-      expected_error = InputForm.error_message(:modes)
-      assert {^expected_error, _} = changeset.errors[:modes]
-    end
-
     test "adds datetime if using datetime_type == now" do
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           @params
           | "datetime_type" => "now",
             "datetime" => nil
@@ -102,7 +89,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
       expected_error = InputForm.error_message(:datetime)
 
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           @params
           | "datetime_type" => "arrive_by",
             "datetime" => nil
@@ -112,7 +99,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
       assert {^expected_error, _} = changeset.errors[:datetime]
 
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           @params
           | "datetime_type" => "leave_at",
             "datetime" => nil
@@ -124,7 +111,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
 
     test "requires date to be in the future" do
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           @params
           | "datetime_type" => "arrive_by",
             "datetime" => Faker.DateTime.forward(1)
@@ -135,7 +122,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
       expected_error = InputForm.error_message(:datetime)
 
       changeset =
-        InputForm.validate_params(%{
+        InputForm.changeset(%{
           @params
           | "datetime_type" => "arrive_by",
             "datetime" => Faker.DateTime.backward(1)

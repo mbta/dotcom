@@ -24,7 +24,7 @@ export const serviceStartDateComparator = (
 const isInRemovedDates = (service: Service, currentDate: Date): boolean =>
   service.removed_dates.includes(dateObjectToString(currentDate));
 
-const isInAddedDates = (service: Service, currentDate: Date): boolean =>
+export const isInAddedDates = (service: Service, currentDate: Date): boolean =>
   service.added_dates.includes(dateObjectToString(currentDate));
 
 const isOnValidDay = (service: Service, currentDate: Date): boolean => {
@@ -40,10 +40,7 @@ export const isInCurrentService = (
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
-  return (
-    isInAddedDates(service, currentDate) ||
-    (currentDate >= serviceStartDate && currentDate <= serviceEndDate)
-  );
+  return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
 };
 
 export const isInCurrentRating = (
@@ -155,6 +152,7 @@ export const groupServicesByDateRating = (
     // additionally, prioritize current service/rating in grouping
     if (!service.rating_end_date) {
       if (
+        isInAddedDates(service, currentDate) ||
         isInCurrentService(service, currentDate) ||
         isInCurrentRating(service, currentDate)
       ) {

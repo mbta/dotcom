@@ -61,7 +61,7 @@ jest.mock("../../../../../helpers/use-fetch", () => ({
               0: "Harvard Square",
               1: "Nubian Station"
             },
-            description: "key_bus_route",
+            description: "frequent_bus_route",
             custom_route: false,
             color: "FFC72C"
           },
@@ -425,7 +425,7 @@ describe("parseResults", () => {
             "0": "Harvard Square",
             "1": "Nubian Station"
           },
-          description: "key_bus_route",
+          description: "frequent_bus_route",
           color: "FFC72C"
         },
         departure: {
@@ -475,7 +475,7 @@ describe("parseResults", () => {
             "0": "Harvard Square",
             "1": "Nubian Station"
           },
-          description: "key_bus_route",
+          description: "frequent_bus_route",
           color: "FFC72C"
         },
         departure: {

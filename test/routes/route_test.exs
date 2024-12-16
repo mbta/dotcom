@@ -156,10 +156,10 @@ defmodule Routes.RouteTest do
     end
   end
 
-  describe "key_route?" do
+  describe "frequent_route?" do
     test "true if rapid transit or key bus route" do
-      assert key_route?(%Route{description: :key_bus_route})
-      assert key_route?(%Route{description: :rapid_transit})
+      assert frequent_route?(%Route{description: :frequent_bus_route})
+      assert frequent_route?(%Route{description: :rapid_transit})
     end
   end
 

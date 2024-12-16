@@ -2,9 +2,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   @moduledoc """
   A component that renders the summary for a given itinerary
   """
-  use DotcomWeb, :component
 
-  attr :summary, :map, doc: "ItineraryGroups.summary()", required: true
+  use DotcomWeb, :component
 
   def itinerary_summary(assigns) do
     ~H"""
