@@ -30,14 +30,14 @@ defmodule Routes.ParserTest do
           "type" => 3,
           "short_name" => "short",
           "long_name" => "long",
-          "description" => "Key Bus",
+          "description" => "Frequent Bus",
           "direction_names" => ["zero", "one"],
           "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
       parsed = parse_route(item)
-      assert parsed.description == :key_bus_route
+      assert parsed.description == :frequent_bus_route
     end
 
     test "parses unknown gtfs description into :unknown" do

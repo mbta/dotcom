@@ -62,7 +62,7 @@ const route = {
     0: "Begin",
     1: "End"
   },
-  description: "key_bus_route",
+  description: "frequent_bus_route",
   header: "",
   alerts: [],
   line_id: null

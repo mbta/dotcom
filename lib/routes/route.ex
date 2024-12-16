@@ -66,7 +66,7 @@ defmodule Routes.Route do
           | :local_bus
           | :ferry
           | :rail_replacement_bus
-          | :key_bus_route
+          | :frequent_bus_route
           | :supplemental_bus
           | :commuter_bus
           | :community_bus
@@ -240,10 +240,10 @@ defmodule Routes.Route do
   def vehicle_atom(4), do: :ferry
   def vehicle_atom(_), do: :subway
 
-  @spec key_route?(t) :: boolean
-  def key_route?(%__MODULE__{description: :key_bus_route}), do: true
-  def key_route?(%__MODULE__{description: :rapid_transit}), do: true
-  def key_route?(%__MODULE__{}), do: false
+  @spec frequent_route?(t) :: boolean
+  def frequent_route?(%__MODULE__{description: :frequent_bus_route}), do: true
+  def frequent_route?(%__MODULE__{description: :rapid_transit}), do: true
+  def frequent_route?(%__MODULE__{}), do: false
 
   defmacro subway?(type, id) do
     quote do

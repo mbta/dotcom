@@ -22,7 +22,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:36 AM",
@@ -61,7 +61,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:46 AM",
@@ -100,7 +100,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:55 AM",
@@ -139,7 +139,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:03 AM",
@@ -178,7 +178,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:10 AM",
@@ -217,7 +217,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:17 AM",
@@ -256,7 +256,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:24 AM",
@@ -295,7 +295,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:31 AM",
@@ -334,7 +334,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:37 AM",
@@ -373,7 +373,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:43 AM",
@@ -412,7 +412,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:49 AM",
@@ -451,7 +451,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:54 AM",
@@ -490,7 +490,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:59 AM",
@@ -529,7 +529,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:03 AM",
@@ -568,7 +568,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:05 AM",
@@ -607,7 +607,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:09 AM",
@@ -646,7 +646,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:10 AM",
@@ -685,7 +685,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:13 AM",
@@ -724,7 +724,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:14 AM",
@@ -763,7 +763,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:19 AM",
@@ -802,7 +802,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:21 AM",
@@ -841,7 +841,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:24 AM",
@@ -880,7 +880,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:26 AM",
@@ -919,7 +919,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:27 AM",
@@ -958,7 +958,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:32 AM",
@@ -997,7 +997,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:33 AM",
@@ -1036,7 +1036,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:37 AM",
@@ -1075,7 +1075,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:39 AM",
@@ -1114,7 +1114,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:42 AM",
@@ -1153,7 +1153,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:44 AM",
@@ -1192,7 +1192,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:46 AM",
@@ -1231,7 +1231,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:50 AM",
@@ -1270,7 +1270,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:51 AM",
@@ -1309,7 +1309,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:55 AM",
@@ -1348,7 +1348,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:57 AM",
@@ -1387,7 +1387,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:59 AM",
@@ -1426,7 +1426,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:01 AM",
@@ -1465,7 +1465,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:03 AM",
@@ -1504,7 +1504,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:07 AM",
@@ -1543,7 +1543,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:08 AM",
@@ -1582,7 +1582,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:12 AM",
@@ -1621,7 +1621,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:15 AM",
@@ -1660,7 +1660,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:17 AM",
@@ -1699,7 +1699,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:21 AM",
@@ -1738,7 +1738,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:22 AM",
@@ -1777,7 +1777,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:25 AM",
@@ -1816,7 +1816,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:26 AM",
@@ -1855,7 +1855,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:31 AM",
@@ -1894,7 +1894,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:33 AM",
@@ -1933,7 +1933,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:35 AM",
@@ -1972,7 +1972,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:38 AM",
@@ -2011,7 +2011,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:39 AM",
@@ -2050,7 +2050,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:43 AM",
@@ -2089,7 +2089,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:45 AM",
@@ -2128,7 +2128,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:48 AM",
@@ -2167,7 +2167,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:51 AM",
@@ -2206,7 +2206,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:53 AM",
@@ -2245,7 +2245,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:56 AM",
@@ -2284,7 +2284,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:57 AM",
@@ -2323,7 +2323,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:03 AM",
@@ -2362,7 +2362,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:05 AM",
@@ -2401,7 +2401,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:09 AM",
@@ -2440,7 +2440,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:13 AM",
@@ -2479,7 +2479,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:14 AM",
@@ -2518,7 +2518,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:20 AM",
@@ -2557,7 +2557,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:23 AM",
@@ -2596,7 +2596,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:27 AM",
@@ -2635,7 +2635,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:31 AM",
@@ -2674,7 +2674,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:33 AM",
@@ -2713,7 +2713,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:39 AM",
@@ -2752,7 +2752,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:40 AM",
@@ -2791,7 +2791,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:50 AM",
@@ -2830,7 +2830,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:05 AM",
@@ -2869,7 +2869,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:17 AM",
@@ -2908,7 +2908,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:20 AM",
@@ -2947,7 +2947,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:28 AM",
@@ -2986,7 +2986,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:35 AM",
@@ -3025,7 +3025,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:50 AM",
@@ -3064,7 +3064,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:56 AM",
@@ -3103,7 +3103,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:05 AM",
@@ -3142,7 +3142,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:20 AM",
@@ -3181,7 +3181,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:35 AM",
@@ -3220,7 +3220,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:50 AM",
@@ -3259,7 +3259,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:05 PM",
@@ -3298,7 +3298,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:08 PM",
@@ -3337,7 +3337,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:14 PM",
@@ -3376,7 +3376,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:20 PM",
@@ -3415,7 +3415,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:24 PM",
@@ -3454,7 +3454,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:34 PM",
@@ -3493,7 +3493,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:36 PM",
@@ -3532,7 +3532,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:44 PM",
@@ -3571,7 +3571,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:54 PM",
@@ -3610,7 +3610,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:02 PM",
@@ -3649,7 +3649,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:04 PM",
@@ -3688,7 +3688,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:14 PM",
@@ -3727,7 +3727,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:24 PM",
@@ -3766,7 +3766,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:32 PM",
@@ -3805,7 +3805,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:32 PM",
@@ -3844,7 +3844,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:34 PM",
@@ -3883,7 +3883,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:44 PM",
@@ -3922,7 +3922,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:54 PM",
@@ -3961,7 +3961,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:04 PM",
@@ -4000,7 +4000,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:14 PM",
@@ -4039,7 +4039,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:24 PM",
@@ -4078,7 +4078,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:33 PM",
@@ -4117,7 +4117,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:43 PM",
@@ -4156,7 +4156,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "02:53 PM",
@@ -4195,7 +4195,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:02 PM",
@@ -4234,7 +4234,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:12 PM",
@@ -4273,7 +4273,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:23 PM",
@@ -4312,7 +4312,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:32 PM",
@@ -4361,7 +4361,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:45 PM",
@@ -4400,7 +4400,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:42 PM",
@@ -4449,7 +4449,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:35 PM",
@@ -4498,7 +4498,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:52 PM",
@@ -4547,7 +4547,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "03:53 PM",
@@ -4596,7 +4596,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:01 PM",
@@ -4645,7 +4645,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:03 PM",
@@ -4694,7 +4694,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:09 PM",
@@ -4733,7 +4733,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:13 PM",
@@ -4782,7 +4782,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:19 PM",
@@ -4831,7 +4831,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:22 PM",
@@ -4880,7 +4880,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:24 PM",
@@ -4929,7 +4929,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:27 PM",
@@ -4978,7 +4978,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:31 PM",
@@ -5017,7 +5017,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:33 PM",
@@ -5066,7 +5066,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:38 PM",
@@ -5115,7 +5115,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:39 PM",
@@ -5164,7 +5164,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:43 PM",
@@ -5213,7 +5213,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:45 PM",
@@ -5262,7 +5262,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:48 PM",
@@ -5311,7 +5311,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:51 PM",
@@ -5350,7 +5350,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:53 PM",
@@ -5399,7 +5399,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "04:58 PM",
@@ -5448,7 +5448,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:00 PM",
@@ -5497,7 +5497,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:03 PM",
@@ -5546,7 +5546,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:06 PM",
@@ -5595,7 +5595,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:08 PM",
@@ -5644,7 +5644,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:12 PM",
@@ -5683,7 +5683,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:13 PM",
@@ -5732,7 +5732,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:18 PM",
@@ -5781,7 +5781,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:20 PM",
@@ -5830,7 +5830,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:23 PM",
@@ -5879,7 +5879,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:27 PM",
@@ -5928,7 +5928,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:28 PM",
@@ -5977,7 +5977,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:32 PM",
@@ -6016,7 +6016,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:33 PM",
@@ -6065,7 +6065,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:38 PM",
@@ -6104,7 +6104,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:41 PM",
@@ -6143,7 +6143,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:43 PM",
@@ -6182,7 +6182,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:47 PM",
@@ -6221,7 +6221,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:48 PM",
@@ -6260,7 +6260,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:53 PM",
@@ -6299,7 +6299,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:55 PM",
@@ -6338,7 +6338,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "05:58 PM",
@@ -6377,7 +6377,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:01 PM",
@@ -6416,7 +6416,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:02 PM",
@@ -6455,7 +6455,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:07 PM",
@@ -6494,7 +6494,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:09 PM",
@@ -6533,7 +6533,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:12 PM",
@@ -6572,7 +6572,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:16 PM",
@@ -6611,7 +6611,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:17 PM",
@@ -6650,7 +6650,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:22 PM",
@@ -6689,7 +6689,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:23 PM",
@@ -6728,7 +6728,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:27 PM",
@@ -6767,7 +6767,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:32 PM",
@@ -6806,7 +6806,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:37 PM",
@@ -6845,7 +6845,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:42 PM",
@@ -6884,7 +6884,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:47 PM",
@@ -6923,7 +6923,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:52 PM",
@@ -6962,7 +6962,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "06:57 PM",
@@ -7001,7 +7001,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:02 PM",
@@ -7040,7 +7040,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:06 PM",
@@ -7079,7 +7079,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:12 PM",
@@ -7118,7 +7118,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:17 PM",
@@ -7157,7 +7157,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:23 PM",
@@ -7196,7 +7196,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:25 PM",
@@ -7235,7 +7235,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:29 PM",
@@ -7274,7 +7274,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:38 PM",
@@ -7313,7 +7313,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:46 PM",
@@ -7352,7 +7352,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:49 PM",
@@ -7391,7 +7391,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:50 PM",
@@ -7430,7 +7430,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:53 PM",
@@ -7469,7 +7469,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "07:59 PM",
@@ -7508,7 +7508,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:09 PM",
@@ -7547,7 +7547,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:18 PM",
@@ -7586,7 +7586,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:25 PM",
@@ -7625,7 +7625,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:38 PM",
@@ -7664,7 +7664,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:46 PM",
@@ -7703,7 +7703,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:48 PM",
@@ -7742,7 +7742,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "08:51 PM",
@@ -7781,7 +7781,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:04 PM",
@@ -7820,7 +7820,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:17 PM",
@@ -7859,7 +7859,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:30 PM",
@@ -7898,7 +7898,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:43 PM",
@@ -7937,7 +7937,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "09:56 PM",
@@ -7976,7 +7976,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:05 PM",
@@ -8015,7 +8015,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:09 PM",
@@ -8054,7 +8054,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:22 PM",
@@ -8093,7 +8093,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:35 PM",
@@ -8132,7 +8132,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "10:48 PM",
@@ -8171,7 +8171,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:01 PM",
@@ -8210,7 +8210,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:14 PM",
@@ -8249,7 +8249,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:29 PM",
@@ -8288,7 +8288,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:44 PM",
@@ -8327,7 +8327,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "11:59 PM",
@@ -8366,7 +8366,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:14 AM",
@@ -8405,7 +8405,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:24 AM",
@@ -8444,7 +8444,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:30 AM",
@@ -8483,7 +8483,7 @@
         "0": "Design Center",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "12:50 AM",
@@ -8522,7 +8522,7 @@
         "0": "Silver Line Way",
         "1": "South Station"
       },
-      "description": "key_bus_route"
+      "description": "frequent_bus_route"
     },
     "departure": {
       "time": "01:02 AM",

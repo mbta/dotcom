@@ -58,7 +58,7 @@ const route: Route = {
     0: "Begin",
     1: "End"
   },
-  description: "key_bus_route",
+  description: "frequent_bus_route",
   line_id: null
 };
 

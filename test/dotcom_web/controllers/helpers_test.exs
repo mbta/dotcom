@@ -93,14 +93,14 @@ defmodule DotcomWeb.ControllerHelpersTest do
            %Routes.Route{
              direction_names: %{0 => "Outbound", 1 => "Inbound"},
              id: "22",
-             description: :key_bus_route,
+             description: :frequent_bus_route,
              name: "22",
              type: 3
            },
            %Routes.Route{
              direction_names: %{0 => "Outbound", 1 => "Inbound"},
              id: "23",
-             description: :key_bus_route,
+             description: :frequent_bus_route,
              name: "23",
              type: 3
            },
@@ -138,14 +138,14 @@ defmodule DotcomWeb.ControllerHelpersTest do
                     %Routes.Route{
                       direction_names: %{0 => "Outbound", 1 => "Inbound"},
                       id: "22",
-                      description: :key_bus_route,
+                      description: :frequent_bus_route,
                       name: "22",
                       type: 3
                     },
                     %Routes.Route{
                       direction_names: %{0 => "Outbound", 1 => "Inbound"},
                       id: "23",
-                      description: :key_bus_route,
+                      description: :frequent_bus_route,
                       name: "23",
                       type: 3
                     }
