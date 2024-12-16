@@ -8,6 +8,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
+  import DotcomWeb.Components.TripPlanner.MockedDetail
 
   alias Dotcom.TripPlan
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, InputForm, ItineraryGroups}
@@ -62,6 +63,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   """
   def render(assigns) do
     ~H"""
+    <.mocked_detail />
+
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
       <.input_form changeset={@input_form.changeset} />
