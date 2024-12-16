@@ -15,7 +15,7 @@ import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 import { isSubwayRoute } from "../../../models/route";
 import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
 import formattedDate, { stringToDateObject } from "../../../helpers/date";
-import { isInCurrentService } from "../../../helpers/service";
+import { isInAddedDates, isInCurrentService } from "../../../helpers/service";
 
 interface Props {
   handleChangeDirection: (direction: DirectionId) => void;
@@ -46,8 +46,10 @@ const ScheduleModalContent = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
-  const serviceToday = services.some(service =>
-    isInCurrentService(service, stringToDateObject(today))
+  const serviceToday = services.some(
+    service =>
+      isInCurrentService(service, stringToDateObject(today)) ||
+      isInAddedDates(service, stringToDateObject(today))
   );
 
   const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
