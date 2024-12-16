@@ -7,7 +7,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  import MbtaMetro.Components.{Feedback, Spinner}
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
 
   alias Dotcom.TripPlan

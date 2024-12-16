@@ -8,8 +8,6 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
-  alias Dotcom.TripPlan
-
   def results(assigns) do
     ~H"""
     <section class={[
