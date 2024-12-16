@@ -163,11 +163,11 @@ export const DailySchedule = ({
   const currentServices = sortedServices.filter(service =>
     isCurrentValidService(service, todayDate)
   );
-  const todayServiceId =
-    currentServices.length > 0 ? currentServices[0].id : "";
-  const [defaultSelectedService] = currentServices.length
-    ? currentServices
-    : sortedServices;
+  const todayService =
+    currentServices.find(service => !!service["default_service?"]) ||
+    currentServices[0];
+  const todayServiceId = todayService?.id || "";
+  const defaultSelectedService = todayService || sortedServices[0];
 
   const [selectedService, setSelectedService] = useState(
     defaultSelectedService
