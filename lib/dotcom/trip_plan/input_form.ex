@@ -229,6 +229,9 @@ defmodule Dotcom.TripPlan.InputForm do
       |> selected_modes()
     end
 
+    def selected_modes(%{RAIL: true, SUBWAY: true, BUS: true, FERRY: true}), do: "All modes"
+
+    def selected_modes(%{}), do: "Walking directions only"
     def selected_modes([mode]), do: mode_name(mode) <> " Only"
 
     def selected_modes(modes) do
