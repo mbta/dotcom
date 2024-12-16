@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use Phoenix.Component
 
-  import DotcomWeb.Components.TripPlanner.AlertGroup, only: [alert_group: 1]
+  # import DotcomWeb.Components.TripPlanner.AlertGroup, only: [alert_group: 1]
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -25,35 +25,42 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
-    assigns = assign(assigns, :alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
+    assigns =
+      assigns
+      |> assign(:alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
 
     ~H"""
-    <div class="bg-gray-bordered-background">
-      <.place
+    <div class="bg-gray-bordered-background rounded-lg p-3">
+      <.transit_place
+        show_leg_line
         place={@leg.from}
         time={@leg.start}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
         alerts={@alerts.from}
       />
 
-      <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
+      <div class="flex items-stretch gap-x-[0.9375rem]">
+        <div class="flex flex-col items-center">
+          <div class="w-5"></div>
+          <div class={["w-1 flex-grow", leg_line_class(@leg.mode.route)]}></div>
+        </div>
+
         <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
-          <.leg_summary leg={@leg} alerts={@alerts.route} />
-          <.leg_details leg={@leg} />
+          <div class="w-full my-3">
+            <.leg_summary leg={@leg} alerts={@alerts.route} />
+            <.leg_details leg={@leg} />
+          </div>
         <% else %>
-          <details class="group/stops">
-            <summary class="flex cursor-pointer list-none gap-2 relative">
+          <details class="w-full my-3 group/stops">
+            <summary>
               <.leg_summary leg={@leg} alerts={@alerts.route} />
-              <.icon
-                name="chevron-up"
-                class="group-open/stops:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
-              />
             </summary>
             <.leg_details leg={@leg} />
           </details>
         <% end %>
       </div>
-      <.place
+
+      <.transit_place
         place={@leg.to}
         time={@leg.stop}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
@@ -63,12 +70,42 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
+  attr :place, :any, required: true
+  attr :time, :any, required: true
+  attr :route, :any, required: true
+  attr :alerts, :list, required: true
+  attr :show_leg_line, :boolean, default: false
+
+  defp transit_place(assigns) do
+    ~H"""
+    <div>
+      <.place time={@time} name={@place.stop.name}>
+        <:icon>
+          <div class="h-5 w-5">
+            <.transit_leg_icon route={@route} />
+          </div>
+          <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
+        </:icon>
+      </.place>
+      <div class="flex items-stretch gap-x-3">
+        <div class="flex flex-col items-center">
+          <div class="w-5"></div>
+          <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
+        </div>
+        <div>
+          <.alert :for={alert <- @alerts} alert={alert} />
+        </div>
+      </div>
+    </div>
+    """
+  end
+
   defp leg_line_class(%Route{external_agency_name: "Massport"}) do
-    "border-massport"
+    "bg-massport"
   end
 
   defp leg_line_class(%Route{external_agency_name: "Logan Express", name: name}) do
-    "border-logan-express-#{name}"
+    "bg-logan-express-#{name}"
   end
 
   defp leg_line_class(%Route{} = route) do
@@ -76,10 +113,42 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     |> Route.to_naive()
     |> Route.icon_atom()
     |> CSSHelpers.atom_to_class()
-    |> then(&"border-#{&1}")
+    |> then(&"bg-#{&1}")
   end
 
-  defp leg_line_class(_), do: ""
+  defp transit_leg_icon(assigns) do
+    name =
+      case Route.vehicle_name(assigns.route) do
+        "Bus" -> "icon-stop-default"
+        _ -> "icon-circle-t-default"
+      end
+
+    assigns = assigns |> assign(:name, name)
+
+    ~H"""
+    <.icon type="icon-svg" class="h-5 w-5" name={@name} />
+    """
+  end
+
+  defp alert(assigns) do
+    ~H"""
+    <details class="group/alert">
+      <summary>
+        <.icon name="triangle-exclamation" class="h-3 w-3" />
+        <span class="text-sm">
+          {Phoenix.Naming.humanize(@alert.effect)}
+        </span>
+        <span class="text-xs btn-link cursor-pointer group-open/alert:hidden">Show Details</span>
+        <span class="text-xs btn-link cursor-pointer hidden group-open/alert:inline">
+          Hide Details
+        </span>
+      </summary>
+      <div class="bg-white p-2 text-sm">
+        {@alert.header}
+      </div>
+    </details>
+    """
+  end
 
   defp leg_summary(assigns) do
     assigns =
@@ -88,14 +157,24 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
-    <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_auto] pl-4">
-      <.route_symbol route={@leg.mode.route} />
-      <span class="font-semibold">{@headsign}</span>
-      <div class="text-sm col-start-2 row-start-2">
-        <.ride_message mode={@leg.mode} />
-        <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
+    <div class="flex items-start gap-1.5 cursor-pointer">
+      <div class="min-h-6 min-w-6">
+        <.route_symbol route={@leg.mode.route} />
       </div>
-      <.alert_group class="col-start-2 mb-2 mr-4" alerts={@alerts} />
+
+      <div class="flex flex-col">
+        <span class="font-bold">{@headsign}</span>
+        <span class="text-sm">
+          <.ride_message mode={@leg.mode} />
+          <span class="font-semibold">
+            {@stops_count} {Inflex.inflect("stop", @stops_count)}
+          </span>
+        </span>
+        <.alert :for={alert <- @alerts} alert={alert} />
+      </div>
+      <div class="ml-auto w-4 h-4">
+        <.icon name="chevron-down" class="w-4 h-4 fill=brand-primary group-open/stops:rotate-180" />
+      </div>
     </div>
     """
   end
@@ -169,12 +248,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp leg_details(assigns) do
     ~H"""
-    <ul class="w-full m-0 pl-4 flex flex-col divide-y divide-gray-lighter">
+    <ul class="w-full m-0 pl-0 flex flex-col divide-y divide-gray-lightest">
       <li
         :for={stop <- @leg.mode.intermediate_stops}
         class="inline-flex items-center gap-x-2 py-2 relative"
       >
-        <.icon name="circle" class="w-2 h-2 absolute -left-6 fill-white" />
+        <.icon name="circle" class="h-1.5 w-1.5 absolute -left-7 fill-white" />
         {stop.name}
       </li>
     </ul>

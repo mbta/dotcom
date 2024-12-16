@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.Place
+  import DotcomWeb.Components.TripPlanner.StartOrEndPlace
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
@@ -95,7 +95,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
       |> assign(:place, place)
 
     ~H"""
-    <.place place={@place} time={@time} />
+    <.start_or_end_place place={@place} time={@time} />
     """
   end
 
