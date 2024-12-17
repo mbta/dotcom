@@ -10,7 +10,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
-  alias Alerts.Match
   alias Dotcom.TripPlan.LegToSegmentHelper
   alias Dotcom.TripPlan.Alerts
 
@@ -112,16 +111,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     assigns = assign(assigns, :leg, leg)
 
     ~H"""
-    <.transit_leg leg={@leg} alerts={alerts_for_leg(@alerts, @leg)} />
+    <.transit_leg leg={@leg} alerts={Alerts.filter_for_leg(@alerts, @leg)} />
     """
-  end
-
-  defp alerts_for_leg(alerts, leg) when is_list(alerts) do
-    Match.match(
-      alerts,
-      Alerts.leg_entities(leg),
-      leg.start
-    )
   end
 
   defp alerts_for_leg(_, _), do: []

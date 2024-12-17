@@ -34,6 +34,16 @@ defmodule Dotcom.TripPlan.Alerts do
     )
   end
 
+  @doc "Filters a list of Alerts to those relevant to the Leg"
+  @spec filter_for_leg([Alert.t()], Leg.t()) :: [Alert.t()]
+  def filter_for_leg(alerts, leg) do
+    Alerts.Match.match(
+      alerts,
+      leg_entities(leg),
+      leg.start
+    )
+  end
+
   defp intermediate_entities(itinerary) do
     itinerary
     |> Itinerary.intermediate_stop_ids()
@@ -47,7 +57,7 @@ defmodule Dotcom.TripPlan.Alerts do
     |> Enum.uniq()
   end
 
-  def leg_entities(%Leg{mode: mode} = leg) do
+  defp leg_entities(%Leg{mode: mode} = leg) do
     for entity <- mode_entities(mode),
         stop_id <- Leg.stop_ids(leg) do
       %{entity | stop: stop_id}
