@@ -84,18 +84,15 @@ defmodule Dotcom.TripPlan.Alerts do
   end
 
   def by_mode_and_stops(alerts, leg) do
-    grouped_alerts =
+    {route_alerts, stop_alerts} =
       alerts
-      |> Enum.group_by(fn alert ->
+      |> Enum.split_with(fn alert ->
         alert.informed_entity.entities
-        |> Enum.any?(fn
-          %{stop: nil} -> false
-          _ -> true
+        |> Enum.all?(fn
+          %{stop: nil} -> true
+          _ -> false
         end)
       end)
-
-    route_alerts = grouped_alerts[false] || []
-    stop_alerts = grouped_alerts[true] || []
 
     entities_from = leg_entities_from(leg)
     from = Alerts.Match.match(stop_alerts, entities_from)
