@@ -56,22 +56,14 @@ defmodule Dotcom.TripPlan.Alerts do
   end
 
   defp leg_entities(%Leg{mode: mode} = leg) do
-    for entity <- mode_entities(mode),
-        stop_id <- Leg.stop_ids(leg) do
-      %{entity | stop: stop_id}
-    end
+    %{from: from, to: to} = Leg.stop_ids(leg)
+
+    mode_entities_with_stop_ids(mode, from ++ to)
   end
 
-  defp leg_entities_from(%Leg{mode: mode} = leg) do
+  defp mode_entities_with_stop_ids(mode, stop_ids) do
     for entity <- mode_entities(mode),
-        stop_id <- Leg.stop_ids_from(leg) do
-      %{entity | stop: stop_id}
-    end
-  end
-
-  defp leg_entities_to(%Leg{mode: mode} = leg) do
-    for entity <- mode_entities(mode),
-        stop_id <- Leg.stop_ids_to(leg) do
+        stop_id <- stop_ids do
       %{entity | stop: stop_id}
     end
   end
@@ -110,10 +102,12 @@ defmodule Dotcom.TripPlan.Alerts do
         end)
       end)
 
-    entities_from = leg_entities_from(leg)
+    %{from: from_stop_ids, to: to_stop_ids} = Leg.stop_ids(leg)
+
+    entities_from = mode_entities_with_stop_ids(leg.mode, from_stop_ids)
     from = Alerts.Match.match(stop_alerts, entities_from)
 
-    entities_to = leg_entities_to(leg)
+    entities_to = mode_entities_with_stop_ids(leg.mode, to_stop_ids)
     to = Alerts.Match.match(stop_alerts, entities_to)
 
     %{

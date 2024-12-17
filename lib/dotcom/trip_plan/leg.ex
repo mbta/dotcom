@@ -66,28 +66,18 @@ defmodule Dotcom.TripPlan.Leg do
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t()]
   def stop_ids(%__MODULE__{from: from, to: to}) do
-    for %NamedPosition{stop: stop} <- [from, to],
-        stop do
-      stop.id
-    end
-  end
-
-  @doc "Returns the stop ID for the beginning of the leg if available"
-  @spec stop_ids_from(t) :: [Stops.Stop.id_t()]
-  def stop_ids_from(%__MODULE__{from: from}) do
-    for %NamedPosition{stop: stop} <- [from],
-        stop do
-      stop.id
-    end
-  end
-
-  @doc "Returns the stop ID for the end of the leg if available"
-  @spec stop_ids_to(t) :: [Stops.Stop.id_t()]
-  def stop_ids_to(%__MODULE__{to: to}) do
-    for %NamedPosition{stop: stop} <- [to],
-        stop do
-      stop.id
-    end
+    %{
+      from:
+        for %NamedPosition{stop: stop} <- [from],
+            stop do
+          stop.id
+        end,
+      to:
+        for %NamedPosition{stop: stop} <- [to],
+            stop do
+          stop.id
+        end
+    }
   end
 
   @spec stop_is_silver_line_airport?([t], atom) :: boolean()

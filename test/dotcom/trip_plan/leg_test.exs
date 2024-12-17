@@ -59,7 +59,7 @@ defmodule Dotcom.TripPlan.LegTest do
 
   describe "stop_ids/1" do
     test "returns the stop IDs @from and @to", context do
-      assert [@from.stop.id, @to.stop.id] == stop_ids(context.transit_leg)
+      assert %{from: [@from.stop.id], to: [@to.stop.id]} == stop_ids(context.transit_leg)
     end
 
     test "ignores nil stop IDs" do
@@ -73,7 +73,7 @@ defmodule Dotcom.TripPlan.LegTest do
           stop: @stop
         )
 
-      assert [@to.stop.id] == stop_ids(personal_leg)
+      assert %{from: [], to: [@to.stop.id]} == stop_ids(personal_leg)
     end
   end
 
