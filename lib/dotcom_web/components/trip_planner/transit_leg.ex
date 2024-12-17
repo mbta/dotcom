@@ -42,12 +42,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
           <.leg_summary leg={@leg} alerts={@alerts.route} />
           <.leg_details leg={@leg} />
         <% else %>
-          <details class="group">
+          <details class="group/stops">
             <summary class="flex cursor-pointer list-none gap-2 relative">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
                 name="chevron-up"
-                class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
+                class="group-open/stops:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
               />
             </summary>
             <.leg_details leg={@leg} />
