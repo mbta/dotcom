@@ -163,20 +163,30 @@ defmodule DotcomWeb.Components.TripPlanner.MockedDetail do
 
   defp transit_place(assigns) do
     ~H"""
-    <.place time={@stop.time} name={@stop.name} alerts={@stop.alerts}>
-      <:icon>
-        <div class="h-5 w-5">
-          <.transit_leg_icon route={@route} />
+    <div>
+      <.place time={@stop.time} name={@stop.name} alerts={@stop.alerts}>
+        <:icon>
+          <div class="h-5 w-5">
+            <.transit_leg_icon route={@route} />
+          </div>
+          <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
+        </:icon>
+      </.place>
+      <div class="flex items-stretch gap-x-3">
+        <div class="flex flex-col items-center">
+          <div class="w-5"></div>
+          <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
         </div>
-        <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
-      </:icon>
-    </.place>
+        <div>
+          <.alert :for={alert <- @stop.alerts} alert={alert} />
+        </div>
+      </div>
+    </div>
     """
   end
 
   attr :time, :string, required: true
   attr :name, :string, required: true
-  attr :alerts, :list, default: []
   slot :icon
 
   defp place(assigns) do
@@ -187,9 +197,8 @@ defmodule DotcomWeb.Components.TripPlanner.MockedDetail do
       </div>
       <div class="flex flex-col justify-start">
         <strong class="text-sm">{@name}</strong>
-        <.alert :for={alert <- @alerts} alert={alert} />
       </div>
-      <time class="ml-auto text-right text-nowrap">{@time}</time>
+      <time class="ml-auto text-right text-sm text-nowrap">{@time}</time>
     </div>
     """
   end
