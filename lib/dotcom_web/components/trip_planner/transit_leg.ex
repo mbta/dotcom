@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
-    grouped_alerts = group_alerts(assigns.alerts, assigns.leg)
+    grouped_alerts = Alerts.by_mode_and_stops(assigns.alerts, assigns.leg)
     assigns = assign(assigns, grouped_alerts)
 
     ~H"""
@@ -40,12 +40,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
       <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
         <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
-          <.leg_summary leg={@leg} alerts={@alerts_for_mode} />
+          <.leg_summary leg={@leg} alerts={@alerts_for_route} />
           <.leg_details leg={@leg} />
         <% else %>
           <details class="group">
             <summary class="flex cursor-pointer list-none gap-2 relative">
-              <.leg_summary leg={@leg} alerts={@alerts_for_mode} />
+              <.leg_summary leg={@leg} alerts={@alerts_for_route} />
               <.icon
                 name="chevron-up"
                 class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
@@ -181,32 +181,5 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       </li>
     </ul>
     """
-  end
-
-  defp group_alerts(alerts, leg) when is_list(alerts) do
-    grouped_alerts =
-      alerts
-      |> Enum.group_by(fn alert ->
-        alert.informed_entity.entities
-        |> Enum.any?(fn
-          %{stop: nil} -> false
-          _ -> true
-        end)
-      end)
-
-    route_alerts = grouped_alerts[false] || []
-    stop_alerts = grouped_alerts[true] || []
-
-    entities_from = Alerts.leg_entities_from(leg)
-    alerts_for_from = Match.match(stop_alerts, entities_from)
-
-    entities_to = Alerts.leg_entities_to(leg)
-    alerts_for_to = Match.match(stop_alerts, entities_to)
-
-    %{
-      alerts_for_mode: route_alerts,
-      alerts_for_from: alerts_for_from,
-      alerts_for_to: alerts_for_to
-    }
   end
 end

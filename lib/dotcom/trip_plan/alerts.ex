@@ -54,14 +54,14 @@ defmodule Dotcom.TripPlan.Alerts do
     end
   end
 
-  def leg_entities_from(%Leg{mode: mode} = leg) do
+  defp leg_entities_from(%Leg{mode: mode} = leg) do
     for entity <- mode_entities(mode),
         stop_id <- Leg.stop_ids_from(leg) do
       %{entity | stop: stop_id}
     end
   end
 
-  def leg_entities_to(%Leg{mode: mode} = leg) do
+  defp leg_entities_to(%Leg{mode: mode} = leg) do
     for entity <- mode_entities(mode),
         stop_id <- Leg.stop_ids_to(leg) do
       %{entity | stop: stop_id}
@@ -81,5 +81,32 @@ defmodule Dotcom.TripPlan.Alerts do
 
   defp mode_entities(_) do
     []
+  end
+
+  def by_mode_and_stops(alerts, leg) do
+    grouped_alerts =
+      alerts
+      |> Enum.group_by(fn alert ->
+        alert.informed_entity.entities
+        |> Enum.any?(fn
+          %{stop: nil} -> false
+          _ -> true
+        end)
+      end)
+
+    route_alerts = grouped_alerts[false] || []
+    stop_alerts = grouped_alerts[true] || []
+
+    entities_from = leg_entities_from(leg)
+    alerts_for_from = Alerts.Match.match(stop_alerts, entities_from)
+
+    entities_to = leg_entities_to(leg)
+    alerts_for_to = Alerts.Match.match(stop_alerts, entities_to)
+
+    %{
+      alerts_for_route: route_alerts,
+      alerts_for_from: alerts_for_from,
+      alerts_for_to: alerts_for_to
+    }
   end
 end
