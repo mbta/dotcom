@@ -114,6 +114,4 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     <.transit_leg leg={@leg} alerts={Alerts.filter_for_leg(@alerts, @leg)} />
     """
   end
-
-  defp alerts_for_leg(_, _), do: []
 end
