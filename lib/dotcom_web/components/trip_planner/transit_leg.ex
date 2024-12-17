@@ -26,8 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
-    grouped_alerts = Alerts.by_mode_and_stops(assigns.alerts, assigns.leg)
-    assigns = assign(assigns, grouped_alerts)
+    assigns = assign(assigns, :alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
 
     ~H"""
     <div class="bg-gray-bordered-background">
@@ -35,17 +34,17 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         place={@leg.from}
         time={@leg.start}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
-        alerts={@alerts_for_from}
+        alerts={@alerts.from}
       />
 
       <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
         <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
-          <.leg_summary leg={@leg} alerts={@alerts_for_route} />
+          <.leg_summary leg={@leg} alerts={@alerts.route} />
           <.leg_details leg={@leg} />
         <% else %>
           <details class="group">
             <summary class="flex cursor-pointer list-none gap-2 relative">
-              <.leg_summary leg={@leg} alerts={@alerts_for_route} />
+              <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
                 name="chevron-up"
                 class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
@@ -59,7 +58,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         place={@leg.to}
         time={@leg.stop}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
-        alerts={@alerts_for_to}
+        alerts={@alerts.to}
       />
     </div>
     """

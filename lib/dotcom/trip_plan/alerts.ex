@@ -98,15 +98,15 @@ defmodule Dotcom.TripPlan.Alerts do
     stop_alerts = grouped_alerts[true] || []
 
     entities_from = leg_entities_from(leg)
-    alerts_for_from = Alerts.Match.match(stop_alerts, entities_from)
+    from = Alerts.Match.match(stop_alerts, entities_from)
 
     entities_to = leg_entities_to(leg)
-    alerts_for_to = Alerts.Match.match(stop_alerts, entities_to)
+    to = Alerts.Match.match(stop_alerts, entities_to)
 
     %{
-      alerts_for_route: route_alerts,
-      alerts_for_from: alerts_for_from,
-      alerts_for_to: alerts_for_to
+      route: route_alerts,
+      from: from,
+      to: to
     }
   end
 end
