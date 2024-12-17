@@ -8,8 +8,6 @@ defmodule Dotcom.TripPlan.Alerts do
   * at the times they'll be travelling
   """
 
-  import Routes.Route, only: [is_external?: 1]
-
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
@@ -78,15 +76,23 @@ defmodule Dotcom.TripPlan.Alerts do
     end
   end
 
-  defp mode_entities(%TransitDetail{route: route}) when is_external?(route) do
-    []
-  end
+  defp mode_entities(%TransitDetail{route: route, trip: %{id: trip_id}}) do
+    trip =
+      if is_nil(route.external_agency_name) do
+        Schedules.Repo.trip(trip_id)
+      end
 
-  defp mode_entities(%TransitDetail{
-         route: %{id: route_id, type: route_type},
-         trip: %{id: trip_id, direction_id: direction_id}
-       }) do
-    [%IE{route_type: route_type, route: route_id, trip: trip_id, direction_id: direction_id}]
+    route_type =
+      if route do
+        route.type
+      end
+
+    direction_id =
+      if trip do
+        trip.direction_id
+      end
+
+    [%IE{route_type: route_type, route: route.id, trip: trip_id, direction_id: direction_id}]
   end
 
   defp mode_entities(_) do

@@ -167,6 +167,14 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   describe "by_mode_and_stops/2" do
     test "groups alerts by route, to, and from", %{itinerary: itinerary, route_id: route_id} do
+      expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
       [leg] = itinerary.legs
       [from_stop_id, to_stop_id] = itinerary |> Itinerary.stop_ids()
 
