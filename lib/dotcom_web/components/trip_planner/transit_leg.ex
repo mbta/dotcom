@@ -12,7 +12,6 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
-  alias Alerts.Match
   alias Dotcom.TripPlan.{Alerts, TransitDetail}
   alias Routes.Route
 
