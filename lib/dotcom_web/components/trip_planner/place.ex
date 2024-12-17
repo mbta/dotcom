@@ -40,7 +40,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
         </strong>
       </.dynamic_tag>
       <time class="text-right no-wrap">{format_time(@time)}</time>
-      <.alert_group class="col-start-2 mr-4" alerts={@alerts} />
+      <.alert_group class="col-start-2 col-end-4 mr-4" alerts={@alerts} />
     </div>
     """
   end
