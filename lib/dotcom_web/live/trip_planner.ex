@@ -74,7 +74,7 @@ defmodule DotcomWeb.Live.TripPlanner do
           id="trip-planner-map"
           class={[
             "md:order-last",
-            "h-64 md:h-96 w-full",
+            "h-64 md:h-[32rem] w-full",
             @results.itinerary_group_selection == nil && "hidden md:block",
             @results.itinerary_group_selection != nil && "block"
           ]}
