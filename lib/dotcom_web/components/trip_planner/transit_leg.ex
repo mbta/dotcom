@@ -173,7 +173,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
     ~H"""
     <div class="flex items-start gap-1.5">
-      <.route_symbol class="shrink-0" route={@leg.mode.route} />
+      <.route_symbol
+        class="shrink-0"
+        route={@leg.mode.route}
+        size={route_symbol_size(@leg.mode.route)}
+      />
 
       <div class="flex flex-col">
         <span class="font-bold">{@headsign}</span>
@@ -188,6 +192,9 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     </div>
     """
   end
+
+  defp route_symbol_size(%Route{type: 3} = route) when not is_external?(route), do: "small"
+  defp route_symbol_size(_), do: "default"
 
   # Massport trips might not have headsigns, so use the route names instead
   defp headsign(%{route: %Route{} = route}) when is_external?(route) do
