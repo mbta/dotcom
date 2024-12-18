@@ -6,41 +6,47 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use Phoenix.Component
 
+  import DotcomWeb.Components.TripPlanner.AlertGroup, only: [alert_group: 1]
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
-  alias Dotcom.TripPlan.TransitDetail
+  alias Dotcom.TripPlan.{Alerts, TransitDetail}
   alias Routes.Route
 
   @doc """
   Renders a transit leg.
 
-  Must be given a `leg`
+  Must be given a `leg` and a list of `alerts`
   """
 
+  attr :alerts, :list, default: []
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
+    assigns = assign(assigns, :alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
+
     ~H"""
     <div class="bg-gray-bordered-background">
       <.place
         place={@leg.from}
         time={@leg.start}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+        alerts={@alerts.from}
       />
+
       <div class={"bg-gray-bordered-background ml-5 border-l-8 #{leg_line_class(@leg.mode.route)}"}>
         <%= if Enum.count(@leg.mode.intermediate_stops) < 2 do %>
-          <.leg_summary leg={@leg} />
+          <.leg_summary leg={@leg} alerts={@alerts.route} />
           <.leg_details leg={@leg} />
         <% else %>
-          <details class="group">
+          <details class="group/stops">
             <summary class="flex cursor-pointer list-none gap-2 relative">
-              <.leg_summary leg={@leg} />
+              <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
                 name="chevron-up"
-                class="group-open:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
+                class="group-open/stops:rotate-180 w-4 h-4 absolute top-3 right-3 fill-brand-primary"
               />
             </summary>
             <.leg_details leg={@leg} />
@@ -51,6 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         place={@leg.to}
         time={@leg.stop}
         route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+        alerts={@alerts.to}
       />
     </div>
     """
@@ -81,13 +88,14 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
-    <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_max-content] pl-4">
+    <div class="gap-x-1 py-2 grid grid-rows-2 grid-cols-[min-content_auto] pl-4">
       <.route_symbol route={@leg.mode.route} />
       <span class="font-semibold">{@headsign}</span>
       <div class="text-sm col-start-2 row-start-2">
         <.ride_message mode={@leg.mode} />
         <span class="font-semibold">{@stops_count} {Inflex.inflect("stop", @stops_count)}</span>
       </div>
+      <.alert_group class="col-start-2 mb-2 mr-4" alerts={@alerts} />
     </div>
     """
   end

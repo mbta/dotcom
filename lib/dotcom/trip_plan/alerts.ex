@@ -12,6 +12,16 @@ defmodule Dotcom.TripPlan.Alerts do
   alias Alerts.InformedEntity, as: IE
   alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
 
+  @spec from_itinerary(Itinerary.t()) :: [Alerts.Alert.t()]
+  def from_itinerary(itinerary) do
+    itinerary.start
+    |> Alerts.Repo.all()
+    |> Alerts.Match.match(
+      entities(itinerary),
+      itinerary.start
+    )
+  end
+
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
   @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]
   def filter_for_itinerary(alerts, itinerary) do
@@ -19,6 +29,16 @@ defmodule Dotcom.TripPlan.Alerts do
       alerts,
       Enum.concat(intermediate_entities(itinerary), entities(itinerary)),
       itinerary.start
+    )
+  end
+
+  @doc "Filters a list of Alerts to those relevant to the Leg"
+  @spec filter_for_leg([Alert.t()], Leg.t()) :: [Alert.t()]
+  def filter_for_leg(alerts, leg) do
+    Alerts.Match.match(
+      alerts,
+      leg_entities(leg),
+      leg.start
     )
   end
 
@@ -36,8 +56,14 @@ defmodule Dotcom.TripPlan.Alerts do
   end
 
   defp leg_entities(%Leg{mode: mode} = leg) do
+    %{from: from, to: to} = Leg.stop_ids(leg)
+
+    mode_entities_with_stop_ids(mode, from ++ to)
+  end
+
+  defp mode_entities_with_stop_ids(mode, stop_ids) do
     for entity <- mode_entities(mode),
-        stop_id <- Leg.stop_ids(leg) do
+        stop_id <- stop_ids do
       %{entity | stop: stop_id}
     end
   end
@@ -63,5 +89,31 @@ defmodule Dotcom.TripPlan.Alerts do
 
   defp mode_entities(_) do
     []
+  end
+
+  def by_mode_and_stops(alerts, leg) do
+    {route_alerts, stop_alerts} =
+      alerts
+      |> Enum.split_with(fn alert ->
+        alert.informed_entity.entities
+        |> Enum.all?(fn
+          %{stop: nil} -> true
+          _ -> false
+        end)
+      end)
+
+    %{from: from_stop_ids, to: to_stop_ids} = Leg.stop_ids(leg)
+
+    entities_from = mode_entities_with_stop_ids(leg.mode, from_stop_ids)
+    from = Alerts.Match.match(stop_alerts, entities_from)
+
+    entities_to = mode_entities_with_stop_ids(leg.mode, to_stop_ids)
+    to = Alerts.Match.match(stop_alerts, entities_to)
+
+    %{
+      route: route_alerts,
+      from: from,
+      to: to
+    }
   end
 end

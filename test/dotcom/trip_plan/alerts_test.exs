@@ -165,6 +165,45 @@ defmodule Dotcom.TripPlan.AlertsTest do
     end
   end
 
+  describe "by_mode_and_stops/2" do
+    test "groups alerts by route, to, and from", %{itinerary: itinerary, route_id: route_id} do
+      expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
+      [leg] = itinerary.legs
+      [from_stop_id, to_stop_id] = itinerary |> Itinerary.stop_ids()
+
+      route_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%InformedEntity{route: route_id}]
+        )
+
+      from_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%InformedEntity{stop: from_stop_id}]
+        )
+
+      to_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%InformedEntity{stop: to_stop_id}]
+        )
+
+      assert by_mode_and_stops([route_alert, from_alert, to_alert], leg) == %{
+               from: [from_alert],
+               to: [to_alert],
+               route: [route_alert]
+             }
+    end
+  end
+
   defp assert_only_good_alert(good_alert, bad_alert, itinerary) do
     assert filter_for_itinerary([good_alert, bad_alert], itinerary) == [good_alert]
   end

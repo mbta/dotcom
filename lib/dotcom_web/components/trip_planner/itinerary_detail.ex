@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
   alias Dotcom.TripPlan.LegToSegmentHelper
+  alias Dotcom.TripPlan.Alerts
 
   def itinerary_detail(assigns) do
     itinerary_group =
@@ -74,16 +75,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp specific_itinerary_detail(assigns) do
     assigns =
-      assign(
-        assigns,
-        :segments,
-        LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs)
-      )
+      assigns
+      |> assign_new(:alerts, fn -> Alerts.from_itinerary(assigns.itinerary) end)
+      |> assign(:segments, LegToSegmentHelper.legs_to_segments(assigns.itinerary.legs))
 
     ~H"""
     <div class="mt-4">
       <div :for={segment <- @segments}>
-        <.segment segment={segment} />
+        <.segment segment={segment} alerts={@alerts} />
       </div>
     </div>
     """
@@ -112,7 +111,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     assigns = assign(assigns, :leg, leg)
 
     ~H"""
-    <.transit_leg leg={@leg} />
+    <.transit_leg leg={@leg} alerts={Alerts.filter_for_leg(@alerts, @leg)} />
     """
   end
 end
