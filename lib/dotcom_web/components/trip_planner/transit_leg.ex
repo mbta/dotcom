@@ -52,14 +52,13 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
           </div>
         <% else %>
           <details class="w-full my-3 group/stops">
-            <summary class="cursor-pointer">
+            <summary class="flex items-start cursor-pointer">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
-              <div class="ml-auto w-4 h-4">
-                <.icon
-                  name="chevron-down"
-                  class="w-4 h-4 fill=brand-primary group-open/stops:rotate-180"
-                />
-              </div>
+
+              <.icon
+                name="chevron-down"
+                class="ml-auto shrink-0 w-4 h-4 fill=brand-primary group-open/stops:rotate-180"
+              />
             </summary>
             <.leg_details leg={@leg} />
           </details>
@@ -92,9 +91,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         url={stop_url(@route, @place.stop)}
       >
         <:icon>
-          <div class="h-5 w-5">
-            <.transit_leg_icon route={@route} />
-          </div>
+          <.transit_leg_icon route={@route} />
+
           <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
         </:icon>
       </.place>
@@ -143,7 +141,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     assigns = assigns |> assign(:name, name)
 
     ~H"""
-    <.icon type="icon-svg" class="h-5 w-5" name={@name} />
+    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name={@name} />
     """
   end
 
@@ -175,9 +173,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
     ~H"""
     <div class="flex items-start gap-1.5">
-      <div class="min-h-6 min-w-6">
-        <.route_symbol route={@leg.mode.route} />
-      </div>
+      <.route_symbol class="shrink-0" route={@leg.mode.route} />
 
       <div class="flex flex-col">
         <span class="font-bold">{@headsign}</span>

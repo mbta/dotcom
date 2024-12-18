@@ -33,7 +33,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
         <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
           <summary class="flex w-full gap-x-3.5 py-3">
-            <.icon name="person-walking" class="w-4 h-6 fill-black" />
+            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" />
             <div class="flex flex-col text-sm">
               <div class="font-medium">Walk</div>
               <div>
@@ -42,7 +42,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             </div>
             <.icon
               name="chevron-down"
-              class="ml-auto w-4 h-4 fill=brand-primary group-open:rotate-180"
+              class="ml-auto shrink-0 w-4 h-4 fill=brand-primary group-open:rotate-180"
             />
           </summary>
           <.list class="m-0">
