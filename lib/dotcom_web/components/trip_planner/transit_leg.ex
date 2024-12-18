@@ -149,7 +149,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
           Hide Details
         </span>
       </summary>
-      <div class="bg-white p-2 text-sm">
+      <div class="bg-white mt-1 px-5 py-4 text-sm">
         {@alert.header}
       </div>
     </details>
