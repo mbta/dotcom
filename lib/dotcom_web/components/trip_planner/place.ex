@@ -5,9 +5,10 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
 
   use DotcomWeb, :component
 
+  attr :accessible, :boolean, default: false
   attr :name, :string, required: true
   attr :time, :any, required: true
-  attr :accessible, :boolean, default: false
+  attr :url, :string, default: nil
   slot :icon
 
   def place(assigns) do
@@ -17,27 +18,41 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
         {render_slot(@icon)}
       </div>
 
-      <strong class="text-sm">
-        {@name}
-        <.icon
-          :if={@accessible}
-          type="icon-svg"
-          name="icon-accessible-default"
-          class="h-3 w-3 shrink-0 ml-1.5"
-          aria-hidden="true"
-        />
-      </strong>
+      <.wrap_with_url url={@url}>
+        <strong class="text-sm">
+          {@name}
+          <.icon
+            :if={@accessible}
+            type="icon-svg"
+            name="icon-accessible-default"
+            class="h-3 w-3 shrink-0 ml-1.5"
+            aria-hidden="true"
+          />
+        </strong>
+      </.wrap_with_url>
 
       <time class="ml-auto text-right text-sm text-nowrap">{format_time(@time)}</time>
     </div>
     """
   end
 
-  # defp stop_url(%Route{external_agency_name: nil}, %Stop{} = stop) do
-  #   ~p"/stops/#{stop}"
-  # end
+  attr :url, :string, required: true
+  slot :inner_block
+  defp wrap_with_url(assigns)
 
-  # defp stop_url(_, _), do: nil
+  defp wrap_with_url(%{url: nil} = assigns) do
+    ~H"""
+    {render_slot(@inner_block)}
+    """
+  end
+
+  defp wrap_with_url(assigns) do
+    ~H"""
+    <a class="hover:no-underline text-black leading-5" href={@url} target="_blank">
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
 
   defp format_time(datetime), do: Timex.format!(datetime, "%-I:%M %p", :strftime)
 end

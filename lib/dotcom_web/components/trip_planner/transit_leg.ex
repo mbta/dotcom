@@ -4,7 +4,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   Includes styling for the traversed route & a list of intermediate stops.
   """
 
-  use Phoenix.Component
+  use DotcomWeb, :component
 
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
@@ -89,6 +89,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         time={@time}
         name={@place.stop.name}
         accessible={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
+        url={stop_url(@route, @place.stop)}
       >
         <:icon>
           <div class="h-5 w-5">
@@ -109,6 +110,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     </div>
     """
   end
+
+  defp stop_url(%Route{external_agency_name: nil}, %Stop{} = stop) do
+    ~p"/stops/#{stop}"
+  end
+
+  defp stop_url(_, _), do: nil
 
   defp leg_line_class(%Route{external_agency_name: "Massport"}) do
     "bg-massport"
