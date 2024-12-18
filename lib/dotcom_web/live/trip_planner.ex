@@ -67,14 +67,13 @@ defmodule DotcomWeb.Live.TripPlanner do
       <.input_form changeset={@input_form.changeset} />
       <.results_summary changeset={@input_form.changeset} results={@results} />
       <div class={[
-        "flex flex-col md:grid",
-        Enum.count(@results.itinerary_groups) > 0 && "md:grid-cols-2",
-        Enum.count(@results.itinerary_groups) == 0 && "md:grid-cols-1"
+        "flex flex-col gap-4 md:flex-row md:gap-7"
       ]}>
         <.live_component
           module={MbtaMetro.Live.Map}
           id="trip-planner-map"
           class={[
+            "md:order-last",
             "h-64 md:h-96 w-full",
             @results.itinerary_group_selection == nil && "hidden md:block",
             @results.itinerary_group_selection != nil && "block"
@@ -84,7 +83,11 @@ defmodule DotcomWeb.Live.TripPlanner do
           pins={@map.pins}
           points={@map.points}
         />
-        <.results class="row-start-1 col-start-1" results={@results} />
+        <.results
+          :if={Enum.count(@results.itinerary_groups) > 0}
+          class="md:max-w-[25rem]"
+          results={@results}
+        />
       </div>
     </div>
     """
