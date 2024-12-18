@@ -13,6 +13,15 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
       {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
     end)
+
+    # For certain routes, Dotcom.TripPlan.Alerts.mode_entities/1 is called to help fetch the associated alerts
+    stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+      %JsonApi{
+        data: [
+          Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+        ]
+      }
+    end)
   end
 
   defp stub_populated_otp_results do
@@ -227,6 +236,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
          }}
       end)
 
+      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
       render_async(view)
@@ -253,6 +270,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
          }}
       end)
 
+      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
       render_async(view)
@@ -274,6 +299,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
          %OpenTripPlannerClient.Plan{
            itineraries: grouped_itineraries_from_headsigns([trip_headsign_1, trip_headsign_2])
          }}
+      end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+          ]
+        }
       end)
 
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
