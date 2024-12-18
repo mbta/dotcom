@@ -7,6 +7,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
 
   attr :name, :string, required: true
   attr :time, :any, required: true
+  attr :accessible, :boolean, default: false
   slot :icon
 
   def place(assigns) do
@@ -15,9 +16,18 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
       <div class="flex flex-col items-center">
         {render_slot(@icon)}
       </div>
-      <div class="flex flex-col justify-start">
-        <strong class="text-sm">{@name}</strong>
-      </div>
+
+      <strong class="text-sm">
+        {@name}
+        <.icon
+          :if={@accessible}
+          type="icon-svg"
+          name="icon-accessible-default"
+          class="h-3 w-3 shrink-0 ml-1.5"
+          aria-hidden="true"
+        />
+      </strong>
+
       <time class="ml-auto text-right text-sm text-nowrap">{format_time(@time)}</time>
     </div>
     """

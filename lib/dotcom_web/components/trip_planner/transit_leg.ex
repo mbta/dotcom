@@ -6,7 +6,6 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use Phoenix.Component
 
-  # import DotcomWeb.Components.TripPlanner.AlertGroup, only: [alert_group: 1]
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
   import DotcomWeb.Components.TripPlanner.Place
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -14,6 +13,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   alias Dotcom.TripPlan.{Alerts, TransitDetail}
   alias Routes.Route
+  alias Stops.Stop
 
   @doc """
   Renders a transit leg.
@@ -85,7 +85,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp transit_place(assigns) do
     ~H"""
     <div>
-      <.place time={@time} name={@place.stop.name}>
+      <.place
+        time={@time}
+        name={@place.stop.name}
+        accessible={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
+      >
         <:icon>
           <div class="h-5 w-5">
             <.transit_leg_icon route={@route} />
