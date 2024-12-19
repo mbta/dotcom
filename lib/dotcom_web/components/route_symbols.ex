@@ -16,7 +16,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   variant(
     :size,
     [
-      small: "rounded-[3px] px-[2px] py-[2px] min-w-6 text-sm",
+      small: "rounded-[3px] px-[2px] py-[2px] min-w-8 text-sm",
       default: "rounded-[4px] px-[4px] py-[4px] min-w-10"
     ],
     default: :default
