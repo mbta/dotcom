@@ -34,6 +34,21 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       assert Kernel.length(grouped_itineraries) == 1
     end
 
+    test "only includes the first five itineraries in a group", %{stops: [a, b, c]} do
+      # SETUP
+      bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
+      subway_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
+
+      itineraries =
+        TripPlanner.build_list(10, :itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
+
+      # EXERCISE
+      [group] = ItineraryGroups.from_itineraries(itineraries)
+
+      # VERIFY
+      assert Kernel.length(group.itineraries) == 5
+    end
+
     test "does not group itineraries with different modes", %{stops: [a, b, c]} do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
