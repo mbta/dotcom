@@ -6,7 +6,6 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   use Phoenix.Component
 
-  import MbtaMetro.Components.Accordion, only: [accordion: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import MbtaMetro.Components.List, only: [list: 1]
 
@@ -25,31 +24,36 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   def walking_leg(assigns) do
     ~H"""
-    <div class="ml-6 py-1 border-l-2 border-black pl-4">
-      <hr class="my-1 border-t-solid border-slate-300" />
-      <.accordion>
-        <:heading>
-          <.icon name="person-walking" class="w-5 h-5 mr-1 fill-black" />
-          <div class="text-black">
-            <div class="text-base">
-              Walk
+    <div class="px-3">
+      <div class="flex items-stretch gap-x-2">
+        <div class="flex flex-col items-center">
+          <div class="w-5"></div>
+          <div class={["w-0.5 flex-grow bg-black"]}></div>
+        </div>
+
+        <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
+          <summary class="flex w-full gap-x-3.5 py-3">
+            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" />
+            <div class="flex flex-col text-sm">
+              <div class="font-medium">Walk</div>
+              <div>
+                {@leg.duration} min, {@leg.distance} mi
+              </div>
             </div>
-            <div class="text-sm">
-              {@leg.duration} min, {@leg.distance} mi
-            </div>
-          </div>
-        </:heading>
-        <:content>
-          <.list class="w-full m-0 ps-0">
+            <.icon
+              name="chevron-down"
+              class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open:rotate-180"
+            />
+          </summary>
+          <.list class="m-0">
             <:item :for={step <- @leg.mode.steps}>
               <span class="text-sm">
                 {Step.walk_summary(step)}
               </span>
             </:item>
           </.list>
-        </:content>
-      </.accordion>
-      <hr class="my-1 border-t-solid border-slate-300" />
+        </details>
+      </div>
     </div>
     """
   end
