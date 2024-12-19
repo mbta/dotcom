@@ -169,9 +169,15 @@ defmodule DotcomWeb.Live.TripPlanner do
       itinerary_selection: nil
     }
 
+    new_map = %{
+      lines: [],
+      points: []
+    }
+
     new_socket =
       socket
       |> assign(:results, Map.merge(socket.assigns.results, new_results))
+      |> assign(:map, Map.merge(socket.assigns.map, new_map))
 
     {:noreply, new_socket}
   end
