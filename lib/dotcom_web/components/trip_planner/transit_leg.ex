@@ -39,7 +39,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         alerts={@alerts.from}
       />
 
-      <div class="flex items-stretch gap-x-[0.9375rem]">
+      <div class="flex items-stretch gap-x-2">
         <div class="flex flex-col items-center">
           <div class="w-5"></div>
           <div class={["w-1 flex-grow", leg_line_class(@leg.mode.route)]}></div>
@@ -172,12 +172,14 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
-    <div class="flex items-start gap-1.5">
-      <.route_symbol
-        class="shrink-0"
-        route={@leg.mode.route}
-        size={route_symbol_size(@leg.mode.route)}
-      />
+    <div class="flex items-start">
+      <div class="h-6 w-[2.375rem] shrink-0 flex items-center justify-start">
+        <.route_symbol
+          class="shrink-0"
+          route={@leg.mode.route}
+          size={route_symbol_size(@leg.mode.route)}
+        />
+      </div>
 
       <div class="flex flex-col">
         <span class="font-bold">{@headsign}</span>
@@ -270,7 +272,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         :for={stop <- @leg.mode.intermediate_stops}
         class="inline-flex items-center gap-x-2 py-2 relative"
       >
-        <.icon name="circle" class="h-1.5 w-1.5 absolute -left-7 fill-white" />
+        <.icon name="circle" class="h-1.5 w-1.5 absolute -left-[1.3125rem] fill-white" />
         {stop.name}
       </li>
     </ul>
