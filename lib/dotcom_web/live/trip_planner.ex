@@ -203,9 +203,11 @@ defmodule DotcomWeb.Live.TripPlanner do
       points: itinerary_groups_to_points(socket.assigns.results.itinerary_groups, index)
     }
 
+    new_results = %{itinerary_group_selection: index, itinerary_selection: 0}
+
     new_socket =
       socket
-      |> assign(:results, Map.put(socket.assigns.results, :itinerary_group_selection, index))
+      |> assign(:results, Map.merge(socket.assigns.results, new_results))
       |> assign(:map, Map.merge(socket.assigns.map, new_map))
 
     {:noreply, new_socket}
