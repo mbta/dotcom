@@ -57,7 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
               <.icon
                 name="chevron-down"
-                class="ml-auto shrink-0 w-4 h-4 fill=brand-primary group-open/stops:rotate-180"
+                class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open/stops:rotate-180"
               />
             </summary>
             <.leg_details leg={@leg} />
