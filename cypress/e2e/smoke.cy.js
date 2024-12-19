@@ -19,8 +19,8 @@ describe("passes smoke test", () => {
       cy.contains("Contact Us");
       cy.contains("Ferry One-Way");
       cy.get("#whats-happening-promoted > div").should("have.length", 2);
-      if (!Cypress.config("baseUrl").includes("dev-green")) {
-        // these are skipped on dev-green because the test CMS has no events
+      if (Cypress.config("baseUrl").includes("mbta.com")) {
+        // these are skipped on dev environments because the test CMS has no events
         cy.contains("Upcoming Public Meetings and Events");
         cy.get("li.m-event").should("have.length.greaterThan", 0);
       }
