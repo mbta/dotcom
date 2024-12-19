@@ -42,7 +42,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             </div>
             <.icon
               name="chevron-down"
-              class="ml-auto shrink-0 w-4 h-4 fill=brand-primary group-open:rotate-180"
+              class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open:rotate-180"
             />
           </summary>
           <.list class="m-0">
