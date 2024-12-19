@@ -78,7 +78,7 @@ defmodule Dotcom.TripPlan.Map do
 
   defp polyline_to_line(polyline) do
     %{
-      color: Map.get(polyline, :color),
+      color: Map.get(polyline, :color, "#000000"),
       coordinates: Map.get(polyline, :positions, []) |> invert_coordinates(),
       width: Map.get(polyline, :weight, 4)
     }
