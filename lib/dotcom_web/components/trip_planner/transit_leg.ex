@@ -172,20 +172,23 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       |> assign(:headsign, headsign(assigns.leg.mode))
 
     ~H"""
-    <div class="ml-10 flex flex-col relative">
+    <div class="flex items-start gap-1.5">
       <.route_symbol
-        class="shrink-0 absolute -left-10"
+        class="shrink-0"
         route={@leg.mode.route}
         size={route_symbol_size(@leg.mode.route)}
       />
-      <span class="font-bold">{@headsign}</span>
-      <span class="text-sm">
-        <.ride_message mode={@leg.mode} />
-        <span class="font-semibold">
-          {@stops_count} {Inflex.inflect("stop", @stops_count)}
+
+      <div class="flex flex-col">
+        <span class="font-bold">{@headsign}</span>
+        <span class="text-sm">
+          <.ride_message mode={@leg.mode} />
+          <span class="font-semibold">
+            {@stops_count} {Inflex.inflect("stop", @stops_count)}
+          </span>
         </span>
-      </span>
-      <.alert :for={alert <- @alerts} alert={alert} />
+        <.alert :for={alert <- @alerts} alert={alert} />
+      </div>
     </div>
     """
   end
