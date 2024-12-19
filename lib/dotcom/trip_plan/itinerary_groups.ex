@@ -12,6 +12,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   alias OpenTripPlannerClient.ItineraryTag
 
   @short_walk_threshold_minutes 5
+  @max_per_group 5
 
   @type summarized_leg :: %{
           routes: [Routes.Route.t()],
@@ -35,8 +36,10 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   def from_itineraries(itineraries) do
     itineraries
     |> Enum.group_by(&unique_legs_to_hash/1)
+    |> Enum.map(&drop_hash/1)
+    |> Enum.reject(&Enum.empty?/1)
+    |> Enum.map(&limit_itinerary_count/1)
     |> Enum.map(&to_summarized_group/1)
-    |> Enum.reject(&Enum.empty?(&1.itineraries))
     |> Enum.sort_by(fn
       %{itineraries: [%{tag: tag} | _] = _} ->
         Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
@@ -61,11 +64,19 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
   end
 
-  defp to_summarized_group({_hash, grouped_itineraries}) do
+  defp drop_hash({_hash, grouped_itineraries}) do
+    grouped_itineraries
+  end
+
+  defp to_summarized_group(grouped_itineraries) do
     %{
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
       summary: summary(grouped_itineraries)
     }
+  end
+
+  defp limit_itinerary_count(itineraries) do
+    Enum.take(itineraries, @max_per_group)
   end
 
   defp summary(itineraries) do

@@ -48,6 +48,7 @@ defmodule Dotcom.TripPlan.InputForm do
       toPlace: PlanParams.to_place_param(to),
       arriveBy: datetime_type == "arrive_by",
       date: PlanParams.to_date_param(datetime),
+      numItineraries: 100,
       time: PlanParams.to_time_param(datetime),
       transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
       wheelchair: wheelchair
