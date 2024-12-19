@@ -7,9 +7,6 @@ defmodule DotcomWeb.Components.TripPlanner.StartOrEndPlace do
 
   import DotcomWeb.Components.TripPlanner.Place, only: [place: 1]
 
-  alias Routes.Route
-  alias Stops.Stop
-
   attr :place, :map, required: true
   attr :time, :any, required: true
   attr :route, :map, default: nil
