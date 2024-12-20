@@ -7,11 +7,7 @@ Application.ensure_all_started(:ex_machina)
 Application.ensure_all_started(:mox)
 Application.ensure_all_started(:tzdata)
 
-# External tests interact with outside systems.
-# Flaky tests fail nondeterministically.
-# Evil tests cause nondeterminism in other tests.
-# They should all not be run under normal circumstances.
-ExUnit.configure(exclude: [external: true, flaky: true, evil: true])
+ExUnit.configure(exclude: [external: true, flaky: true])
 ExUnit.configure(formatters: [ExUnit.CLIFormatter, ExUnitSummary.Formatter])
 
 ExUnit.start(capture_log: true)

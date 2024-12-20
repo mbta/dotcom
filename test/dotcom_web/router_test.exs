@@ -1,5 +1,5 @@
 defmodule Phoenix.Router.RoutingTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase
 
   @canonical_host "www.mbta.com"
 
@@ -119,13 +119,6 @@ defmodule Phoenix.Router.RoutingTest do
       assert redirected_to(conn, 301) == "/trip-planner"
     end
 
-    # This test causes flakiness in others, hence the "evil"
-    # designation. It sets the HOST env variable to "www.mbta.com",
-    # runs its own assertions, and then sets it back, which works most
-    # of the time, but if another test happens to call into the
-    # "CanonicalHostname" plug while "HOST" is set to "www.mbta.com",
-    # then it will get erroneously redirected.
-    @tag :evil
     test "redirect to canonical host securely", %{conn: conn} do
       System.put_env("HOST", @canonical_host)
 
