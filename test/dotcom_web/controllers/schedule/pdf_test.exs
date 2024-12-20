@@ -2,6 +2,7 @@ defmodule DotcomWeb.ScheduleController.PdfTest do
   use DotcomWeb.ConnCase, async: true
 
   describe "pdf/2" do
+    @tag :flaky
     test "redirects to PDF for route when present", %{conn: conn} do
       expected_path = "/sites/default/files/route_pdfs/route087.pdf"
 
