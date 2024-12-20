@@ -1,5 +1,5 @@
 defmodule Phoenix.Router.RoutingTest do
-  use DotcomWeb.ConnCase
+  use DotcomWeb.ConnCase, async: true
 
   @canonical_host "www.mbta.com"
 
