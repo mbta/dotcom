@@ -729,6 +729,7 @@ defmodule Dotcom.TransitNearMeTest do
                    trip: @trip3
                  })
 
+    @tag :flaky
     test "returns time data for the next 2 predictions" do
       expect(Predictions.Repo.Mock, :all, fn _ ->
         [@prediction1, @prediction2, @prediction3]

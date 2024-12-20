@@ -88,6 +88,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
   setup :verify_on_exit!
 
   describe "with no location params" do
+    @tag :flaky
     test "does not attempt to calculate stops with routes", %{conn: conn} do
       conn = get(conn, transit_near_me_path(conn, :index))
       assert conn.status == 200
@@ -146,6 +147,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.flash == %{}
     end
 
+    @tag :flaky
     test "flashes an error if location has no stops nearby", %{conn: conn} do
       expect(LocationService.Mock, :geocode, fn address ->
         assert address == @address

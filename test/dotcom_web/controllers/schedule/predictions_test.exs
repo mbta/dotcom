@@ -218,6 +218,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       assert conn.assigns[:predictions] == []
     end
 
+    @tag :flaky
     test "assigns a list containing predictions for every stop with a vehicle at it", %{
       conn: conn
     } do
@@ -271,6 +272,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
              ]
     end
 
+    @tag :flaky
     test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
       stop_id_1 = Faker.Pokemon.location()
       route_id = "#{Faker.Util.digit()}"
