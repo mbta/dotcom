@@ -28,7 +28,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         phx-change="input_form_change"
         phx-submit="input_form_submit"
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id="trip-planner-locations">
+        <div :for={field <- [:from, :to]} class="mb-1" id={"trip-planner-locations-#{field}"}>
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
