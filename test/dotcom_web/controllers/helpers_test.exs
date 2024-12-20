@@ -395,7 +395,6 @@ defmodule DotcomWeb.ControllerHelpersTest do
       refute {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
     end
 
-    @tag :flaky
     test "does not set an unavailable_after x-robots-tag HTTP header if x-robots-tag set to noindex",
          %{conn: conn} do
       # causes x-robots-tag to set to noindex

@@ -2,7 +2,6 @@ defmodule DotcomWeb.ScheduleController.PdfTest do
   use DotcomWeb.ConnCase, async: true
 
   describe "pdf/2" do
-    @tag :flaky
     test "redirects to PDF for route when present", %{conn: conn} do
       expected_path = "/sites/default/files/route_pdfs/route087.pdf"
 
@@ -13,14 +12,12 @@ defmodule DotcomWeb.ScheduleController.PdfTest do
       assert redirected_to(conn, 302) == static_url(DotcomWeb.Endpoint, expected_path)
     end
 
-    @tag :flaky
     test "renders 404 if we have no pdfs for the route", %{conn: conn} do
       conn = get(conn, route_pdf_path(conn, :pdf, "nonexistent"))
 
       assert html_response(conn, 404)
     end
 
-    @tag :flaky
     test "cleanly handles errors from the api", %{conn: conn} do
       conn = get(conn, route_pdf_path(conn, :pdf, "error"))
 

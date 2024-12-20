@@ -22,7 +22,6 @@ defmodule Algolia.Query.RequestTest do
     end
   end
 
-  @tag :flaky
   test "encode/1 returns a JSON-encodable map with encoded params" do
     request =
       Request.new("drupal", "some special search", %{

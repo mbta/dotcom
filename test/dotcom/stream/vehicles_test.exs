@@ -15,7 +15,6 @@ defmodule Dotcom.Stream.VehiclesTest do
     :ok
   end
 
-  @tag :flaky
   test "broadcasts vehicles by route and direction id" do
     Phoenix.PubSub.subscribe(Dotcom.PubSub, "vehicles:Red:0")
     Phoenix.PubSub.subscribe(Dotcom.PubSub, "vehicles:CR-Lowell:1")
@@ -45,7 +44,6 @@ defmodule Dotcom.Stream.VehiclesTest do
     })
   end
 
-  @tag :flaky
   test "sends a generic Green broadcast" do
     Phoenix.PubSub.subscribe(Dotcom.PubSub, "vehicles:Green:1")
     assert {:ok, pid} = start_supervised({Dotcom.Stream.Vehicles, []})
@@ -60,7 +58,6 @@ defmodule Dotcom.Stream.VehiclesTest do
     })
   end
 
-  @tag :flaky
   test "broadcasts to the configured topic" do
     DotcomWeb.Endpoint.subscribe("vehicles-v2:Green:1")
     assert {:ok, pid} = start_supervised({Dotcom.Stream.Vehicles, topic: "vehicles-v2"})

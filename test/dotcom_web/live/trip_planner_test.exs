@@ -187,7 +187,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       }
     end
 
-    @tag :flaky
     test "starts out with no 'View All Options' button", %{conn: conn, params: params} do
       stub_populated_otp_results()
 
@@ -223,13 +222,12 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute render_async(view) =~ "View All Options"
     end
 
-    @tag :flaky
     test "'Depart At' buttons toggle which itinerary to show", %{
       conn: conn,
       params: params
     } do
-      trip_headsign_1 = "Headsign:#{Faker.App.name()}"
-      trip_headsign_2 = "Headsign:#{Faker.App.name()}"
+      trip_headsign_1 = "Headsign1"
+      trip_headsign_2 = "Headsign2"
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
         {:ok,
@@ -289,13 +287,12 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute view |> element("#itinerary-detail-departure-times") |> has_element?()
     end
 
-    @tag :flaky
     test "'Depart At' button state is not preserved when leaving details view", %{
       conn: conn,
       params: params
     } do
-      trip_headsign_1 = "Headsign:#{Faker.App.name()}"
-      trip_headsign_2 = "Headsign:#{Faker.App.name()}"
+      trip_headsign_1 = "Headsign1"
+      trip_headsign_2 = "Headsign2"
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
         {:ok,

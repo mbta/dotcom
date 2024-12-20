@@ -131,7 +131,6 @@ defmodule Predictions.PubSubTest do
       assert_receive {:trace, ^pid, :receive, {:dispatch, _, _, {:reply, [], :foo}}}, 1000
     end
 
-    @tag :flaky
     test "dispatches to pids", context do
       # Setup
       pid = Process.whereis(PubSub)
