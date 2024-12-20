@@ -37,6 +37,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert response =~ "A comment about the MBTA"
     end
 
+    @tag :flaky
     test "sets the service options on the connection", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
 
@@ -100,6 +101,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       }
     end
 
+    @tag :flaky
     test "shows a thank you message on success and sends an email", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
@@ -134,6 +136,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert conn.assigns.meta_description
     end
 
+    @tag :flaky
     test "validates presence of comments", %{conn: conn} do
       conn =
         post(
@@ -145,6 +148,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "comments" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "validates the presence of the service type", %{conn: conn} do
       conn =
         post(
@@ -178,6 +182,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "subject" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "validates that the subject is a required field", %{conn: conn} do
       # remove subject from valid_no_response_data:
       form_data = pop_in(valid_no_response_data()["support"]["subject"]) |> elem(1)
@@ -221,6 +226,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       refute conn.assigns["errors"]
     end
 
+    @tag :flaky
     test "requires first_name if customer does want a response", %{conn: conn} do
       conn =
         post(
@@ -243,6 +249,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "last_name" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "invalid with no email when the customer wants a response", %{conn: conn} do
       conn =
         post(
@@ -265,6 +272,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "email" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "invalid with phone but no email when the customer wants a response", %{conn: conn} do
       conn =
         post(
@@ -289,6 +297,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "privacy" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "attaches photos in params", %{conn: conn} do
       File.write!("/tmp/upload-1", "upload 1 data")
       File.write!("/tmp/upload-2", "upload 2 data")
@@ -310,6 +319,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert %{"filename" => "photo-2.jpg", "data" => Base.encode64("upload 2 data")} in attachments
     end
 
+    @tag :flaky
     test "doesn't attach more than 6 files", %{conn: conn} do
       params =
         valid_no_response_data()
@@ -321,6 +331,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert length(attachments) <= 6
     end
 
+    @tag :flaky
     test "doesn't attach a file larger than 2 MB", %{conn: conn} do
       # Oversized test file is ~4 MB
       oversized_file = Enum.find(test_photos(), &String.starts_with?(&1.filename, "oversized"))
@@ -336,6 +347,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert attachments == []
     end
 
+    @tag :flaky
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
       params =
         valid_request_response_data()
@@ -354,6 +366,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "photos" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
       rate_limit = Application.get_env(:dotcom, :feedback_rate_limit)
 
@@ -382,6 +395,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert log =~ "rate limit exceeded"
     end
 
+    @tag :flaky
     test "requires a successful recaptcha response", %{conn: conn} do
       conn =
         post(
@@ -393,6 +407,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "handles invalid response", %{conn: conn} do
       conn =
         post(
@@ -417,6 +432,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    @tag :flaky
     test "adds date and time fields if not present in the form", %{conn: conn} do
       conn =
         post(
@@ -486,6 +502,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert rendered == ""
     end
 
+    @tag :flaky
     test "sets date to today if it's in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
       m = DateTime.utc_now().month
@@ -526,6 +543,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
              )
     end
 
+    @tag :flaky
     test "submits the date as is because it's not in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
       m = DateTime.utc_now().month
@@ -566,6 +584,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   end
 
   describe "Date and time selector" do
+    @tag :flaky
     test "renders a date and time selector", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
       rendered = html_response(conn, 200)

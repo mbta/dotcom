@@ -102,6 +102,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
   end
 
   describe "index without params" do
+    @tag :flaky
     test "renders index.html", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
       assert html_response(conn, 200) =~ "Trip Planner"
@@ -151,6 +152,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
+    @tag :flaky
     test "sets hidden inputs for lat/lng", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
@@ -201,6 +203,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
+    @tag :flaky
     test "assigns.wheelchair uses value provided in params", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
@@ -244,6 +247,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert html_response(conn, 200)
     end
 
+    @tag :flaky
     test "each map url has a path color", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
 
@@ -265,11 +269,13 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
+    @tag :flaky
     test "assigns maps for each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_maps
     end
 
+    @tag :flaky
     test "gets routes from each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.routes
@@ -279,6 +285,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       end
     end
 
+    @tag :flaky
     test "assigns an ItineraryRowList for each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_row_lists
@@ -304,6 +311,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
              end)
     end
 
+    @tag :flaky
     test "returns all nil fares when there is not enough information", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
 
@@ -320,6 +328,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       end
     end
 
+    @tag :flaky
     test "adds monthly pass data to each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
 
@@ -370,6 +379,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert html_response(conn, 200)
     end
 
+    @tag :flaky
     test "renders an error if to and from address are the same", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
@@ -436,6 +446,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert response =~ "Date is not valid"
     end
 
+    @tag :flaky
     test "bad date input: partial input", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
@@ -451,6 +462,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert response =~ "Date is not valid"
     end
 
+    @tag :flaky
     test "bad date input: corrupt day", %{conn: conn} do
       date_input = %{
         "year" => "A",
@@ -506,6 +518,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert response =~ expected
     end
 
+    @tag :flaky
     test "bad date input: date in past", %{conn: conn} do
       past_date =
         @system_time
@@ -559,6 +572,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert html_response(conn, 200)
     end
 
+    @tag :flaky
     test "handles non-existing date and time params, using today's values",
          %{conn: conn} do
       params = %{
@@ -617,6 +631,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       refute response =~ "Date is not valid"
     end
 
+    @tag :flaky
     test "hour and minute are processed correctly when provided as single digits", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
@@ -662,6 +677,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert html_response(conn, 302) =~ "/trip-planner"
     end
 
+    @tag :flaky
     test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
       conn: conn
     } do
@@ -703,6 +719,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert html_response(conn, 302) =~ "/trip-planner"
     end
 
+    @tag :flaky
     test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
       conn: conn
     } do

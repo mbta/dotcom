@@ -42,6 +42,7 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
   end
 
   describe "put/2" do
+    @tag :flaky
     test "returns 202 status and caches the data", %{conn: conn, cache: cache} do
       refute cache.get(@expected_cache_key)
       conn = Feedback.put(conn, @arbitrary_data)

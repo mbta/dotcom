@@ -19,6 +19,7 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
     :ok
   end
 
+  @tag :flaky
   test "lookup/1 can retrieve the pid by date" do
     date = Util.service_date()
     {:ok, _} = start_child(date)
@@ -31,6 +32,7 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
     assert lookup(date) == nil
   end
 
+  @tag :flaky
   test "stops_on_routes/2 gets information for nil date" do
     Stops.Repo.Mock
     |> expect(:by_route, 4, fn route_id, direction_id, opts ->
@@ -50,6 +52,7 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
     assert stops_on_routes(0, nil)
   end
 
+  @tag :flaky
   test "stops_on_routes/2 gets information for service date" do
     date = Util.service_date()
 

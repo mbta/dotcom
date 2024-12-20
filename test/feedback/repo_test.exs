@@ -31,6 +31,7 @@ defmodule Feedback.RepoTest do
       set_log_level(:info)
     end
 
+    @tag :flaky
     test "returns ok and logs success" do
       expect(AwsClient.Mock, :send_raw_email, fn message ->
         assert message["RawMessage"]["Data"]

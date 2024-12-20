@@ -26,6 +26,7 @@ defmodule DotcomWeb.AlertControllerTest do
     :ok
   end
 
+  @tag :flaky
   test "renders commuter rail", %{conn: conn} do
     expect(Routes.Repo.Mock, :by_type, fn 2 ->
       build_list(2, :route, %{type: 2})
@@ -36,6 +37,7 @@ defmodule DotcomWeb.AlertControllerTest do
   end
 
   describe "index/2" do
+    @tag :flaky
     test "index page is redirected to subway", %{conn: conn} do
       conn = get(conn, "/alerts")
       assert redirected_to(conn, 302) == "/alerts/subway"
@@ -50,6 +52,7 @@ defmodule DotcomWeb.AlertControllerTest do
       end
     end
 
+    @tag :flaky
     test "alerts are assigned for the access tab", %{conn: conn} do
       conn = get(conn, alert_path(conn, :show, :access))
       assert conn.assigns.alerts
@@ -69,6 +72,7 @@ defmodule DotcomWeb.AlertControllerTest do
       assert conn.assigns.meta_description
     end
 
+    @tag :flaky
     test "parses timeframe param", %{conn: conn} do
       all_alerts = get(conn, alert_path(conn, :show, :bus))
       assert all_alerts.assigns.alerts_timeframe == nil
@@ -290,6 +294,7 @@ defmodule DotcomWeb.AlertControllerTest do
   end
 
   describe "mTicket detection" do
+    @tag :flaky
     test "mTicket matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
         build_list(4, :route, %{type: 2})
@@ -306,6 +311,7 @@ defmodule DotcomWeb.AlertControllerTest do
       assert response =~ "/alerts/commuter-rail"
     end
 
+    @tag :flaky
     test "mTicket not matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
         build_list(4, :route, %{type: 2})

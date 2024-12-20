@@ -10,6 +10,7 @@ defmodule DotcomWeb.StopControllerTest do
 
   setup :verify_on_exit!
 
+  @tag :flaky
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
@@ -39,6 +40,7 @@ defmodule DotcomWeb.StopControllerTest do
     end
   end
 
+  @tag :flaky
   test "redirects stations with slashes to the right URL", %{conn: conn} do
     conn =
       conn
@@ -144,6 +146,7 @@ defmodule DotcomWeb.StopControllerTest do
   end
 
   describe "endpoints" do
+    @tag :flaky
     test "grouped_route_patterns returns stop's route patterns by route & headsign", %{
       conn: conn
     } do

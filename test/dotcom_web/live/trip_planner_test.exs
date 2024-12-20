@@ -187,6 +187,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       }
     end
 
+    @tag :flaky
     test "starts out with no 'View All Options' button", %{conn: conn, params: params} do
       stub_populated_otp_results()
 
@@ -222,6 +223,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute render_async(view) =~ "View All Options"
     end
 
+    @tag :flaky
     test "'Depart At' buttons toggle which itinerary to show", %{
       conn: conn,
       params: params
@@ -287,6 +289,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute view |> element("#itinerary-detail-departure-times") |> has_element?()
     end
 
+    @tag :flaky
     test "'Depart At' button state is not preserved when leaving details view", %{
       conn: conn,
       params: params

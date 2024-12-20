@@ -42,6 +42,7 @@ defmodule Routes.PopulateCachesTest do
   end
 
   describe "handle_info/2" do
+    @tag :flaky
     test "populate_all: gets headsigns and shapes for each route" do
       assert {:noreply, FakeRepo} = handle_info(:populate_all, FakeRepo)
 

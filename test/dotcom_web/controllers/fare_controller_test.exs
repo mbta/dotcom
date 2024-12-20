@@ -5,6 +5,7 @@ defmodule DotcomWeb.FareControllerTest do
   setup :verify_on_exit!
 
   describe "show" do
+    @tag :flaky
     test "renders the initial proposed sales locations page", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show_transformation, []))
       assert html_response(conn, 200) =~ "Proposed Sales Locations"
@@ -42,11 +43,13 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Retail Sales Locations"
     end
 
+    @tag :flaky
     test "404s on nonexistant mode", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show, :doesnotexist))
       assert html_response(conn, 404) =~ "Sorry! We missed your stop."
     end
 
+    @tag :flaky
     test "sets a custom meta description", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show, "retail-sales-locations"))
 

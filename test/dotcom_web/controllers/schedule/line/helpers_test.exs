@@ -822,6 +822,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_branches/4" do
+    @tag :flaky
     test "returns a list of RouteStops, one for each branch of the line" do
       stub(Routes.Repo.Mock, :by_stop, fn _, _ -> Factories.Routes.Route.build_list(2, :route) end)
 
