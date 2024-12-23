@@ -322,6 +322,17 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute render_async(view) =~ trip_headsign_2
     end
 
+    test "displays 'No trips found.' if given an empty list of itineraries", %{
+      conn: conn,
+      params: params
+    } do
+      stub_otp_results([])
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      assert render_async(view) =~ "No trips found."
+    end
+
     test "displays error message from the Open Trip Planner client", %{conn: conn, params: params} do
       error_message = Faker.Lorem.sentence()
 
@@ -332,6 +343,19 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
       assert render_async(view) =~ error_message
+    end
+
+    test "does not display 'No trips found.' if there's another error", %{
+      conn: conn,
+      params: params
+    } do
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:error, [%OpenTripPlannerClient.Error{message: Faker.Lorem.sentence()}]}
+      end)
+
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+
+      refute render_async(view) =~ "No trips found."
     end
   end
 end
