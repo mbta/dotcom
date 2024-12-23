@@ -63,7 +63,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     <button
       type="button"
       class={[
-        "border border-brand-primary rounded px-2.5 py-1.5 text-brand-primary text-lg",
+        "border border-brand-primary rounded px-2.5 py-1.5",
+	"text-brand-primary text-lg leading-tight font-medium",
         "hover:bg-brand-primary-lightest #{@background_class}"
       ]}
       {@rest}
