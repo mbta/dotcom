@@ -64,30 +64,36 @@ defmodule DotcomWeb.Live.TripPlanner do
     ~H"""
     <h1>Trip Planner <mark style="font-weight: 400">Preview</mark></h1>
     <div style="row">
-      <.input_form changeset={@input_form.changeset} />
-      <.results_summary changeset={@input_form.changeset} results={@results} />
-      <div class={[
-        "flex flex-col gap-4 md:flex-row md:gap-7"
-      ]}>
-        <.live_component
-          module={MbtaMetro.Live.Map}
-          id="trip-planner-map"
-          class={[
-            "md:order-last",
-            "h-64 md:h-[32rem] w-full",
-            @results.itinerary_group_selection == nil && "hidden md:block",
-            @results.itinerary_group_selection != nil && "block"
-          ]}
-          config={@map.config}
-          lines={@map.lines}
-          pins={@map.pins}
-          points={@map.points}
-        />
-        <.results
-          :if={Enum.count(@results.itinerary_groups) > 0}
-          class="md:max-w-[25rem]"
+      <.input_form class="mb-4" changeset={@input_form.changeset} />
+      <div>
+        <.results_summary
+          class="mt-2 mb-6 md:sticky md:top-0 bg-white z-[1000]"
+          changeset={@input_form.changeset}
           results={@results}
         />
+        <div class={[
+          "flex flex-col gap-4 md:flex-row md:gap-7"
+        ]}>
+          <.live_component
+            module={MbtaMetro.Live.Map}
+            id="trip-planner-map"
+            class={[
+              "md:order-last md:sticky md:top-28",
+              "h-64 md:h-[32rem] w-full",
+              @results.itinerary_group_selection == nil && "hidden md:block",
+              @results.itinerary_group_selection != nil && "block"
+            ]}
+            config={@map.config}
+            lines={@map.lines}
+            pins={@map.pins}
+            points={@map.points}
+          />
+          <.results
+            :if={Enum.count(@results.itinerary_groups) > 0}
+            class="md:max-w-[25rem]"
+            results={@results}
+          />
+        </div>
       </div>
     </div>
     """
