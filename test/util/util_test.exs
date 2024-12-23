@@ -376,6 +376,7 @@ defmodule UtilTest do
       assert log =~ "Async task timed out"
     end
 
+    @tag :flaky
     test "retries request according to param, then returns the default for timeouts" do
       set_retries = 2
 

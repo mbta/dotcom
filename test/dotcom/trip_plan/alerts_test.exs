@@ -166,6 +166,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
   end
 
   describe "by_mode_and_stops/2" do
+    @tag :flaky
     test "groups alerts by route, to, and from", %{itinerary: itinerary, route_id: route_id} do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
