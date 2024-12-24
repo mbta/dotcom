@@ -16,9 +16,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   Otherwise, we just render the form.
   """
+
+  attr :class, :string, default: ""
+  attr :changeset, :any, required: true
+
   def input_form(assigns) do
     ~H"""
-    <section class="px-10 py-8 lg:px-20 lg:py-12 mb-4 bg-gray-100">
+    <section class={["px-10 py-8 lg:px-20 lg:py-12 bg-gray-100", @class]}>
       <.form
         :let={f}
         class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
