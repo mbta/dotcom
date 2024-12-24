@@ -16,24 +16,43 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     >
       <p class="text-lg font-semibold mb-0">{submission_summary(@changeset.changes)}</p>
       <p>{time_summary(@changeset.changes)}</p>
-      <%= if @results.loading? do %>
-        <.spinner aria_label="Waiting for results" /> Waiting for results...
-      <% else %>
-        <%= if @results.error do %>
-          <.feedback kind={:error}>{@results.error}</.feedback>
-        <% end %>
-        <%= if Enum.count(@results.itinerary_groups) == 0 do %>
-          <.feedback kind={:warning}>No trips found.</.feedback>
-        <% else %>
-          <.feedback kind={:success}>
-            Found {Enum.count(@results.itinerary_groups)} {Inflex.inflect(
-              "way",
-              Enum.count(@results.itinerary_groups)
-            )} to go.
-          </.feedback>
-        <% end %>
-      <% end %>
+      <.results_feedback results={@results} />
     </section>
+    """
+  end
+
+  defp results_feedback(%{results: %{loading?: true}} = assigns) do
+    ~H"""
+    <.spinner aria_label="Waiting for results" /> Waiting for results...
+    """
+  end
+
+  defp results_feedback(%{results: %{error: nil}} = assigns) do
+    ~H"""
+    <.itinerary_group_feedback itinerary_groups={@results.itinerary_groups} />
+    """
+  end
+
+  defp results_feedback(assigns) do
+    ~H"""
+    <.feedback kind={:error}>{@results.error}</.feedback>
+    """
+  end
+
+  defp itinerary_group_feedback(%{itinerary_groups: []} = assigns) do
+    ~H"""
+    <.feedback kind={:warning}>No trips found.</.feedback>
+    """
+  end
+
+  defp itinerary_group_feedback(assigns) do
+    ~H"""
+    <.feedback kind={:success}>
+      Found {Enum.count(@itinerary_groups)} {Inflex.inflect(
+        "way",
+        Enum.count(@itinerary_groups)
+      )} to go.
+    </.feedback>
     """
   end
 
