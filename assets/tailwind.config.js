@@ -2,7 +2,6 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin");
-
 const { content, plugins, safelist } = require("mbta_metro");
 const { theme: tailwindTheme } = require("mbta_metro/tailwindTheme");
 

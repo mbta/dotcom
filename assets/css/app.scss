@@ -11,8 +11,8 @@
   --tw-content: '' !important;
 }
 
-@import "../node_modules/@mbta/rider-design-system/dist/variables.light.css" (prefers-color-scheme: light);
-@import "../node_modules/@mbta/rider-design-system/dist/variables.dark.css" (prefers-color-scheme: dark);
+@import "../../deps/mbta_metro/priv/static/assets/variables.light.css" (prefers-color-scheme: light);
+@import "../../deps/mbta_metro/priv/static/assets/variables.dark.css" (prefers-color-scheme: dark);
 @import '../../deps/mbta_metro/priv/static/assets/default.css';
 
 ////////////////////////////////////////////////////////////////////////////////////////
