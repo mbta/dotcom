@@ -3,8 +3,6 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   use DotcomWeb, :component
 
-  alias Dotcom.TripPlan.InputForm
-
   def results_summary(assigns) do
     ~H"""
     <section
@@ -39,27 +37,14 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     """
   end
 
-  defp itinerary_group_feedback(%{itinerary_groups: []} = assigns) do
-    ~H"""
-    <.feedback kind={:warning}>No trips found.</.feedback>
-    """
-  end
-
   defp itinerary_group_feedback(assigns) do
     ~H"""
-    <.feedback kind={:success}>
-      Found {Enum.count(@itinerary_groups)} {Inflex.inflect(
-        "way",
-        Enum.count(@itinerary_groups)
-      )} to go.
-    </.feedback>
+    <.feedback :if={@itinerary_groups == []} kind={:warning}>No trips found.</.feedback>
     """
   end
 
-  defp submission_summary(%{from: from, to: to, modes: modes}) do
-    modes_string = modes.changes |> InputForm.Modes.selected_modes() |> String.downcase()
-
-    "Planning trips from #{from.changes.name} to #{to.changes.name} using #{modes_string}"
+  defp submission_summary(%{from: from, to: to}) do
+    "Trips from #{from.changes.name} to #{to.changes.name}"
   end
 
   defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do
