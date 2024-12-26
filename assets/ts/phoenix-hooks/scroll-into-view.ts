@@ -5,6 +5,11 @@ const ScrollIntoView: Partial<ViewHook> = {
     if (this.el) {
       this.el.scrollIntoView({ behavior: "smooth" });
     }
+  },
+  updated() {
+    if (this.el) {
+      this.el.scrollIntoView({ behavior: "smooth" });
+    }
   }
 };
 
