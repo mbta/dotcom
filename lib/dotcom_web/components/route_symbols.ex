@@ -55,7 +55,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     route_class =
       if(Routes.Route.silver_line?(assigns.route),
         do: "bg-silver-line text-white",
-        else: "bg-bus text-black"
+        else: "bg-brand-bus text-black"
       )
 
     assigns = update(assigns, :class, &"#{&1} #{route_class}")

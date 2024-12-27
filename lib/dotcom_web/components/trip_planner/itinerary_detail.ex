@@ -38,38 +38,19 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     <div :if={Enum.count(@itineraries) > 1}>
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
-        <.depart_at_button
+        <.button
           :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          active={@itinerary_selection == index}
+          type="button"
+          class={if(@itinerary_selection == index, do: "bg-brand-primary-lightest")}
+          size="small"
+          variant="secondary"
           phx-click="select_itinerary"
           phx-value-index={index}
         >
           {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
-        </.depart_at_button>
+        </.button>
       </div>
     </div>
-    """
-  end
-
-  attr :active, :boolean
-  attr :rest, :global
-  slot :inner_block
-
-  defp depart_at_button(%{active: active} = assigns) do
-    background_class = if active, do: "bg-brand-primary-lightest", else: "bg-transparent"
-    assigns = assign(assigns, :background_class, background_class)
-
-    ~H"""
-    <button
-      type="button"
-      class={[
-        "border border-brand-primary rounded px-2.5 py-1.5 text-brand-primary text-lg",
-        "hover:bg-brand-primary-lightest #{@background_class}"
-      ]}
-      {@rest}
-    >
-      {render_slot(@inner_block)}
-    </button>
     """
   end
 

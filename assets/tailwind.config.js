@@ -2,14 +2,35 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin");
+const { content, plugins, safelist } = require("mbta_metro");
+const { theme: tailwindTheme } = require("mbta_metro/tailwindTheme");
 
-const {
-  colors,
-  content,
-  fontFamily,
-  plugins,
-  safelist
-} = require("mbta_metro");
+const moreColors = {
+  ...tailwindTheme.colors,
+  gray: {
+    DEFAULT: "#494f5c",
+    dark: "#1c1e23",
+    light: "#788093",
+    lighter: "#b0b5c0",
+    lightest: "#e9eaed",
+    "bordered-background": "#f2f3f5"
+  },
+  "brand-primary": {
+    DEFAULT: "#165c96",
+    darkest: "#0b2f4c",
+    lightest: "#cee0f4"
+  },
+  "logan-express": {
+    BB: "#f16823",
+    BT: "#0066cc",
+    DV: "#704c9f",
+    FH: "#e81d2d",
+    WO: "#00954c"
+  },
+  massport: "#104c8f",
+  subway: "#494f5c"
+};
+tailwindTheme.colors = moreColors;
 
 module.exports = {
   corePlugins: {
@@ -31,45 +52,7 @@ module.exports = {
     }
   ],
   theme: {
-    extend: {
-      colors: {
-        ...colors,
-        gray: {
-          DEFAULT: "#494f5c",
-          dark: "#1c1e23",
-          light: "#788093",
-          lighter: "#b0b5c0",
-          lightest: "#e9eaed",
-          "bordered-background": "#f2f3f5"
-        },
-        "brand-primary": {
-          DEFAULT: "#165c96",
-          darkest: "#0b2f4c",
-          lightest: "#cee0f4"
-        },
-        "logan-express": {
-          BB: "#f16823",
-          BT: "#0066cc",
-          DV: "#704c9f",
-          FH: "#e81d2d",
-          WO: "#00954c"
-        },
-        massport: "#104c8f",
-        subway: "#494f5c",
-        // These will come from the design system someday
-        "blue-line": "#003da5",
-        "green-line": "#00843d",
-        "orange-line": "#ed8b00",
-        "red-line": "#da291c",
-        "silver-line": "#7c878e",
-        "commuter-rail": "#80276c",
-        bus: "#ffc72c",
-        ferry: "#008eaa"
-      }
-    },
-    fontFamily: {
-      ...fontFamily
-    },
+    extend: tailwindTheme,
     // match screens to Bootstrap's breakpoints for now
     // matched from $container-max-widths
     screens: {
