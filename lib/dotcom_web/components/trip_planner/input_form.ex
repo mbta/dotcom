@@ -106,8 +106,12 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
         </div>
-        <div class="col-start-2 justify-self-end">
-          <.button type="submit" phx-disable-with="Planning your trip...">
+        <div class="col-start-2 justify-self-end my-sm">
+          <.button
+            type="submit"
+            phx-disable-with="Planning your trip..."
+            class="w-full justify-center md:w-fit"
+          >
             Get trip suggestions
           </.button>
         </div>
