@@ -22,7 +22,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   def input_form(assigns) do
     ~H"""
-    <section class={["px-10 py-8 lg:px-20 lg:py-12 bg-gray-100", @class]}>
+    <section class={["rounded px-xl py-lg lg:px-2xl lg:py-xl bg-charcoal-90", @class]}>
       <.form
         :let={f}
         class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
@@ -61,7 +61,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             field={:datetime_type}
             options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
             type="radio-button"
-            class="mb-0"
+            class="w-full mb-xs"
           />
           <.error_container :for={{msg, _} <- f[:datetime_type].errors}>
             {msg}
@@ -100,8 +100,8 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             <.error_container :for={{msg, _} <- f[:modes].errors}>
               {msg}
             </.error_container>
-          <div class="inline-flex items-center gap-1">
           </fieldset>
+          <div class="inline-flex items-center gap-sm mb-sm">
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
             <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
