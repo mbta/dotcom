@@ -3,6 +3,12 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   use DotcomWeb, :component
 
+  alias Dotcom.TripPlan.InputForm
+
+  attr :changeset, :any, required: true
+  attr :class, :string, default: ""
+  attr :results, :any, required: true
+
   def results_summary(assigns) do
     ~H"""
     <section
@@ -10,7 +16,7 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
         @results.loading? || Enum.count(@results.itinerary_groups) > 0 ||
           (@changeset.action && @changeset.valid?)
       }
-      class="mt-2 mb-6"
+      class={@class}
     >
       <p class="text-lg font-semibold mb-0">{submission_summary(@changeset.changes)}</p>
       <p>{time_summary(@changeset.changes)}</p>

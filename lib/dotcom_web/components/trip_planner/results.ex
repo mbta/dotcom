@@ -10,10 +10,14 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   def results(assigns) do
     ~H"""
-    <section class={[
-      "w-full",
-      @class
-    ]}>
+    <section
+      id="trip-planner-results"
+      phx-hook="ScrollIntoView"
+      class={[
+        "w-full",
+        @class
+      ]}
+    >
       <div
         :if={Enum.count(@results.itinerary_groups) > 0 && @results.itinerary_group_selection}
         class="h-min w-full mb-3.5"
