@@ -3,7 +3,9 @@
 
 const plugin = require("tailwindcss/plugin");
 const { content, plugins, safelist } = require("mbta_metro");
-const { theme: tailwindTheme } = require("mbta_metro/tailwindTheme");
+const {
+  theme: { extend: tailwindTheme }
+} = require("mbta_metro/tailwindTheme");
 
 const moreColors = {
   ...tailwindTheme.colors,
