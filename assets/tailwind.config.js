@@ -3,7 +3,9 @@
 
 const plugin = require("tailwindcss/plugin");
 const { content, plugins, safelist } = require("mbta_metro");
-const { theme: tailwindTheme } = require("mbta_metro/tailwindTheme");
+const {
+  theme: { extend: tailwindTheme }
+} = require("mbta_metro/tailwindTheme");
 
 const moreColors = {
   ...tailwindTheme.colors,
@@ -37,6 +39,7 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
+  important: ".body-wrapper",
   content: [
     ...content,
     "./js/**/*.js",
@@ -64,10 +67,6 @@ module.exports = {
   },
   plugins: [
     ...plugins(),
-    require("@tailwindcss/forms")({
-      // don't make global styles since they conflict with ours
-      strategy: "class"
-    }),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
     //
@@ -122,6 +121,9 @@ module.exports = {
         },
         "h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6, p + h3, p + h4, p + h5, p + h6": {
           marginTop: theme("spacing.4")
+        },
+        "fieldset legend": {
+          fontSize: "initial"
         }
       })
     )

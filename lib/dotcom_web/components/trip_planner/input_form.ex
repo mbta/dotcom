@@ -22,7 +22,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   def input_form(assigns) do
     ~H"""
-    <section class={["px-10 py-8 lg:px-20 lg:py-12 bg-gray-100", @class]}>
+    <section class={["rounded px-xl py-lg lg:px-2xl lg:py-xl bg-charcoal-90", @class]}>
       <.form
         :let={f}
         class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
@@ -32,7 +32,8 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         phx-change="input_form_change"
         phx-submit="input_form_submit"
       >
-        <div :for={field <- [:from, :to]} class="mb-1" id={"trip-planner-locations-#{field}"}>
+        <fieldset :for={field <- [:from, :to]} id={"trip-planner-locations-#{field}"} class="mb-sm">
+          <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(field)}</legend>
           <.algolia_autocomplete
             config_type="trip-planner"
             placeholder="Enter a location"
@@ -52,16 +53,15 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
               {msg}
             </.error_container>
           </.algolia_autocomplete>
-        </div>
-        <div>
+        </fieldset>
+        <fieldset class="mb-sm">
+          <legend class="text-charcoal-40 m-0 py-sm">When</legend>
           <.input_group
-            legend="When"
             form={f}
             field={:datetime_type}
-            id="datetime_type"
             options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
             type="radio-button"
-            class="mb-0"
+            class="w-full mb-xs"
           />
           <.error_container :for={{msg, _} <- f[:datetime_type].errors}>
             {msg}
@@ -76,10 +76,11 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           <.error_container :for={{msg, _} <- f[:datetime].errors}>
             {msg}
           </.error_container>
-        </div>
+        </fieldset>
         <div>
-          <.fieldset id="modes" legend="Modes">
-            <.accordion variant="contained">
+          <fieldset class="mb-sm">
+            <legend class="text-charcoal-40 m-0 py-sm">Modes</legend>
+            <.accordion variant="multiselect">
               <:heading>
                 {Modes.selected_modes(input_value(f, :modes))}
               </:heading>
@@ -99,14 +100,18 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             <.error_container :for={{msg, _} <- f[:modes].errors}>
               {msg}
             </.error_container>
-          </.fieldset>
-          <div class="inline-flex items-center gap-1">
+          </fieldset>
+          <div class="inline-flex items-center gap-sm mb-sm">
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
             <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
         </div>
-        <div class="col-start-2 justify-self-end">
-          <.button type="submit" phx-disable-with="Planning your trip...">
+        <div class="col-start-2 justify-self-end my-sm">
+          <.button
+            type="submit"
+            phx-disable-with="Planning your trip..."
+            class="w-full justify-center md:w-fit"
+          >
             Get trip suggestions
           </.button>
         </div>

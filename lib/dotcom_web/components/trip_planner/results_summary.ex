@@ -3,8 +3,6 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   use DotcomWeb, :component
 
-  alias Dotcom.TripPlan.InputForm
-
   attr :changeset, :any, required: true
   attr :class, :string, default: ""
   attr :results, :any, required: true
@@ -52,6 +50,8 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
   defp submission_summary(%{from: from, to: to}) do
     "Trips from #{from.changes.name} to #{to.changes.name}"
   end
+
+  defp submission_summary(_), do: nil
 
   defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do
     preamble = if datetime_type == "arrive_by", do: "Arriving by ", else: "Leaving at "

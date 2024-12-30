@@ -205,19 +205,46 @@
 
 #trip-planner-input-form--from,
 #trip-planner-input-form--to {
+  --aa-search-input-height: 2rem;
+
+  .aa-Form {
+    border-radius: var(--border-radius-default);
+    padding: var(--spacing-xs);
+  }
+
   .aa-InputWrapperPrefix {
-    order: unset;
+    display: grid;
+    grid-template-areas: "stack";
+    order: 1;
+    width: calc(var(--aa-spacing) + var(--aa-icon-size) - 1px);
+
+    .aa-Label, .aa-LoadingIndicator {
+      grid-area: stack;
+    }
+
+    .aa-Label {
+      align-content: center;
+      color: $brand-primary;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+
+  .aa-InputWrapperSuffix {
+    order: 3;
+    width: calc(var(--aa-spacing) + var(--aa-icon-size) - 1px);
   }
 
   .aa-SubmitButton {
-    user-select: none;
+    display: none;
   }
 }
 
-#trip-planner-input-form--from .aa-SubmitButton {
-  @include fa-icon-solid($fa-var-a);
+#trip-planner-input-form--from .aa-Label::before {
+  content: "A"
 }
 
-#trip-planner-input-form--to .aa-SubmitButton {
-  @include fa-icon-solid($fa-var-b);
+#trip-planner-input-form--to .aa-Label::before {
+  content: "B"
 }
