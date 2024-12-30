@@ -113,6 +113,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   defp format_datetime_full(datetime) do
-    Timex.format!(datetime, "%-I:%M %p", :strftime)
+    Timex.format!(datetime, "%-I:%M%p", :strftime) |> String.downcase()
   end
 end

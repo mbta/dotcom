@@ -36,6 +36,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   defp depart_at_buttons(assigns) do
     ~H"""
     <div :if={Enum.count(@itineraries) > 1}>
+      <hr class="border-gray-lighter" />
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
         <.button
@@ -47,7 +48,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           phx-click="select_itinerary"
           phx-value-index={index}
         >
-          {Timex.format!(itinerary.start, "%-I:%M%p", :strftime)}
+          {Timex.format!(itinerary.start, "%-I:%M%p", :strftime) |> String.downcase()}
         </.button>
       </div>
     </div>

@@ -38,6 +38,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.group_by(&unique_legs_to_hash/1)
     |> Enum.map(&drop_hash/1)
     |> Enum.reject(&Enum.empty?/1)
+    |> Enum.take(5)
     |> Enum.map(&limit_itinerary_count/1)
     |> Enum.map(&to_summarized_group/1)
     |> Enum.sort_by(fn
