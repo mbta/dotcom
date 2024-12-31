@@ -235,6 +235,8 @@ defmodule Dotcom.TripPlan.InputForm do
     def selected_modes(%{}), do: "Walking directions only"
     def selected_modes([mode]), do: mode_name(mode) <> " Only"
 
+    def selected_modes([]), do: "Walking directions only"
+
     def selected_modes(modes) do
       if fields() -- modes == [] do
         "All modes"
