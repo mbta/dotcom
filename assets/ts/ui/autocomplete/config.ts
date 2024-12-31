@@ -235,7 +235,11 @@ const TRIP_PLANNER = ({
           ...algoliaSource(query, { stops: { hitsPerPage: 5 } }, false),
           onSelect
         },
-        { ...locationSource(query, 5), onSelect }
+        { ...locationSource(query, 5), onSelect },
+        {
+          ...popularLocationSource(undefined, query),
+          onSelect
+        }
       ]);
     }
   };

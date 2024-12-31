@@ -63,7 +63,8 @@ export const locationSource = (
  * Renders a list of popular locations.
  */
 export const popularLocationSource = (
-  urlType?: UrlType
+  urlType?: UrlType,
+  query?: string
 ): AutocompleteSource<PopularItem> => ({
   sourceId: "popular",
   templates: {
@@ -73,10 +74,16 @@ export const popularLocationSource = (
     return fetch("/places/popular")
       .then(res => res.json())
       .then(({ result }) =>
-        result.map(
-          (location: WithUrls<PopularItem>) =>
-            itemWithUrl(location, urlType) as PopularItem
-        )
+        result
+          .filter(
+            (location: PopularItem) =>
+              !query ||
+              location.name.toLowerCase().includes(query.toLowerCase())
+          )
+          .map(
+            (location: WithUrls<PopularItem>) =>
+              itemWithUrl(location, urlType) as PopularItem
+          )
       )
       .catch(() => []);
   },

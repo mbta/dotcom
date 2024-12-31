@@ -150,8 +150,12 @@ describe("Trip planner configuration", () => {
 
     //@ts-ignore
     const sourcesWithQuery = await getSources(paramsWithQuery);
-    expect(sourcesWithQuery).toHaveLength(2);
-    expect(sourceIds(sourcesWithQuery)).toEqual(["algolia", "locations"]);
+    expect(sourcesWithQuery).toHaveLength(3);
+    expect(sourceIds(sourcesWithQuery)).toEqual([
+      "algolia",
+      "locations",
+      "popular"
+    ]);
   });
 
   test("sources have OnSelect handler", async () => {
