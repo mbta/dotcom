@@ -248,13 +248,13 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth])
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
     live_dashboard("/dashboard")
   end
 
   scope "/admin", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth])
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
       get("/trip-planner/feedback/download", TripPlan.Feedback, :download)
@@ -265,7 +265,7 @@ defmodule DotcomWeb.Router do
 
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth])
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
       live("/trip-planner", Live.TripPlanner)
@@ -331,6 +331,12 @@ defmodule DotcomWeb.Router do
 
   defp basic_auth(conn, _) do
     opts = Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+
+    Plug.BasicAuth.basic_auth(conn, opts)
+  end
+
+  defp basic_auth_readonly(conn, _) do
+    opts = Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
 
     Plug.BasicAuth.basic_auth(conn, opts)
   end

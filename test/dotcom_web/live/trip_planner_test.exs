@@ -73,7 +73,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   describe "Trip Planner" do
     setup %{conn: conn} do
       [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
 
       {:ok, view, html} =
         conn
@@ -130,7 +130,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   describe "Trip Planner with no results" do
     setup %{conn: conn} do
       [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
 
       %{
         conn:
@@ -163,7 +163,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   describe "Trip Planner with results" do
     setup %{conn: conn} do
       [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
 
       stub(Stops.Repo.Mock, :get, fn _ ->
         Test.Support.Factories.Stops.Stop.build(:stop)
