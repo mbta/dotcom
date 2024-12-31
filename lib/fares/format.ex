@@ -11,7 +11,7 @@ defmodule Fares.Format do
   def price(nil), do: ""
   def price(%Fare{cents: +0.0}), do: "Free"
   def price(%Fare{cents: cents}), do: price(cents)
-  def price(+0.0), do: "Free"
+  def price(0), do: "Free"
   def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
   @doc "Formats the fare media (card, &c) as a string"

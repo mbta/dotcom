@@ -31,10 +31,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
           <.icon name="person-walking" class="h-3 w-3" />
           {@summary.walk_distance} mi
         </div>
-        <div :if={@summary.total_cost > 0} class="inline-flex items-center gap-0.5">
+        <% price = Fares.Format.price(@summary.total_cost) %>
+        <div :if={price != ""} class="inline-flex items-center gap-0.5">
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
           <.icon name="wallet" class="h-3 w-3" />
-          {Fares.Format.price(@summary.total_cost)}
+          {price}
         </div>
       </div>
     </div>

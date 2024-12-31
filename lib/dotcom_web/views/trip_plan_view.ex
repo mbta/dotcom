@@ -587,7 +587,10 @@ defmodule DotcomWeb.TripPlanView do
       |> Stream.filter(&Leg.transit?/1)
       |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
-    transit_legs
+    if Enum.empty?(transit_legs) do
+      nil
+    else
+      transit_legs
     |> Stream.with_index()
     |> Enum.reduce(0, fn {leg, leg_index}, acc ->
       if leg_index < 1 do
@@ -617,6 +620,8 @@ defmodule DotcomWeb.TripPlanView do
         end
       end
     end)
+    end
+
   end
 
   @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
