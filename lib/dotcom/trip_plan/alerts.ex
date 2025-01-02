@@ -73,10 +73,11 @@ defmodule Dotcom.TripPlan.Alerts do
   #  - accessibility issue (see `reject_accessibility_alert`)
   #  - bike issue
   #  - facility issue
-  #  - parking issue / closure
+  #  - parking closure
+  #  - parking issue
   defp reject_irrelevant_alert(alert, accessible?) do
     reject_accessibility_alert(alert, accessible?) ||
-      Enum.member?([:bike_issue, :facility_issue, :parking_issue], alert.effect)
+      Enum.member?(~w[bike_issue facility_issue parking_closure parking_issue]a, alert.effect)
   end
 
   # Reject an alert that is not relevant to a trip plan *unless* we want an accessible trip:
