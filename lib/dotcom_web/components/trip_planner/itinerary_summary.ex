@@ -23,8 +23,12 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         <% end %>
       </div>
       <div class="flex flex-wrap gap-1 items-center mb-3 text-sm text-grey-dark">
-        <div :if={@summary.accessible?} class="inline-flex items-center gap-0.5">
-          <.icon type="icon-svg" name="icon-accessible-small" class="h-3 w-3 mr-0.5" /> Accessible
+        <div class="inline-flex items-center gap-0.5">
+          <%= if @summary.accessible? do %>
+            <.icon type="icon-svg" name="icon-accessible-small" class="h-3 w-3 mr-0.5" /> Accessible
+          <% else %>
+            <.icon type="icon-svg" name="icon-not-accessible-small" class="h-3 w-3 mr-0.5" /> May not be accessible
+          <% end %>
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
         </div>
         <div class="inline-flex items-center gap-0.5">

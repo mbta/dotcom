@@ -44,14 +44,13 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
           <div class="w-5"></div>
           <div class={["w-1 flex-grow", leg_line_class(@leg.mode.route)]}></div>
         </div>
-
         <%= if Enum.count(@leg.mode.intermediate_stops) == 0 do %>
-          <div class="w-full my-3">
+          <div class="w-full py-5">
             <.leg_summary leg={@leg} alerts={@alerts.route} />
             <.leg_details leg={@leg} />
           </div>
         <% else %>
-          <details class="w-full my-3 group/stops">
+          <details class="w-full py-5 group/stops">
             <summary class="flex items-start cursor-pointer">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
