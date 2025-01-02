@@ -8,14 +8,40 @@ defmodule Dotcom.TripPlan.Alerts do
   * at the times they'll be travelling
   """
 
-  alias Alerts.Alert
-  alias Alerts.InformedEntity, as: IE
+  alias Alerts.{Alert, InformedEntity}
   alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
+
+  def by_mode_and_stops(alerts, leg) do
+    {route_alerts, stop_alerts} =
+      alerts
+      |> Enum.split_with(fn alert ->
+        alert.informed_entity.entities
+        |> Enum.all?(fn
+          %{stop: nil} -> true
+          _ -> false
+        end)
+      end)
+
+    %{from: from_stop_ids, to: to_stop_ids} = Leg.stop_ids(leg)
+
+    entities_from = mode_entities_with_stop_ids(leg.mode, from_stop_ids)
+    from = Alerts.Match.match(stop_alerts, entities_from)
+
+    entities_to = mode_entities_with_stop_ids(leg.mode, to_stop_ids)
+    to = Alerts.Match.match(stop_alerts, entities_to)
+
+    %{
+      route: route_alerts,
+      from: from,
+      to: to
+    }
+  end
 
   @spec from_itinerary(Itinerary.t()) :: [Alerts.Alert.t()]
   def from_itinerary(itinerary) do
     itinerary.start
     |> Alerts.Repo.all()
+    |> Enum.reject(&reject_irrelevant_alert(&1, itinerary.accessible?))
     |> Alerts.Match.match(
       entities(itinerary),
       itinerary.start
@@ -42,13 +68,30 @@ defmodule Dotcom.TripPlan.Alerts do
     )
   end
 
+  # Reject an alert that is not relevant to a trip plan:
+  #  - accessibility issue (see `reject_accessibility_alert`)
+  #  - bike issue
+  #  - facility issue
+  #  - parking issue / closure
+  defp reject_irrelevant_alert(alert, accessible? \\ false) do
+    reject_accessibility_alert(alert, accessible?) ||
+    Enum.member?([:bike_issue, :facility_issue, :parking_issue], alert.effect)
+  end
+
+  # Reject an alert that is not relevant to a trip plan *unless* we want an accessible trip:
+  # - elevator closure
+  # - escalator closure
+  defp reject_accessibility_alert(alert, accessible? \\ false) do
+    not accessible? && (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
+  end
+
   defp intermediate_entities(itinerary) do
     itinerary
     |> Itinerary.intermediate_stop_ids()
-    |> Enum.map(&%IE{stop: &1})
+    |> Enum.map(&%InformedEntity{stop: &1})
   end
 
-  @spec entities(Itinerary.t()) :: [IE.t()]
+  @spec entities(Itinerary.t()) :: [InformedEntity.t()]
   defp entities(itinerary) do
     itinerary
     |> Enum.flat_map(&leg_entities(&1))
@@ -84,36 +127,10 @@ defmodule Dotcom.TripPlan.Alerts do
         trip.direction_id
       end
 
-    [%IE{route_type: route_type, route: route.id, trip: trip_id, direction_id: direction_id}]
+    [%InformedEntity{route_type: route_type, route: route.id, trip: trip_id, direction_id: direction_id}]
   end
 
   defp mode_entities(_) do
     []
-  end
-
-  def by_mode_and_stops(alerts, leg) do
-    {route_alerts, stop_alerts} =
-      alerts
-      |> Enum.split_with(fn alert ->
-        alert.informed_entity.entities
-        |> Enum.all?(fn
-          %{stop: nil} -> true
-          _ -> false
-        end)
-      end)
-
-    %{from: from_stop_ids, to: to_stop_ids} = Leg.stop_ids(leg)
-
-    entities_from = mode_entities_with_stop_ids(leg.mode, from_stop_ids)
-    from = Alerts.Match.match(stop_alerts, entities_from)
-
-    entities_to = mode_entities_with_stop_ids(leg.mode, to_stop_ids)
-    to = Alerts.Match.match(stop_alerts, entities_to)
-
-    %{
-      route: route_alerts,
-      from: from,
-      to: to
-    }
   end
 end
