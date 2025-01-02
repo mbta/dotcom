@@ -185,7 +185,10 @@ defmodule Dotcom.TripPlan.AlertsTest do
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
-    test "keeps an accesibility alert if the itinerary is accessible", %{itinerary: itinerary, route_id: route_id} do
+    test "keeps an accesibility alert if the itinerary is accessible", %{
+      itinerary: itinerary,
+      route_id: route_id
+    } do
       expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
@@ -205,7 +208,10 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
       accessible_itinerary = Map.put(itinerary, :accessible?, true)
 
-      assert filter_for_itinerary([first_alert, second_alert], accessible_itinerary) == [first_alert, second_alert]
+      assert filter_for_itinerary([first_alert, second_alert], accessible_itinerary) == [
+               first_alert,
+               second_alert
+             ]
     end
   end
 
