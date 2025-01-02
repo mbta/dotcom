@@ -101,12 +101,20 @@ if config_env() == :test do
     basic_auth: [
       username: "username",
       password: "password"
+    ],
+    basic_auth_readonly: [
+      username: "username",
+      password: "password"
     ]
 else
   config :dotcom, DotcomWeb.Router,
     basic_auth: [
       username: System.get_env("BASIC_AUTH_USERNAME"),
       password: System.get_env("BASIC_AUTH_PASSWORD")
+    ],
+    basic_auth_readonly: [
+      username: System.get_env("BASIC_AUTH_READONLY_USERNAME"),
+      password: System.get_env("BASIC_AUTH_READONLY_PASSWORD")
     ]
 end
 
