@@ -108,7 +108,11 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   # Triggered when we cannot connect to OTP.
-  def handle_async("get_itinerary_groups", {:ok, {:error, %Req.TransportError{reason: :econnrefused}}}, socket) do
+  def handle_async(
+        "get_itinerary_groups",
+        {:ok, {:error, %Req.TransportError{reason: :econnrefused}}},
+        socket
+      ) do
     message = "Cannot connect to OpenTripPlanner. Please try again later."
     new_socket = assign(socket, :results, Map.put(@state.results, :error, message))
 
@@ -320,7 +324,15 @@ defmodule DotcomWeb.Live.TripPlanner do
     if datetime_type != "now" && diff < 0 do
       push_event(socket, "set-datetime", %{datetime: future})
     else
-      assign(socket, :input_form, Map.put(socket.assigns.input_form, :changeset, Map.put(socket.assigns.input_form.changeset, :datetime, datetime)))
+      assign(
+        socket,
+        :input_form,
+        Map.put(
+          socket.assigns.input_form,
+          :changeset,
+          Map.put(socket.assigns.input_form.changeset, :datetime, datetime)
+        )
+      )
     end
   end
 

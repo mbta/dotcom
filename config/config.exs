@@ -60,7 +60,7 @@ config :mbta_metro, :map, %{
       %{
         "id" => "mbta-tiles",
         "type" => "raster",
-        "source" => "raster-tiles",
+        "source" => "raster-tiles"
       }
     ]
   },
