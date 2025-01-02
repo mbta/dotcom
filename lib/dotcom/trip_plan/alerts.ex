@@ -51,8 +51,9 @@ defmodule Dotcom.TripPlan.Alerts do
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
   @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]
   def filter_for_itinerary(alerts, itinerary) do
-    Alerts.Match.match(
-      alerts,
+    alerts
+    |> Enum.reject(&reject_irrelevant_alert(&1, itinerary.accessible?))
+    |> Alerts.Match.match(
       Enum.concat(intermediate_entities(itinerary), entities(itinerary)),
       itinerary.start
     )
@@ -73,7 +74,7 @@ defmodule Dotcom.TripPlan.Alerts do
   #  - bike issue
   #  - facility issue
   #  - parking issue / closure
-  defp reject_irrelevant_alert(alert, accessible? \\ false) do
+  defp reject_irrelevant_alert(alert, accessible?) do
     reject_accessibility_alert(alert, accessible?) ||
     Enum.member?([:bike_issue, :facility_issue, :parking_issue], alert.effect)
   end
@@ -81,7 +82,7 @@ defmodule Dotcom.TripPlan.Alerts do
   # Reject an alert that is not relevant to a trip plan *unless* we want an accessible trip:
   # - elevator closure
   # - escalator closure
-  defp reject_accessibility_alert(alert, accessible? \\ false) do
+  defp reject_accessibility_alert(alert, accessible?) do
     not accessible? && (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
   end
 

@@ -163,6 +163,50 @@ defmodule Dotcom.TripPlan.AlertsTest do
       bad_alert = Alert.update(good_alert, active_period: [invalid_active_period(itinerary)])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
+
+    test "rejects an accessibility alert", %{itinerary: itinerary, route_id: route_id} do
+      expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          effect: :no_service,
+          informed_entity: [%InformedEntity{route: route_id}]
+        )
+
+      bad_alert = Alert.update(good_alert, effect: :elevator_closure)
+
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
+    end
+
+    test "keeps an accesibility alert if the itinerary is accessible", %{itinerary: itinerary, route_id: route_id} do
+      expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{
+          data: [
+            Api.build(:trip_item, %{id: id})
+          ]
+        }
+      end)
+
+      first_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          effect: :no_service,
+          informed_entity: [%InformedEntity{route: route_id}]
+        )
+
+      second_alert = Alert.update(first_alert, effect: :elevator_closure)
+
+      accessible_itinerary = Map.put(itinerary, :accessible?, true)
+
+      assert filter_for_itinerary([first_alert, second_alert], accessible_itinerary) == [first_alert, second_alert]
+    end
   end
 
   describe "by_mode_and_stops/2" do
