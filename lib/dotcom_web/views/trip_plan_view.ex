@@ -489,7 +489,7 @@ defmodule DotcomWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> Phoenix.HTML.safe_to_string()
 
-      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
+      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare) || 0
 
       itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
 
