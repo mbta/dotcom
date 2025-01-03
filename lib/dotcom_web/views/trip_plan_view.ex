@@ -489,7 +489,7 @@ defmodule DotcomWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> Phoenix.HTML.safe_to_string()
 
-      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
+      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare) || 0
 
       itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
 
@@ -587,36 +587,40 @@ defmodule DotcomWeb.TripPlanView do
       |> Stream.filter(&Leg.transit?/1)
       |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
-    transit_legs
-    |> Stream.with_index()
-    |> Enum.reduce(0, fn {leg, leg_index}, acc ->
-      if leg_index < 1 do
-        acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
-      else
-        # Look at this transit leg and previous transit leg(s)
-        two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-        three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
-        # If this is part of a free transfer, don't add fare
-        cond do
-          Transfer.bus_to_subway_transfer?(three_legs) ->
-            if acc == Fares.get_fare_by_type(List.first(three_legs), fare_type) |> fare_cents(),
-              do: acc + 70,
-              else: acc
+    if Enum.empty?(transit_legs) do
+      nil
+    else
+      transit_legs
+      |> Stream.with_index()
+      |> Enum.reduce(0, fn {leg, leg_index}, acc ->
+        if leg_index < 1 do
+          acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+        else
+          # Look at this transit leg and previous transit leg(s)
+          two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
+          three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
+          # If this is part of a free transfer, don't add fare
+          cond do
+            Transfer.bus_to_subway_transfer?(three_legs) ->
+              if acc == Fares.get_fare_by_type(List.first(three_legs), fare_type) |> fare_cents(),
+                do: acc + 70,
+                else: acc
 
-          Transfer.maybe_transfer?(three_legs) ->
-            acc
+            Transfer.maybe_transfer?(three_legs) ->
+              acc
 
-          Transfer.bus_to_subway_transfer?(two_legs) ->
-            acc + 70
+            Transfer.bus_to_subway_transfer?(two_legs) ->
+              acc + 70
 
-          Transfer.maybe_transfer?(two_legs) ->
-            acc
+            Transfer.maybe_transfer?(two_legs) ->
+              acc
 
-          true ->
-            acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+            true ->
+              acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+          end
         end
-      end
-    end)
+      end)
+    end
   end
 
   @spec fare_cents(Fare.t() | nil) :: non_neg_integer()

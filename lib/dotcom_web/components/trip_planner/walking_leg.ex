@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
         </div>
 
         <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
-          <summary class="flex w-full gap-x-3.5 py-3">
+          <summary class="flex w-full gap-x-3.5 py-3 cursor-pointer">
             <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" />
             <div class="flex flex-col text-sm">
               <div class="font-medium">Walk</div>

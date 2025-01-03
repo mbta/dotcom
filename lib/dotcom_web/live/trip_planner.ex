@@ -107,6 +107,19 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
+  # Triggered when we cannot connect to OTP.
+  def handle_async(
+        "get_itinerary_groups",
+        {:ok, {:error, %Req.TransportError{reason: :econnrefused}}},
+        socket
+      ) do
+    message = "Cannot connect to OpenTripPlanner. Please try again later."
+    new_socket = assign(socket, :results, Map.put(@state.results, :error, message))
+
+    {:noreply, new_socket}
+  end
+
+  @impl true
   # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
   def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
     error =
@@ -306,11 +319,20 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     datetime_type = socket.assigns.input_form.changeset.changes.datetime_type
     future = nearest_5_minutes()
+    diff = Timex.diff(datetime, future, :minutes)
 
-    if datetime_type != "now" && Timex.before?(datetime, future) do
+    if datetime_type != "now" && diff < 0 do
       push_event(socket, "set-datetime", %{datetime: future})
     else
-      socket
+      assign(
+        socket,
+        :input_form,
+        Map.put(
+          socket.assigns.input_form,
+          :changeset,
+          Map.put(socket.assigns.input_form.changeset, :datetime, datetime)
+        )
+      )
     end
   end
 
@@ -337,7 +359,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   # Use an anti corruption layer to convert old query parameters to new ones.
   defp query_params_to_changeset(params) do
     %{
-      "datetime" => Timex.now("America/New_York"),
       "datetime_type" => "now",
       "modes" => InputForm.initial_modes()
     }
@@ -360,7 +381,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   # The lack of a datetime means we should use the nearest 5 minutes.
-  defp standardize_datetime(nil), do: nearest_5_minutes()
+  defp standardize_datetime(nil), do: Timex.now("America/New_York")
 
   # If the datetime is already a DateTime, we don't need to do anything.
   defp standardize_datetime(datetime), do: datetime
