@@ -17,9 +17,14 @@
         end %>
       </div>
       <div class="c-alert-item__content">
-        <%= replace_urls_with_links(@alert.header) %>
+        <% timetable_pdf_available = "View PDF Timetable on the MBTA website." %>
+        <%= replace_urls_with_links(String.replace_trailing(@alert.header, timetable_pdf_available, "")) %>
         <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
-          <%= replace_urls_with_links(@alert.url) %>
+          <%= if String.ends_with?(@alert.header, timetable_pdf_available) do %>
+            <%= link "View PDF Timetable", to: @alert.url %>
+          <% else %>
+            <%= replace_urls_with_links(@alert.url) %>
+          <% end %>
         <% end %>
       </div>
     </div>
