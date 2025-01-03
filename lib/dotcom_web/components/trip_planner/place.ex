@@ -54,5 +54,9 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
     """
   end
 
-  defp format_time(datetime), do: Timex.format!(datetime, "%-I:%M %p", :strftime)
+  defp format_time(datetime) do
+    datetime
+    |> Timex.format!("%-I:%M%p", :strftime)
+    |> String.downcase()
+  end
 end
