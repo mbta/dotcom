@@ -1355,7 +1355,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         ]
       }
 
-      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 0
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == nil
     end
 
     test "shows a transfer note", %{conn: conn} do
