@@ -17,10 +17,9 @@
         end %>
       </div>
       <div class="c-alert-item__content">
-        <% timetable_pdf_available = "View PDF Timetable on the MBTA website." %>
-        <%= replace_urls_with_links(String.replace_trailing(@alert.header, timetable_pdf_available, "")) %>
+        <%= replace_urls_with_links(Dotcom.TimetableBlocking.strip(@alert.header)) %>
         <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
-          <%= if String.ends_with?(@alert.header, timetable_pdf_available) do %>
+          <%= if Dotcom.TimetableBlocking.pdf?(@alert) do %>
             <%= link "View PDF Timetable", to: @alert.url %>
           <% else %>
             <%= replace_urls_with_links(@alert.url) %>

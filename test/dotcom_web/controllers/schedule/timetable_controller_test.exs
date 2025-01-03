@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   use DotcomWeb.ConnCase, async: true
   import DotcomWeb.ScheduleController.TimetableController
   import Mox
+  alias Dotcom.TimetableBlocking
   alias Routes.Route
   alias Stops.Stop
   alias Schedules.{Schedule, Trip}
@@ -347,8 +348,8 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     test "assigns @blocking_alert if there's a specially tagged alert", %{conn: conn} do
       alert =
         Alerts.Alert.new(
-          header: "No timetable. Schedule will be available soon on the MBTA website.",
-          informed_entity: [%Alerts.InformedEntity{route: "CR-route"}],
+          header: "No timetable. #{TimetableBlocking.no_pdf_text()}",
+          informed_entity: [%Alerts.InformedEntity{route: conn.assigns.route.id}],
           active_period: [{~U[2025-01-01T00:00:00Z], nil}]
         )
 
@@ -361,7 +362,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
 
     test "assigns @blocking_alert to nil if there's no special alert", %{conn: conn} do
-      ie = %Alerts.InformedEntity{route: "CR-route"}
+      ie = %Alerts.InformedEntity{route: conn.assigns.route.id}
       active_period = {~U[2025-01-01T00:00:00Z], ~U[2025-01-01T23:59:59Z]}
 
       alerts = [
@@ -371,12 +372,12 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
           active_period: [active_period]
         ),
         Alerts.Alert.new(
-          header: "Not active. Schedule will be available soon on the MBTA website.",
+          header: "Not active. #{TimetableBlocking.no_pdf_text()}",
           informed_entity: [ie],
           active_period: [{~U[2025-06-06T00:00:00Z], nil}]
         ),
         Alerts.Alert.new(
-          header: "Different route. Schedule will be available soon on the MBTA website.",
+          header: "Different route. #{TimetableBlocking.no_pdf_text()}",
           informed_entity: [%Alerts.InformedEntity{route: "bus"}],
           active_period: [active_period]
         )
