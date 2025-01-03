@@ -4,6 +4,8 @@
 <div class="calendar-covered m-timetable">
   <%= content_tag(:div, "", [class: "calendar-cover", hidden: !@show_date_select?]) %>
   <%= cond do %>
+  <% @blocking_alert != nil -> %>
+      <%= render "_timetable_blocked.html", formatted_date: @formatted_date, alert: @blocking_alert %>
   <% Enum.empty?(@header_schedules) -> %>
     <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), conn: @conn, error: assigns[:schedule_error] %>
   <% true -> %>
