@@ -3,9 +3,10 @@
 
 <div class="calendar-covered m-timetable">
   <%= content_tag(:div, "", [class: "calendar-cover", hidden: !@show_date_select?]) %>
-  <%= if Enum.empty?(@header_schedules) do %>
+  <%= cond do %>
+  <% Enum.empty?(@header_schedules) -> %>
     <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), conn: @conn, error: assigns[:schedule_error] %>
-  <% else %>
+  <% true -> %>
     <% # only show scroll controllers if we have 2 or more schedules
         should_show_scroll_controls? = match?([_, _ | _], @header_schedules)
     %>
