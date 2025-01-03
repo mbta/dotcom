@@ -333,4 +333,61 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
                )
     end
   end
+
+  describe "alert_blocks/2" do
+    setup %{conn: conn} do
+      conn =
+        conn
+        |> assign(:date, ~D[2025-01-01])
+        |> assign(:route, %Routes.Route{id: "CR-route"})
+
+      {:ok, %{conn: conn}}
+    end
+
+    test "assigns @blocking_alert if there's a specially tagged alert", %{conn: conn} do
+      alert =
+        Alerts.Alert.new(
+          header: "No timetable. Schedule will be available soon on the MBTA website.",
+          informed_entity: [%Alerts.InformedEntity{route: "CR-route"}],
+          active_period: [{~U[2025-01-01T00:00:00Z], nil}]
+        )
+
+      conn =
+        conn
+        |> assign(:alerts, [alert])
+        |> alert_blocks([])
+
+      assert conn.assigns.blocking_alert == alert
+    end
+
+    test "assigns @blocking_alert to nil if there's no special alert", %{conn: conn} do
+      ie = %Alerts.InformedEntity{route: "CR-route"}
+      active_period = {~U[2025-01-01T00:00:00Z], ~U[2025-01-01T23:59:59Z]}
+
+      alerts = [
+        Alerts.Alert.new(
+          header: "Regular alert.",
+          informed_entity: [ie],
+          active_period: [active_period]
+        ),
+        Alerts.Alert.new(
+          header: "Not active. Schedule will be available soon on the MBTA website.",
+          informed_entity: [ie],
+          active_period: [{~U[2025-06-06T00:00:00Z], nil}]
+        ),
+        Alerts.Alert.new(
+          header: "Different route. Schedule will be available soon on the MBTA website.",
+          informed_entity: [%Alerts.InformedEntity{route: "bus"}],
+          active_period: [active_period]
+        )
+      ]
+
+      conn =
+        conn
+        |> assign(:alerts, alerts)
+        |> alert_blocks([])
+
+      assert conn.assigns.blocking_alert == nil
+    end
+  end
 end

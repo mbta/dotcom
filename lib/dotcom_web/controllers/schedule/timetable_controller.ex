@@ -20,6 +20,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:direction_id)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(DotcomWeb.ScheduleController.Core)
+  plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.Offset)
   plug(DotcomWeb.ScheduleController.ScheduleError)
@@ -53,8 +54,33 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
+  @hides_timetable_pdf_available "View PDF Timetable on the MBTA website."
+  @hides_timetable_no_pdf "Schedule will be available soon on the MBTA website."
+
+  def alert_blocks(conn, _) do
+    blocking_alert =
+      conn.assigns.alerts
+      |> Alerts.Match.match(
+        %Alerts.InformedEntity{route: conn.assigns.route.id},
+        conn.assigns.date
+      )
+      |> Enum.find(fn alert ->
+        String.ends_with?(alert.header, @hides_timetable_pdf_available) or
+          String.ends_with?(alert.header, @hides_timetable_no_pdf)
+      end)
+
+    assign(conn, :blocking_alert, blocking_alert)
+  end
+
   def assign_trip_schedules(
-        %{assigns: %{route: route, direction_id: direction_id, date_in_rating?: true}} = conn
+        %{
+          assigns: %{
+            route: route,
+            direction_id: direction_id,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
