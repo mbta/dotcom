@@ -185,6 +185,29 @@ defmodule DotcomWeb.AlertViewTest do
       text = safe_to_string(response)
       assert text =~ "There are no alerts on the Name at this time."
     end
+
+    test "text for an CR alert which is blocking the timetable (but has a PDF available)" do
+      alert = %Alerts.Alert{
+        header: "Blocked timetable. View PDF Timetable on the MBTA website.",
+        url: "https://www.mbta.com/pdf-timetable",
+        updated_at: DateTime.utc_now()
+      }
+
+      response =
+        group(
+          alerts: [alert],
+          route: @route,
+          stop?: false,
+          show_empty?: false,
+          date_time: DateTime.utc_now()
+        )
+
+      text = safe_to_string(response)
+
+      refute text =~ "View PDF Timetable on the MBTA website."
+      assert text =~ ~s["https://www.mbta.com/pdf-timetable"]
+      assert text =~ ">View PDF Timetable</a>"
+    end
   end
 
   describe "no_alerts_message/3" do
