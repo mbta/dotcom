@@ -1,0 +1,10 @@
+<div class="callout schedule-empty">
+  The interactive timetable for <%= @formatted_date %> is temporarily unavailable due to a service change.
+  <div>
+    <%= if @alert.url do %>
+      <%= link "View PDF Timetable", to: @alert.url %>
+    <% else %>
+      PDF Upcoming
+    <% end %>
+  </div>
+</div>
