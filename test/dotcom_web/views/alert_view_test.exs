@@ -204,7 +204,7 @@ defmodule DotcomWeb.AlertViewTest do
 
       text = safe_to_string(response)
 
-      refute text =~ "View PDF Timetable on the MBTA website."
+      refute text =~ Dotcom.TimetableBlocking.pdf_available_text()
       assert text =~ ~s["https://www.mbta.com/pdf-timetable"]
       assert text =~ ">View PDF Timetable</a>"
     end
