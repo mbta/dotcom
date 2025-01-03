@@ -1298,7 +1298,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end
 
-    test "returns 0 when there is no highest one-way fare" do
+    test "returns nil when there is no highest one-way fare" do
       itinerary = %Itinerary{
         start: nil,
         stop: nil,
