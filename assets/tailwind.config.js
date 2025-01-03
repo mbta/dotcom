@@ -39,7 +39,7 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
-  important: ".body-wrapper",
+  important: "body",
   content: [
     ...content,
     "./js/**/*.js",
