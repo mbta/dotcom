@@ -54,22 +54,16 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
-  @hides_timetable_pdf_available "View PDF Timetable on the MBTA website."
-  @hides_timetable_no_pdf "Schedule will be available soon on the MBTA website."
-
   def alert_blocks(conn, _) do
-    blocking_alert =
-      conn.assigns.alerts
-      |> Alerts.Match.match(
-        %Alerts.InformedEntity{route: conn.assigns.route.id},
+    assign(
+      conn,
+      :blocking_alert,
+      Dotcom.TimetableBlocking.blocking_alert(
+        conn.assigns.alerts,
+        conn.assigns.route,
         conn.assigns.date
       )
-      |> Enum.find(fn alert ->
-        String.ends_with?(alert.header, @hides_timetable_pdf_available) or
-          String.ends_with?(alert.header, @hides_timetable_no_pdf)
-      end)
-
-    assign(conn, :blocking_alert, blocking_alert)
+    )
   end
 
   def assign_trip_schedules(
