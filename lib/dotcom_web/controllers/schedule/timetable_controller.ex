@@ -20,6 +20,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:direction_id)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(DotcomWeb.ScheduleController.Core)
+  plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.Offset)
   plug(DotcomWeb.ScheduleController.ScheduleError)
@@ -53,8 +54,27 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
+  def alert_blocks(conn, _) do
+    assign(
+      conn,
+      :blocking_alert,
+      Dotcom.TimetableBlocking.blocking_alert(
+        conn.assigns.alerts,
+        conn.assigns.route,
+        conn.assigns.date
+      )
+    )
+  end
+
   def assign_trip_schedules(
-        %{assigns: %{route: route, direction_id: direction_id, date_in_rating?: true}} = conn
+        %{
+          assigns: %{
+            route: route,
+            direction_id: direction_id,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)

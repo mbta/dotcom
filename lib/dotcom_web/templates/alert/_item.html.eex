@@ -17,9 +17,13 @@
         end %>
       </div>
       <div class="c-alert-item__content">
-        <%= replace_urls_with_links(@alert.header) %>
+        <%= replace_urls_with_links(Dotcom.TimetableBlocking.strip(@alert.header)) %>
         <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
-          <%= replace_urls_with_links(@alert.url) %>
+          <%= if Dotcom.TimetableBlocking.pdf?(@alert) do %>
+            <%= link "View PDF Timetable", to: @alert.url %>
+          <% else %>
+            <%= replace_urls_with_links(@alert.url) %>
+          <% end %>
         <% end %>
       </div>
     </div>
