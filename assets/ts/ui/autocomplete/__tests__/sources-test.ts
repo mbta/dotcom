@@ -1,4 +1,9 @@
-import { OnInputParams } from "@algolia/autocomplete-core";
+import {
+  AutocompleteState,
+  OnInputParams,
+  OnSelectParams,
+  StateUpdater
+} from "@algolia/autocomplete-core";
 import {
   algoliaSource,
   geolocationSource,
@@ -6,8 +11,8 @@ import {
   popularLocationSource
 } from "../sources";
 import { AutocompleteItem, LocationItem, PopularItem } from "../__autocomplete";
-
-const setIsOpenMock = jest.fn();
+import { UrlType } from "../helpers";
+import { waitFor } from "@testing-library/dom";
 
 beforeEach(() => {
   global.fetch = jest.fn(() =>
@@ -19,22 +24,160 @@ beforeEach(() => {
 });
 afterEach(() => jest.resetAllMocks());
 
+const mockCoords = {
+  latitude: 40,
+  longitude: -71
+};
+const mockUrlsResponse = {
+  result: {
+    urls: {
+      "transit-near-me": `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
+      "retail-sales-locations": `/fares/retail-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
+      "proposed-sales-locations": `/fare-transformation/proposed-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+    },
+    longitude: mockCoords.longitude,
+    latitude: mockCoords.latitude
+  }
+};
+
+function setMocks(geoSuccess: boolean, fetchSuccess: boolean): void {
+  const getCurrentPositionMock = geoSuccess
+    ? jest.fn().mockImplementationOnce(success =>
+        Promise.resolve(
+          success({
+            coords: mockCoords
+          })
+        )
+      )
+    : jest
+        .fn()
+        .mockImplementationOnce((success, error) =>
+          Promise.resolve(error({ code: 1, message: "GeoLocation Error" }))
+        );
+
+  (global.navigator as any).geolocation = {
+    getCurrentPosition: getCurrentPositionMock
+  };
+
+  if (fetchSuccess) {
+    jest.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockUrlsResponse)
+    } as Response);
+  } else {
+    jest.spyOn(global, "fetch").mockRejectedValue({
+      ok: false,
+      status: 404
+    });
+  }
+}
+
 describe("geolocationSource", () => {
+  Object.defineProperty(window, "location", {
+    value: {
+      assign: jest.fn()
+    }
+  });
+
   test("defines a template", () => {
-    expect(geolocationSource(setIsOpenMock).templates.item).toBeTruthy();
+    expect(geolocationSource().templates.item).toBeTruthy();
   });
   test("defines a getItems function", () => {
     expect(
-      geolocationSource(setIsOpenMock).getItems(
-        {} as OnInputParams<LocationItem>
-      )
+      geolocationSource().getItems({} as OnInputParams<{ value: string }>)
     ).toBeTruthy();
   });
   test("has optional getItemUrl", () => {
-    expect(geolocationSource(setIsOpenMock)).not.toContainKey("getItemUrl");
-    expect(
-      geolocationSource(setIsOpenMock, "proposed-sales-locations")
-    ).toContainKey("getItemUrl");
+    expect(geolocationSource("proposed-sales-locations")).toContainKey(
+      "getItemUrl"
+    );
+  });
+  describe("onSelect", () => {
+    function setupGeolocationSource(
+      urlType?: UrlType,
+      onLocationFound?: () => void
+    ) {
+      const source = geolocationSource(urlType, onLocationFound);
+      const setContextMock = jest.fn();
+      const setQueryMock = jest.fn();
+      const onSelectParams = {
+        setContext: setContextMock as StateUpdater<
+          AutocompleteState<{ value: string }>["context"]
+        >,
+        setQuery: setQueryMock as StateUpdater<
+          AutocompleteState<{ value: string }>["query"]
+        >
+      } as OnSelectParams<{ value: string }>;
+      return { source, onSelectParams };
+    }
+
+    test("redirects to a URL on success", async () => {
+      setMocks(true, true);
+      const { source, onSelectParams } = setupGeolocationSource(
+        "transit-near-me"
+      );
+      expect(source.getItems({} as OnInputParams<{ value: string }>)).toEqual([
+        { value: "Use my location to find transit near me" }
+      ]);
+      source.onSelect!(onSelectParams);
+
+      await waitFor(() => {
+        expect(onSelectParams.setQuery).toHaveBeenCalledWith(
+          "Getting your location..."
+        );
+        expect(global.fetch).toHaveBeenCalledWith(
+          `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+        );
+        expect(window.location.assign).toHaveBeenCalledExactlyOnceWith(
+          `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+        );
+      });
+    });
+    test("fires onLocationFound on success", async () => {
+      setMocks(true, true);
+      const onLocationFoundMock = jest.fn();
+      const { source, onSelectParams } = setupGeolocationSource(
+        undefined,
+        onLocationFoundMock
+      );
+      source.onSelect!(onSelectParams);
+      await waitFor(() => {
+        expect(onLocationFoundMock).toHaveBeenCalledWith(mockCoords);
+      });
+    });
+    test("displays error on geolocation error", async () => {
+      setMocks(false, true);
+      const { source, onSelectParams } = setupGeolocationSource(
+        "transit-near-me"
+      );
+      source.onSelect!(onSelectParams);
+      await waitFor(() => {
+        expect(onSelectParams.setQuery).toHaveBeenCalledWith(
+          "undefined needs permission to use your location."
+        );
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(window.location.assign).not.toHaveBeenCalled();
+      });
+    });
+    test("displays error on fetch error", async () => {
+      setMocks(true, false);
+      const { source, onSelectParams } = setupGeolocationSource(
+        "proposed-sales-locations"
+      );
+      source.onSelect!(onSelectParams);
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+        );
+        expect(window.location.assign).not.toHaveBeenCalledWith(
+          mockUrlsResponse.result.urls["proposed-sales-locations"]
+        );
+        expect(onSelectParams.setQuery).toHaveBeenCalledWith(
+          "undefined needs permission to use your location."
+        );
+      });
+    });
   });
 });
 

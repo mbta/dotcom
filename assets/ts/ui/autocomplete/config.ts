@@ -72,8 +72,8 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * Get results from geolocation, AWS locations, and Algolia-stored content or
    * GTFS data
    */
-  getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
-    if (!query) return [geolocationSource(setIsOpen, "transit-near-me")];
+  getSources({ query }): AutocompleteSource<any>[] {
+    if (!query) return [geolocationSource("transit-near-me")];
     return debounced([
       algoliaSource(query, {
         routes: {
@@ -112,9 +112,8 @@ const TNM: Partial<AutocompleteOptions<any>> = {
   initialState: {
     query: getLikelyQueryParams()
   },
-  getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
-    if (!query)
-      return debounced([geolocationSource(setIsOpen, "transit-near-me")]);
+  getSources({ query }): AutocompleteSource<any>[] {
+    if (!query) return debounced([geolocationSource("transit-near-me")]);
     return debounced([locationSource(query, 5, "transit-near-me")]);
   }
 };
@@ -128,10 +127,10 @@ const RETAIL: Partial<AutocompleteOptions<any>> = {
   initialState: {
     query: getLikelyQueryParams()
   },
-  getSources({ query, setIsOpen }): AutocompleteSource<any>[] {
+  getSources({ query }): AutocompleteSource<any>[] {
     if (!query)
       return debounced([
-        geolocationSource(setIsOpen, "retail-sales-locations"),
+        geolocationSource("retail-sales-locations"),
         popularLocationSource("retail-sales-locations")
       ]);
     return debounced([locationSource(query, 5, "retail-sales-locations")]);
@@ -147,10 +146,10 @@ const PROPOSED_RETAIL: Partial<AutocompleteOptions<any>> = {
   initialState: {
     query: getLikelyQueryParams()
   },
-  getSources({ query, setIsOpen }) {
+  getSources({ query }) {
     if (!query)
       return debounced([
-        geolocationSource(setIsOpen, "proposed-sales-locations"),
+        geolocationSource("proposed-sales-locations"),
         popularLocationSource("proposed-sales-locations")
       ]);
     return debounced([locationSource(query, 5, "proposed-sales-locations")]);
@@ -210,21 +209,12 @@ const TRIP_PLANNER = ({
     onReset: (): void => {
       pushToLiveView({});
     },
-    getSources({ query, setIsOpen, setQuery }) {
+    getSources({ query }) {
       if (!query)
         return debounced([
-          {
-            ...geolocationSource(
-              setIsOpen,
-              undefined,
-              ({ latitude, longitude }) => {
-                const name = `Near ${latitude}, ${longitude}`;
-                setQuery(name);
-                pushToLiveView({ latitude, longitude, name });
-              }
-            ),
-            onSelect
-          },
+          geolocationSource(undefined, coordinates => {
+            pushToLiveView(coordinates);
+          }),
           {
             ...popularLocationSource(),
             onSelect
