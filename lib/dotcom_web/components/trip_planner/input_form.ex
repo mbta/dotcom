@@ -49,9 +49,6 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
                 name={location_f[subfield].name}
               />
             </.inputs_for>
-            <.error_container :for={{msg, _} <- f[field].errors}>
-              {msg}
-            </.error_container>
           </.algolia_autocomplete>
         </fieldset>
         <fieldset class="mb-sm">
@@ -105,15 +102,6 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
             <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
           </div>
-        </div>
-        <div class="col-start-2 justify-self-end my-sm">
-          <.button
-            type="submit"
-            phx-disable-with="Planning your trip..."
-            class="w-full justify-center md:w-fit"
-          >
-            Get trip suggestions
-          </.button>
         </div>
       </.form>
     </section>

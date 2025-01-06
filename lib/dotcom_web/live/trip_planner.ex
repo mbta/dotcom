@@ -157,19 +157,8 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
-      |> assign(:results, @state.results)
       |> maybe_round_datetime()
-
-    {:noreply, new_socket}
-  end
-
-  @impl true
-  # Triggered when the form is submitted:
-  #
-  # - Convert the params to a changeset and submit it
-  def handle_event("input_form_submit", %{"input_form" => params}, socket) do
-    new_socket =
-      submit_changeset(socket, InputForm.changeset(params))
+      |> submit_changeset(InputForm.changeset(params))
 
     {:noreply, new_socket}
   end
@@ -312,6 +301,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   #
   # We standardize the datetime because it could be a NaiveDateTime or a DateTime or nil.
   defp maybe_round_datetime(socket) do
+    dbg(socket.assigns.input_form.changeset.changes)
+
     datetime =
       socket.assigns.input_form.changeset.changes
       |> Map.get(:datetime)
@@ -359,6 +350,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   # Use an anti corruption layer to convert old query parameters to new ones.
   defp query_params_to_changeset(params) do
     %{
+      "datetime" => nearest_5_minutes(),
       "datetime_type" => "now",
       "modes" => InputForm.initial_modes()
     }
