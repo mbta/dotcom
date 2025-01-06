@@ -51,11 +51,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   attr(:routes, :list, required: true, doc: "List of %Routes.Route{}")
   attr(:walk_minutes, :integer, required: true)
 
-  # No routes
+  # No routes: this is a walking leg
   defp leg_icon(%{routes: [], walk_minutes: _} = assigns) do
     ~H"""
     <span class={[
-      "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border border-solid border-gray-light",
+      "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
       @class
     ]}>
       <.icon name="person-walking" class="h-4 w-4" />
