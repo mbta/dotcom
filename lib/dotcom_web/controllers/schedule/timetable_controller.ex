@@ -370,6 +370,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "38671" => {:after, "Weymouth Landing/East Braintree"},
     # Anderson/Woburn is after Ballardvale on Haverhill line shuttle
     "place-NHRML-0127" => {:after, "Ballardvale"},
+    # Anderson/Woburn Busway is after Reading on Haverhill line shuttle
+    "NHRML-0127-B" => {:after, "Reading"},
     # Lynn station
     "place-ER-0115" => {:after, "Swampscott"},
     # Wonderland station
