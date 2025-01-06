@@ -85,9 +85,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
       assert %DateTime{} = changeset.changes[:datetime]
     end
 
-    test "datetime required if using datetime_type != now" do
-      expected_error = InputForm.error_message(:datetime)
-
+    test "adds datetime if using datetime_type != now" do
       changeset =
         InputForm.changeset(%{
           @params
@@ -95,8 +93,8 @@ defmodule Dotcom.TripPlan.InputFormTest do
             "datetime" => nil
         })
 
-      refute changeset.valid?
-      assert {^expected_error, _} = changeset.errors[:datetime]
+      assert changeset.valid?
+      assert %DateTime{} = changeset.changes[:datetime]
 
       changeset =
         InputForm.changeset(%{
@@ -105,8 +103,8 @@ defmodule Dotcom.TripPlan.InputFormTest do
             "datetime" => nil
         })
 
-      refute changeset.valid?
-      assert {^expected_error, _} = changeset.errors[:datetime]
+      assert changeset.valid?
+      assert %DateTime{} = changeset.changes[:datetime]
     end
 
     test "requires date to be in the future" do

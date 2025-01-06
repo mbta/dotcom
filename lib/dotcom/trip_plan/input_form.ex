@@ -97,13 +97,32 @@ defmodule Dotcom.TripPlan.InputForm do
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
       "now" ->
-        force_change(changeset, :datetime, Util.now())
+        force_change(changeset, :datetime, Timex.now("America/New_York"))
 
       _ ->
-        changeset
-        |> validate_required([:datetime], message: error_message(:datetime))
-        |> validate_change(:datetime, &validate_datetime/2)
+        # changeset
+        # |> validate_required([:datetime], message: error_message(:datetime))
+        # |> validate_change(:datetime, &validate_datetime/2)
+
+        case get_field(changeset, :datetime) do
+          nil ->
+            force_change(changeset, :datetime, nearest_5_minutes())
+
+          _ ->
+            changeset
+            |> validate_required([:datetime], message: error_message(:datetime))
+            |> validate_change(:datetime, &validate_datetime/2)
+        end
     end
+  end
+
+  defp nearest_5_minutes do
+    datetime = Timex.now("America/New_York")
+    minutes = datetime.minute
+    rounded_minutes = Float.ceil(minutes / 5) * 5
+    added_minutes = Kernel.trunc(rounded_minutes - minutes)
+
+    Timex.shift(datetime, minutes: added_minutes)
   end
 
   defp validate_datetime(field, date) do
