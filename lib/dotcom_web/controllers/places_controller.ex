@@ -155,16 +155,16 @@ defmodule DotcomWeb.PlacesController do
           Map.take(map, [:latitude, :longitude])
       end
 
-    vote_params =
-      case map do
-        %{formatted: formatted} ->
-          map
-          |> Map.take([:latitude, :longitude])
-          |> Map.put(:address, formatted)
+    # vote_params =
+    #   case map do
+    #     %{formatted: formatted} ->
+    #       map
+    #       |> Map.take([:latitude, :longitude])
+    #       |> Map.put(:address, formatted)
 
-        _ ->
-          %{}
-      end
+    #     _ ->
+    #       %{}
+    #   end
 
     map
     |> Map.put_new(:urls, %{
@@ -177,7 +177,7 @@ defmodule DotcomWeb.PlacesController do
           params
         ),
       "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
-      "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
+      # "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })
   end
 

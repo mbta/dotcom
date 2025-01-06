@@ -29,7 +29,7 @@ exports.scenario = async ({ page, baseURL }) => {
 
   await expect
     .poll(async () =>
-      page.locator("div.m-trip-plan-results__itinerary").count(),
+      page.locator("section#trip-planner-results").count(),
     )
     .toBeGreaterThan(0);
 };

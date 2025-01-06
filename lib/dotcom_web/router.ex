@@ -227,11 +227,6 @@ defmodule DotcomWeb.Router do
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
     get("/transit-near-me", TransitNearMeController, :index)
     resources("/alerts", AlertController, only: [:index, :show])
-    get("/trip-planner", TripPlanController, :index)
-    get("/trip-planner/from/", Redirector, to: "/trip-planner")
-    get("/trip-planner/from/:address", TripPlanController, :from)
-    get("/trip-planner/to/", Redirector, to: "/trip-planner")
-    get("/trip-planner/to/:address", TripPlanController, :to)
     delete("/trip-planner/feedback", TripPlan.Feedback, :delete)
     post("/trip-planner/feedback", TripPlan.Feedback, :put)
     get("/customer-support", CustomerSupportController, :index)
@@ -242,7 +237,7 @@ defmodule DotcomWeb.Router do
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
-    get("/vote", VoteController, :show)
+    # get("/vote", VoteController, :show)
   end
 
   scope "/", DotcomWeb do
@@ -263,11 +258,11 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  scope "/preview", DotcomWeb do
+  scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+    pipe_through([:browser, :browser_live])
 
-    live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
+    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
       live("/trip-planner", Live.TripPlanner)
       live("/trip-planner/from/:place", Live.TripPlanner, :from)
       live("/trip-planner/to/:place", Live.TripPlanner, :to)
