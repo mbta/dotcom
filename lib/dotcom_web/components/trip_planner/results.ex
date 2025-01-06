@@ -42,6 +42,8 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       <div
         :for={{%{summary: summary}, index} <- Enum.with_index(@results.itinerary_groups)}
         class="border border-solid border-gray-lighter p-4"
+        phx-click="select_itinerary_group"
+        phx-value-index={index}
       >
         <div
           :if={summary.tag}
