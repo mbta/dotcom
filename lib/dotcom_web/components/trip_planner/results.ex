@@ -52,7 +52,10 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         <.itinerary_summary summary={summary} />
         <div class="flex justify-end items-center">
           <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
-            Similar trips depart at {Enum.map(
+            Similar {if(Enum.count(summary.next_starts) == 1,
+              do: "trip departs",
+              else: "trips depart"
+            )} at {Enum.map(
               summary.next_starts,
               &Timex.format!(&1, "%-I:%M", :strftime)
             )
