@@ -237,7 +237,7 @@ defmodule DotcomWeb.Router do
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
-    # get("/vote", VoteController, :show)
+    get("/vote", VoteController, :show)
   end
 
   scope "/", DotcomWeb do
