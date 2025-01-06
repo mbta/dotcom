@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
   defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do
     preamble = if datetime_type == "arrive_by", do: "Arriving by ", else: "Leaving at "
     time_description = Timex.format!(datetime, "{h12}:{m}{am}")
-    date_description = Timex.format!(datetime, "{WDfull}, {Mfull} {D}")
-    preamble <> time_description <> " on " <> date_description
+    date_description = Timex.format!(datetime, "{WDfull}, {Mfull} ")
+    preamble <> time_description <> " on " <> date_description <> Inflex.ordinalize(datetime.day)
   end
 end
