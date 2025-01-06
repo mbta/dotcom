@@ -42,7 +42,7 @@
           {@polling_location["address"]["city"]}, {@polling_location["address"]["state"]}
           {@polling_location["address"]["zip"]}
         </div>
-        <a class="btn btn-primary" href={@trip_plan_path}>
+        <a class="btn btn-primary" href="/trip-planner" target="_blank">
           Plan your trip
         </a>
       </div>
@@ -56,7 +56,7 @@
           Secretary of State's official site
         </a>
         to find your polling place, and then use the
-        <a href={trip_plan_path(DotcomWeb.Endpoint, :index)} target="_blank">
+        <a href="/trip-planner" target="_blank">
           MBTA Trip Planner
         </a>
         to plan your trip.
