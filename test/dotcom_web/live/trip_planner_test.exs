@@ -62,23 +62,11 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     end)
   end
 
-  test "Preview version behind basic auth", %{conn: conn} do
-    conn = get(conn, ~p"/preview/trip-planner")
-
-    {_header_name, header_value} = List.keyfind(conn.resp_headers, "www-authenticate", 0)
-    assert conn.status == 401
-    assert header_value =~ "Basic"
-  end
-
   describe "Trip Planner" do
     setup %{conn: conn} do
-      [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
-
       {:ok, view, html} =
         conn
-        |> put_req_header("authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
-        |> live(~p"/preview/trip-planner")
+        |> live(~p"/trip-planner")
 
       %{html: html, view: view}
     end
@@ -154,7 +142,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       stub_otp_results([])
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       assert render_async(view) =~ "No trips found"
     end
@@ -190,7 +178,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     test "starts out with no 'View All Options' button", %{conn: conn, params: params} do
       stub_populated_otp_results()
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       refute render_async(view) =~ "View All Options"
     end
@@ -198,7 +186,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     test "clicking 'Details' button opens details view", %{conn: conn, params: params} do
       stub_populated_otp_results()
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       render_async(view)
       view |> element("button[phx-value-index=\"0\"]", "Details") |> render_click()
@@ -212,7 +200,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     } do
       stub_populated_otp_results()
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       render_async(view)
 
@@ -244,7 +232,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         }
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       render_async(view)
 
@@ -278,7 +266,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         }
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       render_async(view)
 
@@ -309,7 +297,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         }
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       render_async(view)
 
@@ -328,7 +316,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     } do
       stub_otp_results([])
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       assert render_async(view) =~ "No trips found."
     end
@@ -340,7 +328,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         {:error, [%OpenTripPlannerClient.Error{message: error_message}]}
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       assert render_async(view) =~ error_message
     end
@@ -353,7 +341,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         {:error, [%OpenTripPlannerClient.Error{message: Faker.Lorem.sentence()}]}
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/trip-planner?#{params}")
 
       refute render_async(view) =~ "No trips found."
     end
