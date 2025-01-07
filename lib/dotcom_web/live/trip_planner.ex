@@ -85,7 +85,7 @@ defmodule DotcomWeb.Live.TripPlanner do
             points={@map.points}
           />
           <.results
-            :if={Enum.count(@results.itinerary_groups) > 0}
+            :if={Enum.count(@results.itinerary_groups) > 0 || @results.loading?}
             class="md:max-w-[25rem] md:sticky md:top-4"
             results={@results}
           />
@@ -166,16 +166,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     {:noreply, new_socket}
   end
-
-  # When the datetime_type is "leave_at" or "arrive_by", we need to
-  # have a "datetime" indicating when we want to "leave at" or "arrive
-  # by", but because the datepicker only appears after a rider clicks
-  # on "Leave at" or "Arrive by", the actual value of "datetime"
-  # doesn't always appear in params. When that happens, we want to set
-  # "datetime" to a reasonable default.
-  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params), do: params
-  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
-  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
   @impl true
   # Triggered when the user selects to view all itinerary groups after selecting a particular one
@@ -377,6 +367,16 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp to_geojson(_) do
     []
   end
+
+  # When the datetime_type is "leave_at" or "arrive_by", we need to
+  # have a "datetime" indicating when we want to "leave at" or "arrive
+  # by", but because the datepicker only appears after a rider clicks
+  # on "Leave at" or "Arrive by", the actual value of "datetime"
+  # doesn't always appear in params. When that happens, we want to set
+  # "datetime" to a reasonable default.
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params), do: params
+  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
+  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
   # Convert a NaiveDateTime to a DateTime in the America/New_York timezone.
   defp standardize_datetime(%NaiveDateTime{} = datetime) do
