@@ -11,8 +11,12 @@
   --tw-content: '' !important;
 }
 
-@import "../../deps/mbta_metro/priv/static/assets/variables.light.css" (prefers-color-scheme: light);
-@import "../../deps/mbta_metro/priv/static/assets/variables.dark.css" (prefers-color-scheme: dark);
+// MBTA Metro components can support light or dark mode, and includes CSS
+// variable definitions for both. However, Dotcom itself does not support dark
+// mode, so we only include the light mode variables here.
+// @import "../../deps/mbta_metro/priv/static/assets/variables.light.css" (prefers-color-scheme: light);
+// @import "../../deps/mbta_metro/priv/static/assets/variables.dark.css" (prefers-color-scheme: dark);
+@import "../../deps/mbta_metro/priv/static/assets/variables.light.css";
 @import '../../deps/mbta_metro/priv/static/assets/default.css';
 
 ////////////////////////////////////////////////////////////////////////////////////////

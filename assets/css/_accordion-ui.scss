@@ -138,3 +138,18 @@
     @include fa-icon-solid($fa-var-angle-up);
   }
 }
+
+// Remove top margin from first heading element inside the accordion panel
+.c-expandable-block__panel, .c-accordion-ui__content {
+  // when the heading is directly the first child element
+  > :first-child:is(h1, h2, h3, h4) {
+    margin-top: 0;
+  }
+
+  // when the heading is NOT directly the first child element
+  // markup structure varies widely, precluding the use of a simpler selector,
+  // but this finds a first heading element inside the first child of the panel
+  :first-child:has(> h1, > h2, > h3, > h4) :is(h1, h2, h3, h4) {
+    margin-top: 0;
+  }
+}
