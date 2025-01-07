@@ -20,7 +20,7 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
   },
   /* set the expect timeout to 30s */
-  expect: { timeout: 30000 },
+  expect: { timeout: 5000 },
   /* Configure projects for major browsers */
   projects: [
     {
