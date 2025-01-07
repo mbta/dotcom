@@ -1,4 +1,4 @@
-<%= DotcomWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+<%= DotcomWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high, always_show: List.wrap(@blocking_alert)) %>
 <%= render "_trip_view_filters.html", assigns %>
 
 <div class="calendar-covered m-timetable">

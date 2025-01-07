@@ -11,6 +11,8 @@ defmodule DotcomWeb.AlertView do
   alias Routes.Route
   alias Stops.Stop
 
+  @type priority_filter :: :any | Alerts.Priority.priority_level()
+
   @doc """
 
   Used to render a group of alerts.
@@ -28,6 +30,7 @@ defmodule DotcomWeb.AlertView do
       opts
       |> Keyword.fetch!(:alerts)
       |> Enum.filter(&filter_by_priority(priority_filter, &1))
+      |> then(&(Keyword.get(opts, :always_show, []) ++ &1))
       |> deduplicate()
 
     case {alerts, show_empty?} do
@@ -46,17 +49,8 @@ defmodule DotcomWeb.AlertView do
     end
   end
 
-  # Workaround handling duplicate Red Line alerts for JFK-Ashmont shuttle
   defp deduplicate(alerts) do
-    alert_ids = Enum.map(alerts, & &1.id)
-    ashmont_shuttle_alert_ids = ["519314", "529291"]
-
-    if Enum.all?(ashmont_shuttle_alert_ids, &Enum.member?(alert_ids, &1)) do
-      # remove the second one
-      Enum.reject(alerts, &(&1.id == "529291"))
-    else
-      alerts
-    end
+    Enum.uniq_by(alerts, & &1.id)
   end
 
   @spec no_alerts_message(map, boolean, atom) :: iolist
@@ -129,14 +123,17 @@ defmodule DotcomWeb.AlertView do
       " at this time."
     ]
 
-  @spec filter_by_priority(boolean, Alert.t()) :: boolean
-  defp filter_by_priority(:any, _), do: true
+  @spec filter_by_priority(
+          priority_filter,
+          Alert.t()
+        ) :: boolean
+  defp filter_by_priority(:any, _alert), do: true
 
   defp filter_by_priority(priority_filter, %{priority: priority})
-       when priority_filter == priority,
+       when is_atom(priority_filter) and priority_filter == priority,
        do: true
 
-  defp filter_by_priority(_, _), do: false
+  defp filter_by_priority(_filter, _alert), do: false
 
   def effect_name(%{lifecycle: lifecycle} = alert)
       when lifecycle in [:new, :unknown] do
