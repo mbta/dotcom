@@ -12,7 +12,6 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <section
       id="trip-planner-results"
-      phx-hook="ScrollIntoView"
       class={[
         "w-full",
         @class

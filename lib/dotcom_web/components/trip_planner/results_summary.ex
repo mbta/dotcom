@@ -8,8 +8,6 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
   attr :results, :any, required: true
 
   def results_summary(assigns) do
-    # dbg(assigns.changeset.changes)
-
     ~H"""
     <section
       :if={

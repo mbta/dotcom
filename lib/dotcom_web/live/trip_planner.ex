@@ -150,7 +150,11 @@ defmodule DotcomWeb.Live.TripPlanner do
   # - Update the map state with the new pins
   # - Reset the results state
   def handle_event("input_form_change", %{"input_form" => params}, socket) do
-    changeset = InputForm.changeset(params)
+    changeset =
+      params
+      |> add_datetime_if_needed()
+      |> InputForm.changeset()
+
     pins = input_form_to_pins(changeset)
 
     new_socket =
@@ -158,10 +162,20 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
       |> maybe_round_datetime()
-      |> submit_changeset(InputForm.changeset(params))
+      |> submit_changeset(changeset)
 
     {:noreply, new_socket}
   end
+
+  # When the datetime_type is "leave_at" or "arrive_by", we need to
+  # have a "datetime" indicating when we want to "leave at" or "arrive
+  # by", but because the datepicker only appears after a rider clicks
+  # on "Leave at" or "Arrive by", the actual value of "datetime"
+  # doesn't always appear in params. When that happens, we want to set
+  # "datetime" to a reasonable default.
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params), do: params
+  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
+  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
   @impl true
   # Triggered when the user selects to view all itinerary groups after selecting a particular one
@@ -301,8 +315,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   #
   # We standardize the datetime because it could be a NaiveDateTime or a DateTime or nil.
   defp maybe_round_datetime(socket) do
-    dbg(socket.assigns.input_form.changeset.changes)
-
     datetime =
       socket.assigns.input_form.changeset.changes
       |> Map.get(:datetime)
@@ -350,7 +362,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   # Use an anti corruption layer to convert old query parameters to new ones.
   defp query_params_to_changeset(params) do
     %{
-      "datetime" => nearest_5_minutes(),
       "datetime_type" => "now",
       "modes" => InputForm.initial_modes()
     }
