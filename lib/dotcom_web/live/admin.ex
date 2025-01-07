@@ -13,11 +13,6 @@ defmodule DotcomWeb.Live.Admin do
            description: "Find and download the latest comments and votes."
          },
          %{
-           url: Helpers.live_path(socket, DotcomWeb.Live.TripPlanner),
-           title: "Trip Planner Preview",
-           description: "WIP on the trip planner rewrite."
-         },
-         %{
            url: Helpers.live_path(socket, DotcomWeb.Live.SystemStatus),
            title: "System Status Widget Preview",
            description: "WIP on the system status widget."
