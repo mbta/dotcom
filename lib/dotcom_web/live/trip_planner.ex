@@ -150,10 +150,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   # - Update the map state with the new pins
   # - Reset the results state
   def handle_event("input_form_change", %{"input_form" => params}, socket) do
-    changeset =
-      params
-      |> add_datetime_if_needed()
-      |> InputForm.changeset()
+    params_with_datetime = add_datetime_if_needed(params)
+
+    changeset = InputForm.changeset(params_with_datetime)
 
     pins = input_form_to_pins(changeset)
 
@@ -161,7 +160,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
-      |> maybe_round_datetime()
+      |> update_datepicker(params_with_datetime)
       |> submit_changeset(changeset)
 
     {:noreply, new_socket}
@@ -298,35 +297,16 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> TripPlan.Map.get_points()
   end
 
-  # Round the datetime to the nearest 5 minutes if:
+  # Send an event that will get picked up by the datepicker component
+  # so that the datepicker renders the correct datetime.
   #
-  # - The datetime type is not 'now'
-  # - The datetime is before the nearest 5 minutes
-  #
-  # We standardize the datetime because it could be a NaiveDateTime or a DateTime or nil.
-  defp maybe_round_datetime(socket) do
-    datetime =
-      socket.assigns.input_form.changeset.changes
-      |> Map.get(:datetime)
-      |> standardize_datetime()
+  # Does nothing if there's no datetime in the params.
+  defp update_datepicker(socket, %{"datetime" => datetime}) do
+    push_event(socket, "set-datetime", %{datetime: datetime})
+  end
 
-    datetime_type = socket.assigns.input_form.changeset.changes.datetime_type
-    future = nearest_5_minutes()
-    diff = Timex.diff(datetime, future, :minutes)
-
-    if datetime_type != "now" && diff < 0 do
-      push_event(socket, "set-datetime", %{datetime: future})
-    else
-      assign(
-        socket,
-        :input_form,
-        Map.put(
-          socket.assigns.input_form,
-          :changeset,
-          Map.put(socket.assigns.input_form.changeset, :datetime, datetime)
-        )
-      )
-    end
+  defp update_datepicker(socket, %{}) do
+    socket
   end
 
   # Check the input form change set for validity and submit the form if it is.
