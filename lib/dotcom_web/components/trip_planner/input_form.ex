@@ -36,7 +36,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(field)}</legend>
           <.algolia_autocomplete
             config_type="trip-planner"
-            placeholder="Enter a location"
+            placeholder={"Enter #{if(field == :from, do: "an origin", else: "a destination")} location"}
             id={"trip-planner-input-form--#{field}"}
           >
             <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
