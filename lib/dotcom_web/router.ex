@@ -269,6 +269,8 @@ defmodule DotcomWeb.Router do
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
       live("/trip-planner", Live.TripPlanner)
+      live("/trip-planner/from/:place", Live.TripPlanner, :from)
+      live("/trip-planner/to/:place", Live.TripPlanner, :to)
     end
   end
 

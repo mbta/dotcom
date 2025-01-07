@@ -39,8 +39,16 @@ defmodule DotcomWeb.Live.TripPlanner do
   - Clean any query parameters and convert them to a changeset for the input form.
   - Then, submit the form if the changeset is valid (i.e., the user visited with valid query parameters).
   """
-  def mount(params, _session, socket) do
-    changeset = query_params_to_changeset(params)
+  def mount(params, _session, %{assigns: %{live_action: live_action}} = socket) do
+    changeset =
+      if is_atom(live_action) and is_binary(params["place"]) do
+        # Handle the /to/:place or /from/:place situation
+        live_action
+        |> action_to_query_params(params["place"])
+        |> query_params_to_changeset()
+      else
+        query_params_to_changeset(params)
+      end
 
     new_socket =
       socket
@@ -353,6 +361,12 @@ defmodule DotcomWeb.Live.TripPlanner do
     added_minutes = Kernel.trunc(rounded_minutes - minutes)
 
     Timex.shift(datetime, minutes: added_minutes)
+  end
+
+  defp action_to_query_params(action_key, action_value) do
+    %{}
+    |> Map.put(action_key, action_value)
+    |> AntiCorruptionLayer.convert_old_action()
   end
 
   # Convert query parameters to a changeset for the input form.
