@@ -23,7 +23,7 @@ defmodule DotcomWeb.Live.Admin do
 
   def render(assigns) do
     ~H"""
-    <section style="display: grid; gap: .5rem; grid-template-columns: 1fr 1fr 1fr">
+    <section class="grid gap-2 grid-cols-3">
       <%= for feature <- @admin_features do %>
         <%= link to: feature.url, class: "btn btn-secondary", style: "white-space: inherit;" do %>
           <header class="font-heading font-bold mb-3 text-2xl mt-0">{feature.title}</header>
