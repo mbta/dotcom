@@ -25,7 +25,6 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   defp results_feedback(%{results: %{loading?: true}} = assigns) do
     ~H"""
-    <.spinner aria_label="Waiting for results" /> Waiting for results...
     """
   end
 

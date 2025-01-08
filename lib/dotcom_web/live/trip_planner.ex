@@ -93,7 +93,7 @@ defmodule DotcomWeb.Live.TripPlanner do
             points={@map.points}
           />
           <.results
-            :if={Enum.count(@results.itinerary_groups) > 0}
+            :if={Enum.count(@results.itinerary_groups) > 0 || @results.loading?}
             class="md:max-w-[25rem] md:sticky md:top-4"
             results={@results}
           />
@@ -158,26 +158,18 @@ defmodule DotcomWeb.Live.TripPlanner do
   # - Update the map state with the new pins
   # - Reset the results state
   def handle_event("input_form_change", %{"input_form" => params}, socket) do
-    changeset = InputForm.changeset(params)
+    params_with_datetime = add_datetime_if_needed(params)
+
+    changeset = InputForm.changeset(params_with_datetime)
+
     pins = input_form_to_pins(changeset)
 
     new_socket =
       socket
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
-      |> assign(:results, @state.results)
-      |> maybe_round_datetime()
-
-    {:noreply, new_socket}
-  end
-
-  @impl true
-  # Triggered when the form is submitted:
-  #
-  # - Convert the params to a changeset and submit it
-  def handle_event("input_form_submit", %{"input_form" => params}, socket) do
-    new_socket =
-      submit_changeset(socket, InputForm.changeset(params))
+      |> update_datepicker(params_with_datetime)
+      |> submit_changeset(changeset)
 
     {:noreply, new_socket}
   end
@@ -313,35 +305,16 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> TripPlan.Map.get_points()
   end
 
-  # Round the datetime to the nearest 5 minutes if:
+  # Send an event that will get picked up by the datepicker component
+  # so that the datepicker renders the correct datetime.
   #
-  # - The datetime type is not 'now'
-  # - The datetime is before the nearest 5 minutes
-  #
-  # We standardize the datetime because it could be a NaiveDateTime or a DateTime or nil.
-  defp maybe_round_datetime(socket) do
-    datetime =
-      socket.assigns.input_form.changeset.changes
-      |> Map.get(:datetime)
-      |> standardize_datetime()
+  # Does nothing if there's no datetime in the params.
+  defp update_datepicker(socket, %{"datetime" => datetime}) do
+    push_event(socket, "set-datetime", %{datetime: datetime})
+  end
 
-    datetime_type = socket.assigns.input_form.changeset.changes.datetime_type
-    future = nearest_5_minutes()
-    diff = Timex.diff(datetime, future, :minutes)
-
-    if datetime_type != "now" && diff < 0 do
-      push_event(socket, "set-datetime", %{datetime: future})
-    else
-      assign(
-        socket,
-        :input_form,
-        Map.put(
-          socket.assigns.input_form,
-          :changeset,
-          Map.put(socket.assigns.input_form.changeset, :datetime, datetime)
-        )
-      )
-    end
+  defp update_datepicker(socket, %{}) do
+    socket
   end
 
   # Check the input form change set for validity and submit the form if it is.
@@ -388,6 +361,16 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp to_geojson(_) do
     []
   end
+
+  # When the datetime_type is "leave_at" or "arrive_by", we need to
+  # have a "datetime" indicating when we want to "leave at" or "arrive
+  # by", but because the datepicker only appears after a rider clicks
+  # on "Leave at" or "Arrive by", the actual value of "datetime"
+  # doesn't always appear in params. When that happens, we want to set
+  # "datetime" to a reasonable default.
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params), do: params
+  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
+  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
   # Convert a NaiveDateTime to a DateTime in the America/New_York timezone.
   defp standardize_datetime(%NaiveDateTime{} = datetime) do

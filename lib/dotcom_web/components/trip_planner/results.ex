@@ -12,7 +12,6 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <section
       id="trip-planner-results"
-      phx-hook="ScrollIntoView"
       class={[
         "w-full",
         @class
@@ -29,10 +28,18 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           </span>
         </button>
       </div>
-      <div :if={Enum.count(@results.itinerary_groups) > 0} class="w-full">
+      <div class="w-full">
         <.itinerary_panel results={@results} />
       </div>
     </section>
+    """
+  end
+
+  defp itinerary_panel(%{results: %{loading?: true}} = assigns) do
+    ~H"""
+    <div class="flex justify-center mt-4">
+      <.spinner aria_label="Waiting for results" />
+    </div>
     """
   end
 
