@@ -38,7 +38,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
       assert changeset.valid?
     end
 
-    test "adds from & to errors" do
+    test "does not add from & to errors" do
       changeset =
         InputForm.changeset(%{
           "from" => %{
@@ -56,8 +56,8 @@ defmodule Dotcom.TripPlan.InputFormTest do
         })
 
       refute changeset.valid?
-      assert changeset.errors[:to]
-      assert changeset.errors[:from]
+      refute changeset.errors[:to]
+      refute changeset.errors[:from]
     end
 
     test "adds error if from & to are the same" do
