@@ -1,10 +1,13 @@
-import { GetSourcesParams } from "@algolia/autocomplete-core";
-import { Item, LocationItem } from "../__autocomplete";
+import {
+  AutocompleteState,
+  GetSourcesParams,
+  OnSelectParams,
+  StateUpdater
+} from "@algolia/autocomplete-core";
+import { Item } from "../__autocomplete";
 import configs from "./../config";
 import { AutocompleteSource } from "@algolia/autocomplete-js";
-import { render, screen, waitFor } from "@testing-library/react";
-import { mockTemplateParam } from "./templates-test";
-import userEvent from "@testing-library/user-event";
+import { waitFor } from "@testing-library/react";
 
 const sourceIds = (sources: any[]) =>
   (sources as AutocompleteSource<any>[]).map(s => s.sourceId);
@@ -189,29 +192,21 @@ describe("Trip planner configuration", () => {
     const { getSources } = config;
     const mockSetQuery = jest.fn();
     // @ts-ignore
-    const [geolocationSource] = await getSources({
-      ...baseSourceParams,
-      setQuery: mockSetQuery
-    });
-    const geolocationTemplate = (geolocationSource as AutocompleteSource<
-      LocationItem
-    >).templates.item;
+    const [geolocationSource] = await getSources(baseSourceParams);
+    (geolocationSource as AutocompleteSource<any>)?.onSelect!({
+      setContext: jest.fn() as StateUpdater<
+        AutocompleteState<{ value: string }>["context"]
+      >,
+      setQuery: mockSetQuery as StateUpdater<
+        AutocompleteState<{ value: string }>["query"]
+      >
+    } as OnSelectParams<{ value: string }>);
 
-    render(
-      geolocationTemplate(
-        mockTemplateParam<LocationItem>({} as LocationItem, "")
-      ) as React.ReactElement
-    );
-    const button = screen.getByRole("button");
-    const user = userEvent.setup();
-    await user.click(button);
-    const locationName = `Near ${mockCoordinates.latitude}, ${mockCoordinates.longitude}`;
     await waitFor(() => {
-      expect(mockSetQuery).toHaveBeenCalledWith(locationName);
-      expect(pushToLiveViewMock).toHaveBeenCalledWith({
-        ...mockCoordinates,
-        name: locationName
-      });
+      expect(mockSetQuery).toHaveBeenCalledWith(
+        `${mockCoordinates.latitude}, ${mockCoordinates.longitude}`
+      );
+      expect(pushToLiveViewMock).toHaveBeenCalledWith(mockCoordinates);
     });
   });
 });

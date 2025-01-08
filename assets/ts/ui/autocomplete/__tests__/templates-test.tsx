@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -7,7 +6,6 @@ import {
   PopularItem,
   RouteItem
 } from "../__autocomplete";
-
 import {
   AutocompleteComponents,
   AutocompleteRenderer,
@@ -15,10 +13,14 @@ import {
   HTMLTemplate,
   VNode
 } from "@algolia/autocomplete-js";
-import { BaseItem } from "@algolia/autocomplete-core";
+import {
+  BaseItem,
+  OnInputParams,
+  OnSelectParams,
+  StateUpdater
+} from "@algolia/autocomplete-core";
 import { HighlightResultOption } from "@algolia/client-search";
 import AlgoliaItemTemplate from "../templates/algolia";
-import { GeolocationComponent } from "../templates/geolocation";
 import LocationItemTemplate from "../templates/location";
 import PopularItemTemplate from "../templates/popular";
 import { templateWithLink } from "../templates/helpers";
@@ -41,55 +43,6 @@ export function mockTemplateParam<T extends BaseItem>(item: T, query: string) {
 
 const renderMockTemplate = (tmpl: string | VNode | VNode[]) =>
   render(tmpl as VNode);
-
-const mockCoords = {
-  latitude: 40,
-  longitude: -71
-};
-const mockUrlsResponse = {
-  result: {
-    urls: {
-      "transit-near-me": `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
-      "retail-sales-locations": `/fares/retail-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
-      "proposed-sales-locations": `/fare-transformation/proposed-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
-    },
-    longitude: mockCoords.longitude,
-    latitude: mockCoords.latitude
-  }
-};
-
-function setMocks(geoSuccess: boolean, fetchSuccess: boolean): void {
-  const getCurrentPositionMock = geoSuccess
-    ? jest.fn().mockImplementationOnce(success =>
-        Promise.resolve(
-          success({
-            coords: mockCoords
-          })
-        )
-      )
-    : jest
-        .fn()
-        .mockImplementationOnce((success, error) =>
-          Promise.resolve(error({ code: 1, message: "GeoLocation Error" }))
-        );
-
-  (global.navigator as any).geolocation = {
-    getCurrentPosition: getCurrentPositionMock
-  };
-
-  if (fetchSuccess) {
-    jest.spyOn(global, "fetch").mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve(mockUrlsResponse)
-    } as Response);
-  } else {
-    jest.spyOn(global, "fetch").mockRejectedValue({
-      ok: false,
-      status: 404
-    });
-  }
-}
 
 describe("Algolia template", () => {
   function renderAlgoliaTemplate(item: AutocompleteItem, query = "query") {
@@ -244,138 +197,4 @@ test("Location template renders", () => {
   );
 
   expect(asFragment()).toMatchSnapshot();
-});
-
-describe("Geolocation template", () => {
-  Object.defineProperty(window, "location", {
-    value: {
-      assign: jest.fn()
-    }
-  });
-  describe("on success", () => {
-    const setIsOpenMock = jest.fn();
-
-    test("redirects to a URL", async () => {
-      setMocks(true, true);
-      render(
-        <GeolocationComponent
-          setIsOpen={setIsOpenMock}
-          urlType="transit-near-me"
-        />
-      );
-      const button = screen.getByRole("button");
-      expect(button).toHaveTextContent(
-        "Use my location to find transit near me"
-      );
-
-      const user = userEvent.setup();
-      await user.click(button);
-      await waitFor(() => {
-        expect(setIsOpenMock).toHaveBeenCalledWith(true);
-        expect(screen.queryByText("Redirecting...")).toBeTruthy();
-        expect(global.fetch).toHaveBeenCalledWith(
-          `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
-        );
-        expect(window.location.assign).toHaveBeenCalledExactlyOnceWith(
-          `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
-        );
-      });
-    });
-
-    test("fires onLocationFound", async () => {
-      setMocks(true, true);
-      const onLocationFoundMock = jest.fn();
-      render(
-        <GeolocationComponent
-          setIsOpen={setIsOpenMock}
-          onLocationFound={onLocationFoundMock}
-        />
-      );
-      const button = screen.getByRole("button");
-      expect(button).toHaveTextContent("Use my location");
-      const user = userEvent.setup();
-      await user.click(button);
-
-      await waitFor(() => {
-        expect(setIsOpenMock).toHaveBeenCalledWith(true);
-        expect(onLocationFoundMock).toHaveBeenCalledWith(mockCoords);
-      });
-
-      await waitFor(
-        () => {
-          expect(setIsOpenMock).toHaveBeenCalledWith(false);
-        },
-        { timeout: 2000 }
-      );
-    });
-  });
-
-  describe("displays error", () => {
-    const errorText =
-      "needs permission to use your location. Please update your browser's settings or refresh the page and try again.";
-
-    test("on geolocation error", async () => {
-      const user = userEvent.setup();
-      setMocks(false, true);
-      const setIsOpenMock = jest.fn();
-      render(
-        <GeolocationComponent
-          setIsOpen={setIsOpenMock}
-          urlType="transit-near-me"
-        />
-      );
-
-      await user.click(screen.getByRole("button"));
-      await waitFor(() => {
-        expect(setIsOpenMock).toHaveBeenCalledWith(true);
-        expect(global.fetch).not.toHaveBeenCalled();
-        expect(window.location.assign).not.toHaveBeenCalled();
-      });
-
-      await waitFor(
-        () => {
-          expect(setIsOpenMock).not.toHaveBeenCalledWith(false);
-        },
-        { timeout: 3000 }
-      );
-      expect(screen.getByText(errorText, { exact: false })).toBeTruthy();
-    });
-
-    test("on fetch error", async () => {
-      const user = userEvent.setup();
-      setMocks(true, false);
-      const setIsOpenMock = jest.fn();
-      render(
-        <GeolocationComponent
-          setIsOpen={setIsOpenMock}
-          urlType="proposed-sales-locations"
-        />
-      );
-      const button = screen.getByRole("button");
-      expect(button).toHaveTextContent(/^Use my location$/);
-      await user.click(button);
-
-      await waitFor(() => {
-        expect(setIsOpenMock).toHaveBeenCalledWith(true);
-        expect(global.fetch).toHaveBeenCalledWith(
-          `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
-        );
-        expect(window.location.assign).not.toHaveBeenCalledWith(
-          mockUrlsResponse.result.urls["proposed-sales-locations"]
-        );
-        expect(
-          screen.getByText(
-            "needs permission to use your location. Please update your browser's settings or refresh the page and try again.",
-            { exact: false }
-          )
-        ).toBeTruthy();
-      });
-      await waitFor(
-        () => {
-          expect(setIsOpenMock).not.toHaveBeenCalledWith(false);
-        },
-        { timeout: 3000 }
-      );
-    });
-  });
 });

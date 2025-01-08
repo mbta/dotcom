@@ -1,34 +1,86 @@
-import { StateUpdater } from "@algolia/autocomplete-core";
 import { AutocompleteSource } from "@algolia/autocomplete-js";
 import { SearchResponse } from "@algolia/client-search";
 import { LocationItem, PopularItem, AutocompleteItem } from "./__autocomplete";
 import { UrlType, WithUrls, itemWithUrl } from "./helpers";
 import AlgoliaItemTemplate from "./templates/algolia";
-import GeolocationTemplate, {
-  OnLocationFoundFn
-} from "./templates/geolocation";
 import { templateWithLink } from "./templates/helpers";
 import LocationItemTemplate from "./templates/location";
 import PopularItemTemplate from "./templates/popular";
+import geolocationPromise from "../../../js/geolocation-promise";
+import { fetchJsonOrThrow } from "../../helpers/fetch-json";
 
 /**
  * Renders a simple UI for requesting the browser's location.
  * Redirects to a page configured to the location's coordinates.
  */
 export const geolocationSource = (
-  setIsOpen: StateUpdater<boolean>,
   urlType?: UrlType,
-  onLocationFound?: OnLocationFoundFn
-): AutocompleteSource<LocationItem> => ({
+  onLocationFound?: (coords: GeolocationCoordinates) => void
+): AutocompleteSource<{ value: string }> => ({
   sourceId: "geolocation",
+  // Displays the "Use my location" prompt
   templates: {
-    item: GeolocationTemplate(setIsOpen, urlType, onLocationFound)
+    item({ item, html }) {
+      return html`
+        <span class="text-brand-primary">
+          <i key=${item.value} className="fa fa-location-arrow fa-fw mr-xs"></i>
+          ${item.value}
+        </span>
+      `;
+    }
   },
+  // Helps display the "Use my location" prompt
   getItems() {
-    // a hack to make the template appear, no backend is queried in this case
-    return [{} as LocationItem];
+    const value =
+      urlType === "transit-near-me"
+        ? "Use my location to find transit near me"
+        : "Use my location";
+    return [{ value }];
   },
-  ...(urlType && { getItemUrl: ({ item }) => item.url })
+  // This is the URL that the user will be redirected to
+  ...(urlType && {
+    getItemUrl: ({ state }) => {
+      return state.context.url as string | undefined;
+    }
+  }),
+  // Prompts for location access, and redirects to the URL
+  onSelect({ setContext, setQuery }) {
+    setQuery("Getting your location...");
+    geolocationPromise()
+      // eslint-disable-next-line consistent-return
+      .then(({ coords }: GeolocationPosition) => {
+        const { latitude, longitude } = coords;
+        // Display the coordinates in the search box
+        setQuery(`${latitude}, ${longitude}`);
+
+        // Call the callback function with the coordinates
+        if (onLocationFound) {
+          onLocationFound(coords);
+        }
+
+        // Fetch the URL to redirect to, if needed
+        if (urlType) {
+          // Being returned, any error thrown here will be caught at the end
+          return fetchJsonOrThrow<{
+            result: WithUrls<Record<string, string>>;
+          }>(`/places/urls?latitude=${latitude}&longitude=${longitude}`).then(
+            ({ result }) => {
+              const url = result.urls[urlType];
+              setContext({ url });
+              if (url) {
+                window.location.assign(url);
+              }
+            }
+          );
+        }
+      })
+      .catch(() => {
+        // User denied location access, probably
+        setQuery(
+          `${window.location.host} needs permission to use your location.`
+        );
+      });
+  }
 });
 
 /**
