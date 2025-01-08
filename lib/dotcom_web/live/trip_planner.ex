@@ -204,9 +204,25 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_event("select_itinerary", %{"index" => index}, socket) do
     index = String.to_integer(index)
 
+    new_map = %{
+      lines:
+        itinerary_groups_to_lines(
+          socket.assigns.results.itinerary_groups,
+          socket.assigns.results.itinerary_group_selection,
+          index
+        ),
+      points:
+        itinerary_groups_to_points(
+          socket.assigns.results.itinerary_groups,
+          socket.assigns.results.itinerary_group_selection,
+          index
+        )
+    }
+
     new_socket =
       socket
       |> assign(:results, Map.put(socket.assigns.results, :itinerary_selection, index))
+      |> assign(:map, Map.merge(socket.assigns.map, new_map))
 
     {:noreply, new_socket}
   end
@@ -220,8 +236,8 @@ defmodule DotcomWeb.Live.TripPlanner do
     index = String.to_integer(index)
 
     new_map = %{
-      lines: itinerary_groups_to_lines(socket.assigns.results.itinerary_groups, index),
-      points: itinerary_groups_to_points(socket.assigns.results.itinerary_groups, index)
+      lines: itinerary_groups_to_lines(socket.assigns.results.itinerary_groups, index, 0),
+      points: itinerary_groups_to_points(socket.assigns.results.itinerary_groups, index, 0)
     }
 
     new_results = %{itinerary_group_selection: index, itinerary_selection: 0}
@@ -283,25 +299,25 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # Get the itinerary group at the given index and convert it to a map.
   # Selects a random itinerary from the group as they will all be the same.
-  defp itinerary_groups_to_itinerary_map(itinerary_groups, index) do
+  defp itinerary_groups_to_itinerary_map(itinerary_groups, group_index, index) do
     itinerary_groups
-    |> Enum.at(index)
+    |> Enum.at(group_index)
     |> Map.get(:itineraries)
-    |> Enum.random()
+    |> Enum.at(index)
     |> TripPlan.Map.itinerary_map()
   end
 
   # Get the itinerary map at the given index and convert it to lines.
-  defp itinerary_groups_to_lines(itinerary_groups, index) do
+  defp itinerary_groups_to_lines(itinerary_groups, group_index, index) do
     itinerary_groups
-    |> itinerary_groups_to_itinerary_map(index)
+    |> itinerary_groups_to_itinerary_map(group_index, index)
     |> TripPlan.Map.get_lines()
   end
 
   # Get the itinerary map at the given index and convert it to points.
-  defp itinerary_groups_to_points(itinerary_groups, index) do
+  defp itinerary_groups_to_points(itinerary_groups, group_index, index) do
     itinerary_groups
-    |> itinerary_groups_to_itinerary_map(index)
+    |> itinerary_groups_to_itinerary_map(group_index, index)
     |> TripPlan.Map.get_points()
   end
 
