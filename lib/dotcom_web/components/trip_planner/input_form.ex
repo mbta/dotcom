@@ -25,35 +25,24 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
     <section class={["rounded px-xl py-lg lg:px-2xl lg:py-xl bg-charcoal-90", @class]}>
       <.form
         :let={f}
-        class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
+        class="flex flex-col md:grid md:grid-cols-[1fr_max-content_1fr] md:gap-x-lg gap-y-sm pt-md"
         id="trip-planner-input-form"
         for={@changeset}
         method="get"
         phx-change="input_form_change"
         phx-submit="input_form_submit"
       >
-        <fieldset :for={field <- [:from, :to]} id={"trip-planner-locations-#{field}"} class="mb-sm">
-          <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(field)}</legend>
-          <.algolia_autocomplete
-            config_type="trip-planner"
-            placeholder={"Enter #{if(field == :from, do: "an origin", else: "a destination")} location"}
-            id={"trip-planner-input-form--#{field}"}
+        <.location_search_box name="trip-planner-input-form--from" field={f[:from]} />
+        <div class="self-end rotate-90 -mt-xs -mb-md md:mt-0 md:mb-0 md:rotate-0">
+          <button
+            type="button"
+            class="px-xs md:py-3 bg-transparent fill-brand-primary hover:fill-black"
           >
-            <.inputs_for :let={location_f} field={f[field]} skip_hidden={true}>
-              <input
-                :for={subfield <- InputForm.Location.fields()}
-                type="hidden"
-                class="location-input"
-                id={location_f[subfield].id}
-                value={location_f[subfield].value}
-                name={location_f[subfield].name}
-              />
-            </.inputs_for>
-            <.error_container :for={{msg, _} <- f[field].errors}>
-              {msg}
-            </.error_container>
-          </.algolia_autocomplete>
-        </fieldset>
+            <span class="sr-only">Swap origin and destination locations</span>
+            <.icon class="h-6 w-6" name="right-left" />
+          </button>
+        </div>
+        <.location_search_box name="trip-planner-input-form--to" field={f[:to]} />
         <fieldset class="mb-sm">
           <legend class="text-charcoal-40 m-0 py-sm">When</legend>
           <.input_group
@@ -77,7 +66,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             {msg}
           </.error_container>
         </fieldset>
-        <div>
+        <div class="col-start-3">
           <fieldset class="mb-sm">
             <legend class="text-charcoal-40 m-0 py-sm">Modes</legend>
             <.accordion variant="multiselect">
@@ -108,6 +97,33 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         </div>
       </.form>
     </section>
+    """
+  end
+
+  defp location_search_box(assigns) do
+    assigns =
+      assigns
+      |> assign(:location_keys, InputForm.Location.fields())
+
+    ~H"""
+    <fieldset class="mb-sm -mt-md" id={"#{@name}-wrapper"}>
+      <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(@field.field)}</legend>
+      <.algolia_autocomplete config_type="trip-planner" placeholder="Enter a location" id={@name}>
+        <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
+          <input
+            :for={subfield <- @location_keys}
+            type="text"
+            class="location-input"
+            id={location_f[subfield].id}
+            value={location_f[subfield].value}
+            name={location_f[subfield].name}
+          />
+        </.inputs_for>
+        <.feedback :for={{msg, _} <- @field.errors} :if={used_input?(@field)} kind={:error}>
+          {msg}
+        </.feedback>
+      </.algolia_autocomplete>
+    </fieldset>
     """
   end
 
