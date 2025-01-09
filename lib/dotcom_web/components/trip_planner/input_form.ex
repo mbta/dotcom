@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         phx-change="input_form_change"
         phx-submit="input_form_submit"
       >
-        <.location_search_box name="trip-planner-input-form--from" field={f[:from]} />
+        <.location_search_box name="trip-planner-input-form--from" field={f[:from]} placeholder="Enter an origin location" />
         <div class="-mb-[20px] md:-mt-md md:mb-0 self-end md:self-auto">
           <div class="hidden md:block md:py-sm md:mb-[10px]">
             &nbsp; <%!-- helps align the swap button on desktop--%>
