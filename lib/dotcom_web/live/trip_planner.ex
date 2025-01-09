@@ -372,17 +372,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
   defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
-  # Convert a NaiveDateTime to a DateTime in the America/New_York timezone.
-  defp standardize_datetime(%NaiveDateTime{} = datetime) do
-    Timex.to_datetime(datetime, "America/New_York")
-  end
-
-  # The lack of a datetime means we should use the nearest 5 minutes.
-  defp standardize_datetime(nil), do: Timex.now("America/New_York")
-
-  # If the datetime is already a DateTime, we don't need to do anything.
-  defp standardize_datetime(datetime), do: datetime
-
   # Set an action on the changeset and submit it.
   #
   # - Update the input form state with the new changeset
