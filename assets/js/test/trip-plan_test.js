@@ -12,11 +12,11 @@ import testConfig from "../../ts/jest.config";
 const { testURL } = testConfig;
 
 const tripPlanForm = `<form id="plan">
-        <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
+        <input data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
         <input type="hidden" id="from_latitude" name="plan[from_latitude]">
         <input type="hidden" id="from_longitude" name="plan[from_longitude]">
         <input type="hidden" id="from_stop_id" name="plan[from_stop_id]">
-        <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
+        <input data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
         <div id="trip-plan-reverse-control"></div>
         <div id="trip-plan__container--to"></div>
         <div id="trip-plan__container--from"></div>

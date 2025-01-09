@@ -10,7 +10,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
 
   alias Dotcom.TripPlan
-  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, InputForm, ItineraryGroups}
+  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroups}
 
   @state %{
     input_form: %{
@@ -157,8 +157,15 @@ defmodule DotcomWeb.Live.TripPlanner do
   # - Update the input form state with the new changeset
   # - Update the map state with the new pins
   # - Reset the results state
-  def handle_event("input_form_change", %{"input_form" => params}, socket) do
-    params_with_datetime = add_datetime_if_needed(params)
+  def handle_event(
+        "input_form_change",
+        %{"input_form" => params},
+        %{assigns: %{input_form: %{changeset: %{params: current_params}}}} = socket
+      ) do
+    params_with_datetime =
+      current_params
+      |> Map.merge(params)
+      |> add_datetime_if_needed()
 
     changeset = InputForm.changeset(params_with_datetime)
 
@@ -248,6 +255,40 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(:map, Map.merge(socket.assigns.map, new_map))
 
     {:noreply, new_socket}
+  end
+
+  @impl true
+  # Triggered when the user clicks the button to swap to "from" and "to" data
+  #
+  # - Creates a new changeset with the switched from and to values
+  # - Resubmits the form (which in turn updates the input form state, map, etc)
+  # - Dispatches a "set-query" event that is used by the AlgoliaAutocomplete
+  #   hook to update the displayed value of the location search box. This
+  #   reconciles a mismatch which happens when the user switches the origin and
+  #   destination values.
+  def handle_event(
+        "swap_direction",
+        _params,
+        %{assigns: %{input_form: %{changeset: changeset}}} = socket
+      ) do
+    new_to = Map.get(changeset.changes, :from) |> location_data_from_changeset()
+    new_from = Map.get(changeset.changes, :to) |> location_data_from_changeset()
+
+    if new_to != new_from do
+      changes =
+        %{}
+        |> maybe_put_change(:to, new_to)
+        |> maybe_put_change(:from, new_from)
+
+      new_socket =
+        socket
+        |> submit_changeset(Ecto.Changeset.change(changeset, changes))
+        |> push_event("set-query", changes)
+
+      {:noreply, new_socket}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
@@ -375,7 +416,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   # on "Leave at" or "Arrive by", the actual value of "datetime"
   # doesn't always appear in params. When that happens, we want to set
   # "datetime" to a reasonable default.
-  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params), do: params
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
+    do: params |> Map.put("datetime", Timex.now("America/New_York"))
+
   defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
   defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
@@ -394,4 +437,15 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> assign(:results, Map.put(@state.results, :loading?, true))
     |> start_async("get_itinerary_groups", fn -> get_itinerary_groups(new_changeset) end)
   end
+
+  # Adjust the map only if value is non-nil
+  defp maybe_put_change(changes, _, nil), do: changes
+  defp maybe_put_change(changes, key, data), do: Map.put(changes, key, data)
+
+  # For the from or to fields, get the underlying location data if changed
+  defp location_data_from_changeset(%Ecto.Changeset{changes: changes}) when changes != %{} do
+    changes
+  end
+
+  defp location_data_from_changeset(_), do: %{}
 end
