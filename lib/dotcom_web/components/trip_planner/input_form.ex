@@ -49,6 +49,9 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
                 name={location_f[subfield].name}
               />
             </.inputs_for>
+            <.error_container :for={{msg, _} <- f[field].errors}>
+              {msg}
+            </.error_container>
           </.algolia_autocomplete>
         </fieldset>
         <fieldset class="mb-sm">

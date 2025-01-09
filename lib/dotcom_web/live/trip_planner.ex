@@ -54,7 +54,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
-      |> maybe_submit_form()
+      |> submit_changeset(changeset)
 
     {:ok, new_socket}
   end
@@ -315,15 +315,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   defp update_datepicker(socket, %{}) do
     socket
-  end
-
-  # Check the input form change set for validity and submit the form if it is.
-  defp maybe_submit_form(socket) do
-    if socket.assigns.input_form.changeset.valid? do
-      submit_changeset(socket, socket.assigns.input_form.changeset)
-    else
-      socket
-    end
   end
 
   # Round the current time to the nearest 5 minutes.

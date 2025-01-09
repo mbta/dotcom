@@ -12,8 +12,6 @@ defmodule Dotcom.TripPlan.InputForm do
   alias OpenTripPlannerClient.PlanParams
 
   @error_messages %{
-    from: "Please specify an origin location.",
-    to: "Please add a destination.",
     from_to_same: "Please select a destination at a different location from the origin.",
     modes: "Please select at least one mode of transit.",
     datetime: "Please specify a date and time in the future or select 'Now'."
@@ -68,8 +66,6 @@ defmodule Dotcom.TripPlan.InputForm do
     |> cast_embed(:modes, required: true)
     |> update_change(:from, &update_location_change/1)
     |> update_change(:to, &update_location_change/1)
-    |> validate_required(:from, message: error_message(:from))
-    |> validate_required(:to, message: error_message(:to))
     |> validate_required(:modes, message: error_message(:modes))
     |> validate_required([:datetime_type, :wheelchair])
     |> validate_same_locations()

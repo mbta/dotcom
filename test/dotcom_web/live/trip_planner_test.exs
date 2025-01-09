@@ -127,6 +127,49 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     # end
   end
 
+  describe "Trip Planner location validations" do
+    setup %{conn: conn} do
+      [username: username, password: password] =
+        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
+
+      %{
+        conn:
+          conn
+          |> put_req_header("authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
+      }
+    end
+
+    test "shows error if origin and destination are the same", %{conn: conn} do
+      latitude = Faker.Address.latitude()
+      longitude = Faker.Address.longitude()
+
+      params = %{
+        "plan" => %{
+          "from_latitude" => "#{latitude}",
+          "from_longitude" => "#{longitude}",
+          "to_latitude" => "#{latitude}",
+          "to_longitude" => "#{longitude}"
+        }
+      }
+
+      {:ok, view, _html} =
+        conn
+        |> live(~p"/preview/trip-planner?#{params}")
+
+      assert render_async(view) =~
+               "Please select a destination at a different location from the origin."
+    end
+
+    test "does not show errors if origin or destination are missing", %{conn: conn} do
+      {:ok, view, _html} =
+        conn
+        |> live(~p"/preview/trip-planner")
+
+      refute render_async(view) =~ "Please specify an origin location."
+      refute render_async(view) =~ "Please add a destination."
+    end
+  end
+
   describe "Trip Planner with no results" do
     setup %{conn: conn} do
       [username: username, password: password] =
