@@ -46,14 +46,19 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     """
   end
 
-  defp submission_summary(%{from: from, to: to}) do
-    "Trips from #{from.changes.name} to #{to.changes.name}"
+  defp submission_summary(%{
+         from: %{changes: %{name: from_name}},
+         to: %{changes: %{name: to_name}}
+       }) do
+    "Trips from #{from_name} to #{to_name}"
   end
 
   defp submission_summary(_), do: nil
 
-  defp time_summary(%{datetime: datetime, datetime_type: datetime_type}) do
-    preamble = if datetime_type == "arrive_by", do: "Arriving by ", else: "Leaving at "
+  defp time_summary(%{datetime: datetime} = params) do
+    preamble =
+      if Map.get(params, :datetime_type) == "arrive_by", do: "Arriving by ", else: "Leaving at "
+
     time_description = Timex.format!(datetime, "{h12}:{m}{am}")
     date_description = Timex.format!(datetime, "{WDfull}, {Mfull} ")
     preamble <> time_description <> " on " <> date_description <> Inflex.ordinalize(datetime.day)
