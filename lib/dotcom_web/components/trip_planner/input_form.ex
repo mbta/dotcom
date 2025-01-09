@@ -46,7 +46,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
           </button>
         </div>
-        <.location_search_box name="trip-planner-input-form--to" field={f[:to]} />
+        <.location_search_box name="trip-planner-input-form--to" field={f[:to]} placeholder="Enter a destination location" />
         <fieldset class="mb-sm">
           <legend class="text-charcoal-40 m-0 py-sm">When</legend>
           <.input_group
