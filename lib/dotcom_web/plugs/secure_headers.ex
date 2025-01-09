@@ -12,6 +12,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       *.googleapis.com
       *.s3.amazonaws.com
       analytics.google.com
+      cdn.mbta.com
       px.ads.linkedin.com
       stats.g.doubleclick.net
       www.google-analytics.com
