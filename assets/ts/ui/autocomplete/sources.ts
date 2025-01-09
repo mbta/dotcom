@@ -22,7 +22,7 @@ export const geolocationSource = (
   templates: {
     item({ item, html }) {
       return html`
-        <span class="text-brand-primary">
+        <span className="text-brand-primary">
           <i key=${item.value} className="fa fa-location-arrow fa-fw mr-xs"></i>
           ${item.value}
         </span>

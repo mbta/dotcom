@@ -51,6 +51,7 @@ export type PopularItem = {
   url: string;
   state: string;
   municipality: string;
+  stop_id?: string;
 };
 
 export type AutocompleteItem = RouteItem | StopItem | ContentItem;
