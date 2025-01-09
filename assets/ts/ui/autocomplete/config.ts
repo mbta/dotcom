@@ -203,6 +203,7 @@ const TRIP_PLANNER = ({
 
   return {
     ...baseOptions,
+    detachedMediaQuery: "screen and (max-width: 544px)",
     initialState: {
       query: initialState()
     },

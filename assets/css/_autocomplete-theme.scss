@@ -1,11 +1,12 @@
 @import '@algolia/autocomplete-theme-classic';
 
 // styles that will be used for every instance
-[phx-hook='AlgoliaAutocomplete'] {
+[phx-hook='AlgoliaAutocomplete'], .aa-Detached {
   .aa-Autocomplete {
     --aa-icon-color-rgb: 22, 92, 150; // $brand-primary;
     --aa-primary-color-rgb: 22, 92, 150; // $brand-primary;
     --aa-input-border-color-rgb: 22, 92, 150;
+    --aa-overlay-color-rgb: 22, 92, 150; // $brand-primary;
   }
 
   .aa-Label {
@@ -24,7 +25,7 @@
     order: 2;
   }
 
-  .aa-Form {
+  .aa-Form, .aa-DetachedSearchButton {
     border-color: rgb(var(--aa-input-border-color-rgb));
     border-width: 3px;
 
@@ -205,13 +206,6 @@
 
 #trip-planner-input-form--from,
 #trip-planner-input-form--to {
-  --aa-search-input-height: 2rem;
-
-  .aa-Form {
-    border-radius: var(--border-radius-default);
-    padding: var(--spacing-xs);
-  }
-
   .aa-InputWrapperPrefix {
     display: grid;
     grid-template-areas: "stack";
@@ -236,15 +230,26 @@
     width: calc(var(--aa-spacing) + var(--aa-icon-size) - 1px);
   }
 
-  .aa-SubmitButton {
+  // hide default search magnifying glass icon
+  .aa-SubmitIcon {
     display: none;
+  }
+
+  .aa-DetachedSearchButtonIcon {
+    font-size: 1.25rem;
+    font-weight: bold;
+    width: calc(var(--aa-spacing) + (var(--aa-icon-size) * 0.5) - 1px);
   }
 }
 
-#trip-planner-input-form--from .aa-Label::before {
+#trip-planner-input-form--from .aa-DetachedSearchButtonIcon::before {
   content: "A"
 }
 
-#trip-planner-input-form--to .aa-Label::before {
+#trip-planner-input-form--to .aa-DetachedSearchButtonIcon::before {
   content: "B"
+}
+
+.aa-DetachedOverlay .aa-InputWrapper {
+  padding-left: calc(var(--aa-spacing));
 }
