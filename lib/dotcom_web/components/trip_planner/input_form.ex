@@ -112,7 +112,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
     ~H"""
     <fieldset class="mb-sm -mt-md" id={"#{@name}-wrapper"}>
       <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(@field.field)}</legend>
-      <.algolia_autocomplete config_type="trip-planner" placeholder="Enter a location" id={@name}>
+      <.algolia_autocomplete config_type="trip-planner" placeholder={@placeholder} id={@name}>
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input
             :for={subfield <- @location_keys}
