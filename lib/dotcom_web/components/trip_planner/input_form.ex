@@ -33,14 +33,17 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         phx-submit="input_form_submit"
       >
         <.location_search_box name="trip-planner-input-form--from" field={f[:from]} />
-        <div class="self-end rotate-90 -mt-xs -mb-md md:mt-0 md:mb-0 md:rotate-0">
+        <div class="-mb-[20px] md:-mt-md md:mb-0 self-end md:self-auto">
+          <div class="hidden md:block md:py-sm md:mb-[10px]">
+            &nbsp; <%!-- helps align the swap button on desktop--%>
+          </div>
           <button
             type="button"
             phx-click="swap_direction"
-            class="px-xs md:py-3 bg-transparent fill-brand-primary hover:fill-black"
+            class="px-xs bg-transparent fill-brand-primary hover:fill-black"
           >
             <span class="sr-only">Swap origin and destination locations</span>
-            <.icon class="h-6 w-6" name="right-left" />
+            <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
           </button>
         </div>
         <.location_search_box name="trip-planner-input-form--to" field={f[:to]} />
