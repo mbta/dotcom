@@ -1,80 +1,63 @@
-/* eslint-disable no-param-reassign */
 import { ViewHook } from "phoenix_live_view";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
 import {
   Item,
   LocationItem,
+  PopularItem,
   StopItem
 } from "../ui/autocomplete/__autocomplete";
-import { Stop } from "../__v3api";
 
-function valueFromData(data: Partial<Item>, fieldName: string): string {
-  if (fieldName === "name") {
-    return (
-      (data[fieldName as keyof Item] as string) ||
-      (data as LocationItem).formatted ||
-      (data as StopItem).stop?.name ||
-      ""
-    );
-  }
-  return (
-    (data[fieldName as keyof Item] as string) ||
-    ((data as StopItem).stop
-      ? ((data as StopItem).stop![fieldName as keyof Stop] as string)
-      : "") ||
-    ""
-  );
+function valuesFromData(data: Partial<Item>): object {
+  const name =
+    (data["name" as keyof Item] as string) ||
+    (data as LocationItem).formatted ||
+    (data as StopItem).stop?.name ||
+    "";
+  const stop_id =
+    (data as StopItem).stop?.id || (data as PopularItem).stop_id || "";
+  const longitude = data.longitude || (data as StopItem).stop?.longitude || "";
+  const latitude = data.latitude || (data as StopItem).stop?.latitude || "";
+  return { name, stop_id, latitude, longitude };
 }
 
-function fieldNameFromInput(inputEl: HTMLInputElement): string | undefined {
-  return inputEl.name.match(/((name|latitude|longitude|stop_id)+)/g)?.at(-1);
-}
 const AlgoliaAutocomplete: Partial<ViewHook> = {
   mounted() {
-    const hook = (this as unknown) as ViewHook;
+    if (this.el) {
+      let pushToLiveView: Function | undefined;
+      let initialState: Function | undefined;
+      let key: string | undefined;
+      const isTripPlanner = !!this.el?.querySelector(
+        "[data-config='trip-planner']"
+      );
 
-    if (hook.el) {
-      const locationInputs =
-        hook.el.parentElement?.querySelectorAll<HTMLInputElement>(
-          "input.location-input"
-        ) || ([] as HTMLInputElement[]);
-
-      const pushToLiveView = (data: Partial<Item>): void => {
-        if (hook.el.querySelector("[data-config='trip-planner']")) {
-          hook.pushEvent("map_change", {
-            id: hook.el.id,
-            ...data
-          });
-
-          locationInputs.forEach(inputEl => {
-            const fieldName = fieldNameFromInput(inputEl);
-            if (fieldName) {
-              inputEl.value = valueFromData(data, fieldName);
-              inputEl.dispatchEvent(new Event("change", { bubbles: true }));
+      if (isTripPlanner) {
+        key = this.el.id.replace("trip-planner-input-form--", ""); // "from"/"to"
+        pushToLiveView = (data: Partial<Item>): void => {
+          this.pushEvent!("input_form_change", {
+            input_form: {
+              [key!]: valuesFromData(data)
             }
           });
-        }
-      };
+        };
+        initialState = (): string =>
+          this.el
+            ?.parentElement!.querySelector('input[name*="name"]')
+            ?.getAttribute("value") || "";
+      }
 
-      const initialState = (): string => {
-        const inputValues = [...locationInputs].map(inputEl => {
-          if (inputEl.value) {
-            const fieldName = fieldNameFromInput(inputEl);
-            return [fieldName, inputEl.value];
-          }
-          return [];
+      const autocompleteWidget = setupAlgoliaAutocomplete(
+        this.el,
+        pushToLiveView,
+        initialState
+      );
+
+      if (isTripPlanner && key) {
+        this.handleEvent!("set-query", values => {
+          // @ts-ignore
+          const name = values[key]?.name || "";
+          autocompleteWidget.setQuery(name);
         });
-
-        if (inputValues) {
-          const data = Object.fromEntries(inputValues);
-          pushToLiveView(data); // needed for LV to sync with input state on initial load
-          return data.name || "";
-        }
-
-        return "";
-      };
-
-      setupAlgoliaAutocomplete(hook.el, pushToLiveView, initialState);
+      }
     }
   }
 };

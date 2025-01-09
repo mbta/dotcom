@@ -1,6 +1,9 @@
-import { autocomplete, AutocompleteOptions } from "@algolia/autocomplete-js";
+import {
+  autocomplete,
+  AutocompleteApi,
+  AutocompleteOptions
+} from "@algolia/autocomplete-js";
 import configs from "./config";
-
 /**
  * Creates the Algolia Autocomplete instances for various search experiences on
  * MBTA.com.
@@ -9,7 +12,8 @@ function setupAlgoliaAutocomplete(
   wrapper: HTMLElement,
   pushToLiveView?: Function,
   initialState?: Function
-): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): AutocompleteApi<any> {
   const container = wrapper.querySelector<HTMLElement>(
     ".c-search-bar__autocomplete"
   );
@@ -40,6 +44,8 @@ function setupAlgoliaAutocomplete(
   document
     .querySelector("[data-nav='veil']")
     ?.addEventListener("click", () => autocompleteWidget.setIsOpen(false));
+
+  return autocompleteWidget;
 }
 
 export default setupAlgoliaAutocomplete;

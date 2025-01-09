@@ -36,6 +36,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         <div class="self-end rotate-90 -mt-xs -mb-md md:mt-0 md:mb-0 md:rotate-0">
           <button
             type="button"
+            phx-click="swap_direction"
             class="px-xs md:py-3 bg-transparent fill-brand-primary hover:fill-black"
           >
             <span class="sr-only">Swap origin and destination locations</span>
@@ -112,8 +113,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input
             :for={subfield <- @location_keys}
-            type="text"
-            class="location-input"
+            type="hidden"
             id={location_f[subfield].id}
             value={location_f[subfield].value}
             name={location_f[subfield].name}
