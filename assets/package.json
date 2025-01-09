@@ -11,6 +11,7 @@
     "@sentry/react": "^8.28.0",
     "@types/dot-prop-immutable": "^1.5.0",
     "a11y-dialog": "^7.0.3",
+    "accessible-autocomplete": "^3.0.1",
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git#ad94896",
     "bad-words": "^1.6.5",
     "body-scroll-lock": "^4.0.0-beta.0",
