@@ -13,14 +13,13 @@ const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
 
-parentPort.on("message", async (_) => {
-  const { scenario } = require(workerData.path);
+const { scenario } = require(workerData.path);
+const metric = `${prefix}${workerData.name}`;
 
+parentPort.on("message", async (_) => {
   const browser = await chromium.launch();
   const context = await browser.newContext({ userAgent: 'Playwright' });
   const page = await context.newPage();
-
-  const metric = `${prefix}${workerData.name}`;
 
   const start = performance.now();
 
