@@ -7,6 +7,9 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
   attr :class, :string, default: ""
   attr :results, :any, required: true
 
+  # ARIA attributes are used so that AT announces the entire text, even if only
+  # part of it changes. role=status provides AT with additional support
+  # (https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions#roles_with_implicit_live_region_attributes)
   def results_summary(assigns) do
     ~H"""
     <section
@@ -15,6 +18,9 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
           (@changeset.action && @changeset.valid?)
       }
       class={@class}
+      role="status"
+      aria-atomic="true"
+      aria-live="polite"
     >
       <p class="text-lg font-semibold mb-0">{submission_summary(@changeset.changes)}</p>
       <p>{time_summary(@changeset.changes)}</p>
