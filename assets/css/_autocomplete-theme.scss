@@ -231,7 +231,7 @@
   }
 
   // hide default search magnifying glass icon
-  .aa-SubmitIcon {
+  .aa-SubmitButton, .aa-SubmitIcon {
     display: none;
   }
 
@@ -242,10 +242,12 @@
   }
 }
 
+#trip-planner-input-form--from .aa-Label::before,
 #trip-planner-input-form--from .aa-DetachedSearchButtonIcon::before {
   content: "A"
 }
 
+#trip-planner-input-form--to .aa-Label::before,
 #trip-planner-input-form--to .aa-DetachedSearchButtonIcon::before {
   content: "B"
 }
