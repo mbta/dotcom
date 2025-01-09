@@ -417,7 +417,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   # doesn't always appear in params. When that happens, we want to set
   # "datetime" to a reasonable default.
   defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
-    do: params |> Map.put("datetime", nearest_5_minutes())
+    do: params |> Map.put("datetime", Timex.now("America/New_York"))
 
   defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
   defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
