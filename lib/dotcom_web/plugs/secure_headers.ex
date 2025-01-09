@@ -29,6 +29,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       livestream.com
       www.youtube.com
       www.google.com
+      www.googletagmanager.com
       www.instagram.com
     ],
     img: ~w[
