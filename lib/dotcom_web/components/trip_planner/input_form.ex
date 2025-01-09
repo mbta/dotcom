@@ -22,7 +22,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   def input_form(assigns) do
     ~H"""
-    <section class={["rounded px-xl py-lg lg:px-2xl lg:py-xl bg-charcoal-90", @class]}>
+    <section class={["rounded px-2 py-3 sm:px-8 sm:py-6 lg:px-12 lg:py-8 bg-charcoal-90", @class]}>
       <.form
         :let={f}
         class="md:grid md:grid-cols-2 gap-x-8 gap-y-2"
