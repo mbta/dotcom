@@ -8,13 +8,6 @@ config :dotcom, start_data_processes: config_env() != :test
 
 config :dotcom, Dotcom.BodyTag, mticket_header: "x-mticket"
 
-tile_server_url =
-  if config_env() == :prod,
-    do: "https://cdn.mbta.com",
-    else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
-
-config :dotcom, tile_server_url: tile_server_url
-
 response_fn =
   if config_env() == :prod,
     do: {DotcomWeb.StaticFileController, :redirect_through_cdn},

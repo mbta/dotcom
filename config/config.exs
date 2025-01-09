@@ -30,6 +30,13 @@ config :dotcom, :redix_pub_sub, Redix.PubSub
 config :dotcom, :otp_module, OpenTripPlannerClient
 config :dotcom, :req_module, Req
 
+tile_server_url =
+  if config_env() == :prod,
+    do: "https://cdn.mbta.com",
+    else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
+
+config :dotcom, tile_server_url: tile_server_url
+
 config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
@@ -50,7 +57,7 @@ config :mbta_metro, :map, %{
     "sources" => %{
       "raster-tiles" => %{
         "type" => "raster",
-        "tiles" => ["https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/{z}/{x}/{y}.png"],
+        "tiles" => ["#{tile_server_url}/osm_tiles/{z}/{x}/{y}.png"],
         "tileSize" => 256,
         "attribution" =>
           "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
