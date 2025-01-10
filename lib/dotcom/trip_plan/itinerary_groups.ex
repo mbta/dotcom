@@ -30,16 +30,16 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
           walk_distance: float()
         }
 
-  @spec from_itineraries([Itinerary.t()]) :: [
+  @spec from_itineraries([Itinerary.t()], boolean()) :: [
           %{itineraries: [Itinerary.t()], summary: summary()}
         ]
-  def from_itineraries(itineraries) do
+  def from_itineraries(itineraries, take_from_end? \\ false) do
     itineraries
     |> Enum.group_by(&unique_legs_to_hash/1)
     |> Enum.map(&drop_hash/1)
     |> Enum.reject(&Enum.empty?/1)
     |> Enum.take(5)
-    |> Enum.map(&limit_itinerary_count/1)
+    |> Enum.map(&limit_itinerary_count(&1, take_from_end?))
     |> Enum.map(&to_summarized_group/1)
     |> Enum.sort_by(fn
       %{itineraries: [%{tag: tag} | _] = _} ->
@@ -49,6 +49,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
         -1
     end)
   end
+
+  def max_per_group, do: @max_per_group
 
   defp unique_legs_to_hash(%Itinerary{legs: legs}) do
     legs
@@ -76,8 +78,12 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     }
   end
 
-  defp limit_itinerary_count(itineraries) do
-    Enum.take(itineraries, @max_per_group)
+  defp limit_itinerary_count(itineraries, take_from_end?) do
+    if take_from_end? do
+      Enum.take(itineraries, -@max_per_group)
+    else
+      Enum.take(itineraries, @max_per_group)
+    end
   end
 
   defp summary(itineraries) do

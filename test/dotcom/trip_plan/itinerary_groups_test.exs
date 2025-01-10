@@ -18,7 +18,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     {:ok, stops: stops}
   end
 
-  describe "from_itineraries/1" do
+  describe "from_itineraries/2" do
     test "groups itineraries with the same mode, from, and to", %{stops: [a, b, c]} do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
@@ -137,5 +137,54 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     [%{summary: %{summarized_legs: legs}}] = ItineraryGroups.from_itineraries([itinerary])
 
     assert [_, %{walk_minutes: 6}, _] = legs
+  end
+
+  test "caps itineraries at certain number each group" do
+    base_itinerary = TripPlanner.build(:itinerary)
+
+    itineraries =
+      Faker.Util.list(10, fn n ->
+        t = base_itinerary.start
+        base_itinerary |> Map.put(:start, Timex.shift(t, minutes: 10 * n))
+      end)
+
+    counts =
+      itineraries
+      |> ItineraryGroups.from_itineraries()
+      |> Enum.map(&Enum.count(&1.itineraries))
+
+    refute Enum.any?(counts, &(&1 > ItineraryGroups.max_per_group()))
+  end
+
+  test "uses second argument to pick last N itineraries per group instead of first" do
+    base_start_time = Faker.DateTime.forward(1)
+
+    base_itinerary =
+      TripPlanner.build(:itinerary,
+        start: base_start_time,
+        stop: Timex.shift(base_start_time, minutes: 30)
+      )
+
+    # list of itineraries sorted by time, that's otherwise identical such that
+    # they'll get grouped together
+    sorted_itineraries =
+      Faker.Util.list(15, fn n ->
+        base_itinerary
+        |> Map.put(:start, Timex.shift(base_itinerary.start, minutes: 10 * n))
+        |> Map.put(:stop, Timex.shift(base_itinerary.stop, minutes: 10 * n))
+      end)
+
+    first_n_itineraries = Enum.take(sorted_itineraries, ItineraryGroups.max_per_group())
+    last_n_itineraries = Enum.take(sorted_itineraries, -ItineraryGroups.max_per_group())
+
+    assert sorted_itineraries
+           |> ItineraryGroups.from_itineraries()
+           |> List.first()
+           |> Map.get(:itineraries) == first_n_itineraries
+
+    assert sorted_itineraries
+           |> ItineraryGroups.from_itineraries(true)
+           |> List.first()
+           |> Map.get(:itineraries) == last_n_itineraries
   end
 end
