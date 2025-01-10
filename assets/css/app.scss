@@ -39,6 +39,32 @@
 //
 @import 'vendor/accessible-date-picker';
 @import 'datepicker'; // our overrides of datepicker styles (can't use BEM conventions)
+@import 'accessible-autocomplete';
+
+.autocomplete__hint, .autocomplete__input {
+  border: 3px $brand-primary solid;
+  height: unset;
+  border-radius: 4px;
+
+  &:hover {
+    border-color: $brand-primary-light;
+  }
+
+  &::before {
+    content: "A ";
+    display: block;
+  }
+}
+
+.autocomplete__menu {
+  border-width: 1px;
+  border-color: $gray-lighter;
+  width: 100%;
+}
+
+.autocomplete__option {
+  border: none;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////

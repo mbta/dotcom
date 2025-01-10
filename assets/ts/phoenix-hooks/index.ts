@@ -1,3 +1,4 @@
+import AccessibleAutocompleteWidget from "./accessible-autocomplete";
 import AlgoliaAutocomplete from "./algolia-autocomplete";
 import ScrollIntoView from "./scroll-into-view";
 import TripPlannerForm from "./trip-planner-form";
@@ -12,6 +13,7 @@ import TripPlannerMap from "./trip-planner-map";
  * themselves are not tested via Jest unit tests.
  */
 const Hooks = {
+  AccessibleAutocompleteWidget,
   AlgoliaAutocomplete,
   ScrollIntoView,
   TripPlannerForm,

@@ -1,5 +1,15 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
+      <div>
+      <h2>Accessible Autocomplete</h2>
+      <div id="foo" phx-hook="AccessibleAutocompleteWidget">
+        <label for="test">Select something</label>
+        <div class="flex gap-x-sm">
+          <.icon type="metro" name="location-pin-a" class="h-[4.5rem] fill-brand-primary"/>
+          <div id="test0" class="autocomplete-wrapper"></div>
+        </div>
+      </div>
+    </div>
   <%= render "_tabbed_nav.html", assigns %>
   <div class="container page-section">
     <%= render "_find_a_location.html", conn: @conn %>
