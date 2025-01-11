@@ -40,7 +40,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.reject(&Enum.empty?/1)
     |> Enum.take(5)
     |> Enum.map(&limit_itinerary_count(&1, take_from_end?))
-    |> Enum.map(&to_summarized_group/1)
+    |> Enum.map(&to_summarized_group(&1, take_from_end?))
     |> Enum.sort_by(fn
       %{itineraries: [%{tag: tag} | _] = _} ->
         Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
@@ -71,10 +71,10 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     grouped_itineraries
   end
 
-  defp to_summarized_group(grouped_itineraries) do
+  defp to_summarized_group(grouped_itineraries, take_from_end?) do
     %{
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
-      summary: summary(grouped_itineraries)
+      summary: summary(grouped_itineraries, take_from_end?)
     }
   end
 
@@ -86,10 +86,10 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     end
   end
 
-  defp summary(itineraries) do
+  def summary(itineraries, take_from_end? \\ false) do
     itineraries
     |> Enum.map(&to_map_with_fare/1)
-    |> to_summary()
+    |> to_summary(take_from_end?)
     |> Map.put(:summarized_legs, to_summarized_legs(itineraries))
   end
 
@@ -132,26 +132,24 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.map(fn {leg, _} -> leg end)
   end
 
-  defp to_summary(itinerary_maps) do
-    # for most of the summary we can reflect the first itinerary
-    [
-      %{
-        tag: tag,
-        accessible?: accessible,
-        total_cost: total_cost,
-        duration: duration,
-        walk_distance: walk_distance,
-        stop: first_stop
-      }
-      | _
-    ] = itinerary_maps
+  # put together the "representative" itinerary info
+  defp to_summary(itinerary_maps, take_from_end?) do
+    {%{
+       tag: tag,
+       accessible?: accessible,
+       total_cost: total_cost,
+       duration: duration,
+       walk_distance: walk_distance,
+       start: start,
+       stop: stop
+     }, other_itineraries} = List.pop_at(itinerary_maps, if(take_from_end?, do: -1, else: 0))
 
-    [first_start | next_starts] = Enum.map(itinerary_maps, & &1.start)
+    other_starts = Enum.map(other_itineraries, & &1.start)
 
     %{
-      first_start: first_start,
-      first_stop: first_stop,
-      next_starts: next_starts,
+      start: start,
+      stop: stop,
+      other_starts: other_starts,
       tag: if(tag, do: Atom.to_string(tag) |> String.replace("_", " ")),
       duration: duration,
       accessible?: accessible,

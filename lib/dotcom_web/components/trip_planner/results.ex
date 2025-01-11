@@ -8,6 +8,8 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
+  alias Dotcom.TripPlan.ItineraryGroups
+
   def results(assigns) do
     ~H"""
     <section
@@ -43,6 +45,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     """
   end
 
+  # So itinerary selected - shows summary of all the results
   defp itinerary_panel(%{results: %{itinerary_group_selection: nil}} = assigns) do
     ~H"""
     <div class="flex flex-col gap-4">
@@ -60,12 +63,12 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </div>
         <.itinerary_summary summary={summary} />
         <div class="flex justify-end items-center">
-          <div :if={Enum.count(summary.next_starts) > 0} class="grow text-sm text-grey-dark">
-            Similar {if(Enum.count(summary.next_starts) == 1,
+          <div :if={Enum.count(summary.other_starts) > 0} class="grow text-sm text-grey-dark">
+            Similar {if(Enum.count(summary.other_starts) == 1,
               do: "trip departs",
               else: "trips depart"
             )} at {Enum.map(
-              summary.next_starts,
+              summary.other_starts,
               &Timex.format!(&1, "%-I:%M", :strftime)
             )
             |> Enum.join(", ")}
@@ -83,12 +86,16 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     """
   end
 
+  # Selected group!
   defp itinerary_panel(assigns) do
     itinerary_group =
       Enum.at(assigns.results.itinerary_groups, assigns.results.itinerary_group_selection)
 
+      itinerary = itinerary_group.itineraries |> Enum.at(assigns.results.itinerary_selection)
+      summary = ItineraryGroups.summary([itinerary])
+
     assigns = %{
-      summary: itinerary_group.summary,
+      summary: summary,
       results: assigns.results
     }
 
