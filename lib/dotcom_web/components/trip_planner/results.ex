@@ -8,7 +8,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
 
-  alias Dotcom.TripPlan.ItineraryGroups
+  alias Dotcom.TripPlan.{ItineraryGroup, ItineraryGroups}
 
   def results(assigns) do
     ~H"""
@@ -50,28 +50,21 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <div class="flex flex-col gap-4">
       <div
-        :for={{%{summary: summary}, index} <- Enum.with_index(@results.itinerary_groups)}
+        :for={{group, index} <- Enum.with_index(@results.itinerary_groups)}
         class="border border-solid border-gray-lighter p-4"
         phx-click="select_itinerary_group"
         phx-value-index={index}
       >
         <div
-          :if={summary.tag}
+          :if={group.summary.tag}
           class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
         >
-          {summary.tag}
+          {group.summary.tag}
         </div>
-        <.itinerary_summary summary={summary} />
+        <.itinerary_summary summary={group.summary} />
         <div class="flex justify-end items-center">
-          <div :if={Enum.count(summary.other_starts) > 0} class="grow text-sm text-grey-dark">
-            Similar {if(Enum.count(summary.other_starts) == 1,
-              do: "trip departs",
-              else: "trips depart"
-            )} at {Enum.map(
-              summary.other_starts,
-              &Timex.format!(&1, "%-I:%M", :strftime)
-            )
-            |> Enum.join(", ")}
+          <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">
+            {ItineraryGroup.options_text(group)}
           </div>
           <button
             class="btn-link font-semibold underline"
@@ -88,21 +81,41 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   # Selected group!
   defp itinerary_panel(assigns) do
-    itinerary_group =
+    group =
       Enum.at(assigns.results.itinerary_groups, assigns.results.itinerary_group_selection)
 
-      itinerary = itinerary_group.itineraries |> Enum.at(assigns.results.itinerary_selection)
-      summary = ItineraryGroups.summary([itinerary])
+    %ItineraryGroup{itineraries: itineraries, representative_time: time_key} = group
+
+    itinerary = Enum.at(itineraries, assigns.results.itinerary_selection)
 
     assigns = %{
-      summary: summary,
-      results: assigns.results
+      all_times: Enum.map(itineraries, &Map.get(&1, time_key)),
+      itinerary: itinerary,
+      itinerary_selection: assigns.results.itinerary_selection,
+      summary: ItineraryGroups.to_summary(itinerary, [itinerary])
     }
 
     ~H"""
     <div>
       <.itinerary_summary summary={@summary} />
-      <.itinerary_detail results={@results} />
+      <div :if={Enum.count(@all_times) > 1}>
+        <hr class="border-gray-lighter" />
+        <p class="text-sm mb-2 mt-3">Depart at or arrive by</p>
+        <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
+          <.button
+            :for={{time, index} <- Enum.with_index(@all_times)}
+            type="button"
+            class={if(@itinerary_selection == index, do: "bg-brand-primary-lightest")}
+            size="small"
+            variant="secondary"
+            phx-click="select_itinerary"
+            phx-value-index={index}
+          >
+            {Timex.format!(time, "%-I:%M%p", :strftime) |> String.downcase()}
+          </.button>
+        </div>
+      </div>
+      <.itinerary_detail itinerary={@itinerary} />
     </div>
     """
   end

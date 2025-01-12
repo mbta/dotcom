@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   use DotcomWeb, :component
 
   attr :summary, :map, required: true
+
   def itinerary_summary(assigns) do
     ~H"""
     <div>

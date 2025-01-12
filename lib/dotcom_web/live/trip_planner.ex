@@ -10,7 +10,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
 
   alias Dotcom.TripPlan
-  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroups}
+  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroup, ItineraryGroups}
 
   @state %{
     input_form: %{
@@ -239,15 +239,39 @@ defmodule DotcomWeb.Live.TripPlanner do
   #
   # - Update the itinerary group selection
   # - Update the map state with the new lines and points
-  def handle_event("select_itinerary_group", %{"index" => index}, socket) do
-    index = String.to_integer(index)
+  def handle_event(
+        "select_itinerary_group",
+        %{"index" => group_index},
+        %{
+          assigns: %{
+            results: %{itinerary_groups: itinerary_groups}
+          }
+        } = socket
+      ) do
+    group_index = String.to_integer(group_index)
+
+    %ItineraryGroup{representative_index: representative_index} =
+      Enum.at(itinerary_groups, group_index)
 
     new_map = %{
-      lines: itinerary_groups_to_lines(socket.assigns.results.itinerary_groups, index, 0),
-      points: itinerary_groups_to_points(socket.assigns.results.itinerary_groups, index, 0)
+      lines:
+        itinerary_groups_to_lines(
+          itinerary_groups,
+          group_index,
+          representative_index
+        ),
+      points:
+        itinerary_groups_to_points(
+          itinerary_groups,
+          group_index,
+          representative_index
+        )
     }
 
-    new_results = %{itinerary_group_selection: index, itinerary_selection: 0}
+    new_results = %{
+      itinerary_group_selection: group_index,
+      itinerary_selection: representative_index
+    }
 
     new_socket =
       socket
@@ -339,7 +363,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp input_form_to_pins(_), do: []
 
   # Get the itinerary group at the given index and convert it to a map.
-  # Selects a random itinerary from the group as they will all be the same.
   defp itinerary_groups_to_itinerary_map(itinerary_groups, group_index, index) do
     itinerary_groups
     |> Enum.at(group_index)

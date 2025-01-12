@@ -8,31 +8,13 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
 
   import DotcomWeb.TripPlanView, only: [get_one_way_total_by_type: 2]
 
-  alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.{Itinerary, ItineraryGroup, Leg, PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.ItineraryTag
 
   @short_walk_threshold_minutes 5
   @max_per_group 5
 
-  @type summarized_leg :: %{
-          routes: [Routes.Route.t()],
-          walk_minutes: non_neg_integer()
-        }
-  @type summary :: %{
-          accessible?: boolean() | nil,
-          duration: non_neg_integer(),
-          first_start: DateTime.t(),
-          first_stop: DateTime.t(),
-          next_starts: [DateTime.t()],
-          summarized_legs: [summarized_leg()],
-          tag: String.t(),
-          total_cost: non_neg_integer(),
-          walk_distance: float()
-        }
-
-  @spec from_itineraries([Itinerary.t()], boolean()) :: [
-          %{itineraries: [Itinerary.t()], summary: summary()}
-        ]
+  @spec from_itineraries([Itinerary.t()], boolean()) :: [ItineraryGroup.t()]
   def from_itineraries(itineraries, take_from_end? \\ false) do
     itineraries
     |> Enum.group_by(&unique_legs_to_hash/1)
@@ -40,9 +22,9 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.reject(&Enum.empty?/1)
     |> Enum.take(5)
     |> Enum.map(&limit_itinerary_count(&1, take_from_end?))
-    |> Enum.map(&to_summarized_group(&1, take_from_end?))
+    |> Enum.map(&to_group(&1, take_from_end?))
     |> Enum.sort_by(fn
-      %{itineraries: [%{tag: tag} | _] = _} ->
+      %ItineraryGroup{summary: %{tag: tag}} ->
         Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
 
       _ ->
@@ -71,10 +53,20 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     grouped_itineraries
   end
 
-  defp to_summarized_group(grouped_itineraries, take_from_end?) do
-    %{
+  defp to_group(grouped_itineraries, take_from_end?) do
+    representative_index = if(take_from_end?, do: Enum.count(grouped_itineraries) - 1, else: 0)
+
+    summary =
+      grouped_itineraries
+      |> Enum.at(representative_index)
+      |> to_summary(grouped_itineraries)
+
+    %ItineraryGroup{
+      # todo use second arg to sort by end time instead of start time
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
-      summary: summary(grouped_itineraries, take_from_end?)
+      representative_index: representative_index,
+      representative_time: if(take_from_end?, do: :stop, else: :start),
+      summary: summary
     }
   end
 
@@ -86,11 +78,11 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     end
   end
 
-  def summary(itineraries, take_from_end? \\ false) do
-    itineraries
-    |> Enum.map(&to_map_with_fare/1)
-    |> to_summary(take_from_end?)
-    |> Map.put(:summarized_legs, to_summarized_legs(itineraries))
+  def to_summary(representative_itinerary, grouped_itineraries) do
+    representative_itinerary
+    |> to_map_with_fare()
+    |> Map.update!(:tag, &if(&1, do: Atom.to_string(&1) |> String.replace("_", " ")))
+    |> Map.put(:summarized_legs, to_summarized_legs(grouped_itineraries))
   end
 
   defp to_summarized_legs(itineraries) do
@@ -115,7 +107,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
 
   defp to_map_with_fare(itinerary) do
     itinerary
-    |> Map.take([:start, :stop, :tag, :duration, :accessible?, :walk_distance])
+    |> Map.take([:accessible?, :duration, :start, :stop, :tag, :walk_distance])
     |> Map.put(
       :total_cost,
       get_one_way_total_by_type(itinerary, :highest_one_way_fare)
@@ -130,32 +122,6 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
         (leg.routes == [] && leg.walk_minutes < @short_walk_threshold_minutes)
     end)
     |> Enum.map(fn {leg, _} -> leg end)
-  end
-
-  # put together the "representative" itinerary info
-  defp to_summary(itinerary_maps, take_from_end?) do
-    {%{
-       tag: tag,
-       accessible?: accessible,
-       total_cost: total_cost,
-       duration: duration,
-       walk_distance: walk_distance,
-       start: start,
-       stop: stop
-     }, other_itineraries} = List.pop_at(itinerary_maps, if(take_from_end?, do: -1, else: 0))
-
-    other_starts = Enum.map(other_itineraries, & &1.start)
-
-    %{
-      start: start,
-      stop: stop,
-      other_starts: other_starts,
-      tag: if(tag, do: Atom.to_string(tag) |> String.replace("_", " ")),
-      duration: duration,
-      accessible?: accessible,
-      walk_distance: walk_distance,
-      total_cost: total_cost
-    }
   end
 
   defp summarize_legs(%{walk_minutes: new}, %{walk_minutes: old} = summary) do
