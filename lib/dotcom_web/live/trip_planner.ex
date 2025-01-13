@@ -426,16 +426,24 @@ defmodule DotcomWeb.Live.TripPlanner do
   #
   # - Update the input form state with the new changeset
   # - Update the map state with the new pins
-  # - Set the results state to loading
-  # - Start an async operation to get the itinerary groups
+  # - If the changeset is valid:
+  #   - Set the results state to loading
+  #   - Start an async operation to get the itinerary groups
   defp submit_changeset(socket, changeset) do
     new_changeset = Map.put(changeset, :action, :submit)
 
-    socket
-    |> assign(:input_form, Map.put(@state.input_form, :changeset, new_changeset))
-    |> assign(:map, Map.put(@state.map, :pins, input_form_to_pins(new_changeset)))
-    |> assign(:results, Map.put(@state.results, :loading?, true))
-    |> start_async("get_itinerary_groups", fn -> get_itinerary_groups(new_changeset) end)
+    updated_socket =
+      socket
+      |> assign(:input_form, Map.put(@state.input_form, :changeset, new_changeset))
+      |> assign(:map, Map.put(@state.map, :pins, input_form_to_pins(new_changeset)))
+
+    if new_changeset.valid? do
+      updated_socket
+      |> assign(:results, Map.put(@state.results, :loading?, true))
+      |> start_async("get_itinerary_groups", fn -> get_itinerary_groups(new_changeset) end)
+    else
+      updated_socket
+    end
   end
 
   # Adjust the map only if value is non-nil
