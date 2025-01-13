@@ -126,7 +126,15 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     |> Route.to_naive()
     |> Route.icon_atom()
     |> CSSHelpers.atom_to_class()
-    |> then(&"bg-#{&1}")
+    |> route_background_class()
+  end
+
+  defp route_background_class("bus") do
+    "bg-brand-bus"
+  end
+
+  defp route_background_class(route) do
+    "bg-#{route}"
   end
 
   defp transit_leg_icon(assigns) do
