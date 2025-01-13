@@ -434,6 +434,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     new_socket =
       socket
+      |> assign(:results, @state.results)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, new_changeset))
       |> assign(:map, Map.put(@state.map, :pins, input_form_to_pins(new_changeset)))
 
