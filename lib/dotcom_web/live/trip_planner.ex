@@ -88,7 +88,9 @@ defmodule DotcomWeb.Live.TripPlanner do
             id="trip-planner-map"
             class={[
               "md:sticky md:top-4",
-              "h-64 md:h-[32rem] w-full"
+              "h-64 md:h-[32rem] w-full",
+              @results.itinerary_group_selection == nil && "hidden md:block",
+              @results.itinerary_group_selection != nil && "block"
             ]}
             config={@map.config}
             lines={@map.lines}
