@@ -339,7 +339,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp input_form_to_pins(_), do: []
 
   # Get the itinerary group at the given index and convert it to a map.
-  # Selects a random itinerary from the group as they will all be the same.
   defp itinerary_groups_to_itinerary_map(itinerary_groups, group_index, index) do
     itinerary_groups
     |> Enum.at(group_index)
