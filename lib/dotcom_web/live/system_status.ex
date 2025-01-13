@@ -4,18 +4,34 @@ defmodule DotcomWeb.Live.SystemStatus do
   put it into the homepage (and elsewhere).
   """
 
+  alias Dotcom.SystemStatus.Grouping
   alias Dotcom.SystemStatus
   use DotcomWeb, :live_view
 
   def render(assigns) do
+    alerts = SystemStatus.subway_alerts_for_today()
+    statuses = Grouping.grouping(alerts, Timex.now())
+
     assigns =
       assigns
-      |> assign(:alerts, SystemStatus.subway_alerts_for_today())
+      |> assign(:alerts, alerts)
+      |> assign(:statuses, statuses)
 
     ~H"""
+    <h1>System Status</h1>
+    <div>
+      <.status :for={status <- @statuses} status={status} />
+    </div>
+    <h1>Alerts</h1>
     <div class="flex flex-col gap-2">
       <.alert :for={alert <- @alerts} alert={alert} />
     </div>
+    """
+  end
+
+  defp status(assigns) do
+    ~H"""
+    <pre>{inspect @status, pretty: true}</pre>
     """
   end
 
