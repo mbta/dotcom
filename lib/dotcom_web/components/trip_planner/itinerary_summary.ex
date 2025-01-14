@@ -61,7 +61,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   defp leg_icon(%{routes: [], walk_minutes: _} = assigns) do
     ~H"""
     <span
-      aria-label={"#{@walk_minutes} minutes walk"}
+      aria-label={"#{@walk_minutes} minute walk"}
       role="text"
       class={[
         "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
