@@ -188,11 +188,13 @@ defmodule DotcomWeb.Components.RouteSymbols do
   defp route_label(%Route{description: :regional_rail}), do: "Commuter Rail"
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
+
   defp route_label(%Route{
          external_agency_name: "Massport",
          name: <<route_number::binary-size(2), _::binary>>
        }),
        do: "Massport Shuttle #{route_number}"
+
   # Silver Line and Buses.
   defp route_label(%Route{name: name} = route)
        when not is_external?(route) and not is_shuttle?(route) and
@@ -203,5 +205,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
       "Route #{name}"
     end
   end
+
   defp route_label(%Route{long_name: long_name}), do: long_name
 end
