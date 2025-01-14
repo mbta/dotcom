@@ -60,19 +60,11 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
     assigns = update(assigns, :class, &"#{&1} #{route_class}")
 
-    route_label =
-      if Routes.Route.silver_line?(assigns.route) do
-        assigns.route.name
-      else
-        "Route #{assigns.route.name}"
-      end
-
-    assigns = assign(assigns, :route_label, route_label)
-
     ~H"""
     <div
-      aria-label={@route_label}
       class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}
+      aria-label={route_label(@route)}
+      role="text"
     >
       {@route.name}
     </div>
@@ -196,11 +188,20 @@ defmodule DotcomWeb.Components.RouteSymbols do
   defp route_label(%Route{description: :regional_rail}), do: "Commuter Rail"
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
-  defp route_label(%Route{long_name: long_name}), do: long_name
-
   defp route_label(%Route{
-    external_agency_name: "Massport",
-    name: <<route_number::binary-size(2), _::binary>>
-  }),
-  do: "Massport Shuttle #{route_number}"
+         external_agency_name: "Massport",
+         name: <<route_number::binary-size(2), _::binary>>
+       }),
+       do: "Massport Shuttle #{route_number}"
+  # Silver Line and Buses.
+  defp route_label(%Route{name: name} = route)
+       when not is_external?(route) and not is_shuttle?(route) and
+              route.description != :rapid_transit do
+    if Routes.Route.silver_line?(route) do
+      name
+    else
+      "Route #{name}"
+    end
+  end
+  defp route_label(%Route{long_name: long_name}), do: long_name
 end
