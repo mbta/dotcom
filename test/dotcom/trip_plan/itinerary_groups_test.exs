@@ -8,6 +8,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
   alias Dotcom.TripPlan.ItineraryGroups
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
 
+  setup :verify_on_exit!
+
   setup do
     stub(Stops.Repo.Mock, :get, fn _ ->
       Stop.build(:stop)
