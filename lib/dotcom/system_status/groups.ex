@@ -7,7 +7,7 @@ defmodule Dotcom.SystemStatus.Groups do
 
   @lines ["Blue", "Orange", "Red", "Green"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
-  @routes ["Blue", "Orange", "Red"] ++ @green_line_branches
+  @routes ["Blue", "Orange", "Red", "Mattapan"] ++ @green_line_branches
 
   def groups(alerts, now) do
     grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
@@ -26,6 +26,7 @@ defmodule Dotcom.SystemStatus.Groups do
       %{route_id: route_id, sub_routes: [], statuses: statuses}
     end)
     |> combine_green_line_branches()
+    |> combine_mattapan_with_red_line()
     |> sort_routes_and_sub_routes()
   end
 
@@ -168,18 +169,53 @@ defmodule Dotcom.SystemStatus.Groups do
     end)
   end
 
+  defp combine_mattapan_with_red_line(statuses_by_route) do
+    {mattapan_entries, other_entries} =
+      statuses_by_route
+      |> Enum.split_with(fn %{route_id: route_id} -> route_id == "Mattapan" end)
+
+    new_mattapan_entries =
+      case mattapan_entries do
+        [%{statuses: [%{description: "Normal Service"}]}] ->
+          []
+
+        _ ->
+          mattapan_entries
+          |> Enum.map(fn %{statuses: statuses} ->
+            %{route_id: "Red", sub_routes: ["Mattapan"], statuses: statuses}
+          end)
+      end
+
+    other_entries ++ new_mattapan_entries
+  end
+
   defp sort_routes_and_sub_routes(entries) do
     line_indexes = @lines |> Enum.with_index() |> Map.new()
 
     entries
-    |> Enum.sort_by(fn %{route_id: route_id, statuses: [%{description: description} | _]} ->
+    |> Enum.sort_by(fn %{
+                         route_id: route_id,
+                         sub_routes: sub_routes,
+                         statuses: [%{description: description} | _]
+                       } ->
       description_sort_order =
         case description do
           "Normal Service" -> 1
           _ -> 0
         end
 
-      {line_indexes |> Map.get(route_id), description_sort_order}
+      base_route_sort_order =
+        case sub_routes do
+          [] -> 0
+          _ -> 1
+        end
+
+      {
+        line_indexes |> Map.get(route_id),
+        base_route_sort_order,
+        description_sort_order,
+        sub_routes
+      }
     end)
   end
 end

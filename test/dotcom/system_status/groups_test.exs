@@ -349,4 +349,53 @@ defmodule Dotcom.SystemStatus.GroupsTest do
                |> statuses_for("Green")
     end
   end
+
+  describe "red line groups" do
+    test "only shows Red line if Mattapan doesn't have any alerts" do
+      assert [
+               %{
+                 route_id: "Red",
+                 sub_routes: [],
+                 statuses: [%{description: "Delays", time: nil}]
+               }
+             ] =
+               Groups.groups(
+                 [
+                   Alert.build(:alert,
+                     effect: :delay,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Red")],
+                     active_period: [current_active_period()]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Red")
+    end
+
+    test "shows Mattapan as a sub_route of Red if it has an alert" do
+      assert [
+               %{
+                 route_id: "Red",
+                 sub_routes: [],
+                 statuses: [%{description: "Normal Service", time: nil}]
+               },
+               %{
+                 route_id: "Red",
+                 sub_routes: ["Mattapan"],
+                 statuses: [%{description: "Station Closure", time: nil}]
+               }
+             ] =
+               Groups.groups(
+                 [
+                   Alert.build(:alert,
+                     effect: :station_closure,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Mattapan")],
+                     active_period: [current_active_period()]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Red")
+    end
+  end
 end
