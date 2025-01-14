@@ -17,6 +17,7 @@ defmodule Dotcom.SystemStatus.Grouping do
         grouped_alerts
         |> Map.get(route_id)
         |> alerts_to_statuses(now)
+        |> consolidate_duplicate_descriptions()
         |> sort_statuses()
         |> stringify_times()
         |> maybe_add_now_text()
@@ -108,4 +109,24 @@ defmodule Dotcom.SystemStatus.Grouping do
 
   defp add_now_text(%{time: nil} = status), do: %{status | time: "Now"}
   defp add_now_text(status), do: status
+
+  defp consolidate_duplicate_descriptions(statuses) do
+    statuses
+    |> Enum.group_by(fn %{time: time, description: description} -> {time, description} end)
+    |> Enum.map(fn
+      {_, [status]} -> status
+      {_, [status | _]} -> pluralize_description(status)
+    end)
+  end
+
+  defp pluralize_description(%{description: description} = status) do
+    new_description =
+      case description do
+        "Suspension" -> "Suspensions"
+        "Station Closure" -> "Station Closures"
+        _ -> description
+      end
+
+    %{status | description: new_description}
+  end
 end
