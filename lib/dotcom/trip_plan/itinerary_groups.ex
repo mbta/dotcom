@@ -12,7 +12,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   alias OpenTripPlannerClient.ItineraryTag
 
   @short_walk_threshold_minutes 5
-  @max_per_group 5
+  @max_per_group 4
 
   @type summarized_leg :: %{
           routes: [Routes.Route.t()],
