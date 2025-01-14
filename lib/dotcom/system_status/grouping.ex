@@ -1,4 +1,8 @@
 defmodule Dotcom.SystemStatus.Grouping do
+  @moduledoc """
+  A module that groups alerts into statuses for the system status widget.
+  """
+
   alias Alerts.Alert
 
   @lines ["Blue", "Orange", "Red", "Green"]
