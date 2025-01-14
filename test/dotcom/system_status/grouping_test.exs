@@ -33,7 +33,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
     end)
   end
 
-  describe "grouping/2" do
+  describe "heavy rail grouping" do
     test "when there are no alerts, lists each line as normal" do
       assert [
                %{
@@ -297,6 +297,56 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  now()
                )
                |> statuses_for("Orange")
+    end
+  end
+
+  describe "green line grouping" do
+    test "combines all green line branches into a single one if they have the same alerts" do
+      assert [
+               %{
+                 route_id: "Green",
+                 sub_routes: [],
+                 statuses: [%{description: "Shuttle Buses", time: nil}]
+               }
+             ] =
+               Grouping.grouping(
+                 ["Green-B", "Green-C", "Green-D", "Green-E"]
+                 |> Enum.map(fn route_id ->
+                   Alert.build(:alert,
+                     effect: :shuttle,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: route_id)],
+                     active_period: [current_active_period()]
+                   )
+                 end),
+                 now()
+               )
+               |> statuses_for("Green")
+    end
+
+    test "splits separate branches of the green line out as sub_routes if the alerts are different and sorts 'Normal Service' last" do
+      assert [
+               %{
+                 route_id: "Green",
+                 sub_routes: ["Green-D"],
+                 statuses: [%{description: "Shuttle Buses", time: nil}]
+               },
+               %{
+                 route_id: "Green",
+                 sub_routes: ["Green-B", "Green-C", "Green-E"],
+                 statuses: [%{description: "Normal Service", time: nil}]
+               }
+             ] =
+               Grouping.grouping(
+                 [
+                   Alert.build(:alert,
+                     effect: :shuttle,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Green-D")],
+                     active_period: [current_active_period()]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Green")
     end
   end
 end
