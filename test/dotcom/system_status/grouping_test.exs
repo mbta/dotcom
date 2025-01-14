@@ -127,7 +127,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                )
     end
 
-    test "if the alert has a future active_period, then show that time" do
+    test "shows future active time for alerts that will become active later in the day" do
       assert [
                %{
                  route_id: "Orange",
@@ -148,7 +148,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                |> statuses_for("Orange")
     end
 
-    test "if the alert has a past and a future active_period, then show only the future time" do
+    test "shows a future time for alerts that have an expired time as well" do
       assert [
                %{
                  route_id: "Orange",
@@ -172,7 +172,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                |> statuses_for("Orange")
     end
 
-    test "if there's more than one alert for a given line, show both, sorted alphabetically" do
+    test "shows multiple alerts for a given route, sorted alphabetically" do
       assert [
                %{
                  route_id: "Orange",
@@ -201,7 +201,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                |> statuses_for("Orange")
     end
 
-    test "if there are current and future alerts, include explicit 'Now' and sort current alerts first" do
+    test "puts 'Now' text on current alerts when there are also future alerts, and sorts 'Now' first" do
       assert [
                %{
                  route_id: "Orange",
@@ -230,7 +230,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                |> statuses_for("Orange")
     end
 
-    test "sort future alerts by time, not lexically" do
+    test "sorts future alerts by time, not lexically" do
       assert [
                %{
                  route_id: "Orange",
@@ -260,7 +260,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                |> statuses_for("Orange")
     end
 
-    test "consolidate alerts if they have the same effect and time" do
+    test "consolidates alerts if they have the same effect and time" do
       assert [
                %{
                  route_id: "Orange",
