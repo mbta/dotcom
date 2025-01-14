@@ -229,5 +229,34 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                )
                |> statuses_for("Orange")
     end
+
+    test "sort future alerts by time, not lexically" do
+      assert [
+               %{
+                 route_id: "Orange",
+                 sub_routes: [],
+                 statuses: [
+                   %{status: "Delays", time: "8:30pm"},
+                   %{status: "Suspension", time: "10:00pm"}
+                 ]
+               }
+             ] =
+               Grouping.grouping(
+                 [
+                   Alert.build(:alert,
+                     effect: :delay,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [future_active_period(~N[2025-01-09 20:30:00])]
+                   ),
+                   Alert.build(:alert,
+                     effect: :suspension,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [future_active_period(~N[2025-01-09 22:00:00])]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Orange")
+    end
   end
 end
