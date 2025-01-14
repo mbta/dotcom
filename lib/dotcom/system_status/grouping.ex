@@ -55,14 +55,23 @@ defmodule Dotcom.SystemStatus.Grouping do
       end
 
     time =
-      if Alerts.Match.any_time_match?(alert, now) do
-        nil
-      else
-        [{start_time, _end_time} | _] = alert.active_period
-        Timex.format!(start_time, "%-I:%M%p", :strftime) |> String.downcase()
+      case future_start_time(alert.active_period, now) do
+        nil -> nil
+        start_time -> Timex.format!(start_time, "%-I:%M%p", :strftime) |> String.downcase()
       end
 
     %{status: status, time: time}
+  end
+
+  # - If the active period is in the future, returns its start_time.
+  # - If the active period indicates that the alert is currently active, returns nil.
+  # - Raises an error if the alert is completely in the past.
+  defp future_start_time([{start_time, end_time} | more_active_periods], now) do
+    cond do
+      Timex.before?(end_time, now) -> future_start_time(more_active_periods, now)
+      Timex.before?(start_time, now) -> nil
+      true -> start_time
+    end
   end
 
   defp sort_statuses(statuses) do
