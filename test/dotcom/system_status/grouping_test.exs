@@ -39,22 +39,22 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                %{
                  route_id: "Blue",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Orange",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Red",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Green",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                }
              ] = Grouping.grouping([], now())
     end
@@ -64,22 +64,22 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                %{
                  route_id: "Blue",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Orange",
                  sub_routes: [],
-                 statuses: [%{status: "Delays", time: nil}]
+                 statuses: [%{description: "Delays", time: nil}]
                },
                %{
                  route_id: "Red",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Green",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                }
              ] =
                Grouping.grouping(
@@ -97,22 +97,22 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                %{
                  route_id: "Blue",
                  sub_routes: [],
-                 statuses: [%{status: "Shuttle Buses", time: nil}]
+                 statuses: [%{description: "Shuttle Buses", time: nil}]
                },
                %{
                  route_id: "Orange",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Red",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                },
                %{
                  route_id: "Green",
                  sub_routes: [],
-                 statuses: [%{status: "Normal Service", time: nil}]
+                 statuses: [%{description: "Normal Service", time: nil}]
                }
              ] =
                Grouping.grouping(
@@ -132,7 +132,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                %{
                  route_id: "Orange",
                  sub_routes: [],
-                 statuses: [%{status: "Suspension", time: "7:30pm"}]
+                 statuses: [%{description: "Suspension", time: "7:30pm"}]
                }
              ] =
                Grouping.grouping(
@@ -153,7 +153,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                %{
                  route_id: "Orange",
                  sub_routes: [],
-                 statuses: [%{status: "Suspension", time: "7:30pm"}]
+                 statuses: [%{description: "Suspension", time: "7:30pm"}]
                }
              ] =
                Grouping.grouping(
@@ -178,8 +178,8 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  route_id: "Orange",
                  sub_routes: [],
                  statuses: [
-                   %{status: "Delays", time: nil},
-                   %{status: "Suspension", time: nil}
+                   %{description: "Delays", time: nil},
+                   %{description: "Suspension", time: nil}
                  ]
                }
              ] =
@@ -207,8 +207,8 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  route_id: "Orange",
                  sub_routes: [],
                  statuses: [
-                   %{status: "Suspension", time: "Now"},
-                   %{status: "Delays", time: "8:30pm"}
+                   %{description: "Suspension", time: "Now"},
+                   %{description: "Delays", time: "8:30pm"}
                  ]
                }
              ] =
@@ -236,8 +236,8 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  route_id: "Orange",
                  sub_routes: [],
                  statuses: [
-                   %{status: "Station Closure", time: "8:30pm"},
-                   %{status: "Suspension", time: "10:00pm"}
+                   %{description: "Station Closure", time: "8:30pm"},
+                   %{description: "Suspension", time: "10:00pm"}
                  ]
                }
              ] =
@@ -248,7 +248,8 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                      informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
                      active_period: [future_active_period(~N[2025-01-09 20:30:00])]
                    ),
-                   Alert.build(:alert,
+                   Alert.build(
+                     :alert,
                      effect: :suspension,
                      informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
                      active_period: [future_active_period(~N[2025-01-09 22:00:00])]
