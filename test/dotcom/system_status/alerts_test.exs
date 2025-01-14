@@ -1,5 +1,6 @@
 defmodule Dotcom.SystemStatus.AlertsTest do
   use ExUnit.Case, async: true
+  doctest Dotcom.SystemStatus.Alerts
 
   import Test.Support.Factories.Alerts.Alert
 
