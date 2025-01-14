@@ -60,8 +60,20 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
     assigns = update(assigns, :class, &"#{&1} #{route_class}")
 
+    route_label =
+      if Routes.Route.silver_line?(assigns.route) do
+        assigns.route.name
+      else
+        "Route #{assigns.route.name}"
+      end
+
+    assigns = assign(assigns, :route_label, route_label)
+
     ~H"""
-    <div class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}>
+    <div
+      aria-label={@route_label}
+      class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}
+    >
       {@route.name}
     </div>
     """
@@ -121,8 +133,16 @@ defmodule DotcomWeb.Components.RouteSymbols do
         end
       end)
 
+    assigns = assign(assigns, :route_label, route_label(route))
+
     ~H"""
-    <.icon type="icon-svg" name={@icon_name} class={"#{@class} #{@cva_class}"} />
+    <.icon
+      aria-label={@route_label}
+      role="text"
+      type="icon-svg"
+      name={@icon_name}
+      class={"#{@class} #{@cva_class}"}
+    />
     """
   end
 
@@ -138,7 +158,13 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns = assign(assigns, :route_number, route_number)
 
     ~H"""
-    <.icon type="icon-svg" name={"icon-massport-#{@route_number}"} class={"#{@class} #{@cva_class}"} />
+    <.icon
+      type="icon-svg"
+      name={"icon-massport-#{@route_number}"}
+      class={"#{@class} #{@cva_class}"}
+      aria-label={"Massport Shuttle #{@route_number}"}
+      role="text"
+    />
     """
   end
 
@@ -149,6 +175,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
       type="icon-svg"
       name={"icon-logan-express-#{@route.name}"}
       class={"#{@class} #{@cva_class}"}
+      aria-label="Logan Express"
+      role="text"
     />
     """
   end
@@ -158,4 +186,9 @@ defmodule DotcomWeb.Components.RouteSymbols do
     <.icon type="icon-svg" name="icon-mode-shuttle-default" class={"#{@class} #{@cva_class}"} />
     """
   end
+
+  defp route_label(%Route{description: :ferry}), do: "Ferry"
+  defp route_label(%Route{description: :regional_rail}), do: "Commuter Rail"
+  defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
+  defp route_label(%Route{long_name: long_name}), do: long_name
 end
