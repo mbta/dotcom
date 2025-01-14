@@ -37,7 +37,7 @@ defmodule Dotcom.SystemStatus.Grouping do
   end
 
   defp alerts_to_statuses([], _now) do
-    [%{status: "Normal Service", time: nil}]
+    [%{description: "Normal Service", time: nil}]
   end
 
   defp alerts_to_statuses(alerts, now) do
@@ -48,7 +48,7 @@ defmodule Dotcom.SystemStatus.Grouping do
   end
 
   defp alert_to_status(alert, now) do
-    status =
+    description =
       case alert.effect do
         :delay -> "Delays"
         :shuttle -> "Shuttle Buses"
@@ -58,7 +58,7 @@ defmodule Dotcom.SystemStatus.Grouping do
 
     time = future_start_time(alert.active_period, now)
 
-    %{status: status, time: time}
+    %{description: description, time: time}
   end
 
   defp stringify_times(statuses) do
@@ -86,7 +86,8 @@ defmodule Dotcom.SystemStatus.Grouping do
   end
 
   defp sort_statuses(statuses) do
-    statuses |> Enum.sort_by(fn %{time: time, status: status} -> {time, status} end)
+    statuses
+    |> Enum.sort_by(fn %{time: time, description: description} -> {time, description} end)
   end
 
   defp maybe_add_now_text(statuses) do
