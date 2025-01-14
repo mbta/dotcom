@@ -11,11 +11,6 @@ defmodule DotcomWeb.Live.Admin do
            url: Helpers.live_path(socket, DotcomWeb.Live.Admin.TripPlanFeedback),
            title: "Trip Planner Feedback",
            description: "Find and download the latest comments and votes."
-         },
-         %{
-           url: Helpers.live_path(socket, DotcomWeb.Live.TripPlanner),
-           title: "Trip Planner Preview",
-           description: "WIP on the trip planner rewrite."
          }
        ]
      )}

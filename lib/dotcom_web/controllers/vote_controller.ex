@@ -44,7 +44,7 @@ defmodule DotcomWeb.VoteController do
           conn
           |> assign(:polling_location, polling_location)
           |> assign(:polling_location_name, polling_location_name)
-          |> assign(:trip_plan_path, trip_plan_path(DotcomWeb.Endpoint, :index, params))
+          |> assign(:trip_plan_path, "/trip-planner#{URI.encode_query(params)}")
 
         _ ->
           conn |> assign(:polling_error, true)

@@ -114,11 +114,6 @@ defmodule Phoenix.Router.RoutingTest do
       assert redirected_to(conn, 301) == "/betterbus-440s"
     end
 
-    test "trip planner with 'to' but without an address", %{conn: conn} do
-      conn = get(conn, "/trip-planner/to/")
-      assert redirected_to(conn, 301) == "/trip-planner"
-    end
-
     test "redirect to canonical host securely", %{conn: conn} do
       System.put_env("HOST", @canonical_host)
 

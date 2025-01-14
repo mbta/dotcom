@@ -152,30 +152,6 @@ describe("passes smoke test", () => {
     }
   });
 
-  it("trip planner", () => {
-    cy.visit("/trip-planner");
-
-    // reverses the inputs
-    cy.get("#from").type("A");
-    cy.get("#to").type("B");
-    cy.get("#trip-plan-reverse-control").click();
-    cy.get("#from").should("have.value", "B");
-    cy.get("#to").should("have.value", "A");
-
-    // opens the date picker
-    cy.contains("#trip-plan-datepicker").should("not.exist");
-    cy.get('label[for="arrive"]').click();
-    cy.get("#trip-plan-datepicker");
-
-    // shortcut /from/ - marker A prepopulated
-    cy.visit("/trip-planner/from/North+Station");
-    cy.get('img.leaflet-marker-icon[src="/icon-svg/icon-map-pin-a.svg"]');
-
-    // shortcut /to/ - marker B prepopulated
-    cy.visit("/trip-planner/to/North+Station");
-    cy.get('img.leaflet-marker-icon[src="/icon-svg/icon-map-pin-b.svg"]');
-  });
-
   it("alerts page", () => {
     cy.visit("/alerts");
     cy.contains(".m-alerts__mode-buttons a", "Bus").click();
