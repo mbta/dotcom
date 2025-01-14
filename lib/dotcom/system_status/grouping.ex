@@ -52,6 +52,7 @@ defmodule Dotcom.SystemStatus.Grouping do
       case alert.effect do
         :delay -> "Delays"
         :shuttle -> "Shuttle Buses"
+        :station_closure -> "Station Closure"
         :suspension -> "Suspension"
       end
 
