@@ -133,15 +133,13 @@ defmodule DotcomWeb.Components.RouteSymbols do
         end
       end)
 
-    assigns = assign(assigns, :route_label, route_label(route))
-
     ~H"""
     <.icon
-      aria-label={@route_label}
-      role="text"
       type="icon-svg"
       name={@icon_name}
       class={"#{@class} #{@cva_class}"}
+      aria-label={route_label(@route)}
+      role="text"
     />
     """
   end
@@ -162,7 +160,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
       type="icon-svg"
       name={"icon-massport-#{@route_number}"}
       class={"#{@class} #{@cva_class}"}
-      aria-label={"Massport Shuttle #{@route_number}"}
+      aria-label={route_label(@route)}
       role="text"
     />
     """
@@ -175,7 +173,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
       type="icon-svg"
       name={"icon-logan-express-#{@route.name}"}
       class={"#{@class} #{@cva_class}"}
-      aria-label="Logan Express"
+      aria-label={route_label(@route)}
       role="text"
     />
     """
@@ -183,12 +181,26 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   def route_icon(assigns) do
     ~H"""
-    <.icon type="icon-svg" name="icon-mode-shuttle-default" class={"#{@class} #{@cva_class}"} />
+    <.icon
+      type="icon-svg"
+      name="icon-mode-shuttle-default"
+      class={"#{@class} #{@cva_class}"}
+      aria-label="Shuttle"
+      role="text"
+    />
     """
   end
 
+  # Given a route, return a machine-readable label.
   defp route_label(%Route{description: :ferry}), do: "Ferry"
   defp route_label(%Route{description: :regional_rail}), do: "Commuter Rail"
+  defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
   defp route_label(%Route{long_name: long_name}), do: long_name
+
+  defp route_label(%Route{
+    external_agency_name: "Massport",
+    name: <<route_number::binary-size(2), _::binary>>
+  }),
+  do: "Massport Shuttle #{route_number}"
 end
