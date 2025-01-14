@@ -6,16 +6,13 @@ defmodule Dotcom.SystemStatus.Grouping do
   alias Alerts.Alert
 
   @lines ["Blue", "Orange", "Red", "Green"]
+  @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
+  @routes ["Blue", "Orange", "Red"] ++ @green_line_branches
 
   def grouping(alerts, now) do
-    grouped_alerts = Map.new(@lines, &{&1, alerts_for_line(alerts, &1)})
+    grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
 
-    [
-      "Blue",
-      "Orange",
-      "Red",
-      "Green"
-    ]
+    @routes
     |> Enum.map(fn route_id ->
       statuses =
         grouped_alerts
@@ -28,6 +25,8 @@ defmodule Dotcom.SystemStatus.Grouping do
 
       %{route_id: route_id, sub_routes: [], statuses: statuses}
     end)
+    |> combine_green_line_branches()
+    |> sort_routes_and_sub_routes()
   end
 
   defp alerts_for_line(alerts, line_id) do
@@ -132,5 +131,55 @@ defmodule Dotcom.SystemStatus.Grouping do
       end
 
     %{status | description: new_description}
+  end
+
+  defp combine_green_line_branches(statuses_by_route) do
+    {green_line_entries, other_entries} =
+      statuses_by_route
+      |> Enum.split_with(fn %{route_id: route_id} -> route_id in @green_line_branches end)
+
+    consolidated_green_line_entries =
+      green_line_entries
+      |> Enum.group_by(& &1.statuses)
+      |> Enum.to_list()
+      |> convert_branches_to_sub_routes()
+
+    other_entries ++ consolidated_green_line_entries
+  end
+
+  defp convert_branches_to_sub_routes([{statuses, _}]) do
+    [
+      %{
+        route_id: "Green",
+        sub_routes: [],
+        statuses: statuses
+      }
+    ]
+  end
+
+  defp convert_branches_to_sub_routes(entries) do
+    entries
+    |> Enum.map(fn {statuses, routes} ->
+      %{
+        route_id: "Green",
+        sub_routes: routes |> Enum.map(& &1.route_id),
+        statuses: statuses
+      }
+    end)
+  end
+
+  defp sort_routes_and_sub_routes(entries) do
+    line_indexes = @lines |> Enum.with_index() |> Map.new()
+
+    entries
+    |> Enum.sort_by(fn %{route_id: route_id, statuses: [%{description: description} | _]} ->
+      description_sort_order =
+        case description do
+          "Normal Service" -> 1
+          _ -> 0
+        end
+
+      {line_indexes |> Map.get(route_id), description_sort_order}
+    end)
   end
 end
