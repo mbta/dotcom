@@ -18,6 +18,7 @@ defmodule Dotcom.SystemStatus.Grouping do
         |> Map.get(route_id)
         |> alerts_to_statuses(now)
         |> sort_statuses()
+        |> stringify_times()
         |> maybe_add_now_text()
 
       %{route_id: route_id, sub_routes: [], statuses: statuses}
@@ -54,13 +55,22 @@ defmodule Dotcom.SystemStatus.Grouping do
         :suspension -> "Suspension"
       end
 
-    time =
-      case future_start_time(alert.active_period, now) do
-        nil -> nil
-        start_time -> Timex.format!(start_time, "%-I:%M%p", :strftime) |> String.downcase()
-      end
+    time = future_start_time(alert.active_period, now)
 
     %{status: status, time: time}
+  end
+
+  defp stringify_times(statuses) do
+    statuses
+    |> Enum.map(fn status ->
+      case status do
+        %{time: nil} ->
+          status
+
+        %{time: time} ->
+          %{status | time: Timex.format!(time, "%-I:%M%p", :strftime) |> String.downcase()}
+      end
+    end)
   end
 
   # - If the active period is in the future, returns its start_time.
