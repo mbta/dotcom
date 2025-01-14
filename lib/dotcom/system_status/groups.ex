@@ -1,4 +1,4 @@
-defmodule Dotcom.SystemStatus.Grouping do
+defmodule Dotcom.SystemStatus.Groups do
   @moduledoc """
   A module that groups alerts into statuses for the system status widget.
   """
@@ -9,7 +9,7 @@ defmodule Dotcom.SystemStatus.Grouping do
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
   @routes ["Blue", "Orange", "Red"] ++ @green_line_branches
 
-  def grouping(alerts, now) do
+  def groups(alerts, now) do
     grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
 
     @routes

@@ -1,7 +1,7 @@
-defmodule Dotcom.SystemStatus.GroupingTest do
+defmodule Dotcom.SystemStatus.GroupsTest do
   use ExUnit.Case, async: true
 
-  alias Dotcom.SystemStatus.Grouping
+  alias Dotcom.SystemStatus.Groups
   alias Test.Support.Factories.Alerts.Alert
   alias Test.Support.Factories.Alerts.InformedEntity
 
@@ -25,15 +25,15 @@ defmodule Dotcom.SystemStatus.GroupingTest do
     {local_datetime(~N[2025-01-08 10:00:00]), local_datetime(~N[2025-01-08 20:00:00])}
   end
 
-  defp statuses_for(grouping, route_id) do
-    grouping
+  defp statuses_for(groups, route_id) do
+    groups
     |> Enum.filter(fn
       %{route_id: ^route_id} -> true
       %{} -> false
     end)
   end
 
-  describe "heavy rail grouping" do
+  describe "heavy rail groups" do
     test "when there are no alerts, lists each line as normal" do
       assert [
                %{
@@ -56,7 +56,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  sub_routes: [],
                  statuses: [%{description: "Normal Service", time: nil}]
                }
-             ] = Grouping.grouping([], now())
+             ] = Groups.groups([], now())
     end
 
     test "when there's an alert for a heavy rail line, lists only that line as having that alert" do
@@ -82,7 +82,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Normal Service", time: nil}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :delay,
@@ -115,7 +115,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Normal Service", time: nil}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :shuttle,
@@ -135,7 +135,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Suspension", time: "7:30pm"}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :suspension,
@@ -156,7 +156,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Suspension", time: "7:30pm"}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :suspension,
@@ -183,7 +183,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  ]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :suspension,
@@ -212,7 +212,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  ]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :delay,
@@ -241,7 +241,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  ]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :station_closure,
@@ -271,7 +271,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  ]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :station_closure,
@@ -300,7 +300,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
     end
   end
 
-  describe "green line grouping" do
+  describe "green line groups" do
     test "combines all green line branches into a single one if they have the same alerts" do
       assert [
                %{
@@ -309,7 +309,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Shuttle Buses", time: nil}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  ["Green-B", "Green-C", "Green-D", "Green-E"]
                  |> Enum.map(fn route_id ->
                    Alert.build(:alert,
@@ -336,7 +336,7 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                  statuses: [%{description: "Normal Service", time: nil}]
                }
              ] =
-               Grouping.grouping(
+               Groups.groups(
                  [
                    Alert.build(:alert,
                      effect: :shuttle,

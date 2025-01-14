@@ -4,13 +4,13 @@ defmodule DotcomWeb.Live.SystemStatus do
   put it into the homepage (and elsewhere).
   """
 
-  alias Dotcom.SystemStatus.Grouping
+  alias Dotcom.SystemStatus.Groups
   alias Dotcom.SystemStatus
   use DotcomWeb, :live_view
 
   def render(assigns) do
     alerts = SystemStatus.subway_alerts_for_today()
-    statuses = Grouping.grouping(alerts, Timex.now())
+    statuses = Groups.groups(alerts, Timex.now())
 
     assigns =
       assigns
