@@ -259,5 +259,44 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                )
                |> statuses_for("Orange")
     end
+
+    test "consolidate alerts if they have the same effect and time" do
+      assert [
+               %{
+                 route_id: "Orange",
+                 sub_routes: [],
+                 statuses: [
+                   %{description: "Suspensions", time: "Now"},
+                   %{description: "Station Closures", time: "8:30pm"}
+                 ]
+               }
+             ] =
+               Grouping.grouping(
+                 [
+                   Alert.build(:alert,
+                     effect: :station_closure,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [future_active_period(~N[2025-01-09 20:30:00])]
+                   ),
+                   Alert.build(:alert,
+                     effect: :station_closure,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [future_active_period(~N[2025-01-09 20:30:00])]
+                   ),
+                   Alert.build(:alert,
+                     effect: :suspension,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [current_active_period()]
+                   ),
+                   Alert.build(:alert,
+                     effect: :suspension,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [current_active_period()]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Orange")
+    end
   end
 end
