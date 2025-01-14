@@ -21,6 +21,10 @@ defmodule Dotcom.SystemStatus.GroupingTest do
     {local_datetime(start_time), local_datetime(~N[2025-01-09 20:00:00])}
   end
 
+  defp past_active_period() do
+    {local_datetime(~N[2025-01-08 10:00:00]), local_datetime(~N[2025-01-08 20:00:00])}
+  end
+
   defp statuses_for(grouping, route_id) do
     grouping
     |> Enum.filter(fn
@@ -137,6 +141,30 @@ defmodule Dotcom.SystemStatus.GroupingTest do
                      effect: :suspension,
                      informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
                      active_period: [future_active_period(~N[2025-01-09 19:30:00])]
+                   )
+                 ],
+                 now()
+               )
+               |> statuses_for("Orange")
+    end
+
+    test "if the alert has a past and a future active_period, then show only the future time" do
+      assert [
+               %{
+                 route_id: "Orange",
+                 sub_routes: [],
+                 statuses: [%{status: "Suspension", time: "7:30pm"}]
+               }
+             ] =
+               Grouping.grouping(
+                 [
+                   Alert.build(:alert,
+                     effect: :suspension,
+                     informed_entity: [InformedEntity.build(:informed_entity, route: "Orange")],
+                     active_period: [
+                       past_active_period(),
+                       future_active_period(~N[2025-01-09 19:30:00])
+                     ]
                    )
                  ],
                  now()
