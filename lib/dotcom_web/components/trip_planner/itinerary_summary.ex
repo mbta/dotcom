@@ -109,14 +109,16 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       <%= for {route, index} <- Enum.with_index(@routes) do %>
         <.route_symbol route={route} class={"#{@grouped_classes} #{zindex(index)} #{@class}"} />
 
-        <%= if @slashed? and index < Kernel.length(@routes) - 1 do %>
-          <div
-            class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
-            aria-label="or"
-            role="text"
-          />
-        <% else %>
-          <div :if={index < Kernel.length(@routes) - 1} class="hidden" aria-label="or" role="text" />
+        <%= index < Kernel.length(@routes) - 1 do %>
+          <%= if if @slashed? do %>
+            <div
+              class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
+              aria-label="or"
+              role="text"
+            />
+          <% else %>
+            <div class="hidden" aria-label="or" role="text" />
+          <% end %>
         <% end %>
       <% end %>
     </div>
