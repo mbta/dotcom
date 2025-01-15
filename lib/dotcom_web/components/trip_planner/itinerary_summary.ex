@@ -116,7 +116,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
             role="text"
           />
         <% else %>
-          <div class="hidden" aria-label="or" role="text" />
+          <div :if={index < Kernel.length(@routes) - 1} class="hidden" aria-label="or" role="text" />
         <% end %>
       <% end %>
     </div>
