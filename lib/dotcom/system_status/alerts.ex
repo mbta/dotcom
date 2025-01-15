@@ -58,9 +58,10 @@ defmodule Dotcom.SystemStatus.Alerts do
       ...> )
       false
   """
-  def active_on_day?(alert, now) do
+  def active_on_day?(alert, datetime) do
     Enum.any?(alert.active_period, fn {active_period_start, active_period_end} ->
-      has_started?(active_period_start, now) && has_not_ended?(active_period_end, now)
+      starts_before_end_of_day?(active_period_start, datetime) &&
+        has_not_ended?(active_period_end, datetime)
     end)
   end
 
@@ -68,8 +69,8 @@ defmodule Dotcom.SystemStatus.Alerts do
   Given a list of alerts, filters only the ones that are active today, as defined in `&active_on_day?/2`.
   See that function for details
   """
-  def for_day(alerts, now) do
-    Enum.filter(alerts, &active_on_day?(&1, now))
+  def for_day(alerts, datetime) do
+    Enum.filter(alerts, &active_on_day?(&1, datetime))
   end
 
   @doc """
@@ -89,15 +90,17 @@ defmodule Dotcom.SystemStatus.Alerts do
     alerts |> Enum.filter(fn %{effect: effect} -> effect in @relevant_effects end)
   end
 
-  defp has_started?(active_period_start, now) do
-    now |> Timex.end_of_day() |> Timex.after?(active_period_start)
+  # Returns true if the alert (as signified by the active_period_start provided)
+  # starts before the end of datetime's day.
+  defp starts_before_end_of_day?(active_period_start, datetime) do
+    datetime |> Timex.end_of_day() |> Timex.after?(active_period_start)
   end
 
-  defp has_not_ended?(nil, _now) do
-    true
-  end
+  # Returns true if the alert (as signified by the active_period_end provided)
+  # ends before the given datetime. If active_period_end is nil, then the alert
+  # is indefinite, which means that it definitionally has not ended.
+  defp has_not_ended?(nil, _datetime), do: true
 
-  defp has_not_ended?(active_period_end, now) do
-    now |> Timex.before?(active_period_end)
-  end
+  defp has_not_ended?(active_period_end, datetime),
+    do: datetime |> Timex.before?(active_period_end)
 end
