@@ -11,10 +11,10 @@ defmodule Dotcom.SystemStatus do
   - They are either currently active, or will be later today
   """
   def subway_alerts_for_today() do
-    subway_alerts_for_today(Timex.now())
+    subway_alerts_for_day(Timex.now())
   end
 
-  defp subway_alerts_for_today(now) do
+  defp subway_alerts_for_day(datetime) do
     [
       "Red",
       "Orange",
@@ -25,8 +25,8 @@ defmodule Dotcom.SystemStatus do
       "Green-E",
       "Mattapan"
     ]
-    |> Alerts.Repo.by_route_ids(now)
-    |> SystemStatus.Alerts.for_today(now)
+    |> Alerts.Repo.by_route_ids(datetime)
+    |> SystemStatus.Alerts.for_day(datetime)
     |> SystemStatus.Alerts.filter_relevant()
   end
 end

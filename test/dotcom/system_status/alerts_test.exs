@@ -10,9 +10,9 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     DateTime.from_naive!(naive, "America/New_York")
   end
 
-  describe "active_today?/2" do
+  describe "active_on_day?/2" do
     test "returns true if the alert is currently active" do
-      assert Alerts.active_today?(
+      assert Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -26,7 +26,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     end
 
     test "returns false if the alert starts after end-of-service" do
-      refute Alerts.active_today?(
+      refute Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -40,7 +40,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     end
 
     test "returns true if the alert starts later, but before end-of-service" do
-      assert Alerts.active_today?(
+      assert Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -54,7 +54,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     end
 
     test "returns false if the alert has already ended" do
-      refute Alerts.active_today?(
+      refute Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -78,14 +78,14 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           ]
         )
 
-      assert Alerts.active_today?(
+      assert Alerts.active_on_day?(
                alert,
                local_datetime(~N[2025-01-09 13:00:00])
              )
     end
 
     test "returns false if the alert has no end time but hasn't started yet" do
-      refute Alerts.active_today?(
+      refute Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -99,7 +99,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     end
 
     test "returns true if a later part of the alert's active period is active" do
-      assert Alerts.active_today?(
+      assert Alerts.active_on_day?(
                build(:alert,
                  active_period: [
                    {
@@ -117,7 +117,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
     end
   end
 
-  describe "for_today/2" do
+  describe "for_day/2" do
     test "includes alerts that are active today" do
       alert1 =
         build(:alert,
@@ -139,7 +139,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           ]
         )
 
-      assert Alerts.for_today(
+      assert Alerts.for_day(
                [alert1, alert2],
                local_datetime(~N[2025-01-09 13:00:00])
              ) == [alert1]
