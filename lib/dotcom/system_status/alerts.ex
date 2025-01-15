@@ -6,18 +6,6 @@ defmodule Dotcom.SystemStatus.Alerts do
   """
   @relevant_effects [:delay, :shuttle, :suspension, :station_closure]
 
-  defp has_started?(active_period_start, now) do
-    now |> Timex.end_of_day() |> Timex.after?(active_period_start)
-  end
-
-  defp has_not_ended?(nil, _now) do
-    true
-  end
-
-  defp has_not_ended?(active_period_end, now) do
-    now |> Timex.before?(active_period_end)
-  end
-
   @doc """
   Checks to see whether an alert is active at some point later today, possibly including
   `now`.
@@ -99,5 +87,17 @@ defmodule Dotcom.SystemStatus.Alerts do
   """
   def filter_relevant(alerts) do
     alerts |> Enum.filter(fn %{effect: effect} -> effect in @relevant_effects end)
+  end
+
+  defp has_started?(active_period_start, now) do
+    now |> Timex.end_of_day() |> Timex.after?(active_period_start)
+  end
+
+  defp has_not_ended?(nil, _now) do
+    true
+  end
+
+  defp has_not_ended?(active_period_end, now) do
+    now |> Timex.before?(active_period_end)
   end
 end
