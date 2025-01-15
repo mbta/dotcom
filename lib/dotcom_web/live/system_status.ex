@@ -6,6 +6,8 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   use DotcomWeb, :live_view
 
+  import DotcomWeb.SystemStatus.Widget
+
   alias Dotcom.SystemStatus
 
   def render(assigns) do
@@ -18,21 +20,19 @@ defmodule DotcomWeb.Live.SystemStatus do
       |> assign(:alerts, alerts)
       |> assign(:statuses, statuses)
 
+    Widget
+
     ~H"""
     <h1>System Status</h1>
-    <div>
-      <.status :for={status <- @statuses} status={status} />
-    </div>
+    <.system_status_widget routes_with_statuses={@statuses} />
+
+    <h1>Examples</h1>
+    <.system_status_widget routes_with_statuses={fake_statuses_1()} />
+
     <h1>Alerts</h1>
     <div class="flex flex-col gap-2">
       <.alert :for={alert <- @alerts} alert={alert} />
     </div>
-    """
-  end
-
-  defp status(assigns) do
-    ~H"""
-    <pre>{inspect @status, pretty: true}</pre>
     """
   end
 
@@ -48,5 +48,55 @@ defmodule DotcomWeb.Live.SystemStatus do
       </details>
     </details>
     """
+  end
+
+  defp fake_statuses_1() do
+    %{
+      "Blue" => [
+        %{
+          branch_ids: [],
+          status_entries: [%{time: :current, status: :normal, multiple: false}]
+        }
+      ],
+      "Orange" => [
+        %{
+          branch_ids: [],
+          status_entries: [
+            %{time: :current, status: :delay, multiple: false},
+            %{
+              time: {:future, Timex.now() |> Timex.set(hour: 20, minute: 30)},
+              status: :shuttle,
+              multiple: false
+            }
+          ]
+        }
+      ],
+      "Red" => [
+        %{
+          branch_ids: [],
+          status_entries: [%{time: :current, status: :normal, multiple: false}]
+        },
+        %{
+          branch_ids: ["Mattapan"],
+          status_entries: [%{time: :current, status: :suspension, multiple: false}]
+        }
+      ],
+      "Green" => [
+        %{
+          branch_ids: ["Green-D", "Green-E"],
+          status_entries: [
+            %{
+              time: {:future, Timex.now() |> Timex.set(hour: 18, minute: 0)},
+              status: :station_closure,
+              multiple: true
+            }
+          ]
+        },
+        %{
+          branch_ids: ["Green-B", "Green-C"],
+          status_entries: [%{time: :current, status: :normal, multiple: false}]
+        }
+      ]
+    }
   end
 end
