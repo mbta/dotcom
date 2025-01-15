@@ -117,7 +117,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
               role="text"
             />
           <% else %>
-            <div class="hidden" aria-label="or" role="text" />
+            <span class="sr-only">or</span>
           <% end %>
         <% end %>
       <% end %>
