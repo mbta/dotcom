@@ -1,6 +1,13 @@
 defmodule Dotcom.SystemStatus do
   @moduledoc """
-  Parent module for the system status feature
+  The system status feature is a widget that's intended to appear on the
+  homepage, as well as eventually several other places throughout the site.
+  The widget will show statuses for each of the subway lines (Red, Orange,
+  Green, Blue), which might look like "Normal Service", or information
+  about current or upcoming alerts.
+
+  This module is responsible for reporting data in a format that can easily
+  be plugged into a component on the frontend.
   """
 
   alias Dotcom.SystemStatus
