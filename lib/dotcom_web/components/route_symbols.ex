@@ -64,7 +64,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
     <div
       class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}
       aria-label={route_label(@route)}
-      role="text"
     >
       {@route.name}
     </div>
@@ -131,7 +130,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
       name={@icon_name}
       class={"#{@class} #{@cva_class}"}
       aria-label={route_label(@route)}
-      role="text"
     />
     """
   end
@@ -153,7 +151,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
       name={"icon-massport-#{@route_number}"}
       class={"#{@class} #{@cva_class}"}
       aria-label={route_label(@route)}
-      role="text"
     />
     """
   end
@@ -166,7 +163,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
       name={"icon-logan-express-#{@route.name}"}
       class={"#{@class} #{@cva_class}"}
       aria-label={route_label(@route)}
-      role="text"
     />
     """
   end
@@ -178,14 +174,13 @@ defmodule DotcomWeb.Components.RouteSymbols do
       name="icon-mode-shuttle-default"
       class={"#{@class} #{@cva_class}"}
       aria-label="Shuttle"
-      role="text"
     />
     """
   end
 
   # Given a route, return a machine-readable label.
-  defp route_label(%Route{description: :ferry}), do: "Ferry"
-  defp route_label(%Route{description: :regional_rail}), do: "Commuter Rail"
+  defp route_label(%Route{type: 2}), do: "Commuter Rail"
+  defp route_label(%Route{type: 4}), do: "Ferry"
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
 
