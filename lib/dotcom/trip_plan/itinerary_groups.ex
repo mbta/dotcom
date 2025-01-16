@@ -77,7 +77,6 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       |> to_summary(grouped_itineraries)
 
     %ItineraryGroup{
-      # TODO: use second arg to sort by end time instead of start time
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
       representative_index: representative_index,
       representative_time: if(take_from_end?, do: :stop, else: :start),

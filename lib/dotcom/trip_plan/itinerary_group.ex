@@ -53,8 +53,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
 
     formatted_times =
       other_times
-      |> Enum.map(&Timex.format!(&1, "%-I:%M", :strftime))
-      |> Enum.join(", ")
+      |> Enum.map_join(", ", &Timex.format!(&1, "%-I:%M", :strftime))
 
     "Similar #{phrase} #{formatted_times}"
   end
