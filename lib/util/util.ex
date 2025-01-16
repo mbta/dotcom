@@ -205,14 +205,15 @@ defmodule Util do
   def local_tz, do: @local_tz
 
   @doc """
-  Converts an {:error, _} tuple to a default value.
+  Converts an `{:error, _}` tuple to a default value.
 
-  # Examples
+  ## Examples
 
-    iex> Util.error_default(:value, :default)
-    :value
-    iex> Util.error_default({:error, :tuple}, :default)
-    :default
+      iex> Util.error_default(:value, :default)
+      :value
+
+      iex> Util.error_default({:error, :tuple}, :default)
+      :default
   """
   @spec error_default(value | {:error, any}, value) :: value
         when value: any
@@ -361,12 +362,12 @@ defmodule Util do
   end
 
   @doc """
-  Makes DotcomWeb.Router.Helpers available to other apps.
-  #
-  # Examples
+  Makes `DotcomWeb.Router.Helpers` available to other apps.
 
-    iex> Util.site_path(:schedule_path, [:show, "test"])
-    "/schedules/test"
+  ## Examples
+
+      iex> Util.site_path(:schedule_path, [:show, "test"])
+      "/schedules/test"
   """
   @spec site_path(atom, [any]) :: String.t()
   def site_path(helper_fn, opts) when is_list(opts) do
