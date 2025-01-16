@@ -6,142 +6,111 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
   alias Dotcom.SystemStatus.Alerts
 
-  defp local_datetime(naive) do
-    DateTime.from_naive!(naive, "America/New_York")
-  end
-
   describe "active_on_day?/2" do
     test "returns true if the alert is currently active" do
-      assert Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-09 12:00:00]),
-                     local_datetime(~N[2025-01-09 20:00:00])
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+      start_time = Timex.now() |> Timex.beginning_of_day()
+      end_time = Timex.now() |> Timex.end_of_day()
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time = Faker.DateTime.between(start_time, end_time)
+
+      assert Alerts.active_on_day?(alert, time)
     end
 
-    test "returns false if the alert starts after end-of-service" do
-      refute Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-10 12:00:00]),
-                     local_datetime(~N[2025-01-10 20:00:00])
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+    test "returns false if the alert starts on the next service day" do
+      start_time = Timex.now() |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+      end_time = Timex.now() |> Timex.end_of_day()
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time = Faker.DateTime.between(start_time, end_time) |> Timex.shift(days: -1)
+
+      refute Alerts.active_on_day?(alert, time)
     end
 
     test "returns true if the alert starts later, but before end-of-service" do
-      assert Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-09 20:00:00]),
-                     local_datetime(~N[2025-01-10 20:00:00])
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+      start_time = Timex.now() |> Timex.end_of_day() |> Timex.shift(hours: -2)
+      end_time = Timex.now() |> Timex.end_of_day()
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          start_time |> Timex.beginning_of_day(),
+          start_time |> Timex.shift(minutes: -1)
+        )
+
+      assert Alerts.active_on_day?(alert, time)
     end
 
     test "returns false if the alert has already ended" do
-      refute Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-09 10:00:00]),
-                     local_datetime(~N[2025-01-09 12:00:00])
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+      start_time = Timex.now() |> Timex.beginning_of_day()
+      end_time = Timex.now() |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          end_time |> Timex.shift(minutes: 1),
+          Timex.now() |> Timex.end_of_day()
+        )
+
+      refute Alerts.active_on_day?(alert, time)
     end
 
     test "returns true if the alert has no end time" do
-      alert =
-        build(:alert,
-          active_period: [
-            {
-              local_datetime(~N[2025-01-09 10:00:00]),
-              nil
-            }
-          ]
-        )
+      start_time = Timex.now() |> Timex.beginning_of_day()
+      end_time = nil
 
-      assert Alerts.active_on_day?(
-               alert,
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time = Faker.DateTime.between(start_time, Timex.now() |> Timex.end_of_day())
+
+      assert Alerts.active_on_day?(alert, time)
     end
 
     test "returns false if the alert has no end time but hasn't started yet" do
-      refute Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-10 10:00:00]),
-                     nil
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 13:00:00])
-             )
+      start_time = Timex.now() |> Timex.end_of_day() |> Timex.shift(hours: 12)
+      end_time = nil
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time = Faker.DateTime.between(start_time, Timex.now() |> Timex.end_of_day())
+
+      assert Alerts.active_on_day?(alert, time)
     end
 
     test "returns true if a later part of the alert's active period is active" do
-      assert Alerts.active_on_day?(
-               build(:alert,
-                 active_period: [
-                   {
-                     local_datetime(~N[2025-01-08 10:00:00]),
-                     local_datetime(~N[2025-01-08 12:00:00])
-                   },
-                   {
-                     local_datetime(~N[2025-01-09 10:00:00]),
-                     local_datetime(~N[2025-01-09 12:00:00])
-                   }
-                 ]
-               ),
-               local_datetime(~N[2025-01-09 11:00:00])
-             )
+      start_time_1 = Timex.now() |> Timex.beginning_of_day()
+      end_time_1 = Timex.now() |> Timex.end_of_day()
+      start_time_2 = start_time_1 |> Timex.shift(days: 1)
+      end_time_2 = end_time_1 |> Timex.shift(days: 1)
+
+      alert =
+        build(:alert, active_period: [{start_time_1, end_time_1}, {start_time_2, end_time_2}])
+
+      time = Faker.DateTime.between(start_time_2, end_time_2)
+
+      assert Alerts.active_on_day?(alert, time)
     end
   end
 
   describe "for_day/2" do
     test "includes alerts that are active today" do
-      alert1 =
-        build(:alert,
-          active_period: [
-            {
-              local_datetime(~N[2025-01-09 12:00:00]),
-              local_datetime(~N[2025-01-09 20:00:00])
-            }
-          ]
-        )
+      start_time = Timex.now() |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+      end_time = Timex.now() |> Timex.end_of_day()
+
+      alert1 = build(:alert, active_period: [{start_time, end_time}])
 
       alert2 =
         build(:alert,
-          active_period: [
-            {
-              local_datetime(~N[2025-01-10 12:00:00]),
-              local_datetime(~N[2025-01-10 20:00:00])
-            }
-          ]
+          active_period: [{start_time |> Timex.shift(days: 1), end_time |> Timex.shift(days: 1)}]
         )
 
       assert Alerts.for_day(
                [alert1, alert2],
-               local_datetime(~N[2025-01-09 13:00:00])
+               Faker.DateTime.between(start_time, end_time)
              ) == [alert1]
     end
   end
