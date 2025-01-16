@@ -23,7 +23,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
             name="angle-right"
             class="font-black w-2"
             aria-label="to"
-            role="text"
           />
           <.leg_icon {summary_leg} />
         <% end %>
@@ -62,7 +61,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     ~H"""
     <span
       aria-label={"#{@walk_minutes} minute walk"}
-      role="text"
       class={[
         "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
         @class
@@ -110,11 +108,10 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         <.route_symbol route={route} class={"#{@grouped_classes} #{zindex(index)} #{@class}"} />
 
         <%= index < Kernel.length(@routes) - 1 do %>
-          <%= if if @slashed? do %>
+          <%= if @slashed? do %>
             <div
               class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
               aria-label="or"
-              role="text"
             />
           <% else %>
             <span class="sr-only">or</span>
