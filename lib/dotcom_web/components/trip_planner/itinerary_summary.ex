@@ -18,12 +18,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       </div>
       <div class="flex flex-wrap gap-1 items-center content-center mb-3">
         <%= for {summary_leg, index} <- Enum.with_index(@summary.summarized_legs) do %>
-          <.icon
-            :if={index > 0}
-            name="angle-right"
-            class="font-black w-2"
-            aria-label="to"
-          />
+          <.icon :if={index > 0} name="angle-right" class="font-black w-2" aria-label="to" />
           <.leg_icon {summary_leg} />
         <% end %>
       </div>
