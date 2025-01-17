@@ -18,7 +18,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       </div>
       <div class="flex flex-wrap gap-1 items-center content-center mb-3">
         <%= for {summary_leg, index} <- Enum.with_index(@summary.summarized_legs) do %>
-          <.icon :if={index > 0} name="angle-right" class="font-black w-2" />
+          <.icon :if={index > 0} name="angle-right" class="font-black w-2" aria-label="to" />
           <.leg_icon {summary_leg} />
         <% end %>
       </div>
@@ -54,12 +54,15 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   # No routes: this is a walking leg
   defp leg_icon(%{routes: [], walk_minutes: _} = assigns) do
     ~H"""
-    <span class={[
-      "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
-      @class
-    ]}>
-      <.icon name="person-walking" class="h-4 w-4" />
-      <span>{@walk_minutes} min</span>
+    <span
+      aria-label={"#{@walk_minutes} minute walk"}
+      class={[
+        "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
+        @class
+      ]}
+    >
+      <.icon name="person-walking" class="h-4 w-4" aria-hidden="true" />
+      <span aria-hidden="true">{@walk_minutes} min</span>
     </span>
     """
   end
@@ -99,11 +102,16 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       <%= for {route, index} <- Enum.with_index(@routes) do %>
         <.route_symbol route={route} class={"#{@grouped_classes} #{zindex(index)} #{@class}"} />
 
-        <div
-          :if={@slashed? and index < Kernel.length(@routes) - 1}
-          class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
-        >
-        </div>
+        <%= if index < Kernel.length(@routes) - 1 do %>
+          <%= if @slashed? do %>
+            <div
+              class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
+              aria-label="or"
+            />
+          <% else %>
+            <span class="sr-only">or</span>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
     """
