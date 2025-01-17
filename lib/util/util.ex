@@ -205,6 +205,26 @@ defmodule Util do
   def local_tz, do: @local_tz
 
   @doc """
+
+  Formats a time or a datetime so that it looks right in various
+  places on the site
+
+  ## Examples
+      iex> display_time(~T[08:30:00])
+      "8:30am"
+
+      iex> display_time(~T[20:30:00])
+      "8:30pm"
+
+      iex> display_time(~N[2018-01-17T20:30:00])
+      "8:30pm"
+  """
+  @spec display_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
+  def display_time(time) do
+    Timex.format!(time, "%-I:%M%p", :strftime) |> String.downcase()
+  end
+
+  @doc """
   Converts an `{:error, _}` tuple to a default value.
 
   ## Examples
