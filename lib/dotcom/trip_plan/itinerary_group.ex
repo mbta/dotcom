@@ -49,7 +49,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
       |> all_times()
       |> List.pop_at(representative_index)
 
-    phrase = options_phrase(start_or_stop == :stop, Enum.count(other_times))
+    phrase = options_phrase(start_or_stop, Enum.count(other_times))
 
     formatted_times =
       other_times
@@ -58,9 +58,9 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
     "Similar #{phrase} #{formatted_times}"
   end
 
-  defp options_phrase(true, 1), do: "trip arrives by"
-  defp options_phrase(true, _), do: "trips arrive by"
-  defp options_phrase(false, 1), do: "trip departs at"
+  defp options_phrase(:stop, 1), do: "trip arrives by"
+  defp options_phrase(:stop, _), do: "trips arrive by"
+  defp options_phrase(:start, 1), do: "trip departs at"
   defp options_phrase(_, _), do: "trips depart at"
 
   @doc """
