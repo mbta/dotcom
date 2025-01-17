@@ -20,13 +20,17 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
     test "returns false if the alert starts on the next service day" do
       start_time =
-        Timex.now("America/New_York") |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+        Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(hours: 12)
 
-      end_time = Timex.now("America/New_York") |> Timex.end_of_day()
+      end_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(days: 1)
 
       alert = build(:alert, active_period: [{start_time, end_time}])
 
-      time = Faker.DateTime.between(start_time, end_time) |> Timex.shift(days: -1)
+      time =
+        Faker.DateTime.between(
+          Timex.now("America/New_York") |> Timex.beginning_of_day(),
+          Timex.now("America/New_York") |> Timex.end_of_day()
+        )
 
       refute Alerts.active_on_day?(alert, time)
     end
@@ -39,7 +43,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
       time =
         Faker.DateTime.between(
-          start_time |> Timex.beginning_of_day(),
+          start_time |> Timex.beginning_of_day() |> Timex.shift(hours: 12),
           start_time |> Timex.shift(minutes: -1)
         )
 
@@ -54,7 +58,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
       time =
         Faker.DateTime.between(
-          Timex.now("America/New_York") |> Timex.beginning_of_day(),
+          Timex.now("America/New_York") |> Timex.beginning_of_day() |> Timex.shift(hours: 12),
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
