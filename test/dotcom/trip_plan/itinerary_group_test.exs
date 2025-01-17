@@ -24,40 +24,36 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
              })
     end
 
-    test "describes alternate times for the group" do
-      # SETUP
-      itineraries = TripPlanner.build_list(Faker.Util.pick(2..4), :itinerary)
-      representative_index = Faker.Util.pick(0..(length(itineraries) - 1))
-      start_or_stop = Faker.Util.pick([:start, :stop])
+    test "describes alternate times: 1 trip departs at" do
+      text =
+        build_group(1, :start)
+        |> ItineraryGroup.options_text()
 
-      group = %ItineraryGroup{
-        itineraries: itineraries,
-        representative_index: representative_index,
-        representative_time: start_or_stop
-      }
+      assert text =~ "Similar trip departs at"
+    end
 
-      # EXERCISE
-      text = ItineraryGroup.options_text(group)
+    test "describes alternate times: multiple trips departs at" do
+      text =
+        build_group(Faker.Util.pick(2..5), :start)
+        |> ItineraryGroup.options_text()
 
-      # VERIFY
-      if Enum.count(itineraries) == 2 do
-        # only one alternate trip
-        assert text =~ "trip "
+      assert text =~ "Similar trips depart at"
+    end
 
-        if group.representative_time == :start do
-          assert text =~ "departs at"
-        else
-          assert text =~ "arrives by"
-        end
-      else
-        assert text =~ "trips "
+    test "describes alternate times: 1 trip arrives by" do
+      text =
+        build_group(1, :stop)
+        |> ItineraryGroup.options_text()
 
-        if group.representative_time == :start do
-          assert text =~ "depart at"
-        else
-          assert text =~ "arrive by"
-        end
-      end
+      assert text =~ "Similar trip arrives by"
+    end
+
+    test "describes alternate times: multiple trips arrive by" do
+      text =
+        build_group(Faker.Util.pick(2..5), :stop)
+        |> ItineraryGroup.options_text()
+
+      assert text =~ "Similar trips arrive by"
     end
   end
 
@@ -84,5 +80,15 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
       # VERIFY
       assert start_times != stop_times
     end
+  end
+
+  defp build_group(similar_itinerary_count, representative_time) do
+    itineraries = TripPlanner.build_list(similar_itinerary_count + 1, :itinerary)
+
+    %ItineraryGroup{
+      itineraries: itineraries,
+      representative_index: Faker.Util.pick(0..similar_itinerary_count),
+      representative_time: representative_time
+    }
   end
 end
