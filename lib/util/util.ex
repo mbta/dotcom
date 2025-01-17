@@ -252,6 +252,55 @@ defmodule Util do
 
   @doc """
 
+  The time corresponding to end-of-service, given that service day
+  boundaries at at 3am each day.
+
+  ## Examples
+      iex> time = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
+      iex> Util.end_of_service(time)
+      #DateTime<2025-01-18 03:00:00-05:00 EST America/New_York>
+
+      # Does not shift to the next day if the given time is earlier than end-of-service
+      iex> time = Timex.to_datetime(~N[2025-01-17T02:00:00], "America/New_York")
+      iex> Util.end_of_service(time)
+      #DateTime<2025-01-17 03:00:00-05:00 EST America/New_York>
+
+      # Also handles times in UTC
+      iex> time = ~U[2025-01-17T17:00:00Z] # Noon in Eastern Time, given 5-hour offset
+      iex> Util.end_of_service(time)
+      #DateTime<2025-01-18 03:00:00-05:00 EST America/New_York>
+
+      iex> time = ~U[2025-01-17T06:00:00Z] # Early enough that it's before 3am
+      iex> Util.end_of_service(time)
+      #DateTime<2025-01-17 03:00:00-05:00 EST America/New_York>
+
+  The time returned is exactly equal to beginning of service the next
+  day, so when comparing to the time returned, use `&Timex.before?/2`
+  or equivalent for a strictly-less-than comparison.
+
+  ## Examples
+      iex> now = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
+      iex> time_of_interest = Timex.to_datetime(~N[2025-01-18T03:00:00], "America/New_York") # Technically part of "tomorrow"'s service date
+      iex> Timex.before?(time_of_interest, Util.end_of_service(now))
+      false
+
+      iex> now = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
+      iex> time_of_interest = Timex.to_datetime(~N[2025-01-18T02:59:59], "America/New_York") # Part of "today"'s service date
+      iex> Timex.before?(time_of_interest, Util.end_of_service(now))
+      true
+
+  """
+  @spec end_of_service(DateTime.t() | NaiveDateTime.t()) :: DateTime.t()
+  def end_of_service(current_time \\ Util.now()) do
+    current_time
+    |> service_date()
+    |> Timex.shift(days: 1)
+    |> Timex.to_datetime("America/New_York")
+    |> Timex.set(hour: 3)
+  end
+
+  @doc """
+
   Returns an id property in a struct or nil
 
   """
