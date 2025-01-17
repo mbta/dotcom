@@ -60,7 +60,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   """
   def active_on_day?(alert, datetime) do
     Enum.any?(alert.active_period, fn {active_period_start, active_period_end} ->
-      starts_before_end_of_day?(active_period_start, datetime) &&
+      starts_before_end_of_service?(active_period_start, datetime) &&
         has_not_ended?(active_period_end, datetime)
     end)
   end
@@ -92,8 +92,8 @@ defmodule Dotcom.SystemStatus.Alerts do
 
   # Returns true if the alert (as signified by the active_period_start provided)
   # starts before the end of datetime's day.
-  defp starts_before_end_of_day?(active_period_start, datetime) do
-    datetime |> Timex.end_of_day() |> Timex.after?(active_period_start)
+  defp starts_before_end_of_service?(active_period_start, datetime) do
+    datetime |> Util.end_of_service() |> Timex.after?(active_period_start)
   end
 
   # Returns true if the alert (as signified by the active_period_end provided)
