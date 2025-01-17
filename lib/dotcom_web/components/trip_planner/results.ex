@@ -22,6 +22,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       <div
         :if={Enum.count(@results.itinerary_groups) > 0 && @results.itinerary_group_selection}
         class="h-min w-full mb-3.5"
+        data-test={"results:itinerary_group:selected:#{@results.itinerary_group_selection}"}
       >
         <button type="button" phx-click="reset_itinerary_group" class="btn-link">
           <span class="flex flex-row items-center">
@@ -55,6 +56,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         class="border border-solid border-gray-lighter p-4"
         phx-click="select_itinerary_group"
         phx-value-index={index}
+        data-test={"results:itinerary_group:#{index}"}
       >
         <div
           :if={group.summary.tag}
