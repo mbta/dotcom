@@ -47,6 +47,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           variant="secondary"
           phx-click="select_itinerary"
           phx-value-index={index}
+          data-test={"itinerary_detail:#{index}"}
         >
           {Timex.format!(itinerary.start, "%-I:%M%p", :strftime) |> String.downcase()}
         </.button>
