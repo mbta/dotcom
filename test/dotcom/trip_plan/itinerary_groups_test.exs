@@ -185,7 +185,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
            |> Map.get(:itineraries) == first_n_itineraries
 
     assert sorted_itineraries
-           |> ItineraryGroups.from_itineraries(true)
+           |> ItineraryGroups.from_itineraries(take_from_end: true)
            |> List.first()
            |> Map.get(:itineraries) == last_n_itineraries
   end

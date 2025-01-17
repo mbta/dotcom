@@ -19,14 +19,14 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   #{@max_per_group} itineraries each, sorting the groups in favor of tagged
   groups first
   """
-  @spec from_itineraries([Itinerary.t()], boolean()) :: [ItineraryGroup.t()]
-  def from_itineraries(itineraries, take_from_end? \\ false) do
+  @spec from_itineraries([Itinerary.t()], Keyword.t()) :: [ItineraryGroup.t()]
+  def from_itineraries(itineraries, opts \\ []) do
     itineraries
     |> Enum.group_by(&unique_legs_to_hash/1)
     |> Enum.map(&drop_hash/1)
     |> Enum.reject(&Enum.empty?/1)
-    |> Enum.map(&limit_itinerary_count(&1, take_from_end?))
-    |> Enum.map(&to_group(&1, take_from_end?))
+    |> Enum.map(&limit_itinerary_count(&1, opts))
+    |> Enum.map(&to_group(&1, opts))
     |> Enum.sort_by(fn
       %ItineraryGroup{summary: %{tag: tag}} ->
         Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
@@ -55,8 +55,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     grouped_itineraries
   end
 
-  defp limit_itinerary_count(itineraries, take_from_end?) do
-    if take_from_end? do
+  defp limit_itinerary_count(itineraries, opts) do
+    if opts[:take_from_end] do
       Enum.take(itineraries, -@max_per_group)
     else
       Enum.take(itineraries, @max_per_group)
@@ -68,8 +68,9 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   #   be either the first or final one.
   # - representative_time: An itinerary departs at the :start time and arrives
   #   by the :stop time. This denotes which of those is relevant to the group.
-  defp to_group(grouped_itineraries, take_from_end?) do
-    representative_index = if(take_from_end?, do: Enum.count(grouped_itineraries) - 1, else: 0)
+  defp to_group(grouped_itineraries, opts) do
+    representative_index =
+      if(opts[:take_from_end], do: Enum.count(grouped_itineraries) - 1, else: 0)
 
     summary =
       grouped_itineraries
@@ -79,7 +80,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     %ItineraryGroup{
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
       representative_index: representative_index,
-      representative_time: if(take_from_end?, do: :stop, else: :start),
+      representative_time: if(opts[:take_from_end], do: :stop, else: :start),
       summary: summary
     }
   end
