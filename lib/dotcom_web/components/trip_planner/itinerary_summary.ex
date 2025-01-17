@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     <div>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          {format_datetime_full(@summary.first_start)} - {format_datetime_full(@summary.first_stop)}
+          {Util.display_time(@summary.first_start)} - {Util.display_time(@summary.first_stop)}
         </div>
         <div>
           {@summary.duration} min
@@ -119,9 +119,5 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   defp zindex(index) do
     "z-#{50 - index * 10}"
-  end
-
-  defp format_datetime_full(datetime) do
-    Timex.format!(datetime, "%-I:%M%p", :strftime) |> String.downcase()
   end
 end
