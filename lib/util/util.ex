@@ -210,18 +210,19 @@ defmodule Util do
   places on the site
 
   ## Examples
-      iex> display_time(~T[08:30:00])
+      iex> kitchen_downcase_time(~T[08:30:00])
       "8:30am"
 
-      iex> display_time(~T[20:30:00])
+      iex> kitchen_downcase_time(~T[20:30:00])
       "8:30pm"
 
-      iex> display_time(~N[2018-01-17T20:30:00])
+      # Works for DateTime and NaiveDateTime inputs as well
+      iex> kitchen_downcase_time(~N[2018-01-17T20:30:00])
       "8:30pm"
   """
-  @spec display_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
-  def display_time(time) do
-    Timex.format!(time, "%-I:%M%p", :strftime) |> String.downcase()
+  @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
+  def kitchen_downcase_time(time) do
+    time |> Timex.format!("{kitchen}") |> String.downcase()
   end
 
   @doc """

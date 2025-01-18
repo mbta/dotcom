@@ -48,7 +48,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
           phx-click="select_itinerary"
           phx-value-index={index}
         >
-          {Util.display_time(itinerary.start)}
+          {Util.kitchen_downcase_time(itinerary.start)}
         </.button>
       </div>
     </div>

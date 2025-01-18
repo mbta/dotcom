@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     <div>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          {Util.display_time(@summary.first_start)} - {Util.display_time(@summary.first_stop)}
+          {Util.kitchen_downcase_time(@summary.first_start)} - {Util.kitchen_downcase_time(@summary.first_stop)}
         </div>
         <div>
           {@summary.duration} min
