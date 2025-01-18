@@ -210,14 +210,14 @@ defmodule Util do
   places on the site
 
   ## Examples
-      iex> kitchen_downcase_time(~T[08:30:00])
+      iex> Util.kitchen_downcase_time(~T[08:30:00])
       "8:30am"
 
-      iex> kitchen_downcase_time(~T[20:30:00])
+      iex> Util.kitchen_downcase_time(~T[20:30:00])
       "8:30pm"
 
       # Works for DateTime and NaiveDateTime inputs as well
-      iex> kitchen_downcase_time(~N[2018-01-17T20:30:00])
+      iex> Util.kitchen_downcase_time(~N[2018-01-17T20:30:00])
       "8:30pm"
   """
   @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
