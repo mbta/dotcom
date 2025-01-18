@@ -9,7 +9,7 @@ defmodule Dotcom.SystemStatus.Groups do
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
   @routes ["Blue", "Mattapan", "Orange", "Red"] ++ @green_line_branches
 
-  def groups(alerts, now) do
+  def groups(alerts, time) do
     grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
 
     @routes
@@ -17,7 +17,7 @@ defmodule Dotcom.SystemStatus.Groups do
       statuses =
         grouped_alerts
         |> Map.get(route_id)
-        |> alerts_to_statuses(now)
+        |> alerts_to_statuses(time)
         |> consolidate_duplicate_descriptions()
         |> sort_statuses()
         |> stringify_times()
@@ -41,18 +41,18 @@ defmodule Dotcom.SystemStatus.Groups do
     end)
   end
 
-  defp alerts_to_statuses([], _now) do
+  defp alerts_to_statuses([], _time) do
     [%{description: "Normal Service", time: nil}]
   end
 
-  defp alerts_to_statuses(alerts, now) do
+  defp alerts_to_statuses(alerts, time) do
     alerts
     |> Enum.map(fn alert ->
-      alert_to_status(alert, now)
+      alert_to_status(alert, time)
     end)
   end
 
-  defp alert_to_status(alert, now) do
+  defp alert_to_status(alert, time) do
     description =
       case alert.effect do
         :delay -> "Delays"
@@ -61,7 +61,7 @@ defmodule Dotcom.SystemStatus.Groups do
         :suspension -> "Suspension"
       end
 
-    time = future_start_time(alert.active_period, now)
+    time = future_start_time(alert.active_period, time)
 
     %{description: description, time: time}
   end
@@ -82,10 +82,10 @@ defmodule Dotcom.SystemStatus.Groups do
   # - If the active period is in the future, returns its start_time.
   # - If the active period indicates that the alert is currently active, returns nil.
   # - Raises an error if the alert is completely in the past.
-  defp future_start_time([{start_time, end_time} | more_active_periods], now) do
+  defp future_start_time([{start_time, end_time} | more_active_periods], time) do
     cond do
-      Timex.before?(end_time, now) -> future_start_time(more_active_periods, now)
-      Timex.before?(start_time, now) -> nil
+      Timex.before?(end_time, time) -> future_start_time(more_active_periods, time)
+      Timex.before?(start_time, time) -> nil
       true -> start_time
     end
   end
