@@ -7,7 +7,7 @@ defmodule Dotcom.SystemStatus.Groups do
 
   @lines ["Blue", "Orange", "Red", "Green"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
-  @routes ["Blue", "Orange", "Red", "Mattapan"] ++ @green_line_branches
+  @routes ["Blue", "Mattapan", "Orange", "Red"] ++ @green_line_branches
 
   def groups(alerts, now) do
     grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
