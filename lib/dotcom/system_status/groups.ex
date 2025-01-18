@@ -143,12 +143,12 @@ defmodule Dotcom.SystemStatus.Groups do
       green_line_entries
       |> Enum.group_by(& &1.statuses)
       |> Enum.to_list()
-      |> convert_gl_branches_to_sub_routes()
+      |> convert_branches_to_sub_routes()
 
     other_entries ++ consolidated_green_line_entries
   end
 
-  defp convert_gl_branches_to_sub_routes([{statuses, _}]) do
+  defp convert_branches_to_sub_routes([{statuses, _}]) do
     [
       %{
         route_id: "Green",
@@ -158,7 +158,7 @@ defmodule Dotcom.SystemStatus.Groups do
     ]
   end
 
-  defp convert_gl_branches_to_sub_routes(entries) do
+  defp convert_branches_to_sub_routes(entries) do
     entries
     |> Enum.map(fn {statuses, routes} ->
       %{
