@@ -248,5 +248,26 @@ defmodule DotcomWeb.Live.TripPlannerTest do
                "div[data-test='results:itinerary_group:selected:#{selected_group}']"
              ) == []
     end
+
+    test "selecting an itinerary displays it", %{view: view} do
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        itineraries = TripPlanner.build_list(2, :groupable_otp_itinerary)
+
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+      render_async(view)
+      view |> element("button[phx-value-index='0']", "Details") |> render_click()
+      open_browser(view)
+      view |> element("button[data-test='itinerary_detail:1']") |> render_click()
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      assert Floki.find(document, "div[data-test='itinerary_detail:selected:1']") != []
+    end
   end
 end
