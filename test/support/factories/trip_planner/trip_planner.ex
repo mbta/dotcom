@@ -45,7 +45,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   def groupable_otp_itinerary_factory do
     [a, b, c] =
       Enum.map(1..3, fn _ ->
-        Factory.build(:place, stop: Factory.build(:stop))
+        Factory.build(:place, stop: Factory.build(:stop, gtfs_id: nil))
       end)
 
     leg_types = [:otp_bus_leg, :otp_ferry_leg, :otp_subway_leg]
