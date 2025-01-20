@@ -27,7 +27,6 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   defp build_params(direction, location) do
-    IO.inspect(location.formatted)
     %{
       "#{direction}" => %{
         "latitude" => location.latitude,
