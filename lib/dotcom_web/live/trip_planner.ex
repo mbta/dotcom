@@ -33,11 +33,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   @doc """
-  Prepare the live view:
-
-  - Set the initial state of the live view.
-  - Clean any query parameters and convert them to a changeset for the input form.
-  - Then, submit the form if the changeset is valid (i.e., the user visited with valid query parameters).
+  TODO: Add documentation
   """
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
     changeset = AntiCorruptionLayer.decode(plan) |> InputForm.changeset()
@@ -61,9 +57,10 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   def mount(params, _session, socket) do
-    new_params = AntiCorruptionLayer.convert_old_params(params)
-
-    encoded = AntiCorruptionLayer.encode(new_params)
+    encoded =
+      params
+      |> AntiCorruptionLayer.convert_old_params()
+      |> AntiCorruptionLayer.encode()
 
     new_socket =
       push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
