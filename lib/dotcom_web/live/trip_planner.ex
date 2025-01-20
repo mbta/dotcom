@@ -60,16 +60,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:ok, new_socket}
   end
 
-  def mount(params, _session, %{assigns: %{live_action: live_action}} = socket) do
-    params =
-      if is_atom(live_action) and is_binary(params["place"]) do
-        # Handle the /to/:place or /from/:place situation
-        live_action
-        |> action_to_query_params(params["place"])
-      else
-        params
-      end
-
+  def mount(params, _session, socket) do
     new_params = AntiCorruptionLayer.convert_old_params(params)
 
     encoded = AntiCorruptionLayer.encode(new_params)
@@ -437,12 +428,6 @@ defmodule DotcomWeb.Live.TripPlanner do
     added_minutes = Kernel.trunc(rounded_minutes - minutes)
 
     Timex.shift(datetime, minutes: added_minutes)
-  end
-
-  defp action_to_query_params(action_key, action_value) do
-    %{}
-    |> Map.put(action_key, action_value)
-    |> AntiCorruptionLayer.convert_old_action()
   end
 
   # Destructure the latitude and longitude from a map to a GeoJSON array.

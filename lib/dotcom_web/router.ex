@@ -227,6 +227,10 @@ defmodule DotcomWeb.Router do
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
     get("/transit-near-me", TransitNearMeController, :index)
     resources("/alerts", AlertController, only: [:index, :show])
+    get("/trip-planner", TripPlanController, :index)
+    get("/trip-planner/from/", Redirector, to: "/trip-planner")
+    get("/trip-planner/to/", Redirector, to: "/trip-planner")
+    get("/trip-planner/:direction/:query", TripPlanController, :location)
     delete("/trip-planner/feedback", TripPlan.Feedback, :delete)
     post("/trip-planner/feedback", TripPlan.Feedback, :put)
     get("/customer-support", CustomerSupportController, :index)
@@ -264,8 +268,6 @@ defmodule DotcomWeb.Router do
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
       live("/trip-planner", Live.TripPlanner)
-      live("/trip-planner/from/:place", Live.TripPlanner, :from)
-      live("/trip-planner/to/:place", Live.TripPlanner, :to)
     end
   end
 
