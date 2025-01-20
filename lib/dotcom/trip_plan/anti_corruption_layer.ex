@@ -15,30 +15,6 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
     "wheelchair" => "false"
   }
 
-  @location_service Application.compile_env!(:dotcom, :location_service)
-
-  @doc """
-  Given a query for the old trip planner /to or /from actions, replicate the old
-  behavior by searching for a location and using the first result. Convert this
-  to the new trip planner form values.
-  """
-  def convert_old_action(action) do
-    with [key] when key in [:from, :to] <- Map.keys(action),
-         query when is_binary(query) <- Map.get(action, key),
-         {:ok, [%LocationService.Address{} = geocoded | _]} <- @location_service.geocode(query) do
-      %{
-        "plan" => %{
-          "#{key}_latitude" => geocoded.latitude,
-          "#{key}_longitude" => geocoded.longitude,
-          "#{key}" => geocoded.formatted
-        }
-      }
-    else
-      _ ->
-        %{"plan" => %{}}
-    end
-  end
-
   @doc """
   Given the params from the old trip planner, convert them to the new trip planner form values.
 
