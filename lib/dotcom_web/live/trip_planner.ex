@@ -167,12 +167,15 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Map.merge(params)
       |> add_datetime_if_needed()
 
+    encoded = AntiCorruptionLayer.encode(params_with_datetime)
+
     changeset = InputForm.changeset(params_with_datetime)
 
     pins = input_form_to_pins(changeset)
 
     new_socket =
       socket
+      |> push_patch(to: "/preview/trip-planner?plan=#{encoded}", replace: true)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
       |> update_datepicker(params_with_datetime)
@@ -327,6 +330,12 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
+  @impl true
+  # We have to handle the result of the push_patch, but we ignore it.
+  def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
+  end
+
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
   defp get_itinerary_groups(%Ecto.Changeset{valid?: true} = changeset) do
     {:ok, data} = Ecto.Changeset.apply_action(changeset, :submit)
@@ -416,7 +425,13 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   # Convert query parameters to a changeset for the input form.
-  # Use an anti corruption layer to convert old query parameters to new ones.
+  # If the query parameters includes an encoded "plan", we simply decode it.
+  # Otherwise, we use an anti-corruption layer to convert old query parameters to new ones.
+  defp query_params_to_changeset(%{"plan" => plan}) do
+    AntiCorruptionLayer.decode(plan)
+    |> InputForm.changeset()
+  end
+
   defp query_params_to_changeset(params) do
     %{
       "datetime_type" => "now",
