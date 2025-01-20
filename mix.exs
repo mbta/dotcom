@@ -109,6 +109,7 @@ defmodule DotCom.Mixfile do
       {:mbta_metro, "0.1.18"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.2.0", [only: :test]},
+      {:msgpack, "0.8.1"},
       {:nebulex, "2.6.4"},
       {:nebulex_redis_adapter, "2.4.1"},
       {
