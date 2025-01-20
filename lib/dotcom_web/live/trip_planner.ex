@@ -39,22 +39,43 @@ defmodule DotcomWeb.Live.TripPlanner do
   - Clean any query parameters and convert them to a changeset for the input form.
   - Then, submit the form if the changeset is valid (i.e., the user visited with valid query parameters).
   """
-  def mount(params, _session, %{assigns: %{live_action: live_action}} = socket) do
-    changeset =
-      if is_atom(live_action) and is_binary(params["place"]) do
-        # Handle the /to/:place or /from/:place situation
-        live_action
-        |> action_to_query_params(params["place"])
-        |> query_params_to_changeset()
-      else
-        query_params_to_changeset(params)
-      end
+  def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
+    changeset = AntiCorruptionLayer.decode(plan) |> InputForm.changeset()
 
     new_socket =
       socket
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> submit_changeset(changeset)
+
+    {:ok, new_socket}
+  end
+
+  def mount(%{} = params, _session, socket) when map_size(params) == 0 do
+    encoded = AntiCorruptionLayer.encode(params)
+
+    new_socket =
+      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
+
+    {:ok, new_socket}
+  end
+
+  def mount(params, _session, %{assigns: %{live_action: live_action}} = socket) do
+    params =
+      if is_atom(live_action) and is_binary(params["place"]) do
+        # Handle the /to/:place or /from/:place situation
+        live_action
+        |> action_to_query_params(params["place"])
+      else
+        params
+      end
+
+    new_params = AntiCorruptionLayer.convert_old_params(params)
+
+    encoded = AntiCorruptionLayer.encode(new_params) |> IO.inspect(label: "PARAMS")
+
+    new_socket =
+      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
 
     {:ok, new_socket}
   end
@@ -422,23 +443,6 @@ defmodule DotcomWeb.Live.TripPlanner do
     %{}
     |> Map.put(action_key, action_value)
     |> AntiCorruptionLayer.convert_old_action()
-  end
-
-  # Convert query parameters to a changeset for the input form.
-  # If the query parameters includes an encoded "plan", we simply decode it.
-  # Otherwise, we use an anti-corruption layer to convert old query parameters to new ones.
-  defp query_params_to_changeset(%{"plan" => plan}) do
-    AntiCorruptionLayer.decode(plan)
-    |> InputForm.changeset()
-  end
-
-  defp query_params_to_changeset(params) do
-    %{
-      "datetime_type" => "now",
-      "modes" => InputForm.initial_modes()
-    }
-    |> Map.merge(AntiCorruptionLayer.convert_old_params(params))
-    |> InputForm.changeset()
   end
 
   # Destructure the latitude and longitude from a map to a GeoJSON array.

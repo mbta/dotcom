@@ -12,7 +12,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   @default_params %{
     "datetime_type" => "now",
     "modes" => @default_modes,
-    "wheelchair" => "false",
+    "wheelchair" => "false"
   }
 
   @location_service Application.compile_env!(:dotcom, :location_service)
@@ -45,22 +45,25 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   If no plan is given, then we default to empty form values.
   """
   def convert_old_params(%{"plan" => params}) do
-    %{
-      "from" => %{
-        "latitude" => Map.get(params, "from_latitude"),
-        "longitude" => Map.get(params, "from_longitude"),
-        "name" => Map.get(params, "from"),
-        "stop_id" => Map.get(params, "from_stop_id", "")
-      },
-      "modes" => Map.get(params, "modes") |> convert_modes(),
-      "to" => %{
-        "latitude" => Map.get(params, "to_latitude"),
-        "longitude" => Map.get(params, "to_longitude"),
-        "name" => Map.get(params, "to"),
-        "stop_id" => Map.get(params, "to_stop_id", "")
-      },
-      "wheelchair" => Map.get(params, "wheelchair") || "false"
-    }
+    Map.merge(
+      @default_params,
+      %{
+        "from" => %{
+          "latitude" => Map.get(params, "from_latitude"),
+          "longitude" => Map.get(params, "from_longitude"),
+          "name" => Map.get(params, "from"),
+          "stop_id" => Map.get(params, "from_stop_id", "")
+        },
+        "modes" => Map.get(params, "modes") |> convert_modes(),
+        "to" => %{
+          "latitude" => Map.get(params, "to_latitude"),
+          "longitude" => Map.get(params, "to_longitude"),
+          "name" => Map.get(params, "to"),
+          "stop_id" => Map.get(params, "to_stop_id", "")
+        },
+        "wheelchair" => Map.get(params, "wheelchair") || "false"
+      }
+    )
   end
 
   def convert_old_params(_), do: convert_old_params(%{"plan" => %{}})
@@ -77,6 +80,8 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
       _ -> @default_params
     end
   end
+
+  def default_params, do: @default_params
 
   # Encode form values into a single string.
   # Strip out defaults so we don't waste space encoding them.
@@ -99,8 +104,9 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   # When modes are given, we set all non-given modes to false.
   defp convert_modes(modes) when is_map(modes) do
-    for {k, _} <- @default_modes, into: %{}, do: {k, "false"}
-    |> Enum.reduce(modes, fn {key, value}, acc ->
+    default_modes = for {k, _} <- @default_modes, into: %{}, do: {k, "false"}
+
+    Enum.reduce(modes, default_modes, fn {key, value}, acc ->
       Map.put(acc, convert_mode(key), value)
     end)
   end
@@ -108,12 +114,14 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   # When no modes are given, we use the initial modes--all modes are true.
   defp convert_modes(_), do: @default_modes
 
-  defp decode_datetime(params) do
-    case params |> Map.get("datetime") |> DateTime.from_iso8601() do
+  defp decode_datetime(%{"datetime" => datetime} = params) do
+    case DateTime.from_iso8601(datetime) do
       {:ok, datetime, _} -> Map.put(params, "datetime", datetime)
       _ -> params
     end
   end
+
+  defp decode_datetime(params), do: params
 
   # Encode the datetime into an ISO8601 string.
   defp encode_datetime(params) do
