@@ -72,7 +72,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     new_params = AntiCorruptionLayer.convert_old_params(params)
 
-    encoded = AntiCorruptionLayer.encode(new_params) |> IO.inspect(label: "PARAMS")
+    encoded = AntiCorruptionLayer.encode(new_params)
 
     new_socket =
       push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
