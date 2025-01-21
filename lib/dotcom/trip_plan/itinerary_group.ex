@@ -58,8 +58,8 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
     "Similar #{phrase} #{formatted_times}"
   end
 
-  defp options_phrase(:stop, 1), do: "trip arrives by"
-  defp options_phrase(:stop, _), do: "trips arrive by"
+  defp options_phrase(:stop, 1), do: "trip arrives at"
+  defp options_phrase(:stop, _), do: "trips arrive at"
   defp options_phrase(:start, 1), do: "trip departs at"
   defp options_phrase(_, _), do: "trips depart at"
 

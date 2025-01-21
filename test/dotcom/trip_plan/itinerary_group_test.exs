@@ -40,20 +40,20 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
       assert text =~ "Similar trips depart at"
     end
 
-    test "describes alternate times: 1 trip arrives by" do
+    test "describes alternate times: 1 trip arrives at" do
       text =
         build_group(1, :stop)
         |> ItineraryGroup.options_text()
 
-      assert text =~ "Similar trip arrives by"
+      assert text =~ "Similar trip arrives at"
     end
 
-    test "describes alternate times: multiple trips arrive by" do
+    test "describes alternate times: multiple trips arrive at" do
       text =
         build_group(Faker.Util.pick(2..5), :stop)
         |> ItineraryGroup.options_text()
 
-      assert text =~ "Similar trips arrive by"
+      assert text =~ "Similar trips arrive at"
     end
   end
 
