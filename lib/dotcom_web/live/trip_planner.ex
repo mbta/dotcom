@@ -51,7 +51,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     encoded = AntiCorruptionLayer.encode(params)
 
     new_socket =
-      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
+      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
 
     {:ok, new_socket}
   end
@@ -63,7 +63,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> AntiCorruptionLayer.encode()
 
     new_socket =
-      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}", replace: true)
+      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
 
     {:ok, new_socket}
   end
@@ -184,7 +184,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     new_socket =
       socket
-      |> push_patch(to: "/preview/trip-planner?plan=#{encoded}", replace: true)
+      |> push_patch(to: "/preview/trip-planner?plan=#{encoded}")
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
       |> update_datepicker(params_with_datetime)
