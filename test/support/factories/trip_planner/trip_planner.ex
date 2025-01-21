@@ -8,6 +8,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   alias Dotcom.TripPlan.{NamedPosition, Parser}
   alias OpenTripPlannerClient.Test.Support.Factory
 
+  # FACTORIES
+
   def bus_leg_factory do
     build(:otp_bus_leg)
     |> Parser.parse()
@@ -39,33 +41,6 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   def ferry_leg_factory do
     build(:otp_ferry_leg)
     |> Parser.parse()
-  end
-
-  @doc """
-  Returns a list of itineraries that can be grouped.
-
-  You can pass in the number of groups you want and the number of itineraries in each group.
-  """
-  def groupable_otp_itineraries(group_count \\ 2, itinerary_count \\ 1) do
-    Enum.map(1..group_count, fn _ ->
-      otp_itineraries(itinerary_count)
-    end)
-    |> List.flatten()
-    |> Enum.shuffle()
-  end
-
-  defp otp_itineraries(itinerary_count) do
-    [a, b, c] =
-      Enum.map(1..3, fn _ ->
-        Factory.build(:place, stop: Factory.build(:stop, gtfs_id: nil))
-      end)
-
-    leg_types = [:otp_bus_leg, :otp_ferry_leg, :otp_subway_leg]
-
-    a_b_leg = build(Faker.Util.pick(leg_types), from: a, to: b)
-    b_c_leg = build(Faker.Util.pick(leg_types), from: b, to: c)
-
-    build_list(itinerary_count, :otp_itinerary, legs: [a_b_leg, b_c_leg])
   end
 
   def itinerary_factory do
@@ -193,6 +168,23 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
     |> Parser.parse()
   end
 
+  # NON-FACTORY FUNCTIONS
+
+  @doc """
+  Returns a list of itineraries that can be grouped.
+
+  You can pass in the number of groups you want and the number of itineraries in each group.
+  """
+  def groupable_otp_itineraries(group_count \\ 2, itinerary_count \\ 1) do
+    Enum.map(1..group_count, fn _ ->
+      otp_itineraries(itinerary_count)
+    end)
+    |> List.flatten()
+    |> Enum.shuffle()
+  end
+
+  # PRIVATE FUNCTIONS
+
   # OpenTripPlannerClient supports a greater number of route_type values than
   # Dotcom does! Tweak that here.
   defp limit_route_types(%OpenTripPlannerClient.Schema.Itinerary{legs: legs} = itinerary) do
@@ -211,4 +203,19 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   defp limit_route_types(leg), do: leg
+
+  # Create a number of otp itineraries with the same two random legs.
+  defp otp_itineraries(itinerary_count) do
+    [a, b, c] =
+      Enum.map(1..3, fn _ ->
+        Factory.build(:place, stop: Factory.build(:stop, gtfs_id: nil))
+      end)
+
+    leg_types = [:otp_bus_leg, :otp_ferry_leg, :otp_subway_leg]
+
+    a_b_leg = build(Faker.Util.pick(leg_types), from: a, to: b)
+    b_c_leg = build(Faker.Util.pick(leg_types), from: b, to: c)
+
+    build_list(itinerary_count, :otp_itinerary, legs: [a_b_leg, b_c_leg])
+  end
 end
