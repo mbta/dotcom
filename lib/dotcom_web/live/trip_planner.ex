@@ -36,7 +36,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   TODO: Add documentation
   """
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
-    changeset = AntiCorruptionLayer.decode(plan) |> InputForm.changeset()
+    changeset = plan |> AntiCorruptionLayer.decode() |> InputForm.changeset()
 
     new_socket =
       socket
@@ -48,22 +48,15 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   def mount(%{} = params, _session, socket) when map_size(params) == 0 do
-    encoded = AntiCorruptionLayer.encode(params)
-
-    new_socket =
-      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
+    new_socket = navigate_state(socket, params)
 
     {:ok, new_socket}
   end
 
   def mount(params, _session, socket) do
-    encoded =
-      params
-      |> AntiCorruptionLayer.convert_old_params()
-      |> AntiCorruptionLayer.encode()
+    converted_params = AntiCorruptionLayer.convert_old_params(params)
 
-    new_socket =
-      push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
+    new_socket = navigate_state(socket, converted_params)
 
     {:ok, new_socket}
   end
@@ -176,15 +169,13 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Map.merge(params)
       |> add_datetime_if_needed()
 
-    encoded = AntiCorruptionLayer.encode(params_with_datetime)
-
     changeset = InputForm.changeset(params_with_datetime)
 
     pins = input_form_to_pins(changeset)
 
     new_socket =
       socket
-      |> push_patch(to: "/preview/trip-planner?plan=#{encoded}")
+      |> patch_state(params_with_datetime)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> assign(:map, Map.put(@state.map, :pins, pins))
       |> update_datepicker(params_with_datetime)
@@ -316,9 +307,13 @@ defmodule DotcomWeb.Live.TripPlanner do
         |> maybe_put_change(:to, new_to)
         |> maybe_put_change(:from, new_from)
 
+      new_changeset = Ecto.Changeset.change(changeset, changes)
+      form_params = changeset_to_params(new_changeset)
+
       new_socket =
         socket
-        |> submit_changeset(Ecto.Changeset.change(changeset, changes))
+        |> patch_state(form_params)
+        |> submit_changeset(new_changeset)
         |> push_event("set-query", changes)
 
       {:noreply, new_socket}
@@ -343,6 +338,28 @@ defmodule DotcomWeb.Live.TripPlanner do
   # We have to handle the result of the push_patch, but we ignore it.
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  defp changeset_to_params(%Ecto.Changeset{changes: changes}) do
+    changes
+    |> Map.update(:from, %{}, &Map.get(&1, :changes))
+    |> Map.update(:to, %{}, &Map.get(&1, :changes))
+    |> Map.update(:modes, %{}, &Map.get(&1, :changes))
+    |> Map.new(fn {k, v} -> {to_string(k), v} end)
+    |> Jason.encode!()
+    |> Jason.decode!()
+  end
+
+  defp navigate_state(socket, params) do
+    encoded = AntiCorruptionLayer.encode(params)
+
+    push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
+  end
+
+  defp patch_state(socket, params) do
+    encoded = AntiCorruptionLayer.encode(params)
+
+    push_patch(socket, to: "/preview/trip-planner?plan=#{encoded}")
   end
 
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
