@@ -44,10 +44,10 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
         } =
           group
       ) do
-    {_, other_times} =
+    other_times =
       group
       |> all_times()
-      |> List.pop_at(representative_index)
+      |> List.delete_at(representative_index)
 
     phrase = options_phrase(start_or_stop, Enum.count(other_times))
 
