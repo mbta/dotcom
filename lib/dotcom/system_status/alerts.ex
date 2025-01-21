@@ -7,12 +7,13 @@ defmodule Dotcom.SystemStatus.Alerts do
   @relevant_effects [:delay, :shuttle, :suspension, :station_closure]
 
   @doc """
-  Checks to see whether an alert is active at some point later today, possibly including
-  `now`.
 
-  Returns `true` if
-  - The alert is currently active
-  - The alert will become active later in the day
+  Returns `true` if the alert is active at some point during the day
+  given, unless the alert's end time is before the time given.
+
+  This is primarily intended to be called with `now` as the time
+  passed in, so that it effectively says whether an alert is relevant
+  for a commuter now or later today.
 
   ## Example (Currently Active)
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
@@ -34,9 +35,8 @@ defmodule Dotcom.SystemStatus.Alerts do
       ...> )
       true
 
-  Returns `false` if the alert is not currently active, and either
-  - Was only active in the past (even if earlier today)
-  - Will next become active after the end of the day today
+  Returns `false` for alerts that are either closed out or too far in
+  the future.
 
   ## Example (Expired)
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
