@@ -177,7 +177,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       group_count = :rand.uniform(5)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.build_list(group_count, :groupable_otp_itinerary)
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
 
         {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
@@ -198,7 +198,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       group_count = :rand.uniform(5)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.build_list(group_count, :groupable_otp_itinerary)
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
 
         {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
@@ -224,7 +224,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.build_list(group_count, :groupable_otp_itinerary)
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
 
         {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
@@ -252,7 +252,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     test "selecting an itinerary displays it", %{view: view} do
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.build_list(2, :groupable_otp_itinerary)
+        itineraries = TripPlanner.groupable_otp_itineraries(2, 2)
 
         {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
@@ -261,7 +261,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       view |> element("form") |> render_change(%{"input_form" => @valid_params})
       render_async(view)
       view |> element("button[phx-value-index='0']", "Details") |> render_click()
-      open_browser(view)
       view |> element("button[data-test='itinerary_detail:1']") |> render_click()
 
       # Verify
