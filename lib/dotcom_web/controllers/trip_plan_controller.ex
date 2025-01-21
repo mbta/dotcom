@@ -11,14 +11,16 @@ defmodule DotcomWeb.TripPlanController do
 
   @location_service Application.compile_env!(:dotcom, :location_service)
 
-  def location(conn, %{"direction" => direction, "query" => query}) when direction in ["from", "to"] do
+  def location(conn, %{"direction" => direction, "query" => query})
+      when direction in ["from", "to"] do
     case @location_service.geocode(query) do
       {:ok, [%LocationService.Address{} = location | _]} ->
         encoded = build_params(direction, location) |> AntiCorruptionLayer.encode()
 
         redirect(conn, to: "/preview/trip-planner?plan=#{encoded}") |> halt()
-        _ ->
-          redirect(conn, to: "/preview/trip-planner") |> halt()
+
+      _ ->
+        redirect(conn, to: "/preview/trip-planner") |> halt()
     end
   end
 
@@ -30,7 +32,7 @@ defmodule DotcomWeb.TripPlanController do
     %{
       "#{direction}" => %{
         "latitude" => location.latitude,
-        "longitude" => location.longitude,
+        "longitude" => location.longitude
       }
     }
   end

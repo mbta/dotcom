@@ -8,6 +8,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
+  import DotcomWeb.Router.Helpers, only: [live_path: 2]
 
   alias Dotcom.TripPlan
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroup, ItineraryGroups}
@@ -33,7 +34,11 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   @doc """
-  TODO: Add documentation
+  When the live view first loads, there are three possible scenarios:
+
+  1. There are no query params. We go to step (2) and using the default params.
+  2. There are query params representing the old structure of the trip planner form. We convert these, encode them, and redirect to (3).
+  3. The new `?plan=ENCODED` query param is present. We decode it and mount the form with the decoded values.
   """
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
     changeset = plan |> AntiCorruptionLayer.decode() |> InputForm.changeset()
@@ -43,12 +48,6 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> submit_changeset(changeset)
-
-    {:ok, new_socket}
-  end
-
-  def mount(%{} = params, _session, socket) when map_size(params) == 0 do
-    new_socket = navigate_state(socket, params)
 
     {:ok, new_socket}
   end
@@ -156,6 +155,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered every time the form changes:
   #
+  # - Store the state of the form in the URL
   # - Update the input form state with the new changeset
   # - Update the map state with the new pins
   # - Reset the results state
@@ -287,6 +287,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered when the user clicks the button to swap to "from" and "to" data
   #
+  # - Stores the new state of the form in the URL
   # - Creates a new changeset with the switched from and to values
   # - Resubmits the form (which in turn updates the input form state, map, etc)
   # - Dispatches a "set-query" event that is used by the AlgoliaAutocomplete
@@ -340,6 +341,19 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
+  # When the datetime_type is "leave_at" or "arrive_by", we need to
+  # have a "datetime" indicating when we want to "leave at" or "arrive
+  # by", but because the datepicker only appears after a rider clicks
+  # on "Leave at" or "Arrive by", the actual value of "datetime"
+  # doesn't always appear in params. When that happens, we want to set
+  # "datetime" to a reasonable default.
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
+    do: params |> Map.put("datetime", Timex.now("America/New_York"))
+
+  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
+  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
+
+  # Converts a changeset to a map of params that can be encoded into a URL.
   defp changeset_to_params(%Ecto.Changeset{changes: changes}) do
     changes
     |> Map.update(:from, %{}, &Map.get(&1, :changes))
@@ -348,18 +362,6 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> Map.new(fn {k, v} -> {to_string(k), v} end)
     |> Jason.encode!()
     |> Jason.decode!()
-  end
-
-  defp navigate_state(socket, params) do
-    encoded = AntiCorruptionLayer.encode(params)
-
-    push_navigate(socket, to: "/preview/trip-planner?plan=#{encoded}")
-  end
-
-  defp patch_state(socket, params) do
-    encoded = AntiCorruptionLayer.encode(params)
-
-    push_patch(socket, to: "/preview/trip-planner?plan=#{encoded}")
   end
 
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
@@ -398,7 +400,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # If neither `from` nor `to` are set, we return an empty list of pins.
   defp input_form_to_pins(_), do: []
-
   # Get the itinerary group at the given index and convert it to a map.
   defp itinerary_groups_to_itinerary_map(itinerary_groups, group_index, index) do
     itinerary_groups
@@ -422,17 +423,23 @@ defmodule DotcomWeb.Live.TripPlanner do
     |> TripPlan.Map.get_points()
   end
 
-  # Send an event that will get picked up by the datepicker component
-  # so that the datepicker renders the correct datetime.
-  #
-  # Does nothing if there's no datetime in the params.
-  defp update_datepicker(socket, %{"datetime" => datetime}) do
-    push_event(socket, "set-datetime", %{datetime: datetime})
+  # For the from or to fields, get the underlying location data if changed
+  defp location_data_from_changeset(%Ecto.Changeset{changes: changes}) when changes != %{} do
+    changes
   end
 
-  defp update_datepicker(socket, %{}) do
-    socket
+  defp location_data_from_changeset(_), do: %{}
+  # Encode params and set them in the URL while navigating to it.
+  defp navigate_state(socket, params) do
+    encoded = AntiCorruptionLayer.encode(params)
+    path = live_path(socket, __MODULE__)
+
+    push_navigate(socket, to: "#{path}?plan=#{encoded}")
   end
+
+  # Adjust the map only if value is non-nil
+  defp maybe_put_change(changes, _, nil), do: changes
+  defp maybe_put_change(changes, key, data), do: Map.put(changes, key, data)
 
   # Round the current time to the nearest 5 minutes.
   defp nearest_5_minutes do
@@ -444,26 +451,13 @@ defmodule DotcomWeb.Live.TripPlanner do
     Timex.shift(datetime, minutes: added_minutes)
   end
 
-  # Destructure the latitude and longitude from a map to a GeoJSON array.
-  defp to_geojson(%{longitude: longitude, latitude: latitude}) do
-    [longitude, latitude]
+  # Encode params and set them in the URL while patching the browser history.
+  defp patch_state(socket, params) do
+    encoded = AntiCorruptionLayer.encode(params)
+    path = live_path(socket, __MODULE__)
+
+    push_patch(socket, to: "#{path}?plan=#{encoded}")
   end
-
-  defp to_geojson(_) do
-    []
-  end
-
-  # When the datetime_type is "leave_at" or "arrive_by", we need to
-  # have a "datetime" indicating when we want to "leave at" or "arrive
-  # by", but because the datepicker only appears after a rider clicks
-  # on "Leave at" or "Arrive by", the actual value of "datetime"
-  # doesn't always appear in params. When that happens, we want to set
-  # "datetime" to a reasonable default.
-  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
-    do: params |> Map.put("datetime", Timex.now("America/New_York"))
-
-  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
-  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
 
   # Set an action on the changeset and submit it.
   #
@@ -490,14 +484,24 @@ defmodule DotcomWeb.Live.TripPlanner do
     end
   end
 
-  # Adjust the map only if value is non-nil
-  defp maybe_put_change(changes, _, nil), do: changes
-  defp maybe_put_change(changes, key, data), do: Map.put(changes, key, data)
-
-  # For the from or to fields, get the underlying location data if changed
-  defp location_data_from_changeset(%Ecto.Changeset{changes: changes}) when changes != %{} do
-    changes
+  # Destructure the latitude and longitude from a map to a GeoJSON array.
+  defp to_geojson(%{longitude: longitude, latitude: latitude}) do
+    [longitude, latitude]
   end
 
-  defp location_data_from_changeset(_), do: %{}
+  defp to_geojson(_) do
+    []
+  end
+
+  # Send an event that will get picked up by the datepicker component
+  # so that the datepicker renders the correct datetime.
+  #
+  # Does nothing if there's no datetime in the params.
+  defp update_datepicker(socket, %{"datetime" => datetime}) do
+    push_event(socket, "set-datetime", %{datetime: datetime})
+  end
+
+  defp update_datepicker(socket, %{}) do
+    socket
+  end
 end
