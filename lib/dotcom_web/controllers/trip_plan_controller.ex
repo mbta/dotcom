@@ -5,27 +5,35 @@ defmodule DotcomWeb.TripPlanController do
 
   use DotcomWeb, :controller
 
-  require Logger
+  import DotcomWeb.Router.Helpers, only: [live_path: 2]
 
   alias Dotcom.TripPlan.AntiCorruptionLayer
 
   @location_service Application.compile_env!(:dotcom, :location_service)
 
+  @doc """
+  When visiting /trip-planner/:from/some%20address or /trip-planner/:to/some%20address,
+  we lookup the location and redirect to the trip planner with that location encoded in the query string.
+  """
   def location(conn, %{"direction" => direction, "query" => query})
       when direction in ["from", "to"] do
+
     case @location_service.geocode(query) do
       {:ok, [%LocationService.Address{} = location | _]} ->
         encoded = build_params(direction, location) |> AntiCorruptionLayer.encode()
+        path = live_path(conn, DotcomWeb.Live.TripPlanner)
 
-        redirect(conn, to: "/preview/trip-planner?plan=#{encoded}") |> halt()
+        redirect(conn, to: "#{path}?plan=#{encoded}") |> halt()
 
       _ ->
-        redirect(conn, to: "/preview/trip-planner") |> halt()
+        location(conn, %{})
     end
   end
 
   def location(conn, _params) do
-    redirect(conn, to: "/preview/trip-planner") |> halt()
+    path = live_path(conn, DotcomWeb.Live.TripPlanner)
+
+    redirect(conn, to: path) |> halt()
   end
 
   defp build_params(direction, location) do
