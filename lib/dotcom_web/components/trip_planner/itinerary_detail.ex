@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     }
 
     ~H"""
-    <div>
+    <div data-test={"itinerary_detail:selected:#{@itinerary_selection}"}>
       <.depart_at_buttons itineraries={@itineraries} itinerary_selection={@itinerary_selection} />
       <.specific_itinerary_detail itinerary={@itinerary} />
     </div>
@@ -35,7 +35,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp depart_at_buttons(assigns) do
     ~H"""
-    <div :if={Enum.count(@itineraries) > 1}>
+    <div :if={Enum.count(@itineraries) > 1}}>
       <hr class="border-gray-lighter" />
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">

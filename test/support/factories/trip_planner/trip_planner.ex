@@ -7,7 +7,6 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   alias Dotcom.TripPlan.{NamedPosition, Parser}
   alias OpenTripPlannerClient.Test.Support.Factory
-  alias Test.Support.Factories.Stops.Stop
 
   def bus_leg_factory do
     build(:otp_bus_leg)
@@ -42,7 +41,20 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
     |> Parser.parse()
   end
 
-  def groupable_otp_itinerary_factory do
+  @doc """
+  Returns a list of itineraries that can be grouped.
+
+  You can pass in the number of groups you want and the number of itineraries in each group.
+  """
+  def groupable_otp_itineraries(group_count \\ 2, itinerary_count \\ 1) do
+    Enum.map(1..group_count, fn _ ->
+      otp_itineraries(itinerary_count)
+    end)
+    |> List.flatten()
+    |> Enum.shuffle()
+  end
+
+  defp otp_itineraries(itinerary_count) do
     [a, b, c] =
       Enum.map(1..3, fn _ ->
         Factory.build(:place, stop: Factory.build(:stop, gtfs_id: nil))
@@ -53,7 +65,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
     a_b_leg = build(Faker.Util.pick(leg_types), from: a, to: b)
     b_c_leg = build(Faker.Util.pick(leg_types), from: b, to: c)
 
-    build(:otp_itinerary, legs: [a_b_leg, b_c_leg])
+    build_list(itinerary_count, :otp_itinerary, legs: [a_b_leg, b_c_leg])
   end
 
   def itinerary_factory do
