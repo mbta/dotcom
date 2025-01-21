@@ -36,7 +36,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   @doc """
   When the live view first loads, there are three possible scenarios:
 
-  1. There are no query params. We go to step (2) and using the default params.
+  1. There are no query params. We go to step (2) and use the default params.
   2. There are query params representing the old structure of the trip planner form. We convert these, encode them, and redirect to (3).
   3. The new `?plan=ENCODED` query param is present. We decode it and mount the form with the decoded values.
   """
