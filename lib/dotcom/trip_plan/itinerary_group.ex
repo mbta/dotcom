@@ -5,7 +5,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
 
   alias Dotcom.TripPlan.Itinerary
 
-  defstruct [:itineraries, :representative_index, :representative_time, :summary]
+  defstruct [:itineraries, :representative_index, :representative_time_key, :summary]
 
   @type summarized_leg :: %{
           routes: [Routes.Route.t()],
@@ -26,7 +26,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
   @type t :: %__MODULE__{
           itineraries: [Itinerary.t()],
           representative_index: non_neg_integer(),
-          representative_time: :start | :stop,
+          representative_time_key: :start | :stop,
           summary: summary()
         }
 
@@ -40,7 +40,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
   def options_text(
         %__MODULE__{
           representative_index: representative_index,
-          representative_time: start_or_stop
+          representative_time_key: start_or_stop
         } =
           group
       ) do
@@ -67,7 +67,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
   List of either start times or stop times for this group
   """
   @spec all_times(t()) :: [DateTime.t()]
-  def all_times(%__MODULE__{itineraries: itineraries, representative_time: start_or_stop}) do
+  def all_times(%__MODULE__{itineraries: itineraries, representative_time_key: start_or_stop}) do
     Enum.map(itineraries, &Map.get(&1, start_or_stop))
   end
 end

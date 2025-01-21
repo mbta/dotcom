@@ -66,7 +66,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   # Summarize a group of chronologically-sorted itineraries, noting the
   # - representative_index: Which itinerary should represent the group? It will
   #   be either the first or final one.
-  # - representative_time: An itinerary departs at the :start time and arrives
+  # - representative_time_key: An itinerary departs at the :start time and arrives
   #   by the :stop time. This denotes which of those is relevant to the group.
   defp to_group(grouped_itineraries, opts) do
     representative_index =
@@ -80,7 +80,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     %ItineraryGroup{
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
       representative_index: representative_index,
-      representative_time: if(opts[:take_from_end], do: :stop, else: :start),
+      representative_time_key: if(opts[:take_from_end], do: :stop, else: :start),
       summary: summary
     }
   end

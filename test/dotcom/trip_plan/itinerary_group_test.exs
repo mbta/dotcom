@@ -58,7 +58,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
   end
 
   describe "all_times/1" do
-    test "uses representative_time to map to chosen times" do
+    test "uses representative_time_key to map to chosen times" do
       # SETUP
       itineraries = TripPlanner.build_list(4, :itinerary)
 
@@ -66,14 +66,14 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
       start_times =
         %ItineraryGroup{
           itineraries: itineraries,
-          representative_time: :start
+          representative_time_key: :start
         }
         |> ItineraryGroup.all_times()
 
       stop_times =
         %ItineraryGroup{
           itineraries: itineraries,
-          representative_time: :stop
+          representative_time_key: :stop
         }
         |> ItineraryGroup.all_times()
 
@@ -82,13 +82,13 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
     end
   end
 
-  defp build_group(similar_itinerary_count, representative_time) do
+  defp build_group(similar_itinerary_count, representative_time_key) do
     itineraries = TripPlanner.build_list(similar_itinerary_count + 1, :itinerary)
 
     %ItineraryGroup{
       itineraries: itineraries,
       representative_index: Faker.Util.pick(0..similar_itinerary_count),
-      representative_time: representative_time
+      representative_time_key: representative_time_key
     }
   end
 end

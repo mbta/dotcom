@@ -103,7 +103,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       itinerary_selection: itinerary_selection,
       summary: ItineraryGroups.to_summary(itinerary, [itinerary]),
       time_label:
-        if(itinerary_group.representative_time == :stop, do: "Arrive by", else: "Depart at")
+        if(itinerary_group.representative_time_key == :stop, do: "Arrive by", else: "Depart at")
     }
 
     ~H"""
