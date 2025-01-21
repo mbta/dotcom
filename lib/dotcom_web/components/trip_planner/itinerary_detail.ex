@@ -35,7 +35,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
   defp depart_at_buttons(assigns) do
     ~H"""
-    <div :if={Enum.count(@itineraries) > 1}}>
+    <div :if={Enum.count(@itineraries) > 1} }>
       <hr class="border-gray-lighter" />
       <p class="text-sm mb-2 mt-3">Depart at</p>
       <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
