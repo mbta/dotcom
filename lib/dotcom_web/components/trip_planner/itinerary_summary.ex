@@ -5,12 +5,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   use DotcomWeb, :component
 
+  attr :summary, :map, required: true
+
   def itinerary_summary(assigns) do
     ~H"""
     <div>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          {format_datetime_full(@summary.first_start)} - {format_datetime_full(@summary.first_stop)}
+          {format_datetime_full(@summary.start)} - {format_datetime_full(@summary.stop)}
         </div>
         <div>
           {@summary.duration} min
