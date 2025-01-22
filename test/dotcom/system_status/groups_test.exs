@@ -1,5 +1,6 @@
 defmodule Dotcom.SystemStatus.GroupsTest do
   use ExUnit.Case, async: true
+  doctest Dotcom.SystemStatus.Groups
 
   alias Dotcom.SystemStatus.Groups
   alias Test.Support.Factories.Alerts.Alert

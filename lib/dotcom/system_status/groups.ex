@@ -1,6 +1,9 @@
 defmodule Dotcom.SystemStatus.Groups do
   @moduledoc """
-  A module that groups alerts into statuses for the system status widget.
+
+  A module that groups alerts into statuses for the system status
+  widget. See `Dotcom.SystemStatus` for more information.
+
   """
 
   alias Alerts.Alert
@@ -11,6 +14,128 @@ defmodule Dotcom.SystemStatus.Groups do
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
   @routes ["Blue", "Mattapan", "Orange", "Red"] ++ @green_line_branches
 
+  @doc """
+
+  Returns a data structure that can be used in the system status
+  widget.
+
+  This data structure is designed to be dropped directly into a
+  frontend component that will render the info nicely on the
+  screen. See `Dotcom.SystemStatus` for more details.
+
+  ## Example (no alerts)
+      iex> Dotcom.SystemStatus.Groups.groups([], Timex.now())
+      [
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+      ]
+
+  ## Example (one alert on a heavy rail line)
+      iex> alerts =
+      ...>   [
+      ...>     %Alerts.Alert{
+      ...>       effect: :shuttle,
+      ...>       informed_entity: [%Alerts.InformedEntity{route: "Orange"}],
+      ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
+      ...>     }
+      ...>   ]
+      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      [
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
+        %{
+          statuses: [
+            %{
+              time: nil,
+              description: "Shuttle Buses"
+            }
+          ],
+          sub_routes: [],
+          route_id: "Orange"
+        },
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+      ]
+
+  Alerts for Green line branches are grouped together, so that instead
+  of showing up as top-level alerts, they're presented under the
+  top-level Green line route, with the branches presented as
+  `sub_routes`. When alerts only apply to some Green line branches,
+  then the others are shown with "Normal service"
+
+  ## Example
+      iex> alerts =
+      ...>   [
+      ...>     %Alerts.Alert{
+      ...>       effect: :delay,
+      ...>       informed_entity: [%Alerts.InformedEntity{route: "Green-E"}],
+      ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
+      ...>     },
+      ...>     %Alerts.Alert{
+      ...>       effect: :delay,
+      ...>       informed_entity: [%Alerts.InformedEntity{route: "Green-D"}],
+      ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
+      ...>     }
+      ...>   ]
+      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      [
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{
+          statuses: [
+            %{
+              time: nil,
+              description: "Delays"
+            }
+          ],
+          sub_routes: ["Green-D", "Green-E"],
+          route_id: "Green"
+        },
+        %{
+          statuses: [
+            %{
+              time: nil,
+              description: "Normal Service"
+            }
+          ],
+          sub_routes: ["Green-B", "Green-C"],
+          route_id: "Green"
+        }
+      ]
+
+  The Mattapan line is usually not shown, but if it has any alerts,
+  then it's shown as a sub-route of the Red line.
+
+  ## Example
+      iex> alerts =
+      ...>   [
+      ...>     %Alerts.Alert{
+      ...>       effect: :suspension,
+      ...>       informed_entity: [%Alerts.InformedEntity{route: "Mattapan"}],
+      ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
+      ...>     }
+      ...>   ]
+      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      [
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{
+          statuses: [
+            %{
+              time: nil,
+              description: "Suspension"
+            }
+          ],
+          sub_routes: ["Mattapan"],
+          route_id: "Red"
+        },
+        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+      ]
+
+  """
   def groups(alerts, time) do
     grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
 
@@ -300,7 +425,7 @@ defmodule Dotcom.SystemStatus.Groups do
   #  - Entries with no sub-routes should come before entries with
   #    sub-routes (this mainly serves to sort Red line entries before
   #    Mattapan ones).
-  #  - "Normal Service" should come before other descriptions (this
+  #  - "Normal Service" should come after other descriptions (this
   #    applies mostly to Green line entries where some branches might
   #    be normal, and others not).
   #  - Sub-routes should be sorted lexically, so all else equal, Green-B
