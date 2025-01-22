@@ -20,7 +20,7 @@ defmodule DotcomWeb.TripPlanController do
 
     case @location_service.geocode(query) do
       {:ok, [%LocationService.Address{} = location | _]} ->
-        encoded = build_params(direction, location) |> AntiCorruptionLayer.encode()
+        encoded = build_params(direction, location, query) |> AntiCorruptionLayer.encode()
         path = live_path(conn, DotcomWeb.Live.TripPlanner)
 
         redirect(conn, to: "#{path}?plan=#{encoded}") |> halt()
@@ -36,11 +36,12 @@ defmodule DotcomWeb.TripPlanController do
     redirect(conn, to: path) |> halt()
   end
 
-  defp build_params(direction, location) do
+  defp build_params(direction, location, query) do
     %{
       "#{direction}" => %{
         "latitude" => location.latitude,
-        "longitude" => location.longitude
+        "longitude" => location.longitude,
+        "name" => query,
       }
     }
   end
