@@ -5,7 +5,6 @@ defmodule DotcomWeb.HealthController do
   use DotcomWeb, :controller
 
   def index(conn, _params) do
-    conn
-    |> send_resp(200, "")
+    send_resp(conn, 200, "")
   end
 end

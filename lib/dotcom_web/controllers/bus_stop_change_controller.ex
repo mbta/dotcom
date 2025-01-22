@@ -6,8 +6,9 @@ defmodule DotcomWeb.BusStopChangeController do
   """
   use DotcomWeb, :controller
 
-  alias Alerts.{Alert, HistoricalAlert}
+  alias Alerts.Alert
   alias Alerts.Cache.BusStopChangeS3
+  alias Alerts.HistoricalAlert
   alias Alerts.InformedEntity, as: IE
 
   # Assigns bus stop change alerts to conn.assigns.alerts
@@ -28,10 +29,7 @@ defmodule DotcomWeb.BusStopChangeController do
     redirect(conn, to: bus_stop_change_path(conn, :show, alerts_timeframe: "current"))
   end
 
-  defp bus_stop_alerts(
-         %{query_params: %{"alerts_timeframe" => alerts_timeframe}} = conn,
-         _params
-       )
+  defp bus_stop_alerts(%{query_params: %{"alerts_timeframe" => alerts_timeframe}} = conn, _params)
        when alerts_timeframe in ["current", "upcoming"] do
     alerts = Alerts.Repo.all(conn.assigns.date_time)
     assign_bus_stop_alerts(conn, alerts)
@@ -40,7 +38,8 @@ defmodule DotcomWeb.BusStopChangeController do
   defp bus_stop_alerts(conn, _params) do
     alerts = get_old_alerts()
 
-    assign_bus_stop_alerts(conn, alerts)
+    conn
+    |> assign_bus_stop_alerts(alerts)
     |> assign(:past_alerts, past_stored_alerts())
   end
 
@@ -51,30 +50,32 @@ defmodule DotcomWeb.BusStopChangeController do
   # These are %HistoricalAlert{} structs that we store in AWS S3.
   # In the future all of our past alerts will come from here.
   defp past_stored_alerts do
-    yesterday = Util.service_date() |> Timex.shift(days: -1)
+    yesterday = Timex.shift(Util.service_date(), days: -1)
 
-    BusStopChangeS3.get_stored_alerts()
     # Best guess at which alerts to designate as "past"
-    |> Enum.filter(fn %HistoricalAlert{alert: %Alert{active_period: [{_starting, ending} | _]}} ->
+    Enum.filter(BusStopChangeS3.get_stored_alerts(), fn %HistoricalAlert{
+                                                          alert: %Alert{active_period: [{_starting, ending} | _]}
+                                                        } ->
       has_ended? = ending && Timex.before?(ending, yesterday)
       is_nil(ending) || has_ended?
     end)
   end
 
-  defp stop_move_or_closure?(%Alert{effect: effect}),
-    do: effect in [:stop_closure, :stop_moved]
+  defp stop_move_or_closure?(%Alert{effect: effect}), do: effect in [:stop_closure, :stop_moved]
 
   # These are alerts exported from the Alerts UI application into
   # a series of CSV files. These will eventually be phased out in favor
   # of the alerts we store in S3.
   defp get_old_alerts do
-    folder = Application.app_dir(:dotcom) |> Path.join("priv/bus-stop-change")
+    folder = :dotcom |> Application.app_dir() |> Path.join("priv/bus-stop-change")
 
     case File.ls(folder) do
       {:ok, files} ->
-        Enum.reduce(files, [], fn filepath, acc ->
+        files
+        |> Enum.reduce([], fn filepath, acc ->
           alert_info =
-            Path.join(folder, filepath)
+            folder
+            |> Path.join(filepath)
             |> File.stream!()
             |> CSV.decode!(headers: true, escape_max_lines: 1000)
             |> Enum.to_list()
@@ -92,7 +93,8 @@ defmodule DotcomWeb.BusStopChangeController do
   end
 
   defp remove_old_versions(alerts) do
-    Enum.chunk_by(alerts, & &1["Alert ID"])
+    alerts
+    |> Enum.chunk_by(& &1["Alert ID"])
     |> Enum.reduce([], fn alert_versions, acc ->
       latest_alert = Enum.max_by(alert_versions, &String.to_integer(&1["Version No."]))
       [latest_alert | acc]
@@ -113,7 +115,8 @@ defmodule DotcomWeb.BusStopChangeController do
     %{routes: routes, stops: stops} = parse_affected_info(alert["Additional Information"])
 
     informed_entity =
-      Enum.map(stops, &%IE{stop: &1})
+      stops
+      |> Enum.map(&%IE{stop: &1})
       |> Kernel.++(Enum.map(routes, &%IE{route: &1}))
       |> Alerts.InformedEntitySet.new()
 
@@ -122,7 +125,7 @@ defmodule DotcomWeb.BusStopChangeController do
       header: alert["Header"],
       informed_entity: informed_entity,
       active_period: [{active_date(alert["Effect Start"]), active_date(alert["Effect End"])}],
-      effect: alert["Effect"] |> effect_atom(),
+      effect: effect_atom(alert["Effect"]),
       updated_at: alert["Last Modified Date"],
       description: alert["Additional Information"],
       url: if(alert["URL"] != "", do: alert["URL"])
@@ -130,7 +133,7 @@ defmodule DotcomWeb.BusStopChangeController do
   end
 
   def parse_affected_info(text) do
-    texts = String.split(text, ~r/\n\r\n\n|\./) |> Enum.map(&String.trim/1)
+    texts = text |> String.split(~r/\n\r\n\n|\./) |> Enum.map(&String.trim/1)
     [_ | routes] = do_affected_info(texts, "route")
     [_ | stops] = do_affected_info(texts, "stop")
     %{routes: routes, stops: stops}

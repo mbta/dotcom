@@ -7,9 +7,9 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
 
   use ExUnit.Case, async: true
 
-  require Dotcom.Assertions
-
   alias CMS.Partial.Paragraph.ContentList
+
+  require Dotcom.Assertions
 
   describe "from_api/1" do
     test "If type is specified, it should result in a single-item list" do
@@ -193,7 +193,7 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
 
   defp cms_map(fields) do
     fields
-    |> Enum.into(%{}, &cms_field/1)
+    |> Map.new(&cms_field/1)
     |> ContentList.from_api()
     |> Map.get(:recipe)
   end

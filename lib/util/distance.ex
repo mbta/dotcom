@@ -17,8 +17,7 @@ defmodule Util.Distance do
   @doc "Sorts the items by their distance from position."
   @spec sort([Position.t()] | [Location.t()], Position.t() | Location.t()) :: [Position.t()]
   def sort(items, position) do
-    items
-    |> Enum.sort_by(&haversine(position, &1))
+    Enum.sort_by(items, &haversine(position, &1))
   end
 
   @doc "Returns count items closest to position"

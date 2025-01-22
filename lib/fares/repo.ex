@@ -18,7 +18,7 @@ defmodule Fares.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def all(opts) when is_list(opts) do
-    all() |> filter(opts)
+    filter(all(), opts)
   end
 
   @doc """
@@ -29,8 +29,7 @@ defmodule Fares.Repo do
   """
   @spec filter([Fare.t()], Keyword.t()) :: [Fare.t()]
   def filter(fares, opts) do
-    fares
-    |> filter_all(Map.new(opts))
+    filter_all(fares, Map.new(opts))
   end
 
   @spec filter_all([Fare.t()], %{}) :: [Fare.t()]

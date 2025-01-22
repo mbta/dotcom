@@ -1,4 +1,5 @@
 defmodule Stops.Helpers do
+  @moduledoc false
   alias Stops.Stop.ParkingLot
 
   @nil_structs [

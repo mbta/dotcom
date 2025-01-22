@@ -1,4 +1,5 @@
 defmodule Fares.RetailLocations.Location do
+  @moduledoc false
   defstruct [:name, :address, :latitude, :longitude, :phone, :payment]
 
   @type t :: %__MODULE__{

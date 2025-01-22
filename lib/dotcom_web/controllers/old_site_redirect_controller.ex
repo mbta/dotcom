@@ -1,5 +1,6 @@
 defmodule DotcomWeb.OldSiteRedirectController do
   use DotcomWeb, :controller
+
   import DotcomWeb.Router.Helpers
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 

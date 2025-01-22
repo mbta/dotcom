@@ -1,6 +1,10 @@
 defmodule DotcomWeb.AlertController do
   use DotcomWeb, :controller
-  alias Alerts.{Alert, InformedEntity, Match, Repo}
+
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Alerts.Match
+  alias Alerts.Repo
   alias Stops.Stop
 
   plug(:route_type)
@@ -17,12 +21,11 @@ defmodule DotcomWeb.AlertController do
   def index(conn, _params) do
     conn
     |> redirect(to: alert_path(conn, :show, "subway"))
-    |> halt
+    |> halt()
   end
 
   def show(%{assigns: %{alerts: alerts}} = conn, %{"id" => "access"}) do
-    conn
-    |> render_alert_groups(group_access_alerts(alerts))
+    render_alert_groups(conn, group_access_alerts(alerts))
   end
 
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
@@ -64,7 +67,7 @@ defmodule DotcomWeb.AlertController do
     |> render(
       "show.html",
       id: id_to_atom(id),
-      alert_groups: route_alerts |> Enum.reject(&match?({_, []}, &1)),
+      alert_groups: Enum.reject(route_alerts, &match?({_, []}, &1)),
       breadcrumbs: [Breadcrumb.build("Alerts")]
     )
   end

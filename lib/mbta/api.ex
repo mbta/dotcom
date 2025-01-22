@@ -13,7 +13,7 @@ defmodule MBTA.Api do
 
   @impl MBTA.Api.Behaviour
   def get_json(url, params \\ []) do
-    case client() |> @req.get(url: URI.encode(url), params: params) do
+    case @req.get(client(), url: URI.encode(url), params: params) do
       {:ok, response} -> JsonApi.parse(response.body)
       {:error, reason} -> {:error, reason}
     end

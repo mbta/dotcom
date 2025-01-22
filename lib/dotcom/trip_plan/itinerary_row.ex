@@ -1,14 +1,11 @@
 defmodule Dotcom.TripPlan.ItineraryRow do
   @moduledoc false
 
-  alias Dotcom.TripPlan.{
-    IntermediateStop,
-    Leg,
-    NamedPosition,
-    PersonalDetail,
-    TransitDetail
-  }
-
+  alias Dotcom.TripPlan.IntermediateStop
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
   alias Routes.Route
 
   defstruct stop: {nil, nil},
@@ -70,13 +67,9 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       when is_binary(agency) and is_binary(long_name),
       do: long_name
 
-  def route_name(%__MODULE__{route: %Route{name: name, type: 3}})
-      when is_binary(name),
-      do: "#{name} bus"
+  def route_name(%__MODULE__{route: %Route{name: name, type: 3}}) when is_binary(name), do: "#{name} bus"
 
-  def route_name(%__MODULE__{route: %Route{long_name: long_name}})
-      when is_binary(long_name),
-      do: long_name
+  def route_name(%__MODULE__{route: %Route{long_name: long_name}}) when is_binary(long_name), do: long_name
 
   def route_name(%__MODULE__{route: %Route{name: name}}), do: name
   def route_name(_row), do: nil
@@ -130,12 +123,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   end
 
   @spec build_alert_informed_entity(t) :: Alerts.InformedEntity.t()
-  defp build_alert_informed_entity(
-         %__MODULE__{
-           route: %Routes.Route{} = route,
-           stop: {_name, stop_id}
-         } = row
-       ) do
+  defp build_alert_informed_entity(%__MODULE__{route: %Routes.Route{} = route, stop: {_name, stop_id}} = row) do
     do_build_alert_informed_entity(row, %Alerts.InformedEntity{
       route: route.id,
       route_type: route.type,
@@ -187,8 +175,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   defp get_steps(%PersonalDetail{steps: steps}, %Leg{mode: %TransitDetail{}}),
     do: Enum.map(steps, &format_personal_to_transit_step/1)
 
-  defp get_steps(%PersonalDetail{steps: steps}, _next_leg),
-    do: Enum.map(steps, &format_personal_to_personal_step/1)
+  defp get_steps(%PersonalDetail{steps: steps}, _next_leg), do: Enum.map(steps, &format_personal_to_personal_step/1)
 
   defp get_steps(%TransitDetail{intermediate_stops: stops}, _next_leg) do
     for stop <- stops, stop do
@@ -226,12 +213,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           Leg.t(),
           name_and_id
         ) :: [Route.t()]
-  defp get_additional_routes(
-         %Route{id: "Green" <> _line = route_id},
-         trip,
-         leg,
-         {_name, from_stop_id}
-       )
+  defp get_additional_routes(%Route{id: "Green" <> _line = route_id}, trip, leg, {_name, from_stop_id})
        when not is_nil(trip) do
     stop_pairs = GreenLine.stops_on_routes(trip.direction_id)
     {_to_stop_name, to_stop_id} = name_from_position(leg.to)

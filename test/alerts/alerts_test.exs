@@ -73,7 +73,7 @@ defmodule AlertsTest do
 
   describe "human_label/1" do
     @future_active_period [
-      {Timex.shift(Timex.now(), days: 8), Timex.shift(Timex.now(), days: 20)}
+      {Timex.shift(DateTime.utc_now(), days: 8), Timex.shift(DateTime.utc_now(), days: 20)}
     ]
 
     test "returns Ongoing when lifecycle is ongoing and time not in active period" do
@@ -150,7 +150,7 @@ defmodule AlertsTest do
 
   describe "diversion?/1" do
     test "returns true when created at is before active period" do
-      created_at = Timex.now()
+      created_at = DateTime.utc_now()
       active_period = [{Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)}]
 
       alert =
@@ -164,7 +164,7 @@ defmodule AlertsTest do
     end
 
     test "returns false when created at is after active period" do
-      created_at = Timex.now()
+      created_at = DateTime.utc_now()
       active_period = [{Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)}]
 
       alert =

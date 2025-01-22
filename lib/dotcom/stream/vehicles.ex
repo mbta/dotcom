@@ -1,5 +1,7 @@
 defmodule Dotcom.Stream.Vehicles do
+  @moduledoc false
   use GenServer
+
   alias DotcomWeb.Endpoint
   alias Vehicles.Vehicle
 
@@ -55,15 +57,7 @@ defmodule Dotcom.Stream.Vehicles do
   end
 
   @spec send_vehicles({{Routes.Route.id_t(), 0 | 1}, [Vehicle.t()]}, atom, String.t()) :: :ok
-  defp send_vehicles(
-         {
-           {<<route_id::binary>>, direction_id},
-           vehicles
-         },
-         event,
-         topic
-       )
-       when direction_id in [0, 1] do
+  defp send_vehicles({{<<route_id::binary>>, direction_id}, vehicles}, event, topic) when direction_id in [0, 1] do
     broadcast_vehicles(
       "#{topic}:" <> route_id <> ":" <> Integer.to_string(direction_id),
       event,
@@ -77,18 +71,16 @@ defmodule Dotcom.Stream.Vehicles do
 
   @spec broadcast_vehicles(String.t(), atom, any) :: :ok
   defp broadcast_vehicles(topic, event, data) do
-    try do
-      Endpoint.broadcast(
-        topic,
-        Atom.to_string(event),
-        %{data: data}
-      )
-    rescue
-      _ in [UndefinedFunctionError, ArgumentError] ->
-        # the :ets.lookup failed, the ETS tables for working with Vehicles.Repo
-        # aren't set up yet. we are still waiting for DotcomWeb.Endpoint to start.
-        # fail gracefully here, ignore event
-        :ok
-    end
+    Endpoint.broadcast(
+      topic,
+      Atom.to_string(event),
+      %{data: data}
+    )
+  rescue
+    _ in [UndefinedFunctionError, ArgumentError] ->
+      # the :ets.lookup failed, the ETS tables for working with Vehicles.Repo
+      # aren't set up yet. we are still waiting for DotcomWeb.Endpoint to start.
+      # fail gracefully here, ignore event
+      :ok
   end
 end

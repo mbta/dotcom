@@ -23,8 +23,7 @@ defmodule DotcomWeb.Plugs.ClearCookies do
 
   @spec expire_cookie(String.t(), Plug.Conn.t()) :: Plug.Conn.t()
   defp expire_cookie("ASPSESSION" <> _ = cookie, conn) do
-    conn
-    |> put_resp_cookie(cookie, "", max_age: 0)
+    put_resp_cookie(conn, cookie, "", max_age: 0)
   end
 
   defp expire_cookie(_, conn), do: conn

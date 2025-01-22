@@ -22,7 +22,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   ]
   @mode_icons [:t_logo, :green_line, :orange_line, :blue_line, :red_line]
 
-  @icons [
+  @icons Map.new([
            {:bus,
             "M24,8a25.3,25.3,0,0,1,8.22,1.55c1.61.72,2.69,1.41,3,3.17l1.21,9.77V36H34.37v2.11a1.8,1.8,0,1,1-3.59,0V36H17.22v2.11a1.8,1.8,0,1,1-3.59,0V36H11.55V22.49l1.21-9.77c.33-1.76,1.41-2.46,3-3.17A25.52,25.52,0,0,1,24,8Zm8.58,23.74a1.81,1.81,0,1,0-1.73-1.81,1.83,1.83,0,0,0,.51,1.28A1.67,1.67,0,0,0,32.58,31.74ZM17.16,29.93a1.73,1.73,0,1,0-1.72,1.81A1.77,1.77,0,0,0,17.16,29.93Zm12-17.88a.79.79,0,0,0,0-1.58H18.88a.79.79,0,0,0,0,1.58Zm-13.4,1.61a1,1,0,0,0-1,.83l-1,7.71a.84.84,0,0,0,0,.27,1,1,0,0,0,1,1.05h18.6a1,1,0,0,0,1-1.05,1.26,1.26,0,0,0,0-.27l-1-7.71a1,1,0,0,0-1-.83Z"},
            {:commuter_rail,
@@ -41,8 +41,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
            {:t_logo, "M10 6h6V2H0v4h6v10h4V6z"},
            {:alert,
             "m10.981,1.436c0.818,-1.436 2.15,-1.425 2.962,0l10.166,17.865c0.818,1.437 0.142,2.602 -1.52,2.602l-20.259,0c-1.657,0 -2.33,-1.176 -1.52,-2.602l10.172,-17.865l-0.001,0zm-0.359,6.92l3,0l0,6l-3,0l0,-6zm0,7.53l3,0l0,3l-3,0l0,-3z"},
-           {:access,
-            "M17 22.4c-1.5 3-4.6 5-8 5-5 0-9-4-9-9 0-3.5 2-6.7 5.3-8.2l.2 2.7c-2 1-3 3.2-3 5.4C2.5 22 5.5 25 9 25
+           {:access, "M17 22.4c-1.5 3-4.6 5-8 5-5 0-9-4-9-9 0-3.5 2-6.7 5.3-8.2l.2 2.7c-2 1-3 3.2-3 5.4C2.5 22 5.5 25 9 25
         c3.3 0 6-2.6 6.5-5.8l1.6 3.2zM8 5c1.3-.2 2.2-1.3 2.2-2.6S9.2 0 7.8 0C6.5 0 5.4 1 5.4 2.4c0 .5 0 1 .3 1.2L6.5 16
         h9l3.7 8.5 4.8-2-.7-1.7-2.7 1-3.6-8.2H8.7V12h6V10H8.2l-.3-5z"},
            {:search,
@@ -111,12 +110,11 @@ defmodule Dotcom.Components.Icons.SvgIcon do
             "M24,2.1c12.1,0,21.9,9.8,21.9,21.9S36.1,45.9,24,45.9S2.1,36.1,2.1,24C2.1,11.9,11.9,2.1,24,2.1 C24,2.1,24,2.1,24,2.1z M8.2,12.9h31.7v7.3H28.1v19.6H20V20.2H8.2L8.2,12.9z M0,24c0,13.3,10.7,24,24,24s24-10.7,24-24S37.3,0,24,0 S0,10.7,0,24z"},
            {:stop,
             "M38.7,6.3C31.1-1.9,18.2-2.3,10,5.3C8,7.2,6.3,9.5,5.2,12c-1.2,2.6-1.7,5.5-1.7,8.4V37c0,3.3,2.7,6,6.1,6h12.5v4.8h3.8v-4.8 h12.2c3.4,0,6.1-2.7,6.1-6.1V20.3C44.2,15.1,42.2,10.1,38.7,6.3z M12.7,8.3H35v5.2h-8.3v13.8H21V13.5h-8.3V8.3z M40.4,37.2 c0,1.3-1,2.3-2.3,2.3H9.5c-1.2,0-2.2-1-2.2-2.2v-5.1h33V37.2z"}
-         ]
-         |> Map.new()
+         ])
 
   def variants do
     # remove the default icon
-    other_icons = Map.drop(@icons, [%__MODULE__{}.icon])
+    other_icons = Map.delete(@icons, %__MODULE__{}.icon)
 
     for {icon, _path} <- other_icons do
       {icon_title(icon),
@@ -130,8 +128,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   def get_path(:logan_express), do: get_path(:bus)
   def get_path(:massport_shuttle), do: get_path(:bus)
 
-  def get_path(atom) when atom in [:green_line, :red_line, :blue_line, :orange_line],
-    do: get_path(:t_logo)
+  def get_path(atom) when atom in [:green_line, :red_line, :blue_line, :orange_line], do: get_path(:t_logo)
 
   def get_path(atom) when is_atom(atom) do
     case Map.get(@icons, atom) do
@@ -154,8 +151,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   def get_icon_atom("Elevator"), do: :access
   def get_icon_atom("Escalator"), do: :access
 
-  def get_icon_atom(route_type) when route_type in [0, 1, 2, 3, 4],
-    do: Routes.Route.type_atom(route_type)
+  def get_icon_atom(route_type) when route_type in [0, 1, 2, 3, 4], do: Routes.Route.type_atom(route_type)
 
   def get_icon_atom(%Routes.Route{} = route), do: Routes.Route.icon_atom(route)
 
@@ -170,8 +166,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   def icon_title(:alert), do: "Service alert or delay"
   def icon_title(:parking_lot), do: "Parking"
 
-  def icon_title(icon)
-      when icon in [:subway, :bus, :logan_express, :massport_shuttle, :commuter_rail, :ferry] do
+  def icon_title(icon) when icon in [:subway, :bus, :logan_express, :massport_shuttle, :commuter_rail, :ferry] do
     DotcomWeb.ViewHelpers.mode_name(icon)
   end
 

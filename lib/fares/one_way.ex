@@ -6,7 +6,8 @@ defmodule Fares.OneWay do
   the express fare is always returned.
   """
 
-  alias Fares.{Fare, Repo}
+  alias Fares.Fare
+  alias Fares.Repo
   alias Routes.Route
 
   @default_filters [duration: :single_trip]

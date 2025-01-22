@@ -1,16 +1,18 @@
 defmodule Predictions.StreamParserTest do
   use ExUnit.Case, async: false
+
   import Mock
   import Mox
+
   alias JsonApi.Item
-  alias Predictions.{Prediction, StreamParser}
+  alias Predictions.Prediction
+  alias Predictions.StreamParser
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
 
   setup do
-    Routes.Repo.Mock
-    |> stub(:get, fn id -> %Route{id: id} end)
+    stub(Routes.Repo.Mock, :get, fn id -> %Route{id: id} end)
 
     Stops.Repo.Mock
     |> stub(:get, fn id -> %Stops.Stop{id: id} end)

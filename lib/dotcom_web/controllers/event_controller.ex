@@ -3,8 +3,10 @@ defmodule DotcomWeb.EventController do
 
   use DotcomWeb, :controller
 
-  alias CMS.{API, Page, Repo}
+  alias CMS.API
+  alias CMS.Page
   alias CMS.Page.Event
+  alias CMS.Repo
   alias Dotcom.IcalendarGenerator
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.EventView
@@ -88,11 +90,7 @@ defmodule DotcomWeb.EventController do
 
   @spec assign_breadcrumbs(Conn.t(), Event.t()) :: Conn.t()
   defp assign_breadcrumbs(conn, event) do
-    conn
-    |> assign(:breadcrumbs, [
-      Breadcrumb.build("Events", event_path(conn, :index)),
-      Breadcrumb.build(event.title)
-    ])
+    assign(conn, :breadcrumbs, [Breadcrumb.build("Events", event_path(conn, :index)), Breadcrumb.build(event.title)])
   end
 
   @spec icalendar(Conn.t(), map) :: Conn.t()
@@ -126,7 +124,7 @@ defmodule DotcomWeb.EventController do
     title
     |> String.downcase()
     |> String.replace(" ", "_")
-    |> decode_ampersand_html_entity
+    |> decode_ampersand_html_entity()
   end
 
   @spec decode_ampersand_html_entity(String.t()) :: String.t()

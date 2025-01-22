@@ -8,7 +8,9 @@ defmodule Dotcom.TripPlan.RelatedLink do
   import DotcomWeb.Router.Helpers
   import PhoenixHTMLHelpers.Link, only: [link: 2]
 
-  alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.TransitDetail
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Routes.Route
 
@@ -27,8 +29,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   @doc "Returns a new RelatedLink"
   @spec new(text, url, icon_name) :: t when text: iodata, url: String.t()
-  def new(text, url, icon_name \\ nil)
-      when is_binary(url) and (is_binary(text) or is_list(text)) do
+  def new(text, url, icon_name \\ nil) when is_binary(url) and (is_binary(text) or is_list(text)) do
     %__MODULE__{
       text: text,
       url: url,
@@ -83,16 +84,12 @@ defmodule Dotcom.TripPlan.RelatedLink do
     end
   end
 
-  defp route_link(
-         %Route{external_agency_name: "Logan Express", name: name, long_name: long_name} = route,
-         _,
-         _
-       ) do
+  defp route_link(%Route{external_agency_name: "Logan Express", name: name, long_name: long_name} = route, _, _) do
     url =
       if name == "BB" do
         "https://www.massport.com/logan-airport/to-from-logan/transportation-options/logan-express/back-bay/"
       else
-        route_name = String.split(long_name, " ") |> List.first()
+        route_name = long_name |> String.split(" ") |> List.first()
         "https://www.massport.com/logan-airport/getting-to-logan/logan-express/#{route_name}"
       end
 
@@ -123,12 +120,15 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   defp fare_links(itinerary) do
-    for %Leg{mode: %TransitDetail{route: %Route{external_agency_name: nil} = route}} = leg <-
-          itinerary.legs do
-      fare_link(route, leg)
-    end
+    for_result =
+      for %Leg{mode: %TransitDetail{route: %Route{external_agency_name: nil} = route}} = leg <-
+            itinerary.legs do
+        fare_link(route, leg)
+      end
+
+    for_result
     |> Enum.uniq()
-    |> simplify_fare_text
+    |> simplify_fare_text()
   end
 
   defp fare_link(route, leg) do
@@ -140,7 +140,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   defp fare_link_text(type) when type in [:commuter_rail, :ferry, :bus, :subway] do
-    Atom.to_string(type) |> String.replace("_", " ")
+    type |> Atom.to_string() |> String.replace("_", " ")
   end
 
   defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
@@ -160,8 +160,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   # if there are multiple fare links, show fare overview link
-  defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1,
-    do: [fare_overview_link()]
+  defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1, do: [fare_overview_link()]
 
   defp simplify_fare_text([fare_link]) do
     # if there's only one fare link, change the text to "View fare information"

@@ -1,13 +1,17 @@
 defmodule DotcomWeb.PartialViewTest do
   use DotcomWeb.ConnCase, async: true
 
-  import Phoenix.HTML, only: [safe_to_string: 1]
   import DotcomWeb.PartialView
-  import DotcomWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
+  import DotcomWeb.PartialView.HeaderTabs
+  import DotcomWeb.PartialView.SvgIconWithCircle
+  import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias CMS.Partial.Teaser
   alias DotcomWeb.PartialView
-  alias DotcomWeb.PartialView.{FullscreenError, HeaderTab, HeaderTabBadge, SvgIconWithCircle}
+  alias DotcomWeb.PartialView.FullscreenError
+  alias DotcomWeb.PartialView.HeaderTab
+  alias DotcomWeb.PartialView.HeaderTabBadge
+  alias DotcomWeb.PartialView.SvgIconWithCircle
 
   describe "clear_selector_link/1" do
     test "returns the empty string when clearable? is false" do
@@ -28,7 +32,7 @@ defmodule DotcomWeb.PartialViewTest do
           conn: fetch_query_params(conn)
         }
         |> clear_selector_link()
-        |> safe_to_string
+        |> safe_to_string()
 
       assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
       refute result =~ "place-davis"
@@ -177,7 +181,7 @@ defmodule DotcomWeb.PartialViewTest do
         |> safe_to_string()
 
       expected =
-        "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"
+        ~s(<div class="header-tabs"><a class="header-tab  some-tab-class a-tab" href="/a" id="a-tab">A</a><a class="header-tab header-tab--selected some-tab-class b-tab" href="/b" id="b-tab">B</a><a class="header-tab  some-tab-class c-tab" href="/c" id="c-tab">C<span aria-label="5 things" class="some-tab-badge">5</span></a></div>)
 
       assert actual == expected
     end
@@ -194,7 +198,7 @@ defmodule DotcomWeb.PartialViewTest do
         |> safe_to_string()
 
       expected =
-        "<div class=\"c-fullscreen-error__container js-fullscreen-error\"><div class=\"container\"><a class=\"c-fullscreen-error__dismiss js-fullscreen-error__dismiss\" tabindex=\"0\">Dismiss <i aria-hidden=\"true\" class=\"notranslate fa fa-times \"></i></a><h1 class=\"c-fullscreen-error__heading\">Danger</h1><p>Will Robinson</p></div></div>"
+        ~s(<div class="c-fullscreen-error__container js-fullscreen-error"><div class="container"><a class="c-fullscreen-error__dismiss js-fullscreen-error__dismiss" tabindex="0">Dismiss <i aria-hidden="true" class="notranslate fa fa-times "></i></a><h1 class="c-fullscreen-error__heading">Danger</h1><p>Will Robinson</p></div></div>)
 
       assert actual == expected
     end
@@ -220,7 +224,7 @@ defmodule DotcomWeb.PartialViewTest do
       [_, links] = alert_time_filters(nil, path_opts)
 
       expected =
-        "<div class=\"m-alerts__time-filters\"><a class=\"m-alerts__time-filter m-alerts__time-filter--selected\" href=\"/schedules/Green-E/alerts\">All Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/Green-E/alerts?alerts_timeframe=current\">Current Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/Green-E/alerts?alerts_timeframe=upcoming\">Planned Service Alerts</a></div>"
+        ~s(<div class="m-alerts__time-filters"><a class="m-alerts__time-filter m-alerts__time-filter--selected" href="/schedules/Green-E/alerts">All Alerts</a><a class="m-alerts__time-filter" href="/schedules/Green-E/alerts?alerts_timeframe=current">Current Alerts</a><a class="m-alerts__time-filter" href="/schedules/Green-E/alerts?alerts_timeframe=upcoming">Planned Service Alerts</a></div>)
 
       assert safe_to_string(links) == expected
     end
@@ -234,7 +238,7 @@ defmodule DotcomWeb.PartialViewTest do
       [_, links] = alert_time_filters(nil, path_opts)
 
       expected =
-        "<div class=\"m-alerts__time-filters\"><a class=\"m-alerts__time-filter m-alerts__time-filter--selected\" href=\"/schedules/subway/alerts\">All Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/subway/alerts?alerts_timeframe=current\">Current Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/subway/alerts?alerts_timeframe=upcoming\">Planned Service Alerts</a></div>"
+        ~s(<div class="m-alerts__time-filters"><a class="m-alerts__time-filter m-alerts__time-filter--selected" href="/schedules/subway/alerts">All Alerts</a><a class="m-alerts__time-filter" href="/schedules/subway/alerts?alerts_timeframe=current">Current Alerts</a><a class="m-alerts__time-filter" href="/schedules/subway/alerts?alerts_timeframe=upcoming">Planned Service Alerts</a></div>)
 
       assert safe_to_string(links) == expected
     end

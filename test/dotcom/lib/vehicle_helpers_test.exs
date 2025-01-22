@@ -1,9 +1,9 @@
 defmodule Dotcom.VehicleHelpersTest do
   use ExUnit.Case, async: false
 
-  import VehicleHelpers
   import Mock
   import Mox
+  import VehicleHelpers
 
   @shape %Routes.Shape{id: "9850002", polyline: "polyline"}
   @station %Stops.Stop{id: "place-sstat", name: "South Station"}
@@ -212,16 +212,11 @@ defmodule Dotcom.VehicleHelpersTest do
 
     test "special message with conflicting statuses", %{tooltip_base: tooltip_base} do
       actual =
-        %{
+        tooltip(%{
           tooltip_base
           | vehicle: %Vehicles.Vehicle{status: :stopped},
-            prediction: %Predictions.Prediction{
-              time: ~N[2021-10-01T11:00:00],
-              status: "Departed",
-              track: "4"
-            }
-        }
-        |> tooltip()
+            prediction: %Predictions.Prediction{time: ~N[2021-10-01T11:00:00], status: "Departed", track: "4"}
+        })
 
       assert actual =~ "has left South Station, departed on track 4"
     end

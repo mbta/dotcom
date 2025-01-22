@@ -1,5 +1,6 @@
 defmodule Dotcom.Stream.VehiclesTest do
   use DotcomWeb.ChannelCase, async: true
+
   alias Vehicles.Vehicle
 
   @vehicles [

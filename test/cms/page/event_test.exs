@@ -10,8 +10,8 @@ defmodule CMS.Page.EventTest do
 
   setup do
     %{
-      api_event_without_path_alias: Static.events_response() |> Enum.at(0),
-      api_event_with_path_alias: Static.events_response() |> Enum.at(1)
+      api_event_without_path_alias: Enum.at(Static.events_response(), 0),
+      api_event_with_path_alias: Enum.at(Static.events_response(), 1)
     }
   end
 
@@ -98,21 +98,13 @@ defmodule CMS.Page.EventTest do
     test "when start and end are provided as datetimes" do
       now = Util.now()
 
-      past =
-        now
-        |> Timex.shift(minutes: -3)
+      past = Timex.shift(now, minutes: -3)
 
-      distant_past =
-        now
-        |> Timex.shift(minutes: -30)
+      distant_past = Timex.shift(now, minutes: -30)
 
-      future =
-        now
-        |> Timex.shift(minutes: 3)
+      future = Timex.shift(now, minutes: 3)
 
-      distant_future =
-        now
-        |> Timex.shift(minutes: 30)
+      distant_future = Timex.shift(now, minutes: 30)
 
       assert started_status(distant_past, past) === :ended
       assert started_status(distant_past, future) === :started
@@ -122,21 +114,13 @@ defmodule CMS.Page.EventTest do
     test "when event only has a start, consider event ended when the day is over" do
       now = Util.now()
 
-      earlier_today =
-        now
-        |> Timex.shift(seconds: -30)
+      earlier_today = Timex.shift(now, seconds: -30)
 
-      later_today =
-        now
-        |> Timex.shift(seconds: 30)
+      later_today = Timex.shift(now, seconds: 30)
 
-      yesterday =
-        now
-        |> Timex.shift(days: -1)
+      yesterday = Timex.shift(now, days: -1)
 
-      tomorrow =
-        now
-        |> Timex.shift(days: 1)
+      tomorrow = Timex.shift(now, days: 1)
 
       assert started_status(yesterday, nil) === :ended
       assert started_status(earlier_today, nil) === :started
@@ -145,17 +129,11 @@ defmodule CMS.Page.EventTest do
     end
 
     test "handles naive datetimes" do
-      naive_now =
-        Util.now()
-        |> DateTime.to_naive()
+      naive_now = DateTime.to_naive(Util.now())
 
-      naive_past =
-        naive_now
-        |> NaiveDateTime.add(-500)
+      naive_past = NaiveDateTime.add(naive_now, -500)
 
-      naive_distant_past =
-        naive_now
-        |> NaiveDateTime.add(-1000)
+      naive_distant_past = NaiveDateTime.add(naive_now, -1000)
 
       assert started_status(naive_distant_past, naive_past) === :ended
       assert started_status(naive_distant_past, nil) === :started

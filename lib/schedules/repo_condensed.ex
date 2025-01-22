@@ -12,7 +12,9 @@ defmodule Schedules.RepoCondensed do
 
   alias MBTA.Api.Schedules, as: SchedulesApi
   alias Routes.Route
-  alias Schedules.{Parser, Repo, ScheduleCondensed}
+  alias Schedules.Parser
+  alias Schedules.Repo
+  alias Schedules.ScheduleCondensed
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @cache Application.compile_env!(:dotcom, :cache)
@@ -23,8 +25,7 @@ defmodule Schedules.RepoCondensed do
 
   @default_params [
     include: "trip,trip.occupancies",
-    "fields[schedule]":
-      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
+    "fields[schedule]": "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
@@ -64,8 +65,7 @@ defmodule Schedules.RepoCondensed do
     true
   end
 
-  defp valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
-       when not is_nil(id) do
+  defp valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
     true
   end
 
@@ -98,8 +98,7 @@ defmodule Schedules.RepoCondensed do
   end
 
   defp to_string(list) when is_list(list) do
-    list
-    |> Enum.map_join(",", &to_string/1)
+    Enum.map_join(list, ",", &to_string/1)
   end
 
   defp to_string(int) when is_integer(int) do

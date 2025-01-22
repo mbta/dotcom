@@ -19,7 +19,7 @@ defmodule DotcomWeb.Plugs.BannerMessageTest do
     end
 
     test "does not assign a test message in `call`", %{conn: conn} do
-      conn = conn |> assign(:route, %{id: "Red"})
+      conn = assign(conn, :route, %{id: "Red"})
 
       assigns = conn.assigns
 

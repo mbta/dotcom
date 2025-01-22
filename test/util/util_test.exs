@@ -1,8 +1,10 @@
 defmodule UtilTest do
   use ExUnit.Case, async: true
   use Quixir
-  import Util
+
   import ExUnit.CaptureLog, only: [capture_log: 1]
+  import Util
+
   doctest Util
   doctest Util.Polygon
 
@@ -394,7 +396,7 @@ defmodule UtilTest do
                  ) == [5, :default]
         end)
 
-      result_retries = String.split(log, "Async task timed out") |> length()
+      result_retries = log |> String.split("Async task timed out") |> length()
       assert set_retries + 1 === result_retries - 1
     end
   end

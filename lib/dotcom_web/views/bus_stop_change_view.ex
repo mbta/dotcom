@@ -1,6 +1,8 @@
 defmodule DotcomWeb.BusStopChangeView do
   use DotcomWeb, :view
+
   alias DotcomWeb.AmbiguousAlert
+  alias Phoenix.HTML.Safe
   alias Stops.Stop
 
   @type keyname :: String.t()
@@ -51,7 +53,7 @@ defmodule DotcomWeb.BusStopChangeView do
     |> Enum.sort()
   end
 
-  @spec time_filter_buttons(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
+  @spec time_filter_buttons(Plug.Conn.t()) :: Safe.t()
   def time_filter_buttons(conn) do
     selected_timeframe = conn.assigns.alerts_timeframe
 
@@ -75,7 +77,7 @@ defmodule DotcomWeb.BusStopChangeView do
   defp filter_text(:current), do: "Current Changes"
   defp filter_text(:upcoming), do: "Upcoming Changes"
 
-  @spec affected_stop_link(Plug.Conn.t(), Stop.t() | String.t()) :: Phoenix.HTML.Safe.t() | nil
+  @spec affected_stop_link(Plug.Conn.t(), Stop.t() | String.t()) :: Safe.t() | nil
   def affected_stop_link(_conn, stopname) when is_binary(stopname) do
     content_tag(:div, stopname)
   end

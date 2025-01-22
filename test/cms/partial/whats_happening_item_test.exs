@@ -2,7 +2,8 @@ defmodule CMS.Partial.WhatsHappeningItemTest do
   use ExUnit.Case, async: true
 
   alias CMS.Api.Static
-  alias CMS.Field.{Image, Link}
+  alias CMS.Field.Image
+  alias CMS.Field.Link
   alias CMS.Partial.WhatsHappeningItem
 
   setup do

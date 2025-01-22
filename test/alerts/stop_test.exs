@@ -1,5 +1,6 @@
 defmodule Alerts.StopTest do
   use ExUnit.Case, async: true
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias Alerts.Stop
@@ -76,7 +77,7 @@ defmodule Alerts.StopTest do
   end
 
   test "does not include alerts that are not currently active" do
-    now = Timex.now()
+    now = DateTime.utc_now()
 
     alert =
       Alert.new(

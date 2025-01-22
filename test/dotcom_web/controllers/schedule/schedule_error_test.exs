@@ -25,7 +25,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleErrorTest do
     test "resets date_in_rating to true when repo call returns schedules", %{conn: conn} do
       conn =
         conn
-        |> assign(:schedules_by_route_ids_fn, fn ["Red"], direction_id: 0, date: ~D[2019-03-13] ->
+        |> assign(:schedules_by_route_ids_fn, fn ["Red"], [direction_id: 0, date: ~D[2019-03-13]] ->
           send(self(), :repo_called)
           [%Schedule{}]
         end)

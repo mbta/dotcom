@@ -7,8 +7,8 @@ defmodule CMS.Page.NewsEntryTest do
 
   setup do
     %{
-      api_page_no_path_alias: Static.news_repo() |> Enum.at(0),
-      api_page_path_alias: Static.news_repo() |> Enum.at(1)
+      api_page_no_path_alias: Enum.at(Static.news_repo(), 0),
+      api_page_path_alias: Enum.at(Static.news_repo(), 1)
     }
   end
 

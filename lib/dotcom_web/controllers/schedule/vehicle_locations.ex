@@ -4,9 +4,9 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   """
   import Plug.Conn, only: [assign: 3]
 
-  require Logger
-
   alias Stops.Stop
+
+  require Logger
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -73,12 +73,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   end
 
   @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
-  defp find_all_locations(
-         %Plug.Conn{
-           assigns: %{route: %Routes.Route{id: "Green"}}
-         } = conn,
-         opts
-       ) do
+  defp find_all_locations(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, opts) do
     GreenLine.branch_ids()
     |> Enum.flat_map(fn route_id ->
       find_locations(
@@ -86,18 +81,13 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
         opts
       )
     end)
-    |> Enum.into(%{})
+    |> Map.new()
   end
 
   defp find_all_locations(conn, opts), do: find_locations(conn, opts)
 
   @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
-  defp find_locations(
-         %Plug.Conn{
-           assigns: %{route: route, direction_id: direction_id, date: date}
-         },
-         opts
-       )
+  defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id, date: date}}, opts)
        when not is_nil(route) do
     schedule_for_trip_fn = opts[:schedule_for_trip_fn]
 
@@ -139,10 +129,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   defp find_previous_station([], _stop_id), do: nil
   defp find_previous_station([_], _stop_id), do: nil
 
-  defp find_previous_station(
-         [previous_stop_schedule, %Schedules.Schedule{stop: %Stop{id: stop_id}} | _rest],
-         stop_id
-       ) do
+  defp find_previous_station([previous_stop_schedule, %Schedules.Schedule{stop: %Stop{id: stop_id}} | _rest], stop_id) do
     previous_stop_schedule.stop
   end
 

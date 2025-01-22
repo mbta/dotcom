@@ -1,5 +1,7 @@
 defmodule DotcomWeb.ScheduleController.ScheduleError do
+  @moduledoc false
   use Plug.Builder
+
   alias Schedules.Repo
 
   def call(%{assigns: %{date_in_rating?: true}} = conn, _) do

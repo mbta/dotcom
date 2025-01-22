@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController do
   use DotcomWeb, :controller
+
   alias Routes.Route
   alias Schedules.Schedule
 
@@ -29,10 +30,7 @@ defmodule DotcomWeb.ScheduleController do
     )
   end
 
-  def show(
-        %{assigns: %{route: %Route{type: mode, id: route_id}}, query_params: query_params} = conn,
-        _params
-      )
+  def show(%{assigns: %{route: %Route{type: mode, id: route_id}}, query_params: query_params} = conn, _params)
       when mode in [2, 4] do
     tab_redirect(conn, timetable_path(conn, :show, route_id, query_params))
   end
@@ -114,10 +112,8 @@ defmodule DotcomWeb.ScheduleController do
       # past. But let's log the last five, to uncover other possible issues.
 
       log_entries =
-        Enum.map(
-          out_schedules,
-          &trip_and_time_tuple/1
-        )
+        out_schedules
+        |> Enum.map(&trip_and_time_tuple/1)
         |> Enum.take(-5)
 
       _ =
@@ -140,7 +136,7 @@ defmodule DotcomWeb.ScheduleController do
 
   defp trim_response(schedules) do
     schedules
-    |> Enum.map(&Map.drop(&1, [:stop]))
+    |> Enum.map(&Map.delete(&1, :stop))
     |> Enum.map(fn %Schedule{route: route} = schedule ->
       %Schedule{schedule | route: Map.take(route, [:id])}
     end)

@@ -1,7 +1,9 @@
 defmodule Alerts.ParserTest do
   use ExUnit.Case, async: true
 
-  alias Alerts.{InformedEntity, InformedEntitySet, Parser}
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
+  alias Alerts.Parser
 
   describe "Alert.parse/1" do
     test ".parse converts a JsonApi.Item into an Alerts.Alert" do
@@ -59,19 +61,15 @@ defmodule Alerts.ParserTest do
                      }
                    ]),
                  active_period: [
-                   {~N[2016-06-06T14:48:48]
-                    |> Timex.Timezone.convert("America/New_York"),
-                    ~N[2016-06-06T19:53:51]
-                    |> Timex.Timezone.convert("America/New_York")}
+                   {Timex.Timezone.convert(~N[2016-06-06T14:48:48], "America/New_York"),
+                    Timex.Timezone.convert(~N[2016-06-06T19:53:51], "America/New_York")}
                  ],
                  banner: "Test banner copy",
                  severity: 3,
                  lifecycle: :ongoing,
                  effect: :delay,
                  cause: :traffic,
-                 updated_at:
-                   ~N[2016-06-20T16:09:29]
-                   |> Timex.Timezone.convert("America/New_York"),
+                 updated_at: Timex.Timezone.convert(~N[2016-06-20T16:09:29], "America/New_York"),
                  description: "Affected routes: 18",
                  priority: :low,
                  url: "www.mbta.com",
@@ -142,9 +140,7 @@ defmodule Alerts.ParserTest do
           }
         })
 
-      informed_entities =
-        parsed.informed_entity
-        |> Enum.map(& &1.route)
+      informed_entities = Enum.map(parsed.informed_entity, & &1.route)
 
       assert informed_entities == ["Green-B", "Green"]
     end
@@ -188,9 +184,7 @@ defmodule Alerts.ParserTest do
           }
         })
 
-      informed_entities =
-        parsed.informed_entity
-        |> Enum.map(& &1.route)
+      informed_entities = Enum.map(parsed.informed_entity, & &1.route)
 
       assert Enum.filter(informed_entities, &(&1 == "Green")) == ["Green"]
     end

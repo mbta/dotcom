@@ -65,7 +65,7 @@ defmodule Test.Support.Factories.Routes.Route do
         1 => Faker.Address.street_address()
       },
       description:
-        [
+        Faker.Util.pick([
           :airport_shuttle,
           :commuter_rail,
           :rapid_transit,
@@ -77,8 +77,7 @@ defmodule Test.Support.Factories.Routes.Route do
           :commuter_bus,
           :community_bus,
           :unknown
-        ]
-        |> Faker.Util.pick(),
+        ]),
       fare_class: fare_class,
       line_id: FactoryHelpers.build(:id)
     }
@@ -109,7 +108,7 @@ defmodule Test.Support.Factories.Routes.Route do
   defp fare_class(_, 4), do: :ferry_fare
 
   defp fare_class(_, _) do
-    [
+    Faker.Util.pick([
       :local_bus_fare,
       :express_bus_fare,
       :rapid_transit_fare,
@@ -118,7 +117,6 @@ defmodule Test.Support.Factories.Routes.Route do
       :free_fare,
       :special_fare,
       :unknown_fare
-    ]
-    |> Faker.Util.pick()
+    ])
   end
 end

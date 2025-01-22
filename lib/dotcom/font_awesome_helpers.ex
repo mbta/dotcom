@@ -1,4 +1,5 @@
 defmodule Dotcom.FontAwesomeHelpers do
+  @moduledoc false
   import DotcomWeb.ViewHelpers, only: [fa: 1]
 
   # Selected MIME types from

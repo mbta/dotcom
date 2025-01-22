@@ -4,7 +4,8 @@ defmodule BuildCalendarTest do
   import BuildCalendar
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias BuildCalendar.{Calendar, Day}
+  alias BuildCalendar.Calendar
+  alias BuildCalendar.Day
   alias Holiday.Repo.Helpers
 
   defp url_fn(keywords) do

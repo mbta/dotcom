@@ -4,10 +4,12 @@ defmodule Dotcom.JsonHelpers do
   """
 
   alias Alerts.Alert
+  alias DotcomWeb.AlertView
+  alias DotcomWeb.ScheduleView
+  alias DotcomWeb.ViewHelpers
   alias Phoenix.HTML
   alias Phoenix.HTML.Safe
   alias Routes.Route
-  alias DotcomWeb.{AlertView, ScheduleView, ViewHelpers}
 
   @spec stringified_route(Route.t()) :: map
   def stringified_route(route) do
@@ -36,7 +38,7 @@ defmodule Dotcom.JsonHelpers do
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
   def alert_active_period({first, last}) do
-    [first, last] |> Enum.map(&format_time(&1))
+    Enum.map([first, last], &format_time(&1))
   end
 
   defp format_time(t) do

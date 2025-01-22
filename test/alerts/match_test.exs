@@ -68,8 +68,7 @@ defmodule Alerts.MatchTest do
         ],
         active_period: [
           {nil, ~N[2016-06-01T00:00:00]},
-          {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}),
-           NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
+          {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}), NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
           {NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}}), nil}
         ]
       )

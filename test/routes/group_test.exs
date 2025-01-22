@@ -1,5 +1,6 @@
 defmodule Routes.GroupTest do
   use ExUnit.Case, async: true
+
   alias Routes.Route
 
   @light_rail %Route{

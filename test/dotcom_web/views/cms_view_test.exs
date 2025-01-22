@@ -1,8 +1,8 @@
 defmodule DotcomWeb.CMSViewTest do
   use Dotcom.ViewCase, async: true
 
-  import DotcomWeb.CMSView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
+  import DotcomWeb.CMSView
 
   alias CMS.Api.Static
   alias CMS.Field.File

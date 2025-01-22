@@ -3,8 +3,8 @@ defmodule Dotcom.ScheduleNote do
   Represents text describing the schedule for a subway route
   """
 
-  import PhoenixHTMLHelpers.Tag
   import PhoenixHTMLHelpers.Link
+  import PhoenixHTMLHelpers.Tag
 
   alias DotcomWeb.Router.Helpers
   alias Phoenix.HTML

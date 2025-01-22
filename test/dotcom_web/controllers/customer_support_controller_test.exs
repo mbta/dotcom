@@ -8,9 +8,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   setup :verify_on_exit!
 
   setup do
-    conn =
-      default_conn()
-      |> put_req_header("x-forwarded-for", "10.108.98.#{Enum.random(0..999)}")
+    conn = put_req_header(default_conn(), "x-forwarded-for", "10.108.98.#{Enum.random(0..999)}")
 
     stub(Routes.Repo.Mock, :by_type, fn _ ->
       []
@@ -185,7 +183,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
     @tag :flaky
     test "validates that the subject is a required field", %{conn: conn} do
       # remove subject from valid_no_response_data:
-      form_data = pop_in(valid_no_response_data()["support"]["subject"]) |> elem(1)
+      form_data = valid_no_response_data()["support"]["subject"] |> pop_in() |> elem(1)
 
       conn =
         post(
@@ -303,8 +301,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       File.write!("/tmp/upload-2", "upload 2 data")
 
       params =
-        valid_no_response_data()
-        |> put_in(["support", "photos"], [
+        put_in(valid_no_response_data(), ["support", "photos"], [
           %Plug.Upload{filename: "photo-1.jpg", path: "/tmp/upload-1"},
           %Plug.Upload{filename: "photo-2.jpg", path: "/tmp/upload-2"}
         ])
@@ -321,9 +318,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
 
     @tag :flaky
     test "doesn't attach more than 6 files", %{conn: conn} do
-      params =
-        valid_no_response_data()
-        |> put_in(["support", "photos"], test_photos())
+      params = put_in(valid_no_response_data(), ["support", "photos"], test_photos())
 
       conn = post(conn, customer_support_path(conn, :submit), params)
       wait_for_ticket_task(conn)
@@ -336,9 +331,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       # Oversized test file is ~4 MB
       oversized_file = Enum.find(test_photos(), &String.starts_with?(&1.filename, "oversized"))
 
-      params =
-        valid_no_response_data()
-        |> put_in(["support", "photos"], [oversized_file])
+      params = put_in(valid_no_response_data(), ["support", "photos"], [oversized_file])
 
       conn = post(conn, customer_support_path(conn, :submit), params)
 
@@ -350,8 +343,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
     @tag :flaky
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
       params =
-        valid_request_response_data()
-        |> put_in(["support", "photos"], [
+        put_in(valid_request_response_data(), ["support", "photos"], [
           %Plug.Upload{filename: "image.jpg"},
           %Plug.Upload{filename: "runme.exe"}
         ])
@@ -471,11 +463,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       conn = assign(conn, :view_module, DotcomWeb.CustomerSupportView)
 
       rendered =
-        safe_to_string(
-          html_escape(
-            DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
-          )
-        )
+        safe_to_string(html_escape(DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)))
 
       anchor = Floki.find(rendered, ".c-expandable-block__link")
       assert Enum.count(anchor) == 1
@@ -493,11 +481,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       conn = assign(conn, :view_module, DotcomWeb.CustomerSupportView)
 
       rendered =
-        safe_to_string(
-          html_escape(
-            DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
-          )
-        )
+        safe_to_string(html_escape(DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)))
 
       assert rendered == ""
     end
@@ -522,11 +506,11 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
           m
         end
 
-      two_months_from_now = Util.now() |> Timex.shift(months: 2)
+      two_months_from_now = Timex.shift(Util.now(), months: 2)
 
       conn =
-        post(
-          conn |> assign(:all_options_per_mode, %{}),
+        assign(conn, :all_options_per_mode, %{})
+        |> post(
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "date_time"], two_months_from_now)
         )
@@ -632,10 +616,11 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   defp wait_for_ticket_task(_), do: :ok
 
   defp test_photos do
-    Application.app_dir(:dotcom, "priv/test/attachments/*.jpg")
+    :dotcom
+    |> Application.app_dir("priv/test/attachments/*.jpg")
     |> Path.wildcard()
     |> Enum.map(fn path ->
-      filename = String.split(path, "/") |> List.last()
+      filename = path |> String.split("/") |> List.last()
       %Plug.Upload{path: path, filename: filename, content_type: "image/jpeg"}
     end)
   end

@@ -7,12 +7,9 @@ defmodule VehicleHelpers do
 
   alias DotcomWeb.ScheduleController.VehicleLocations
   alias Predictions.Prediction
-  alias Routes.{Route, Shape}
-  alias Stops.Stop
+  alias Routes.Route
+  alias Routes.Shape
   alias Schedules.Trip
-  alias DotcomWeb.ScheduleController.VehicleLocations
-
-  import Routes.Route, only: [vehicle_name: 1]
   alias Stops.Stop
   alias Vehicles.Vehicle
 
@@ -49,7 +46,7 @@ defmodule VehicleHelpers do
           {nil, nil}
         end
 
-      stop_name = @stops_repo.get(vehicle.stop_id) |> stop_name()
+      stop_name = vehicle.stop_id |> @stops_repo.get() |> stop_name()
 
       tooltip = %VehicleTooltip{
         vehicle: vehicle,
@@ -76,8 +73,7 @@ defmodule VehicleHelpers do
   defp index_vehicle_predictions(predictions) do
     predictions
     |> Stream.filter(&(&1.trip && &1.stop))
-    |> Stream.map(&{{&1.trip.id, &1.stop.id}, &1})
-    |> Enum.into(Map.new())
+    |> Map.new(&{{&1.trip.id, &1.stop.id}, &1})
   end
 
   @spec stop_name(Stops.Stop.t() | nil) :: String.t()
@@ -123,21 +119,14 @@ defmodule VehicleHelpers do
     ""
   end
 
-  def tooltip(%VehicleTooltip{
-        prediction: prediction,
-        vehicle: vehicle,
-        trip: trip,
-        stop_name: stop_name,
-        route: route
-      }) do
+  def tooltip(%VehicleTooltip{prediction: prediction, vehicle: vehicle, trip: trip, stop_name: stop_name, route: route}) do
     status_text = prediction_status_text(prediction)
     stop_text = realtime_stop_text(trip, stop_name, vehicle, route)
     build_tooltip(status_text, stop_text)
   end
 
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
-  defp prediction_status_text(%Prediction{status: status, track: track})
-       when not is_nil(track) and not is_nil(status) do
+  defp prediction_status_text(%Prediction{status: status, track: track}) when not is_nil(track) and not is_nil(status) do
     [String.downcase(status), " on track ", track]
   end
 
@@ -188,7 +177,7 @@ defmodule VehicleHelpers do
     # Sometimes the prediction status is "Departed" and the vehicle status is
     # :stopped. We rewrite this tooltip to make a bit more sense
     if Enum.member?(status_text, "departed") and Enum.member?(stop_text, " has arrived at ") do
-      adjusted_stop_text = "#{stop_text}" |> String.replace("arrived at", "has left")
+      adjusted_stop_text = String.replace("#{stop_text}", "arrived at", "has left")
 
       "#{adjusted_stop_text}, #{status_text}"
     else

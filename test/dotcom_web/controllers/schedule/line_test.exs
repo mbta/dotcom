@@ -322,7 +322,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
 
       services_for_route = conn.assigns.schedule_page_data.services
       [default_service] = Enum.filter(services_for_route, &(&1.default_service? === true))
-      assert default_service.id == List.first(@fourtwofour_services) |> Map.get(:id)
+      assert default_service.id == @fourtwofour_services |> List.first() |> Map.get(:id)
     end
   end
 end

@@ -4,13 +4,12 @@ defmodule DotcomWeb.Live.SystemStatus do
   put it into the homepage (and elsewhere).
   """
 
-  alias Dotcom.SystemStatus
   use DotcomWeb, :live_view
 
+  alias Dotcom.SystemStatus
+
   def render(assigns) do
-    assigns =
-      assigns
-      |> assign(:alerts, SystemStatus.subway_alerts_for_today())
+    assigns = assign(assigns, :alerts, SystemStatus.subway_alerts_for_today())
 
     ~H"""
     <div class="flex flex-col gap-2">

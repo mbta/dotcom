@@ -78,7 +78,7 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
         })
         |> predictions(
           predictions_fn: fn params ->
-            case Enum.into(params, Map.new()) do
+            case Map.new(params) do
               # vehicle predictions
               %{trip: trip_ids} ->
                 Enum.map(

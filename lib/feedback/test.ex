@@ -30,7 +30,7 @@ defmodule Feedback.Test do
       %{
         to: parsed_message.headers["to"],
         text: parsed_message.body,
-        attachments: attachments |> Enum.map(&simplify_attachment/1)
+        attachments: Enum.map(attachments, &simplify_attachment/1)
       }
 
     file = Application.get_env(:dotcom, :test_mail_file)

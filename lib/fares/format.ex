@@ -2,7 +2,8 @@ defmodule Fares.Format do
   @moduledoc """
   Formatting functions for fare data.
   """
-  alias Fares.{Fare, Summary}
+  alias Fares.Fare
+  alias Fares.Summary
 
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
 
@@ -149,8 +150,7 @@ defmodule Fares.Format do
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
         fares: [
-          {price_range_label,
-           [Fares.Format.price(min_price), " – ", Fares.Format.price(max_price)]}
+          {price_range_label, [Fares.Format.price(min_price), " – ", Fares.Format.price(max_price)]}
         ],
         url: url
       }

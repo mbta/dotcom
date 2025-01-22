@@ -1,17 +1,19 @@
 defmodule Fares.MonthTest do
   use ExUnit.Case, async: true
 
-  alias Fares.{Fare, Month}
-  alias Routes.Route
-
   import Mox
+
+  alias Fares.Fare
+  alias Fares.Month
+  alias Routes.Route
+  alias Stops.Repo.Mock
 
   @default_filters [reduced: nil, duration: :month]
 
   setup :verify_on_exit!
 
   setup do
-    stub(Stops.Repo.Mock, :get, fn id -> %Stops.Stop{id: id} end)
+    stub(Mock, :get, fn id -> %Stops.Stop{id: id} end)
     :ok
   end
 
@@ -177,14 +179,14 @@ defmodule Fares.MonthTest do
         ]
       end
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
       assert %Fare{cents: 35_000} =
                Month.recommended_pass(route, origin_id, destination_id, fare_fn)
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "1A"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
@@ -222,14 +224,14 @@ defmodule Fares.MonthTest do
         ]
       end
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
 
       assert %Fare{cents: 27_100} =
                Month.recommended_pass(route, origin_id, destination_id, fare_fn)
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "1A"} end)
 
@@ -267,14 +269,14 @@ defmodule Fares.MonthTest do
         ]
       end
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 
       assert %Fare{cents: 12_900} =
                Month.recommended_pass(route, origin_id, destination_id, fare_fn)
 
-      Stops.Repo.Mock
+      Mock
       |> expect(:get, fn ^origin_id -> %Stops.Stop{zone: "4"} end)
       |> expect(:get, fn ^destination_id -> %Stops.Stop{zone: "7"} end)
 

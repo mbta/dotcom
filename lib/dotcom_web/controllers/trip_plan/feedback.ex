@@ -4,13 +4,13 @@ defmodule DotcomWeb.TripPlan.Feedback do
   the trip planner. Saves to the Redis cache with the default TTL of :infinity.
   """
 
-  require Logger
-
   use DotcomWeb, :controller
   use Nebulex.Caching.Decorators
 
   alias Dotcom.Cache.TripPlanFeedback.KeyGenerator
   alias DotcomWeb.TripPlan.FeedbackCSV
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :trip_plan_feedback_cache)
 
@@ -28,7 +28,8 @@ defmodule DotcomWeb.TripPlan.Feedback do
   end
 
   def get_cached_data do
-    @cache.all("dotcom_web.trip_plan.feedback|#{env_name()}*")
+    "dotcom_web.trip_plan.feedback|#{env_name()}*"
+    |> @cache.all()
     |> @cache.get_all()
     |> Stream.map(&elem(&1, 1))
     |> FeedbackCSV.rows()

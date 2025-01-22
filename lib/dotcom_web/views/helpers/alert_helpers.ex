@@ -1,5 +1,7 @@
 defmodule DotcomWeb.Views.Helpers.AlertHelpers do
+  @moduledoc false
   import DotcomWeb.Router.Helpers, only: [line_path: 3]
+
   alias DotcomWeb.PartialView.HeaderTabBadge
 
   def alert_line_show_path(_conn, "Elevator"), do: "/accessibility"

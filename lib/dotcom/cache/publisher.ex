@@ -7,21 +7,27 @@ defmodule Dotcom.Cache.Publisher do
   We only implement the delete/3 function to publish the cache invalidation message and stats/1 to reset the evictions counter.
   """
 
-  require Logger
+  @behaviour Nebulex.Adapter
+  @behaviour Nebulex.Adapter.Entry
+  @behaviour Nebulex.Adapter.Persistence
+  @behaviour Nebulex.Adapter.Queryable
 
-  # Inherit default implementations
   use Nebulex.Adapter.Stats
   use Nebulex.Adapter.Transaction
 
   alias Dotcom.Cache.Subscriber
+  alias Nebulex.Adapter.Entry
+  alias Nebulex.Adapter.Persistence
+  alias Nebulex.Adapter.Queryable
   alias Nebulex.Adapter.Stats
 
+  require Logger
+
+  # Inherit default implementations
   @channel "dotcom:cache:publisher"
   @redis Application.compile_env!(:dotcom, :redis)
 
   def channel, do: @channel
-
-  @behaviour Nebulex.Adapter
 
   @impl Nebulex.Adapter
   defmacro __before_compile__(_env), do: :ok
@@ -50,21 +56,19 @@ defmodule Dotcom.Cache.Publisher do
     {:ok, child_spec, adapter_meta}
   end
 
-  @behaviour Nebulex.Adapter.Entry
-
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def get(_, _, _), do: nil
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def get_all(_, _, _), do: %{}
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def put(_, _, _, _, _, _), do: true
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def put_all(_, _, _, _, _), do: true
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   @doc """
   Publishes cache eviction messages to the Redis PubSub @channel.
   Gives the command as the first argument, the publisher_id as the second, and the key as the third.
@@ -79,48 +83,42 @@ defmodule Dotcom.Cache.Publisher do
       "#{command}|#{meta.publisher_id}|#{key}"
     ])
 
-    Logger.notice(
-      "dotcom.cache.multilevel.publisher.#{command} publisher_id=#{meta.publisher_id} key=#{key}"
-    )
+    Logger.notice("dotcom.cache.multilevel.publisher.#{command} publisher_id=#{meta.publisher_id} key=#{key}")
 
     Stats.incr(meta.stats_counter, :evictions)
 
     :ok
   end
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def take(_, _, _), do: nil
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def has_key?(_, _), do: false
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def ttl(_, _), do: nil
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def expire(_, _, _), do: true
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def touch(_, _), do: true
 
-  @impl Nebulex.Adapter.Entry
+  @impl Entry
   def update_counter(_, _, amount, _, default, _), do: default + amount
 
-  @behaviour Nebulex.Adapter.Queryable
-
-  @impl Nebulex.Adapter.Queryable
+  @impl Queryable
   def execute(_, :all, _, _), do: []
   def execute(_, _, _, _), do: 0
 
-  @impl Nebulex.Adapter.Queryable
+  @impl Queryable
   def stream(_, _, _), do: Stream.each([], & &1)
 
-  @behaviour Nebulex.Adapter.Persistence
-
-  @impl Nebulex.Adapter.Persistence
+  @impl Persistence
   def dump(_, _, _), do: :ok
 
-  @impl Nebulex.Adapter.Persistence
+  @impl Persistence
   def load(_, _, _), do: :ok
 
   @impl Nebulex.Adapter.Stats

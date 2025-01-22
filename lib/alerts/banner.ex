@@ -1,4 +1,5 @@
 defmodule Alerts.Banner do
+  @moduledoc false
   alias Alerts.Alert
   alias Alerts.InformedEntitySet
 

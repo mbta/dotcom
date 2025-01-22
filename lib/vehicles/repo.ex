@@ -6,6 +6,7 @@ defmodule Vehicles.Repo do
   """
 
   use GenServer
+
   alias Vehicles.Vehicle
 
   @spec route(String.t(), Keyword.t()) :: [Vehicle.t()]

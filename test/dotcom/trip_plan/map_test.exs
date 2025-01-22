@@ -1,7 +1,9 @@
 defmodule Dotcom.TripPlan.MapTest do
   use ExUnit.Case, async: true
+
   import Dotcom.TripPlan.Map
-  alias Leaflet.{MapData}
+
+  alias Leaflet.MapData
 
   describe "initial_map_data/0" do
     test "gives the initial map data" do

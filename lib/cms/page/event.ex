@@ -3,8 +3,6 @@ defmodule CMS.Page.Event do
   Represents an "event" content type in the Drupal CMS.
   """
 
-  import Phoenix.HTML, only: [raw: 1]
-
   import CMS.Helpers,
     only: [
       field_value: 2,
@@ -17,6 +15,8 @@ defmodule CMS.Page.Event do
       parse_paragraphs: 2,
       path_alias: 1
     ]
+
+  import Phoenix.HTML, only: [raw: 1]
 
   import Util,
     only: [time_is_greater_or_equal?: 2, date_to_naive_date: 1, now: 0]
@@ -126,7 +126,7 @@ defmodule CMS.Page.Event do
   def started_status(nil, _), do: nil
 
   def started_status(%NaiveDateTime{} = start, %NaiveDateTime{} = stop) do
-    now = now() |> DateTime.to_naive()
+    now = DateTime.to_naive(now())
 
     cond do
       time_is_greater_or_equal?(now, stop) -> :ended

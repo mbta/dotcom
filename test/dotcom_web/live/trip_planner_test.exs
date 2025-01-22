@@ -5,6 +5,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   import Phoenix.LiveViewTest
 
   alias OpenTripPlannerClient.Test.Support.Factory
+  alias Test.Support.Factories.MBTA.Api
   alias Test.Support.Factories.TripPlanner.TripPlanner, as: TripPlannerFactory
 
   setup :verify_on_exit!
@@ -18,7 +19,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
       %JsonApi{
         data: [
-          Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+          Api.build(:trip_item, %{id: id})
         ]
       }
     end)
@@ -38,8 +39,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     base_leg =
       Factory.build(:transit_leg, %{
         agency: Factory.build(:agency, %{name: "MBTA"}),
-        route:
-          Factory.build(:route, %{gtfs_id: "mbta-ma-us:internal", type: Faker.Util.pick(0..4)}),
+        route: Factory.build(:route, %{gtfs_id: "mbta-ma-us:internal", type: Faker.Util.pick(0..4)}),
         trip:
           Factory.build(:trip, %{
             direction_id: Faker.Util.pick(["0", "1"]),
@@ -133,9 +133,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
 
       %{
-        conn:
-          conn
-          |> put_req_header("authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
+        conn: put_req_header(conn, "authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
       }
     end
 
@@ -152,18 +150,14 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         }
       }
 
-      {:ok, view, _html} =
-        conn
-        |> live(~p"/preview/trip-planner?#{params}")
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
 
       assert render_async(view) =~
                "Please select a destination at a different location from the origin."
     end
 
     test "does not show errors if origin or destination are missing", %{conn: conn} do
-      {:ok, view, _html} =
-        conn
-        |> live(~p"/preview/trip-planner")
+      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner")
 
       refute render_async(view) =~ "Please specify an origin location."
       refute render_async(view) =~ "Please add a destination."
@@ -282,7 +276,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -316,7 +310,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)
@@ -347,7 +341,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
         %JsonApi{
           data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
+            Api.build(:trip_item, %{id: id})
           ]
         }
       end)

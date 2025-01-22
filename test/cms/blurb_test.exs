@@ -1,5 +1,6 @@
 defmodule CMS.BlurbTest do
   use ExUnit.Case, async: false
+
   alias CMS.Blurb
 
   @suffix_length String.length(Blurb.suffix())

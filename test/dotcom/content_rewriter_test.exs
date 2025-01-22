@@ -113,8 +113,7 @@ defmodule Dotcom.ContentRewriterTest do
       assert ~s(<img src="/image.png" alt="an image" class="existing-class" />)
              |> raw()
              |> rewrite(conn) ==
-               {:safe,
-                ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
+               {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
     test "strips non-button elements from a paragraph with one .btn element and wraps it in a div",
@@ -122,8 +121,7 @@ defmodule Dotcom.ContentRewriterTest do
       assert ~s(<p><a class="btn btn-primary" href="/page">Button 1</a>&nbsp; </p>)
              |> raw()
              |> rewrite(conn) ==
-               {:safe,
-                ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
+               {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
     end
 
     test "strips non-button elements from a paragraph with two or more .btn elements and wraps them in a div",
@@ -255,6 +253,6 @@ defmodule Dotcom.ContentRewriterTest do
   defp svg_bus do
     %SvgIconWithCircle{icon: :bus, size: :small}
     |> svg_icon_with_circle()
-    |> safe_to_string
+    |> safe_to_string()
   end
 end

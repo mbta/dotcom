@@ -1,11 +1,12 @@
 defmodule SortTest do
   use ExUnit.Case, async: true
 
-  alias Schedules.Schedule
   import Schedules.Sort
   import Timex, only: [shift: 2]
 
-  @now Timex.now()
+  alias Schedules.Schedule
+
+  @now DateTime.utc_now()
 
   @schedules [
     %Schedule{time: @now, trip: "t1", stop: "s1"},

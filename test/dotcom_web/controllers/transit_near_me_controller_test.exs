@@ -4,8 +4,10 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
   import Mox
   import Test.Support.Factories.MBTA.Api
 
+  alias DotcomWeb.PartialView.FullscreenError
   alias DotcomWeb.TransitNearMeController
-  alias Leaflet.{MapData, MapData.Marker}
+  alias Leaflet.MapData
+  alias Leaflet.MapData.Marker
   alias LocationService.Address
   alias Stops.Stop
 
@@ -165,9 +167,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
       params = %{"address" => @address}
 
-      conn =
-        conn
-        |> get(transit_near_me_path(conn, :index, params))
+      conn = get(conn, transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
 
@@ -175,7 +175,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.stops_json.stops == []
 
       assert conn.assigns.flash == %{
-               "info" => %DotcomWeb.PartialView.FullscreenError{
+               "info" => %FullscreenError{
                  body:
                    "There doesn't seem to be any stations found near the given address. Please try a different address to continue.",
                  heading: "No MBTA service nearby"
@@ -194,9 +194,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
       params = %{"address" => "not_found"}
 
-      conn =
-        conn
-        |> get(transit_near_me_path(conn, :index, params))
+      conn = get(conn, transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
 
@@ -204,7 +202,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.stops_json.stops == []
 
       assert conn.assigns.flash == %{
-               "info" => %DotcomWeb.PartialView.FullscreenError{
+               "info" => %FullscreenError{
                  body: "We are unable to locate that address.",
                  heading: "We’re sorry"
                }
@@ -218,9 +216,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
       params = %{"address" => "nothing"}
 
-      conn =
-        conn
-        |> get(transit_near_me_path(conn, :index, params))
+      conn = get(conn, transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
 
@@ -228,7 +224,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
       assert conn.assigns.stops_json == %{stops: []}
 
       assert conn.assigns.flash == %{
-               "info" => %DotcomWeb.PartialView.FullscreenError{
+               "info" => %FullscreenError{
                  body: "There was an error locating that address. Please try again.",
                  heading: "We’re sorry"
                }

@@ -38,8 +38,7 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     ScheduleView.route_header_text(route)
   end
 
-  defp bus_type(route),
-    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
+  defp bus_type(route), do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
 
   defp route_type(route) do
     route

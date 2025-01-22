@@ -1,5 +1,6 @@
 defmodule PredictedSchedule.DisplayTest do
   use ExUnit.Case, async: true
+
   import PredictedSchedule.Display
 
   describe "do_time_difference/4" do

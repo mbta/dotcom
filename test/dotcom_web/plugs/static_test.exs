@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Plugs.StaticTest do
   @moduledoc false
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Plugs.Static
 
   describe "apple-touch-icon redirects" do

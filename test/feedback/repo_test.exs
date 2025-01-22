@@ -10,7 +10,7 @@ defmodule Feedback.RepoTest do
     comments: "This is great",
     service: "Something",
     no_request_response: false,
-    incident_date_time: Timex.now(),
+    incident_date_time: DateTime.utc_now(),
     email: "fake@email.com",
     first_name: "Test",
     last_name: "Public",
@@ -21,7 +21,7 @@ defmodule Feedback.RepoTest do
     comments: "This will error",
     service: "Something else",
     no_request_response: true,
-    incident_date_time: Timex.now()
+    incident_date_time: DateTime.utc_now()
   }
 
   setup :verify_on_exit!

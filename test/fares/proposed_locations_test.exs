@@ -1,8 +1,8 @@
 defmodule Fares.ProposedLocationsTest do
   use ExUnit.Case, async: false
 
-  import Mock
   import Fares.ProposedLocations
+  import Mock
 
   @location %{latitude: 42.42412295861601, longitude: -71.17941003354629}
 
@@ -17,39 +17,39 @@ defmodule Fares.ProposedLocationsTest do
     stop_id: "2250",
     name: "Massachusetts Ave @ Daniels St"
   }
-  @arcgis_response "{
-    \"objectIdFieldName\" : \"FID\",
-    \"uniqueIdField\" :
+  @arcgis_response ~s({
+    "objectIdFieldName" : "FID",
+    "uniqueIdField" :
     {
-      \"name\" : \"FID\",
-      \"isSystemMaintained\" : true
+      "name" : "FID",
+      "isSystemMaintained" : true
     },
-    \"globalIdFieldName\" : \"\",
-    \"geometryType\" : \"esriGeometryPoint\",
-    \"spatialReference\" : {
-      \"wkid\" : 4326,
-      \"latestWkid\" : 4326
+    "globalIdFieldName" : "",
+    "geometryType" : "esriGeometryPoint",
+    "spatialReference" : {
+      "wkid" : 4326,
+      "latestWkid" : 4326
     },
-    \"fields\" : [],
-    \"features\" : [
+    "fields" : [],
+    "features" : [
       {
-        \"attributes\" : {
-          \"FID\" : 124,
-          \"stop_id\" : \"2250\",
-          \"stop_name\" : \"Massachusetts Ave @ Daniels St\",
-          \"municipali\" : \"Arlington\",
-          \"Line\" : \"Bus\",
-          \"RetailFVM\" : \"Fare vending machine\",
-          \"Routes\" : \"77, 79\"
+        "attributes" : {
+          "FID" : 124,
+          "stop_id" : "2250",
+          "stop_name" : "Massachusetts Ave @ Daniels St",
+          "municipali" : "Arlington",
+          "Line" : "Bus",
+          "RetailFVM" : "Fare vending machine",
+          "Routes" : "77, 79"
         },
-        \"geometry\" :
+        "geometry" :
         {
-          \"x\" : -71.17941003354629,
-          \"y\" : 42.42412295861601
+          "x" : -71.17941003354629,
+          "y" : 42.42412295861601
         }
       }
     ]
-  }"
+  })
 
   describe "coordinates" do
     test "latitude" do
@@ -83,8 +83,7 @@ defmodule Fares.ProposedLocationsTest do
 
     test "by_lat_lon - unsuccessful response due to error in parsing" do
       with_mocks([
-        {HTTPoison, [],
-         [get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end]},
+        {HTTPoison, [], [get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end]},
         {Poison, [], [decode: fn _body -> {:error, nil} end]}
       ]) do
         log =

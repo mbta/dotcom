@@ -1,13 +1,14 @@
 defmodule Dotcom.ViewCase do
+  @moduledoc false
   use ExUnit.CaseTemplate
 
   using do
     quote do
-      import Plug.Conn
+      import CMS.Factory
+      import DotcomWeb.Router.Helpers
       import Phoenix.ConnTest
       import Phoenix.View
-      import DotcomWeb.Router.Helpers
-      import CMS.Factory
+      import Plug.Conn
     end
   end
 

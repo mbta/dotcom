@@ -6,9 +6,11 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
+  import DotcomWeb.Components.TripPlanner.ItineraryDetail
+  import DotcomWeb.Components.TripPlanner.ItinerarySummary
 
-  alias Dotcom.TripPlan.{ItineraryGroup, ItineraryGroups}
+  alias Dotcom.TripPlan.ItineraryGroup
+  alias Dotcom.TripPlan.ItineraryGroups
 
   def results(assigns) do
     ~H"""
@@ -102,8 +104,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       itinerary: itinerary,
       itinerary_selection: itinerary_selection,
       summary: ItineraryGroups.to_summary(itinerary, [itinerary]),
-      time_label:
-        if(itinerary_group.representative_time_key == :stop, do: "Arrive by", else: "Depart at")
+      time_label: if(itinerary_group.representative_time_key == :stop, do: "Arrive by", else: "Depart at")
     }
 
     ~H"""

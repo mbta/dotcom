@@ -1,14 +1,16 @@
 defmodule DotcomWeb.TripPlanControllerTest do
   use DotcomWeb.ConnCase, async: true
 
-  alias Dotcom.TripPlan.{Itinerary, PersonalDetail, Query, TransitDetail}
-  alias Fares.Fare
-
+  import Mox
   import Test.Support.Factories.LocationService.LocationService
 
-  doctest DotcomWeb.TripPlanController
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.Query
+  alias Dotcom.TripPlan.TransitDetail
+  alias Fares.Fare
 
-  import Mox
+  doctest DotcomWeb.TripPlanController
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{

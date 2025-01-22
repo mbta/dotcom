@@ -1,10 +1,13 @@
 defmodule DotcomWeb.FacilitiesControllerTest do
   use DotcomWeb.ConnCase
+
   import Mock
+
+  alias MBTA.Api.Facilities
 
   describe "get_facilities/1" do
     setup_with_mocks([
-      {MBTA.Api.Facilities, [],
+      {Facilities, [],
        [
          filter_by: fn _x ->
            %{
@@ -61,7 +64,7 @@ defmodule DotcomWeb.FacilitiesControllerTest do
 
   describe "get_facilities/2" do
     setup_with_mocks([
-      {MBTA.Api.Facilities, [],
+      {Facilities, [],
        [
          filter_by: fn x ->
            {:error, x}

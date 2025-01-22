@@ -3,23 +3,18 @@ defmodule CMS.Page do
   Parses the api data to a struct, based on the api data's content type.
   """
 
-  alias CMS.Partial.{
-    Paragraph,
-    Paragraph.ContentList
-  }
-
-  alias CMS.Page.{
-    Basic,
-    Diversions,
-    Event,
-    EventAgenda,
-    Landing,
-    NewsEntry,
-    Person,
-    Project,
-    ProjectUpdate,
-    Redirect
-  }
+  alias CMS.Page.Basic
+  alias CMS.Page.Diversions
+  alias CMS.Page.Event
+  alias CMS.Page.EventAgenda
+  alias CMS.Page.Landing
+  alias CMS.Page.NewsEntry
+  alias CMS.Page.Person
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
+  alias CMS.Page.Redirect
+  alias CMS.Partial.Paragraph
+  alias CMS.Partial.Paragraph.ContentList
 
   @type t ::
           Basic.t()

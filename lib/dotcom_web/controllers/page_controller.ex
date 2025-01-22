@@ -4,14 +4,11 @@ defmodule DotcomWeb.PageController do
 
   import DotcomWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Paragraph
+  alias CMS.Partial.Teaser
+  alias CMS.Partial.WhatsHappeningItem
   alias CMS.Repo
-
-  alias CMS.Partial.{
-    Banner,
-    Paragraph,
-    Teaser,
-    WhatsHappeningItem
-  }
 
   plug(:alerts)
   plug(DotcomWeb.Plugs.RecentlyVisited)
@@ -46,8 +43,7 @@ defmodule DotcomWeb.PageController do
   end
 
   def menu(conn, _params) do
-    conn
-    |> render("menu.html")
+    render(conn, "menu.html")
   end
 
   @spec fares(map) :: Paragraph.t() | nil

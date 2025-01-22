@@ -69,7 +69,7 @@ defmodule Req.Stats do
 
   defp strip_filename(path) do
     path
-    |> (&Regex.replace(~r/\/$/, &1, "")).()
-    |> (&Regex.replace(~r/[\w|-]+\.\w+/, &1, "")).()
+    |> then(&Regex.replace(~r/\/$/, &1, ""))
+    |> then(&Regex.replace(~r/[\w|-]+\.\w+/, &1, ""))
   end
 end

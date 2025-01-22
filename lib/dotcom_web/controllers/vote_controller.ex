@@ -10,10 +10,7 @@ defmodule DotcomWeb.VoteController do
   plug(:meta_description)
   plug(:clear_polling_results)
 
-  def show(
-        conn,
-        %{"address" => address, "latitude" => latitude, "longitude" => longitude} = _params
-      ) do
+  def show(conn, %{"address" => address, "latitude" => latitude, "longitude" => longitude} = _params) do
     google_api_key = Application.get_env(:dotcom, :google_api_key)
 
     response =
@@ -47,7 +44,7 @@ defmodule DotcomWeb.VoteController do
           |> assign(:trip_plan_path, trip_plan_path(DotcomWeb.Endpoint, :index, params))
 
         _ ->
-          conn |> assign(:polling_error, true)
+          assign(conn, :polling_error, true)
       end
 
     conn
@@ -67,8 +64,8 @@ defmodule DotcomWeb.VoteController do
   end
 
   defp meta_description(conn, _) do
-    conn
-    |> assign(
+    assign(
+      conn,
       :meta_description,
       "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
     )

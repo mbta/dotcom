@@ -3,7 +3,8 @@ defmodule MBTA.Api.RoutesTest do
 
   import Mox
 
-  alias MBTA.Api.{Mock, Routes}
+  alias MBTA.Api.Mock
+  alias MBTA.Api.Routes
 
   setup :set_mox_global
   setup :verify_on_exit!
@@ -60,7 +61,7 @@ defmodule MBTA.Api.RoutesTest do
 
   test "by_stop/1 sends stop as query parameter" do
     # Setup
-    stop = Faker.Team.creature() |> String.downcase()
+    stop = String.downcase(Faker.Team.creature())
 
     expect(Mock, :get_json, fn url, params ->
       assert url == "/routes/"
@@ -78,7 +79,7 @@ defmodule MBTA.Api.RoutesTest do
 
   test "by_stop_and_direction/2 sends stop and direction_id as query parameters" do
     # Setup
-    stop = Faker.Team.creature() |> String.downcase()
+    stop = String.downcase(Faker.Team.creature())
     direction_id = :rand.uniform(1)
 
     expect(Mock, :get_json, fn url, params ->

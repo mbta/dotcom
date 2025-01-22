@@ -2,8 +2,8 @@ defmodule DotcomWeb.PartialView.FullscreenError do
   @moduledoc """
   Struct for an error message that appears fullscreen.
   """
-  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3]
   import DotcomWeb.ViewHelpers, only: [fa: 1]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3]
 
   alias Phoenix.HTML
 

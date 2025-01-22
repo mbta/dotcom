@@ -3,6 +3,7 @@ defmodule Routes.RouteTest do
 
   import Mox
   import Routes.Route
+
   alias Routes.Route
 
   setup :verify_on_exit!
@@ -165,8 +166,8 @@ defmodule Routes.RouteTest do
 
   describe "silver_line?/1" do
     test "returns true if a route id is in @silver_line" do
-      assert %Routes.Route{id: "741"} |> silver_line?()
-      refute %Routes.Route{id: "747"} |> silver_line?()
+      assert silver_line?(%Routes.Route{id: "741"})
+      refute silver_line?(%Routes.Route{id: "747"})
     end
   end
 
@@ -265,19 +266,19 @@ defmodule Routes.RouteTest do
 
   describe "rail?/1" do
     test "returns true if a route is on rails" do
-      assert %Routes.Route{type: 0} |> rail?()
-      assert %Routes.Route{type: 1} |> rail?()
-      assert %Routes.Route{type: 2} |> rail?()
-      refute %Routes.Route{type: 3} |> rail?()
-      refute %Routes.Route{type: 4} |> rail?()
+      assert rail?(%Routes.Route{type: 0})
+      assert rail?(%Routes.Route{type: 1})
+      assert rail?(%Routes.Route{type: 2})
+      refute rail?(%Routes.Route{type: 3})
+      refute rail?(%Routes.Route{type: 4})
     end
   end
 
   describe "commuter_rail?/1" do
     test "returns ture if a route is a commuter rail" do
-      assert %Routes.Route{type: 2} |> commuter_rail?()
-      refute %Routes.Route{type: 0} |> commuter_rail?()
-      refute %Routes.Route{type: 1} |> commuter_rail?()
+      assert commuter_rail?(%Routes.Route{type: 2})
+      refute commuter_rail?(%Routes.Route{type: 0})
+      refute commuter_rail?(%Routes.Route{type: 1})
     end
   end
 end

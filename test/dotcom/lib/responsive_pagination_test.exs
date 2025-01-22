@@ -1,5 +1,6 @@
 defmodule Dotcom.ResponsivePaginationTest do
   use ExUnit.Case
+
   import Dotcom.ResponsivePagination
 
   @stats %{offset: 4, per_page: 10, total: 100}

@@ -18,22 +18,26 @@ defimpl BannerAlert, for: Alerts.Banner do
   def header(banner), do: banner.title
 
   def human_effect(banner) do
-    alert_from_banner(banner)
+    banner
+    |> alert_from_banner()
     |> Alerts.Alert.human_effect()
   end
 
   def human_label(banner) do
-    alert_from_banner(banner)
+    banner
+    |> alert_from_banner()
     |> Alerts.Alert.human_label()
   end
 
   def icon(banner) do
-    alert_from_banner(banner)
+    banner
+    |> alert_from_banner()
     |> Alerts.Alert.icon()
   end
 
   def label_class(banner) do
-    alert_from_banner(banner)
+    banner
+    |> alert_from_banner()
     |> DotcomWeb.AlertView.alert_label_class()
   end
 

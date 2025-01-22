@@ -20,14 +20,17 @@ defmodule Dotcom.Cache.Multilevel do
     default_key_generator: Dotcom.Cache.KeyGenerator
 
   defmodule Local do
+    @moduledoc false
     use Nebulex.Cache, otp_app: :dotcom, adapter: Nebulex.Adapters.Local
   end
 
   defmodule Redis do
+    @moduledoc false
     use Nebulex.Cache, otp_app: :dotcom, adapter: NebulexRedisAdapter
   end
 
   defmodule Publisher do
+    @moduledoc false
     use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
   end
 
@@ -71,8 +74,8 @@ defmodule Dotcom.Cache.Multilevel do
   That way we'll delete from the Local, Redis, and publish the delete on the Publisher.
   """
   def flush_multiple_keys(pattern) do
-    case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
-      {:ok, conn} -> (delete_from_nodes(conn, pattern) ++ [@redix.stop(conn)]) |> all_ok()
+    case :dotcom |> Application.get_env(:redis_config) |> @redix.start_link() do
+      {:ok, conn} -> all_ok(delete_from_nodes(conn, pattern) ++ [@redix.stop(conn)])
       {:error, _} -> :error
     end
   end
@@ -113,7 +116,7 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   defp delete_stream_keys(conn, pattern) do
-    case stream_keys(conn, pattern) |> Enum.to_list() |> List.flatten() do
+    case conn |> stream_keys(pattern) |> Enum.to_list() |> List.flatten() do
       [] -> :ok
       keys -> delete_keys(conn, keys)
     end

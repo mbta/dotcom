@@ -6,7 +6,8 @@ defmodule JourneyList do
 
   alias PredictedSchedule.Group
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
 
   defstruct journeys: [],
             expansion: :none
@@ -29,8 +30,7 @@ defmodule JourneyList do
   @doc "Returns true if any of the journeys have a prediction"
   @spec has_predictions?(t) :: boolean
   def has_predictions?(journeys) do
-    journeys
-    |> Enum.any?(&Journey.has_prediction?/1)
+    Enum.any?(journeys, &Journey.has_prediction?/1)
   end
 
   @doc """
@@ -83,11 +83,7 @@ defmodule JourneyList do
 
   # nil prediction times usually mean vehicles having departed in the past, but
   # we can still show them if they're marked with the "Departed" status
-  defp missing_prediction_time_unless_recent_departure(%Journey{
-         departure: %{
-           prediction: %{time: nil, status: status}
-         }
-       }) do
+  defp missing_prediction_time_unless_recent_departure(%Journey{departure: %{prediction: %{time: nil, status: status}}}) do
     status !== "Departed"
   end
 
@@ -138,8 +134,7 @@ defmodule JourneyList do
       |> Journey.Filter.limit(!keep_all?)
 
     %__MODULE__{
-      journeys:
-        if(keep_all?, do: Journey.Filter.sort(expanded_journeys), else: collapsed_journeys),
+      journeys: if(keep_all?, do: Journey.Filter.sort(expanded_journeys), else: collapsed_journeys),
       expansion: Journey.Filter.expansion(expanded_journeys, collapsed_journeys, keep_all?)
     }
   end
@@ -216,15 +211,13 @@ defmodule JourneyList do
   @spec build_schedule_map(Schedule.t(), schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
     key = schedule.trip
-    updater = fn trip_map -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
+    updater = fn trip_map -> Map.put(trip_map, schedule.stop.id, schedule) end
     Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
   end
 
   @spec first_trip([Schedule.t() | Prediction.t() | nil]) :: Trip.t() | nil
   defp first_trip(list_with_trips) do
-    list_with_valid_trips =
-      list_with_trips
-      |> Enum.reject(&is_nil/1)
+    list_with_valid_trips = Enum.reject(list_with_trips, &is_nil/1)
 
     if Enum.empty?(list_with_valid_trips) do
       nil

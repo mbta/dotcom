@@ -8,7 +8,8 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   import MbtaMetro.Components.InputGroup
   import Phoenix.HTML.Form, only: [input_value: 2]
 
-  alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
+  alias Dotcom.TripPlan.InputForm
+  alias Dotcom.TripPlan.InputForm.Modes
   alias MbtaMetro.Live.DatePicker
 
   @doc """
@@ -113,9 +114,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   end
 
   defp location_search_box(assigns) do
-    assigns =
-      assigns
-      |> assign(:location_keys, InputForm.Location.fields())
+    assigns = assign(assigns, :location_keys, InputForm.Location.fields())
 
     ~H"""
     <fieldset class="mb-sm -mt-md" id={"#{@name}-wrapper"}>

@@ -26,8 +26,7 @@ defmodule Dotcom.TripPlan.DateTime do
   end
 
   @spec do_validate(DateTime.t() | {:error, any}, String.t() | nil, Query.t()) :: Query.t()
-  defp do_validate({:error, {error, %DateTime{} = dt}}, type, query)
-       when error in [:too_future, :past] do
+  defp do_validate({:error, {error, %DateTime{} = dt}}, type, query) when error in [:too_future, :past] do
     errors = MapSet.put(query.errors, error)
     do_validate(dt, type, %{query | errors: errors})
   end

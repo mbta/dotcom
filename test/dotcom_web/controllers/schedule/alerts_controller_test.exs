@@ -1,6 +1,8 @@
 defmodule DotcomWeb.ScheduleController.AlertsControllerTest do
   use DotcomWeb.ConnCase
+
   import DotcomWeb.ScheduleController.AlertsController
+
   alias Routes.Route
 
   describe "show" do

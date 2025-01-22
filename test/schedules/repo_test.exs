@@ -1,7 +1,9 @@
 defmodule Schedules.RepoTest do
   use ExUnit.Case, async: false
   use Timex
+
   import Schedules.Repo
+
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
   alias Schedules.Schedule
@@ -116,7 +118,7 @@ defmodule Schedules.RepoTest do
 
       # find a Worcester CR trip ID
       response = schedule_for_trip(trip_id)
-      assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
+      assert Enum.all?(response, fn schedule -> schedule.trip.id == trip_id end)
       refute response == []
       assert List.first(response).stop.id == "place-WML-0442"
       assert List.last(response).stop.id == "place-sstat"
@@ -268,16 +270,14 @@ defmodule Schedules.RepoTest do
   describe "has_trip?/1" do
     test "keeps parsed schedules with trips" do
       assert has_trip?(
-               {"CR-Lowell", "CR-Weekday-Fall-18-348", "place-NHRML-0254", nil,
-                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
+               {"CR-Lowell", "CR-Weekday-Fall-18-348", "place-NHRML-0254", nil, "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
                 "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, false, 1, 0}
              )
     end
 
     test "filters out parsed schedules that returned without trips" do
       refute has_trip?(
-               {"CR-Lowell", nil, "place-NHRML-0254", nil,
-                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
+               {"CR-Lowell", nil, "place-NHRML-0254", nil, "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
                 "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, false, 1, 0}
              )
     end

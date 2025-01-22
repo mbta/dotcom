@@ -1,17 +1,15 @@
 defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase, async: true
-
   use Phoenix.Controller
 
+  import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
+  import Mox
   import Phoenix.LiveViewTest
+  import Test.Support.Factories.Routes.Route
 
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
-
-  import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
-  import Mox
-  import Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 
@@ -86,9 +84,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   describe "mode icons" do
     setup %{conn: conn} do
-      {:ok,
-       conn: conn,
-       alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
+      {:ok, conn: conn, alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
     end
 
     test "are shown on subway alerts", %{conn: conn, alerts: alerts} do
@@ -130,39 +126,32 @@ defmodule DotcomWeb.AlertControllerTest do
       %SvgIconWithCircle{icon: mode}
       |> SvgIconWithCircle.svg_icon_with_circle()
       |> Phoenix.HTML.safe_to_string()
-      |> Kernel.<>(mode |> get_route |> Map.get(:name))
+      |> Kernel.<>(mode |> get_route() |> Map.get(:name))
     end
 
     defp create_alert(mode) do
       mode
-      |> get_route
+      |> get_route()
       |> do_create_alert(mode)
     end
 
-    defp get_route(:ferry),
-      do: %Routes.Route{id: "Boat-F4", description: :ferry, name: "Charlestown Ferry", type: 4}
+    defp get_route(:ferry), do: %Routes.Route{id: "Boat-F4", description: :ferry, name: "Charlestown Ferry", type: 4}
 
-    defp get_route(:bus),
-      do: %Routes.Route{id: "59", description: :local_bus, name: "59", type: 3}
+    defp get_route(:bus), do: %Routes.Route{id: "59", description: :local_bus, name: "59", type: 3}
 
     defp get_route(mode) when mode in [:subway, :access, :red_line],
       do: %Routes.Route{id: "Red", description: :rapid_transit, name: "Red Line", type: 1}
 
     defp get_route(:commuter_rail),
-      do: %Routes.Route{
-        id: "CR-Fitchburg",
-        description: :commuter_rail,
-        name: "Fitchburg Line",
-        type: 2
-      }
+      do: %Routes.Route{id: "CR-Fitchburg", description: :commuter_rail, name: "Fitchburg Line", type: 2}
 
     defp do_create_alert(route, mode) do
       {route,
        [
          Alert.new(
-           active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
+           active_period: [{Timex.shift(Util.now(), days: -2), nil}],
            informed_entity: [informed_entity(mode)],
-           updated_at: Util.now() |> Timex.shift(days: -2),
+           updated_at: Timex.shift(Util.now(), days: -2),
            effect: effect(mode)
          )
        ]}

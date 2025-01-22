@@ -85,7 +85,7 @@ defmodule DotcomWeb.StopListViewTest do
 
       tooltips =
         assigns
-        |> stop_bubble_row_params
+        |> stop_bubble_row_params()
         |> Enum.map(& &1.vehicle_tooltip)
 
       assert [nil, nil, %VehicleTooltip{}, nil] = tooltips
@@ -234,7 +234,7 @@ defmodule DotcomWeb.StopListViewTest do
           first_departure: ~N[2017-02-27 06:15:00],
           last_departure: ~N[2017-02-28 01:04:00]
         }
-        |> display_departure_range
+        |> display_departure_range()
         |> IO.iodata_to_binary()
 
       assert result == "6:15 AM-1:04 AM"

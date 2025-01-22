@@ -1,8 +1,8 @@
 defmodule DotcomWeb.ErrorViewTest do
   use DotcomWeb.ConnCase, async: false
 
-  import Phoenix.View, only: [render_to_string: 3]
   import Phoenix.Controller
+  import Phoenix.View, only: [render_to_string: 3]
 
   test "renders 404.html", %{conn: conn} do
     assert render_to_string(DotcomWeb.ErrorView, "404.html", conn: conn) =~

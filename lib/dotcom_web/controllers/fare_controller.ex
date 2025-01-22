@@ -3,6 +3,7 @@ defmodule DotcomWeb.FareController do
   Controller for the Fares section of the website.
   """
   use DotcomWeb, :controller
+
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   plug(:meta_description)
@@ -39,13 +40,7 @@ defmodule DotcomWeb.FareController do
   @spec find_locations(Conn.t(), map, :proposed | :retail) :: Conn.t()
   def find_locations(
         conn,
-        %{
-          "location" => %{
-            "address" => address,
-            "latitude" => latitude,
-            "longitude" => longitude
-          }
-        } = _params,
+        %{"location" => %{"address" => address, "latitude" => latitude, "longitude" => longitude}} = _params,
         proposed_or_retail
       ) do
     case {Float.parse(latitude), Float.parse(longitude)} do
@@ -92,12 +87,9 @@ defmodule DotcomWeb.FareController do
 
   defp render_with_locations(conn, found_locations, address, position, proposed_or_retail) do
     opts =
-      [address: address, search_position: position]
-      |> Keyword.put_new(
-        if(proposed_or_retail == :proposed,
-          do: :nearby_proposed_locations,
-          else: :fare_sales_locations
-        ),
+      Keyword.put_new(
+        [address: address, search_position: position],
+        if(proposed_or_retail == :proposed, do: :nearby_proposed_locations, else: :fare_sales_locations),
         found_locations
       )
 
@@ -191,8 +183,8 @@ defmodule DotcomWeb.FareController do
   defp display_fare_class(%Routes.Route{fare_class: fare_class}), do: fare_class
 
   defp meta_description(conn, _) do
-    conn
-    |> assign(
+    assign(
+      conn,
       :meta_description,
       "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. " <>
         "Find online CharlieCard services and learn about bulk ordering programs."

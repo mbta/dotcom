@@ -1,20 +1,17 @@
 defmodule DotcomWeb.SearchView do
   use DotcomWeb, :view
 
-  import DotcomWeb.CMSView, only: [render_duration: 2]
   import Dotcom.ContentRewriter, only: [rewrite: 2]
+  import DotcomWeb.CMSView, only: [render_duration: 2]
 
   alias CMS.Search.Result
-
-  alias CMS.SearchResult.{
-    Event,
-    File,
-    LandingPage,
-    Link,
-    NewsEntry,
-    Page,
-    Person
-  }
+  alias CMS.SearchResult.Event
+  alias CMS.SearchResult.File
+  alias CMS.SearchResult.LandingPage
+  alias CMS.SearchResult.Link
+  alias CMS.SearchResult.NewsEntry
+  alias CMS.SearchResult.Page
+  alias CMS.SearchResult.Person
 
   defdelegate fa_icon_for_file_type(mime), to: Dotcom.FontAwesomeHelpers
 
@@ -81,9 +78,10 @@ defmodule DotcomWeb.SearchView do
   @spec track_search_click(String.t(), String.t()) :: String.t()
   defp track_search_click(url, origin) do
     delimiter =
-      case String.contains?(url, "?") do
-        true -> "&"
-        false -> "?"
+      if String.contains?(url, "?") do
+        "&"
+      else
+        "?"
       end
 
     "#{url}#{delimiter}from=#{origin}"

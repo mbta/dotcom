@@ -21,8 +21,7 @@ defmodule Predictions.StreamSupervisor do
 
   @spec ensure_stream_is_started({Store.fetch_keys(), StreamTopic.filter_params()}) ::
           {:ok, pid()} | :bypassed
-  def ensure_stream_is_started(args),
-    do: ensure_stream_is_started(args, System.get_env("USE_SERVER_SENT_EVENTS"))
+  def ensure_stream_is_started(args), do: ensure_stream_is_started(args, System.get_env("USE_SERVER_SENT_EVENTS"))
 
   defp ensure_stream_is_started(_, "false"), do: :bypassed
 

@@ -10,15 +10,16 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 3]
 
-  require Logger
-
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.ScheduleController.TripInfo, as: Trips
   alias DotcomWeb.ScheduleController.VehicleLocations, as: Vehicles
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
+
+  require Logger
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   # How many seconds a departure is considered recent
@@ -52,7 +53,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     # Schedules-only and Predictions-only configuration for
     # ScheduleFinder.
     today? = params["is_current"] == "true"
-    current_time = if today?, do: user_selected_date, else: nil
+    current_time = if today?, do: user_selected_date
 
     journey_list_opts = [
       origin_id: stop_id,
@@ -71,7 +72,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   @spec departures(Plug.Conn.t(), map) :: Plug.Conn.t()
   def departures(conn, %{"stop" => stop_id} = params) do
     now = conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601()
-    params = %{"date" => now, "is_current" => "true"} |> Map.merge(params)
+    params = Map.merge(%{"date" => now, "is_current" => "true"}, params)
 
     {schedules, predictions} = load_from_repos(conn, params)
 
@@ -91,14 +92,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   @spec get_trip_info(Plug.Conn.t(), Trip.id_t(), Route.t(), String.t(), String.t(), String.t()) ::
           Plug.Conn.t()
-  def get_trip_info(
-        conn,
-        trip_id,
-        route,
-        date,
-        direction,
-        origin
-      ) do
+  def get_trip_info(conn, trip_id, route, date, direction, origin) do
     {service_end_date, direction_id, _} = convert_from_string(date: date, direction: direction)
     params = %{"origin" => origin, "trip" => trip_id}
     opts = Map.get(conn.assigns, :trip_info_functions, [])
@@ -128,9 +122,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       original_query_params = conn.query_params
 
       _ =
-        Logger.warning(
-          "trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}"
-        )
+        Logger.warning("trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}")
 
       conn
       |> put_resp_content_type("application/json")
@@ -148,14 +140,8 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # conn operations leading up to getting the trip_info data in the Finder
   # API.
   @spec trip(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def trip(conn, %{
-        "id" => trip_id,
-        "route" => route_id,
-        "date" => date,
-        "direction" => direction,
-        "stop" => origin
-      }) do
-    schedule_route_id = route_id |> get_route_id(trip_id)
+  def trip(conn, %{"id" => trip_id, "route" => route_id, "date" => date, "direction" => direction, "stop" => origin}) do
+    schedule_route_id = get_route_id(route_id, trip_id)
 
     if schedule_route_id do
       route = @routes_repo.get(schedule_route_id)
@@ -205,9 +191,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       case schedules_fn.(route_ids, schedule_opts) do
         {:error, error} ->
           _ =
-            Logger.warning(
-              "module=#{__MODULE__} Error getting schedules for #{route_ids}: #{inspect(error)}"
-            )
+            Logger.warning("module=#{__MODULE__} Error getting schedules for #{route_ids}: #{inspect(error)}")
 
           []
 
@@ -225,7 +209,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
     predictions =
       if current_service?,
-        do: @predictions_repo.all(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
+        do: prediction_opts |> @predictions_repo.all() |> Enum.filter(&(&1.stop.id == stop_id)),
         else: []
 
     {schedules, predictions}
@@ -234,7 +218,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # Add detailed prediction data to journeys known to have predictions.
   @spec enhance_journeys(Journey.t()) :: map
   defp enhance_journeys(%{departure: departure} = journey) do
-    now = Timex.now()
+    now = DateTime.utc_now()
 
     time_map =
       departure
@@ -250,11 +234,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # a prediction's status and limit recent trips to a certain time range.
   # NOTE: Only works for N/S Station and Back Bay, and predictions will
   # drop off (become nil) anytime during the duration of the trip.
-  defp recent_departure(
-         {_, details},
-         %{schedule: schedule, prediction: %{status: "Departed"} = prediction},
-         now
-       )
+  defp recent_departure({_, details}, %{schedule: schedule, prediction: %{status: "Departed"} = prediction}, now)
        when not is_nil(schedule) do
     time_elapsed = DateTime.diff(now, schedule.time)
 
@@ -373,7 +353,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       |> update_in([:prediction], &maybe_remove_prediction_stop/1)
 
     journey
-    |> Map.drop([:arrival])
+    |> Map.delete(:arrival)
     |> Map.put(:departure, clean_schedule_and_prediction)
   end
 
@@ -404,7 +384,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   defp clean_schedule_or_prediction(schedule_or_prediction, key) do
-    update_in(schedule_or_prediction, [key], &Map.drop(&1, [:route]))
+    update_in(schedule_or_prediction, [key], &Map.delete(&1, :route))
   end
 
   defp add_computed_fares_to_trip_info(trip_info, route) do
@@ -448,22 +428,15 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     )
   end
 
-  def maybe_add_delay(%{prediction: nil} = schedule_and_prediction),
-    do: schedule_and_prediction
+  def maybe_add_delay(%{prediction: nil} = schedule_and_prediction), do: schedule_and_prediction
 
-  def maybe_add_delay(%{prediction: %{time: nil}} = schedule_and_prediction),
-    do: schedule_and_prediction
+  def maybe_add_delay(%{prediction: %{time: nil}} = schedule_and_prediction), do: schedule_and_prediction
 
-  def maybe_add_delay(%{schedule: nil} = schedule_and_prediction),
-    do: schedule_and_prediction
+  def maybe_add_delay(%{schedule: nil} = schedule_and_prediction), do: schedule_and_prediction
 
-  def maybe_add_delay(%{schedule: %{time: nil}} = schedule_and_prediction),
-    do: schedule_and_prediction
+  def maybe_add_delay(%{schedule: %{time: nil}} = schedule_and_prediction), do: schedule_and_prediction
 
-  def maybe_add_delay(
-        %{schedule: %{time: schedule_time}, prediction: %{time: prediction_time}} =
-          schedule_and_prediction
-      ) do
+  def maybe_add_delay(%{schedule: %{time: schedule_time}, prediction: %{time: prediction_time}} = schedule_and_prediction) do
     delay = DateTime.diff(prediction_time, schedule_time)
     Map.put_new(schedule_and_prediction, :delay, delay)
   end

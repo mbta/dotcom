@@ -3,10 +3,13 @@ defmodule Dotcom.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
-  require Logger
-
-  alias Dotcom.ContentRewriters.{EmbeddedMedia, Links, LiquidObjects, ResponsiveTables}
+  alias Dotcom.ContentRewriters.EmbeddedMedia
+  alias Dotcom.ContentRewriters.Links
+  alias Dotcom.ContentRewriters.LiquidObjects
+  alias Dotcom.ContentRewriters.ResponsiveTables
   alias Dotcom.FlokiHelpers
+
+  require Logger
 
   @typep tree_or_binary :: Floki.html_tree() | binary
 
@@ -26,7 +29,7 @@ defmodule Dotcom.ContentRewriter do
 
     parsed
     |> FlokiHelpers.traverse(&dispatch_rewrites(&1, conn))
-    |> render
+    |> render()
     |> Phoenix.HTML.raw()
   end
 
@@ -104,19 +107,11 @@ defmodule Dotcom.ContentRewriter do
     |> rewrite_children(conn, context)
   end
 
-  defp dispatch_rewrites(
-         {_, [{"class", "iframe-container"}], [{"iframe", _, _}]} = element,
-         _conn,
-         _context
-       ) do
+  defp dispatch_rewrites({_, [{"class", "iframe-container"}], [{"iframe", _, _}]} = element, _conn, _context) do
     element
   end
 
-  defp dispatch_rewrites(
-         {_, [{"class", "embedded-entity" <> _}], _children} = element,
-         conn,
-         context
-       ) do
+  defp dispatch_rewrites({_, [{"class", "embedded-entity" <> _}], _children} = element, conn, context) do
     element
     |> EmbeddedMedia.parse()
     |> EmbeddedMedia.build()
@@ -152,9 +147,7 @@ defmodule Dotcom.ContentRewriter do
 
   # Paragraph-like elements include p, ul, and ol
   @spec decends_from_a_paragraph_like_element?(tree_or_binary) :: boolean
-  defp decends_from_a_paragraph_like_element?({el, _attrs, _children})
-       when el in ["p", "ul", "ol", "td"],
-       do: true
+  defp decends_from_a_paragraph_like_element?({el, _attrs, _children}) when el in ["p", "ul", "ol", "td"], do: true
 
   defp decends_from_a_paragraph_like_element?(_), do: false
 end

@@ -4,7 +4,8 @@ defmodule CMS.Partial.Paragraph.DescriptionList do
   """
   import CMS.Helpers, only: [parse_paragraphs: 3]
 
-  alias CMS.Partial.Paragraph.{ColumnMultiHeader, Description}
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
+  alias CMS.Partial.Paragraph.Description
 
   defstruct header: nil,
             descriptions: []

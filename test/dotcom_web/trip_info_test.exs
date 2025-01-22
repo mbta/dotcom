@@ -1,9 +1,11 @@
 defmodule TripInfoTest do
   use ExUnit.Case, async: true
+
   import TripInfo
 
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
   alias Vehicles.Vehicle
 
@@ -166,7 +168,7 @@ defmodule TripInfoTest do
     end
 
     test "if there are not enough times, returns an error" do
-      actual = @time_list |> Enum.take(1) |> from_list
+      actual = @time_list |> Enum.take(1) |> from_list()
       assert {:error, _} = actual
     end
 

@@ -7,13 +7,10 @@ defmodule DotcomWeb.CmsRouterHelpers do
   id, we delegate to the Phoenix helpers from RouterHelpers.
   """
 
-  alias CMS.Page.{
-    Event,
-    NewsEntry,
-    Project,
-    ProjectUpdate
-  }
-
+  alias CMS.Page.Event
+  alias CMS.Page.NewsEntry
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
   alias CMS.Partial.Teaser
   alias DotcomWeb.Router.Helpers, as: RouterHelpers
   alias DotcomWeb.ViewHelpers
@@ -117,11 +114,7 @@ defmodule DotcomWeb.CmsRouterHelpers do
   end
 
   @spec project_update_path(Conn.t(), atom, ProjectUpdate.t() | Teaser.t()) :: String.t()
-  def project_update_path(
-        conn,
-        :project_update,
-        %ProjectUpdate{path_alias: nil} = project_update
-      ) do
+  def project_update_path(conn, :project_update, %ProjectUpdate{path_alias: nil} = project_update) do
     check_preview(conn, "/node/#{project_update.id}")
   end
 

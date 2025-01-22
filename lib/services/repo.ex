@@ -3,19 +3,20 @@ defmodule Services.Repo do
   Retrieves services for a route.
   """
 
-  require Logger
-
   use Nebulex.Caching.Decorators
 
   alias MBTA.Api.Services, as: ServicesApi
   alias Services.Service
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_id(id) when is_binary(id) do
-    ServicesApi.get(id)
+    id
+    |> ServicesApi.get()
     |> handle_response()
     |> List.first()
   end
@@ -27,8 +28,7 @@ defmodule Services.Repo do
   end
 
   def by_route_id("Green", params) do
-    "Green-B,Green-C,Green-D,Green-E"
-    |> by_route_id(params)
+    by_route_id("Green-B,Green-C,Green-D,Green-E", params)
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])

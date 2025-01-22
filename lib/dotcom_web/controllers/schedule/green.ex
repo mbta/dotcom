@@ -4,12 +4,14 @@ defmodule DotcomWeb.ScheduleController.Green do
   """
   use DotcomWeb, :controller
 
-  import UrlHelpers, only: [update_url: 2]
-
   import DotcomWeb.ControllerHelpers,
     only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
-  alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
+  import UrlHelpers, only: [update_url: 2]
+
+  alias DotcomWeb.ScheduleController.LineController
+  alias DotcomWeb.ScheduleController.Predictions
+  alias DotcomWeb.ScheduleController.VehicleLocations
   alias DotcomWeb.ScheduleView
 
   plug(:route)
@@ -33,8 +35,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @task_timeout 10_000
 
-  def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
-    do: alerts(conn, [])
+  def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params), do: alerts(conn, [])
 
   def show(conn, _params), do: line(conn, [])
 
@@ -66,29 +67,26 @@ defmodule DotcomWeb.ScheduleController.Green do
     assign(conn, :route, @routes_repo.green_line())
   end
 
-  def stops_on_routes(
-        %Plug.Conn{assigns: %{direction_id: direction_id, date: date}} = conn,
-        _opts
-      ) do
+  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id, date: date}} = conn, _opts) do
     assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
   end
 
   def predictions(conn, _opts) do
     {predictions, vehicle_predictions} =
-      if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
+      if Predictions.should_fetch_predictions?(conn) do
         predictions_stream =
           conn
-          |> conn_with_branches
+          |> conn_with_branches()
           |> Task.async_stream(
             fn conn ->
-              DotcomWeb.ScheduleController.Predictions.predictions(conn)
+              Predictions.predictions(conn)
             end,
             timeout: @task_timeout,
             on_timeout: :kill_task
           )
 
         vehicle_predictions =
-          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn)
+          Predictions.vehicle_predictions(conn)
 
         {flat_map_results(predictions_stream), vehicle_predictions}
       else
@@ -103,7 +101,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   def vehicle_locations(conn, opts) do
     vehicle_locations =
       conn
-      |> conn_with_branches
+      |> conn_with_branches()
       |> Task.async_stream(
         fn conn ->
           call_plug_with_opts(conn, VehicleLocations, opts).assigns.vehicle_locations
@@ -131,8 +129,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   end
 
   def validate_journeys(conn, []) do
-    origin_predictions =
-      conn.assigns.predictions |> Enum.find(&(&1.stop.id == conn.assigns.origin.id))
+    origin_predictions = Enum.find(conn.assigns.predictions, &(&1.stop.id == conn.assigns.origin.id))
 
     if is_nil(origin_predictions) do
       conn
@@ -141,13 +138,12 @@ defmodule DotcomWeb.ScheduleController.Green do
 
       conn
       |> redirect(to: url)
-      |> halt
+      |> halt()
     end
   end
 
   defp conn_with_branches(conn) do
-    GreenLine.branch_ids()
-    |> Enum.map(fn route_id ->
+    Enum.map(GreenLine.branch_ids(), fn route_id ->
       %{
         conn
         | assigns: %{conn.assigns | route: @routes_repo.get(route_id)},
@@ -168,16 +164,7 @@ defmodule DotcomWeb.ScheduleController.Green do
     []
   end
 
-  defp validate_direction(
-         %{
-           assigns: %{
-             origin: origin,
-             destination: destination,
-             direction_id: direction_id
-           }
-         } = conn,
-         _
-       )
+  defp validate_direction(%{assigns: %{origin: origin, destination: destination, direction_id: direction_id}} = conn, _)
        when not is_nil(origin) and not is_nil(destination) do
     {stops, _map} = conn.assigns.stops_on_routes
 

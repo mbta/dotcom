@@ -67,7 +67,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
       date_op: field_value(data, "field_date_logic"),
       date_min: field_value(data, "field_date"),
       date_max: field_value(data, "field_date_max"),
-      sort_by: data |> field_value("field_sorting"),
+      sort_by: field_value(data, "field_sorting"),
       sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 
@@ -180,8 +180,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
 
   # Check if required min and max values are present when using :between.
   # If either or both min and max are nil, discard all date information.
-  defp combine(%{date_op: "between", date_min: min, date_max: max} = ingredients)
-       when is_nil(min) or is_nil(max) do
+  defp combine(%{date_op: "between", date_min: min, date_max: max} = ingredients) when is_nil(min) or is_nil(max) do
     ingredients
     |> Map.drop([:date_op, :date_min, :date_max])
     |> combine()
@@ -196,8 +195,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
   end
 
   # Use relative time "now" if date operator is specified without specific date.
-  defp combine(%{date_op: op, date_min: nil} = ingredients)
-       when op in ["<", ">="] do
+  defp combine(%{date_op: op, date_min: nil} = ingredients) when op in ["<", ">="] do
     ingredients
     |> Map.drop([:date_min, :date_max])
     |> Map.put(:date, value: "now")
@@ -205,8 +203,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
   end
 
   # Otherwise, use the specific date the author provided for the date value.
-  defp combine(%{date_op: op, date_min: date} = ingredients)
-       when op in ["<", ">="] do
+  defp combine(%{date_op: op, date_min: date} = ingredients) when op in ["<", ">="] do
     ingredients
     |> Map.drop([:date_min, :date_max])
     |> Map.put(:date, value: date)

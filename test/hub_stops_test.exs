@@ -1,6 +1,8 @@
 defmodule HubStopsTest do
   use ExUnit.Case, async: true
+
   import HubStops
+
   alias Routes.Route
   alias Stops.Stop
 

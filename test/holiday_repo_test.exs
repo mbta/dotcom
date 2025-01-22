@@ -46,5 +46,6 @@ end
 
 defmodule Holiday.Repo.HelpersTest do
   use ExUnit.Case, async: true
+
   doctest Holiday.Repo.Helpers
 end

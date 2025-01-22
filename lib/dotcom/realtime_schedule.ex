@@ -77,10 +77,10 @@ defmodule Dotcom.RealtimeSchedule do
     stop_ids
     |> Enum.map(
       &Task.async(fn ->
-        {&1, @stops_repo.get(&1) |> stop_fields()}
+        {&1, &1 |> @stops_repo.get() |> stop_fields()}
       end)
     )
-    |> Enum.into(%{}, &Task.await/1)
+    |> Map.new(&Task.await/1)
   end
 
   @spec stop_fields(Stop.t() | nil) :: map
@@ -111,10 +111,9 @@ defmodule Dotcom.RealtimeSchedule do
   defp get_alerts(route_with_patterns, now, alerts_fn) do
     route_with_patterns
     |> Enum.map(fn {_stop_id, route, _patterns} ->
-      {route.id,
-       Task.async(fn -> get_high_priority_alerts_for_route(route.id, now, alerts_fn) end)}
+      {route.id, Task.async(fn -> get_high_priority_alerts_for_route(route.id, now, alerts_fn) end)}
     end)
-    |> Enum.into(%{}, fn {route_id, task} -> {route_id, Task.await(task)} end)
+    |> Map.new(fn {route_id, task} -> {route_id, Task.await(task)} end)
   end
 
   defp get_high_priority_alerts_for_route(route_id, now, alerts_fn) do
@@ -194,7 +193,7 @@ defmodule Dotcom.RealtimeSchedule do
       end)
     end)
     |> Enum.flat_map(&Task.await(&1, @long_timeout))
-    |> Enum.into(%{})
+    |> Map.new()
   end
 
   @spec do_get_schedules(String.t(), Stop.id_t(), [route_with_patterns_t], DateTime.t(), fun()) ::
@@ -211,13 +210,9 @@ defmodule Dotcom.RealtimeSchedule do
     schedules
     |> Enum.filter(&if Map.has_key?(&1, :stop_id), do: &1.stop_id == stop_id, else: false)
     |> Enum.group_by(& &1.route_pattern_id)
-    |> Enum.into(
-      %{},
-      fn {route_pattern_id, schedules} ->
-        {Map.get(route_pattern_dictionary, route_pattern_id),
-         Enum.take(schedules, @predicted_schedules_per_stop)}
-      end
-    )
+    |> Map.new(fn {route_pattern_id, schedules} ->
+      {Map.get(route_pattern_dictionary, route_pattern_id), Enum.take(schedules, @predicted_schedules_per_stop)}
+    end)
   end
 
   @spec route_pattern_key(RoutePattern.t(), String.t()) :: String.t()
@@ -227,19 +222,18 @@ defmodule Dotcom.RealtimeSchedule do
 
   @spec make_route_pattern_dictionary([RoutePattern.t()], String.t()) :: map
   defp make_route_pattern_dictionary(route_patterns, stop_id) do
-    Enum.into(route_patterns, %{}, &{&1.id, route_pattern_key(&1, stop_id)})
+    Map.new(route_patterns, &{&1.id, route_pattern_key(&1, stop_id)})
   end
 
   @spec build_output(map, [route_with_patterns_t], map, map, map, DateTime.t()) :: [map]
   defp build_output(stops, route_with_patterns, schedules, predictions, alerts, now) do
-    route_with_patterns
-    |> Enum.map(fn {stop_id, route, route_patterns} ->
+    Enum.map(route_with_patterns, fn {stop_id, route, route_patterns} ->
       unique_route_patterns = make_route_patterns_unique(route_patterns, stop_id)
       alerts = Map.get(alerts, route.id, [])
 
       %{
         stop: stops[stop_id],
-        route: route |> Map.put(:alerts, alerts),
+        route: Map.put(route, :alerts, alerts),
         predicted_schedules_by_route_pattern:
           build_predicted_schedules_by_route_pattern(
             stop_id,
@@ -287,7 +281,7 @@ defmodule Dotcom.RealtimeSchedule do
     |> Enum.filter(fn {_name, _direction_id, predicted_schedules} ->
       !Enum.empty?(predicted_schedules)
     end)
-    |> Enum.into(%{}, fn {name, direction_id, predicted_schedules} ->
+    |> Map.new(fn {name, direction_id, predicted_schedules} ->
       {name, %{direction_id: direction_id, predicted_schedules: predicted_schedules}}
     end)
   end
@@ -333,6 +327,5 @@ defmodule Dotcom.RealtimeSchedule do
   @spec format_schedule_time(map | nil) :: map | nil
   defp format_schedule_time(nil), do: nil
 
-  defp format_schedule_time(%{time: time} = schedule),
-    do: %{schedule | time: TransitNearMe.format_time(time)}
+  defp format_schedule_time(%{time: time} = schedule), do: %{schedule | time: TransitNearMe.format_time(time)}
 end

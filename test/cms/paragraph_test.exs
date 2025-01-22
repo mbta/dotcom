@@ -1,39 +1,37 @@
 defmodule CMS.ParagraphTest do
   use ExUnit.Case, async: true
 
-  require Dotcom.Assertions
-
   import CMS.Partial.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias CMS.Api.Static
-  alias CMS.Field.{File, Image, Link}
-
-  alias CMS.Partial.Paragraph.{
-    Accordion,
-    AccordionSection,
-    AgendaSubTopic,
-    AgendaTopic,
-    Callout,
-    CodeEmbed,
-    Column,
-    ColumnMulti,
-    ColumnMultiHeader,
-    ContentList,
-    CustomHTML,
-    Description,
-    DescriptionList,
-    DescriptiveLink,
-    FareCard,
-    FilesGrid,
-    PeopleGrid,
-    PhotoGallery,
-    TitleCardSet,
-    TripPlanWidget,
-    Unknown
-  }
-
+  alias CMS.Field.File
+  alias CMS.Field.Image
+  alias CMS.Field.Link
   alias CMS.Page.Person
+  alias CMS.Partial.Paragraph.Accordion
+  alias CMS.Partial.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.AgendaSubTopic
+  alias CMS.Partial.Paragraph.AgendaTopic
+  alias CMS.Partial.Paragraph.Callout
+  alias CMS.Partial.Paragraph.CodeEmbed
+  alias CMS.Partial.Paragraph.Column
+  alias CMS.Partial.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
+  alias CMS.Partial.Paragraph.ContentList
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.Description
+  alias CMS.Partial.Paragraph.DescriptionList
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.FareCard
+  alias CMS.Partial.Paragraph.FilesGrid
+  alias CMS.Partial.Paragraph.PeopleGrid
+  alias CMS.Partial.Paragraph.PhotoGallery
+  alias CMS.Partial.Paragraph.TitleCardSet
+  alias CMS.Partial.Paragraph.TripPlanWidget
+  alias CMS.Partial.Paragraph.Unknown
+
+  require Dotcom.Assertions
 
   describe "from_api/1" do
     test "parses custom html" do
@@ -423,8 +421,7 @@ defmodule CMS.ParagraphTest do
   end
 
   defp api_paragraph("agenda_topic") do
-    Static.event_agenda_response()
-    |> Map.get("field_agenda_topics")
+    Map.get(Static.event_agenda_response(), "field_agenda_topics")
   end
 
   defp api_paragraph(paragraph_type) do

@@ -1,9 +1,4 @@
 defmodule TripInfo do
-  require Routes.Route
-  alias Fares.OneWay
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   @moduledoc """
   Wraps the important information about a trip.
 
@@ -19,6 +14,12 @@ defmodule TripInfo do
   * duration: the number of minutes the trip takes between origin_id and destination_id
   * base_fare: The minimum, non-discounted, one-way fare for the trip
   """
+  alias Fares.OneWay
+
+  require Routes.Route
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type time :: PredictedSchedule.t()
   @type time_list :: [time]
   @type t :: %__MODULE__{
@@ -85,13 +86,7 @@ defmodule TripInfo do
     |> Map.get(:id)
   end
 
-  defp do_from_list(
-         [time, _ | _] = times,
-         [origin_id | _],
-         destination_id,
-         vehicle_stop_name,
-         opts
-       )
+  defp do_from_list([time, _ | _] = times, [origin_id | _], destination_id, vehicle_stop_name, opts)
        when is_binary(origin_id) and is_binary(destination_id) do
     route = PredictedSchedule.route(time)
     duration = duration(times, origin_id)
@@ -135,8 +130,7 @@ defmodule TripInfo do
 
   defp clamp_to_destination([time | rest], destination_id, acc) do
     if PredictedSchedule.stop(time).id == destination_id do
-      [time | acc]
-      |> Enum.reverse()
+      Enum.reverse([time | acc])
     else
       clamp_to_destination(rest, destination_id, [time | acc])
     end

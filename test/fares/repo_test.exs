@@ -1,7 +1,8 @@
 defmodule Fares.RepoTest do
   use ExUnit.Case, async: true
 
-  alias Fares.{Fare, Repo}
+  alias Fares.Fare
+  alias Fares.Repo
 
   describe "all/0" do
     test "returns a list of the fares we know about" do

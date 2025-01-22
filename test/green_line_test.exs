@@ -1,9 +1,10 @@
 defmodule GreenLineTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   import GreenLine
   import Mox
+
+  @moduletag :external
 
   setup :verify_on_exit!
 

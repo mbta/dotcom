@@ -8,15 +8,16 @@ defmodule CMS.Page.ProjectTest do
     ]
 
   alias CMS.Api.Static
-  alias CMS.Field.{File, Image}
+  alias CMS.Field.File
+  alias CMS.Field.Image
   alias CMS.Page.Project
   alias CMS.Partial.Paragraph.CustomHTML
   alias Phoenix.HTML
 
   setup do
     %{
-      api_data_without_path_alias: Static.project_repo() |> Enum.at(0),
-      api_data_with_path_alias: Static.project_repo() |> Enum.at(1)
+      api_data_without_path_alias: Enum.at(Static.project_repo(), 0),
+      api_data_with_path_alias: Enum.at(Static.project_repo(), 1)
     }
   end
 
@@ -73,9 +74,7 @@ defmodule CMS.Page.ProjectTest do
     end
 
     test "when files are provided", %{api_data_without_path_alias: api_data} do
-      project_data =
-        api_data
-        |> update_api_response_whole_field("field_files", file_api_data())
+      project_data = update_api_response_whole_field(api_data, "field_files", file_api_data())
 
       project = Project.from_api(project_data)
 
@@ -95,9 +94,7 @@ defmodule CMS.Page.ProjectTest do
     end
 
     test "when photo gallery images are provided", %{api_data_without_path_alias: api_data} do
-      project_data =
-        api_data
-        |> update_api_response_whole_field("field_photo_gallery", image_api_data())
+      project_data = update_api_response_whole_field(api_data, "field_photo_gallery", image_api_data())
 
       project = Project.from_api(project_data)
 

@@ -1,5 +1,6 @@
 defmodule CMS.Api.StaticTest do
   use ExUnit.Case
+
   import CMS.Api.Static
 
   describe "view/2" do

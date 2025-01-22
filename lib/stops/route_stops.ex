@@ -3,8 +3,10 @@ defmodule Stops.RouteStops do
   Helpers for assembling a list of RouteStops.
   """
 
-  alias Routes.{Route, Shape}
-  alias Stops.{RouteStop, Stop}
+  alias Routes.Route
+  alias Routes.Shape
+  alias Stops.RouteStop
+  alias Stops.Stop
 
   defstruct [:branch, :stops]
 
@@ -27,8 +29,7 @@ defmodule Stops.RouteStops do
   @spec by_direction([Stop.t()], [Shape.t()], Route.t(), direction_id_t) :: [
           t()
         ]
-  def by_direction(stops, shapes, %Route{} = route, direction_id)
-      when is_integer(direction_id) do
+  def by_direction(stops, shapes, %Route{} = route, direction_id) when is_integer(direction_id) do
     shapes
     |> RouteStop.list_from_shapes(stops, route, direction_id)
     |> Task.async_stream(fn route_stop ->
@@ -63,8 +64,7 @@ defmodule Stops.RouteStops do
   defp branch(_), do: nil
 
   @spec green_branch?(RouteStop.t()) :: boolean()
-  defp green_branch?(%RouteStop{branch: branch}) when is_binary(branch),
-    do: String.starts_with?(branch, "Green")
+  defp green_branch?(%RouteStop{branch: branch}) when is_binary(branch), do: String.starts_with?(branch, "Green")
 
   defp green_branch?(_), do: false
 end

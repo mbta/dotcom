@@ -13,7 +13,8 @@ defmodule DotcomWeb.StopController do
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
-  alias Routes.{Group, Route}
+  alias Routes.Group
+  alias Routes.Route
   alias Services.Service
   alias Stops.Stop
   alias Util.AndOr
@@ -99,22 +100,18 @@ defmodule DotcomWeb.StopController do
     |> Stream.reject(&ends_at?(&1, stop_id))
     |> Stream.reject(&exclusively_drop_offs?(&1, stop_id))
     |> Enum.group_by(& &1.route_id)
-    |> Enum.map(&with_headsign_groups/1)
-    |> Map.new()
+    |> Map.new(&with_headsign_groups/1)
   end
 
-  defp with_headsign_groups({route_id, route_patterns}),
-    do: {route_id, with_headsign_groups(route_patterns)}
+  defp with_headsign_groups({route_id, route_patterns}), do: {route_id, with_headsign_groups(route_patterns)}
 
   defp with_headsign_groups(route_patterns) do
     route_patterns
     |> Enum.group_by(& &1.headsign)
-    |> Enum.map(&with_annotation/1)
-    |> Map.new()
+    |> Map.new(&with_annotation/1)
   end
 
-  defp with_annotation({headsign, route_patterns}),
-    do: {headsign, with_annotation(route_patterns)}
+  defp with_annotation({headsign, route_patterns}), do: {headsign, with_annotation(route_patterns)}
 
   @spec with_annotation([RoutePattern.t()]) :: headsign_info
   defp with_annotation(headsign_route_patterns) do
@@ -133,8 +130,7 @@ defmodule DotcomWeb.StopController do
   # Canonical route patterns don't serve any date! Just ignore in this case
   defp not_serving_today?(%RoutePattern{typicality: :canonical}), do: false
 
-  defp not_serving_today?(%RoutePattern{route_id: route_id})
-       when is_binary(route_id) do
+  defp not_serving_today?(%RoutePattern{route_id: route_id}) when is_binary(route_id) do
     case Services.Repo.by_route_id(route_id) do
       [%Service{} | _] = services ->
         services
@@ -150,10 +146,12 @@ defmodule DotcomWeb.StopController do
   defp not_serving_today?(_), do: false
 
   defp ends_at?(%RoutePattern{stop_ids: stop_ids}, stop_id) when is_list(stop_ids) do
-    with last_stop_id <- List.last(stop_ids),
-         %Stop{child_ids: child_ids} <- @stops_repo.get(stop_id) do
-      last_stop_id == stop_id || last_stop_id in child_ids
-    else
+    last_stop_id = List.last(stop_ids)
+
+    case @stops_repo.get(stop_id) do
+      %Stop{child_ids: child_ids} ->
+        last_stop_id == stop_id || last_stop_id in child_ids
+
       _ ->
         false
     end
@@ -161,10 +159,7 @@ defmodule DotcomWeb.StopController do
 
   defp ends_at?(_route_pattern, _stop_id), do: false
 
-  defp exclusively_drop_offs?(
-         %RoutePattern{route_id: route_id, direction_id: direction_id},
-         stop_id
-       ) do
+  defp exclusively_drop_offs?(%RoutePattern{route_id: route_id, direction_id: direction_id}, stop_id) do
     case Schedules.Repo.by_route_ids([route_id], direction_id: direction_id, stop_ids: stop_id) do
       [%Schedules.Schedule{} | _] = schedules ->
         # pickup_type=1 indicates that the schedule has no pickup available
@@ -175,8 +170,7 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  defp add_polyline(%RoutePattern{representative_trip_polyline: nil} = route_pattern),
-    do: route_pattern
+  defp add_polyline(%RoutePattern{representative_trip_polyline: nil} = route_pattern), do: route_pattern
 
   defp add_polyline(%RoutePattern{route_id: route_id} = route_pattern) do
     route = @routes_repo.get(route_id)
@@ -199,7 +193,7 @@ defmodule DotcomWeb.StopController do
 
     conn
     |> redirect(to: stop_path(conn, :show, real_id))
-    |> halt
+    |> halt()
   end
 
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
@@ -247,8 +241,7 @@ defmodule DotcomWeb.StopController do
   @spec schedules_for_routes([Route.t()], Stop.id_t(), DateTime.t()) :: [
           route_with_directions | nil
         ]
-  defp schedules_for_routes(routes, stop_id, now),
-    do: Enum.map(routes, &schedules_for_route(&1, stop_id, now))
+  defp schedules_for_routes(routes, stop_id, now), do: Enum.map(routes, &schedules_for_route(&1, stop_id, now))
 
   @spec schedules_for_route(Route.t(), Stop.id_t(), DateTime.t()) :: route_with_directions | nil
   defp schedules_for_route(%Route{} = route, stop_id, now) do
@@ -279,8 +272,7 @@ defmodule DotcomWeb.StopController do
   end
 
   @spec any_headsign_includes_predictions?(TransitNearMe.direction_data()) :: boolean
-  defp any_headsign_includes_predictions?(%{headsigns: headsigns}),
-    do: Enum.any?(headsigns, &includes_predictions?/1)
+  defp any_headsign_includes_predictions?(%{headsigns: headsigns}), do: Enum.any?(headsigns, &includes_predictions?/1)
 
   defp any_headsign_includes_predictions?(_direction_with_no_headsigns), do: false
 
@@ -353,8 +345,7 @@ defmodule DotcomWeb.StopController do
     breadcrumbs_for_station_type(nil, name)
   end
 
-  defp breadcrumbs_for_station_type(breadcrumb_tab, name)
-       when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
+  defp breadcrumbs_for_station_type(breadcrumb_tab, name) when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
     [
       Breadcrumb.build("Stations", stop_path(DotcomWeb.Endpoint, :show, breadcrumb_tab)),
       Breadcrumb.build(name)
@@ -367,12 +358,7 @@ defmodule DotcomWeb.StopController do
 
   @spec meta_description(Conn.t(), Stop.t(), [Route.t()]) :: Conn.t()
   defp meta_description(conn, stop, routes),
-    do:
-      assign(
-        conn,
-        :meta_description,
-        "Station serving MBTA #{lines(routes)} lines#{location(stop)}."
-      )
+    do: assign(conn, :meta_description, "Station serving MBTA #{lines(routes)} lines#{location(stop)}.")
 
   @spec lines([Route.t()]) :: iolist
   defp lines(routes) do

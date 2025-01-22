@@ -5,7 +5,8 @@ defmodule Stops.RouteStop do
 
   alias __MODULE__, as: RouteStop
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
+  alias Routes.Route
+  alias Routes.Shape
   alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -70,21 +71,11 @@ defmodule Stops.RouteStop do
           boolean
         ) ::
           [t()]
-  def list_from_route_patterns(
-        route_patterns_with_stops,
-        route,
-        direction_id,
-        use_route_id_for_branch_name? \\ false
-      )
+  def list_from_route_patterns(route_patterns_with_stops, route, direction_id, use_route_id_for_branch_name? \\ false)
 
   def list_from_route_patterns([], _route, _direction_id, _use_route_id?), do: []
 
-  def list_from_route_patterns(
-        [route_pattern_with_stops],
-        route,
-        _direction_id,
-        use_route_id_for_branch_name?
-      ) do
+  def list_from_route_patterns([route_pattern_with_stops], route, _direction_id, use_route_id_for_branch_name?) do
     # If there is only one route pattern, we know that we won't need to deal with merging branches.
     # We just return whatever the list of stops is without calling &merge_branch_list/2.
     list_from_route_pattern(
@@ -94,12 +85,7 @@ defmodule Stops.RouteStop do
     )
   end
 
-  def list_from_route_patterns(
-        route_patterns_with_stops,
-        route,
-        direction_id,
-        use_route_id_for_branch_name?
-      ) do
+  def list_from_route_patterns(route_patterns_with_stops, route, direction_id, use_route_id_for_branch_name?) do
     route_patterns_with_stops
     |> Enum.map(&list_from_route_pattern(&1, route, use_route_id_for_branch_name?))
     |> maybe_stitch_chunks()
@@ -111,17 +97,9 @@ defmodule Stops.RouteStop do
           Route.t(),
           boolean()
         ) :: [t()]
-  def list_from_route_pattern(
-        route_patterns_with_stops,
-        route,
-        use_route_id_for_branch_name? \\ false
-      )
+  def list_from_route_pattern(route_patterns_with_stops, route, use_route_id_for_branch_name? \\ false)
 
-  def list_from_route_pattern(
-        {route_pattern, stops},
-        route,
-        use_route_id_for_branch_name?
-      ) do
+  def list_from_route_pattern({route_pattern, stops}, route, use_route_id_for_branch_name?) do
     stops
     |> Util.EnumHelpers.with_first_last()
     |> Enum.with_index()
@@ -169,23 +147,13 @@ defmodule Stops.RouteStop do
     |> do_list_from_shapes(Enum.map(stops, & &1.id), stops, route)
   end
 
-  def list_from_shapes(
-        [%Shape{} = shape],
-        [%Stop{} | _] = stops,
-        route,
-        _direction_id
-      ) do
+  def list_from_shapes([%Shape{} = shape], [%Stop{} | _] = stops, route, _direction_id) do
     # If there is only one route shape, we know that we won't need to deal with merging branches so
     # we just return whatever the list of stops is without calling &merge_branch_list/2.
     do_list_from_shapes(shape.name, shape.stop_ids, stops, route)
   end
 
-  def list_from_shapes(
-        [%Shape{} = shape | _],
-        stops,
-        %Route{type: 4} = route,
-        _direction_id
-      ) do
+  def list_from_shapes([%Shape{} = shape | _], stops, %Route{type: 4} = route, _direction_id) do
     # for the ferry, for now, just return a single branch
     do_list_from_shapes(shape.name, Enum.map(stops, & &1.id), stops, route)
   end
@@ -263,9 +231,7 @@ defmodule Stops.RouteStop do
     %{route_stop | stop_features: features}
   end
 
-  def fetch_connections(
-        %__MODULE__{route: %Route{}, connections: {:error, :not_fetched}} = route_stop
-      ) do
+  def fetch_connections(%__MODULE__{route: %Route{}, connections: {:error, :not_fetched}} = route_stop) do
     connections =
       route_stop.id
       |> @stops_repo.get_parent()
@@ -295,8 +261,7 @@ defmodule Stops.RouteStop do
   # the existing branch.
   @spec maybe_stitch_chunks([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp maybe_stitch_chunks(route_stop_groups) do
-    route_stop_groups
-    |> Enum.reduce([], fn route_stops, acc ->
+    Enum.reduce(route_stop_groups, [], fn route_stops, acc ->
       case Enum.find_index(acc, &(linked_patterns(&1, route_stops) != 0)) do
         nil ->
           acc ++ [route_stops]
@@ -313,8 +278,7 @@ defmodule Stops.RouteStop do
   #   1 if a starts where b ended
   #   0 otherwise
   @spec linked_patterns([RouteStop.t()], [RouteStop.t()]) :: -1 | 0 | 1
-  defp linked_patterns(a, b),
-    do: do_linked_patterns(first_last_stops(a), first_last_stops(b))
+  defp linked_patterns(a, b), do: do_linked_patterns(first_last_stops(a), first_last_stops(b))
 
   @typep first_last_stop_ids :: {Stop.id_t(), Stop.id_t()}
   @spec first_last_stops([RouteStop.t()]) :: first_last_stop_ids()
@@ -329,13 +293,9 @@ defmodule Stops.RouteStop do
           first_last_stop_ids(),
           first_last_stop_ids()
         ) :: -1 | 0 | 1
-  defp do_linked_patterns({first_stop_a, _}, {_, last_stop_b})
-       when first_stop_a == last_stop_b,
-       do: 1
+  defp do_linked_patterns({first_stop_a, _}, {_, last_stop_b}) when first_stop_a == last_stop_b, do: 1
 
-  defp do_linked_patterns({_, last_stop_a}, {first_stop_b, _})
-       when last_stop_a == first_stop_b,
-       do: -1
+  defp do_linked_patterns({_, last_stop_a}, {first_stop_b, _}) when last_stop_a == first_stop_b, do: -1
 
   defp do_linked_patterns(_, _), do: 0
 

@@ -1,6 +1,8 @@
 defmodule PredictedSchedule.Group do
+  @moduledoc false
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   @type schedule_pair_t :: {Schedule.t(), Schedule.t()}
@@ -48,17 +50,14 @@ defmodule PredictedSchedule.Group do
           Stops.Stop.id_t(),
           Stops.Stop.id_t() | nil
         ) :: prediction_map_t
-  defp filter_relevant_predictions(prediction_map, _schedules, _origin_id, nil),
-    do: prediction_map
+  defp filter_relevant_predictions(prediction_map, _schedules, _origin_id, nil), do: prediction_map
 
   defp filter_relevant_predictions(prediction_map, schedules, origin_id, destination_id) do
     schedule_trip_id_set = trip_ids_for_destination(schedules, destination_id)
 
     prediction_map
-    |> Enum.filter(
-      &prediction_map_entry_relevant?(&1, origin_id, destination_id, schedule_trip_id_set)
-    )
-    |> Enum.into(%{})
+    |> Enum.filter(&prediction_map_entry_relevant?(&1, origin_id, destination_id, schedule_trip_id_set))
+    |> Map.new()
   end
 
   @spec prediction_map_entry_relevant?(
@@ -77,12 +76,7 @@ defmodule PredictedSchedule.Group do
       Enum.all?([origin_id, destination_id], &Map.has_key?(stop_id_prediction_map, &1))
   end
 
-  defp prediction_map_entry_relevant?(
-         {_, _stop_id_prediction_map},
-         _origin_id,
-         _destination_id,
-         _schedule_trip_id_set
-       ) do
+  defp prediction_map_entry_relevant?({_, _stop_id_prediction_map}, _origin_id, _destination_id, _schedule_trip_id_set) do
     false
   end
 

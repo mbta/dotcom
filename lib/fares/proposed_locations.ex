@@ -4,6 +4,7 @@ defmodule Fares.ProposedLocations do
   """
 
   alias Fares.ProposedLocations.Location
+
   require Logger
 
   @base_url "https://services1.arcgis.com/ceiitspzDAHrdGO1/ArcGIS/rest/services/ProposedSalesNetworkSpringOutreach/FeatureServer/0/query?f=json&outFields=*&inSR=4326&outSR=4326&returnGeometry=true"

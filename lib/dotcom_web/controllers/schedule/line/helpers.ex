@@ -4,8 +4,11 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   """
 
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
-  alias Stops.{RouteStop, RouteStops, Stop}
+  alias Routes.Route
+  alias Routes.Shape
+  alias Stops.RouteStop
+  alias Stops.RouteStops
+  alias Stops.Stop
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -21,10 +24,10 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   def get_route(route_id) do
     route = do_get_route(route_id)
 
-    if route != nil do
-      {:ok, route}
-    else
+    if route == nil do
       :not_found
+    else
+      {:ok, route}
     end
   end
 
@@ -78,7 +81,8 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    get_line_route_patterns(route, direction_id, route_pattern_id)
+    route
+    |> get_line_route_patterns(direction_id, route_pattern_id)
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
@@ -89,9 +93,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   def get_map_route_patterns(route_id, type) do
     route_id
-    |> @route_patterns_repo.by_route_id(
-      include: "representative_trip.shape,representative_trip.stops"
-    )
+    |> @route_patterns_repo.by_route_id(include: "representative_trip.shape,representative_trip.stops")
     |> filter_map_route_patterns(type)
   end
 
@@ -101,12 +103,14 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   # For other rail, we only need the primary route_pattern and branches for each direction
   # Filtering here helps lighten the frontend load, hopefully reducing latency
   defp filter_map_route_patterns(route_patterns, _type) do
-    for direction <- 0..1, into: [] do
-      route_patterns
-      |> Enum.filter(fn pattern -> pattern.direction_id == direction end)
-      |> filter_by_min_typicality()
-    end
-    |> List.flatten()
+    for_result =
+      for direction <- 0..1, into: [] do
+        route_patterns
+        |> Enum.filter(fn pattern -> pattern.direction_id == direction end)
+        |> filter_by_min_typicality()
+      end
+
+    List.flatten(for_result)
   end
 
   @doc """
@@ -115,8 +119,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   """
   @spec filtered_by_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
   def filtered_by_typicality(route_patterns) do
-    route_patterns
-    |> filter_by_min_typicality()
+    filter_by_min_typicality(route_patterns)
   end
 
   # Filters route patterns by the smallest typicality found in the array
@@ -268,7 +271,8 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           base_opts
       end
 
-    @route_patterns_repo.by_route_id(route_id, opts)
+    route_id
+    |> @route_patterns_repo.by_route_id(opts)
     |> Enum.filter(&(&1.route_id == route_id))
   end
 
@@ -308,11 +312,8 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   @spec shared_ids([[RouteStop.t()]]) :: MapSet.t(Stop.id_t())
   defp shared_ids(route_stop_groups) do
     stop_id_sets =
-      route_stop_groups
-      |> Enum.map(fn group ->
-        group
-        |> Enum.map(& &1.id)
-        |> MapSet.new()
+      Enum.map(route_stop_groups, fn group ->
+        MapSet.new(group, & &1.id)
       end)
 
     stop_id_sets
@@ -323,8 +324,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   end
 
   @spec intersection([non_neg_integer()], [MapSet.t()]) :: MapSet.t()
-  defp intersection(indices, map_sets),
-    do: apply(MapSet, :intersection, Enum.map(indices, &Enum.at(map_sets, &1)))
+  defp intersection(indices, map_sets), do: apply(MapSet, :intersection, Enum.map(indices, &Enum.at(map_sets, &1)))
 
   @doc """
   Generates every combination of pairs for the given number of possibilities.
@@ -358,8 +358,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   def get_stop_tree_or_lists(_, 4), do: {nil, nil}
 
-  def get_stop_tree_or_lists(route_stops_lists, 3),
-    do: {nil, Enum.map(route_stops_lists, & &1.stops)}
+  def get_stop_tree_or_lists(route_stops_lists, 3), do: {nil, Enum.map(route_stops_lists, & &1.stops)}
 
   def get_stop_tree_or_lists([], _), do: {nil, []}
 

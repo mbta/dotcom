@@ -1,11 +1,16 @@
 defmodule FaresTest do
   use ExUnit.Case, async: true
-  doctest Fares
 
   import Mox
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
-  alias Test.Support.Factories.{Routes.Route, Stops.Stop}
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
+  alias Test.Support.Factories.Routes.Route
+  alias Test.Support.Factories.Stops.Stop
+
+  doctest Fares
 
   setup :verify_on_exit!
 

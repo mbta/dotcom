@@ -7,16 +7,12 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
 
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
-  alias Fares.{Format, OneWay}
+  alias Fares.Format
+  alias Fares.OneWay
   alias Routes.Route
   alias Schedules.Repo
 
-  def show(conn, %{
-        "id" => route_id,
-        "date" => date,
-        "direction_id" => direction_id,
-        "stop_id" => stop_id
-      }) do
+  def show(conn, %{"id" => route_id, "date" => date, "direction_id" => direction_id, "stop_id" => stop_id}) do
     {:ok, date} = Date.from_iso8601(date)
     schedule_data = get_schedules(route_id, date, direction_id, stop_id)
 
@@ -46,7 +42,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
       end)
 
     ordered_trips = ordered_trips -- Enum.map(no_service_trips, &elem(&1, 0))
-    ordered_trips_by_stop = sort_trips_by_stop(ordered_trips, Enum.into(services_by_trip, %{}))
+    ordered_trips_by_stop = sort_trips_by_stop(ordered_trips, Map.new(services_by_trip))
     services_by_trip_with_fare = enhance_services(services_by_trip)
 
     %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips_by_stop}
@@ -63,8 +59,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
     |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
     |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
     |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
-    |> Stream.map(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
-    |> Enum.into(%{})
+    |> Map.new(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
   end
 
   def sort_trips_by_stop(ordered_trips, services_by_trip) do
@@ -94,13 +89,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
   def fares_for_service(schedules) do
     origin = List.first(schedules)
 
-    schedules
-    |> Enum.map(
-      &Map.merge(
-        &1,
-        fares_for_service(origin.route, origin.stop.id, &1.stop.id)
-      )
-    )
+    Enum.map(schedules, &Map.merge(&1, fares_for_service(origin.route, origin.stop.id, &1.stop.id)))
   end
 
   def duration_for_service(schedules) do
@@ -142,9 +131,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
   end
 
   def formatted_time(%{schedules: schedules, duration: duration}) do
-    time_formatted_schedules =
-      schedules
-      |> Enum.map(&Map.update!(&1, :time, fn time -> format_time(time) end))
+    time_formatted_schedules = Enum.map(schedules, &Map.update!(&1, :time, fn time -> format_time(time) end))
 
     %{schedules: time_formatted_schedules, duration: duration}
   end

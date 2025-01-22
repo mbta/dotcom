@@ -1,10 +1,11 @@
 defmodule DetailedStopGroupTest do
   use ExUnit.Case, async: false
-  @moduletag :external
 
   import DetailedStopGroup
 
   alias Routes.Route
+
+  @moduletag :external
 
   @subway_stops_with_cr [
     "place-brntn",
@@ -108,8 +109,7 @@ defmodule DetailedStopGroupTest do
 
   defp get_stops(route_name, grouped_stops) do
     grouped_stops
-    |> Enum.map(fn {route, stops} -> {route.name, stops} end)
-    |> Enum.into(%{})
+    |> Map.new(fn {route, stops} -> {route.name, stops} end)
     |> Map.get(route_name)
     |> Enum.map(& &1.stop.id)
   end

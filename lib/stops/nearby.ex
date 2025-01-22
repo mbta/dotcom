@@ -37,9 +37,7 @@ defmodule Stops.Nearby do
   """
   @spec nearby_with_varying_radius_by_mode(Position.t()) :: [Stop.t()]
   def nearby_with_varying_radius_by_mode(position, opts \\ []) do
-    opts =
-      %Options{}
-      |> Map.merge(Map.new(opts))
+    opts = Map.merge(%Options{}, Map.new(opts))
 
     commuter_rail_stops = api_task(position, opts, radius: @mile_in_degrees * 50, route_type: 2)
     subway_stops = api_task(position, opts, radius: @mile_in_degrees * 10, route_type: "0,1")
@@ -85,10 +83,7 @@ defmodule Stops.Nearby do
     item_to_position(station)
   end
 
-  defp item_to_position(%JsonApi.Item{
-         id: id,
-         attributes: %{"latitude" => latitude, "longitude" => longitude}
-       }) do
+  defp item_to_position(%JsonApi.Item{id: id, attributes: %{"latitude" => latitude, "longitude" => longitude}}) do
     %{
       id: id,
       latitude: latitude,
@@ -97,8 +92,7 @@ defmodule Stops.Nearby do
   end
 
   def keys(%{id: id}) do
-    0..1
-    |> Enum.flat_map(fn direction_id ->
+    Enum.flat_map(0..1, fn direction_id ->
       id
       |> @routes_repo.by_stop(direction_id: direction_id)
       |> Enum.map(&{&1.id, direction_id})
@@ -130,8 +124,8 @@ defmodule Stops.Nearby do
     {first_cr, sorted_commuter_rail} = closest_and_rest(commuter_rail, position)
     {first_subway, sorted_subway} = closest_and_rest(subway, position)
 
-    initial = (first_cr ++ first_subway) |> Enum.uniq()
-    rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq()
+    initial = Enum.uniq(first_cr ++ first_subway)
+    rest = Enum.uniq(sorted_commuter_rail ++ sorted_subway)
 
     next_four =
       position

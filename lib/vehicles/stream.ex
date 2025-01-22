@@ -4,8 +4,11 @@ defmodule Vehicles.Stream do
   """
 
   use GenStage
+
+  alias MBTA.Api.Stream.Event
   alias Phoenix.PubSub
   alias Vehicles.Parser
+
   require Logger
 
   @type event_type :: :reset | :add | :update | :remove
@@ -31,25 +34,13 @@ defmodule Vehicles.Stream do
     {:noreply, [], state}
   end
 
-  defp send_event(
-         %MBTA.Api.Stream.Event{
-           event: :remove,
-           data: %JsonApi{data: data}
-         },
-         broadcast_fn
-       ) do
+  defp send_event(%Event{event: :remove, data: %JsonApi{data: data}}, broadcast_fn) do
     data
     |> Enum.map(& &1.id)
     |> broadcast(:remove, broadcast_fn)
   end
 
-  defp send_event(
-         %MBTA.Api.Stream.Event{
-           event: type,
-           data: %JsonApi{data: data}
-         },
-         broadcast_fn
-       ) do
+  defp send_event(%Event{event: type, data: %JsonApi{data: data}}, broadcast_fn) do
     data
     |> Enum.map(&Parser.parse/1)
     |> broadcast(type, broadcast_fn)

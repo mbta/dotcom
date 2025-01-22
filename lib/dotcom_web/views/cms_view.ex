@@ -4,9 +4,9 @@ defmodule DotcomWeb.CMSView do
   """
   use DotcomWeb, :view
 
-  import DotcomWeb.TimeHelpers
   import DotcomWeb.CMS.PageView, only: [render_page: 2]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
+  import DotcomWeb.TimeHelpers
 
   alias CMS.Field.File
   alias CMS.Partial.Paragraph
@@ -28,13 +28,13 @@ defmodule DotcomWeb.CMSView do
 
   def render_duration(start_time, nil) do
     start_time
-    |> maybe_shift_timezone
+    |> maybe_shift_timezone()
     |> do_render_duration(nil)
   end
 
   def render_duration(start_time, end_time) do
     start_time
-    |> maybe_shift_timezone
+    |> maybe_shift_timezone()
     |> do_render_duration(maybe_shift_timezone(end_time))
   end
 

@@ -9,7 +9,9 @@ defmodule Stops.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias Routes.Route
-  alias Stops.{Api, Repo.Behaviour, Stop}
+  alias Stops.Api
+  alias Stops.Repo.Behaviour
+  alias Stops.Stop
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)

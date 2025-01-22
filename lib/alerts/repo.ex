@@ -1,6 +1,8 @@
 defmodule Alerts.Repo do
-  alias Alerts.{Alert, Banner, Priority}
+  alias Alerts.Alert
+  alias Alerts.Banner
   alias Alerts.Cache.Store
+  alias Alerts.Priority
 
   @spec all(DateTime.t()) :: [Alert.t()]
   def all(now) do

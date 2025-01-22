@@ -3,6 +3,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
   Channel allowing clients to subscribe to streams of vehicle map markers
   """
   use DotcomWeb, :channel
+
   alias Leaflet.MapData.Marker
   alias Vehicles.Vehicle
 
@@ -50,10 +51,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
     prediction =
-      @predictions_repo.all(
-        route: vehicle.route_id,
-        direction_id: vehicle.direction_id
-      )
+      [route: vehicle.route_id, direction_id: vehicle.direction_id]
+      |> @predictions_repo.all()
       |> Enum.find(&(&1.vehicle_id == vehicle.id))
 
     %{
@@ -68,14 +67,13 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
           shape_id: trip && trip.shape_id,
           vehicle_crowding: vehicle.crowding,
           tooltip_text:
-            %VehicleTooltip{
+            VehicleHelpers.tooltip(%VehicleTooltip{
               prediction: prediction,
               vehicle: vehicle,
               route: route,
               stop_name: stop_name,
               trip: trip
-            }
-            |> VehicleHelpers.tooltip()
+            })
         )
     }
   end

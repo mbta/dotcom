@@ -5,12 +5,11 @@ defmodule Test.Support.Factories.Alerts.InformedEntity do
 
   use ExMachina
 
-  alias Test.Support.Factories.Alerts.InformedEntity
   alias Alerts.InformedEntity
 
   def informed_entity_factory do
     %InformedEntity{
-      activities: InformedEntity.activities() |> Enum.take_random(3),
+      activities: Enum.take_random(InformedEntity.activities(), 3),
       direction_id: Faker.Util.pick([0, 1]),
       facility: Faker.Lorem.word(),
       route: Faker.Lorem.word(),

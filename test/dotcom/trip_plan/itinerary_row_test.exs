@@ -4,10 +4,17 @@ defmodule Dotcom.TripPlan.ItineraryRowTest do
   import Dotcom.TripPlan.ItineraryRow
   import Mox
 
-  alias Alerts.{Alert, InformedEntity}
-  alias Dotcom.TripPlan.{ItineraryRow, Leg, NamedPosition, PersonalDetail}
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Dotcom.TripPlan.IntermediateStop
+  alias Dotcom.TripPlan.ItineraryRow
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
   alias Routes.Route
-  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.MBTA.Api
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   setup :verify_on_exit!
 
@@ -71,11 +78,11 @@ defmodule Dotcom.TripPlan.ItineraryRowTest do
       departure: DateTime.from_unix!(2),
       transit?: true,
       steps: [
-        %Dotcom.TripPlan.IntermediateStop{
+        %IntermediateStop{
           description: "step1",
           stop: %Stops.Stop{id: "intermediate_stop"}
         },
-        %Dotcom.TripPlan.IntermediateStop{description: "step2", stop: nil}
+        %IntermediateStop{description: "step2", stop: nil}
       ],
       additional_routes: []
     }
@@ -236,7 +243,7 @@ defmodule Dotcom.TripPlan.ItineraryRowTest do
         @itinerary_row
         | transit?: true,
           stop: {"Stop Name", nil},
-          steps: [%Dotcom.TripPlan.IntermediateStop{description: "foo"}]
+          steps: [%IntermediateStop{description: "foo"}]
       }
 
       steps = fetch_alerts(row, [good_alert, bad_alert]).steps
@@ -306,8 +313,8 @@ defmodule Dotcom.TripPlan.ItineraryRowTest do
       departure: DateTime.from_unix!(2),
       transit?: true,
       steps: [
-        %Dotcom.TripPlan.IntermediateStop{alerts: [Alert.new()]},
-        %Dotcom.TripPlan.IntermediateStop{description: "step1", stop: %Stops.Stop{}}
+        %IntermediateStop{alerts: [Alert.new()]},
+        %IntermediateStop{description: "step1", stop: %Stops.Stop{}}
       ],
       additional_routes: []
     }

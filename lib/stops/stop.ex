@@ -2,7 +2,8 @@ defmodule Stops.Stop do
   @moduledoc """
   Domain model for a Stop.
   """
-  alias Stops.{Api, Stop}
+  alias Stops.Api
+  alias Stops.Stop
 
   @derive {Jason.Encoder, except: [:bike_storage, :fare_facilities]}
 
@@ -233,8 +234,7 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   defp pretty_overnight_msg("yes-except-snow"), do: "Available, except during snow emergencies"
   defp pretty_overnight_msg("no-except-snow"), do: "Not available, except during snow emergencies"
 
-  defp pretty_overnight_msg("yes-snow-unknown"),
-    do: "Available. During snow emergencies, check posted signs."
+  defp pretty_overnight_msg("yes-snow-unknown"), do: "Available. During snow emergencies, check posted signs."
 
   defp pretty_overnight_msg(_), do: "Unknown"
 end

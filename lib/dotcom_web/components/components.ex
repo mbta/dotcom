@@ -16,8 +16,7 @@ defmodule DotcomWeb.Components do
 
   attr(:config_type, :string,
     required: true,
-    doc:
-      "A mapping to the AlgoliaJS configuration described in assets/ts/ui/autocomplete/config.ts",
+    doc: "A mapping to the AlgoliaJS configuration described in assets/ts/ui/autocomplete/config.ts",
     values: [
       "basic-config",
       "transit-near-me",
@@ -53,8 +52,7 @@ defmodule DotcomWeb.Components do
   """
   def algolia_autocomplete(assigns) do
     assigns =
-      assigns
-      |> assign_new(:config_type, fn -> false end)
+      assign_new(assigns, :config_type, fn -> false end)
 
     ~H"""
     <div>

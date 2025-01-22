@@ -1,4 +1,5 @@
 defmodule DotcomWeb.TimeHelpers do
+  @moduledoc false
   use Timex
 
   @doc "Returns a string with the full month, day and year."

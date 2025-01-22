@@ -7,13 +7,13 @@ defmodule Schedules.Repo do
 
   import Kernel, except: [to_string: 1]
 
-  require Logger
-
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
   alias Routes.Route
-  alias Schedules.{Parser, Schedule}
-  alias Util
+  alias Schedules.Parser
+  alias Schedules.Schedule
+
+  require Logger
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -25,8 +25,7 @@ defmodule Schedules.Repo do
 
   @default_params [
     include: "trip,trip.occupancies",
-    "fields[schedule]":
-      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
+    "fields[schedule]": "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
@@ -37,13 +36,13 @@ defmodule Schedules.Repo do
 
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
-    |> Keyword.put(:date, Keyword.fetch!(opts, :date) |> to_string())
+    |> Keyword.put(:date, opts |> Keyword.fetch!(:date) |> to_string())
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
     |> cache_condition(no_cache)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
+    |> load_from_other_repos()
   end
 
   # Will almost always use cache, unless the calling function explicitly passes "no_cache"
@@ -59,22 +58,22 @@ defmodule Schedules.Repo do
 
   def schedule_for_trip(trip_id, opts) do
     @default_params
-    |> Keyword.merge(opts |> Keyword.delete(:min_time))
+    |> Keyword.merge(Keyword.delete(opts, :min_time))
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
+    |> load_from_other_repos()
   end
 
   def schedules_for_stop(stop_id, opts) do
     @default_params
-    |> Keyword.merge(opts |> Keyword.delete(:min_time))
+    |> Keyword.merge(Keyword.delete(opts, :min_time))
     |> Keyword.put(:stop, stop_id)
     |> add_optional_param(opts, :trip)
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
+    |> load_from_other_repos()
   end
 
   def trip(trip_id, trip_by_id_fn \\ &Trips.by_id/2)
@@ -164,8 +163,7 @@ defmodule Schedules.Repo do
     0
   end
 
-  def valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
-      when not is_nil(id) do
+  def valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
     true
   end
 
@@ -198,8 +196,7 @@ defmodule Schedules.Repo do
   end
 
   defp to_string(list) when is_list(list) do
-    list
-    |> Enum.map_join(",", &to_string/1)
+    Enum.map_join(list, ",", &to_string/1)
   end
 
   defp to_string(int) when is_integer(int) do
@@ -241,9 +238,8 @@ defmodule Schedules.Repo do
   end
 
   defp load_from_other_repos(schedules) do
-    schedules
-    |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
-                    early_departure?, last_stop?, stop_sequence, pickup_type} ->
+    Enum.map(schedules, fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?, early_departure?,
+                            last_stop?, stop_sequence, pickup_type} ->
       %Schedules.Schedule{
         route: @routes_repo.get(route_id),
         trip: trip(trip_id),

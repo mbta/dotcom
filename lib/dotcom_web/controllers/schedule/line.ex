@@ -13,7 +13,8 @@ defmodule DotcomWeb.ScheduleController.Line do
   alias DotcomWeb.ScheduleController.Line.Maps
   alias Plug.Conn
   alias Routes.Route
-  alias Stops.{RouteStop, RouteStops}
+  alias Stops.RouteStop
+  alias Stops.RouteStops
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -39,15 +40,7 @@ defmodule DotcomWeb.ScheduleController.Line do
 
   defp parse_direction_id(_, direction_id), do: direction_id
 
-  def do_call(
-        %Conn{
-          assigns: %{
-            route: %Route{} = route,
-            direction_id: direction_id
-          }
-        } = conn,
-        _
-      ) do
+  def do_call(%Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, _) do
     # check if URL has parameters like direction_id, origin or variant
     # If so, they will get changed to:
     # e.g. /schedules/31/line?direction_id=1&origin=525 will be changed to
@@ -148,8 +141,7 @@ defmodule DotcomWeb.ScheduleController.Line do
   end
 
   defp map_route_patterns_by_direction(route_patterns) do
-    route_patterns
-    |> Enum.group_by(&(&1.direction_id |> Integer.to_string()))
+    Enum.group_by(route_patterns, &Integer.to_string(&1.direction_id))
   end
 
   def reverse_direction(0), do: 1

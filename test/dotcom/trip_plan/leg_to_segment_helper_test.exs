@@ -3,8 +3,10 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
 
   use ExUnit.Case, async: true
 
+  alias Dotcom.TripPlan.Leg
   alias Dotcom.TripPlan.LegToSegmentHelper
-  alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
 
   test "works for a typical walking-transit-walking itinerary and puts a location on either end" do
     assert [

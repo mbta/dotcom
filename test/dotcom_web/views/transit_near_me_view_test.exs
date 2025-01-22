@@ -1,5 +1,6 @@
 defmodule DotcomWeb.TransitNearMeViewTest do
   use ExUnit.Case
+
   alias DotcomWeb.TransitNearMeView
 
   test "render_react returns HTML" do

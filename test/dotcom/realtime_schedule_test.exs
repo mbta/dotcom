@@ -11,7 +11,8 @@ defmodule Dotcom.RealtimeScheduleTest do
   alias Predictions.Prediction
   alias RoutePatterns.RoutePattern
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   @now DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
@@ -288,7 +289,7 @@ defmodule Dotcom.RealtimeScheduleTest do
         },
         route: %{
           __struct__: Routes.Route,
-          alerts: @alerts |> Enum.map(&JsonHelpers.stringified_alert(&1, @now)),
+          alerts: Enum.map(@alerts, &JsonHelpers.stringified_alert(&1, @now)),
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
           direction_names: %{"0" => "Southbound", "1" => "Northbound"},

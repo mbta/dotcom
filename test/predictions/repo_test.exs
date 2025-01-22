@@ -120,7 +120,7 @@ defmodule Predictions.RepoTest do
         %Stop{}
       end)
 
-      five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
+      five_minutes_in_future = DateTime.add(DateTime.utc_now(), 5, :minute)
 
       five_minutes_in_future_string =
         Timex.format!(five_minutes_in_future, "{ISO:Extended:Z}")
@@ -247,8 +247,8 @@ defmodule Predictions.RepoTest do
         "Red",
         0,
         nil,
-        Util.now() |> Timex.shift(minutes: 5),
-        Util.now() |> Timex.shift(minutes: 5),
+        Timex.shift(Util.now(), minutes: 5),
+        Timex.shift(Util.now(), minutes: 5),
         :stop_sequence,
         :schedule_relationship,
         1,
@@ -334,8 +334,8 @@ defmodule Predictions.RepoTest do
       "Red",
       0,
       nil,
-      Util.now() |> Timex.shift(minutes: -15),
-      Util.now() |> Timex.shift(minutes: -15),
+      Timex.shift(Util.now(), minutes: -15),
+      Timex.shift(Util.now(), minutes: -15),
       :stop_sequence,
       :schedule_relationship,
       1,
@@ -344,7 +344,7 @@ defmodule Predictions.RepoTest do
       "vehicle_id"
     }
 
-    in_15_min = Util.now() |> Timex.shift(minutes: 15)
+    in_15_min = Timex.shift(Util.now(), minutes: 15)
 
     prediction_in_the_future = {
       "future_prediction",
@@ -393,8 +393,8 @@ defmodule Predictions.RepoTest do
       "1",
       1,
       nil,
-      Util.now() |> Timex.shift(minutes: -15),
-      Util.now() |> Timex.shift(minutes: -15),
+      Timex.shift(Util.now(), minutes: -15),
+      Timex.shift(Util.now(), minutes: -15),
       :stop_sequence,
       :schedule_relationship,
       1,

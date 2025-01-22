@@ -49,10 +49,10 @@ defmodule Alerts.Match do
   end
 
   def any_period_match?([{nil, stop} | rest], datetime) do
-    if compare(datetime, stop) != :gt do
-      true
-    else
+    if compare(datetime, stop) == :gt do
       any_period_match?(rest, datetime)
+    else
+      true
     end
   end
 

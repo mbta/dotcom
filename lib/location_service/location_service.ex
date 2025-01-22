@@ -3,6 +3,8 @@ defmodule LocationService do
   Interacts with Amazon's Location Service, specifically its Places service, to perform geocoding, reverse geocoding and place lookups.
   """
 
+  @behaviour LocationService.Behaviour
+
   use Nebulex.Caching.Decorators
 
   @aws_client Application.compile_env!(:dotcom, :aws_client)
@@ -22,8 +24,6 @@ defmodule LocationService do
 
   @filter ~r/,\s(MA|NH|RI),\s/
 
-  @behaviour LocationService.Behaviour
-
   @impl LocationService.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def autocomplete(text, limit, options \\ @bias_options) do
@@ -37,7 +37,7 @@ defmodule LocationService do
   @impl LocationService.Behaviour
   def geocode(address, options \\ @bounding_options) do
     options
-    |> Map.merge(%{"Text" => address})
+    |> Map.put("Text", address)
     |> then(&@aws_client.search_place_index_for_text(index(), &1))
     |> handle_response()
   end
@@ -46,13 +46,14 @@ defmodule LocationService do
   @impl LocationService.Behaviour
   def reverse_geocode(latitude, longitude, options \\ @bounding_options) do
     options
-    |> Map.merge(%{"Position" => [longitude, latitude]})
+    |> Map.put("Position", [longitude, latitude])
     |> then(&@aws_client.search_place_index_for_position(index(), &1))
     |> handle_response()
   end
 
   defp get_place(place_id) do
-    @aws_client.get_place(index(), place_id)
+    index()
+    |> @aws_client.get_place(place_id)
     |> handle_response()
   end
 
@@ -95,8 +96,7 @@ defmodule LocationService do
   defp in_this_region(%{"Label" => label}), do: Regex.match?(@filter, label)
   defp in_this_region(_), do: true
 
-  defp dedup_place_text(%{"Text" => text}),
-    do: LocationService.Address.replace_common_street_suffix(text)
+  defp dedup_place_text(%{"Text" => text}), do: LocationService.Address.replace_common_street_suffix(text)
 
   defp dedup_place_text(other), do: other
 
@@ -112,9 +112,7 @@ defmodule LocationService do
 
   defp get_place_from_placeid(other), do: other
 
-  defp metro_station?(%{"SupplementalCategories" => [category]})
-       when category in ["Bus Stop", "Metro Station"],
-       do: true
+  defp metro_station?(%{"SupplementalCategories" => [category]}) when category in ["Bus Stop", "Metro Station"], do: true
 
   defp metro_station?(_), do: false
 

@@ -22,15 +22,15 @@ defmodule CMS.Partial.Paragraph.FareCard do
 
   @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
-    with fare_token <- fare_token(data),
-         note <- note(data, preview_opts) do
-      %__MODULE__{
-        fare_token: fare_token,
-        note: note,
-        link: parse_link(data, "field_card_link"),
-        show_media: field_value(data, "field_fare_media")
-      }
-    end
+    fare_token = fare_token(data)
+    note = note(data, preview_opts)
+
+    %__MODULE__{
+      fare_token: fare_token,
+      note: note,
+      link: parse_link(data, "field_card_link"),
+      show_media: field_value(data, "field_fare_media")
+    }
   end
 
   defp fare_token(data) do

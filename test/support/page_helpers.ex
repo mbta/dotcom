@@ -1,4 +1,5 @@
 defmodule Dotcom.PageHelpers do
+  @moduledoc false
   use ExUnit.CaseTemplate
 
   def refute_text_visible?(html, text) do

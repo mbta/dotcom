@@ -21,9 +21,9 @@ defmodule DotcomWeb.Gettext do
   See the [Gettext Docs](http://hexdocs.pm/gettext) for detailed usage.
   """
 
+  use Gettext.Backend, otp_app: :dotcom
+
   @dialyzer [
     {:nowarn_function, lngettext: 6}
   ]
-
-  use Gettext.Backend, otp_app: :dotcom
 end

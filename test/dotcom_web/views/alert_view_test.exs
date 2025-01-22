@@ -3,9 +3,13 @@ defmodule DotcomWeb.AlertViewTest do
   use ExUnit.Case, async: true
   use Timex
 
-  import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
   import DotcomWeb.AlertView
-  alias Alerts.{Alert, Banner, InformedEntity, InformedEntitySet}
+  import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
+
+  alias Alerts.Alert
+  alias Alerts.Banner
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
   alias Routes.Route
   alias Stops.Stop
 
@@ -20,7 +24,7 @@ defmodule DotcomWeb.AlertViewTest do
     test "includes the lifecycle for alerts" do
       assert "Shuttle" ==
                %Alert{effect: :shuttle, lifecycle: :upcoming}
-               |> effect_name
+               |> effect_name()
                |> IO.iodata_to_binary()
     end
   end
@@ -499,8 +503,8 @@ defmodule DotcomWeb.AlertViewTest do
     test "tests whether any informed entities on the alert_banenr match a list of route types", %{
       assigns: assigns
     } do
-      matching_assigns = Map.merge(assigns, %{route_type: [1, 2]})
-      non_matching_assigns = Map.merge(assigns, %{route_type: [2, 3]})
+      matching_assigns = Map.put(assigns, :route_type, [1, 2])
+      non_matching_assigns = Map.put(assigns, :route_type, [2, 3])
 
       assert show_systemwide_alert?(matching_assigns)
       refute show_systemwide_alert?(non_matching_assigns)
@@ -509,8 +513,8 @@ defmodule DotcomWeb.AlertViewTest do
     test "tests whether any informed entities on the alert_banenr match a single route type", %{
       assigns: assigns
     } do
-      matching_assigns = Map.merge(assigns, %{route_type: 1})
-      non_matching_assigns = Map.merge(assigns, %{route_type: 2})
+      matching_assigns = Map.put(assigns, :route_type, 1)
+      non_matching_assigns = Map.put(assigns, :route_type, 2)
 
       assert show_systemwide_alert?(matching_assigns)
       refute show_systemwide_alert?(non_matching_assigns)

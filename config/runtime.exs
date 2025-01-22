@@ -82,9 +82,6 @@ redis_config = [
   telemetry: true
 ]
 
-# This is used by PubSub, we only use the first node in the cluster
-config :dotcom, :redis_config, redis_conn_opts
-
 # Set caches that use the Redis cluster
 config :dotcom, Dotcom.Cache.Multilevel,
   model: :inclusive,
@@ -95,6 +92,9 @@ config :dotcom, Dotcom.Cache.Multilevel,
   ]
 
 config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
+
+# This is used by PubSub, we only use the first node in the cluster
+config :dotcom, :redis_config, redis_conn_opts
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
@@ -160,8 +160,6 @@ if config_env() != :test and System.get_env("OPEN_TRIP_PLANNER_URL") != "" do
 end
 
 if config_env() == :prod do
-  config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
-
   # Extract the host fron the sentry dsn
   sentry_dsn_host =
     case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
@@ -170,24 +168,6 @@ if config_env() == :prod do
     end
 
   static_host = System.get_env("STATIC_HOST", "")
-
-  config :dotcom,
-         :content_security_policy_definition,
-         DotcomWeb.Plugs.SecureHeaders.base_csp_directives()
-         |> Enum.map(fn
-           {:connect, directive} ->
-             directive ++ ["wss://#{host}", sentry_dsn_host]
-
-           {:img, directive} ->
-             directive ++ [static_host, System.get_env("CMS_API_BASE_URL", "")]
-
-           {key, directive} when key in [:font, :script, :style] ->
-             directive ++ [static_host]
-
-           {_, directive} ->
-             directive
-         end)
-         |> Enum.map_join("; ", &Enum.join(&1, " "))
 
   config :dotcom, DotcomWeb.Endpoint,
     http: [
@@ -216,22 +196,39 @@ if config_env() == :prod do
     ]
 
   config :dotcom,
+         :content_security_policy_definition,
+         DotcomWeb.Plugs.SecureHeaders.base_csp_directives()
+         |> Enum.map(fn
+           {:connect, directive} ->
+             directive ++ ["wss://#{host}", sentry_dsn_host]
+
+           {:img, directive} ->
+             directive ++ [static_host, System.get_env("CMS_API_BASE_URL", "")]
+
+           {key, directive} when key in [:font, :script, :style] ->
+             directive ++ [static_host]
+
+           {_, directive} ->
+             directive
+         end)
+         |> Enum.map_join("; ", &Enum.join(&1, " "))
+
+  config :dotcom, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/dotcom/app.js")
+  config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
+
+  config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
     support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL")
-
-  config :dotcom, :react,
-    build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/dotcom/app.js")
 end
-
-config :dotcom, LocationService,
-  aws_index: System.get_env("AWS_PLACE_INDEX_NAME", "dotcom-dev-esri")
 
 config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
   google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
 
+config :dotcom, LocationService, aws_index: System.get_env("AWS_PLACE_INDEX_NAME", "dotcom-dev-esri")
+config :dotcom, env: config_env()
 config :dotcom, google_api_key: System.get_env("GOOGLE_API_KEY")
 
 config :recaptcha,
@@ -243,10 +240,8 @@ config :sentry,
   environment_name: System.get_env("SENTRY_ENVIRONMENT"),
   js_dsn: System.get_env("SENTRY_JS_DSN")
 
-config :dotcom, env: config_env()
-
 if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
      config_env() != :test do
-  config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
+  config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end

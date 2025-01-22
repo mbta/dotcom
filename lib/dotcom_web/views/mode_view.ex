@@ -7,6 +7,7 @@ defmodule DotcomWeb.ModeView do
   alias Dotcom.MapHelpers
   alias DotcomWeb.PartialView
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
 
@@ -19,8 +20,7 @@ defmodule DotcomWeb.ModeView do
 
   def get_route_group(:the_ride, _) do
     [
-      {"MBTA Paratransit Program",
-       cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")}
+      {"MBTA Paratransit Program", cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")}
     ]
   end
 
@@ -35,7 +35,7 @@ defmodule DotcomWeb.ModeView do
   @doc """
   Builds the header tag for a mode group. Adds a "view all" link for bus.
   """
-  @spec mode_group_header(atom, String.t(), boolean) :: Phoenix.HTML.Safe.t()
+  @spec mode_group_header(atom, String.t(), boolean) :: Safe.t()
   def mode_group_header(mode, href, is_homepage?) do
     is_homepage?
     |> mode_group_header_tag()
@@ -47,7 +47,7 @@ defmodule DotcomWeb.ModeView do
   defp mode_group_header_tag(true), do: :h3
   defp mode_group_header_tag(false), do: :h2
 
-  @spec mode_group_header_content(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
+  @spec mode_group_header_content(atom, String.t()) :: [Safe.t()]
   defp mode_group_header_content(mode, href) do
     [
       link(
@@ -63,7 +63,7 @@ defmodule DotcomWeb.ModeView do
     ]
   end
 
-  @spec view_all_link(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
+  @spec view_all_link(atom, String.t()) :: [Safe.t()]
   defp view_all_link(:bus, href) do
     [
       link("View all bus routes", to: href, class: "c-call-to-action m-mode__view-all")

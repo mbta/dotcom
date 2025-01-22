@@ -1,7 +1,9 @@
 defmodule Dotcom.TripPlan.Query do
   @moduledoc "Fetch trip plan via OTP and handle response"
 
-  alias Dotcom.TripPlan.{Itinerary, NamedPosition, OpenTripPlanner}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.OpenTripPlanner
 
   defstruct [
     :from,
@@ -26,7 +28,7 @@ defmodule Dotcom.TripPlan.Query do
       value
       |> Map.take(@keys_to_encode)
       |> Enum.flat_map(&encode_value/1)
-      |> Enum.into(%{})
+      |> Map.new()
       |> Jason.Encode.map(opts)
     end
 
@@ -66,19 +68,13 @@ defmodule Dotcom.TripPlan.Query do
   @spec get_query_options(map) :: keyword()
   def get_query_options(params) do
     %{}
-    |> set_default_options
+    |> set_default_options()
     |> Map.merge(params)
-    |> opts_from_query
+    |> opts_from_query()
   end
 
   @spec maybe_fetch_itineraries(t, Keyword.t()) :: t
-  defp maybe_fetch_itineraries(
-         %__MODULE__{
-           to: %NamedPosition{},
-           from: %NamedPosition{}
-         } = query,
-         opts
-       ) do
+  defp maybe_fetch_itineraries(%__MODULE__{to: %NamedPosition{}, from: %NamedPosition{}} = query, opts) do
     if Enum.empty?(query.errors) do
       query
       |> fetch_itineraries([query.time | opts])
@@ -93,10 +89,7 @@ defmodule Dotcom.TripPlan.Query do
   end
 
   @spec fetch_itineraries(t, Keyword.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
-  defp fetch_itineraries(
-         %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
-         opts
-       ) do
+  defp fetch_itineraries(%__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to}, opts) do
     OpenTripPlanner.plan(from, to, opts)
   end
 

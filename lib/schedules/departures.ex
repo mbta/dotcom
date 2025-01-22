@@ -1,4 +1,5 @@
 defmodule Schedules.Departures do
+  @moduledoc false
   @enforce_keys [:first_departure, :last_departure]
   @derive [Poison.Encoder]
   defstruct [

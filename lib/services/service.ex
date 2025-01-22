@@ -1,7 +1,8 @@
 defmodule Services.Service do
   @moduledoc "Processes Services, including dates and notes"
-  alias JsonApi.Item
   use Timex
+
+  alias JsonApi.Item
 
   defstruct added_dates: [],
             added_dates_notes: [],
@@ -172,7 +173,7 @@ defmodule Services.Service do
     from = from || Timex.today()
     until = until || Timex.today()
 
-    dates =
+    if_result =
       if from == until do
         [from]
       else
@@ -184,7 +185,8 @@ defmodule Services.Service do
         |> Interval.new()
         |> Enum.map(& &1)
       end
-      |> Enum.map(&Timex.to_date/1)
+
+    dates = Enum.map(if_result, &Timex.to_date/1)
 
     removed_dates = parse_listed_dates(removed_dates)
 

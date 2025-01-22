@@ -43,7 +43,7 @@ defmodule Alerts.InformedEntity do
   ]
 
   @spec activities() :: list(activity)
-  def activities(), do: @activities
+  def activities, do: @activities
 
   @doc """
   Given a keyword list (with keys matching our fields), returns a new
@@ -53,7 +53,7 @@ defmodule Alerts.InformedEntity do
   def from_keywords(options) do
     options
     |> Enum.map(&ensure_value_type/1)
-    |> (&struct(__MODULE__, &1)).()
+    |> then(&struct(__MODULE__, &1))
   end
 
   defp ensure_value_type({:activities, enum}) do
@@ -78,9 +78,7 @@ defmodule Alerts.InformedEntity do
   end
 
   @spec mapsets_match?(MapSet.t(), MapSet.t()) :: boolean()
-  def mapsets_match?(%MapSet{} = a, %MapSet{} = b)
-      when a == %MapSet{} or b == %MapSet{},
-      do: true
+  def mapsets_match?(%MapSet{} = a, %MapSet{} = b) when a == %MapSet{} or b == %MapSet{}, do: true
 
   def mapsets_match?(%MapSet{} = a, %MapSet{} = b), do: has_intersect?(a, b)
 

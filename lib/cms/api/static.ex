@@ -429,7 +429,7 @@ defmodule CMS.Api.Static do
   end
 
   def view("/cms/teasers", %{type: [:news_entry], except: 3518, items_per_page: 4}) do
-    {:ok, teaser_news_entry_response() |> Enum.take(4)}
+    {:ok, Enum.take(teaser_news_entry_response(), 4)}
   end
 
   def view("/cms/teasers", %{type: [:news_entry]}) do
@@ -441,9 +441,7 @@ defmodule CMS.Api.Static do
   end
 
   def view("/cms/teasers/" <> arguments, params) when arguments != "any/NotFound" do
-    filtered =
-      teaser_response()
-      |> filter_teasers(params)
+    filtered = filter_teasers(teaser_response(), params)
 
     case Map.fetch(params, :items_per_page) do
       {:ok, count} ->
@@ -528,8 +526,7 @@ defmodule CMS.Api.Static do
 
   def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, [to: path]}}
 
-  def redirect(path, params, code),
-    do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
+  def redirect(path, params, code), do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
 
   defp filter_teasers(teasers, %{type: [type], type_op: "not in"}) do
     Enum.reject(teasers, &filter_teaser?(&1, type))

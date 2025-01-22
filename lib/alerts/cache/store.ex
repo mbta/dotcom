@@ -133,9 +133,7 @@ defmodule Alerts.Cache.Store do
   @impl true
   def handle_call({:update, alerts, banner}, _from, state) do
     {alert_inserts, route_inserts, stop_inserts} =
-      Enum.reduce(alerts, {[], [], []}, fn alert,
-                                           {alert_inserts_acc, route_inserts_acc,
-                                            stop_inserts_acc} ->
+      Enum.reduce(alerts, {[], [], []}, fn alert, {alert_inserts_acc, route_inserts_acc, stop_inserts_acc} ->
         {
           [{alert.id, alert} | alert_inserts_acc],
           Enum.map(alert.informed_entity, &{&1.route, &1.route_type, alert.id}) ++

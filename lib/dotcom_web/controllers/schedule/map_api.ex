@@ -14,9 +14,7 @@ defmodule DotcomWeb.ScheduleController.MapApi do
   @type direction_id :: 0 | 1
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{
-        "id" => route_id
-      }) do
+  def show(conn, %{"id" => route_id}) do
     case LineHelpers.get_route(route_id) do
       {:ok, route} ->
         map_data = get_map_data(route)

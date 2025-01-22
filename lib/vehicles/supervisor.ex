@@ -5,6 +5,8 @@ defmodule Vehicles.Supervisor do
   """
   use Supervisor
 
+  alias Vehicles.Api.SSES
+
   def start_link(_) do
     Supervisor.start_link(__MODULE__, [])
   end
@@ -36,14 +38,13 @@ defmodule Vehicles.Supervisor do
   defp stream_children(_) do
     sses_opts =
       MBTA.Api.Stream.build_options(
-        name: Vehicles.Api.SSES,
-        path:
-          "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
+        name: SSES,
+        path: "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
       )
 
     [
       {ServerSentEventStage, sses_opts},
-      {MBTA.Api.Stream, name: Vehicles.Api, subscribe_to: Vehicles.Api.SSES},
+      {MBTA.Api.Stream, name: Vehicles.Api, subscribe_to: SSES},
       {Vehicles.Stream, subscribe_to: Vehicles.Api}
     ]
   end

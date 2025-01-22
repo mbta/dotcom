@@ -3,7 +3,8 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
   import Mox
 
-  alias DotcomWeb.{PredictionsChannel, UserSocket}
+  alias DotcomWeb.PredictionsChannel
+  alias DotcomWeb.UserSocket
   alias Test.Support.Factories.Predictions.Prediction
 
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
@@ -32,9 +33,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Setup
       canonical_prediction = Prediction.build(:canonical_prediction)
 
-      filtered_prediction =
-        canonical_prediction
-        |> Map.put(:schedule_relationship, :skipped)
+      filtered_prediction = Map.put(canonical_prediction, :schedule_relationship, :skipped)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         [canonical_prediction, filtered_prediction]
@@ -52,9 +51,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Setup
       canonical_prediction = Prediction.build(:canonical_prediction)
 
-      filtered_prediction =
-        canonical_prediction
-        |> Map.put(:departure_time, nil)
+      filtered_prediction = Map.put(canonical_prediction, :departure_time, nil)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         [canonical_prediction, filtered_prediction]
@@ -89,13 +86,11 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     test "filters out past predictions", context do
       # Setup
-      now = Timex.now() |> Timex.shift(seconds: 1)
+      now = Timex.shift(DateTime.utc_now(), seconds: 1)
       past = Timex.shift(now, seconds: -15)
       future = Timex.shift(now, seconds: 15)
 
-      predictions =
-        [past, now, future]
-        |> Enum.map(&Prediction.build(:canonical_prediction, %{departure_time: &1}))
+      predictions = Enum.map([past, now, future], &Prediction.build(:canonical_prediction, %{departure_time: &1}))
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         predictions

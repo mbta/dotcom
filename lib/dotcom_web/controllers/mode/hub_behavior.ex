@@ -1,7 +1,11 @@
 defmodule DotcomWeb.Mode.HubBehavior do
   @moduledoc "Behavior for mode hub pages."
 
-  alias CMS.{API, Partial.Teaser, Repo}
+  use DotcomWeb, :controller
+
+  alias CMS.API
+  alias CMS.Partial.Teaser
+  alias CMS.Repo
   alias Fares.Summary
   alias Routes.Route
 
@@ -11,14 +15,13 @@ defmodule DotcomWeb.Mode.HubBehavior do
   @callback fare_description() :: String.t() | iodata
   @callback route_type() :: 0..4
 
-  use DotcomWeb, :controller
-
   defmacro __using__(opts) do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
-      @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
       use DotcomWeb, :controller
+
+      @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
       plug(DotcomWeb.Plugs.RecentlyVisited)
 
@@ -40,9 +43,9 @@ defmodule DotcomWeb.Mode.HubBehavior do
 
   defp render_index(conn, mode_strategy, mode_routes, params) do
     alerts_fn = fn -> alerts(mode_routes, conn.assigns.date_time) end
-    guides_fn = fn -> mode_strategy.mode_name() |> guides() end
-    news_fn = fn -> mode_strategy.mode_name() |> teasers([:news_entry]) end
-    projects_fn = fn -> mode_strategy.mode_name() |> teasers([:project], 2) end
+    guides_fn = fn -> guides(mode_strategy.mode_name()) end
+    news_fn = fn -> teasers(mode_strategy.mode_name(), [:news_entry]) end
+    projects_fn = fn -> teasers(mode_strategy.mode_name(), [:project], 2) end
 
     conn
     |> filter_recently_visited(mode_strategy.route_type())
@@ -50,12 +53,12 @@ defmodule DotcomWeb.Mode.HubBehavior do
     |> async_assign_default(:alerts, alerts_fn, [])
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
-    |> assign(:route_type, mode_strategy.route_type() |> Route.type_atom())
+    |> assign(:route_type, Route.type_atom(mode_strategy.route_type()))
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
-    |> assign(:maps, mode_strategy.mode_icon() |> maps())
-    |> assign(:paragraph, mode_strategy.mode_name() |> extra_paragraph())
+    |> assign(:maps, maps(mode_strategy.mode_icon()))
+    |> assign(:paragraph, extra_paragraph(mode_strategy.mode_name()))
     |> async_assign_default(:guides, guides_fn, [])
     |> async_assign_default(:news, news_fn, [])
     |> async_assign_default(:projects, projects_fn, [])
@@ -68,10 +71,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
     |> render("hub.html")
   end
 
-  defp filter_recently_visited(
-         %{assigns: %{recently_visited: recently_visited}} = conn,
-         route_type
-       )
+  defp filter_recently_visited(%{assigns: %{recently_visited: recently_visited}} = conn, route_type)
        when route_type in [2, 3] do
     filtered = Enum.filter(recently_visited, &(&1.type == route_type))
     assign(conn, :recently_visited, filtered)
@@ -88,8 +88,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
   end
 
   defp meta_description(conn, %{meta_description: meta_description}) do
-    conn
-    |> assign(:meta_description, meta_description)
+    assign(conn, :meta_description, meta_description)
   end
 
   defp meta_description(conn, _), do: conn

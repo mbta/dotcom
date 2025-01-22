@@ -3,7 +3,8 @@ defmodule MBTA.Api.ServicesTest do
 
   import Mox
 
-  alias MBTA.Api.{Mock, Services}
+  alias MBTA.Api.Mock
+  alias MBTA.Api.Services
 
   setup :set_mox_global
   setup :verify_on_exit!

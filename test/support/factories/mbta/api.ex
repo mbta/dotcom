@@ -151,8 +151,7 @@ defmodule Test.Support.Factories.MBTA.Api do
             "arrival_time" => formatted_datetime(),
             "departure_time" => formatted_datetime(),
             "direction_id" => Faker.Util.pick([0, 1]),
-            "schedule_relationship" =>
-              Faker.Util.pick(["ADDED", "CANCELLED", "SKIPPED", "UNSCHEDULED", "NO_DATA"]),
+            "schedule_relationship" => Faker.Util.pick(["ADDED", "CANCELLED", "SKIPPED", "UNSCHEDULED", "NO_DATA"]),
             "status" => "",
             "stop_sequence" => 0,
             "track" => ""
@@ -184,8 +183,7 @@ defmodule Test.Support.Factories.MBTA.Api do
             "direction_id" => Faker.Util.pick([0, 1]),
             "latitude" => Faker.Address.latitude(),
             "longitude" => Faker.Address.longitude(),
-            "occupancy_status" =>
-              Faker.Util.pick(["FEW_SEATS_AVAILABLE", "FULL", "MANY_SEATS_AVAILABLE"])
+            "occupancy_status" => Faker.Util.pick(["FEW_SEATS_AVAILABLE", "FULL", "MANY_SEATS_AVAILABLE"])
           },
           relationships: %{
             "route" => [build(:route_item)],
@@ -218,7 +216,8 @@ defmodule Test.Support.Factories.MBTA.Api do
   end
 
   defp formatted_datetime do
-    Faker.DateTime.forward(1)
+    1
+    |> Faker.DateTime.forward()
     |> Timex.format!("{ISO:Extended}")
   end
 end

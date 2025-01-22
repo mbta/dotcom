@@ -208,10 +208,8 @@ defmodule Routes.Route do
   end
 
   @spec direction_name(t, 0 | 1) :: String.t()
-  def direction_name(%__MODULE__{direction_names: names}, direction_id)
-      when direction_id in [0, 1] do
-    names
-    |> Map.get(direction_id)
+  def direction_name(%__MODULE__{direction_names: names}, direction_id) when direction_id in [0, 1] do
+    Map.get(names, direction_id)
   end
 
   def direction_destination(%__MODULE__{direction_destinations: destinations}, direction_id)
@@ -286,12 +284,7 @@ defmodule Routes.Route do
   end
 
   @spec to_json_safe(t) :: map
-  def to_json_safe(
-        %__MODULE__{
-          direction_names: direction_names,
-          direction_destinations: direction_destinations
-        } = route
-      ) do
+  def to_json_safe(%__MODULE__{direction_names: direction_names, direction_destinations: direction_destinations} = route) do
     direction_destinations_value =
       if direction_destinations == :unknown,
         do: nil,
@@ -313,16 +306,14 @@ end
 
 defimpl Phoenix.Param, for: Routes.Route do
   alias Routes.Route
+
   def to_param(%Route{id: "Green" <> _rest}), do: "Green"
   def to_param(%Route{id: id}), do: id
 end
 
 defimpl Poison.Encoder, for: Routes.Route do
   def encode(
-        %Routes.Route{
-          direction_names: direction_names,
-          direction_destinations: direction_destinations
-        } = route,
+        %Routes.Route{direction_names: direction_names, direction_destinations: direction_destinations} = route,
         options
       ) do
     direction_destinations_value =
@@ -340,11 +331,7 @@ defimpl Poison.Encoder, for: Routes.Route do
     )
   end
 
-  defp encoded_directions(%{0 => direction0, 1 => direction1}),
-    do: %{
-      "0" => direction0,
-      "1" => direction1
-    }
+  defp encoded_directions(%{0 => direction0, 1 => direction1}), do: %{"0" => direction0, "1" => direction1}
 
   defp encoded_directions(directions), do: directions
 end

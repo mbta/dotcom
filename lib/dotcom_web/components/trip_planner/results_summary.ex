@@ -52,10 +52,7 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     """
   end
 
-  defp submission_summary(%{
-         from: %{changes: %{name: from_name}},
-         to: %{changes: %{name: to_name}}
-       }) do
+  defp submission_summary(%{from: %{changes: %{name: from_name}}, to: %{changes: %{name: to_name}}}) do
     "Trips from #{from_name} to #{to_name}"
   end
 

@@ -6,13 +6,14 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
   import Mox
   import Test.Support.Factories.TripPlanner.TripPlanner
 
-  alias Test.Support.Factories.Stops.Stop
   alias Dotcom.TripPlan.Itinerary
+  alias Stops.Repo.Mock
+  alias Test.Support.Factories.Stops.Stop
 
   setup :verify_on_exit!
 
   setup do
-    stub(Stops.Repo.Mock, :get, fn _ ->
+    stub(Mock, :get, fn _ ->
       Stop.build(:stop)
     end)
 
@@ -29,7 +30,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       %{legs: [%{from: from, to: to, mode: %{route: route}}]} = itinerary
 
       expect(
-        Stops.Repo.Mock,
+        Mock,
         :get_parent,
         if(route.type in [2, 4], do: 2, else: 0),
         fn id -> %Stops.Stop{id: id} end
@@ -50,7 +51,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
           assert route_link.icon_name == :ferry
 
           assert fare_link.url ==
-                   "/fares/ferry?origin=#{from.stop.id}&destination=#{to.stop.id}" |> URI.encode()
+                   URI.encode("/fares/ferry?origin=#{from.stop.id}&destination=#{to.stop.id}")
 
         3 ->
           assert route_link.icon_name == :bus
@@ -60,8 +61,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
           assert route_link.icon_name == :commuter_rail
 
           assert fare_link.url ==
-                   "/fares/commuter_rail?origin=#{from.stop.id}&destination=#{to.stop.id}"
-                   |> URI.encode()
+                   URI.encode("/fares/commuter_rail?origin=#{from.stop.id}&destination=#{to.stop.id}")
 
         _ ->
           assert route_link.icon_name == :subway
@@ -70,7 +70,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     end
 
     test "returns a non-empty list for multiple kinds of itineraries" do
-      stub(Stops.Repo.Mock, :get_parent, fn _ -> Stop.build(:stop) end)
+      stub(Mock, :get_parent, fn _ -> Stop.build(:stop) end)
 
       for _i <- 0..100 do
         itinerary =
@@ -85,7 +85,7 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     test "with multiple types of fares, returns one link to the fare overview", %{
       itinerary: itinerary
     } do
-      stub(Stops.Repo.Mock, :get_parent, fn _ -> Stop.build(:stop) end)
+      stub(Mock, :get_parent, fn _ -> Stop.build(:stop) end)
 
       for _i <- 0..10 do
         leg = build(:transit_leg)

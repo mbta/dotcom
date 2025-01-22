@@ -35,16 +35,14 @@ defmodule Dotcom.BodyTag do
   defp mticket_class(%{host: "mticket.mbtace.com"}), do: "mticket"
 
   defp mticket_class(conn) do
-    case conn
-         |> Plug.Conn.get_req_header(Application.get_env(:dotcom, __MODULE__)[:mticket_header]) do
+    case Plug.Conn.get_req_header(conn, Application.get_env(:dotcom, __MODULE__)[:mticket_header]) do
       [] -> ""
       _ -> "mticket"
     end
   end
 
   @spec preview_class(Plug.Conn.t()) :: String.t()
-  defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _, "nid" => _}}),
-    do: "cms-preview"
+  defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _, "nid" => _}}), do: "cms-preview"
 
   defp preview_class(_conn), do: ""
 end

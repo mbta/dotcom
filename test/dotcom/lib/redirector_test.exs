@@ -57,7 +57,7 @@ defmodule DotcomWeb.RedirectorTest do
   test "route redirected with an invalid id renders a 404", %{conn: conn} do
     conn =
       conn
-      |> Map.merge(%{params: %{"id" => "invalid"}})
+      |> Map.put(:params, %{"id" => "invalid"})
       |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
 
     conn = Redirector.call(conn, to: "/news")
@@ -69,7 +69,7 @@ defmodule DotcomWeb.RedirectorTest do
   test "/projects are redirected even if they have an id", %{conn: conn} do
     conn =
       conn
-      |> Map.merge(%{params: %{"id" => "12345"}})
+      |> Map.put(:params, %{"id" => "12345"})
       |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
 
     conn = Redirector.call(conn, to: "/projects")

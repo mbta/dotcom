@@ -39,7 +39,7 @@ defmodule GreenLine do
   """
   def termini_stops do
     for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
-      stop = @stops_repo.by_route(branch_id, direction_id) |> List.last()
+      stop = branch_id |> @stops_repo.by_route(direction_id) |> List.last()
       {{branch_id, direction_id}, stop}
     end
   end
@@ -59,7 +59,7 @@ defmodule GreenLine do
   """
   @spec terminus?(Stop.id_t(), branch_name, 0 | 1) :: boolean
   def terminus?(stop_id, branch_name, direction_id) do
-    Map.get(termini_stops(), {branch_name, direction_id}, %{}) |> Map.get(:id) == stop_id
+    termini_stops() |> Map.get({branch_name, direction_id}, %{}) |> Map.get(:id) == stop_id
   end
 
   @doc "A naive guess at the destination of a green line train when no trip is available"
@@ -115,13 +115,11 @@ defmodule GreenLine do
   Returns a list of the shared stops that the branch does NOT reach.
   """
   @spec excluded_shared_stops(branch_name) :: [Stop.id_t()]
-  def excluded_shared_stops("Green-B"),
-    do: ["place-north", "place-haecl"]
+  def excluded_shared_stops("Green-B"), do: ["place-north", "place-haecl"]
 
   def excluded_shared_stops("Green-C"), do: ["place-north", "place-haecl"]
 
-  def excluded_shared_stops("Green-D"),
-    do: []
+  def excluded_shared_stops("Green-D"), do: []
 
   def excluded_shared_stops("Green-E"), do: ["place-kencl", "place-hymnl"]
 
@@ -230,10 +228,7 @@ defmodule GreenLine do
     acc
   end
 
-  defp merge_green_line_stops(
-         {:ok, {_route_id, {:error, _} = error}},
-         {_current_stops, route_id_stop_map}
-       ) do
+  defp merge_green_line_stops({:ok, {_route_id, {:error, _} = error}}, {_current_stops, route_id_stop_map}) do
     # new error, return that for stops
     {error, route_id_stop_map}
   end
@@ -241,8 +236,8 @@ defmodule GreenLine do
   defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, route_id_stop_map}) do
     # Update route_id_stop_map to include the stop
     route_id_stop_map =
-      line_stops
-      |> Enum.reduce(
+      Enum.reduce(
+        line_stops,
         Map.put(route_id_stop_map, route_id, MapSet.new()),
         fn %{id: stop_id}, map ->
           insert_stop_id(map, route_id, stop_id)

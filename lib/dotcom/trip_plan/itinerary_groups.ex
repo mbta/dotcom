@@ -8,7 +8,11 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
 
   import DotcomWeb.TripPlanView, only: [get_one_way_total_by_type: 2]
 
-  alias Dotcom.TripPlan.{Itinerary, ItineraryGroup, Leg, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.ItineraryGroup
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
   alias OpenTripPlannerClient.ItineraryTag
 
   @short_walk_threshold_minutes 5
@@ -138,12 +142,9 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     %{summary | walk_minutes: new + old}
   end
 
-  defp summarize_legs(
-         %{route: route},
-         %{routes: old_routes} = summary
-       ) do
+  defp summarize_legs(%{route: route}, %{routes: old_routes} = summary) do
     # should probably sort by sort_order, but the route data returned by OTP don't have sort orders! (yet?)
-    routes = [route | old_routes] |> Enum.sort_by(& &1.name)
+    routes = Enum.sort_by([route | old_routes], & &1.name)
     %{summary | routes: routes}
   end
 

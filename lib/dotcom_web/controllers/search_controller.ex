@@ -2,15 +2,19 @@ defmodule DotcomWeb.SearchController do
   @moduledoc false
   use DotcomWeb, :controller
 
-  require Logger
-
   import Dotcom.ResponsivePagination, only: [build: 1]
   import DotcomWeb.Router.Helpers, only: [search_path: 2]
 
-  alias Alerts.{Alert, Repo}
-  alias Algolia.{Analytics, Api, Query}
-  alias CMS.Search.{Facets, Result}
+  alias Alerts.Alert
+  alias Alerts.Repo
+  alias Algolia.Analytics
+  alias Algolia.Api
+  alias Algolia.Query
+  alias CMS.Search.Facets
+  alias CMS.Search.Result
   alias Plug.Conn
+
+  require Logger
 
   plug(:breadcrumbs)
   plug(:search_header)
@@ -21,11 +25,7 @@ defmodule DotcomWeb.SearchController do
          }
 
   @spec index(Conn.t(), Keyword.t()) :: Conn.t()
-  def index(
-        conn,
-        %{"search" => %{"query" => query} = search_input}
-      )
-      when query != "" do
+  def index(conn, %{"search" => %{"query" => query} = search_input}) when query != "" do
     offset = offset(search_input)
     content_types = content_types(search_input)
     conn = assign_js(conn)
@@ -45,7 +45,7 @@ defmodule DotcomWeb.SearchController do
 
   def index(conn, _params) do
     conn
-    |> assign_js
+    |> assign_js()
     |> assign(:empty_query, true)
     |> render("index.html")
   end
@@ -59,7 +59,7 @@ defmodule DotcomWeb.SearchController do
       body: Query.build(params)
     }
 
-    Api.action(:post, api) |> do_query(conn)
+    :post |> Api.action(api) |> do_query(conn)
   end
 
   defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
@@ -122,8 +122,7 @@ defmodule DotcomWeb.SearchController do
   @per_page 10
 
   @spec render_index(Conn.t(), integer, integer, map) :: Conn.t()
-  defp render_index(%Conn{assigns: %{results: []}} = conn, _, _, _),
-    do: render(conn, "index.html")
+  defp render_index(%Conn{assigns: %{results: []}} = conn, _, _, _), do: render(conn, "index.html")
 
   defp render_index(conn, offset, count, search_input) do
     conn

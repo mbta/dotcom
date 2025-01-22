@@ -15,7 +15,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
       conn =
         now
-        |> make_timetable_schedules
+        |> make_timetable_schedules()
         |> assign(:date_time, Timex.shift(now, minutes: -1))
         |> call([])
 
@@ -27,7 +27,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
       conn =
         now
-        |> make_timetable_schedules
+        |> make_timetable_schedules()
         |> assign(:date_time, Timex.shift(now, minutes: 5))
         |> call([])
 
@@ -39,7 +39,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
       conn =
         now
-        |> make_timetable_schedules
+        |> make_timetable_schedules()
         |> assign(:date_time, Timex.shift(now, minutes: 21))
         |> call([])
 
@@ -51,7 +51,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
       conn =
         now
-        |> make_timetable_schedules
+        |> make_timetable_schedules()
         |> assign(:date_time, Timex.shift(now, hours: 1, minutes: 5))
         |> call([])
 
@@ -63,7 +63,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
       conn =
         now
-        |> make_timetable_schedules
+        |> make_timetable_schedules()
         |> assign(:date_time, Timex.shift(now, hours: 4))
         |> call([])
 

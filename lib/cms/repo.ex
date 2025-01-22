@@ -8,26 +8,25 @@ defmodule CMS.Repo do
   The base ttl for the repo is one hour.
   """
 
-  require Logger
+  @behaviour Nebulex.Caching.KeyGenerator
 
   use Nebulex.Caching.Decorators
 
   import CMS.Helpers, only: [preview_opts: 1]
 
-  alias CMS.Partial.{
-    Banner,
-    Paragraph,
-    RoutePdf,
-    Teaser,
-    WhatsHappeningItem
-  }
-
   alias CMS.API
   alias CMS.Page
-  alias CMS.Page.{Event, NewsEntry}
+  alias CMS.Page.Event
+  alias CMS.Page.NewsEntry
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Paragraph
+  alias CMS.Partial.RoutePdf
+  alias CMS.Partial.Teaser
+  alias CMS.Partial.WhatsHappeningItem
   alias CMS.Search.Result
-
   alias Routes.Route
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
   @cms_api Application.compile_env!(:dotcom, :cms_api_module)
@@ -218,8 +217,6 @@ defmodule CMS.Repo do
 
   # BEGIN PAGE CACHING #
 
-  @behaviour Nebulex.Caching.KeyGenerator
-
   @impl true
   def generate(_, _, [path, %Plug.Conn.Unfetched{aspect: :query_params}]) do
     key = path |> String.trim("/") |> String.replace(~r/\//, "|")
@@ -340,7 +337,7 @@ defmodule CMS.Repo do
   @spec teaser_path(Keyword.t()) :: String.t()
   defp teaser_path(opts) do
     path =
-      case Enum.into(opts, %{}) do
+      case Map.new(opts) do
         %{route_id: route_id, topic: topic} -> "/#{topic}/#{route_id}"
         %{mode: mode, topic: topic} -> "/#{topic}/#{mode}"
         %{topic: topic} -> "/#{topic}/any"
@@ -365,8 +362,7 @@ defmodule CMS.Repo do
     params
   end
 
-  defp teaser_sort(%{type: [type]} = params)
-       when type in [:news_entry, :event, :project_update, :project] do
+  defp teaser_sort(%{type: [type]} = params) when type in [:news_entry, :event, :project_update, :project] do
     order = Map.get(params, :sort_order, :DESC)
 
     field =
@@ -423,8 +419,8 @@ defmodule CMS.Repo do
   @spec events_for_year(Calendar.year()) :: [Teaser.t()]
   def events_for_year(year) do
     do_events_for_range(
-      min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
-      max: Timex.end_of_year(year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
+      min: year |> Timex.beginning_of_year() |> Util.convert_to_iso_format(),
+      max: year |> Timex.end_of_year() |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
     )
   end
 

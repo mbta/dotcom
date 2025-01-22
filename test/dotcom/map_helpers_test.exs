@@ -1,5 +1,6 @@
 defmodule MapHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import Dotcom.MapHelpers
 
   describe "map_pdf_url/1" do

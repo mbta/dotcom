@@ -1,5 +1,6 @@
 defmodule Dotcom.BodyTagTest do
   use ExUnit.Case, async: true
+
   import Dotcom.BodyTag
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Phoenix.HTML, only: [safe_to_string: 1]
@@ -7,9 +8,7 @@ defmodule Dotcom.BodyTagTest do
 
   describe "render/1" do
     test "returns mticket if the requisite header is present" do
-      conn =
-        build_conn()
-        |> put_req_header(Application.get_env(:dotcom, Dotcom.BodyTag)[:mticket_header], "")
+      conn = put_req_header(build_conn(), Application.get_env(:dotcom, Dotcom.BodyTag)[:mticket_header], "")
 
       assert safe_to_string(render(conn)) =~ "no-js mticket"
     end

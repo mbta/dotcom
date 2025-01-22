@@ -5,12 +5,13 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   """
   @behaviour Plug
-  import Plug.Conn
 
-  require Logger
+  import Plug.Conn
 
   alias Predictions.Prediction
   alias Util.AsyncAssign
+
+  require Logger
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
@@ -50,12 +51,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   @spec predictions(Plug.Conn.t()) :: [Prediction.t()]
   def predictions(%{
-        assigns: %{
-          origin: origin,
-          destination: destination,
-          route: %{id: route_id},
-          direction_id: direction_id
-        }
+        assigns: %{origin: origin, destination: destination, route: %{id: route_id}, direction_id: direction_id}
       })
       when not is_nil(origin) do
     destination_id = if destination, do: Map.get(destination, :id)
@@ -67,7 +63,8 @@ defmodule DotcomWeb.ScheduleController.Predictions do
         [route: route_id, direction_id: direction_id]
       end
 
-    @predictions_repo.all(opts)
+    opts
+    |> @predictions_repo.all()
     |> case do
       {:error, error} ->
         Logger.error("predictions for opts #{inspect(opts)}: #{inspect(error)}")
@@ -80,7 +77,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
           prediction.stop && prediction.stop.id in [origin.id, destination_id]
         end)
         |> filter_stop_at_origin(origin.id)
-        |> filter_missing_trip
+        |> filter_missing_trip()
     end
   end
 
@@ -90,8 +87,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   @spec filter_stop_at_origin([Prediction.t()], Stops.Stop.id_t()) :: [Prediction.t()]
   defp filter_stop_at_origin(predictions, origin_id) do
-    predictions
-    |> Enum.reject(fn
+    Enum.reject(predictions, fn
       %Prediction{time: nil} -> false
       %Prediction{stop: %{id: ^origin_id}, departing?: false} -> true
       %Prediction{} -> false
@@ -121,8 +117,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
         []
 
       list ->
-        list
-        |> Enum.filter(&(&1.stop && &1.stop.id in stop_ids))
+        Enum.filter(list, &(&1.stop && &1.stop.id in stop_ids))
     end
   end
 

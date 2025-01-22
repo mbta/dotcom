@@ -1,4 +1,5 @@
 defmodule DotcomWeb.Live.Admin do
+  @moduledoc false
   use DotcomWeb, :live_view
 
   def mount(_params, _session, socket) do

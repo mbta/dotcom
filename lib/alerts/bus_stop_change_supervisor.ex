@@ -4,6 +4,7 @@ defmodule Alerts.BusStopChangeSupervisor do
   """
 
   use Supervisor
+
   alias Alerts.Cache.BusStopChangeS3
 
   def start_link(opts) do

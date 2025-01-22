@@ -1,10 +1,12 @@
 defmodule Dotcom.ComponentsTest do
   use DotcomWeb.ConnCase, async: true
   use Dotcom.Components.Precompiler
+
+  import Phoenix.HTML, only: [safe_to_string: 1]
+
   alias Dotcom.Components.Buttons.ButtonGroup
   alias Dotcom.Components.Icons.SvgIcon
   alias Dotcom.Components.Tabs.ModeTabList
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "buttons > button_group" do
     test "button list renders links in button containers" do
@@ -38,21 +40,21 @@ defmodule Dotcom.ComponentsTest do
     end
 
     test "icons render an svg with correct classes" do
-      rendered = %SvgIcon{icon: :map} |> svg_icon |> safe_to_string
+      rendered = %SvgIcon{icon: :map} |> svg_icon() |> safe_to_string()
       assert rendered =~ "</svg>"
       assert rendered =~ "icon-map"
       assert rendered =~ "icon "
     end
 
     test "icons do not render with a background circle" do
-      rendered = %SvgIcon{icon: :subway} |> svg_icon |> safe_to_string
+      rendered = %SvgIcon{icon: :subway} |> svg_icon() |> safe_to_string()
       assert rendered =~ "icon-subway"
       assert rendered =~ "icon "
       refute rendered =~ "icon-circle"
     end
 
     test "alert icons have an accessible title" do
-      rendered = %SvgIcon{icon: :alert} |> svg_icon |> safe_to_string
+      rendered = %SvgIcon{icon: :alert} |> svg_icon() |> safe_to_string()
       assert rendered =~ "Service alert or delay"
     end
 
@@ -194,9 +196,7 @@ defmodule Dotcom.ComponentsTest do
     test "Selected option is shown as such" do
       rendered = tab_args() |> tab_selector() |> safe_to_string()
 
-      option =
-        rendered
-        |> Floki.find(".tab-select-btn-selected")
+      option = Floki.find(rendered, ".tab-select-btn-selected")
 
       assert inspect(option) =~ "Info"
     end
@@ -226,6 +226,6 @@ defmodule Dotcom.ComponentsTest do
   end
 
   defp period_shift(period) do
-    {Util.now() |> Timex.shift(period), nil}
+    {Timex.shift(Util.now(), period), nil}
   end
 end

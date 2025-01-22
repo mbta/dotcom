@@ -5,8 +5,10 @@ defmodule Stops.RouteStopTest do
   import Stops.RouteStop
 
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
-  alias Stops.{RouteStop, Stop}
+  alias Routes.Route
+  alias Routes.Shape
+  alias Stops.RouteStop
+  alias Stops.Stop
 
   @moduletag :external
   @stop %Stop{name: "Braintree", id: "place-brntn"}
@@ -155,9 +157,7 @@ defmodule Stops.RouteStopTest do
       }
 
       c_stops =
-        make_stops(
-          ~w(place-north place-gover place-pktrm place-coecl place-kencl place-smary place-clmnl)s
-        )
+        make_stops(~w(place-north place-gover place-pktrm place-coecl place-kencl place-smary place-clmnl)s)
 
       d_route_pattern = %RoutePattern{
         direction_id: 0,
@@ -183,9 +183,7 @@ defmodule Stops.RouteStopTest do
       }
 
       e_stops =
-        make_stops(
-          ~w(place-mdftf place-lech place-north place-gover place-pktrm place-coecl place-prmnl place-hsmnl)s
-        )
+        make_stops(~w(place-mdftf place-lech place-north place-gover place-pktrm place-coecl place-prmnl place-hsmnl)s)
 
       route_patterns_with_stops = [
         {b_route_pattern, b_stops},

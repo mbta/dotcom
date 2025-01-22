@@ -1,5 +1,6 @@
 defmodule DotcomWeb.EndpointTest do
   use DotcomWeb.ConnCase, async: false
+
   alias DotcomWeb.Endpoint
 
   describe "init/2" do

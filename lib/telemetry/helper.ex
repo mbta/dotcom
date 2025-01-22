@@ -45,7 +45,7 @@ defmodule Telemetry.Helper do
   end
 
   defp handler(name, metadata, measure, filter) do
-    unless filtered?(name, filter) do
+    if !filtered?(name, filter) do
       # credo:disable-for-next-line Credo.Check.Warning.IoInspect
       IO.inspect(%{name: name, metadata: metadata, measure: measure})
     end

@@ -1,5 +1,6 @@
 defmodule UrlHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import UrlHelpers
 
   @path "/path"

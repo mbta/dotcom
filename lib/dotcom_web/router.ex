@@ -5,11 +5,13 @@ defmodule DotcomWeb.Router do
   use Plug.ErrorHandler
 
   alias DotcomWeb.ControllerHelpers
+  alias DotcomWeb.Plugs.CacheControl
+  alias DotcomWeb.Plugs.SecureHeaders
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
     conn
-    |> DotcomWeb.Plugs.SecureHeaders.call([])
+    |> SecureHeaders.call([])
     |> then(fn conn ->
       case reason do
         %Phoenix.Router.NoRouteError{plug_status: 404} ->
@@ -41,7 +43,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
-    plug(DotcomWeb.Plugs.SecureHeaders)
+    plug(SecureHeaders)
     plug(:optional_disable_indexing)
   end
 
@@ -55,11 +57,11 @@ defmodule DotcomWeb.Router do
   end
 
   pipeline :cached_hourly do
-    plug(DotcomWeb.Plugs.CacheControl, max_age: 3_600)
+    plug(CacheControl, max_age: 3_600)
   end
 
   pipeline :cached_daily do
-    plug(DotcomWeb.Plugs.CacheControl, max_age: 86_400)
+    plug(CacheControl, max_age: 86_400)
   end
 
   scope "/", DotcomWeb do
@@ -142,13 +144,9 @@ defmodule DotcomWeb.Router do
     get("/schedules/70A/*path_params", Redirector, to: "/betterbus-61-70-70A")
 
     # bus routes eliminated by the Bus Network Redesign
-    get("/schedules/117", Redirector,
-      to: "/projects/bus-network-redesign/phase-1-service-changes#116"
-    )
+    get("/schedules/117", Redirector, to: "/projects/bus-network-redesign/phase-1-service-changes#116")
 
-    get("/schedules/117/*path_params", Redirector,
-      to: "/projects/bus-network-redesign/phase-1-service-changes#116"
-    )
+    get("/schedules/117/*path_params", Redirector, to: "/projects/bus-network-redesign/phase-1-service-changes#116")
 
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
@@ -165,9 +163,7 @@ defmodule DotcomWeb.Router do
     get("/projects", ProjectController, :index)
     get("/project_api", ProjectController, :api, as: :project_api)
 
-    get("/projects/:project_alias/updates", ProjectController, :project_updates,
-      as: :project_updates
-    )
+    get("/projects/:project_alias/updates", ProjectController, :project_updates, as: :project_updates)
 
     get("/redirect/*path", RedirectController, :show)
 
@@ -254,6 +250,7 @@ defmodule DotcomWeb.Router do
 
   scope "/admin", DotcomWeb do
     import Phoenix.LiveView.Router
+
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
@@ -265,6 +262,7 @@ defmodule DotcomWeb.Router do
 
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
+
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :preview} do
@@ -276,6 +274,7 @@ defmodule DotcomWeb.Router do
 
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
+
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :system_status, layout: {DotcomWeb.LayoutView, :preview} do

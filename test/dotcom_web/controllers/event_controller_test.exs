@@ -26,7 +26,7 @@ defmodule DotcomWeb.EventControllerTest do
     test "renders a list of events", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
       assert conn.assigns.year == 2019
-      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+      events_hub = conn |> html_response(200) |> Floki.find(".m-events-hub")
 
       assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
 
@@ -37,7 +37,7 @@ defmodule DotcomWeb.EventControllerTest do
     test "renders the calendar view", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, calendar: true))
 
-      events_calendar = html_response(conn, 200) |> Floki.find(".m-event-calendar")
+      events_calendar = conn |> html_response(200) |> Floki.find(".m-event-calendar")
 
       refute is_nil(events_calendar)
     end
@@ -45,7 +45,7 @@ defmodule DotcomWeb.EventControllerTest do
     test "scopes events based on provided dates", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, month: 6, year: 2018))
 
-      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+      events_hub = conn |> html_response(200) |> Floki.find(".m-events-hub")
 
       refute Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
     end
@@ -61,7 +61,7 @@ defmodule DotcomWeb.EventControllerTest do
     test "renders the toggle for calendar view", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, calendar: true))
 
-      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub__nav--navigation-toggle")
+      events_hub = conn |> html_response(200) |> Floki.find(".m-events-hub__nav--navigation-toggle")
       assert [{"div", [{"class", "m-events-hub__nav--navigation-toggle"}], _}] = events_hub
 
       event_icons = Floki.find(events_hub, ".m-nav-toggle-icon")
@@ -236,12 +236,12 @@ defmodule DotcomWeb.EventControllerTest do
     test "year_options/1 returns a range of -4/+1 years", %{conn: conn} do
       assigns_with_date = Map.put(conn.assigns, :date, ~D[2019-03-03])
       conn = %{conn | assigns: assigns_with_date}
-      assert 2015..2020 = year_options(conn)
+      assert 2015..2020//_ = year_options(conn)
     end
 
     test "year_options/1 defaults to Util.now", %{conn: conn} do
       with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
-        assert 2016..2021 = year_options(conn)
+        assert 2016..2021//_ = year_options(conn)
       end
     end
   end

@@ -6,20 +6,19 @@ defmodule DotcomWeb.TripPlanViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Schedules.Repo, only: [end_of_rating: 0]
 
-  alias Dotcom.TripPlan.{
-    IntermediateStop,
-    Itinerary,
-    ItineraryRow,
-    Leg,
-    NamedPosition,
-    PersonalDetail,
-    Query,
-    TransitDetail
-  }
-
+  alias Dotcom.StopBubble.Params
+  alias Dotcom.TripPlan.IntermediateStop
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.ItineraryRow
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.Query
+  alias Dotcom.TripPlan.TransitDetail
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.Step
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   @highest_one_way_fare %Fares.Fare{
     additional_valid_modes: [:bus],
@@ -206,7 +205,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "plan_error_description" do
     test "renders too_future error" do
-      end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
+      end_of_rating = Timex.format!(end_of_rating(), "{M}/{D}/{YY}")
 
       error =
         [:too_future]
@@ -218,7 +217,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders past error" do
-      end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
+      end_of_rating = Timex.format!(end_of_rating(), "{M}/{D}/{YY}")
 
       error =
         [:past]
@@ -307,7 +306,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders time when given one" do
-      text = {:render, "11:00 AM"} |> render_stop_departure_display() |> safe_to_string
+      text = {:render, "11:00 AM"} |> render_stop_departure_display() |> safe_to_string()
       assert text =~ "11:00 AM"
     end
   end
@@ -328,7 +327,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       for {_step, param} <- params do
         assert [
-                 %Dotcom.StopBubble.Params{
+                 %Params{
                    route_id: ^id,
                    route_type: 1,
                    render_type: :stop,
@@ -354,7 +353,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       for {_step, param} <- params do
         assert [
-                 %Dotcom.StopBubble.Params{
+                 %Params{
                    route_id: nil,
                    route_type: nil,
                    bubble_branch: nil
@@ -395,7 +394,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "render_steps/5" do
     @bubble_params [
-      %Dotcom.StopBubble.Params{
+      %Params{
         render_type: :empty,
         class: "line"
       }
@@ -601,75 +600,62 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     defp sl_bus_leg, do: TripPlanner.build(:sl_bus_leg)
 
     test "shows note for subway-bus transfer" do
-      note = %{@base_itinerary | legs: [subway_leg(), bus_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [subway_leg(), bus_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for bus-subway transfer" do
-      note = %{@base_itinerary | legs: [bus_leg(), subway_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [bus_leg(), subway_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for bus-bus transfer" do
-      note = %{@base_itinerary | legs: [bus_leg(), bus_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [bus_leg(), bus_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for SL4-bus transfer" do
-      note = %{@base_itinerary | legs: [sl_bus_leg(), bus_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [sl_bus_leg(), bus_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for SL1-bus transfer" do
-      note = %{@base_itinerary | legs: [sl_rapid_leg(), bus_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [sl_rapid_leg(), bus_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for express bus-subway transfer" do
-      note = %{@base_itinerary | legs: [xp_leg(), subway_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [xp_leg(), subway_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "shows note for express bus-local bus transfer" do
-      note = %{@base_itinerary | legs: [xp_leg(), bus_leg()]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
+      note = transfer_note(%{@base_itinerary | legs: [xp_leg(), bus_leg()]})
+      assert safe_to_string(note) =~ @note_text
     end
 
     test "no note when transfer involves ferry" do
-      note = %{@base_itinerary | legs: [ferry_leg(), bus_leg()]} |> transfer_note
+      note = transfer_note(%{@base_itinerary | legs: [ferry_leg(), bus_leg()]})
       refute note
     end
 
     test "no note when transfer involves commuter rail" do
-      note = %{@base_itinerary | legs: [cr_leg(), bus_leg()]} |> transfer_note
+      note = transfer_note(%{@base_itinerary | legs: [cr_leg(), bus_leg()]})
       refute note
     end
 
     test "no note where no transit" do
-      note =
-        %{
-          @base_itinerary
-          | legs: [
-              TripPlanner.build(:walking_leg),
-              TripPlanner.build(:walking_leg)
-            ]
-        }
-        |> transfer_note
+      note = transfer_note(%{@base_itinerary | legs: [TripPlanner.build(:walking_leg), TripPlanner.build(:walking_leg)]})
 
       refute note
     end
 
     test "no note where no transit transfers" do
       note =
-        %{
+        transfer_note(%{
           @base_itinerary
-          | legs: [
-              TripPlanner.build(:walking_leg),
-              bus_leg(),
-              TripPlanner.build(:walking_leg)
-            ]
-        }
-        |> transfer_note
+          | legs: [TripPlanner.build(:walking_leg), bus_leg(), TripPlanner.build(:walking_leg)]
+        })
 
       refute note
     end
@@ -681,7 +667,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       leg1 = %{subway_leg() | to: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
       leg2 = %{subway_leg() | from: %NamedPosition{stop: %Stops.Stop{id: "place-dwnxg"}}}
-      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
+      note = transfer_note(%{@base_itinerary | legs: [leg1, leg2]})
       refute note
     end
 
@@ -692,7 +678,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       leg1 = %{subway_leg() | to: %NamedPosition{stop: %Stops.Stop{id: "70020"}}}
       leg2 = %{subway_leg() | from: %NamedPosition{stop: %Stops.Stop{id: "70021"}}}
-      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
+      note = transfer_note(%{@base_itinerary | legs: [leg1, leg2]})
       refute note
     end
   end
@@ -1213,12 +1199,12 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         mode: :subway
       }
 
-      assert cr_fare |> filter_media() == [
+      assert filter_media(cr_fare) == [
                :commuter_ticket,
                :mticket
              ]
 
-      assert subway_fare |> filter_media() == subway_fare.media
+      assert filter_media(subway_fare) == subway_fare.media
     end
 
     test "formats mode properly" do
@@ -1444,8 +1430,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       subway_leg = leg_for_route.("Red")
 
       html =
-        "_fare_calculator.html"
-        |> render_to_string(
+        render_to_string("_fare_calculator.html",
           itinerary: @itinerary,
           fares: get_calculated_fares(@itinerary),
           conn: conn,
@@ -1468,8 +1453,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       itinerary_with_transfers = %{@itinerary | legs: [bus_leg, subway_leg]}
 
       html_with_transfer_note =
-        "_fare_calculator.html"
-        |> render_to_string(
+        render_to_string("_fare_calculator.html",
           itinerary: itinerary_with_transfers,
           fares: get_calculated_fares(@itinerary),
           conn: conn,
@@ -1543,8 +1527,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       # Render blue summary
       fares_estimate_html =
-        "_itinerary_fares.html"
-        |> render_to_string(
+        render_to_string("_itinerary_fares.html",
           itinerary: itinerary,
           one_way_total: nil,
           round_trip_total: nil,
@@ -1559,8 +1542,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       # Render fare calculator
       itinerary_html =
-        "_fare_calculator.html"
-        |> render_to_string(
+        render_to_string("_fare_calculator.html",
           itinerary: itinerary,
           fares: get_calculated_fares(itinerary),
           conn: conn,

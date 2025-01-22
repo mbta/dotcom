@@ -10,7 +10,10 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   """
 
-  alias Fares.{Fare, Format, Repo, Summary}
+  alias Fares.Fare
+  alias Fares.Format
+  alias Fares.Repo
+  alias Fares.Summary
 
   # Fares.Fare related type specs
   @type required_key :: :reduced | :duration
@@ -208,7 +211,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   end
 
   defp compose_args({:ok, args}) do
-    case Enum.into(args, %{}) do
+    case Map.new(args) do
       # CR zone args need to be converted to a :name Tuple from their temporary placeholders
       %{zone_type: type, zone_id: id} ->
         zone_request =

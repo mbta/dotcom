@@ -1,5 +1,6 @@
 defmodule LocationService.AddressTest do
   use ExUnit.Case
+
   alias LocationService.Address
   alias Util.Position
 
@@ -14,7 +15,8 @@ defmodule LocationService.AddressTest do
 
   describe "get_highlighted_spans/2" do
     defp get_highlighted_spans_text(search, text) do
-      Address.get_highlighted_spans(search, text)
+      search
+      |> Address.get_highlighted_spans(text)
       |> Enum.map(fn %{offset: offset, length: length} ->
         String.slice(text, offset, length)
       end)

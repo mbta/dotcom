@@ -1,6 +1,8 @@
 defmodule DotcomWeb.Plugs.CommonFaresTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Plugs.CommonFares
+
   alias Fares.Summary
 
   @opts init([])

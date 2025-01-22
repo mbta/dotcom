@@ -1,4 +1,5 @@
 defmodule Dotcom.ContentRewriters.Links do
+  @moduledoc false
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @doc """
@@ -25,7 +26,7 @@ defmodule Dotcom.ContentRewriters.Links do
   """
   @spec add_preview_params(Floki.html_tree(), Plug.Conn.t()) :: Floki.html_tree()
   def add_preview_params({"a", attrs, children} = element, conn) do
-    case Enum.into(attrs, %{}) do
+    case Map.new(attrs) do
       %{"href" => "/" <> internal_path} = attr_map ->
         processed_href = cms_static_page_path(conn, "/#{internal_path}")
 

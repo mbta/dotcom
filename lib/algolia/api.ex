@@ -3,11 +3,11 @@ defmodule Algolia.Api do
   Interact with Algolia via their API.
   """
 
-  require Logger
-
   use Nebulex.Caching.Decorators
 
   alias Algolia.Config
+
+  require Logger
 
   defstruct [:host, :index, :action, :body, :query_params]
 
@@ -34,11 +34,7 @@ defmodule Algolia.Api do
     action(action, opts, Config.config())
   end
 
-  def action(
-        action,
-        %__MODULE__{} = opts,
-        %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config
-      ) do
+  def action(action, %__MODULE__{} = opts, %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config) do
     do_action(action, opts, config)
   end
 
@@ -47,22 +43,14 @@ defmodule Algolia.Api do
     {:error, :bad_config}
   end
 
-  defp do_action(
-         action,
-         %__MODULE__{index: index, action: "queries", body: body} = opts,
-         %Config{} = config
-       )
+  defp do_action(action, %__MODULE__{index: index, action: "queries", body: body} = opts, %Config{} = config)
        when is_binary(index) and is_binary(body) do
     hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
 
     cached_send_post_request({body, config}, action, hackney, opts)
   end
 
-  defp do_action(
-         action,
-         %__MODULE__{index: index, action: opts_action, body: body} = opts,
-         %Config{} = config
-       )
+  defp do_action(action, %__MODULE__{index: index, action: opts_action, body: body} = opts, %Config{} = config)
        when is_binary(index) and is_binary(opts_action) and is_binary(body) do
     hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
 
@@ -88,17 +76,14 @@ defmodule Algolia.Api do
     end
   end
 
-  def send_request(url, :post, body, config, hackney),
-    do: @httpoison.post(url, body, headers(config), hackney: hackney)
+  def send_request(url, :post, body, config, hackney), do: @httpoison.post(url, body, headers(config), hackney: hackney)
 
-  def send_request(url, :get, _body, config, hackney),
-    do: @httpoison.get(url, headers(config), hackney: hackney)
+  def send_request(url, :get, _body, config, hackney), do: @httpoison.get(url, headers(config), hackney: hackney)
 
   @spec generate_query_param_string(t) :: String.t() | nil
   defp generate_query_param_string(%{query_params: nil}), do: nil
 
-  defp generate_query_param_string(%{query_params: query_params}),
-    do: URI.encode_query(query_params)
+  defp generate_query_param_string(%{query_params: query_params}), do: URI.encode_query(query_params)
 
   @spec generate_url(t, Config.t(), String.t() | nil) :: String.t()
   defp generate_url(%__MODULE__{} = opts, %Config{} = config, nil) do

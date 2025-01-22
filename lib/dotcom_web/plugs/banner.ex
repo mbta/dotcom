@@ -8,7 +8,10 @@ defmodule DotcomWeb.Plugs.Banner do
   """
 
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
+
+  alias __MODULE__.Options
 
   defmodule Options do
     @moduledoc """
@@ -23,8 +26,6 @@ defmodule DotcomWeb.Plugs.Banner do
             banner_fn: (-> Alerts.Banner.t() | nil)
           }
   end
-
-  alias __MODULE__.Options
 
   @impl true
   def init(opts), do: struct!(Options, opts)

@@ -7,6 +7,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias DotcomWeb.ViewHelpers, as: Helpers
+  alias Phoenix.HTML.Safe
   alias Routes.Route
   alias Schedules.Schedule
   alias Stops.Stop
@@ -14,7 +15,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   @type vehicle_tooltip_key :: {Schedules.Trip.id_t(), Stops.Stop.id_t()}
 
   @spec stop_tooltip(Schedule.t(), Stop.t() | nil) ::
-          nil | [Phoenix.HTML.Safe.t()]
+          nil | [Safe.t()]
   def stop_tooltip(%Schedule{} = schedule, track_change_stop) do
     stop_type_description = stop_type(schedule)
 
@@ -22,8 +23,6 @@ defmodule DotcomWeb.ScheduleView.Timetable do
       if track_change_stop do
         station_name = schedule.stop.name
         track_change_description(station_name, track_change_stop)
-      else
-        nil
       end
 
     [stop_type_description, track_change_tooltip]
@@ -43,7 +42,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
     Enum.join(contents, "\n")
   end
 
-  @spec stop_type(Schedule.t()) :: nil | Phoenix.HTML.Safe.t()
+  @spec stop_type(Schedule.t()) :: nil | Safe.t()
   def stop_type(%Schedule{early_departure?: true}) do
     "Early Departure Stop"
   end
@@ -61,7 +60,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
     "Train scheduled to board from #{track_change_stop.platform_name} at #{station_name}"
   end
 
-  @spec stop_parking_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
+  @spec stop_parking_icon(Stop.t()) :: [Safe.t()]
   def stop_parking_icon(stop) do
     if length(stop.parking_lots) > 0 do
       [
@@ -80,7 +79,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
     end
   end
 
-  @spec stop_accessibility_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
+  @spec stop_accessibility_icon(Stop.t()) :: [Safe.t()]
   def stop_accessibility_icon(stop) do
     cond do
       Stop.accessible?(stop) ->
@@ -121,8 +120,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   @spec cell_flag_class(Schedule.t()) :: String.t()
   def cell_flag_class(%Schedule{flag?: true}), do: " m-timetable__cell--flag-stop"
 
-  def cell_flag_class(%Schedule{early_departure?: true}),
-    do: " m-timetable__cell--early-departure"
+  def cell_flag_class(%Schedule{early_departure?: true}), do: " m-timetable__cell--early-departure"
 
   def cell_flag_class(_), do: ""
 

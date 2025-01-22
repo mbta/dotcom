@@ -6,6 +6,7 @@ defmodule DotcomWeb.Plugs.Date do
 
   """
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
 
   @impl true
@@ -13,8 +14,7 @@ defmodule DotcomWeb.Plugs.Date do
 
   @impl true
   def call(conn, date_fn: date_fn) do
-    conn
-    |> assign(:date, date(conn.params["date"], date_fn))
+    assign(conn, :date, date(conn.params["date"], date_fn))
   end
 
   defp date(nil, date_fn) do

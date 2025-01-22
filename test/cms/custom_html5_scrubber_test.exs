@@ -1,5 +1,6 @@
 defmodule CMS.CustomHTML5ScrubberTest do
   use ExUnit.Case, async: true
+
   import CMS.CustomHTML5Scrubber
 
   test "allows the mailto URI scheme" do

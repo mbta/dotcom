@@ -8,6 +8,8 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   We ignore datetime_type and datetime and allow those to be set to 'now' and the current time respectively.
   """
 
+  alias Dotcom.TripPlan.InputForm
+
   @location_service Application.compile_env!(:dotcom, :location_service)
 
   @doc """
@@ -45,7 +47,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
         "name" => Map.get(params, "from"),
         "stop_id" => Map.get(params, "from_stop_id", "")
       },
-      "modes" => Map.get(params, "modes") |> convert_modes(),
+      "modes" => params |> Map.get("modes") |> convert_modes(),
       "to" => %{
         "latitude" => Map.get(params, "to_latitude"),
         "longitude" => Map.get(params, "to_longitude"),
@@ -60,15 +62,14 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   defp convert_modes(modes) when is_map(modes) do
     default_modes =
-      for {k, _} <- Dotcom.TripPlan.InputForm.initial_modes(), into: %{}, do: {k, "false"}
+      for {k, _} <- InputForm.initial_modes(), into: %{}, do: {k, "false"}
 
-    modes
-    |> Enum.reduce(default_modes, fn {key, value}, acc ->
+    Enum.reduce(modes, default_modes, fn {key, value}, acc ->
       Map.put(acc, convert_mode(key), value)
     end)
   end
 
-  defp convert_modes(_), do: Dotcom.TripPlan.InputForm.initial_modes()
+  defp convert_modes(_), do: InputForm.initial_modes()
 
   defp convert_mode("commuter_rail"), do: "RAIL"
   defp convert_mode(mode), do: String.upcase(mode)

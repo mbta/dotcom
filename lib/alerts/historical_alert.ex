@@ -37,7 +37,8 @@ defmodule Alerts.HistoricalAlert do
 
   @spec get_entity_lists(Alert.t(), entity_key) :: [String.t()]
   defp get_entity_lists(alert, key) do
-    Alert.get_entity(alert, key)
+    alert
+    |> Alert.get_entity(key)
     |> MapSet.delete(nil)
     |> Enum.map(&get_name(&1, key))
   end

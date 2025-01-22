@@ -1,6 +1,7 @@
 defmodule Dotcom.Logster.SafeStringFormatterTest do
   @moduledoc false
   use ExUnit.Case, async: true
+
   import Dotcom.Logster.SafeStringFormatter
 
   describe "format/1" do

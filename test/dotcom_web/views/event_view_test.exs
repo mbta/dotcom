@@ -1,8 +1,10 @@
 defmodule DotcomWeb.EventViewTest do
   use Dotcom.ViewCase, async: true
-  import DotcomWeb.EventView
+
   import CMS.Helpers, only: [parse_iso_datetime: 1]
+  import DotcomWeb.EventView
   import Phoenix.HTML, only: [safe_to_string: 1]
+
   alias CMS.Page.Event
   alias CMS.Page.EventAgenda
   alias CMS.Partial.Teaser
@@ -11,9 +13,7 @@ defmodule DotcomWeb.EventViewTest do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
       event = event_factory(0, notes: nil)
 
-      html =
-        DotcomWeb.EventView
-        |> render_to_string("show.html", conn: conn, event: event)
+      html = render_to_string(DotcomWeb.EventView, "show.html", conn: conn, event: event)
 
       refute html =~ "Notes"
     end
@@ -21,9 +21,7 @@ defmodule DotcomWeb.EventViewTest do
     test "the agenda section is not rendered when the event agenda is empty", %{conn: conn} do
       event = event_factory(0, agenda: nil)
 
-      html =
-        DotcomWeb.EventView
-        |> render_to_string("show.html", conn: conn, event: event)
+      html = render_to_string(DotcomWeb.EventView, "show.html", conn: conn, event: event)
 
       refute html =~ "Agenda"
     end
@@ -31,9 +29,7 @@ defmodule DotcomWeb.EventViewTest do
     test "the location field takes priority over the imported address", %{conn: conn} do
       event = event_factory(0, location: "MassDot", imported_address: "Meed me at the docks")
 
-      html =
-        DotcomWeb.EventView
-        |> render_to_string("show.html", conn: conn, event: event)
+      html = render_to_string(DotcomWeb.EventView, "show.html", conn: conn, event: event)
 
       assert html =~ event.location
       refute html =~ "Meet me at the docks"
@@ -42,9 +38,7 @@ defmodule DotcomWeb.EventViewTest do
     test "given the location field is empty, the imported address is shown", %{conn: conn} do
       event = event_factory(0, location: nil, imported_address: "Meet me at the docks")
 
-      html =
-        DotcomWeb.EventView
-        |> render_to_string("show.html", conn: conn, event: event)
+      html = render_to_string(DotcomWeb.EventView, "show.html", conn: conn, event: event)
 
       assert html =~ "Meet me at the docks"
     end
@@ -156,7 +150,7 @@ defmodule DotcomWeb.EventViewTest do
   end
 
   test "grouped_by_month/2 for a given year" do
-    events =
+    for_result =
       for y <- 2018..2020, m <- 1..12, into: [] do
         {:ok, date} = Date.new(y, m, 1)
 
@@ -170,7 +164,8 @@ defmodule DotcomWeb.EventViewTest do
           }
         end
       end
-      |> List.flatten()
+
+    events = List.flatten(for_result)
 
     grouped_2020_events = grouped_by_month(events, 2020)
 
@@ -181,7 +176,7 @@ defmodule DotcomWeb.EventViewTest do
   end
 
   test "grouped_by_day/2 for a given month" do
-    events =
+    for_result =
       for m <- 1..12, into: [] do
         y = 2020
 
@@ -197,7 +192,8 @@ defmodule DotcomWeb.EventViewTest do
           }
         end
       end
-      |> List.flatten()
+
+    events = List.flatten(for_result)
 
     grouped_april_events = grouped_by_day(events, 4)
     assert grouped_april_events

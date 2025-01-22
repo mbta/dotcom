@@ -9,8 +9,7 @@ defmodule DotcomWeb.ScheduleController.GreenTerminiApi do
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, _) do
     direction_destinations =
-      GreenLine.branch_ids()
-      |> Map.new(fn k ->
+      Map.new(GreenLine.branch_ids(), fn k ->
         {k, Map.values(elem(LineHelpers.get_route(k), 1).direction_destinations)}
       end)
 

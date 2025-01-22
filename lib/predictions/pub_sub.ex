@@ -7,10 +7,15 @@ defmodule Predictions.PubSub do
   Set up to broadcast predictions periodically, or can be broadcast on-demand.
   """
 
+  @behaviour Predictions.PubSub.Behaviour
+
   use GenServer
 
-  alias Predictions.{Prediction, Store, StreamSupervisor, StreamTopic}
+  alias Predictions.Prediction
   alias Predictions.PubSub.Behaviour
+  alias Predictions.Store
+  alias Predictions.StreamSupervisor
+  alias Predictions.StreamTopic
 
   @broadcast_interval_ms Application.compile_env!(:dotcom, [:predictions_broadcast_interval_ms])
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
@@ -19,8 +24,6 @@ defmodule Predictions.PubSub do
 
   @type registry_value :: {Store.fetch_keys(), binary()}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
-
-  @behaviour Behaviour
 
   # Client
   @spec start_link(Keyword.t()) :: GenServer.on_start()
@@ -72,15 +75,7 @@ defmodule Predictions.PubSub do
   end
 
   @impl GenServer
-  def handle_call(
-        {:subscribe,
-         %StreamTopic{
-           fetch_keys: fetch_keys,
-           streams: streams
-         }},
-        {from_pid, _ref},
-        state
-      ) do
+  def handle_call({:subscribe, %StreamTopic{fetch_keys: fetch_keys, streams: streams}}, {from_pid, _ref}, state) do
     filter_names = Enum.map(streams, &elem(&1, 1))
     :ets.insert(state.callers_by_pid, Enum.map(filter_names, &{from_pid, &1}))
     registry_key = self()
@@ -92,7 +87,8 @@ defmodule Predictions.PubSub do
     # Here we can check if there are other subscribers for the associated key.
     # If there are no other subscribers remaining, we stop the associated
     # predictions data stream.
-    :ets.lookup(state.callers_by_pid, caller_pid)
+    state.callers_by_pid
+    |> :ets.lookup(caller_pid)
     |> Enum.each(fn {_, filter_name} ->
       other_pids_for_filter =
         :ets.select(state.callers_by_pid, [
@@ -113,8 +109,8 @@ defmodule Predictions.PubSub do
     registry_key = self()
 
     Registry.dispatch(@subscribers, registry_key, fn entries ->
-      Enum.group_by(
-        entries,
+      entries
+      |> Enum.group_by(
         fn {_, {fetch_keys, _}} -> fetch_keys end,
         fn {pid, {_, _}} -> pid end
       )
@@ -133,10 +129,7 @@ defmodule Predictions.PubSub do
     {:noreply, state, :hibernate}
   end
 
-  def handle_info(
-        {:dispatch, pids, fetch_keys, predictions},
-        state
-      ) do
+  def handle_info({:dispatch, pids, fetch_keys, predictions}, state) do
     if :ets.lookup(state.last_dispatched, fetch_keys) != predictions do
       Enum.each(pids, &send(&1, {:new_predictions, predictions}))
       :ets.insert(state.last_dispatched, {fetch_keys, predictions})

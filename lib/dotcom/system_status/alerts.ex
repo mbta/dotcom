@@ -87,7 +87,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   }
   """
   def filter_relevant(alerts) do
-    alerts |> Enum.filter(fn %{effect: effect} -> effect in @relevant_effects end)
+    Enum.filter(alerts, fn %{effect: effect} -> effect in @relevant_effects end)
   end
 
   # Returns true if the alert (as signified by the active_period_start provided)
@@ -101,6 +101,5 @@ defmodule Dotcom.SystemStatus.Alerts do
   # is indefinite, which means that it definitionally has not ended.
   defp has_not_ended?(nil, _datetime), do: true
 
-  defp has_not_ended?(active_period_end, datetime),
-    do: datetime |> Timex.before?(active_period_end)
+  defp has_not_ended?(active_period_end, datetime), do: Timex.before?(datetime, active_period_end)
 end

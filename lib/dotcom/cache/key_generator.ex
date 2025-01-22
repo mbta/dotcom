@@ -3,9 +3,9 @@ defmodule Dotcom.Cache.KeyGenerator do
   Generate a readable cache key based on the module, function, and arguments.
   """
 
-  require Logger
-
   @behaviour Nebulex.Caching.KeyGenerator
+
+  require Logger
 
   @impl Nebulex.Caching.KeyGenerator
   def generate(mod, fun, []) do

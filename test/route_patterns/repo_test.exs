@@ -4,6 +4,7 @@ defmodule RoutePatterns.RepoTest do
   import Mox
   import Test.Support.Factories.MBTA.Api
 
+  alias MBTA.Api.Mock
   alias RoutePatterns.RoutePattern
 
   setup :verify_on_exit!
@@ -12,7 +13,7 @@ defmodule RoutePatterns.RepoTest do
     test "returns a single route pattern" do
       id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn path, _ ->
+      expect(Mock, :get_json, fn path, _ ->
         assert path == "/route_patterns/" <> id
 
         %JsonApi{
@@ -28,7 +29,7 @@ defmodule RoutePatterns.RepoTest do
     test "returns nil for an unknown route pattern" do
       id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn path, _ ->
+      expect(Mock, :get_json, fn path, _ ->
         assert path == "/route_patterns/" <> id
         {:error, :not_found}
       end)
@@ -39,7 +40,7 @@ defmodule RoutePatterns.RepoTest do
 
   describe "by_route_id" do
     test "returns route patterns for a route" do
-      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+      expect(Mock, :get_json, fn "/route_patterns/", opts ->
         assert Keyword.get(opts, :route) == "Red"
         %JsonApi{data: build_list(3, :route_pattern_item)}
       end)
@@ -48,7 +49,7 @@ defmodule RoutePatterns.RepoTest do
     end
 
     test "handles the Green Line" do
-      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+      expect(Mock, :get_json, fn "/route_patterns/", opts ->
         assert Keyword.get(opts, :route) == "Green-B,Green-C,Green-D,Green-E"
         %JsonApi{data: build_list(3, :route_pattern_item)}
       end)
@@ -59,7 +60,7 @@ defmodule RoutePatterns.RepoTest do
 
   describe "by_stop_id/1" do
     test "requests route patterns for a stop with shape and stops" do
-      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+      expect(Mock, :get_json, fn "/route_patterns/", opts ->
         assert Keyword.get(opts, :include) ==
                  "representative_trip.shape,representative_trip.stops"
 
@@ -71,7 +72,7 @@ defmodule RoutePatterns.RepoTest do
   end
 
   test "logs API errors" do
-    expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", _ ->
+    expect(Mock, :get_json, fn "/route_patterns/", _ ->
       {:error, "some API mishap"}
     end)
 

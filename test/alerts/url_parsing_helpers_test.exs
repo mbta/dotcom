@@ -1,5 +1,6 @@
 defmodule Alerts.URLParsingHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import Alerts.URLParsingHelpers
 
   describe "get_full_url/1" do
@@ -42,12 +43,12 @@ defmodule Alerts.URLParsingHelpersTest do
 
   test "urls a stripped correctly" do
     assert Enum.at(Tuple.to_list(replace_urls_with_links("https://mbta.com")), 1) ==
-             "<a target=\"_blank\" href=\"https://mbta.com\">MBTA.com</a>"
+             ~s(<a target="_blank" href="https://mbta.com">MBTA.com</a>)
 
     assert Enum.at(Tuple.to_list(replace_urls_with_links("www.google.com")), 1) ==
-             "<a target=\"_blank\" href=\"http://www.google.com\">google.com</a>"
+             ~s(<a target="_blank" href="http://www.google.com">google.com</a>)
 
     assert Enum.at(Tuple.to_list(replace_urls_with_links("mbta.com")), 1) ==
-             "<a target=\"_blank\" href=\"https://mbta.com\">MBTA.com</a>"
+             ~s(<a target="_blank" href="https://mbta.com">MBTA.com</a>)
   end
 end

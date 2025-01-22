@@ -10,7 +10,8 @@ defmodule CMS.Partial.WhatsHappeningItem do
       category: 1
     ]
 
-  alias CMS.Field.{Image, Link}
+  alias CMS.Field.Image
+  alias CMS.Field.Link
 
   defstruct blurb: "",
             title: "",

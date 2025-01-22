@@ -33,7 +33,7 @@ defmodule CMS.Partial.TeaserTest do
   end
 
   test "uses field_posted_on date for news entries" do
-    raw = Static.teaser_response() |> Enum.at(5)
+    raw = Enum.at(Static.teaser_response(), 5)
 
     teaser = Teaser.from_api(raw)
     assert teaser.date.day == 01

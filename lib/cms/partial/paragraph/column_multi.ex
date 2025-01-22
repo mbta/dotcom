@@ -4,7 +4,10 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
   """
   import CMS.Helpers, only: [field_value: 2, parse_paragraphs: 3]
 
-  alias CMS.Partial.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
+  alias CMS.Partial.Paragraph.Column
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.FareCard
 
   defstruct header: nil,
             columns: [],

@@ -6,14 +6,14 @@ defmodule Predictions.Store do
   `fetch_keys`.
   """
 
-  use GenServer
+  @behaviour Predictions.Store.Behaviour
 
-  require Logger
+  use GenServer
 
   alias Predictions.Prediction
   alias Predictions.Store.Behaviour
 
-  @behaviour Behaviour
+  require Logger
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(_) do
@@ -73,7 +73,7 @@ defmodule Predictions.Store do
 
   @impl GenServer
   def handle_info(:periodic_delete, table) do
-    now = Util.now() |> DateTime.to_unix()
+    now = DateTime.to_unix(Util.now())
 
     # delete predictions with a time earlier than a minute ago
     :ets.select_delete(table, [

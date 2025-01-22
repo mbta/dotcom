@@ -156,8 +156,7 @@ defmodule DotcomWeb.PlacesControllerTest do
     test "geocodes suggested results", %{conn: conn} do
       num_suggestions = Faker.random_between(2, 5)
 
-      LocationService.Mock
-      |> expect(:autocomplete, fn _, _ ->
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
         {:ok, build_list(num_suggestions, :address)}
       end)
 
@@ -168,8 +167,7 @@ defmodule DotcomWeb.PlacesControllerTest do
     end
 
     test "adds URLs to each result", %{conn: conn} do
-      LocationService.Mock
-      |> expect(:autocomplete, fn _, _ ->
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
         {:ok, build_list(10, :address)}
       end)
 
@@ -188,13 +186,7 @@ defmodule DotcomWeb.PlacesControllerTest do
     end
   end
 
-  defp has_urls?(%{
-         "urls" => %{
-           "transit-near-me" => tnm,
-           "retail-sales-locations" => r,
-           "proposed-sales-locations" => p
-         }
-       })
+  defp has_urls?(%{"urls" => %{"transit-near-me" => tnm, "retail-sales-locations" => r, "proposed-sales-locations" => p}})
        when is_binary(tnm) and is_binary(r) and is_binary(p),
        do: true
 

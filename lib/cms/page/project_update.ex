@@ -2,10 +2,6 @@ defmodule CMS.Page.ProjectUpdate do
   @moduledoc """
   Represents the Project Update content type in the CMS.
   """
-  alias CMS.Field.Image
-  alias CMS.Partial.Paragraph
-  alias Phoenix.HTML
-
   import CMS.Helpers,
     only: [
       field_value: 2,
@@ -17,6 +13,10 @@ defmodule CMS.Page.ProjectUpdate do
       parse_paragraphs: 2,
       path_alias: 1
     ]
+
+  alias CMS.Field.Image
+  alias CMS.Partial.Paragraph
+  alias Phoenix.HTML
 
   @enforce_keys [:id, :project_id]
   defstruct [

@@ -8,7 +8,8 @@ defmodule Predictions.StreamParser do
   """
 
   alias JsonApi.Item
-  alias Predictions.{Parser, Prediction}
+  alias Predictions.Parser
+  alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
@@ -51,14 +52,12 @@ defmodule Predictions.StreamParser do
   end
 
   @spec arrival_time(Item.t()) :: DateTime.t() | nil
-  defp arrival_time(%Item{attributes: %{"arrival_time" => time}}) when is_binary(time),
-    do: parse_time(time)
+  defp arrival_time(%Item{attributes: %{"arrival_time" => time}}) when is_binary(time), do: parse_time(time)
 
   defp arrival_time(_), do: nil
 
   @spec departure_time(Item.t()) :: DateTime.t() | nil
-  defp departure_time(%Item{attributes: %{"departure_time" => time}}) when is_binary(time),
-    do: parse_time(time)
+  defp departure_time(%Item{attributes: %{"departure_time" => time}}) when is_binary(time), do: parse_time(time)
 
   defp departure_time(_), do: nil
 
@@ -74,14 +73,12 @@ defmodule Predictions.StreamParser do
   defp vehicle_id(_), do: nil
 
   @spec included_route(Item.t()) :: Route.t() | nil
-  defp included_route(%Item{relationships: %{"route" => [%Item{id: id} | _]}}),
-    do: @routes_repo.get(id)
+  defp included_route(%Item{relationships: %{"route" => [%Item{id: id} | _]}}), do: @routes_repo.get(id)
 
   defp included_route(_), do: nil
 
   @spec included_trip(Item.t()) :: Trip.t() | nil
-  defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
-    do: Schedules.Repo.trip(id)
+  defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}), do: Schedules.Repo.trip(id)
 
   defp included_trip(_), do: nil
 

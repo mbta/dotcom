@@ -3,14 +3,14 @@ defmodule RoutePatterns.Repo do
   Repo for fetching Route resources and their associated data from the MBTA Api.
   """
 
-  require Logger
+  @behaviour RoutePatterns.Repo.Behaviour
 
   use Nebulex.Caching.Decorators
 
   alias MBTA.Api.RoutePatterns, as: RoutePatternsApi
   alias RoutePatterns.RoutePattern
 
-  @behaviour RoutePatterns.Repo.Behaviour
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)

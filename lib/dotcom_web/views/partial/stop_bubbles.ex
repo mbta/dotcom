@@ -1,4 +1,5 @@
 defmodule DotcomWeb.PartialView.StopBubbles do
+  @moduledoc false
   use DotcomWeb, :view
 
   alias Dotcom.StopBubble.Params

@@ -8,8 +8,9 @@ defmodule CMS.CustomHTML5Scrubber do
   - Provides missing quotes to "alt crossorigin usemap ismap width height"
   """
 
-  require HtmlSanitizeEx.Scrubber.Meta
   alias HtmlSanitizeEx.Scrubber.Meta
+
+  require HtmlSanitizeEx.Scrubber.Meta
 
   # Removes any CDATA tags before the traverser/scrubber runs.
   Meta.remove_cdata_sections_before_scrub()
@@ -2127,6 +2128,6 @@ defmodule CMS.CustomHTML5Scrubber do
 
   @spec html5(String.t()) :: String.t()
   def html5(html) do
-    html |> HtmlSanitizeEx.Scrubber.scrub(__MODULE__)
+    HtmlSanitizeEx.Scrubber.scrub(html, __MODULE__)
   end
 end

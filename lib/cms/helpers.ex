@@ -5,7 +5,9 @@ defmodule CMS.Helpers do
 
   alias CMS.API
   alias CMS.CustomHTML5Scrubber
-  alias CMS.Field.{File, Image, Link}
+  alias CMS.Field.File
+  alias CMS.Field.Image
+  alias CMS.Field.Link
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
@@ -51,7 +53,7 @@ defmodule CMS.Helpers do
   def handle_html(html) do
     (html || "")
     |> CustomHTML5Scrubber.html5()
-    |> rewrite_static_file_links
+    |> rewrite_static_file_links()
     |> HTML.raw()
   end
 
@@ -59,7 +61,7 @@ defmodule CMS.Helpers do
   def parse_body(%{} = data) do
     data
     |> field_value("body")
-    |> handle_html
+    |> handle_html()
   end
 
   @spec parse_files(map, String.t()) :: [File.t()]
@@ -87,8 +89,7 @@ defmodule CMS.Helpers do
 
   @spec path_alias(map) :: String.t() | nil
   def path_alias(data) do
-    data
-    |> parse_path_alias()
+    parse_path_alias(data)
   end
 
   @spec parse_path_alias(map) :: String.t() | nil

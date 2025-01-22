@@ -4,8 +4,12 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
   import Dotcom.TripPlan.ItineraryRowList
   import Mox
 
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
-  alias Dotcom.TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.TransitDetail
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   @date_time ~N[2017-06-27T11:43:00]
 

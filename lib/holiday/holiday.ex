@@ -1,4 +1,5 @@
 defmodule Holiday do
+  @moduledoc false
   defstruct date: nil,
             name: ""
 

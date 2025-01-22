@@ -6,7 +6,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
   import Mox
 
   alias Dotcom.TripPlan.ItineraryGroup
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   setup :verify_on_exit!
 
@@ -26,7 +27,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
 
     test "describes alternate times: 1 trip departs at" do
       text =
-        build_group(1, :start)
+        1
+        |> build_group(:start)
         |> ItineraryGroup.options_text()
 
       assert text =~ "Similar trip departs at"
@@ -34,7 +36,9 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
 
     test "describes alternate times: multiple trips departs at" do
       text =
-        build_group(Faker.Util.pick(2..5), :start)
+        2..5
+        |> Faker.Util.pick()
+        |> build_group(:start)
         |> ItineraryGroup.options_text()
 
       assert text =~ "Similar trips depart at"
@@ -42,7 +46,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
 
     test "describes alternate times: 1 trip arrives at" do
       text =
-        build_group(1, :stop)
+        1
+        |> build_group(:stop)
         |> ItineraryGroup.options_text()
 
       assert text =~ "Similar trip arrives at"
@@ -50,7 +55,9 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
 
     test "describes alternate times: multiple trips arrive at" do
       text =
-        build_group(Faker.Util.pick(2..5), :stop)
+        2..5
+        |> Faker.Util.pick()
+        |> build_group(:stop)
         |> ItineraryGroup.options_text()
 
       assert text =~ "Similar trips arrive at"
@@ -63,19 +70,9 @@ defmodule Dotcom.TripPlan.ItineraryGroupTest do
       itineraries = TripPlanner.build_list(4, :itinerary)
 
       # EXERCISE
-      start_times =
-        %ItineraryGroup{
-          itineraries: itineraries,
-          representative_time_key: :start
-        }
-        |> ItineraryGroup.all_times()
+      start_times = ItineraryGroup.all_times(%ItineraryGroup{itineraries: itineraries, representative_time_key: :start})
 
-      stop_times =
-        %ItineraryGroup{
-          itineraries: itineraries,
-          representative_time_key: :stop
-        }
-        |> ItineraryGroup.all_times()
+      stop_times = ItineraryGroup.all_times(%ItineraryGroup{itineraries: itineraries, representative_time_key: :stop})
 
       # VERIFY
       assert start_times != stop_times

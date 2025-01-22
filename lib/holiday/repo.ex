@@ -104,14 +104,12 @@ defmodule Holiday.Repo do
       same_time_frame?.(:year, h) and same_time_frame?.(:month, h)
     end
 
-    all()
-    |> Enum.filter(upcoming?)
+    Enum.filter(all(), upcoming?)
   end
 
   @doc "Returns all holidays after the given date"
   @spec following(Date.t()) :: [Holiday.t()]
   def following(date) do
-    all()
-    |> Enum.drop_while(fn day -> Timex.before?(day.date, date) end)
+    Enum.drop_while(all(), fn day -> Timex.before?(day.date, date) end)
   end
 end

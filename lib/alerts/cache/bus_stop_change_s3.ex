@@ -4,11 +4,13 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   into %HistoricalAlert{} before saving.
   """
 
-  require Logger
-
   use Nebulex.Caching.Decorators
 
-  alias Alerts.{Alert, HistoricalAlert}
+  alias Alerts.Alert
+  alias Alerts.HistoricalAlert
+  alias Dotcom.Cache.KeyGenerator
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
@@ -56,7 +58,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @decorate cacheable(
               cache: @cache,
               key:
-                Dotcom.Cache.KeyGenerator.generate(
+                KeyGenerator.generate(
                   __MODULE__,
                   :maybe_write_alerts_to_s3,
                   Enum.map(stop_change_alerts, & &1.id)
@@ -77,7 +79,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @decorate cacheable(
               cache: @cache,
               key:
-                Dotcom.Cache.KeyGenerator.generate(
+                KeyGenerator.generate(
                   __MODULE__,
                   :get_stored_alerts,
                   Util.service_date()
@@ -89,13 +91,14 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     keys =
       case @aws_client.list_objects(@bucket, bucket_prefix()) do
         {:ok, %{"ListBucketResult" => %{"Contents" => objects}}, %{}} ->
-          objects |> Enum.map(& &1["Key"])
+          Enum.map(objects, & &1["Key"])
 
         _ ->
           []
       end
 
-    Enum.map(keys, fn key ->
+    keys
+    |> Enum.map(fn key ->
       result =
         @aws_client.get_object(@bucket, key)
 

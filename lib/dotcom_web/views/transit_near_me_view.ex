@@ -10,11 +10,7 @@ defmodule DotcomWeb.TransitNearMeView do
   end
 
   @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{
-        conn: %{query_params: %{} = query},
-        stops_json: stops_json,
-        map_data: map_data
-      }) do
+  def do_render_react(%{conn: %{query_params: %{} = query}, stops_json: stops_json, map_data: map_data}) do
     React.render(
       "TransitNearMe",
       %{

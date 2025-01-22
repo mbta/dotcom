@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Plugs.ClearCookiesTest do
   @moduledoc false
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Plugs.ClearCookies
 
   describe "call/2" do

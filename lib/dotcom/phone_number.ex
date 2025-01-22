@@ -60,9 +60,9 @@ defmodule Dotcom.PhoneNumber do
         line |> String.split("", trim: true) |> Enum.join(" ")
 
       {area_code, prefix, line} ->
-        [area_code, prefix, line]
-        |> Enum.map_join(". ", fn num ->
-          String.split(num, "", trim: true)
+        Enum.map_join([area_code, prefix, line], ". ", fn num ->
+          num
+          |> String.split("", trim: true)
           |> Enum.join(" ")
         end)
 
@@ -78,7 +78,7 @@ defmodule Dotcom.PhoneNumber do
   """
   @spec parse_phone_number(String.t()) :: {String.t() | nil, String.t() | nil, String.t()} | nil
   def parse_phone_number(number) do
-    case number |> digits |> without_leading_one do
+    case number |> digits() |> without_leading_one() do
       <<area_code::bytes-size(3), prefix::bytes-size(3), line::bytes-size(4)>> ->
         {area_code, prefix, line}
 

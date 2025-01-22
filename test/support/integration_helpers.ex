@@ -1,6 +1,7 @@
 defmodule DotcomWeb.IntegrationHelpers do
-  import Wallaby.Query
+  @moduledoc false
   import Wallaby.Browser
+  import Wallaby.Query
 
   def search_results_section(count) do
     css(".c-search-results__section", count: count)

@@ -86,9 +86,7 @@ defmodule Journey.Filter do
   def remove_departure_schedules_before(journeys, time) do
     journeys
     |> Enum.reject(&is_nil(&1))
-    |> Enum.filter(
-      &(Journey.has_prediction?(&1) or not Journey.departure_schedule_before?(&1, time))
-    )
+    |> Enum.filter(&(Journey.has_prediction?(&1) or not Journey.departure_schedule_before?(&1, time)))
   end
 
   def sort(journeys) do

@@ -11,7 +11,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
-  alias Dotcom.TripPlan.{Alerts, TransitDetail}
+  alias Dotcom.TripPlan.Alerts
+  alias Dotcom.TripPlan.TransitDetail
   alias Routes.Route
   alias Stops.Stop
 
@@ -25,9 +26,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   attr :leg, :any, required: true
 
   def transit_leg(assigns) do
-    assigns =
-      assigns
-      |> assign(:alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
+    assigns = assign(assigns, :alerts, Alerts.by_mode_and_stops(assigns.alerts, assigns.leg))
 
     ~H"""
     <div class="bg-gray-bordered-background rounded-lg p-3">
@@ -144,7 +143,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         _ -> "icon-circle-t-default"
       end
 
-    assigns = assigns |> assign(:name, name)
+    assigns = assign(assigns, :name, name)
 
     ~H"""
     <.icon type="icon-svg" class="shrink-0 h-5 w-5" name={@name} />
@@ -215,11 +214,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp headsign(_), do: nil
 
-  defp ride_message(%{mode: %{route: %Route{} = route}} = assigns)
-       when is_external?(route) do
-    assigns =
-      assigns
-      |> assign(:vehicle_name, vehicle_name(route))
+  defp ride_message(%{mode: %{route: %Route{} = route}} = assigns) when is_external?(route) do
+    assigns = assign(assigns, :vehicle_name, vehicle_name(route))
 
     ~H"""
     Ride the {@vehicle_name}
@@ -242,16 +238,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   # If there is an external agency name, we use the long name.
   # If it is a bus, we use the short name.
   # For all others, we use the long name.
-  defp route_name(%Route{} = route) when is_external?(route),
-    do: route.long_name
+  defp route_name(%Route{} = route) when is_external?(route), do: route.long_name
 
-  defp route_name(%Route{name: name, type: 3})
-       when is_binary(name),
-       do: name
+  defp route_name(%Route{name: name, type: 3}) when is_binary(name), do: name
 
-  defp route_name(%Route{long_name: long_name})
-       when is_binary(long_name),
-       do: long_name
+  defp route_name(%Route{long_name: long_name}) when is_binary(long_name), do: long_name
 
   defp route_name(%Route{name: name}), do: name
   defp route_name(_), do: nil

@@ -6,15 +6,15 @@ defmodule CMS.Partial.Paragraph.DescriptiveLink do
 
   """
 
-  alias CMS.Field.Link
-  alias Phoenix.HTML
-
   import CMS.Helpers,
     only: [
       field_value: 2,
       handle_html: 1,
       parse_link: 2
     ]
+
+  alias CMS.Field.Link
+  alias Phoenix.HTML
 
   defstruct body: HTML.raw(""),
             link: nil,
@@ -31,7 +31,7 @@ defmodule CMS.Partial.Paragraph.DescriptiveLink do
   @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
-      body: data |> field_value("field_title_card_body") |> handle_html,
+      body: data |> field_value("field_title_card_body") |> handle_html(),
       link: parse_link(data, "field_title_card_link"),
       title: field_value(data, "field_title_card_title"),
       parent: field_value(data, "parent_field_name")

@@ -8,7 +8,8 @@ defmodule Dotcom.TransitNearMeTest do
   alias LocationService.Address
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   @address %Address{

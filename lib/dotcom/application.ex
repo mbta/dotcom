@@ -24,29 +24,28 @@ defmodule Dotcom.Application do
       update_static_url(Application.get_env(:dotcom, DotcomWeb.Endpoint))
     )
 
+    # We don't need to run this cache because we are using the local cache for tests
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []}
       ] ++
-        if Application.get_env(:dotcom, :env) != :test do
+        if Application.get_env(:dotcom, :env) == :test do
+          []
+        else
           [
             {Finch, name: Telemetry.Finch},
             {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
             {Req.Telemetry, []},
-            # We don't need to run this cache because we are using the local cache for tests
             {Dotcom.Cache.TripPlanFeedback.Cache, []}
           ]
-        else
-          []
         end ++
         if Application.get_env(:dotcom, :start_data_processes) do
           [
             Vehicles.Supervisor,
             Supervisor.child_spec(
-              {Dotcom.Stream.Vehicles,
-               name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
+              {Dotcom.Stream.Vehicles, name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
               id: :vehicle_marker_channel_broadcaster
             ),
             Supervisor.child_spec(

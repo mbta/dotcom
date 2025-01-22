@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Plugs.CacheControlTest do
   @moduledoc false
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Plugs.CacheControl
 
   describe "call/2" do

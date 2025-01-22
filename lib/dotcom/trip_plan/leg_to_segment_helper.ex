@@ -4,7 +4,8 @@ defmodule Dotcom.TripPlan.LegToSegmentHelper do
   into segments to be displayed by our trip planner tool.
   """
 
-  alias Dotcom.TripPlan.{PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
 
   def legs_to_segments(legs) do
     legs

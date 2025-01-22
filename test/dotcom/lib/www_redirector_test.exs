@@ -1,5 +1,6 @@
 defmodule DotcomWeb.WwwRedirectorTest do
   use DotcomWeb.ConnCase, async: true
+
   import Phoenix.ConnTest, only: [redirected_to: 2]
 
   alias DotcomWeb.WwwRedirector

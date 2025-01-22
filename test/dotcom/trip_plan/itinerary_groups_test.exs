@@ -6,7 +6,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
   import Mox
 
   alias Dotcom.TripPlan.ItineraryGroups
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   setup :verify_on_exit!
 
@@ -103,8 +104,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
   test "ignores short walking distances of < 0.2 miles when grouping", %{stops: [a, b, c]} do
     # SETUP
     bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
-    walk_b_c_leg = TripPlanner.build(:walking_leg, from: b, to: c) |> Map.put(:distance, 0.199)
-    walk_c_b_leg = TripPlanner.build(:walking_leg, from: c, to: b) |> Map.put(:distance, 0.199)
+    walk_b_c_leg = :walking_leg |> TripPlanner.build(from: b, to: c) |> Map.put(:distance, 0.199)
+    walk_c_b_leg = :walking_leg |> TripPlanner.build(from: c, to: b) |> Map.put(:distance, 0.199)
     bus_b_a_leg = TripPlanner.build(:bus_leg, from: b, to: a)
 
     first_itinerary =
@@ -124,11 +125,13 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
 
     walk_b_c_leg =
-      TripPlanner.build(:walking_leg, from: b, to: c)
+      :walking_leg
+      |> TripPlanner.build(from: b, to: c)
       |> Map.merge(%{distance: 0.5, duration: 4})
 
     walk_c_b_leg =
-      TripPlanner.build(:walking_leg, from: c, to: b)
+      :walking_leg
+      |> TripPlanner.build(from: c, to: b)
       |> Map.merge(%{distance: 0.5, duration: 6})
 
     bus_b_a_leg = TripPlanner.build(:bus_leg, from: b, to: a)
@@ -147,7 +150,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     itineraries =
       Faker.Util.list(10, fn n ->
         t = base_itinerary.start
-        base_itinerary |> Map.put(:start, Timex.shift(t, minutes: 10 * n))
+        Map.put(base_itinerary, :start, Timex.shift(t, minutes: 10 * n))
       end)
 
     counts =

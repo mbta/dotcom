@@ -1,5 +1,6 @@
 defmodule DotcomWeb.NewsEntryControllerTest do
   use DotcomWeb.ConnCase
+
   import Dotcom.PageHelpers, only: [breadcrumbs_include?: 2]
 
   describe "GET index" do

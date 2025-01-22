@@ -769,7 +769,7 @@ defmodule Fares.FareInfo do
     dollars
     |> String.to_float()
     |> Kernel.*(100)
-    |> round
+    |> round()
   end
 
   defp floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10

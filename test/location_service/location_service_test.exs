@@ -32,7 +32,7 @@ defmodule LocationServiceTest do
         {:error, "Some error message"}
       end)
 
-      assert {:error, :internal_error} = Faker.Address.street_address() |> geocode()
+      assert {:error, :internal_error} = geocode(Faker.Address.street_address())
     end
   end
 
@@ -65,7 +65,7 @@ defmodule LocationServiceTest do
     test "can parse a response with results" do
       text = Faker.Company.name()
       response = build(:search_place_index_for_suggestions_response)
-      expected_place_ids = response["Results"] |> Enum.map(& &1["PlaceId"])
+      expected_place_ids = Enum.map(response["Results"], & &1["PlaceId"])
 
       expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, input ->
         assert input["Text"] == text

@@ -223,18 +223,15 @@ defmodule Alerts.Parser do
     @moduledoc """
     This is the module to parse the banner
     """
-    alias Alerts.{Banner, InformedEntitySet, Parser.Alert}
+    alias Alerts.Banner
+    alias Alerts.InformedEntitySet
+    alias Alerts.Parser.Alert
 
     @spec parse(JsonApi.Item.t()) :: [Banner.t()]
     def parse(%JsonApi.Item{
           id: id,
           attributes:
-            %{
-              "url" => url,
-              "banner" => title,
-              "severity" => severity,
-              "informed_entity" => informed_entity
-            } = attributes
+            %{"url" => url, "banner" => title, "severity" => severity, "informed_entity" => informed_entity} = attributes
         })
         when title != nil and url != nil do
       [
@@ -245,8 +242,7 @@ defmodule Alerts.Parser do
           url_parsed_out_of_title: false,
           effect: Alert.effect(attributes),
           severity: Alert.severity(severity),
-          informed_entity_set:
-            informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
+          informed_entity_set: informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
         }
       ]
     end
@@ -254,12 +250,7 @@ defmodule Alerts.Parser do
     def parse(%JsonApi.Item{
           id: id,
           attributes:
-            %{
-              "url" => url,
-              "banner" => title,
-              "severity" => severity,
-              "informed_entity" => informed_entity
-            } = attributes
+            %{"url" => url, "banner" => title, "severity" => severity, "informed_entity" => informed_entity} = attributes
         })
         when title != nil and url == nil do
       parsed_url = Alerts.URLParsingHelpers.get_full_url(title)
@@ -272,8 +263,7 @@ defmodule Alerts.Parser do
           url_parsed_out_of_title: parsed_url != nil,
           effect: Alert.effect(attributes),
           severity: Alert.severity(severity),
-          informed_entity_set:
-            informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
+          informed_entity_set: informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
         }
       ]
     end

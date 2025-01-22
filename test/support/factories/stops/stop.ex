@@ -33,7 +33,8 @@ defmodule Test.Support.Factories.Stops.Stop do
       address: Faker.Address.street_address(),
       name: Faker.App.name(),
       zone:
-        Faker.Util.pick(["1", "1A", "2", "3", "4", "5", "6", "7", "8", "9"])
+        ["1", "1A", "2", "3", "4", "5", "6", "7", "8", "9"]
+        |> Faker.Util.pick()
         |> FactoryHelpers.nullable_item()
     }
   end

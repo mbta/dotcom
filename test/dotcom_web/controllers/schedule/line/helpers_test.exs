@@ -5,8 +5,11 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   alias DotcomWeb.ScheduleController.Line.Helpers
   alias Routes.Route
-  alias Stops.{RouteStop, RouteStops, Stop}
+  alias Stops.RouteStop
+  alias Stops.RouteStops
+  alias Stops.Stop
   alias Test.Support.Factories
+  alias Test.Support.Factories.Routes.Shape
 
   @stop %Stop{
     id: "110",
@@ -794,7 +797,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
     test "for bus" do
       route_id = Faker.Internet.slug()
       direction_id = Faker.Util.pick([0, 1])
-      shapes = Factories.Routes.Shape.build_list(5, :shape)
+      shapes = Shape.build_list(5, :shape)
 
       expect(Routes.Repo.Mock, :get_shapes, 2, fn ^route_id, opts ->
         assert opts[:direction_id] == direction_id
@@ -804,7 +807,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       [shapes_by_direction] = Helpers.get_shapes_by_direction(route_id, 3, direction_id)
 
-      assert shapes_by_direction == Helpers.do_get_shapes(route_id, direction_id) |> List.first()
+      assert shapes_by_direction == route_id |> Helpers.do_get_shapes(direction_id) |> List.first()
     end
 
     test "for bus without scheduled trips" do
@@ -830,10 +833,11 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       stub(Stops.Repo.Mock, :get_parent, fn id -> %Stop{id: id} end)
       stub(Stops.Repo.Mock, :stop_features, fn _, _ -> [] end)
 
-      shapes = Factories.Routes.Shape.build_list(3, :shape)
+      shapes = Shape.build_list(3, :shape)
 
       stops =
-        Enum.flat_map(shapes, & &1.stop_ids)
+        shapes
+        |> Enum.flat_map(& &1.stop_ids)
         |> Enum.map(&%Stop{id: &1})
 
       route_id = Faker.Internet.slug()
@@ -850,7 +854,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       route_id = Faker.Internet.slug()
       direction_id = Faker.Util.pick([0, 1])
       stops = %{}
-      shapes = Factories.Routes.Shape.build_list(3, :shape)
+      shapes = Shape.build_list(3, :shape)
 
       assert Helpers.get_branches(shapes, stops, %Route{id: route_id}, direction_id) == []
     end

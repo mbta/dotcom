@@ -1,7 +1,10 @@
 defmodule DotcomWeb.RouteControllerTest do
   use DotcomWeb.ConnCase, async: false
+
   import Mock
-  alias Routes.{Repo, Route}
+
+  alias Routes.Repo
+  alias Routes.Route
 
   describe "get_by_route_ids/2" do
     test "returns routes", %{conn: conn} do

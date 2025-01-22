@@ -1,6 +1,8 @@
 defmodule JsonApiTest do
   use ExUnit.Case, async: true
 
+  alias Credo.Check.Readability.MaxLineLength
+
   test ".parse parses an error into a JsonApi.Error struct" do
     body = """
     {
@@ -46,7 +48,7 @@ defmodule JsonApiTest do
              """)
   end
 
-  @lint {Credo.Check.Readability.MaxLineLength, false}
+  @lint {MaxLineLength, false}
   _ = @lint
 
   test ".parse parses a body into a JsonApi struct" do
@@ -225,7 +227,7 @@ defmodule JsonApiTest do
            }
   end
 
-  @lint {Credo.Check.Readability.MaxLineLength, false}
+  @lint {MaxLineLength, false}
   _ = @lint
 
   test ".parse handles an empty relationship" do

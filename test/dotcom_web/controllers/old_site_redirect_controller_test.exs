@@ -3,6 +3,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
 
   import Mox
 
+  alias Stops.Repo.Mock
   alias Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
@@ -23,22 +24,18 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     test "Redirects all bus routes correctly", %{conn: conn} do
       # via old_route_to_route_id/1
       bus_routes =
-        [
-          {"SL1", "741"},
-          {"SL2", "742"},
-          {"SL3", "743"},
-          {"SL4", "751"},
-          {"SL5", "749"},
-          {"CT1", "701"},
-          {"CT2", "747"},
-          {"CT3", "708"}
-        ]
-        |> Enum.map(
-          &Route.build(:route, %{
-            id: elem(&1, 1),
-            name: elem(&1, 0),
-            type: 3
-          })
+        Enum.map(
+          [
+            {"SL1", "741"},
+            {"SL2", "742"},
+            {"SL3", "743"},
+            {"SL4", "751"},
+            {"SL5", "749"},
+            {"CT1", "701"},
+            {"CT2", "747"},
+            {"CT3", "708"}
+          ],
+          &Route.build(:route, %{id: elem(&1, 1), name: elem(&1, 0), type: 3})
         )
 
       Enum.each(bus_routes, fn %Routes.Route{name: name, id: route_id} ->
@@ -76,7 +73,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Specific stops redirect to corresponding stop page", %{conn: conn} do
-      expect(Stops.Repo.Mock, :old_id_to_gtfs_id, fn "19" ->
+      expect(Mock, :old_id_to_gtfs_id, fn "19" ->
         "place-ER-0183"
       end)
 
@@ -115,7 +112,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Redirects to stop page regardless of incoming mode", %{conn: conn} do
-      Stops.Repo.Mock
+      Mock
       |> expect(:old_id_to_gtfs_id, fn "141" ->
         "place-north"
       end)
@@ -134,7 +131,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Redirects to /schedules if stopId is not found", %{conn: conn} do
-      expect(Stops.Repo.Mock, :old_id_to_gtfs_id, fn "invalidstopid" ->
+      expect(Mock, :old_id_to_gtfs_id, fn "invalidstopid" ->
         nil
       end)
 

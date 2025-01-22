@@ -16,8 +16,7 @@ defmodule DotcomWeb.Plugs.CacheControl do
   end
 
   defp do_cache_control(conn, max_age) when is_number(max_age) do
-    conn
-    |> Plug.Conn.put_resp_header("cache-control", "max-age=#{max_age}, private, must-revalidate")
+    Plug.Conn.put_resp_header(conn, "cache-control", "max-age=#{max_age}, private, must-revalidate")
   end
 
   defp do_cache_control(conn, _), do: conn

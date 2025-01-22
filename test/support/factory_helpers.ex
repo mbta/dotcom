@@ -18,8 +18,7 @@ defmodule Test.Support.FactoryHelpers do
   """
   @spec nullable_item(any()) :: any() | nil
   def nullable_item(item) do
-    [nil, item]
-    |> Faker.Util.pick()
+    Faker.Util.pick([nil, item])
   end
 
   @doc """
@@ -35,7 +34,7 @@ defmodule Test.Support.FactoryHelpers do
   """
   @spec direction_id_factory :: 0 | 1
   def direction_id_factory(_attrs \\ %{}) do
-    [0, 1] |> Faker.Util.pick()
+    Faker.Util.pick([0, 1])
   end
 
   @doc """
@@ -43,7 +42,8 @@ defmodule Test.Support.FactoryHelpers do
   """
   @spec nullable_id_factory :: String.t() | nil
   def nullable_id_factory(_attrs \\ %{}) do
-    build(:id)
+    :id
+    |> build()
     |> nullable_item()
   end
 end

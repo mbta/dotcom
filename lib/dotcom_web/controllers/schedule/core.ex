@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.Core do
   Core pipeline for schedules
   """
   use Plug.Builder
+
   import DotcomWeb.ControllerHelpers, only: [call_plug: 2, assign_alerts: 2]
 
   plug(:schedule_pipeline_setup)
@@ -17,7 +18,6 @@ defmodule DotcomWeb.ScheduleController.Core do
   end
 
   defp schedule_pipeline_with_direction(conn, _opts) do
-    conn
-    |> assign_alerts([])
+    assign_alerts(conn, [])
   end
 end

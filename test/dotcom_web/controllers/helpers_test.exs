@@ -200,7 +200,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
       alerts =
         conn
-        |> assign(:date_time, Timex.now())
+        |> assign(:date_time, DateTime.utc_now())
         |> assign(:route, route)
         |> assign(:direction_id, 1)
         |> assign_alerts([])
@@ -215,7 +215,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
       alerts =
         conn
-        |> assign(:date_time, Timex.now())
+        |> assign(:date_time, DateTime.utc_now())
         |> assign(:route, route)
         |> assign(:direction_id, 0)
         |> assign_alerts([])
@@ -230,7 +230,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
       alerts =
         conn
-        |> assign(:date_time, Timex.now())
+        |> assign(:date_time, DateTime.utc_now())
         |> assign(:route, route)
         |> assign(:direction_id, nil)
         |> assign_alerts([])
@@ -245,7 +245,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
       alerts =
         conn
-        |> assign(:date_time, Timex.now())
+        |> assign(:date_time, DateTime.utc_now())
         |> assign(:route, route)
         |> assign_alerts([])
         |> Kernel.then(fn conn -> conn.assigns.alerts end)
@@ -278,7 +278,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
       alerts =
         conn
-        |> assign(:date_time, Timex.now())
+        |> assign(:date_time, DateTime.utc_now())
         |> assign(:route, route)
         |> assign(:direction_id, 0)
         |> assign_alerts([])

@@ -2,10 +2,8 @@ defmodule Leaflet.MapData do
   @moduledoc """
   Represents leaflet map data.
   """
-  alias Leaflet.MapData.{
-    Marker,
-    Polyline
-  }
+  alias Leaflet.MapData.Marker
+  alias Leaflet.MapData.Polyline
 
   @type lat_lng :: %{latitude: float, longitude: float}
 

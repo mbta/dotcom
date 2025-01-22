@@ -1,4 +1,5 @@
 defmodule Fares.RetailLocations do
+  @moduledoc false
   alias __MODULE__.Data
   alias __MODULE__.Location
 

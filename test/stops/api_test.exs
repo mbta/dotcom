@@ -4,6 +4,7 @@ defmodule Stops.ApiTest do
   import Mox
   import Stops.Api
 
+  alias MBTA.Api.Mock
   alias Stops.Stop
 
   setup :set_mox_global
@@ -110,7 +111,7 @@ defmodule Stops.ApiTest do
     end
 
     test "returns an error if the API returns an error" do
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      expect(Mock, :get_json, fn _, _ ->
         {:error, %{reason: :econnrefused}}
       end)
 
@@ -119,7 +120,7 @@ defmodule Stops.ApiTest do
   end
 
   test "all/0 returns error if API returns error" do
-    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+    expect(Mock, :get_json, fn _, _ ->
       {:error, %{reason: :econnrefused}}
     end)
 
@@ -127,7 +128,7 @@ defmodule Stops.ApiTest do
   end
 
   test "by_route returns an error tuple if the V3 API returns an error" do
-    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+    expect(Mock, :get_json, fn _, _ ->
       {:error, %{reason: :econnrefused}}
     end)
 
@@ -139,7 +140,7 @@ defmodule Stops.ApiTest do
   end
 
   test "by_trip returns an empty list if the V3 API returns an error" do
-    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+    expect(Mock, :get_json, fn _, _ ->
       {:ok, %Req.Response{status: 500, body: ""}}
     end)
 

@@ -1,6 +1,8 @@
 defmodule Schedules.ParserTest do
   use ExUnit.Case, async: true
+
   import Schedules.Parser
+
   alias Routes.Route
 
   @arrival_time ~U[2023-06-13 10:00:00Z]
@@ -59,8 +61,7 @@ defmodule Schedules.ParserTest do
 
     assert {"CR-Lowell", "31174458-CR_MAY2016-hxl16011-Weekday-01", "Lowell", nil,
             Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
-            Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"), true, true, false, 0,
-            3} == actual
+            Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"), true, true, false, 0, 3} == actual
   end
 
   describe "trip/1" do

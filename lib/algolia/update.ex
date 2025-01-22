@@ -5,8 +5,9 @@ defmodule Algolia.Update do
   Removes any routes or stops that are no longer in the API from Algolia
   Uploads a list of the routes and stops to Algolia to update/add
   """
-  require Logger
   alias Algolia.Api
+
+  require Logger
 
   @type t :: %{routes: success | error, stops: success | error}
   @type success :: {:ok, String.t() | nil}

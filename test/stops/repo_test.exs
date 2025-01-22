@@ -4,6 +4,7 @@ defmodule Stops.RepoTest do
   import Mox
   import Stops.Repo
   import Test.Support.Factories.MBTA.Api
+
   alias Stops.Stop
   alias Test.Support.Factories.Routes.Route
 
@@ -149,7 +150,7 @@ defmodule Stops.RepoTest do
     test "can take additional fields" do
       today = Timex.today()
       weekday = today |> Timex.shift(days: 7) |> Timex.beginning_of_week(:fri)
-      saturday = weekday |> Timex.shift(days: 1)
+      saturday = Timex.shift(weekday, days: 1)
 
       expect(MBTA.Api.Mock, :get_json, 2, fn "/stops/", args ->
         assert args[:direction_id] == @direction_id
@@ -204,7 +205,8 @@ defmodule Stops.RepoTest do
     test "returns parent stops" do
       route_type = Faker.Util.pick([0..4])
 
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      MBTA.Api.Mock
+      |> expect(:get_json, fn _, _ ->
         %JsonApi{
           data: [
             build(:stop_item, %{

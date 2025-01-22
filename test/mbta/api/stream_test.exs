@@ -68,7 +68,7 @@ defmodule MBTA.Api.StreamTest do
       Enum.each([:add, :remove, :reset, :update], fn type ->
         # Exercise
         event = %ServerSentEventStage.Event{data: %{}, event: Atom.to_string(type)}
-        result = Stream.handle_events([event], nil, nil) |> Kernel.elem(1) |> List.first()
+        result = [event] |> Stream.handle_events(nil, nil) |> Kernel.elem(1) |> List.first()
 
         # Verify
         assert Map.get(result, :event) == type

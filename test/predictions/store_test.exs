@@ -1,7 +1,9 @@
 defmodule Predictions.StoreTest do
   @moduledoc false
   use ExUnit.Case, async: true
+
   import Predictions.Store
+
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Trip
@@ -58,18 +60,15 @@ defmodule Predictions.StoreTest do
   end
 
   defp base_routes do
-    ["red", "orange", "yellow", "green", "blue", "purple"]
-    |> Enum.map(&%Route{id: &1})
+    Enum.map(["red", "orange", "yellow", "green", "blue", "purple"], &%Route{id: &1})
   end
 
   defp base_trips do
-    ["t1", "t2", "t3", "t4", "t5"]
-    |> Enum.map(&%Trip{id: &1})
+    Enum.map(["t1", "t2", "t3", "t4", "t5"], &%Trip{id: &1})
   end
 
   defp base_stops do
-    ["s1", "s2", "s3", "s4", "s5", "s6"]
-    |> Enum.map(&%Stop{id: &1})
+    Enum.map(["s1", "s2", "s3", "s4", "s5", "s6"], &%Stop{id: &1})
   end
 
   defp base_predictions do

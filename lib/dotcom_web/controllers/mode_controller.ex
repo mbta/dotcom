@@ -3,7 +3,8 @@ defmodule DotcomWeb.ModeController do
 
   use DotcomWeb, :controller
 
-  alias CMS.{Partial.Teaser, Repo}
+  alias CMS.Partial.Teaser
+  alias CMS.Repo
   alias DotcomWeb.Mode
   alias Routes.Route
 

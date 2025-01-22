@@ -3,7 +3,8 @@ defmodule Routes.Parser do
 
   alias JsonApi.Item
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
+  alias Routes.Route
+  alias Routes.Shape
 
   @spec parse_route(Item.t()) :: Route.t()
   def parse_route(%Item{id: id, attributes: attributes, relationships: relationships}) do
@@ -14,10 +15,8 @@ defmodule Routes.Parser do
       long_name: attributes["long_name"],
       color: attributes["color"],
       sort_order: attributes["sort_order"],
-      direction_names:
-        direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
-      direction_destinations:
-        direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
+      direction_names: direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
+      direction_destinations: direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
       description: parse_gtfs_desc(attributes["description"]),
       fare_class: parse_gtfs_fare_class(attributes["fare_class"]),
       line_id: parse_line_id(relationships)
@@ -57,7 +56,7 @@ defmodule Routes.Parser do
 
   defp maybe_direction_attr(direction_id, attr, route_patterns) do
     valid_directions = route_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq()
-    if direction_id in valid_directions, do: add_direction_suffix(attr), else: nil
+    if direction_id in valid_directions, do: add_direction_suffix(attr)
   end
 
   @spec add_direction_suffix(String.t()) :: String.t()
@@ -85,8 +84,7 @@ defmodule Routes.Parser do
   def parse_gtfs_desc(_), do: :unknown
 
   @spec parse_gtfs_fare_class(String.t()) :: Route.gtfs_fare_class()
-  defp parse_gtfs_fare_class(fare_class) when fare_class in ["Inner Express", "Outer Express"],
-    do: :express_bus_fare
+  defp parse_gtfs_fare_class(fare_class) when fare_class in ["Inner Express", "Outer Express"], do: :express_bus_fare
 
   defp parse_gtfs_fare_class("Local Bus"), do: :local_bus_fare
   defp parse_gtfs_fare_class("Rapid Transit"), do: :rapid_transit_fare

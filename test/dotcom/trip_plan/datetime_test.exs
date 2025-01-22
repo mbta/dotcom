@@ -1,5 +1,6 @@
 defmodule Dotcom.TripPlan.DateTimeTest do
   use ExUnit.Case, async: true
+
   alias Dotcom.TripPlan.Query
 
   @now %DateTime{

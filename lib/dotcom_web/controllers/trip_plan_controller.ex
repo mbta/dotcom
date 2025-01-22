@@ -5,21 +5,18 @@ defmodule DotcomWeb.TripPlanController do
 
   use DotcomWeb, :controller
 
-  require Logger
-
-  alias Dotcom.TripPlan.{
-    Itinerary,
-    ItineraryRowList,
-    Leg,
-    NamedPosition,
-    PersonalDetail,
-    Query,
-    RelatedLink,
-    TransitDetail
-  }
-
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.ItineraryRowList
+  alias Dotcom.TripPlan.Leg
   alias Dotcom.TripPlan.Map, as: TripPlanMap
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.Query
+  alias Dotcom.TripPlan.RelatedLink
+  alias Dotcom.TripPlan.TransitDetail
   alias Routes.Route
+
+  require Logger
 
   @location_service Application.compile_env!(:dotcom, :location_service)
 
@@ -47,9 +44,7 @@ defmodule DotcomWeb.TripPlanController do
     redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
   end
 
-  def from(conn, %{
-        "address" => address
-      }) do
+  def from(conn, %{"address" => address}) do
     if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
       [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
@@ -111,9 +106,7 @@ defmodule DotcomWeb.TripPlanController do
     redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
   end
 
-  def to(conn, %{
-        "address" => address
-      }) do
+  def to(conn, %{"address" => address}) do
     if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
       [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
@@ -207,7 +200,7 @@ defmodule DotcomWeb.TripPlanController do
     if is_bitstring(link.text) do
       link.text
     else
-      link.text |> List.to_string()
+      List.to_string(link.text)
     end
   end
 
@@ -224,21 +217,17 @@ defmodule DotcomWeb.TripPlanController do
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )
 
-    itineraries =
-      query
-      |> Query.get_itineraries()
+    itineraries = Query.get_itineraries(query)
 
     itinerary_row_lists = itinerary_row_lists(itineraries, plan_params)
 
-    conn
-    |> render(
+    render(conn,
       query: query,
       itineraries: itineraries,
       plan_error: MapSet.to_list(query.errors),
       routes: Enum.map(itineraries, &routes_for_itinerary(&1)),
       itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1)),
-      related_links:
-        filter_duplicate_links(Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1))),
+      related_links: filter_duplicate_links(Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1))),
       itinerary_row_lists: itinerary_row_lists
     )
   end
@@ -250,8 +239,7 @@ defmodule DotcomWeb.TripPlanController do
 
   @spec assign_initial_map(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def assign_initial_map(conn, _opts) do
-    conn
-    |> assign(:map_data, TripPlanMap.initial_map_data())
+    assign(conn, :map_data, TripPlanMap.initial_map_data())
   end
 
   @spec modes(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
@@ -299,8 +287,8 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   defp meta_description(conn, _) do
-    conn
-    |> assign(
+    assign(
+      conn,
       :meta_description,
       "Plan a trip on public transit in the Greater Boston region with directions " <>
         "and suggestions based on real-time data."

@@ -1,5 +1,6 @@
 defmodule DotcomWeb.NewsEntryView do
   use DotcomWeb, :view
+
   import DotcomWeb.TimeHelpers, only: [format_date: 1]
 
   alias CMS.Page.NewsEntry

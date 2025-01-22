@@ -7,7 +7,9 @@ defmodule Dotcom.TripPlan.Itinerary do
   at different times of day.
   """
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.TransitDetail
   alias Fares.Fare
   alias Routes.Route
   alias Schedules.Trip
@@ -79,7 +81,7 @@ defmodule Dotcom.TripPlan.Itinerary do
   @spec stop_ids(t) :: [Trip.id_t()]
   def stop_ids(%__MODULE__{} = itinerary) do
     itinerary
-    |> positions
+    |> positions()
     |> Enum.map(& &1.stop.id)
     |> Enum.uniq()
   end

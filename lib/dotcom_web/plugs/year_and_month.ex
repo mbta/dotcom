@@ -5,6 +5,7 @@ defmodule DotcomWeb.Plugs.YearMonth do
 
   """
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
 
   @impl true

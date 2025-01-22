@@ -3,13 +3,10 @@ defmodule DotcomWeb.PageControllerTest do
 
   import DotcomWeb.PageController
 
-  alias CMS.{
-    Field.Link,
-    Partial.Banner,
-    Partial.Teaser,
-    Partial.WhatsHappeningItem
-  }
-
+  alias CMS.Field.Link
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Teaser
+  alias CMS.Partial.WhatsHappeningItem
   alias DotcomWeb.Plugs.Cookies
   alias Plug.Test
 
@@ -86,40 +83,46 @@ defmodule DotcomWeb.PageControllerTest do
     %{path: path} =
       add_utm_url(%Teaser{id: 1234, path: "/path", title: "title", type: :news_entry})
 
-    [
-      "utm_campaign=curated-content",
-      "utm_content=title",
-      "utm_medium=news",
-      "utm_source=homepage",
-      "utm_term=null"
-    ]
-    |> Enum.each(fn param -> assert String.contains?(path, param) end)
+    Enum.each(
+      [
+        "utm_campaign=curated-content",
+        "utm_content=title",
+        "utm_medium=news",
+        "utm_source=homepage",
+        "utm_term=null"
+      ],
+      fn param -> assert String.contains?(path, param) end
+    )
   end
 
   test "adds utm params to url for what's happening" do
     %{utm_url: path} =
       add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, true)
 
-    [
-      "utm_campaign=curated-content",
-      "utm_content=title",
-      "utm_medium=whats-happening",
-      "utm_source=homepage",
-      "utm_term=null"
-    ]
-    |> Enum.each(fn param -> assert String.contains?(path, param) end)
+    Enum.each(
+      [
+        "utm_campaign=curated-content",
+        "utm_content=title",
+        "utm_medium=whats-happening",
+        "utm_source=homepage",
+        "utm_term=null"
+      ],
+      fn param -> assert String.contains?(path, param) end
+    )
 
     %{utm_url: path} =
       add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, false)
 
-    [
-      "utm_campaign=curated-content",
-      "utm_content=title",
-      "utm_medium=whats-happening-secondary",
-      "utm_source=homepage",
-      "utm_term=null"
-    ]
-    |> Enum.each(fn param -> assert String.contains?(path, param) end)
+    Enum.each(
+      [
+        "utm_campaign=curated-content",
+        "utm_content=title",
+        "utm_medium=whats-happening-secondary",
+        "utm_source=homepage",
+        "utm_term=null"
+      ],
+      fn param -> assert String.contains?(path, param) end
+    )
   end
 
   test "adds utm params to url for banner" do
@@ -130,13 +133,15 @@ defmodule DotcomWeb.PageControllerTest do
         routes: [%{id: "Green", mode: "subway", group: "line"}]
       })
 
-    [
-      "utm_campaign=curated-content",
-      "utm_content=title",
-      "utm_medium=banner",
-      "utm_source=homepage",
-      "utm_term=green-line"
-    ]
-    |> Enum.each(fn param -> assert String.contains?(path, param) end)
+    Enum.each(
+      [
+        "utm_campaign=curated-content",
+        "utm_content=title",
+        "utm_medium=banner",
+        "utm_source=homepage",
+        "utm_term=green-line"
+      ],
+      fn param -> assert String.contains?(path, param) end
+    )
   end
 end

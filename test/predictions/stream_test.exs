@@ -2,6 +2,7 @@ defmodule Predictions.StreamTest do
   use ExUnit.Case, async: false
 
   alias JsonApi.Item
+  alias MBTA.Api.Stream.Event
   alias Predictions.Stream
 
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
@@ -62,7 +63,7 @@ defmodule Predictions.StreamTest do
     test "starts a GenServer that can recieve stream events and call a broadcast function" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %MBTA.Api.Stream.Event{event: :reset, data: @predictions_data}
+          %Event{event: :reset, data: @predictions_data}
         ])
 
       test_pid = self()
@@ -83,8 +84,7 @@ defmodule Predictions.StreamTest do
 
       :erlang.trace(stream_pid, true, [:receive])
 
-      assert_receive {:trace, ^stream_pid, :receive,
-                      {:"$gen_consumer", _, [%MBTA.Api.Stream.Event{} | _]}}
+      assert_receive {:trace, ^stream_pid, :receive, {:"$gen_consumer", _, [%Event{} | _]}}
 
       assert_receive :broadcast, 5000
     end
@@ -94,7 +94,7 @@ defmodule Predictions.StreamTest do
     test "can log stream errors" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %MBTA.Api.Stream.Event{
+          %Event{
             event: :remove,
             data:
               {:error,
@@ -128,7 +128,7 @@ defmodule Predictions.StreamTest do
     test "can log broadcast errors" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %MBTA.Api.Stream.Event{event: :remove, data: @predictions_data}
+          %Event{event: :remove, data: @predictions_data}
         ])
 
       broadcast_fn = fn @predictions_phoenix_pub_sub, "predictions", _ ->

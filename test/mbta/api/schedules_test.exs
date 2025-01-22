@@ -3,7 +3,8 @@ defmodule MBTA.Api.SchedulesTest do
 
   import Mox
 
-  alias MBTA.Api.{Mock, Schedules}
+  alias MBTA.Api.Mock
+  alias MBTA.Api.Schedules
 
   setup :set_mox_global
   setup :verify_on_exit!

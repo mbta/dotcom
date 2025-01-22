@@ -7,11 +7,12 @@ defmodule Alerts.Cache.Fetcher do
   If an API call fails, then the store is not modified.
   """
 
-  require Logger
-
   use GenServer
 
-  alias Alerts.{Cache, Parser}
+  alias Alerts.Cache
+  alias Alerts.Parser
+
+  require Logger
 
   @default_opts [
     api_mfa:

@@ -394,9 +394,7 @@ defmodule DotcomWeb.ScheduleControllerTest do
     end
 
     test "should report errors", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn "TEST 1234", _ -> {:error, :not_found} end
-      ) do
+      with_mock(Schedules.Repo, [:passthrough], schedules_for_stop: fn "TEST 1234", _ -> {:error, :not_found} end) do
         log =
           ExUnit.CaptureLog.capture_log(fn ->
             conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})

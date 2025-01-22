@@ -17,8 +17,8 @@ defmodule Dotcom.SystemStatus do
   - They are for one of the subway or trolley lines (including Mattapan), and
   - They are either currently active, or will be later today
   """
-  def subway_alerts_for_today() do
-    subway_alerts_for_day(Timex.now())
+  def subway_alerts_for_today do
+    subway_alerts_for_day(DateTime.utc_now())
   end
 
   defp subway_alerts_for_day(datetime) do

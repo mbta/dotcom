@@ -3,12 +3,15 @@ defmodule Stops.Api do
   Wrapper around the remote stop information service.
   """
 
-  require Logger
-
   alias JsonApi.Item
   alias MBTA.Api
   alias Stops.Stop
-  alias Stops.Stop.ParkingLot.{Capacity, Manager, Payment, Utilization}
+  alias Stops.Stop.ParkingLot.Capacity
+  alias Stops.Stop.ParkingLot.Manager
+  alias Stops.Stop.ParkingLot.Payment
+  alias Stops.Stop.ParkingLot.Utilization
+
+  require Logger
 
   @default_params [
     include: "parent_station,facilities,child_stops",
@@ -227,8 +230,7 @@ defmodule Stops.Api do
   defp bike_storage(item) do
     item
     |> filter_facilities(MapSet.new([:bike_storage]))
-    |> Enum.map(&bike_storage_type/1)
-    |> MapSet.new()
+    |> MapSet.new(&bike_storage_type/1)
   end
 
   @spec bike_storage_type(Item.t()) :: bike_storage_types
@@ -293,7 +295,7 @@ defmodule Stops.Api do
     |> Map.put("latitude", parking_area.attributes["latitude"])
     |> Map.put("longitude", parking_area.attributes["longitude"])
     |> Map.put("id", parking_area.id)
-    |> to_parking_lot
+    |> to_parking_lot()
   end
 
   @spec to_parking_lot(map) :: Stop.ParkingLot.t()
@@ -393,8 +395,7 @@ defmodule Stops.Api do
   defp facility_atom_from_string("TICKET_WINDOW"), do: :ticket_window
   defp facility_atom_from_string("OTHER"), do: :other
 
-  defp facility_atom_from_string("FARE_MEDIA_ASSISTANCE_FACILITY"),
-    do: :fare_media_assistance_facility
+  defp facility_atom_from_string("FARE_MEDIA_ASSISTANCE_FACILITY"), do: :fare_media_assistance_facility
 
   defp facility_atom_from_string(other) do
     _ = Logger.warning("module=#{__MODULE__} unknown facility type: #{other}")

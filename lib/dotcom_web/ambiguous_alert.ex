@@ -73,8 +73,9 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
 
   @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
   defp date_tag(%DateTime{} = date) do
-    with iso <- DateTime.to_iso8601(date),
-         {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
+    iso = DateTime.to_iso8601(date)
+
+    with {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
       PhoenixHTMLHelpers.Tag.content_tag(:time, readable, datetime: iso)
     end
   end
@@ -87,9 +88,7 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
 end
 
 defimpl DotcomWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
-  def alert_start_date(%{
-        alert: %{active_period: [{start_date, _} | _]}
-      }) do
+  def alert_start_date(%{alert: %{active_period: [{start_date, _} | _]}}) do
     start_date
   end
 

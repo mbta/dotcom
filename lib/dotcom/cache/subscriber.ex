@@ -3,11 +3,11 @@ defmodule Dotcom.Cache.Subscriber do
   A GenServer that listens for messages about cache operations and actions on them.
   """
 
-  require Logger
-
   use GenServer
 
   alias Dotcom.Cache.Publisher
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
   @channel Publisher.channel()
@@ -26,7 +26,8 @@ defmodule Dotcom.Cache.Subscriber do
   Starts a Redix.PubSub process and subscribes to the channel given by the Publisher.
   """
   def init(uuid) do
-    Application.get_env(:dotcom, :redis_config)
+    :dotcom
+    |> Application.get_env(:redis_config)
     |> @redix_pub_sub.start_link()
     |> subscribe(@channel)
 
@@ -44,10 +45,7 @@ defmodule Dotcom.Cache.Subscriber do
     {:noreply, uuid}
   end
 
-  def handle_info(
-        {:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}},
-        publisher_id
-      ) do
+  def handle_info({:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}}, publisher_id) do
     [command, sender_id | key] = String.split(message, "|")
 
     if sender_id != publisher_id do

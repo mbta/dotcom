@@ -47,7 +47,8 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
+    route_id_or_ids
+    |> hours_of_operation_call(date, description, &departure_overall/3)
     |> Util.error_default(%__MODULE__{})
   end
 
@@ -59,16 +60,12 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
-    hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
+    route_id_or_ids
+    |> hours_of_operation_call(date, description, &departure/3)
     |> Util.error_default(%__MODULE__{})
   end
 
-  def hours_of_operation_call(
-        route_id_or_ids,
-        date,
-        description,
-        departure_fn
-      ) do
+  def hours_of_operation_call(route_id_or_ids, date, description, departure_fn) do
     route_id_list = List.wrap(route_id_or_ids)
 
     special_service_dates = Enum.flat_map(route_id_list, &Service.special_service_dates(&1))
@@ -191,8 +188,7 @@ defmodule Schedules.HoursOfOperation do
           {:ok, saturday_response_0},
           {:ok, saturday_response_1},
           {:ok, sunday_response_0},
-          {:ok, sunday_response_1}
-          | special_service_responses
+          {:ok, sunday_response_1} | special_service_responses
         ],
         description,
         params,
@@ -273,8 +269,7 @@ defmodule Schedules.HoursOfOperation do
     date_key = Date.to_string(dir_0[:date])
 
     direction_tuple =
-      {departure_fn.(data_0, headsigns, description),
-       departure_fn.(data_1, headsigns, description)}
+      {departure_fn.(data_0, headsigns, description), departure_fn.(data_1, headsigns, description)}
 
     with {:ok, special_service_departures_map} <-
            special_service_departures_parser(
@@ -528,11 +523,7 @@ defmodule Schedules.HoursOfOperation do
     }
   end
 
-  defp no_times?(%{
-         "arrival_time" => nil,
-         "departure_time" => nil
-       }),
-       do: true
+  defp no_times?(%{"arrival_time" => nil, "departure_time" => nil}), do: true
 
   defp no_times?(_), do: false
 end

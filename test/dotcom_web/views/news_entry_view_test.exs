@@ -12,9 +12,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
       news_entry = teaser_factory(:news, 0)
 
       body =
-        NewsEntryView
-        |> render_to_string(
-          "index.html",
+        render_to_string(NewsEntryView, "index.html",
           conn: conn,
           page: 1,
           news_entries: [news_entry],
@@ -29,9 +27,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
       news_entry = teaser_factory(:news, 0)
 
       body =
-        NewsEntryView
-        |> render_to_string(
-          "index.html",
+        render_to_string(NewsEntryView, "index.html",
           conn: conn,
           page: 1,
           news_entries: [news_entry],

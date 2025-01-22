@@ -3,15 +3,13 @@ defmodule CMS.Search.Result do
   Represents a complete search result from the Drupal CMS.
   """
 
-  alias CMS.SearchResult.{
-    Event,
-    File,
-    LandingPage,
-    Link,
-    NewsEntry,
-    Page,
-    Person
-  }
+  alias CMS.SearchResult.Event
+  alias CMS.SearchResult.File
+  alias CMS.SearchResult.LandingPage
+  alias CMS.SearchResult.Link
+  alias CMS.SearchResult.NewsEntry
+  alias CMS.SearchResult.Page
+  alias CMS.SearchResult.Person
 
   defstruct count: 0,
             content_types: Keyword.new(),
@@ -49,8 +47,7 @@ defmodule CMS.Search.Result do
   defp parse_result(%{"ss_type" => "person"} = result), do: [Person.build(result)]
   defp parse_result(%{"ss_type" => "search_result"} = result), do: [Link.build(result)]
 
-  defp parse_result(%{"ss_search_api_datasource" => "entity:file"} = result),
-    do: [File.build(result)]
+  defp parse_result(%{"ss_search_api_datasource" => "entity:file"} = result), do: [File.build(result)]
 
   defp parse_result(_), do: []
 

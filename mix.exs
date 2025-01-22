@@ -36,8 +36,7 @@ defmodule DotCom.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:dev),
-    do: ["lib", "test/support/factories", "test/support/factory_helpers.ex"]
+  defp elixirc_paths(:dev), do: ["lib", "test/support/factories", "test/support/factory_helpers.ex"]
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -89,11 +88,7 @@ defmodule DotCom.Mixfile do
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       {:excoveralls, "0.18.3", only: :test},
-      {:faker,
-       git: "https://github.com/elixirs/faker.git",
-       override: true,
-       branch: "master",
-       only: [:dev, :test]},
+      {:faker, git: "https://github.com/elixirs/faker.git", override: true, branch: "master", only: [:dev, :test]},
       # Latest 0.36.3 breaks the trip planner test
       {:floki, "0.36.2"},
       {:gen_stage, "1.2.1"},

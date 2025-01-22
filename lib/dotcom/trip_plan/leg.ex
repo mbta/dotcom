@@ -6,11 +6,13 @@ defmodule Dotcom.TripPlan.Leg do
   train, &c). Leg represents a single mode of travel during journey.
   """
 
-  alias Dotcom.TripPlan.{NamedPosition, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
 
   @derive {Jason.Encoder, only: [:from, :to, :mode]}
-  defstruct start: Timex.now(),
-            stop: Timex.now(),
+  defstruct start: DateTime.utc_now(),
+            stop: DateTime.utc_now(),
             mode: nil,
             from: nil,
             to: nil,
@@ -86,9 +88,7 @@ defmodule Dotcom.TripPlan.Leg do
   def stop_is_silver_line_airport?([leg], key) when not is_nil(leg) do
     route_id = leg.mode.route.id
 
-    stop_id =
-      leg
-      |> Kernel.get_in([Access.key(key), Access.key(:stop), Access.key(:id)])
+    stop_id = Kernel.get_in(leg, [Access.key(key), Access.key(:stop), Access.key(:id)])
 
     Fares.silver_line_airport_stop?(route_id, stop_id)
   end

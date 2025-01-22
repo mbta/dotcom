@@ -29,12 +29,11 @@ defmodule Algolia.Query.Request do
   def new(index_name, query, params \\ %{}) when index_name in @supported_index_keys do
     algolia_index = Keyword.fetch!(@supported_indexes, String.to_atom(index_name))
 
-    %__MODULE__{
-      indexName: algolia_index,
-      query: query,
-      attributesToHighlight: highlight(index_name)
-    }
-    |> Map.update!(:params, &Map.merge(&1, params))
+    Map.update!(
+      %__MODULE__{indexName: algolia_index, query: query, attributesToHighlight: highlight(index_name)},
+      :params,
+      &Map.merge(&1, params)
+    )
   end
 
   defp highlight("routes"), do: ["route.name", "route.long_name"]

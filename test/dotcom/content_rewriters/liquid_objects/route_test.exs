@@ -1,8 +1,9 @@
 defmodule Dotcom.ContentRewriters.LiquidObjects.RouteTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   import Dotcom.ContentRewriters.LiquidObjects.Route
+
+  @moduletag :external
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 

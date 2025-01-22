@@ -2,6 +2,8 @@ defmodule AwsClient.Behaviour do
   @moduledoc """
   The behaviour for interacting with the AWS client
   """
+  @behaviour __MODULE__
+
   @callback client() :: AWS.Client.t()
   @callback search_place_index_for_position(
               String.t(),
@@ -52,8 +54,6 @@ defmodule AwsClient.Behaviour do
               | {:error, {:unexpected_response, any()}}
               | {:error, AWS.SES.send_raw_email_errors()}
 
-  @behaviour __MODULE__
-
   @impl __MODULE__
   def search_place_index_for_position(index_name, input) do
     AWS.Location.search_place_index_for_position(client(), index_name, input)
@@ -75,16 +75,13 @@ defmodule AwsClient.Behaviour do
   end
 
   @impl __MODULE__
-  def list_objects(bucket, prefix),
-    do: AWS.S3.list_objects(client(), bucket, nil, nil, nil, nil, prefix, nil, nil, nil)
+  def list_objects(bucket, prefix), do: AWS.S3.list_objects(client(), bucket, nil, nil, nil, nil, prefix, nil, nil, nil)
 
   @impl __MODULE__
-  def get_object(bucket, object_key),
-    do: AWS.S3.get_object(client(), bucket, object_key)
+  def get_object(bucket, object_key), do: AWS.S3.get_object(client(), bucket, object_key)
 
   @impl __MODULE__
-  def put_object(bucket, object_key, contents),
-    do: AWS.S3.put_object(client(), bucket, object_key, contents)
+  def put_object(bucket, object_key, contents), do: AWS.S3.put_object(client(), bucket, object_key, contents)
 
   @impl __MODULE__
   def send_raw_email(message), do: AWS.SES.send_raw_email(client(), message)

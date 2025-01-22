@@ -3,7 +3,8 @@ defmodule Schedules.Sort do
   Handles sorting schedules.
   """
 
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
 
   @doc """
   Sorts a list of schedules into trip lists. Two lists are compared by checking the departure time at the

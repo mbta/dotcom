@@ -1,7 +1,9 @@
 defmodule DotcomWeb.CustomerSupportController do
   @moduledoc "Handles the customer support page and form submissions."
   use DotcomWeb, :controller
+
   alias Routes.Route
+
   require Logger
 
   @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
@@ -141,8 +143,7 @@ defmodule DotcomWeb.CustomerSupportController do
 
   @spec render_expandable_blocks(Plug.Conn.t(), list) :: [Phoenix.HTML.safe()]
   def render_expandable_blocks(assigns, content_blocks \\ @content_blocks) do
-    content_blocks
-    |> Enum.map(fn block ->
+    Enum.map(content_blocks, fn block ->
       view_template = "_#{block.id}.html"
 
       try do
@@ -194,9 +195,7 @@ defmodule DotcomWeb.CustomerSupportController do
           {:error, file_error} ->
             # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
             _ =
-              Logger.warning(
-                "module=#{__MODULE__} error=#{:file.format_error(file_error)} failed_photo_attachment"
-              )
+              Logger.warning("module=#{__MODULE__} error=#{:file.format_error(file_error)} failed_photo_attachment")
 
             acc
 
@@ -423,7 +422,8 @@ defmodule DotcomWeb.CustomerSupportController do
     bus_ferry_cr_options =
       for route_type <- 2..4, into: %{} do
         options =
-          @routes_repo.by_type(route_type)
+          route_type
+          |> @routes_repo.by_type()
           |> Enum.map(fn route ->
             route.name
           end)
@@ -437,7 +437,7 @@ defmodule DotcomWeb.CustomerSupportController do
         DotcomWeb.ViewHelpers.mode_name(mode)
       end)
 
-    bus_ferry_cr_options |> Map.put("subway_options", subway_options)
+    Map.put(bus_ferry_cr_options, "subway_options", subway_options)
   end
 
   defp set_service_options(conn, _) do
@@ -467,8 +467,8 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   defp meta_description(conn, _) do
-    conn
-    |> assign(
+    assign(
+      conn,
       :meta_description,
       "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, " <>
         "lost and found, and accessibility."
@@ -477,8 +477,7 @@ defmodule DotcomWeb.CustomerSupportController do
 
   @spec assign_datetime_selector_fields(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   defp assign_datetime_selector_fields(conn, _) do
-    conn
-    |> assign(:support_datetime_selector_fields, @support_datetime_selector_fields)
+    assign(conn, :support_datetime_selector_fields, @support_datetime_selector_fields)
   end
 
   @spec assign_all_options_per_mode(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()

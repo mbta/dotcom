@@ -1,16 +1,22 @@
 defmodule Dotcom.TripPlan.TransferTest do
   use ExUnit.Case, async: true
 
-  import Mox
   import Dotcom.TripPlan.Transfer
+  import Mox
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
+  alias OpenTripPlannerClient.Schema.Step
+  alias Stops.Repo.Mock
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   setup :verify_on_exit!
 
   setup do
-    stub(Stops.Repo.Mock, :get, fn _ ->
+    stub(Mock, :get, fn _ ->
       Stop.build(:stop)
     end)
 
@@ -27,62 +33,62 @@ defmodule Dotcom.TripPlan.TransferTest do
     defp shuttle_leg, do: TripPlanner.build(:shuttle_leg)
 
     test "if from or to is nil" do
-      refute [nil, nil] |> maybe_transfer?
-      refute [subway_leg(), nil] |> maybe_transfer?
-      refute [nil, bus_leg()] |> maybe_transfer?
+      refute maybe_transfer?([nil, nil])
+      refute maybe_transfer?([subway_leg(), nil])
+      refute maybe_transfer?([nil, bus_leg()])
     end
 
     test "subway -> subway" do
-      assert [subway_leg(), subway_leg()] |> maybe_transfer?
+      assert maybe_transfer?([subway_leg(), subway_leg()])
     end
 
     test "subway -> local bus" do
-      assert [subway_leg(), bus_leg()] |> maybe_transfer?
+      assert maybe_transfer?([subway_leg(), bus_leg()])
     end
 
     test "local bus -> subway" do
-      assert [bus_leg(), subway_leg()] |> maybe_transfer?
+      assert maybe_transfer?([bus_leg(), subway_leg()])
     end
 
     test "local bus -> local bus" do
-      assert [bus_leg(), bus_leg()] |> maybe_transfer?
+      assert maybe_transfer?([bus_leg(), bus_leg()])
     end
 
     test "express bus -> subway" do
-      assert [xp_leg(), subway_leg()] |> maybe_transfer?
+      assert maybe_transfer?([xp_leg(), subway_leg()])
     end
 
     test "express bus -> local bus" do
-      assert [xp_leg(), bus_leg()] |> maybe_transfer?
+      assert maybe_transfer?([xp_leg(), bus_leg()])
     end
 
     test "SL1 -> local bus" do
-      assert [sl_rapid_leg(), bus_leg()] |> maybe_transfer?
+      assert maybe_transfer?([sl_rapid_leg(), bus_leg()])
     end
 
     test "local bus -> the same local bus" do
       bus_leg = bus_leg()
-      refute [bus_leg, bus_leg] |> maybe_transfer?
+      refute maybe_transfer?([bus_leg, bus_leg])
     end
 
     test "express bus -> express bus" do
-      assert [xp_leg(), xp_leg()] |> maybe_transfer?
+      assert maybe_transfer?([xp_leg(), xp_leg()])
     end
 
     test "commuter rail -> any other mode" do
-      refute [cr_leg(), cr_leg()] |> maybe_transfer?
-      refute [cr_leg(), subway_leg()] |> maybe_transfer?
-      refute [cr_leg(), bus_leg()] |> maybe_transfer?
-      refute [cr_leg(), xp_leg()] |> maybe_transfer?
-      refute [cr_leg(), sl_rapid_leg()] |> maybe_transfer?
+      refute maybe_transfer?([cr_leg(), cr_leg()])
+      refute maybe_transfer?([cr_leg(), subway_leg()])
+      refute maybe_transfer?([cr_leg(), bus_leg()])
+      refute maybe_transfer?([cr_leg(), xp_leg()])
+      refute maybe_transfer?([cr_leg(), sl_rapid_leg()])
     end
 
     test "ferry -> any other mode" do
-      refute [ferry_leg(), ferry_leg()] |> maybe_transfer?
-      refute [ferry_leg(), subway_leg()] |> maybe_transfer?
-      refute [ferry_leg(), bus_leg()] |> maybe_transfer?
-      refute [ferry_leg(), xp_leg()] |> maybe_transfer?
-      refute [ferry_leg(), sl_rapid_leg()] |> maybe_transfer?
+      refute maybe_transfer?([ferry_leg(), ferry_leg()])
+      refute maybe_transfer?([ferry_leg(), subway_leg()])
+      refute maybe_transfer?([ferry_leg(), bus_leg()])
+      refute maybe_transfer?([ferry_leg(), xp_leg()])
+      refute maybe_transfer?([ferry_leg(), sl_rapid_leg()])
     end
 
     test "shuttle -> subway or bus" do
@@ -91,23 +97,23 @@ defmodule Dotcom.TripPlan.TransferTest do
     end
 
     test "bus -> bus -> subway" do
-      assert [bus_leg(), bus_leg(), subway_leg()] |> maybe_transfer?
+      assert maybe_transfer?([bus_leg(), bus_leg(), subway_leg()])
     end
 
     test "subway -> bus -> bus" do
-      assert [subway_leg(), bus_leg(), bus_leg()] |> maybe_transfer?
+      assert maybe_transfer?([subway_leg(), bus_leg(), bus_leg()])
     end
   end
 
   describe "subway_transfer?/1" do
     test "picks a transit-transit sequence" do
-      expect(Stops.Repo.Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
+      expect(Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
 
       legs_with_transfer = [
         %Leg{
           mode: %PersonalDetail{
             steps: [
-              %OpenTripPlannerClient.Schema.Step{
+              %Step{
                 street_name: "Path"
               }
             ]
@@ -143,7 +149,7 @@ defmodule Dotcom.TripPlan.TransferTest do
         %Leg{
           mode: %PersonalDetail{
             steps: [
-              %OpenTripPlannerClient.Schema.Step{
+              %Step{
                 street_name: "Path"
               }
             ]
@@ -162,7 +168,7 @@ defmodule Dotcom.TripPlan.TransferTest do
     end
 
     test "handles transfers within the Winter St. Concourse" do
-      expect(Stops.Repo.Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
+      expect(Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
 
       leg_to_park = %Leg{
         mode: %TransitDetail{

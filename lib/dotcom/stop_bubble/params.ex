@@ -1,4 +1,5 @@
 defmodule Dotcom.StopBubble.Params do
+  @moduledoc false
   alias Dotcom.StopBubble
 
   defstruct render_type: :stop,

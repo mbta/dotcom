@@ -5,7 +5,7 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   sanitized and scrubbed prior to being re-parsed here.
   """
 
-  alias Dotcom.{FlokiHelpers}
+  alias Dotcom.FlokiHelpers
 
   @iframe_domains [
     "google.com/maps",
@@ -65,8 +65,7 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   wrap the media element in a rebuilt link, if link information is available.
   """
   @spec build(t) :: Floki.html_tree()
-  def build(%__MODULE__{type: type, size: size} = media)
-      when size in @valid_sizes and type in @valid_types do
+  def build(%__MODULE__{type: type, size: size} = media) when size in @valid_sizes and type in @valid_types do
     media_embed =
       media.link_attrs
       |> case do

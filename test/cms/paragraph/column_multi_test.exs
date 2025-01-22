@@ -3,7 +3,11 @@ defmodule CMS.Partial.Paragraph.ColumnMultiTest do
 
   use ExUnit.Case, async: true
 
-  alias CMS.Partial.Paragraph.{Column, ColumnMulti, CustomHTML, DescriptiveLink, FareCard}
+  alias CMS.Partial.Paragraph.Column
+  alias CMS.Partial.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.FareCard
   alias Phoenix.HTML
 
   test "new/0 creates a new, complete ColumnMulti struct" do

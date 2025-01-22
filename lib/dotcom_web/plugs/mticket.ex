@@ -13,6 +13,7 @@ defmodule DotcomWeb.Plug.Mticket do
   """
 
   @behaviour Plug
+
   import Phoenix.Controller, only: [put_layout: 2, put_view: 2, render: 3]
   import Plug.Conn
 
@@ -36,7 +37,7 @@ defmodule DotcomWeb.Plug.Mticket do
         full_link_path: full_link_path,
         content_description: content_description
       )
-      |> halt
+      |> halt()
     else
       conn
     end

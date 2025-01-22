@@ -1,5 +1,6 @@
 defmodule CMS.Search.FacetsTest do
   use ExUnit.Case, async: true
+
   import CMS.Search.Facets
 
   alias ExUnit.CaptureLog

@@ -26,10 +26,7 @@ defmodule LocationService.Address do
 
   @spec new(map()) :: %__MODULE__{}
   @spec new(map(), String.t()) :: %__MODULE__{}
-  def new(
-        %{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}},
-        queried_text \\ nil
-      ) do
+  def new(%{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}}, queried_text \\ nil) do
     address =
       label
       |> replace_common_street_suffix()
@@ -42,7 +39,7 @@ defmodule LocationService.Address do
           primary_number: street_number,
           suffix: street_suffix
         } ->
-          "#{street_number} #{street_name} #{street_suffix}" |> String.trim()
+          String.trim("#{street_number} #{street_name} #{street_suffix}")
 
         _ ->
           nil
@@ -50,11 +47,10 @@ defmodule LocationService.Address do
 
     %LocationService.Address{
       formatted: label,
-      highlighted_spans:
-        if(queried_text, do: get_highlighted_spans(queried_text, label), else: []),
+      highlighted_spans: if(queried_text, do: get_highlighted_spans(queried_text, label), else: []),
       latitude: lat,
       longitude: lon,
-      street_address: street_address |> with_place_name(label),
+      street_address: with_place_name(street_address, label),
       municipality: address.city,
       state: address.state
     }
@@ -67,7 +63,7 @@ defmodule LocationService.Address do
       |> String.split(street_address)
       |> List.first()
       |> String.trim_trailing(",")
-      |> then(&(&1 <> street_address))
+      |> Kernel.<>(street_address)
     else
       # Likely a simpler place, e.g. "Prudential Tunnel, Boston, MA, 02199, USA" - just take the first part
       label
@@ -94,7 +90,8 @@ defmodule LocationService.Address do
   def get_highlighted_spans(search, text) do
     parts = String.split(search)
 
-    Enum.flat_map(parts, fn p ->
+    parts
+    |> Enum.flat_map(fn p ->
       # (^|\\W) -- Match start of string or non-word character
       # (?<t>   -- Begin a capture group named `t`
       # p       -- Match the current part
@@ -103,7 +100,8 @@ defmodule LocationService.Address do
       src = "(^|\\W)(?<t>" <> Regex.escape(p) <> "\\w*)"
       {:ok, re} = Regex.compile(src, "i")
 
-      Regex.scan(re, text, return: :index, capture: :all_names)
+      re
+      |> Regex.scan(text, return: :index, capture: :all_names)
       |> Enum.map(fn
         [{offset, length}] -> %{offset: offset, length: length}
         nil -> nil

@@ -15,7 +15,8 @@ defmodule Predictions.StreamTopic do
   route and direction.
   """
 
-  alias Predictions.{Store, StreamSupervisor}
+  alias Predictions.Store
+  alias Predictions.StreamSupervisor
 
   defstruct [:topic, :fetch_keys, :streams]
 
@@ -33,8 +34,7 @@ defmodule Predictions.StreamTopic do
   def new(topic)
 
   def new("stop:" <> stop_id = topic) do
-    [stop: stop_id]
-    |> do_new(topic)
+    do_new([stop: stop_id], topic)
   end
 
   def new(_) do
@@ -58,7 +58,8 @@ defmodule Predictions.StreamTopic do
 
   @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
   defp streams_from_fetch_keys(stop: stop_id) do
-    @route_patterns_repo.by_stop_id(stop_id)
+    stop_id
+    |> @route_patterns_repo.by_stop_id()
     |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
   end
 
@@ -67,11 +68,14 @@ defmodule Predictions.StreamTopic do
   end
 
   defp to_filter_name(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
-    %{
-      route: route_id,
-      direction_id: direction_id
-    }
-    |> Enum.map_join("&", fn {filter, value} -> "filter[#{filter}]=#{value}" end)
+    Enum.map_join(
+      %{
+        route: route_id,
+        direction_id: direction_id
+      },
+      "&",
+      fn {filter, value} -> "filter[#{filter}]=#{value}" end
+    )
   end
 
   @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]

@@ -1,7 +1,8 @@
 defmodule DotcomWeb.LayoutView do
   use DotcomWeb, :view
-  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
+
   import DotcomWeb.SearchHelpers, only: [desktop_form: 2]
+  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
 
   def bold_if_active(DotcomWeb.Endpoint, _, text) do
     raw(text)
@@ -33,11 +34,13 @@ defmodule DotcomWeb.LayoutView do
       |> Enum.join("-")
       |> String.downcase()
 
-    template_class = template |> String.replace(".html", "-template")
+    template_class = String.replace(template, ".html", "-template")
 
     "#{module_class} #{template_class}"
   end
 
+  # special
+  # special
   def nav_link_content,
     do: [
       %{
@@ -111,7 +114,6 @@ defmodule DotcomWeb.LayoutView do
               {"Retail Sales Locations", "/fares/retail-sales-locations", :internal_link}
             ]
           },
-          # special
           %{sub_menu_section: "Most popular fares"}
         ]
       },
@@ -125,8 +127,7 @@ defmodule DotcomWeb.LayoutView do
               {"Send Us Feedback", "/customer-support", :internal_link},
               {"View All Contact Numbers", "/customer-support#customer_support", :internal_link},
               {"Request Public Records",
-               "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66",
-               :external_link},
+               "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", :external_link},
               {"Lost & Found", "/customer-support/lost-and-found", :internal_link},
               {"Language Services", "/language-services", :internal_link}
             ]
@@ -135,11 +136,9 @@ defmodule DotcomWeb.LayoutView do
             sub_menu_section: "Transit Police",
             links: [
               {"MBTA Transit Police", "/transit-police", :internal_link},
-              {"See Something, Say Something", "/transit-police/see-something-say-something",
-               :internal_link}
+              {"See Something, Say Something", "/transit-police/see-something-say-something", :internal_link}
             ]
           },
-          # special
           %{sub_menu_section: "Emergency Contacts"},
           %{sub_menu_section: "Contact numbers"}
         ]
@@ -170,18 +169,16 @@ defmodule DotcomWeb.LayoutView do
               {"Institutional Sales", "/pass-program", :internal_link},
               {"Business Opportunities", "/business", :internal_link},
               {"Innovation Proposals", "/innovation", :internal_link},
-              {"Engineering Design Standards", "/engineering/design-standards-and-guidelines",
-               :internal_link}
+              {"Engineering Design Standards", "/engineering/design-standards-and-guidelines", :internal_link}
             ]
           },
           %{
             sub_menu_section: "Our Work",
             links: [
               {"Sustainability", "/sustainability", :internal_link},
-              {"Capital Transformation", "/projects/capital-transformation-programs",
+              {"Capital Transformation", "/projects/capital-transformation-programs", :internal_link},
+              {"Commuter Rail Positive Train Control", "/projects/commuter-rail-positive-train-control-ptc",
                :internal_link},
-              {"Commuter Rail Positive Train Control",
-               "/projects/commuter-rail-positive-train-control-ptc", :internal_link},
               {"Better Bus Project", "/projects/better-bus-project", :internal_link},
               {"All MBTA Improvement Projects", "/projects", :internal_link}
             ]

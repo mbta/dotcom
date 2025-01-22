@@ -1,6 +1,8 @@
 defmodule Vehicles.RepoTest do
   use ExUnit.Case
-  alias Vehicles.{Repo, Vehicle}
+
+  alias Vehicles.Repo
+  alias Vehicles.Vehicle
 
   @vehicles [
     %Vehicle{id: "86-0", route_id: "86", direction_id: 0, trip_id: "trip-1"},

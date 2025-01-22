@@ -1,12 +1,14 @@
 defmodule Algolia.Stop.RouteTest do
   use ExUnit.Case, async: true
 
+  alias Algolia.Stop.Route
+
   describe "&new/1" do
     test "generates a %Algolia.Stop.Route{} for the red line" do
       route =
-        Algolia.Stop.Route.new(:red_line, [%Routes.Route{id: "Red", type: 1, name: "Red Line"}])
+        Route.new(:red_line, [%Routes.Route{id: "Red", type: 1, name: "Red Line"}])
 
-      assert %Algolia.Stop.Route{} = route
+      assert %Route{} = route
       assert route.icon == :red_line
       assert route.display_name == "Red Line"
     end
@@ -19,7 +21,7 @@ defmodule Algolia.Stop.RouteTest do
         %Routes.Route{id: "Green-E", type: 0, name: "Green Line E"}
       ]
 
-      assert %Algolia.Stop.Route{} = route = Algolia.Stop.Route.new(:green_line, green_line)
+      assert %Route{} = route = Route.new(:green_line, green_line)
       assert route.icon == :green_line
       assert route.display_name == "Green Line"
     end
@@ -31,7 +33,7 @@ defmodule Algolia.Stop.RouteTest do
         %Routes.Route{id: "3", type: 3, name: "3"}
       ]
 
-      assert %Algolia.Stop.Route{} = route = Algolia.Stop.Route.new(:bus, bus_routes)
+      assert %Route{} = route = Route.new(:bus, bus_routes)
       assert route.icon == :bus
       assert route.display_name == "Bus: 1, 2, 3"
     end
@@ -43,7 +45,7 @@ defmodule Algolia.Stop.RouteTest do
         %Routes.Route{id: "CR-Fitchburg", type: 2, name: "Fitchburg Line"}
       ]
 
-      assert %Algolia.Stop.Route{} = route = Algolia.Stop.Route.new(:commuter_rail, bus_routes)
+      assert %Route{} = route = Route.new(:commuter_rail, bus_routes)
       assert route.icon == :commuter_rail
       assert route.display_name == "Commuter Rail"
     end

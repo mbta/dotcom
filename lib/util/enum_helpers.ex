@@ -1,4 +1,5 @@
 defmodule Util.EnumHelpers do
+  @moduledoc false
   @doc """
 
   Takes an Enumerable and returns a list with the first and last items tagged

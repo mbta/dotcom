@@ -6,16 +6,15 @@ defmodule Dotcom.ContentRewriters.ResponsiveTablesTest do
   describe "rewrite_table" do
     test "works with a full table" do
       {:ok, [html]} =
-        """
+        Floki.parse_fragment("""
           <table>
             This is the caption
             #{thead()}
             #{tbody()}
           </table>
-        """
-        |> Floki.parse_fragment()
+        """)
 
-      rewritten = html |> rewrite_table
+      rewritten = rewrite_table(html)
 
       assert rewritten ==
                {"table", [{"class", "c-media__element responsive-table"}],
@@ -54,16 +53,15 @@ defmodule Dotcom.ContentRewriters.ResponsiveTablesTest do
                {:ok, [{"table", [], [{"caption", [], ["Caption in a tag"]}]}]}
 
       {:ok, [html]} =
-        """
+        Floki.parse_fragment("""
           <table>
             <caption>Caption in tag</caption>
             #{thead()}
             #{tbody()}
           </table>
-        """
-        |> Floki.parse_fragment()
+        """)
 
-      rewritten = html |> rewrite_table()
+      rewritten = rewrite_table(html)
 
       assert [{"caption", [], ["Caption in tag"]}] = Floki.find(rewritten, "caption")
     end
@@ -73,14 +71,13 @@ defmodule Dotcom.ContentRewriters.ResponsiveTablesTest do
                {:ok, [{"table", [], ["Caption outside of a tag"]}]}
 
       {:ok, [html]} =
-        """
+        Floki.parse_fragment("""
           <table>
             Caption outside of a tag
             #{thead()}
             #{tbody()}
           </table>
-        """
-        |> Floki.parse_fragment()
+        """)
 
       assert html
              |> rewrite_table()
@@ -88,11 +85,9 @@ defmodule Dotcom.ContentRewriters.ResponsiveTablesTest do
     end
 
     test "gracefully handles an invalid table" do
-      {:ok, [html]} =
-        "<table></table>"
-        |> Floki.parse_fragment()
+      {:ok, [html]} = Floki.parse_fragment("<table></table>")
 
-      rewritten = html |> rewrite_table
+      rewritten = rewrite_table(html)
 
       assert rewritten == {
                "table",

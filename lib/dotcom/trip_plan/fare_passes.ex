@@ -2,8 +2,14 @@ defmodule Dotcom.TripPlan.FarePasses do
   @moduledoc """
   Computing fare passes and prices for trip plan itineraries.
   """
-  alias Dotcom.TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
-  alias Fares.{Fare, Month, OneWay}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
+  alias Fares.Fare
+  alias Fares.Month
+  alias Fares.OneWay
 
   @spec with_passes(Itinerary.t()) :: Itinerary.t()
   def with_passes(itinerary) do
@@ -34,10 +40,7 @@ defmodule Dotcom.TripPlan.FarePasses do
   def leg_with_fares(%Leg{mode: %PersonalDetail{}} = leg), do: leg
 
   # Logan Express is $9, except Back Bay to Logan is $3 and free from Logan.
-  def leg_with_fares(
-        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: agency}}} =
-          leg
-      )
+  def leg_with_fares(%Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: agency}}} = leg)
       when is_binary(agency) do
     logan_express? = agency == "Logan Express"
     price = if logan_express?, do: logan_express_fare(leg), else: 0
@@ -134,8 +137,6 @@ defmodule Dotcom.TripPlan.FarePasses do
 
     if Fare.valid_modes(base_month_pass) -- Fare.valid_modes(reduced_pass) == [] do
       reduced_pass
-    else
-      nil
     end
   end
 
@@ -153,8 +154,6 @@ defmodule Dotcom.TripPlan.FarePasses do
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
       Month.base_pass(route, origin.id, destination.id)
-    else
-      nil
     end
   end
 
@@ -172,8 +171,6 @@ defmodule Dotcom.TripPlan.FarePasses do
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
       Month.recommended_pass(route, origin.id, destination.id)
-    else
-      nil
     end
   end
 
@@ -191,8 +188,6 @@ defmodule Dotcom.TripPlan.FarePasses do
        ) do
     if Leg.fare_complete_transit_leg?(leg) do
       Month.reduced_pass(route, origin.id, destination.id)
-    else
-      nil
     end
   end
 
@@ -232,8 +227,7 @@ defmodule Dotcom.TripPlan.FarePasses do
       if Enum.empty?(free_subway_legs) do
         []
       else
-        free_subway_legs
-        |> Enum.map(fn {_leg, index} ->
+        Enum.map(free_subway_legs, fn {_leg, index} ->
           index
         end)
       end

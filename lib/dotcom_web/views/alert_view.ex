@@ -6,8 +6,12 @@ defmodule DotcomWeb.AlertView do
   import DotcomWeb.ViewHelpers
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
 
-  alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
+  alias Alerts.URLParsingHelpers
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Phoenix.HTML.Safe
   alias Routes.Route
   alias Stops.Stop
 
@@ -99,29 +103,12 @@ defmodule DotcomWeb.AlertView do
 
   @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist
   def empty_message_for_timeframe(:current, location),
-    do: [
-      "There are no ",
-      format_alerts_timeframe(:current),
-      " alerts",
-      location,
-      "."
-    ]
+    do: ["There are no ", format_alerts_timeframe(:current), " alerts", location, "."]
 
-  def empty_message_for_timeframe(nil, location),
-    do: [
-      "There are no alerts",
-      location,
-      " at this time."
-    ]
+  def empty_message_for_timeframe(nil, location), do: ["There are no alerts", location, " at this time."]
 
   def empty_message_for_timeframe(timeframe, location),
-    do: [
-      "There are no ",
-      format_alerts_timeframe(timeframe),
-      " alerts",
-      location,
-      " at this time."
-    ]
+    do: ["There are no ", format_alerts_timeframe(timeframe), " alerts", location, " at this time."]
 
   @spec filter_by_priority(
           priority_filter,
@@ -135,8 +122,7 @@ defmodule DotcomWeb.AlertView do
 
   defp filter_by_priority(_filter, _alert), do: false
 
-  def effect_name(%{lifecycle: lifecycle} = alert)
-      when lifecycle in [:new, :unknown] do
+  def effect_name(%{lifecycle: lifecycle} = alert) when lifecycle in [:new, :unknown] do
     Alert.human_effect(alert)
   end
 
@@ -150,13 +136,11 @@ defmodule DotcomWeb.AlertView do
     |> Enum.join(" ")
   end
 
-  defp do_alert_label_class(class_list, %Alert{priority: priority})
-       when priority == :system do
+  defp do_alert_label_class(class_list, %Alert{priority: priority}) when priority == :system do
     ["c-alert-item__badge--system" | class_list]
   end
 
-  defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle})
-       when lifecycle in [:upcoming, :ongoing_upcoming] do
+  defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle}) when lifecycle in [:upcoming, :ongoing_upcoming] do
     ["c-alert-item__badge--upcoming" | class_list]
   end
 
@@ -176,7 +160,7 @@ defmodule DotcomWeb.AlertView do
         Timex.format!(updated_at, "{M}/{D}/{YYYY}")
       end
 
-    time = Timex.format!(updated_at, "{h12}:{m} {AM} {Zabbr}") |> String.trim()
+    time = updated_at |> Timex.format!("{h12}:{m} {AM} {Zabbr}") |> String.trim()
 
     ["Updated: ", date, 32, time]
   end
@@ -185,14 +169,14 @@ defmodule DotcomWeb.AlertView do
     import Phoenix.HTML
 
     text
-    |> html_escape
-    |> safe_to_string
+    |> html_escape()
+    |> safe_to_string()
     # an initial header
     |> String.replace(~r/^(.*:)\s/, "<strong>\\1</strong>\n")
     # all other start with a line break
     |> String.replace(~r/\n(.*:)\s/, "<br /><strong>\\1</strong>\n")
     |> String.replace(~r/\s*\n/s, "<br />")
-    |> replace_urls_with_links
+    |> replace_urls_with_links()
   end
 
   @spec replace_urls_with_links(String.t()) :: Phoenix.HTML.safe()
@@ -209,13 +193,11 @@ defmodule DotcomWeb.AlertView do
     stop_path(DotcomWeb.Endpoint, :show, stop_id)
   end
 
-  @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
+  @spec group_header_name(Route.t() | Stop.t()) :: Safe.t()
   defp group_header_name(%Route{long_name: long_name, name: name, type: 3}) do
     [
       name,
-      content_tag(:span, long_name,
-        class: "font-heading font-bold mt-11 mb-3 text-2xl m-alerts-header__long-name"
-      )
+      content_tag(:span, long_name, class: "font-heading font-bold mt-11 mb-3 text-2xl m-alerts-header__long-name")
     ]
   end
 
@@ -232,7 +214,7 @@ defmodule DotcomWeb.AlertView do
 
   defp show_mode_icon?(%Route{}), do: true
 
-  @spec mode_buttons(atom) :: [Phoenix.HTML.Safe.t()]
+  @spec mode_buttons(atom) :: [Safe.t()]
   def mode_buttons(selected) do
     for mode <- [:subway, :bus, :commuter_rail, :ferry, :access] do
       link(
@@ -258,10 +240,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   @spec show_systemwide_alert?(map) :: boolean
-  def show_systemwide_alert?(%{
-        alert_banner: alert_banner,
-        route_type: route_type
-      }) do
+  def show_systemwide_alert?(%{alert_banner: alert_banner, route_type: route_type}) do
     # Ensure route types are in a List
     route_types = List.flatten([route_type])
 
@@ -281,11 +260,11 @@ defmodule DotcomWeb.AlertView do
   defp type_name(:commuter_rail), do: "Rail"
   defp type_name(mode), do: mode_name(mode)
 
-  @spec type_icon(atom) :: Phoenix.HTML.Safe.t()
+  @spec type_icon(atom) :: Safe.t()
   defp type_icon(:access), do: svg("icon-accessible-default.svg")
   defp type_icon(mode), do: mode_icon(mode, :default)
 
-  @spec alert_icon(Alert.icon_type()) :: Phoenix.HTML.Safe.t()
+  @spec alert_icon(Alert.icon_type()) :: Safe.t()
   defp alert_icon(:shuttle), do: svg("icon-shuttle-default.svg")
   defp alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
   defp alert_icon(:snow), do: svg("icon-snow-default.svg")

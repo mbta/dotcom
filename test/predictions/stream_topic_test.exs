@@ -3,19 +3,20 @@ defmodule Predictions.StreamTopicTest do
 
   use ExUnit.Case, async: true
 
-  require Dotcom.Assertions
-
   import Mox
   import Predictions.StreamTopic
   import Test.Support.Factories.RoutePatterns.RoutePattern
 
   alias Predictions.StreamTopic
+  alias RoutePatterns.Repo.Mock
+
+  require Dotcom.Assertions
 
   setup :verify_on_exit!
 
   describe "new/1" do
     test "works for stop id with route patterns" do
-      expect(RoutePatterns.Repo.Mock, :by_stop_id, fn "stopId" ->
+      expect(Mock, :by_stop_id, fn "stopId" ->
         build_list(1, :route_pattern, route_id: "Route1", direction_id: 0)
       end)
 
@@ -36,7 +37,7 @@ defmodule Predictions.StreamTopicTest do
     end
 
     test "doesn't work for stop without route patterns" do
-      expect(RoutePatterns.Repo.Mock, :by_stop_id, fn "unserved_stop" ->
+      expect(Mock, :by_stop_id, fn "unserved_stop" ->
         []
       end)
 

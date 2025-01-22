@@ -1,10 +1,12 @@
 defmodule PredictedSchedule.GroupTest do
   use ExUnit.Case, async: true
+
   import PredictedSchedule.Group
 
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   describe "PredictedScheduleGroup.build_prediction_map" do

@@ -17,7 +17,8 @@ defmodule Test.Support.Factories.Schedules.Trip do
       shape_id: FactoryHelpers.build(:id),
       route_pattern_id: FactoryHelpers.build(:id),
       occupancy:
-        Faker.Util.pick([:not_crowded, :some_crowding, :crowded])
+        [:not_crowded, :some_crowding, :crowded]
+        |> Faker.Util.pick()
         |> FactoryHelpers.nullable_item()
     }
   end

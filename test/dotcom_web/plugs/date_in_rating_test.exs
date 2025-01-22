@@ -48,9 +48,7 @@ defmodule DotcomWeb.Plugs.DateInRatingTest do
           "other_param" => "value"
         }
 
-        conn_with_date =
-          %{conn | assigns: %{date: date}, query_params: params}
-          |> call(dates_fn: &dates_fn/0)
+        conn_with_date = call(%{conn | assigns: %{date: date}, query_params: params}, dates_fn: &dates_fn/0)
 
         assert conn_with_date.assigns.date_in_rating? === false
       end

@@ -131,6 +131,5 @@ defmodule Dotcom.ResponsivePagination do
   @spec drop([integer], boolean, 1 | -1) :: [integer]
   defp drop(range, false, _), do: range
 
-  defp drop(range, true, side),
-    do: if(length(range) > @mobile_max_length, do: Enum.drop(range, side), else: range)
+  defp drop(range, true, side), do: if(length(range) > @mobile_max_length, do: Enum.drop(range, side), else: range)
 end

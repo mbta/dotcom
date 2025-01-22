@@ -13,9 +13,7 @@ defmodule DotcomWeb.ScheduleController.HolidaysTest do
   end
 
   test "if there is no date, doesnt assign holidays", %{conn: conn} do
-    conn =
-      conn
-      |> Holidays.call([])
+    conn = Holidays.call(conn, [])
 
     refute conn.assigns[:holidays]
   end

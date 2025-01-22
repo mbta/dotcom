@@ -4,18 +4,23 @@ defmodule DotcomWeb.CmsRouterHelpersTest do
 
   import DotcomWeb.CmsRouterHelpers
 
+  alias CMS.Page.Event
+  alias CMS.Page.NewsEntry
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
+
   describe "news_entry_path/3" do
     test "handles :index", %{conn: conn} do
       assert news_entry_path(conn, :index) == "/news"
     end
 
     test "handles :show with no path_alias", %{conn: conn} do
-      assert news_entry_path(conn, :show, %CMS.Page.NewsEntry{id: 12, path_alias: nil}) ==
+      assert news_entry_path(conn, :show, %NewsEntry{id: 12, path_alias: nil}) ==
                "/node/12"
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert news_entry_path(conn, :show, %CMS.Page.NewsEntry{
+      assert news_entry_path(conn, :show, %NewsEntry{
                id: 12,
                path_alias: "/news/date/title"
              }) == "/news/date/title"
@@ -38,11 +43,11 @@ defmodule DotcomWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with no path_alias", %{conn: conn} do
-      assert event_path(conn, :show, %CMS.Page.Event{id: 12, path_alias: nil}) == "/node/12"
+      assert event_path(conn, :show, %Event{id: 12, path_alias: nil}) == "/node/12"
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert event_path(conn, :show, %CMS.Page.Event{id: 12, path_alias: "/events/date/title"}) ==
+      assert event_path(conn, :show, %Event{id: 12, path_alias: "/events/date/title"}) ==
                "/events/date/title"
     end
 
@@ -63,11 +68,11 @@ defmodule DotcomWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with no path_alias", %{conn: conn} do
-      assert project_path(conn, :show, %CMS.Page.Project{id: 12, path_alias: nil}) == "/node/12"
+      assert project_path(conn, :show, %Project{id: 12, path_alias: nil}) == "/node/12"
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert project_path(conn, :show, %CMS.Page.Project{
+      assert project_path(conn, :show, %Project{
                id: 12,
                path_alias: "/projects/project-name"
              }) == "/projects/project-name"
@@ -89,7 +94,7 @@ defmodule DotcomWeb.CmsRouterHelpersTest do
 
   describe "project_update_path/3" do
     test "handles :project_update with no path alias", %{conn: conn} do
-      assert project_update_path(conn, :project_update, %CMS.Page.ProjectUpdate{
+      assert project_update_path(conn, :project_update, %ProjectUpdate{
                id: 12,
                project_id: 13,
                path_alias: nil
@@ -97,7 +102,7 @@ defmodule DotcomWeb.CmsRouterHelpersTest do
     end
 
     test "handles :project_update with path alias", %{conn: conn} do
-      project_update = %CMS.Page.ProjectUpdate{
+      project_update = %ProjectUpdate{
         id: 12,
         project_id: 13,
         path_alias: "/projects/project-name/update/update-name"

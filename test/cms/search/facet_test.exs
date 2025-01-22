@@ -1,5 +1,6 @@
 defmodule CMS.Search.FacetTest do
   use ExUnit.Case, async: true
+
   import CMS.Search.Facet
 
   describe "build/3" do

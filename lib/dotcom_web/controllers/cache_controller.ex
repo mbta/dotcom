@@ -4,9 +4,9 @@ defmodule DotcomWeb.CacheController do
   Currently, we only support deleting keys from the cache.
   """
 
-  require Logger
-
   use DotcomWeb, :controller
+
+  require Logger
 
   @cache Application.compile_env!(:dotcom, :cache)
 
@@ -33,11 +33,11 @@ defmodule DotcomWeb.CacheController do
         Logger.warning("dotcom_web.cache_controller.error error=redis-#{e.message}")
     end
 
-    send_resp(conn, 202, "") |> halt()
+    conn |> send_resp(202, "") |> halt()
   end
 
   defp flush_cache_function(cache) do
-    if cache.__info__(:functions) |> Keyword.has_key?(:flush_keys) do
+    if :functions |> cache.__info__() |> Keyword.has_key?(:flush_keys) do
       :flush_keys
     else
       :delete

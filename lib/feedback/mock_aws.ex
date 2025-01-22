@@ -2,9 +2,9 @@ defmodule Feedback.MockAws do
   @moduledoc """
   Mock AWS functions so that we aren't dependent on AWS in development.
   """
-  require Logger
-
   alias Mail.Parsers.RFC2822
+
+  require Logger
 
   def send_email(%{"RawMessage" => %{"Data" => raw_message}}) do
     _ =

@@ -4,6 +4,7 @@ defmodule Dotcom.Cache.PublisherTest do
   import Mox
 
   defmodule Cache do
+    @moduledoc false
     use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
   end
 

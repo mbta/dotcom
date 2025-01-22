@@ -1,5 +1,6 @@
 defmodule Dotcom.PaginationTest do
   use ExUnit.Case
+
   import Dotcom.Pagination
 
   describe "current_page/1" do

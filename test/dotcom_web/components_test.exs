@@ -2,9 +2,9 @@ defmodule DotcomWeb.ComponentsTest do
   @moduledoc false
   use ExUnit.Case
 
+  import DotcomWeb.Components
   import Phoenix.Component
   import Phoenix.LiveViewTest
-  import DotcomWeb.Components
 
   describe "algolia_autocomplete" do
     test "raises an error without required ID" do

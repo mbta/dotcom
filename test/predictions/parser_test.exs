@@ -1,11 +1,12 @@
 defmodule Predictions.ParserTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   import Predictions.Parser
 
   alias JsonApi.Item
   alias Timex.Timezone
+
+  @moduletag :external
 
   describe "parse/1" do
     test "parses a %JsonApi.Item{} into a record" do
@@ -66,9 +67,9 @@ defmodule Predictions.ParserTest do
         "place-pktrm",
         "route_id",
         0,
-        ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
-        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
-        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
+        Timezone.convert(~N[2016-01-01T04:00:00], "Etc/GMT+4"),
+        Timezone.convert(~N[2016-09-15T19:40:00], "Etc/GMT+4"),
+        Timezone.convert(~N[2016-09-15T19:40:00], "Etc/GMT+4"),
         5,
         nil,
         "5",
@@ -133,7 +134,7 @@ defmodule Predictions.ParserTest do
 
       parsed = parse(item)
 
-      assert elem(parsed, 5) == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
+      assert elem(parsed, 5) == Timezone.convert(~N[2016-09-15T14:40:00], "Etc/GMT-1")
       refute elem(parsed, 10)
     end
 

@@ -3,7 +3,12 @@ defmodule CMS.HelpersTest do
 
   import CMS.Helpers
 
+  alias CMS.Field.Image
+  alias CMS.Field.Link
   alias CMS.Helpers
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.TitleCardSet
   alias Phoenix.HTML
 
   doctest CMS.Helpers
@@ -124,7 +129,7 @@ defmodule CMS.HelpersTest do
         ]
       }
 
-      assert parse_image(data, "field_my_image") == %CMS.Field.Image{
+      assert parse_image(data, "field_my_image") == %Image{
                alt: "Picture of a barn",
                url: Util.site_path(:static_url, ["/files/barn.jpg"])
              }
@@ -151,11 +156,11 @@ defmodule CMS.HelpersTest do
       }
 
       expected_result = [
-        %CMS.Field.Image{
+        %Image{
           alt: "Picture of a barn",
           url: Util.site_path(:static_url, ["/files/barn.jpg"])
         },
-        %CMS.Field.Image{
+        %Image{
           alt: "Picture of a horse",
           url: Util.site_path(:static_url, ["/files/horse.jpg"])
         }
@@ -197,7 +202,7 @@ defmodule CMS.HelpersTest do
         ]
       }
 
-      assert %CMS.Field.Link{
+      assert %Link{
                title: "This is the link text",
                url: "/this/is/the/link/url"
              } = parse_link(data, "field_my_link")
@@ -230,11 +235,11 @@ defmodule CMS.HelpersTest do
       }
 
       assert [
-               %CMS.Field.Link{
+               %Link{
                  title: "This is the first link text",
                  url: "/this/is/the/link/url"
                },
-               %CMS.Field.Link{
+               %Link{
                  title: "This is the second link text",
                  url: "https://www.google.com"
                }
@@ -250,7 +255,7 @@ defmodule CMS.HelpersTest do
       }
 
       assert [
-               %CMS.Field.Link{
+               %Link{
                  title: "This is the first link text",
                  url: "/this/is/the/link/url"
                }
@@ -286,17 +291,17 @@ defmodule CMS.HelpersTest do
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-               %CMS.Partial.Paragraph.CustomHTML{
+               %CustomHTML{
                  body: HTML.raw("some HTML"),
                  right_rail: nil
                },
-               %CMS.Partial.Paragraph.TitleCardSet{
+               %TitleCardSet{
                  descriptive_links: [
-                   %CMS.Partial.Paragraph.DescriptiveLink{
+                   %DescriptiveLink{
                      body: HTML.raw("body"),
                      title: "title",
                      parent: "field_title_cards",
-                     link: %CMS.Field.Link{
+                     link: %Link{
                        url: "/foo/bar"
                      }
                    }
@@ -344,13 +349,13 @@ defmodule CMS.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %CMS.Partial.Paragraph.CustomHTML{
+               %CustomHTML{
                  body: HTML.raw("I am published"),
                  right_rail: nil
                },
-               %CMS.Partial.Paragraph.TitleCardSet{
+               %TitleCardSet{
                  descriptive_links: [
-                   %CMS.Partial.Paragraph.DescriptiveLink{
+                   %DescriptiveLink{
                      body: HTML.raw("I am published"),
                      title: nil,
                      link: nil,
@@ -417,7 +422,7 @@ defmodule CMS.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %CMS.Partial.Paragraph.CustomHTML{
+               %CustomHTML{
                  body: HTML.raw("I and my instance are published"),
                  right_rail: nil
                }
@@ -439,7 +444,7 @@ defmodule CMS.HelpersTest do
       parsed_map = parse_paragraphs(map_data, preview_opts)
 
       assert parsed_map == [
-               %CMS.Partial.Paragraph.CustomHTML{
+               %CustomHTML{
                  body: HTML.raw("Unpublished Custom HTML paragraph"),
                  right_rail: nil
                }

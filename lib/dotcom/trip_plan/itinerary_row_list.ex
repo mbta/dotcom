@@ -5,7 +5,8 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
   An optional to and from name can be passed in.
   """
 
-  alias Dotcom.TripPlan.{Itinerary, ItineraryRow}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.ItineraryRow
   alias Stops.Stop
 
   defstruct rows: [],
@@ -28,10 +29,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
   Builds a ItineraryRowList from the given itinerary
   """
   @spec from_itinerary(Itinerary.t(), opts) :: t
-  def from_itinerary(
-        %Itinerary{legs: legs, accessible?: accessible?} = itinerary,
-        opts \\ []
-      ) do
+  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, opts \\ []) do
     alerts = get_alerts(itinerary)
     rows = get_rows(itinerary, opts, alerts)
 

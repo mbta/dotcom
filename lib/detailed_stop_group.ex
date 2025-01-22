@@ -84,7 +84,7 @@ defmodule DetailedStopGroup do
   defp group_green_line(grouped_stops) do
     grouped_stops
     |> Enum.chunk_by(&String.contains?(route_id(&1), "Green-"))
-    |> combine_green_stops
+    |> combine_green_stops()
     |> Enum.concat()
   end
 

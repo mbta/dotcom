@@ -14,6 +14,5 @@ defmodule Dotcom.Redix.PubSub.Behaviour do
 
   def start_link(opts), do: @implementation.start_link(opts)
 
-  def subscribe(conn, channels, subscriber),
-    do: @implementation.subscribe(conn, channels, subscriber)
+  def subscribe(conn, channels, subscriber), do: @implementation.subscribe(conn, channels, subscriber)
 end

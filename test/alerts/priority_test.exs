@@ -3,6 +3,7 @@ defmodule Alerts.PriorityTest do
   use Timex
 
   import Alerts.Priority
+
   alias Alerts.Alert
   alias Alerts.InformedEntity
 
@@ -223,7 +224,7 @@ defmodule Alerts.PriorityTest do
           ]
         }
 
-        expected = if type != :cancellation, do: :low, else: :high
+        expected = if type == :cancellation, do: :high, else: :low
 
         assert {type, priority(params, @now)} == {type, expected}
       end
@@ -346,7 +347,7 @@ defmodule Alerts.PriorityTest do
         lifecycle: :new
       }
 
-      today = future |> DateTime.to_date()
+      today = DateTime.to_date(future)
       yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
       assert priority(cancellation, today) == :high
       assert priority(cancellation, yesterday) == :low
@@ -355,7 +356,7 @@ defmodule Alerts.PriorityTest do
     test "Cancellation with multiple periods are notices if today is within on of the periods" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
       future = Timex.shift(@now, minutes: 5)
-      today = future |> DateTime.to_date()
+      today = DateTime.to_date(future)
       yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
       tomorrow = future |> Timex.shift(days: 1) |> DateTime.to_date()
 
@@ -383,7 +384,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts within 1 week of end date are urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = Util.to_local_time(~N[2018-01-15T12:00:00])
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 6)
       assert urgent_period?({nil, end_date}, now) == true
@@ -391,7 +392,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts beyond 1 week of end date are not urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = Util.to_local_time(~N[2018-01-15T12:00:00])
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 14)
       assert urgent_period?({nil, end_date}, now) == false
@@ -399,7 +400,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts within 1 week of start date are urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = Util.to_local_time(~N[2018-01-15T12:00:00])
       start_date = Timex.shift(now, days: -6)
       end_date = Timex.shift(now, days: 10)
       assert urgent_period?({start_date, nil}, now) == true
@@ -407,7 +408,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts beyond 1 week of start date are not urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = Util.to_local_time(~N[2018-01-15T12:00:00])
       start_date = Timex.shift(now, days: -14)
       end_date = Timex.shift(now, days: 10)
       assert urgent_period?({start_date, nil}, now) == false

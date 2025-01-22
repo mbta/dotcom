@@ -4,6 +4,8 @@ defmodule Routes.RepoTest do
   import Mox
   import Routes.Repo
   import Test.Support.Factories.MBTA.Api
+
+  alias MBTA.Api.Mock
   alias Routes.Route
 
   @route_id Faker.App.name()
@@ -20,7 +22,7 @@ defmodule Routes.RepoTest do
 
   describe "all/0" do
     test "parses the data into Route structs" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{data: build_list(4, :route_item)}
       end)
 
@@ -28,7 +30,7 @@ defmodule Routes.RepoTest do
     end
 
     test "handles error" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         {:error, :timeout}
       end)
 
@@ -39,7 +41,7 @@ defmodule Routes.RepoTest do
       short_name = Faker.App.name()
       long_name = Faker.Company.catch_phrase()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{
           data: [
             build(:route_item, %{
@@ -57,7 +59,7 @@ defmodule Routes.RepoTest do
     test "parses a short_name if there's no long name" do
       short_name = Faker.App.name()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{
           data: [
             build(:route_item, %{
@@ -75,7 +77,7 @@ defmodule Routes.RepoTest do
       short_name = Faker.App.name()
       long_name = Faker.Company.catch_phrase()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{
           data: [
             build(:route_item, %{
@@ -97,7 +99,7 @@ defmodule Routes.RepoTest do
       # via Routes.Route.hidden?
       hidden_route_id = "441442"
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{
           data: [
             build(:route_item, %{
@@ -113,7 +115,7 @@ defmodule Routes.RepoTest do
 
   describe "by_type/1" do
     test "only returns routes of a given type" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         # return routes from a variety of types
         data =
           Enum.flat_map(0..4, fn type ->
@@ -133,7 +135,7 @@ defmodule Routes.RepoTest do
     end
 
     test "handles empty response" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         %JsonApi{
           data: []
         }
@@ -145,7 +147,7 @@ defmodule Routes.RepoTest do
     end
 
     test "handles error" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         {:error, %JsonApi.Error{}}
       end)
 
@@ -159,7 +161,7 @@ defmodule Routes.RepoTest do
     @route_id Faker.Internet.slug()
 
     test "returns a single route" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/#{@route_id}", _ ->
+      expect(Mock, :get_json, fn "/routes/#{@route_id}", _ ->
         %JsonApi{data: [build(:route_item)]}
       end)
 
@@ -167,7 +169,7 @@ defmodule Routes.RepoTest do
     end
 
     test "returns nil for an unknown route" do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/#{@route_id}", _ ->
+      expect(Mock, :get_json, fn "/routes/#{@route_id}", _ ->
         {:error, %JsonApi.Error{code: "not_found"}}
       end)
 
@@ -179,7 +181,7 @@ defmodule Routes.RepoTest do
     route_id = Faker.Internet.slug()
     frequent_route_id = Faker.Internet.slug()
 
-    expect(MBTA.Api.Mock, :get_json, 2, fn "/routes/" <> id, _ ->
+    expect(Mock, :get_json, 2, fn "/routes/" <> id, _ ->
       if id == frequent_route_id do
         %JsonApi{data: [build(:route_item, %{attributes: %{"description" => "Frequent Bus"}})]}
       else
@@ -198,7 +200,7 @@ defmodule Routes.RepoTest do
       stop_id = Faker.Internet.slug()
       route_type = Faker.Util.pick([0, 1, 2, 3, 4])
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", opts ->
+      expect(Mock, :get_json, fn "/routes/", opts ->
         assert opts[:stop] == stop_id
         assert opts[:type] == route_type
 
@@ -212,7 +214,7 @@ defmodule Routes.RepoTest do
       stop_id = Faker.Internet.slug()
       route_type = Faker.Util.pick([0, 1, 2, 3, 4])
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", opts ->
+      expect(Mock, :get_json, fn "/routes/", opts ->
         assert opts[:stop] == stop_id
         assert opts[:type] == route_type
 
@@ -225,7 +227,7 @@ defmodule Routes.RepoTest do
     test "returns no routes on nonexistant station" do
       stop_id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", opts ->
+      expect(Mock, :get_json, fn "/routes/", opts ->
         assert opts[:stop] == stop_id
 
         %JsonApi{data: []}
@@ -237,7 +239,7 @@ defmodule Routes.RepoTest do
     test "handles error" do
       stop_id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         {:error, %JsonApi.Error{}}
       end)
 
@@ -249,7 +251,7 @@ defmodule Routes.RepoTest do
       connecting_stops = build_list(3, :stop_item)
       connecting_stop_ids = Enum.map(connecting_stops, & &1.id)
 
-      MBTA.Api.Mock
+      Mock
       |> expect(:get_json, fn "/routes/", opts ->
         assert opts[:stop] == stop_id
         assert opts[:include] == "stop.connecting_stops"
@@ -282,7 +284,7 @@ defmodule Routes.RepoTest do
     test "fetching routes for the same stop, but different direction" do
       stop_id = Faker.App.name()
 
-      expect(MBTA.Api.Mock, :get_json, 2, fn "/routes/", opts ->
+      expect(Mock, :get_json, 2, fn "/routes/", opts ->
         assert opts[:stop] == stop_id
         assert opts[:direction_id] in [0, 1]
 
@@ -298,7 +300,7 @@ defmodule Routes.RepoTest do
     test "handles error" do
       stop_id = Faker.App.name()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
+      expect(Mock, :get_json, fn "/routes/", _ ->
         {:error, %JsonApi.Error{}}
       end)
 
@@ -393,7 +395,7 @@ defmodule Routes.RepoTest do
     test "gets shapes" do
       shape_items = build_list(5, :shape_item)
 
-      expect(MBTA.Api.Mock, :get_json, fn "/shapes/", opts ->
+      expect(Mock, :get_json, fn "/shapes/", opts ->
         assert opts[:route] == @route_id
         assert opts[:direction_id] == @direction_id
 
@@ -408,7 +410,7 @@ defmodule Routes.RepoTest do
     end
 
     test "handles error" do
-      expect(MBTA.Api.Mock, :get_json, fn "/shapes/", _ ->
+      expect(Mock, :get_json, fn "/shapes/", _ ->
         {:error, %JsonApi.Error{}}
       end)
 
@@ -421,7 +423,7 @@ defmodule Routes.RepoTest do
     test "returns shape" do
       shape_id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/shapes/" <> id ->
+      expect(Mock, :get_json, fn "/shapes/" <> id ->
         assert id == shape_id
 
         %JsonApi{
@@ -442,7 +444,7 @@ defmodule Routes.RepoTest do
     test "handles error" do
       shape_id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn "/shapes/" <> id ->
+      expect(Mock, :get_json, fn "/shapes/" <> id ->
         assert id == shape_id
         {:error, %JsonApi.Error{}}
       end)

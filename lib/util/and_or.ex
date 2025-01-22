@@ -1,4 +1,5 @@
 defmodule Util.AndOr do
+  @moduledoc false
   @doc """
 
   Joins a list of strings with commas, with an "or" or "and" before the last item.

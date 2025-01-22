@@ -1,8 +1,9 @@
 defmodule JoinTest do
   use ExUnit.Case, async: true
-  doctest Join
 
   import Join
+
+  doctest Join
 
   @a %{a: 1, b: 2, c: 3}
   @b %{b: 2, c: 4}

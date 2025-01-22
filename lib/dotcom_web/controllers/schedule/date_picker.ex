@@ -1,7 +1,10 @@
 defmodule DotcomWeb.ScheduleController.DatePicker do
+  @moduledoc false
   use Plug.Builder
-  alias Plug.Conn
+
   import UrlHelpers, only: [update_url: 2]
+
+  alias Plug.Conn
 
   plug(:assign_date_select)
   plug(:build_calendar)
@@ -27,8 +30,7 @@ defmodule DotcomWeb.ScheduleController.DatePicker do
         end_date: Schedules.Repo.end_of_rating()
       )
 
-    conn
-    |> assign(:calendar, calendar)
+    assign(conn, :calendar, calendar)
   end
 
   @spec show_datepicker?(Conn.t()) :: boolean

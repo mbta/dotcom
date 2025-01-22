@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.Offset do
   Assigns the offset parameter to determine which scheduled trips to show.
   """
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
 
   @impl true
@@ -17,7 +18,7 @@ defmodule DotcomWeb.ScheduleController.Offset do
   # find the index of the
   defp find_offset(timetable_schedules, date_time) do
     timetable_schedules
-    |> last_stop_schedules
+    |> last_stop_schedules()
     |> Enum.find_index(&Timex.after?(&1.time, date_time))
     |> Kernel.||(0)
   end

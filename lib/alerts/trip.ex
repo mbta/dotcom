@@ -1,4 +1,5 @@
 defmodule Alerts.Trip do
+  @moduledoc false
   @doc """
 
   Given a trip_id (or a list of IDs), returns the list of alerts which apply

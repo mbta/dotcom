@@ -3,13 +3,16 @@ defmodule Predictions.Stream do
   Uses MBTA.Api.Stream to subscribe to the MBTA Api and receive prediction events.
   """
 
-  require Logger
-
   use GenStage
 
   alias MBTA.Api.Stream.Event
   alias Phoenix.PubSub
-  alias Predictions.{Repo, Store, StreamParser, StreamTopic}
+  alias Predictions.Repo
+  alias Predictions.Store
+  alias Predictions.StreamParser
+  alias Predictions.StreamTopic
+
+  require Logger
 
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
 
@@ -59,8 +62,7 @@ defmodule Predictions.Stream do
 
   defp handle_by_type({:remove, events}, _) do
     prediction_ids =
-      events
-      |> Enum.flat_map(fn %Event{data: %JsonApi{data: data}} ->
+      Enum.flat_map(events, fn %Event{data: %JsonApi{data: data}} ->
         data
         |> Enum.filter(&(&1.type == "prediction"))
         |> Enum.map(& &1.id)
@@ -104,6 +106,5 @@ defmodule Predictions.Stream do
   @spec log_errors(:ok | {:error, any}) :: :ok
   defp log_errors(:ok), do: :ok
 
-  defp log_errors({:error, error}),
-    do: Logger.error("module=#{__MODULE__} error=#{inspect(error)}")
+  defp log_errors({:error, error}), do: Logger.error("module=#{__MODULE__} error=#{inspect(error)}")
 end

@@ -23,7 +23,8 @@ defmodule DotcomWeb do
       use Gettext, backend: DotcomWeb.Gettext
       use Phoenix.Controller, namespace: DotcomWeb
 
-      import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
+      import DotcomWeb.CmsRouterHelpers
+      import DotcomWeb.ControllerHelpers
 
       import DotcomWeb.Router.Helpers,
         except: [
@@ -54,7 +55,8 @@ defmodule DotcomWeb do
         root: "lib/dotcom_web/templates",
         namespace: DotcomWeb
 
-      import DotcomWeb.{Components, CmsRouterHelpers, ViewHelpers}
+      import DotcomWeb.CmsRouterHelpers
+      import DotcomWeb.Components
       import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
 
       import DotcomWeb.Router.Helpers,
@@ -72,7 +74,9 @@ defmodule DotcomWeb do
           static_url: 2
         ]
 
-      import DotcomWeb.Views.Helpers.{AlertHelpers, StopHelpers}
+      import DotcomWeb.ViewHelpers
+      import DotcomWeb.Views.Helpers.AlertHelpers
+      import DotcomWeb.Views.Helpers.StopHelpers
       import Phoenix.Controller, only: [view_module: 1]
       import UrlHelpers
 
@@ -110,9 +114,10 @@ defmodule DotcomWeb do
   def router do
     quote do
       use Phoenix.Router
-      import Plug.Conn
+
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import Plug.Conn
     end
   end
 
@@ -128,10 +133,15 @@ defmodule DotcomWeb do
       use Gettext, backend: DotcomWeb.Gettext
       use MbtaMetro
 
-      import DotcomWeb.{Components, Components.RouteSymbols, ErrorHelpers}
-      import Phoenix.{HTML, LiveView.Helpers}
+      import DotcomWeb.Components
+      import DotcomWeb.Components.RouteSymbols
+      import DotcomWeb.ErrorHelpers
+      import Phoenix.HTML
+      import Phoenix.LiveView.Helpers
       import PhoenixHTMLHelpers.Form, except: [label: 1]
-      import PhoenixHTMLHelpers.{Format, Link, Tag}
+      import PhoenixHTMLHelpers.Format
+      import PhoenixHTMLHelpers.Link
+      import PhoenixHTMLHelpers.Tag
 
       alias DotcomWeb.Router.Helpers
       alias Phoenix.LiveView.JS

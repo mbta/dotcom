@@ -6,7 +6,8 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
   alias DotcomWeb.ScheduleController.FinderApi
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Services.Repo, as: ServicesRepo
   alias Stops.Stop
 
@@ -75,7 +76,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "handles journeys w/o schedules", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Date.to_iso8601(Util.now())
 
       path =
         finder_api_path(conn, :journeys, %{
@@ -112,9 +113,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
         date = get_valid_trip_date(route_id)
         conn = assign(conn, :date, date)
 
-        journeys =
-          %{id: route_id, direction: "0", stop: "any"}
-          |> get_valid_journeys(conn)
+        journeys = get_valid_journeys(%{id: route_id, direction: "0", stop: "any"}, conn)
 
         assert Enum.empty?(journeys)
       end
@@ -122,7 +121,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
 
     test "handles journeys for combined Green Line", %{conn: conn} do
       route_id = "Green"
-      date = Util.now() |> Date.to_iso8601()
+      date = Date.to_iso8601(Util.now())
       conn = assign(conn, :date, date)
 
       journey =
@@ -173,9 +172,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
         |> Map.put(:time, nil)
         |> Map.put(:status, "Departed")
 
-      older_prediction =
-        recent_prediction
-        |> Map.put(:trip, older_trip)
+      older_prediction = Map.put(recent_prediction, :trip, older_trip)
 
       older_schedule =
         @schedule
@@ -337,7 +334,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "skips formatting predictions without a time", %{conn: conn} do
-      date = Util.service_date() |> Date.to_iso8601()
+      date = Date.to_iso8601(Util.service_date())
 
       path =
         finder_api_path(conn, :trip, %{
@@ -366,7 +363,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "doesn't 500 if trip info not found", %{conn: conn} do
-      date = Util.service_date() |> Date.to_iso8601()
+      date = Date.to_iso8601(Util.service_date())
 
       path =
         finder_api_path(conn, :trip, %{
@@ -435,7 +432,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
-          assert conn |> get(trip_path)
+          assert get(conn, trip_path)
         end)
 
       refute log =~ "route_id_not_found route_id=Green"

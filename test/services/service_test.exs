@@ -1,6 +1,8 @@
 defmodule Services.ServiceTest do
   use ExUnit.Case, async: false
+
   import Mock
+
   alias JsonApi.Item
   alias Services.Service
 

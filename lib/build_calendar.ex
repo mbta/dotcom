@@ -1,4 +1,5 @@
 defmodule BuildCalendar do
+  @moduledoc false
   @type url :: String.t()
 
   defmodule Calendar do
@@ -42,6 +43,9 @@ defmodule BuildCalendar do
     * holiday?: true if the Day is a holiday
     * url: a URL to set this Day as the selected one
     """
+    import PhoenixHTMLHelpers.Link
+    import PhoenixHTMLHelpers.Tag
+
     @type month_relation :: :current | :previous | :next
     @type t :: %__MODULE__{
             date: Date.t(),
@@ -58,9 +62,6 @@ defmodule BuildCalendar do
               holiday?: false,
               url: nil,
               today?: false
-
-    import PhoenixHTMLHelpers.Tag
-    import PhoenixHTMLHelpers.Link
 
     @spec td(t) :: Phoenix.HTML.Safe.t()
     def td(%Day{month_relation: :previous} = day) do
@@ -116,8 +117,7 @@ defmodule BuildCalendar do
       active_date: Timex.shift(selected, months: shift),
       days: build_days(selected, today, shift, holiday_set, url_fn),
       holidays: holidays,
-      upcoming_holidays:
-        Enum.drop_while(holidays, fn holiday -> Date.compare(holiday.date, today) == :lt end)
+      upcoming_holidays: Enum.drop_while(holidays, fn holiday -> Date.before?(holiday.date, today) end)
     }
   end
 
@@ -143,7 +143,7 @@ defmodule BuildCalendar do
       |> Timex.shift(months: shift + 1)
       |> Timex.beginning_of_month()
 
-    if Date.compare(next_month, end_date) == :gt do
+    if Date.after?(next_month, end_date) do
       nil
     else
       next_month_url(selected, nil, shift, url_fn)
@@ -203,10 +203,10 @@ defmodule BuildCalendar do
   @spec month_relation(Date.t(), Date.t(), Date.t()) :: __MODULE__.Day.month_relation()
   defp month_relation(date, last_day_of_previous_month, last_day_of_this_month) do
     cond do
-      Date.compare(date, last_day_of_this_month) == :gt ->
+      Date.after?(date, last_day_of_this_month) ->
         :next
 
-      Date.compare(date, last_day_of_previous_month) == :gt ->
+      Date.after?(date, last_day_of_previous_month) ->
         :current
 
       true ->

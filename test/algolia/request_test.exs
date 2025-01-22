@@ -1,6 +1,7 @@
 defmodule Algolia.Query.RequestTest do
   @moduledoc false
   use ExUnit.Case, async: true
+
   alias Algolia.Query.Request
 
   describe "new/2" do

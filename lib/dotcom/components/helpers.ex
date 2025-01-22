@@ -1,4 +1,5 @@
 defmodule Dotcom.Components.Helpers do
+  @moduledoc false
   @doc """
     Takes a string, capitalizes each word between underscores, and removes the underscores
   """
@@ -23,8 +24,7 @@ defmodule Dotcom.Components.Helpers do
   end
 
   def components_section_path(section) when is_atom(section) do
-    components_folder_path()
-    |> Path.join("#{section}")
+    Path.join(components_folder_path(), "#{section}")
   end
 
   def component_folder_path(component, section) when is_atom(component) and is_atom(section) do

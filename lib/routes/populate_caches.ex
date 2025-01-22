@@ -2,10 +2,11 @@ defmodule Routes.PopulateCaches do
   @moduledoc """
   Populate the Routes Repo cache out-of-band.
   """
-  require Logger
   use GenServer
 
   alias Routes.Shape
+
+  require Logger
 
   @repeat_after :timer.hours(24)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]

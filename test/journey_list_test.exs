@@ -5,7 +5,8 @@ defmodule JourneyListTest do
 
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   @time ~N[2017-01-01T22:30:00]
@@ -201,7 +202,7 @@ defmodule JourneyListTest do
 
         assert schedules
                |> build(@predictions, :last_trip_and_upcoming, true, optionals)
-               |> has_predictions?
+               |> has_predictions?()
       end
     end
 
@@ -211,7 +212,7 @@ defmodule JourneyListTest do
 
         refute schedules
                |> build([], :last_trip_and_upcoming, true, optionals)
-               |> has_predictions?
+               |> has_predictions?()
       end
     end
   end
@@ -923,7 +924,7 @@ defmodule JourneyListTest do
         route: @route,
         stop: stop,
         status: "2 stops away",
-        time: Util.now() |> Timex.shift(minutes: 15)
+        time: Timex.shift(Util.now(), minutes: 15)
       }
 
       other_prediction = %Prediction{
@@ -931,11 +932,11 @@ defmodule JourneyListTest do
         route: %Route{id: "other"},
         stop: stop,
         status: "1 stop away",
-        time: Util.now() |> Timex.shift(minutes: 7)
+        time: Timex.shift(Util.now(), minutes: 7)
       }
 
       result =
-        build_predictions_only([], [prediction, other_prediction] |> Enum.shuffle(), "stop1", nil)
+        build_predictions_only([], Enum.shuffle([prediction, other_prediction]), "stop1", nil)
 
       assert [
                %Journey{trip: nil, departure: %PredictedSchedule{prediction: ^other_prediction}},

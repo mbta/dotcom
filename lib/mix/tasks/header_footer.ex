@@ -87,14 +87,10 @@ if Mix.env() in [:dev, :test] do
       {:ok, html_tree} = Floki.parse_document(html)
 
       :ok =
-        write_mbta_file(
-          {:header, lang_code, Floki.find(html_tree, ".m-menu--cover, .header--new")}
-        )
+        write_mbta_file({:header, lang_code, Floki.find(html_tree, ".m-menu--cover, .header--new")})
 
       :ok =
-        write_mbta_file(
-          {:footer, lang_code, Floki.find(html_tree, ".m-footer__outer-background")}
-        )
+        write_mbta_file({:footer, lang_code, Floki.find(html_tree, ".m-footer__outer-background")})
 
       close_session(session)
     end
@@ -128,7 +124,7 @@ if Mix.env() in [:dev, :test] do
       path = "export/"
       files = create_files_list(path)
       Application.ensure_all_started(:timex)
-      ts = Timex.now() |> DateTime.to_iso8601()
+      ts = DateTime.to_iso8601(DateTime.utc_now())
       zip_file_path = "headerfooter-#{ts}.zip"
       :zip.create(to_charlist(zip_file_path), files)
       IO.puts("#{IO.ANSI.magenta()}zip file generated at #{zip_file_path}.")
@@ -203,13 +199,15 @@ if Mix.env() in [:dev, :test] do
     end
 
     defp process_link(link) do
-      case Floki.attribute(link, "href") do
-        ["/" <> _page] -> handle_internal_link(link)
-        ["https://" <> _url] -> handle_external_link(link)
-        ["http://" <> _url] -> handle_external_link(link)
-        _ -> [link]
-      end
-      |> List.first()
+      case_result =
+        case Floki.attribute(link, "href") do
+          ["/" <> _page] -> handle_internal_link(link)
+          ["https://" <> _url] -> handle_external_link(link)
+          ["http://" <> _url] -> handle_external_link(link)
+          _ -> [link]
+        end
+
+      List.first(case_result)
     end
 
     defp update_links(tree) do
@@ -223,7 +221,8 @@ if Mix.env() in [:dev, :test] do
 
     defp remove_search_bar(html_tree) do
       # IO.puts("#{IO.ANSI.magenta()}removing search bar")
-      Floki.find_and_update(html_tree, ".search-wrapper > div", fn _ -> :delete end)
+      html_tree
+      |> Floki.find_and_update(".search-wrapper > div", fn _ -> :delete end)
       |> Floki.find_and_update("#navmenu m-menu__search", fn _ -> :delete end)
       |> Floki.find_and_update("#search-header-mobile__announcer", fn _ -> :delete end)
       |> Floki.find_and_update("#search-header-mobile__input-autocomplete-results", fn _ ->
@@ -235,7 +234,8 @@ if Mix.env() in [:dev, :test] do
     defp remove_language_selector(html_tree) do
       # IO.puts("#{IO.ANSI.magenta()}removing Google Translate stuff")
 
-      Floki.find_and_update(html_tree, ".m-menu__language", fn _ -> :delete end)
+      html_tree
+      |> Floki.find_and_update(".m-menu__language", fn _ -> :delete end)
       |> Floki.find_and_update("#google_translate_element", fn _ -> :delete end)
       |> Floki.find_and_update("#custom-language-menu-mobile", fn _ -> :delete end)
       |> Floki.find_and_update("#custom-language-button-mobile", fn _ -> :delete end)
@@ -251,7 +251,8 @@ if Mix.env() in [:dev, :test] do
             Enum.map(attrs, fn
               {"class", class_names} ->
                 updated_class_names =
-                  String.split(class_names)
+                  class_names
+                  |> String.split()
                   |> Enum.map_join(" ", &"#{@css_prefix}#{&1}")
 
                 {"class", updated_class_names}

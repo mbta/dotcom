@@ -1,5 +1,6 @@
 defmodule Fares.SummaryTest do
   use ExUnit.Case, async: true
+
   alias Fares.Summary
 
   describe "price_range/1" do

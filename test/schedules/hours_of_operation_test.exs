@@ -6,7 +6,9 @@ defmodule Schedules.HoursOfOperationTest do
   import Mox
   import Schedules.HoursOfOperation
 
-  alias Schedules.{Departures, HoursOfOperation}
+  alias Schedules.Departures
+  alias Schedules.HoursOfOperation
+  alias Stops.Repo.Mock
 
   setup :verify_on_exit!
 
@@ -227,8 +229,7 @@ defmodule Schedules.HoursOfOperationTest do
 
       expected = %HoursOfOperation{
         week: {%Departures{first_departure: min_time, last_departure: max_time}, :no_service},
-        saturday:
-          {:no_service, %Departures{first_departure: only_time, last_departure: only_time}},
+        saturday: {:no_service, %Departures{first_departure: only_time, last_departure: only_time}},
         sunday: {:no_service, :no_service},
         special_service: %{}
       }
@@ -247,7 +248,7 @@ defmodule Schedules.HoursOfOperationTest do
     end
 
     test "returns terminus status, and first and last departure times per stop for rapid transit if present, otherwise :no_service" do
-      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
+      stub(Mock, :get!, &test_stop_name(&1))
 
       {stop_1_d_1, stop_1_d_1_time} =
         build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:45:00Z]})
@@ -325,7 +326,7 @@ defmodule Schedules.HoursOfOperationTest do
     end
 
     test "parses and returns rapid transit hours for any special service days" do
-      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
+      stub(Mock, :get!, &test_stop_name(&1))
 
       {stop_1_dep_1, stop_1_dep_1_time} =
         build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 10:45:00Z]})
@@ -498,7 +499,8 @@ defmodule Schedules.HoursOfOperationTest do
     end
 
     test "always generates valid responses" do
-      Enum.map(0..364, &Timex.shift(~D[2017-01-01], days: &1))
+      0..364
+      |> Enum.map(&Timex.shift(~D[2017-01-01], days: &1))
       |> Enum.each(fn test_date ->
         [weekday, saturday, sunday] = week_dates(test_date, [])
         assert Date.day_of_week(weekday) in 1..5
@@ -520,7 +522,7 @@ defmodule Schedules.HoursOfOperationTest do
 
   describe "departure_overall/3" do
     test "it should ignore times with the same departure and arrival, and non-terminus departures when calculating overall" do
-      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
+      stub(Mock, :get!, &test_stop_name(&1))
 
       {stop_1_dep_1, stop_1_dep_1_time} =
         build_schedule(%{
@@ -577,19 +579,9 @@ defmodule Schedules.HoursOfOperationTest do
   defp time(nil), do: nil
   defp time(time), do: DateTime.to_iso8601(time)
 
-  defp build_schedule(
-         data \\ %{
-           stop_id: "1",
-           departure_time: DateTime.utc_now()
-         }
-       )
+  defp build_schedule(data \\ %{stop_id: "1", departure_time: DateTime.utc_now()})
 
-  defp build_schedule(%{
-         stop_id: stop_id,
-         departure_time: departure_time,
-         arrival_time: arrival_time,
-         headsign: headsign
-       }) do
+  defp build_schedule(%{stop_id: stop_id, departure_time: departure_time, arrival_time: arrival_time, headsign: headsign}) do
     item = %JsonApi.Item{
       type: "schedule",
       attributes: %{

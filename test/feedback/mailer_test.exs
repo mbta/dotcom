@@ -5,7 +5,8 @@ defmodule Feedback.MailerTest do
   import Test.Support.EnvHelpers, only: [set_log_level: 1]
 
   alias ExUnit.CaptureLog
-  alias Feedback.{Mailer, Message}
+  alias Feedback.Mailer
+  alias Feedback.Message
 
   @base_message %Message{
     comments: "",
@@ -227,8 +228,7 @@ defmodule Feedback.MailerTest do
           nil
         )
 
-      assert sent_message.text
-             |> String.contains?("CharlieCard or Ticket number: 123abc")
+      assert String.contains?(sent_message.text, "CharlieCard or Ticket number: 123abc")
     end
 
     test "does not add ticket number for non-complaints" do
@@ -243,8 +243,7 @@ defmodule Feedback.MailerTest do
           nil
         )
 
-      refute sent_message.text
-             |> String.contains?("CharlieCard or Ticket number: 123abc")
+      refute String.contains?(sent_message.text, "CharlieCard or Ticket number: 123abc")
     end
 
     test "does not add ticket number for other subjects" do
@@ -257,8 +256,7 @@ defmodule Feedback.MailerTest do
           nil
         )
 
-      refute sent_message.text
-             |> String.contains?("123abc")
+      refute String.contains?(sent_message.text, "123abc")
     end
 
     test "converts 'America/New_York' date to UTC" do

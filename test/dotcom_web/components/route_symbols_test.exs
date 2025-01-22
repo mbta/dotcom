@@ -2,8 +2,8 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
   @moduledoc false
   use ExUnit.Case
 
-  import Phoenix.LiveViewTest
   import DotcomWeb.Components.RouteSymbols
+  import Phoenix.LiveViewTest
   import Test.Support.Factories.Routes.Route
 
   describe "route_symbol/1" do
@@ -15,24 +15,28 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
     end
 
     test "handles Logan Express, falling back to generic shuttle bus" do
-      assert render_component(&route_symbol/1, %{
+      assert (&route_symbol/1)
+             |> render_component(%{
                route: build(:logan_express_route)
              })
              |> matches_title?("Logan Express")
 
-      assert render_component(&route_symbol/1, %{
+      assert (&route_symbol/1)
+             |> render_component(%{
                route: build(:logan_express_route, name: "unknown")
              })
              |> matches_title?("Shuttle Bus")
     end
 
     test "handles Massport, falling back to generic shuttle bus" do
-      assert render_component(&route_symbol/1, %{
+      assert (&route_symbol/1)
+             |> render_component(%{
                route: build(:massport_route)
              })
              |> matches_title?("Massport")
 
-      assert render_component(&route_symbol/1, %{
+      assert (&route_symbol/1)
+             |> render_component(%{
                route: build(:massport_route, name: "unknown")
              })
              |> matches_title?("Shuttle Bus")
@@ -53,7 +57,8 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
           id: Faker.Util.pick(Routes.Route.silver_line())
         )
 
-      assert render_component(&route_symbol/1, %{
+      assert (&route_symbol/1)
+             |> render_component(%{
                route: route
              })
              |> matches_title?("Silver Line")
@@ -85,7 +90,7 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
           route: route
         })
 
-      assert icon |> matches_title?("Shuttle Bus")
+      assert matches_title?(icon, "Shuttle Bus")
       classnames = icon |> Floki.attribute("class") |> List.first()
 
       assert classnames =~ "text-#{String.downcase(replaced_route)}-line" ||

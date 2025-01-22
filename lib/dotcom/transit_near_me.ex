@@ -3,17 +3,19 @@ defmodule Dotcom.TransitNearMe do
   Struct and helper functions for gathering data to use on TransitNearMe.
   """
 
-  require Logger
-
   alias DotcomWeb.ViewHelpers
   alias LocationService.Address
   alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
-  alias Stops.{Nearby, Stop}
+  alias Schedules.Schedule
+  alias Schedules.Trip
+  alias Stops.Nearby
+  alias Stops.Stop
   alias Util.Distance
   alias Vehicles.Vehicle
+
+  require Logger
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
@@ -285,8 +287,7 @@ defmodule Dotcom.TransitNearMe do
     predicted_schedules
   end
 
-  def filter_predicted_schedules(predicted_schedules, %Route{type: type}, _stop_id, now)
-      when type in [0, 1] do
+  def filter_predicted_schedules(predicted_schedules, %Route{type: type}, _stop_id, now) when type in [0, 1] do
     # subway routes should only use predictions
     predicted_schedules
     |> Enum.filter(&PredictedSchedule.has_prediction?/1)
@@ -369,10 +370,7 @@ defmodule Dotcom.TransitNearMe do
     end
   end
 
-  def filter_headsign_schedules(
-        [{%PredictedSchedule{}, _} = keep, {%PredictedSchedule{prediction: nil}, _}],
-        _
-      ) do
+  def filter_headsign_schedules([{%PredictedSchedule{}, _} = keep, {%PredictedSchedule{prediction: nil}, _}], _) do
     # only show one schedule if the second schedule has no prediction
     [keep]
   end
@@ -455,8 +453,7 @@ defmodule Dotcom.TransitNearMe do
         ) ::
           {Stop.id_t(), [enhanced_time_data()]}
   defp filtered_time_data_from_predicted_schedule(
-         {stop_id,
-          [%{predicted_schedule: predicted_schedule} | _] = enhanced_predicted_schedules},
+         {stop_id, [%{predicted_schedule: predicted_schedule} | _] = enhanced_predicted_schedules},
          opts
        ) do
     now = Keyword.fetch!(opts, :now)
@@ -479,22 +476,12 @@ defmodule Dotcom.TransitNearMe do
           Stop.id_t(),
           DateTime.t()
         ) :: [enhanced_predicted_schedule()]
-  def filter_subway_schedules_without_predictions(
-        enhanced_predicted_schedule,
-        _route,
-        stop_id,
-        _now
-      )
+  def filter_subway_schedules_without_predictions(enhanced_predicted_schedule, _route, stop_id, _now)
       when stop_id in @stops_without_predictions do
     enhanced_predicted_schedule
   end
 
-  def filter_subway_schedules_without_predictions(
-        predicted_schedules_with_crowding,
-        %Route{type: type},
-        _stop_id,
-        now
-      )
+  def filter_subway_schedules_without_predictions(predicted_schedules_with_crowding, %Route{type: type}, _stop_id, now)
       when type in [0, 1] do
     # subway routes should only use predictions
     predicted_schedules_with_crowding
@@ -516,12 +503,7 @@ defmodule Dotcom.TransitNearMe do
     end
   end
 
-  def filter_subway_schedules_without_predictions(
-        predicted_schedules_with_crowding,
-        _route,
-        _stop_id,
-        _now
-      ) do
+  def filter_subway_schedules_without_predictions(predicted_schedules_with_crowding, _route, _stop_id, _now) do
     # all other modes can use schedules
     predicted_schedules_with_crowding
   end
@@ -573,10 +555,7 @@ defmodule Dotcom.TransitNearMe do
           [enhanced_predicted_schedule()],
           Route.t() | nil
         ) :: [enhanced_predicted_schedule()]
-  def filter_predicted_schedules_for_display(
-        enhanced_predicted_schedules,
-        %Route{type: 3}
-      ) do
+  def filter_predicted_schedules_for_display(enhanced_predicted_schedules, %Route{type: 3}) do
     # for bus, remove items with a nil prediction when at least one item has a prediction
     any_prediction_available? =
       Enum.any?(enhanced_predicted_schedules, fn %{
@@ -598,18 +577,12 @@ defmodule Dotcom.TransitNearMe do
     end
   end
 
-  def filter_predicted_schedules_for_display(
-        [keep, %{predicted_schedule: %PredictedSchedule{prediction: nil}}],
-        _
-      ) do
+  def filter_predicted_schedules_for_display([keep, %{predicted_schedule: %PredictedSchedule{prediction: nil}}], _) do
     # only show one schedule if the second schedule has no prediction
     [keep]
   end
 
-  def filter_predicted_schedules_for_display(
-        enhanced_predicted_schedules,
-        _
-      ) do
+  def filter_predicted_schedules_for_display(enhanced_predicted_schedules, _) do
     enhanced_predicted_schedules
   end
 

@@ -1,13 +1,14 @@
 defmodule DotcomWeb.Plugs.YearMonthTest do
   @moduledoc false
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Plugs.YearMonth
 
   @assigned_date ~D[2020-07-17]
 
   describe "call/2" do
     setup %{conn: conn} do
-      conn = conn |> assign(:date, @assigned_date)
+      conn = assign(conn, :date, @assigned_date)
       {:ok, conn: conn}
     end
 
@@ -24,7 +25,7 @@ defmodule DotcomWeb.Plugs.YearMonthTest do
     end
 
     test "defaults to current", %{conn: conn} do
-      conn = conn |> call([])
+      conn = call(conn, [])
       %{year: year, month: month} = conn.assigns
       assert ^year = @assigned_date.year
       assert ^month = @assigned_date.month

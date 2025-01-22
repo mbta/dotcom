@@ -1,5 +1,6 @@
 defmodule Alerts.TripTest do
   use ExUnit.Case, async: true
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias Alerts.Trip
@@ -95,7 +96,7 @@ defmodule Alerts.TripTest do
   end
 
   test "includes delays that are active at :time" do
-    now = Timex.now()
+    now = DateTime.utc_now()
 
     alert =
       Alert.new(

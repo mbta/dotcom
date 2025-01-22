@@ -72,13 +72,7 @@ defmodule RoutePatterns.RoutePattern do
         },
         relationships: %{
           "representative_trip" => [
-            %Item{
-              attributes: %{
-                "headsign" => headsign
-              },
-              id: representative_trip_id,
-              relationships: trip_relationships
-            }
+            %Item{attributes: %{"headsign" => headsign}, id: representative_trip_id, relationships: trip_relationships}
           ],
           "route" => [%Item{id: route_id}]
         }
@@ -111,10 +105,7 @@ defmodule RoutePatterns.RoutePattern do
           "canonical" => canonical,
           "sort_order" => sort_order
         },
-        relationships: %{
-          "representative_trip" => [%Item{id: representative_trip_id}],
-          "route" => [%Item{id: route_id}]
-        }
+        relationships: %{"representative_trip" => [%Item{id: representative_trip_id}], "route" => [%Item{id: route_id}]}
       }) do
     %__MODULE__{
       direction_id: direction_id,
@@ -129,27 +120,11 @@ defmodule RoutePatterns.RoutePattern do
     }
   end
 
-  defp polyline(%{
-         "shape" => [
-           %Item{
-             attributes: %{
-               "polyline" => polyline
-             }
-           }
-         ]
-       }),
-       do: polyline
+  defp polyline(%{"shape" => [%Item{attributes: %{"polyline" => polyline}}]}), do: polyline
 
   defp polyline(_), do: nil
 
-  defp shape_id(%{
-         "shape" => [
-           %Item{
-             id: shape_id
-           }
-         ]
-       }),
-       do: shape_id
+  defp shape_id(%{"shape" => [%Item{id: shape_id}]}), do: shape_id
 
   defp shape_id(_), do: nil
 
@@ -160,14 +135,7 @@ defmodule RoutePatterns.RoutePattern do
 
   defp stop_ids(_), do: nil
 
-  defp service_id(%{
-         "service" => [
-           %Item{
-             id: service_id
-           }
-         ]
-       }),
-       do: service_id
+  defp service_id(%{"service" => [%Item{id: service_id}]}), do: service_id
 
   defp service_id(_), do: nil
 end

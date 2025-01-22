@@ -1,6 +1,9 @@
 defmodule DotcomWeb.ScheduleController.HoursOfOperation do
+  @moduledoc false
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
+
   alias Schedules.HoursOfOperation
 
   @impl true
@@ -9,7 +12,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperation do
   @impl true
   def call(%Plug.Conn{assigns: %{route: route}} = conn, _opts) when not is_nil(route) do
     route.id
-    |> full_route_id
+    |> full_route_id()
     |> Schedules.HoursOfOperation.hours_of_operation(conn.assigns.date, route.description)
     |> assign_hours(conn)
   end

@@ -6,24 +6,27 @@ defmodule Test.Support.Factories.Predictions.Prediction do
   use ExMachina
 
   alias Predictions.Prediction
-  alias Test.Support.Factories.{Routes.Route, Schedules.Trip, Stops.Stop}
+  alias Test.Support.Factories.Routes.Route
+  alias Test.Support.Factories.Schedules.Trip
+  alias Test.Support.Factories.Stops.Stop
   alias Test.Support.FactoryHelpers
 
   def prediction_factory do
     %Prediction{
       id: FactoryHelpers.build(:id),
-      arrival_time: Timex.now() |> Timex.shift(minutes: 10),
-      departure_time: Timex.now() |> Timex.shift(minutes: 15),
+      arrival_time: Timex.shift(DateTime.utc_now(), minutes: 10),
+      departure_time: Timex.shift(DateTime.utc_now(), minutes: 15),
       direction_id: FactoryHelpers.build(:direction_id),
       platform_stop_id: FactoryHelpers.build(:nullable_id),
       route: Route.build(:route),
       schedule_relationship:
-        Faker.Util.pick([:added, :unscheduled, :cancelled, :skipped, :no_data])
+        [:added, :unscheduled, :cancelled, :skipped, :no_data]
+        |> Faker.Util.pick()
         |> FactoryHelpers.nullable_item(),
       stop: Stop.build(:stop),
       time: Faker.DateTime.forward(1),
-      track: Faker.Util.digit() |> FactoryHelpers.nullable_item(),
-      trip: Trip.build(:trip) |> FactoryHelpers.nullable_item(),
+      track: FactoryHelpers.nullable_item(Faker.Util.digit()),
+      trip: :trip |> Trip.build() |> FactoryHelpers.nullable_item(),
       vehicle_id: FactoryHelpers.build(:nullable_id)
     }
   end

@@ -80,13 +80,11 @@ defmodule Fares do
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
-  defp calculate_ferry(origin, destination)
-       when "Boat-George" in [origin, destination] do
+  defp calculate_ferry(origin, destination) when "Boat-George" in [origin, destination] do
     :ferry_george
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Blossom" in [origin, destination] do
+  defp calculate_ferry(origin, destination) when "Boat-Blossom" in [origin, destination] do
     :ferry_lynn
   end
 
@@ -111,8 +109,7 @@ defmodule Fares do
   end
 
   defp calculate_ferry(origin, destination)
-       when "Boat-Charlestown" in [origin, destination] and
-              "Boat-Long-South" in [origin, destination] do
+       when "Boat-Charlestown" in [origin, destination] and "Boat-Long-South" in [origin, destination] do
     :ferry_inner_harbor
   end
 
@@ -125,8 +122,7 @@ defmodule Fares do
   end
 
   @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
-  def silver_line_rapid_transit?(<<id::binary>>),
-    do: id in @silver_line_rapid_transit_set
+  def silver_line_rapid_transit?(<<id::binary>>), do: id in @silver_line_rapid_transit_set
 
   @spec silver_line_airport_stop?(Route.id_t(), Stop.id_t() | nil) :: boolean
   def silver_line_airport_stop?(route_id, origin_id)
@@ -164,7 +160,7 @@ defmodule Fares do
         Route.type_atom(route_or_atom)
 
       <<id::binary>> ->
-        @routes_repo.get(id) |> to_fare_atom
+        id |> @routes_repo.get() |> to_fare_atom()
 
       _ ->
         route_or_atom
@@ -173,11 +169,6 @@ defmodule Fares do
 
   @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t() | nil
   def get_fare_by_type(leg, fare_type) do
-    leg
-    |> Kernel.get_in([
-      Access.key(:mode, %{}),
-      Access.key(:fares, %{}),
-      Access.key(fare_type)
-    ])
+    Kernel.get_in(leg, [Access.key(:mode, %{}), Access.key(:fares, %{}), Access.key(fare_type)])
   end
 end

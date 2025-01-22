@@ -7,7 +7,10 @@ defmodule PredictedScheduleTest do
   import Test.Support.Factories.Predictions.Prediction
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, ScheduleCondensed, Trip}
+  alias Predictions.Repo.Mock
+  alias Schedules.Schedule
+  alias Schedules.ScheduleCondensed
+  alias Schedules.Trip
   alias Stops.Stop
 
   # set to the end of a month to uncover issues with sorting times as
@@ -157,7 +160,7 @@ defmodule PredictedScheduleTest do
         @trip_schedules
       end
 
-      expect(Predictions.Repo.Mock, :all, fn opts ->
+      expect(Mock, :all, fn opts ->
         refute Keyword.has_key?(opts, :min_time)
         @trip_predictions
       end)
@@ -177,7 +180,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "attempts to return a list of predicted schedules for tomorrow, after no valid ones are left for today" do
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         @trip_predictions
       end)
 
@@ -185,8 +188,7 @@ defmodule PredictedScheduleTest do
         @trip_schedules
       end
 
-      with_mock PredictedSchedule, [:passthrough],
-        group: fn _predictions, _schedules, _opts -> [] end do
+      with_mock PredictedSchedule, [:passthrough], group: fn _predictions, _schedules, _opts -> [] end do
         get("Teal", "stop1",
           now: Timex.shift(@base_time, minutes: 30),
           schedules_fn: schedules_fn
@@ -330,8 +332,7 @@ defmodule PredictedScheduleTest do
 
     test "works with schedules without stop" do
       modified_trip_schedules =
-        @trip_schedules
-        |> Enum.map(fn schedule ->
+        Enum.map(@trip_schedules, fn schedule ->
           %Schedule{
             schedule
             | stop: nil

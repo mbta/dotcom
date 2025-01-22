@@ -3,7 +3,8 @@ defmodule Dotcom.RoutePdfs do
   gets pdfs for a route from the CMS, and chooses which ones to display
   """
 
-  alias CMS.{Partial.RoutePdf, Repo}
+  alias CMS.Partial.RoutePdf
+  alias CMS.Repo
 
   @spec fetch_and_choose_pdfs(String.t(), Date.t()) :: [RoutePdf.t()]
   def fetch_and_choose_pdfs(route_id, date) do

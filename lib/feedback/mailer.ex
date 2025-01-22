@@ -1,10 +1,11 @@
 defmodule Feedback.Mailer do
   @moduledoc "Module to send a HEAT ticket and some previous pre-processing of the data received from the customer support form"
 
-  require Logger
-
   alias Feedback.Message
-  alias Mail.{Encoders.Base64, Renderers.RFC2822}
+  alias Mail.Encoders.Base64
+  alias Mail.Renderers.RFC2822
+
+  require Logger
 
   @aws_client Application.compile_env(:dotcom, :aws_client)
 
@@ -14,7 +15,7 @@ defmodule Feedback.Mailer do
     ada_complaint = if message.ada_complaint, do: "Yes", else: "No"
 
     _ =
-      unless message.no_request_response do
+      if !message.no_request_response do
         Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
       end
 
@@ -54,8 +55,8 @@ defmodule Feedback.Mailer do
           Mail.build()
 
         attachments ->
-          attachments
-          |> Enum.reduce(
+          Enum.reduce(
+            attachments,
             Mail.build_multipart(),
             fn attachment, message -> Mail.put_attachment(message, attachment) end
           )
@@ -128,15 +129,11 @@ defmodule Feedback.Mailer do
     |> Timex.format!("{0M}/{0D}/{YYYY} {h24}:{m}")
   end
 
-  defp ticket_number(%Message{
-         service: "Complaint",
-         subject: "CharlieCards & Tickets",
-         ticket_number: ticket_number
-       }),
-       do: """
-       CharlieCard or Ticket number: #{ticket_number}
+  defp ticket_number(%Message{service: "Complaint", subject: "CharlieCards & Tickets", ticket_number: ticket_number}),
+    do: """
+    CharlieCard or Ticket number: #{ticket_number}
 
-       """
+    """
 
   defp ticket_number(_), do: nil
 end

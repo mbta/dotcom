@@ -2,8 +2,9 @@ defmodule Dotcom.React.Worker do
   @moduledoc """
   React renderer worker
   """
-  require Logger
   use GenServer
+
+  require Logger
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts)
@@ -25,9 +26,7 @@ defmodule Dotcom.React.Worker do
 
     Port.command(port, body <> "\n")
 
-    response =
-      ""
-      |> receive_response(&handle_json/1)
+    response = receive_response("", &handle_json/1)
 
     if get_in(response, [:data]) do
       if get_in(response, [:data, "error"]) do

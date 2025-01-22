@@ -32,8 +32,7 @@ defmodule Predictions.StreamSupervisor.Worker do
       [
         {ServerSentEventStage, sses_opts(filters)},
         {MBTA.Api.Stream, name: api_stream_name, subscribe_to: sses_stream_name},
-        {Predictions.Stream,
-         name: prediction_stream_name, subscribe_to: api_stream_name, clear_keys: keys}
+        {Predictions.Stream, name: prediction_stream_name, subscribe_to: api_stream_name, clear_keys: keys}
       ],
       strategy: :rest_for_one
     )
@@ -54,6 +53,5 @@ defmodule Predictions.StreamSupervisor.Worker do
   end
 
   @spec sses_stream_name(String.t()) :: atom()
-  defp sses_stream_name(filters),
-    do: :"predictions_sses_stream_#{filters}"
+  defp sses_stream_name(filters), do: :"predictions_sses_stream_#{filters}"
 end

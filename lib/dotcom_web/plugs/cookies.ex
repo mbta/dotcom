@@ -3,11 +3,12 @@ defmodule DotcomWeb.Plugs.Cookies do
   A module Plug that creates a cookie with a unique ID if this cookie does not already exist.
   """
 
-  require Logger
+  @behaviour Plug
 
   alias Plug.Conn
 
-  @behaviour Plug
+  require Logger
+
   @id_cookie_name "mbta_id"
   @route_cookie_name "mbta_visited_routes"
   @ie_warning_cookie_name "show_ie_warning"
@@ -44,8 +45,7 @@ defmodule DotcomWeb.Plugs.Cookies do
   """
   @spec set_id_cookie(Conn.t()) :: Conn.t()
   def set_id_cookie(%{cookies: %{@id_cookie_name => mbta_id}} = conn) do
-    conn
-    |> maybe_set_metadata(mbta_id)
+    maybe_set_metadata(conn, mbta_id)
   end
 
   def set_id_cookie(conn) do
@@ -57,7 +57,7 @@ defmodule DotcomWeb.Plugs.Cookies do
   end
 
   defp maybe_set_metadata(conn, mbta_id) do
-    unless Conn.get_req_header(conn, "user-agent") == ["Playwright"] do
+    if Conn.get_req_header(conn, "user-agent") != ["Playwright"] do
       Logger.metadata(mbta_id: mbta_id)
     end
 
@@ -78,8 +78,7 @@ defmodule DotcomWeb.Plugs.Cookies do
   routes, separated by a pipe ("|"), in order of most recently visited.
   """
   @spec set_route_cookie(Conn.t()) :: Conn.t()
-  def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn)
-      when route not in @modes do
+  def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn) when route not in @modes do
     conn.cookies
     |> Map.get(@route_cookie_name, "")
     |> String.split("|")

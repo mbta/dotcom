@@ -7,7 +7,8 @@ defmodule DotcomWeb.ScheduleController.JourneysTest do
 
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
 
   @route %Route{id: "86", type: 3, name: "86"}
@@ -37,7 +38,7 @@ defmodule DotcomWeb.ScheduleController.JourneysTest do
       |> assign(:date, selected_date)
       |> assign(:origin, origin)
       |> assign(:destination, destination)
-      |> fetch_query_params
+      |> fetch_query_params()
       |> call([])
     end
 
@@ -159,7 +160,7 @@ defmodule DotcomWeb.ScheduleController.JourneysTest do
         |> assign(:predictions, [])
         |> assign(:origin, nil)
         |> assign(:destination, nil)
-        |> fetch_query_params
+        |> fetch_query_params()
         |> call([])
 
       assert conn.assigns.journeys != nil
@@ -178,7 +179,7 @@ defmodule DotcomWeb.ScheduleController.JourneysTest do
         |> assign(:predictions, predictions)
         |> assign(:origin, stop)
         |> assign(:destination, nil)
-        |> fetch_query_params
+        |> fetch_query_params()
         |> call([])
 
       assert conn.assigns.journeys ==

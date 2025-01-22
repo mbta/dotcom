@@ -4,30 +4,28 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
   import CMS.Factory, only: [person_factory: 0]
   import DotcomWeb.CMS.ParagraphView
 
-  alias CMS.Field.{File, Image, Link}
-
-  alias CMS.Partial.Paragraph.{
-    Accordion,
-    AccordionSection,
-    Callout,
-    CodeEmbed,
-    Column,
-    ColumnMulti,
-    ColumnMultiHeader,
-    ContentList,
-    CustomHTML,
-    Description,
-    DescriptionList,
-    DescriptiveLink,
-    FareCard,
-    FilesGrid,
-    PeopleGrid,
-    PhotoGallery,
-    TitleCardSet,
-    TripPlanWidget,
-    Unknown
-  }
-
+  alias CMS.Field.File
+  alias CMS.Field.Image
+  alias CMS.Field.Link
+  alias CMS.Partial.Paragraph.Accordion
+  alias CMS.Partial.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.Callout
+  alias CMS.Partial.Paragraph.CodeEmbed
+  alias CMS.Partial.Paragraph.Column
+  alias CMS.Partial.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
+  alias CMS.Partial.Paragraph.ContentList
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.Description
+  alias CMS.Partial.Paragraph.DescriptionList
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.FareCard
+  alias CMS.Partial.Paragraph.FilesGrid
+  alias CMS.Partial.Paragraph.PeopleGrid
+  alias CMS.Partial.Paragraph.PhotoGallery
+  alias CMS.Partial.Paragraph.TitleCardSet
+  alias CMS.Partial.Paragraph.TripPlanWidget
+  alias CMS.Partial.Paragraph.Unknown
   alias Phoenix.HTML
 
   describe "render_paragraph/2" do
@@ -801,7 +799,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
 
   describe "extend_width_if/3" do
     test "wraps content with media divs if the condition is true" do
-      rendered = extend_width_if(true, :table, do: "foo") |> HTML.safe_to_string()
+      extend_width_if_result = extend_width_if(true, :table, do: "foo")
+      rendered = HTML.safe_to_string(extend_width_if_result)
 
       assert rendered =~ "c-media c-media--table"
       assert rendered =~ "c-media__content"

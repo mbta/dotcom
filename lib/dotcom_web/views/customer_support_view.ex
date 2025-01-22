@@ -3,20 +3,19 @@ defmodule DotcomWeb.CustomerSupportView do
   Helper functions for handling interaction with and submitting the customer support form
   """
   use DotcomWeb, :view
-  alias Routes.Route
+
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3]
 
   alias Feedback.Message
+  alias Routes.Route
 
-  def photo_info(%{
-        "photo" => %Plug.Upload{path: path, filename: filename, content_type: content_type}
-      }) do
+  def photo_info(%{"photo" => %Plug.Upload{path: path, filename: filename, content_type: content_type}}) do
     encoded =
       path
       |> File.read!()
       |> Base.encode64()
 
-    {encoded, content_type, filename, File.stat!(path).size |> Sizeable.filesize()}
+    {encoded, content_type, filename, Sizeable.filesize(File.stat!(path).size)}
   end
 
   def photo_info(_) do
@@ -50,14 +49,12 @@ defmodule DotcomWeb.CustomerSupportView do
   @spec subject_map([Message.service_option_with_subjects()]) ::
           %{Message.service_value() => [Message.subject_value()]}
   def subject_map(service_options) do
-    service_options
-    |> Enum.into(%{}, fn {_text, value, subjects} -> {value, subjects} end)
+    Map.new(service_options, fn {_text, value, subjects} -> {value, subjects} end)
   end
 
   @spec placeholder_text(String.t()) :: String.t()
   def placeholder_text("comments"),
-    do:
-      "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
+    do: "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
 
   def placeholder_text("first_name"), do: "Jane"
   def placeholder_text("last_name"), do: "Smith"
@@ -68,9 +65,7 @@ defmodule DotcomWeb.CustomerSupportView do
 
   def help_text("phone"),
     do:
-      content_tag(
-        :p,
-        "If you'd like us to give you a call, please give us the best number where we can reach you.",
+      content_tag(:p, "If you'd like us to give you a call, please give us the best number where we can reach you.",
         id: "phoneHelp",
         class: "help-text"
       )
@@ -91,8 +86,6 @@ defmodule DotcomWeb.CustomerSupportView do
         ),
         class: "error-container support-#{field}-error-container form-control-feedback"
       )
-    else
-      nil
     end
   end
 
@@ -100,7 +93,8 @@ defmodule DotcomWeb.CustomerSupportView do
   def get_all_modes do
     # get options for subway, bus, commuter rail and ferry:
     subway_bus_cr_ferry_opts =
-      Enum.map(1..4, fn mode ->
+      1..4
+      |> Enum.map(fn mode ->
         mode_name = DotcomWeb.ViewHelpers.mode_name(mode)
 
         if mode == 3 do
@@ -114,29 +108,22 @@ defmodule DotcomWeb.CustomerSupportView do
     # append The RIDE:
     the_ride = Route.type_name(:the_ride)
 
-    subway_bus_cr_ferry_opts
-    |> List.insert_at(Enum.count(subway_bus_cr_ferry_opts),
-      key: the_ride,
-      value: the_ride
-    )
+    List.insert_at(subway_bus_cr_ferry_opts, Enum.count(subway_bus_cr_ferry_opts), key: the_ride, value: the_ride)
   end
 
   defp error_msg("service"), do: "Please select the type of concern."
   defp error_msg("comments"), do: "Please enter a comment to continue."
   defp error_msg("upload"), do: "Sorry. We had trouble uploading your image. Please try again."
 
-  defp error_msg("vehicle"),
-    do: "Please enter a valid vehicle number with numeric characters only."
+  defp error_msg("vehicle"), do: "Please enter a valid vehicle number with numeric characters only."
 
   defp error_msg("email"), do: "Please enter a valid email."
   defp error_msg("first_name"), do: "Please enter your first name to continue."
   defp error_msg("last_name"), do: "Please enter your last name to continue."
 
-  defp error_msg("privacy"),
-    do: "You must agree to our Privacy Policy before submitting your feedback."
+  defp error_msg("privacy"), do: "You must agree to our Privacy Policy before submitting your feedback."
 
-  defp error_msg("recaptcha"),
-    do: "You must complete the reCAPTCHA before submitting your feedback."
+  defp error_msg("recaptcha"), do: "You must complete the reCAPTCHA before submitting your feedback."
 
   defp error_msg(_), do: "Sorry. Something went wrong. Please try again."
 end

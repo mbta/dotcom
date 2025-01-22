@@ -8,15 +8,16 @@ defmodule Dotcom.TripPlan.Alerts do
   * at the times they'll be travelling
   """
 
-  alias Alerts.{Alert, InformedEntity}
-  alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.TransitDetail
 
   def by_mode_and_stops(alerts, leg) do
     {route_alerts, stop_alerts} =
-      alerts
-      |> Enum.split_with(fn alert ->
-        alert.informed_entity.entities
-        |> Enum.all?(fn
+      Enum.split_with(alerts, fn alert ->
+        Enum.all?(alert.informed_entity.entities, fn
           %{stop: nil} -> true
           _ -> false
         end)

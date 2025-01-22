@@ -2,14 +2,14 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
   use ExUnit.Case, async: true
 
   import Dotcom.ContentRewriters.LiquidObjects
-  import Phoenix.HTML, only: [safe_to_string: 1]
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import DotcomWeb.ViewHelpers, only: [fa: 1, svg: 1]
   import Mox
+  import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Format, Repo}
-  alias Routes
+  alias Fares.Format
+  alias Fares.Repo
 
   setup :verify_on_exit!
 
@@ -93,13 +93,13 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
 
   defp make_svg(mode) do
     %SvgIconWithCircle{icon: mode}
-    |> svg_icon_with_circle
-    |> safe_to_string
+    |> svg_icon_with_circle()
+    |> safe_to_string()
   end
 
   defp make_t_logo do
     %SvgIconWithCircle{icon: :t_logo}
-    |> svg_icon_with_circle
-    |> safe_to_string
+    |> svg_icon_with_circle()
+    |> safe_to_string()
   end
 end

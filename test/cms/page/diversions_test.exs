@@ -10,8 +10,7 @@ defmodule CMS.Page.DiversionsTest do
 
   setup do
     %{
-      api_page:
-        Static.basic_page_response() |> Map.put("field_page_type", [%{"name" => "Diversions"}])
+      api_page: Map.put(Static.basic_page_response(), "field_page_type", [%{"name" => "Diversions"}])
     }
   end
 
@@ -41,8 +40,7 @@ defmodule CMS.Page.DiversionsTest do
       assert %Diversions{
                sidebar_menu: %MenuLinks{
                  blurb:
-                   {:safe,
-                    "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"}
+                   {:safe, "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"}
                }
              } = Diversions.from_api(api_page)
     end

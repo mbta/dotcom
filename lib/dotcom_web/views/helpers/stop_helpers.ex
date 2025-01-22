@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Views.Helpers.StopHelpers do
+  @moduledoc false
   @spec special_disabled_stops(:origin | :destination) :: [{String.t(), String.t()}]
-  def special_disabled_stops(:origin),
-    do: []
+  def special_disabled_stops(:origin), do: []
 
   def special_disabled_stops(:destination), do: []
 
@@ -15,8 +15,7 @@ defmodule DotcomWeb.Views.Helpers.StopHelpers do
   def excluded_stops(:origin, route, excluded_stops, direction_id) do
     Enum.map(
       excluded_stops,
-      &{&1,
-       "last #{route |> Routes.Route.direction_name(direction_id) |> String.downcase()} stop"}
+      &{&1, "last #{route |> Routes.Route.direction_name(direction_id) |> String.downcase()} stop"}
     )
   end
 

@@ -8,7 +8,7 @@ defmodule DotcomWeb.CacheControllerTest do
       paths = ["/cache/foo", "/cache/foo/bar"]
 
       Enum.each(paths, fn path ->
-        key = String.replace(path, "/cache/", "") |> String.split("/") |> Enum.join("|")
+        key = path |> String.replace("/cache/", "") |> String.split("/") |> Enum.join("|")
 
         @cache.put(key, "foo")
 

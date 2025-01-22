@@ -39,7 +39,7 @@ defmodule DotcomWeb.ViewHelpers do
       |> File.read!()
       |> String.split("\n")
       |> Enum.join("")
-      |> raw
+      |> raw()
 
     def svg(unquote(name)) do
       content_tag(
@@ -72,8 +72,7 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_icon(:massport_shuttle, size), do: mode_icon(:bus, size)
 
   def mode_icon(mode, size)
-      when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley] and
-             size in [:default, :small] do
+      when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley] and size in [:default, :small] do
     svg("icon-mode-#{mode}-#{size}.svg")
   end
 
@@ -115,8 +114,7 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   # Massport shuttle routes
-  def line_icon(%Route{external_agency_name: "Massport", name: name}, _)
-      when is_binary(name) do
+  def line_icon(%Route{external_agency_name: "Massport", name: name}, _) when is_binary(name) do
     route_number = String.slice(name, 0..1)
 
     if route_number in Route.massport_icon_names() do
@@ -128,8 +126,7 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   # Logan Express shuttle routes
-  def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
-      when is_binary(name) do
+  def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _) when is_binary(name) do
     if name in Route.logan_express_icon_names() do
       svg("icon-logan-express-#{name}.svg")
     else
@@ -150,9 +147,10 @@ defmodule DotcomWeb.ViewHelpers do
 
   def bus_icon_pill(route) do
     bg_class =
-      case Routes.Route.silver_line?(route) do
-        true -> "u-bg--silver-line"
-        _ -> "u-bg--bus"
+      if Routes.Route.silver_line?(route) do
+        "u-bg--silver-line"
+      else
+        "u-bg--bus"
       end
 
     content_tag(:span, route.name, class: "c-icon__bus-pill #{bg_class}")
@@ -229,11 +227,9 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
 
-  def mode_name(type) when type in ["2274", "909", :logan_express, "Logan Express"],
-    do: "Logan Express"
+  def mode_name(type) when type in ["2274", "909", :logan_express, "Logan Express"], do: "Logan Express"
 
-  def mode_name(type) when type in ["2272", "983", :massport_shuttle],
-    do: "Massport Shuttle"
+  def mode_name(type) when type in ["2272", "983", :massport_shuttle], do: "Massport Shuttle"
 
   def mode_name("Massport" <> _route), do: "Massport Shuttle"
 
@@ -243,8 +239,7 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name(:mattapan_line), do: "Mattapan Trolley"
   def mode_name(:free_fare), do: "Free Service"
 
-  def mode_name(mode_atom)
-      when mode_atom in @subway_lines do
+  def mode_name(mode_atom) when mode_atom in @subway_lines do
     mode_atom
     |> Atom.to_string()
     |> String.split("_")
@@ -280,7 +275,7 @@ defmodule DotcomWeb.ViewHelpers do
     name
     |> String.replace_suffix(" Line", "")
     |> String.replace_suffix(" Trolley", "")
-    |> break_text_at_slash
+    |> break_text_at_slash()
   end
 
   @doc """
@@ -291,8 +286,7 @@ defmodule DotcomWeb.ViewHelpers do
   """
   @spec break_text_at_slash(String.t()) :: String.t()
   def break_text_at_slash(name) do
-    name
-    |> String.replace("/", "/​")
+    String.replace(name, "/", "/​")
   end
 
   def route_spacing_class(0), do: "col-xs-6 col-md-3 col-lg-2"
@@ -334,8 +328,7 @@ defmodule DotcomWeb.ViewHelpers do
 
   @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
-    time
-    |> Timex.format!("{h12}:{m} {AM}")
+    Timex.format!(time, "{h12}:{m} {AM}")
   end
 
   @spec format_full_date(Date.t()) :: String.t()
@@ -357,7 +350,7 @@ defmodule DotcomWeb.ViewHelpers do
   def fare_group(type) when is_integer(type) and type in 0..4 do
     type
     |> Routes.Route.type_atom()
-    |> fare_group
+    |> fare_group()
   end
 
   def fare_group(:bus), do: "bus_subway"
@@ -385,8 +378,7 @@ defmodule DotcomWeb.ViewHelpers do
   Puts the conn into the assigns dictionary so that downstream templates can use it
   """
   def forward_assigns(%{assigns: assigns} = conn) do
-    assigns
-    |> Map.put(:conn, conn)
+    Map.put(assigns, :conn, conn)
   end
 
   @doc "Link a stop's name to its page."
@@ -398,7 +390,7 @@ defmodule DotcomWeb.ViewHelpers do
   def stop_link(stop_id) do
     stop_id
     |> @stops_repo.get_parent()
-    |> stop_link
+    |> stop_link()
   end
 
   @spec external_link(String.t()) :: String.t()
@@ -437,7 +429,7 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_summaries(mode, name, url) when mode in [:commuter_rail, :ferry] do
     mode
     |> mode_filters(name)
-    |> get_fares
+    |> get_fares()
     |> Enum.map(&Fares.Format.summarize_one(&1, url: url))
   end
 
@@ -501,12 +493,12 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   defp get_fares(filters) do
-    filters |> Enum.flat_map(&Fares.Repo.all/1)
+    Enum.flat_map(filters, &Fares.Repo.all/1)
   end
 
   @spec summaries_for_filters([keyword()], atom, String.t() | nil) :: [Fares.Summary.t()]
   defp summaries_for_filters(filters, mode, url \\ nil) do
-    filters |> get_fares |> Fares.Format.summarize(mode, url)
+    filters |> get_fares() |> Fares.Format.summarize(mode, url)
   end
 
   @doc """
@@ -523,8 +515,7 @@ defmodule DotcomWeb.ViewHelpers do
   defp do_to_camelcase([word]), do: String.downcase(word)
 
   defp do_to_camelcase([first | rest]) do
-    [String.downcase(first) | Enum.map(rest, &String.capitalize/1)]
-    |> IO.iodata_to_binary()
+    IO.iodata_to_binary([String.downcase(first) | Enum.map(rest, &String.capitalize/1)])
   end
 
   @doc "Turns a struct OR an Elixir.Module.Name into an underscored string"
@@ -567,8 +558,6 @@ defmodule DotcomWeb.ViewHelpers do
           conn.assigns[key].body
         ]
       end
-    else
-      nil
     end
   end
 end

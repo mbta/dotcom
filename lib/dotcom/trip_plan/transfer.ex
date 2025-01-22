@@ -6,7 +6,9 @@ defmodule Dotcom.TripPlan.Transfer do
 
     This logic may be superseded by the upcoming fares work.
   """
-  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.TransitDetail
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -27,11 +29,7 @@ defmodule Dotcom.TripPlan.Transfer do
   @spec subway_transfer?([Leg.t()]) :: boolean
   def subway_transfer?([
         %Leg{to: %NamedPosition{stop: to_stop}, mode: %TransitDetail{route: route_to}},
-        %Leg{
-          from: %NamedPosition{stop: from_stop},
-          mode: %TransitDetail{route: route_from}
-        }
-        | _
+        %Leg{from: %NamedPosition{stop: from_stop}, mode: %TransitDetail{route: route_from}} | _
       ])
       when not is_nil(to_stop) and not is_nil(from_stop) do
     same_station?(from_stop.id, to_stop.id) and subway?(route_to) and subway?(route_from)
@@ -50,15 +48,9 @@ defmodule Dotcom.TripPlan.Transfer do
   """
   @spec maybe_transfer?([Leg.t()]) :: boolean
   def maybe_transfer?([
-        first_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = first_route}
-        },
-        middle_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = middle_route}
-        },
-        last_leg = %Leg{
-          mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = last_route}
-        }
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = first_route}} = first_leg,
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = middle_route}} = middle_leg,
+        %Leg{mode: %TransitDetail{route: %Routes.Route{external_agency_name: nil} = last_route}} = last_leg
       ]) do
     @multi_ride_transfers
     |> Map.get(Fares.to_fare_atom(first_route), [])
@@ -87,9 +79,9 @@ defmodule Dotcom.TripPlan.Transfer do
   Is there a bus to subway transfer?
   """
   def bus_to_subway_transfer?([
-        first_leg = %Leg{mode: %TransitDetail{}},
-        middle_leg = %Leg{mode: %TransitDetail{}},
-        last_leg = %Leg{mode: %TransitDetail{}}
+        %Leg{mode: %TransitDetail{}} = first_leg,
+        %Leg{mode: %TransitDetail{}} = middle_leg,
+        %Leg{mode: %TransitDetail{}} = last_leg
       ]) do
     bus_to_subway_transfer?([first_leg, middle_leg]) ||
       bus_to_subway_transfer?([middle_leg, last_leg])
@@ -124,11 +116,9 @@ defmodule Dotcom.TripPlan.Transfer do
   defp bus?(route), do: Fares.to_fare_atom(route) == :bus
   def subway?(route), do: Fares.to_fare_atom(route) == :subway
 
-  defp uses_concourse?(%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-dwnxg"}),
-    do: true
+  defp uses_concourse?(%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-dwnxg"}), do: true
 
-  defp uses_concourse?(%Stops.Stop{id: "place-dwnxg"}, %Stops.Stop{id: "place-pktrm"}),
-    do: true
+  defp uses_concourse?(%Stops.Stop{id: "place-dwnxg"}, %Stops.Stop{id: "place-pktrm"}), do: true
 
   defp uses_concourse?(_, _), do: false
 end

@@ -4,6 +4,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
   import DotcomWeb.ScheduleController.VehicleLocations
 
   defmodule TestHelpers do
+    @moduledoc false
     def location_fn(_, _), do: [%Vehicles.Vehicle{status: :stopped}]
     def schedule_for_trip_fn(_), do: []
   end
@@ -59,9 +60,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     end
 
     test "assigns vehicle locations at a stop if they are stopped or incoming", %{conn: conn} do
-      conn =
-        conn
-        |> call(location_fn: fn _, _ -> Enum.take(@locations, 2) end)
+      conn = call(conn, location_fn: fn _, _ -> Enum.take(@locations, 2) end)
 
       assert conn.assigns.vehicle_locations == %{
                {"1", "place-sstat"} => Enum.at(@locations, 0),
@@ -70,9 +69,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     end
 
     test "filters out trips with no vehicle locations", %{conn: conn} do
-      conn =
-        conn
-        |> call(location_fn: fn _, _ -> Enum.take(@locations, 1) end)
+      conn = call(conn, location_fn: fn _, _ -> Enum.take(@locations, 1) end)
 
       assert conn.assigns.vehicle_locations == %{{"1", "place-sstat"} => Enum.at(@locations, 0)}
     end
@@ -80,8 +77,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     test "if a vehicle is in transit to a stop, shows the vehicle at the previous scheduled stop",
          %{conn: conn} do
       conn =
-        conn
-        |> call(
+        call(conn,
           location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _, _ ->
             [
@@ -99,12 +95,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
 
     test "if a vehicle is in transit to a stop but we can't find a schedule, shows the vehicle at the provided stop",
          %{conn: conn} do
-      conn =
-        conn
-        |> call(
-          location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
-          schedule_for_trip_fn: fn _, _ -> [] end
-        )
+      conn = call(conn, location_fn: fn _, _ -> Enum.drop(@locations, 2) end, schedule_for_trip_fn: fn _, _ -> [] end)
 
       assert conn.assigns.vehicle_locations == %{
                {"3", "place-bbsta"} => Enum.at(@locations, -1)
@@ -113,8 +104,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
 
     test "Handles error when schedules can't be found", %{conn: conn} do
       conn =
-        conn
-        |> call(
+        call(conn,
           location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _, _ -> {:error, :timeout} end
         )

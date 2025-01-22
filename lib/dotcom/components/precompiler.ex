@@ -4,14 +4,16 @@ defmodule Dotcom.Components.Precompiler do
   Attach this functionality to a view with Kernel.use/1 (applied to all views by default in DotcomWeb.view)
   """
 
-  require EEx
-
   import Dotcom.Components.Helpers
+
+  require EEx
 
   defmacro __using__(_) do
     quote do
-      require EEx
       import unquote(__MODULE__)
+
+      require EEx
+
       precompile_components()
     end
   end
@@ -62,9 +64,10 @@ defmodule Dotcom.Components.Precompiler do
     module = component_module(component, section)
 
     quote do
-      import DotcomWeb.ViewHelpers
       import Dotcom.Components.Helpers
+      import DotcomWeb.ViewHelpers
       import unquote(module)
+
       alias unquote(module)
 
       @spec unquote(component)(unquote(module).t) :: Phoenix.HTML.Safe.t()

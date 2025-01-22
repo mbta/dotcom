@@ -4,7 +4,8 @@ defmodule DotcomWeb.TransitNearMeController do
   alias Dotcom.TransitNearMe
   alias DotcomWeb.PartialView.FullscreenError
   alias DotcomWeb.TransitNearMeController.Location
-  alias Leaflet.{MapData, MapData.Marker}
+  alias Leaflet.MapData
+  alias Leaflet.MapData.Marker
   alias Plug.Conn
   alias Stops.Stop
 
@@ -45,9 +46,7 @@ defmodule DotcomWeb.TransitNearMeController do
   end
 
   def assign_map_data(conn) do
-    markers =
-      conn.assigns.stops_json.stops
-      |> Enum.map(&build_stop_marker(&1))
+    markers = Enum.map(conn.assigns.stops_json.stops, &build_stop_marker(&1))
 
     map_data =
       {630, 400}
@@ -86,10 +85,7 @@ defmodule DotcomWeb.TransitNearMeController do
   def marker_for_routes(:station), do: "map-station-marker"
   def marker_for_routes(_), do: "map-stop-marker"
 
-  def add_location_marker(
-        map_data,
-        %{location: {:ok, [%LocationService.Address{} | _]}} = assigns
-      ) do
+  def add_location_marker(map_data, %{location: {:ok, [%LocationService.Address{} | _]}} = assigns) do
     {:ok, [%{latitude: latitude, longitude: longitude, formatted: formatted} | _]} =
       assigns.location
 

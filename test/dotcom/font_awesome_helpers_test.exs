@@ -18,9 +18,8 @@ defmodule Dotcom.FontAwesomeHelpersTest do
 
       assert fa_icon_for_file_type("application/vnd.ms-excel") == fa("file-excel-o")
 
-      assert fa_icon_for_file_type(
-               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-             ) == fa("file-excel-o")
+      assert fa_icon_for_file_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ==
+               fa("file-excel-o")
 
       assert fa_icon_for_file_type("image/gif") == fa("file-image-o")
       assert fa_icon_for_file_type("image/jpeg") == fa("file-image-o")
@@ -33,9 +32,8 @@ defmodule Dotcom.FontAwesomeHelpersTest do
 
       assert fa_icon_for_file_type("application/vnd.ms-powerpoint") == fa("file-powerpoint-o")
 
-      assert fa_icon_for_file_type(
-               "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-             ) == fa("file-powerpoint-o")
+      assert fa_icon_for_file_type("application/vnd.openxmlformats-officedocument.presentationml.presentation") ==
+               fa("file-powerpoint-o")
 
       assert fa_icon_for_file_type("application/rtf") == fa("file-text-o")
       assert fa_icon_for_file_type("video/x-msvideo") == fa("file-video-o")
@@ -45,9 +43,8 @@ defmodule Dotcom.FontAwesomeHelpersTest do
       assert fa_icon_for_file_type("application/msword") == fa("file-word-o")
       assert fa_icon_for_file_type("application/vnd.oasis.opendocument.text") == fa("file-word-o")
 
-      assert fa_icon_for_file_type(
-               "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-             ) == fa("file-word-o")
+      assert fa_icon_for_file_type("application/vnd.openxmlformats-officedocument.wordprocessingml.document") ==
+               fa("file-word-o")
 
       assert fa_icon_for_file_type("application/octet-stream") == fa("file-zip-o")
       assert fa_icon_for_file_type("application/x-bzip") == fa("file-zip-o")

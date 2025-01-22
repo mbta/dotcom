@@ -50,8 +50,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   ```
   """
   def route_symbol(%{route: %Route{description: description, type: 3} = route} = assigns)
-      when not is_external?(route) and not is_shuttle?(route) and
-             description != :rapid_transit do
+      when not is_external?(route) and not is_shuttle?(route) and description != :rapid_transit do
     route_class =
       if(Routes.Route.silver_line?(assigns.route),
         do: "bg-silver-line text-white",
@@ -85,8 +84,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   attr(:rest, :global)
   attr(:route, Routes.Route, required: true)
 
-  def route_icon(%{route: %Route{name: shuttle_name} = route} = assigns)
-      when is_shuttle?(route) do
+  def route_icon(%{route: %Route{name: shuttle_name} = route} = assigns) when is_shuttle?(route) do
     route_class =
       shuttle_name
       |> String.replace(" Shuttle", "")
@@ -109,8 +107,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   def route_icon(%{route: route} = assigns) when not is_external?(route) do
     assigns =
-      assigns
-      |> assign_new(:icon_name, fn %{route: route, size: size} ->
+      assign_new(assigns, :icon_name, fn %{route: route, size: size} ->
         icon_name =
           route
           |> Routes.Route.icon_atom()
@@ -135,12 +132,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   end
 
   def route_icon(
-        %{
-          route: %Route{
-            external_agency_name: "Massport",
-            name: <<route_number::binary-size(2), _::binary>>
-          }
-        } = assigns
+        %{route: %Route{external_agency_name: "Massport", name: <<route_number::binary-size(2), _::binary>>}} = assigns
       )
       when route_number in @massport_icon_names do
     assigns = assign(assigns, :route_number, route_number)
@@ -184,16 +176,12 @@ defmodule DotcomWeb.Components.RouteSymbols do
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
 
-  defp route_label(%Route{
-         external_agency_name: "Massport",
-         name: <<route_number::binary-size(2), _::binary>>
-       }),
-       do: "Massport Shuttle #{route_number}"
+  defp route_label(%Route{external_agency_name: "Massport", name: <<route_number::binary-size(2), _::binary>>}),
+    do: "Massport Shuttle #{route_number}"
 
   # Silver Line and Buses.
   defp route_label(%Route{name: name} = route)
-       when not is_external?(route) and not is_shuttle?(route) and
-              route.description != :rapid_transit do
+       when not is_external?(route) and not is_shuttle?(route) and route.description != :rapid_transit do
     if Routes.Route.silver_line?(route) do
       name
     else

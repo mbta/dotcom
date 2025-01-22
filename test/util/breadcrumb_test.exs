@@ -1,5 +1,6 @@
 defmodule Util.BreadcrumbTest do
   use ExUnit.Case, async: false
+
   import Util.Breadcrumb
 
   describe "build/2" do

@@ -4,8 +4,8 @@ defmodule DotcomWeb.Mode.BusController do
       "Schedule information for MBTA bus routes in the Greater Boston region, " <>
         "including real-time updates and arrival predictions."
 
-  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
 
   def route_type, do: 3
 

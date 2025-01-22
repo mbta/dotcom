@@ -1,6 +1,9 @@
 defmodule Vehicles.StreamTest do
   use ExUnit.Case
+
   import ExUnit.CaptureLog
+
+  alias MBTA.Api.Stream.Event
 
   @vehicles %JsonApi{
     data: [
@@ -23,7 +26,7 @@ defmodule Vehicles.StreamTest do
   setup tags do
     {:ok, mock_api} =
       GenStage.from_enumerable([
-        %MBTA.Api.Stream.Event{event: :reset, data: @vehicles}
+        %Event{event: :reset, data: @vehicles}
       ])
 
     name = :"stream_test_#{tags.line}"
@@ -53,7 +56,7 @@ defmodule Vehicles.StreamTest do
     test "publishes :remove events as a list of IDs", %{name: name} do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %MBTA.Api.Stream.Event{event: :remove, data: @vehicles}
+          %Event{event: :remove, data: @vehicles}
         ])
 
       test_pid = self()

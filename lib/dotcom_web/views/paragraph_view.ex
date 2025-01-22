@@ -6,21 +6,19 @@ defmodule DotcomWeb.CMS.ParagraphView do
   use DotcomWeb, :view
 
   alias CMS.API
-  alias CMS.Field.{Image, Link}
-  alias CMS.Partial.{Paragraph, Teaser}
+  alias CMS.Field.Image
+  alias CMS.Field.Link
+  alias CMS.Partial.Paragraph
+  alias CMS.Partial.Teaser
   alias Dotcom.ContentRewriter
   alias DotcomWeb.CMS.TeaserView
-
-  alias Paragraph.{
-    Accordion,
-    Callout,
-    ColumnMulti,
-    ContentList,
-    DescriptionList,
-    DescriptiveLink,
-    FareCard
-  }
-
+  alias Paragraph.Accordion
+  alias Paragraph.Callout
+  alias Paragraph.ColumnMulti
+  alias Paragraph.ContentList
+  alias Paragraph.DescriptionList
+  alias Paragraph.DescriptiveLink
+  alias Paragraph.FareCard
   alias Plug.Conn
 
   @doc "Map paragraph module names to their templates"
@@ -159,9 +157,7 @@ defmodule DotcomWeb.CMS.ParagraphView do
 
   @spec setup_list_cta(ContentList.t(), [String.t()]) :: Link.t()
   def setup_list_cta(list, conn_path) do
-    current_path =
-      ["" | conn_path]
-      |> Enum.join("/")
+    current_path = Enum.join(["" | conn_path], "/")
 
     case list.cta do
       %{text: nil, url: nil} ->
@@ -172,7 +168,7 @@ defmodule DotcomWeb.CMS.ParagraphView do
     end
   end
 
-  defp nested_paragraphs(columns), do: columns |> Enum.flat_map(& &1.paragraphs)
+  defp nested_paragraphs(columns), do: Enum.flat_map(columns, & &1.paragraphs)
 
   defp grouped_fare_card_data(paragraphs) when is_list(paragraphs) do
     Enum.map(

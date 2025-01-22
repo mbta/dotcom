@@ -1,12 +1,13 @@
 defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
-  doctest Stops.Nearby
-
-  alias Util.Distance
 
   import Mox
   import Stops.Nearby
   import Test.Support.Factories.MBTA.Api
+
+  alias Util.Distance
+
+  doctest Stops.Nearby
 
   @latitude 42.577
   @longitude -71.225
@@ -40,9 +41,7 @@ defmodule Stops.NearbyTest do
           keys_fn: keys_fn
         )
 
-      expected =
-        @position
-        |> gather_stops(commuter, subway, bus)
+      expected = gather_stops(@position, commuter, subway, bus)
 
       assert expected == actual
     end
@@ -121,7 +120,7 @@ defmodule Stops.NearbyTest do
   describe "keys/1" do
     @describetag :external
     test "returns a list of {route_id, direction_id} tuples" do
-      actual = %{id: "place-kencl"} |> keys |> Enum.sort()
+      actual = %{id: "place-kencl"} |> keys() |> Enum.sort()
 
       expected = [
         {"19", 0},
@@ -148,7 +147,7 @@ defmodule Stops.NearbyTest do
 
     @tag :external
     test "returns one direction of stops if that's all there is" do
-      actual = %{id: "46"} |> keys |> Enum.sort()
+      actual = %{id: "46"} |> keys() |> Enum.sort()
       expected = [{"10", 1}]
 
       assert expected == actual
@@ -254,7 +253,7 @@ defmodule Stops.NearbyTest do
   end
 
   defp random_stop do
-    id = System.unique_integer() |> Integer.to_string()
+    id = Integer.to_string(System.unique_integer())
 
     %Stops.Stop{
       id: id,

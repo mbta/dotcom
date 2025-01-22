@@ -5,7 +5,9 @@ defmodule Alerts.HistoricalAlertTest do
   import Mox
   import Test.Support.Factories.Routes.Route
 
-  alias Alerts.{Alert, HistoricalAlert, InformedEntity}
+  alias Alerts.Alert
+  alias Alerts.HistoricalAlert
+  alias Alerts.InformedEntity
 
   @basic_alert %Alert{header: "An alert header", effect: :delay, severity: 5}
   @municipality Faker.Address.city()

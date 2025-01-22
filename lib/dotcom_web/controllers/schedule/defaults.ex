@@ -7,6 +7,7 @@ defmodule DotcomWeb.ScheduleController.Defaults do
     show_date_select?: boolean
   """
   use Plug.Builder
+
   alias Plug.Conn
   alias Routes.Route
 
@@ -19,12 +20,10 @@ defmodule DotcomWeb.ScheduleController.Defaults do
     do_assign_direction_id(conn.query_params["schedule_direction"], conn)
   end
 
-  defp do_assign_direction_id(%{"direction_id" => direction_id}, conn)
-       when direction_id in ["0", "1"],
-       do: assign(conn, :direction_id, String.to_integer(direction_id))
+  defp do_assign_direction_id(%{"direction_id" => direction_id}, conn) when direction_id in ["0", "1"],
+    do: assign(conn, :direction_id, String.to_integer(direction_id))
 
-  defp do_assign_direction_id(_, conn),
-    do: assign(conn, :direction_id, default_direction_id(conn))
+  defp do_assign_direction_id(_, conn), do: assign(conn, :direction_id, default_direction_id(conn))
 
   @doc """
   If there's no headsign for a direction, default to the other direction. Otherwise, default to

@@ -4,9 +4,12 @@ defmodule Dotcom.TripPlan.AlertsTest do
   import Dotcom.TripPlan.Alerts
   import Mox
 
-  alias Alerts.{Alert, InformedEntity}
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
   alias Dotcom.TripPlan.Itinerary
-  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.MBTA.Api
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   setup :verify_on_exit!
 
@@ -227,7 +230,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
       end)
 
       [leg] = itinerary.legs
-      [from_stop_id, to_stop_id] = itinerary |> Itinerary.stop_ids()
+      [from_stop_id, to_stop_id] = Itinerary.stop_ids(itinerary)
 
       route_alert =
         Alert.new(

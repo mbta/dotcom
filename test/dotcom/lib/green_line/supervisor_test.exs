@@ -1,18 +1,20 @@
 defmodule Dotcom.GreenLine.CacheSupervisorTest do
   use ExUnit.Case, async: true
-  alias Dotcom.GreenLine.DateAgent
 
   import Dotcom.GreenLine.CacheSupervisor
   import Mox
+
+  alias Dotcom.GreenLine.DateAgent
+  alias Stops.Repo.Mock
 
   setup :verify_on_exit!
 
   setup_all do
     _ = start_supervised!({Registry, keys: :unique, name: :green_line_cache_registry})
     pid = start_link_supervised!(Dotcom.GreenLine.CacheSupervisor)
-    Mox.allow(Stops.Repo.Mock, self(), pid)
+    Mox.allow(Mock, self(), pid)
 
-    stub(Stops.Repo.Mock, :by_route, fn _, _, _ ->
+    stub(Mock, :by_route, fn _, _, _ ->
       []
     end)
 
@@ -34,7 +36,7 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
 
   @tag :flaky
   test "stops_on_routes/2 gets information for nil date" do
-    Stops.Repo.Mock
+    Mock
     |> expect(:by_route, 4, fn route_id, direction_id, opts ->
       assert route_id in GreenLine.branch_ids()
       assert direction_id in [0, 1]
@@ -56,7 +58,7 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
   test "stops_on_routes/2 gets information for service date" do
     date = Util.service_date()
 
-    Stops.Repo.Mock
+    Mock
     |> expect(:by_route, 4, fn route_id, direction_id, opts ->
       assert route_id in GreenLine.branch_ids()
       assert direction_id in [0, 1]

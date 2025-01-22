@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController.DefaultsTest do
   use DotcomWeb.ConnCase, async: true
+
   alias DotcomWeb.ScheduleController.Defaults
   alias Routes.Route
 

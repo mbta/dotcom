@@ -38,11 +38,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
   def options_text(%__MODULE__{itineraries: [_single]}), do: nil
 
   def options_text(
-        %__MODULE__{
-          representative_index: representative_index,
-          representative_time_key: start_or_stop
-        } =
-          group
+        %__MODULE__{representative_index: representative_index, representative_time_key: start_or_stop} = group
       ) do
     other_times =
       group
@@ -51,9 +47,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
 
     phrase = options_phrase(start_or_stop, Enum.count(other_times))
 
-    formatted_times =
-      other_times
-      |> Enum.map_join(", ", &Timex.format!(&1, "%-I:%M", :strftime))
+    formatted_times = Enum.map_join(other_times, ", ", &Timex.format!(&1, "%-I:%M", :strftime))
 
     "Similar #{phrase} #{formatted_times}"
   end

@@ -19,8 +19,7 @@ defmodule DotcomWeb.VehicleChannel do
   end
 
   @impl Phoenix.Channel
-  def handle_out(event, %{data: vehicles}, socket)
-      when event in ["reset", "add", "update", "remove"] do
+  def handle_out(event, %{data: vehicles}, socket) when event in ["reset", "add", "update", "remove"] do
     # Pushing as "data" message for consistency with vehicle_channel
     push(socket, "data", %{event: event, data: vehicles})
     {:noreply, socket}

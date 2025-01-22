@@ -16,7 +16,7 @@ defmodule Dotcom.TripPlan.InputFormTest do
     "from" => @from_params,
     "to" => @to_params,
     "datetime_type" => "now",
-    "datetime" => Faker.DateTime.forward(4) |> to_string(),
+    "datetime" => 4 |> Faker.DateTime.forward() |> to_string(),
     "modes" => @mode_params,
     "wheelchair" => Faker.Util.pick(["true", "false"])
   }

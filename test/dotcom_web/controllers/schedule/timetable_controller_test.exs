@@ -1,12 +1,15 @@
 defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.ScheduleController.TimetableController
   import Mox
+
   alias Dotcom.TimetableBlocking
   alias Routes.Route
+  alias Schedules.Schedule
+  alias Schedules.Trip
   alias Stops.Stop
-  alias Schedules.{Schedule, Trip}
 
   @stops [
     %Stop{id: "1"},
@@ -218,15 +221,13 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
   describe "trip_messages/2" do
     test "returns proper messages for a CR Franklin train running via Fairmount" do
-      assert Enum.member?(
-               %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(0)
-               |> Map.keys()
-               |> Enum.map(&elem(&1, 0))
-               |> Enum.uniq()
-               |> Enum.sort(),
-               "735"
-             )
+      assert %Routes.Route{id: "CR-Franklin"}
+             |> trip_messages(0)
+             |> Map.keys()
+             |> Enum.map(&elem(&1, 0))
+             |> Enum.uniq()
+             |> Enum.sort()
+             |> Enum.member?("735")
     end
 
     test "returns proper messages for others" do

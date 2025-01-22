@@ -3,7 +3,9 @@ defmodule Alerts.Alert do
 
   use Timex
 
-  alias Alerts.{InformedEntity, InformedEntitySet, Priority}
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
+  alias Alerts.Priority
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -63,7 +65,7 @@ defmodule Alerts.Alert do
             lifecycle: :unknown,
             priority: :low,
             severity: 5,
-            updated_at: Timex.now(),
+            updated_at: DateTime.utc_now(),
             url: ""
 
   @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
@@ -203,16 +205,11 @@ defmodule Alerts.Alert do
   def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route: set}}, :route), do: set
   def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{stop: set}}, :stop), do: set
 
-  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route_type: set}}, :route_type),
-    do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route_type: set}}, :route_type), do: set
 
   def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{trip: set}}, :trip), do: set
 
-  def get_entity(
-        %__MODULE__{informed_entity: %InformedEntitySet{direction_id: set}},
-        :direction_id
-      ),
-      do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{direction_id: set}}, :direction_id), do: set
 
   def access_alert_types do
     [elevator_closure: "Elevator", escalator_closure: "Escalator", access_issue: "Other"]
@@ -268,8 +265,7 @@ defmodule Alerts.Alert do
   defp do_human_lifecycle(_), do: "Unknown"
 
   @spec human_label(t) :: String.t()
-  def human_label(%{lifecycle: lifecycle})
-      when lifecycle not in [:new, :unknown] do
+  def human_label(%{lifecycle: lifecycle}) when lifecycle not in [:new, :unknown] do
     do_human_lifecycle(lifecycle)
   end
 
@@ -286,8 +282,7 @@ defmodule Alerts.Alert do
   @spec high_severity_or_high_priority?(t) :: boolean()
   def high_severity_or_high_priority?(%{priority: :high}), do: true
 
-  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
-    do: true
+  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7, do: true
 
   def high_severity_or_high_priority?(_), do: false
 
@@ -325,7 +320,7 @@ defimpl Poison.Encoder, for: Alerts.Alert do
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
   defp alert_active_period({first, last}) do
-    [first, last] |> Enum.map(&format_time(&1))
+    Enum.map([first, last], &format_time(&1))
   end
 
   defp format_time(t) do

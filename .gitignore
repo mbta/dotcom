@@ -70,3 +70,5 @@ node_modules
 
 playwright-report
 test-results
+.elixir-tools
+

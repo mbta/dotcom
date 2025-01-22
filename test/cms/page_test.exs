@@ -1,19 +1,16 @@
 defmodule PageTest do
   use ExUnit.Case, async: true
 
-  alias CMS.{
-    Api.Static,
-    Page,
-    Partial.Paragraph.ContentList,
-    Partial.Teaser
-  }
+  alias CMS.Api.Static
+  alias CMS.Page
+  alias CMS.Partial.Paragraph.ContentList
+  alias CMS.Partial.Teaser
 
   describe "from_api/1" do
     test "switches on the node type in the json response and returns the proper page struct" do
       assert %Page.Basic{} = Page.from_api(Static.basic_page_response())
 
-      diversions_data =
-        Static.basic_page_response() |> Map.put("field_page_type", [%{"name" => "Diversions"}])
+      diversions_data = Map.put(Static.basic_page_response(), "field_page_type", [%{"name" => "Diversions"}])
 
       assert %Page.Diversions{} = Page.from_api(diversions_data)
 
@@ -27,9 +24,7 @@ defmodule PageTest do
     end
 
     test "fetches content list teasers for pages that have them" do
-      response =
-        Static.all_paragraphs_response()
-        |> Page.from_api()
+      response = Page.from_api(Static.all_paragraphs_response())
 
       assert %ContentList{teasers: teasers} = List.last(response.paragraphs)
 

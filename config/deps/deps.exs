@@ -10,8 +10,9 @@ end
 if config_env() == :test do
   # Don't fetch tz data in test mode; can cause a race if we're doing TZ
   # operations while it updates.
-  config :tzdata, :autoupdate, :disabled
   config :recaptcha, http_client: Recaptcha.Http.MockClient
+
+  config :tzdata, :autoupdate, :disabled
 
   config :wallaby,
     screenshot_on_failure: false,

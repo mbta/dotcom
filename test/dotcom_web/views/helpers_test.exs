@@ -3,9 +3,12 @@ defmodule DotcomWeb.ViewHelpersTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ViewHelpers
-  import PhoenixHTMLHelpers.Tag, only: [tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
-  alias Routes.{Repo, Route}
+  import PhoenixHTMLHelpers.Tag, only: [tag: 2, content_tag: 3]
+
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias Routes.Repo
+  alias Routes.Route
 
   describe "break_text_at_slash/1" do
     test "doesn't change text without slashes" do
@@ -86,8 +89,8 @@ defmodule DotcomWeb.ViewHelpersTest do
     test "given a stop, returns a link to that stop" do
       link =
         %Stops.Stop{id: "place-sstat", name: "South Station"}
-        |> stop_link
-        |> safe_to_string
+        |> stop_link()
+        |> safe_to_string()
 
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
@@ -96,8 +99,8 @@ defmodule DotcomWeb.ViewHelpersTest do
     test "given a stop ID, returns a link to that stop" do
       link =
         "place-sstat"
-        |> stop_link
-        |> safe_to_string
+        |> stop_link()
+        |> safe_to_string()
 
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
@@ -250,11 +253,11 @@ defmodule DotcomWeb.ViewHelpersTest do
 
   describe "struct_name_to_string/1" do
     test "turns a module name atom into an underscored string" do
-      assert struct_name_to_string(CMS.Partial.Paragraph.CustomHTML) == "custom_html"
+      assert struct_name_to_string(CustomHTML) == "custom_html"
     end
 
     test "turns a module struct into an underscored string" do
-      assert struct_name_to_string(%CMS.Partial.Paragraph.CustomHTML{}) == "custom_html"
+      assert struct_name_to_string(%CustomHTML{}) == "custom_html"
     end
   end
 
@@ -264,7 +267,7 @@ defmodule DotcomWeb.ViewHelpersTest do
 
       result = fa("arrow-right")
 
-      assert result |> safe_to_string() == expected
+      assert safe_to_string(result) == expected
     end
 
     test "when optional attributes are included" do
@@ -273,7 +276,7 @@ defmodule DotcomWeb.ViewHelpersTest do
 
       result = fa("arrow-right", class: "foo", title: "title")
 
-      assert result |> safe_to_string() == expected
+      assert safe_to_string(result) == expected
     end
 
     test "when font family is included" do
@@ -281,7 +284,7 @@ defmodule DotcomWeb.ViewHelpersTest do
 
       result = fa("arrow-right", font_family: "fas")
 
-      assert result |> safe_to_string() == expected
+      assert safe_to_string(result) == expected
     end
   end
 
@@ -363,7 +366,7 @@ defmodule DotcomWeb.ViewHelpersTest do
     end
 
     test "provides fallback for unknown SVG" do
-      rendered = svg("icon-massport-fake") |> safe_to_string()
+      rendered = "icon-massport-fake" |> svg() |> safe_to_string()
       assert rendered =~ "fa"
     end
   end
@@ -475,8 +478,8 @@ defmodule DotcomWeb.ViewHelpersTest do
           name: "SL2",
           type: 3
         }
-        |> bus_icon_pill
-        |> safe_to_string
+        |> bus_icon_pill()
+        |> safe_to_string()
 
       assert icon =~ "u-bg--silver-line"
     end
@@ -488,8 +491,8 @@ defmodule DotcomWeb.ViewHelpersTest do
           type: 3,
           name: "221"
         }
-        |> bus_icon_pill
-        |> safe_to_string
+        |> bus_icon_pill()
+        |> safe_to_string()
 
       assert icon =~ "u-bg--bus"
     end

@@ -20,9 +20,9 @@ defmodule CMS.Blurb do
   defp build_blurb("<p>" <> _ = text, max_length) do
     text
     |> String.split("<p>")
-    |> reject_paragraphs_with_byline_information
-    |> remove_trailing_p_tags
-    |> remove_empty_p_tags
+    |> reject_paragraphs_with_byline_information()
+    |> remove_trailing_p_tags()
+    |> remove_empty_p_tags()
     |> List.first()
     |> build_blurb(max_length)
   end

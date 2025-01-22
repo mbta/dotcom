@@ -1,12 +1,12 @@
 defmodule Schedules.RepoCondensedTest do
   use ExUnit.Case
-  @moduletag :external
-
   use Timex
 
   import Schedules.RepoCondensed
 
   alias Schedules.ScheduleCondensed
+
+  @moduletag :external
 
   describe "by_route_ids/2" do
     test "can take a route/direction/sequence/date" do

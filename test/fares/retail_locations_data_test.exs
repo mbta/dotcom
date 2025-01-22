@@ -1,6 +1,8 @@
 defmodule Fares.RetailLocationsDataTest do
   use ExUnit.Case, async: true
-  alias Fares.RetailLocations.{Data, Location}
+
+  alias Fares.RetailLocations.Data
+  alias Fares.RetailLocations.Location
 
   describe "Fares.RetailLocationsData" do
     @tag :external

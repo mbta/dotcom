@@ -1,12 +1,15 @@
 defmodule Dotcom.TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
 
-  import Mox
   import Dotcom.TripPlan.Itinerary
+  import Mox
 
-  alias Dotcom.TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
-  alias Test
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
+  alias Test.Support.Factories.Stops.Stop
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   @from TripPlanner.build(:stop_named_position)
   @to TripPlanner.build(:stop_named_position)
@@ -124,7 +127,7 @@ defmodule Dotcom.TripPlan.ItineraryTest do
           %Leg{mode: %PersonalDetail{}},
           %Leg{
             mode: %TransitDetail{
-              intermediate_stops: ["1", "2", "3"] |> Enum.map(&%Stops.Stop{id: &1})
+              intermediate_stops: Enum.map(["1", "2", "3"], &%Stops.Stop{id: &1})
             }
           },
           %Leg{mode: %PersonalDetail{}}
@@ -142,12 +145,12 @@ defmodule Dotcom.TripPlan.ItineraryTest do
           %Leg{mode: %PersonalDetail{}},
           %Leg{
             mode: %TransitDetail{
-              intermediate_stops: ["1", "2", "3"] |> Enum.map(&%Stops.Stop{id: &1})
+              intermediate_stops: Enum.map(["1", "2", "3"], &%Stops.Stop{id: &1})
             }
           },
           %Leg{
             mode: %TransitDetail{
-              intermediate_stops: ["1", "2", "3"] |> Enum.map(&%Stops.Stop{id: &1})
+              intermediate_stops: Enum.map(["1", "2", "3"], &%Stops.Stop{id: &1})
             }
           }
         ]

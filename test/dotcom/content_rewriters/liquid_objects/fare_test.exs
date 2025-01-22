@@ -3,7 +3,10 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
 
   import Dotcom.ContentRewriters.LiquidObjects.Fare
 
-  alias Fares.{Fare, Format, Repo, Summary}
+  alias Fares.Fare
+  alias Fares.Format
+  alias Fares.Repo
+  alias Fares.Summary
 
   describe "fare_request/1" do
     test "it handles fare requests for a given mode name and media" do
@@ -351,7 +354,8 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
   describe "fare_object_request" do
     test "it handles fare requests for a given mode name and media" do
       result =
-        Repo.all(name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip)
+        [name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip]
+        |> Repo.all()
         |> List.first()
 
       assert fare_object_request("local_bus:cash") == result

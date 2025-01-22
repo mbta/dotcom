@@ -4,7 +4,10 @@ defmodule Dotcom.TripPlan.QueryTest do
   import Dotcom.TripPlan.Query
   import Mox
   import Test.Support.Factories.LocationService.LocationService
-  alias Dotcom.TripPlan.{Itinerary, NamedPosition, Query}
+
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.Query
 
   @date_time Timex.to_datetime(~N[2017-05-30T19:30:00], "America/New_York")
   @date_time_params %{

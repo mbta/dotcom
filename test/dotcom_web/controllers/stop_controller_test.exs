@@ -11,15 +11,13 @@ defmodule DotcomWeb.StopControllerTest do
   setup :verify_on_exit!
 
   test "redirects to subway stops on index", %{conn: conn} do
-    conn = conn |> get(stop_path(conn, :index))
+    conn = get(conn, stop_path(conn, :index))
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
   end
 
   @tag :external
   test "shows stations by mode", %{conn: conn} do
-    conn =
-      conn
-      |> get(stop_path(conn, :show, :subway))
+    conn = get(conn, stop_path(conn, :show, :subway))
 
     response = html_response(conn, 200)
 
@@ -31,52 +29,42 @@ defmodule DotcomWeb.StopControllerTest do
   @tag :external
   test "assigns stop_info for each mode", %{conn: conn} do
     for mode <- [:subway, :ferry, "commuter-rail"] do
-      conn =
-        conn
-        |> get(stop_path(conn, :show, mode))
+      conn = get(conn, stop_path(conn, :show, mode))
 
       assert conn.assigns.stop_info
     end
   end
 
   test "redirects stations with slashes to the right URL", %{conn: conn} do
-    conn =
-      conn
-      |> get("/stops/Four%20Corners%20/%20Geneva")
+    conn = get(conn, "/stops/Four%20Corners%20/%20Geneva")
 
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
   end
 
   @tag :external
   test "shows a stop ID", %{conn: conn} do
-    conn = conn |> get(stop_path(conn, :show, "place-sstat"))
+    conn = get(conn, stop_path(conn, :show, "place-sstat"))
 
     assert conn.assigns.stop_id
   end
 
   @tag :external
   test "sets a custom meta description for stops", %{conn: conn} do
-    conn =
-      conn
-      |> get(stop_path(conn, :show, "place-sstat"))
+    conn = get(conn, stop_path(conn, :show, "place-sstat"))
 
     assert conn.assigns.meta_description
   end
 
   @tag :external
   test "redirects to a parent stop page for a child stop", %{conn: conn} do
-    conn =
-      conn
-      |> get(stop_path(conn, :show, 70_130))
+    conn = get(conn, stop_path(conn, :show, 70_130))
 
     assert redirected_to(conn) == stop_path(conn, :show, "place-harvd")
   end
 
   @tag :external
   test "404s for an unknown stop", %{conn: conn} do
-    conn =
-      conn
-      |> get(stop_path(conn, :show, "unknown"))
+    conn = get(conn, stop_path(conn, :show, "unknown"))
 
     assert Map.fetch!(conn, :status) == 404
   end
@@ -130,9 +118,7 @@ defmodule DotcomWeb.StopControllerTest do
   describe "show/2" do
     @tag :external
     test "should set the title and meta description of the page", %{conn: conn} do
-      conn =
-        conn
-        |> get(stop_path(conn, :show, "place-wondl"))
+      conn = get(conn, stop_path(conn, :show, "place-wondl"))
 
       [_stations, station_name] = conn.assigns.breadcrumbs
 
@@ -195,7 +181,7 @@ defmodule DotcomWeb.StopControllerTest do
       end)
 
       response =
-        get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
+        conn |> get(stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
 
       assert %{
                "Purple-A" => %{

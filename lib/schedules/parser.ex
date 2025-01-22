@@ -1,8 +1,10 @@
 defmodule Schedules.Parser do
-  require Routes.Route
+  @moduledoc false
   alias JsonApi.Item
   alias Routes.Route
   alias Stops.Stop
+
+  require Routes.Route
 
   @type record :: {
           route_id :: Route.id_t(),
@@ -54,9 +56,7 @@ defmodule Schedules.Parser do
           "trip" => [
             %JsonApi.Item{
               id: id,
-              attributes:
-                %{"name" => name, "headsign" => headsign, "direction_id" => direction_id} =
-                  attributes,
+              attributes: %{"name" => name, "headsign" => headsign, "direction_id" => direction_id} = attributes,
               relationships: relationships
             }
             | _
@@ -79,12 +79,7 @@ defmodule Schedules.Parser do
         data: [
           %JsonApi.Item{
             id: id,
-            attributes:
-              %{
-                "headsign" => headsign,
-                "name" => name,
-                "direction_id" => direction_id
-              } = attributes,
+            attributes: %{"headsign" => headsign, "name" => name, "direction_id" => direction_id} = attributes,
             relationships: relationships
           }
         ]
@@ -107,13 +102,7 @@ defmodule Schedules.Parser do
 
   def trip(%JsonApi{data: []}), do: nil
 
-  def stop_id(%JsonApi.Item{
-        relationships: %{
-          "stop" => [
-            %JsonApi.Item{id: id}
-          ]
-        }
-      }) do
+  def stop_id(%JsonApi.Item{relationships: %{"stop" => [%JsonApi.Item{id: id}]}}) do
     id
   end
 
@@ -148,9 +137,7 @@ defmodule Schedules.Parser do
     if(departure_time, do: departure_time, else: arrival_time)
   end
 
-  defp flag?(%JsonApi.Item{
-         attributes: %{"pickup_type" => pickup_type, "drop_off_type" => drop_off_type}
-       }) do
+  defp flag?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type, "drop_off_type" => drop_off_type}}) do
     # https://developers.google.com/transit/gtfs/reference/stop_times-file
     # defines pickup_type and drop_off_type:
     # * 0: Regularly scheduled drop off
@@ -161,19 +148,12 @@ defmodule Schedules.Parser do
     pickup_type == 3 || drop_off_type == 3
   end
 
-  defp early_departure?(%JsonApi.Item{
-         attributes: %{"pickup_type" => pickup_type, "timepoint" => timepoint}
-       }) do
+  defp early_departure?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type, "timepoint" => timepoint}}) do
     # early departure when the timepoint is false and the pickup_type is not 1
     timepoint == false && pickup_type != 1
   end
 
-  defp last_stop?(%JsonApi.Item{
-         attributes: %{
-           "drop_off_type" => dropoff,
-           "pickup_type" => pickup
-         }
-       }) do
+  defp last_stop?(%JsonApi.Item{attributes: %{"drop_off_type" => dropoff, "pickup_type" => pickup}}) do
     dropoff === 0 and pickup === 1
   end
 
@@ -194,9 +174,7 @@ defmodule Schedules.Parser do
   defp bikes_allowed?(_), do: false
 
   @spec occupancy(any) :: Schedules.Trip.crowding() | nil
-  defp occupancy(%{
-         "occupancies" => [%JsonApi.Item{attributes: %{"status" => status}}]
-       }) do
+  defp occupancy(%{"occupancies" => [%JsonApi.Item{attributes: %{"status" => status}}]}) do
     case status do
       "MANY_SEATS_AVAILABLE" -> :not_crowded
       "FEW_SEATS_AVAILABLE" -> :some_crowding

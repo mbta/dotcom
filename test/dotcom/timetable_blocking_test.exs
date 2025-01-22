@@ -1,6 +1,7 @@
 defmodule Dotcom.TimetableBlockingTest do
   @moduledoc false
   use ExUnit.Case, async: true
+
   alias Dotcom.TimetableBlocking
 
   @date ~D[2025-01-01]

@@ -1,9 +1,10 @@
 defmodule Dotcom.ReactTest do
   use ExUnit.Case, async: true
 
+  alias Dotcom.React
+  alias Dotcom.TransitNearMe
   alias ExUnit.CaptureLog
   alias LocationService.Address
-  alias Dotcom.{React, TransitNearMe}
 
   @address %Address{
     latitude: 42.352271,

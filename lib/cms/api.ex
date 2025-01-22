@@ -16,7 +16,8 @@ defmodule CMS.Api do
       {"vid", revision_id}
     ]
 
-    client(vid: revision_id)
+    [vid: revision_id]
+    |> client()
     |> @req.get(url: path, params: params, decode_body: false, redirect: false)
     |> handle_response()
   end

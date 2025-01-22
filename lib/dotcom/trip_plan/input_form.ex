@@ -28,9 +28,7 @@ defmodule Dotcom.TripPlan.InputForm do
   end
 
   def initial_modes do
-    __MODULE__.Modes.fields()
-    |> Enum.map(&{Atom.to_string(&1), "true"})
-    |> Map.new()
+    Map.new(__MODULE__.Modes.fields(), &{Atom.to_string(&1), "true"})
   end
 
   def to_params(%__MODULE__{
@@ -41,17 +39,16 @@ defmodule Dotcom.TripPlan.InputForm do
         modes: modes,
         wheelchair: wheelchair
       }) do
-    %{
+    PlanParams.new(%{
       fromPlace: PlanParams.to_place_param(from),
       toPlace: PlanParams.to_place_param(to),
       arriveBy: datetime_type == "arrive_by",
       date: PlanParams.to_date_param(datetime),
       numItineraries: 100,
       time: PlanParams.to_time_param(datetime),
-      transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
+      transportModes: modes |> __MODULE__.Modes.selected_mode_keys() |> PlanParams.to_modes_param(),
       wheelchair: wheelchair
-    }
-    |> PlanParams.new()
+    })
   end
 
   def changeset(params \\ %{}) do
@@ -258,13 +255,15 @@ defmodule Dotcom.TripPlan.InputForm do
     end
 
     defp mode_name(mode) do
-      case mode do
-        :RAIL -> :commuter_rail
-        :SUBWAY -> :subway
-        :BUS -> :bus
-        :FERRY -> :ferry
-      end
-      |> DotcomWeb.ViewHelpers.mode_name()
+      case_result =
+        case mode do
+          :RAIL -> :commuter_rail
+          :SUBWAY -> :subway
+          :BUS -> :bus
+          :FERRY -> :ferry
+        end
+
+      DotcomWeb.ViewHelpers.mode_name(case_result)
     end
   end
 end

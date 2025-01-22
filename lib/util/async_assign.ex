@@ -8,8 +8,9 @@ defmodule Util.AsyncAssign do
   in the case of a time out or error.
   """
 
-  require Logger
   alias Plug.Conn
+
+  require Logger
 
   @doc """
   Starts a task to assign a value to a key in the connection and saves a default
@@ -38,8 +39,7 @@ defmodule Util.AsyncAssign do
   https://github.com/elixir-plug/plug/blob/3d48af2b97d58c183a7b8390abc42ac5367b0770/lib/plug/conn.ex#L332
   """
   @spec await_assign_all_default(Conn.t(), atom, timeout) :: Conn.t()
-  def await_assign_all_default(%Conn{} = conn, module, timeout \\ 5000)
-      when is_atom(module) and is_integer(timeout) do
+  def await_assign_all_default(%Conn{} = conn, module, timeout \\ 5000) when is_atom(module) and is_integer(timeout) do
     async_tasks =
       for {key, {%Task{} = task, default}} <- conn.assigns, into: %{}, do: {task, {key, default}}
 

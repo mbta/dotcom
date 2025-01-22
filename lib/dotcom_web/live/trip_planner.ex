@@ -7,10 +7,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
+  import DotcomWeb.Components.TripPlanner.InputForm
+  import DotcomWeb.Components.TripPlanner.Results
+  import DotcomWeb.Components.TripPlanner.ResultsSummary
 
   alias Dotcom.TripPlan
-  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroup, ItineraryGroups}
+  alias Dotcom.TripPlan.AntiCorruptionLayer
+  alias Dotcom.TripPlan.InputForm
+  alias Dotcom.TripPlan.ItineraryGroup
+  alias Dotcom.TripPlan.ItineraryGroups
 
   @state %{
     input_form: %{
@@ -105,22 +110,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   # When itinerary groups are found, we add them to the results state.
-  def handle_async("get_itinerary_groups", {:ok, itinerary_groups}, socket)
-      when is_list(itinerary_groups) do
-    new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :itinerary_groups, itinerary_groups))
+  def handle_async("get_itinerary_groups", {:ok, itinerary_groups}, socket) when is_list(itinerary_groups) do
+    new_socket = assign(socket, :results, Map.put(@state.results, :itinerary_groups, itinerary_groups))
 
     {:noreply, new_socket}
   end
 
   @impl true
   # Triggered when we cannot connect to OTP.
-  def handle_async(
-        "get_itinerary_groups",
-        {:ok, {:error, %Req.TransportError{reason: :econnrefused}}},
-        socket
-      ) do
+  def handle_async("get_itinerary_groups", {:ok, {:error, %Req.TransportError{reason: :econnrefused}}}, socket) do
     message = "Cannot connect to OpenTripPlanner. Please try again later."
     new_socket = assign(socket, :results, Map.put(@state.results, :error, message))
 
@@ -130,13 +128,9 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
   def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
-    error =
-      errors
-      |> Enum.map_join(", ", &Map.get(&1, :message))
+    error = Enum.map_join(errors, ", ", &Map.get(&1, :message))
 
-    new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :error, error))
+    new_socket = assign(socket, :results, Map.put(@state.results, :error, error))
 
     {:noreply, new_socket}
   end
@@ -144,9 +138,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered when the async operation fails, we add the error to the results state.
   def handle_async("get_itinerary_groups", {:exit, reason}, socket) do
-    new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :error, reason))
+    new_socket = assign(socket, :results, Map.put(@state.results, :error, reason))
 
     {:noreply, new_socket}
   end
@@ -242,11 +234,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_event(
         "select_itinerary_group",
         %{"index" => group_index},
-        %{
-          assigns: %{
-            results: %{itinerary_groups: itinerary_groups}
-          }
-        } = socket
+        %{assigns: %{results: %{itinerary_groups: itinerary_groups}}} = socket
       ) do
     group_index = String.to_integer(group_index)
 
@@ -290,15 +278,13 @@ defmodule DotcomWeb.Live.TripPlanner do
   #   hook to update the displayed value of the location search box. This
   #   reconciles a mismatch which happens when the user switches the origin and
   #   destination values.
-  def handle_event(
-        "swap_direction",
-        _params,
-        %{assigns: %{input_form: %{changeset: changeset}}} = socket
-      ) do
-    new_to = Map.get(changeset.changes, :from) |> location_data_from_changeset()
-    new_from = Map.get(changeset.changes, :to) |> location_data_from_changeset()
+  def handle_event("swap_direction", _params, %{assigns: %{input_form: %{changeset: changeset}}} = socket) do
+    new_to = changeset.changes |> Map.get(:from) |> location_data_from_changeset()
+    new_from = changeset.changes |> Map.get(:to) |> location_data_from_changeset()
 
-    if new_to != new_from do
+    if new_to == new_from do
+      {:noreply, socket}
+    else
       changes =
         %{}
         |> maybe_put_change(:to, new_to)
@@ -310,8 +296,6 @@ defmodule DotcomWeb.Live.TripPlanner do
         |> push_event("set-query", changes)
 
       {:noreply, new_socket}
-    else
-      {:noreply, socket}
     end
   end
 
@@ -442,10 +426,10 @@ defmodule DotcomWeb.Live.TripPlanner do
   # doesn't always appear in params. When that happens, we want to set
   # "datetime" to a reasonable default.
   defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
-    do: params |> Map.put("datetime", Timex.now("America/New_York"))
+    do: Map.put(params, "datetime", Timex.now("America/New_York"))
 
   defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
-  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
+  defp add_datetime_if_needed(params), do: Map.put(params, "datetime", nearest_5_minutes())
 
   # Set an action on the changeset and submit it.
   #

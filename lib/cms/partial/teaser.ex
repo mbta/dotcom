@@ -17,7 +17,8 @@ defmodule CMS.Partial.Teaser do
 
   import CMS.Page.Event, only: [started_status: 2]
 
-  alias CMS.{API, Field.Image}
+  alias CMS.API
+  alias CMS.Field.Image
 
   @type started_status :: CMS.Page.Event.status()
 
@@ -95,7 +96,7 @@ defmodule CMS.Partial.Teaser do
       image: image(image_path, image_alt),
       text: content(text),
       topic: content(topic),
-      location: data |> location(),
+      location: location(data),
       date: date_start,
       date_end: date_end,
       started_status: started_status(date_start, date_end),
@@ -106,8 +107,7 @@ defmodule CMS.Partial.Teaser do
 
   @spec date(map, String.t()) :: Date.t() | NaiveDateTime.t() | nil
   # news_entry and project_update types share a common "Posted On" date field (both are required).
-  defp date(%{"type" => type, "posted" => date}, _)
-       when type in ["news_entry", "project_update"] do
+  defp date(%{"type" => type, "posted" => date}, _) when type in ["news_entry", "project_update"] do
     do_date(date)
   end
 

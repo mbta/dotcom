@@ -15,7 +15,7 @@ defmodule DotcomWeb.Plugs.Static do
     at: "/",
     from: :dotcom,
     gzip: Mix.env() == :prod,
-    headers: default_secure_headers() |> Map.put("access-control-allow-origin", "*"),
+    headers: Map.put(default_secure_headers(), "access-control-allow-origin", "*"),
     cache_control_for_etags: "max-age=86400",
     only: DotcomWeb.static_paths(),
     only_matching: ~w(favicon apple-touch-icon)

@@ -51,8 +51,7 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
 
   def format_all(data) do
     data_map =
-      data
-      |> Enum.reduce(%{}, fn
+      Enum.reduce(data, %{}, fn
         {key, value}, acc when key in ["feedback_vote", "feedback_long", "itinerary_index"] ->
           Map.put(acc, key, value)
 
@@ -60,7 +59,7 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
           Map.put(acc, "generated_time", format_time(time_string))
 
         {"modes", modes}, acc ->
-          modes = Enum.map(modes, fn {k, v} -> {"mode_#{k}", v} end) |> Enum.into(%{})
+          modes = Map.new(modes, fn {k, v} -> {"mode_#{k}", v} end)
           Map.merge(acc, modes)
 
         {"query",
@@ -89,16 +88,14 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
 
     # sometimes fields are empty or not populated, so seed them here
     @headers
-    |> Enum.map(&{&1, ""})
-    |> Map.new()
+    |> Map.new(&{&1, ""})
     |> Map.merge(data_map)
   end
 
   defp place_description(%{"name" => name, "stop_id" => stop_id}) when not is_nil(stop_id),
     do: name <> " (id: #{stop_id})"
 
-  defp place_description(%{"name" => name, "latitude" => lat, "longitude" => lon}),
-    do: "#{name} (#{lat}, #{lon})"
+  defp place_description(%{"name" => name, "latitude" => lat, "longitude" => lon}), do: "#{name} (#{lat}, #{lon})"
 
   defp format_time(t) do
     with {:ok, dt} <- Timex.parse(t, "{ISO:Extended}"),
@@ -142,11 +139,10 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
       |> Enum.map(fn step ->
         # since this is happening after data serialization, re-create the atom
         # keys so that Nestru can re-decode it and compute the appropriate text
-        # via Step.walk_summary/1
-        Enum.map(step, fn {k, v} ->
+        Map.new(step, fn {k, v} ->
+          # via Step.walk_summary/1
           {String.to_atom(k), v}
         end)
-        |> Enum.into(%{})
       end)
       |> Nestru.decode_from_list!(Step)
       |> Enum.map_join(";\n\t", &Step.walk_summary/1)

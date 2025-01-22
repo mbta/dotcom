@@ -67,14 +67,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def assign_trip_schedules(
-        %{
-          assigns: %{
-            route: route,
-            direction_id: direction_id,
-            blocking_alert: nil,
-            date_in_rating?: true
-          }
-        } = conn
+        %{assigns: %{route: route, direction_id: direction_id, blocking_alert: nil, date_in_rating?: true}} = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
@@ -148,8 +141,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         %{platform_code: nil} -> nil
         platform_stop -> platform_stop
       end
-    else
-      nil
     end
   end
 
@@ -167,8 +158,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         []
 
       schedules ->
-        schedules
-        |> Enum.reject(&Schedules.Schedule.no_times?/1)
+        Enum.reject(schedules, &Schedules.Schedule.no_times?/1)
     end
   end
 
@@ -182,17 +172,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
     ["741", "757", "759", "735"]
     |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
-    |> Enum.into(%{})
+    |> Map.new()
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
     ["740", "752", "728", "758", "732", "760"]
     |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
-    |> Enum.into(%{})
+    |> Map.new()
   end
 
   def trip_messages(%Routes.Route{id: "CR-Providence"}, 0) do
-    ["893"] |> Enum.flat_map(&franklin_via_fairmount(&1, 0)) |> Enum.into(%{})
+    ["893"] |> Enum.flat_map(&franklin_via_fairmount(&1, 0)) |> Map.new()
   end
 
   def trip_messages(_, _) do
@@ -221,7 +211,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def make_via_list(list) do
     list
-    |> List.zip()
+    |> Enum.zip()
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
@@ -282,13 +272,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   # from the default route pattern sort_order. For these cases, we need to
   # manipulate this by adjusting which route pattern is processed first.
   defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Franklin"} | _] = route_patterns) do
-    route_patterns
-    |> with_prioritized_pattern("Foxboro")
+    with_prioritized_pattern(route_patterns, "Foxboro")
   end
 
   defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Providence"} | _] = route_patterns) do
-    route_patterns
-    |> with_prioritized_pattern("Stoughton")
+    with_prioritized_pattern(route_patterns, "Stoughton")
   end
 
   defp with_prioritized_pattern(route_patterns), do: route_patterns
@@ -319,8 +307,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   # For ferry routes with many disjoint/overlapping route patterns,
   # concatenating the lists of stops does not produce readable results. Since
   # these routes are short, we can hardcode the order.
-  defp handle_ferry_stops(stop_lists, route_id, inbound?)
-       when route_id in @ferry_inbound_keys do
+  defp handle_ferry_stops(stop_lists, route_id, inbound?) when route_id in @ferry_inbound_keys do
     ordered_ids =
       if inbound? do
         @ferry_inbound_ids[route_id]
@@ -328,7 +315,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         Enum.reverse(@ferry_inbound_ids[route_id])
       end
 
-    stops = Enum.flat_map(stop_lists, & &1) |> Enum.uniq()
+    stops = stop_lists |> Enum.flat_map(& &1) |> Enum.uniq()
 
     [
       Enum.map(ordered_ids, fn id ->
@@ -350,8 +337,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.filter(fn {_, count} -> count == 1 end)
       |> Enum.map(fn {trip_id, _} -> trip_id end)
 
-    trip_schedules
-    |> Map.reject(fn {{trip_id, _}, _} ->
+    Map.reject(trip_schedules, fn {{trip_id, _}, _} ->
       trip_id in single_stop_trip_ids
     end)
   end
@@ -406,12 +392,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   @spec do_merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
   defp do_merge_stop_lists(stops, [], _), do: stops
 
-  defp do_merge_stop_lists(
-         [%Stop{id: id} = stop],
-         base_stops,
-         inbound?
-       )
-       when id in @shuttle_ids do
+  defp do_merge_stop_lists([%Stop{id: id} = stop], base_stops, inbound?) when id in @shuttle_ids do
     merge_into_stop_list(stop, base_stops, inbound?)
   end
 
@@ -425,8 +406,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   @spec trip_schedule(Schedules.Schedule.t()) ::
           {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t() | nil}, Schedules.Schedule.t()}
-  defp trip_schedule(%Schedules.Schedule{trip: trip, stop: stop} = schedule)
-       when not is_nil(trip) and not is_nil(stop) do
+  defp trip_schedule(%Schedules.Schedule{trip: trip, stop: stop} = schedule) when not is_nil(trip) and not is_nil(stop) do
     {{trip.id, stop.id}, schedule}
   end
 
@@ -496,7 +476,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp remove_unused_stops(all_stops, schedules) do
-    timetable_stops = Enum.map(schedules, & &1.stop) |> Enum.uniq()
+    timetable_stops = schedules |> Enum.map(& &1.stop) |> Enum.uniq()
     Enum.filter(all_stops, &contains_stop?(timetable_stops, &1))
   end
 

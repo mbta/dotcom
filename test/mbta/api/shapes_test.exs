@@ -3,7 +3,8 @@ defmodule MBTA.Api.ShapesTest do
 
   import Mox
 
-  alias MBTA.Api.{Mock, Shapes}
+  alias MBTA.Api.Mock
+  alias MBTA.Api.Shapes
 
   setup :set_mox_global
   setup :verify_on_exit!
@@ -25,7 +26,7 @@ defmodule MBTA.Api.ShapesTest do
 
   test "by_id/1 returns a shape" do
     # Setup
-    id = Faker.Team.creature() |> String.downcase()
+    id = String.downcase(Faker.Team.creature())
 
     expect(Mock, :get_json, fn url ->
       assert url == "/shapes/#{id}"

@@ -83,9 +83,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     """
   end
 
-  defp leg_icon(
-         %{routes: [%Routes.Route{type: type, external_agency_name: agency} | _]} = assigns
-       ) do
+  defp leg_icon(%{routes: [%Routes.Route{type: type, external_agency_name: agency} | _]} = assigns) do
     slashed? = type == 3 && is_nil(agency)
 
     assigns =
@@ -120,7 +118,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   defp leg_icon(assigns) do
-    inspect(assigns) |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+    assigns |> inspect() |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
 
     ~H"""
     <span></span>
@@ -132,6 +130,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   defp format_datetime_full(datetime) do
-    Timex.format!(datetime, "%-I:%M%p", :strftime) |> String.downcase()
+    datetime |> Timex.format!("%-I:%M%p", :strftime) |> String.downcase()
   end
 end

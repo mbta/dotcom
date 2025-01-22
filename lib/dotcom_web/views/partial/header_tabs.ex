@@ -1,8 +1,11 @@
 defmodule DotcomWeb.PartialView.HeaderTabs do
+  @moduledoc false
   use DotcomWeb, :view
+
+  alias DotcomWeb.PartialView.HeaderTab
+  alias DotcomWeb.PartialView.HeaderTabBadge
   alias Phoenix.HTML
   alias PhoenixHTMLHelpers.Link
-  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabBadge}
 
   @spec render_tabs([HeaderTab.t()], Keyword.t()) :: HTML.safe()
   def render_tabs(tabs, opts \\ []) do

@@ -4,7 +4,8 @@ defmodule Journey do
   """
   alias PhoenixHTMLHelpers.Tag
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
+  alias Schedules.Trip
 
   defstruct [:departure, :arrival, :trip]
 
@@ -15,8 +16,7 @@ defmodule Journey do
         }
 
   @spec has_departure_schedule?(__MODULE__.t()) :: boolean
-  def has_departure_schedule?(%__MODULE__{departure: departure}),
-    do: PredictedSchedule.has_schedule?(departure)
+  def has_departure_schedule?(%__MODULE__{departure: departure}), do: PredictedSchedule.has_schedule?(departure)
 
   def has_departure_schedule?(%__MODULE__{}), do: false
 
@@ -35,8 +35,7 @@ defmodule Journey do
   def has_arrival_prediction?(%__MODULE__{}), do: false
 
   @spec has_prediction?(__MODULE__.t()) :: boolean
-  def has_prediction?(journey),
-    do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
+  def has_prediction?(journey), do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
 
   @spec prediction(__MODULE__.t()) :: Prediction.t() | nil
   def prediction(journey) do
@@ -64,37 +63,25 @@ defmodule Journey do
   def arrival_time(%__MODULE__{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
   @spec departure_prediction_time(__MODULE__.t() | nil) :: DateTime.t() | nil
-  def departure_prediction_time(%__MODULE__{
-        departure: %PredictedSchedule{prediction: %Prediction{time: time}}
-      }),
-      do: time
+  def departure_prediction_time(%__MODULE__{departure: %PredictedSchedule{prediction: %Prediction{time: time}}}), do: time
 
   def departure_prediction_time(%__MODULE__{}), do: nil
   def departure_prediction_time(nil), do: nil
 
   @spec departure_schedule_time(__MODULE__.t() | nil) :: DateTime.t() | nil
-  def departure_schedule_time(%__MODULE__{
-        departure: %PredictedSchedule{schedule: %Schedule{time: time}}
-      }),
-      do: time
+  def departure_schedule_time(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}), do: time
 
   def departure_schedule_time(%__MODULE__{}), do: nil
   def departure_schedule_time(nil), do: nil
 
-  def departure_schedule_before?(
-        %__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}},
-        cmp_time
-      )
+  def departure_schedule_before?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
       when not is_nil(time) do
     Timex.before?(time, cmp_time)
   end
 
   def departure_schedule_before?(%__MODULE__{}), do: false
 
-  def departure_schedule_after?(
-        %__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}},
-        cmp_time
-      )
+  def departure_schedule_after?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
       when not is_nil(time) do
     Timex.after?(time, cmp_time)
   end
@@ -211,10 +198,7 @@ defmodule Journey do
           Phoenix.HTML.Safe.t()
   def display_status(departure, arrival \\ nil)
 
-  def display_status(
-        %PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}},
-        _
-      )
+  def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _)
       when not is_nil(status) do
     status = String.capitalize(status)
 

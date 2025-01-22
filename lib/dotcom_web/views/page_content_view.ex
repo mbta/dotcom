@@ -9,6 +9,7 @@ defmodule DotcomWeb.CMS.PageView do
   alias CMS.Page
   alias CMS.Partial.Paragraph
   alias Page.Project
+  alias Phoenix.HTML.Safe
   alias Plug.Conn
 
   @doc "Universal wrapper for CMS page content"
@@ -116,8 +117,6 @@ defmodule DotcomWeb.CMS.PageView do
 
     if uri.host != nil and String.contains?(uri.host, "mbta.com") do
       uri.path
-    else
-      nil
     end
   end
 
@@ -141,16 +140,13 @@ defmodule DotcomWeb.CMS.PageView do
 
   @spec alerts_for_project(Page.Project.t(), [Alerts.Alert]) :: [Alerts.Alert]
   defp alerts_for_project(project, alerts) do
-    paths =
-      [project.path_alias | project.redirects]
-      |> Enum.map(&trim_and_downcase/1)
-      |> MapSet.new()
+    paths = MapSet.new([project.path_alias | project.redirects], &trim_and_downcase/1)
 
     Enum.filter(alerts, &alert_related?(paths, &1))
   end
 
-  @spec inject_alerts_section(Phoenix.HTML.Safe.t(), Phoenix.HTML.Safe.t()) ::
-          Phoenix.HTML.Safe.t()
+  @spec inject_alerts_section(Safe.t(), Safe.t()) ::
+          Safe.t()
   defp inject_alerts_section({:safe, rewritten}, {:safe, alerts_section}) do
     {:ok, parsed_rewritten} = Floki.parse_fragment(rewritten)
 
@@ -163,7 +159,7 @@ defmodule DotcomWeb.CMS.PageView do
     end
   end
 
-  @spec body_with_alerts_section(Plug.Conn.t(), Page.Project.t()) :: Phoenix.HTML.Safe.t()
+  @spec body_with_alerts_section(Plug.Conn.t(), Page.Project.t()) :: Safe.t()
   def body_with_alerts_section(conn, page) do
     rewritten = Dotcom.ContentRewriter.rewrite(page.body, conn)
 

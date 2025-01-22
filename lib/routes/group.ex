@@ -4,15 +4,16 @@ defmodule Routes.Group do
   Groups a list of Route structures into a keyword dict based on their type: Commuter Rail, Bus, or Subway
 
   """
-  alias Routes.{Repo, Route}
+  alias Routes.Repo
+  alias Routes.Route
 
   @type t :: {Routes.Route.route_type(), Routes.Route.t()}
 
   @spec group([Route.t()]) :: [Routes.Group.t()]
   def group(routes) do
     routes
-    |> combine_green_line_into_single_route
-    |> group_items_by_route_type
+    |> combine_green_line_into_single_route()
+    |> group_items_by_route_type()
     |> Enum.sort_by(&sorter/1)
   end
 

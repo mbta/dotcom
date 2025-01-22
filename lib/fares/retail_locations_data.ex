@@ -1,13 +1,14 @@
 defmodule Fares.RetailLocations.Data do
-  @doc """
-    Parses json from the existing data file and returns it.
-  """
-
+  @moduledoc false
   use Nebulex.Caching.Decorators
 
   alias Fares.RetailLocations.Location
   alias MBTA.Api.Facilities
   alias Util.Position
+
+  @doc """
+    Parses json from the existing data file and returns it.
+  """
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
@@ -16,7 +17,7 @@ defmodule Fares.RetailLocations.Data do
   def get do
     [{"type", "FARE_VENDING_RETAILER"}]
     |> Facilities.filter_by()
-    |> parse_v3_multiple
+    |> parse_v3_multiple()
   end
 
   @spec build_r_tree :: :rstar.rtree()

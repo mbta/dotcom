@@ -1,4 +1,5 @@
 defmodule PredictedSchedule.Display do
+  @moduledoc false
   import DotcomWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @doc """
@@ -28,6 +29,5 @@ defmodule PredictedSchedule.Display do
 
   defp format_time_difference(0, _, _, _), do: ["1", " ", "min"]
 
-  defp format_time_difference(diff, _, _, _),
-    do: [Integer.to_string(diff), " ", "min"]
+  defp format_time_difference(diff, _, _, _), do: [Integer.to_string(diff), " ", "min"]
 end

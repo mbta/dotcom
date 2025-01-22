@@ -1,5 +1,6 @@
 defmodule DotcomWeb.SearchHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.SearchHelpers
 
   describe "desktop_form/2" do

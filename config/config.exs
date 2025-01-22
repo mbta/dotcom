@@ -1,17 +1,23 @@
 import Config
 
-config :elixir, ansi_enabled: true
+tile_server_url =
+  if config_env() == :prod,
+    do: "https://cdn.mbta.com",
+    else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :dotcom, :aws_client, AwsClient.Behaviour
-
-config :dotcom, :content_security_policy_definition, ""
 config :dotcom, :cms_api_module, CMS.Api
-
+config :dotcom, :content_security_policy_definition, ""
 config :dotcom, :httpoison, HTTPoison
-
-config :dotcom, :mbta_api_module, MBTA.Api
-
 config :dotcom, :location_service, LocationService
+config :dotcom, :mbta_api_module, MBTA.Api
+config :dotcom, :otp_module, OpenTripPlannerClient
+config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub
+config :dotcom, :predictions_pub_sub, Predictions.PubSub
+config :dotcom, :predictions_store, Predictions.Store
+config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
+config :dotcom, :redix, Redix
+config :dotcom, :redix_pub_sub, Redix.PubSub
 
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo,
@@ -19,30 +25,17 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo,
   stops: Stops.Repo
 
-config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub
-config :dotcom, :predictions_pub_sub, Predictions.PubSub
-config :dotcom, :predictions_store, Predictions.Store
-
-config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
-config :dotcom, :redix, Redix
-config :dotcom, :redix_pub_sub, Redix.PubSub
-
-config :dotcom, :otp_module, OpenTripPlannerClient
 config :dotcom, :req_module, Req
-
-tile_server_url =
-  if config_env() == :prod,
-    do: "https://cdn.mbta.com",
-    else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
-
 config :dotcom, tile_server_url: tile_server_url
+
+config :elixir, ansi_enabled: true
+
+config :mbta_metro, custom_icons: ["#{File.cwd!()}/priv/static/icon-svg/*"]
 
 config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
-
-config :mbta_metro, custom_icons: ["#{File.cwd!()}/priv/static/icon-svg/*"]
 
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do
   import_config("../#{config_file}")
@@ -59,8 +52,7 @@ config :mbta_metro, :map, %{
         "type" => "raster",
         "tiles" => ["#{tile_server_url}/osm_tiles/{z}/{x}/{y}.png"],
         "tileSize" => 256,
-        "attribution" =>
-          "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+        "attribution" => "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
       }
     },
     "layers" => [

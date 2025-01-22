@@ -7,15 +7,17 @@ defmodule DotcomWeb.ScheduleView do
   import DotcomWeb.ScheduleView.Timetable
   import DotcomWeb.ViewHelpers
 
-  require Routes.Route
-
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers
-  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
+  alias DotcomWeb.PartialView.HeaderTab
+  alias DotcomWeb.PartialView.HeaderTabs
+  alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
   alias Stops.Stop
+
+  require Routes.Route
 
   @subway_order [
     "Red",
@@ -90,12 +92,7 @@ defmodule DotcomWeb.ScheduleView do
     ]
   end
 
-  def no_trips_message(
-        _,
-        _,
-        date
-      )
-      when not is_nil(date) do
+  def no_trips_message(_, _, date) when not is_nil(date) do
     [
       "There are no scheduled trips on ",
       format_full_date(date),
@@ -208,7 +205,7 @@ defmodule DotcomWeb.ScheduleView do
       |> String.replace_trailing(" Line", " line")
       |> String.replace_trailing(" Ferry", " ferry")
       |> String.replace_trailing(" Trolley", " trolley")
-      |> break_text_at_slash
+      |> break_text_at_slash()
 
     route_prefix <> route_name
   end
@@ -350,7 +347,7 @@ defmodule DotcomWeb.ScheduleView do
     |> to_fare_summary_atom()
     |> mode_summaries()
     |> Enum.find(fn summary -> summary.duration == :single_trip end)
-    |> (&(&1.fares || [])).()
+    |> then(&(&1.fares || []))
     |> Enum.map(fn fare ->
       {elem(fare, 0), "Free"}
     end)
@@ -361,7 +358,7 @@ defmodule DotcomWeb.ScheduleView do
     |> to_fare_summary_atom()
     |> mode_summaries()
     |> Enum.find(fn summary -> summary.duration == :single_trip end)
-    |> (&(&1.fares || [])).()
+    |> then(&(&1.fares || []))
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom

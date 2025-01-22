@@ -20,8 +20,7 @@ defmodule Algolia.Analytics do
     end
   end
 
-  def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params)
-      when is_integer(pos) do
+  def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params) when is_integer(pos) do
     :dotcom
     |> Application.get_env(:algolia_click_analytics_url)
     |> send_click(params, Application.get_env(:dotcom, :algolia_track_clicks?, false))
@@ -55,9 +54,7 @@ defmodule Algolia.Analytics do
 
   defp handle_click_response({:ok, %HTTPoison.Response{} = response}, body) do
     _ =
-      Logger.warning(
-        "module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{body}"
-      )
+      Logger.warning("module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{body}")
 
     {:error, response}
   end

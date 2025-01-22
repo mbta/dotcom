@@ -4,9 +4,12 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   """
 
   alias Dotcom.MapHelpers
-  alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
+  alias Leaflet.MapData
+  alias Leaflet.MapData.Marker
+  alias Leaflet.MapData.Polyline
   alias RoutePatterns.RoutePattern
-  alias Stops.{Repo, Stop}
+  alias Stops.Repo
+  alias Stops.Stop
 
   @doc """
   Returns a tuple {String.t, MapData.t} where the first element
@@ -20,11 +23,7 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
         ) :: {String.t(), MapData.t()}
   def map_data(%Routes.Route{type: 4}, _, _), do: {MapHelpers.image(:ferry), nil}
 
-  def map_data(
-        route,
-        route_patterns,
-        vehicle_tooltips
-      ) do
+  def map_data(route, route_patterns, vehicle_tooltips) do
     dynamic_data = dynamic_map_data(route.color, route_patterns, vehicle_tooltips)
     {nil, dynamic_data}
   end
@@ -34,14 +33,11 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
           [RoutePattern.t()],
           VehicleHelpers.tooltip_index() | nil
         ) :: MapData.t()
-  defp dynamic_map_data(
-         color,
-         route_patterns,
-         vehicle_tooltips
-       ) do
+  defp dynamic_map_data(color, route_patterns, vehicle_tooltips) do
     stop_ids =
       if is_list(route_patterns) do
-        Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+        route_patterns
+        |> Enum.flat_map(fn %{stop_ids: stop_ids} -> stop_ids end)
         |> Enum.uniq()
       else
         []
@@ -96,9 +92,7 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
         icon: "vehicle-bordered-expanded",
         rotation_angle: vt.vehicle.bearing,
         vehicle_crowding: vt.vehicle.crowding,
-        tooltip_text:
-          vt
-          |> VehicleHelpers.tooltip()
+        tooltip_text: VehicleHelpers.tooltip(vt)
       )
     end)
   end
@@ -106,7 +100,8 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
     route_paths =
-      Enum.filter(route_patterns, &(!is_nil(&1.representative_trip_polyline)))
+      route_patterns
+      |> Enum.filter(&(!is_nil(&1.representative_trip_polyline)))
       |> Enum.map(&Polyline.new(&1, color: color, weight: 4))
 
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))

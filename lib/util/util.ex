@@ -1,9 +1,9 @@
 defmodule Util do
   @moduledoc "Utilities module"
 
-  require Logger
-
   use Timex
+
+  require Logger
 
   {:ok, endpoint} = Application.compile_env(:dotcom, :util_endpoint)
   {:ok, route_helper_module} = Application.compile_env(:dotcom, :util_router_helper_module)
@@ -15,7 +15,7 @@ defmodule Util do
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
-  def now(utc_now_fn \\ &Timex.now/1) do
+  def now(utc_now_fn \\ &DateTime.utc_now/1) do
     @local_tz
     |> utc_now_fn.()
     |> to_local_time()
@@ -37,7 +37,7 @@ defmodule Util do
 
   @doc "Today's date in the America/New_York timezone."
   def today do
-    now() |> Timex.to_date()
+    Timex.to_date(now())
   end
 
   @spec time_is_greater_or_equal?(
@@ -76,14 +76,14 @@ defmodule Util do
   def parse_date_time(map) when is_map(map) do
     case parse(map) do
       {:error, _} ->
-        Timex.now()
+        DateTime.utc_now()
 
       date_time ->
         date_time
     end
   end
 
-  def parse_date_time(_), do: Timex.now()
+  def parse_date_time(_), do: DateTime.utc_now()
 
   @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   def parse(date_params) do
@@ -131,13 +131,12 @@ defmodule Util do
   end
 
   @spec date_to_naive_date(NaiveDateTime.t() | DateTime.t() | Date.t()) :: NaiveDateTime.t()
-  def date_to_naive_date(%Date{} = date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
+  def date_to_naive_date(%Date{} = date), do: date |> NaiveDateTime.new(~T[00:00:00.00]) |> elem(1)
   def date_to_naive_date(%DateTime{} = date), do: DateTime.to_naive(date)
   def date_to_naive_date(%NaiveDateTime{} = date), do: date
 
   def convert_to_iso_format(date) do
-    date
-    |> Timex.format!("{ISOdate}")
+    Timex.format!(date, "{ISOdate}")
   end
 
   @doc "Gives the date for tomorrow based on the provided date"
@@ -166,8 +165,7 @@ defmodule Util do
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
   @spec to_local_time(DateTime.t() | NaiveDateTime.t() | Timex.AmbiguousDateTime.t()) ::
           DateTime.t() | {:error, any}
-  def to_local_time(%DateTime{zone_abbr: zone} = time)
-      when zone in ["EDT", "EST", "-04", "-05"] do
+  def to_local_time(%DateTime{zone_abbr: zone} = time) when zone in ["EDT", "EST", "-04", "-05"] do
     time
   end
 

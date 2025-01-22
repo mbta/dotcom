@@ -4,11 +4,8 @@ defmodule DotcomWeb.FareView do
   """
   use DotcomWeb, :view
 
-  alias CMS.Partial.Paragraph.{
-    Description,
-    DescriptionList
-  }
-
+  alias CMS.Partial.Paragraph.Description
+  alias CMS.Partial.Paragraph.DescriptionList
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Fares.Summary
   alias Phoenix.HTML
@@ -35,7 +32,8 @@ defmodule DotcomWeb.FareView do
         URI.encode("#{dest_lat},#{dest_lng}")
       ])
 
-    URI.parse("https://maps.google.com")
+    "https://maps.google.com"
+    |> URI.parse()
     |> URI.append_path(path)
     |> URI.to_string()
   end
@@ -53,8 +51,7 @@ defmodule DotcomWeb.FareView do
   @spec summary_url(Summary.t()) :: String.t()
   def summary_url(%Summary{url: url}) when not is_nil(url), do: url
 
-  def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration})
-      when subway_or_bus in [:subway, :bus] do
+  def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration}) when subway_or_bus in [:subway, :bus] do
     anchor =
       cond do
         duration in ~w(day week)a -> "#7-day"
@@ -141,10 +138,7 @@ defmodule DotcomWeb.FareView do
 
   @spec fare_pass_price(String.t()) :: HTML.safe()
   defp fare_pass_price(price),
-    do:
-      content_tag(:span, price,
-        class: "font-heading font-bold mt-11 mb-3 text-3xl c-fare-pass__price"
-      )
+    do: content_tag(:span, price, class: "font-heading font-bold mt-11 mb-3 text-3xl c-fare-pass__price")
 
   @spec fare_overview_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
   def fare_overview_link(mode, conn) do

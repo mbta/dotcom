@@ -24,11 +24,13 @@ defmodule DotcomWeb.ConnCase do
 
   using do
     quote do
-      # Import conveniences for testing with connections
-      import Plug.Conn
-      import Phoenix.ConnTest
+      use DotcomWeb, :verified_routes
+      import CMS.Factory
+      import DotcomWeb.CmsRouterHelpers
+      import DotcomWeb.ConnCase, only: [default_conn: 0]
 
       import DotcomWeb.Router.Helpers,
+        # Import conveniences for testing with connections
         except: [
           news_entry_path: 2,
           news_entry_path: 3,
@@ -44,15 +46,11 @@ defmodule DotcomWeb.ConnCase do
           static_url: 2
         ]
 
-      import DotcomWeb.CmsRouterHelpers
-      import CMS.Factory
+      import Phoenix.ConnTest
+      import Plug.Conn
 
       # The default endpoint for testing
       @endpoint DotcomWeb.Endpoint
-
-      use DotcomWeb, :verified_routes
-
-      import DotcomWeb.ConnCase, only: [default_conn: 0]
     end
   end
 

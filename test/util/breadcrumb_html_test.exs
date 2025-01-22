@@ -1,6 +1,8 @@
 defmodule Util.BreadcrumbHTMLTest do
   use ExUnit.Case, async: true
+
   import Util.BreadcrumbHTML
+
   alias Plug.Conn
 
   setup do
@@ -18,7 +20,7 @@ defmodule Util.BreadcrumbHTMLTest do
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      breadcrumbs = conn |> title_breadcrumbs() |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Third | Second | MBTA"
     end
 
@@ -31,7 +33,7 @@ defmodule Util.BreadcrumbHTMLTest do
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      breadcrumbs = conn |> title_breadcrumbs() |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Second | First | MBTA"
     end
 
@@ -43,18 +45,18 @@ defmodule Util.BreadcrumbHTMLTest do
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      breadcrumbs = conn |> title_breadcrumbs() |> IO.iodata_to_binary()
       assert breadcrumbs == "First | MBTA"
     end
 
     test "returns the MBTA's full name when breadcrumbs are empty", %{conn: conn} do
       conn = Conn.assign(conn, :breadcrumbs, [])
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      breadcrumbs = conn |> title_breadcrumbs() |> IO.iodata_to_binary()
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
 
     test "returns the MBTA's full name when the breadcrumbs key is not found", %{conn: conn} do
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      breadcrumbs = conn |> title_breadcrumbs() |> IO.iodata_to_binary()
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
   end

@@ -10,24 +10,26 @@ defmodule Dotcom.IcalendarGenerator do
 
   @spec to_ical(Plug.Conn.t(), Event.t()) :: iodata
   def to_ical(%Plug.Conn{} = conn, %Event{} = event) do
-    [
-      "BEGIN:VCALENDAR\r\n",
-      "VERSION:2.0\r\n",
-      "PRODID:-//www.mbta.com//Events//EN\r\n",
-      "BEGIN:VEVENT\r\n",
-      "UID:" <> "event" <> "#{event.id}" <> "@mbta.com\r\n",
-      "SEQUENCE:" <> unix_time() <> "\r\n",
-      "DTSTAMP:" <> timestamp() <> "\r\n",
-      "DTSTART:" <> start_time(event) <> "\r\n",
-      "DTEND:" <> end_time(event) <> "\r\n",
-      "DESCRIPTION:" <> description(event) <> "\r\n",
-      "LOCATION:" <> address(event) <> "\r\n",
-      "SUMMARY:" <> event_summary(event) <> "\r\n",
-      "URL:" <> full_url(conn, event) <> "\r\n",
-      "END:VEVENT\r\n",
-      "END:VCALENDAR\r\n"
-    ]
-    |> Enum.map(&fold_line/1)
+    Enum.map(
+      [
+        "BEGIN:VCALENDAR\r\n",
+        "VERSION:2.0\r\n",
+        "PRODID:-//www.mbta.com//Events//EN\r\n",
+        "BEGIN:VEVENT\r\n",
+        "UID:" <> "event" <> "#{event.id}" <> "@mbta.com\r\n",
+        "SEQUENCE:" <> unix_time() <> "\r\n",
+        "DTSTAMP:" <> timestamp() <> "\r\n",
+        "DTSTART:" <> start_time(event) <> "\r\n",
+        "DTEND:" <> end_time(event) <> "\r\n",
+        "DESCRIPTION:" <> description(event) <> "\r\n",
+        "LOCATION:" <> address(event) <> "\r\n",
+        "SUMMARY:" <> event_summary(event) <> "\r\n",
+        "URL:" <> full_url(conn, event) <> "\r\n",
+        "END:VEVENT\r\n",
+        "END:VCALENDAR\r\n"
+      ],
+      &fold_line/1
+    )
   end
 
   defp address(event) do
@@ -38,12 +40,7 @@ defmodule Dotcom.IcalendarGenerator do
     end
   end
 
-  defp full_address(%Event{
-         location: location,
-         street_address: street_address,
-         city: city,
-         state: state
-       })
+  defp full_address(%Event{location: location, street_address: street_address, city: city, state: state})
        when nil not in [location, street_address, city, state] do
     location <> " " <> street_address <> " " <> city <> ", " <> state
   end
@@ -75,7 +72,8 @@ defmodule Dotcom.IcalendarGenerator do
   end
 
   defp replace_newlines(string) do
-    String.replace(string, ~r/\n+/, "\r\n")
+    string
+    |> String.replace(~r/\n+/, "\r\n")
     |> String.replace_trailing("\r\n", "")
   end
 
@@ -84,11 +82,11 @@ defmodule Dotcom.IcalendarGenerator do
   end
 
   defp unix_time do
-    Timex.now() |> Timex.to_unix() |> Integer.to_string()
+    DateTime.utc_now() |> Timex.to_unix() |> Integer.to_string()
   end
 
   defp timestamp do
-    Timex.now() |> convert_to_ical_format
+    convert_to_ical_format(DateTime.utc_now())
   end
 
   defp full_url(conn, event) do
@@ -98,15 +96,15 @@ defmodule Dotcom.IcalendarGenerator do
   defp start_time(%Event{start_time: nil}), do: ""
 
   defp start_time(%Event{start_time: start_time}) do
-    start_time |> convert_to_ical_format
+    convert_to_ical_format(start_time)
   end
 
   defp end_time(%Event{end_time: nil, start_time: start_time}) do
-    start_time |> Timex.shift(hours: 1) |> convert_to_ical_format
+    start_time |> Timex.shift(hours: 1) |> convert_to_ical_format()
   end
 
   defp end_time(%Event{end_time: end_time}) do
-    end_time |> convert_to_ical_format
+    convert_to_ical_format(end_time)
   end
 
   defp convert_to_ical_format(datetime) do

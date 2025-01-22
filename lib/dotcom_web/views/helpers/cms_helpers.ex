@@ -3,12 +3,13 @@ defmodule DotcomWeb.CMSHelpers do
   Various helper functions that aid in rendering CMS content.
   """
 
-  import DotcomWeb.ViewHelpers, only: [route_to_class: 1]
   import CSSHelpers, only: [string_to_class: 1]
+  import DotcomWeb.ViewHelpers, only: [route_to_class: 1]
   import PhoenixHTMLHelpers.Link
 
   alias CMS.API
-  alias Routes.{Repo, Route}
+  alias Routes.Repo
+  alias Routes.Route
 
   @doc """
   Converts CMS-flavored routes to classes, where the route may
@@ -51,8 +52,7 @@ defmodule DotcomWeb.CMSHelpers do
   def cms_route_to_svg(%{group: "mode", id: mode}), do: Route.type_atom(mode)
   def cms_route_to_svg(%{group: "custom", mode: mode}), do: Route.type_atom(mode)
 
-  def cms_route_to_svg(%{id: id}),
-    do: id |> Repo.get() |> Route.icon_atom()
+  def cms_route_to_svg(%{id: id}), do: id |> Repo.get() |> Route.icon_atom()
 
   @doc """
   Map certain CMS content categories to index pages of that content.

@@ -3,19 +3,18 @@ defmodule Predictions.Repo do
   Predictions repo module
   """
 
-  require Logger
-  require Routes.Route
-
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop
+
+  require Logger
+  require Routes.Route
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @default_params [
-    "fields[prediction]":
-      "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
+    "fields[prediction]": "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
     include: "trip,trip.occupancies,stop"
@@ -28,7 +27,7 @@ defmodule Predictions.Repo do
     |> add_all_optional_params()
     |> cache_fetch()
     |> filter_predictions(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
+    |> load_from_other_repos()
   end
 
   def all_no_cache(opts) when is_list(opts) and opts != [] do
@@ -36,7 +35,7 @@ defmodule Predictions.Repo do
     |> add_all_optional_params()
     |> fetch()
     |> filter_predictions()
-    |> load_from_other_repos
+    |> load_from_other_repos()
   end
 
   defp add_all_optional_params(opts) do
@@ -94,8 +93,7 @@ defmodule Predictions.Repo do
     |> Schedules.Repo.insert_trips_into_cache()
   end
 
-  def has_trip?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
-      when not is_nil(id) do
+  def has_trip?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
     true
   end
 
@@ -104,11 +102,9 @@ defmodule Predictions.Repo do
   end
 
   defp parse(item) do
-    try do
-      [Parser.parse(item)]
-    rescue
-      e -> warn_error(item, e)
-    end
+    [Parser.parse(item)]
+  rescue
+    e -> warn_error(item, e)
   end
 
   defp warn_error(item, e) do
@@ -117,9 +113,8 @@ defmodule Predictions.Repo do
   end
 
   defp has_departure_time?(
-         {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
-          _stop_sequence, _schedule_relationship, _track, _status, _departing?,
-          _vehicle_id} = _prediction
+         {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time, _stop_sequence,
+          _schedule_relationship, _track, _status, _departing?, _vehicle_id} = _prediction
        ) do
     departure != nil
   end
@@ -129,44 +124,17 @@ defmodule Predictions.Repo do
   defp after_min_time?(_, nil), do: true
 
   defp after_min_time?(
-         {
-           _id,
-           _trip_id,
-           _stop_id,
-           _route_id,
-           _direction_id,
-           _arrival_time,
-           _departure_time,
-           nil,
-           _stop_sequence,
-           _schedule_relationship,
-           _track,
-           _status,
-           _departing?,
-           _vehicle_id
-         },
+         {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival_time, _departure_time, nil, _stop_sequence,
+          _schedule_relationship, _track, _status, _departing?, _vehicle_id},
          %DateTime{}
        ) do
     false
   end
 
   defp after_min_time?(
-         {
-           _id,
-           _trip_id,
-           _stop_id,
-           _route_id,
-           _direction_id,
-           _arrival_time,
-           _departure_time,
-           %DateTime{} = prediction_time,
-           _stop_sequence,
-           _schedule_relationship,
-           _track,
-           _status,
-           _departing?,
-           _vehicle_id
-         },
+         {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival_time, _departure_time,
+          %DateTime{} = prediction_time, _stop_sequence, _schedule_relationship, _track, _status, _departing?,
+          _vehicle_id},
          min_time
        ) do
     Util.time_is_greater_or_equal?(prediction_time, min_time)
@@ -194,10 +162,7 @@ defmodule Predictions.Repo do
     |> discard_if_subway_past_prediction()
   end
 
-  defp do_record_to_structs(
-         nil,
-         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record
-       ) do
+  defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record) do
     :ok =
       Logger.error(
         "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}"
@@ -208,8 +173,8 @@ defmodule Predictions.Repo do
 
   defp do_record_to_structs(
          %Stop{} = stop,
-         {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time,
-          time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id}
+         {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time, time, stop_sequence,
+          schedule_relationship, track, status, departing?, vehicle_id}
        ) do
     trip =
       if trip_id do

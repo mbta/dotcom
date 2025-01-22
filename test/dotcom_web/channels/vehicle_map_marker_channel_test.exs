@@ -5,7 +5,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   import Mox
   import Test.Support.Factories.MBTA.Api
 
-  alias DotcomWeb.{UserSocket, VehicleMapMarkerChannel}
+  alias DotcomWeb.UserSocket
+  alias DotcomWeb.VehicleMapMarkerChannel
   alias Leaflet.MapData.Marker
   alias Test.Support.Factories
   alias Vehicles.Vehicle
@@ -36,8 +37,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   end
 
   test "sends vehicles and marker data" do
-    MBTA.Api.Mock
-    |> expect(:get_json, fn "/trips/" <> _, _ ->
+    expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> _, _ ->
       %JsonApi{links: %{}, data: [build(:trip_item)]}
     end)
 
@@ -123,7 +123,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       direction_id: 0,
       status: "All aboard",
       track: "20",
-      vehicle_id: List.first(@vehicles) |> Map.get(:id),
+      vehicle_id: @vehicles |> List.first() |> Map.get(:id),
       departing?: true
     }
 

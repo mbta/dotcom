@@ -69,13 +69,7 @@ defmodule Algolia.MockRoutesRepo do
       direction_destinations: @direction_destinations
     }
 
-  def get("1000"),
-    do: %Routes.Route{
-      id: "1000",
-      name: "1000",
-      type: 3,
-      direction_destinations: @direction_destinations
-    }
+  def get("1000"), do: %Routes.Route{id: "1000", name: "1000", type: 3, direction_destinations: @direction_destinations}
 
   def get("Boat-1000"),
     do: %Routes.Route{

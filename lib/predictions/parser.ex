@@ -48,11 +48,9 @@ defmodule Predictions.Parser do
   end
 
   @spec departing?(Item.t()) :: boolean()
-  def departing?(%Item{attributes: %{"departure_time" => binary}}) when is_binary(binary),
-    do: true
+  def departing?(%Item{attributes: %{"departure_time" => binary}}) when is_binary(binary), do: true
 
-  def departing?(%Item{attributes: %{"status" => binary}}) when is_binary(binary),
-    do: upcoming_status?(binary)
+  def departing?(%Item{attributes: %{"status" => binary}}) when is_binary(binary), do: upcoming_status?(binary)
 
   def departing?(_), do: false
 
@@ -60,33 +58,27 @@ defmodule Predictions.Parser do
   def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
 
   @spec departure_time(Item.t()) :: DateTime.t() | nil
-  def departure_time(%Item{attributes: %{"departure_time" => departure_time}})
-      when not is_nil(departure_time),
-      do: parse_time(departure_time)
+  def departure_time(%Item{attributes: %{"departure_time" => departure_time}}) when not is_nil(departure_time),
+    do: parse_time(departure_time)
 
   def departure_time(_), do: nil
 
   @spec arrival_time(Item.t()) :: DateTime.t() | nil
-  def arrival_time(%Item{attributes: %{"arrival_time" => arrival_time}})
-      when not is_nil(arrival_time),
-      do: parse_time(arrival_time)
+  def arrival_time(%Item{attributes: %{"arrival_time" => arrival_time}}) when not is_nil(arrival_time),
+    do: parse_time(arrival_time)
 
   def arrival_time(_), do: nil
 
   @spec schedule_relationship(Item.t()) :: Prediction.schedule_relationship() | nil
   def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "ADDED"}}), do: :added
 
-  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "UNSCHEDULED"}}),
-    do: :unscheduled
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "UNSCHEDULED"}}), do: :unscheduled
 
-  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "CANCELLED"}}),
-    do: :cancelled
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "CANCELLED"}}), do: :cancelled
 
-  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "SKIPPED"}}),
-    do: :skipped
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "SKIPPED"}}), do: :skipped
 
-  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "NO_DATA"}}),
-    do: :no_data
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "NO_DATA"}}), do: :no_data
 
   def schedule_relationship(_), do: nil
 
@@ -101,8 +93,7 @@ defmodule Predictions.Parser do
   @spec track(Item.t()) :: String.t() | nil
   def track(%{attributes: %{"track" => track}}), do: track
 
-  def track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}),
-    do: track
+  def track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}), do: track
 
   def track(_), do: nil
 

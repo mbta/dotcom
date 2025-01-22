@@ -5,11 +5,12 @@ defmodule DotcomWeb.PredictionsChannel do
 
   use DotcomWeb, :channel
 
-  require Routes.Route
-
-  alias Routes.Route
-  alias Phoenix.{Channel, Socket}
+  alias Phoenix.Channel
+  alias Phoenix.Socket
   alias Predictions.Prediction
+  alias Routes.Route
+
+  require Routes.Route
 
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 

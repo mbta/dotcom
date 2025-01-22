@@ -4,14 +4,13 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   parses the result.
   """
 
-  alias Dotcom.TripPlan.{InputForm, NamedPosition, Parser}
-
-  alias OpenTripPlannerClient.ItineraryTag.{
-    EarliestArrival,
-    LeastWalking,
-    MostDirect,
-    ShortestTrip
-  }
+  alias Dotcom.TripPlan.InputForm
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.Parser
+  alias OpenTripPlannerClient.ItineraryTag.EarliestArrival
+  alias OpenTripPlannerClient.ItineraryTag.LeastWalking
+  alias OpenTripPlannerClient.ItineraryTag.MostDirect
+  alias OpenTripPlannerClient.ItineraryTag.ShortestTrip
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
@@ -30,12 +29,13 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   end
 
   def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
-    with from <- NamedPosition.to_keywords(from),
-         to <- NamedPosition.to_keywords(to),
-         opts <- Keyword.put_new(opts, :tags, tags(opts)) do
-      @otp_module.plan(from, to, opts)
-      |> parse()
-    end
+    from = NamedPosition.to_keywords(from)
+    to = NamedPosition.to_keywords(to)
+    opts = Keyword.put_new(opts, :tags, tags(opts))
+
+    from
+    |> @otp_module.plan(to, opts)
+    |> parse()
   end
 
   def tags(opts) do

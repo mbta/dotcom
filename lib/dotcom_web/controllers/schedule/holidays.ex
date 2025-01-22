@@ -1,11 +1,14 @@
 defmodule DotcomWeb.ScheduleController.Holidays do
+  @moduledoc false
   @behaviour Plug
+
   import Plug.Conn, only: [assign: 3]
+
   alias DotcomWeb.ViewHelpers
 
   @impl true
   def init(opts) do
-    Keyword.merge(opts || [], holiday_limit: 3)
+    Keyword.put(opts || [], :holiday_limit, 3)
   end
 
   @impl true
@@ -18,8 +21,7 @@ defmodule DotcomWeb.ScheduleController.Holidays do
         Map.update!(holiday, :date, fn date -> ViewHelpers.format_full_date(date) end)
       end)
 
-    conn
-    |> assign(:holidays, holidays)
+    assign(conn, :holidays, holidays)
   end
 
   def call(conn, _opts) do

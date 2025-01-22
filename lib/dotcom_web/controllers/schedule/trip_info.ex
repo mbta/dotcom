@@ -10,11 +10,11 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
 
   import Plug.Conn, only: [assign: 3]
 
-  require Routes.Route
-
   alias DotcomWeb.ScheduleController.VehicleLocations
   alias Plug.Conn
   alias Routes.Route
+
+  require Routes.Route
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
@@ -69,13 +69,10 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
        when journeys != [] do
     if show_trips?(user_selected_date, date_time, route.type, route.id) do
       current_trip(journeys, date_time)
-    else
-      nil
     end
   end
 
-  defp trip_id(%Conn{assigns: %{journeys: %JourneyList{journeys: journeys}, date_time: date_time}})
-       when journeys != [] do
+  defp trip_id(%Conn{assigns: %{journeys: %JourneyList{journeys: journeys}, date_time: date_time}}) when journeys != [] do
     current_trip(journeys, date_time)
   end
 
@@ -158,8 +155,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     |> PredictedSchedule.group(schedules)
   end
 
-  defp get_trip_predictions(%{date: date}, service_date, _trip_id)
-       when date != service_date do
+  defp get_trip_predictions(%{date: date}, service_date, _trip_id) when date != service_date do
     []
   end
 
@@ -168,8 +164,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
   end
 
   @spec show_trips?(DateTime.t(), DateTime.t(), integer, String.t()) :: boolean
-  def show_trips?(user_selected_date, current_date_time, route_type, route_id)
-      when Route.subway?(route_type, route_id) do
+  def show_trips?(user_selected_date, current_date_time, route_type, route_id) when Route.subway?(route_type, route_id) do
     Date.diff(user_selected_date, current_date_time) == 0
   end
 

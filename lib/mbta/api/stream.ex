@@ -49,7 +49,7 @@ defmodule MBTA.Api.Stream do
   @spec build_options(Keyword.t()) :: Keyword.t()
   def build_options(opts) do
     with base_url when not is_nil(base_url) <- config(:base_url),
-         headers <- config(:headers),
+         headers = config(:headers),
          key when not is_nil(key) <- List.keyfind(headers, "x-api-key", 0) do
       opts
       |> set_url(config(:base_url))

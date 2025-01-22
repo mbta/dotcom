@@ -5,17 +5,16 @@ defmodule DotcomWeb.CMSController do
 
   use DotcomWeb, :controller
 
-  require Logger
-
-  alias CMS.{API, Page, Repo}
+  alias CMS.API
+  alias CMS.Page
   alias CMS.Page.Project
+  alias CMS.Repo
+  alias DotcomWeb.EventController
+  alias DotcomWeb.NewsEntryController
+  alias DotcomWeb.ProjectController
   alias Plug.Conn
 
-  alias DotcomWeb.{
-    EventController,
-    NewsEntryController,
-    ProjectController
-  }
+  require Logger
 
   @generic [
     Page.Basic,
@@ -46,8 +45,7 @@ defmodule DotcomWeb.CMSController do
 
   @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::
           Plug.Conn.t()
-  defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @routed do
+  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @routed do
     # If these content types reach this point with a 200, something is wrong with their path alias
     # (the type-specific route controller is not being invoked due to the path not matching).
     case struct do
@@ -56,18 +54,15 @@ defmodule DotcomWeb.CMSController do
     end
   end
 
-  defp handle_page_response(%{__struct__: struct, paragraphs: []} = page, conn)
-       when struct in @transitional do
+  defp handle_page_response(%{__struct__: struct, paragraphs: []} = page, conn) when struct in @transitional do
     # If transitional types are found w/o paragraphs, use the original controller to render.
     case struct do
       Page.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
 
-  defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @generic or struct in @transitional do
-    conn
-    |> render_page(page)
+  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @generic or struct in @transitional do
+    render_page(conn, page)
   end
 
   defp handle_page_response({:error, {:redirect, status, opts}}, conn) do
@@ -76,10 +71,7 @@ defmodule DotcomWeb.CMSController do
     |> redirect(opts)
   end
 
-  defp handle_page_response(
-         {:error, :not_found},
-         %Conn{assigns: %{try_encoded_on_404?: true}} = conn
-       ) do
+  defp handle_page_response({:error, :not_found}, %Conn{assigns: %{try_encoded_on_404?: true}} = conn) do
     conn = Conn.assign(conn, :try_encoded_on_404?, false)
 
     conn.request_path

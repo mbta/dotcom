@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController.GreenTerminiApiTest do
   use DotcomWeb.ConnCase, async: true
+
   @moduletag :external
 
   describe "show/2" do

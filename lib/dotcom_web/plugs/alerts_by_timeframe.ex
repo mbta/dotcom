@@ -50,8 +50,7 @@ defmodule DotcomWeb.Plugs.AlertsByTimeframe do
   end
 
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: nil, alerts: _}} = conn) do
-    conn
-    |> assign_all_timeframes()
+    assign_all_timeframes(conn)
   end
 
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: nil}} = conn) do

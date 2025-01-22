@@ -2,7 +2,11 @@ defmodule CMS.Factory do
   @moduledoc false
 
   alias CMS.Api.Static
-  alias CMS.Page.{Event, NewsEntry, Person, Project, ProjectUpdate}
+  alias CMS.Page.Event
+  alias CMS.Page.NewsEntry
+  alias CMS.Page.Person
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
   alias CMS.Partial.Teaser
 
   @spec event_factory(integer, map) :: Event.t()
@@ -10,7 +14,7 @@ defmodule CMS.Factory do
     Static.events_response()
     |> Enum.at(index)
     |> Event.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec news_entry_factory(integer, map) :: NewsEntry.t()
@@ -18,7 +22,7 @@ defmodule CMS.Factory do
     Static.news_repo()
     |> Enum.at(index)
     |> NewsEntry.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec project_factory(integer, map) :: Project.t()
@@ -26,7 +30,7 @@ defmodule CMS.Factory do
     Static.project_repo()
     |> Enum.at(index)
     |> Project.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec project_update_factory(integer, map) :: ProjectUpdate.t()
@@ -34,14 +38,14 @@ defmodule CMS.Factory do
     Static.project_update_repo()
     |> Enum.at(index)
     |> ProjectUpdate.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec person_factory(map) :: Person.t()
   def person_factory(opts \\ []) do
     Static.person_response()
     |> Person.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec teaser_factory(atom, integer, map) :: Teaser.t()
@@ -50,7 +54,7 @@ defmodule CMS.Factory do
     |> get_teasers()
     |> Enum.at(index)
     |> Teaser.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
+    |> Map.merge(Map.new(opts))
   end
 
   @spec get_teasers(atom) :: [Map.t()]

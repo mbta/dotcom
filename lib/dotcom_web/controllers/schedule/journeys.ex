@@ -4,12 +4,14 @@ defmodule DotcomWeb.ScheduleController.Journeys do
   the work happens in JourneyList.
   """
   use Plug.Builder
-  import Plug.Conn, only: [assign: 3, halt: 1]
+
   import Phoenix.Controller, only: [redirect: 2]
+  import Plug.Conn, only: [assign: 3, halt: 1]
   import UrlHelpers, only: [update_url: 2]
 
-  require Routes.Route
   alias Routes.Route
+
+  require Routes.Route
 
   plug(:do_assign_journeys)
   plug(:validate_direction_id)
@@ -19,9 +21,7 @@ defmodule DotcomWeb.ScheduleController.Journeys do
   end
 
   def assign_journeys(
-        %Plug.Conn{
-          assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}
-        } = conn,
+        %Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn,
         []
       )
       when Route.subway?(route_type, route_id) do
@@ -37,12 +37,7 @@ defmodule DotcomWeb.ScheduleController.Journeys do
   end
 
   def assign_journeys(
-        %Plug.Conn{
-          assigns: %{
-            route: %Routes.Route{type: route_type, id: route_id} = route,
-            schedules: schedules
-          }
-        } = conn,
+        %Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id} = route, schedules: schedules}} = conn,
         []
       ) do
     schedules = Util.error_default(schedules, [])
@@ -53,7 +48,7 @@ defmodule DotcomWeb.ScheduleController.Journeys do
     user_selected_date = conn.assigns.date
     current_date_time = conn.assigns.date_time
     today? = Date.diff(user_selected_date, current_date_time) == 0
-    current_time = if today?, do: conn.assigns.date_time, else: nil
+    current_time = if today?, do: conn.assigns.date_time
     filter_flag = filter_flag(route)
     keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
 
@@ -74,23 +69,20 @@ defmodule DotcomWeb.ScheduleController.Journeys do
     conn
   end
 
-  def validate_direction_id(
-        %Plug.Conn{assigns: %{direction_id: direction_id, journeys: journeys}} = conn,
-        []
-      ) do
+  def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, journeys: journeys}} = conn, []) do
     case Enum.find(journeys, &(!is_nil(&1.trip))) do
       nil ->
         conn
 
       journey ->
-        if journey.trip.direction_id != direction_id do
+        if journey.trip.direction_id == direction_id do
+          conn
+        else
           url = update_url(conn, direction_id: journey.trip.direction_id)
 
           conn
           |> redirect(to: url)
-          |> halt
-        else
-          conn
+          |> halt()
         end
     end
   end

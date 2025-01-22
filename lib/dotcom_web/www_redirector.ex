@@ -36,8 +36,7 @@ defmodule DotcomWeb.WwwRedirector do
     |> halt()
   end
 
-  defp redirect_url(site_url, %Conn{request_path: path, query_string: query})
-       when is_binary(query) and query != "" do
+  defp redirect_url(site_url, %Conn{request_path: path, query_string: query}) when is_binary(query) and query != "" do
     "#{site_url}#{path}?#{query}"
   end
 

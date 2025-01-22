@@ -4,9 +4,10 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
   import Alerts.Cache.BusStopChangeS3
   import Mox
 
-  setup :verify_on_exit!
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
 
-  alias Alerts.{Alert, InformedEntity}
+  setup :verify_on_exit!
 
   setup do
     stub(Stops.Repo.Mock, :get, fn _ ->
@@ -21,7 +22,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
 
   describe "fetcher_opts/0" do
     test "returns options for Alerts.Cache.Fetcher" do
-      keys = fetcher_opts() |> Keyword.keys()
+      keys = Keyword.keys(fetcher_opts())
       assert :api_mfa in keys
       assert :repeat_ms in keys
       assert :update_fn in keys
@@ -83,13 +84,14 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
       end)
 
       expect(AwsClient.Mock, :get_object, number_alerts, fn _bucket, object_id ->
-        key = String.split(object_id, "/") |> List.last()
+        key = object_id |> String.split("/") |> List.last()
 
         if key == errored_id do
           {:error, %{}}
         else
           object =
-            Alerts.Alert.new(id: key)
+            [id: key]
+            |> Alerts.Alert.new()
             |> Alerts.HistoricalAlert.from_alert()
             |> :erlang.term_to_binary([:compressed])
 

@@ -1,4 +1,5 @@
 defmodule Fares.CommuterFareGroup do
+  @moduledoc false
   @typedoc """
 
   Represents the prices for commuter rail fares grouped by name.

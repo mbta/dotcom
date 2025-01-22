@@ -6,6 +6,7 @@ defmodule DotcomWeb.Plugs.DateInRating do
   date isn't in the URL anymore.
   """
   @behaviour Plug
+
   alias Plug.Conn
 
   @impl Plug

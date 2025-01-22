@@ -2,7 +2,8 @@ defmodule BannerAlertTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
-  alias Alerts.{Alert, Banner}
+  alias Alerts.Alert
+  alias Alerts.Banner
 
   @alert %Alert{header: "An alert header", effect: :delay, severity: 5}
   @banner %Banner{title: "A banner title", effect: :dock_issue, severity: 5}

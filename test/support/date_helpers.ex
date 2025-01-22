@@ -1,4 +1,5 @@
 defmodule Dotcom.DateHelpers do
+  @moduledoc false
   def non_holiday_date(date) do
     # return a date that's not a holiday
     case Holiday.Repo.by_date(date) do

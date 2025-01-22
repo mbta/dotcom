@@ -5,8 +5,10 @@ defmodule DotcomWeb.ProjectController do
 
   use DotcomWeb, :controller
 
-  alias CMS.{Partial.Teaser, Repo}
-  alias CMS.Page.{Project, ProjectUpdate}
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
+  alias CMS.Partial.Teaser
+  alias CMS.Repo
   alias DotcomWeb.ProjectView
   alias Plug.Conn
 
@@ -177,7 +179,7 @@ defmodule DotcomWeb.ProjectController do
 
     api_params =
       if line_or_mode do
-        Keyword.merge(api_params, route_id: line_or_mode)
+        Keyword.put(api_params, :route_id, line_or_mode)
       else
         api_params
       end
@@ -194,12 +196,13 @@ defmodule DotcomWeb.ProjectController do
 
     api_params =
       if line_or_mode do
-        Keyword.merge(api_params, route_id: line_or_mode)
+        Keyword.put(api_params, :route_id, line_or_mode)
       else
         api_params
       end
 
-    Repo.teasers(api_params)
+    api_params
+    |> Repo.teasers()
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
@@ -214,12 +217,13 @@ defmodule DotcomWeb.ProjectController do
 
     api_params =
       if line_or_mode do
-        Keyword.merge(api_params, route_id: line_or_mode)
+        Keyword.put(api_params, :route_id, line_or_mode)
       else
         api_params
       end
 
-    Repo.teasers(api_params)
+    api_params
+    |> Repo.teasers()
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
@@ -247,7 +251,7 @@ defmodule DotcomWeb.ProjectController do
   end
 
   def promote_regular_teasers_to_featured(params, featured_project_teasers, project_teasers) do
-    filter_params = params |> Map.get("filter")
+    filter_params = Map.get(params, "filter")
 
     if filter_params && length(featured_project_teasers) < @n_featured_projects_per_page do
       n_features_to_promote = @n_featured_projects_per_page - length(featured_project_teasers)
@@ -268,8 +272,8 @@ defmodule DotcomWeb.ProjectController do
           project_teasers
         end
 
-      {Enum.concat(featured_project_teasers, features_to_promote),
-       Enum.drop(project_teasers, n_features_to_promote), offset_start}
+      {Enum.concat(featured_project_teasers, features_to_promote), Enum.drop(project_teasers, n_features_to_promote),
+       offset_start}
     else
       {featured_project_teasers, project_teasers, 0}
     end

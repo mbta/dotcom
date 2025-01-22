@@ -5,14 +5,17 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   use DotcomWeb, :controller
 
-  require Logger
-
   alias Dotcom.TransitNearMe
   alias DotcomWeb.Plugs.DateInRating
-  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleLocations, VehicleTooltips}
+  alias DotcomWeb.ScheduleController.Green
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
+  alias DotcomWeb.ScheduleController.Predictions
+  alias DotcomWeb.ScheduleController.VehicleLocations
+  alias DotcomWeb.ScheduleController.VehicleTooltips
   alias Stops.Stop
   alias Vehicles.Vehicle
+
+  require Logger
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -112,10 +115,11 @@ defmodule DotcomWeb.ScheduleController.LineApi do
       |> Enum.group_by(&group_tooltips_by_stop/1)
 
     combined_data_by_stop =
-      Map.keys(headsigns_by_stop)
+      headsigns_by_stop
+      |> Map.keys()
       |> Stream.concat(Map.keys(tooltips_by_stop))
       |> Stream.uniq()
-      |> Stream.map(fn stop_id ->
+      |> Map.new(fn stop_id ->
         if Map.get(headsigns_by_stop, stop_id) == nil do
           Logger.warning("No headsigns for stop #{stop_id} on route #{route_id}")
         end
@@ -123,10 +127,9 @@ defmodule DotcomWeb.ScheduleController.LineApi do
         {stop_id,
          %{
            headsigns: Map.get(headsigns_by_stop, stop_id, []),
-           vehicles: Map.get(tooltips_by_stop, stop_id, []) |> Enum.map(&simple_vehicle_map(&1))
+           vehicles: tooltips_by_stop |> Map.get(stop_id, []) |> Enum.map(&simple_vehicle_map(&1))
          }}
       end)
-      |> Enum.into(%{})
 
     Jason.encode!(combined_data_by_stop)
   end
@@ -140,14 +143,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   @spec simple_vehicle_map(VehicleTooltip.t()) :: simple_vehicle
   defp simple_vehicle_map(
-         %VehicleTooltip{
-           vehicle: %Vehicle{
-             id: id,
-             status: status,
-             crowding: crowding
-           },
-           trip: trip
-         } = tooltip
+         %VehicleTooltip{vehicle: %Vehicle{id: id, status: status, crowding: crowding}, trip: trip} = tooltip
        ) do
     tooltip_text = VehicleHelpers.tooltip(tooltip)
 

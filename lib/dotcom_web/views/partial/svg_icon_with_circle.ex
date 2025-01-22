@@ -1,6 +1,8 @@
 defmodule DotcomWeb.PartialView.SvgIconWithCircle do
+  @moduledoc false
   alias Dotcom.Components.Icons.SvgIcon
   alias DotcomWeb.ViewHelpers
+  alias Phoenix.HTML.Safe
   alias PhoenixHTMLHelpers.Tag
   alias Routes.Route
 
@@ -16,7 +18,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
           aria_hidden?: boolean
         }
 
-  @spec svg_icon_with_circle(t()) :: Phoenix.HTML.Safe.t()
+  @spec svg_icon_with_circle(t()) :: Safe.t()
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
     |> ViewHelpers.line_icon(args.size)
@@ -54,7 +56,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   end
 
   def svg_icon_with_circle(%__MODULE__{icon: :parking_lot} = args) do
-    ViewHelpers.fa("square-parking")
+    "square-parking"
+    |> ViewHelpers.fa()
     |> do_svg_icon_with_circle(args)
   end
 
@@ -79,11 +82,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
     |> do_svg_icon_with_circle(args)
   end
 
-  @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t(), __MODULE__.t()) :: Phoenix.HTML.Safe.t()
-  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{
-         aria_hidden?: false,
-         show_tooltip?: false
-       }) do
+  @spec do_svg_icon_with_circle(Safe.t(), __MODULE__.t()) :: Safe.t()
+  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{aria_hidden?: false, show_tooltip?: false}) do
     icon
   end
 
@@ -215,8 +215,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   def title(%Routes.Route{id: "Mattapan"}), do: DotcomWeb.ViewHelpers.mode_name(:mattapan_line)
   def title(%Routes.Route{id: "Green"}), do: DotcomWeb.ViewHelpers.mode_name(:green_line)
 
-  def title(%Routes.Route{id: "Green-" <> branch}),
-    do: DotcomWeb.ViewHelpers.mode_name(:green_line) <> " #{branch}"
+  def title(%Routes.Route{id: "Green-" <> branch}), do: DotcomWeb.ViewHelpers.mode_name(:green_line) <> " #{branch}"
 
   def title(%Routes.Route{external_agency_name: "Massport", long_name: name}), do: name
   def title(%Routes.Route{external_agency_name: "Logan Express", long_name: name}), do: name

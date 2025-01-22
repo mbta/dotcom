@@ -3,7 +3,8 @@ defmodule Fares.Month do
   Calculates the lowest and highest monthly pass fare for a particular trip.
   """
 
-  alias Fares.{Fare, Repo}
+  alias Fares.Fare
+  alias Fares.Repo
   alias Routes.Route
   alias Stops.Stop
 

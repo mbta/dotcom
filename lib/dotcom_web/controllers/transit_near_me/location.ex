@@ -74,8 +74,7 @@ defmodule DotcomWeb.TransitNearMeController.Location do
 
   @spec get_formatted_address(map(), {float(), float()}) ::
           {:ok, String.t()} | {:error, :zero_results | :internal_error}
-  def get_formatted_address(%{"location" => %{"address" => <<address::binary>>}}, _latlng)
-      when address != "" do
+  def get_formatted_address(%{"location" => %{"address" => <<address::binary>>}}, _latlng) when address != "" do
     {:ok, address}
   end
 

@@ -1,14 +1,18 @@
 defmodule DotcomWeb.ControllerHelpers do
   @moduledoc false
 
-  import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
+  import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
 
-  alias Alerts.{Alert, InformedEntity, Match, Repo}
+  alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Alerts.Match
+  alias Alerts.Repo
   alias DotcomWeb.CMSController
   alias Phoenix.Controller
   alias Plug.Conn
-  alias Routes.{Group, Route}
+  alias Routes.Group
+  alias Routes.Route
   alias Timex.Format.DateTime.Formatters.Strftime
 
   @req Application.compile_env!(:dotcom, :req_module)
@@ -46,14 +50,11 @@ defmodule DotcomWeb.ControllerHelpers do
     |> render("500.html", [])
   end
 
-  def return_internal_error(conn),
-    do: return_error(conn, :internal_server_error, "Internal error")
+  def return_internal_error(conn), do: return_error(conn, :internal_server_error, "Internal error")
 
-  def return_invalid_arguments_error(conn),
-    do: return_error(conn, :bad_request, "Invalid arguments")
+  def return_invalid_arguments_error(conn), do: return_error(conn, :bad_request, "Invalid arguments")
 
-  def return_zero_results_error(conn),
-    do: return_error(conn, :internal_server_error, "Zero results")
+  def return_zero_results_error(conn), do: return_error(conn, :internal_server_error, "Zero results")
 
   def return_error(conn, response_code, message) do
     conn
@@ -64,10 +65,9 @@ defmodule DotcomWeb.ControllerHelpers do
 
   @spec filter_routes([{atom, [Route.t()]}], [atom]) :: [{atom, [Route.t()]}]
   def filter_routes(grouped_routes, filter_lines) do
-    grouped_routes
-    |> Enum.map(fn {mode, lines} ->
+    Enum.map(grouped_routes, fn {mode, lines} ->
       if mode in filter_lines do
-        {mode, lines |> Enum.filter(&Route.frequent_route?/1)}
+        {mode, Enum.filter(lines, &Route.frequent_route?/1)}
       else
         {mode, lines}
       end
@@ -93,10 +93,7 @@ defmodule DotcomWeb.ControllerHelpers do
 
   @spec assign_alerts(Conn.t(), Keyword.t()) :: Conn.t()
   def assign_alerts(
-        %{
-          assigns:
-            %{date_time: date_time, route: %Route{id: route_id, type: route_type}} = assigns
-        } = conn,
+        %{assigns: %{date_time: date_time, route: %Route{id: route_id, type: route_type}} = assigns} = conn,
         opts
       ) do
     filter_by_direction? = Keyword.get(opts, :filter_by_direction?, true)
@@ -122,7 +119,7 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case client() |> @req.get(url: url) do
+    case @req.get(client(), url: url) do
       {:ok, %{status: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)
@@ -156,7 +153,7 @@ defmodule DotcomWeb.ControllerHelpers do
 
   def unavailable_after_one_year(conn, posted_on) do
     # only add tag if there isn't already a "noindex" value
-    if Conn.get_resp_header(conn, "x-robots-tag") |> Enum.member?("noindex") do
+    if conn |> Conn.get_resp_header("x-robots-tag") |> Enum.member?("noindex") do
       conn
     else
       Conn.put_resp_header(
@@ -200,7 +197,7 @@ defmodule DotcomWeb.ControllerHelpers do
   # Formats the date using RFC-850 style: "25 Jun 2010 00:00:00 EST"
   # See https://developers.google.com/search/reference/robots_meta_tag for reference
   defp one_year_after(posted_on) do
-    one_year_after = posted_on |> Date.add(365)
+    one_year_after = Date.add(posted_on, 365)
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
   end

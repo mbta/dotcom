@@ -7,8 +7,8 @@ defmodule DotcomWeb.CMS.TeaserView do
   import DotcomWeb.CMSHelpers,
     only: [cms_route_to_class: 1, cms_route_to_svg: 1, link_category: 1]
 
-  alias CMS.Partial.Teaser
   alias alias Routes.Route
+  alias CMS.Partial.Teaser
 
   @all_fields [:image, :title, :date, :topic, :location, :summary]
   @image_required [:project, :project_update]

@@ -3,6 +3,7 @@ defmodule DotcomWeb.PlacesController do
   Routes for requesting data from AWS Location Service
   """
   use DotcomWeb, :controller
+
   alias DotcomWeb.ControllerHelpers
   alias LocationService.Address
   alias Plug.Conn
@@ -130,8 +131,7 @@ defmodule DotcomWeb.PlacesController do
           }
         ]
   defp with_coordinates(addresses) do
-    addresses
-    |> Enum.map(fn address ->
+    Enum.map(addresses, fn address ->
       address
       |> Map.take([:latitude, :longitude])
       |> Map.merge(Map.from_struct(address))
@@ -143,7 +143,7 @@ defmodule DotcomWeb.PlacesController do
     params =
       case map do
         %{street_address: street_address} ->
-          Map.take(map, [:latitude, :longitude]) |> Map.put_new(:address, street_address)
+          map |> Map.take([:latitude, :longitude]) |> Map.put_new(:address, street_address)
 
         %{address: _} ->
           Map.take(map, [:address, :latitude, :longitude])
@@ -166,16 +166,9 @@ defmodule DotcomWeb.PlacesController do
           %{}
       end
 
-    map
-    |> Map.put_new(:urls, %{
-      "retail-sales-locations" =>
-        fare_path(DotcomWeb.Endpoint, :show, "retail-sales-locations", params),
-      "proposed-sales-locations" =>
-        fare_path(
-          DotcomWeb.Endpoint,
-          :show_transformation,
-          params
-        ),
+    Map.put_new(map, :urls, %{
+      "retail-sales-locations" => fare_path(DotcomWeb.Endpoint, :show, "retail-sales-locations", params),
+      "proposed-sales-locations" => fare_path(DotcomWeb.Endpoint, :show_transformation, params),
       "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
       "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })

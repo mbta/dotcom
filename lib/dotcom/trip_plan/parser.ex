@@ -10,24 +10,25 @@ defmodule Dotcom.TripPlan.Parser do
      MBTA system.
   """
 
-  alias Dotcom.TripPlan.{FarePasses, Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
+  alias Dotcom.TripPlan.FarePasses
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.PersonalDetail
+  alias Dotcom.TripPlan.TransitDetail
   alias OpenTripPlannerClient.Schema
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec parse(Schema.Itinerary.t()) :: Itinerary.t()
   def parse(
-        %Schema.Itinerary{
-          accessibility_score: accessibility_score,
-          duration: seconds,
-          legs: legs,
-          walk_distance: meters
-        } = itinerary
+        %Schema.Itinerary{accessibility_score: accessibility_score, duration: seconds, legs: legs, walk_distance: meters} =
+          itinerary
       ) do
     legs_with_fares = Enum.map(legs, &parse/1)
 
-    struct(
-      Itinerary,
+    Itinerary
+    |> struct(
       Map.merge(Map.from_struct(itinerary), %{
         accessible?: accessibility_score == 1,
         duration: minutes(seconds),
@@ -44,7 +45,7 @@ defmodule Dotcom.TripPlan.Parser do
   def parse(%Schema.Leg{agency: agency} = leg) do
     agency_name = if(agency, do: agency.name)
 
-    %Leg{
+    FarePasses.leg_with_fares(%Leg{
       from: place(leg.from),
       mode: mode(leg, agency_name),
       start: time(leg.start),
@@ -55,20 +56,14 @@ defmodule Dotcom.TripPlan.Parser do
       duration: minutes(leg.duration),
       realtime: leg.real_time,
       realtime_state: leg.realtime_state
-    }
-    |> FarePasses.leg_with_fares()
+    })
   end
 
   defp time(%Schema.LegTime{estimated: nil, scheduled_time: time}), do: time
   defp time(%Schema.LegTime{estimated: %{time: time}}), do: time
 
   @spec place(Schema.Place.t()) :: NamedPosition.t()
-  def place(%Schema.Place{
-        stop: stop,
-        lon: longitude,
-        lat: latitude,
-        name: name
-      }) do
+  def place(%Schema.Place{stop: stop, lon: longitude, lat: latitude, name: name}) do
     stop =
       if(stop,
         do: build_stop(stop, %{latitude: latitude, longitude: longitude})
@@ -89,16 +84,7 @@ defmodule Dotcom.TripPlan.Parser do
     }
   end
 
-  def mode(
-        %Schema.Leg{
-          intermediate_stops: stops,
-          mode: mode,
-          route: route,
-          transit_leg: true,
-          trip: trip
-        },
-        agency_name
-      ) do
+  def mode(%Schema.Leg{intermediate_stops: stops, mode: mode, route: route, transit_leg: true, trip: trip}, agency_name) do
     %TransitDetail{
       mode: mode,
       intermediate_stops: Enum.map(stops, &build_stop/1),
@@ -167,7 +153,8 @@ defmodule Dotcom.TripPlan.Parser do
   defp build_stop(stop, attributes \\ %{}) do
     case stop.gtfs_id do
       "mbta-ma-us:" <> gtfs_id ->
-        @stops_repo.get(gtfs_id)
+        gtfs_id
+        |> @stops_repo.get()
         |> struct(attributes)
 
       _ ->

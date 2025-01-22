@@ -3,9 +3,11 @@ defmodule Predictions.PubSubTest do
 
   import Mox
 
-  alias Predictions.{PubSub, StreamSupervisor, StreamTopic}
-  alias Test.Support.Factories.RoutePatterns.RoutePattern
+  alias Predictions.PubSub
+  alias Predictions.StreamSupervisor
+  alias Predictions.StreamTopic
   alias Test.Support.Factories.Predictions.Prediction
+  alias Test.Support.Factories.RoutePatterns.RoutePattern
 
   @predictions_store Application.compile_env!(:dotcom, :predictions_store)
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]

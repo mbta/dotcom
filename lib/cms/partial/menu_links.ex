@@ -29,6 +29,6 @@ defmodule CMS.Partial.MenuLinks do
   defp parse_blurb(data) do
     data
     |> field_value("field_blurb")
-    |> handle_html
+    |> handle_html()
   end
 end

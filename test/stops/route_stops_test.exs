@@ -2,9 +2,13 @@ defmodule Stops.RouteStopsTest do
   use ExUnit.Case, async: true
 
   import Mox
+
   alias Routes.Route
-  alias Stops.{RouteStop, RouteStops, Stop}
-  alias Test.Support.Factories.{Routes.Shape, Stops.Stop}
+  alias Stops.RouteStop
+  alias Stops.RouteStops
+  alias Stops.Stop
+  alias Test.Support.Factories.Routes.Shape
+  alias Test.Support.Factories.Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
@@ -308,7 +312,7 @@ defmodule Stops.RouteStopsTest do
       assert %RouteStops{branch: "Alewife - Braintree", stops: braintree_stops} = braintree
       assert %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_stops} = ashmont
 
-      assert unbranched_stops |> Enum.map(& &1.name) == [
+      assert Enum.map(unbranched_stops, & &1.name) == [
                "Alewife",
                "Davis",
                "Porter",

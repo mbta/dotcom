@@ -20,29 +20,27 @@ defmodule CMS.Partial.Paragraph do
     on the live CMS
   """
 
-  alias CMS.Partial.Paragraph.{
-    Accordion,
-    AccordionSection,
-    AgendaSubTopic,
-    AgendaTopic,
-    Callout,
-    CodeEmbed,
-    Column,
-    ColumnMulti,
-    ColumnMultiHeader,
-    ContentList,
-    CustomHTML,
-    Description,
-    DescriptionList,
-    DescriptiveLink,
-    FareCard,
-    FilesGrid,
-    PeopleGrid,
-    PhotoGallery,
-    TitleCardSet,
-    TripPlanWidget,
-    Unknown
-  }
+  alias CMS.Partial.Paragraph.Accordion
+  alias CMS.Partial.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.AgendaSubTopic
+  alias CMS.Partial.Paragraph.AgendaTopic
+  alias CMS.Partial.Paragraph.Callout
+  alias CMS.Partial.Paragraph.CodeEmbed
+  alias CMS.Partial.Paragraph.Column
+  alias CMS.Partial.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
+  alias CMS.Partial.Paragraph.ContentList
+  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.Description
+  alias CMS.Partial.Paragraph.DescriptionList
+  alias CMS.Partial.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.FareCard
+  alias CMS.Partial.Paragraph.FilesGrid
+  alias CMS.Partial.Paragraph.PeopleGrid
+  alias CMS.Partial.Paragraph.PhotoGallery
+  alias CMS.Partial.Paragraph.TitleCardSet
+  alias CMS.Partial.Paragraph.TripPlanWidget
+  alias CMS.Partial.Paragraph.Unknown
 
   @types [
     Accordion,

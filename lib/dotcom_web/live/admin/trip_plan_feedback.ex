@@ -1,6 +1,8 @@
 defmodule DotcomWeb.Live.Admin.TripPlanFeedback do
-  alias DotcomWeb.TripPlan.Feedback
+  @moduledoc false
   use DotcomWeb, :live_view
+
+  alias DotcomWeb.TripPlan.Feedback
 
   def mount(_params, _session, socket) do
     {:ok,

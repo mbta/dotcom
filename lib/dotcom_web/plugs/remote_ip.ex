@@ -11,6 +11,7 @@ defmodule DotcomWeb.Plugs.RemoteIp do
   """
 
   @behaviour Plug
+
   @forward_header "x-forwarded-for"
 
   @impl true
@@ -33,7 +34,7 @@ defmodule DotcomWeb.Plugs.RemoteIp do
     |> String.split(",", trim: true)
     |> List.last()
     |> String.trim()
-    |> to_charlist
+    |> to_charlist()
     |> :inet.parse_address()
   end
 

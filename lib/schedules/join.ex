@@ -23,8 +23,7 @@ defmodule Join do
 
   def do_join(s, r, key_fn, tuple_fn) do
     s_map =
-      s
-      |> Map.new(fn item ->
+      Map.new(s, fn item ->
         {key_fn.(item), item}
       end)
 

@@ -3,6 +3,7 @@ defmodule Util.EnumHelpersTest do
   use Quixir
 
   import Util.EnumHelpers
+
   doctest Util.EnumHelpers
 
   describe "with_first_last/1" do

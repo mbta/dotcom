@@ -1,4 +1,5 @@
 defmodule DotcomWeb.Plugs.CommonFares do
+  @moduledoc false
   @behaviour Plug
 
   @summary_filters [
@@ -17,8 +18,7 @@ defmodule DotcomWeb.Plugs.CommonFares do
     # split up the filtering to avoid the cache (runtime-only)
     all_fares = Fares.Repo.all()
 
-    @summary_filters
-    |> Enum.flat_map(fn {summary_type, filters} ->
+    Enum.flat_map(@summary_filters, fn {summary_type, filters} ->
       filters
       |> Enum.flat_map(&Fares.Repo.filter(all_fares, &1))
       |> Fares.Format.summarize(summary_type)

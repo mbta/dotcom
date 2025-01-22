@@ -1,8 +1,9 @@
 defmodule DotcomWeb.ScheduleController.DatePickerTest do
   use DotcomWeb.ConnCase, async: true
-  @moduletag :external
 
   import DotcomWeb.ScheduleController.DatePicker
+
+  @moduletag :external
 
   @opts init([])
 

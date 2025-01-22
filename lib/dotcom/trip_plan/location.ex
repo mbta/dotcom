@@ -1,29 +1,20 @@
 defmodule Dotcom.TripPlan.Location do
-  alias Dotcom.TripPlan.{NamedPosition, Query}
+  @moduledoc false
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.Query
   alias Phoenix.HTML
 
   @location_service Application.compile_env!(:dotcom, :location_service)
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec validate(Query.t(), map) :: Query.t()
-  def validate(
-        %Query{} = query,
-        %{
-          "to_latitude" => <<_::binary>>,
-          "to_longitude" => <<_::binary>>,
-          "to" => _
-        } = params
-      ) do
+  def validate(%Query{} = query, %{"to_latitude" => <<_::binary>>, "to_longitude" => <<_::binary>>, "to" => _} = params) do
     validate_lat_lng(:to, params, query)
   end
 
   def validate(
         %Query{} = query,
-        %{
-          "from_latitude" => <<_::binary>>,
-          "from_longitude" => <<_::binary>>,
-          "from" => _
-        } = params
+        %{"from_latitude" => <<_::binary>>, "from_longitude" => <<_::binary>>, "from" => _} = params
       ) do
     validate_lat_lng(:from, params, query)
   end
@@ -52,10 +43,8 @@ defmodule Dotcom.TripPlan.Location do
   end
 
   def validate(
-        %Query{
-          to: %NamedPosition{latitude: lat, longitude: lng},
-          from: %NamedPosition{latitude: lat, longitude: lng}
-        } = query,
+        %Query{to: %NamedPosition{latitude: lat, longitude: lng}, from: %NamedPosition{latitude: lat, longitude: lng}} =
+          query,
         %{}
       ) do
     %{query | errors: MapSet.put(query.errors, :same_address)}

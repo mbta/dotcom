@@ -11,7 +11,8 @@ defmodule CMS.Partial.Paragraph.Accordion do
 
   import CMS.Helpers, only: [field_value: 2, parse_paragraphs: 3]
 
-  alias CMS.Partial.Paragraph.{AccordionSection, ColumnMultiHeader}
+  alias CMS.Partial.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.ColumnMultiHeader
 
   defstruct header: nil,
             display: "",
@@ -28,7 +29,7 @@ defmodule CMS.Partial.Paragraph.Accordion do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
       display: field_value(data, "field_tabs_display"),
-      sections: data |> parse_paragraphs(preview_opts, "field_tabs")
+      sections: parse_paragraphs(data, preview_opts, "field_tabs")
     }
   end
 end

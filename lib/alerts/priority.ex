@@ -21,17 +21,15 @@ defmodule Alerts.Priority do
     :low
   end
 
-  def priority(
-        %{effect: :delay, severity: severity, informed_entity: informed_entities, cause: cause},
-        _time
-      )
+  def priority(%{effect: :delay, severity: severity, informed_entity: informed_entities, cause: cause}, _time)
       when severity < 6 and cause === :traffic do
     # delay alerts for bus routes with a cause of traffic under severity 6 are low priority
     is_bus_alert = Enum.any?(informed_entities, &(&1.route_type == 3))
 
-    case is_bus_alert do
-      true -> :low
-      false -> :high
+    if is_bus_alert do
+      :low
+    else
+      :high
     end
   end
 
@@ -62,19 +60,16 @@ defmodule Alerts.Priority do
     :low
   end
 
-  def priority(%{effect: :service_change, severity: severity}, _)
-      when severity <= 3 do
+  def priority(%{effect: :service_change, severity: severity}, _) when severity <= 3 do
     :low
   end
 
-  def priority(%{lifecycle: lifecycle}, _)
-      when lifecycle in [:ongoing, :ongoing_upcoming] do
+  def priority(%{lifecycle: lifecycle}, _) when lifecycle in [:ongoing, :ongoing_upcoming] do
     # Ongoing alerts are low
     :low
   end
 
-  def priority(%{effect: effect, active_period: active_period}, time)
-      when effect in @ongoing_effects do
+  def priority(%{effect: effect, active_period: active_period}, time) when effect in @ongoing_effects do
     # non-Ongoing alerts are low if they aren't happening now
     if Match.any_period_match?(active_period, time), do: :high, else: :low
   end

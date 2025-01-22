@@ -4,10 +4,12 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use DotcomWeb, :controller
 
   alias Dotcom.ScheduleNote
-  alias DotcomWeb.{ScheduleView, ViewHelpers}
+  alias DotcomWeb.ScheduleView
+  alias DotcomWeb.ViewHelpers
   alias Phoenix.HTML
   alias Plug.Conn
-  alias Routes.{Group, Route}
+  alias Routes.Group
+  alias Routes.Route
   alias Services.Repo, as: ServicesRepo
   alias Services.Service
 
@@ -37,20 +39,19 @@ defmodule DotcomWeb.ScheduleController.LineController do
   def assign_schedule_page_data(conn) do
     services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
 
-    service_date = Map.get(conn.assigns, :date_time, Util.now()) |> Util.service_date()
+    service_date = conn.assigns |> Map.get(:date_time, Util.now()) |> Util.service_date()
 
     assign(
       conn,
       :schedule_page_data,
       %{
         connections: group_connections(conn.assigns.connections),
-        pdfs:
-          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
+        pdfs: ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
         teasers:
           HTML.safe_to_string(
             ScheduleView.render(
               "_cms_teasers.html",
-              Map.merge(conn.assigns, %{conn: conn})
+              Map.put(conn.assigns, :conn, conn)
             )
           ),
         hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns)),
@@ -130,7 +131,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
     |> dedup_similar_services()
     |> Enum.reject(fn service ->
       service.typicality == :canonical ||
-        Date.compare(service.end_date, service_date) == :lt
+        Date.before?(service.end_date, service_date)
     end)
     |> Enum.sort_by(&sort_services_by_date/1)
     |> Enum.map(&Map.put(&1, :service_date, service_date))
@@ -289,8 +290,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
       "parking and accessibility information, and connections."
   end
 
-  defp bus_type(route),
-    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
+  defp bus_type(route), do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
 
   defp route_type(route) do
     route

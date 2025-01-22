@@ -3,8 +3,10 @@ defmodule DotcomWeb.CMS.PageViewTest do
 
   import DotcomWeb.CMS.PageView
 
-  alias CMS.Page.{Basic, Project}
-  alias CMS.Partial.Paragraph.{ContentList, CustomHTML}
+  alias CMS.Page.Basic
+  alias CMS.Page.Project
+  alias CMS.Partial.Paragraph.ContentList
+  alias CMS.Partial.Paragraph.CustomHTML
   alias Phoenix.HTML
 
   describe "render_page/2" do

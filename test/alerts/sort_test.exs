@@ -2,19 +2,20 @@ defmodule Alerts.SortTest do
   use ExUnit.Case, async: true
   use Quixir
 
-  alias Alerts.Alert
   import Alerts.Sort
+
+  alias Alerts.Alert
 
   describe "sort/2" do
     test "sorts the notices by their updated at times (newest to oldest)" do
       # put them in the future
-      date = Timex.today() |> Timex.shift(days: 1)
+      date = Timex.shift(Timex.today(), days: 1)
 
       ptest times: list(positive_int()) do
         # create alerts with a bunch of updated_at times
         alerts =
           for time <- times do
-            dt = date |> Timex.shift(seconds: time)
+            dt = Timex.shift(date, seconds: time)
             %Alert{id: inspect(make_ref()), updated_at: dt, active_period: [{nil, nil}]}
           end
 
@@ -100,9 +101,7 @@ defmodule Alerts.SortTest do
       low_severity_high_priority = %Alert{alert_prototype | priority: :high, severity: 6}
       alerts = [low_severity_high_priority, high_severity_low_priority]
 
-      sorted_alerts =
-        alerts
-        |> Alerts.Sort.sort(now)
+      sorted_alerts = Alerts.Sort.sort(alerts, now)
 
       assert sorted_alerts == [high_severity_low_priority, low_severity_high_priority]
     end

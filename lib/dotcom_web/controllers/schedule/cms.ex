@@ -7,8 +7,9 @@ defmodule DotcomWeb.ScheduleController.CMS do
 
   import Util.AsyncAssign, only: [async_assign_default: 4]
 
+  alias CMS.Partial.Teaser
+  alias CMS.Repo
   alias Routes.Route
-  alias CMS.{Partial.Teaser, Repo}
 
   @featured_opts [
     type: [:project, :project_update, :page],

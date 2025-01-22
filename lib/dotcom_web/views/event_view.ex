@@ -2,16 +2,17 @@ defmodule DotcomWeb.EventView do
   @moduledoc "Module to display fields on the events view"
   use DotcomWeb, :view
 
-  import PhoenixHTMLHelpers.Link
-
   import Dotcom.FontAwesomeHelpers
 
   import DotcomWeb.CMSView,
     only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
 
+  import PhoenixHTMLHelpers.Link
+
   alias CMS.Page.Event
   alias CMS.Page.EventAgenda
   alias CMS.Partial.Teaser
+  alias Phoenix.HTML.Safe
 
   @type event_status :: :not_started | :started | :ended
   @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
@@ -26,8 +27,7 @@ defmodule DotcomWeb.EventView do
 
   @doc "Returns a list of years with existing events from conn"
   @spec years_for_selection(Plug.Conn.t()) :: list
-  def years_for_selection(%Plug.Conn{assigns: %{years_for_selection: years_for_selection}}),
-    do: years_for_selection
+  def years_for_selection(%Plug.Conn{assigns: %{years_for_selection: years_for_selection}}), do: years_for_selection
 
   def years_for_selection(_), do: []
 
@@ -58,13 +58,13 @@ defmodule DotcomWeb.EventView do
 
   def get_formatted_date_time_map(start_time, nil, formatter) do
     start_time
-    |> maybe_shift_timezone
+    |> maybe_shift_timezone()
     |> do_date_time_formatting(nil, formatter)
   end
 
   def get_formatted_date_time_map(start_time, end_time, formatter) do
     start_time
-    |> maybe_shift_timezone
+    |> maybe_shift_timezone()
     |> do_date_time_formatting(maybe_shift_timezone(end_time), formatter)
   end
 
@@ -137,7 +137,8 @@ defmodule DotcomWeb.EventView do
   end
 
   def render_event_month_slug(month_number, year) do
-    render_event_month(month_number, year)
+    month_number
+    |> render_event_month(year)
     |> String.downcase()
     |> String.replace(~r/(\s)+/, "-")
   end
@@ -156,7 +157,8 @@ defmodule DotcomWeb.EventView do
       |> Timex.end_of_week(:sun)
       |> Timex.shift(days: 1)
 
-    Timex.Interval.new(from: first, until: last)
+    [from: first, until: last]
+    |> Timex.Interval.new()
     |> Enum.map(& &1)
     |> Enum.chunk_every(7)
   end
@@ -185,18 +187,17 @@ defmodule DotcomWeb.EventView do
   def agenda_visible?(_event_agenda, %{"preview" => _}), do: true
   def agenda_visible?(_event_agenda, _params), do: false
 
-  @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
+  @spec agenda_title(String.t(), :h3 | :h4) :: Safe.t()
   def agenda_title(title, tag_type \\ :h3)
 
-  def agenda_title(title, tag_type)
-      when not is_nil(title) do
+  def agenda_title(title, tag_type) when not is_nil(title) do
     content_tag(tag_type, [title], class: "agenda-topic__title")
   end
 
   def agenda_title(_, _), do: ""
 
   @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
-          Phoenix.HTML.Safe.t()
+          Safe.t()
   def agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
     time_tag = maybe_time_duration_tag(bookmark)
 
@@ -234,12 +235,10 @@ defmodule DotcomWeb.EventView do
 
     if duration do
       content_tag(:time, time, datetime: duration)
-    else
-      nil
     end
   end
 
-  @spec has_description?(Phoenix.HTML.Safe.t()) :: boolean()
+  @spec has_description?(Safe.t()) :: boolean()
   defp has_description?({:safe, content}), do: content != ""
   defp has_description?(_), do: false
 end

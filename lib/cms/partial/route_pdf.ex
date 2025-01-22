@@ -52,6 +52,6 @@ defmodule CMS.Partial.RoutePdf do
 
   @spec outdated?(t, Date.t()) :: boolean
   def outdated?(%__MODULE__{date_end: date_end}, date) do
-    date_end != nil && Date.compare(date_end, date) == :lt
+    date_end != nil && Date.before?(date_end, date)
   end
 end

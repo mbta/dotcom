@@ -10,13 +10,12 @@ defmodule Algolia.Query do
   @doc "Algolia indexes available to query"
   def valid_indexes do
     suffix = Application.get_env(:dotcom, :algolia_index_suffix, "")
-    ["routes", "stops", "drupal"] |> Enum.map(&{String.to_atom(&1), &1 <> suffix})
+    Enum.map(["routes", "stops", "drupal"], &{String.to_atom(&1), &1 <> suffix})
   end
 
   @spec build(map) :: String.t()
   def build(%{"requests" => queries}) do
-    %{"requests" => Enum.map(queries, &build_query/1)}
-    |> Poison.encode!()
+    Poison.encode!(%{"requests" => Enum.map(queries, &build_query/1)})
   end
 
   def build(%{"algoliaQuery" => query, "algoliaIndexesWithParams" => indexes_with_params}) do
@@ -30,8 +29,7 @@ defmodule Algolia.Query do
         |> Request.encode()
       end)
 
-    %{"requests" => requests}
-    |> Jason.encode!()
+    Jason.encode!(%{"requests" => requests})
   end
 
   @spec build_query(map) :: map
@@ -64,8 +62,7 @@ defmodule Algolia.Query do
 
   @spec do_encode_param(any, String.t()) :: String.t()
   defp do_encode_param(<<val::binary>>, key) do
-    [key, "=", val]
-    |> IO.iodata_to_binary()
+    IO.iodata_to_binary([key, "=", val])
   end
 
   defp do_encode_param(val, key) do

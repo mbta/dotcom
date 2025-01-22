@@ -13,14 +13,16 @@ defmodule DotcomWeb.Plugs.SecureHeadersTest do
   end
 
   defp has_security_headers?(conn) do
-    [
-      "content-security-policy",
-      "strict-transport-security",
-      "x-content-type-options",
-      "x-frame-options",
-      "x-xss-protection"
-    ]
-    |> Enum.all?(&(get_resp_header(conn, &1) |> has_value()))
+    Enum.all?(
+      [
+        "content-security-policy",
+        "strict-transport-security",
+        "x-content-type-options",
+        "x-frame-options",
+        "x-xss-protection"
+      ],
+      &(conn |> get_resp_header(&1) |> has_value())
+    )
   end
 
   defp has_value([_ | _]), do: true

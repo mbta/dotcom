@@ -1,14 +1,14 @@
 defmodule DotcomWeb.ScheduleViewTest do
   use DotcomWeb.ConnCase
 
+  import DotcomWeb.ScheduleView
+  import Mox
+  import Phoenix.HTML, only: [safe_to_string: 1]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
+
   alias CMS.Partial.RoutePdf
   alias Routes.Route
   alias Stops.Stop
-
-  import DotcomWeb.ScheduleView
-  import Mox
-  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   setup :verify_on_exit!
 
@@ -129,14 +129,14 @@ defmodule DotcomWeb.ScheduleViewTest do
       assert [{"div", _, []}] =
                []
                |> route_pdf_link(route, today)
-               |> safe_to_string
+               |> safe_to_string()
                |> Floki.parse_fragment()
                |> elem(1)
 
       assert [{"div", _, []}] =
                nil
                |> route_pdf_link(route, today)
-               |> safe_to_string
+               |> safe_to_string()
                |> Floki.parse_fragment()
                |> elem(1)
     end

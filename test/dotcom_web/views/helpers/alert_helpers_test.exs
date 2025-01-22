@@ -1,6 +1,8 @@
 defmodule DotcomWeb.Views.Helpers.AlertHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.Views.Helpers.AlertHelpers
+
   alias DotcomWeb.PartialView.HeaderTabBadge
 
   describe "alert_line_show_path/2" do

@@ -5,26 +5,28 @@ defmodule Test.Support.Factories.Alerts.Alert do
 
   use ExMachina
 
-  alias Alerts.{Alert, Priority}
+  alias Alerts.Alert
+  alias Alerts.Priority
+  alias Faker.Lorem.Shakespeare
   alias Test.Support.Factories.Alerts.InformedEntitySet
 
   def alert_factory do
     %Alert{
-      id: :rand.uniform(999) |> Integer.to_string(),
+      id: 999 |> :rand.uniform() |> Integer.to_string(),
       active_period: [{Faker.DateTime.forward(1), Faker.DateTime.forward(2)}],
-      banner: Faker.Lorem.Shakespeare.king_richard_iii(),
-      cause: Faker.Lorem.Shakespeare.king_richard_iii(),
-      created_at: Timex.now(),
-      description: Faker.Lorem.Shakespeare.king_richard_iii(),
-      effect: Alert.all_types() |> Faker.Util.pick(),
-      header: Faker.Lorem.Shakespeare.king_richard_iii(),
+      banner: Shakespeare.king_richard_iii(),
+      cause: Shakespeare.king_richard_iii(),
+      created_at: DateTime.utc_now(),
+      description: Shakespeare.king_richard_iii(),
+      effect: Faker.Util.pick(Alert.all_types()),
+      header: Shakespeare.king_richard_iii(),
       image: Faker.Internet.image_url(),
-      image_alternative_text: Faker.Lorem.Shakespeare.king_richard_iii(),
+      image_alternative_text: Shakespeare.king_richard_iii(),
       informed_entity: InformedEntitySet.build(:informed_entity_set),
-      lifecycle: Alert.lifecycles() |> Faker.Util.pick(),
-      priority: Priority.priority_levels() |> Faker.Util.pick(),
+      lifecycle: Faker.Util.pick(Alert.lifecycles()),
+      priority: Faker.Util.pick(Priority.priority_levels()),
       severity: :rand.uniform(10),
-      updated_at: Timex.now(),
+      updated_at: DateTime.utc_now(),
       url: Faker.Internet.url()
     }
   end

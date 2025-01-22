@@ -1,4 +1,5 @@
 defmodule JsonApi.Item do
+  @moduledoc false
   defstruct [:type, :id, :attributes, :relationships]
 
   @type t :: %JsonApi.Item{
@@ -10,6 +11,7 @@ defmodule JsonApi.Item do
 end
 
 defmodule JsonApi.Error do
+  @moduledoc false
   defstruct [:code, :source, :detail, :meta]
 
   @type t :: %__MODULE__{
@@ -21,6 +23,7 @@ defmodule JsonApi.Error do
 end
 
 defmodule JsonApi do
+  @moduledoc false
   defstruct links: %{}, data: []
   @type t :: %JsonApi{links: %{String.t() => String.t()}, data: list(JsonApi.Item.t())}
 
@@ -68,7 +71,7 @@ defmodule JsonApi do
   defp parse_links(%{"links" => links}) do
     links
     |> Enum.filter(fn {key, value} -> is_binary(key) && is_binary(value) end)
-    |> Enum.into(%{})
+    |> Map.new()
   end
 
   defp parse_links(_) do
@@ -125,13 +128,11 @@ defmodule JsonApi do
   end
 
   defp load_relationships(%{} = relationships, included) do
-    relationships
-    |> map_values(&load_single_relationship(&1, included))
+    map_values(relationships, &load_single_relationship(&1, included))
   end
 
   defp map_values(map, f) do
-    map
-    |> Map.new(fn {key, value} -> {key, f.(value)} end)
+    Map.new(map, fn {key, value} -> {key, f.(value)} end)
   end
 
   defp load_single_relationship(relationship, _) when relationship == %{} do
@@ -146,7 +147,7 @@ defmodule JsonApi do
   end
 
   defp load_single_relationship(%{"data" => %{} = data}, included) do
-    case data |> match_included(included) do
+    case match_included(data, included) do
       nil -> []
       item -> [parse_data_item(item, included)]
     end

@@ -21,8 +21,7 @@ defmodule CMS.Partial.MenuLinksTest do
       assert %MenuLinks{
                title: "Destinations",
                blurb:
-                 {:safe,
-                  "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"},
+                 {:safe, "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"},
                links: [
                  %Link{
                    url: "/destinations/logan-airport",

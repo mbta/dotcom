@@ -1,7 +1,9 @@
 defmodule IcalendarGeneratorTest do
   use DotcomWeb.ConnCase, async: true
+
   import CMS.Factory
   import Phoenix.HTML, only: [raw: 1]
+
   alias Dotcom.IcalendarGenerator
 
   describe "to_ical/1" do

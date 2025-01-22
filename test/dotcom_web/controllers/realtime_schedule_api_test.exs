@@ -1,5 +1,6 @@
 defmodule DotcomWeb.RealtimeScheduleApiTest do
   use DotcomWeb.ConnCase
+
   @moduletag :external
 
   describe "Stops" do

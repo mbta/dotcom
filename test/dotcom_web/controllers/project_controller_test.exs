@@ -3,7 +3,9 @@ defmodule DotcomWeb.ProjectControllerTest do
 
   import DotcomWeb.ProjectController, only: [get_breadcrumb_base: 0]
 
-  alias CMS.{Page.Project, Page.ProjectUpdate, Repo}
+  alias CMS.Page.Project
+  alias CMS.Page.ProjectUpdate
+  alias CMS.Repo
   alias Plug.Conn
 
   describe "project_updates" do

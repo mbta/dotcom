@@ -1,13 +1,14 @@
 defmodule Algolia.Stops do
+  @moduledoc false
   @behaviour Algolia.Index
+
   @repo :dotcom
         |> Application.compile_env!(:algolia_repos)
         |> Keyword.fetch!(:stops)
 
   @impl Algolia.Index
   def all do
-    @repo.all
-    |> Enum.reject(& &1.child?)
+    Enum.reject(@repo.all, & &1.child?)
   end
 
   @impl Algolia.Index

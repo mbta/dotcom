@@ -6,7 +6,9 @@ defmodule PredictedSchedule do
   * prediction: The prediction for this trip (optional)
   """
   alias Predictions.Prediction
-  alias Schedules.{Schedule, ScheduleCondensed, Trip}
+  alias Schedules.Schedule
+  alias Schedules.ScheduleCondensed
+  alias Schedules.Trip
   alias Stops.Stop
 
   @derive Jason.Encoder
@@ -28,13 +30,7 @@ defmodule PredictedSchedule do
     direction_id = Keyword.get(opts, :direction_id)
     sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
-    schedules =
-      [route_id]
-      |> schedules_fn.(
-        stop_ids: stop_id,
-        direction_id: direction_id,
-        date: Util.service_date(now)
-      )
+    schedules = schedules_fn.([route_id], stop_ids: stop_id, direction_id: direction_id, date: Util.service_date(now))
 
     # if there are any schedules without a trip, maybe we need to...
     # force another hit of the endpoint without using the cache??
@@ -42,8 +38,7 @@ defmodule PredictedSchedule do
     schedules =
       if is_list(schedules) &&
            Enum.any?(schedules, fn sched -> sched |> Map.get(:trip) |> is_nil() end) do
-        [route_id]
-        |> schedules_fn.(
+        schedules_fn.([route_id],
           stop_ids: stop_id,
           direction_id: direction_id,
           date: Util.service_date(now),
@@ -62,8 +57,8 @@ defmodule PredictedSchedule do
 
     if Enum.empty?(predicted_schedules) do
       # if there are no schedules left for today, get schedules for tomorrow
-      PredictedSchedule.group(
-        [],
+      []
+      |> PredictedSchedule.group(
         schedules_fn.(
           [route_id],
           stop_ids: stop_id,
@@ -84,7 +79,7 @@ defmodule PredictedSchedule do
       fn predicted_schedule ->
         last_stop?(predicted_schedule) ||
           time(predicted_schedule) == nil ||
-          DateTime.compare(time(predicted_schedule), now) == :lt
+          DateTime.before?(time(predicted_schedule), now)
       end
     )
   end
@@ -135,9 +130,7 @@ defmodule PredictedSchedule do
     end
   end
 
-  defp group_transform(
-         %ScheduleCondensed{trip_id: trip_id, stop_id: stop_id, stop_sequence: stop_sequence} = ps
-       ) do
+  defp group_transform(%ScheduleCondensed{trip_id: trip_id, stop_id: stop_id, stop_sequence: stop_sequence} = ps) do
     {{trip_id, stop_id, stop_sequence}, ps}
   end
 
@@ -233,13 +226,7 @@ defmodule PredictedSchedule do
   Determines if the given predicted schedule occurs after the given time
   """
   @spec upcoming?(PredictedSchedule.t(), DateTime.t()) :: boolean
-  def upcoming?(
-        %PredictedSchedule{
-          schedule: nil,
-          prediction: %Prediction{time: nil, departing?: departing?}
-        },
-        _
-      ) do
+  def upcoming?(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: nil, departing?: departing?}}, _) do
     departing?
   end
 
@@ -314,7 +301,7 @@ defmodule PredictedSchedule do
   def schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
 
   def schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
-    DateTime.compare(schedule.time, time) == :gt
+    DateTime.after?(schedule.time, time)
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions
@@ -354,9 +341,8 @@ defmodule PredictedSchedule do
   @spec delay(PredictedSchedule.t() | nil) :: integer
   def delay(nil), do: 0
 
-  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction})
-      when is_nil(schedule) or is_nil(prediction),
-      do: 0
+  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction),
+    do: 0
 
   def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
     case prediction.time do

@@ -7,8 +7,8 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
   """
   @behaviour Plug
 
-  import Plug.Conn
   import Phoenix.Controller, only: [redirect: 2]
+  import Plug.Conn
 
   @impl true
   def init([]), do: []
@@ -18,7 +18,7 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
     if new_base_url = rewrite_url(conn) do
       conn
       |> redirect(to: merge_url(new_base_url, conn.query_string))
-      |> halt
+      |> halt()
     else
       conn
     end

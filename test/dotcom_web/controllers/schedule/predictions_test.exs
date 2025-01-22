@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   import Mox
   import Test.Support.Factories.Predictions.Prediction
 
+  alias Predictions.Repo.Mock
+
   setup %{conn: conn} do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
@@ -43,7 +45,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       route_id = "#{Faker.Util.digit()}"
       direction_id = "#{Faker.Util.digit()}"
 
-      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+      expect(Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
         build_list(1, :prediction, %{})
       end)
 
@@ -62,7 +64,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       stop_id = Faker.Pokemon.location()
       trip_id = Faker.random_between(1000, 9999)
 
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         build_list(1, :prediction, %{
           time: ~N[2017-01-01T00:00:00],
           stop: %Stops.Stop{id: stop_id},
@@ -93,7 +95,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
           departing?: true
         })
 
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         [prediction]
       end)
 
@@ -120,7 +122,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
           departing?: true
         })
 
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         [prediction]
       end)
 
@@ -147,7 +149,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
           departing?: true
         })
 
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         [prediction]
       end)
 
@@ -173,7 +175,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
           departing?: true
         })
 
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         [prediction]
       end)
 
@@ -189,13 +191,11 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "otherwise, assigns no predictions", %{conn: conn} do
-      expect(Predictions.Repo.Mock, :all, fn _ ->
+      expect(Mock, :all, fn _ ->
         []
       end)
 
-      conn =
-        conn
-        |> call()
+      conn = call(conn)
 
       assert conn.assigns[:predictions] == []
     end
@@ -203,7 +203,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "destination predictions are assigned if destination is assigned", %{conn: conn} do
       route_id = "#{Faker.Util.digit()}"
 
-      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id] ->
+      expect(Mock, :all, fn [route: ^route_id] ->
         build_list(1, :prediction, %{})
       end)
 
@@ -246,7 +246,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
       trip_id_match = Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
 
-      Predictions.Repo.Mock
+      Mock
       |> expect(:all, fn arg ->
         assert arg[:route] == route_id
         []
@@ -294,7 +294,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
       prediction = build(:prediction, %{stop: %Stops.Stop{id: stop_id_1}})
 
-      Predictions.Repo.Mock
+      Mock
       |> expect(:all, fn arg ->
         assert arg[:route] == route_id
         []
@@ -324,7 +324,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "assigns empty lists if the predictions return an error", %{conn: conn} do
       route_id = "#{Faker.Util.digit()}"
 
-      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id] ->
+      expect(Mock, :all, fn [route: ^route_id] ->
         {:error, :no_predictions}
       end)
 

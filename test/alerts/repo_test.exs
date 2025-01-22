@@ -1,10 +1,15 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
 
-  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, InformedEntitySet, Repo}
+  alias Alerts.Alert
+  alias Alerts.Banner
+  alias Alerts.Cache.Store
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
+  alias Alerts.Repo
   alias Test.Support.Factories
 
-  @now Timex.now()
+  @now DateTime.utc_now()
 
   setup_all do
     start_supervised(Store)
@@ -79,7 +84,7 @@ defmodule Alerts.RepoTest do
 
       # Exercise
       diversions =
-        Repo.diversions_by_route_ids([diversion_route, non_diversion_route], Timex.now())
+        Repo.diversions_by_route_ids([diversion_route, non_diversion_route], DateTime.utc_now())
 
       # Verify
       assert [^diversion] = diversions

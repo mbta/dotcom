@@ -101,8 +101,7 @@ defmodule Dotcom.ContentRewriters.ResponsiveTables do
      ]}
   end
 
-  defp table_caption({"table", _attrs, [caption | _]}) when is_binary(caption),
-    do: String.trim(caption)
+  defp table_caption({"table", _attrs, [caption | _]}) when is_binary(caption), do: String.trim(caption)
 
   defp table_caption({"table", _attrs, [{"caption", _, caption} | _]}), do: Floki.text(caption)
   defp table_caption(_), do: ""

@@ -4,10 +4,6 @@ defmodule CMS.Page.Basic do
   content types can use this struct, as defined in CMS.Page.Basic
   """
 
-  alias CMS.Breadcrumbs
-  alias CMS.Partial.{MenuLinks, Paragraph}
-  alias Phoenix.HTML
-
   import CMS.Helpers,
     only: [
       field_value: 2,
@@ -15,6 +11,11 @@ defmodule CMS.Page.Basic do
       parse_body: 1,
       parse_paragraphs: 2
     ]
+
+  alias CMS.Breadcrumbs
+  alias CMS.Partial.MenuLinks
+  alias CMS.Partial.Paragraph
+  alias Phoenix.HTML
 
   defstruct body: HTML.raw(""),
             id: nil,
@@ -45,8 +46,7 @@ defmodule CMS.Page.Basic do
   end
 
   @spec parse_menu_links(map) :: MenuLinks.t() | nil
-  defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]})
-       when not is_nil(menu_links_data) do
+  defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]}) when not is_nil(menu_links_data) do
     MenuLinks.from_api(menu_links_data)
   end
 

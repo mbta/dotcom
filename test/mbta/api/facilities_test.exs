@@ -3,7 +3,8 @@ defmodule MBTA.Api.FacilitiesTest do
 
   import Mox
 
-  alias MBTA.Api.{Facilities, Mock}
+  alias MBTA.Api.Facilities
+  alias MBTA.Api.Mock
 
   setup :set_mox_global
   setup :verify_on_exit!
@@ -25,7 +26,7 @@ defmodule MBTA.Api.FacilitiesTest do
 
   test "filter_by/1 sends filters as query parameters" do
     # Setup
-    stop_id = Faker.Team.creature() |> String.downcase()
+    stop_id = String.downcase(Faker.Team.creature())
     route_type = Enum.random(["0", "1", "2", "3"])
 
     expect(Mock, :get_json, fn url, params ->

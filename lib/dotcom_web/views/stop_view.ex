@@ -19,8 +19,7 @@ defmodule DotcomWeb.StopView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), size: size})
   end
 
-  defp stop_feature_icon_atom(branch)
-       when branch in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+  defp stop_feature_icon_atom(branch) when branch in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
     Route.icon_atom(%Route{id: Atom.to_string(branch), type: 0})
   end
 

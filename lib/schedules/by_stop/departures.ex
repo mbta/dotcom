@@ -3,6 +3,8 @@ defmodule Schedules.ByStop.Departures do
     Departure times and arrival times of all the routes at a given stop.
   """
 
+  alias Schedules.ByStop.Departures
+
   @derive Jason.Encoder
 
   defstruct route_id: nil,
@@ -11,7 +13,7 @@ defmodule Schedules.ByStop.Departures do
             departure_time: nil,
             headsign: ""
 
-  @type t :: %Schedules.ByStop.Departures{
+  @type t :: %Departures{
           route_id: String.t(),
           stop_id: String.t(),
           arrival_time: DateTime.t() | nil,
@@ -21,7 +23,7 @@ defmodule Schedules.ByStop.Departures do
 
   @spec parse_from_schedule_json(Item.t()) :: t()
   def parse_from_schedule_json(item) do
-    %Schedules.ByStop.Departures{
+    %Departures{
       route_id: route_id(item),
       stop_id: stop_id(item),
       arrival_time: arrival_time(item),
@@ -54,9 +56,7 @@ defmodule Schedules.ByStop.Departures do
     id
   end
 
-  def headsign(%JsonApi.Item{
-        relationships: %{"trip" => [%JsonApi.Item{attributes: %{"headsign" => headsign}} | _]}
-      }) do
+  def headsign(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{attributes: %{"headsign" => headsign}} | _]}}) do
     headsign
   end
 

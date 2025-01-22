@@ -1,4 +1,5 @@
 defmodule Algolia.Routes do
+  @moduledoc false
   @behaviour Algolia.Index
 
   @repo :dotcom

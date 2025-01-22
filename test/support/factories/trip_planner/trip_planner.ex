@@ -4,17 +4,22 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   """
   use ExMachina
 
-  alias Dotcom.TripPlan.{NamedPosition, Parser}
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.Parser
+  alias OpenTripPlannerClient.Schema.Itinerary
+  alias OpenTripPlannerClient.Schema.Leg
   alias OpenTripPlannerClient.Test.Support.Factory
 
   def itinerary_factory do
-    Factory.build(:itinerary)
+    :itinerary
+    |> Factory.build()
     |> limit_route_types()
     |> Parser.parse()
   end
 
   def otp_itinerary_factory do
-    Factory.build(:itinerary)
+    :itinerary
+    |> Factory.build()
     |> limit_route_types()
   end
 
@@ -25,18 +30,21 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def walking_leg_factory do
-    Factory.build(:walking_leg)
+    :walking_leg
+    |> Factory.build()
     |> Parser.parse()
   end
 
   def transit_leg_factory do
-    Factory.build(:transit_leg)
+    :transit_leg
+    |> Factory.build()
     |> limit_route_types()
     |> Parser.parse()
   end
 
   def subway_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -47,7 +55,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def bus_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -58,7 +67,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def express_bus_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -70,7 +80,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def sl_rapid_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -82,7 +93,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def sl_bus_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -94,7 +106,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def cr_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -105,7 +118,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def ferry_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -116,7 +130,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def shuttle_leg_factory do
-    Factory.build(:transit_leg, %{
+    :transit_leg
+    |> Factory.build(%{
       agency: Factory.build(:agency, %{name: "MBTA"}),
       route:
         Factory.build(:route, %{
@@ -128,7 +143,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def personal_detail_factory do
-    Factory.build(:walking_leg)
+    :walking_leg
+    |> Factory.build()
     |> Parser.parse()
     |> Map.get(:mode)
   end
@@ -138,7 +154,8 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def transit_detail_factory do
-    Factory.build(:transit_leg)
+    :transit_leg
+    |> Factory.build()
     |> limit_route_types()
     |> Parser.parse()
     |> Map.get(:mode)
@@ -146,16 +163,15 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   # OpenTripPlannerClient supports a greater number of route_type values than
   # Dotcom does! Tweak that here.
-  def limit_route_types(%OpenTripPlannerClient.Schema.Itinerary{legs: legs} = itinerary) do
-    %OpenTripPlannerClient.Schema.Itinerary{
+  def limit_route_types(%Itinerary{legs: legs} = itinerary) do
+    %Itinerary{
       itinerary
       | legs: Enum.map(legs, &limit_route_types/1)
     }
   end
 
-  def limit_route_types(%OpenTripPlannerClient.Schema.Leg{route: route} = leg)
-      when route.type > 4 do
-    %OpenTripPlannerClient.Schema.Leg{
+  def limit_route_types(%Leg{route: route} = leg) when route.type > 4 do
+    %Leg{
       leg
       | route: %OpenTripPlannerClient.Schema.Route{route | type: Faker.Util.pick([0, 1, 2, 3, 4])}
     }

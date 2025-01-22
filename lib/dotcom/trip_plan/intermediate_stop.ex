@@ -1,4 +1,5 @@
 defmodule Dotcom.TripPlan.IntermediateStop do
+  @moduledoc false
   defstruct description: nil,
             stop: nil,
             alerts: []

@@ -4,6 +4,8 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   content security policy directives at funtime.
   """
 
+  @behaviour Plug
+
   @base_csp_directives %{
     connect: ~w[
       connect-src
@@ -77,8 +79,6 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
     "x-xss-protection" => "1; mode=block"
   }
 
-  @behaviour Plug
-
   @impl Plug
   def init(opts), do: opts
 
@@ -92,8 +92,8 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
 
   def default_secure_headers,
     do:
-      @default_secure_headers
-      |> Map.put(
+      Map.put(
+        @default_secure_headers,
         "content-security-policy",
         Application.get_env(:dotcom, :content_security_policy_definition, "")
       )

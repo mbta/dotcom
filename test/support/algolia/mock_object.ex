@@ -1,4 +1,5 @@
 defmodule Algolia.MockObject do
+  @moduledoc false
   defstruct [:id]
 end
 
@@ -9,6 +10,7 @@ defimpl Algolia.Object, for: Algolia.MockObject do
 end
 
 defmodule Algolia.MockObjects do
+  @moduledoc false
   @behaviour Algolia.Index
 
   @impl Algolia.Index

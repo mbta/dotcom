@@ -1,5 +1,6 @@
 defmodule DotcomWeb.Views.Helpers.StopHelpersTest do
   use ExUnit.Case, async: true
+
   import DotcomWeb.Views.Helpers.StopHelpers
 
   @disabled_list [{"id1", "text1"}, {"id2", "text2"}]

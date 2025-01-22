@@ -1,5 +1,6 @@
 defmodule DotcomWeb.PaginationHelpersTest do
   use ExUnit.Case, async: true
+
   import DotcomWeb.PaginationHelpers
 
   @pagination %Dotcom.ResponsivePagination{

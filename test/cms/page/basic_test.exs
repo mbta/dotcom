@@ -38,8 +38,7 @@ defmodule CMS.Page.BasicTest do
       assert %Basic{
                sidebar_menu: %MenuLinks{
                  blurb:
-                   {:safe,
-                    "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"}
+                   {:safe, "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"}
                }
              } = Basic.from_api(api_page)
     end

@@ -2,15 +2,25 @@
 defmodule DotcomWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use DotcomWeb, :view
-  require Routes.Route
-  alias Fares.{Fare, Format}
-  alias Routes.Route
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias DotcomWeb.Plugs.Cookies
-  alias Dotcom.StopBubble
-  alias Dotcom.TripPlan.{Itinerary, ItineraryRow, Leg, NamedPosition, Query, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
+
+  alias Dotcom.StopBubble
+  alias Dotcom.StopBubble.Params
+  alias Dotcom.TripPlan.Itinerary
+  alias Dotcom.TripPlan.ItineraryRow
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.Query
+  alias Dotcom.TripPlan.Transfer
+  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias DotcomWeb.Plugs.Cookies
+  alias Fares.Fare
+  alias Fares.Format
+  alias Phoenix.HTML.Safe
+  alias Routes.Route
+
+  require Routes.Route
 
   @type fare_calculation :: %{
           mode: Route.gtfs_route_type(),
@@ -81,7 +91,7 @@ defmodule DotcomWeb.TripPlanView do
   @spec get_input_value(Query.t() | nil, map, :to | :from) :: NamedPosition.t()
   def get_input_value(%Query{} = query, params, field) do
     case Map.get(query, field) do
-      pos = %NamedPosition{} ->
+      %NamedPosition{} = pos ->
         pos
 
       {:error, _} ->
@@ -155,7 +165,7 @@ defmodule DotcomWeb.TripPlanView do
     "Unable to plan your trip"
   end
 
-  @spec plan_error_description([atom]) :: Phoenix.HTML.Safe.t()
+  @spec plan_error_description([atom]) :: Safe.t()
   def plan_error_description([error]) do
     case Map.get(@plan_errors, error) do
       <<text::binary>> -> text
@@ -168,15 +178,14 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   @spec rendered_location_error(Plug.Conn.t(), Query.t() | nil, :from | :to) ::
-          Phoenix.HTML.Safe.t()
+          Safe.t()
   def rendered_location_error(conn, query_or_nil, location_field)
 
   def rendered_location_error(_conn, nil, _location_field) do
     ""
   end
 
-  def rendered_location_error(%Plug.Conn{} = conn, %Query{} = query, field)
-      when field in [:from, :to] do
+  def rendered_location_error(%Plug.Conn{} = conn, %Query{} = query, field) when field in [:from, :to] do
     case Map.get(query, field) do
       {:error, error} ->
         do_render_location_error(conn, field, error)
@@ -187,7 +196,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   @spec do_render_location_error(Plug.Conn.t(), :from | :to, {:error, any()}) ::
-          Phoenix.HTML.Safe.t()
+          Safe.t()
   defp do_render_location_error(conn, field, {:multiple_results, results}) do
     render("_error_multiple_results.html", conn: conn, field: field, results: results)
   end
@@ -196,7 +205,7 @@ defmodule DotcomWeb.TripPlanView do
     Map.get(@field_errors, atom, "")
   end
 
-  @spec date_error([atom]) :: Phoenix.HTML.Safe.t()
+  @spec date_error([atom]) :: Safe.t()
   def date_error(errors) do
     if Enum.member?(errors, :invalid_date) do
       {:ok, error_text} = Map.fetch(@field_errors, :invalid_date)
@@ -218,7 +227,7 @@ defmodule DotcomWeb.TripPlanView do
     end
   end
 
-  @spec render_stop_departure_display(:blank | {:render, String.t()}) :: Phoenix.HTML.Safe.t()
+  @spec render_stop_departure_display(:blank | {:render, String.t()}) :: Safe.t()
   def render_stop_departure_display(:blank), do: nil
 
   def render_stop_departure_display({:render, formatted_time}) do
@@ -226,7 +235,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   def bubble_params(%ItineraryRow{transit?: true} = itinerary_row, _row_idx) do
-    base_params = %Dotcom.StopBubble.Params{
+    base_params = %Params{
       route_id: ItineraryRow.route_id(itinerary_row),
       route_type: ItineraryRow.route_type(itinerary_row),
       render_type: :stop,
@@ -234,8 +243,7 @@ defmodule DotcomWeb.TripPlanView do
     }
 
     params =
-      itinerary_row.steps
-      |> Enum.map(fn step ->
+      Enum.map(itinerary_row.steps, fn step ->
         {step, [base_params]}
       end)
 
@@ -244,11 +252,10 @@ defmodule DotcomWeb.TripPlanView do
 
   def bubble_params(%ItineraryRow{transit?: false} = itinerary_row, row_idx) do
     params =
-      itinerary_row.steps
-      |> Enum.map(fn step ->
+      Enum.map(itinerary_row.steps, fn step ->
         {step,
          [
-           %Dotcom.StopBubble.Params{
+           %Params{
              render_type: :empty,
              class: "line"
            }
@@ -265,7 +272,7 @@ defmodule DotcomWeb.TripPlanView do
     [
       {:transfer,
        [
-         %Dotcom.StopBubble.Params{
+         %Params{
            render_type: transfer_bubble_type,
            class: "#{Atom.to_string(transfer_bubble_type)} transfer"
          }
@@ -321,7 +328,7 @@ defmodule DotcomWeb.TripPlanView do
 
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
-  @spec accessibility_icon(Itinerary.t()) :: Phoenix.HTML.Safe.t()
+  @spec accessibility_icon(Itinerary.t()) :: Safe.t()
   defp accessibility_icon(%Itinerary{accessible?: nil}) do
     # Unknown accessibilityScore, so can't show a value
     {:safe, ""}
@@ -352,10 +359,10 @@ defmodule DotcomWeb.TripPlanView do
     )
   end
 
-  @spec icon_for_routes([Route.t()]) :: [Phoenix.HTML.Safe.t()]
+  @spec icon_for_routes([Route.t()]) :: [Safe.t()]
   def icon_for_routes(routes), do: Enum.map(routes, &icon_for_route/1)
 
-  @spec icon_for_route(Route.t()) :: Phoenix.HTML.Safe.t()
+  @spec icon_for_route(Route.t()) :: Safe.t()
   def icon_for_route(%Route{description: :rail_replacement_bus}) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
   end
@@ -371,9 +378,9 @@ defmodule DotcomWeb.TripPlanView do
   @spec datetime_from_query(nil | Query.t()) :: any()
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
-  def datetime_from_query(nil), do: Util.now() |> Dotcom.TripPlan.DateTime.round_minute()
+  def datetime_from_query(nil), do: Dotcom.TripPlan.DateTime.round_minute(Util.now())
 
-  @spec format_plan_type_for_title(Query.t() | nil) :: Phoenix.HTML.Safe.t()
+  @spec format_plan_type_for_title(Query.t() | nil) :: Safe.t()
   def format_plan_type_for_title(%{time: {:arrive_by, dt}}) do
     ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
@@ -436,9 +443,7 @@ defmodule DotcomWeb.TripPlanView do
       :span,
       [
         "Total may be less with ",
-        PhoenixHTMLHelpers.Tag.content_tag(:a, "transfers",
-          href: "https://www.mbta.com/fares/transfers"
-        )
+        PhoenixHTMLHelpers.Tag.content_tag(:a, "transfers", href: "https://www.mbta.com/fares/transfers")
       ]
     )
   end
@@ -463,8 +468,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   def itinerary_map(map_data) do
-    map_data
-    |> Map.put(:tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
+    Map.put(map_data, :tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
   end
 
   @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]
@@ -479,8 +483,7 @@ defmodule DotcomWeb.TripPlanView do
             Stream.iterate(1, &(&1 + 1))
           ]) do
       tab_html =
-        "_itinerary_tab.html"
-        |> render_to_string(
+        render_to_string("_itinerary_tab.html",
           itinerary: i,
           index: index,
           routes: routes,
@@ -497,8 +500,7 @@ defmodule DotcomWeb.TripPlanView do
         !itinerary_satisfies_property?(i, :contains_capeflyer) || one_way_total_fare != 0
 
       fares_estimate_html =
-        "_itinerary_fares.html"
-        |> render_to_string(
+        render_to_string("_itinerary_fares.html",
           itinerary: i,
           show_fares: show_fares,
           itinerary_is_from_or_to_airport: itinerary_is_from_or_to_airport,
@@ -509,8 +511,7 @@ defmodule DotcomWeb.TripPlanView do
       fares = get_calculated_fares(i)
 
       fare_calculator_html =
-        "_fare_calculator.html"
-        |> render_to_string(
+        render_to_string("_fare_calculator.html",
           itinerary: i,
           fares: fares,
           conn: conn,
@@ -519,8 +520,7 @@ defmodule DotcomWeb.TripPlanView do
         )
 
       html =
-        "_itinerary.html"
-        |> render_to_string(
+        render_to_string("_itinerary.html",
           itinerary: i,
           index: index,
           routes: routes,
@@ -545,11 +545,7 @@ defmodule DotcomWeb.TripPlanView do
 
   defp tag_string(nil), do: nil
 
-  defp tag_string(tag),
-    do:
-      tag
-      |> Atom.to_string()
-      |> String.replace("_", " ")
+  defp tag_string(tag), do: tag |> Atom.to_string() |> String.replace("_", " ")
 
   @doc """
   Encodes the trip plan with:
@@ -597,12 +593,12 @@ defmodule DotcomWeb.TripPlanView do
           acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         else
           # Look at this transit leg and previous transit leg(s)
-          two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-          three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
+          two_legs = Enum.slice(transit_legs, leg_index - 1, 2)
+          three_legs = Enum.slice(transit_legs, leg_index - 2, 3)
           # If this is part of a free transfer, don't add fare
           cond do
             Transfer.bus_to_subway_transfer?(three_legs) ->
-              if acc == Fares.get_fare_by_type(List.first(three_legs), fare_type) |> fare_cents(),
+              if acc == three_legs |> List.first() |> Fares.get_fare_by_type(fare_type) |> fare_cents(),
                 do: acc + 70,
                 else: acc
 
@@ -646,13 +642,9 @@ defmodule DotcomWeb.TripPlanView do
       Fares.get_fare_by_type(leg, :highest_one_way_fare) != nil
     end)
     |> Enum.reduce(%{}, fn leg, acc ->
-      highest_fare =
-        leg
-        |> Fares.get_fare_by_type(:highest_one_way_fare)
+      highest_fare = Fares.get_fare_by_type(leg, :highest_one_way_fare)
 
-      mode =
-        highest_fare
-        |> Kernel.get_in([Access.key(:mode)])
+      mode = Kernel.get_in(highest_fare, [Access.key(:mode)])
 
       mode_key =
         cond do
@@ -682,12 +674,8 @@ defmodule DotcomWeb.TripPlanView do
             name: name,
             fares: %{
               highest_one_way_fare: highest_fare,
-              lowest_one_way_fare:
-                leg
-                |> Fares.get_fare_by_type(:lowest_one_way_fare),
-              reduced_one_way_fare:
-                leg
-                |> Fares.get_fare_by_type(:reduced_one_way_fare)
+              lowest_one_way_fare: Fares.get_fare_by_type(leg, :lowest_one_way_fare),
+              reduced_one_way_fare: Fares.get_fare_by_type(leg, :reduced_one_way_fare)
             }
           }
         })
@@ -704,7 +692,7 @@ defmodule DotcomWeb.TripPlanView do
     |> Enum.filter(fn media -> media != :cash end)
   end
 
-  def filter_media(fare), do: fare |> Kernel.get_in([Access.key(:media)])
+  def filter_media(fare), do: Kernel.get_in(fare, [Access.key(:media)])
 
   @spec format_media([Fare.media()] | Fare.media()) :: iodata
   def format_media(:mticket), do: "mTicket"
@@ -748,10 +736,10 @@ defmodule DotcomWeb.TripPlanView do
 
     case condition do
       :is_from_or_to_airport ->
-        transit_legs |> Enum.any?(fn leg -> leg_is_from_or_to_airport?(leg) end)
+        Enum.any?(transit_legs, fn leg -> leg_is_from_or_to_airport?(leg) end)
 
       :contains_capeflyer ->
-        transit_legs |> Enum.any?(fn leg -> leg.mode.route.name == "CapeFLYER" end)
+        Enum.any?(transit_legs, fn leg -> leg.mode.route.name == "CapeFLYER" end)
 
       _ ->
         false

@@ -1,5 +1,6 @@
 defmodule Alerts.BusStopChangeSupervisorTest do
   use ExUnit.Case, async: true
+
   alias Alerts.BusStopChangeSupervisor
 
   setup do

@@ -1,8 +1,10 @@
 defmodule DotcomWeb.PageViewTest do
   use Dotcom.ViewCase, async: true
 
-  alias CMS.Field.{Image, Link}
-  alias CMS.Partial.{Banner, Teaser}
+  alias CMS.Field.Image
+  alias CMS.Field.Link
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Teaser
   alias DotcomWeb.PageView
   alias Phoenix.HTML
   alias Plug.Conn
@@ -43,7 +45,7 @@ defmodule DotcomWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      rendered = PageView.shortcut_icons() |> HTML.safe_to_string()
+      rendered = HTML.safe_to_string(PageView.shortcut_icons())
       icons = Floki.find(rendered, ".m-homepage__shortcut")
       assert length(icons) == 5
     end
@@ -116,7 +118,7 @@ defmodule DotcomWeb.PageViewTest do
         }
       ]
 
-      rendered = PageView.alerts(alerts) |> HTML.safe_to_string()
+      rendered = alerts |> PageView.alerts() |> HTML.safe_to_string()
 
       # Section Headers
       assert rendered =~ "Routes With High Priority Alerts"

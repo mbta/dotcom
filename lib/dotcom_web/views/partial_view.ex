@@ -9,17 +9,18 @@ defmodule DotcomWeb.PartialView do
   import DotcomWeb.CMS.TeaserView, only: [transit_svg: 1, transit_tag: 1, handle_fields: 2]
   import DotcomWeb.CMSView, only: [file_description: 1]
 
-  alias CMS.{Partial.Teaser, Repo}
+  alias CMS.Partial.Teaser
+  alias CMS.Repo
   alias DotcomWeb.CMS.TeaserView
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
 
   defdelegate fa_icon_for_file_type(mime), to: Dotcom.FontAwesomeHelpers
 
-  @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t()
-  def clear_selector_link(%{clearable?: true, selected: selected} = assigns)
-      when not is_nil(selected) do
+  @spec clear_selector_link(map()) :: Safe.t()
+  def clear_selector_link(%{clearable?: true, selected: selected} = assigns) when not is_nil(selected) do
     link to: update_url(assigns.conn, [{assigns.query_key, nil}]) do
       [
         "(clear",
@@ -66,7 +67,7 @@ defmodule DotcomWeb.PartialView do
     size: :large | :small
     class: class to apply to the link
   """
-  @spec news_entry(Teaser.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  @spec news_entry(Teaser.t(), Keyword.t()) :: Safe.t()
   def news_entry(entry, opts \\ []) do
     size = Keyword.get(opts, :size, :small)
     color = transit_tag(entry)
@@ -91,10 +92,10 @@ defmodule DotcomWeb.PartialView do
   @spec news_path(Teaser.t(), module | Conn.t()) :: String.t()
   defp news_path(%Teaser{path: url}, conn), do: cms_static_page_path(conn, url)
 
-  @spec news_date(Teaser.t(), :large | :small) :: Phoenix.HTML.Safe.t()
+  @spec news_date(Teaser.t(), :large | :small) :: Safe.t()
   defp news_date(%Teaser{date: date}, size), do: do_news_date(date, size)
 
-  @spec do_news_date(Date.t(), :large | :small) :: Phoenix.HTML.Safe.t()
+  @spec do_news_date(Date.t(), :large | :small) :: Safe.t()
   defp do_news_date(date, size) do
     content_tag(
       :div,
@@ -134,7 +135,7 @@ defmodule DotcomWeb.PartialView do
   @doc """
   Renders a specific CMS paragraph, provided an alias to it and the conn.
   """
-  @spec paragraph(String.t(), Conn.t()) :: Phoenix.HTML.Safe.t()
+  @spec paragraph(String.t(), Conn.t()) :: Safe.t()
   def paragraph(path, conn) do
     path
     |> Repo.get_paragraph(conn.query_params)
@@ -147,7 +148,7 @@ defmodule DotcomWeb.PartialView do
   the first element in the tuple is the path helper method
   that should be used
   """
-  @spec alert_time_filters(atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
+  @spec alert_time_filters(atom, Keyword.t()) :: Safe.t()
   def alert_time_filters(current_timeframe, path_opts) do
     [
       content_tag(:h3, "Filter by type"),
@@ -159,12 +160,12 @@ defmodule DotcomWeb.PartialView do
     ]
   end
 
-  @spec time_filter(atom, atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
+  @spec time_filter(atom, atom, Keyword.t()) :: Safe.t()
   defp time_filter(filter, current_timeframe, path_opts) do
     path_method = Keyword.fetch!(path_opts, :method)
 
     # item can be an atom (representing a mode) or a Route
-    item = Keyword.fetch!(path_opts, :item) |> get_item_value()
+    item = path_opts |> Keyword.fetch!(:item) |> get_item_value()
 
     path_params =
       path_opts
@@ -194,14 +195,12 @@ defmodule DotcomWeb.PartialView do
   @spec time_filter_params(Keyword.t(), atom) :: Keyword.t()
   defp time_filter_params(params, nil), do: params
 
-  defp time_filter_params(params, timeframe)
-       when timeframe in [:current, :upcoming],
-       do: Keyword.put(params, :alerts_timeframe, timeframe)
+  defp time_filter_params(params, timeframe) when timeframe in [:current, :upcoming],
+    do: Keyword.put(params, :alerts_timeframe, timeframe)
 
   @spec time_filter_class(atom, atom) :: String.t()
   defp time_filter_class(filter, current_timeframe) do
-    ["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)]
-    |> Enum.join(" ")
+    Enum.join(["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)], " ")
   end
 
   @spec time_filter_selected_class(atom, atom) :: [String.t()]

@@ -1,9 +1,9 @@
 defmodule Algolia.UpdateTest do
   use ExUnit.Case, async: false
 
-  require Dotcom.Assertions
-
   import Mox
+
+  require Dotcom.Assertions
 
   setup :set_mox_global
   setup :verify_on_exit!

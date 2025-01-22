@@ -3,8 +3,11 @@ defmodule Dotcom.TripPlan.Map do
   Handles generating the maps displayed within the TripPlan Controller
   """
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
-  alias Leaflet.{MapData, MapData.Marker}
+  alias Dotcom.TripPlan.Leg
+  alias Dotcom.TripPlan.NamedPosition
+  alias Dotcom.TripPlan.TransitDetail
+  alias Leaflet.MapData
+  alias Leaflet.MapData.Marker
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias Routes.Route
   alias Util.Position
@@ -12,8 +15,7 @@ defmodule Dotcom.TripPlan.Map do
   @type t :: MapData.t()
 
   def initial_map_data do
-    {630, 400}
-    |> MapData.new(14)
+    MapData.new({630, 400}, 14)
   end
 
   @doc """
@@ -79,7 +81,7 @@ defmodule Dotcom.TripPlan.Map do
   defp polyline_to_line(polyline) do
     %{
       color: Map.get(polyline, :color, "#000000"),
-      coordinates: Map.get(polyline, :positions, []) |> invert_coordinates(),
+      coordinates: polyline |> Map.get(:positions, []) |> invert_coordinates(),
       width: Map.get(polyline, :weight, 4)
     }
   end
@@ -97,8 +99,7 @@ defmodule Dotcom.TripPlan.Map do
   @spec extend_to_endpoints(String.t(), Leg.t()) :: String.t()
   defp extend_to_endpoints(polyline, _leg) when not is_binary(polyline), do: ""
 
-  defp extend_to_endpoints(polyline, %{from: from, to: to})
-       when is_map(from) and is_map(to) do
+  defp extend_to_endpoints(polyline, %{from: from, to: to}) when is_map(from) and is_map(to) do
     from = {Position.longitude(from), Position.latitude(from)}
     to = {Position.longitude(to), Position.latitude(to)}
 
@@ -180,8 +181,7 @@ defmodule Dotcom.TripPlan.Map do
   def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
   @spec leg_color(Leg.t()) :: String.t()
-  defp leg_color(%Leg{mode: %TransitDetail{route: %Route{color: color}}})
-       when not is_nil(color) do
+  defp leg_color(%Leg{mode: %TransitDetail{route: %Route{color: color}}}) when not is_nil(color) do
     "#" <> color
   end
 

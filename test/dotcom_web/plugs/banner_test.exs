@@ -2,6 +2,7 @@ defmodule DotcomWeb.Plugs.BannerTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.Plugs.Banner
+
   alias Alerts.Banner
 
   describe "call/2" do

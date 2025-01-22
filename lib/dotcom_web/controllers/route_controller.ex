@@ -3,7 +3,9 @@ defmodule DotcomWeb.RouteController do
   Endpoints for getting route data.
   """
   use DotcomWeb, :controller
-  alias Routes.{Repo, Route}
+
+  alias Routes.Repo
+  alias Routes.Route
 
   @spec get_by_route_ids(Plug.Conn.t(), map) :: Plug.Conn.t()
   def get_by_route_ids(conn, %{"route_ids" => route_ids} = _params) do

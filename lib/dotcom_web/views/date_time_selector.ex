@@ -6,7 +6,8 @@ defmodule DateTimeSelector do
   import PhoenixHTMLHelpers.Tag
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Phoenix.{HTML.Form}
+  alias Phoenix.HTML.Form
+  alias Phoenix.HTML.Safe
 
   @minute_options 0..55
                   |> Enum.filter(&(Integer.mod(&1, 5) == 0))
@@ -58,7 +59,7 @@ defmodule DateTimeSelector do
         # `date_select` needs year, month and day
         # `time_select` needs at least hour and minute
         # so we ensure that those keys exist in the parameters of the form:
-        form_params = Map.merge(form.params, %{"date_time" => verify_params(form, datetime)})
+        form_params = Map.put(form.params, "date_time", verify_params(form, datetime))
 
         %{form | params: form_params}
       end
@@ -73,7 +74,7 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t(), map) :: Phoenix.HTML.Safe.t()
+  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t(), map) :: Safe.t()
   defp custom_date_select(form, %DateTime{} = datetime, options, date_ranges) do
     min_date = Timex.format!(date_ranges.min_date, "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(date_ranges.max_date, "{0M}/{0D}/{YYYY}")
@@ -118,7 +119,7 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_date_select_builder(fun, String.t()) :: Phoenix.HTML.Safe.t()
+  @spec custom_date_select_builder(fun, String.t()) :: Safe.t()
   defp custom_date_select_builder(field, prefix) do
     content_tag(
       :div,
@@ -135,7 +136,7 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_time_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  @spec custom_time_select(Form.t(), DateTime.t(), Keyword.t()) :: Safe.t()
   defp custom_time_select(form, datetime, options) do
     current_time = Timex.format!(datetime, "{h12}:{m} {AM}")
     aria_label = "#{current_time}, click or press the enter or space key to edit the time"

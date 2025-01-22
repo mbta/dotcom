@@ -1,5 +1,6 @@
 defmodule CMS.BreadcrumbsTest do
   use ExUnit.Case, async: true
+
   import CMS.Breadcrumbs
 
   describe "build/1" do
