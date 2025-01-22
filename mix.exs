@@ -143,6 +143,7 @@ defmodule DotCom.Mixfile do
       {:sentry, "10.7.1"},
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
+      {:styler, "1.3.3", only: [:dev, :test], runtime: false},
       {:sweet_xml, "0.7.4", only: [:dev, :prod]},
       {:telemetry, "1.3.0", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
