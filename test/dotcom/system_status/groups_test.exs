@@ -133,6 +133,43 @@ defmodule Dotcom.SystemStatus.GroupsTest do
                |> statuses_for(affected_route_id)
     end
 
+    test "works for indefinite alerts (end-time is nil)" do
+      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+
+      time = time_today()
+      alert_start_time = time_after(time)
+      alert_end_time = nil
+
+      alert_start_time_display =
+        alert_start_time |> Timex.format!("{kitchen}") |> String.downcase()
+
+      assert [
+               %{
+                 route_id: ^affected_route_id,
+                 sub_routes: [],
+                 statuses: [
+                   %{
+                     description: "Suspension",
+                     time: ^alert_start_time_display
+                   }
+                 ]
+               }
+             ] =
+               Groups.groups(
+                 [
+                   Alert.build(:alert,
+                     effect: :suspension,
+                     informed_entity: [
+                       InformedEntity.build(:informed_entity, route: affected_route_id)
+                     ],
+                     active_period: [{alert_start_time, alert_end_time}]
+                   )
+                 ],
+                 time
+               )
+               |> statuses_for(affected_route_id)
+    end
+
     test "shows a future time for alerts that have an expired time as well" do
       affected_route_id = Faker.Util.pick(@heavy_rail_lines)
 

@@ -88,13 +88,25 @@ defmodule Dotcom.SystemStatus.Groups do
   # - If the active period is in the future, returns its start_time.
   # - If the active period indicates that the alert is currently active, returns nil.
   # - Raises an error if the alert is completely in the past.
-  defp future_start_time([{start_time, end_time} | more_active_periods], time) do
+  defp future_start_time(
+         [{start_time, _end_time} = first_active_period | more_active_periods],
+         time
+       ) do
     cond do
-      Timex.before?(end_time, time) -> future_start_time(more_active_periods, time)
-      Timex.before?(start_time, time) -> nil
+      ends_before?(first_active_period, time) -> future_start_time(more_active_periods, time)
+      starts_before?(first_active_period, time) -> nil
       true -> start_time
     end
   end
+
+  # Returns true if the active period ends before the time given. An
+  # end-time of false indicates an indefinite active period, which
+  # never ends.
+  defp ends_before?({_start_time, nil}, _time), do: false
+  defp ends_before?({_start_time, end_time}, time), do: Timex.before?(end_time, time)
+
+  # Returns true if the active period starts before the time given.
+  defp starts_before?({start_time, _end_time}, time), do: Timex.before?(start_time, time)
 
   # Combines statuses that have the same active time and description
   # into a single pluralized status (e.g. "Station Closures" instead
