@@ -66,8 +66,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   end
 
   @doc """
-  Given a list of alerts, filters only the ones that are active today, as defined in `&active_on_day?/2`.
-  See that function for details
+  Given a list of alerts, filters only the ones that are active today, as defined in `active_on_day?/2`.
   """
   def for_day(alerts, datetime) do
     Enum.filter(alerts, &active_on_day?(&1, datetime))
