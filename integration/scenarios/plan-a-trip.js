@@ -7,7 +7,7 @@ exports.scenario = async ({ page, baseURL }) => {
     page.getByRole("heading", { name: "Trip Planner" }),
   ).toBeVisible();
 
-  await page.locator("fieldset#trip-planner-locations-from input[type='search']").pressSequentially("North Station");
+  await page.locator("#trip-planner-input-form--from input[type='search']").pressSequentially("North Station");
   await page.waitForSelector(
     "ul.aa-List",
   );
@@ -17,7 +17,7 @@ exports.scenario = async ({ page, baseURL }) => {
   // The A location pin.
   await page.waitForSelector("#mbta-metro-pin-0");
 
-  await page.locator("fieldset#trip-planner-locations-to input[type='search']").pressSequentially("South Station");
+  await page.locator("#trip-planner-input-form--to input[type='search']").pressSequentially("South Station");
   await page.waitForSelector(
     "ul.aa-List",
   );
@@ -26,8 +26,6 @@ exports.scenario = async ({ page, baseURL }) => {
 
   // The B location pin.
   await page.waitForSelector("#mbta-metro-pin-1");
-
-  await page.getByText("Get trip suggestions").click();
 
   await expect
     .poll(async () =>
