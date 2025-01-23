@@ -122,18 +122,12 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
             phx-click="select_itinerary"
             phx-value-index={index}
           >
-            {formatted_time(time)}
+            {Util.kitchen_downcase_time(time)}
           </.button>
         </div>
       </div>
       <.itinerary_detail itinerary={@itinerary} />
     </div>
     """
-  end
-
-  defp formatted_time(time) do
-    time
-    |> Timex.format!("%-I:%M%p", :strftime)
-    |> String.downcase()
   end
 end
