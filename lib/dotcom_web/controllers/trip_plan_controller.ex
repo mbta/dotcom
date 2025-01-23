@@ -22,7 +22,7 @@ defmodule DotcomWeb.TripPlanController do
         encoded = build_params(direction, location, query) |> AntiCorruptionLayer.encode()
         path = live_path(conn, DotcomWeb.Live.TripPlanner)
 
-        redirect(conn, to: "#{path}?plan=#{encoded}") |> halt()
+        conn |> put_status(301) |> redirect(to: "#{path}?plan=#{encoded}") |> halt()
 
       _ ->
         location(conn, %{})
@@ -32,7 +32,7 @@ defmodule DotcomWeb.TripPlanController do
   def location(conn, _params) do
     path = live_path(conn, DotcomWeb.Live.TripPlanner)
 
-    redirect(conn, to: path) |> halt()
+    conn |> put_status(301) |> redirect(to: path) |> halt()
   end
 
   defp build_params(direction, location, query) do

@@ -114,6 +114,36 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert Floki.get_by_id(document, "mbta-metro-pin-1")
     end
 
+    test "swapping from/to swaps pins on the map", %{view: view} do
+      # Setup
+      stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      view
+      |> element("button[phx-click='swap_direction']")
+      |> render_click()
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      pins =
+        Enum.map(["mbta-metro-pin-0", "mbta-metro-pin-1"], fn id ->
+          Floki.get_by_id(document, id)
+          |> Floki.attribute("data-coordinates")
+          |> List.first()
+          |> parse_coordinates()
+        end)
+
+      assert pins == [
+               [@valid_params["to"]["longitude"], @valid_params["to"]["latitude"]],
+               [@valid_params["from"]["longitude"], @valid_params["from"]["latitude"]]
+             ]
+    end
+
     test "selecting a time other than 'now' shows the datepicker", %{view: view} do
       # Setup
       params = %{
@@ -326,6 +356,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       assert Floki.find(document, "div[data-test='itinerary_detail:selected:1']") != []
     end
+  end
+
+  # Parse coordinates from data-coordinates.
+  defp parse_coordinates(string) do
+    string
+    |> String.replace(~r/\[|\]/, "")
+    |> String.split(",")
   end
 
   # Parse the query string from a URL and decode them into a plan.
