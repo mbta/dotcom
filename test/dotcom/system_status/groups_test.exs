@@ -5,6 +5,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
   alias Dotcom.SystemStatus.Groups
   alias Test.Support.Factories.Alerts.Alert
   alias Test.Support.Factories.Alerts.InformedEntity
+  alias Test.Support.Factories.Alerts.InformedEntitySet
 
   @all_rail_lines ["Blue", "Green", "Orange", "Red"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
@@ -588,9 +589,13 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
     Alert.build(:alert,
       effect: effect,
-      informed_entity: [
-        InformedEntity.build(:informed_entity, route: route_id)
-      ],
+      informed_entity:
+        InformedEntitySet.build(:informed_entity_set,
+          route: route_id,
+          entities: [
+            InformedEntity.build(:informed_entity, route: route_id)
+          ]
+        ),
       active_period: active_period
     )
   end
