@@ -8,8 +8,7 @@ defmodule Dotcom.SystemStatus.Groups do
 
   alias Alerts.Alert
 
-  # &groups/2 returns an ordered data structure, sorted in the order
-  # given by `@lines`.
+  # @lines is sorted in the order in which `groups/2` should sort its results
   @lines ["Blue", "Orange", "Red", "Green"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
   @routes ["Blue", "Mattapan", "Orange", "Red"] ++ @green_line_branches
