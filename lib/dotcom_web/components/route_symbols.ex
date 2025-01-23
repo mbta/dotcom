@@ -61,7 +61,10 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns = update(assigns, :class, &"#{&1} #{route_class}")
 
     ~H"""
-    <div class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}>
+    <div
+      class={"#{@class} #{@cva_class} font-heading whitespace-nowrap w-min font-bold inline-flex items-center justify-center leading-[1]"}
+      aria-label={route_label(@route)}
+    >
       {@route.name}
     </div>
     """
@@ -122,7 +125,12 @@ defmodule DotcomWeb.Components.RouteSymbols do
       end)
 
     ~H"""
-    <.icon type="icon-svg" name={@icon_name} class={"#{@class} #{@cva_class}"} />
+    <.icon
+      type="icon-svg"
+      name={@icon_name}
+      class={"#{@class} #{@cva_class}"}
+      aria-label={route_label(@route)}
+    />
     """
   end
 
@@ -138,7 +146,12 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns = assign(assigns, :route_number, route_number)
 
     ~H"""
-    <.icon type="icon-svg" name={"icon-massport-#{@route_number}"} class={"#{@class} #{@cva_class}"} />
+    <.icon
+      type="icon-svg"
+      name={"icon-massport-#{@route_number}"}
+      class={"#{@class} #{@cva_class}"}
+      aria-label={route_label(@route)}
+    />
     """
   end
 
@@ -149,13 +162,44 @@ defmodule DotcomWeb.Components.RouteSymbols do
       type="icon-svg"
       name={"icon-logan-express-#{@route.name}"}
       class={"#{@class} #{@cva_class}"}
+      aria-label={route_label(@route)}
     />
     """
   end
 
   def route_icon(assigns) do
     ~H"""
-    <.icon type="icon-svg" name="icon-mode-shuttle-default" class={"#{@class} #{@cva_class}"} />
+    <.icon
+      type="icon-svg"
+      name="icon-mode-shuttle-default"
+      class={"#{@class} #{@cva_class}"}
+      aria-label="Shuttle"
+    />
     """
   end
+
+  # Given a route, return a machine-readable label.
+  defp route_label(%Route{type: 2}), do: "Commuter Rail"
+  defp route_label(%Route{type: 4}), do: "Ferry"
+  defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
+  defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
+
+  defp route_label(%Route{
+         external_agency_name: "Massport",
+         name: <<route_number::binary-size(2), _::binary>>
+       }),
+       do: "Massport Shuttle #{route_number}"
+
+  # Silver Line and Buses.
+  defp route_label(%Route{name: name} = route)
+       when not is_external?(route) and not is_shuttle?(route) and
+              route.description != :rapid_transit do
+    if Routes.Route.silver_line?(route) do
+      name
+    else
+      "Route #{name}"
+    end
+  end
+
+  defp route_label(%Route{long_name: long_name}), do: long_name
 end

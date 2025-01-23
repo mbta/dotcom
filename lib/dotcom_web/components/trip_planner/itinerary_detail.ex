@@ -14,48 +14,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   alias Dotcom.TripPlan.Alerts
 
   def itinerary_detail(assigns) do
-    itinerary_group =
-      Enum.at(assigns.results.itinerary_groups, assigns.results.itinerary_group_selection || 0)
-
-    itinerary = Enum.at(itinerary_group.itineraries, assigns.results.itinerary_selection || 0)
-
-    assigns = %{
-      itinerary: itinerary,
-      itinerary_selection: assigns.results.itinerary_selection,
-      itineraries: itinerary_group.itineraries
-    }
-
-    ~H"""
-    <div>
-      <.depart_at_buttons itineraries={@itineraries} itinerary_selection={@itinerary_selection} />
-      <.specific_itinerary_detail itinerary={@itinerary} />
-    </div>
-    """
-  end
-
-  defp depart_at_buttons(assigns) do
-    ~H"""
-    <div :if={Enum.count(@itineraries) > 1}>
-      <hr class="border-gray-lighter" />
-      <p class="text-sm mb-2 mt-3">Depart at</p>
-      <div id="itinerary-detail-departure-times" class="flex flex-wrap gap-2">
-        <.button
-          :for={{itinerary, index} <- Enum.with_index(@itineraries)}
-          type="button"
-          class={if(@itinerary_selection == index, do: "bg-brand-primary-lightest")}
-          size="small"
-          variant="secondary"
-          phx-click="select_itinerary"
-          phx-value-index={index}
-        >
-          {Util.kitchen_downcase_time(itinerary.start)}
-        </.button>
-      </div>
-    </div>
-    """
-  end
-
-  defp specific_itinerary_detail(assigns) do
     assigns =
       assigns
       |> assign_new(:alerts, fn -> Alerts.from_itinerary(assigns.itinerary) end)

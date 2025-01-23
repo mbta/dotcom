@@ -30,7 +30,9 @@ const moreColors = {
     WO: "#00954c"
   },
   massport: "#104c8f",
-  subway: "#494f5c"
+  subway: "#494f5c",
+  bus: tailwindTheme.colors["brand-bus"],
+  "mattapan-line": tailwindTheme.colors["red-line"]
 };
 tailwindTheme.colors = moreColors;
 

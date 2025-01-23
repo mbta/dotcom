@@ -8,6 +8,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
   alias Dotcom.TripPlan.ItineraryGroups
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
 
+  setup :verify_on_exit!
+
   setup do
     stub(Stops.Repo.Mock, :get, fn _ ->
       Stop.build(:stop)
@@ -18,7 +20,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     {:ok, stops: stops}
   end
 
-  describe "from_itineraries/1" do
+  describe "from_itineraries/2" do
     test "groups itineraries with the same mode, from, and to", %{stops: [a, b, c]} do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
@@ -34,7 +36,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       assert Kernel.length(grouped_itineraries) == 1
     end
 
-    test "only includes the first five itineraries in a group", %{stops: [a, b, c]} do
+    test "only includes the first few itineraries in a group", %{stops: [a, b, c]} do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
       subway_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
@@ -46,7 +48,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       [group] = ItineraryGroups.from_itineraries(itineraries)
 
       # VERIFY
-      assert Kernel.length(group.itineraries) == 5
+      assert Kernel.length(group.itineraries) == ItineraryGroups.max_per_group()
     end
 
     test "does not group itineraries with different modes", %{stops: [a, b, c]} do
@@ -137,5 +139,54 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     [%{summary: %{summarized_legs: legs}}] = ItineraryGroups.from_itineraries([itinerary])
 
     assert [_, %{walk_minutes: 6}, _] = legs
+  end
+
+  test "caps itineraries at certain number each group" do
+    base_itinerary = TripPlanner.build(:itinerary)
+
+    itineraries =
+      Faker.Util.list(10, fn n ->
+        t = base_itinerary.start
+        base_itinerary |> Map.put(:start, Timex.shift(t, minutes: 10 * n))
+      end)
+
+    counts =
+      itineraries
+      |> ItineraryGroups.from_itineraries()
+      |> Enum.map(&Enum.count(&1.itineraries))
+
+    refute Enum.any?(counts, &(&1 > ItineraryGroups.max_per_group()))
+  end
+
+  test "uses second argument to pick last N itineraries per group instead of first" do
+    base_start_time = Faker.DateTime.forward(1)
+
+    base_itinerary =
+      TripPlanner.build(:itinerary,
+        start: base_start_time,
+        stop: Timex.shift(base_start_time, minutes: 30)
+      )
+
+    # list of itineraries sorted by time, that's otherwise identical such that
+    # they'll get grouped together
+    sorted_itineraries =
+      Faker.Util.list(15, fn n ->
+        base_itinerary
+        |> Map.put(:start, Timex.shift(base_itinerary.start, minutes: 10 * n))
+        |> Map.put(:stop, Timex.shift(base_itinerary.stop, minutes: 10 * n))
+      end)
+
+    first_n_itineraries = Enum.take(sorted_itineraries, ItineraryGroups.max_per_group())
+    last_n_itineraries = Enum.take(sorted_itineraries, -ItineraryGroups.max_per_group())
+
+    assert sorted_itineraries
+           |> ItineraryGroups.from_itineraries()
+           |> List.first()
+           |> Map.get(:itineraries) == first_n_itineraries
+
+    assert sorted_itineraries
+           |> ItineraryGroups.from_itineraries(take_from_end: true)
+           |> List.first()
+           |> Map.get(:itineraries) == last_n_itineraries
   end
 end
