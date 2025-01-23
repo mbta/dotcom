@@ -137,15 +137,31 @@ defmodule Dotcom.SystemStatus.Groups do
   """
   def groups(alerts, time) do
     @routes
-    |> Map.new(&{&1, alerts_for_route(alerts, &1)})
-    |> Enum.map(fn {route_id, alerts} ->
-      statuses = alerts_to_statuses(alerts, time)
-
-      %{route_id: route_id, sub_routes: [], statuses: statuses}
-    end)
+    |> add_alerts(alerts)
+    |> convert_alerts_to_statuses(time)
     |> combine_green_line_branches()
     |> combine_mattapan_with_red_line()
     |> sort_routes_and_sub_routes()
+  end
+
+  # Maps the provided `routes` to a struct containing the route ID and
+  # the alerts associated with that route.
+  defp add_alerts(routes, alerts) do
+    routes
+    |> Enum.map(fn route_id ->
+      %{route_id: route_id, alerts: alerts_for_route(alerts, route_id)}
+    end)
+  end
+
+  # Maps the provided `routes_with_alerts` to a new struct that
+  # contains `statuses` that are constructed from the alerts, as well
+  # as empty `sub_routes` lists (which may get populated by the two
+  # `combine_*` functions below if needed).
+  defp convert_alerts_to_statuses(routes_with_alerts, time) do
+    routes_with_alerts
+    |> Enum.map(fn %{route_id: route_id, alerts: alerts} ->
+      %{route_id: route_id, sub_routes: [], statuses: alerts_to_statuses(alerts, time)}
+    end)
   end
 
   # Given `alerts` and `route_id`, filters out only the alerts
