@@ -138,15 +138,13 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      alert_start_time_display = Util.kitchen_downcase_time(alert_start_time)
-
       times =
         groups
         |> group_for(affected_route_id)
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      assert times == [alert_start_time_display]
+      assert times == [Util.kitchen_downcase_time(alert_start_time)]
     end
 
     # TODO: Come back to this. Is this the right test for indefinite alerts?
@@ -163,16 +161,13 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      alert_start_time_display =
-        Util.kitchen_downcase_time(alert_start_time)
-
       times =
         groups
         |> group_for(affected_route_id)
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      assert times == [alert_start_time_display]
+      assert times == [Util.kitchen_downcase_time(alert_start_time)]
     end
 
     test "shows a future time for alerts that have an expired active_period as well" do
@@ -200,16 +195,13 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      alert_start_time_display =
-        Util.kitchen_downcase_time(alert_start_time)
-
       times =
         groups
         |> group_for(affected_route_id)
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      assert times == [alert_start_time_display]
+      assert times == [Util.kitchen_downcase_time(alert_start_time)]
     end
 
     test "shows multiple alerts for a given route, sorted alphabetically" do
@@ -308,12 +300,9 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      alert_1_start_time_display = alert_1_start_time |> Util.kitchen_downcase_time()
-      alert_2_start_time_display = alert_2_start_time |> Util.kitchen_downcase_time()
-
       assert times == [
-               alert_1_start_time_display,
-               alert_2_start_time_display
+               Util.kitchen_downcase_time(alert_1_start_time),
+               Util.kitchen_downcase_time(alert_2_start_time)
              ]
     end
 
