@@ -31,7 +31,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
         </strong>
       </.wrap_with_url>
 
-      <time class="ml-auto text-right text-sm text-nowrap">{format_time(@time)}</time>
+      <time class="ml-auto text-right text-sm text-nowrap">{Util.kitchen_downcase_time(@time)}</time>
     </div>
     """
   end
@@ -52,11 +52,5 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
       {render_slot(@inner_block)}
     </a>
     """
-  end
-
-  defp format_time(datetime) do
-    datetime
-    |> Timex.format!("%-I:%M%p", :strftime)
-    |> String.downcase()
   end
 end
