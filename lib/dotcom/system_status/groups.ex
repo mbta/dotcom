@@ -271,14 +271,7 @@ defmodule Dotcom.SystemStatus.Groups do
   # in &consolidate_duplicate_descriptions/2, when multiple statuses
   # have the same time and effect.
   defp pluralize_description(%{description: description} = status) do
-    new_description =
-      case description do
-        "Suspension" -> "Suspensions"
-        "Station Closure" -> "Station Closures"
-        _ -> description
-      end
-
-    %{status | description: new_description}
+    %{status | description: Inflex.pluralize(description)}
   end
 
   # Sorts the given list of statuses first by time, then by
