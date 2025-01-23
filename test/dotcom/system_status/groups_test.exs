@@ -496,6 +496,9 @@ defmodule Dotcom.SystemStatus.GroupsTest do
     end
   end
 
+  # Returns the group for the given route_id and sub-route
+  # collection. If no sub-routes are specified, then returns the group
+  # for the given route_id with no sub-routes.
   defp group_for(groups, route_id, sub_routes \\ []) do
     [group] =
       groups
@@ -507,30 +510,45 @@ defmodule Dotcom.SystemStatus.GroupsTest do
     group
   end
 
+  # Returns the beginning of the day in the Eastern time zone.
   defp beginning_of_day() do
     Timex.beginning_of_day(Timex.now("America/New_York"))
   end
 
+  # Returns the end of the day in the Eastern time zone.
   defp end_of_day() do
     Timex.end_of_day(Timex.now("America/New_York"))
   end
 
+  # Returns a random time during the day today.
   defp time_today() do
     between(beginning_of_day(), end_of_day())
   end
 
+  # Returns a random time during the day today before the time provided.
   defp time_before(time) do
     between(beginning_of_day(), time)
   end
 
+  # Returns a random time during the day today after the time provided.
   defp time_after(time) do
     between(time, end_of_day())
   end
 
+  # Returns a random time between the times provided in the Eastern time zone.
   defp between(time1, time2) do
     Faker.DateTime.between(time1, time2) |> Timex.to_datetime("America/New_York")
   end
 
+  # Returns a random alert that will be active at the time given by
+  # the required `:time` opt.
+  #
+  # Required opts:
+  #  - route_id
+  #  - time
+  #
+  # Optional opts:
+  #  - effect (default behavior is to choose an effect at random)
   defp current_alert(opts) do
     {time, opts} = opts |> Keyword.pop!(:time)
 
@@ -542,6 +560,15 @@ defmodule Dotcom.SystemStatus.GroupsTest do
     |> alert()
   end
 
+  # Returns a random alert whose active_period starts at the provided
+  # `:start_time` opt.
+  #
+  # Required opts:
+  #  - route_id
+  #  - start_time
+  #
+  # Optional opts:
+  #  - effect (default behavior is to choose an effect at random)
   defp future_alert(opts) do
     {start_time, opts} = opts |> Keyword.pop!(:start_time)
 
@@ -550,6 +577,15 @@ defmodule Dotcom.SystemStatus.GroupsTest do
     |> alert()
   end
 
+  # Returns a random alert for the given `:route_id` and
+  # `:active_period` opts.
+  #
+  # Required opts:
+  #  - route_id
+  #  - active_period (Note that this is an array)
+  #
+  # Optional opts:
+  #  - effect (default behavior is to choose an effect at random)
   defp alert(opts) do
     route_id = opts |> Keyword.fetch!(:route_id)
     effect = opts[:effect] || Faker.Util.pick(@effects)
