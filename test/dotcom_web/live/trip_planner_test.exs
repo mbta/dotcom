@@ -5,22 +5,73 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   import Mox
   import Phoenix.LiveViewTest
 
+  alias Dotcom.TripPlan.AntiCorruptionLayer
   alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
 
   setup :verify_on_exit!
 
   @valid_params %{
     "from" => %{
-      "latitude" => Faker.Address.latitude(),
-      "longitude" => Faker.Address.longitude()
+      "latitude" => Faker.Address.latitude() |> Float.to_string(),
+      "longitude" => Faker.Address.longitude() |> Float.to_string(),
+      "name" => Faker.Address.street_name(),
+      "stop_id" => ""
     },
     "to" => %{
-      "latitude" => Faker.Address.latitude(),
-      "longitude" => Faker.Address.longitude()
+      "latitude" => Faker.Address.latitude() |> Float.to_string(),
+      "longitude" => Faker.Address.longitude() |> Float.to_string(),
+      "name" => Faker.Address.street_name(),
+      "stop_id" => ""
     }
   }
 
-  describe "loading" do
+  describe "mount" do
+    test "setting no params redirects to a plan of defaults", %{conn: conn} do
+      # Setup
+      path = live_path(conn, DotcomWeb.Live.TripPlanner)
+
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
+
+      new_params =
+        url
+        |> decode_params()
+        |> MapSet.new()
+
+      default_params = AntiCorruptionLayer.default_params() |> MapSet.new()
+
+      # Verify
+      assert MapSet.intersection(new_params, default_params) == default_params
+    end
+
+    test "setting old params redirects to a plan of matching new params", %{conn: conn} do
+      # Setup
+      query =
+        %{
+          "plan[from]" => Kernel.get_in(@valid_params, ["from", "name"]),
+          "plan[from_latitude]" => Kernel.get_in(@valid_params, ["from", "latitude"]),
+          "plan[from_longitude]" => Kernel.get_in(@valid_params, ["from", "longitude"]),
+          "plan[to]" => Kernel.get_in(@valid_params, ["to", "name"]),
+          "plan[to_latitude]" => Kernel.get_in(@valid_params, ["to", "latitude"]),
+          "plan[to_longitude]" => Kernel.get_in(@valid_params, ["to", "longitude"])
+        }
+        |> URI.encode_query()
+
+      path = live_path(conn, DotcomWeb.Live.TripPlanner) <> "?#{query}"
+
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
+
+      new_params =
+        url
+        |> decode_params()
+        |> MapSet.new()
+
+      valid_params = MapSet.new(@valid_params)
+
+      # Verify
+      assert MapSet.intersection(new_params, valid_params) == valid_params
+    end
   end
 
   describe "inputs" do
@@ -226,7 +277,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
              ) != []
     end
 
-    test "selecting/unselecting a group shows all groups", %{view: view} do
+    test "unselecting a group shows all groups", %{view: view} do
       group_count = :rand.uniform(5)
 
       # Setup
@@ -275,5 +326,15 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       assert Floki.find(document, "div[data-test='itinerary_detail:selected:1']") != []
     end
+  end
+
+  # Parse the query string from a URL and decode them into a plan.
+  defp decode_params(url) do
+    url
+    |> URI.parse()
+    |> Map.get(:query)
+    |> URI.decode_query()
+    |> Map.get("plan")
+    |> AntiCorruptionLayer.decode()
   end
 end

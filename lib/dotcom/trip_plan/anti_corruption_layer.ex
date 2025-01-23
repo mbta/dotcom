@@ -21,25 +21,7 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   If no plan is given, then we default to empty form values.
   """
   def convert_old_params(%{"plan" => params}) do
-    Map.merge(
-      @default_params,
-      %{
-        "from" => %{
-          "latitude" => Map.get(params, "from_latitude"),
-          "longitude" => Map.get(params, "from_longitude"),
-          "name" => Map.get(params, "from"),
-          "stop_id" => Map.get(params, "from_stop_id", "")
-        },
-        "modes" => Map.get(params, "modes") |> convert_modes(),
-        "to" => %{
-          "latitude" => Map.get(params, "to_latitude"),
-          "longitude" => Map.get(params, "to_longitude"),
-          "name" => Map.get(params, "to"),
-          "stop_id" => Map.get(params, "to_stop_id", "")
-        },
-        "wheelchair" => Map.get(params, "wheelchair") || "false"
-      }
-    )
+    Map.merge(@default_params, copy_params(params))
   end
 
   def convert_old_params(_), do: convert_old_params(%{"plan" => %{}})
@@ -89,6 +71,26 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   # When no modes are given, we use the initial modes--all modes are true.
   defp convert_modes(_), do: @default_modes
+
+  # Copy the old params into the new param structure.
+  defp copy_params(params) do
+    %{
+      "from" => %{
+        "latitude" => Map.get(params, "from_latitude"),
+        "longitude" => Map.get(params, "from_longitude"),
+        "name" => Map.get(params, "from"),
+        "stop_id" => Map.get(params, "from_stop_id", "")
+      },
+      "modes" => Map.get(params, "modes") |> convert_modes(),
+      "to" => %{
+        "latitude" => Map.get(params, "to_latitude"),
+        "longitude" => Map.get(params, "to_longitude"),
+        "name" => Map.get(params, "to"),
+        "stop_id" => Map.get(params, "to_stop_id", "")
+      },
+      "wheelchair" => Map.get(params, "wheelchair") || "false"
+    }
+  end
 
   defp decode_datetime(%{"datetime" => datetime} = params) do
     case DateTime.from_iso8601(datetime) do
