@@ -147,27 +147,33 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       assert times == [Util.kitchen_downcase_time(alert_start_time)]
     end
 
-    # TODO: Come back to this. Is this the right test for indefinite alerts?
-    test "shows future active time for active alerts with no end time" do
+    test "shows entry for active alerts with no end time" do
       # Setup
       affected_route_id = Faker.Util.pick(@heavy_rail_lines)
 
       time = time_today()
-      alert_start_time = time_after(time)
+      effect = Faker.Util.pick(@effects)
+      alert_start_time = time_before(time)
 
-      alerts = [alert(route_id: affected_route_id, active_period: [{alert_start_time, nil}])]
+      alerts = [
+        alert(
+          route_id: affected_route_id,
+          effect: effect,
+          active_period: [{alert_start_time, nil}]
+        )
+      ]
 
       # Exercise
       groups = Groups.groups(alerts, time)
 
       # Verify
-      times =
+      descriptions =
         groups
         |> group_for(affected_route_id)
         |> Map.get(:statuses)
-        |> Enum.map(& &1.time)
+        |> Enum.map(& &1.description)
 
-      assert times == [Util.kitchen_downcase_time(alert_start_time)]
+      assert descriptions == [@singular_effect_descriptions[effect]]
     end
 
     test "shows a future time for alerts that have an expired active_period as well" do
