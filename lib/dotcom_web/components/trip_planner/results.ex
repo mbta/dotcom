@@ -109,7 +109,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     }
 
     ~H"""
-    <div>
+    <div data-test={"itinerary_detail:selected:#{@itinerary_selection}"}>
       <.itinerary_summary summary={@summary} />
       <div :if={Enum.count(@all_times) > 1}>
         <hr class="border-gray-lighter" />
@@ -123,6 +123,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
             variant="secondary"
             phx-click="select_itinerary"
             phx-value-index={index}
+            data-test={"itinerary_detail:#{index}"}
           >
             {formatted_time(time)}
           </.button>
