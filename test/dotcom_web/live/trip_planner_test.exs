@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Live.TripPlannerTest do
   use DotcomWeb.ConnCase, async: true
 
+  import DotcomWeb.Router.Helpers, only: [live_path: 2]
   import Mox
   import Phoenix.LiveViewTest
 
@@ -28,7 +29,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         %JsonApi{}
       end)
 
-      {:ok, view, _} = live(conn, ~p"/preview/trip-planner")
+      {:error, {:live_redirect, %{to: url}}} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:ok, view, _} = live(conn, url)
 
       %{view: view}
     end
@@ -150,7 +152,8 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         Stop.build(:stop)
       end)
 
-      {:ok, view, _} = live(conn, ~p"/preview/trip-planner")
+      {:error, {:live_redirect, %{to: url}}} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:ok, view, _} = live(conn, url)
 
       %{view: view}
     end

@@ -227,7 +227,6 @@ defmodule DotcomWeb.Router do
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
     get("/transit-near-me", TransitNearMeController, :index)
     resources("/alerts", AlertController, only: [:index, :show])
-    get("/trip-planner", TripPlanController, :index)
     get("/trip-planner/from/", Redirector, to: "/trip-planner")
     get("/trip-planner/to/", Redirector, to: "/trip-planner")
     get("/trip-planner/:direction/:query", TripPlanController, :location)
