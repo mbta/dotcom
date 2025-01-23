@@ -137,18 +137,10 @@ defmodule Dotcom.SystemStatus.Groups do
 
   """
   def groups(alerts, time) do
-    grouped_alerts = Map.new(@routes, &{&1, alerts_for_line(alerts, &1)})
-
     @routes
-    |> Enum.map(fn route_id ->
-      statuses =
-        grouped_alerts
-        |> Map.get(route_id)
-        |> alerts_to_statuses(time)
-        |> consolidate_duplicate_descriptions()
-        |> sort_statuses()
-        |> stringify_times()
-        |> maybe_add_now_text()
+    |> Map.new(&{&1, alerts_for_line(alerts, &1)})
+    |> Enum.map(fn {route_id, alerts} ->
+      statuses = alerts_to_statuses(alerts, time)
 
       %{route_id: route_id, sub_routes: [], statuses: statuses}
     end)
@@ -171,20 +163,35 @@ defmodule Dotcom.SystemStatus.Groups do
     end)
   end
 
-  # Maps a list of alerts to a list of statuses, where a status is a
-  # simple structure with a route, a description, and a few additional
-  # fields that determine how it will render in the frontend.
-  defp alerts_to_statuses(alerts, time)
+  # Maps a list of alerts to a list of statuses that are formatted
+  # according to the system status specifications:
+  # - Identical alerts are grouped together and pluralized.
+  # - Times are given as a kitchen-formatted string, nil, or "Now".
+  # - Statuses are sorted alphabetically.
+  defp alerts_to_statuses(alerts, time) do
+    alerts
+    |> alerts_to_statuses_naive(time)
+    |> consolidate_duplicate_descriptions()
+    |> sort_statuses()
+    |> stringify_times()
+    |> maybe_add_now_text()
+  end
+
+  # Naively maps a list of alerts to a list of statuses, where a
+  # status is a simple structure with a route, a description, and a
+  # few additional fields that determine how it will render in the
+  # frontend.
+  defp alerts_to_statuses_naive(alerts, time)
 
   # If there are no alerts, then we want a single status indicating
   # "Normal Service".
-  defp alerts_to_statuses([], _time) do
+  defp alerts_to_statuses_naive([], _time) do
     [%{description: "Normal Service", time: nil}]
   end
 
   # If there are alerts, then create a starting list of statuses that
   # maps one-to-one with the alerts provided.
-  defp alerts_to_statuses(alerts, time) do
+  defp alerts_to_statuses_naive(alerts, time) do
     alerts
     |> Enum.map(fn alert ->
       alert_to_status(alert, time)
