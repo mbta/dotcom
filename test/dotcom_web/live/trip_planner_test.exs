@@ -29,7 +29,9 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         %JsonApi{}
       end)
 
-      {:error, {:live_redirect, %{to: url}}} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:error, {:live_redirect, %{to: url}}} =
+        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+
       {:ok, view, _} = live(conn, url)
 
       %{view: view}
@@ -152,7 +154,9 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         Stop.build(:stop)
       end)
 
-      {:error, {:live_redirect, %{to: url}}} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:error, {:live_redirect, %{to: url}}} =
+        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+
       {:ok, view, _} = live(conn, url)
 
       %{view: view}
