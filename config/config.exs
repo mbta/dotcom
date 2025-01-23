@@ -32,7 +32,7 @@ config :dotcom, :req_module, Req
 
 tile_server_url =
   if config_env() == :prod,
-    do: "https://cdn.mbta.com",
+    do: "https://d2l7znrpys0704.cloudfront.net",
     else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :dotcom, tile_server_url: tile_server_url
