@@ -138,7 +138,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      alert_start_time_display = kitchen_downcase_time(alert_start_time)
+      alert_start_time_display = Util.kitchen_downcase_time(alert_start_time)
 
       times =
         groups
@@ -164,7 +164,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
       # Verify
       alert_start_time_display =
-        kitchen_downcase_time(alert_start_time)
+        Util.kitchen_downcase_time(alert_start_time)
 
       times =
         groups
@@ -201,7 +201,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
       # Verify
       alert_start_time_display =
-        kitchen_downcase_time(alert_start_time)
+        Util.kitchen_downcase_time(alert_start_time)
 
       times =
         groups
@@ -267,7 +267,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      assert times == ["Now", kitchen_downcase_time(future_alert_start_time)]
+      assert times == ["Now", Util.kitchen_downcase_time(future_alert_start_time)]
     end
 
     test "sorts future alerts by time, not lexically" do
@@ -308,8 +308,8 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> Map.get(:statuses)
         |> Enum.map(& &1.time)
 
-      alert_1_start_time_display = alert_1_start_time |> kitchen_downcase_time()
-      alert_2_start_time_display = alert_2_start_time |> kitchen_downcase_time()
+      alert_1_start_time_display = alert_1_start_time |> Util.kitchen_downcase_time()
+      alert_2_start_time_display = alert_2_start_time |> Util.kitchen_downcase_time()
 
       assert times == [
                alert_1_start_time_display,
@@ -489,7 +489,8 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      descriptions = groups |> group_for("Red") |> Map.get(:statuses) |> Enum.map(& &1.description)
+      descriptions =
+        groups |> group_for("Red") |> Map.get(:statuses) |> Enum.map(& &1.description)
 
       assert descriptions == ["Normal Service"]
     end
@@ -528,11 +529,6 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
   defp between(time1, time2) do
     Faker.DateTime.between(time1, time2) |> Timex.to_datetime("America/New_York")
-  end
-
-  # TODO: Get rid of this before merging
-  defp kitchen_downcase_time(time) do
-    time |> Timex.format!("{kitchen}") |> String.downcase()
   end
 
   defp current_alert(opts) do

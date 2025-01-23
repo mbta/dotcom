@@ -290,7 +290,7 @@ defmodule Dotcom.SystemStatus.Groups do
   # Returns a human-readable version of the time given, formatted like
   # "8:30pm", for example. Leaves nil unchanged.
   defp stringify_time(nil), do: nil
-  defp stringify_time(time), do: Timex.format!(time, "%-I:%M%p", :strftime) |> String.downcase()
+  defp stringify_time(time), do: Util.kitchen_downcase_time(time)
 
   # The `time` attribute of a status governs how a status should be
   # rendered. An alert that's currently active should typically only
