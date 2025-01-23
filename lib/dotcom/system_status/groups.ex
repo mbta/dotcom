@@ -138,7 +138,7 @@ defmodule Dotcom.SystemStatus.Groups do
   """
   def groups(alerts, time) do
     @routes
-    |> Map.new(&{&1, alerts_for_line(alerts, &1)})
+    |> Map.new(&{&1, alerts_for_route(alerts, &1)})
     |> Enum.map(fn {route_id, alerts} ->
       statuses = alerts_to_statuses(alerts, time)
 
@@ -149,15 +149,15 @@ defmodule Dotcom.SystemStatus.Groups do
     |> sort_routes_and_sub_routes()
   end
 
-  # Given `alerts` and `line_id`, filters out only the alerts
-  # applicable to the given line, using the alert's "informed
+  # Given `alerts` and `route_id`, filters out only the alerts
+  # applicable to the given route, using the alert's "informed
   # entities".
-  defp alerts_for_line(alerts, line_id) do
+  defp alerts_for_route(alerts, route_id) do
     alerts
     |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
       informed_entity
       |> Enum.any?(fn
-        %{route: ^line_id} -> true
+        %{route: ^route_id} -> true
         %{} -> false
       end)
     end)
