@@ -461,24 +461,23 @@ defmodule Dotcom.SystemStatus.Groups do
                          sub_routes: sub_routes,
                          statuses: [%{description: description} | _]
                        } ->
-      description_sort_order =
-        case description do
-          "Normal Service" -> 1
-          _ -> 0
-        end
-
-      base_route_sort_order =
-        case sub_routes do
-          [] -> 0
-          _ -> 1
-        end
-
       {
         line_indexes |> Map.get(route_id),
-        base_route_sort_order,
-        description_sort_order,
+        sub_route_sort_order(sub_routes),
+        description_sort_order(description),
         sub_routes
       }
     end)
   end
+
+  # Sort order for descriptions, which will serve to sort "Normal
+  # Service" after any other status.
+  defp description_sort_order("Normal Service"), do: 1
+  defp description_sort_order(_), do: 0
+
+  # Sort order for sub-routes, which will serve to sort groups with no
+  # sub-routes ahead of groups with sub-routes. (In practice, this
+  # will sort "Red"/[] ahead of "Red"/["Mattapan"].
+  defp sub_route_sort_order([]), do: 0
+  defp sub_route_sort_order(_), do: 1
 end
