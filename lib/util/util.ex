@@ -206,8 +206,8 @@ defmodule Util do
 
   @doc """
 
-  Formats a time or a datetime so that it looks right in various
-  places on the site
+  Provides a user-friendly display of time based on the "kitchen"
+  format, but with am/pm instead of AM/PM.
 
   ## Examples
       iex> Util.kitchen_downcase_time(~T[08:30:00])
