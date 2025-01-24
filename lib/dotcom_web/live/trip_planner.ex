@@ -152,33 +152,14 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  # Triggered every time the form changes:
-  #
-  # - Update the input form state with the new changeset
-  # - Update the map state with the new pins
-  # - Reset the results state
+  # Triggered every time the form changes, we dispatch to
+  # handle_input_form_change/2
   def handle_event(
         "input_form_change",
         %{"input_form" => params},
-        %{assigns: %{input_form: %{changeset: %{params: current_params}}}} = socket
+        socket
       ) do
-    params_with_datetime =
-      current_params
-      |> Map.merge(params)
-      |> add_datetime_if_needed()
-
-    changeset = InputForm.changeset(params_with_datetime)
-
-    pins = input_form_to_pins(changeset)
-
-    new_socket =
-      socket
-      |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
-      |> assign(:map, Map.put(@state.map, :pins, pins))
-      |> update_datepicker(params_with_datetime)
-      |> submit_changeset(changeset)
-
-    {:noreply, new_socket}
+    {:noreply, socket |> handle_input_form_change(params)}
   end
 
   @impl true
@@ -284,8 +265,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered when the user clicks the button to swap to "from" and "to" data
   #
-  # - Creates a new changeset with the switched from and to values
-  # - Resubmits the form (which in turn updates the input form state, map, etc)
+  # - Constructs updated form params to send to handle_input_form_change/2 to
+  #   handle updated fields.
   # - Dispatches a "set-query" event that is used by the AlgoliaAutocomplete
   #   hook to update the displayed value of the location search box. This
   #   reconciles a mismatch which happens when the user switches the origin and
@@ -304,12 +285,10 @@ defmodule DotcomWeb.Live.TripPlanner do
         |> maybe_put_change(:to, new_to)
         |> maybe_put_change(:from, new_from)
 
-      new_socket =
-        socket
-        |> submit_changeset(Ecto.Changeset.change(changeset, changes))
-        |> push_event("set-query", changes)
-
-      {:noreply, new_socket}
+      {:noreply,
+       socket
+       |> handle_input_form_change(%{"to" => new_to, "from" => new_from})
+       |> push_event("set-query", changes)}
     else
       {:noreply, socket}
     end
@@ -325,6 +304,34 @@ defmodule DotcomWeb.Live.TripPlanner do
   # Default if we receive an info message we don't handle.
   def handle_info(_info, socket) do
     {:noreply, socket}
+  end
+
+  # Handles updated params when the input form changes
+  #
+  # - Update the input form state with the new changeset
+  # - Update the map state with the new pins
+  # - Reset the results state
+  defp handle_input_form_change(socket, params) do
+    %{
+      assigns: %{
+        input_form: %{changeset: %{params: current_params}}
+      }
+    } = socket
+
+    params_with_datetime =
+      current_params
+      |> Map.merge(params)
+      |> add_datetime_if_needed()
+
+    changeset = InputForm.changeset(params_with_datetime)
+
+    pins = input_form_to_pins(changeset)
+
+    socket
+    |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
+    |> assign(:map, Map.put(@state.map, :pins, pins))
+    |> update_datepicker(params_with_datetime)
+    |> submit_changeset(changeset)
   end
 
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
@@ -478,7 +485,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # For the from or to fields, get the underlying location data if changed
   defp location_data_from_changeset(%Ecto.Changeset{changes: changes}) when changes != %{} do
-    changes
+    changes |> Map.new(fn {key, value} -> {Atom.to_string(key), value} end)
   end
 
   defp location_data_from_changeset(_), do: %{}
