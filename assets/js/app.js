@@ -119,7 +119,6 @@ if ("outerHTML" in SVGElement.prototype) {
 // breakpoints defined in assets/css/_variables.scss
 const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
-/*
 submitOnEvents(["blur", "change"]);
 googleAnalytics();
 setupGlobalNavigation();
@@ -157,4 +156,3 @@ eventPageSetup();
 previousEventsButton();
 pslPageSetup();
 accordionInit();
-*/
