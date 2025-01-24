@@ -52,6 +52,7 @@ node_modules
 # we ignore certain directories in priv/static.
 /priv/static/css
 /priv/static/js
+/priv/static/assets
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
