@@ -341,8 +341,8 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/", DotcomWeb do
-    # pipe_through([:secure, :browser, :browser_live, :basic_auth])
-    pipe_through(:browser)
+    pipe_through([:secure, :browser, :browser_live, :basic_auth])
+
     live_storybook("/storybook", backend_module: Elixir.DotcomWeb.Storybook)
   end
 
