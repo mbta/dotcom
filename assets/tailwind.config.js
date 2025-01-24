@@ -41,7 +41,7 @@ module.exports = {
     preflight: false
   },
   blocklist: ["container", "collapse"],
-  important: ".dotcom-web",
+  important: "body",
   content: [
     ...content,
     "./js/**/*.js",
