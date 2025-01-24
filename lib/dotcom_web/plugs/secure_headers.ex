@@ -4,6 +4,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
   content security policy directives at funtime.
   """
 
+  @tile_url Application.compile_env!(:dotcom, :tile_server_url)
   @base_csp_directives %{
     connect: ~w[
       connect-src
@@ -11,6 +12,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       *.arcgis.com
       *.googleapis.com
       *.s3.amazonaws.com
+      #{@tile_url}
       analytics.google.com
       cdn.mbta.com
       px.ads.linkedin.com
