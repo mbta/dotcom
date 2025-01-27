@@ -179,21 +179,17 @@ defmodule Dotcom.SystemStatus.Groups do
     %{
       route_id: "Red",
       branches_with_statuses:
-        red_branches_with_statuses(alerts, time) ++ mattapan_branches_with_statuses
+        branches_with_statuses("Red", alerts, time) ++ mattapan_branches_with_statuses
     }
   end
 
   # Default implementation for a simple subway line (with no
   # branches).
-  defp add_nested_statuses_for_line(line_id, alerts, time) do
-    line_id
-    |> add_statuses_for_route(alerts, time)
-    |> then(fn %{route_id: route_id, statuses: statuses} ->
-      %{
-        route_id: route_id,
-        branches_with_statuses: [branch_with_statuses_entry(statuses)]
-      }
-    end)
+  defp add_nested_statuses_for_line(route_id, alerts, time) do
+    %{
+      route_id: route_id,
+      branches_with_statuses: branches_with_statuses(route_id, alerts, time)
+    }
   end
 
   defp group_by_statuses(status_entries) do
@@ -239,10 +235,8 @@ defmodule Dotcom.SystemStatus.Groups do
   defp status_sort_order([%{time: nil, description: "Normal Service"}]), do: 1
   defp status_sort_order(_), do: 0
 
-  # Returns an array containing a single branch_with_statuses entry
-  # for the red line, to be combined with Mattapan entries if there are any.
-  defp red_branches_with_statuses(alerts, time) do
-    "Red"
+  defp branches_with_statuses(route_id, alerts, time) do
+    route_id
     |> statuses_for_route(alerts, time)
     |> branch_with_statuses_entry()
     |> then(&[&1])
