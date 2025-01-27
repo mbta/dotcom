@@ -11,7 +11,6 @@ defmodule Dotcom.SystemStatus.Groups do
   # @lines is sorted in the order in which `groups/2` should sort its results
   @lines ["Blue", "Orange", "Red", "Green"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
-  @routes ["Blue", "Mattapan", "Orange", "Red"] ++ @green_line_branches
 
   @doc """
 
@@ -25,10 +24,10 @@ defmodule Dotcom.SystemStatus.Groups do
   ## Example (no alerts)
       iex> Dotcom.SystemStatus.Groups.groups([], Timex.now())
       [
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]}
       ]
 
   ## Example (one alert on a heavy rail line)
@@ -42,19 +41,20 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
         %{
-          statuses: [
+          route_id: "Orange",
+          branches_with_statuses: [
             %{
-              time: nil,
-              description: "Shuttle Buses"
+              branch_ids: [],
+              statuses: [
+                %{time: nil, description: "Shuttle Buses"}
+              ]
             }
-          ],
-          sub_routes: [],
-          route_id: "Orange"
+          ]
         },
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]}
       ]
 
   Alerts for Green line branches are grouped together, so that instead
@@ -79,33 +79,30 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
         %{
-          statuses: [
+          route_id: "Green",
+          branches_with_statuses: [
             %{
-              time: nil,
-              description: "Delays"
-            }
-          ],
-          sub_routes: ["Green-D", "Green-E"],
-          route_id: "Green"
-        },
-        %{
-          statuses: [
+              branch_ids: ["Green-D", "Green-E"],
+              statuses: [
+                %{time: nil, description: "Delays"}
+              ]
+            },
             %{
-              time: nil,
-              description: "Normal Service"
+              branch_ids: ["Green-B", "Green-C"],
+              statuses: [
+                %{time: nil, description: "Normal Service"}
+              ]
             }
-          ],
-          sub_routes: ["Green-B", "Green-C"],
-          route_id: "Green"
+          ]
         }
       ]
 
   The Mattapan line is usually not shown, but if it has any alerts,
-  then it's shown as a sub-route of the Red line.
+  then it's shown as a branch of the Red line.
 
   ## Example
       iex> alerts =
@@ -118,56 +115,189 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Blue"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Orange"},
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Red"},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]},
         %{
-          statuses: [
+          route_id: "Red",
+          branches_with_statuses: [
             %{
-              time: nil,
-              description: "Suspension"
+              branch_ids: [],
+              statuses: [
+                %{time: nil, description: "Normal Service"}
+              ]
+            },
+            %{
+              branch_ids: ["Mattapan"],
+              statuses: [
+                %{time: nil, description: "Suspension"}
+              ]
             }
-          ],
-          sub_routes: ["Mattapan"],
-          route_id: "Red"
+          ]
         },
-        %{statuses: [%{time: nil, description: "Normal Service"}], sub_routes: [], route_id: "Green"}
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], statuses: [%{time: nil, description: "Normal Service"}]}]}
       ]
 
   """
   def groups(alerts, time) do
-    @routes
-    |> add_alerts(alerts)
-    |> convert_alerts_to_statuses(time)
-    |> combine_green_line_branches()
-    |> combine_mattapan_with_red_line()
-    |> sort_routes_and_sub_routes()
+    @lines |> Enum.map(&add_nested_statuses_for_line(&1, alerts, time))
   end
 
-  # Maps the provided `routes` to a struct containing the route ID and
-  # the alerts associated with that route.
-  defp add_alerts(routes, alerts) do
-    routes
-    |> Enum.map(fn route_id ->
-      %{route_id: route_id, alerts: alerts_for_route(alerts, route_id)}
+  # Returns a map corresponding to a single item in the array returned
+  # by groups/2.
+  #
+  # (Note: `line_id` in this context is not necessarily a GTFS
+  # line_id. The green line branches are grouped under the green line
+  # both here and in GTFS, but in GTFS, Mattapan is its own line,
+  # while in this context, Mattapan is grouped under Red.)
+  #
+  # The exact implementation depends on which line. Green and Red have
+  # branches, so they have special implementations.
+  defp add_nested_statuses_for_line(line_id, alerts, time)
+
+  # Green line nested-statuses implementation:
+  #
+  # Finds the alerts for each branch of the green line, maps them to
+  # statuses, and then groups together any results that have the same
+  # statuses.
+  defp add_nested_statuses_for_line("Green", alerts, time) do
+    %{
+      route_id: "Green",
+      branches_with_statuses:
+        @green_line_branches
+        |> Enum.map(&add_statuses_for_route(&1, alerts, time))
+        |> group_by_statuses()
+        |> nest_grouped_statuses_under_branches()
+        |> sort_branches()
+    }
+  end
+
+  # Red line nested-statuses implementation:
+  defp add_nested_statuses_for_line("Red", alerts, time) do
+    mattapan_branches_with_statuses =
+      mattapan_branches_with_statuses(alerts, time)
+
+    %{
+      route_id: "Red",
+      branches_with_statuses:
+        red_branches_with_statuses(alerts, time) ++ mattapan_branches_with_statuses
+    }
+  end
+
+  # Default implementation for a simple subway line (with no
+  # branches).
+  defp add_nested_statuses_for_line(line_id, alerts, time) do
+    line_id
+    |> add_statuses_for_route(alerts, time)
+    |> nest_ungrouped_statuses_under_branches()
+  end
+
+  defp group_by_statuses(status_entries) do
+    status_entries
+    |> Enum.group_by(& &1.statuses)
+    |> Enum.to_list()
+  end
+
+  # Nests grouped statuses under the branches_with_statuses
+  # field. Exactly how it does this depends on whether
+  # grouped_statuses has one entry or more.
+  defp nest_grouped_statuses_under_branches(grouped_statuses)
+
+  # If grouped_statuses has one entry, then that means that all of the
+  # branches have the same status, which means we don't need to
+  # specify any branches.
+  defp nest_grouped_statuses_under_branches([{statuses, _}]) do
+    [branch_with_statuses_entry(statuses)]
+  end
+
+  # If grouped_statuses has more than one entry, then we do need to
+  # specify the branches for each collection of statuses.
+  defp nest_grouped_statuses_under_branches(grouped_statuses) do
+    grouped_statuses
+    |> Enum.map(fn {statuses, entries} ->
+      branch_ids = entries |> Enum.map(& &1.route_id) |> Enum.sort()
+
+      branch_with_statuses_entry(statuses, branch_ids)
     end)
   end
 
-  # Maps the provided `routes_with_alerts` to a new struct that
-  # contains `statuses` that are constructed from the alerts, as well
-  # as empty `sub_routes` lists (which may get populated by the two
-  # `combine_*` functions below if needed).
-  defp convert_alerts_to_statuses(routes_with_alerts, time) do
-    routes_with_alerts
-    |> Enum.map(fn %{route_id: route_id, alerts: alerts} ->
-      %{route_id: route_id, sub_routes: [], statuses: alerts_to_statuses(alerts, time)}
+  # Sorts green line branches first by alert status (that is, "Normal
+  # Service" should come after any other alerts), and then by branch
+  # ID (so that, say statuses for "Green-B" should come ahead of
+  # "Green-C").
+  defp sort_branches(branches_with_statuses) do
+    branches_with_statuses
+    |> Enum.sort_by(fn %{statuses: statuses, branch_ids: branch_ids} ->
+      {status_sort_order(statuses), branch_ids}
     end)
+  end
+
+  defp status_sort_order([%{time: nil, description: "Normal Service"}]), do: 1
+  defp status_sort_order(_), do: 0
+
+  # Returns an array containing a single branch_with_statuses entry
+  # for the red line, to be combined with Mattapan entries if there are any.
+  defp red_branches_with_statuses(alerts, time) do
+    "Red"
+    |> statuses_for_route(alerts, time)
+    |> branch_with_statuses_entry()
+    |> then(&[&1])
+  end
+
+  defp mattapan_branches_with_statuses(alerts, time) do
+    "Mattapan"
+    |> alerts_for_route(alerts)
+    |> case do
+      [] ->
+        []
+
+      mattapan_alerts ->
+        mattapan_statuses = mattapan_alerts |> alerts_to_statuses(time)
+
+        [branch_with_statuses_entry(mattapan_statuses, ["Mattapan"])]
+    end
+  end
+
+  # Exchanges a route_id (a line_id or a branch_id - anything that
+  # might correspond to an alert) for a map with that route_id and the
+  # statuses affecting that route.
+  defp add_statuses_for_route(route_id, alerts, time) do
+    %{
+      route_id: route_id,
+      statuses: statuses_for_route(route_id, alerts, time)
+    }
+  end
+
+  defp statuses_for_route(route_id, alerts, time) do
+    route_id
+    |> alerts_for_route(alerts)
+    |> alerts_to_statuses(time)
+  end
+
+  # Pushes statuses in the input map down into a
+  # branches_with_statuses field, in order to be part of the output of
+  # groups/2.
+  defp nest_ungrouped_statuses_under_branches(%{route_id: route_id, statuses: statuses}) do
+    %{
+      route_id: route_id,
+      branches_with_statuses: [branch_with_statuses_entry(statuses)]
+    }
+  end
+
+  # Returns a branch_with_status entry, to be used in the
+  # branches_with_statuses field in groups/2. If no branch_ids are
+  # provided, then uses an empty array.
+  # 
+  defp branch_with_statuses_entry(statuses, branch_ids \\ []) do
+    %{
+      branch_ids: branch_ids,
+      statuses: statuses
+    }
   end
 
   # Given `alerts` and `route_id`, filters out only the alerts
   # applicable to the given route, using the alert's "informed
   # entities".
-  defp alerts_for_route(alerts, route_id) do
+  defp alerts_for_route(route_id, alerts) do
     alerts
     |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
       informed_entity
@@ -343,134 +473,4 @@ defmodule Dotcom.SystemStatus.Groups do
   # Leaves the status unchanged if it has a non-nil `time` attribute.
   defp add_now_text(%{time: nil} = status), do: %{status | time: "Now"}
   defp add_now_text(status), do: status
-
-  # This is a special-purpose function to accommodate the fact that
-  # the Green line is actually composed of four different routes under
-  # the hood, but we want to display Green line entries grouped
-  # together when that makes sense.
-  #
-  # This function takes the entries corresponding to the four
-  # different Green line branches, combines ones that are the same,
-  # and uses the specific branch name (e.g. "Green-B") as a
-  # `sub_route` instead of a `route_id`.
-  defp combine_green_line_branches(statuses_by_route) do
-    {green_line_entries, other_entries} =
-      statuses_by_route
-      |> Enum.split_with(fn %{route_id: route_id} -> route_id in @green_line_branches end)
-
-    consolidated_green_line_entries =
-      green_line_entries
-      |> Enum.group_by(& &1.statuses)
-      |> Enum.to_list()
-      |> convert_branches_to_sub_routes()
-
-    other_entries ++ consolidated_green_line_entries
-  end
-
-  # Used by &combine_green_line_branches/1, takes the result of
-  # grouping Green line entries and returns one or more entries with
-  # the `route_id` set to "Green", and the `sub_routes` set to
-  # the specific branch route ID's (e.g. "Green-B").
-  defp convert_branches_to_sub_routes(entries)
-
-  # If there's only one entry, that means that all of the Green line
-  # branches have the same entries. Since we only use `sub_routes`
-  # when some entries are different from others, we don't need
-  # `sub_routes` in this case, so we leave it empty.
-  defp convert_branches_to_sub_routes([{statuses, _}]) do
-    [
-      %{
-        route_id: "Green",
-        sub_routes: [],
-        statuses: statuses
-      }
-    ]
-  end
-
-  # If there are multiple entries, that means that not all Green line
-  # branches have the same entries, which means that we do need to
-  # distinguish them using `sub_routes`. This function returns a list
-  # of the entries given, with the `route_id` set to "Green", and the
-  # `sub_routes` set to all of the applicable Green line branch ID's.
-  defp convert_branches_to_sub_routes(entries) do
-    entries
-    |> Enum.map(fn {statuses, routes} ->
-      %{
-        route_id: "Green",
-        sub_routes: routes |> Enum.map(& &1.route_id),
-        statuses: statuses
-      }
-    end)
-  end
-
-  # This is a special-purpose function to accomodate the fact that
-  # most riders consider the Mattapan trolley an extension of the Red
-  # line, so we group Mattapan entries under the Red line if there
-  # are any.
-  #
-  # If there are no Mattapan entries, then we drop the whole Mattapan
-  # entry, leaving riders to infer that "Normal Service" on the Red
-  # line includes the Mattapan trolley.
-  #
-  # If there are Mattapan entries, then this transforms them into
-  # entries under the "Red" `route_id`, and uses "Mattapan" as the
-  # `sub_route`.
-  defp combine_mattapan_with_red_line(statuses_by_route) do
-    {mattapan_entries, other_entries} =
-      statuses_by_route
-      |> Enum.split_with(fn %{route_id: route_id} -> route_id == "Mattapan" end)
-
-    new_mattapan_entries =
-      case mattapan_entries do
-        [%{statuses: [%{description: "Normal Service"}]}] ->
-          []
-
-        _ ->
-          mattapan_entries
-          |> Enum.map(fn %{statuses: statuses} ->
-            %{route_id: "Red", sub_routes: ["Mattapan"], statuses: statuses}
-          end)
-      end
-
-    other_entries ++ new_mattapan_entries
-  end
-
-  # Sorts entries by the following criteria:
-  #  - The subway lines should be sorted in the order given by @lines.
-  #  - Entries with no sub-routes should come before entries with
-  #    sub-routes (this mainly serves to sort Red line entries before
-  #    Mattapan ones).
-  #  - "Normal Service" should come after other descriptions (this
-  #    applies mostly to Green line entries where some branches might
-  #    be normal, and others not).
-  #  - Sub-routes should be sorted lexically, so all else equal, Green-B
-  #    should be sorted before Green-C, for instance.
-  defp sort_routes_and_sub_routes(entries) do
-    line_indexes = @lines |> Enum.with_index() |> Map.new()
-
-    entries
-    |> Enum.sort_by(fn %{
-                         route_id: route_id,
-                         sub_routes: sub_routes,
-                         statuses: [%{description: description} | _]
-                       } ->
-      {
-        line_indexes |> Map.get(route_id),
-        sub_route_sort_order(sub_routes),
-        description_sort_order(description),
-        sub_routes
-      }
-    end)
-  end
-
-  # Sort order for descriptions, which will serve to sort "Normal
-  # Service" after any other status.
-  defp description_sort_order("Normal Service"), do: 1
-  defp description_sort_order(_), do: 0
-
-  # Sort order for sub-routes, which will serve to sort groups with no
-  # sub-routes ahead of groups with sub-routes. (In practice, this
-  # will sort "Red"/[] ahead of "Red"/["Mattapan"].
-  defp sub_route_sort_order([]), do: 0
-  defp sub_route_sort_order(_), do: 1
 end

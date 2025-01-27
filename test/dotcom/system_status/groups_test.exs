@@ -28,7 +28,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
   describe "heavy rail groups" do
     test "lists the lines in a consistent sort order" do
       # Exercise
-      groups = Groups.groups([], Timex.now("America/New_York"))
+      groups = Groups.groups([], time_today())
 
       # Verify
       route_ids = groups |> Enum.map(fn group -> group.route_id end)
@@ -37,29 +37,16 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
     test "when there are no alerts, lists each line as normal" do
       # Exercise
-      groups = Groups.groups([], Timex.now("America/New_York"))
+      groups = Groups.groups([], time_today())
 
       # Verify
       expected_statuses = [%{description: "Normal Service", time: nil}]
 
       @all_rail_lines
       |> Enum.each(fn route_id ->
-        statuses = groups |> group_for(route_id) |> Map.get(:statuses)
+        statuses = groups |> statuses_for(route_id)
 
         assert statuses == expected_statuses
-      end)
-    end
-
-    test "when there are no alerts, assigns an empty sub-route list to each group" do
-      # Exercise
-      groups = Groups.groups([], Timex.now("America/New_York"))
-
-      # Verify
-      @all_rail_lines
-      |> Enum.each(fn route_id ->
-        sub_routes = groups |> group_for(route_id) |> Map.get(:sub_routes)
-
-        assert sub_routes == []
       end)
     end
 
@@ -76,8 +63,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       [description] =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.description)
 
       assert description == @singular_effect_descriptions[effect]
@@ -95,8 +81,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       times =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(fn s -> s.time end)
 
       assert times == [nil]
@@ -118,8 +103,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       |> Enum.each(fn route_id ->
         descriptions =
           groups
-          |> group_for(route_id)
-          |> Map.get(:statuses)
+          |> statuses_for(route_id)
           |> Enum.map(fn s -> s.description end)
 
         assert descriptions == ["Normal Service"]
@@ -141,8 +125,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       times =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.time)
 
       assert times == [Util.kitchen_downcase_time(alert_start_time)]
@@ -170,8 +153,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       descriptions =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.description)
 
       assert descriptions == [@singular_effect_descriptions[effect]]
@@ -204,8 +186,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       times =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.time)
 
       assert times == [Util.kitchen_downcase_time(alert_start_time)]
@@ -233,8 +214,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       descriptions =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.description)
 
       assert descriptions == [
@@ -262,8 +242,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       times =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.time)
 
       assert times == ["Now", Util.kitchen_downcase_time(future_alert_start_time)]
@@ -303,8 +282,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       times =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.time)
 
       assert times == [
@@ -332,8 +310,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify      
       descriptions =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.description)
 
       assert descriptions == [@plural_effect_descriptions[effect]]
@@ -359,8 +336,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify      
       descriptions =
         groups
-        |> group_for(affected_route_id)
-        |> Map.get(:statuses)
+        |> statuses_for(affected_route_id)
         |> Enum.map(& &1.description)
 
       assert descriptions == [@plural_effect_descriptions[effect]]
@@ -386,8 +362,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       descriptions =
         groups
-        |> group_for("Green")
-        |> Map.get(:statuses)
+        |> statuses_for("Green")
         |> Enum.map(& &1.description)
 
       assert descriptions == [@singular_effect_descriptions[effect]]
@@ -408,8 +383,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       descriptions =
         groups
-        |> group_for("Green", [affected_branch_id])
-        |> Map.get(:statuses)
+        |> statuses_for("Green", [affected_branch_id])
         |> Enum.map(& &1.description)
 
       assert descriptions == [@singular_effect_descriptions[effect]]
@@ -432,16 +406,69 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
       descriptions =
         groups
-        |> group_for("Green", normal_branch_ids)
-        |> Map.get(:statuses)
+        |> statuses_for("Green", normal_branch_ids)
         |> Enum.map(& &1.description)
 
       assert descriptions == ["Normal Service"]
     end
+
+    test "sorts alerts ahead of 'Normal Service'" do
+      # Setup
+      affected_branch_id = Faker.Util.pick(@green_line_branches)
+
+      time = time_today()
+      effect = Faker.Util.pick(@effects)
+
+      alerts = [current_alert(route_id: affected_branch_id, effect: effect, time: time)]
+
+      # Exercise
+      groups = Groups.groups(alerts, time)
+
+      # Verify
+      normal_branch_ids = @green_line_branches |> List.delete(affected_branch_id)
+
+      branch_ids =
+        groups
+        |> Enum.find(&(&1.route_id == "Green"))
+        |> then(& &1.branches_with_statuses)
+        |> Enum.map(& &1.branch_ids)
+
+      assert branch_ids == [
+               [affected_branch_id],
+               normal_branch_ids
+             ]
+    end
+
+    test "sorts branches that do have alerts lexically by branch ID" do
+      # Setup
+      [affected_branch_id1, affected_branch_id2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(@green_line_branches) end)
+
+      time = time_today()
+      [effect1, effect2] = Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(@effects) end)
+
+      alerts = [
+        current_alert(route_id: affected_branch_id1, effect: effect1, time: time),
+        current_alert(route_id: affected_branch_id2, effect: effect2, time: time)
+      ]
+
+      # Exercise
+      groups = Groups.groups(alerts, time)
+
+      # Verify
+      affected_branch_ids =
+        groups
+        |> Enum.find(&(&1.route_id == "Green"))
+        |> then(& &1.branches_with_statuses)
+        |> Enum.flat_map(& &1.branch_ids)
+        |> Enum.take(2)
+
+      assert affected_branch_ids == Enum.sort([affected_branch_id1, affected_branch_id2])
+    end
   end
 
   describe "red line groups" do
-    test "does not include Mattapan as a sub-route for the red line if Mattapan doesn't have any alerts" do
+    test "does not include Mattapan as a branch of the red line if Mattapan doesn't have any alerts" do
       # Setup
       time = time_today()
 
@@ -450,27 +477,30 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Exercise
       groups = Groups.groups(alerts, time)
 
-      refute groups
+      # Verify
+      red_line_statuses = groups |> Enum.find(&(&1.route_id == "Red"))
+
+      refute red_line_statuses.branches_with_statuses
              |> Enum.any?(fn
-               %{route_id: "Red", sub_routes: ["Mattapan"]} -> true
+               %{branch_ids: ["Mattapan"]} -> true
                _ -> false
              end)
     end
 
-    test "shows Mattapan as a sub_route of Red if it has an alert" do
+    test "shows Mattapan as a branch of Red if it has an alert" do
       # Setup
       time = time_today()
       effect = Faker.Util.pick(@effects)
 
-      # Exercise
       alerts = [current_alert(route_id: "Mattapan", effect: effect, time: time)]
+
+      # Exercise
       groups = Groups.groups(alerts, time)
 
       # Verify
       descriptions =
         groups
-        |> group_for("Red", ["Mattapan"])
-        |> Map.get(:statuses)
+        |> statuses_for("Red", ["Mattapan"])
         |> Enum.map(& &1.description)
 
       assert descriptions == [@singular_effect_descriptions[effect]]
@@ -480,30 +510,30 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Setup
       time = time_today()
 
-      # Exercise
       alerts = [current_alert(route_id: "Mattapan", time: time)]
+
+      # Exercise
       groups = Groups.groups(alerts, time)
 
       # Verify
       descriptions =
-        groups |> group_for("Red") |> Map.get(:statuses) |> Enum.map(& &1.description)
+        groups
+        |> statuses_for("Red")
+        |> Enum.map(& &1.description)
 
       assert descriptions == ["Normal Service"]
     end
   end
 
-  # Returns the group for the given route_id and sub-route
-  # collection. If no sub-routes are specified, then returns the group
-  # for the given route_id with no sub-routes.
-  defp group_for(groups, route_id, sub_routes \\ []) do
-    [group] =
-      groups
-      |> Enum.filter(fn
-        %{route_id: ^route_id, sub_routes: ^sub_routes} -> true
-        %{} -> false
-      end)
-
-    group
+  # Returns the statuses for the given route_id and branch_id
+  # collection. If no branches are specified, then returns the group
+  # for the given route_id with an empty branch_ids list.
+  defp statuses_for(groups, route_id, branch_ids \\ []) do
+    groups
+    |> Enum.find(&(&1.route_id == route_id))
+    |> Map.fetch!(:branches_with_statuses)
+    |> Enum.find(&(&1.branch_ids == branch_ids))
+    |> Map.get(:statuses)
   end
 
   # Returns the beginning of the day in the Eastern time zone.
