@@ -188,7 +188,12 @@ defmodule Dotcom.SystemStatus.Groups do
   defp add_nested_statuses_for_line(line_id, alerts, time) do
     line_id
     |> add_statuses_for_route(alerts, time)
-    |> nest_ungrouped_statuses_under_branches()
+    |> then(fn %{route_id: route_id, statuses: statuses} ->
+      %{
+        route_id: route_id,
+        branches_with_statuses: [branch_with_statuses_entry(statuses)]
+      }
+    end)
   end
 
   defp group_by_statuses(status_entries) do
@@ -271,16 +276,6 @@ defmodule Dotcom.SystemStatus.Groups do
     route_id
     |> alerts_for_route(alerts)
     |> alerts_to_statuses(time)
-  end
-
-  # Pushes statuses in the input map down into a
-  # branches_with_statuses field, in order to be part of the output of
-  # groups/2.
-  defp nest_ungrouped_statuses_under_branches(%{route_id: route_id, statuses: statuses}) do
-    %{
-      route_id: route_id,
-      branches_with_statuses: [branch_with_statuses_entry(statuses)]
-    }
   end
 
   # Returns a branch_with_status entry, to be used in the
