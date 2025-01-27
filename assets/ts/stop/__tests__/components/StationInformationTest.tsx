@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import StationInformation from "../../components/StationInformation";
 import { customStop } from "../helpers";
-import { Facility } from "../../../__v3api";
+import { Facility, ParkingLot } from "../../../__v3api";
 
 const stationStop = customStop({
   name: "First Station",
@@ -14,7 +14,8 @@ const stationStop = customStop({
 const busStop = customStop({
   name: "Second Pl",
   "station?": false,
-  bike_storage: ["bike_storage_rack"],
+  bike_storage: [],
+  parking_lots: [],
   accessibility: ["accessible"],
   "has_fare_machine?": false
 });
@@ -66,5 +67,22 @@ describe("StationInformation", () => {
     expect(
       screen.queryByRole("heading", { name: "Purchasing fares" })
     ).not.toBeInTheDocument();
+  });
+
+  it("shows parking/bike heading for bus stops which have those facilities", () => {
+    const busStopWithParking = {
+      ...busStop,
+      parking_lots: [{ name: "Parking" } as ParkingLot]
+    };
+    render(
+      <StationInformation
+        stop={busStopWithParking}
+        alerts={[]}
+        facilities={[]}
+      />
+    );
+    expect(
+      screen.queryByRole("heading", { name: "Bringing your car or bike" })
+    ).toBeInTheDocument();
   });
 });

@@ -29,6 +29,8 @@ const StationInformation = ({
   const escalators = facilities.filter(
     ({ attributes }) => attributes.type === "ESCALATOR"
   );
+  const showBikeInfo = isStation || stop.bike_storage.length > 0;
+  const showParkingInfo = isStation || stop.parking_lots.length > 0;
 
   return (
     <div>
@@ -41,19 +43,21 @@ const StationInformation = ({
         longitude={stop.longitude}
       />
       <div className="station-amenities u-mt-24">
-        {isStation && (
-          <>
-            <h3 className="hidden-md-up">Bringing your car or bike</h3>
-            <ParkingAmenityCard
-              stop={stop}
-              alertsForParking={filterParkingAlerts(alerts)}
-            />
-            <BikeStorageAmenityCard
-              stopName={stop.name}
-              bikeStorage={stop.bike_storage}
-              alerts={alertsByActivity(alerts, "store_bike")}
-            />
-          </>
+        {(showBikeInfo || showParkingInfo) && (
+          <h3 className="hidden-md-up">Bringing your car or bike</h3>
+        )}
+        {showParkingInfo && (
+          <ParkingAmenityCard
+            stop={stop}
+            alertsForParking={filterParkingAlerts(alerts)}
+          />
+        )}
+        {showBikeInfo && (
+          <BikeStorageAmenityCard
+            stopName={stop.name}
+            bikeStorage={stop.bike_storage}
+            alerts={alertsByActivity(alerts, "store_bike")}
+          />
         )}
         {isStation && (
           <>
