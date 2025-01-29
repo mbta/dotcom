@@ -287,9 +287,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered when the user clicks the button to swap to "from" and "to" data
   #
-  # - Stores the new state of the form in the URL
-  # - Creates a new changeset with the switched from and to values
-  # - Resubmits the form (which in turn updates the input form state, map, etc)
+  # - Passes the changed form data to the input_form_change event
   # - Dispatches a "set-query" event that is used by the AlgoliaAutocomplete
   #   hook to update the displayed value of the location search box. This
   #   reconciles a mismatch which happens when the user switches the origin and
@@ -303,21 +301,9 @@ defmodule DotcomWeb.Live.TripPlanner do
     new_from = Map.get(changeset.changes, :to) |> location_data_from_changeset()
 
     if new_to != new_from do
-      changes =
-        %{}
-        |> maybe_put_change(:to, new_to)
-        |> maybe_put_change(:from, new_from)
-
-      new_changeset = Ecto.Changeset.change(changeset, changes)
-      form_params = changeset_to_params(new_changeset)
-
-      new_socket =
-        socket
-        |> patch_state(form_params)
-        |> submit_changeset(new_changeset)
-        |> push_event("set-query", changes)
-
-      {:noreply, new_socket}
+      changes = %{"to" => new_to, "from" => new_from}
+      new_socket = push_event(socket, "set-query", changes)
+      handle_event("input_form_change", %{"input_form" => changes}, new_socket)
     else
       {:noreply, socket}
     end
@@ -352,17 +338,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
   defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
-
-  # Converts a changeset to a map of params that can be encoded into a URL.
-  defp changeset_to_params(%Ecto.Changeset{changes: changes}) do
-    changes
-    |> Map.update(:from, %{}, &Map.get(&1, :changes))
-    |> Map.update(:to, %{}, &Map.get(&1, :changes))
-    |> Map.update(:modes, %{}, &Map.get(&1, :changes))
-    |> Map.new(fn {k, v} -> {to_string(k), v} end)
-    |> Jason.encode!()
-    |> Jason.decode!()
-  end
 
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
   defp get_itinerary_groups(%Ecto.Changeset{valid?: true} = changeset) do
@@ -436,10 +411,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     push_navigate(socket, to: "#{path}?plan=#{encoded}")
   end
-
-  # Adjust the map only if value is non-nil
-  defp maybe_put_change(changes, _, nil), do: changes
-  defp maybe_put_change(changes, key, data), do: Map.put(changes, key, data)
 
   # Round the current time to the nearest 5 minutes.
   defp nearest_5_minutes do
