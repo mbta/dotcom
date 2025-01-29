@@ -23,12 +23,12 @@ defmodule Dotcom.SystemStatus.Groups do
 
   ## Example (no alerts)
       iex> Dotcom.SystemStatus.Groups.groups([], Timex.now())
-      [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
-      ]
+      %{
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
+      }
 
   ## Example (one alert on a heavy rail line)
       iex> alerts =
@@ -40,22 +40,19 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>     }
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
-      [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{
-          route_id: "Orange",
-          branches_with_statuses: [
-            %{
-              branch_ids: [],
-              status_entries: [
-                %{time: :current, status: :shuttle, multiple: false}
-              ]
-            }
-          ]
-        },
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
-      ]
+      %{
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Orange" => [
+          %{
+            branch_ids: [],
+            status_entries: [
+              %{time: :current, status: :shuttle, multiple: false}
+            ]
+          }
+        ],
+        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
+      }
 
   Alerts for Green line branches are grouped together, so that instead
   of showing up as top-level alerts, they're presented under the
@@ -78,28 +75,25 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>     }
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
-      [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{
-          route_id: "Green",
-          branches_with_statuses: [
-            %{
-              branch_ids: ["Green-D", "Green-E"],
-              status_entries: [
-                %{time: :current, status: :delay, multiple: false}
-              ]
-            },
-            %{
-              branch_ids: ["Green-B", "Green-C"],
-              status_entries: [
-                %{time: :current, status: :normal, multiple: false}
-              ]
-            }
-          ]
-        }
-      ]
+      %{
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Green" => [
+          %{
+            branch_ids: ["Green-D", "Green-E"],
+            status_entries: [
+              %{time: :current, status: :delay, multiple: false}
+            ]
+          },
+          %{
+            branch_ids: ["Green-B", "Green-C"],
+            status_entries: [
+              %{time: :current, status: :normal, multiple: false}
+            ]
+          }
+        ]
+      }
 
   The Mattapan line is usually not shown, but if it has any alerts,
   then it's shown as a branch of the Red line.
@@ -114,32 +108,35 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>     }
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
-      [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
-        %{
-          route_id: "Red",
-          branches_with_statuses: [
-            %{
-              branch_ids: [],
-              status_entries: [
-                %{time: :current, status: :normal, multiple: false}
-              ]
-            },
-            %{
-              branch_ids: ["Mattapan"],
-              status_entries: [
-                %{time: :current, status: :suspension, multiple: false}
-              ]
-            }
-          ]
-        },
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
-      ]
+      %{
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
+        "Red" => [
+          %{
+            branch_ids: [],
+            status_entries: [
+              %{time: :current, status: :normal, multiple: false}
+            ]
+          },
+          %{
+            branch_ids: ["Mattapan"],
+            status_entries: [
+              %{time: :current, status: :suspension, multiple: false}
+            ]
+          }
+        ],
+        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
+      }
 
   """
   def groups(alerts, time) do
-    @lines |> Enum.map(&add_nested_statuses_for_line(&1, alerts, time))
+    @lines
+    |> Map.new(fn line ->
+      %{route_id: route_id, branches_with_statuses: branches_with_statuses} =
+        add_nested_statuses_for_line(line, alerts, time)
+
+      {route_id, branches_with_statuses}
+    end)
   end
 
   # Returns a map corresponding to a single item in the array returned

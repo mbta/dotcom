@@ -1,6 +1,6 @@
 defmodule Dotcom.SystemStatus.GroupsTest do
   use ExUnit.Case, async: true
-  # doctest Dotcom.SystemStatus.Groups
+  doctest Dotcom.SystemStatus.Groups
 
   alias Dotcom.SystemStatus.Groups
   alias Test.Support.Factories.Alerts.Alert
@@ -14,15 +14,6 @@ defmodule Dotcom.SystemStatus.GroupsTest do
   @effects [:delay, :shuttle, :station_closure, :suspension]
 
   describe "heavy rail groups" do
-    test "lists the lines in a consistent sort order" do
-      # Exercise
-      groups = Groups.groups([], time_today())
-
-      # Verify
-      route_ids = groups |> Enum.map(fn group -> group.route_id end)
-      assert route_ids == ["Blue", "Orange", "Red", "Green"]
-    end
-
     test "when there are no alerts, lists each line as normal" do
       # Exercise
       groups = Groups.groups([], time_today())
@@ -389,8 +380,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
 
       branch_ids =
         groups
-        |> Enum.find(&(&1.route_id == "Green"))
-        |> then(& &1.branches_with_statuses)
+        |> Map.fetch!("Green")
         |> Enum.map(& &1.branch_ids)
 
       assert branch_ids == [
@@ -418,8 +408,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       # Verify
       affected_branch_ids =
         groups
-        |> Enum.find(&(&1.route_id == "Green"))
-        |> then(& &1.branches_with_statuses)
+        |> Map.fetch!("Green")
         |> Enum.flat_map(& &1.branch_ids)
         |> Enum.take(2)
 
@@ -438,9 +427,9 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       groups = Groups.groups(alerts, time)
 
       # Verify
-      red_line_statuses = groups |> Enum.find(&(&1.route_id == "Red"))
+      red_line_statuses = groups |> Map.fetch!("Red")
 
-      refute red_line_statuses.branches_with_statuses
+      refute red_line_statuses
              |> Enum.any?(fn
                %{branch_ids: ["Mattapan"]} -> true
                _ -> false
@@ -490,8 +479,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
   # for the given route_id with an empty branch_ids list.
   defp status_entries_for(groups, route_id, branch_ids \\ []) do
     groups
-    |> Enum.find(&(&1.route_id == route_id))
-    |> Map.fetch!(:branches_with_statuses)
+    |> Map.fetch!(route_id)
     |> Enum.find(&(&1.branch_ids == branch_ids))
     |> Map.get(:status_entries)
   end
