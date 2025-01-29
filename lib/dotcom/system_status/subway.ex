@@ -1,4 +1,4 @@
-defmodule Dotcom.SystemStatus.Groups do
+defmodule Dotcom.SystemStatus.Subway do
   @moduledoc """
 
   A module that groups alerts into statuses for the system status
@@ -22,7 +22,7 @@ defmodule Dotcom.SystemStatus.Groups do
   screen. See `Dotcom.SystemStatus` for more details.
 
   ## Example (no alerts)
-      iex> Dotcom.SystemStatus.Groups.groups([], Timex.now())
+      iex> Dotcom.SystemStatus.Subway.subway_status([], Timex.now())
       %{
         "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
         "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
@@ -39,7 +39,7 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
-      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
         "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
         "Orange" => [
@@ -74,7 +74,7 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
-      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
         "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
         "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
@@ -107,7 +107,7 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
-      iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
+      iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
         "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
         "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
@@ -129,7 +129,7 @@ defmodule Dotcom.SystemStatus.Groups do
       }
 
   """
-  def groups(alerts, time) do
+  def subway_status(alerts, time) do
     @lines
     |> Map.new(fn line ->
       %{route_id: route_id, branches_with_statuses: branches_with_statuses} =

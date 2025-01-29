@@ -7,11 +7,11 @@ defmodule DotcomWeb.Live.SystemStatus do
   use DotcomWeb, :live_view
 
   alias Dotcom.SystemStatus
-  alias Dotcom.SystemStatus.Groups
 
   def render(assigns) do
     alerts = SystemStatus.subway_alerts_for_today()
-    statuses = Groups.groups(alerts, Timex.now())
+
+    statuses = SystemStatus.subway_status()
 
     assigns =
       assigns

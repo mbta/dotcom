@@ -1,8 +1,8 @@
-defmodule Dotcom.SystemStatus.GroupsTest do
+defmodule Dotcom.SystemStatus.SubwayTest do
   use ExUnit.Case, async: true
-  doctest Dotcom.SystemStatus.Groups
+  doctest Dotcom.SystemStatus.Subway
 
-  alias Dotcom.SystemStatus.Groups
+  alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories.Alerts.Alert
   alias Test.Support.Factories.Alerts.InformedEntity
   alias Test.Support.Factories.Alerts.InformedEntitySet
@@ -16,7 +16,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
   describe "heavy rail groups" do
     test "when there are no alerts, lists each line as normal" do
       # Exercise
-      groups = Groups.groups([], time_today())
+      groups = Subway.subway_status([], time_today())
 
       # Verify
       @all_rail_lines
@@ -36,7 +36,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_route_id, time: time, effect: effect)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       [status] =
@@ -55,7 +55,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_route_id, time: time, effect: effect)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       [multiple] =
@@ -73,7 +73,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_route_id, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       times =
@@ -92,7 +92,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_route_id, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       @heavy_rail_lines
@@ -117,7 +117,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [future_alert(route_id: affected_route_id, start_time: alert_start_time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       times =
@@ -145,7 +145,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
@@ -178,7 +178,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       times =
@@ -206,7 +206,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
@@ -231,7 +231,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       times =
@@ -256,7 +256,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify      
       multiples =
@@ -282,7 +282,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify      
       multiples =
@@ -308,7 +308,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         end)
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
@@ -329,7 +329,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_branch_id, effect: effect, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
@@ -350,7 +350,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_branch_id, effect: effect, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       normal_branch_ids = @green_line_branches |> List.delete(affected_branch_id)
@@ -373,7 +373,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: affected_branch_id, effect: effect, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       normal_branch_ids = @green_line_branches |> List.delete(affected_branch_id)
@@ -403,7 +403,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       ]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       affected_branch_ids =
@@ -424,7 +424,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: "Red", time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       red_line_statuses = groups |> Map.fetch!("Red")
@@ -444,7 +444,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: "Mattapan", effect: effect, time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
@@ -462,7 +462,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       alerts = [current_alert(route_id: "Mattapan", time: time)]
 
       # Exercise
-      groups = Groups.groups(alerts, time)
+      groups = Subway.subway_status(alerts, time)
 
       # Verify
       statuses =
