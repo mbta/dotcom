@@ -261,9 +261,6 @@ defmodule DotcomWeb.Router do
     end
   end
 
-<<<<<<< HEAD
-  scope "/", DotcomWeb do
-=======
   import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2]
 
   if Mix.env() == :dev do
@@ -274,8 +271,7 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  scope "/preview", DotcomWeb do
->>>>>>> fded1472 (use kino live view)
+  scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
