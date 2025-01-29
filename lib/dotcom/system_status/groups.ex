@@ -24,10 +24,10 @@ defmodule Dotcom.SystemStatus.Groups do
   ## Example (no alerts)
       iex> Dotcom.SystemStatus.Groups.groups([], Timex.now())
       [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]}
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
       ]
 
   ## Example (one alert on a heavy rail line)
@@ -41,20 +41,20 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
         %{
           route_id: "Orange",
           branches_with_statuses: [
             %{
               branch_ids: [],
               status_entries: [
-                %{time: nil, status: :shuttle, multiple: false}
+                %{time: :current, status: :shuttle, multiple: false}
               ]
             }
           ]
         },
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]}
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
       ]
 
   Alerts for Green line branches are grouped together, so that instead
@@ -79,22 +79,22 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Red", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
         %{
           route_id: "Green",
           branches_with_statuses: [
             %{
               branch_ids: ["Green-D", "Green-E"],
               status_entries: [
-                %{time: nil, status: :delay, multiple: false}
+                %{time: :current, status: :delay, multiple: false}
               ]
             },
             %{
               branch_ids: ["Green-B", "Green-C"],
               status_entries: [
-                %{time: nil, status: :normal, multiple: false}
+                %{time: :current, status: :normal, multiple: false}
               ]
             }
           ]
@@ -115,26 +115,26 @@ defmodule Dotcom.SystemStatus.Groups do
       ...>   ]
       iex> Dotcom.SystemStatus.Groups.groups(alerts, Timex.now())
       [
-        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
-        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]},
+        %{route_id: "Blue", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
+        %{route_id: "Orange", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]},
         %{
           route_id: "Red",
           branches_with_statuses: [
             %{
               branch_ids: [],
               status_entries: [
-                %{time: nil, status: :normal, multiple: false}
+                %{time: :current, status: :normal, multiple: false}
               ]
             },
             %{
               branch_ids: ["Mattapan"],
               status_entries: [
-                %{time: nil, status: :suspension, multiple: false}
+                %{time: :current, status: :suspension, multiple: false}
               ]
             }
           ]
         },
-        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: nil, status: :normal, multiple: false}]}]}
+        %{route_id: "Green", branches_with_statuses: [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]}
       ]
 
   """
@@ -232,7 +232,7 @@ defmodule Dotcom.SystemStatus.Groups do
     end)
   end
 
-  defp status_sort_order([%{time: nil, status: :normal}]), do: 1
+  defp status_sort_order([%{time: :current, status: :normal}]), do: 1
   defp status_sort_order(_), do: 0
 
   defp branches_with_statuses(route_id, alerts, time) do
@@ -307,8 +307,6 @@ defmodule Dotcom.SystemStatus.Groups do
     |> alerts_to_statuses_naive(time)
     |> consolidate_duplicates()
     |> sort_statuses()
-    |> stringify_times()
-    |> maybe_add_now_text()
   end
 
   # Naively maps a list of alerts to a list of statuses, where a
@@ -320,7 +318,7 @@ defmodule Dotcom.SystemStatus.Groups do
   # If there are no alerts, then we want a single status indicating
   # "Normal Service".
   defp alerts_to_statuses_naive([], _time) do
-    [%{multiple: false, status: :normal, time: nil}]
+    [%{multiple: false, status: :normal, time: :current}]
   end
 
   # If there are alerts, then create a starting list of statuses that
@@ -352,8 +350,8 @@ defmodule Dotcom.SystemStatus.Groups do
        ) do
     cond do
       ends_before?(first_active_period, time) -> future_start_time(more_active_periods, time)
-      starts_before?(first_active_period, time) -> nil
-      true -> start_time
+      starts_before?(first_active_period, time) -> :current
+      true -> {:future, start_time}
     end
   end
 
@@ -393,58 +391,4 @@ defmodule Dotcom.SystemStatus.Groups do
     statuses
     |> Enum.sort_by(fn %{time: time, status: status} -> {time, status} end)
   end
-
-  # Transforms the time in each status given into a human-readable
-  # string or nil.
-  defp stringify_times(statuses) do
-    statuses
-    |> Enum.map(fn status ->
-      %{
-        status
-        | time: stringify_time(status.time)
-      }
-    end)
-  end
-
-  # Returns a human-readable version of the time given, formatted like
-  # "8:30pm", for example. Leaves nil unchanged.
-  defp stringify_time(nil), do: nil
-  defp stringify_time(time), do: Util.kitchen_downcase_time(time)
-
-  # The `time` attribute of a status governs how a status should be
-  # rendered. An alert that's currently active should typically only
-  # show its status, while an alert in the future should show the
-  # stringified time as well. If there is both an active status and a
-  # future status, then active statuses should show "Now" instead of
-  # not showing a time.
-  #
-  # We accomplish this by setting the `time` attribute of a status to
-  # `nil` if we don't want it to be rendered, and to some string if we
-  # want that string rendered.
-  #
-  # This function checks whether there are any future statuses, and if
-  # so, replaces any `nil` times with "Now".
-  defp maybe_add_now_text(statuses) do
-    if any_future_statuses?(statuses) do
-      statuses |> Enum.map(&add_now_text/1)
-    else
-      statuses
-    end
-  end
-
-  # Checks the list of statuses to see if any of them have a non-nil
-  # `time` field, which would indicate that at least one status is for
-  # the future, rather than currently active.
-  defp any_future_statuses?(statuses) do
-    statuses
-    |> Enum.any?(fn
-      %{time: nil} -> false
-      %{} -> true
-    end)
-  end
-
-  # If the time for a status is `nil`, replaces it with the string "Now".
-  # Leaves the status unchanged if it has a non-nil `time` attribute.
-  defp add_now_text(%{time: nil} = status), do: %{status | time: "Now"}
-  defp add_now_text(status), do: status
 end

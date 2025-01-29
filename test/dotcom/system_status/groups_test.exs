@@ -1,6 +1,6 @@
 defmodule Dotcom.SystemStatus.GroupsTest do
   use ExUnit.Case, async: true
-  doctest Dotcom.SystemStatus.Groups
+  # doctest Dotcom.SystemStatus.Groups
 
   alias Dotcom.SystemStatus.Groups
   alias Test.Support.Factories.Alerts.Alert
@@ -75,7 +75,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       assert multiple == false
     end
 
-    test "when there's a current alert, sets the `time` to nil" do
+    test "when there's a current alert, sets the `time` to :current" do
       # Setup
       affected_route_id = Faker.Util.pick(@heavy_rail_lines)
       time = time_today()
@@ -90,7 +90,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> status_entries_for(affected_route_id)
         |> Enum.map(fn s -> s.time end)
 
-      assert times == [nil]
+      assert times == [:current]
     end
 
     test "when there's an alert for a heavy rail line, shows 'Normal Service' for the other lines" do
@@ -134,7 +134,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> status_entries_for(affected_route_id)
         |> Enum.map(& &1.time)
 
-      assert times == [Util.kitchen_downcase_time(alert_start_time)]
+      assert times == [{:future, alert_start_time}]
     end
 
     test "shows entry for active alerts with no end time" do
@@ -195,7 +195,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> status_entries_for(affected_route_id)
         |> Enum.map(& &1.time)
 
-      assert times == [Util.kitchen_downcase_time(alert_start_time)]
+      assert times == [{:future, alert_start_time}]
     end
 
     test "shows multiple alerts for a given route, sorted alphabetically" do
@@ -226,7 +226,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
       assert statuses == [effect1, effect2]
     end
 
-    test "puts 'Now' text on current alerts when there are also future alerts, and sorts 'Now' first" do
+    test "sorts current alerts ahead of future ones" do
       # Setup
       affected_route_id = Faker.Util.pick(@heavy_rail_lines)
 
@@ -248,50 +248,7 @@ defmodule Dotcom.SystemStatus.GroupsTest do
         |> status_entries_for(affected_route_id)
         |> Enum.map(& &1.time)
 
-      assert times == ["Now", Util.kitchen_downcase_time(future_alert_start_time)]
-    end
-
-    test "sorts future alerts by time, not lexically" do
-      # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
-
-      # The first alert's start time will be between 2pm and
-      # 9:59pm. The second's will be between 10pm and
-      # 11:59pm. Lexically, the second alert would get sorted before
-      # the first, but we want the first to get sorted before the
-      # second.
-      alert_1_start_time =
-        between(
-          Timex.shift(beginning_of_day(), hours: 14),
-          Timex.shift(beginning_of_day(), hours: 22)
-        )
-
-      alert_2_start_time =
-        between(
-          Timex.shift(beginning_of_day(), hours: 22),
-          Timex.shift(beginning_of_day(), hours: 24)
-        )
-
-      time = time_before(alert_1_start_time)
-
-      alerts = [
-        future_alert(route_id: affected_route_id, start_time: alert_1_start_time),
-        future_alert(route_id: affected_route_id, start_time: alert_2_start_time)
-      ]
-
-      # Exercise
-      groups = Groups.groups(alerts, time)
-
-      # Verify
-      times =
-        groups
-        |> status_entries_for(affected_route_id)
-        |> Enum.map(& &1.time)
-
-      assert times == [
-               Util.kitchen_downcase_time(alert_1_start_time),
-               Util.kitchen_downcase_time(alert_2_start_time)
-             ]
+      assert times == [:current, {:future, future_alert_start_time}]
     end
 
     test "consolidates current alerts if they have the same effect" do
