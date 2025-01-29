@@ -24,7 +24,7 @@ defmodule Dotcom.TripPlan.InputForm do
     embeds_one(:modes, __MODULE__.Modes)
     field(:datetime_type, :string)
     field(:datetime, :naive_datetime)
-    field(:wheelchair, :boolean, default: true)
+    field(:wheelchair, :boolean)
   end
 
   def initial_modes do

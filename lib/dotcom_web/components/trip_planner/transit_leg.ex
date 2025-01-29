@@ -107,6 +107,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
+  defp stop_url(_, %Stop{} = stop) when is_nil(stop.id), do: nil
+
   defp stop_url(%Route{external_agency_name: nil}, %Stop{} = stop) do
     ~p"/stops/#{stop}"
   end

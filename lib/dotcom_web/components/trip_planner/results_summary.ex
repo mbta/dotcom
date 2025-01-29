@@ -42,7 +42,9 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   defp results_feedback(assigns) do
     ~H"""
-    <.feedback kind={:error}>{@results.error}</.feedback>
+    <.feedback kind={:error}>
+      <span data-test="results-summary:error">{@results.error}</span>
+    </.feedback>
     """
   end
 

@@ -1,404 +1,377 @@
 defmodule DotcomWeb.Live.TripPlannerTest do
   use DotcomWeb.ConnCase, async: true
 
+  import DotcomWeb.Router.Helpers, only: [live_path: 2]
   import Mox
   import Phoenix.LiveViewTest
 
-  alias OpenTripPlannerClient.Test.Support.Factory
-  alias Test.Support.Factories.TripPlanner.TripPlanner, as: TripPlannerFactory
+  alias Dotcom.TripPlan.AntiCorruptionLayer
+  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
 
   setup :verify_on_exit!
 
-  defp stub_otp_results(itineraries) do
-    expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-      {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
-    end)
+  @valid_params %{
+    "from" => %{
+      "latitude" => Faker.Address.latitude() |> Float.to_string(),
+      "longitude" => Faker.Address.longitude() |> Float.to_string(),
+      "name" => Faker.Address.street_name(),
+      "stop_id" => ""
+    },
+    "to" => %{
+      "latitude" => Faker.Address.latitude() |> Float.to_string(),
+      "longitude" => Faker.Address.longitude() |> Float.to_string(),
+      "name" => Faker.Address.street_name(),
+      "stop_id" => ""
+    }
+  }
 
-    # For certain routes, Dotcom.TripPlan.Alerts.mode_entities/1 is called to help fetch the associated alerts
-    stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-      %JsonApi{
-        data: [
-          Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
-        ]
-      }
-    end)
-  end
+  describe "mount" do
+    test "setting no params redirects to a plan of defaults", %{conn: conn} do
+      # Setup
+      path = live_path(conn, DotcomWeb.Live.TripPlanner)
 
-  defp stub_populated_otp_results do
-    itineraries = TripPlannerFactory.build_list(3, :otp_itinerary)
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
 
-    stub_otp_results(itineraries)
-  end
+      new_params =
+        url
+        |> decode_params()
+        |> MapSet.new()
 
-  # For a list of headsigns, create a bunch of itineraries that would be grouped
-  # by the Trip Planner's logic
-  defp grouped_itineraries_from_headsigns([initial_headsign | _] = headsigns) do
-    # Only MBTA transit legs show the headsigns right now, so ensure the
-    # generated legs are MBTA-only
-    base_leg =
-      Factory.build(:transit_leg, %{
-        agency: Factory.build(:agency, %{name: "MBTA"}),
-        route:
-          Factory.build(:route, %{gtfs_id: "mbta-ma-us:internal", type: Faker.Util.pick(0..4)}),
-        trip:
-          Factory.build(:trip, %{
-            direction_id: Faker.Util.pick(["0", "1"]),
-            trip_headsign: initial_headsign
-          })
-      })
+      default_params = AntiCorruptionLayer.default_params() |> MapSet.new()
 
-    base_itinerary = Factory.build(:itinerary, legs: [base_leg])
-
-    headsigns
-    |> Enum.with_index()
-    |> Enum.map(fn {headsign, index} ->
-      leg = update_in(base_leg, [:trip, :trip_headsign], fn _ -> headsign end)
-
-      %{
-        base_itinerary
-        | legs: [leg],
-          start: Timex.shift(base_itinerary.start, minutes: 10 * index)
-      }
-    end)
-  end
-
-  test "Preview version behind basic auth", %{conn: conn} do
-    conn = get(conn, ~p"/preview/trip-planner")
-
-    {_header_name, header_value} = List.keyfind(conn.resp_headers, "www-authenticate", 0)
-    assert conn.status == 401
-    assert header_value =~ "Basic"
-  end
-
-  describe "Trip Planner" do
-    setup %{conn: conn} do
-      [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
-
-      {:ok, view, html} =
-        conn
-        |> put_req_header("authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
-        |> live(~p"/preview/trip-planner")
-
-      %{html: html, view: view}
+      # Verify
+      assert MapSet.intersection(new_params, default_params) == default_params
     end
 
-    # test "toggles the date input when changing from 'now'", %{html: html, view: view} do
-    # end
-
-    test "summarizes the selected modes", %{view: view, html: html} do
-      assert html =~ "All modes"
-
-      html =
-        view
-        |> element("form")
-        |> render_change(%{
-          _target: ["input_form", "modes"],
-          input_form: %{modes: %{RAIL: true, SUBWAY: true, FERRY: true, BUS: false}}
-        })
-
-      assert html =~ "Commuter Rail, Subway, and Ferry"
-
-      html =
-        view
-        |> element("form")
-        |> render_change(%{
-          _target: ["input_form", "modes"],
-          input_form: %{modes: %{SUBWAY: true, BUS: false, RAIL: false, FERRY: false}}
-        })
-
-      assert html =~ "Subway Only"
-
-      html =
-        view
-        |> element("form")
-        |> render_change(%{
-          _target: ["input_form", "modes"],
-          input_form: %{modes: %{SUBWAY: true, BUS: true, RAIL: false, FERRY: false}}
-        })
-
-      assert html =~ "Subway and Bus"
-    end
-
-    # test "shows errors on form submit", %{view: view} do
-    # end
-
-    # test "pushes updated location to the map", %{view: view} do
-    # end
-  end
-
-  describe "Trip Planner location validations" do
-    setup %{conn: conn} do
-      [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
-
-      %{
-        conn:
-          conn
-          |> put_req_header("authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
-      }
-    end
-
-    test "shows error if origin and destination are the same", %{conn: conn} do
-      latitude = Faker.Address.latitude()
-      longitude = Faker.Address.longitude()
-
-      params = %{
-        "plan" => %{
-          "from_latitude" => "#{latitude}",
-          "from_longitude" => "#{longitude}",
-          "to_latitude" => "#{latitude}",
-          "to_longitude" => "#{longitude}"
+    test "setting old params redirects to a plan of matching new params", %{conn: conn} do
+      # Setup
+      query =
+        %{
+          "plan[from]" => Kernel.get_in(@valid_params, ["from", "name"]),
+          "plan[from_latitude]" => Kernel.get_in(@valid_params, ["from", "latitude"]),
+          "plan[from_longitude]" => Kernel.get_in(@valid_params, ["from", "longitude"]),
+          "plan[to]" => Kernel.get_in(@valid_params, ["to", "name"]),
+          "plan[to_latitude]" => Kernel.get_in(@valid_params, ["to", "latitude"]),
+          "plan[to_longitude]" => Kernel.get_in(@valid_params, ["to", "longitude"])
         }
-      }
+        |> URI.encode_query()
 
-      {:ok, view, _html} =
-        conn
-        |> live(~p"/preview/trip-planner?#{params}")
+      path = live_path(conn, DotcomWeb.Live.TripPlanner) <> "?#{query}"
 
-      assert render_async(view) =~
-               "Please select a destination at a different location from the origin."
-    end
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
 
-    test "does not show errors if origin or destination are missing", %{conn: conn} do
-      {:ok, view, _html} =
-        conn
-        |> live(~p"/preview/trip-planner")
+      new_params =
+        url
+        |> decode_params()
+        |> MapSet.new()
 
-      refute render_async(view) =~ "Please specify an origin location."
-      refute render_async(view) =~ "Please add a destination."
+      valid_params = MapSet.new(@valid_params)
+
+      # Verify
+      assert MapSet.intersection(new_params, valid_params) == valid_params
     end
   end
 
-  describe "Trip Planner with no results" do
+  describe "inputs" do
     setup %{conn: conn} do
-      [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
+      stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _ ->
+        %JsonApi{}
+      end)
 
-      %{
-        conn:
-          put_req_header(
-            conn,
-            "authorization",
-            "Basic " <> Base.encode64("#{username}:#{password}")
-          )
-      }
+      {:error, {:live_redirect, %{to: url}}} =
+        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+
+      {:ok, view, _} = live(conn, url)
+
+      %{view: view}
     end
 
-    test "shows 'No trips found' text", %{conn: conn} do
+    test "setting 'from' places a pin on the map", %{view: view} do
+      # Setup
+      params = Map.take(@valid_params, ["from"])
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => params})
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      assert Floki.get_by_id(document, "mbta-metro-pin-0")
+    end
+
+    test "setting 'to' places a pin on the map", %{view: view} do
+      # Setup
+      params = Map.take(@valid_params, ["to"])
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => params})
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      assert Floki.get_by_id(document, "mbta-metro-pin-1")
+    end
+
+    test "swapping from/to swaps pins on the map", %{view: view} do
+      # Setup
+      stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      view
+      |> element("button[phx-click='swap_direction']")
+      |> render_click()
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      pins =
+        Enum.map(["mbta-metro-pin-0", "mbta-metro-pin-1"], fn id ->
+          Floki.get_by_id(document, id)
+          |> Floki.attribute("data-coordinates")
+          |> List.first()
+          |> parse_coordinates()
+        end)
+
+      assert pins == [
+               [@valid_params["to"]["longitude"], @valid_params["to"]["latitude"]],
+               [@valid_params["from"]["longitude"], @valid_params["from"]["latitude"]]
+             ]
+    end
+
+    test "selecting a time other than 'now' shows the datepicker", %{view: view} do
+      # Setup
       params = %{
-        "plan" => %{
-          "from_latitude" => "#{Faker.Address.latitude()}",
-          "from_longitude" => "#{Faker.Address.longitude()}",
-          "to_latitude" => "#{Faker.Address.latitude()}",
-          "to_longitude" => "#{Faker.Address.longitude()}"
-        }
+        "datetime_type" => "depart_at"
       }
 
-      stub_otp_results([])
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => params})
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      # Verify
+      document = render(view) |> Floki.parse_document!()
 
-      assert render_async(view) =~ "No trips found"
+      assert Floki.get_by_id(document, "date-picker")
+    end
+
+    test "selecting 'now' after selecting another time hides the datepicker", %{view: view} do
+      # Setup
+      open_params = %{
+        "datetime_type" => "depart_at"
+      }
+
+      closed_params = %{
+        "datetime_type" => "now"
+      }
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => open_params})
+      view |> element("form") |> render_change(%{"input_form" => closed_params})
+
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      refute Floki.get_by_id(document, "date-picker")
+    end
+
+    test "setting 'from' and 'to' to the same location shows an error message", %{view: view} do
+      # Setup
+      params = Map.put(@valid_params, "to", Map.get(@valid_params, "from"))
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => params})
+
+      # Verify
+      document = render(view)
+
+      assert document =~ "Please select a destination at a different location from the origin."
+    end
+
+    test "an OTP connection error shows up as an error message", %{view: view} do
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:error, %Req.TransportError{reason: :econnrefused}}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      document = render_async(view)
+
+      assert document =~ "Cannot connect to OpenTripPlanner. Please try again later."
+    end
+
+    test "an OTP error shows up as an error message", %{view: view} do
+      # Setup
+      error = Faker.Company.bullshit()
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:error, [%{message: error}]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      document = render_async(view)
+      text = document |> Floki.find("span[data-test='results-summary:error']") |> Floki.text()
+
+      assert text == error
     end
   end
 
-  describe "Trip Planner with results" do
+  describe "results" do
     setup %{conn: conn} do
-      [username: username, password: password] =
-        Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth_readonly]
+      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+        %JsonApi{data: [Api.build(:trip_item, %{id: id})]}
+      end)
 
       stub(Stops.Repo.Mock, :get, fn _ ->
-        Test.Support.Factories.Stops.Stop.build(:stop)
+        Stop.build(:stop)
       end)
 
-      %{
-        conn:
-          put_req_header(
-            conn,
-            "authorization",
-            "Basic " <> Base.encode64("#{username}:#{password}")
-          ),
-        params: %{
-          "plan" => %{
-            "from_latitude" => "#{Faker.Address.latitude()}",
-            "from_longitude" => "#{Faker.Address.longitude()}",
-            "to_latitude" => "#{Faker.Address.latitude()}",
-            "to_longitude" => "#{Faker.Address.longitude()}"
-          }
-        }
-      }
+      {:error, {:live_redirect, %{to: url}}} =
+        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+
+      {:ok, view, _} = live(conn, url)
+
+      %{view: view}
     end
 
-    test "starts out with no 'View All Options' button", %{conn: conn, params: params} do
-      stub_populated_otp_results()
+    test "using valid params shows results", %{view: view} do
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        itineraries = TripPlanner.build_list(1, :otp_itinerary)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+      end)
 
-      refute render_async(view) =~ "View All Options"
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      document = render_async(view) |> Floki.parse_document!()
+
+      assert Floki.get_by_id(document, "trip-planner-results")
     end
 
-    test "clicking 'Details' button opens details view", %{conn: conn, params: params} do
-      stub_populated_otp_results()
-
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
-      render_async(view)
-      view |> element("button[phx-value-index=\"0\"]", "Details") |> render_click()
-
-      assert render_async(view) =~ "View All Options"
-    end
-
-    test "clicking 'View All Options' button from details view closes it", %{
-      conn: conn,
-      params: params
-    } do
-      stub_populated_otp_results()
-
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
-      render_async(view)
-
-      view |> element("button[phx-value-index=\"0\"]", "Details") |> render_click()
-      view |> element("button", "View All Options") |> render_click()
-
-      refute render_async(view) =~ "View All Options"
-    end
-
-    test "'Depart At' buttons toggle which itinerary to show", %{
-      conn: conn,
-      params: params
-    } do
-      trip_headsign_1 = "Headsign1"
-      trip_headsign_2 = "Headsign2"
+    test "groupable results show up in groups", %{view: view} do
+      # Setup
+      group_count = :rand.uniform(5)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok,
-         %OpenTripPlannerClient.Plan{
-           itineraries: grouped_itineraries_from_headsigns([trip_headsign_1, trip_headsign_2])
-         }}
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
+
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
-      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-        %JsonApi{
-          data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
-          ]
-        }
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      document = render_async(view) |> Floki.parse_document!()
+
+      Enum.each(0..(group_count - 1), fn i ->
+        assert Floki.find(document, "div[data-test='results:itinerary_group:#{i}']") != []
+      end)
+    end
+
+    test "selecting a group shows the group's itineraries", %{view: view} do
+      # Setup
+      group_count = :rand.uniform(5)
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
+
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
+      selected_group = Faker.Util.pick(0..(group_count - 1))
 
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
       render_async(view)
+      view |> element("button[phx-value-index='#{selected_group}']", "Details") |> render_click()
 
-      view |> element("button", "Details") |> render_click()
+      # Verify
+      document = render(view) |> Floki.parse_document!()
 
-      assert render_async(view) =~ trip_headsign_1
-      refute render_async(view) =~ trip_headsign_2
-
-      view |> element("#itinerary-detail-departure-times button:last-child") |> render_click()
-
-      assert render_async(view) =~ trip_headsign_2
-      refute render_async(view) =~ trip_headsign_1
+      assert Floki.find(
+               document,
+               "div[data-test='results:itinerary_group:selected:#{selected_group}']"
+             ) != []
     end
 
-    test "'Depart At' buttons don't appear if there would only be one", %{
-      conn: conn,
-      params: params
-    } do
+    test "unselecting a group shows all groups", %{view: view} do
+      group_count = :rand.uniform(5)
+
+      # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok,
-         %OpenTripPlannerClient.Plan{
-           itineraries: TripPlannerFactory.build_list(1, :otp_itinerary)
-         }}
+        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
+
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
-      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-        %JsonApi{
-          data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
-          ]
-        }
-      end)
+      selected_group = Faker.Util.pick(0..(group_count - 1))
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
       render_async(view)
+      view |> element("button[phx-value-index='#{selected_group}']", "Details") |> render_click()
 
-      view |> element("button", "Details") |> render_click()
+      view
+      |> element("button[phx-click='reset_itinerary_group']", "View All Options")
+      |> render_click()
 
-      refute view |> element("#itinerary-detail-departure-times") |> has_element?()
+      # Verify
+      document = render(view) |> Floki.parse_document!()
+
+      assert Floki.find(
+               document,
+               "div[data-test='results:itinerary_group:selected:#{selected_group}']"
+             ) == []
     end
 
-    test "'Depart At' button state is not preserved when leaving details view", %{
-      conn: conn,
-      params: params
-    } do
-      trip_headsign_1 = "Headsign1"
-      trip_headsign_2 = "Headsign2"
-
+    test "selecting an itinerary displays it", %{view: view} do
+      # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok,
-         %OpenTripPlannerClient.Plan{
-           itineraries: grouped_itineraries_from_headsigns([trip_headsign_1, trip_headsign_2])
-         }}
+        itineraries = TripPlanner.groupable_otp_itineraries(2, 2)
+
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
-      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-        %JsonApi{
-          data: [
-            Test.Support.Factories.MBTA.Api.build(:trip_item, %{id: id})
-          ]
-        }
-      end)
-
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
       render_async(view)
+      view |> element("button[phx-value-index='0']", "Details") |> render_click()
+      view |> element("button[data-test='itinerary_detail:1']") |> render_click()
 
-      view |> element("button", "Details") |> render_click()
-      view |> element("#itinerary-detail-departure-times button:last-child") |> render_click()
-      view |> element("button", "View All Options") |> render_click()
-      view |> element("button", "Details") |> render_click()
+      # Verify
+      document = render(view) |> Floki.parse_document!()
 
-      assert render_async(view) =~ trip_headsign_1
-      refute render_async(view) =~ trip_headsign_2
+      assert Floki.find(document, "div[data-test='itinerary_detail:selected:1']") != []
     end
+  end
 
-    test "displays 'No trips found.' if given an empty list of itineraries", %{
-      conn: conn,
-      params: params
-    } do
-      stub_otp_results([])
+  # Parse coordinates from data-coordinates.
+  defp parse_coordinates(string) do
+    string
+    |> String.replace(~r/\[|\]/, "")
+    |> String.split(",")
+  end
 
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
-      assert render_async(view) =~ "No trips found."
-    end
-
-    test "displays error message from the Open Trip Planner client", %{conn: conn, params: params} do
-      error_message = Faker.Lorem.sentence()
-
-      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:error, [%OpenTripPlannerClient.Error{message: error_message}]}
-      end)
-
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
-      assert render_async(view) =~ error_message
-    end
-
-    test "does not display 'No trips found.' if there's another error", %{
-      conn: conn,
-      params: params
-    } do
-      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:error, [%OpenTripPlannerClient.Error{message: Faker.Lorem.sentence()}]}
-      end)
-
-      {:ok, view, _html} = live(conn, ~p"/preview/trip-planner?#{params}")
-
-      refute render_async(view) =~ "No trips found."
-    end
+  # Parse the query string from a URL and decode them into a plan.
+  defp decode_params(url) do
+    url
+    |> URI.parse()
+    |> Map.get(:query)
+    |> URI.decode_query()
+    |> Map.get("plan")
+    |> AntiCorruptionLayer.decode()
   end
 end

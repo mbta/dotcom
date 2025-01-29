@@ -10,6 +10,8 @@ defmodule Dotcom.TripPlan.Parser do
      MBTA system.
   """
 
+  require Logger
+
   alias Dotcom.TripPlan.{FarePasses, Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias OpenTripPlannerClient.Schema
 
@@ -164,18 +166,28 @@ defmodule Dotcom.TripPlan.Parser do
   defp route_color("Logan Express", "DV", _), do: "704c9f"
   defp route_color(_, _, color), do: color
 
-  defp build_stop(stop, attributes \\ %{}) do
-    case stop.gtfs_id do
-      "mbta-ma-us:" <> gtfs_id ->
-        @stops_repo.get(gtfs_id)
-        |> struct(attributes)
+  defp build_stop(stop, attributes \\ %{})
 
-      _ ->
-        stop
-        |> Map.from_struct()
-        |> Map.merge(attributes)
-        |> then(&struct(Stops.Stop, &1))
+  defp build_stop(%Schema.Stop{gtfs_id: "mbta-ma-us:" <> gtfs_id} = schema_stop, attributes) do
+    stop = @stops_repo.get(gtfs_id)
+
+    if stop do
+      stop
+      |> Map.merge(attributes)
+    else
+      Logger.notice("dotcom.trip_plan.parser unknown_stop=mbta-ma-us:#{gtfs_id}")
+
+      schema_stop
+      |> Map.put(:gtfs_id, gtfs_id)
+      |> build_stop(attributes)
     end
+  end
+
+  defp build_stop(stop, attributes) do
+    stop
+    |> Map.from_struct()
+    |> Map.merge(attributes)
+    |> then(&struct(Stops.Stop, &1))
   end
 
   defp id_from_gtfs(gtfs_id) do

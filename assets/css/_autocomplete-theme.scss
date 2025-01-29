@@ -227,7 +227,6 @@
 
   .aa-InputWrapperSuffix {
     order: 3;
-    width: calc(var(--aa-spacing) + var(--aa-icon-size) - 1px);
   }
 
   // hide default search magnifying glass icon
@@ -252,6 +251,12 @@
   content: "B"
 }
 
-.aa-DetachedOverlay .aa-InputWrapper {
-  padding-left: calc(var(--aa-spacing));
+.aa-DetachedOverlay {
+  .aa-InputWrapper {
+    padding-left: calc(var(--aa-spacing));
+  }
+  
+  .aa-InputWrapperSuffix {
+    width: calc(var(--aa-spacing) + var(--aa-icon-size) - 1px);
+  }
 }
