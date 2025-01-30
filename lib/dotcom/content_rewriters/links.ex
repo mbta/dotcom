@@ -44,7 +44,7 @@ defmodule Dotcom.ContentRewriters.Links do
   @doc """
   If the user has used Google Translate on dotcom, we want to forward them to MyCharlie with the same language.
   """
-  def add_language_params({"a", attrs, children} = element, %{cookies: %{"googtrans" => languages}}) do
+  def add_locale_params({"a", attrs, children} = element, %{cookies: %{"googtrans" => languages}}) do
     attr_map = Enum.into(attrs, %{})
     href = Map.get(attr_map, "href")
     locale = String.split(languages, "/") |> List.last()
@@ -59,5 +59,5 @@ defmodule Dotcom.ContentRewriters.Links do
     end
   end
 
-  def add_language_params(element, _conn), do: element
+  def add_locale_params(element, _conn), do: element
 end

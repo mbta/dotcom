@@ -14,6 +14,10 @@ export default () => {
   if (typeof MutationObserver === "function") {
     // Tell the observer to monitor for changes to HTML attributes
     const config = { attributes: true };
+
+    // Get the language of the page on load.
+    const oldCookieLanguage = getCookieLanguage();
+
     // Build the function to run when a change is observed
     const callback = mutationList => {
       // Loop through each observed change
@@ -36,6 +40,15 @@ export default () => {
               event: "translate",
               language: newLanguage && newLanguage !== "en" ? newLanguage : ""
             });
+
+            // Get the new language from the cookie on language change.
+            const newCookieLanguage = getCookieLanguage();
+
+            // If the page loaded with one language and switched to another, we have to reload the page.
+            // This is so that page content can be rendered differently with the added cookie information.
+            if (oldCookieLanguage !== newCookieLanguage) {
+              window.location.reload();
+            }
           }
         }
       }
@@ -48,3 +61,16 @@ export default () => {
     observer.observe(document.getElementsByTagName("html")[0], config);
   }
 };
+
+function getCookieLanguage() {
+  const cookie = document.cookie.split(";").map(cookie => cookie.trim()).map(cookie => cookie.split("=")).find(cookie => cookie[0] === "googtrans");
+
+  if (cookie) {
+    const [_key, value] = cookie;
+    const [_space, from, to] = value.split("/");
+
+    return to;
+  } else {
+    return "en";
+  }
+}
