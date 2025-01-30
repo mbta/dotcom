@@ -98,7 +98,9 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
         datetime_in_timezone = Timex.to_datetime(datetime, "America/New_York")
 
         Map.put(params, "datetime", datetime_in_timezone)
-      _ -> params
+
+      _ ->
+        params
     end
   end
 
