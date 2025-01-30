@@ -1,10 +1,24 @@
 defmodule Dotcom.TripPlan.AntiCorruptionLayerTest do
   use ExUnit.Case
 
-  import Dotcom.TripPlan.AntiCorruptionLayer, only: [convert_old_params: 1]
+  import Dotcom.TripPlan.AntiCorruptionLayer, only: [convert_old_params: 1, decode: 1, encode: 1]
   import Mox
 
   setup :verify_on_exit!
+
+  describe "decode/1" do
+    test "maintains timezone information when decoding datetimes" do
+      # Setup
+      datetime = Timex.now("America/New_York")
+      encoded = encode(%{"datetime" => datetime})
+
+      # Exercise
+      decoded = decode(encoded)
+
+      # Verify
+      assert decoded["datetime"] == datetime
+    end
+  end
 
   describe "convert_old_params/1" do
     test "returns all defaults when no params are given" do

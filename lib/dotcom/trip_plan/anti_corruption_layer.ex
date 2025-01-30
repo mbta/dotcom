@@ -94,8 +94,13 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
 
   defp decode_datetime(%{"datetime" => datetime} = params) do
     case DateTime.from_iso8601(datetime) do
-      {:ok, datetime, _} -> Map.put(params, "datetime", datetime)
-      _ -> params
+      {:ok, datetime, _} ->
+        datetime_in_timezone = Timex.to_datetime(datetime, "America/New_York")
+
+        Map.put(params, "datetime", datetime_in_timezone)
+
+      _ ->
+        params
     end
   end
 
