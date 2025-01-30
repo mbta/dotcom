@@ -73,7 +73,7 @@ function getCookieLanguage() {
 
   if (cookie) {
     const [_key, value] = cookie;
-    const [_space, from, to] = value.split("/");
+    const [_space, _from, to] = value.split("/");
 
     return to;
   } else {
