@@ -3,7 +3,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
   doctest Dotcom.SystemStatus.Subway
 
   alias Dotcom.SystemStatus.Subway
-  alias Test.Support.Factories.Alerts.Alert
+  import Test.Support.Factories.Alerts.Alert
   alias Test.Support.Factories.Alerts.InformedEntity
   alias Test.Support.Factories.Alerts.InformedEntitySet
 
@@ -33,7 +33,10 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       affected_route_id = Faker.Util.pick(@lines_without_branches)
       time = time_today()
       effect = Faker.Util.pick(@effects)
-      alerts = [current_alert(route_id: affected_route_id, time: time, effect: effect)]
+
+      alerts = [
+        build(:alert, effect: effect) |> active_during(time) |> for_route(affected_route_id)
+      ]
 
       # Exercise
       groups = Subway.subway_status(alerts, time)
@@ -565,7 +568,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
     effect = opts[:effect] || Faker.Util.pick(@effects)
     active_period = opts |> Keyword.fetch!(:active_period)
 
-    Alert.build(:alert,
+    build(:alert,
       effect: effect,
       informed_entity:
         InformedEntitySet.build(:informed_entity_set,
