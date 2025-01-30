@@ -7,7 +7,10 @@ defmodule Dotcom.SystemStatus.Subway do
   alias Alerts.Alert
 
   @lines ["Blue", "Green", "Orange", "Red"]
-  @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
+  @doc """
+  Returns the route_id's for the subway lines.
+  """
+  def lines(), do: @lines
 
   @doc """
   Translates the given alerts into a map indicating the overall system
@@ -140,7 +143,7 @@ defmodule Dotcom.SystemStatus.Subway do
     %{
       route_id: "Green",
       branches_with_statuses:
-        @green_line_branches
+        GreenLine.branch_ids()
         |> Enum.map(&add_statuses_for_route(&1, alerts, time))
         |> group_by_statuses()
         |> nest_grouped_statuses_under_branches()

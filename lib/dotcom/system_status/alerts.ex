@@ -4,7 +4,13 @@ defmodule Dotcom.SystemStatus.Alerts do
   relying on some specific criteria that are specific enough that they don't
   belong in the main `Alerts` module.
   """
-  @relevant_effects [:delay, :shuttle, :suspension, :station_closure]
+
+  @service_effects [:delay, :shuttle, :suspension, :station_closure]
+  @doc """
+  Returns a list of the alert effects that are considered
+  service-impacting.
+  """
+  def service_effects(), do: @service_effects
 
   @doc """
 
@@ -86,7 +92,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   }
   """
   def filter_relevant(alerts) do
-    alerts |> Enum.filter(fn %{effect: effect} -> effect in @relevant_effects end)
+    alerts |> Enum.filter(fn %{effect: effect} -> effect in @service_effects end)
   end
 
   # Returns true if the alert (as signified by the active_period_start provided)
