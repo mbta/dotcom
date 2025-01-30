@@ -94,6 +94,7 @@ defmodule Dotcom.ContentRewriter do
     element
     |> Links.add_target_to_redirect()
     |> Links.add_preview_params(conn)
+    |> Links.add_language_params(conn)
     |> rewrite_children(conn, context)
   end
 
