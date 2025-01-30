@@ -9,7 +9,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
   @all_rail_lines ["Blue", "Green", "Orange", "Red"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
-  @heavy_rail_lines ["Blue", "Orange", "Red"]
+  @lines_without_branches ["Blue", "Orange", "Red"]
 
   @effects [:delay, :shuttle, :station_closure, :suspension]
 
@@ -30,7 +30,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "when there's an alert for a heavy rail line, shows an entry for that line" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
       time = time_today()
       effect = Faker.Util.pick(@effects)
       alerts = [current_alert(route_id: affected_route_id, time: time, effect: effect)]
@@ -49,7 +49,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "when there's an alert for a heavy rail line, shows the entry with multiple: false" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
       time = time_today()
       effect = Faker.Util.pick(@effects)
       alerts = [current_alert(route_id: affected_route_id, time: time, effect: effect)]
@@ -68,7 +68,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "when there's a current alert, sets the `time` to :current" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
       time = time_today()
       alerts = [current_alert(route_id: affected_route_id, time: time)]
 
@@ -86,7 +86,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "when there's an alert for a heavy rail line, shows 'Normal Service' for the other lines" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
       time = time_today()
 
       alerts = [current_alert(route_id: affected_route_id, time: time)]
@@ -95,7 +95,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       groups = Subway.subway_status(alerts, time)
 
       # Verify
-      @heavy_rail_lines
+      @lines_without_branches
       |> List.delete(affected_route_id)
       |> Enum.each(fn route_id ->
         statuses =
@@ -109,7 +109,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "shows future active time for alerts that will become active later in the day" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
       alert_start_time = time_after(time)
@@ -130,7 +130,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "shows entry for active alerts with no end time" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
       effect = Faker.Util.pick(@effects)
@@ -158,7 +158,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "shows a future time for alerts that have an expired active_period as well" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
       alert_start_time = time_after(time)
@@ -191,7 +191,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "shows multiple alerts for a given route, sorted alphabetically" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
 
@@ -219,7 +219,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "sorts current alerts ahead of future ones" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
 
@@ -244,7 +244,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "consolidates current alerts if they have the same effect" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
 
@@ -269,7 +269,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
     test "consolidates future alerts if they have the same effect and time" do
       # Setup
-      affected_route_id = Faker.Util.pick(@heavy_rail_lines)
+      affected_route_id = Faker.Util.pick(@lines_without_branches)
 
       time = time_today()
       start_time = time_after(time)
