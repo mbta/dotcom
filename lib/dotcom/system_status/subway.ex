@@ -6,28 +6,14 @@ defmodule Dotcom.SystemStatus.Subway do
 
   alias Alerts.Alert
 
-  # @lines is sorted in the order in which `groups/2` should sort its results
-  @lines ["Blue", "Orange", "Red", "Green"]
+  @lines ["Blue", "Green", "Orange", "Red"]
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
 
   @doc """
-  Returns a data structure that can be used in the system status
-  widget.
+  Translates the given alerts into a map indicating the overall system
+  status for each line.
 
-  This data structure is designed to be dropped directly into a
-  frontend component that will render the info nicely on the
-  screen. See `Dotcom.SystemStatus` for more details.
-
-  ## Example (no alerts)
-      iex> Dotcom.SystemStatus.Subway.subway_status([], Timex.now())
-      %{
-        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
-        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
-        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
-        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
-      }
-
-  ## Example (one alert on a heavy rail line)
+  ## Example
       iex> alerts =
       ...>   [
       ...>     %Alerts.Alert{
@@ -51,11 +37,9 @@ defmodule Dotcom.SystemStatus.Subway do
         "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
       }
 
-  Alerts for Green line branches are grouped together, so that instead
-  of showing up as top-level alerts, they're presented under the
-  top-level Green line route, with the branches presented as
-  `sub_routes`. When alerts only apply to some Green line branches,
-  then the others are shown with "Normal service"
+  Alerts for individual Green line branches are grouped together and
+  presented under "Green", rather than being presented under a branch
+  ID like "Green-D".
 
   ## Example
       iex> alerts =
