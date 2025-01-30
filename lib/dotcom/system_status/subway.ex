@@ -1,9 +1,7 @@
 defmodule Dotcom.SystemStatus.Subway do
   @moduledoc """
-
   A module that groups alerts into statuses for the system status
   widget. See `Dotcom.SystemStatus` for more information.
-
   """
 
   alias Alerts.Alert
@@ -13,7 +11,6 @@ defmodule Dotcom.SystemStatus.Subway do
   @green_line_branches ["Green-B", "Green-C", "Green-D", "Green-E"]
 
   @doc """
-
   Returns a data structure that can be used in the system status
   widget.
 
@@ -127,7 +124,6 @@ defmodule Dotcom.SystemStatus.Subway do
         ],
         "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
       }
-
   """
   def subway_status(alerts, time) do
     @lines
