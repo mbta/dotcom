@@ -16,7 +16,7 @@ export default () => {
     const config = { attributes: true };
 
     // Get the language of the page on load.
-    const oldCookieLanguage = getCookieLanguage();
+    const oldLanguage = document.querySelector("html").getAttribute("lang");
 
     // Build the function to run when a change is observed
     const callback = mutationList => {
@@ -41,12 +41,9 @@ export default () => {
               language: newLanguage && newLanguage !== "en" ? newLanguage : ""
             });
 
-            // Get the new language from the cookie on language change.
-            const newCookieLanguage = getCookieLanguage();
-
             // If the page loaded with one language and switched to another, we have to reload the page.
             // This is so that page content can be rendered differently with the added cookie information.
-            if (oldCookieLanguage !== newCookieLanguage) {
+            if (newLanguage !== oldLanguage) {
               window.location.reload();
             }
           }
@@ -61,22 +58,3 @@ export default () => {
     observer.observe(document.getElementsByTagName("html")[0], config);
   }
 };
-
-// Get the current language of the page from the `googtrans` cookie.
-function getCookieLanguage() {
-  const cookie =
-    document.cookie
-      .split(";")
-      .map(cookie => cookie.trim())
-      .map(cookie => cookie.split("="))
-      .find(cookie => cookie[0] === "googtrans");
-
-  if (cookie) {
-    const [_key, value] = cookie;
-    const [_space, _from, to] = value.split("/");
-
-    return to;
-  } else {
-    return "en";
-  }
-}
