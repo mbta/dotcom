@@ -36,4 +36,11 @@ defmodule Dotcom.SystemStatus do
     |> SystemStatus.Alerts.for_day(datetime)
     |> SystemStatus.Alerts.filter_relevant()
   end
+
+  @doc """
+  Returns a map indicating the subway status for each of the subway lines.
+  """
+  def subway_status() do
+    subway_alerts_for_today() |> SystemStatus.Subway.subway_status(Timex.now())
+  end
 end
