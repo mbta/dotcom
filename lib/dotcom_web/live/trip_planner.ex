@@ -327,12 +327,9 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:noreply, socket}
   end
 
-  # When the datetime_type is "leave_at" or "arrive_by", we need to
-  # have a "datetime" indicating when we want to "leave at" or "arrive
-  # by", but because the datepicker only appears after a rider clicks
-  # on "Leave at" or "Arrive by", the actual value of "datetime"
-  # doesn't always appear in params. When that happens, we want to set
-  # "datetime" to a reasonable default.
+  # If we **switch** from 'now' to 'depart at' or 'arrive by', we need to update the datetime to the nearest 5 minutes.
+  # We default the datetime to `Timex.now/1` if the type is 'now'.
+  # Otherwise, we keep the datetime the user set.
   defp add_datetime_if_needed(params, %{"datetime_type" => "now"} = _previous_params) do
     params |> Map.put("datetime", nearest_5_minutes())
   end
