@@ -14,10 +14,6 @@ export default () => {
   if (typeof MutationObserver === "function") {
     // Tell the observer to monitor for changes to HTML attributes
     const config = { attributes: true };
-
-    // Get the language of the page on load.
-    const oldLanguage = document.querySelector("html").getAttribute("lang");
-
     // Build the function to run when a change is observed
     const callback = mutationList => {
       // Loop through each observed change
@@ -40,12 +36,6 @@ export default () => {
               event: "translate",
               language: newLanguage && newLanguage !== "en" ? newLanguage : ""
             });
-
-            // If the page loaded with one language and switched to another, we have to reload the page.
-            // This is so that page content can be rendered differently with the added cookie information.
-            if (newLanguage !== oldLanguage) {
-              window.location.reload();
-            }
           }
         }
       }
