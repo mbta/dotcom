@@ -10,10 +10,6 @@ const isNotFerry = url => {
   return !/\/schedules\/Boat-/.test(url);
 };
 
-const isNotTripPlanner = url => {
-  return !/\/trip-planner/.test(url);
-};
-
 const isAlertsPage = url => {
   return isNotCommuterRail(url) && isNotFerry(url) && /\/alerts/.test(url);
 };
@@ -33,11 +29,9 @@ const isStopPage = url => {
 const isIncludedPage = () => {
   const url = window.location.href;
 
-  return [isAlertsPage, isSchedulePage, isStopPage, isNotTripPlanner].some(
-    fn => {
-      return fn(url);
-    }
-  );
+  return [isAlertsPage, isSchedulePage, isStopPage].some(fn => {
+    return fn(url);
+  });
 };
 
 /**
