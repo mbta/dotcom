@@ -7,6 +7,8 @@ defmodule DotcomWeb.SystemStatus.Widget do
 
   use DotcomWeb, :component
 
+  import DotcomWeb.Components.RoutePills
+
   @route_ids ["Red", "Orange", "Green", "Blue"]
 
   def system_status_widget(assigns) do
@@ -25,7 +27,7 @@ defmodule DotcomWeb.SystemStatus.Widget do
 
   defp line_status(assigns) do
     ~H"""
-    <div class="border border-gray-lighter p-2">
+    <div class="border border-gray-lighter p-2 flex flex-col gap-2">
       <.branch_status
         :for={branch <- @branches_with_statuses}
         route_id={@route_id}
@@ -39,9 +41,7 @@ defmodule DotcomWeb.SystemStatus.Widget do
   defp branch_status(assigns) do
     ~H"""
     <div class="flex gap-2">
-      <span class="font-bold">
-        {@route_id}<span :for={branch_id <- @branch_ids}>{" "}{branch_id}</span>:
-      </span>
+      <.route_pill_with_modifiers route_id={@route_id} modifier_ids={@branch_ids} />
 
       <div class="flex flex-col">
         <div :for={status <- @status_entries}>
