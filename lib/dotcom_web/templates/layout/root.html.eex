@@ -74,6 +74,12 @@
           </div>
         </div>
       <% end %>
+      <!-- START BANNERS -->
+      <div id="mobile-app-banner" style="background: #DCD3E8; display: none; margin: 0; padding: 10px; text-align: center">
+        <a href="https://mbta.com/app" rel="noreferrer" style="color: black; display: block" target="_blank">
+          Sign up to test the <strong>MBTA app &#x2192;</strong>
+        </a>
+      </div>
       <div id="trip-planner-banner" style="background: #DCD3E8; display: none; margin: 0; padding: 10px; text-align: center">
         <p style="margin: 0px 0px;">We've made improvements to Trip Planner</p>
         <a href="https://www.mbta.com/customer-support" rel="noreferrer" style="color: black; display: block; font-weight: bold;" target="_blank">
@@ -85,6 +91,7 @@
           }
         </script>
       </div>
+      <!-- END BANNERS -->
       <%= if assigns[:search_header?] do %>
         <%= render "_searchbar.html", assigns %>
       <% end %>
