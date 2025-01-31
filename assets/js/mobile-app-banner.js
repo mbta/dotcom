@@ -41,9 +41,8 @@ const isIncludedPage = () => {
 };
 
 /**
- * If the page is one of the pages we want to show the banner on
- * And the user is not on an Android device
- * Show the banner
+ * If the page is one of the pages we want to show the banner on,
+ * and the user is on an Android device, show the banner.
  */
 export default function mobileAppBanner() {
   if (isAndroid() && isIncludedPage()) {
