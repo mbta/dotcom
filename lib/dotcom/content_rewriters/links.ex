@@ -46,7 +46,7 @@ defmodule Dotcom.ContentRewriters.Links do
   """
   def add_locale_params({"a", attrs, children} = element, %{cookies: %{"googtrans" => languages}}) do
     attr_map = Enum.into(attrs, %{})
-    href = Map.get(attr_map, "href")
+    href = Map.get(attr_map, "href", "")
     locale = String.split(languages, "/") |> List.last()
 
     if String.match?(href, ~r/mycharlie.mbta.com/) do
