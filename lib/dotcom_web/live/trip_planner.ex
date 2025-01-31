@@ -162,12 +162,12 @@ defmodule DotcomWeb.Live.TripPlanner do
   def handle_event(
         "input_form_change",
         %{"input_form" => params},
-        %{assigns: %{input_form: %{changeset: %{params: current_params}}}} = socket
+        %{assigns: %{input_form: %{changeset: %{params: previous_params}}}} = socket
       ) do
     params_with_datetime =
-      current_params
+      previous_params
       |> Map.merge(params)
-      |> add_datetime_if_needed()
+      |> add_datetime_if_needed(previous_params)
 
     changeset = InputForm.changeset(params_with_datetime)
 
@@ -333,11 +333,17 @@ defmodule DotcomWeb.Live.TripPlanner do
   # on "Leave at" or "Arrive by", the actual value of "datetime"
   # doesn't always appear in params. When that happens, we want to set
   # "datetime" to a reasonable default.
-  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params),
-    do: params |> Map.put("datetime", Timex.now("America/New_York"))
+  defp add_datetime_if_needed(params, %{"datetime_type" => "now"} = _previous_params) do
+    params |> Map.put("datetime", nearest_5_minutes())
+  end
 
-  defp add_datetime_if_needed(%{"datetime" => datetime} = params) when datetime != nil, do: params
-  defp add_datetime_if_needed(params), do: params |> Map.put("datetime", nearest_5_minutes())
+  defp add_datetime_if_needed(%{"datetime_type" => "now"} = params, _previous_params) do
+    params |> Map.put("datetime", Timex.now("America/New_York"))
+  end
+
+  defp add_datetime_if_needed(params, _previous_params) do
+    params
+  end
 
   # Run an OTP plan on the changeset data and return itinerary groups or an error.
   defp get_itinerary_groups(%Ecto.Changeset{valid?: true} = changeset) do
