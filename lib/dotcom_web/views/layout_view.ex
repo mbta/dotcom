@@ -104,7 +104,7 @@ defmodule DotcomWeb.LayoutView do
           %{
             sub_menu_section: "Pay Your Fare",
             links: [
-              {"CharlieCard Store", "/fares/charliecard-store", :internal_link},
+              {"Charlie Service Center", "/fares/charliecard-store", :internal_link},
               {"Sign up for Auto-pay", "https://mycharlie.mbta.com/", :external_link},
               {"Order Monthly Passes", "https://commerce.mbta.com/", :external_link},
               {"Get a CharlieCard", "/fares/charliecard#getacharliecard", :internal_link},
