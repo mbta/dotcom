@@ -21,8 +21,7 @@ defmodule DotCom.Mixfile do
       ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload],
-        flags: [:unmatched_returns],
-        ignore_warnings: ".dialyzer.ignore-warnings"
+        flags: [:unmatched_returns]
       ],
       deps: deps(),
 
