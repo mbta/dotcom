@@ -159,7 +159,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
-      - uses: mix dialyzer
+      - run: mix dialyzer
 
   type_typescript:
     name: Type checks / TypeScript
