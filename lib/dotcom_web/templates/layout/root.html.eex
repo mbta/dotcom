@@ -10,6 +10,11 @@
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <meta name="theme-color" content="#165c96">
 
+    <%= # hide any mbtace sub domain
+    if String.match?(@conn.host, ~r/mbtace/) do %>
+      <meta name="robots" content="noindex, nofollow">
+    <% end %>
+
     <%= # hide any page in /org directory from search engines
     if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
       <meta name="robots" content="noindex, nofollow">
