@@ -1,13 +1,8 @@
 defmodule Dotcom.SystemStatus do
   @moduledoc """
-  The system status feature is a widget that's intended to appear on the
-  homepage, as well as eventually several other places throughout the site.
-  The widget will show statuses for each of the subway lines (Red, Orange,
-  Green, Blue), which might look like "Normal Service", or information
-  about current or upcoming alerts.
-
-  This module is responsible for reporting data in a format that can easily
-  be plugged into a component on the frontend.
+  This module exists to provide a simple view into the status of the
+  subway system, for each line, showing whether its running normally,
+  or whether there are alerts that impact service.
   """
 
   alias Dotcom.SystemStatus
@@ -35,5 +30,12 @@ defmodule Dotcom.SystemStatus do
     |> Alerts.Repo.by_route_ids(datetime)
     |> SystemStatus.Alerts.for_day(datetime)
     |> SystemStatus.Alerts.filter_relevant()
+  end
+
+  @doc """
+  Returns a map indicating the subway status for each of the subway lines.
+  """
+  def subway_status() do
+    subway_alerts_for_today() |> SystemStatus.Subway.subway_status(Timex.now())
   end
 end
