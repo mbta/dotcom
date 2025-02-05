@@ -98,11 +98,7 @@ defmodule Schedules.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp fetch_trip(trip_id, trip_by_id_fn) do
-    trip_opts =
-      case Util.config(:dotcom, :enable_experimental_features) do
-        "true" -> [include: "occupancies"]
-        _ -> []
-      end
+    trip_opts = [include: "occupancies"]
 
     case trip_by_id_fn.(trip_id, trip_opts) do
       %JsonApi{} = response ->
