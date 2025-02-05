@@ -149,6 +149,8 @@ defmodule Dotcom.SystemStatus.Subway do
   end
 
   # Red line nested-statuses implementation:
+  # Treat the red line statuses as normal, and add Mattapan if there
+  # are any.
   defp add_nested_statuses_for_line("Red", alerts, time) do
     mattapan_branches_with_statuses =
       mattapan_branches_with_statuses(alerts, time)
@@ -169,10 +171,10 @@ defmodule Dotcom.SystemStatus.Subway do
     }
   end
 
+  # Groups the route/status-entry combinations by their statuses so
+  # that branches with the same statuses can be combined.
   defp group_by_statuses(status_entries) do
-    status_entries
-    |> Enum.group_by(& &1.statuses)
-    |> Enum.to_list()
+    status_entries |> Enum.group_by(& &1.statuses) |> Enum.to_list()
   end
 
   # Nests grouped statuses under the branches_with_statuses
@@ -209,9 +211,13 @@ defmodule Dotcom.SystemStatus.Subway do
     end)
   end
 
+  # Sort order used in sort_branches/1 - sorts normal statuses ahead
+  # of alerts.
   defp status_sort_order([%{time: :current, status: :normal}]), do: 1
   defp status_sort_order(_), do: 0
 
+  # Returns a list containing a single status entry group corresponding
+  # to the alerts for the given route.
   defp branches_with_statuses(route_id, alerts, time) do
     route_id
     |> statuses_for_route(alerts, time)
@@ -219,6 +225,9 @@ defmodule Dotcom.SystemStatus.Subway do
     |> then(&[&1])
   end
 
+  # Behaves mostly like branches_with_statuses/3 when applied to
+  # "Mattapan", except that if the status is normal, returns an empty
+  # list.
   defp mattapan_branches_with_statuses(alerts, time) do
     "Mattapan"
     |> alerts_for_route(alerts)
@@ -243,6 +252,8 @@ defmodule Dotcom.SystemStatus.Subway do
     }
   end
 
+  # Returns a list of statuses corresponding to the alerts for the
+  # given route.
   defp statuses_for_route(route_id, alerts, time) do
     route_id
     |> alerts_for_route(alerts)
@@ -252,7 +263,6 @@ defmodule Dotcom.SystemStatus.Subway do
   # Returns a branch_with_status entry, to be used in the
   # branches_with_statuses field in groups/2. If no branch_ids are
   # provided, then uses an empty array.
-  # 
   defp branch_with_statuses_entry(statuses, branch_ids \\ []) do
     %{
       branch_ids: branch_ids,
