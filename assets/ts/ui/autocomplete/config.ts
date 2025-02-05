@@ -211,9 +211,11 @@ const TRIP_PLANNER = ({
       pushToLiveView({});
     },
     onStateChange({ prevState, state }) {
-      // Send changed input text to LiveView
-      if (state.query !== prevState.query) {
-        const newInputData = state.query === "" ? {} : { name: state.query };
+      const isCleared = state.query === "";
+      const changedToClosedState = prevState.isOpen && !state.isOpen;
+      // Send changed input text to LiveView when leaving this input
+      if (changedToClosedState) {
+        const newInputData = isCleared ? {} : { name: state.query };
         pushToLiveView(newInputData);
       }
     },
