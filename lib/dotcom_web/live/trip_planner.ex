@@ -116,10 +116,10 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   @impl true
-  # Triggered when we cannot connect to OTP.
+  # Triggered when we cannot connect to OTP, or we receive a timeout error.
   def handle_async(
         "get_itinerary_groups",
-        {:ok, {:error, %Req.TransportError{reason: :econnrefused}}},
+        {:ok, {:error, %Req.TransportError{reason: _reason}}},
         socket
       ) do
     message = "Cannot connect to OpenTripPlanner. Please try again later."
@@ -130,7 +130,8 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   @impl true
   # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
-  def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket) do
+  def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket)
+      when is_list(errors) do
     error =
       errors
       |> Enum.map_join(", ", &Map.get(&1, :message))
