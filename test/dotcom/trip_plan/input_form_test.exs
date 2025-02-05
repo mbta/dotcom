@@ -60,6 +60,23 @@ defmodule Dotcom.TripPlan.InputFormTest do
       refute changeset.errors[:from]
     end
 
+    test "adds error if invalid location" do
+      changeset =
+        InputForm.changeset(%{
+          "to" => %{
+            "latitude" => "",
+            "longitude" => "",
+            "name" => Faker.Cat.breed(),
+            "stop_id" => ""
+          }
+        })
+
+      refute changeset.valid?
+
+      expected_error = InputForm.error_message(:to)
+      assert {^expected_error, _} = changeset.errors[:to]
+    end
+
     test "adds error if from & to are the same" do
       changeset =
         InputForm.changeset(%{

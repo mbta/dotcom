@@ -43,8 +43,9 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           </div>
           <button
             type="button"
+            disabled={disable_swap?(f)}
             phx-click="swap_direction"
-            class="px-xs bg-transparent fill-brand-primary hover:fill-black"
+            class="px-xs bg-transparent fill-brand-primary disabled:fill-gray-light hover:fill-black"
           >
             <span class="sr-only">Swap origin and destination locations</span>
             <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
@@ -115,10 +116,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   defp location_search_box(assigns) do
     assigns =
       assigns
-      |> assign(:location_keys, InputForm.Location.fields())
+      |> assign(%{
+        has_error?: used_input?(assigns.field) && length(assigns.field.errors) > 0,
+        location_keys: InputForm.Location.fields()
+      })
 
     ~H"""
-    <fieldset class="mb-sm -mt-md" id={"#{@name}-wrapper"}>
+    <fieldset class={"mb-sm -mt-md #{if(@has_error?, do: "text-danger")}"} id={"#{@name}-wrapper"}>
       <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(@field.field)}</legend>
       <.algolia_autocomplete config_type="trip-planner" placeholder={@placeholder} id={@name}>
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
@@ -130,7 +134,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             name={location_f[subfield].name}
           />
         </.inputs_for>
-        <.feedback :for={{msg, _} <- @field.errors} :if={used_input?(@field)} kind={:error}>
+        <.feedback :for={{msg, _} <- @field.errors} :if={@has_error?} kind={:error}>
           {msg}
         </.feedback>
       </.algolia_autocomplete>
@@ -146,6 +150,12 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
       min_date: Timex.today("America/New_York")
     }
   end
+
+  defp disable_swap?(%{errors: [_ | _] = errors}) do
+    :from in Keyword.keys(errors) or :to in Keyword.keys(errors)
+  end
+
+  defp disable_swap?(_), do: false
 
   defp show_datepicker?(f) do
     input_value(f, :datetime_type) != "now"

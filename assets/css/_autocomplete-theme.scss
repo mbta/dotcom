@@ -1,12 +1,20 @@
 @import '@algolia/autocomplete-theme-classic';
 
+:root {
+  --aa-accent-color: 22, 92, 150; // $brand-primary fallback;
+}
+
 // styles that will be used for every instance
 [phx-hook='AlgoliaAutocomplete'], .aa-Detached {
+  .text-danger & {
+    --aa-accent-color: 179, 0, 15; // matches $error-text
+  }
+
   .aa-Autocomplete {
-    --aa-icon-color-rgb: 22, 92, 150; // $brand-primary;
-    --aa-primary-color-rgb: 22, 92, 150; // $brand-primary;
-    --aa-input-border-color-rgb: 22, 92, 150;
-    --aa-overlay-color-rgb: 22, 92, 150; // $brand-primary;
+    --aa-icon-color-rgb: var(--aa-accent-color);
+    --aa-primary-color-rgb: var(--aa-accent-color);
+    --aa-input-border-color-rgb: var(--aa-accent-color);
+    --aa-overlay-color-rgb: var(--aa-accent-color);
   }
 
   .aa-Label {
@@ -32,11 +40,6 @@
     &:focus-within {
       border-color: $brand-primary-light;
       box-shadow: unset;
-    }
-
-    div:has(.text-danger) > & {
-      --aa-input-border-color-rgb: 179, 0, 15;
-      --aa-icon-color-rgb: 179, 0, 15;
     }
   }
 
@@ -218,7 +221,7 @@
 
     .aa-Label {
       align-content: center;
-      color: $brand-primary;
+      color: rgb(var(--aa-icon-color-rgb));
       font-size: 1.25rem;
       font-weight: bold;
       text-align: center;

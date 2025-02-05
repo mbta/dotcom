@@ -76,16 +76,16 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   defp copy_params(params) do
     %{
       "from" => %{
-        "latitude" => Map.get(params, "from_latitude"),
-        "longitude" => Map.get(params, "from_longitude"),
-        "name" => Map.get(params, "from"),
+        "latitude" => Map.get(params, "from_latitude", ""),
+        "longitude" => Map.get(params, "from_longitude", ""),
+        "name" => Map.get(params, "from", ""),
         "stop_id" => Map.get(params, "from_stop_id", "")
       },
       "modes" => Map.get(params, "modes") |> convert_modes(),
       "to" => %{
-        "latitude" => Map.get(params, "to_latitude"),
-        "longitude" => Map.get(params, "to_longitude"),
-        "name" => Map.get(params, "to"),
+        "latitude" => Map.get(params, "to_latitude", ""),
+        "longitude" => Map.get(params, "to_longitude", ""),
+        "name" => Map.get(params, "to", ""),
         "stop_id" => Map.get(params, "to_stop_id", "")
       },
       "wheelchair" => Map.get(params, "wheelchair") || "false"

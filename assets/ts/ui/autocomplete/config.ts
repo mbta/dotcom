@@ -210,6 +210,15 @@ const TRIP_PLANNER = ({
     onReset: (): void => {
       pushToLiveView({});
     },
+    onStateChange({ prevState, state }) {
+      const isCleared = state.query === "";
+      const changedToClosedState = prevState.isOpen && !state.isOpen;
+      // Send changed input text to LiveView when leaving this input
+      if (changedToClosedState) {
+        const newInputData = isCleared ? {} : { name: state.query };
+        pushToLiveView(newInputData);
+      }
+    },
     getSources({ query }) {
       if (!query)
         return debounced([
