@@ -122,7 +122,13 @@ defmodule DotcomWeb.Live.TripPlanner do
         {:ok, {:error, %Req.TransportError{reason: _reason}}},
         socket
       ) do
-    message = "Cannot connect to OpenTripPlanner. Please try again later."
+    message =
+      Application.get_env(
+        :open_trip_planner_client,
+        :fallback_error_message,
+        "Cannot connect to OpenTripPlanner. Please try again later."
+      )
+
     new_socket = assign(socket, :results, Map.put(@state.results, :error, message))
 
     {:noreply, new_socket}
