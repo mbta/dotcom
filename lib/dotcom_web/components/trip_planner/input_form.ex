@@ -115,10 +115,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   defp location_search_box(assigns) do
     assigns =
       assigns
-      |> assign(:location_keys, InputForm.Location.fields())
+      |> assign(%{
+        has_error?: used_input?(assigns.field) && length(assigns.field.errors) > 0,
+        location_keys: InputForm.Location.fields()
+      })
 
     ~H"""
-    <fieldset class="mb-sm -mt-md" id={"#{@name}-wrapper"}>
+    <fieldset class={"mb-sm -mt-md #{if(@has_error?, do: "text-danger")}"} id={"#{@name}-wrapper"}>
       <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(@field.field)}</legend>
       <.algolia_autocomplete config_type="trip-planner" placeholder={@placeholder} id={@name}>
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
@@ -130,7 +133,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             name={location_f[subfield].name}
           />
         </.inputs_for>
-        <.feedback :for={{msg, _} <- @field.errors} :if={used_input?(@field)} kind={:error}>
+        <.feedback :for={{msg, _} <- @field.errors} :if={@has_error?} kind={:error}>
           {msg}
         </.feedback>
       </.algolia_autocomplete>

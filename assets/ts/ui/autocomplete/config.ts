@@ -210,6 +210,13 @@ const TRIP_PLANNER = ({
     onReset: (): void => {
       pushToLiveView({});
     },
+    onStateChange({ prevState, state }) {
+      // Send changed input text to LiveView
+      if (state.query !== prevState.query) {
+        const newInputData = state.query === "" ? {} : { name: state.query };
+        pushToLiveView(newInputData);
+      }
+    },
     onSubmit({ state, setQuery }) {
       // Triggered by pressing enter on the input: selects the first result.
       const results = state.collections.flatMap(collection => collection.items);
