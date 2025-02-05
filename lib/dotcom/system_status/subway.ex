@@ -14,7 +14,10 @@ defmodule Dotcom.SystemStatus.Subway do
           time: status_time()
         }
 
-  @type status_entry_group() :: %{branch_ids: [String.t()], status_entries: [status_entry()]}
+  @type status_entry_group() :: %{
+          branch_ids: [Routes.Route.id_t()],
+          status_entries: [status_entry()]
+        }
 
   @lines ["Blue", "Green", "Orange", "Red"]
   @doc """
@@ -122,7 +125,7 @@ defmodule Dotcom.SystemStatus.Subway do
         "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
       }
   """
-  @spec subway_status([Alert.t()], DateTime.t()) :: %{String.t() => status_entry_group()}
+  @spec subway_status([Alert.t()], DateTime.t()) :: %{Routes.Route.id_t() => status_entry_group()}
   def subway_status(alerts, time) do
     @lines
     |> Map.new(fn line ->
@@ -143,8 +146,8 @@ defmodule Dotcom.SystemStatus.Subway do
   #
   # The exact implementation depends on which line. Green and Red have
   # branches, so they have special implementations.
-  @spec add_nested_statuses_for_line(String.t(), [Alert.t()], DateTime.t()) :: %{
-          route_id: String.t(),
+  @spec add_nested_statuses_for_line(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
+          route_id: Routes.Route.id_t(),
           branches_with_statuses: [status_entry_group()]
         }
   defp add_nested_statuses_for_line(line_id, alerts, time)
@@ -238,7 +241,9 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Returns a list containing a single status entry group corresponding
   # to the alerts for the given route.
-  @spec branches_with_statuses(String.t(), [Alert.t()], DateTime.t()) :: [status_entry_group()]
+  @spec branches_with_statuses(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [
+          status_entry_group()
+        ]
   defp branches_with_statuses(route_id, alerts, time) do
     route_id
     |> statuses_for_route(alerts, time)
@@ -267,8 +272,8 @@ defmodule Dotcom.SystemStatus.Subway do
   # Exchanges a route_id (a line_id or a branch_id - anything that
   # might correspond to an alert) for a map with that route_id and the
   # statuses affecting that route.
-  @spec add_statuses_for_route(String.t(), [Alert.t()], DateTime.t()) :: %{
-          route_id: String.t(),
+  @spec add_statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
+          route_id: Routes.Route.id_t(),
           statuses: [status_entry()]
         }
   defp add_statuses_for_route(route_id, alerts, time) do
@@ -280,7 +285,7 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Returns a list of statuses corresponding to the alerts for the
   # given route.
-  @spec statuses_for_route(String.t(), [Alert.t()], DateTime.t()) :: [status_entry()]
+  @spec statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [status_entry()]
   defp statuses_for_route(route_id, alerts, time) do
     route_id
     |> alerts_for_route(alerts)
@@ -290,7 +295,8 @@ defmodule Dotcom.SystemStatus.Subway do
   # Returns a branch_with_status entry, to be used in the
   # branches_with_statuses field in groups/2. If no branch_ids are
   # provided, then uses an empty array.
-  @spec branch_with_statuses_entry([status_entry()], [String.t()]) :: status_entry_group()
+  @spec branch_with_statuses_entry([status_entry()], [Routes.Route.id_t()]) ::
+          status_entry_group()
   defp branch_with_statuses_entry(statuses, branch_ids \\ []) do
     %{
       branch_ids: branch_ids,
@@ -301,7 +307,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # Given `alerts` and `route_id`, filters out only the alerts
   # applicable to the given route, using the alert's "informed
   # entities".
-  @spec alerts_for_route(String.t(), [Alert.t()]) :: [Alert.t()]
+  @spec alerts_for_route(Routes.Route.id_t(), [Alert.t()]) :: [Alert.t()]
   defp alerts_for_route(route_id, alerts) do
     alerts
     |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
