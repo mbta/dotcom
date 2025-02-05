@@ -12,9 +12,11 @@ defmodule Dotcom.TripPlan.InputForm do
   alias OpenTripPlannerClient.PlanParams
 
   @error_messages %{
+    from: "Please select an origin location.",
     from_to_same: "Please select a destination at a different location from the origin.",
     modes: "Please select at least one mode of transit.",
-    datetime: "Please specify a date and time in the future or select 'Now'."
+    datetime: "Please specify a date and time in the future or select 'Now'.",
+    to: "Please select a destination location."
   }
 
   @primary_key false
@@ -63,21 +65,34 @@ defmodule Dotcom.TripPlan.InputForm do
     |> cast(params, [:datetime, :datetime_type, :wheelchair])
     |> cast_embed(:from, required: true)
     |> cast_embed(:to, required: true)
+    |> validate_change(:from, &validate_location_change/2)
+    |> validate_change(:to, &validate_location_change/2)
     |> cast_embed(:modes, required: true)
-    |> update_change(:from, &update_location_change/1)
-    |> update_change(:to, &update_location_change/1)
     |> validate_required(:modes, message: error_message(:modes))
     |> validate_required([:datetime_type, :wheelchair])
     |> validate_same_locations()
     |> validate_chosen_datetime()
   end
 
-  # make the parent field blank if the location isn't valid
-  defp update_location_change(%Ecto.Changeset{valid?: false, errors: [_ | _]}), do: nil
-  defp update_location_change(changeset), do: changeset
+  # These are embedded fields, so we need to check the underlying changeset for
+  # validity. If the underlying data has changed (there are four fields, but
+  # checking :name itself suffices), and the changeset is invalid, add an error.
+  defp validate_location_change(
+         field,
+         %Ecto.Changeset{valid?: false, errors: [_ | _]} = changeset
+       ) do
+    if changed?(changeset, :name) do
+      Keyword.new([{field, error_message(field)}])
+    else
+      []
+    end
+  end
+
+  defp validate_location_change(_, _), do: []
 
   defp validate_same_locations(changeset) do
     with from_change when not is_nil(from_change) <- get_change(changeset, :from),
+         true <- from_change.valid?,
          to_change when to_change === from_change <- get_change(changeset, :to) do
       add_error(
         changeset,
