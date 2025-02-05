@@ -144,6 +144,23 @@ defmodule DotcomWeb.Live.TripPlannerTest do
              ]
     end
 
+    test "disabled swap with invalid from/to", %{view: view} do
+      # Setup
+      stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
+      end)
+
+      params = Map.take(@valid_params, ["from"]) |> Map.put("to", %{"name" => Faker.Cat.breed()})
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => params})
+
+      swap_button = element(view, "button[phx-click='swap_direction']") |> render()
+
+      # Verify
+      assert swap_button =~ "disabled=\"disabled\""
+    end
+
     test "selecting a time other than 'now' shows the datepicker", %{view: view} do
       # Setup
       params = %{

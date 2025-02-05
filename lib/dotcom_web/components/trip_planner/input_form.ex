@@ -43,8 +43,9 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           </div>
           <button
             type="button"
+            disabled={disable_swap?(f)}
             phx-click="swap_direction"
-            class="px-xs bg-transparent fill-brand-primary hover:fill-black"
+            class="px-xs bg-transparent fill-brand-primary disabled:fill-gray-light hover:fill-black"
           >
             <span class="sr-only">Swap origin and destination locations</span>
             <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
@@ -149,6 +150,12 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
       min_date: Timex.today("America/New_York")
     }
   end
+
+  defp disable_swap?(%{errors: [_ | _] = errors}) do
+    :from in Keyword.keys(errors) or :to in Keyword.keys(errors)
+  end
+
+  defp disable_swap?(_), do: false
 
   defp show_datepicker?(f) do
     input_value(f, :datetime_type) != "now"
