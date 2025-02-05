@@ -370,7 +370,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # This takes advantage of the fact that `nil` is sorted before
   # anything else, which allows it to automatically sort active
   # statuses before future ones.
-  # 
+  #
   # This should be called before &stringify_times/1, otherwise times
   # will get sorted lexically instead of temporally (e.g. 10:00pm will
   # get sorted ahead of 9:00pm).
