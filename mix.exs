@@ -120,7 +120,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.6"},
       {:phoenix_live_reload, "1.5.3", only: [:dev, :test]},
-      {:phoenix_live_view, "1.0.2", override: true},
+      {:phoenix_live_view, "1.0.4", override: true},
       {:phoenix_pubsub, "2.1.3"},
       {:phoenix_view, "~> 2.0"},
       {:plug, "1.16.1"},
