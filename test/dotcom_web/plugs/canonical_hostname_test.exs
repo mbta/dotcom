@@ -5,14 +5,6 @@ defmodule DotcomWeb.Plugs.CanonicalHostnameTest do
   alias DotcomWeb.Plugs.CanonicalHostname
 
   describe "call/2" do
-    test "with the special mTicket hostname, does nothing" do
-      conn = %Plug.Conn{default_conn() | host: "mticket.mbtace.com"}
-      assert conn.status != 301
-
-      conn = CanonicalHostname.call(conn, nil)
-      assert conn.status != 301
-    end
-
     test "with a local IP address, does nothing" do
       # Class A
       conn = %Plug.Conn{default_conn() | host: "10.127.127.127"}

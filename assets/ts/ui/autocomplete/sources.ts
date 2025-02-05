@@ -95,7 +95,16 @@ export const locationSource = (
   templates: {
     item: urlType
       ? templateWithLink(LocationItemTemplate)
-      : LocationItemTemplate
+      : LocationItemTemplate,
+    noResults({ html }) {
+      return html`
+        <i
+          class="fa fa-fw fa-circle-exclamation text-firebrick-50 mr-sm"
+          aria-hidden="true"
+        ></i>
+        No results found
+      `;
+    }
   },
   getItems() {
     return fetch(`/places/search/${encodeURIComponent(query)}/${number}`)

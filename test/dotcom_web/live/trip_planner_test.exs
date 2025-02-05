@@ -220,7 +220,11 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       document = render_async(view)
 
-      assert document =~ "Cannot connect to OpenTripPlanner. Please try again later."
+      assert document =~
+               Application.get_env(
+                 :open_trip_planner_client,
+                 :fallback_error_message
+               )
     end
 
     test "an OTP error shows up as an error message", %{view: view} do
