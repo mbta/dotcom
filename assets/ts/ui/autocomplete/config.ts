@@ -219,15 +219,6 @@ const TRIP_PLANNER = ({
         pushToLiveView(newInputData);
       }
     },
-    onSubmit({ state, setQuery }) {
-      // Triggered by pressing enter on the input: selects the first result.
-      const results = state.collections.flatMap(collection => collection.items);
-      if (results.length > 0) {
-        const item = results[0];
-        // @ts-ignore
-        onSelect({ item, setQuery });
-      }
-    },
     getSources({ query }) {
       if (!query)
         return debounced([
