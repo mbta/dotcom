@@ -1,0 +1,213 @@
+# Planned Disruptions
+
+## Section
+
+```elixir
+defmodule Dotcom.Utils.Datetime do
+  def in_range?({start, nil}, datetime) do
+    Timex.after?(datetime, start)
+  end
+
+  def in_range?({start, stop}, datetime) do
+    Timex.after?(datetime, start) && Timex.before?(datetime, stop)
+  end
+
+  def later() do
+    {_, end_of_next_week} = next_week()
+    beginning_of_later = Timex.shift(end_of_next_week, seconds: 1)
+
+    {beginning_of_later, nil}
+  end
+
+  def later?(datetime) do
+    later() |> in_range?(datetime)
+  end
+
+  def next_week() do
+    now = Util.now()
+    end_of_week = Timex.end_of_week(now) |> Util.end_of_service()
+    beginning_of_next_week = Timex.shift(end_of_week, seconds: 1)
+    end_of_next_week = beginning_of_next_week |> Timex.end_of_week() |> Util.end_of_service()
+
+    {beginning_of_next_week, end_of_next_week}
+  end
+
+  def next_week?(datetime) do
+    next_week() |> in_range?(datetime)
+  end
+
+  def overlap?(range, {start, stop}) do
+    in_range?(range, start) || in_range?(range, stop)
+  end
+
+  def this_week() do
+    now = Util.now()
+    end_of_week = now |> Timex.end_of_week() |> Util.end_of_service()
+
+    {now, end_of_week}
+  end
+
+  def this_week?(datetime) do
+    this_week() |> in_range?(datetime)
+  end
+
+  def today() do
+    now = Util.now()
+    end_of_day = now |> Timex.end_of_day() |> Util.end_of_service()
+
+    {now, end_of_day}
+  end
+
+  def today?(datetime) do
+    today()
+    |> in_range?(datetime)
+  end
+end
+```
+
+```elixir
+defmodule Dotcom.PlannedDisruptions.Logic do
+  @moduledoc false
+
+  import Dotcom.SystemStatus.Alerts, only: [filter_relevant: 1]
+
+  alias Dotcom.Utils.Datetime
+
+  @buckets %{
+    later: [],
+    next_week: [],
+    this_week: [],
+    today: []
+  }
+  @lines ["Blue", "Green", "Orange", "Red"]
+
+  def lines, do: @lines
+
+  def buckets() do
+    @lines
+    |> Alerts.Repo.by_route_ids(Util.now())
+    |> filter_relevant()
+    |> Enum.reduce(@buckets, fn alert, buckets ->
+      buckets
+      |> later(alert)
+      |> next_week(alert)
+      |> this_week(alert)
+      |> today(alert)
+    end)
+  end
+
+  for {bucket, _} <- @buckets do
+    # Creates a function for each bucket key that checks whether or not an alert belongs in that bucket
+    defp unquote(bucket)(buckets, alert) do
+      if Enum.any?(alert.active_period, fn range ->
+           Datetime.overlap?(Kernel.apply(Datetime, unquote(bucket), []), range)
+         end) do
+        Map.update(buckets, unquote(bucket), [], fn alerts ->
+          alerts ++ [alert]
+        end)
+      else
+        buckets
+      end
+    end
+  end
+end
+```
+
+```elixir
+defmodule Dotcom.PlannedDisruptions.Display do
+  @moduledoc false
+
+  def buckets_to_output(buckets) do
+    Enum.each(buckets, &bucket_to_output/1)
+  end
+
+  defp alert_to_lines(alert) do
+    Enum.map(alert.informed_entity.entities, & &1.route)
+    |> Enum.uniq()
+    |> Enum.sort()
+    |> Enum.join(" / ")
+  end
+
+  def alert_to_output(alert) do
+    {start, stop} = time_range(alert.active_period)
+    lines = alert_to_lines(alert)
+    effect = alert.effect |> Atom.to_string() |> String.upcase()
+
+    IO.puts("#{lines} [#{effect}] #{format_date(start)}-#{format_date(stop)}")
+    IO.puts("---------------")
+    IO.puts(alert.header)
+    IO.puts("\n")
+  end
+
+  defp bucket_to_output({key, alerts}) do
+    key |> Atom.to_string() |> Recase.to_title() |> IO.puts()
+
+    IO.puts("===============")
+
+    Enum.each(alerts, &alert_to_output/1)
+
+    IO.puts("\n")
+  end
+
+  defp format_date(datetime) do
+    datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
+  end
+
+  defp time_range(active_periods) do
+    periods = Enum.sort_by(active_periods, fn {start, _} -> start end)
+
+    {start, _} = List.first(periods)
+    {_, stop} = List.last(periods)
+
+    {start, stop}
+  end
+end
+```
+
+```elixir
+alias Dotcom.PlannedDisruptions.{Display, Logic}
+
+Logic.buckets() |> Display.buckets_to_output()
+```
+
+```elixir
+alias Dotcom.Utils
+alias Dotcom.SystemStatus.Alerts
+
+now = DateTime.new!(~D[2025-02-07], ~T[01:00:00], "America/New_York")
+
+beginning_of_next_day = Utils.DateTime.now() |> Timex.end_of_day() |> Timex.shift(microseconds: 1)
+end_of_service = Utils.DateTime.now() |> Utils.DateTime.end_of_service()
+
+alert =
+  Test.Support.Factories.Alerts.Alert.build(:alert,
+    active_period: [{beginning_of_next_day, end_of_service}]
+  )
+
+IO.inspect(now)
+IO.inspect(beginning_of_next_day)
+IO.inspect(end_of_service)
+
+Alerts.active_on_day?(alert, now)
+```
+
+```elixir
+alias Dotcom.Utils
+alias Dotcom.SystemStatus.Alerts
+
+now = DateTime.new!(~D[2025-02-07], ~T[01:00:00], "America/New_York")
+
+beginning_of_next_day = Utils.DateTime.now() |> Timex.end_of_day() |> Timex.shift(hours: 2)
+end_of_service = Utils.DateTime.now() |> Timex.end_of_day() |> Timex.shift(days: 1)
+
+alert =
+  Test.Support.Factories.Alerts.Alert.build(:alert,
+    active_period: [{beginning_of_next_day, end_of_service}]
+  )
+
+IO.inspect(now)
+IO.inspect(beginning_of_next_day)
+IO.inspect(end_of_service)
+
+Alerts.active_on_day?(alert, now)
+```

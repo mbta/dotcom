@@ -68,7 +68,7 @@ defmodule PredictedSchedule do
           [route_id],
           stop_ids: stop_id,
           direction_id: direction_id,
-          date: Dotcom.Utils.DateTime.tomorrow_date(now)
+          date: now |> DateTime.to_date() |> Date.add(1) |> Date.to_string()
         ),
         sort_fn: sort_fn
       )

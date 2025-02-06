@@ -186,7 +186,7 @@ defmodule Schedules.Repo do
   end
 
   defp to_string(%Date{} = date) do
-    Utils.DateTime.convert_to_iso_format(date)
+    Timex.format!(date, "{ISOdate}")
   end
 
   defp to_string(str) when is_binary(str) do

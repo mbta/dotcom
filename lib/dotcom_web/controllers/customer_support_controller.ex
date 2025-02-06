@@ -386,7 +386,7 @@ defmodule DotcomWeb.CustomerSupportController do
           parsed_dt
       end
 
-    local_parsed_date_time = Dotcom.Utils.DateTime.convert_using_timezone(parsed_date_time, "America/New_York")
+    local_parsed_date_time = Timex.to_datetime(parsed_date_time, "America/New_York")
 
     # if date and time is in the future, set it to now
     # otherwise leave as it is

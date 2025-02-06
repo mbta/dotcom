@@ -262,17 +262,17 @@ defmodule Feedback.MailerTest do
     end
 
     test "converts 'America/New_York' date to UTC" do
-      dt = Dotcom.Utils.DateTime.convert_using_timezone(~N[2016-12-12T12:12:12], "America/New_York")
+      dt = Timex.to_datetime(~N[2016-12-12T12:12:12], "America/New_York")
       assert Mailer.formatted_utc_timestamp(dt) == "12/12/2016 17:12"
     end
 
     test "converts 'America/New_York' date to UTC accounting for beginning of daylight saving time" do
-      dt = Dotcom.Utils.DateTime.convert_using_timezone(~N[2020-03-08T03:00:00], "America/New_York")
+      dt = Timex.to_datetime(~N[2020-03-08T03:00:00], "America/New_York")
       assert Mailer.formatted_utc_timestamp(dt) == "03/08/2020 07:00"
     end
 
     test "converts 'America/New_York' date to UTC accounting for end of daylight saving time" do
-      dt = Dotcom.Utils.DateTime.convert_using_timezone(~N[2020-11-01T01:00:00], "America/New_York")
+      dt = Timex.to_datetime(~N[2020-11-01T01:00:00], "America/New_York")
       assert Mailer.formatted_utc_timestamp(dt) == "11/01/2020 06:00"
     end
   end

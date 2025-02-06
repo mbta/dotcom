@@ -86,7 +86,7 @@ defmodule Schedules.RepoCondensed do
   end
 
   defp to_string(%Date{} = date) do
-    Dotcom.Utils.DateTime.convert_to_iso_format(date)
+    Timex.format!(date, "{ISOdate}")
   end
 
   defp to_string(str) when is_binary(str) do

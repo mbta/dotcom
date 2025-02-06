@@ -3,32 +3,75 @@ defmodule Dotcom.Utils.DateTime do
 
   @tz "America/New_York"
 
-  @doc "The current datetime in the America/New_York timezone."
+  def in_range?({start, nil}, datetime) do
+    Timex.after?(datetime, start)
+  end
+
+  def in_range?({start, stop}, datetime) do
+    Timex.after?(datetime, start) && Timex.before?(datetime, stop)
+  end
+
+  def later() do
+    {_, end_of_next_week} = next_week()
+    beginning_of_later = Timex.shift(end_of_next_week, seconds: 1)
+
+    {beginning_of_later, nil}
+  end
+
+  def later?(datetime) do
+    later() |> in_range?(datetime)
+  end
+
+  def next_week() do
+    now = now()
+    end_of_week = Timex.end_of_week(now) |> end_of_service()
+    beginning_of_next_week = Timex.shift(end_of_week, seconds: 1)
+    end_of_next_week = beginning_of_next_week |> Timex.end_of_week() |> end_of_service()
+
+    {beginning_of_next_week, end_of_next_week}
+  end
+
+  def next_week?(datetime) do
+    next_week() |> in_range?(datetime)
+  end
+
+  def overlap?(range, {start, stop}) do
+    in_range?(range, start) || in_range?(range, stop)
+  end
+
+  def this_week() do
+    now = now()
+    end_of_week = now |> Timex.end_of_week() |> end_of_service()
+
+    {now, end_of_week}
+  end
+
+  def this_week?(datetime) do
+    this_week() |> in_range?(datetime)
+  end
+
+  def today() do
+    now = now()
+    end_of_day = now |> Timex.end_of_day() |> end_of_service()
+
+    {now, end_of_day}
+  end
+
+  def today?(datetime) do
+    today()
+    |> in_range?(datetime)
+  end
+
+  @doc """
+  The current date_time in the @tz timezone.
+  Currently set to America/New_York.
+  """
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
     @tz
     |> utc_now_fn.()
     |> to_local_time()
-
-    # to_local_time(utc_now_fn.())
-  end
-
-  def date_as_js_string(%DateTime{} = date_time) do
-    Timex.format!(date_time, "%FT%H:%M", :strftime)
-  end
-
-  def date_as_js_string(%Date{} = date) do
-    Timex.format!(date, "%FT%H:%M", :strftime)
-  end
-
-  def date_as_js_string(%NaiveDateTime{} = naive_date_time) do
-    Timex.format!(naive_date_time, "%FT%H:%M", :strftime)
-  end
-
-  @doc "Today's date in the America/New_York timezone."
-  def today do
-    now() |> Timex.to_date()
   end
 
   @spec time_is_greater_or_equal?(
@@ -52,107 +95,10 @@ defmodule Dotcom.Utils.DateTime do
     end
   end
 
-  def parse_date_time(%DateTime{} = date_time) do
-    date_time
-  end
-
-  def parse_date_time(%NaiveDateTime{} = date_time) do
-    date_time
-  end
-
-  def parse_date_time(string) when is_binary(string) do
-    Timex.parse!(string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
-  end
-
-  def parse_date_time(map) when is_map(map) do
-    case parse(map) do
-      {:error, _} ->
-        Timex.now()
-
-      date_time ->
-        date_time
-    end
-  end
-
-  def parse_date_time(_), do: Timex.now()
-
-  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
-  def parse(date_params) do
-    case date_to_string(date_params) do
-      <<str::binary>> ->
-        str
-        |> Timex.parse("{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
-        |> do_parse()
-
-      error ->
-        error
-    end
-  end
-
-  defp do_parse({:ok, %NaiveDateTime{} = naive}) do
-    if Timex.is_valid?(naive) do
-      naive
-    else
-      {:error, :invalid_date}
-    end
-  end
-
-  defp do_parse({:error, _}), do: {:error, :invalid_date}
-
-  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
-  defp date_to_string(%{
-         "year" => year,
-         "month" => month,
-         "day" => day,
-         "hour" => hour,
-         "minute" => minute,
-         "am_pm" => am_pm
-       }) do
-    "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
-  end
-
-  defp date_to_string(date) when is_binary(date), do: date
-
-  defp date_to_string(%DateTime{} = date) do
-    date
-  end
-
-  defp date_to_string(%{}) do
-    {:error, :invalid_date}
-  end
-
   @spec date_to_naive_date(NaiveDateTime.t() | DateTime.t() | Date.t()) :: NaiveDateTime.t()
   def date_to_naive_date(%Date{} = date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
   def date_to_naive_date(%DateTime{} = date), do: DateTime.to_naive(date)
   def date_to_naive_date(%NaiveDateTime{} = date), do: date
-
-  def convert_to_iso_format(date) do
-    date
-    |> Timex.format!("{ISOdate}")
-  end
-
-  @doc "Gives the date for tomorrow based on the provided date"
-  def tomorrow_date(%DateTime{} = datetime) do
-    datetime
-    |> DateTime.to_date()
-    |> Date.add(1)
-    |> Date.to_string()
-  end
-
-  @doc "Converts a NaiveDateTime to a DateTime with the given time zone, handling ambiguities. Defaults to America/New_York if errors"
-  @spec convert_using_timezone(NaiveDateTime.t(), String.t()) :: DateTime.t()
-  def convert_using_timezone(time, time_zone) do
-    tz =
-      if Timex.Timezone.exists?(time_zone) do
-        time_zone
-      else
-        "America/New_York"
-      end
-
-    time
-    |> Timex.Timezone.convert(tz)
-    |> handle_ambiguous_time()
-  end
 
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
   @spec to_local_time(DateTime.t() | NaiveDateTime.t() | Timex.AmbiguousDateTime.t()) ::
@@ -236,7 +182,6 @@ defmodule Dotcom.Utils.DateTime do
     DateTime.to_date(time)
   end
 
-
   @doc """
   The time corresponding to end-of-service, given that service day
   boundaries at at 3am each day.
@@ -276,11 +221,57 @@ defmodule Dotcom.Utils.DateTime do
       true
   """
   @spec end_of_service(DateTime.t() | NaiveDateTime.t()) :: DateTime.t()
-  def end_of_service(current_time \\ Dotcom.Utils.DateTime.now()) do
-    current_time
+  def end_of_service(date_time \\ now()) do
+    date_time
     |> service_date()
-    |> Timex.shift(days: 1)
     |> Timex.to_datetime("America/New_York")
+    |> Timex.shift(days: 1)
     |> Timex.set(hour: 3)
+    |> Timex.shift(microseconds: -1)
+  end
+
+  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
+  def parse(date_params) do
+    case date_to_string(date_params) do
+      <<str::binary>> ->
+        str
+        |> Timex.parse("{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
+        |> do_parse()
+
+      error ->
+        error
+    end
+  end
+
+  defp do_parse({:ok, %NaiveDateTime{} = naive}) do
+    if Timex.is_valid?(naive) do
+      naive
+    else
+      {:error, :invalid_date}
+    end
+  end
+
+  defp do_parse({:error, _}), do: {:error, :invalid_date}
+
+  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
+  defp date_to_string(%{
+         "year" => year,
+         "month" => month,
+         "day" => day,
+         "hour" => hour,
+         "minute" => minute,
+         "am_pm" => am_pm
+       }) do
+    "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
+  end
+
+  defp date_to_string(date) when is_binary(date), do: date
+
+  defp date_to_string(%DateTime{} = date) do
+    date
+  end
+
+  defp date_to_string(%{}) do
+    {:error, :invalid_date}
   end
 end

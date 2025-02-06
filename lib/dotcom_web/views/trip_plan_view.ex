@@ -142,19 +142,6 @@ defmodule DotcomWeb.TripPlanView do
     Enum.any?(errors, &Map.has_key?(@plan_errors, &1))
   end
 
-  @spec plan_error_title([atom]) :: String.t()
-  defp plan_error_title([:path_not_found]) do
-    "No trips available"
-  end
-
-  defp plan_error_title([:too_future]) do
-    "Date is too far in the future"
-  end
-
-  defp plan_error_title(_) do
-    "Unable to plan your trip"
-  end
-
   @spec plan_error_description([atom]) :: Phoenix.HTML.Safe.t()
   def plan_error_description([error]) do
     case Map.get(@plan_errors, error) do
