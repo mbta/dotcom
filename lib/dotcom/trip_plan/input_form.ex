@@ -108,7 +108,7 @@ defmodule Dotcom.TripPlan.InputForm do
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
       "now" ->
-        force_change(changeset, :datetime, Util.now())
+        force_change(changeset, :datetime, Dotcom.Utils.DateTime.now())
 
       _ ->
         changeset
@@ -121,7 +121,7 @@ defmodule Dotcom.TripPlan.InputForm do
     date
     |> DateTime.from_naive!("America/New_York")
     |> then(fn datetime ->
-      case Timex.compare(datetime, Util.now(), :minutes) do
+      case Timex.compare(datetime, Dotcom.Utils.DateTime.now(), :minutes) do
         -1 -> [{field, error_message(:datetime)}]
         _ -> []
       end

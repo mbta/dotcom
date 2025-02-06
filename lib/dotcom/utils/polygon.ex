@@ -1,15 +1,15 @@
 defmodule Dotcom.Utils.Polygon do
   @moduledoc """
-  Utilities to work with polygons. A polygon is represented as list of items implementing Util.Position behaviour
+  Utilities to work with polygons. A polygon is represented as list of items implementing Dotcom.Utils.Position behaviour
   """
   alias Dotcom.Utils.Position
 
   @doc """
   Checks if a point is inside a polygon or not
   ## Example
-      iex> Util.Polygon.inside?([{0, 0}, {0, 2}, {2, 2}, {2, 0}], {1, 1})
+      iex> Dotcom.Utils.Polygon.inside?([{0, 0}, {0, 2}, {2, 2}, {2, 0}], {1, 1})
       true
-      iex> Util.Polygon.inside?([{0, 0}, {0, 2}, {2, 2}, {2, 0}], {1, 3})
+      iex> Dotcom.Utils.Polygon.inside?([{0, 0}, {0, 2}, {2, 2}, {2, 0}], {1, 3})
       false
   """
   @spec inside?(nonempty_list(Position.t()), Position.t()) :: boolean

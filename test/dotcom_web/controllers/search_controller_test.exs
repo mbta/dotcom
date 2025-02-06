@@ -170,7 +170,7 @@ defmodule DotcomWeb.SearchControllerTest do
 
   describe "get_alert_ids/2" do
     test "builds a hash of stop and route ids" do
-      dt = Util.to_local_time(~N[2018-03-01T12:00:00])
+      dt = Dotcom.Utils.DateTime.to_local_time(~N[2018-03-01T12:00:00])
 
       route_entity = Alerts.InformedEntity.from_keywords(route: "route_with_alert")
       stop_entity = Alerts.InformedEntity.from_keywords(stop: "stop_with_alert")

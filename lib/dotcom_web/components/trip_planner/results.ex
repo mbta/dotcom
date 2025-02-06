@@ -125,7 +125,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
             phx-value-index={index}
             data-test={"itinerary_detail:#{index}"}
           >
-            {Util.kitchen_downcase_time(time)}
+            {Dotcom.Utils.DateTime.kitchen_downcase_time(time)}
           </.button>
         </div>
       </div>

@@ -120,7 +120,7 @@ defmodule Dotcom.TransitNearMe do
   @spec time_data_for_route_by_stop(Route.id_t(), 1 | 0, Keyword.t()) ::
           enhanced_time_data_by_stop()
   def time_data_for_route_by_stop(route_id, direction_id, opts) do
-    date = Keyword.get(opts, :date, Util.service_date())
+    date = Keyword.get(opts, :date, Dotcom.Utils.DateTime.service_date())
     schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
 
     schedule_data =

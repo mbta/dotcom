@@ -80,7 +80,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
                 Dotcom.Cache.KeyGenerator.generate(
                   __MODULE__,
                   :get_stored_alerts,
-                  Util.service_date()
+                  Dotcom.Utils.DateTime.service_date()
                 ),
               on_error: :nothing,
               opts: [ttl: @ttl]

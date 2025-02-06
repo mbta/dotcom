@@ -14,7 +14,7 @@ defmodule BuildCalendarTest do
   describe "build/2" do
     test "days starts on Sunday" do
       date = ~D[2017-01-02]
-      calendar = build(date, Util.service_date(), [], &url_fn/1)
+      calendar = build(date, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
       first_day = List.first(calendar.days)
 
       assert first_day == %BuildCalendar.Day{
@@ -28,7 +28,7 @@ defmodule BuildCalendarTest do
 
     test "days at the end of the previous month are invisible" do
       date = ~D[2017-05-01]
-      calendar = build(date, Util.service_date(), [], &url_fn/1)
+      calendar = build(date, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
       first_day = List.first(calendar.days)
       assert first_day.month_relation == :previous
       # 2017-05-01
@@ -37,7 +37,7 @@ defmodule BuildCalendarTest do
 
     test "calendars always have a number of days divisible by 7 and end in the next month" do
       for date <- [~D[2017-01-02], ~D[2017-05-01], ~D[2017-07-01]] do
-        calendar = build(date, Util.service_date(), [], &url_fn/1)
+        calendar = build(date, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
         assert Integer.mod(length(calendar.days), 7) == 0
         assert List.last(calendar.days).month_relation == :next
       end
@@ -45,21 +45,21 @@ defmodule BuildCalendarTest do
 
     test "calendars that end on saturday have an extra week at the end" do
       date = ~D[2017-09-15]
-      calendar = build(date, Util.service_date(), [], &url_fn/1)
+      calendar = build(date, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
       assert length(calendar.days) == 7 * 6
       assert List.last(calendar.days).month_relation == :next
     end
 
     test "calendars that end on friday have 8 extra days" do
       date = ~D[2017-03-15]
-      calendar = build(date, Util.service_date(), [], &url_fn/1)
+      calendar = build(date, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
       assert length(calendar.days) == 7 * 6
       assert List.last(calendar.days).month_relation == :next
     end
 
     test "days that are holidays are marked" do
       holiday = Enum.random(Holiday.Repo.all())
-      calendar = build(holiday.date, Util.service_date(), [holiday], &url_fn/1)
+      calendar = build(holiday.date, Dotcom.Utils.DateTime.service_date(), [holiday], &url_fn/1)
 
       for day <- calendar.days do
         if day.date == holiday.date do
@@ -73,12 +73,12 @@ defmodule BuildCalendarTest do
     test "Holidays are included in calendar struct" do
       date = ~D[2017-01-02]
       holidays = Holiday.Repo.holidays_in_month(date)
-      calendar = build(date, Util.service_date(), holidays, &url_fn/1)
+      calendar = build(date, Dotcom.Utils.DateTime.service_date(), holidays, &url_fn/1)
       assert calendar.holidays == holidays
     end
 
     test "selected is marked" do
-      selected = Util.service_date()
+      selected = Dotcom.Utils.DateTime.service_date()
       calendar = build(selected, Timex.shift(selected, days: -1), [], &url_fn/1)
 
       for day <- calendar.days do
@@ -126,7 +126,7 @@ defmodule BuildCalendarTest do
     end
 
     test "previous_month_url is nil if the date is the current month" do
-      service_date = Util.service_date()
+      service_date = Dotcom.Utils.DateTime.service_date()
       calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.previous_month_url == nil
     end
@@ -139,13 +139,13 @@ defmodule BuildCalendarTest do
     end
 
     test "previous_month_url is shifted back by 1" do
-      next_month = Timex.shift(Util.service_date(), months: 1)
-      calendar = build(next_month, Util.service_date(), [], &url_fn/1)
+      next_month = Timex.shift(Dotcom.Utils.DateTime.service_date(), months: 1)
+      calendar = build(next_month, Dotcom.Utils.DateTime.service_date(), [], &url_fn/1)
       assert calendar.previous_month_url == url_fn(shift: -1)
     end
 
     test "next_month_url is shifted forward by 1" do
-      service_date = Util.service_date()
+      service_date = Dotcom.Utils.DateTime.service_date()
       calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.next_month_url == url_fn(shift: 1)
       calendar = build(service_date, service_date, [], &url_fn/1, shift: 1)
@@ -169,7 +169,7 @@ defmodule BuildCalendarTest do
 
   describe "Calendar.weeks/1" do
     test "breaks the days of the calendar into week blocks" do
-      service_date = Util.service_date()
+      service_date = Dotcom.Utils.DateTime.service_date()
       calendar = build(service_date, service_date, [], &url_fn/1)
       weeks = Calendar.weeks(calendar)
       assert length(weeks) == length(calendar.days) / 7

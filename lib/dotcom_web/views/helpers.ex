@@ -548,7 +548,7 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   def pretty_date(date, format \\ "{Mshort} {D}") do
-    if date == Util.service_date() do
+    if date == Dotcom.Utils.DateTime.service_date() do
       "today"
     else
       Timex.format!(date, format)

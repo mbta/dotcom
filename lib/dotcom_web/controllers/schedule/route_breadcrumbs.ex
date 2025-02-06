@@ -6,7 +6,7 @@ defmodule DotcomWeb.ScheduleController.RouteBreadcrumbs do
   import Plug.Conn, only: [assign: 3]
   import DotcomWeb.Router.Helpers, only: [mode_path: 2]
 
-  alias Dotcom.Utils.Breadcrumb
+  alias DotcomWeb.Utils.Breadcrumb
 
   @impl true
   def init([]), do: []

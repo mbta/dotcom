@@ -154,7 +154,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
 
   defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id) do
     assigns
-    |> get_trip_predictions(Util.service_date(date_time), trip_id)
+    |> get_trip_predictions(Dotcom.Utils.DateTime.service_date(date_time), trip_id)
     |> PredictedSchedule.group(schedules)
   end
 

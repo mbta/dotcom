@@ -51,7 +51,7 @@ defmodule DotcomWeb.PageViewTest do
 
   describe "render_news_entries/1" do
     test "renders news entries", %{conn: conn} do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       entries =
         for idx <- 1..6 do

@@ -338,7 +338,7 @@ defmodule DotcomWeb.StopController do
     }
   end
 
-  @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
+  @spec breadcrumbs(Stop.t(), [Route.t()]) :: [DotcomWeb.Utils.Breadcrumb.t()]
   def breadcrumbs(%Stop{name: name}, []) do
     breadcrumbs_for_station_type(nil, name)
   end

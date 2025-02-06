@@ -7,8 +7,8 @@ defmodule DotcomWeb.ScheduleController.DefaultsTest do
     conn =
       conn
       |> assign(:route, %Route{id: "1", type: 3})
-      |> assign(:date_time, Util.now())
-      |> assign(:date, Util.service_date())
+      |> assign(:date_time, Dotcom.Utils.DateTime.now())
+      |> assign(:date, Dotcom.Utils.DateTime.service_date())
       |> fetch_query_params()
 
     {:ok, conn: conn}

@@ -31,7 +31,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
         </strong>
       </.wrap_with_url>
 
-      <time class="ml-auto text-right text-sm text-nowrap">{Util.kitchen_downcase_time(@time)}</time>
+      <time class="ml-auto text-right text-sm text-nowrap">{Dotcom.Utils.DateTime.kitchen_downcase_time(@time)}</time>
     </div>
     """
   end

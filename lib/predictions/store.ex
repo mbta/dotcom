@@ -73,7 +73,7 @@ defmodule Predictions.Store do
 
   @impl GenServer
   def handle_info(:periodic_delete, table) do
-    now = Util.now() |> DateTime.to_unix()
+    now = Dotcom.Utils.DateTime.now() |> DateTime.to_unix()
 
     # delete predictions with a time earlier than a minute ago
     :ets.select_delete(table, [

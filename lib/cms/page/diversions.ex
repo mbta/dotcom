@@ -30,7 +30,7 @@ defmodule CMS.Page.Diversions do
   @type t :: %__MODULE__{
           id: integer | nil,
           body: HTML.safe(),
-          breadcrumbs: [Util.Breadcrumb.t()],
+          breadcrumbs: [DotcomWeb.Utils.Breadcrumb.t()],
           page_types: [String.t()],
           paragraphs: [Paragraph.t()],
           related_transit: [String.t()],

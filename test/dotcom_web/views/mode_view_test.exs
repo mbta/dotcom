@@ -70,7 +70,7 @@ defmodule DotcomWeb.ModeViewTest do
 
   describe "has_alert?/3" do
     test "returns true if route has an alert" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
       entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
 
       alert =
@@ -88,7 +88,7 @@ defmodule DotcomWeb.ModeViewTest do
   end
 
   test "returns false if route does not have an alert" do
-    now = Util.now()
+    now = Dotcom.Utils.DateTime.now()
     entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
 
     alert =

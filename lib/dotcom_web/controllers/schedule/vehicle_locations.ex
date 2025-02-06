@@ -69,7 +69,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   end
 
   defp should_fetch_vehicles?(conn) do
-    conn.assigns.date == Util.service_date(conn.assigns.date_time)
+    conn.assigns.date == Dotcom.Utils.DateTime.service_date(conn.assigns.date_time)
   end
 
   @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()

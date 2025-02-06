@@ -223,7 +223,7 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
 
     test "keeps the destination if there are journeys", %{conn: conn} do
       predictions = [
-        %Predictions.Prediction{stop: %Stops.Stop{id: "stop"}, time: Util.now()}
+        %Predictions.Prediction{stop: %Stops.Stop{id: "stop"}, time: Dotcom.Utils.DateTime.now()}
       ]
 
       conn =

@@ -3,7 +3,7 @@ defmodule CMS.Breadcrumbs do
   Maps CMS breadcrumbs to a breadcrumb struct.
   """
 
-  alias Dotcom.Utils.Breadcrumb
+  alias DotcomWeb.Utils.Breadcrumb
 
   @spec build(map) :: [Breadcrumb.t()]
   def build(%{"breadcrumbs" => breadcrumbs}) do

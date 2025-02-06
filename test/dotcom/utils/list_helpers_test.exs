@@ -1,7 +1,7 @@
-defmodule Util.ListHelpersTest do
+defmodule Dotcom.Utils.ListTest do
   use ExUnit.Case, async: true
 
-  import Util.ListHelpers
+  import Dotcom.Utils.List
 
   describe "find_first/3" do
     @list [1, 2, 3, 4, 5, 6, 7, 8, 9]

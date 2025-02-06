@@ -239,8 +239,8 @@ defmodule DotcomWeb.EventControllerTest do
       assert 2015..2020 = year_options(conn)
     end
 
-    test "year_options/1 defaults to Util.now", %{conn: conn} do
-      with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
+    test "year_options/1 defaults to Dotcom.Utils.DateTime.now", %{conn: conn} do
+      with_mock Dotcom.Utils.DateTime, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
         assert 2016..2021 = year_options(conn)
       end
     end

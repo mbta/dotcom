@@ -16,7 +16,7 @@ defmodule DotcomWeb.Utils.BreadcrumbHTML do
 
   def breadcrumb_trail(%Plug.Conn{}), do: raw("")
 
-  @spec build_html([Util.Breadcrumb.t()]) :: [String.t()]
+  @spec build_html([DotcomWeb.Utils.Breadcrumb.t()]) :: [String.t()]
   def build_html(breadcrumbs) do
     crumbs = indexed_crumbs_ordered_by_current_to_home(breadcrumbs)
 
@@ -103,10 +103,10 @@ defmodule DotcomWeb.Utils.BreadcrumbHTML do
 
   defp hide_on_mobile_class, do: ~s(focusable-sm-down)
 
-  @spec maybe_add_home_breadcrumb([Util.Breadcrumb.t()]) :: [Util.Breadcrumb.t()]
+  @spec maybe_add_home_breadcrumb([DotcomWeb.Utils.Breadcrumb.t()]) :: [DotcomWeb.Utils.Breadcrumb.t()]
   def maybe_add_home_breadcrumb(breadcrumbs) do
     if missing_home_breadcrumb?(breadcrumbs) do
-      home = %Util.Breadcrumb{url: "/", text: "Home"}
+      home = %DotcomWeb.Utils.Breadcrumb{url: "/", text: "Home"}
       [home | breadcrumbs]
     else
       breadcrumbs

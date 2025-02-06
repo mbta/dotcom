@@ -371,7 +371,7 @@ defmodule DotcomWeb.TripPlanView do
   @spec datetime_from_query(nil | Query.t()) :: any()
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
-  def datetime_from_query(nil), do: Util.now() |> Dotcom.TripPlan.DateTime.round_minute()
+  def datetime_from_query(nil), do: Dotcom.Utils.DateTime.now() |> Dotcom.TripPlan.DateTime.round_minute()
 
   @spec format_plan_type_for_title(Query.t() | nil) :: Phoenix.HTML.Safe.t()
   def format_plan_type_for_title(%{time: {:arrive_by, dt}}) do
@@ -387,7 +387,7 @@ defmodule DotcomWeb.TripPlanView do
   end
 
   def format_plan_type_for_title(nil) do
-    time = Dotcom.TripPlan.DateTime.round_minute(Util.now())
+    time = Dotcom.TripPlan.DateTime.round_minute(Dotcom.Utils.DateTime.now())
 
     ["Depart at ", Timex.format!(time, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
@@ -712,7 +712,7 @@ defmodule DotcomWeb.TripPlanView do
   def format_media(list) when is_list(list) do
     list
     |> Enum.map(&format_media/1)
-    |> Util.AndOr.join(:or)
+    |> Dotcom.Utils.AndOr.join(:or)
   end
 
   def format_media(media), do: Format.media(media)

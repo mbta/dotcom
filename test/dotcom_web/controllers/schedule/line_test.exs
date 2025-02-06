@@ -234,8 +234,8 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> assign(:route, %Routes.Route{id: "1", type: 3})
-        |> assign(:date_time, Util.now())
-        |> assign(:date, Util.service_date())
+        |> assign(:date_time, Dotcom.Utils.DateTime.now())
+        |> assign(:date, Dotcom.Utils.DateTime.service_date())
         |> assign(:direction_id, 0)
 
       {:ok, conn: conn}
@@ -295,7 +295,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
            {:ok, t} = DateTime.from_naive(~N[2021-01-18T00:00:00], "Etc/UTC")
            t
          end,
-         service_date: fn -> Util.now() end
+         service_date: fn -> Dotcom.Utils.DateTime.now() end
        ]}
     ]) do
       :ok

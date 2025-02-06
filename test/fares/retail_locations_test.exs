@@ -24,7 +24,7 @@ defmodule Fares.RetailLocationsTest do
 
       assert Data.get()
              |> Enum.map(&Map.from_struct/1)
-             |> Enum.map(&Util.Distance.haversine(&1, @with_nearby))
+             |> Enum.map(&Dotcom.Utils.Distance.haversine(&1, @with_nearby))
              |> Enum.sort()
              |> List.first() == top_distance
     end

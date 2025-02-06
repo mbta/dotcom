@@ -46,7 +46,7 @@ defmodule Schedules.HoursOfOperation do
           Routes.Route.gtfs_route_desc()
         ) ::
           t | {:error, any}
-  def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
+  def hours_of_operation(route_id_or_ids, date \\ Dotcom.Utils.DateTime.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
     |> Util.error_default(%__MODULE__{})
   end
@@ -58,7 +58,7 @@ defmodule Schedules.HoursOfOperation do
           Routes.Route.gtfs_route_desc()
         ) ::
           t | {:error, any}
-  def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
+  def hours_of_operation_by_stop(route_id_or_ids, date \\ Dotcom.Utils.DateTime.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
     |> Util.error_default(%__MODULE__{})
   end

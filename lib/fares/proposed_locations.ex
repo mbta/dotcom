@@ -66,18 +66,18 @@ defmodule Fares.ProposedLocations do
     }
   end
 
-  @spec get_nearby(Util.Position.t()) :: [{Location.t(), float}]
+  @spec get_nearby(Dotcom.Utils.Position.t()) :: [{Location.t(), float}]
   def get_nearby(position) do
     nearby_proposed_locations = by_lat_lon(position) || []
     # Return the 10 closest locations, sorted by distance
     nearby_proposed_locations
-    |> Util.Distance.sort(position)
+    |> Dotcom.Utils.Distance.sort(position)
     # There are 1178 PSLs. Since we are rendering them as hidden and showing/hiding them based on the filter,
     # we should really narrow down how many we are passing
     |> Enum.slice(0, 50)
     |> Enum.map(fn loc ->
       lat_lon = {loc.latitude, loc.longitude}
-      {loc, Util.Distance.haversine(lat_lon, position)}
+      {loc, Dotcom.Utils.Distance.haversine(lat_lon, position)}
     end)
   end
 end

@@ -11,7 +11,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
 
   describe "call/2" do
     test "when time is before the first trip offset is 0" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       conn =
         now
@@ -23,7 +23,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
     end
 
     test "when time is during the first trip offset is 0" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       conn =
         now
@@ -35,7 +35,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
     end
 
     test "when time is right after the first trip offset is 1" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       conn =
         now
@@ -47,7 +47,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
     end
 
     test "when time is during the second trip offset is 1" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       conn =
         now
@@ -59,7 +59,7 @@ defmodule DotcomWeb.ScheduleController.OffsetTest do
     end
 
     test "when time is after the third trip offset is 0" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       conn =
         now

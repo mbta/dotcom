@@ -226,6 +226,6 @@ defmodule Dotcom.ComponentsTest do
   end
 
   defp period_shift(period) do
-    {Util.now() |> Timex.shift(period), nil}
+    {Dotcom.Utils.DateTime.now() |> Timex.shift(period), nil}
   end
 end

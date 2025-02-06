@@ -641,12 +641,12 @@ defmodule Stops.RouteStopTest do
     end
   end
 
-  describe "RouteStop implements Util.Position" do
+  describe "RouteStop implements Dotcom.Utils.Position" do
     @red_route_stop %RouteStop{station_info: %Stop{latitude: 100.0, longitude: 50.0}}
 
     test "Position.Latitude" do
-      assert Util.Position.latitude(@red_route_stop) == 100.0
-      assert Util.Position.longitude(@red_route_stop) == 50.0
+      assert Dotcom.Utils.Position.latitude(@red_route_stop) == 100.0
+      assert Dotcom.Utils.Position.longitude(@red_route_stop) == 50.0
     end
   end
 

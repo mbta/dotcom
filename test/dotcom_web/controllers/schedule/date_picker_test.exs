@@ -35,7 +35,7 @@ defmodule DotcomWeb.ScheduleController.DatePickerTest do
     assert conn.assigns.calendar ==
              BuildCalendar.build(
                ~D[2017-01-01],
-               Util.service_date(),
+               Dotcom.Utils.DateTime.service_date(),
                Holiday.Repo.holidays_in_month(~D[2017-02-01]),
                &UrlHelpers.update_url(conn, &1),
                shift: 1

@@ -123,7 +123,7 @@ defmodule Stops.RouteStop do
         use_route_id_for_branch_name?
       ) do
     stops
-    |> Util.EnumHelpers.with_first_last()
+    |> Dotcom.Utils.Enum.with_first_last()
     |> Enum.with_index()
     |> Enum.map(fn {{stop, first_or_last?}, idx} ->
       branch = branch_name(route_pattern, use_route_id_for_branch_name?)
@@ -213,7 +213,7 @@ defmodule Stops.RouteStop do
         :error -> []
       end
     end)
-    |> Util.EnumHelpers.with_first_last()
+    |> Dotcom.Utils.Enum.with_first_last()
     |> Enum.with_index()
     |> Enum.map(fn {{stop, first_or_last?}, idx} ->
       first? = idx == 0
@@ -416,7 +416,7 @@ defmodule Stops.RouteStop do
   defp flip_branches_to_front(branch, 0), do: Enum.reverse(branch)
   defp flip_branches_to_front(branch, 1), do: branch
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(route_stop), do: route_stop.station_info.latitude
     def longitude(route_stop), do: route_stop.station_info.longitude
   end

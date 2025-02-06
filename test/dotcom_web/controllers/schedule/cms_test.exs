@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController.CMSTest do
   alias DotcomWeb.ScheduleController.CMS
   alias Plug.Conn
   alias Routes.Route
-  alias Util.AsyncAssign
+  alias DotcomWeb.Utils.AsyncAssign
 
   describe "call/1" do
     test "assigns CMS content to conn", %{conn: conn} do

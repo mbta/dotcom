@@ -62,7 +62,7 @@ defmodule Stops.Stop do
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
   end

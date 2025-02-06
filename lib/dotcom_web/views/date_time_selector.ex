@@ -19,7 +19,7 @@ defmodule DateTimeSelector do
   defp verify_params(form, datetime) do
     datetime_params = form.params["date_time"] || %{}
 
-    if Util.parse(datetime_params) == {:error, :invalid_date} do
+    if Dotcom.Utils.DateTime.parse(datetime_params) == {:error, :invalid_date} do
       [hour, am_pm_value] =
         datetime
         |> Timex.format!("{h12} {AM}")
@@ -38,7 +38,7 @@ defmodule DateTimeSelector do
     end
   end
 
-  def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Util.now()) do
+  def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Dotcom.Utils.DateTime.now()) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
       minute: [selected: datetime.minute]

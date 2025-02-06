@@ -29,7 +29,7 @@ defmodule CMS.Page.Basic do
           body: HTML.safe(),
           paragraphs: [Paragraph.t()],
           sidebar_menu: MenuLinks.t() | nil,
-          breadcrumbs: [Util.Breadcrumb.t()]
+          breadcrumbs: [DotcomWeb.Utils.Breadcrumb.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t

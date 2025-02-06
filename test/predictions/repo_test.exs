@@ -65,7 +65,7 @@ defmodule Predictions.RepoTest do
         Factories.Routes.Route.build(:route, %{id: id})
       end)
 
-      min_time = Util.now()
+      min_time = Dotcom.Utils.DateTime.now()
 
       before_time =
         min_time
@@ -247,8 +247,8 @@ defmodule Predictions.RepoTest do
         "Red",
         0,
         nil,
-        Util.now() |> Timex.shift(minutes: 5),
-        Util.now() |> Timex.shift(minutes: 5),
+        Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: 5),
+        Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: 5),
         :stop_sequence,
         :schedule_relationship,
         1,
@@ -285,8 +285,8 @@ defmodule Predictions.RepoTest do
       "Red",
       0,
       nil,
-      Util.now(),
-      Util.now(),
+      Dotcom.Utils.DateTime.now(),
+      Dotcom.Utils.DateTime.now(),
       :stop_sequence,
       :schedule_relationship,
       1,
@@ -307,8 +307,8 @@ defmodule Predictions.RepoTest do
       "Red",
       0,
       nil,
-      Util.now(),
-      Util.now(),
+      Dotcom.Utils.DateTime.now(),
+      Dotcom.Utils.DateTime.now(),
       :stop_sequence,
       :schedule_relationship,
       1,
@@ -334,8 +334,8 @@ defmodule Predictions.RepoTest do
       "Red",
       0,
       nil,
-      Util.now() |> Timex.shift(minutes: -15),
-      Util.now() |> Timex.shift(minutes: -15),
+      Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: -15),
+      Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: -15),
       :stop_sequence,
       :schedule_relationship,
       1,
@@ -344,7 +344,7 @@ defmodule Predictions.RepoTest do
       "vehicle_id"
     }
 
-    in_15_min = Util.now() |> Timex.shift(minutes: 15)
+    in_15_min = Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: 15)
 
     prediction_in_the_future = {
       "future_prediction",
@@ -393,8 +393,8 @@ defmodule Predictions.RepoTest do
       "1",
       1,
       nil,
-      Util.now() |> Timex.shift(minutes: -15),
-      Util.now() |> Timex.shift(minutes: -15),
+      Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: -15),
+      Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: -15),
       :stop_sequence,
       :schedule_relationship,
       1,

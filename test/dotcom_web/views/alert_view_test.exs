@@ -10,7 +10,7 @@ defmodule DotcomWeb.AlertViewTest do
   alias Stops.Stop
 
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
-  @now Util.to_local_time(~N[2018-01-15T12:00:00])
+  @now Dotcom.Utils.DateTime.to_local_time(~N[2018-01-15T12:00:00])
 
   describe "effect_name/1" do
     test "returns the effect name for new alerts" do

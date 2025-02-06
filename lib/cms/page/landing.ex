@@ -32,7 +32,7 @@ defmodule CMS.Page.Landing do
           hero_mobile_2x: Image.t(),
           paragraphs: [Paragraph.t()],
           subtitle: String.t() | nil,
-          breadcrumbs: [Util.Breadcrumb.t()]
+          breadcrumbs: [DotcomWeb.Utils.Breadcrumb.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t

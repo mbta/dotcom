@@ -2,7 +2,7 @@ defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
   doctest Stops.Nearby
 
-  alias Util.Distance
+  alias Dotcom.Utils.Distance
 
   import Mox
   import Stops.Nearby

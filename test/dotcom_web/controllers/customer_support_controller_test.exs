@@ -522,7 +522,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
           m
         end
 
-      two_months_from_now = Util.now() |> Timex.shift(months: 2)
+      two_months_from_now = Dotcom.Utils.DateTime.now() |> Timex.shift(months: 2)
 
       conn =
         post(
@@ -567,7 +567,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
         post(
           conn,
           customer_support_path(conn, :submit),
-          put_in(valid_request_response_data(), ["support", "date_time"], Util.now())
+          put_in(valid_request_response_data(), ["support", "date_time"], Dotcom.Utils.DateTime.now())
         )
 
       wait_for_ticket_task(conn)

@@ -101,12 +101,12 @@ defmodule DotcomWeb.ScheduleController do
   end
 
   defp future_departures(schedules, %{"future_departures" => "true"} = params) do
-    now = Util.now()
+    now = Dotcom.Utils.DateTime.now()
     # Only list schedules with time in the future. The "time" property might be
     # populated by the departure time or arrival time, depending on the mode
     {in_schedules, out_schedules} =
       Enum.split_with(schedules, fn %Schedule{time: t} ->
-        not is_nil(t) and Util.time_is_greater_or_equal?(t, now)
+        not is_nil(t) and Dotcom.Utils.DateTime.time_is_greater_or_equal?(t, now)
       end)
 
     if in_schedules == [] and length(schedules) > 0 do

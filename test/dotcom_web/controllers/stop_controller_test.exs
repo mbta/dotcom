@@ -6,7 +6,7 @@ defmodule DotcomWeb.StopControllerTest do
   alias DotcomWeb.StopController
   alias Routes.Route
   alias Stops.Stop
-  alias Util.Breadcrumb
+  alias DotcomWeb.Utils.Breadcrumb
 
   setup :verify_on_exit!
 

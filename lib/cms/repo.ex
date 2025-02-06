@@ -423,8 +423,8 @@ defmodule CMS.Repo do
   @spec events_for_year(Calendar.year()) :: [Teaser.t()]
   def events_for_year(year) do
     do_events_for_range(
-      min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
-      max: Timex.end_of_year(year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
+      min: Timex.beginning_of_year(year) |> Dotcom.Utils.DateTime.convert_to_iso_format(),
+      max: Timex.end_of_year(year) |> Timex.shift(days: 1) |> Dotcom.Utils.DateTime.convert_to_iso_format()
     )
   end
 
@@ -461,7 +461,7 @@ defmodule CMS.Repo do
   @doc "Get the next n events"
   def next_n_event_teasers(start_date, n) when n >= 0 do
     single = [
-      value: Util.convert_to_iso_format(start_date)
+      value: Dotcom.Utils.DateTime.convert_to_iso_format(start_date)
     ]
 
     opts = [

@@ -1,7 +1,7 @@
 defmodule LocationService.AddressTest do
   use ExUnit.Case
   alias LocationService.Address
-  alias Util.Position
+  alias Dotcom.Utils.Position
 
   describe "Address" do
     test "implements the Position protocol" do

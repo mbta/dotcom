@@ -18,8 +18,8 @@ defmodule CMS.BreadcrumbsTest do
       }
 
       assert [
-               %Util.Breadcrumb{text: "Home", url: "/"},
-               %Util.Breadcrumb{text: "Current Crumb", url: ""}
+               %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+               %DotcomWeb.Utils.Breadcrumb{text: "Current Crumb", url: ""}
              ] = build(data)
     end
 
@@ -27,8 +27,8 @@ defmodule CMS.BreadcrumbsTest do
       data = %{"title" => [%{"value" => "Page without breadcrumb array"}]}
 
       assert [
-               %Util.Breadcrumb{text: "Home", url: "/"},
-               %Util.Breadcrumb{text: "Page without breadcrumb array", url: ""}
+               %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+               %DotcomWeb.Utils.Breadcrumb{text: "Page without breadcrumb array", url: ""}
              ] = build(data)
     end
   end

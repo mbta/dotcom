@@ -195,7 +195,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     # and then by scheduled time. If the selected service is valid for the current day,
     # request schedules using today's date instead of the service end date, so that the
     # schedule date matches the prediction dates, keeping trips in order by time.
-    current_date = Util.service_date(conn.assigns.date_time)
+    current_date = Dotcom.Utils.DateTime.service_date(conn.assigns.date_time)
     schedule_date = if current_service?, do: current_date, else: service_end_date
 
     schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: [stop_id]]

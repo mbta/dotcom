@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApiTest do
 
   describe "ScheduleApi" do
     test "schedules are returned for a date for bus", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
 
       path =
         schedule_api_path(conn, :show, %{id: 111, direction_id: 0, date: date, stop_id: "5615"})
@@ -20,7 +20,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApiTest do
     end
 
     test "schedules are returned for a date for subway", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
 
       path =
         schedule_api_path(conn, :show, %{
@@ -40,7 +40,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApiTest do
     end
 
     test "schedules are returned for a date for CR", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
 
       path =
         schedule_api_path(conn, :show, %{
@@ -60,7 +60,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleApiTest do
     end
 
     test "schedules are returned for a date for ferry", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
 
       path =
         schedule_api_path(conn, :show, %{

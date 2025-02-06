@@ -10,8 +10,8 @@ defmodule DotcomWeb.Plugs.DateTest do
   end
 
   describe "init/1" do
-    test "defaults to Util.service_date/0" do
-      assert init([]) == [date_fn: &Util.service_date/0]
+    test "defaults to Dotcom.Utils.DateTime.service_date/0" do
+      assert init([]) == [date_fn: &Dotcom.Utils.DateTime.service_date/0]
     end
   end
 

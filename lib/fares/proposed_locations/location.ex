@@ -26,7 +26,7 @@ defmodule Fares.ProposedLocations.Location do
           longitude: float
         }
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(%{latitude: latitude}), do: latitude
     def longitude(%{longitude: longitude}), do: longitude
   end

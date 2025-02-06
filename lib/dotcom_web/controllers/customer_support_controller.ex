@@ -101,7 +101,7 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   def submit(conn, %{"support" => form_data, "g-recaptcha-response" => recaptcha_response}) do
-    now = Util.now() |> Util.to_local_time() |> DateTime.truncate(:second)
+    now = Dotcom.Utils.DateTime.now() |> Dotcom.Utils.DateTime.to_local_time() |> DateTime.truncate(:second)
 
     params =
       form_data
@@ -375,10 +375,10 @@ defmodule DotcomWeb.CustomerSupportController do
 
   @spec validate_incident_date_time(map) :: DateTime.t()
   defp validate_incident_date_time(incident_date_time) do
-    now = Util.now() |> Util.to_local_time() |> DateTime.truncate(:second)
+    now = Dotcom.Utils.DateTime.now() |> Dotcom.Utils.DateTime.to_local_time() |> DateTime.truncate(:second)
 
     parsed_date_time =
-      case Util.parse(incident_date_time) do
+      case Dotcom.Utils.DateTime.parse(incident_date_time) do
         {:error, :invalid_date} ->
           now
 
@@ -386,7 +386,7 @@ defmodule DotcomWeb.CustomerSupportController do
           parsed_dt
       end
 
-    local_parsed_date_time = Util.convert_using_timezone(parsed_date_time, "America/New_York")
+    local_parsed_date_time = Dotcom.Utils.DateTime.convert_using_timezone(parsed_date_time, "America/New_York")
 
     # if date and time is in the future, set it to now
     # otherwise leave as it is

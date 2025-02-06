@@ -13,7 +13,7 @@ defmodule Schedules.RepoCondensedTest do
       response =
         by_route_ids(
           ["CR-Lowell"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 1,
           stop_sequences: "first"
         )
@@ -26,7 +26,7 @@ defmodule Schedules.RepoCondensedTest do
       response =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0,
           stop_sequences: ["first"]
         )
@@ -36,7 +36,7 @@ defmodule Schedules.RepoCondensedTest do
     end
 
     test "filters by min_time when provided" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       before_now_fn = fn sched ->
         case DateTime.compare(sched.time, now) do
@@ -49,7 +49,7 @@ defmodule Schedules.RepoCondensedTest do
       unfiltered =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0
         )
 
@@ -59,7 +59,7 @@ defmodule Schedules.RepoCondensedTest do
       filtered =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0,
           min_time: now
         )

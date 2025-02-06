@@ -51,7 +51,7 @@ defmodule DotcomWeb.BusStopChangeController do
   # These are %HistoricalAlert{} structs that we store in AWS S3.
   # In the future all of our past alerts will come from here.
   defp past_stored_alerts do
-    yesterday = Util.service_date() |> Timex.shift(days: -1)
+    yesterday = Dotcom.Utils.DateTime.service_date() |> Timex.shift(days: -1)
 
     BusStopChangeS3.get_stored_alerts()
     # Best guess at which alerts to designate as "past"

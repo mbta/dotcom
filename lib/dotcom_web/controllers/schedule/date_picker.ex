@@ -20,7 +20,7 @@ defmodule DotcomWeb.ScheduleController.DatePicker do
     calendar =
       BuildCalendar.build(
         date,
-        Util.service_date(),
+        Dotcom.Utils.DateTime.service_date(),
         holidays,
         &update_url(conn, &1),
         shift: shift,

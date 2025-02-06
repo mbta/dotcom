@@ -43,7 +43,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleErrorTest do
     @tag :external
     test "assigns schedule_error true when repo call returns error", %{conn: conn} do
       date =
-        Util.now()
+        Dotcom.Utils.DateTime.now()
         |> DateTime.to_date()
         |> Date.add(365)
 

@@ -1,6 +1,6 @@
-defmodule Util.BreadcrumbHTMLTest do
+defmodule DotcomWeb.Utils.BreadcrumbHTMLTest do
   use ExUnit.Case, async: true
-  import Util.BreadcrumbHTML
+  import DotcomWeb.Utils.BreadcrumbHTML
   alias Plug.Conn
 
   setup do
@@ -11,9 +11,9 @@ defmodule Util.BreadcrumbHTMLTest do
     test "returns the text for the last two CMS breadcrumbs, in reverse order, separated by pipes",
          %{conn: conn} do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Second", url: "/second"},
-        %Util.Breadcrumb{text: "Third", url: "/second/third"}
+        %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Second", url: "/second"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Third", url: "/second/third"}
       ]
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
@@ -25,8 +25,8 @@ defmodule Util.BreadcrumbHTMLTest do
     test "returns the text for the last two static breadcrumbs, in reverse order, separated by pipes",
          %{conn: conn} do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "First", url: "/first"},
-        %Util.Breadcrumb{text: "Second", url: "/first/second"}
+        %DotcomWeb.Utils.Breadcrumb{text: "First", url: "/first"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Second", url: "/first/second"}
       ]
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
@@ -37,8 +37,8 @@ defmodule Util.BreadcrumbHTMLTest do
 
     test "replaces Home text with MBTA abbreviation", %{conn: conn} do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "First", url: "/first"}
+        %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+        %DotcomWeb.Utils.Breadcrumb{text: "First", url: "/first"}
       ]
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
@@ -62,8 +62,8 @@ defmodule Util.BreadcrumbHTMLTest do
   describe "breadcrumb_trail/1" do
     test "generates safe html for breadcrumbs", %{conn: conn} do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Second", url: ""}
+        %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Second", url: ""}
       ]
 
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
@@ -77,7 +77,7 @@ defmodule Util.BreadcrumbHTMLTest do
     end
 
     test "adds a link to the root path if one is not provided", %{conn: conn} do
-      breadcrumbs = [%Util.Breadcrumb{text: "Not Home", url: "/not-home"}]
+      breadcrumbs = [%DotcomWeb.Utils.Breadcrumb{text: "Not Home", url: "/not-home"}]
       conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       result = breadcrumb_trail(conn)
@@ -100,7 +100,7 @@ defmodule Util.BreadcrumbHTMLTest do
 
   describe "build_html/1" do
     test "returns html for a breadcrumb" do
-      breadcrumbs = [%Util.Breadcrumb{text: "home", url: "sample"}]
+      breadcrumbs = [%DotcomWeb.Utils.Breadcrumb{text: "home", url: "sample"}]
 
       assert build_html(breadcrumbs) == [
                ~s(<a href="sample">home</a>)
@@ -109,8 +109,8 @@ defmodule Util.BreadcrumbHTMLTest do
 
     test "separates each breadcrumb with an icon" do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Second", url: ""}
+        %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Second", url: ""}
       ]
 
       [first_crumb, second_crumb] = build_html(breadcrumbs)
@@ -125,9 +125,9 @@ defmodule Util.BreadcrumbHTMLTest do
 
     test "includes a 'collapse on mobile' class for breadcrumbs except the last two" do
       breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Second", url: "/second"},
-        %Util.Breadcrumb{text: "Third", url: "/third"}
+        %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Second", url: "/second"},
+        %DotcomWeb.Utils.Breadcrumb{text: "Third", url: "/third"}
       ]
 
       [first_crumb, second_crumb, third_crumb] = build_html(breadcrumbs)
@@ -145,15 +145,15 @@ defmodule Util.BreadcrumbHTMLTest do
   describe "maybe_add_home_breadcrumb/1" do
     test "adds a link to the home path if one does not exist" do
       assert maybe_add_home_breadcrumb([]) == [
-               %Util.Breadcrumb{text: "Home", url: "/"}
+               %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"}
              ]
     end
 
     test "does not add a link to the home path if one already exists" do
-      breadcrumb = %Util.Breadcrumb{url: "/foo", text: "foo"}
+      breadcrumb = %DotcomWeb.Utils.Breadcrumb{url: "/foo", text: "foo"}
 
       assert maybe_add_home_breadcrumb([breadcrumb]) == [
-               %Util.Breadcrumb{text: "Home", url: "/"},
+               %DotcomWeb.Utils.Breadcrumb{text: "Home", url: "/"},
                breadcrumb
              ]
     end

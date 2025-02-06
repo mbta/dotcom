@@ -45,7 +45,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
   end
 
   def should_fetch_predictions?(%{assigns: assigns}) do
-    Date.compare(assigns.date, Util.service_date(assigns.date_time)) == :eq
+    Date.compare(assigns.date, Dotcom.Utils.DateTime.service_date(assigns.date_time)) == :eq
   end
 
   @spec predictions(Plug.Conn.t()) :: [Prediction.t()]

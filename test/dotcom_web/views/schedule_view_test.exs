@@ -244,7 +244,7 @@ defmodule DotcomWeb.ScheduleViewTest do
           origin: "origin",
           destination: "dest",
           direction: "inbound",
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           conn: conn
         )
 

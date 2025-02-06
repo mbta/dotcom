@@ -275,12 +275,12 @@ defmodule Dotcom.TripPlan.QueryTest do
     test "returns itineraries if present" do
       itineraries = [
         %Itinerary{
-          start: Util.now(),
-          stop: Util.now()
+          start: Dotcom.Utils.DateTime.now(),
+          stop: Dotcom.Utils.DateTime.now()
         },
         %Itinerary{
-          start: Util.now(),
-          stop: Util.now()
+          start: Dotcom.Utils.DateTime.now(),
+          stop: Dotcom.Utils.DateTime.now()
         }
       ]
 

@@ -53,11 +53,11 @@ defmodule Fares.ProposedLocationsTest do
 
   describe "coordinates" do
     test "latitude" do
-      assert Util.Position.latitude(@proposed_location) == 42.42412295861601
+      assert Dotcom.Utils.Position.latitude(@proposed_location) == 42.42412295861601
     end
 
     test "longitude" do
-      assert Util.Position.longitude(@proposed_location) == -71.17941003354629
+      assert Dotcom.Utils.Position.longitude(@proposed_location) == -71.17941003354629
     end
   end
 

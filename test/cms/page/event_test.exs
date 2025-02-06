@@ -96,7 +96,7 @@ defmodule CMS.Page.EventTest do
 
   describe "started_status/2" do
     test "when start and end are provided as datetimes" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       past =
         now
@@ -120,7 +120,7 @@ defmodule CMS.Page.EventTest do
     end
 
     test "when event only has a start, consider event ended when the day is over" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       earlier_today =
         now
@@ -146,7 +146,7 @@ defmodule CMS.Page.EventTest do
 
     test "handles naive datetimes" do
       naive_now =
-        Util.now()
+        Dotcom.Utils.DateTime.now()
         |> DateTime.to_naive()
 
       naive_past =

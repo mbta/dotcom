@@ -143,7 +143,7 @@ defmodule DotcomWeb.EventController do
   end
 
   def year_options(_) do
-    %{year: year} = Util.now()
+    %{year: year} = Dotcom.Utils.DateTime.now()
     do_year_options(year)
   end
 

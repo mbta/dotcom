@@ -81,7 +81,7 @@ defmodule Dotcom.GreenLine.CacheTest do
 
       # 3am -> 7am the next day = 28 hrs
       assert time
-             |> Util.to_local_time()
+             |> Dotcom.Utils.DateTime.to_local_time()
              |> next_update_after() == 1000 * 60 * 60 * 28
     end
 
@@ -92,7 +92,7 @@ defmodule Dotcom.GreenLine.CacheTest do
 
       # 1am -> 7am the next day = 30 hrs
       assert time
-             |> Util.to_local_time()
+             |> Dotcom.Utils.DateTime.to_local_time()
              |> next_update_after() == 1000 * 60 * 60 * 30
     end
   end

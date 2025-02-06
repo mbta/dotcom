@@ -448,7 +448,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   @spec vehicle_schedules(Conn.t(), list) :: map
   def vehicle_schedules(%{assigns: %{date: date}}, timetable_schedules) do
-    case Date.compare(date, Util.service_date()) do
+    case Date.compare(date, Dotcom.Utils.DateTime.service_date()) do
       :eq -> do_vehicle_schedules(timetable_schedules)
       _ -> %{}
     end

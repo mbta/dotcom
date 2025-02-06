@@ -200,14 +200,14 @@ defmodule Dotcom.Utils.DateTime do
   format, but with am/pm instead of AM/PM.
 
   ## Examples
-      iex> Util.kitchen_downcase_time(~T[08:30:00])
+      iex> Dotcom.Utils.DateTime.kitchen_downcase_time(~T[08:30:00])
       "8:30am"
 
-      iex> Util.kitchen_downcase_time(~T[20:30:00])
+      iex> Dotcom.Utils.DateTime.kitchen_downcase_time(~T[20:30:00])
       "8:30pm"
 
       # Works for DateTime and NaiveDateTime inputs as well
-      iex> Util.kitchen_downcase_time(~N[2018-01-17T20:30:00])
+      iex> Dotcom.Utils.DateTime.kitchen_downcase_time(~N[2018-01-17T20:30:00])
       "8:30pm"
   """
   @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
@@ -220,7 +220,7 @@ defmodule Dotcom.Utils.DateTime do
   times after midnight belong to the service of the previous date.
   """
   @spec service_date(DateTime.t() | NaiveDateTime.t()) :: Date.t()
-  def service_date(current_time \\ Util.now()) do
+  def service_date(current_time \\ Dotcom.Utils.DateTime.now()) do
     current_time
     |> to_local_time()
     |> do_service_date()
@@ -243,21 +243,21 @@ defmodule Dotcom.Utils.DateTime do
 
   ## Examples
       iex> time = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
-      iex> Util.end_of_service(time)
+      iex> Dotcom.Utils.DateTime.end_of_service(time)
       #DateTime<2025-01-18 03:00:00-05:00 EST America/New_York>
 
       # Does not shift to the next day if the given time is earlier than end-of-service
       iex> time = Timex.to_datetime(~N[2025-01-17T02:00:00], "America/New_York")
-      iex> Util.end_of_service(time)
+      iex> Dotcom.Utils.DateTime.end_of_service(time)
       #DateTime<2025-01-17 03:00:00-05:00 EST America/New_York>
 
       # Also handles times in UTC
       iex> time = ~U[2025-01-17T17:00:00Z] # Noon in Eastern Time, given 5-hour offset
-      iex> Util.end_of_service(time)
+      iex> Dotcom.Utils.DateTime.end_of_service(time)
       #DateTime<2025-01-18 03:00:00-05:00 EST America/New_York>
 
       iex> time = ~U[2025-01-17T06:00:00Z] # Early enough that it's before 3am
-      iex> Util.end_of_service(time)
+      iex> Dotcom.Utils.DateTime.end_of_service(time)
       #DateTime<2025-01-17 03:00:00-05:00 EST America/New_York>
 
   The time returned is exactly equal to beginning of service the next
@@ -267,16 +267,16 @@ defmodule Dotcom.Utils.DateTime do
   ## Examples
       iex> now = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
       iex> time_of_interest = Timex.to_datetime(~N[2025-01-18T03:00:00], "America/New_York") # Technically part of "tomorrow"'s service date
-      iex> Timex.before?(time_of_interest, Util.end_of_service(now))
+      iex> Timex.before?(time_of_interest, Dotcom.Utils.DateTime.end_of_service(now))
       false
 
       iex> now = Timex.to_datetime(~N[2025-01-17T12:00:00], "America/New_York")
       iex> time_of_interest = Timex.to_datetime(~N[2025-01-18T02:59:59], "America/New_York") # Part of "today"'s service date
-      iex> Timex.before?(time_of_interest, Util.end_of_service(now))
+      iex> Timex.before?(time_of_interest, Dotcom.Utils.DateTime.end_of_service(now))
       true
   """
   @spec end_of_service(DateTime.t() | NaiveDateTime.t()) :: DateTime.t()
-  def end_of_service(current_time \\ Util.now()) do
+  def end_of_service(current_time \\ Dotcom.Utils.DateTime.now()) do
     current_time
     |> service_date()
     |> Timex.shift(days: 1)

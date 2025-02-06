@@ -10,11 +10,11 @@ defmodule Dotcom.ReactTest do
     longitude: -71.055242,
     formatted: "South Station"
   }
-  @date Util.service_date()
+  @date Dotcom.Utils.DateTime.service_date()
 
   describe "render/2" do
     setup do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       data = TransitNearMe.build(@address, date: @date, now: now)
 

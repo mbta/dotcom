@@ -9,7 +9,7 @@ defmodule DotcomWeb.Plugs.DateTime do
   import Plug.Conn, only: [assign: 3]
 
   @impl true
-  def init([]), do: [now_fn: &Util.now/0]
+  def init([]), do: [now_fn: &Dotcom.Utils.DateTime.now/0]
 
   @impl true
   def call(conn, now_fn: now_fn) do

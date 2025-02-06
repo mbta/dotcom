@@ -10,7 +10,7 @@ defmodule Fares.RetailLocations.Location do
           payment: [String.t()]
         }
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(%@for{latitude: latitude}), do: latitude
     def longitude(%@for{longitude: longitude}), do: longitude
   end

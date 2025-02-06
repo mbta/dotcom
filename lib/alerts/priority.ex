@@ -14,7 +14,7 @@ defmodule Alerts.Priority do
   def priority_levels, do: @priority_levels
 
   @spec priority(map, DateTime.t()) :: priority_level
-  def priority(map, now \\ Util.now())
+  def priority(map, now \\ Dotcom.Utils.DateTime.now())
 
   def priority(%{lifecycle: lifecycle}, _) when lifecycle == :upcoming do
     # Ongoing alerts are low

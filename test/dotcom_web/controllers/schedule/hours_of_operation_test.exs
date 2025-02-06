@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
     conn =
       conn
       |> assign(:route, nil)
-      |> assign(:date, Util.service_date())
+      |> assign(:date, Dotcom.Utils.DateTime.service_date())
       |> DotcomWeb.ScheduleController.HoursOfOperation.call([])
 
     refute Map.has_key?(conn.assigns, :hours_of_operation)
@@ -18,7 +18,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
     conn =
       conn
       |> assign(:route, %Routes.Route{id: "Red"})
-      |> assign(:date, Util.service_date())
+      |> assign(:date, Dotcom.Utils.DateTime.service_date())
       |> DotcomWeb.ScheduleController.HoursOfOperation.call([])
 
     assert %Schedules.HoursOfOperation{} = conn.assigns.hours_of_operation
@@ -28,7 +28,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
     conn =
       conn
       |> assign(:route, @routes_repo.green_line())
-      |> assign(:date, Util.service_date())
+      |> assign(:date, Dotcom.Utils.DateTime.service_date())
       |> DotcomWeb.ScheduleController.HoursOfOperation.call([])
 
     assert [%Schedules.HoursOfOperation{} | _] = conn.assigns.hours_of_operation
@@ -38,7 +38,7 @@ defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
     conn =
       conn
       |> assign(:route, %Routes.Route{id: "Teal"})
-      |> assign(:date, Util.service_date())
+      |> assign(:date, Dotcom.Utils.DateTime.service_date())
       |> DotcomWeb.ScheduleController.HoursOfOperation.call([])
 
     refute Map.has_key?(conn.assigns, :hours_of_operation)

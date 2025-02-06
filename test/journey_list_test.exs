@@ -894,7 +894,7 @@ defmodule JourneyListTest do
     test "handles predictions not associated with a trip" do
       prediction = %Prediction{
         id: "pred",
-        time: Util.now(),
+        time: Dotcom.Utils.DateTime.now(),
         route: @route,
         stop: %Stop{id: "stop1"},
         trip: nil
@@ -923,7 +923,7 @@ defmodule JourneyListTest do
         route: @route,
         stop: stop,
         status: "2 stops away",
-        time: Util.now() |> Timex.shift(minutes: 15)
+        time: Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: 15)
       }
 
       other_prediction = %Prediction{
@@ -931,7 +931,7 @@ defmodule JourneyListTest do
         route: %Route{id: "other"},
         stop: stop,
         status: "1 stop away",
-        time: Util.now() |> Timex.shift(minutes: 7)
+        time: Dotcom.Utils.DateTime.now() |> Timex.shift(minutes: 7)
       }
 
       result =

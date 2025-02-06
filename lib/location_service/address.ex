@@ -76,7 +76,7 @@ defmodule LocationService.Address do
     end
   end
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(address), do: address.latitude
     def longitude(address), do: address.longitude
   end

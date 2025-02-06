@@ -22,7 +22,7 @@ defmodule Fares.Format do
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)
-    |> Util.AndOr.join(:or)
+    |> Dotcom.Utils.AndOr.join(:or)
   end
 
   def media(:cash), do: "cash"

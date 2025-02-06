@@ -143,7 +143,7 @@ defmodule PredictedScheduleTest do
   describe "get/2" do
     @tag :external
     test "returns a list of predicted schedules" do
-      predicted_schedules = get("1", 59, direction_id: 1, now: Util.now())
+      predicted_schedules = get("1", 59, direction_id: 1, now: Dotcom.Utils.DateTime.now())
       assert is_list(predicted_schedules)
 
       if !Enum.empty?(predicted_schedules) do

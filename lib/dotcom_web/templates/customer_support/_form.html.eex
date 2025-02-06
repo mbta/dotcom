@@ -44,7 +44,7 @@
         <%= raw(Poison.encode!(@support_datetime_selector_fields)) %>
       </script>
       <% min_date = Timex.now("America/New_York") |> Timex.shift(years: -1) %>
-      <% date_ranges = %{min_date: min_date, max_date: Util.now()} %>
+      <% date_ranges = %{min_date: min_date, max_date: Dotcom.Utils.DateTime.now()} %>
       <%= DateTimeSelector.custom_date_time_select(f, date_ranges) %>
     </div>
   </section>

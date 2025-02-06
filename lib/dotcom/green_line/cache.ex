@@ -2,7 +2,7 @@ defmodule Dotcom.GreenLine.Cache do
   @moduledoc """
   This supervised GenServer populates the GreenLine.DateAgent caches.
   By default, it will ensure an agent is running for every date from
-  Util.service_date() until Schedules.Repo.end_of_rating().
+  Dotcom.Utils.DateTime.service_date() until Schedules.Repo.end_of_rating().
 
   It then schedules a message to itself to update all these agents at
   about 7am ET the next morning.
@@ -53,7 +53,7 @@ defmodule Dotcom.GreenLine.Cache do
     Process.send_after(
       self(),
       :populate_caches,
-      next_update_after(Util.now())
+      next_update_after(Dotcom.Utils.DateTime.now())
     )
 
     {:noreply, state, :hibernate}

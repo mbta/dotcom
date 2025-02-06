@@ -25,8 +25,6 @@ defmodule DotcomWeb do
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
 
-      import Util
-
       import DotcomWeb.Router.Helpers,
         except: [
           news_entry_path: 2,

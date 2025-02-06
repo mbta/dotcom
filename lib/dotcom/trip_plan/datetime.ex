@@ -13,7 +13,7 @@ defmodule Dotcom.TripPlan.DateTime do
     type = get_departure_type(params)
 
     dt
-    |> Util.parse()
+    |> Dotcom.Utils.DateTime.parse()
     |> future_date_or_error(now)
     |> verify_inside_rating(end_of_rating)
     |> round_minute()
@@ -102,7 +102,7 @@ defmodule Dotcom.TripPlan.DateTime do
 
   defp verify_inside_rating(%DateTime{} = dt, %Date{} = end_of_rating) do
     dt
-    |> Util.service_date()
+    |> Dotcom.Utils.DateTime.service_date()
     |> Date.compare(end_of_rating)
     |> case do
       :gt -> {:error, {:too_future, dt}}

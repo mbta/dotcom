@@ -64,6 +64,6 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   defp in_future_seconds?(prediction) do
-    Timex.compare(prediction.departure_time, Util.now(), :seconds) >= 0
+    Timex.compare(prediction.departure_time, Dotcom.Utils.DateTime.now(), :seconds) >= 0
   end
 end

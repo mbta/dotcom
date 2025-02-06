@@ -43,7 +43,7 @@ defmodule DotcomWeb.CMSView do
   end
 
   def maybe_shift_timezone(%DateTime{} = time) do
-    Util.to_local_time(time)
+    Dotcom.Utils.DateTime.to_local_time(time)
   end
 
   defp do_render_duration(start_time, nil) do

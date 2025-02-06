@@ -10,8 +10,8 @@ defmodule DotcomWeb.Plugs.DateTimeTest do
   end
 
   describe "init/1" do
-    test "defaults to Util.now/0" do
-      assert init([]) == [now_fn: &Util.now/0]
+    test "defaults to Dotcom.Utils.DateTime.now/0" do
+      assert init([]) == [now_fn: &Dotcom.Utils.DateTime.now/0]
     end
   end
 

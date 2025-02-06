@@ -1,6 +1,6 @@
-defmodule Util.AndOrTest do
+defmodule Dotcom.Utils.AndOrTest do
   use ExUnit.Case, async: true
-  import Util.AndOr
+  import Dotcom.Utils.AndOr
   import IO, only: [iodata_to_binary: 1]
 
   describe "join/2" do

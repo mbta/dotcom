@@ -4,7 +4,7 @@ defmodule DotcomWeb.Plugs.AlertsByTimeframeTest do
   alias Alerts.Alert
   alias DotcomWeb.Plugs.AlertsByTimeframe
 
-  @now Util.now()
+  @now Dotcom.Utils.DateTime.now()
 
   @timeframe_alerts [
     %Alert{

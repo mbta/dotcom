@@ -12,7 +12,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
 
   @moduletag :external
 
-  @now Util.now()
+  @now Dotcom.Utils.DateTime.now()
   @schedule_time Timex.shift(@now, minutes: 3)
   @prediction_time Timex.shift(@now, minutes: 5)
 
@@ -75,7 +75,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "handles journeys w/o schedules", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
 
       path =
         finder_api_path(conn, :journeys, %{
@@ -122,7 +122,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
 
     test "handles journeys for combined Green Line", %{conn: conn} do
       route_id = "Green"
-      date = Util.now() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.now() |> Date.to_iso8601()
       conn = assign(conn, :date, date)
 
       journey =
@@ -337,7 +337,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "skips formatting predictions without a time", %{conn: conn} do
-      date = Util.service_date() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.service_date() |> Date.to_iso8601()
 
       path =
         finder_api_path(conn, :trip, %{
@@ -366,7 +366,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
     end
 
     test "doesn't 500 if trip info not found", %{conn: conn} do
-      date = Util.service_date() |> Date.to_iso8601()
+      date = Dotcom.Utils.DateTime.service_date() |> Date.to_iso8601()
 
       path =
         finder_api_path(conn, :trip, %{

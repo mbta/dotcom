@@ -19,7 +19,7 @@ defmodule Schedules.RepoTest do
       response =
         by_route_ids(
           ["CR-Lowell"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 1,
           stop_sequences: "first"
         )
@@ -46,7 +46,7 @@ defmodule Schedules.RepoTest do
         response =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0,
           stop_sequences: ["first"]
         )
@@ -60,7 +60,7 @@ defmodule Schedules.RepoTest do
     end
 
     test "filters by min_time when provided" do
-      now = Util.now()
+      now = Dotcom.Utils.DateTime.now()
 
       before_now_fn = fn sched ->
         case DateTime.compare(sched.time, now) do
@@ -73,7 +73,7 @@ defmodule Schedules.RepoTest do
       unfiltered =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0
         )
 
@@ -83,7 +83,7 @@ defmodule Schedules.RepoTest do
       filtered =
         by_route_ids(
           ["Red"],
-          date: Util.service_date(),
+          date: Dotcom.Utils.DateTime.service_date(),
           direction_id: 0,
           min_time: now
         )
@@ -130,7 +130,7 @@ defmodule Schedules.RepoTest do
         |> Map.get(:trip)
         |> Map.get(:id)
 
-      today = Util.service_date()
+      today = Dotcom.Utils.DateTime.service_date()
       tomorrow = Timex.shift(today, days: 1)
       assert schedule_for_trip(trip_id) == schedule_for_trip(trip_id, date: today)
 
@@ -142,7 +142,7 @@ defmodule Schedules.RepoTest do
   describe "trip/1" do
     @tag :external
     test "returns a %Schedule.Trip{} for a given ID" do
-      date = Timex.shift(Util.service_date(), days: 1)
+      date = Timex.shift(Dotcom.Utils.DateTime.service_date(), days: 1)
       schedules = by_route_ids(["1"], date: date, stop_sequences: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
       trip = trip(scheduled_trip.id)

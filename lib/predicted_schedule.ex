@@ -24,7 +24,7 @@ defmodule PredictedSchedule do
   def get(route_id, stop_id, opts \\ []) do
     schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
 
-    now = Keyword.get(opts, :now, Util.now())
+    now = Keyword.get(opts, :now, Dotcom.Utils.DateTime.now())
     direction_id = Keyword.get(opts, :direction_id)
     sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
@@ -33,7 +33,7 @@ defmodule PredictedSchedule do
       |> schedules_fn.(
         stop_ids: stop_id,
         direction_id: direction_id,
-        date: Util.service_date(now)
+        date: Dotcom.Utils.DateTime.service_date(now)
       )
 
     # if there are any schedules without a trip, maybe we need to...
@@ -46,7 +46,7 @@ defmodule PredictedSchedule do
         |> schedules_fn.(
           stop_ids: stop_id,
           direction_id: direction_id,
-          date: Util.service_date(now),
+          date: Dotcom.Utils.DateTime.service_date(now),
           no_cache: true
         )
       else
@@ -68,7 +68,7 @@ defmodule PredictedSchedule do
           [route_id],
           stop_ids: stop_id,
           direction_id: direction_id,
-          date: Util.tomorrow_date(now)
+          date: Dotcom.Utils.DateTime.tomorrow_date(now)
         ),
         sort_fn: sort_fn
       )

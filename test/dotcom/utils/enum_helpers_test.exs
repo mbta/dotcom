@@ -1,9 +1,9 @@
-defmodule Util.EnumHelpersTest do
+defmodule Dotcom.Utils.EnumTest do
   use ExUnit.Case, async: true
   use Quixir
 
-  import Util.EnumHelpers
-  doctest Util.EnumHelpers
+  import Dotcom.Utils.Enum
+  doctest Dotcom.Utils.Enum
 
   describe "with_first_last/1" do
     test "doesn't change the order" do

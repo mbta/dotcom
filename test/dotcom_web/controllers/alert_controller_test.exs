@@ -121,7 +121,7 @@ defmodule DotcomWeb.AlertControllerTest do
         id: mode,
         alert_groups: alerts,
         breadcrumbs: ["Alerts"],
-        date: Util.now()
+        date: Dotcom.Utils.DateTime.now()
       )
       |> html_response(200)
     end
@@ -160,9 +160,9 @@ defmodule DotcomWeb.AlertControllerTest do
       {route,
        [
          Alert.new(
-           active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
+           active_period: [{Dotcom.Utils.DateTime.now() |> Timex.shift(days: -2), nil}],
            informed_entity: [informed_entity(mode)],
-           updated_at: Util.now() |> Timex.shift(days: -2),
+           updated_at: Dotcom.Utils.DateTime.now() |> Timex.shift(days: -2),
            effect: effect(mode)
          )
        ]}

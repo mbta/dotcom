@@ -30,7 +30,7 @@ defmodule Schedules.RepoCondensed do
 
   @spec by_route_ids([Route.id_t()], Keyword.t()) :: [ScheduleCondensed.t()] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
-    opts = Keyword.put_new(opts, :date, Util.service_date())
+    opts = Keyword.put_new(opts, :date, Dotcom.Utils.DateTime.service_date())
 
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
@@ -86,7 +86,7 @@ defmodule Schedules.RepoCondensed do
   end
 
   defp to_string(%Date{} = date) do
-    Util.convert_to_iso_format(date)
+    Dotcom.Utils.DateTime.convert_to_iso_format(date)
   end
 
   defp to_string(str) when is_binary(str) do
@@ -113,7 +113,7 @@ defmodule Schedules.RepoCondensed do
 
   defp filter_by_min_time(schedules, %DateTime{} = min_time) do
     Enum.filter(schedules, fn schedule ->
-      Util.time_is_greater_or_equal?(schedule.time, min_time)
+      Dotcom.Utils.DateTime.time_is_greater_or_equal?(schedule.time, min_time)
     end)
   end
 

@@ -129,7 +129,7 @@ defmodule DotcomWeb.ModeView do
   end
 
   def has_alert?(%Route{} = route, alerts, date) do
-    date = date || Util.now()
+    date = date || Dotcom.Utils.DateTime.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
 
     Enum.any?(alerts, fn alert ->

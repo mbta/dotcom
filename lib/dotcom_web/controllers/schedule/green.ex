@@ -183,7 +183,7 @@ defmodule DotcomWeb.ScheduleController.Green do
 
     stops = Enum.reverse(stops)
 
-    if Util.ListHelpers.find_first(stops, origin, destination) == destination do
+    if Dotcom.Utils.List.find_first(stops, origin, destination) == destination do
       conn
       |> redirect(to: update_url(conn, direction_id: 1 - direction_id))
       |> halt()

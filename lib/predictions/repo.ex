@@ -169,7 +169,7 @@ defmodule Predictions.Repo do
          },
          min_time
        ) do
-    Util.time_is_greater_or_equal?(prediction_time, min_time)
+    Dotcom.Utils.DateTime.time_is_greater_or_equal?(prediction_time, min_time)
   end
 
   def load_from_other_repos([]) do
@@ -251,9 +251,9 @@ defmodule Predictions.Repo do
       if prediction.time == nil do
         false
       else
-        !Util.time_is_greater_or_equal?(
-          Util.to_local_time(prediction.time),
-          Util.to_local_time(Util.now())
+        !Dotcom.Utils.DateTime.time_is_greater_or_equal?(
+          Dotcom.Utils.DateTime.to_local_time(prediction.time),
+          Dotcom.Utils.DateTime.to_local_time(Dotcom.Utils.DateTime.now())
         )
       end
 

@@ -17,7 +17,7 @@ defmodule Dotcom.TransitNearMeTest do
     formatted: "10 Park Plaza, Boston, MA, 02116"
   }
 
-  @date Util.service_date()
+  @date Dotcom.Utils.DateTime.service_date()
 
   setup :verify_on_exit!
 
@@ -33,7 +33,7 @@ defmodule Dotcom.TransitNearMeTest do
     @tag :external
     test "builds a set of data for a location" do
       assert %{stops: stops, distances: distances} =
-               TransitNearMe.build(@address, date: @date, now: Util.now())
+               TransitNearMe.build(@address, date: @date, now: Dotcom.Utils.DateTime.now())
 
       for stop_id <- Enum.map(stops, & &1.id) do
         assert stop_id in Map.keys(distances)
@@ -60,7 +60,7 @@ defmodule Dotcom.TransitNearMeTest do
   end
 
   describe "simple_prediction/2" do
-    @now Util.now()
+    @now Dotcom.Utils.DateTime.now()
 
     test "returns nil if no prediction" do
       assert nil == TransitNearMe.simple_prediction(nil, :commuter_rail, @now)
@@ -69,7 +69,7 @@ defmodule Dotcom.TransitNearMeTest do
     test "returns up to three keys if a prediction is available" do
       assert %{time: _, track: _, status: _} =
                TransitNearMe.simple_prediction(
-                 %Prediction{time: Util.now(), track: 1, status: "On time"},
+                 %Prediction{time: Dotcom.Utils.DateTime.now(), track: 1, status: "On time"},
                  :commuter_rail,
                  @now
                )
@@ -77,7 +77,7 @@ defmodule Dotcom.TransitNearMeTest do
 
     test "returns a AM/PM time for CR" do
       [time, _, am_pm] =
-        TransitNearMe.simple_prediction(%Prediction{time: Util.now()}, :commuter_rail, @now).time
+        TransitNearMe.simple_prediction(%Prediction{time: Dotcom.Utils.DateTime.now()}, :commuter_rail, @now).time
 
       assert time =~ ~r/\d{1,2}:\d\d/
       assert am_pm =~ ~r/(AM|PM)/
@@ -86,7 +86,7 @@ defmodule Dotcom.TransitNearMeTest do
     test "returns a time difference for modes other than CR" do
       assert [_, _, "min"] =
                TransitNearMe.simple_prediction(
-                 %Prediction{time: Timex.shift(Util.now(), minutes: 5)},
+                 %Prediction{time: Timex.shift(Dotcom.Utils.DateTime.now(), minutes: 5)},
                  :subway,
                  @now
                ).time
@@ -649,7 +649,7 @@ defmodule Dotcom.TransitNearMeTest do
   end
 
   describe "time_data_for_route_by_stop/3" do
-    @now Util.now()
+    @now Dotcom.Utils.DateTime.now()
     @schedule_time1 Timex.shift(@now, minutes: 3)
     @prediction_time1 Timex.shift(@now, minutes: 5)
     @schedule_time2 Timex.shift(@now, minutes: 13)

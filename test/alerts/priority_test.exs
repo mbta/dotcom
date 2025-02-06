@@ -6,7 +6,7 @@ defmodule Alerts.PriorityTest do
   alias Alerts.Alert
   alias Alerts.InformedEntity
 
-  @now Util.to_local_time(~N[2018-01-15T12:00:00])
+  @now Dotcom.Utils.DateTime.to_local_time(~N[2018-01-15T12:00:00])
 
   describe "priority_levels/0" do
     test "returns a list" do
@@ -383,7 +383,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts within 1 week of end date are urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = ~N[2018-01-15T12:00:00] |> Dotcom.Utils.DateTime.to_local_time()
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 6)
       assert urgent_period?({nil, end_date}, now) == true
@@ -391,7 +391,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts beyond 1 week of end date are not urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = ~N[2018-01-15T12:00:00] |> Dotcom.Utils.DateTime.to_local_time()
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 14)
       assert urgent_period?({nil, end_date}, now) == false
@@ -399,7 +399,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts within 1 week of start date are urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = ~N[2018-01-15T12:00:00] |> Dotcom.Utils.DateTime.to_local_time()
       start_date = Timex.shift(now, days: -6)
       end_date = Timex.shift(now, days: 10)
       assert urgent_period?({start_date, nil}, now) == true
@@ -407,7 +407,7 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts beyond 1 week of start date are not urgent" do
-      now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
+      now = ~N[2018-01-15T12:00:00] |> Dotcom.Utils.DateTime.to_local_time()
       start_date = Timex.shift(now, days: -14)
       end_date = Timex.shift(now, days: 10)
       assert urgent_period?({start_date, nil}, now) == false

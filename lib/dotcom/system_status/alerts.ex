@@ -92,7 +92,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   # Returns true if the alert (as signified by the active_period_start provided)
   # starts before the end of datetime's day.
   defp starts_before_end_of_service?(active_period_start, datetime) do
-    datetime |> Util.end_of_service() |> Timex.after?(active_period_start)
+    datetime |> Dotcom.Utils.DateTime.end_of_service() |> Timex.after?(active_period_start)
   end
 
   # Returns true if the alert (as signified by the active_period_end provided)

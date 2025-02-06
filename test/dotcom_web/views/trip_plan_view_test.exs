@@ -420,7 +420,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @row_id 0
     @conn %{
       assigns: %{
-        date_time: Util.now()
+        date_time: Dotcom.Utils.DateTime.now()
       }
     }
 
@@ -698,7 +698,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "format_plan_type_for_title/1" do
-    @now Util.now()
+    @now Dotcom.Utils.DateTime.now()
     @human_time Timex.format!(@now, "{h12}:{m} {AM}, {M}/{D}/{YY}")
     test "for arrive by" do
       assert format_plan_type_for_title(%{time: {:arrive_by, @now}}) == [
@@ -716,7 +716,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "default" do
       human_time =
-        Util.now()
+        Dotcom.Utils.DateTime.now()
         |> Dotcom.TripPlan.DateTime.round_minute()
         |> Timex.format!("{h12}:{m} {AM}, {M}/{D}/{YY}")
 
@@ -736,8 +736,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "index.html" do
     @index_assigns %{
-      date: Util.now(),
-      date_time: Util.now(),
+      date: Dotcom.Utils.DateTime.now(),
+      date_time: Dotcom.Utils.DateTime.now(),
       errors: [],
       modes: %{},
       wheelchair: false,
@@ -818,7 +818,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         assign(conn, :query, %Query{
           from: TripPlanner.build(:named_position),
           to: TripPlanner.build(:stop_named_position),
-          time: {:depart_at, Util.now()},
+          time: {:depart_at, Dotcom.Utils.DateTime.now()},
           wheelchair: true,
           itineraries: {:ok, TripPlanner.build_list(3, :itinerary)}
         })

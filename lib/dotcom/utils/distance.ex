@@ -1,7 +1,7 @@
 defmodule Dotcom.Utils.Distance do
   @moduledoc """
 
-  Helper functions for working with distances between Util.Position items.
+  Helper functions for working with distances between Dotcom.Utils.Position items.
 
   """
 
