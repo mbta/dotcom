@@ -247,7 +247,10 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
     test "doesn't constructs vehicle data for channel consumption if the date is not today" do
       vehicles =
-        vehicle_schedules(%{assigns: %{date: Date.add(Dotcom.Utils.DateTime.service_date(), 1)}}, @schedules)
+        vehicle_schedules(
+          %{assigns: %{date: Date.add(Dotcom.Utils.DateTime.service_date(), 1)}},
+          @schedules
+        )
 
       assert vehicles == %{}
     end

@@ -77,7 +77,11 @@ defmodule Dotcom.TransitNearMeTest do
 
     test "returns a AM/PM time for CR" do
       [time, _, am_pm] =
-        TransitNearMe.simple_prediction(%Prediction{time: Dotcom.Utils.DateTime.now()}, :commuter_rail, @now).time
+        TransitNearMe.simple_prediction(
+          %Prediction{time: Dotcom.Utils.DateTime.now()},
+          :commuter_rail,
+          @now
+        ).time
 
       assert time =~ ~r/\d{1,2}:\d\d/
       assert am_pm =~ ~r/(AM|PM)/

@@ -38,7 +38,11 @@ defmodule DateTimeSelector do
     end
   end
 
-  def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Dotcom.Utils.DateTime.now()) do
+  def custom_date_time_select(
+        form,
+        date_ranges,
+        %DateTime{} = datetime \\ Dotcom.Utils.DateTime.now()
+      ) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
       minute: [selected: datetime.minute]

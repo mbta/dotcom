@@ -103,7 +103,9 @@ defmodule DotcomWeb.Utils.BreadcrumbHTML do
 
   defp hide_on_mobile_class, do: ~s(focusable-sm-down)
 
-  @spec maybe_add_home_breadcrumb([DotcomWeb.Utils.Breadcrumb.t()]) :: [DotcomWeb.Utils.Breadcrumb.t()]
+  @spec maybe_add_home_breadcrumb([DotcomWeb.Utils.Breadcrumb.t()]) :: [
+          DotcomWeb.Utils.Breadcrumb.t()
+        ]
   def maybe_add_home_breadcrumb(breadcrumbs) do
     if missing_home_breadcrumb?(breadcrumbs) do
       home = %DotcomWeb.Utils.Breadcrumb{url: "/", text: "Home"}

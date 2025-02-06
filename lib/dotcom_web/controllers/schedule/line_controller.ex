@@ -37,7 +37,9 @@ defmodule DotcomWeb.ScheduleController.LineController do
   def assign_schedule_page_data(conn) do
     services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
 
-    service_date = Map.get(conn.assigns, :date_time, Dotcom.Utils.DateTime.now()) |> Dotcom.Utils.DateTime.service_date()
+    service_date =
+      Map.get(conn.assigns, :date_time, Dotcom.Utils.DateTime.now())
+      |> Dotcom.Utils.DateTime.service_date()
 
     assign(
       conn,

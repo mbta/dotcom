@@ -18,7 +18,6 @@ defmodule DotcomWeb.StopController do
   alias Services.Service
   alias Stops.Stop
 
-
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]

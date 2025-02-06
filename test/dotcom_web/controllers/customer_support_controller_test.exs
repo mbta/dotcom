@@ -567,7 +567,11 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
         post(
           conn,
           customer_support_path(conn, :submit),
-          put_in(valid_request_response_data(), ["support", "date_time"], Dotcom.Utils.DateTime.now())
+          put_in(
+            valid_request_response_data(),
+            ["support", "date_time"],
+            Dotcom.Utils.DateTime.now()
+          )
         )
 
       wait_for_ticket_task(conn)

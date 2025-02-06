@@ -101,7 +101,10 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   def submit(conn, %{"support" => form_data, "g-recaptcha-response" => recaptcha_response}) do
-    now = Dotcom.Utils.DateTime.now() |> Dotcom.Utils.DateTime.to_local_time() |> DateTime.truncate(:second)
+    now =
+      Dotcom.Utils.DateTime.now()
+      |> Dotcom.Utils.DateTime.to_local_time()
+      |> DateTime.truncate(:second)
 
     params =
       form_data
@@ -375,7 +378,10 @@ defmodule DotcomWeb.CustomerSupportController do
 
   @spec validate_incident_date_time(map) :: DateTime.t()
   defp validate_incident_date_time(incident_date_time) do
-    now = Dotcom.Utils.DateTime.now() |> Dotcom.Utils.DateTime.to_local_time() |> DateTime.truncate(:second)
+    now =
+      Dotcom.Utils.DateTime.now()
+      |> Dotcom.Utils.DateTime.to_local_time()
+      |> DateTime.truncate(:second)
 
     parsed_date_time =
       case Dotcom.Utils.DateTime.parse(incident_date_time) do

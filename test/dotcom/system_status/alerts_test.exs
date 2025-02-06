@@ -54,7 +54,9 @@ defmodule Dotcom.SystemStatus.AlertsTest do
       assert Alerts.active_on_day?(alert, time)
     end
 
-    test "returns true if the alert starts on the next day, but before end-of-service", %{now: now} do
+    test "returns true if the alert starts on the next day, but before end-of-service", %{
+      now: now
+    } do
       beginning_of_next_day = now |> Timex.end_of_day() |> Timex.shift(microseconds: 1)
       end_of_service = now |> Utils.DateTime.end_of_service() |> Timex.shift(microseconds: -1)
 
