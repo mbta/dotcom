@@ -1,4 +1,4 @@
-defmodule Util.AndOr do
+defmodule Dotcom.Utils.AndOr do
   @doc """
 
   Joins a list of strings with commas, with an "or" or "and" before the last item.

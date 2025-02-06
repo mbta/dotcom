@@ -2,6 +2,7 @@ defmodule DotcomWeb.FareView do
   @moduledoc """
   View for the Fares section of the website.
   """
+
   use DotcomWeb, :view
 
   alias CMS.Partial.Paragraph.{
@@ -9,12 +10,12 @@ defmodule DotcomWeb.FareView do
     DescriptionList
   }
 
+  alias Dotcom.Utils.Position
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Fares.Summary
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route
-  alias Util.Position
 
   @doc """
   Returns the url to view directions to a location on https://maps.google.com.

@@ -9,8 +9,8 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   require Logger
 
+  alias DotcomWeb.Utils.AsyncAssign
   alias Predictions.Prediction
-  alias Util.AsyncAssign
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 

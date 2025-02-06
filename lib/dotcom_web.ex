@@ -25,6 +25,8 @@ defmodule DotcomWeb do
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
 
+      import Util
+
       import DotcomWeb.Router.Helpers,
         except: [
           news_entry_path: 2,
@@ -40,9 +42,9 @@ defmodule DotcomWeb do
         ]
 
       import Phoenix.LiveView.Controller
-      import Util.AsyncAssign
+      import DotcomWeb.Utils.AsyncAssign
 
-      alias Util.Breadcrumb
+      alias DotcomWeb.Utils.Breadcrumb
     end
   end
 

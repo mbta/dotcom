@@ -10,10 +10,10 @@ defmodule Schedules.Repo do
   require Logger
 
   alias Dotcom.Cache.KeyGenerator
+  alias Dotcom.Utils
   alias MBTA.Api.Trips
   alias Routes.Route
   alias Schedules.{Parser, Schedule}
-  alias Util
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -32,7 +32,7 @@ defmodule Schedules.Repo do
 
   @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
-    opts = Keyword.put_new(opts, :date, Util.service_date())
+    opts = Keyword.put_new(opts, :date, Utils.DateTime.service_date())
     no_cache = Keyword.get(opts, :no_cache)
 
     @default_params
@@ -61,7 +61,7 @@ defmodule Schedules.Repo do
     @default_params
     |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:trip, trip_id)
-    |> Keyword.put_new_lazy(:date, &Util.service_date/0)
+    |> Keyword.put_new_lazy(:date, &Utils.DateTime.service_date/0)
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
@@ -186,7 +186,7 @@ defmodule Schedules.Repo do
   end
 
   defp to_string(%Date{} = date) do
-    Util.convert_to_iso_format(date)
+    Utils.DateTime.convert_to_iso_format(date)
   end
 
   defp to_string(str) when is_binary(str) do
@@ -230,7 +230,7 @@ defmodule Schedules.Repo do
                                 _stop_sequence,
                                 _pickup_type
                               } ->
-      Util.time_is_greater_or_equal?(schedule_time, min_time)
+      Utils.DateTime.time_is_greater_or_equal?(schedule_time, min_time)
     end)
   end
 

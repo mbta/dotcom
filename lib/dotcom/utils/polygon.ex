@@ -1,8 +1,8 @@
-defmodule Util.Polygon do
+defmodule Dotcom.Utils.Polygon do
   @moduledoc """
   Utilities to work with polygons. A polygon is represented as list of items implementing Util.Position behaviour
   """
-  alias Util.Position
+  alias Dotcom.Utils.Position
 
   @doc """
   Checks if a point is inside a polygon or not

@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController.CMS do
 
   @behaviour Plug
 
-  import Util.AsyncAssign, only: [async_assign_default: 4]
+  import DotcomWeb.Utils.AsyncAssign, only: [async_assign_default: 4]
 
   alias Routes.Route
   alias CMS.{Partial.Teaser, Repo}

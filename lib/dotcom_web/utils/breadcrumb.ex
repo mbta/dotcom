@@ -1,4 +1,4 @@
-defmodule Util.Breadcrumb do
+defmodule DotcomWeb.Utils.Breadcrumb do
   @moduledoc """
   Represents a breadcrumb.
   """

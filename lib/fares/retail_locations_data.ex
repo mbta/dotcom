@@ -5,9 +5,9 @@ defmodule Fares.RetailLocations.Data do
 
   use Nebulex.Caching.Decorators
 
+  alias Dotcom.Utils.Position
   alias Fares.RetailLocations.Location
   alias MBTA.Api.Facilities
-  alias Util.Position
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)

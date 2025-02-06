@@ -14,7 +14,7 @@ defmodule Dotcom.TripPlan.NamedPosition do
           longitude: float | nil
         }
 
-  defimpl Util.Position do
+  defimpl Dotcom.Utils.Position do
     def latitude(%{latitude: latitude}), do: latitude
     def longitude(%{longitude: longitude}), do: longitude
   end

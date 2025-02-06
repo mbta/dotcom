@@ -1,4 +1,4 @@
-defprotocol Util.Position do
+defprotocol Dotcom.Utils.Position do
   @moduledoc "A protocol to map various datatypes to a latitude and longitude"
 
   @doc "The latitude of the item"
@@ -8,12 +8,12 @@ defprotocol Util.Position do
   def longitude(item)
 end
 
-defimpl Util.Position, for: Map do
+defimpl Dotcom.Utils.Position, for: Map do
   def latitude(%{latitude: latitude}), do: latitude
   def longitude(%{longitude: longitude}), do: longitude
 end
 
-defimpl Util.Position, for: Tuple do
+defimpl Dotcom.Utils.Position, for: Tuple do
   def latitude({latitude, _}), do: latitude
   def longitude({_, longitude}), do: longitude
 end

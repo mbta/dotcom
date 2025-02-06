@@ -18,7 +18,7 @@ defmodule CMS.Page.Event do
       path_alias: 1
     ]
 
-  import Util,
+  import Dotcom.Utils.DateTime,
     only: [time_is_greater_or_equal?: 2, date_to_naive_date: 1, now: 0]
 
   alias CMS.Field.File

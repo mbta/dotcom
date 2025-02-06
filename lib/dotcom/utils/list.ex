@@ -1,4 +1,4 @@
-defmodule Util.ListHelpers do
+defmodule Dotcom.Utils.List do
   @moduledoc """
   Useful functions when working with lists
   """

@@ -1,4 +1,4 @@
-defmodule Util.BreadcrumbHTML do
+defmodule DotcomWeb.Utils.BreadcrumbHTML do
   import Phoenix.HTML, only: [raw: 1]
 
   alias PhoenixHTMLHelpers.Link

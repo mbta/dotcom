@@ -1,4 +1,4 @@
-defmodule Util.AsyncAssign do
+defmodule DotcomWeb.Utils.AsyncAssign do
   @moduledoc """
   Utility for assigning in `Conn` asynchronously and setting defaults if the
   task times out.

@@ -4,10 +4,10 @@ defmodule Dotcom.TripPlan.Map do
   """
 
   alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
+  alias Dotcom.Utils.Position
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias Routes.Route
-  alias Util.Position
 
   @type t :: MapData.t()
 

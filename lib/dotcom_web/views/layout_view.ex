@@ -1,6 +1,7 @@
 defmodule DotcomWeb.LayoutView do
   use DotcomWeb, :view
-  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
+
+  import DotcomWeb.Utils.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
   import DotcomWeb.SearchHelpers, only: [desktop_form: 2]
 
   def bold_if_active(DotcomWeb.Endpoint, _, text) do

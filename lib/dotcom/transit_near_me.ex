@@ -5,6 +5,7 @@ defmodule Dotcom.TransitNearMe do
 
   require Logger
 
+  alias Dotcom.Utils.Distance
   alias DotcomWeb.ViewHelpers
   alias LocationService.Address
   alias PredictedSchedule.Display
@@ -12,7 +13,6 @@ defmodule Dotcom.TransitNearMe do
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Stops.{Nearby, Stop}
-  alias Util.Distance
   alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]

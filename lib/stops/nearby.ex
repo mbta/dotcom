@@ -1,11 +1,12 @@
 defmodule Stops.Nearby do
   @moduledoc "Functions for retrieving and organizing stops relative to a location."
-  import Util.Distance
+
+  import Dotcom.Utils.Distance
 
   alias MBTA.Api
   alias Routes.Route
   alias Stops.Stop
-  alias Util.Position
+  alias Dotcom.Utils.Position
 
   @mile_in_degrees 0.02
   @total 12

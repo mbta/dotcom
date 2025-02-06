@@ -10,13 +10,14 @@ defmodule DotcomWeb.StopController do
   alias Alerts.Stop, as: AlertsStop
   alias Dotcom.JsonHelpers
   alias Dotcom.TransitNearMe
+  alias Dotcom.Utils.AndOr
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
   alias Routes.{Group, Route}
   alias Services.Service
   alias Stops.Stop
-  alias Util.AndOr
+
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
