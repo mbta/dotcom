@@ -25,7 +25,7 @@ defmodule Dotcom.Utils.Datetime do
   end
 
   def next_week() do
-    now = Timex.now()
+    now = Util.now()
     end_of_week = Timex.end_of_week(now) |> Util.end_of_service()
     beginning_of_next_week = Timex.shift(end_of_week, seconds: 1)
     end_of_next_week = beginning_of_next_week |> Timex.end_of_week() |> Util.end_of_service()
@@ -43,7 +43,7 @@ defmodule Dotcom.Utils.Datetime do
   end
 
   def this_week() do
-    now = Timex.now()
+    now = Util.now()
     end_of_week = now |> Timex.end_of_week() |> Util.end_of_service()
 
     {now, end_of_week}
@@ -55,7 +55,7 @@ defmodule Dotcom.Utils.Datetime do
   end
 
   def today() do
-    now = Timex.now()
+    now = Util.now()
     end_of_day = now |> Timex.end_of_day() |> Util.end_of_service()
 
     {now, end_of_day}
@@ -69,7 +69,7 @@ end
 ```
 
 ```elixir
-defmodule PlannedDisruptions.Logic do
+defmodule Dotcom.PlannedDisruptions.Logic do
   @moduledoc false
 
   import Dotcom.SystemStatus.Alerts, only: [filter_relevant: 1]
@@ -88,7 +88,7 @@ defmodule PlannedDisruptions.Logic do
 
   def buckets() do
     @lines
-    |> Alerts.Repo.by_route_ids(Timex.now())
+    |> Alerts.Repo.by_route_ids(Util.now())
     |> filter_relevant()
     |> Enum.reduce(@buckets, fn alert, buckets ->
       buckets
@@ -100,6 +100,7 @@ defmodule PlannedDisruptions.Logic do
   end
 
   for {bucket, _} <- @buckets do
+    # Creates a function for each bucket key that checks whether or not an alert belongs in that bucket
     defp unquote(bucket)(buckets, alert) do
       if Enum.any?(alert.active_period, fn range ->
            Datetime.overlap?(Kernel.apply(Datetime, unquote(bucket), []), range)
@@ -116,7 +117,7 @@ end
 ```
 
 ```elixir
-defmodule PlannedDisruptions.Display do
+defmodule Dotcom.PlannedDisruptions.Display do
   @moduledoc false
 
   def buckets_to_output(buckets) do
@@ -167,7 +168,7 @@ end
 ```
 
 ```elixir
-alias PlannedDisruptions.{Display, Logic}
+alias Dotcom.PlannedDisruptions.{Display, Logic}
 
 Logic.buckets() |> Display.buckets_to_output()
 ```
