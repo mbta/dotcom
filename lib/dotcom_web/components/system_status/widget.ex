@@ -84,7 +84,6 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
       route_info: %{},
       status_entry: %{
         status: status,
-        time: time,
         plural: multiple,
         prefix: prefix
       },
