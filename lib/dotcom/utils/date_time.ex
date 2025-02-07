@@ -205,8 +205,8 @@ defmodule Dotcom.Utils.DateTime do
   # We choose the later time.
   # In the **very** rare case that we are given an {:error, _} tuple, we default to now.
   @spec coerce_ambiguous_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) :: DateTime.t()
-  defp coerce_ambiguous_time(%Timex.AmbiguousDateTime{after: later}), do: later
   defp coerce_ambiguous_time(%DateTime{} = date_time), do: date_time
+  defp coerce_ambiguous_time(%Timex.AmbiguousDateTime{after: later}), do: later
   defp coerce_ambiguous_time({:error, reason}) do
     Logger.error("#{__MODULE__} failed to coerce ambiguous time: #{inspect(reason)}")
 
