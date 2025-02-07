@@ -19,12 +19,14 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
         <.icon type="icon-svg" name="icon-mode-subway-default" class="h-7 w-7" />
         <span class="font-heading font-bold text-[1.75rem]">Subway Status</span>
       </div>
-      <div
+      <a
         :for={row <- @rows}
+        href={row.route_info.url}
         class={[
           "flex gap-2",
           !row.style.short_bottom_border && "border-gray-lightest border-b-[1px]",
-          "hover:bg-brand-primary-lightest cursor-pointer group/row"
+          "hover:bg-brand-primary-lightest cursor-pointer group/row",
+          "no-underline"
         ]}
       >
         <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
@@ -35,7 +37,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
           />
         </div>
         <div class={[
-          "py-3 w-full",
+          "py-3 w-full flex items-center",
           row.style.short_bottom_border && "border-b-[1px] border-gray-lightest"
         ]}>
           <.status_label
@@ -43,8 +45,9 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
             prefix={row.status_entry.prefix}
             plural={row.status_entry.plural}
           />
+          <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-auto mr-3" />
         </div>
-      </div>
+      </a>
     </div>
     """
   end
@@ -53,7 +56,20 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
     @route_ids
     |> Enum.map(&{&1, data |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
+    |> Enum.map(&add_url/1)
   end
+
+  defp add_url(row) do
+    route_id = route_id_from_route_info(row.route_info)
+    sub_page = if is_normal?(row.status_entry), do: "line", else: "alerts"
+    row |> put_in([:route_info, :url], ~p"/schedules/#{route_id}/#{sub_page}")
+  end
+
+  defp is_normal?(%{status: :normal}), do: true
+  defp is_normal?(%{}), do: false
+
+  defp route_id_from_route_info(%{branch_ids: [branch_id]}), do: branch_id
+  defp route_id_from_route_info(%{route_id: route_id}), do: route_id
 
   defp rows_for_route({route_id, branches_with_statuses}) do
     branches_with_statuses
