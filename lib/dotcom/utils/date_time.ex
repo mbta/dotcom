@@ -16,8 +16,7 @@ defmodule Dotcom.Utils.DateTime do
   def timezone(), do: @timezone
 
   @doc """
-  Get the date_time in the set @timezone (America/New_York).
-  We accommodate ambiguous date_times by choosing the later alternative.
+  Get the date_time in the set @timezone.
   """
   @spec now() :: DateTime.t()
   def now(), do: Timex.now(@timezone)
