@@ -49,7 +49,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
     """
   end
 
-  def status_to_rows(data) do
+  defp status_to_rows(data) do
     @route_ids
     |> Enum.map(&{&1, data |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
