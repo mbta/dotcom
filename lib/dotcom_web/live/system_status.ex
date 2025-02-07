@@ -47,7 +47,9 @@ defmodule DotcomWeb.Live.SystemStatus do
     <h1>Examples</h1>
     <div :for={example <- @examples} class="mb-4">
       <div class="flex gap-5">
-        <.system_status_widget routes_with_statuses={example.statuses} />
+        <div>
+          <.system_status_widget routes_with_statuses={example.statuses} />
+        </div>
         <div class="flex flex-col gap-5">
           <span class="text-lg font-bold">Alerts</span>
           <.alert :for={alert <- example.alerts} alert={alert} />
