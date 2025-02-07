@@ -86,7 +86,7 @@ defmodule Dotcom.Utils.DateTime do
     )
     |> Kernel.inspect()
     |> Kernel.then(fn str -> Regex.scan(~r/_(.*?)\?/, str) end)
-    |> Kernel.then(fn list -> if Enum.count(list) == 0, do: ["past"], else: list end)
+    |> Kernel.then(fn list -> if Enum.empty?(list), do: ["past"], else: list end)
     |> List.flatten()
     |> List.last()
     |> String.to_atom()
