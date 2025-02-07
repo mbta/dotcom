@@ -2,6 +2,8 @@ import Config
 
 config :elixir, ansi_enabled: true
 
+config :dotcom, :timezone, "America/New_York"
+
 config :dotcom, :aws_client, AwsClient.Behaviour
 
 config :dotcom, :content_security_policy_definition, ""
