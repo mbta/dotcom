@@ -261,7 +261,7 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2]
+  import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2], warn: false
 
   if Mix.env() == :dev do
     scope "/kino-live-component", KinoLiveComponent do
