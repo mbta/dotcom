@@ -1,75 +1,206 @@
 defmodule Dotcom.Utils.DateTime do
-  @moduledoc """
-  A collection of functions for working with date_times.
-
-  Consuming modules are responsible for parsing or converting date_times.
-  They should *always* call `coerce_ambiguous_date_time/1` before using a date_time.
-  This is mainly because Timex has so many functions that serve as entry points to date_times.
-  Those functions can return ambiguous date_times during DST transitions.
-  """
+  @moduledoc false
 
   use Timex
 
-  alias Dotcom.Utils.DateTime.Behaviour
-
-  @behaviour Behaviour
-
   @typedoc """
-  A date_time_range is a tuple of two date_times: {start, stop}.
-  Either the start or stop can be nil, but not both.
+  A range of time that can be open ended.
   """
-  @type date_time_range() ::
-          {DateTime.t(), DateTime.t()} | {nil, DateTime.t()} | {DateTime.t(), nil}
+  @type time_range() :: {DateTime.t() | nil, DateTime.t() | nil}
 
-  @timezone Application.compile_env!(:dotcom, :timezone)
+  @timezone Application.compile_env(:dotcom, :timezone)
 
   @doc """
-  Get the date_time in the set @timezone.
+  Returns the timezone for the application.
   """
-  @impl Behaviour
+  def timezone(), do: @timezone
+
+  @doc """
+  Get the date_time in the set @timezone (America/New_York).
+  We accommodate ambiguous date_times by choosing the later alternative.
+  """
+  @spec now() :: DateTime.t()
   def now(), do: Timex.now(@timezone)
 
   @doc """
-  In the default case, we'll return a DateTime when given one.
-
-  Timex can give us ambiguous times when we "fall-back" in DST transitions.
-  That is because the same hour occurs twice.
-  In that case, we choose the later time.
-
-  Timex will return an error if the time occurs when we "spring-forward" in DST transitions.
-  That is because one hour does not occur--02:00:00am to 03:00:00am.
-  In that case, we set the time to 03:00:00am.
+  Get the service date for the given date_time.
   """
-  @impl Behaviour
-  def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
-  def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
-
-  def coerce_ambiguous_date_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do
-    Timex.zero()
-    |> Timex.shift(seconds: seconds_from_zeroyear)
-    |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_date_time()
-    |> Timex.shift(hours: 2)
-    |> coerce_ambiguous_date_time()
+  @spec service_date() :: Date.t()
+  @spec service_date(DateTime.t()) :: Date.t()
+  def service_date(date_time \\ now()) do
+    if date_time.hour < 3 do
+      Timex.shift(date_time, hours: -3) |> Timex.to_date()
+    else
+      Timex.to_date(date_time)
+    end
   end
 
   @doc """
-  Given a date_time_range and a date_time, returns true if the date_time is within the date_time_range.
+  Get the beginning of the service day for the day after the given date_time.
   """
-  @impl Behaviour
-  def in_range?({nil, nil}, _), do: false
-
-  def in_range?({nil, %DateTime{} = stop}, %DateTime{} = date_time) do
-    Timex.before?(date_time, stop) || Timex.equal?(date_time, stop, :microsecond)
+  @spec beginning_of_next_service_day() :: DateTime.t()
+  @spec beginning_of_next_service_day(DateTime.t()) :: DateTime.t()
+  def beginning_of_next_service_day(datetime \\ now()) do
+    datetime
+    |> end_of_service_day()
+    |> Timex.shift(microseconds: 1)
+    |> coerce_ambiguous_time()
   end
 
-  def in_range?({%DateTime{} = start, nil}, %DateTime{} = date_time) do
-    Timex.after?(date_time, start) || Timex.equal?(date_time, start, :microsecond)
+  @doc """
+  Get the beginning of the service day for the given date_time.
+  """
+  @spec beginning_of_service_day() :: DateTime.t()
+  @spec beginning_of_service_day(DateTime.t()) :: DateTime.t()
+  def beginning_of_service_day(date_time \\ now()) do
+    date_time
+    |> service_date()
+    |> Timex.to_datetime(@timezone)
+    |> coerce_ambiguous_time()
+    |> Map.put(:hour, 3)
   end
 
-  def in_range?({%DateTime{} = start, %DateTime{} = stop}, %DateTime{} = date_time) do
+  @doc """
+  Get the end of the service day for the given date_time.
+  """
+  @spec end_of_service_day() :: DateTime.t()
+  @spec end_of_service_day(DateTime.t()) :: DateTime.t()
+  def end_of_service_day(date_time \\ now()) do
+    date_time
+    |> service_date()
+    |> Timex.to_datetime(@timezone)
+    |> coerce_ambiguous_time()
+    |> Timex.shift(days: 1, hours: 3, microseconds: -1)
+    |> coerce_ambiguous_time()
+    |> Map.put(:hour, 2)
+  end
+
+  @doc """
+  Get the service range for the given date_time.
+  One of: :past, :today, :this_week, :next_week, :later.
+  """
+  @spec service_range(DateTime.t()) :: atom()
+  def service_range(date_time) do
+    Enum.find(
+      [&service_today?/1, &service_this_week?/1, &service_next_week?/1, &service_later?/1],
+      fn range_fn -> range_fn.(date_time) end
+    )
+    |> Kernel.inspect()
+    |> Kernel.then(fn str -> Regex.scan(~r/_(.*?)\?/, str) end)
+    |> Kernel.then(fn list -> if Enum.count(list) == 0, do: ["past"], else: list end)
+    |> List.flatten()
+    |> List.last()
+    |> String.to_atom()
+  end
+
+  @doc """
+  Get a service range for the day of the given date_time.
+  """
+  @spec service_range_day() :: time_range()
+  @spec service_range_day(DateTime.t()) :: time_range()
+  def service_range_day(date_time \\ now()) do
+    beginning_of_service_day = beginning_of_service_day(date_time)
+    end_of_service_day = end_of_service_day(date_time)
+
+    {beginning_of_service_day, end_of_service_day}
+  end
+
+  @doc """
+  Get a service range for the week of the given date_time.
+  """
+  @spec service_range_current_week() :: time_range()
+  @spec service_range_current_week(DateTime.t()) :: time_range()
+  def service_range_current_week(date_time \\ now()) do
+    beginning_of_current_week =
+      date_time
+      |> Timex.beginning_of_week()
+      |> Timex.shift(hours: 24)
+      |> beginning_of_service_day()
+
+    end_of_current_week = date_time |> Timex.end_of_week() |> end_of_service_day()
+
+    {beginning_of_current_week, end_of_current_week}
+  end
+
+  @doc """
+  Get a service range for the week following the current week of the given date_time.
+  """
+  @spec service_range_following_week() :: time_range()
+  @spec service_range_following_week(DateTime.t()) :: time_range()
+  def service_range_following_week(date_time \\ now()) do
+    {_, end_of_current_week} = service_range_current_week(date_time)
+    beginning_of_following_week = Timex.shift(end_of_current_week, microseconds: 1)
+
+    end_of_following_week =
+      beginning_of_following_week |> Timex.end_of_week() |> end_of_service_day()
+
+    {beginning_of_following_week, end_of_following_week}
+  end
+
+  @doc """
+  Get a service range for all time afer the following week of the given date_time.
+  """
+  @spec service_range_later() :: time_range()
+  @spec service_range_later(DateTime.t()) :: time_range()
+  def service_range_later(date_time \\ now()) do
+    {_, end_of_following_week} = date_time |> service_range_following_week()
+    beginning_of_later = Timex.shift(end_of_following_week, microseconds: 1)
+
+    {beginning_of_later, nil}
+  end
+
+  @doc """
+  Given a time_range and a date_time, returns true if the date_time is within the time_range.
+  """
+  @spec in_range?(time_range(), DateTime.t()) :: boolean
+  def in_range?({nil, stop}, date_time) do
+    Timex.before?(date_time, stop) || Timex.equal?(date_time, stop)
+  end
+
+  def in_range?({start, nil}, date_time) do
+    Timex.after?(date_time, start) || Timex.equal?(date_time, start)
+  end
+
+  def in_range?({start, stop}, date_time) do
     in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
   end
 
-  def in_range?(_, _), do: false
+  @doc """
+  Does the given date_time fall within today's service range?
+  """
+  @spec service_today?(DateTime.t()) :: boolean
+  def service_today?(date_time) do
+    service_range_day() |> in_range?(date_time)
+  end
+
+  @doc """
+  Does the given date_time fall within the service range of this week?
+  """
+  @spec service_this_week?(DateTime.t()) :: boolean
+  def service_this_week?(date_time) do
+    service_range_current_week() |> in_range?(date_time)
+  end
+
+  @doc """
+  Does the given date_time fall within the service range of next week?
+  """
+  @spec service_next_week?(DateTime.t()) :: boolean
+  def service_next_week?(date_time) do
+    service_range_following_week() |> in_range?(date_time)
+  end
+
+  @doc """
+  Does the given date_time fall within the service range after next week?
+  """
+  @spec service_later?(DateTime.t()) :: boolean
+  def service_later?(date_time) do
+    service_range_later() |> in_range?(date_time)
+  end
+
+  # Timex can give us ambiguous times during DST transitions.
+  # We choose the later time.
+  # In the very rare case that we are given an {:error, _} tuple, we default to now.
+  defp coerce_ambiguous_time(%Timex.AmbiguousDateTime{after: later}), do: later
+  defp coerce_ambiguous_time(%DateTime{} = date_time), do: date_time
+  defp coerce_ambiguous_time(_), do: now()
 end

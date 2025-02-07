@@ -1,5 +1,9 @@
 import Config
 
+config :elixir, ansi_enabled: true
+
+config :dotcom, :timezone, "America/New_York"
+
 config :dotcom, :aws_client, AwsClient.Behaviour
 
 config :dotcom, :cms_api_module, CMS.Api

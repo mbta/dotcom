@@ -3,16 +3,6 @@ defmodule Dotcom.Utils.DateTimeTest do
   use ExUnitProperties
 
   import Dotcom.Utils.DateTime
-  import Mox
-  import Test.Support.Generators.DateTime
-
-  @timezone Application.compile_env!(:dotcom, :timezone)
-
-  setup _ do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-
-    :ok
-  end
 
   describe "now/0" do
     test "returns the current date_time in either EDT or EST" do
@@ -24,50 +14,127 @@ defmodule Dotcom.Utils.DateTimeTest do
     end
   end
 
-  describe "coerce_ambiguous_date_time/1" do
-    test "returns the given date_time when given a date_time" do
+  describe "service_date/1" do
+    property "returns 'today' when the date_time is between the start of service and midnight" do
       # Setup
-      date_time = now()
+      check all date_time <- date_time_generator(:before_midnight) do
+        beginning_of_service_day = beginning_of_service_day(date_time)
+        end_of_day = Timex.end_of_day(date_time)
 
-      # Exercise/Verify
-      assert %DateTime{} = coerce_ambiguous_date_time(date_time)
+        check all service_date_time <- time_range_date_time_generator({beginning_of_service_day, end_of_day}) do
+          # Exercise
+          service_date = service_date(service_date_time)
+
+          # Verify
+          assert Map.take(date_time, [:day, :month, :year]) == Map.take(service_date, [:day, :month, :year])
+        end
+      end
     end
 
-    test "chooses the later time when given an ambiguous date_time" do
+    property "returns 'yesterday' when the date_time is between midnight and the end of service" do
       # Setup
-      now = now()
-      later = Timex.shift(now, microseconds: 1)
-      ambiguous_date_time = %Timex.AmbiguousDateTime{before: now, after: later}
+      check all date_time <- date_time_generator(:after_midnight) do
+        beginning_of_day = Timex.end_of_day(date_time) |> Timex.shift(microseconds: 1)
+        end_of_service_day = end_of_service_day(date_time)
 
-      # Exercise/Verify
-      assert later == coerce_ambiguous_date_time(ambiguous_date_time)
+        check all service_date_time <- time_range_date_time_generator({beginning_of_day, end_of_service_day}) do
+          yesterday = service_date_time |> Timex.shift(days: -1)
+
+          # Exercise
+          service_date = service_date(date_time)
+
+          # Verify
+          assert Map.take(yesterday, [:day, :month, :year]) == Map.take(service_date, [:day, :month, :year])
+        end
+      end
+    end
+  end
+
+  describe "beginning_of_next_service_day/1" do
+    property "the beginning of the next service day is the same 'day' as the end of the current service day" do
+      check all date_time <- date_time_generator() do
+        # Setup
+        end_of_service_day = end_of_service_day(date_time)
+
+        # Exercise
+        beginning_of_next_service_day = beginning_of_next_service_day(date_time)
+
+        # Verify
+        assert Map.take(end_of_service_day, [:day, :month, :year]) == Map.take(beginning_of_next_service_day, [:day, :month, :year])
+      end
+    end
+  end
+
+  describe "beginning_of_service_day/1" do
+    property "the beginning of the service day is always 3am" do
+      check all date_time <- date_time_generator() do
+        # Exercise
+        beginning_of_service_day = beginning_of_service_day(date_time)
+
+        # Verify
+        assert Map.take(beginning_of_service_day, [:hour, :minute, :second]) == %{hour: 3, minute: 0, second: 0}
+      end
+    end
+  end
+
+  describe "end_of_service_day/1" do
+    property "the end of the service day is always 2:59:59..am" do
+      check all date_time <- date_time_generator() do
+        # Exercise
+        end_of_service_day = end_of_service_day(date_time)
+
+        # Verify
+        assert Map.take(end_of_service_day, [:hour, :minute, :second]) == %{hour: 2, minute: 59, second: 59}
+      end
+    end
+  end
+
+  describe "service_range/1" do
+    test "returns :past for a date_time before this week" do
+      # Setup
+      past = now() |> Timex.beginning_of_week() |> Timex.shift(microseconds: -1)
+
+      # Exercise
+      service_range = service_range(past)
+
+      # Verify
+      assert service_range == :past
     end
 
-    test "chooses 03:00:00am of the given day when an error tuple is given" do
+    test "returns :today for a date_time in today's service range" do
       # Setup
-      error_date_time = Timex.to_datetime(~N[2021-03-14 02:30:00], @timezone)
-      rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], @timezone)
+      today = service_range_day() |> random_time_range_date_time()
 
-      # Exercise/Verify
-      assert rounded_error_date_time == coerce_ambiguous_date_time(error_date_time)
+      # Exercise / Verify
+      assert service_range(today) == :today
+    end
+
+    test "returns :this_week for a date_time in this week's service range" do
+      # Setup
+      this_week = service_range_current_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range(this_week) == :this_week
+    end
+
+    test "returns :next_week for a date_time in next week's service range" do
+      # Setup
+      next_week = service_range_following_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range(next_week) == :next_week
+    end
+
+    test "returns :later for any date_time after next week's service range" do
+      # Setup
+      later = service_range_later() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range(later) == :later
     end
   end
 
   describe "in_range?/2" do
-    test "returns false when no actual range is given" do
-      date_time = random_date_time()
-
-      range = {nil, nil}
-
-      refute in_range?(range, date_time)
-    end
-
-    test "defaults to false" do
-      range = {:foo, :bar}
-
-      refute in_range?(range, :baz)
-    end
-
     test "returns true when the date_time is the start of the range" do
       date_time = random_date_time()
 
@@ -86,9 +153,9 @@ defmodule Dotcom.Utils.DateTimeTest do
 
     property "returns true when the date_time is within the range" do
       # Setup
-      check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, years: -1) |> coerce_ambiguous_date_time()
-        stop = Timex.shift(date_time, years: 1) |> coerce_ambiguous_date_time()
+      check all date_time <- date_time_generator() do
+        start = Timex.shift(date_time, years: -1)
+        stop = Timex.shift(date_time, years: 1)
 
         range = {start, stop}
 
@@ -99,9 +166,9 @@ defmodule Dotcom.Utils.DateTimeTest do
 
     property "returns false when the date_time is not within the range" do
       # Setup
-      check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, seconds: 1) |> coerce_ambiguous_date_time()
-        stop = Timex.shift(start, years: 1) |> coerce_ambiguous_date_time()
+      check all date_time <- date_time_generator() do
+        start = Timex.shift(date_time, seconds: 1)
+        stop = Timex.shift(start, years: 1)
 
         range = {start, stop}
 
@@ -109,5 +176,73 @@ defmodule Dotcom.Utils.DateTimeTest do
         refute in_range?(range, date_time)
       end
     end
+  end
+
+  describe "service_today?/1" do
+  end
+
+  describe "service_this_week?/1" do
+  end
+
+  describe "service_next_week?/1" do
+  end
+
+  describe "service_later?/1" do
+  end
+
+  # Generate a random date_time between 10 years ago and 10 years from now.
+  defp date_time_generator() do
+    now = now()
+    beginning_of_time = Timex.shift(now, years: -10)
+    end_of_time = Timex.shift(now, years: 10)
+
+    time_range_date_time_generator({beginning_of_time, end_of_time})
+  end
+
+  # Generate a random date_time between midnight and 3am.
+  defp date_time_generator(:after_midnight) do
+    random_date_time = date_time_generator() |> Enum.take(1) |> List.first()
+    random_hour = Enum.random(0..2)
+
+    after_midnight = Map.put(random_date_time, :hour, random_hour)
+    end_of_service_day = end_of_service_day(after_midnight)
+
+    time_range_date_time_generator({after_midnight, end_of_service_day})
+  end
+
+  # Generate a random date_time before midnight.
+  defp date_time_generator(:before_midnight) do
+    random_date_time = date_time_generator() |> Enum.take(1) |> List.first()
+    random_hour = Enum.random(3..23)
+
+    before_midnight = Map.put(random_date_time, :hour, random_hour)
+    end_of_day = Timex.end_of_day(before_midnight)
+
+    time_range_date_time_generator({before_midnight, end_of_day})
+  end
+
+  # Generate a random date_time between 10 years ago and 10 years from now.
+  defp random_date_time() do
+    date_time_generator() |> Enum.take(1) |> List.first()
+  end
+
+  # Get a random date_time between the beginning and end of the time range.
+  defp random_time_range_date_time({start, stop}) do
+    time_range_date_time_generator({start, stop}) |> Enum.take(1) |> List.first()
+  end
+
+  # Generate a random date_time between the beginning and end of the time range.
+  defp time_range_date_time_generator({start, nil}) do
+    StreamData.repeatedly(fn ->
+      stop = Timex.shift(start, years: 10)
+
+      Faker.DateTime.between(start, stop) |> Timex.to_datetime("America/New_York")
+    end)
+  end
+
+  defp time_range_date_time_generator({start, stop}) do
+    StreamData.repeatedly(fn ->
+      Faker.DateTime.between(start, stop) |> Timex.to_datetime("America/New_York")
+    end)
   end
 end
