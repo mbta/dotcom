@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
           "flex gap-2",
           !row.style.short_bottom_border && "border-gray-lightest border-b-[1px]",
           "hover:bg-brand-primary-lightest cursor-pointer group/row",
-          "no-underline"
+          "text-black no-underline"
         ]}
       >
         <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
@@ -93,7 +93,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
   end
 
   defp row_for_status_entry(status_entry, show_prefix) do
-    %{status: status, time: time, multiple: multiple} = status_entry
+    %{status: status, multiple: multiple} = status_entry
     prefix = if show_prefix, do: prefix(status_entry), else: nil
 
     %{
