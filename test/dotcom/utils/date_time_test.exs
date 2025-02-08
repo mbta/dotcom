@@ -89,36 +89,6 @@ defmodule Dotcom.Utils.DateTimeTest do
     end
   end
 
-  describe "service_range/1" do
-    test "returns :past for a date_time before this week" do
-      # Setup
-      past = now() |> Timex.beginning_of_week() |> Timex.shift(microseconds: -1)
-
-      # Exercise
-      service_range = service_range(past)
-
-      # Verify
-      assert service_range == :past
-    end
-
-    test "returns :today for a date_time in today's service range" do
-      # Setup
-      today = service_range_day() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range(today) == :today
-    end
-
-    test "returns :this_week for a date_time in this week's service range" do
-    end
-
-    test "returns :next_week for a date_time in next week's service range" do
-    end
-
-    test "returns :later for any date_time after next week's service range" do
-    end
-  end
-
   describe "in_range?/2" do
     test "returns true when the date_time is the start of the range" do
       date_time = random_date_time()
@@ -176,10 +146,13 @@ defmodule Dotcom.Utils.DateTimeTest do
   describe "service_this_week?/1" do
     test "returns true when the date_time is in this week's service" do
       # Setup
-      this_week = service_range_current_week() |> random_time_range_date_time()
+      {_, end_of_current_service_week } = service_range_current_week()
+      beginning_of_next_service_day = beginning_of_next_service_day()
+
+      service_range_date_time = random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
 
       # Exercise / Verify
-      assert service_this_week?(this_week)
+      assert service_this_week?(service_range_date_time)
     end
   end
 

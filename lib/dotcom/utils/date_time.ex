@@ -80,24 +80,6 @@ defmodule Dotcom.Utils.DateTime do
   end
 
   @doc """
-  Get the service range for the given date_time.
-  One of: :past, :today, :this_week, :next_week, :later.
-  """
-  @spec service_range(DateTime.t()) :: atom()
-  def service_range(date_time) do
-    Enum.find(
-      [&service_today?/1, &service_this_week?/1, &service_next_week?/1, &service_later?/1],
-      fn range_fn -> range_fn.(date_time) end
-    )
-    |> Kernel.inspect()
-    |> Kernel.then(fn str -> Regex.scan(~r/_(.*?)\?/, str) end)
-    |> Kernel.then(fn list -> if Enum.empty?(list), do: ["past"], else: list end)
-    |> List.flatten()
-    |> List.last()
-    |> String.to_atom()
-  end
-
-  @doc """
   Get a service range for the day of the given date_time.
   """
   @spec service_range_day() :: time_range()
