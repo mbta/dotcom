@@ -110,27 +110,12 @@ defmodule Dotcom.Utils.DateTimeTest do
     end
 
     test "returns :this_week for a date_time in this week's service range" do
-      # Setup
-      this_week = service_range_current_week() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range(this_week) == :this_week
     end
 
     test "returns :next_week for a date_time in next week's service range" do
-      # Setup
-      next_week = service_range_following_week() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range(next_week) == :next_week
     end
 
     test "returns :later for any date_time after next week's service range" do
-      # Setup
-      later = service_range_later() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range(later) == :later
     end
   end
 
@@ -179,15 +164,43 @@ defmodule Dotcom.Utils.DateTimeTest do
   end
 
   describe "service_today?/1" do
+    test "returns true when the date_time is in today's service" do
+      # Setup
+      today = service_range_day() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_today?(today)
+    end
   end
 
   describe "service_this_week?/1" do
+    test "returns true when the date_time is in this week's service" do
+      # Setup
+      this_week = service_range_current_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_this_week?(this_week)
+    end
   end
 
   describe "service_next_week?/1" do
+    test "returns true when the date_time is in next week's service" do
+      # Setup
+      next_week = service_range_following_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_next_week?(next_week)
+    end
   end
 
   describe "service_later?/1" do
+    test "returns true when the date_time is after next week's service" do
+      # Setup
+      later = service_range_later() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_later?(later)
+    end
   end
 
   # Generate a random date_time between 10 years ago and 10 years from now.
