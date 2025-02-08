@@ -3,6 +3,13 @@ defmodule Dotcom.Utils.DateTimeTest do
 
   import Dotcom.Utils.DateTime
 
+  describe "timezone/0" do
+    test "returns a valid timezone for the application" do
+      # Verify/Verify
+      assert timezone() |> Timex.Timezone.exists?()
+    end
+  end
+
   describe "now/0" do
     test "returns the current date_time in either EDT or EST" do
       # Exercise

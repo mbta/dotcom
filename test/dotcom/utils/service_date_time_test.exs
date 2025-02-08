@@ -5,6 +5,13 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   import Dotcom.Utils.DateTime, only: [now: 0]
   import Dotcom.Utils.ServiceDateTime
 
+  describe "service_rollover_time/0" do
+    test "returns a time for the service rollover time" do
+      # Exercise/Verify
+      assert %Time{} = service_rollover_time()
+    end
+  end
+
   describe "service_date/1" do
     property "returns 'today' when the date_time is between the start of service and midnight" do
       # Setup
