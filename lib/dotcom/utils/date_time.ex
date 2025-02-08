@@ -36,5 +36,9 @@ defmodule Dotcom.Utils.DateTime do
 
     now()
   end
-  def coerce_ambiguous_time(_), do: now()
+  def coerce_ambiguous_time(arg) do
+    Logger.error("#{__MODULE__} failed to coerce ambiguous time: #{inspect(arg)}")
+
+    now()
+  end
 end
