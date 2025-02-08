@@ -1,6 +1,12 @@
 defmodule Dotcom.Utils.ServiceDateTime do
   @moduledoc """
   TODO: Add module documentation
+
+  Note that functions like `service_today?/1` and `service_this_week?/1` are not exlusive.
+  A date_time can have service today and service this week.
+
+  However, the `service_range/1` function *is* exclusive.
+  Given a date_time in today's service range, it will return :today.
   """
 
   require Logger
