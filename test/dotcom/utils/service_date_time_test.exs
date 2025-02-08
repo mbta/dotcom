@@ -2,8 +2,10 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   use ExUnit.Case
   use ExUnitProperties
 
-  import Dotcom.Utils.DateTime, only: [now: 0]
+  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_time: 1, now: 0, timezone: 0]
   import Dotcom.Utils.ServiceDateTime
+
+  @timezone timezone()
 
   describe "service_rollover_time/0" do
     test "returns a time for the service rollover time" do
@@ -177,8 +179,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   # Generate a random date_time between 10 years ago and 10 years from now.
   defp date_time_generator() do
     now = now()
-    beginning_of_time = Timex.shift(now, years: -10)
-    end_of_time = Timex.shift(now, years: 10)
+    beginning_of_time = Timex.shift(now, years: -10) |> coerce_ambiguous_time()
+    end_of_time = Timex.shift(now, years: 10) |> coerce_ambiguous_time()
 
     time_range_date_time_generator({beginning_of_time, end_of_time})
   end
@@ -220,13 +222,17 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     StreamData.repeatedly(fn ->
       stop = Timex.shift(start, years: 10)
 
-      Faker.DateTime.between(start, stop) |> Timex.to_datetime("America/New_York")
+      Faker.DateTime.between(start, stop)
+      |> Timex.to_datetime(@timezone)
+      |> coerce_ambiguous_time()
     end)
   end
 
   defp time_range_date_time_generator({start, stop}) do
     StreamData.repeatedly(fn ->
-      Faker.DateTime.between(start, stop) |> Timex.to_datetime("America/New_York")
+      Faker.DateTime.between(start, stop)
+      |> Timex.to_datetime(@timezone)
+      |> coerce_ambiguous_time()
     end)
   end
 end
