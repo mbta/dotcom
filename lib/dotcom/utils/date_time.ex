@@ -12,7 +12,13 @@ defmodule Dotcom.Utils.DateTime do
   """
   @type time_range() :: {DateTime.t() | nil, DateTime.t() | nil}
 
-  @timezone Application.compile_env(:dotcom, :timezone)
+  @service_rollover_time Application.compile_env!(:dotcom, :service_rollover_time)
+  @timezone Application.compile_env!(:dotcom, :timezone)
+
+  @doc """
+  Returns the time at which service rolls over from 'today' to 'tomorrow'.
+  """
+  def service_rollover_time(), do: @service_rollover_time
 
   @doc """
   Returns the timezone for the application.
@@ -32,8 +38,8 @@ defmodule Dotcom.Utils.DateTime do
   @spec service_date() :: Date.t()
   @spec service_date(DateTime.t()) :: Date.t()
   def service_date(date_time \\ now()) do
-    if date_time.hour < 3 do
-      Timex.shift(date_time, hours: -3) |> Timex.to_date()
+    if date_time.hour < @service_rollover_time.hour do
+      Timex.shift(date_time, hours: -@service_rollover_time.hour) |> Timex.to_date()
     else
       Timex.to_date(date_time)
     end
@@ -61,7 +67,7 @@ defmodule Dotcom.Utils.DateTime do
     |> service_date()
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_time()
-    |> Map.put(:hour, 3)
+    |> Map.put(:hour, @service_rollover_time.hour)
   end
 
   @doc """
@@ -74,9 +80,9 @@ defmodule Dotcom.Utils.DateTime do
     |> service_date()
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_time()
-    |> Timex.shift(days: 1, hours: 3, microseconds: -1)
+    |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
     |> coerce_ambiguous_time()
-    |> Map.put(:hour, 2)
+    |> Map.put(:hour, @service_rollover_time.hour - 1)
   end
 
   @doc """

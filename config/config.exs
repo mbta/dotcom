@@ -2,6 +2,7 @@ import Config
 
 config :elixir, ansi_enabled: true
 
+config :dotcom, :service_rollover_time, ~T[03:00:00]
 config :dotcom, :timezone, "America/New_York"
 
 config :dotcom, :aws_client, AwsClient.Behaviour
