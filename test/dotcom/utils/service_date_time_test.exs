@@ -224,7 +224,6 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     time_range_date_time_generator({start, stop}) |> Enum.take(1) |> List.first()
   end
 
-
   # Do the two date_times share the same date information?
   def same_wall_date?(date_time1, date_time2) do
     Timex.to_date(date_time1) == Timex.to_date(date_time2)
@@ -232,7 +231,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
   # Do the two date_times share the same time information (to second granularity)?
   def same_wall_time?(date_time1, date_time2) do
-    Map.take(date_time1, [:hour, :minute, :second]) == Map.take(date_time2, [:hour, :minute, :second])
+    Map.take(date_time1, [:hour, :minute, :second]) ==
+      Map.take(date_time2, [:hour, :minute, :second])
   end
 
   # Generate a random date_time between the beginning and end of the time range.
