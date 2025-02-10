@@ -90,11 +90,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         end_of_service_day = end_of_service_day(date_time)
 
         # Verify
-        assert Map.take(end_of_service_day, [:hour, :minute, :second]) == %{
-                 hour: 2,
-                 minute: 59,
-                 second: 59
-               }
+        assert same_wall_time?(end_of_service_day, ~T[02:59:59])
       end
     end
   end
