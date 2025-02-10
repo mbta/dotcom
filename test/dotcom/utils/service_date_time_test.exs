@@ -17,34 +17,42 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   describe "service_date/1" do
     property "returns 'today' when the date_time is between the start of service and midnight" do
       # Setup
-      check all date_time <- date_time_generator(:before_midnight) do
+      check all(date_time <- date_time_generator(:before_midnight)) do
         beginning_of_service_day = beginning_of_service_day(date_time)
         end_of_day = Timex.end_of_day(date_time)
 
-        check all service_date_time <- time_range_date_time_generator({beginning_of_service_day, end_of_day}) do
+        check all(
+                service_date_time <-
+                  time_range_date_time_generator({beginning_of_service_day, end_of_day})
+              ) do
           # Exercise
           service_date = service_date(service_date_time)
 
           # Verify
-          assert Map.take(date_time, [:day, :month, :year]) == Map.take(service_date, [:day, :month, :year])
+          assert Map.take(date_time, [:day, :month, :year]) ==
+                   Map.take(service_date, [:day, :month, :year])
         end
       end
     end
 
     property "returns 'yesterday' when the date_time is between midnight and the end of service" do
       # Setup
-      check all date_time <- date_time_generator(:after_midnight) do
+      check all(date_time <- date_time_generator(:after_midnight)) do
         beginning_of_day = Timex.end_of_day(date_time) |> Timex.shift(microseconds: 1)
         end_of_service_day = end_of_service_day(date_time)
 
-        check all service_date_time <- time_range_date_time_generator({beginning_of_day, end_of_service_day}) do
+        check all(
+                service_date_time <-
+                  time_range_date_time_generator({beginning_of_day, end_of_service_day})
+              ) do
           yesterday = service_date_time |> Timex.shift(days: -1)
 
           # Exercise
           service_date = service_date(date_time)
 
           # Verify
-          assert Map.take(yesterday, [:day, :month, :year]) == Map.take(service_date, [:day, :month, :year])
+          assert Map.take(yesterday, [:day, :month, :year]) ==
+                   Map.take(service_date, [:day, :month, :year])
         end
       end
     end
@@ -52,7 +60,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
   describe "beginning_of_next_service_day/1" do
     property "the beginning of the next service day is the same 'day' as the end of the current service day" do
-      check all date_time <- date_time_generator() do
+      check all(date_time <- date_time_generator()) do
         # Setup
         end_of_service_day = end_of_service_day(date_time)
 
@@ -60,31 +68,40 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_next_service_day = beginning_of_next_service_day(date_time)
 
         # Verify
-        assert Map.take(end_of_service_day, [:day, :month, :year]) == Map.take(beginning_of_next_service_day, [:day, :month, :year])
+        assert Map.take(end_of_service_day, [:day, :month, :year]) ==
+                 Map.take(beginning_of_next_service_day, [:day, :month, :year])
       end
     end
   end
 
   describe "beginning_of_service_day/1" do
     property "the beginning of the service day is always 3am" do
-      check all date_time <- date_time_generator() do
+      check all(date_time <- date_time_generator()) do
         # Exercise
         beginning_of_service_day = beginning_of_service_day(date_time)
 
         # Verify
-        assert Map.take(beginning_of_service_day, [:hour, :minute, :second]) == %{hour: 3, minute: 0, second: 0}
+        assert Map.take(beginning_of_service_day, [:hour, :minute, :second]) == %{
+                 hour: 3,
+                 minute: 0,
+                 second: 0
+               }
       end
     end
   end
 
   describe "end_of_service_day/1" do
     property "the end of the service day is always 2:59:59..am" do
-      check all date_time <- date_time_generator() do
+      check all(date_time <- date_time_generator()) do
         # Exercise
         end_of_service_day = end_of_service_day(date_time)
 
         # Verify
-        assert Map.take(end_of_service_day, [:hour, :minute, :second]) == %{hour: 2, minute: 59, second: 59}
+        assert Map.take(end_of_service_day, [:hour, :minute, :second]) == %{
+                 hour: 2,
+                 minute: 59,
+                 second: 59
+               }
       end
     end
   end
@@ -108,7 +125,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
     property "returns true when the date_time is within the range" do
       # Setup
-      check all date_time <- date_time_generator() do
+      check all(date_time <- date_time_generator()) do
         start = Timex.shift(date_time, years: -1)
         stop = Timex.shift(date_time, years: 1)
 
@@ -121,7 +138,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
     property "returns false when the date_time is not within the range" do
       # Setup
-      check all date_time <- date_time_generator() do
+      check all(date_time <- date_time_generator()) do
         start = Timex.shift(date_time, seconds: 1)
         stop = Timex.shift(start, years: 1)
 
@@ -146,10 +163,11 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   describe "service_this_week?/1" do
     test "returns true when the date_time is in this week's service" do
       # Setup
-      {_, end_of_current_service_week } = service_range_current_week()
+      {_, end_of_current_service_week} = service_range_current_week()
       beginning_of_next_service_day = beginning_of_next_service_day()
 
-      service_range_date_time = random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
+      service_range_date_time =
+        random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
 
       # Exercise / Verify
       assert service_this_week?(service_range_date_time)
