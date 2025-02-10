@@ -2,7 +2,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   use ExUnit.Case
   use ExUnitProperties
 
-  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_time: 1, now: 0, timezone: 0]
+  import Dotcom.Utils.DateTime
   import Dotcom.Utils.ServiceDateTime
 
   @timezone timezone()
@@ -21,16 +21,15 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_service_day = beginning_of_service_day(date_time)
         end_of_day = Timex.end_of_day(date_time)
 
-        check all(
-                service_date_time <-
-                  time_range_date_time_generator({beginning_of_service_day, end_of_day})
-              ) do
+        date_time_generator =
+          time_range_date_time_generator({beginning_of_service_day, end_of_day})
+
+        check all(service_date_time <- date_time_generator) do
           # Exercise
           service_date = service_date(service_date_time)
 
           # Verify
-          assert Map.take(date_time, [:day, :month, :year]) ==
-                   Map.take(service_date, [:day, :month, :year])
+          assert same_wall_date?(date_time, service_date)
         end
       end
     end
@@ -41,18 +40,17 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_day = Timex.end_of_day(date_time) |> Timex.shift(microseconds: 1)
         end_of_service_day = end_of_service_day(date_time)
 
-        check all(
-                service_date_time <-
-                  time_range_date_time_generator({beginning_of_day, end_of_service_day})
-              ) do
+        date_time_generator =
+          time_range_date_time_generator({beginning_of_day, end_of_service_day})
+
+        check all(service_date_time <- date_time_generator) do
           yesterday = service_date_time |> Timex.shift(days: -1)
 
           # Exercise
           service_date = service_date(date_time)
 
           # Verify
-          assert Map.take(yesterday, [:day, :month, :year]) ==
-                   Map.take(service_date, [:day, :month, :year])
+          assert same_wall_date?(yesterday, service_date)
         end
       end
     end
@@ -68,8 +66,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_next_service_day = beginning_of_next_service_day(date_time)
 
         # Verify
-        assert Map.take(end_of_service_day, [:day, :month, :year]) ==
-                 Map.take(beginning_of_next_service_day, [:day, :month, :year])
+        assert same_wall_date?(end_of_service_day, beginning_of_next_service_day)
       end
     end
   end
@@ -81,11 +78,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_service_day = beginning_of_service_day(date_time)
 
         # Verify
-        assert Map.take(beginning_of_service_day, [:hour, :minute, :second]) == %{
-                 hour: 3,
-                 minute: 0,
-                 second: 0
-               }
+        assert same_wall_time?(beginning_of_service_day, ~T[03:00:00])
       end
     end
   end
@@ -233,6 +226,17 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   # Get a random date_time between the beginning and end of the time range.
   defp random_time_range_date_time({start, stop}) do
     time_range_date_time_generator({start, stop}) |> Enum.take(1) |> List.first()
+  end
+
+
+  # Do the two date_times share the same date information?
+  def same_wall_date?(date_time1, date_time2) do
+    Timex.to_date(date_time1) == Timex.to_date(date_time2)
+  end
+
+  # Do the two date_times share the same time information (to second granularity)?
+  def same_wall_time?(date_time1, date_time2) do
+    Map.take(date_time1, [:hour, :minute, :second]) == Map.take(date_time2, [:hour, :minute, :second])
   end
 
   # Generate a random date_time between the beginning and end of the time range.

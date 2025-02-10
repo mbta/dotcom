@@ -25,9 +25,11 @@ defmodule Dotcom.Utils.DateTime do
   @spec now() :: DateTime.t()
   def now(), do: Timex.now(@timezone)
 
-  # Timex can give us ambiguous times during DST transitions; we choose the later time.
-  # In the *very* rare case that we are given an {:error, _} tuple, we default to now.
-  # In the even rarer case that we are given some other argument type, we also default to now.
+  @doc """
+  Timex can give us ambiguous times during DST transitions; we choose the later time.
+  In the *very* rare case that we are given an {:error, _} tuple, we default to now.
+  In the even rarer case that we are given some other argument type, we also default to now.
+  """
   @spec coerce_ambiguous_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
           DateTime.t()
   def coerce_ambiguous_time(%DateTime{} = date_time), do: date_time
