@@ -3,6 +3,8 @@ defmodule Alerts.Repo.Behaviour do
   Behaviour for the Alerts repo.
   """
 
+  alias Alerts.Alert
+
   @doc """
   Return all alerts for the given route ids.
   """
