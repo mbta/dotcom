@@ -1,6 +1,10 @@
 defmodule Dotcom.Utils.DateTime do
   @moduledoc """
-  TODO: Add module documentation
+  A collection of functions for working with date_times.
+
+  Our focus is to *always* work with date_times in the application's timezone.
+
+  Consuming modules
   """
 
   require Logger
