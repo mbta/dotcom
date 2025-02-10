@@ -17,7 +17,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   use Timex
 
-  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_time: 1, in_range?: 2, now: 0, timezone: 0]
+  import Dotcom.Utils.DateTime,
+    only: [coerce_ambiguous_time: 1, in_range?: 2, now: 0, timezone: 0]
 
   alias Dotcom.Utils
 
