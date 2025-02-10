@@ -32,19 +32,30 @@ defmodule Dotcom.Utils.DateTime do
   def now(), do: Timex.now(@timezone)
 
   @doc """
-  Timex can give us ambiguous times during DST transitions; we choose the later time.
-  In the *very* rare case that we are given an {:error, _} tuple, we default to now.
-  In the even rarer case that we are given some other argument type, we also default to now.
+  In the default case, we'll return a DateTime when given one.
+
+  Timex can give us ambiguous times when we "fall-back" in DST transitions.
+  That is because the same hour occurs twice.
+  In that case, we choose the later time.
+
+  Timex will return an error if the time occurs when we "spring-forward" in DST transitions.
+  That is because one hour a day does not occur--2am to 3am.
+  In that case, we set the time to 3am.
+
+  If we are given something thatis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
   @spec coerce_ambiguous_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
           DateTime.t()
   def coerce_ambiguous_time(%DateTime{} = date_time), do: date_time
   def coerce_ambiguous_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
-  def coerce_ambiguous_time({:error, reason}) do
-    Logger.error("#{__MODULE__} failed to coerce ambiguous time: #{inspect(reason)}")
-
-    now()
+  def coerce_ambiguous_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do
+    Timex.zero()
+    |> Timex.shift(seconds: seconds_from_zeroyear)
+    |> Timex.to_datetime(@timezone)
+    |> coerce_ambiguous_time()
+    |> Timex.shift(hours: 2)
+    |> coerce_ambiguous_time()
   end
 
   def coerce_ambiguous_time(arg) do

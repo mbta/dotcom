@@ -42,13 +42,13 @@ defmodule Dotcom.Utils.DateTimeTest do
       assert later == coerce_ambiguous_time(ambiguous_date_time)
     end
 
-    test "logs the reason and returns `now` when given an error tuple" do
+    test "chooses 3am of the given day when an error tuple is given" do
       # Setup
-      reason = Faker.Company.bullshit()
-      error = {:error, reason}
+      error_date_time = Timex.to_datetime(~N[2021-03-14 02:30:00], timezone())
+      rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], timezone())
 
       # Exercise/Verify
-      assert capture_log(fn -> coerce_ambiguous_time(error) end) =~ reason
+      assert rounded_error_date_time == coerce_ambiguous_time(error_date_time)
     end
 
     test "logs the input and returns `now` as a fallback" do
