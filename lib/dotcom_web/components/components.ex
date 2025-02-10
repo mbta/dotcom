@@ -6,6 +6,12 @@ defmodule DotcomWeb.Components do
   """
   use Phoenix.Component
 
+  use Phoenix.VerifiedRoutes,
+    endpoint: DotcomWeb.Endpoint,
+    router: DotcomWeb.Router
+
+  embed_templates "layouts/*"
+
   attr(:id, :string, required: true, doc: "A unique identifier for this search input.")
 
   attr(:placeholder, :string,
