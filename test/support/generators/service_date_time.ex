@@ -1,11 +1,11 @@
-defmodule Test.Support.Factories.Utils.ServiceDateTime do
+defmodule Test.Support.Generators.ServiceDateTime do
   @moduledoc """
   Factories to help generate/evaluate service date_times for testing.
   """
 
   import Dotcom.Utils.ServiceDateTime, only: [end_of_service_day: 1]
 
-  import Test.Support.Factories.Utils.DateTime,
+  import Test.Support.Generators.DateTime,
     only: [date_time_generator: 0, time_range_date_time_generator: 1]
 
   @doc "Generate a random date_time before midnight or between midnight and 3am."

@@ -39,7 +39,9 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @spec service_date(DateTime.t()) :: Date.t()
   def service_date(date_time \\ now()) do
     if date_time.hour < @service_rollover_time.hour do
-      Timex.shift(date_time, hours: -@service_rollover_time.hour) |> Timex.to_date()
+      Timex.shift(date_time, hours: -@service_rollover_time.hour)
+      |> coerce_ambiguous_time()
+      |> Timex.to_date()
     else
       Timex.to_date(date_time)
     end
@@ -181,6 +183,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   def in_range?({start, stop}, date_time) do
     in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
   end
+
+  def in_range?(_, _), do: false
 
   @doc """
   Is the given date_time before the beginning of service today?
