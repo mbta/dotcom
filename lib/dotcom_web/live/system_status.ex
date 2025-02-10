@@ -75,7 +75,7 @@ defmodule DotcomWeb.Live.SystemStatus do
       <.route_pill route_id="Green" />
       <.route_pill route_id="Orange" />
       <.route_pill route_id="Red" />
-      <.route_pill_with_modifiers route_id="Green" modifier_ids={["Green-B", "Green-C"]} />
+      <.route_pill route_id="Green" modifier_ids={["Green-B", "Green-C"]} />
     </div>
     """
   end

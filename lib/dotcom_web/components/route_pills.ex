@@ -5,11 +5,24 @@ defmodule DotcomWeb.Components.RoutePills do
 
   use DotcomWeb, :component
 
-  attr :route_id, :string
-  attr :modifier_ids, :list
+  attr :route_id, :string, required: true
+  attr :modifier_ids, :list, default: []
   attr :modifier_class, :string, default: ""
 
-  def route_pill_with_modifiers(assigns) do
+  def route_pill(%{modifier_ids: []} = assigns) do
+    ~H"""
+    <div class={
+      [
+        bg_color_class(@route_id),
+        "w-[3.125rem]"
+      ] ++ shared_icon_classes()
+    }>
+      {pill_text(@route_id)}
+    </div>
+    """
+  end
+
+  def route_pill(assigns) do
     ~H"""
     <span class="flex">
       <.route_pill route_id={@route_id} />
@@ -21,19 +34,6 @@ defmodule DotcomWeb.Components.RoutePills do
         />
       </span>
     </span>
-    """
-  end
-
-  def route_pill(assigns) do
-    ~H"""
-    <div class={
-      [
-        bg_color_class(@route_id),
-        "w-[3.125rem]"
-      ] ++ shared_icon_classes()
-    }>
-      {pill_text(@route_id)}
-    </div>
     """
   end
 

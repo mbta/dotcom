@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
         ]}
       >
         <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
-          <.route_pill_with_modifiers
+          <.route_pill
             route_id={row.route_info.route_id}
             modifier_ids={row.route_info.branch_ids}
             modifier_class="group-hover/row:ring-brand-primary-lightest"
