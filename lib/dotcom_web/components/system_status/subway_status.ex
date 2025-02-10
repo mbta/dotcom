@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.SystemStatus.Widget do
+defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   @moduledoc """
   A component that renders the given `@statuses` in a table.
   """
@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
 
   attr :subway_status, :any, required: true
 
-  def system_status_widget(assigns) do
+  def subway_status(assigns) do
     assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
 
     ~H"""

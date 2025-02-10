@@ -8,7 +8,7 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   import DotcomWeb.Components.RoutePills
   import DotcomWeb.Components.SystemStatus.StatusLabel
-  import DotcomWeb.Components.SystemStatus.Widget
+  import DotcomWeb.Components.SystemStatus.SubwayStatus
 
   alias Dotcom.SystemStatus
 
@@ -37,7 +37,7 @@ defmodule DotcomWeb.Live.SystemStatus do
 
     ~H"""
     <h1>Live Data</h1>
-    <.system_status_widget subway_status={@statuses} />
+    <.subway_status subway_status={@statuses} />
 
     <h2>Alerts</h2>
     <div class="flex flex-col gap-2">
@@ -48,7 +48,7 @@ defmodule DotcomWeb.Live.SystemStatus do
     <div :for={example <- @examples} class="mb-4">
       <div class="flex gap-5">
         <div>
-          <.system_status_widget subway_status={example.statuses} />
+          <.subway_status subway_status={example.statuses} />
         </div>
         <div class="flex flex-col gap-5">
           <span class="text-lg font-bold">Alerts</span>
