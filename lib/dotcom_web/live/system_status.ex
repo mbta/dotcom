@@ -6,6 +6,10 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   use DotcomWeb, :live_view
 
+  import DotcomWeb.Components.RoutePills
+  import DotcomWeb.Components.SystemStatus.StatusLabel
+  import DotcomWeb.Components.SystemStatus.SubwayStatus
+
   alias Dotcom.SystemStatus
 
   def render(assigns) do
@@ -13,26 +17,66 @@ defmodule DotcomWeb.Live.SystemStatus do
 
     statuses = SystemStatus.subway_status()
 
+    examples =
+      alerts_examples()
+      |> Enum.map(fn %{alerts: alerts} = example ->
+        example
+        |> Map.put(
+          :statuses,
+          SystemStatus.Subway.subway_status(alerts, Timex.now() |> Timex.set(hour: 12))
+        )
+      end)
+
     assigns =
       assigns
       |> assign(:alerts, alerts)
       |> assign(:statuses, statuses)
+      |> assign(:examples, examples)
+
+    Widget
 
     ~H"""
-    <h1>System Status</h1>
-    <div>
-      <.status :for={status <- @statuses} status={status} />
-    </div>
-    <h1>Alerts</h1>
+    <h1>Live Data</h1>
+    <.subway_status subway_status={@statuses} />
+
+    <h2>Alerts</h2>
     <div class="flex flex-col gap-2">
       <.alert :for={alert <- @alerts} alert={alert} />
     </div>
-    """
-  end
 
-  defp status(assigns) do
-    ~H"""
-    <pre>{inspect @status, pretty: true}</pre>
+    <h1>Examples</h1>
+    <div :for={example <- @examples} class="mb-4">
+      <div class="flex gap-5">
+        <div>
+          <.subway_status subway_status={example.statuses} />
+        </div>
+        <div class="flex flex-col gap-5">
+          <span class="text-lg font-bold">Alerts</span>
+          <.alert :for={alert <- example.alerts} alert={alert} />
+        </div>
+      </div>
+    </div>
+
+    <h1>Misc Components</h1>
+    <h2>Status Labels</h2>
+    <div class="flex flex-col gap-2">
+      <.status_label status={:normal} />
+      <.status_label status={:shuttle} />
+      <.status_label status={:shuttle} plural />
+      <.status_label status={:shuttle} prefix="8:30pm" />
+      <.status_label status={:shuttle} prefix="Wed Feb 12 - Fri Feb 14" />
+      <.status_label status={:station_closure} />
+      <.status_label status={:delay} />
+    </div>
+
+    <h2>Route Pills</h2>
+    <div class="flex flex-col gap-2">
+      <.route_pill route_id="Blue" />
+      <.route_pill route_id="Green" />
+      <.route_pill route_id="Orange" />
+      <.route_pill route_id="Red" />
+      <.route_pill route_id="Green" modifier_ids={["Green-B", "Green-C"]} />
+    </div>
     """
   end
 
@@ -40,7 +84,17 @@ defmodule DotcomWeb.Live.SystemStatus do
     ~H"""
     <details class="border border-gray-lighter p-2">
       <summary>
-        <span class="font-bold">{@alert.severity} {@alert.effect}:</span> {@alert.header}
+        <div>
+          <span class="font-bold">{@alert.effect}:</span>
+          <span class="italic">
+            {@alert.informed_entity
+            |> Enum.map(& &1.route)
+            |> Enum.uniq()
+            |> Enum.sort()
+            |> Enum.join(", ")}
+          </span>
+        </div>
+        <span>{@alert.header}</span>
       </summary>
       <details>
         <summary>Raw alert</summary>
@@ -48,5 +102,189 @@ defmodule DotcomWeb.Live.SystemStatus do
       </details>
     </details>
     """
+  end
+
+  defp alerts_examples() do
+    [
+      %{alerts: []},
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :suspension,
+            header: "Northbound Orange Line trains are suspended due to flooding",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Orange"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.now() |> Timex.set(hour: 20, minute: 30), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header: "Southbound Orange Line trains will be delayed due to flooding at 8:30pm",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Orange"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Northbound Blue line trains are delayed due to an escaped whale from the aquarium",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Blue"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Southbound Blue line trains are delayed due to an escaped otter from the aquarium",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Blue"}]
+            }
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :shuttle,
+            header:
+              "Mattapan trains are replaced with shuttles that are just driving on the tracks",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Mattapan"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Copley Station is closed due to an overabundance of books",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: GreenLine.branch_ids() |> Enum.map(&%Alerts.InformedEntity{route: &1})
+            }
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header: "Green line B branch is delayed due to protests at BU",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Green-B"}]
+            }
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header: "Green line B branch is delayed due to protests at BU",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Green-B"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Copley Station is closed due to an over-abundance of books",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: GreenLine.branch_ids() |> Enum.map(&%Alerts.InformedEntity{route: &1})
+            }
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :suspension,
+            header: "Northbound Orange Line trains are suspended due to flooding",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Orange"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header: "Southbound Orange Line trains are delayed due to flooding",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Orange"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :shuttle,
+            header:
+              "Mattapan trains are replaced with shuttles that are just driving on the tracks",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Mattapan"}]
+            }
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header: "Green line B branch is delayed due to protests at BU",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Green-B"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Riverside station is closed due to a red line train on the tracks",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Green-D"}]
+            }
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Alewife station is closed due to a green line train on the tracks",
+            informed_entity: %Alerts.InformedEntitySet{
+              entities: [%Alerts.InformedEntity{route: "Red"}]
+            }
+          }
+        ]
+      }
+    ]
   end
 end
