@@ -10,8 +10,10 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
 
   @route_ids ["Red", "Orange", "Green", "Blue"]
 
+  attr :subway_status, :any, required: true
+
   def system_status_widget(assigns) do
-    assigns = assigns |> assign(:rows, status_to_rows(assigns.routes_with_statuses))
+    assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
 
     ~H"""
     <div class="px-5 py-4 border-[1px] border-gray-lightest rounded-lg w-96">
@@ -52,9 +54,9 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
     """
   end
 
-  defp status_to_rows(data) do
+  defp status_to_rows(subway_status) do
     @route_ids
-    |> Enum.map(&{&1, data |> Map.get(&1)})
+    |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
     |> Enum.map(&add_url/1)
   end
