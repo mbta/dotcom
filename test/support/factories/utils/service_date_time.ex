@@ -5,7 +5,9 @@ defmodule Test.Support.Factories.Utils.ServiceDateTime do
 
   import Dotcom.Utils.DateTime, only: [coerce_ambiguous_time: 1, now: 0]
   import Dotcom.Utils.ServiceDateTime, only: [end_of_service_day: 1]
-  import Test.Support.Factories.Utils.DateTime, only: [date_time_generator: 0, time_range_date_time_generator: 1]
+
+  import Test.Support.Factories.Utils.DateTime,
+    only: [date_time_generator: 0, time_range_date_time_generator: 1]
 
   @doc "Generate a random date_time before midnight or between midnight and 3am."
   def date_time_generator(:after_midnight) do
