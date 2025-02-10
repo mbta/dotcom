@@ -33,7 +33,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   @doc """
   Get the service date for the given date_time.
-  If the time is before 3am, we consider it to be the previous day.
+  If the time is before 03:00:00am, we consider it to be the previous day.
   """
   @spec service_date() :: Date.t()
   @spec service_date(DateTime.t()) :: Date.t()
@@ -114,7 +114,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   @doc """
   Get a service range for the day of the given date_time.
-  Service days go from 3:00am to 2:59:59am the following day.
+  Service days go from 03:00:00am to 02:59:59am the following day.
   """
   @spec service_range_day() :: Utils.DateTime.date_time_range()
   @spec service_range_day(DateTime.t()) :: Utils.DateTime.date_time_range()
@@ -127,7 +127,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   @doc """
   Get a service range for the week of the given date_time.
-  Service weeks go from Monday at 3:00am to the following Monday at 2:59:59.
+  Service weeks go from Monday at 03:00:00am to the following Monday at 02:59:59am.
   """
   @spec service_range_current_week() :: Utils.DateTime.date_time_range()
   @spec service_range_current_week(DateTime.t()) :: Utils.DateTime.date_time_range()
