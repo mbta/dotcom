@@ -56,6 +56,53 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     end
   end
 
+  describe "service_range/1" do
+    test "returns :past for past" do
+      # Setup
+      today = beginning_of_service_day()
+      past = Timex.shift(today, microseconds: -1)
+
+      # Exercise/Verify
+      assert service_range(past) == :past
+    end
+
+    test "returns :today for today" do
+      # Setup
+      today = service_range_day() |> random_time_range_date_time()
+
+      # Exercise/Verify
+      assert service_range(today) == :today
+    end
+
+    test "returns :this_week for this week" do
+      # Setup
+      {_, end_of_current_service_week} = service_range_current_week()
+      beginning_of_next_service_day = beginning_of_next_service_day()
+
+      this_week =
+        random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
+
+      # Exercise / Verify
+      assert service_range(this_week) == :this_week
+    end
+
+    test "returns :next_week for next week" do
+      # Setup
+      next_week = service_range_following_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range(next_week) == :next_week
+    end
+
+    test "returns :later for later" do
+      # Setup
+      later = service_range_later() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range(later) == :later
+    end
+  end
+
   describe "beginning_of_next_service_day/1" do
     property "the beginning of the next service day is the same 'day' as the end of the current service day" do
       check all(date_time <- date_time_generator()) do
