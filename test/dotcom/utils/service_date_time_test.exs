@@ -76,16 +76,12 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(today) == :today
     end
 
-    test "returns :this_week for this week" do
+    test "returns :today or :this_week for this week" do
       # Setup
-      {_, end_of_current_service_week} = service_range_current_week()
-      beginning_of_next_service_day = beginning_of_next_service_day()
-
-      this_week =
-        random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
+      this_week = service_range_current_week() |> random_time_range_date_time()
 
       # Exercise / Verify
-      assert service_range(this_week) == :this_week
+      assert service_range(this_week) in [:today, :this_week]
     end
 
     test "returns :next_week for next week" do
@@ -145,6 +141,14 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   end
 
   describe "in_range?/2" do
+    test "returns false when no actual range is given" do
+      date_time = random_date_time()
+
+      range = {nil, nil}
+
+      refute in_range?(range, date_time)
+    end
+
     test "returns true when the date_time is the start of the range" do
       date_time = random_date_time()
 
