@@ -23,7 +23,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       end)
 
       # Exercise/Verify
-      # assert %{} = future_disruptions()
+      assert %{} = future_disruptions()
     end
 
     test "returns alerts for this week, next week, and later" do
@@ -57,7 +57,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       end)
 
       # Exercise/Verify
-      # assert %{} = todays_disruptions()
+      assert %{} = todays_disruptions()
     end
 
     test "returns alerts for today only" do
