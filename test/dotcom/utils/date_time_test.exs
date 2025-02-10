@@ -67,6 +67,12 @@ defmodule Dotcom.Utils.DateTimeTest do
       refute in_range?(range, date_time)
     end
 
+    test "defaults to false" do
+      range = {:foo, :bar}
+
+      refute in_range?(range, :baz)
+    end
+
     test "returns true when the date_time is the start of the range" do
       date_time = random_date_time()
 
