@@ -10,7 +10,7 @@ defmodule Dotcom.Alerts do
   @doc """
   Does the alert have an effect that is considered service-impacting?
   """
-  @spec service_impacting_alert?(%Alert.t()) :: boolean()
+  @spec service_impacting_alert?(Alert.t()) :: boolean()
   def service_impacting_alert?(%Alert{effect: effect}) do
     effect in @service_impacting_effects
   end
