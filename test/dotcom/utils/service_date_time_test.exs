@@ -2,10 +2,10 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   use ExUnit.Case
   use ExUnitProperties
 
-  import Dotcom.Utils.DateTime
   import Dotcom.Utils.ServiceDateTime
 
-  @timezone timezone()
+  import Test.Support.Factories.Utils.DateTime
+  import Test.Support.Factories.Utils.ServiceDateTime
 
   describe "service_rollover_time/0" do
     test "returns a time for the service rollover time" do
@@ -181,76 +181,5 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       # Exercise / Verify
       assert service_later?(later)
     end
-  end
-
-  # Generate a random date_time between 10 years ago and 10 years from now.
-  defp date_time_generator() do
-    now = now()
-    beginning_of_time = Timex.shift(now, years: -10) |> coerce_ambiguous_time()
-    end_of_time = Timex.shift(now, years: 10) |> coerce_ambiguous_time()
-
-    time_range_date_time_generator({beginning_of_time, end_of_time})
-  end
-
-  # Generate a random date_time between midnight and 3am.
-  defp date_time_generator(:after_midnight) do
-    random_date_time = date_time_generator() |> Enum.take(1) |> List.first()
-    random_hour = Enum.random(0..2)
-
-    after_midnight = Map.put(random_date_time, :hour, random_hour)
-    end_of_service_day = end_of_service_day(after_midnight)
-
-    time_range_date_time_generator({after_midnight, end_of_service_day})
-  end
-
-  # Generate a random date_time before midnight.
-  defp date_time_generator(:before_midnight) do
-    random_date_time = date_time_generator() |> Enum.take(1) |> List.first()
-    random_hour = Enum.random(3..23)
-
-    before_midnight = Map.put(random_date_time, :hour, random_hour)
-    end_of_day = Timex.end_of_day(before_midnight)
-
-    time_range_date_time_generator({before_midnight, end_of_day})
-  end
-
-  # Generate a random date_time between 10 years ago and 10 years from now.
-  defp random_date_time() do
-    date_time_generator() |> Enum.take(1) |> List.first()
-  end
-
-  # Get a random date_time between the beginning and end of the time range.
-  defp random_time_range_date_time({start, stop}) do
-    time_range_date_time_generator({start, stop}) |> Enum.take(1) |> List.first()
-  end
-
-  # Do the two date_times share the same date information?
-  def same_wall_date?(date_time1, date_time2) do
-    Timex.to_date(date_time1) == Timex.to_date(date_time2)
-  end
-
-  # Do the two date_times share the same time information (to second granularity)?
-  def same_wall_time?(date_time1, date_time2) do
-    Map.take(date_time1, [:hour, :minute, :second]) ==
-      Map.take(date_time2, [:hour, :minute, :second])
-  end
-
-  # Generate a random date_time between the beginning and end of the time range.
-  defp time_range_date_time_generator({start, nil}) do
-    StreamData.repeatedly(fn ->
-      stop = Timex.shift(start, years: 10)
-
-      Faker.DateTime.between(start, stop)
-      |> Timex.to_datetime(@timezone)
-      |> coerce_ambiguous_time()
-    end)
-  end
-
-  defp time_range_date_time_generator({start, stop}) do
-    StreamData.repeatedly(fn ->
-      Faker.DateTime.between(start, stop)
-      |> Timex.to_datetime(@timezone)
-      |> coerce_ambiguous_time()
-    end)
   end
 end
