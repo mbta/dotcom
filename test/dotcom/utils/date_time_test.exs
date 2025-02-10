@@ -91,8 +91,8 @@ defmodule Dotcom.Utils.DateTimeTest do
     property "returns true when the date_time is within the range" do
       # Setup
       check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, years: -1)
-        stop = Timex.shift(date_time, years: 1)
+        start = Timex.shift(date_time, years: -1) |> coerce_ambiguous_time()
+        stop = Timex.shift(date_time, years: 1) |> coerce_ambiguous_time()
 
         range = {start, stop}
 
@@ -104,8 +104,8 @@ defmodule Dotcom.Utils.DateTimeTest do
     property "returns false when the date_time is not within the range" do
       # Setup
       check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, seconds: 1)
-        stop = Timex.shift(start, years: 1)
+        start = Timex.shift(date_time, seconds: 1) |> coerce_ambiguous_time()
+        stop = Timex.shift(start, years: 1) |> coerce_ambiguous_time()
 
         range = {start, stop}
 
