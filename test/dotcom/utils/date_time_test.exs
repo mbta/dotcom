@@ -57,7 +57,6 @@ defmodule Dotcom.Utils.DateTimeTest do
     end
   end
 
-
   describe "in_range?/2" do
     test "returns false when no actual range is given" do
       date_time = random_date_time()
