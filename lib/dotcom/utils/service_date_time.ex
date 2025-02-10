@@ -21,6 +21,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   alias Dotcom.Utils
 
+  @type service_range() :: :past | :today | :this_week | :next_week | :later
+
   @service_rollover_time Application.compile_env!(:dotcom, :service_rollover_time)
   @timezone timezone()
 
@@ -41,6 +43,31 @@ defmodule Dotcom.Utils.ServiceDateTime do
     else
       Timex.to_date(date_time)
     end
+  end
+
+  @doc """
+  The most specific service range for the given date_time.
+  A date_time for today can be in the range for today and this week.
+  But, we just return :today since that is the most specific range.
+  """
+  @spec service_range(DateTime.t()) :: service_range()
+  def service_range(date_time) do
+    Enum.find(
+      [
+        &service_past?/1,
+        &service_today?/1,
+        &service_this_week?/1,
+        &service_next_week?/1,
+        &service_later?/1
+      ],
+      fn f ->
+        f.(date_time)
+      end
+    )
+    |> Kernel.inspect()
+    |> Kernel.then(fn module -> Regex.run(~r/_(\w+)\?/, module) end)
+    |> List.last()
+    |> String.to_atom()
   end
 
   @doc """
@@ -153,6 +180,14 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   def in_range?({start, stop}, date_time) do
     in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
+  end
+
+  @doc """
+  Is the given date_time before the beginning of service today?
+  """
+  @spec service_past?(DateTime.t()) :: boolean
+  def service_past?(date_time) do
+    Timex.before?(date_time, beginning_of_service_day())
   end
 
   @doc """
