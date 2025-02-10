@@ -4,8 +4,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
   import Dotcom.Utils.ServiceDateTime
 
-  import Test.Support.Factories.Utils.DateTime
-  import Test.Support.Factories.Utils.ServiceDateTime
+  import Test.Support.Generators.DateTime
+  import Test.Support.Generators.ServiceDateTime
 
   describe "service_rollover_time/0" do
     test "returns a time for the service rollover time" do
@@ -26,10 +26,11 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
         check all(service_date_time <- date_time_generator) do
           # Exercise
+          date = Timex.to_date(date_time)
           service_date = service_date(service_date_time)
 
           # Verify
-          assert same_wall_date?(date_time, service_date)
+          assert Timex.equal?(date, service_date, :day)
         end
       end
     end
@@ -47,10 +48,11 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
           yesterday = service_date_time |> Timex.shift(days: -1)
 
           # Exercise
+          date = Timex.to_date(yesterday)
           service_date = service_date(date_time)
 
           # Verify
-          assert same_wall_date?(yesterday, service_date)
+          assert Timex.equal?(date, service_date, :day)
         end
       end
     end
@@ -113,7 +115,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_next_service_day = beginning_of_next_service_day(date_time)
 
         # Verify
-        assert same_wall_date?(end_of_service_day, beginning_of_next_service_day)
+        assert Timex.equal?(end_of_service_day, beginning_of_next_service_day, :day)
       end
     end
   end
@@ -125,7 +127,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         beginning_of_service_day = beginning_of_service_day(date_time)
 
         # Verify
-        assert same_wall_time?(beginning_of_service_day, ~T[03:00:00])
+        assert same_time?(beginning_of_service_day, ~T[03:00:00])
       end
     end
   end
@@ -137,7 +139,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         end_of_service_day = end_of_service_day(date_time)
 
         # Verify
-        assert same_wall_time?(end_of_service_day, ~T[02:59:59])
+        assert same_time?(end_of_service_day, ~T[02:59:59])
       end
     end
   end
@@ -228,5 +230,11 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       # Exercise / Verify
       assert service_later?(later)
     end
+  end
+
+  # Do the two date_times share the same time information (to second granularity)?
+  defp same_time?(date_time1, date_time2) do
+    Map.take(date_time1, [:hour, :minute, :second]) ==
+      Map.take(date_time2, [:hour, :minute, :second])
   end
 end
