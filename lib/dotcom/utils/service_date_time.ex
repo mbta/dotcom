@@ -173,7 +173,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec in_range?(Utils.DateTime.time_range(), DateTime.t()) :: boolean
   def in_range?({nil, stop}, date_time) do
-    Timex.before?(date_time, stop) || Timex.equal?(date_time, stop)
+    Timex.before?(date_time, stop) || Timex.equal?(date_time, stop, :microsecond)
   end
 
   def in_range?({start, nil}, date_time) do
@@ -181,7 +181,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   def in_range?({start, stop}, date_time) do
-    in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
+    in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time, :microsecond)
   end
 
   def in_range?(_, _), do: false
