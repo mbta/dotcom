@@ -15,7 +15,7 @@ defmodule Dotcom.Utils.DateTime do
   @typedoc """
   A range of time that can be open ended on either side.
   """
-  @type time_range() :: {DateTime.t() | nil, DateTime.t() | nil}
+  @type date_time_range() :: {DateTime.t() | nil, DateTime.t() | nil}
 
   @timezone Application.compile_env!(:dotcom, :timezone)
 
@@ -55,7 +55,7 @@ defmodule Dotcom.Utils.DateTime do
   @doc """
   Given a time_range and a date_time, returns true if the date_time is within the time_range.
   """
-  @spec in_range?(Utils.DateTime.time_range(), DateTime.t()) :: boolean
+  @spec in_range?(Utils.DateTime.date_time_range(), DateTime.t()) :: boolean
   def in_range?({nil, nil}, _), do: false
 
   def in_range?({nil, %DateTime{} = stop}, %DateTime{} = date_time) do

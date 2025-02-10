@@ -116,8 +116,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get a service range for the day of the given date_time.
   Service days go from 3:00am to 2:59:59am the following day.
   """
-  @spec service_range_day() :: Utils.DateTime.time_range()
-  @spec service_range_day(DateTime.t()) :: Utils.DateTime.time_range()
+  @spec service_range_day() :: Utils.DateTime.date_time_range()
+  @spec service_range_day(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_day(date_time \\ now()) do
     beginning_of_service_day = beginning_of_service_day(date_time)
     end_of_service_day = end_of_service_day(date_time)
@@ -129,8 +129,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get a service range for the week of the given date_time.
   Service weeks go from Monday at 3:00am to the following Monday at 2:59:59.
   """
-  @spec service_range_current_week() :: Utils.DateTime.time_range()
-  @spec service_range_current_week(DateTime.t()) :: Utils.DateTime.time_range()
+  @spec service_range_current_week() :: Utils.DateTime.date_time_range()
+  @spec service_range_current_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_current_week(date_time \\ now()) do
     beginning_of_current_week =
       date_time
@@ -146,8 +146,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get a service range for the week following the current week of the given date_time.
   """
-  @spec service_range_following_week() :: Utils.DateTime.time_range()
-  @spec service_range_following_week(DateTime.t()) :: Utils.DateTime.time_range()
+  @spec service_range_following_week() :: Utils.DateTime.date_time_range()
+  @spec service_range_following_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_following_week(date_time \\ now()) do
     {_, end_of_current_week} = service_range_current_week(date_time)
     beginning_of_following_week = Timex.shift(end_of_current_week, microseconds: 1)
@@ -161,8 +161,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get a service range for all time after the following week of the given date_time.
   """
-  @spec service_range_later() :: Utils.DateTime.time_range()
-  @spec service_range_later(DateTime.t()) :: Utils.DateTime.time_range()
+  @spec service_range_later() :: Utils.DateTime.date_time_range()
+  @spec service_range_later(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_later(date_time \\ now()) do
     {_, end_of_following_week} = date_time |> service_range_following_week()
     beginning_of_later = Timex.shift(end_of_following_week, microseconds: 1)
