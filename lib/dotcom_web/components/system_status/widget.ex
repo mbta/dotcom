@@ -63,12 +63,12 @@ defmodule DotcomWeb.Components.SystemStatus.Widget do
 
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)
-    sub_page = if is_normal?(row.status_entry), do: "line", else: "alerts"
+    sub_page = if normal?(row.status_entry), do: "line", else: "alerts"
     row |> put_in([:route_info, :url], ~p"/schedules/#{route_id}/#{sub_page}")
   end
 
-  defp is_normal?(%{status: :normal}), do: true
-  defp is_normal?(%{}), do: false
+  defp normal?(%{status: :normal}), do: true
+  defp normal?(%{}), do: false
 
   defp route_id_from_route_info(%{branch_ids: [branch_id]}), do: branch_id
   defp route_id_from_route_info(%{route_id: route_id}), do: route_id
