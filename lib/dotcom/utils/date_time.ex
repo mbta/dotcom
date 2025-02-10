@@ -15,7 +15,8 @@ defmodule Dotcom.Utils.DateTime do
   @typedoc """
   A range of time that can be open ended on either side.
   """
-  @type date_time_range() :: {DateTime.t() | nil, DateTime.t() | nil}
+  @type date_time_range() ::
+          {DateTime.t(), DateTime.t()} | {nil, DateTime.t()} | {DateTime.t(), nil}
 
   @timezone Application.compile_env!(:dotcom, :timezone)
 
