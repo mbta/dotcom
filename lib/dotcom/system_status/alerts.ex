@@ -5,6 +5,7 @@ defmodule Dotcom.SystemStatus.Alerts do
   belong in the main `Alerts` module.
   """
 
+  @type service_effect_t :: :delay | :shuttle | :suspension | :station_closure
   @service_effects [:delay, :shuttle, :suspension, :station_closure]
   @doc """
   Returns a list of the alert effects that are considered
@@ -13,7 +14,6 @@ defmodule Dotcom.SystemStatus.Alerts do
   def service_effects(), do: @service_effects
 
   @doc """
-
   Returns `true` if the alert is active at some point during the day
   given, unless the alert's end time is before the time given.
 

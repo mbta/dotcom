@@ -6,6 +6,21 @@ defmodule Dotcom.SystemStatus.Subway do
 
   alias Alerts.Alert
 
+  @type status_time() :: :current | {:future, DateTime.t()}
+
+  @type status_t() :: :normal | Dotcom.SystemStatus.Alerts.service_effect_t()
+
+  @type status_entry() :: %{
+          status: status_t(),
+          multiple: boolean(),
+          time: status_time()
+        }
+
+  @type status_entry_group() :: %{
+          branch_ids: [Routes.Route.id_t()],
+          status_entries: [status_entry()]
+        }
+
   @lines ["Blue", "Green", "Orange", "Red"]
   @doc """
   Returns the route_id's for the subway lines.
@@ -112,6 +127,7 @@ defmodule Dotcom.SystemStatus.Subway do
         "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}]
       }
   """
+  @spec subway_status([Alert.t()], DateTime.t()) :: %{Routes.Route.id_t() => status_entry_group()}
   def subway_status(alerts, time) do
     @lines
     |> Map.new(fn line ->
@@ -132,6 +148,10 @@ defmodule Dotcom.SystemStatus.Subway do
   #
   # The exact implementation depends on which line. Green and Red have
   # branches, so they have special implementations.
+  @spec add_nested_statuses_for_line(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
+          route_id: Routes.Route.id_t(),
+          branches_with_statuses: [status_entry_group()]
+        }
   defp add_nested_statuses_for_line(line_id, alerts, time)
 
   # Green line nested-statuses implementation:
@@ -207,6 +227,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # Service" should come after any other alerts), and then by branch
   # ID (so that, say statuses for "Green-B" should come ahead of
   # "Green-C").
+  @spec sort_branches([status_entry_group()]) :: [status_entry_group()]
   defp sort_branches(branches_with_statuses) do
     branches_with_statuses
     |> Enum.sort_by(fn %{status_entries: status_entries, branch_ids: branch_ids} ->
@@ -216,11 +237,15 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Sort order used in sort_branches/1 - sorts normal statuses ahead
   # of alerts.
+  @spec status_sort_order([status_entry()]) :: integer()
   defp status_sort_order([%{time: :current, status: :normal}]), do: 1
   defp status_sort_order(_), do: 0
 
   # Returns a list containing a single status entry group corresponding
   # to the alerts for the given route.
+  @spec branches_with_statuses(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [
+          status_entry_group()
+        ]
   defp branches_with_statuses(route_id, alerts, time) do
     route_id
     |> statuses_for_route(alerts, time)
@@ -231,6 +256,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # Behaves mostly like branches_with_statuses/3 when applied to
   # "Mattapan", except that if the status is normal, returns an empty
   # list.
+  @spec mattapan_branches_with_statuses([Alert.t()], DateTime.t()) :: [status_entry_group()]
   defp mattapan_branches_with_statuses(alerts, time) do
     "Mattapan"
     |> alerts_for_route(alerts)
@@ -248,6 +274,10 @@ defmodule Dotcom.SystemStatus.Subway do
   # Exchanges a route_id (a line_id or a branch_id - anything that
   # might correspond to an alert) for a map with that route_id and the
   # statuses affecting that route.
+  @spec add_statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
+          route_id: Routes.Route.id_t(),
+          statuses: [status_entry()]
+        }
   defp add_statuses_for_route(route_id, alerts, time) do
     %{
       route_id: route_id,
@@ -257,6 +287,7 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Returns a list of statuses corresponding to the alerts for the
   # given route.
+  @spec statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [status_entry()]
   defp statuses_for_route(route_id, alerts, time) do
     route_id
     |> alerts_for_route(alerts)
@@ -266,6 +297,8 @@ defmodule Dotcom.SystemStatus.Subway do
   # Returns a branch_with_status entry, to be used in the
   # branches_with_statuses field in groups/2. If no branch_ids are
   # provided, then uses an empty array.
+  @spec branch_with_statuses_entry([status_entry()], [Routes.Route.id_t()]) ::
+          status_entry_group()
   defp branch_with_statuses_entry(statuses, branch_ids \\ []) do
     %{
       branch_ids: branch_ids,
@@ -276,6 +309,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # Given `alerts` and `route_id`, filters out only the alerts
   # applicable to the given route, using the alert's "informed
   # entities".
+  @spec alerts_for_route(Routes.Route.id_t(), [Alert.t()]) :: [Alert.t()]
   defp alerts_for_route(route_id, alerts) do
     alerts
     |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
@@ -292,6 +326,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # - Identical alerts are grouped together and pluralized.
   # - Times are given as a kitchen-formatted string, nil, or "Now".
   # - Statuses are sorted alphabetically.
+  @spec alerts_to_statuses([Alert.t()], DateTime.t()) :: [status_entry()]
   defp alerts_to_statuses(alerts, time) do
     alerts
     |> alerts_to_statuses_naive(time)
@@ -303,6 +338,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # status is a simple structure with a route, a status, and a
   # few additional fields that determine how it will render in the
   # frontend.
+  @spec alerts_to_statuses_naive([Alert.t()], DateTime.t()) :: [status_entry()]
   defp alerts_to_statuses_naive(alerts, time)
 
   # If there are no alerts, then we want a single status indicating
@@ -325,6 +361,7 @@ defmodule Dotcom.SystemStatus.Subway do
   #  - If the alert's already active, `time` is set to `nil`.
   #  - If the alert is in the future, `time` is set to the alert's
   #    start time
+  @spec alert_to_status(Alert.t(), DateTime.t()) :: status_entry()
   defp alert_to_status(alert, time) do
     time = future_start_time(alert.active_period, time)
 
@@ -334,6 +371,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # - If the active period is in the future, returns its start_time.
   # - If the active period indicates that the alert is currently active, returns nil.
   # - Raises an error if the alert is completely in the past.
+  @spec future_start_time([Alert.period_pair()], DateTime.t()) :: status_time()
   defp future_start_time(
          [{start_time, _end_time} = first_active_period | more_active_periods],
          time
@@ -348,15 +386,18 @@ defmodule Dotcom.SystemStatus.Subway do
   # Returns true if the active period ends before the time given. An
   # end-time of false indicates an indefinite active period, which
   # never ends.
+  @spec ends_before?(Alert.period_pair(), DateTime.t()) :: boolean()
   defp ends_before?({_start_time, nil}, _time), do: false
   defp ends_before?({_start_time, end_time}, time), do: Timex.before?(end_time, time)
 
   # Returns true if the active period starts before the time given.
+  @spec starts_before?(Alert.period_pair(), DateTime.t()) :: boolean()
   defp starts_before?({start_time, _end_time}, time), do: Timex.before?(start_time, time)
 
   # Combines statuses that have the same active time and status
   # into a single pluralized status (e.g. "Station Closures" instead
   # of "Station Closure").
+  @spec consolidate_duplicates([status_entry()]) :: [status_entry()]
   defp consolidate_duplicates(statuses) do
     statuses
     |> Enum.group_by(fn %{time: time, status: status} -> {time, status} end)
@@ -377,6 +418,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # This should be called before &stringify_times/1, otherwise times
   # will get sorted lexically instead of temporally (e.g. 10:00pm will
   # get sorted ahead of 9:00pm).
+  @spec sort_statuses([status_entry()]) :: [status_entry()]
   defp sort_statuses(statuses) do
     statuses
     |> Enum.sort_by(fn %{time: time, status: status} -> {time, status} end)
