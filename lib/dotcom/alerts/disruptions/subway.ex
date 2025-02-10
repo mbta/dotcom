@@ -7,11 +7,13 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   import Dotcom.Routes, only: [subway_route_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_range: 1]
 
+  alias Alerts.Alert
   alias Dotcom.Utils
 
   @doc """
   Disruptions that occur any time after today's service range.
   """
+  @spec future_disruptions() :: %{Utils.ServiceDateTime.service_range() => [%Alert{}]}
   def future_disruptions() do
     disruption_groups() |> Map.take([:this_week, :next_week, :later])
   end
@@ -19,6 +21,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   @doc """
   Disruptions that occur during today's service range.
   """
+  @spec todays_disruptions() :: %{Utils.ServiceDateTime.service_range() => [%Alert{}]}
   def todays_disruptions() do
     disruption_groups() |> Map.take([:today])
   end
@@ -36,6 +39,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   end
 
   # Looks at every active period for an alert and groups that alert by service range.
+  # Alerts can overlap service ranges, in which case we want them to appear in both.
   defp group_alerts(alert, groups) do
     alert
     |> Map.get(:active_period)

@@ -7,6 +7,8 @@ defmodule Dotcom.SystemStatus.Alerts do
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
 
+  @type service_effect_t :: :delay | :shuttle | :suspension | :station_closure
+
   @doc """
   Returns `true` if the alert is active at some point during the day
   given, unless the alert's end time is before the time given.
