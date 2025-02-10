@@ -28,25 +28,17 @@
       </div>
     <% end %>
     <% timeframe = format_alerts_timeframe(@alerts_timeframe) %>
-    <%= for {route_or_stop, alerts} <- @alert_groups do %>
-      <div class="m-alerts-header">
-        <%= link to: group_header_path(route_or_stop), class: "m-alerts-header__link" do %>
-          <h3 class="m-alerts-header__name">{group_header_name(route_or_stop)}</h3>
+    <div :for={{route_or_stop, alerts} <- @alert_groups} class="mb-lg">
+        <%= link to: group_header_path(route_or_stop), class: "flex items-center gap-sm hover:no-underline" do %>
+          <.route_icon :if={show_mode_icon?(route_or_stop)} route={route_or_stop} />
+          <h3 class="m-alerts-header__name text-lg">{group_header_name(route_or_stop)}</h3>
         <% end %>
-        <%= if show_mode_icon?(route_or_stop) do %>
-          <%= link to: group_header_path(route_or_stop), class: "m-alerts-header__icon" do %>
-            <.route_icon route={route_or_stop} />
-          <% end %>
-        <% end %>
-      </div>
-      <div>
         {DotcomWeb.AlertView.group(
           alerts: alerts,
           route: route_or_stop,
           date_time: @date_time
         )}
-      </div>
-    <% end %>
+    </div>
     <%= if Enum.empty?(@alert_groups) && !show_systemwide_alert? do %>
       <div class="m-alerts__notice--no-alerts">
         There are no {timeframe} {mode_name(@id)} alerts at this time.

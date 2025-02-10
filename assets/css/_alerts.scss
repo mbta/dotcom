@@ -21,9 +21,7 @@
 
 .m-alerts-header__name {
   color: $gray-dark;
-  font-weight: bold;
   margin: calc(#{$base-spacing} / 2) 0;
-  width: 90%;
 
   &:hover {
     color: $brand-primary;
@@ -32,16 +30,6 @@
   &--systemwide:hover {
     color: $gray-dark;
   }
-}
-
-.m-alerts-header__link {
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.m-alerts-header__long-name {
-  padding-left: $base-spacing;
 }
 
 .m-alerts-header__icon {

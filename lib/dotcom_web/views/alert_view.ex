@@ -212,10 +212,8 @@ defmodule DotcomWeb.AlertView do
   @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
   defp group_header_name(%Route{long_name: long_name, name: name, type: 3}) do
     [
-      name,
-      content_tag(:span, long_name,
-        class: "font-heading font-bold mt-11 mb-3 text-2xl m-alerts-header__long-name"
-      )
+      content_tag(:span, name, class: "text-xl pr-sm"),
+      content_tag(:span, long_name, class: "text-lg")
     ]
   end
 
