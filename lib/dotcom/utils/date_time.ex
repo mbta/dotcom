@@ -51,4 +51,24 @@ defmodule Dotcom.Utils.DateTime do
 
     now()
   end
+
+  @doc """
+  Given a time_range and a date_time, returns true if the date_time is within the time_range.
+  """
+  @spec in_range?(Utils.DateTime.time_range(), DateTime.t()) :: boolean
+  def in_range?({nil, nil}, _), do: false
+
+  def in_range?({nil, %DateTime{} = stop}, %DateTime{} = date_time) do
+    Timex.before?(date_time, stop) || Timex.equal?(date_time, stop, :microsecond)
+  end
+
+  def in_range?({%DateTime{} = start, nil}, %DateTime{} = date_time) do
+    Timex.after?(date_time, start) || Timex.equal?(date_time, start, :microsecond)
+  end
+
+  def in_range?({%DateTime{} = start, %DateTime{} = stop}, %DateTime{} = date_time) do
+    in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
+  end
+
+  def in_range?(_, _), do: false
 end
