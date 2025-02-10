@@ -1,9 +1,13 @@
 defmodule Dotcom.Utils.ServiceDateTime do
   @moduledoc """
-  TODO: Add module documentation
+  A collection of functions that helps to work with date_times with regard to service times.
+  Currently, we consider the most general case where service ends at 02:59:59 and starts at 03:00:00.
+
+  In the future, we aim to add route-specific service times.
 
   Note that functions like `service_today?/1` and `service_this_week?/1` are not exlusive.
   A date_time can have service today and service this week.
+  I.e., today is both today and this week.
 
   However, the `service_range/1` function *is* exclusive.
   Given a date_time in today's service range, it will return :today.

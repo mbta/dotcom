@@ -2,9 +2,10 @@ defmodule Dotcom.Utils.DateTime do
   @moduledoc """
   A collection of functions for working with date_times.
 
-  Our focus is to *always* work with date_times in the application's timezone.
-
-  Consuming modules
+  Consuming modules are responsible for parsing or converting date_times.
+  They should *always* call `coerce_ambiguous_time/1` before using a date_time.
+  This is mainly because Timex has so many functions that serve as entry points to date_times.
+  Those functions can return ambiguous date_times during DST transitions.
   """
 
   require Logger
