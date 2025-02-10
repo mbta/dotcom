@@ -25,6 +25,7 @@ config :dotcom, :redix, Redix
 config :dotcom, :redix_pub_sub, Redix.PubSub
 
 config :dotcom, :repo_modules,
+  alerts: Alerts.Repo,
   predictions: Predictions.Repo,
   route_patterns: RoutePatterns.Repo,
   routes: Routes.Repo,

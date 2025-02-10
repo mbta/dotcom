@@ -10,6 +10,8 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   alias Alerts.Alert
   alias Dotcom.Utils
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+
   @doc """
   Disruptions that occur any time after today's service range.
   """
@@ -33,7 +35,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   # 3. Groups them according to service range.
   defp disruption_groups() do
     subway_route_ids()
-    |> Alerts.Repo.by_route_ids(Utils.DateTime.now())
+    |> @alerts_repo.by_route_ids(Utils.DateTime.now())
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
   end
