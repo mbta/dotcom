@@ -8,8 +8,10 @@ defmodule Dotcom.SystemStatus.Subway do
 
   @type status_time() :: :current | {:future, DateTime.t()}
 
+  @type status_t() :: :normal | Dotcom.SystemStatus.Alerts.service_effect_t()
+
   @type status_entry() :: %{
-          status: atom(),
+          status: status_t(),
           multiple: boolean(),
           time: status_time()
         }
