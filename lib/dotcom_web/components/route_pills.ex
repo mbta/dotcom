@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.RoutePills do
     ~H"""
     <span class="flex">
       <.route_pill route_id={@route_id} />
-      <span :if={Enum.any?(@modifier_ids)} class="h-6 -ml-1 flex gap-0.5">
+      <span class="h-6 -ml-1 flex gap-0.5">
         <.route_modifier
           :for={modifier_id <- @modifier_ids}
           modifier_id={modifier_id}
