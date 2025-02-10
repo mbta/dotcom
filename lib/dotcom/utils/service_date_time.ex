@@ -157,7 +157,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  Get a service range for all time afer the following week of the given date_time.
+  Get a service range for all time after the following week of the given date_time.
   """
   @spec service_range_later() :: Utils.DateTime.time_range()
   @spec service_range_later(DateTime.t()) :: Utils.DateTime.time_range()
@@ -172,6 +172,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Given a time_range and a date_time, returns true if the date_time is within the time_range.
   """
   @spec in_range?(Utils.DateTime.time_range(), DateTime.t()) :: boolean
+  def in_range?({nil, nil}, _), do: false
+
   def in_range?({nil, stop}, date_time) do
     Timex.before?(date_time, stop) || Timex.equal?(date_time, stop, :microsecond)
   end
