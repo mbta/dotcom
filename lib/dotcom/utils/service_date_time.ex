@@ -60,8 +60,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
         &service_after_next_week?/1
       ],
       fn f ->
-        IO.inspect(f)
-        date_time |> IO.inspect() |> f.() |> IO.inspect()
+        f.(date_time)
       end
     )
     |> Kernel.inspect()

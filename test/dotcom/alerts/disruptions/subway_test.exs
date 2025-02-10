@@ -34,12 +34,11 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       alert_later = {alert_later_start, Timex.shift(alert_later_start, days: 1)} |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
-        [alert_later]
+        [alert_today, alert_current_week, alert_following_week, alert_later]
       end)
 
       # Exercise/Verify
-      # assert %{this_week: [^alert_current_week], next_week: [^alert_following_week], later: [^alert_later]} = future_disruptions()
-      future_disruptions()
+      assert %{this_week: [^alert_current_week], next_week: [^alert_following_week], later: [^alert_later]} = future_disruptions()
     end
   end
 
@@ -63,7 +62,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       end)
 
       # Exercise/Verify
-      # assert %{today: [^alert_today]} = todays_disruptions()
+      assert %{today: [^alert_today]} = todays_disruptions()
     end
   end
 
