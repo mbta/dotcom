@@ -8,7 +8,7 @@ defmodule Dotcom.Utils.DateTimeTest do
 
   describe "timezone/0" do
     test "returns a valid timezone for the application" do
-      # Verify/Verify
+      # Exercise/Verify
       assert timezone() |> Timex.Timezone.exists?()
     end
   end
