@@ -177,11 +177,11 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   def in_range?({start, nil}, date_time) do
-    Timex.after?(date_time, start) || Timex.equal?(date_time, start)
+    Timex.after?(date_time, start) || Timex.equal?(date_time, start, :microsecond)
   end
 
   def in_range?({start, stop}, date_time) do
-    in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time, :microsecond)
+    in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
   end
 
   def in_range?(_, _), do: false
