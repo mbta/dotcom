@@ -1,7 +1,7 @@
 defmodule Dotcom.Utils.ServiceDateTime do
   @moduledoc """
   A collection of functions that helps to work with date_times with regard to service times.
-  Currently, we consider the most general case where starts at 03:00:00am and ends at 02:59:59am.
+  Currently, we consider the most general case where service starts at 03:00:00am and ends at 02:59:59am.
 
   In the future, we aim to add route-specific service times.
 
