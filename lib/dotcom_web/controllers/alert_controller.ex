@@ -8,6 +8,7 @@ defmodule DotcomWeb.AlertController do
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
   plug(DotcomWeb.Plug.Mticket)
+  plug(:subway_status)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -51,7 +52,12 @@ defmodule DotcomWeb.AlertController do
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do
-    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, excluding_banner(conn, alerts))))
+    base_route_alerts =
+      conn
+      |> excluding_banner(alerts)
+      |> Kernel.--(Dotcom.SystemStatus.subway_alerts_for_today())
+
+    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, base_route_alerts)))
   end
 
   def render_alert_groups(%{params: %{"id" => id}} = conn, route_alerts) do
@@ -141,4 +147,8 @@ defmodule DotcomWeb.AlertController do
 
   defp id_to_atom("commuter-rail"), do: :commuter_rail
   defp id_to_atom(id), do: String.to_existing_atom(id)
+
+  defp subway_status(conn, _opts) do
+    assign(conn, :subway_status, Dotcom.SystemStatus.subway_status())
+  end
 end

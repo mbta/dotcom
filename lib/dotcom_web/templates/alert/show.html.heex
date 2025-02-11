@@ -9,13 +9,11 @@
     {render("_t-alerts.html")}
   </:sidebar_bottom>
   <:main_section>
-    <section :if={@id == :subway} class="border-[1px] border-gray-lightest rounded-lg mb-xl p-md">
-      <h2 class="leading-none mt-0 mb-md">Subway Status</h2>
-      <div class="p-28 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-2xl text-center rounded-xl opacity-15">
-        TBD
-      </div>
-    </section>
-    <section :if={@id == :subway} class="border-[1px] border-gray-lightest rounded-lg mb-xl p-md">
+    <.subway_status
+      :if={@id == :subway && assigns[:subway_status]}
+      subway_status={@subway_status}
+    />
+    <section :if={@id == :subway} class="border-[1px] border-gray-lightest rounded-lg my-xl p-md">
       <h2 class="leading-none mt-0 mb-md">Planned Work</h2>
       <div class="p-28 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-2xl text-center rounded-xl opacity-15">
         TBD
