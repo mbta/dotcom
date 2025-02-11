@@ -14,6 +14,13 @@ defmodule Dotcom.Utils.DateTime do
 
   @behaviour Behaviour
 
+  @typedoc """
+  A date_time_range is a tuple of two date_times: {start, stop}.
+  Either the start or stop can be nil, but not both.
+  """
+  @type date_time_range() ::
+          {DateTime.t(), DateTime.t()} | {nil, DateTime.t()} | {DateTime.t(), nil}
+
   @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
