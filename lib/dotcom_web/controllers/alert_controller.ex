@@ -27,7 +27,16 @@ defmodule DotcomWeb.AlertController do
   end
 
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
-    render_routes(conn)
+    if mode == "subway" do
+      conn
+      |> assign(
+        :alerts,
+        Enum.reject(conn.assigns.alerts, &Dotcom.Alerts.service_impacting_alert?/1)
+      )
+      |> render_routes()
+    else
+      render_routes(conn)
+    end
   end
 
   def show(conn, _params) do
@@ -52,12 +61,7 @@ defmodule DotcomWeb.AlertController do
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do
-    base_route_alerts =
-      conn
-      |> excluding_banner(alerts)
-      |> Kernel.--(Dotcom.SystemStatus.subway_alerts_for_today())
-
-    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, base_route_alerts)))
+    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, excluding_banner(conn, alerts))))
   end
 
   def render_alert_groups(%{params: %{"id" => id}} = conn, route_alerts) do

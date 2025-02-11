@@ -19,6 +19,10 @@ defmodule DotcomWeb.AlertControllerTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Alerts.Repo.Mock, :by_route_ids, fn _ids, _date ->
+      []
+    end)
+
     stub(Routes.Repo.Mock, :by_type, fn route_type ->
       build_list(2, :route, %{type: route_type})
     end)
