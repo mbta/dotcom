@@ -12,6 +12,9 @@ config :dotcom, :cache, Dotcom.Cache.TestCache
 config :dotcom, :httpoison, HTTPoison.Mock
 
 config :dotcom, :cms_api_module, CMS.Api.Static
+
+config :dotcom, :date_time_module, Dotcom.Utils.DateTime.Mock
+
 config :dotcom, :mbta_api_module, MBTA.Api.Mock
 
 config :dotcom, :location_service, LocationService.Mock

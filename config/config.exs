@@ -6,6 +6,8 @@ config :dotcom, :cms_api_module, CMS.Api
 
 config :dotcom, :content_security_policy_definition, ""
 
+config :dotcom, :date_time_module, Dotcom.Utils.DateTime
+
 config :dotcom, :httpoison, HTTPoison
 
 config :dotcom, :location_service, LocationService

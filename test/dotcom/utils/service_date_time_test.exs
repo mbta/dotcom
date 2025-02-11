@@ -2,10 +2,16 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   use ExUnit.Case
   use ExUnitProperties
 
+  import Mox
   import Dotcom.Utils.ServiceDateTime
-
   import Test.Support.Generators.DateTime
   import Test.Support.Generators.ServiceDateTime
+
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   describe "service_rollover_time/0" do
     test "returns a time for the service rollover time" do
@@ -76,12 +82,21 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(today) == :today
     end
 
-    test "returns :today or :later_this_week for this week" do
+    test "returns :later_this_week for this week" do
       # Setup
-      later_this_week = service_range_later_this_week() |> random_time_range_date_time()
+      {beginning_of_service_week, _} = service_range_later_this_week()
+      second_service_day = beginning_of_service_week |> beginning_of_next_service_day()
+
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        second_service_day
+      end)
+
+      {_, end_of_service_week} = service_range_later_this_week()
+
+      later_this_week = random_time_range_date_time({second_service_day, end_of_service_week})
 
       # Exercise / Verify
-      assert service_range(later_this_week) in [:today, :later_this_week]
+      assert service_range(later_this_week) == :later_this_week
     end
 
     test "returns :next_week for next week" do
