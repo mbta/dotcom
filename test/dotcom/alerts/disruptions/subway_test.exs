@@ -16,6 +16,8 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
   alias Test.Support.Factories
 
+  setup :verify_on_exit!
+
   setup _ do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
