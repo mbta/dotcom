@@ -17,16 +17,13 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   use Timex
 
-  import Dotcom.Utils.DateTime,
-    only: [coerce_ambiguous_date_time: 1, in_range?: 2, now: 0, timezone: 0]
-
   alias Dotcom.Utils
 
   @type named_service_range() ::
           :before_today | :today | :later_this_week | :next_week | :after_next_week
-
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @service_rollover_time Application.compile_env!(:dotcom, :service_rollover_time)
-  @timezone timezone()
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
   Returns the time at which service rolls over from 'today' to 'tomorrow'.
@@ -39,10 +36,10 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_date() :: Date.t()
   @spec service_date(DateTime.t()) :: Date.t()
-  def service_date(date_time \\ now()) do
+  def service_date(date_time \\ @date_time_module.now()) do
     if date_time.hour < @service_rollover_time.hour do
       Timex.shift(date_time, hours: -@service_rollover_time.hour)
-      |> coerce_ambiguous_date_time()
+      |> @date_time_module.coerce_ambiguous_date_time()
       |> Timex.to_date()
     else
       Timex.to_date(date_time)
@@ -79,11 +76,11 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec beginning_of_next_service_day() :: DateTime.t()
   @spec beginning_of_next_service_day(DateTime.t()) :: DateTime.t()
-  def beginning_of_next_service_day(datetime \\ now()) do
+  def beginning_of_next_service_day(datetime \\ @date_time_module.now()) do
     datetime
     |> end_of_service_day()
     |> Timex.shift(microseconds: 1)
-    |> coerce_ambiguous_date_time()
+    |> @date_time_module.coerce_ambiguous_date_time()
   end
 
   @doc """
@@ -91,11 +88,11 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec beginning_of_service_day() :: DateTime.t()
   @spec beginning_of_service_day(DateTime.t()) :: DateTime.t()
-  def beginning_of_service_day(date_time \\ now()) do
+  def beginning_of_service_day(date_time \\ @date_time_module.now()) do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_date_time()
+    |> @date_time_module.coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour)
   end
 
@@ -104,13 +101,13 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec end_of_service_day() :: DateTime.t()
   @spec end_of_service_day(DateTime.t()) :: DateTime.t()
-  def end_of_service_day(date_time \\ now()) do
+  def end_of_service_day(date_time \\ @date_time_module.now()) do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_date_time()
+    |> @date_time_module.coerce_ambiguous_date_time()
     |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
-    |> coerce_ambiguous_date_time()
+    |> @date_time_module.coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour - 1)
   end
 
@@ -120,7 +117,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_range_day() :: Utils.DateTime.date_time_range()
   @spec service_range_day(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_day(date_time \\ now()) do
+  def service_range_day(date_time \\ @date_time_module.now()) do
     beginning_of_service_day = beginning_of_service_day(date_time)
     end_of_service_day = end_of_service_day(date_time)
 
@@ -134,7 +131,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_range_later_this_week() :: Utils.DateTime.date_time_range()
   @spec service_range_later_this_week(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_later_this_week(date_time \\ now()) do
+  def service_range_later_this_week(date_time \\ @date_time_module.now()) do
     beginning_of_next_service_day = beginning_of_next_service_day(date_time)
 
     end_of_later_this_week = date_time |> Timex.end_of_week() |> end_of_service_day()
@@ -150,7 +147,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_range_next_week() :: Utils.DateTime.date_time_range()
   @spec service_range_next_week(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_next_week(date_time \\ now()) do
+  def service_range_next_week(date_time \\ @date_time_module.now()) do
     {_, end_of_later_this_week} = service_range_later_this_week(date_time)
     beginning_of_next_week = Timex.shift(end_of_later_this_week, microseconds: 1)
 
@@ -165,7 +162,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_range_after_next_week() :: Utils.DateTime.date_time_range()
   @spec service_range_after_next_week(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_after_next_week(date_time \\ now()) do
+  def service_range_after_next_week(date_time \\ @date_time_module.now()) do
     {_, end_of_next_week} = date_time |> service_range_next_week()
     beginning_of_after_next_week = Timex.shift(end_of_next_week, microseconds: 1)
 
@@ -185,7 +182,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_today?(DateTime.t()) :: boolean
   def service_today?(date_time) do
-    service_range_day() |> in_range?(date_time)
+    service_range_day() |> @date_time_module.in_range?(date_time)
   end
 
   @doc """
@@ -193,7 +190,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_later_this_week?(DateTime.t()) :: boolean
   def service_later_this_week?(date_time) do
-    service_range_later_this_week() |> in_range?(date_time)
+    service_range_later_this_week() |> @date_time_module.in_range?(date_time)
   end
 
   @doc """
@@ -201,7 +198,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_next_week?(DateTime.t()) :: boolean
   def service_next_week?(date_time) do
-    service_range_next_week() |> in_range?(date_time)
+    service_range_next_week() |> @date_time_module.in_range?(date_time)
   end
 
   @doc """
@@ -209,6 +206,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_after_next_week?(DateTime.t()) :: boolean
   def service_after_next_week?(date_time) do
-    service_range_after_next_week() |> in_range?(date_time)
+    service_range_after_next_week() |> @date_time_module.in_range?(date_time)
   end
 end

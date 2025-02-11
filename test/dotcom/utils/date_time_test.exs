@@ -3,13 +3,15 @@ defmodule Dotcom.Utils.DateTimeTest do
   use ExUnitProperties
 
   import Dotcom.Utils.DateTime
+  import Mox
   import Test.Support.Generators.DateTime
 
-  describe "timezone/0" do
-    test "returns a valid timezone for the application" do
-      # Exercise/Verify
-      assert timezone() |> Timex.Timezone.exists?()
-    end
+  @timezone Application.compile_env!(:dotcom, :timezone)
+
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
   end
 
   describe "now/0" do
@@ -43,8 +45,8 @@ defmodule Dotcom.Utils.DateTimeTest do
 
     test "chooses 03:00:00am of the given day when an error tuple is given" do
       # Setup
-      error_date_time = Timex.to_datetime(~N[2021-03-14 02:30:00], timezone())
-      rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], timezone())
+      error_date_time = Timex.to_datetime(~N[2021-03-14 02:30:00], @timezone)
+      rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], @timezone)
 
       # Exercise/Verify
       assert rounded_error_date_time == coerce_ambiguous_date_time(error_date_time)

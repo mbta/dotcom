@@ -1,6 +1,6 @@
 defmodule Dotcom.Utils.DateTime.Behaviour do
   @moduledoc """
-  A behaviour for working with date_times.
+  A behaviour allowing us to mock our own DateTime module.
   """
 
   @callback now() :: DateTime.t()
@@ -13,7 +13,7 @@ defmodule Dotcom.Utils.DateTime.Behaviour do
               DateTime.t()
 
   @callback in_range?(
-              Dotcom.Utils.DateTime.date_time_range(),
+              {DateTime.t(), DateTime.t()} | {nil, DateTime.t()} | {DateTime.t(), nil},
               DateTime.t()
             ) :: boolean
 end

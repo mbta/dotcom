@@ -10,23 +10,16 @@ defmodule Dotcom.Utils.DateTime do
 
   use Timex
 
-  @typedoc """
-  A range of time that can be open ended on either side.
-  """
-  @type date_time_range() ::
-          {DateTime.t(), DateTime.t()} | {nil, DateTime.t()} | {DateTime.t(), nil}
+  alias Dotcom.Utils.DateTime.Behaviour
+
+  @behaviour Behaviour
 
   @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
-  Returns the timezone for the application.
-  """
-  def timezone(), do: @timezone
-
-  @doc """
   Get the date_time in the set @timezone.
   """
-  @spec now() :: DateTime.t()
+  @impl Behaviour
   def now(), do: Timex.now(@timezone)
 
   @doc """
@@ -42,8 +35,7 @@ defmodule Dotcom.Utils.DateTime do
 
   If we are given something tha tis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
-  @spec coerce_ambiguous_date_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
-          DateTime.t()
+  @impl Behaviour
   def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
   def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
@@ -59,7 +51,7 @@ defmodule Dotcom.Utils.DateTime do
   @doc """
   Given a date_time_range and a date_time, returns true if the date_time is within the date_time_range.
   """
-  @spec in_range?(date_time_range(), DateTime.t()) :: boolean
+  @impl Behaviour
   def in_range?({nil, nil}, _), do: false
 
   def in_range?({nil, %DateTime{} = stop}, %DateTime{} = date_time) do
