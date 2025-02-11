@@ -39,10 +39,10 @@ defmodule Dotcom.Utils.DateTime do
   In that case, we choose the later time.
 
   Timex will return an error if the time occurs when we "spring-forward" in DST transitions.
-  That is because one hour a day does not occur--2am to 3am.
-  In that case, we set the time to 3am.
+  That is because one hour does not occur--02:00:00am to 03:00:00am.
+  In that case, we set the time to 03:00:00am.
 
-  If we are given something thatis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
+  If we are given something tha tis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
   @spec coerce_ambiguous_date_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
           DateTime.t()
