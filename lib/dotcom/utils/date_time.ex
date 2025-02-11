@@ -3,7 +3,7 @@ defmodule Dotcom.Utils.DateTime do
   A collection of functions for working with date_times.
 
   Consuming modules are responsible for parsing or converting date_times.
-  They should *always* call `coerce_ambiguous_time/1` before using a date_time.
+  They should *always* call `coerce_ambiguous_date_time/1` before using a date_time.
   This is mainly because Timex has so many functions that serve as entry points to date_times.
   Those functions can return ambiguous date_times during DST transitions.
   """
@@ -44,28 +44,28 @@ defmodule Dotcom.Utils.DateTime do
 
   If we are given something thatis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
-  @spec coerce_ambiguous_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
+  @spec coerce_ambiguous_date_time(DateTime.t() | Timex.AmbiguousDateTime.t() | {:error, term()}) ::
           DateTime.t()
-  def coerce_ambiguous_time(%DateTime{} = date_time), do: date_time
-  def coerce_ambiguous_time(%Timex.AmbiguousDateTime{after: later}), do: later
+  def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
+  def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
-  def coerce_ambiguous_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do
+  def coerce_ambiguous_date_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do
     Timex.zero()
     |> Timex.shift(seconds: seconds_from_zeroyear)
     |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
     |> Timex.shift(hours: 2)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
   end
 
-  def coerce_ambiguous_time(arg) do
+  def coerce_ambiguous_date_time(arg) do
     Logger.error("#{__MODULE__} failed to coerce ambiguous time: #{inspect(arg)}")
 
     now()
   end
 
   @doc """
-  Given a time_range and a date_time, returns true if the date_time is within the time_range.
+  Given a date_time_range and a date_time, returns true if the date_time is within the date_time_range.
   """
   @spec in_range?(date_time_range(), DateTime.t()) :: boolean
   def in_range?({nil, nil}, _), do: false
