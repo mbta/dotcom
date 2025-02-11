@@ -8,8 +8,6 @@ defmodule Dotcom.Utils.DateTime do
   Those functions can return ambiguous date_times during DST transitions.
   """
 
-  require Logger
-
   use Timex
 
   @typedoc """
@@ -56,12 +54,6 @@ defmodule Dotcom.Utils.DateTime do
     |> coerce_ambiguous_date_time()
     |> Timex.shift(hours: 2)
     |> coerce_ambiguous_date_time()
-  end
-
-  def coerce_ambiguous_date_time(arg) do
-    Logger.error("#{__MODULE__} failed to coerce ambiguous time: #{inspect(arg)}")
-
-    now()
   end
 
   @doc """

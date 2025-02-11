@@ -3,7 +3,6 @@ defmodule Dotcom.Utils.DateTimeTest do
   use ExUnitProperties
 
   import Dotcom.Utils.DateTime
-  import ExUnit.CaptureLog
   import Test.Support.Generators.DateTime
 
   describe "timezone/0" do
@@ -42,18 +41,13 @@ defmodule Dotcom.Utils.DateTimeTest do
       assert later == coerce_ambiguous_date_time(ambiguous_date_time)
     end
 
-    test "chooses 3am of the given day when an error tuple is given" do
+    test "chooses 03:00:00am of the given day when an error tuple is given" do
       # Setup
       error_date_time = Timex.to_datetime(~N[2021-03-14 02:30:00], timezone())
       rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], timezone())
 
       # Exercise/Verify
       assert rounded_error_date_time == coerce_ambiguous_date_time(error_date_time)
-    end
-
-    test "logs the input and returns `now` as a fallback" do
-      # Exercise/Verify
-      assert capture_log(fn -> coerce_ambiguous_date_time(nil) end) =~ "nil"
     end
   end
 
