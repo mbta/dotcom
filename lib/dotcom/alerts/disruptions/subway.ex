@@ -17,7 +17,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   """
   @spec future_disruptions() :: %{Utils.ServiceDateTime.service_range() => [Alert.t()]}
   def future_disruptions() do
-    disruption_groups() |> Map.take([:this_week, :next_week, :later])
+    disruption_groups() |> Map.take([:later_this_week, :next_week, :after_next_week])
   end
 
   @doc """
