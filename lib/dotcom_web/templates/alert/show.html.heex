@@ -48,7 +48,12 @@
         </div>
         <div :if={@id == :subway} class="m-alerts-header">
           <%= link to: group_header_path(route_or_stop), class: "inline-flex align-items-center no-underline text-black gap-sm py-xs hover:text-brand-primary" do %>
-            <.route_icon route={route_or_stop} />
+            <.route_pill
+              route_id={route_or_stop.id}
+              modifier_ids={
+                if(route_or_stop.id in GreenLine.branch_ids(), do: [route_or_stop.id], else: [])
+              }
+            />
             <h3 class="m-0">{group_header_name(route_or_stop)}</h3>
           <% end %>
         </div>

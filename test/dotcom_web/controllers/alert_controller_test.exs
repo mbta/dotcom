@@ -92,12 +92,13 @@ defmodule DotcomWeb.AlertControllerTest do
     end
 
     test "are shown on subway alerts", %{conn: conn, alerts: alerts} do
+      route_id = get_route(:subway) |> Map.get(:id)
       response = render_alerts_page(conn, :subway, alerts)
 
       expected =
         render_component(
-          &DotcomWeb.Components.RouteSymbols.route_symbol/1,
-          %{route: get_route(:subway), size: :default}
+          &DotcomWeb.Components.RoutePills.route_pill/1,
+          %{route_id: route_id}
         )
 
       assert response =~ expected
