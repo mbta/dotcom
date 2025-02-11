@@ -1,8 +1,9 @@
 defmodule Alerts.Repo do
   alias Alerts.{Alert, Banner, Priority}
   alias Alerts.Cache.Store
+  alias Alerts.Repo.Behaviour
 
-  @behaviour Alerts.Repo.Behaviour
+  @behaviour Behaviour
 
   @spec all(DateTime.t()) :: [Alert.t()]
   def all(now) do
@@ -19,7 +20,7 @@ defmodule Alerts.Repo do
     Store.alert(id)
   end
 
-  @impl Alerts.Repo.Behaviour
+  @impl Behaviour
   def by_route_ids([], _now) do
     []
   end
