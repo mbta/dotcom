@@ -99,13 +99,13 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
     test "returns :today if today is the last day of the service week" do
       # Setup
-      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+      expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
         Dotcom.Utils.DateTime.now() |> Timex.beginning_of_week() |> beginning_of_service_day()
       end)
 
       {_, end_of_service_week} = service_range_later_this_week()
 
-      expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+      expect(Dotcom.Utils.DateTime.Mock, :now, 1, fn ->
         end_of_service_week
       end)
 
