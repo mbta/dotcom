@@ -84,15 +84,13 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
     test "returns :later_this_week for this week" do
       # Setup
-      {beginning_of_service_week, _} = service_range_later_this_week()
-      second_service_day = beginning_of_service_week |> beginning_of_next_service_day()
+      {beginning_of_service_week, end_of_service_week} = service_range_later_this_week()
 
       stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
-        second_service_day
+        beginning_of_service_week
       end)
 
-      {_, end_of_service_week} = service_range_later_this_week()
-
+      second_service_day = beginning_of_service_week |> beginning_of_next_service_day()
       later_this_week = random_time_range_date_time({second_service_day, end_of_service_week})
 
       # Exercise / Verify
