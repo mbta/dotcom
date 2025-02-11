@@ -20,6 +20,7 @@ config :dotcom, :mbta_api_module, MBTA.Api.Mock
 config :dotcom, :location_service, LocationService.Mock
 
 config :dotcom, :repo_modules,
+  alerts: Alerts.Repo.Mock,
   predictions: Predictions.Repo.Mock,
   route_patterns: RoutePatterns.Repo.Mock,
   routes: Routes.Repo.Mock,

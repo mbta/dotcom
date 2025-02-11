@@ -19,6 +19,7 @@ Mox.defmock(Predictions.PubSub.Mock, for: [GenServer, Predictions.PubSub.Behavio
 Mox.defmock(Predictions.Store.Mock, for: Predictions.Store.Behaviour)
 
 # Repos
+Mox.defmock(Alerts.Repo.Mock, for: Alerts.Repo.Behaviour)
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)
 Mox.defmock(Routes.Repo.Mock, for: Routes.Repo.Behaviour)
 Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)

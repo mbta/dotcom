@@ -8,6 +8,8 @@ defmodule Dotcom.Utils.DateTimeTest do
 
   @timezone Application.compile_env!(:dotcom, :timezone)
 
+  setup :verify_on_exit!
+
   setup _ do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
