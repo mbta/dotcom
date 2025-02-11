@@ -39,8 +39,6 @@ defmodule Dotcom.Utils.DateTime do
   Timex will return an error if the time occurs when we "spring-forward" in DST transitions.
   That is because one hour does not occur--02:00:00am to 03:00:00am.
   In that case, we set the time to 03:00:00am.
-
-  If we are given something tha tis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
   @impl Behaviour
   def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
