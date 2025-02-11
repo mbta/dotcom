@@ -23,13 +23,13 @@ defmodule Dotcom.Utils.DateTimeTest do
     end
   end
 
-  describe "coerce_ambiguous_time/1" do
+  describe "coerce_ambiguous_date_time/1" do
     test "returns the given date_time when given a date_time" do
       # Setup
       date_time = now()
 
       # Exercise/Verify
-      assert %DateTime{} = coerce_ambiguous_time(date_time)
+      assert %DateTime{} = coerce_ambiguous_date_time(date_time)
     end
 
     test "chooses the later time when given an ambiguous date_time" do
@@ -39,7 +39,7 @@ defmodule Dotcom.Utils.DateTimeTest do
       ambiguous_date_time = %Timex.AmbiguousDateTime{before: now, after: later}
 
       # Exercise/Verify
-      assert later == coerce_ambiguous_time(ambiguous_date_time)
+      assert later == coerce_ambiguous_date_time(ambiguous_date_time)
     end
 
     test "chooses 3am of the given day when an error tuple is given" do
@@ -48,12 +48,12 @@ defmodule Dotcom.Utils.DateTimeTest do
       rounded_error_date_time = Timex.to_datetime(~N[2021-03-14 03:00:00.000000], timezone())
 
       # Exercise/Verify
-      assert rounded_error_date_time == coerce_ambiguous_time(error_date_time)
+      assert rounded_error_date_time == coerce_ambiguous_date_time(error_date_time)
     end
 
     test "logs the input and returns `now` as a fallback" do
       # Exercise/Verify
-      assert capture_log(fn -> coerce_ambiguous_time(nil) end) =~ "nil"
+      assert capture_log(fn -> coerce_ambiguous_date_time(nil) end) =~ "nil"
     end
   end
 
@@ -91,8 +91,8 @@ defmodule Dotcom.Utils.DateTimeTest do
     property "returns true when the date_time is within the range" do
       # Setup
       check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, years: -1) |> coerce_ambiguous_time()
-        stop = Timex.shift(date_time, years: 1) |> coerce_ambiguous_time()
+        start = Timex.shift(date_time, years: -1) |> coerce_ambiguous_date_time()
+        stop = Timex.shift(date_time, years: 1) |> coerce_ambiguous_date_time()
 
         range = {start, stop}
 
@@ -104,8 +104,8 @@ defmodule Dotcom.Utils.DateTimeTest do
     property "returns false when the date_time is not within the range" do
       # Setup
       check all(date_time <- date_time_generator()) do
-        start = Timex.shift(date_time, seconds: 1) |> coerce_ambiguous_time()
-        stop = Timex.shift(start, years: 1) |> coerce_ambiguous_time()
+        start = Timex.shift(date_time, seconds: 1) |> coerce_ambiguous_date_time()
+        stop = Timex.shift(start, years: 1) |> coerce_ambiguous_date_time()
 
         range = {start, stop}
 

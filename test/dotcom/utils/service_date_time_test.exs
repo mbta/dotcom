@@ -59,13 +59,13 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   end
 
   describe "service_range/1" do
-    test "returns :past for past" do
+    test "returns :before_today for before_today" do
       # Setup
       today = beginning_of_service_day()
-      past = Timex.shift(today, microseconds: -1)
+      before_today = Timex.shift(today, microseconds: -1)
 
       # Exercise/Verify
-      assert service_range(past) == :past
+      assert service_range(before_today) == :before_today
     end
 
     test "returns :today for today" do
@@ -78,7 +78,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
     test "returns :today or :this_week for this week" do
       # Setup
-      this_week = service_range_current_week() |> random_time_range_date_time()
+      this_week = service_range_this_week() |> random_time_range_date_time()
 
       # Exercise / Verify
       assert service_range(this_week) in [:today, :this_week]
@@ -92,12 +92,12 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(next_week) == :next_week
     end
 
-    test "returns :later for later" do
+    test "returns :after_next_week for after_next_week" do
       # Setup
-      later = service_range_later() |> random_time_range_date_time()
+      after_next_week = service_range_after_next_week() |> random_time_range_date_time()
 
       # Exercise / Verify
-      assert service_range(later) == :later
+      assert service_range(after_next_week) == :after_next_week
     end
   end
 
@@ -153,7 +153,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   describe "service_this_week?/1" do
     test "returns true when the date_time is in this week's service" do
       # Setup
-      {_, end_of_current_service_week} = service_range_current_week()
+      {_, end_of_current_service_week} = service_range_this_week()
       beginning_of_next_service_day = beginning_of_next_service_day()
 
       service_range_date_time =
@@ -174,13 +174,13 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     end
   end
 
-  describe "service_later?/1" do
+  describe "service_after_next_week?/1" do
     test "returns true when the date_time is after next week's service" do
       # Setup
-      later = service_range_later() |> random_time_range_date_time()
+      after_next_week = service_range_after_next_week() |> random_time_range_date_time()
 
       # Exercise / Verify
-      assert service_later?(later)
+      assert service_after_next_week?(after_next_week)
     end
   end
 

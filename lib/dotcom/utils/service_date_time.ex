@@ -1,16 +1,17 @@
 defmodule Dotcom.Utils.ServiceDateTime do
   @moduledoc """
-  A collection of functions that helps to work with date_times with regard to service times.
+  A collection of functions that helps to work with date_times with regard to service ranges.
   Currently, we consider the most general case where service starts at 03:00:00am and ends at 02:59:59am.
 
   In the future, we aim to add route-specific service times.
 
-  Note that functions like `service_today?/1` and `service_this_week?/1` are not exlusive.
-  A date_time can have service today and service this week.
-  I.e., today is both today and this week.
+  The service range continuum:
 
-  However, the `service_range/1` function *is* exclusive.
-  Given a date_time in today's service range, it will return :today.
+  ---before today---|---this week---|---next week---|---after next week---
+                  today
+
+  Note that there can be overlap btween today and this week since today is a day in this week.
+  Before today and after next week are open intervals.
   """
 
   require Logger
@@ -18,11 +19,12 @@ defmodule Dotcom.Utils.ServiceDateTime do
   use Timex
 
   import Dotcom.Utils.DateTime,
-    only: [coerce_ambiguous_time: 1, in_range?: 2, now: 0, timezone: 0]
+    only: [coerce_ambiguous_date_time: 1, in_range?: 2, now: 0, timezone: 0]
 
   alias Dotcom.Utils
 
-  @type service_range() :: :past | :today | :this_week | :next_week | :later
+  @type named_service_range() ::
+          :before_today | :today | :this_week | :next_week | :after_next_week
 
   @service_rollover_time Application.compile_env!(:dotcom, :service_rollover_time)
   @timezone timezone()
@@ -41,7 +43,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   def service_date(date_time \\ now()) do
     if date_time.hour < @service_rollover_time.hour do
       Timex.shift(date_time, hours: -@service_rollover_time.hour)
-      |> coerce_ambiguous_time()
+      |> coerce_ambiguous_date_time()
       |> Timex.to_date()
     else
       Timex.to_date(date_time)
@@ -49,19 +51,19 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  The most specific service range for the given date_time.
+  The most specific service range for the given date_time as an atom.
   A date_time for today can be in the range for today and this week.
   But, we just return :today since that is the most specific range.
   """
-  @spec service_range(DateTime.t()) :: service_range()
+  @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do
     Enum.find(
       [
-        &service_past?/1,
+        &service_before_today?/1,
         &service_today?/1,
         &service_this_week?/1,
         &service_next_week?/1,
-        &service_later?/1
+        &service_after_next_week?/1
       ],
       fn f ->
         f.(date_time)
@@ -82,7 +84,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
     datetime
     |> end_of_service_day()
     |> Timex.shift(microseconds: 1)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
   end
 
   @doc """
@@ -94,7 +96,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour)
   end
 
@@ -107,9 +109,9 @@ defmodule Dotcom.Utils.ServiceDateTime do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
     |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
-    |> coerce_ambiguous_time()
+    |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour - 1)
   end
 
@@ -130,18 +132,14 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get a service range for the week of the given date_time.
   Service weeks go from Monday at 03:00:00am to the following Monday at 02:59:59am.
   """
-  @spec service_range_current_week() :: Utils.DateTime.date_time_range()
-  @spec service_range_current_week(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_current_week(date_time \\ now()) do
-    beginning_of_current_week =
-      date_time
-      |> Timex.beginning_of_week()
-      |> Timex.shift(hours: 24)
-      |> beginning_of_service_day()
+  @spec service_range_this_week() :: Utils.DateTime.date_time_range()
+  @spec service_range_this_week(DateTime.t()) :: Utils.DateTime.date_time_range()
+  def service_range_this_week(date_time \\ now()) do
+    beginning_of_this_week = date_time |> beginning_of_service_day()
 
-    end_of_current_week = date_time |> Timex.end_of_week() |> end_of_service_day()
+    end_of_this_week = date_time |> Timex.end_of_week() |> end_of_service_day()
 
-    {beginning_of_current_week, end_of_current_week}
+    {beginning_of_this_week, end_of_this_week}
   end
 
   @doc """
@@ -150,8 +148,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @spec service_range_following_week() :: Utils.DateTime.date_time_range()
   @spec service_range_following_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_following_week(date_time \\ now()) do
-    {_, end_of_current_week} = service_range_current_week(date_time)
-    beginning_of_following_week = Timex.shift(end_of_current_week, microseconds: 1)
+    {_, end_of_this_week} = service_range_this_week(date_time)
+    beginning_of_following_week = Timex.shift(end_of_this_week, microseconds: 1)
 
     end_of_following_week =
       beginning_of_following_week |> Timex.end_of_week() |> end_of_service_day()
@@ -162,20 +160,20 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get a service range for all time after the following week of the given date_time.
   """
-  @spec service_range_later() :: Utils.DateTime.date_time_range()
-  @spec service_range_later(DateTime.t()) :: Utils.DateTime.date_time_range()
-  def service_range_later(date_time \\ now()) do
+  @spec service_range_after_next_week() :: Utils.DateTime.date_time_range()
+  @spec service_range_after_next_week(DateTime.t()) :: Utils.DateTime.date_time_range()
+  def service_range_after_next_week(date_time \\ now()) do
     {_, end_of_following_week} = date_time |> service_range_following_week()
-    beginning_of_later = Timex.shift(end_of_following_week, microseconds: 1)
+    beginning_of_after_next_week = Timex.shift(end_of_following_week, microseconds: 1)
 
-    {beginning_of_later, nil}
+    {beginning_of_after_next_week, nil}
   end
 
   @doc """
   Is the given date_time before the beginning of service today?
   """
-  @spec service_past?(DateTime.t()) :: boolean
-  def service_past?(date_time) do
+  @spec service_before_today?(DateTime.t()) :: boolean
+  def service_before_today?(date_time) do
     Timex.before?(date_time, beginning_of_service_day())
   end
 
@@ -192,7 +190,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_this_week?(DateTime.t()) :: boolean
   def service_this_week?(date_time) do
-    service_range_current_week() |> in_range?(date_time)
+    service_range_this_week() |> in_range?(date_time)
   end
 
   @doc """
@@ -206,8 +204,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Does the given date_time fall within the service range after next week?
   """
-  @spec service_later?(DateTime.t()) :: boolean
-  def service_later?(date_time) do
-    service_range_later() |> in_range?(date_time)
+  @spec service_after_next_week?(DateTime.t()) :: boolean
+  def service_after_next_week?(date_time) do
+    service_range_after_next_week() |> in_range?(date_time)
   end
 end
