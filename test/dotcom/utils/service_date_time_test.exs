@@ -82,7 +82,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(today) == :today
     end
 
-    test "returns :later_this_week for this week" do
+    test "returns :later_this_week for later this week" do
       # Setup
       {beginning_of_service_week, end_of_service_week} = service_range_later_this_week()
 
@@ -95,6 +95,22 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
       # Exercise / Verify
       assert service_range(later_this_week) == :later_this_week
+    end
+
+    test "returns :today if today is the last day of the service week" do
+      # Setup
+      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        Dotcom.Utils.DateTime.now() |> Timex.beginning_of_week() |> beginning_of_service_day()
+      end)
+
+      {_, end_of_service_week} = service_range_later_this_week()
+
+      expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+        end_of_service_week
+      end)
+
+      # Exercise / Verify
+      assert service_range(end_of_service_week) == :today
     end
 
     test "returns :next_week for next week" do
