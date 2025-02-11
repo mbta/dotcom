@@ -23,7 +23,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   @doc """
   Disruptions that occur during today's service range.
   """
-  @spec todays_disruptions() :: %{Utils.ServiceDateTime.service_range() => [Alert.t()]}
+  @spec todays_disruptions() :: %{Utils.ServiceDateTime.named_service_range() => [Alert.t()]}
   def todays_disruptions() do
     disruption_groups() |> Map.take([:today])
   end
