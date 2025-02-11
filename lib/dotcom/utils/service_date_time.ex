@@ -47,9 +47,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  The most specific service range for the given date_time as an atom.
-  A date_time for today can be in the range for today and this week.
-  But, we just return :today since that is the most specific range.
+  The service range for the given date_time.
   """
   @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do
