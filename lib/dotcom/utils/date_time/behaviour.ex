@@ -1,6 +1,6 @@
 defmodule Dotcom.Utils.DateTime.Behaviour do
   @moduledoc """
-  A behaviour allowing us to mock our own DateTime module.
+  A behaviour for working with date_times.
   """
 
   @callback now() :: DateTime.t()
