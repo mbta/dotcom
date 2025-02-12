@@ -1,0 +1,133 @@
+# Planned Disruptions
+
+## Section
+
+```elixir
+defmodule Dotcom.PlannedDisruptions.Display do
+  @moduledoc false
+
+  def buckets_to_output(buckets) do
+    Enum.each(buckets, &bucket_to_output/1)
+  end
+
+  defp alert_to_lines(alert) do
+    Enum.map(alert.informed_entity.entities, & &1.route)
+    |> Enum.uniq()
+    |> Enum.sort()
+    |> Enum.join(" / ")
+  end
+
+  def alert_to_output(alert) do
+    {start, stop} = time_range(alert.active_period)
+    lines = alert_to_lines(alert)
+    effect = alert.effect |> Atom.to_string() |> String.upcase()
+
+    IO.puts("#{lines} [#{effect}] #{format_date(start)}-#{format_date(stop)}")
+    IO.puts("---------------")
+    IO.puts(alert.header)
+    IO.puts("\n")
+  end
+
+  defp bucket_to_output({key, alerts}) do
+    key |> Atom.to_string() |> Recase.to_title() |> IO.puts()
+
+    IO.puts("===============")
+
+    Enum.each(alerts, &alert_to_output/1)
+
+    IO.puts("\n")
+  end
+
+  defp format_date(datetime) do
+    datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
+  end
+
+  defp time_range(active_periods) do
+    periods = Enum.sort_by(active_periods, fn {start, _} -> start end)
+
+    {start, _} = List.first(periods)
+    {_, stop} = List.last(periods)
+
+    {start, stop}
+  end
+end
+```
+
+```elixir
+defmodule DotcomWeb.Components.PlannedDisruptions do
+  use Phoenix.Component
+
+  import MbtaMetro.Components.Accordion, only: [accordion: 1]
+
+  alias Alerts.Alert
+
+  def disruptions(assigns) do
+    ~H"""
+    <div :for={{service_range, alerts} <- @disruptions}>
+      <h2><%= service_range_string(service_range) %></h2>
+      <.disruption :for={alert <- alerts} alert={alert} />
+    </div>
+    """
+  end
+
+  defp disruption(assigns) do
+    ~H"""
+    <.accordion >
+      <:heading>
+        <.heading alert={@alert} />
+      </:heading>
+      <:content>
+        <.content alert={@alert} />
+      </:content>
+    </.accordion>
+    """
+  end
+
+  defp heading(assigns) do
+    ~H"""
+    <% {start, stop} = alert_date_time_range(@alert) %>
+    <% lines = alert_lines(@alert) %>
+    <%= "#{Enum.join(lines, "/")} [#{@alert.effect}] #{format_date(start)}-#{format_date(stop)}" %>
+    """
+  end
+
+  defp content(assigns) do
+    ~H"""
+    <p><%= @alert.header %></p>
+    """
+  end
+
+  defp alert_date_time_range(%Alert{active_period: active_period}) do
+    periods = Enum.sort_by(active_period, fn {start, _} -> start end)
+
+    {start, _} = List.first(periods)
+    {_, stop} = List.last(periods)
+
+    {start, stop}
+  end
+
+  defp alert_lines(%Alert{informed_entity: %{entities: entities}}) do
+    Enum.map(entities, & &1.route)
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
+
+  defp format_date(datetime) do
+    datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
+  end
+
+  defp service_range_string(service_range) do
+    service_range
+    |> Atom.to_string()
+    |> Recase.to_title()
+  end
+end
+
+alias DotcomWeb.Components.PlannedDisruptions
+
+assigns = %{
+  disruptions: Dotcom.Alerts.Disruptions.Subway.future_disruptions()
+}
+
+PlannedDisruptions.disruptions(assigns) |> KinoLiveComponent.component()
+```

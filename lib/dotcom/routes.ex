@@ -3,7 +3,17 @@ defmodule Dotcom.Routes do
   A collection of functions that help to work with routes in a unified way.
   """
 
-  @subway_route_ids ["Blue", "Green", "Orange", "Red"]
+  @subway_lines ["Blue", "Green", "Orange", "Red"]
+  @green_line_branches Enum.map(["B", "C", "D", "E"], fn branch -> "Green-#{branch}" end)
+  @red_line_branches ["Mattapan"]
+
+  @subway_route_ids (@subway_lines ++ @green_line_branches ++ @red_line_branches)
+
+  @doc """
+  Returns a list of subway lines.
+  """
+  @spec subway_lines() :: [String.t()]
+  def subway_lines(), do: @subway_lines
 
   @doc """
   Returns a list of route ids for all subway routes.
