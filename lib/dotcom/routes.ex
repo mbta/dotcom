@@ -5,17 +5,26 @@ defmodule Dotcom.Routes do
 
   alias Routes.Route
 
-  @subway_branch_ids GreenLine.branch_ids() ++ ["Mattapan"]
-  @subway_line_names ["Blue", "Green", "Orange", "Red"]
+  @subway_line_ids ["Blue", "Green", "Orange", "Red"]
+  @green_line_branch_ids Enum.map(["B", "C", "D", "E"], fn branch -> "Green-#{branch}" end)
+  @red_line_branch_ids ["Mattapan"]
+
+  @subway_route_ids (@subway_line_ids ++ @green_line_branch_ids ++ @red_line_branch_ids)
 
   # Association of subway line names to all their respective subway routes.
   # This could later be derived from the GTFS line/route relationships.
   @subway_line_route_map %{
     "Blue" => ["Blue"],
-    "Green" => GreenLine.branch_ids(),
+    "Green" => ["Green"] ++ @green_line_branch_ids,
     "Orange" => ["Orange"],
     "Red" => ["Red", "Mattapan"]
   }
+
+  @doc """
+  Returns a list of subway lines.
+  """
+  @spec subway_line_ids() :: [String.t()]
+  def subway_lines_ids, do: @subway_line_ids
 
   @doc """
   For a given route ID, return the relevant subway line name.
