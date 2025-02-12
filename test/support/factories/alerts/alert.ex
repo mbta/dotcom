@@ -44,6 +44,19 @@ defmodule Test.Support.Factories.Alerts.Alert do
     )
   end
 
+  def alert_for_routes_factory(attrs) do
+    {route_ids, attrs} = Map.pop(attrs, :route_ids)
+
+    entities =
+      route_ids |> Enum.map(&Factories.Alerts.InformedEntity.build(:informed_entity, route: &1))
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(:informed_entity, InformedEntitySet.new(entities))
+    )
+  end
+
   def active_during(alert, time) do
     %{alert | active_period: [{time_before(time), time_after(time)}]}
   end
