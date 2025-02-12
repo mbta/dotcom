@@ -14,7 +14,7 @@ defmodule DotcomWeb.Components.RoutePills do
 
   def route_pill(%{route_id: route_id} = assigns) when route_id in @green_line_branches do
     ~H"""
-    <.route_pill route_id="Green" modifier_ids={[route_id]} />
+    <.route_pill route_id="Green" modifier_ids={[@route_id]} />
     """
   end
 
