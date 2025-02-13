@@ -197,7 +197,7 @@ defmodule Dotcom.SystemStatus.Subway do
       %{branch_ids: branch_ids, status_entries: alerts_to_statuses(alerts, time)}
     end)
     |> maybe_add_normal_entry()
-    |> Enum.map(&remove_branch_ids_if_full_set/1)
+    |> Enum.map(&maybe_collapse_branch_ids/1)
     |> sort_branches()
   end
 
@@ -259,8 +259,8 @@ defmodule Dotcom.SystemStatus.Subway do
   # entire green line (all of its branches), then replace branch_id's
   # with an empty array to indicate that the status is for the whole
   # line.
-  @spec remove_branch_ids_if_full_set(status_entry_group()) :: status_entry_group()
-  defp remove_branch_ids_if_full_set(status_entry_group) do
+  @spec maybe_collapse_branch_ids(status_entry_group()) :: status_entry_group()
+  defp maybe_collapse_branch_ids(status_entry_group) do
     if status_entry_group.branch_ids == GreenLine.branch_ids() do
       %{status_entry_group | branch_ids: []}
     else
