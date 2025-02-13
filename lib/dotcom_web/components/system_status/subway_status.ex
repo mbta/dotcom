@@ -62,8 +62,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
-    |> Enum.map(&add_url/1)
     |> maybe_collapse_rows()
+    |> Enum.map(&add_url/1)
   end
 
   defp maybe_collapse_rows(rows) when length(rows) > @max_rows, do: collapse_rows(rows)
