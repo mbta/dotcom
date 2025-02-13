@@ -50,6 +50,7 @@ module.exports = {
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
     "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
+    "../livebooks/*.livemd"
   ],
   safelist: [
     ...safelist,
