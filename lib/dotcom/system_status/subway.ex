@@ -221,10 +221,7 @@ defmodule Dotcom.SystemStatus.Subway do
       MapSet.difference(@green_line_branch_id_set, affected_branches)
       |> Enum.sort()
 
-    normal_status_entry_groups =
-      normal_status_entry_groups(normal_branches)
-
-    status_entry_groups ++ normal_status_entry_groups
+    status_entry_groups ++ normal_status_entry_groups(normal_branches)
   end
 
   # Given a list of status entry groups, aggregates their branch_ids
