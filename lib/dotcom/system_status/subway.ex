@@ -128,10 +128,7 @@ defmodule Dotcom.SystemStatus.Subway do
   def subway_status(alerts, time) do
     @lines
     |> Map.new(fn line ->
-      %{route_id: route_id, branches_with_statuses: branches_with_statuses} =
-        add_nested_statuses_for_line(line, alerts, time)
-
-      {route_id, branches_with_statuses}
+      {line, nested_statuses_for_line(line, alerts, time)}
     end)
   end
 
@@ -145,45 +142,31 @@ defmodule Dotcom.SystemStatus.Subway do
   #
   # The exact implementation depends on which line. Green and Red have
   # branches, so they have special implementations.
-  @spec add_nested_statuses_for_line(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
-          route_id: Routes.Route.id_t(),
-          branches_with_statuses: [status_entry_group()]
-        }
-  defp add_nested_statuses_for_line(line_id, alerts, time)
+  @spec nested_statuses_for_line(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [
+          status_entry_group()
+        ]
+  defp nested_statuses_for_line(line_id, alerts, time)
 
   # Green line nested-statuses implementation:
   #
   # Finds the alerts for each branch of the green line, maps them to
   # statuses, and then groups together any results that have the same
   # statuses.
-  defp add_nested_statuses_for_line("Green", alerts, time) do
-    %{
-      route_id: "Green",
-      branches_with_statuses: green_line_status_entry_groups(alerts, time)
-    }
+  defp nested_statuses_for_line("Green", alerts, time) do
+    green_line_status_entry_groups(alerts, time)
   end
 
   # Red line nested-statuses implementation:
   # Treat the red line statuses as normal, and add Mattapan if there
   # are any.
-  defp add_nested_statuses_for_line("Red", alerts, time) do
-    mattapan_branches_with_statuses =
-      mattapan_branches_with_statuses(alerts, time)
-
-    %{
-      route_id: "Red",
-      branches_with_statuses:
-        branches_with_statuses("Red", alerts, time) ++ mattapan_branches_with_statuses
-    }
+  defp nested_statuses_for_line("Red", alerts, time) do
+    status_entry_groups("Red", alerts, time) ++ mattapan_status_entry_groups(alerts, time)
   end
 
   # Default implementation for a simple subway line (with no
   # branches).
-  defp add_nested_statuses_for_line(route_id, alerts, time) do
-    %{
-      route_id: route_id,
-      branches_with_statuses: branches_with_statuses(route_id, alerts, time)
-    }
+  defp nested_statuses_for_line(route_id, alerts, time) do
+    status_entry_groups(route_id, alerts, time)
   end
 
   # Groups the alerts provided into a collection of status entries for
@@ -270,8 +253,8 @@ defmodule Dotcom.SystemStatus.Subway do
   # ID (so that, say statuses for "Green-B" should come ahead of
   # "Green-C").
   @spec sort_branches([status_entry_group()]) :: [status_entry_group()]
-  defp sort_branches(branches_with_statuses) do
-    branches_with_statuses
+  defp sort_branches(status_entry_groups) do
+    status_entry_groups
     |> Enum.sort_by(fn %{status_entries: status_entries, branch_ids: branch_ids} ->
       {status_sort_order(status_entries), branch_ids}
     end)
@@ -285,21 +268,21 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Returns a list containing a single status entry group corresponding
   # to the alerts for the given route.
-  @spec branches_with_statuses(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [
+  @spec status_entry_groups(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [
           status_entry_group()
         ]
-  defp branches_with_statuses(route_id, alerts, time) do
+  defp status_entry_groups(route_id, alerts, time) do
     route_id
     |> statuses_for_route(alerts, time)
-    |> branch_with_statuses_entry()
+    |> status_entry_group()
     |> then(&[&1])
   end
 
-  # Behaves mostly like branches_with_statuses/3 when applied to
+  # Behaves mostly like status_entry_groups/3 when applied to
   # "Mattapan", except that if the status is normal, returns an empty
   # list.
-  @spec mattapan_branches_with_statuses([Alert.t()], DateTime.t()) :: [status_entry_group()]
-  defp mattapan_branches_with_statuses(alerts, time) do
+  @spec mattapan_status_entry_groups([Alert.t()], DateTime.t()) :: [status_entry_group()]
+  defp mattapan_status_entry_groups(alerts, time) do
     "Mattapan"
     |> alerts_for_route(alerts)
     |> case do
@@ -309,7 +292,7 @@ defmodule Dotcom.SystemStatus.Subway do
       mattapan_alerts ->
         mattapan_statuses = mattapan_alerts |> alerts_to_statuses(time)
 
-        [branch_with_statuses_entry(mattapan_statuses, ["Mattapan"])]
+        [status_entry_group(mattapan_statuses, ["Mattapan"])]
     end
   end
 
@@ -322,12 +305,12 @@ defmodule Dotcom.SystemStatus.Subway do
     |> alerts_to_statuses(time)
   end
 
-  # Returns a branch_with_status entry, to be used in the
-  # branches_with_statuses field in groups/2. If no branch_ids are
+  # Returns a status_entry_group, to be used in the
+  # status_entry_groups field in groups/2. If no branch_ids are
   # provided, then uses an empty array.
-  @spec branch_with_statuses_entry([status_entry()], [Routes.Route.id_t()]) ::
+  @spec status_entry_group([status_entry()], [Routes.Route.id_t()]) ::
           status_entry_group()
-  defp branch_with_statuses_entry(statuses, branch_ids \\ []) do
+  defp status_entry_group(statuses, branch_ids \\ []) do
     %{
       branch_ids: branch_ids,
       status_entries: statuses
