@@ -275,7 +275,7 @@ interface DatesNotes {
   [date: string]: string;
 }
 
-type ServiceType = "weekday" | "saturday" | "sunday" | "other";
+type ServiceType = "saturday" | "sunday" | "weekday" | "weekend" | "other";
 
 type ServiceTypicality =
   | "unknown"

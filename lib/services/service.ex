@@ -34,7 +34,7 @@ defmodule Services.Service do
           # Not actively scheduled. Holds reference trips showing a route's canonical set of stops
           | :canonical
 
-  @type type :: :weekday | :saturday | :sunday | :other
+  @type type :: :saturday | :sunday | :weekday | :weekend | :other
 
   @type date_notes :: %{String.t() => String.t() | nil}
 
@@ -144,7 +144,8 @@ defmodule Services.Service do
   defp type("Weekday"), do: :weekday
   defp type("Saturday"), do: :saturday
   defp type("Sunday"), do: :sunday
-  defp type("Other"), do: :other
+  defp type("Weekend"), do: :weekend
+  defp type(_), do: :other
 
   defp typicality(0), do: :unknown
   defp typicality(1), do: :typical_service

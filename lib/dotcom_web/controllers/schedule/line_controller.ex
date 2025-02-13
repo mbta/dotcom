@@ -203,8 +203,12 @@ defmodule DotcomWeb.ScheduleController.LineController do
     {1, Date.to_string(service.start_date)}
   end
 
-  def sort_services_by_date(%Service{} = service) do
+  def sort_services_by_date(%Service{typicality: :typical_service, type: :weekend} = service) do
     {2, Date.to_string(service.start_date)}
+  end
+
+  def sort_services_by_date(%Service{} = service) do
+    {3, Date.to_string(service.start_date)}
   end
 
   @spec simple_stop_map(Conn.t()) :: map
