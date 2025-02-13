@@ -196,14 +196,14 @@ defmodule DotcomWeb.Components do
 
   slot(:content, required: true)
   slot(:heading, required: true)
-  attr(:class, :string, default: "")
+  attr(:class, :string, default: "Class names applied to the underlying <details> element.")
 
   attr(:summary_class, :string,
     default: "",
     doc: "Class names applied to the underlying <summary> element."
   )
 
-  attr(:chevron_class, :string, default: "")
+  attr(:chevron_class, :string, default: "Class names applied to the chevron icon.")
   attr(:rest, :global)
 
   @doc """

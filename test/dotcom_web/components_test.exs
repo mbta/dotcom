@@ -128,4 +128,26 @@ defmodule DotcomWeb.ComponentsTest do
       end
     end
   end
+
+  describe "unstyled_accordion" do
+    test "renders a basic details/summary element" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <.unstyled_accordion>
+          <:heading>
+            <p id="in-summary"></p>
+          </:heading>
+          <:content>
+            <p id="in-details"></p>
+          </:content>
+        </.unstyled_accordion>
+        """)
+        |> Floki.parse_fragment!()
+
+      assert Floki.find(html, "summary > #in-summary") |> Enum.count()
+      assert Floki.find(html, "details > #in-details") |> Enum.count()
+    end
+  end
 end

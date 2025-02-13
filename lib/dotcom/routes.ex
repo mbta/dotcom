@@ -7,7 +7,7 @@ defmodule Dotcom.Routes do
   @green_line_branches Enum.map(["B", "C", "D", "E"], fn branch -> "Green-#{branch}" end)
   @red_line_branches ["Mattapan"]
 
-  @subway_route_ids (@subway_lines ++ @green_line_branches ++ @red_line_branches)
+  @subway_route_ids @subway_lines ++ @green_line_branches ++ @red_line_branches
 
   @doc """
   Returns a list of subway lines.
