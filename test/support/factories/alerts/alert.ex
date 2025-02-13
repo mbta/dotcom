@@ -5,8 +5,8 @@ defmodule Test.Support.Factories.Alerts.Alert do
 
   use ExMachina
 
-  alias Alerts.{Alert, Priority}
-  alias Test.Support.Factories.Alerts.{InformedEntity, InformedEntitySet}
+  alias Alerts.{Alert, InformedEntitySet, Priority}
+  alias Test.Support.Factories
 
   def alert_factory do
     %Alert{
@@ -20,7 +20,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
       header: Faker.Lorem.Shakespeare.king_richard_iii(),
       image: Faker.Internet.image_url(),
       image_alternative_text: Faker.Lorem.Shakespeare.king_richard_iii(),
-      informed_entity: InformedEntitySet.build(:informed_entity_set),
+      informed_entity: Factories.Alerts.InformedEntitySet.build(:informed_entity_set),
       lifecycle: Alert.lifecycles() |> Faker.Util.pick(),
       priority: Priority.priority_levels() |> Faker.Util.pick(),
       severity: :rand.uniform(10),
@@ -37,9 +37,9 @@ defmodule Test.Support.Factories.Alerts.Alert do
       attrs
       |> Map.put(
         :informed_entity,
-        InformedEntitySet.build(:informed_entity_set,
-          entities: [InformedEntity.build(:informed_entity, route: route_id)]
-        )
+        InformedEntitySet.new([
+          Factories.Alerts.InformedEntity.build(:informed_entity, route: route_id)
+        ])
       )
     )
   end
