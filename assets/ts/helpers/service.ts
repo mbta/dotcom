@@ -191,7 +191,8 @@ const optGroupOrder: { [key: string]: number } = {
 
 // sort the service types
 const serviceTypeOrder: { [key in ServiceType]: number } = {
-  weekday: 4,
+  weekday: 5,
+  weekend: 4,
   saturday: 3,
   sunday: 2,
   other: 1
