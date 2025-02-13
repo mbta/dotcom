@@ -31,6 +31,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
   defp description(status, false), do: description(status)
 
   defp description(:normal), do: "Normal Service"
+  defp description(:see_alerts), do: "See Alerts"
   defp description(:station_closure), do: "Station Closure"
   defp description(status), do: status |> Atom.to_string() |> String.capitalize()
 

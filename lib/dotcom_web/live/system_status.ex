@@ -279,6 +279,69 @@ defmodule DotcomWeb.Live.SystemStatus do
             effect: :station_closure,
             header: "Alewife station is closed due to a green line train on the tracks",
             informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Red"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :suspension,
+            header:
+              "Northbound Blue line trains are suspended due to an escaped whale from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Southbound Blue line trains are delayed due to an escaped otter from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          }
+        ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :suspension,
+            header:
+              "Northbound Blue line trains are suspended due to an escaped whale from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Southbound Blue line trains are delayed due to an escaped otter from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Heath St station is closed due to an escaped shark from the aquarium",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-E"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Delays at Hynes Convention Center due to a gathering of escaped sea creatures",
+            informed_entity:
+              Alerts.InformedEntitySet.new([
+                %Alerts.InformedEntity{route: "Green-B"},
+                %Alerts.InformedEntity{route: "Green-C"},
+                %Alerts.InformedEntity{route: "Green-D"}
+              ])
           }
         ]
       }
