@@ -324,11 +324,10 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       effect = Faker.Util.pick(Alerts.service_impacting_effects())
 
       alerts =
-        GreenLine.branch_ids()
-        |> Enum.map(fn route_id ->
-          Alert.build(:alert_for_route, route_id: route_id, effect: effect)
+        [
+          Alert.build(:alert_for_routes, route_ids: GreenLine.branch_ids(), effect: effect)
           |> Alert.active_during(time)
-        end)
+        ]
 
       # Exercise
       groups = Subway.subway_status(alerts, time)
@@ -449,6 +448,101 @@ defmodule Dotcom.SystemStatus.SubwayTest do
         |> Enum.take(2)
 
       assert affected_branch_ids == Enum.sort([affected_branch_id1, affected_branch_id2])
+    end
+
+    test "groups by green-line branch first, and by effect second" do
+      # Setup
+      affected_branch_id = Faker.Util.pick(GreenLine.branch_ids())
+
+      time = time_today()
+
+      [whole_line_effect, branch_effect] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(Alerts.service_impacting_effects()) end)
+
+      alerts = [
+        Alert.build(:alert_for_route, route_id: affected_branch_id, effect: branch_effect)
+        |> Alert.active_during(time),
+        Alert.build(:alert_for_routes,
+          route_ids: GreenLine.branch_ids(),
+          effect: whole_line_effect
+        )
+        |> Alert.active_during(time)
+      ]
+
+      # Exercise
+      groups = Subway.subway_status(alerts, time)
+
+      # Verify
+      [whole_line_statuses, branch_statuses] =
+        groups
+        |> Map.fetch!("Green")
+
+      assert whole_line_statuses |> Map.fetch!(:branch_ids) == []
+
+      assert whole_line_statuses.status_entries |> Enum.map(& &1.status) == [
+               whole_line_effect
+             ]
+
+      assert branch_statuses |> Map.fetch!(:branch_ids) == [affected_branch_id]
+      assert branch_statuses.status_entries |> Enum.map(& &1.status) == [branch_effect]
+    end
+
+    test "consolidates green line alerts with the same branches and effects" do
+      # Setup
+      affected_branch_id = Faker.Util.pick(GreenLine.branch_ids())
+
+      time = time_today()
+
+      effect = Faker.Util.pick(Alerts.service_impacting_effects())
+
+      alerts = [
+        Alert.build(:alert_for_route, route_id: affected_branch_id, effect: effect)
+        |> Alert.active_during(time),
+        Alert.build(:alert_for_route, route_id: affected_branch_id, effect: effect)
+        |> Alert.active_during(time)
+      ]
+
+      # Exercise
+      groups = Subway.subway_status(alerts, time)
+
+      # Verify
+      statuses =
+        groups
+        |> status_entries_for("Green", [affected_branch_id])
+        |> Enum.map(& &1.multiple)
+
+      assert statuses == [true]
+    end
+
+    test "shows multiple alerts for a given branch, sorted alphabetically" do
+      # Setup
+      affected_branch_id = Faker.Util.pick(GreenLine.branch_ids())
+
+      time = time_today()
+
+      # Sorted in reverse order in order to validate that the sorting
+      # logic works
+      [effect2, effect1] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(Alerts.service_impacting_effects()) end)
+        |> Enum.sort(:desc)
+
+      alerts = [
+        Alert.build(:alert_for_route, route_id: affected_branch_id, effect: effect1)
+        |> Alert.active_during(time),
+        Alert.build(:alert_for_route, route_id: affected_branch_id, effect: effect2)
+        |> Alert.active_during(time)
+      ]
+
+      # Exercise
+      groups = Subway.subway_status(alerts, time)
+
+      # Verify
+      statuses =
+        groups
+        |> status_entries_for("Green", [affected_branch_id])
+        |> Enum.map(& &1.status)
+
+      assert statuses == [effect1, effect2]
     end
   end
 

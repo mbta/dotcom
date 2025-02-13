@@ -27,6 +27,8 @@ defmodule Dotcom.SystemStatus.Subway do
   """
   def lines(), do: @lines
 
+  @green_line_branch_id_set MapSet.new(GreenLine.branch_ids())
+
   @doc """
   Translates the given alerts into a map indicating the overall system
   status for each line.
@@ -36,7 +38,7 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   [
       ...>     %Alerts.Alert{
       ...>       effect: :shuttle,
-      ...>       informed_entity: [%Alerts.InformedEntity{route: "Orange"}],
+      ...>       informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Orange"}]),
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
@@ -64,12 +66,7 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   [
       ...>     %Alerts.Alert{
       ...>       effect: :delay,
-      ...>       informed_entity: [%Alerts.InformedEntity{route: "Green-E"}],
-      ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
-      ...>     },
-      ...>     %Alerts.Alert{
-      ...>       effect: :delay,
-      ...>       informed_entity: [%Alerts.InformedEntity{route: "Green-D"}],
+      ...>       informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-E"}]),
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
@@ -80,13 +77,13 @@ defmodule Dotcom.SystemStatus.Subway do
         "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false}]}],
         "Green" => [
           %{
-            branch_ids: ["Green-D", "Green-E"],
+            branch_ids: ["Green-E"],
             status_entries: [
               %{time: :current, status: :delay, multiple: false}
             ]
           },
           %{
-            branch_ids: ["Green-B", "Green-C"],
+            branch_ids: ["Green-B", "Green-C", "Green-D"],
             status_entries: [
               %{time: :current, status: :normal, multiple: false}
             ]
@@ -102,7 +99,7 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   [
       ...>     %Alerts.Alert{
       ...>       effect: :suspension,
-      ...>       informed_entity: [%Alerts.InformedEntity{route: "Mattapan"}],
+      ...>       informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Mattapan"}]),
       ...>       active_period: [{Timex.beginning_of_day(Timex.now()), nil}]
       ...>     }
       ...>   ]
@@ -162,12 +159,7 @@ defmodule Dotcom.SystemStatus.Subway do
   defp add_nested_statuses_for_line("Green", alerts, time) do
     %{
       route_id: "Green",
-      branches_with_statuses:
-        GreenLine.branch_ids()
-        |> Enum.map(&add_statuses_for_route(&1, alerts, time))
-        |> group_by_statuses()
-        |> nest_grouped_statuses_under_branches()
-        |> sort_branches()
+      branches_with_statuses: green_line_status_entry_groups(alerts, time)
     }
   end
 
@@ -194,33 +186,83 @@ defmodule Dotcom.SystemStatus.Subway do
     }
   end
 
-  # Groups the route/status-entry combinations by their statuses so
-  # that branches with the same statuses can be combined.
-  defp group_by_statuses(status_entries) do
-    status_entries |> Enum.group_by(& &1.statuses) |> Enum.to_list()
-  end
-
-  # Nests grouped statuses under the branches_with_statuses
-  # field. Exactly how it does this depends on whether
-  # grouped_statuses has one entry or more.
-  defp nest_grouped_statuses_under_branches(grouped_statuses)
-
-  # If grouped_statuses has one entry, then that means that all of the
-  # branches have the same status, which means we don't need to
-  # specify any branches.
-  defp nest_grouped_statuses_under_branches([{statuses, _}]) do
-    [branch_with_statuses_entry(statuses)]
-  end
-
-  # If grouped_statuses has more than one entry, then we do need to
-  # specify the branches for each collection of statuses.
-  defp nest_grouped_statuses_under_branches(grouped_statuses) do
-    grouped_statuses
-    |> Enum.map(fn {statuses, entries} ->
-      branch_ids = entries |> Enum.map(& &1.route_id) |> Enum.sort()
-
-      branch_with_statuses_entry(statuses, branch_ids)
+  # Groups the alerts provided into a collection of status entries for
+  # the green line.
+  @spec green_line_status_entry_groups([Alert.t()], DateTime.t()) :: [status_entry_group()]
+  defp green_line_status_entry_groups(alerts, time) do
+    GreenLine.branch_ids()
+    |> alerts_for_routes(alerts)
+    |> Enum.group_by(&affected_green_line_branch_ids/1)
+    |> Enum.map(fn {branch_ids, alerts} ->
+      %{branch_ids: branch_ids, status_entries: alerts_to_statuses(alerts, time)}
     end)
+    |> maybe_add_normal_entry()
+    |> Enum.map(&maybe_collapse_branch_ids/1)
+    |> sort_branches()
+  end
+
+  # Given an alert, returns a sorted list of the green line branches
+  # affected by that alert.
+  @spec affected_green_line_branch_ids([Alert.t()]) :: [Routes.Route.id_t()]
+  defp affected_green_line_branch_ids(alert) do
+    alert.informed_entity.route
+    |> MapSet.intersection(@green_line_branch_id_set)
+    |> Enum.sort()
+  end
+
+  # Given a list of status entry groups, adds an additional "normal
+  # service" entry if there are any green line branches unaccounted
+  # for.
+  @spec maybe_add_normal_entry([status_entry_group()]) :: [status_entry_group()]
+  defp maybe_add_normal_entry(status_entry_groups) do
+    affected_branches = all_affected_branches(status_entry_groups)
+
+    normal_branches =
+      MapSet.difference(@green_line_branch_id_set, affected_branches)
+      |> Enum.sort()
+
+    status_entry_groups ++ normal_status_entry_groups(normal_branches)
+  end
+
+  # Given a list of status entry groups, aggregates their branch_ids
+  # into a MapSet and returns that.
+  @spec all_affected_branches([status_entry_group()]) :: MapSet.t()
+  defp all_affected_branches(status_entry_groups) do
+    status_entry_groups
+    |> Enum.map(& &1.branch_ids)
+    |> Enum.reduce(MapSet.new(), fn branch_ids, set ->
+      set |> MapSet.union(MapSet.new(branch_ids))
+    end)
+  end
+
+  # Given a list of branches that don't have any alerts, returns a
+  # status entry indicating normal service for those branches, or
+  # nothing if the list of branches is empty. Returns this as a list
+  # so that it can be concatenated with the alert-based status
+  # entries.
+  @spec normal_status_entry_groups([Routes.Route.id_t()]) :: [status_entry_group()]
+  defp normal_status_entry_groups([]), do: []
+
+  defp normal_status_entry_groups(normal_branches) do
+    [
+      %{
+        branch_ids: normal_branches,
+        status_entries: [normal_status()]
+      }
+    ]
+  end
+
+  # If the status entries for the group provided correspond to the
+  # entire green line (all of its branches), then replace branch_id's
+  # with an empty array to indicate that the status is for the whole
+  # line.
+  @spec maybe_collapse_branch_ids(status_entry_group()) :: status_entry_group()
+  defp maybe_collapse_branch_ids(status_entry_group) do
+    if status_entry_group.branch_ids == GreenLine.branch_ids() do
+      %{status_entry_group | branch_ids: []}
+    else
+      status_entry_group
+    end
   end
 
   # Sorts green line branches first by alert status (that is, "Normal
@@ -271,20 +313,6 @@ defmodule Dotcom.SystemStatus.Subway do
     end
   end
 
-  # Exchanges a route_id (a line_id or a branch_id - anything that
-  # might correspond to an alert) for a map with that route_id and the
-  # statuses affecting that route.
-  @spec add_statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: %{
-          route_id: Routes.Route.id_t(),
-          statuses: [status_entry()]
-        }
-  defp add_statuses_for_route(route_id, alerts, time) do
-    %{
-      route_id: route_id,
-      statuses: statuses_for_route(route_id, alerts, time)
-    }
-  end
-
   # Returns a list of statuses corresponding to the alerts for the
   # given route.
   @spec statuses_for_route(Routes.Route.id_t(), [Alert.t()], DateTime.t()) :: [status_entry()]
@@ -321,6 +349,18 @@ defmodule Dotcom.SystemStatus.Subway do
     end)
   end
 
+  # Given `alerts` and `route_ids`, filters out only the alerts
+  # applicable to the given routes, using the alert's "informed
+  # entities".
+  @spec alerts_for_routes([Routes.Route.id_t()], [Alert.t()]) :: [Alert.t()]
+  defp alerts_for_routes(route_ids, alerts) do
+    alerts
+    |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
+      informed_entity
+      |> Enum.any?(&(&1.route in route_ids))
+    end)
+  end
+
   # Maps a list of alerts to a list of statuses that are formatted
   # according to the system status specifications:
   # - Identical alerts are grouped together and pluralized.
@@ -344,7 +384,7 @@ defmodule Dotcom.SystemStatus.Subway do
   # If there are no alerts, then we want a single status indicating
   # "Normal Service".
   defp alerts_to_statuses_naive([], _time) do
-    [%{multiple: false, status: :normal, time: :current}]
+    [normal_status()]
   end
 
   # If there are alerts, then create a starting list of statuses that
@@ -354,6 +394,11 @@ defmodule Dotcom.SystemStatus.Subway do
     |> Enum.map(fn alert ->
       alert_to_status(alert, time)
     end)
+  end
+
+  @spec normal_status() :: status_entry()
+  defp normal_status() do
+    %{multiple: false, status: :normal, time: :current}
   end
 
   # Translates an alert to a status:
