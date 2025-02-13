@@ -3,6 +3,18 @@
 ## Section
 
 ```elixir
+defmodule DotcomWeb.Components.Alert do
+  use DotcomWeb, :component
+
+  def alert(assigns) do
+    ~H"""
+
+    """
+  end
+end
+```
+
+```elixir
 defmodule DotcomWeb.Components.PlannedDisruptions do
   use Phoenix.Component
 
@@ -12,7 +24,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   alias Alerts.Alert
   alias Dotcom.Routes
-
+  
   def disruptions(assigns) do
     ~H"""
     <div :for={{service_range, alerts} <- @disruptions}>
@@ -23,6 +35,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   defp disruption(assigns) do
+    assigns = Map.put(assigns, :alerts, [assigns.alert])
+
     ~H"""
     <.accordion>
       <:heading>
@@ -48,9 +62,10 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp content(assigns) do
     ~H"""
     <p><%= @alert.header %></p>
+    <p><%= @alert.description %></p>
     """
   end
-
+  
   defp alert_date_time_range(%Alert{active_period: active_period}) do
     periods = Enum.sort_by(active_period, fn {start, _} -> start end)
 
@@ -86,7 +101,7 @@ end
 ```
 
 ```elixir
-Dotcom.Alerts.Disruptions.Subway.future_disruptions() |> Map.get(:next_week)
+__DIR__
 ```
 
 ```elixir
