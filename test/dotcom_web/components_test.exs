@@ -57,7 +57,7 @@ defmodule DotcomWeb.ComponentsTest do
   end
 
   describe "bordered_container" do
-    test "optionally shows a dividing line" do
+    test "renders header and content with a divider line" do
       assigns = %{
         title: Faker.Lorem.sentence(1..3),
         content: Faker.Lorem.sentence(3..5)
@@ -78,10 +78,18 @@ defmodule DotcomWeb.ComponentsTest do
 
       assert Floki.parse_fragment!(str)
              |> Floki.find("hr")
+             |> Enum.count()
+    end
 
-      str_without_divider =
+    test "optionally hides the dividing line" do
+      assigns = %{
+        title: Faker.Lorem.sentence(1..3),
+        content: Faker.Lorem.sentence(3..5)
+      }
+
+      str =
         rendered_to_string(~H"""
-        <.bordered_container show_divider?={false}>
+        <.bordered_container hide_divider>
           <:heading>
             <span>{assigns.title}</span>
           </:heading>
@@ -89,7 +97,10 @@ defmodule DotcomWeb.ComponentsTest do
         </.bordered_container>
         """)
 
-      assert Floki.parse_fragment!(str_without_divider)
+      assert str =~ assigns.title
+      assert str =~ assigns.content
+
+      assert Floki.parse_fragment!(str)
              |> Floki.find("hr") == []
     end
   end

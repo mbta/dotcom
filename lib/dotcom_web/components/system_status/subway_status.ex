@@ -17,7 +17,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
 
     ~H"""
-    <.bordered_container show_divider?={false}>
+    <.bordered_container hide_divider>
       <:heading>
         <div class="px-2 flex items-center gap-2 mb-sm">
           <.icon type="icon-svg" name="icon-mode-subway-default" class="h-7 w-7" /> Subway Status

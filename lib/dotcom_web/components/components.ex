@@ -95,7 +95,7 @@ defmodule DotcomWeb.Components do
 
   slot(:heading, required: false, doc: "Large title shown at top of container.")
   slot(:inner_block, required: true)
-  attr(:show_divider?, :boolean, required: false, default: true)
+  attr(:hide_divider, :boolean, required: false, default: false)
 
   @doc """
   A generic "card" sort of component, with an optional large header block.
@@ -112,10 +112,10 @@ defmodule DotcomWeb.Components do
   ```
 
   Can omit the divider between the heading and content using
-  `show_divider?={false}`.
+  `hide_divider={true}`.
 
   ```elixir
-  <.bordered_container show_divider?={false}>
+  <.bordered_container hide_divider>
     <:heading>
       <div class="flex justify-between">
         Slightly elaborate
@@ -134,7 +134,7 @@ defmodule DotcomWeb.Components do
       <div :if={@heading} class="font-heading font-bold text-[1.75rem] text-nowrap">
         {render_slot(@heading)}
       </div>
-      <hr :if={@show_divider?} class="h-px my-2 bg-gray-lightest border-0" />
+      <hr :if={!@hide_divider} class="h-px my-2 bg-gray-lightest border-0" />
       {render_slot(@inner_block)}
     </div>
     """
