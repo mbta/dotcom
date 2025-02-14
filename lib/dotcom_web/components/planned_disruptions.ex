@@ -44,12 +44,16 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   defp heading(assigns) do
+    lines = alert_lines(assigns.alert)
+
+    {start, stop} = alert_date_time_range(assigns.alert)
+    time_range_str = "#{format_date(start)} - #{format_date(stop)}"
+
+    assigns = assign(assigns, lines: lines, time_range_str: time_range_str)
+
     ~H"""
-    <% {start, stop} = alert_date_time_range(@alert) %>
-    <% time_range_str = "#{format_date(start)} - #{format_date(stop)}" %>
-    <% lines = alert_lines(@alert) %>
-    <.route_pill route_id={lines.route_id} modifier_ids={lines.modifier_ids} />
-    <.status_label status={@alert.effect} prefix={time_range_str} />
+    <.route_pill route_id={@lines.route_id} modifier_ids={@lines.modifier_ids} />
+    <.status_label status={@alert.effect} prefix={@time_range_str} />
     """
   end
 
