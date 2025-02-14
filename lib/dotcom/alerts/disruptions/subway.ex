@@ -60,7 +60,8 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
 
   defp sort_alerts_by_start_time(alerts) do
     alerts
-    |> Enum.sort_by(fn alert ->
+    |> Enum.sort_by(
+      fn alert ->
         alert |> Map.get(:active_period, [{nil, nil}]) |> List.first() |> Kernel.elem(0)
       end,
       :asc

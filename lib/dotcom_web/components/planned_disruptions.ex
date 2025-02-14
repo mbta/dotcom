@@ -23,7 +23,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.bordered_container>
       <:heading>Planned Work</:heading>
       <div :for={{service_range, alerts} <- @disruptions} class="py-3">
-        <div class="mb-2 font-bold font-heading"><%= service_range_string(service_range) %></div>
+        <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
         <.lined_list :let={alert} items={alerts}>
           <.disruption alert={alert} />
         </.lined_list>
@@ -36,9 +36,9 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp disruption(assigns) do
     ~H"""
     <.unstyled_accordion
-        summary_class="hover:bg-gray-lightest focus:bg-gray-lightest flex items-center w-full gap-x-3.5 py-3"
-        chevron_class="ml-auto mr-2 w-3 h-3"
-      >
+      summary_class="hover:bg-gray-lightest focus:bg-gray-lightest flex items-center w-full gap-x-3.5 py-3"
+      chevron_class="ml-auto mr-2 w-3 h-3"
+    >
       <:heading>
         <.heading alert={@alert} />
       </:heading>
