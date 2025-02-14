@@ -1,9 +1,9 @@
 defmodule DotcomWeb.Components.PlannedDisruptions do
   @moduledoc """
-
+  Function components for rendering planned disruptions.
   """
 
-  use Phoenix.Component
+  use DotcomWeb, :component
 
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
@@ -13,6 +13,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   alias Alerts.Alert
   alias Dotcom.Routes
 
+  attr :disruptions, :map, required: true
+
+  @doc """
+  Planned disruptions organized into service ranges.
+  """
   def disruptions(assigns) do
     ~H"""
     <.bordered_container>

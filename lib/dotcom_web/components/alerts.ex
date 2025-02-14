@@ -1,9 +1,9 @@
 defmodule DotcomWeb.Components.Alerts do
   @moduledoc """
-
+  Function components for rendering different styles of alerts.
   """
 
-  use Phoenix.Component
+  use DotcomWeb, :component
 
   attr :alert, :map, required: true
 
