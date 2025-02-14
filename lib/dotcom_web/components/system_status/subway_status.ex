@@ -9,6 +9,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   import DotcomWeb.Components.RoutePills
   import DotcomWeb.Components.SystemStatus.StatusLabel
 
+  @max_rows 5
   @route_ids ["Red", "Orange", "Green", "Blue"]
 
   attr :subway_status, :any, required: true
@@ -61,7 +62,70 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
+    |> maybe_collapse_rows()
     |> Enum.map(&add_url/1)
+  end
+
+  defp maybe_collapse_rows(rows) when length(rows) > @max_rows, do: collapse_rows(rows)
+  defp maybe_collapse_rows(rows), do: rows
+
+  defp collapse_rows([
+         %{route_info: %{route_id: "Green"}} = row1,
+         %{route_info: %{route_id: "Green"}, status_entry: %{status: :normal}} = row2
+         | rest_of_rows
+       ]) do
+    [row1 | collapse_rows([row2 | rest_of_rows])]
+  end
+
+  defp collapse_rows([
+         %{route_info: %{route_id: "Green", branch_ids: branch_ids1}} = row1,
+         %{route_info: %{route_id: "Green", branch_ids: branch_ids2}}
+         | rest_of_rows
+       ]) do
+    combined_branch_ids =
+      if Enum.empty?(branch_ids1) || Enum.empty?(branch_ids2) do
+        []
+      else
+        (branch_ids1 ++ branch_ids2)
+        |> Enum.uniq()
+        |> Enum.sort()
+        |> collapse_if_all_green_line()
+      end
+
+    combined_row =
+      row1
+      |> Map.put(:status_entry, see_alerts_status())
+      |> put_in([:route_info, :branch_ids], combined_branch_ids)
+
+    [combined_row | rest_of_rows] |> collapse_rows()
+  end
+
+  defp collapse_rows([
+         %{route_info: %{route_id: route_id1}} = row1,
+         %{route_info: %{route_id: route_id2}} = _row2
+         | rest_of_rows
+       ])
+       when route_id1 == route_id2 do
+    combined_row =
+      row1 |> Map.put(:status_entry, see_alerts_status())
+
+    [combined_row | rest_of_rows] |> collapse_rows()
+  end
+
+  defp collapse_rows([row1 | rest_of_rows]) do
+    [row1 | collapse_rows(rest_of_rows)]
+  end
+
+  defp collapse_rows([]) do
+    []
+  end
+
+  defp collapse_if_all_green_line(branch_ids) do
+    if branch_ids == GreenLine.branch_ids() do
+      []
+    else
+      branch_ids
+    end
   end
 
   defp add_url(row) do
@@ -139,4 +203,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp prefix(%{time: :current}), do: "Now"
   defp prefix(%{time: {:future, time}}), do: Util.kitchen_downcase_time(time)
+
+  defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false}
 end
