@@ -83,7 +83,16 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
          | rest_of_rows
        ]) do
     combined_branch_ids =
-      (branch_ids1 ++ branch_ids2) |> Enum.uniq() |> Enum.sort() |> collapse_if_all_green_line()
+      cond do
+        Enum.empty?(branch_ids1) || Enum.empty?(branch_ids2) ->
+          []
+
+        true ->
+          (branch_ids1 ++ branch_ids2)
+          |> Enum.uniq()
+          |> Enum.sort()
+          |> collapse_if_all_green_line()
+      end
 
     combined_row =
       row1

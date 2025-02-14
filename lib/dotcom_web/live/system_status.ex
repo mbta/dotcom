@@ -344,6 +344,62 @@ defmodule DotcomWeb.Live.SystemStatus do
               ])
           }
         ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :suspension,
+            header:
+              "Northbound Blue line trains are suspended due to an escaped whale from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Southbound Blue line trains are delayed due to an escaped otter from the aquarium",
+            informed_entity: Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Blue"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header:
+              "Cleveland Circle station is closed due to an escaped shark from the aquarium",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-C"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Reservoir station is closed due to an escaped shark from the aquarium",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-D"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :delay,
+            header:
+              "Green line is experiencing delays due to a gathering of escaped sea creatures",
+            informed_entity:
+              Alerts.InformedEntitySet.new([
+                %Alerts.InformedEntity{route: "Green-B"},
+                %Alerts.InformedEntity{route: "Green-C"},
+                %Alerts.InformedEntity{route: "Green-D"},
+                %Alerts.InformedEntity{route: "Green-E"}
+              ])
+          }
+        ]
       }
     ]
   end
