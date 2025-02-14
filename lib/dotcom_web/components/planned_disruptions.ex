@@ -32,6 +32,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     """
   end
 
+  # A single disruption rendered as an accordion with a header and the alert as the content.
   defp disruption(assigns) do
     ~H"""
     <.unstyled_accordion
@@ -48,6 +49,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     """
   end
 
+  # The heading for a disruption alert, including the route pill and status label (and active period).
   defp heading(assigns) do
     lines = alert_lines(assigns.alert)
 
@@ -62,6 +64,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     """
   end
 
+  # Extracts the start and stop times from the active period of an alert.
   defp alert_date_time_range(%Alert{active_period: active_period}) do
     periods = Enum.sort_by(active_period, fn {start, _} -> start end)
 
@@ -71,6 +74,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     {start, stop}
   end
 
+  # Extracts the subway lines from the alert's informed entity.
   defp alert_lines(%Alert{informed_entity: %{entities: entities}}) do
     Enum.map(entities, & &1.route)
     |> Enum.uniq()
@@ -84,10 +88,13 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     end)
   end
 
+  # Formats the date for display in the heading.
+  # E.g., "Mon Jan 01"
   defp format_date(datetime) do
     datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
   end
 
+  # Converts a service range atom to a title-cased string.
   defp service_range_string(service_range) do
     service_range
     |> Atom.to_string()
