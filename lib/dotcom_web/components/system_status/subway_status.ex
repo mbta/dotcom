@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   use DotcomWeb, :component
 
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1]
-  import DotcomWeb.Components.RoutePills
+  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel
 
   @max_rows 5
@@ -35,10 +35,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           ]}
         >
           <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
-            <.route_pill
-              route_id={row.route_info.route_id}
-              modifier_ids={row.route_info.branch_ids}
-              modifier_class="group-hover/row:ring-brand-primary-lightest"
+            <.subway_route_pill
+              class="group-hover/row:ring-brand-primary-lightest"
+              route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
             />
           </div>
           <div class={[
