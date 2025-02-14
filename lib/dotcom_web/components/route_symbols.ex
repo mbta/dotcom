@@ -227,22 +227,30 @@ defmodule DotcomWeb.Components.RouteSymbols do
          [subway_line_name] <- Enum.uniq(subway_line_names) |> Enum.reject(&is_nil/1) do
       branch_ids = Enum.reject(assigns.route_ids, &(&1 == subway_line_name)) |> Enum.sort()
 
-      assigns =
-        assign(assigns, %{
-          route_ids: [subway_line_name],
-          branch_ids: if(branch_ids == GreenLine.branch_ids(), do: [], else: branch_ids)
-        })
+      if branch_ids == GreenLine.branch_ids() do
+        assigns = assign(assigns, :route_ids, ["Green"])
 
-      ~H"""
-      <span class="flex items-center">
-        <.subway_route_pill route_ids={@route_ids} class={@class} />
-        <.route_symbol
-          :for={route_id <- @branch_ids}
-          route={%Routes.Route{id: route_id}}
-          class={"#{@class} rounded-full ring-white ring-2 mr-0.5"}
-        />
-      </span>
-      """
+        ~H"""
+        <.subway_route_pill {assigns} />
+        """
+      else
+        assigns =
+          assign(assigns, %{
+            route_ids: [subway_line_name],
+            branch_ids: branch_ids
+          })
+
+        ~H"""
+        <span class="flex items-center">
+          <.subway_route_pill route_ids={@route_ids} class={@class} />
+          <.route_symbol
+            :for={route_id <- @branch_ids}
+            route={%Routes.Route{id: route_id}}
+            class={"#{@class} rounded-full ring-white ring-2 mr-0.5"}
+          />
+        </span>
+        """
+      end
     else
       _ ->
         ~H"""

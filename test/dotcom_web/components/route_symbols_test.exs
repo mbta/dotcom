@@ -102,6 +102,62 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
     end
   end
 
+  describe "subway_route_pill/1" do
+    test "Subway lines render one element" do
+      for route_id <- Dotcom.Routes.subway_line_names() do
+        html =
+          render_component(&subway_route_pill/1, %{
+            route_ids: [route_id]
+          })
+          |> Floki.parse_fragment!()
+          |> List.first()
+
+        assert html
+        assert Floki.children(html, include_text: false) == []
+      end
+    end
+
+    test "Mattapan renders pill + icon" do
+      html =
+        render_component(&subway_route_pill/1, %{
+          route_ids: ["Mattapan"]
+        })
+        |> Floki.parse_fragment!()
+        |> List.first()
+
+      assert [{"div", _, _}, {"svg", _, _}] = Floki.children(html, include_text: false)
+    end
+
+    test "Multiple branches render pill + multiple icons" do
+      num_branches = Faker.Util.pick([2, 3])
+
+      html =
+        render_component(&subway_route_pill/1, %{
+          route_ids: Enum.take(GreenLine.branch_ids(), num_branches)
+        })
+        |> Floki.parse_fragment!()
+        |> List.first()
+
+      assert [{"div", _, _} | icons] = Floki.children(html, include_text: false)
+      assert [{"svg", _, _} | _] = icons
+      assert Enum.count(icons) == num_branches
+    end
+
+    test "List of all Green Line branches renders one pill" do
+      all_gl_branches_pill =
+        render_component(&subway_route_pill/1, %{
+          route_ids: GreenLine.branch_ids()
+        })
+
+      green_line_pill =
+        render_component(&subway_route_pill/1, %{
+          route_ids: ["Green"]
+        })
+
+      assert all_gl_branches_pill == green_line_pill
+    end
+  end
+
   defp matches_title?(html, text) do
     title =
       html
