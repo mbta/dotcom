@@ -201,7 +201,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     <div class={[
       @bg_color_class,
       @class,
-      "w-[3.125rem] h-6 rounded-full ring-2 ring-white -mr-1",
+      "w-[3.125rem] h-6 rounded-full ring-2 ring-white",
       "flex items-center justify-center",
       "text-white font-bold font-heading leading-none"
     ]}>
@@ -242,7 +242,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
         ~H"""
         <span class="flex items-center">
-          <.subway_route_pill route_ids={@route_ids} class={@class} />
+          <.subway_route_pill route_ids={@route_ids} class={"#{@class} -mr-1"} />
           <.route_symbol
             :for={route_id <- @branch_ids}
             route={%Routes.Route{id: route_id}}
