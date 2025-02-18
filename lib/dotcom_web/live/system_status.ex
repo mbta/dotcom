@@ -87,7 +87,7 @@ defmodule DotcomWeb.Live.SystemStatus do
         <.subway_route_pill route_ids={ids} class="group-hover/row:ring-slate-600" /> {inspect(ids)}
       </div>
     <% end %>
-    <hr id="planned-disruptions"/>
+    <hr id="planned-disruptions" />
     <.disruptions disruptions={@disruptions} />
     """
   end
