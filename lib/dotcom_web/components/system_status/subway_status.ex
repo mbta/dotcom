@@ -164,6 +164,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     prefix = if show_prefix, do: prefix(status_entry), else: nil
 
     %{
+      alerts: [],
       route_info: %{},
       status_entry: %{
         status: status,
