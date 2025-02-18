@@ -7,11 +7,10 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
-  import DotcomWeb.Components.RoutePills, only: [route_pill: 1]
+  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
 
   alias Alerts.Alert
-  alias Dotcom.Routes
 
   attr :disruptions, :map, required: true
 
@@ -51,15 +50,15 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # The heading for a disruption alert, including the route pill and status label (and active period).
   defp heading(assigns) do
-    lines = alert_lines(assigns.alert)
+    route_ids = alert_route_ids(assigns.alert)
 
     {start, stop} = alert_date_time_range(assigns.alert)
     time_range_str = "#{format_date(start)} - #{format_date(stop)}"
 
-    assigns = assign(assigns, lines: lines, time_range_str: time_range_str)
+    assigns = assign(assigns, route_ids: route_ids, time_range_str: time_range_str)
 
     ~H"""
-    <.route_pill route_id={@lines.route_id} modifier_ids={@lines.modifier_ids} />
+    <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-slate-600" />
     <.status_label status={@alert.effect} prefix={@time_range_str} />
     """
   end
@@ -74,18 +73,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     {start, stop}
   end
 
-  # Extracts the subway lines from the alert's informed entity.
-  defp alert_lines(%Alert{informed_entity: %{entities: entities}}) do
+  # Extracts the route ids of lines and branches from the alert.
+  defp alert_route_ids(%Alert{informed_entity: %{entities: entities}}) do
     Enum.map(entities, & &1.route)
     |> Enum.uniq()
     |> Enum.sort()
-    |> Enum.reduce(%{modifier_ids: [], route_id: nil}, fn route, acc ->
-      if route in Routes.subway_lines() do
-        Map.put(acc, :route_id, route)
-      else
-        Map.update(acc, :modifier_ids, [], &(&1 ++ [route]))
-      end
-    end)
   end
 
   # Formats the date for display in the heading.

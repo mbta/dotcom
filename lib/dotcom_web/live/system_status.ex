@@ -7,7 +7,7 @@ defmodule DotcomWeb.Live.SystemStatus do
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.PlannedDisruptions
-  import DotcomWeb.Components.RoutePills
+  import DotcomWeb.Components.RouteSymbols
   import DotcomWeb.Components.SystemStatus.StatusLabel
   import DotcomWeb.Components.SystemStatus.SubwayStatus
 
@@ -71,7 +71,6 @@ defmodule DotcomWeb.Live.SystemStatus do
     </div>
 
     <h2>Route Pills</h2>
-<<<<<<< HEAD
     <%= for ids <- [
       ["Blue"],
       ["Green"],
@@ -89,16 +88,6 @@ defmodule DotcomWeb.Live.SystemStatus do
       </div>
     <% end %>
     <hr id="planned-disruptions"/>
-=======
-    <div class="flex flex-col gap-2">
-      <.route_pill route_id="Blue" />
-      <.route_pill route_id="Green" />
-      <.route_pill route_id="Orange" />
-      <.route_pill route_id="Red" />
-      <.route_pill route_id="Green" modifier_ids={["Green-B", "Green-C"]} />
-    </div>
-    <hr id="planned-disruptions" />
->>>>>>> 17829a8e (format)
     <.disruptions disruptions={@disruptions} />
     """
   end
