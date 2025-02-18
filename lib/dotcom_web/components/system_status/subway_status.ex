@@ -64,7 +64,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     <.bordered_container hide_divider>
       <:heading>
         <div class="px-2 mb-sm">
-          Subway Status
+          Current Status
         </div>
       </:heading>
       <.lined_list :let={row} items={@rows}>
