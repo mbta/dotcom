@@ -24,9 +24,13 @@ defmodule DotcomWeb.Components.Alerts do
           alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
         />
       <% end %>
-      <p class="my-0">{AlertView.format_alert_description(@alert.header)}</p>
-      <hr class="h-px my-4 bg-gray-200 border-0" />
-      <p class="my-0">{AlertView.format_alert_description(@alert.description)}</p>
+      <%= if @alert.header do %>
+        <p class="my-0">{AlertView.format_alert_description(@alert.header)}</p>
+      <% end %>
+      <%= if @alert.description do %>
+        <hr class="h-px my-4 bg-gray-200 border-0" />
+        <p class="my-0">{AlertView.format_alert_description(@alert.description)}</p>
+      <% end %>
       <%= if @alert.url do %>
         <hr class="h-px my-4 bg-gray-200 border-0" />
         <p class="my-0">
