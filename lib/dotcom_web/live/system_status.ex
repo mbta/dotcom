@@ -33,11 +33,9 @@ defmodule DotcomWeb.Live.SystemStatus do
       |> assign(:statuses, statuses)
       |> assign(:examples, examples)
 
-    Widget
-
     ~H"""
     <h1>Live Data</h1>
-    <.subway_status subway_status={@statuses} />
+    <.homepage_subway_status subway_status={@statuses} />
 
     <h2>Alerts</h2>
     <div class="flex flex-col gap-2">
@@ -48,7 +46,7 @@ defmodule DotcomWeb.Live.SystemStatus do
     <div :for={example <- @examples} class="mb-4">
       <div class="flex gap-5">
         <div>
-          <.subway_status subway_status={example.statuses} />
+          <.homepage_subway_status subway_status={example.statuses} />
         </div>
         <div class="flex flex-col gap-5">
           <span class="text-lg font-bold">Alerts</span>

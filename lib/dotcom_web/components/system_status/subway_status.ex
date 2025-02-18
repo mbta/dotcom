@@ -14,7 +14,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   attr :subway_status, :any, required: true
 
-  def subway_status(assigns) do
+  def homepage_subway_status(assigns) do
     assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
 
     ~H"""
