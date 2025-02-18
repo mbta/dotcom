@@ -35,7 +35,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp disruption(assigns) do
     ~H"""
     <.unstyled_accordion
-      summary_class="hover:bg-gray-lightest focus:bg-gray-lightest flex items-center w-full gap-x-3.5 py-3"
+      summary_class="flex gap-sm p-2 items-center hover:bg-slate-600 hover:text-white cursor-pointer group/row"
       chevron_class="ml-auto mr-2 w-3 h-3"
     >
       <:heading>
