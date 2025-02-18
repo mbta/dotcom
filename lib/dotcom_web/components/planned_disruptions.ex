@@ -79,7 +79,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     Enum.map(entities, & &1.route)
     |> Enum.uniq()
     |> Enum.sort()
-    |> Enum.reduce(%{modifier_ids: []}, fn route, acc ->
+    |> Enum.reduce(%{modifier_ids: [], route_id: nil}, fn route, acc ->
       if route in Routes.subway_lines() do
         Map.put(acc, :route_id, route)
       else
