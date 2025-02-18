@@ -81,6 +81,21 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       # Exercise/Verify
       assert %{today: [^alert_today]} = todays_disruptions()
     end
+
+    test "sorts alerts by start time" do
+      # Setup
+      {start, stop} = service_range_day()
+      alert_today = disruption_alert({start, stop})
+      alert_later = disruption_alert({Timex.shift(start, seconds: 1), stop})
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [alert_later, alert_today]
+      end)
+
+      assert %{
+        today: [^alert_today, ^alert_later]
+      } = todays_disruptions()
+    end
   end
 
   defp disruption_alert(active_period) do
