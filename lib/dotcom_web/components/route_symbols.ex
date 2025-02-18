@@ -12,6 +12,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   @logan_express_icon_names Route.logan_express_icon_names()
   @massport_icon_names Route.massport_icon_names()
+  @subway_branch_ids Dotcom.Routes.subway_branch_ids()
+  @subway_line_names Dotcom.Routes.subway_line_names()
 
   variant(
     :size,
@@ -178,6 +180,85 @@ defmodule DotcomWeb.Components.RouteSymbols do
     """
   end
 
+  attr :class, :string, default: ""
+
+  attr :route_ids, :list,
+    doc: "A list of route IDs. These should all be associated with subway routes.",
+    examples: [["Blue"], ["Green-B", "Green-C"]]
+
+  @doc """
+  Renders a symbol for one or more subway routes, consisting of a colored pill
+  with optionally a number of circles representing branches of a subway line.
+  """
+  def subway_route_pill(%{route_ids: [route_id]} = assigns) when route_id in @subway_line_names do
+    assigns =
+      assign(assigns, %{
+        bg_color_class: "bg-#{String.downcase(route_id)}-line",
+        route_abbreviation: String.at(route_id, 0) <> "L"
+      })
+
+    ~H"""
+    <div class={[
+      @bg_color_class,
+      @class,
+      "w-[3.125rem] h-6 rounded-full ring-2 ring-white",
+      "flex items-center justify-center",
+      "text-white font-bold font-heading leading-none"
+    ]}>
+      {@route_abbreviation}
+    </div>
+    """
+  end
+
+  # Add the subway line name to the list of subway branch route_ids, since it is
+  # needed to render the larger pill
+  def subway_route_pill(%{route_ids: [route_id]} = assigns) when route_id in @subway_branch_ids do
+    assigns = assign(assigns, :route_ids, [subway_line_name(route_id) | assigns.route_ids])
+
+    ~H"""
+    <.subway_route_pill {assigns} />
+    """
+  end
+
+  # A list of any length - find the relevant subway line. If there's any number
+  # of subway lines represented here other than one, fall back to subway icon.
+  def subway_route_pill(%{route_ids: route_ids} = assigns) when is_list(route_ids) do
+    with subway_line_names <- Enum.map(route_ids, &subway_line_name/1),
+         [subway_line_name] <- Enum.uniq(subway_line_names) |> Enum.reject(&is_nil/1) do
+      branch_ids = Enum.reject(assigns.route_ids, &(&1 == subway_line_name)) |> Enum.sort()
+
+      if branch_ids == GreenLine.branch_ids() do
+        assigns = assign(assigns, :route_ids, ["Green"])
+
+        ~H"""
+        <.subway_route_pill {assigns} />
+        """
+      else
+        assigns =
+          assign(assigns, %{
+            route_ids: [subway_line_name],
+            branch_ids: branch_ids
+          })
+
+        ~H"""
+        <span class="flex items-center">
+          <.subway_route_pill route_ids={@route_ids} class={"#{@class} -mr-1"} />
+          <.route_symbol
+            :for={route_id <- @branch_ids}
+            route={%Routes.Route{id: route_id}}
+            class={"#{@class} rounded-full ring-white ring-2 mr-0.5"}
+          />
+        </span>
+        """
+      end
+    else
+      _ ->
+        ~H"""
+        <.icon type="icon-svg" name="icon-mode-subway-default" class="h-6 w-6" />
+        """
+    end
+  end
+
   # Given a route, return a machine-readable label.
   defp route_label(%Route{type: 2}), do: "Commuter Rail"
   defp route_label(%Route{type: 4}), do: "Ferry"
@@ -202,4 +283,11 @@ defmodule DotcomWeb.Components.RouteSymbols do
   end
 
   defp route_label(%Route{long_name: long_name}), do: long_name
+
+  defp subway_line_name(route_id) when route_id in @subway_branch_ids do
+    Dotcom.Routes.line_name_for_subway_route(route_id)
+  end
+
+  defp subway_line_name(route_id) when route_id in @subway_line_names, do: route_id
+  defp subway_line_name(_), do: nil
 end

@@ -6,7 +6,7 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.Components.RoutePills
+  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel
   import DotcomWeb.Components.SystemStatus.SubwayStatus
 
@@ -68,13 +68,22 @@ defmodule DotcomWeb.Live.SystemStatus do
     </div>
 
     <h2>Route Pills</h2>
-    <div class="flex flex-col gap-2">
-      <.route_pill route_id="Blue" />
-      <.route_pill route_id="Green" />
-      <.route_pill route_id="Orange" />
-      <.route_pill route_id="Red" />
-      <.route_pill route_id="Green" modifier_ids={["Green-B", "Green-C"]} />
-    </div>
+    <%= for ids <- [
+      ["Blue"],
+      ["Green"],
+      ["Orange"],
+      ["Red"],
+      ["Mattapan"],
+      ["Red", "Mattapan"],
+      ["Orange", "Mattapan"],
+      ["Green-E", "Green-B", "Green-D"],
+      ["Fake News"],
+      ["Green-B", "Green-C", "Green-D", "Green-E"]
+    ] do %>
+      <div class="flex gap-sm p-2 items-center hover:bg-slate-600 hover:text-white cursor-pointer group/row">
+        <.subway_route_pill route_ids={ids} class="group-hover/row:ring-slate-600" /> {inspect(ids)}
+      </div>
+    <% end %>
     """
   end
 
