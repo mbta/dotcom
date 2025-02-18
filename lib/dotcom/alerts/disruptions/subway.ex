@@ -58,6 +58,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     end)
   end
 
+  # Sorts alerts by the start time of the first active period.
   defp sort_alerts_by_start_time(alerts) do
     alerts
     |> Enum.sort_by(
