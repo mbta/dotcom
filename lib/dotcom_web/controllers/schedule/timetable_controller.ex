@@ -291,6 +291,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> with_prioritized_pattern("Stoughton")
   end
 
+  defp with_prioritized_pattern([%RoutePattern{route_id: "CR-NewBedford"} | _] = route_patterns) do
+    route_patterns
+    |> with_prioritized_pattern("Fall River")
+  end
+
   defp with_prioritized_pattern(route_patterns), do: route_patterns
 
   defp with_prioritized_pattern(route_patterns, pattern_name) do
