@@ -34,6 +34,7 @@ defmodule DotcomWeb.Plugs.SecureHeaders do
       www.googletagmanager.com
       www.instagram.com
       *.soundcloud.com
+      *.vimeo.com
     ],
     img: ~w[
       img-src
