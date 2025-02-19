@@ -134,7 +134,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp status_to_alerts_rows(subway_status) do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
-    |> Enum.flat_map(&rows_for_route(&1, false))
+    |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
   end
 
   defp maybe_collapse_rows(rows) when length(rows) > @max_rows, do: collapse_rows(rows)
@@ -211,26 +211,26 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp route_id_from_route_info(%{branch_ids: [branch_id]}), do: branch_id
   defp route_id_from_route_info(%{route_id: route_id}), do: route_id
 
-  defp rows_for_route({route_id, branches_with_statuses}, collapse_alerts? \\ true) do
+  defp rows_for_route({route_id, branches_with_statuses}, opts \\ []) do
     branches_with_statuses
-    |> Enum.flat_map(&rows_for_branch_group(&1, collapse_alerts?))
+    |> Enum.flat_map(&rows_for_branch_group(&1, opts))
     |> add_route_id(route_id)
   end
 
   defp rows_for_branch_group(
          %{branch_ids: branch_ids, status_entries: status_entries},
-         collapse_alerts?
+         opts
        ) do
     status_entries
-    |> rows_for_status_entries(collapse_alerts?)
+    |> rows_for_status_entries(opts)
     |> add_branch_ids(branch_ids)
   end
 
-  defp rows_for_status_entries(status_entries, collapse_alerts?) do
+  defp rows_for_status_entries(status_entries, opts) do
     show_prefix = show_prefix?(status_entries)
 
     status_entries
-    |> Enum.flat_map(&rows_for_status_entry(&1, show_prefix, collapse_alerts?))
+    |> Enum.flat_map(&rows_for_status_entry(&1, show_prefix, opts))
     |> show_first_route_pill()
   end
 
@@ -251,22 +251,31 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     ]
   end
 
-  defp rows_for_status_entry(%{alerts: alerts} = status_entry, show_prefix, false) do
-    prefix = if show_prefix, do: prefix(status_entry), else: nil
+  defp rows_for_status_entry(%{alerts: alerts} = status_entry, show_prefix, opts) do
+    if Keyword.get(opts, :include_alert) do
+      prefix = if show_prefix, do: prefix(status_entry), else: nil
 
-    for alert <- alerts do
-      %{
-        alert: alert,
-        route_info: %{},
-        status_entry: %{
-          status: alert.effect,
-          plural: false,
-          prefix: prefix
-        },
-        style: %{
-          hide_route_pill: true
-        }
-      }
+      Enum.map(
+        alerts,
+        fn alert ->
+          %{
+            alert: alert,
+            route_info: %{},
+            status_entry: %{
+              status: alert.effect,
+              plural: false,
+              prefix: prefix
+            },
+            style: %{
+              hide_route_pill: true
+            }
+          }
+        end
+      )
+    else
+      status_entry
+      |> Map.drop([:alerts])
+      |> rows_for_status_entry(show_prefix, opts)
     end
   end
 
@@ -276,7 +285,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
     [
       %{
-        alerts: [],
         route_info: %{},
         status_entry: %{
           status: status,
