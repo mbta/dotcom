@@ -15,7 +15,7 @@ defmodule DotcomWeb.Live.SystemStatus do
   alias Dotcom.SystemStatus
 
   def render(assigns) do
-    alerts = SystemStatus.subway_alerts_for_today()
+    alerts = Disruptions.Subway.todays_disruptions() |> Map.get(:today, [])
 
     assigns =
       assigns

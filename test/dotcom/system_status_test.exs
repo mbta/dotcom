@@ -3,13 +3,7 @@ defmodule Dotcom.SystemStatusTest do
 
   import Dotcom.Alerts, only: [service_impacting_effects: 0]
   import Dotcom.SystemStatus
-
-  import Dotcom.Utils.ServiceDateTime,
-    only: [
-      service_range_day: 0,
-      service_range_next_week: 0
-    ]
-
+  import Dotcom.Utils.ServiceDateTime, only: [service_range_day: 0]
   import Mox
   import Test.Support.Factories.Alerts.Alert
 
@@ -20,11 +14,10 @@ defmodule Dotcom.SystemStatusTest do
     :ok
   end
 
-  describe "subway_alerts_for_today/0" do
+  describe "subway_status/0" do
     test "requests alerts for all subway lines @ today datetime" do
       today = Test.Support.Generators.DateTime.random_date_time()
 
-      # called first when fetching alerts, and again when filtering by active period
       expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
         today
       end)
@@ -36,57 +29,169 @@ defmodule Dotcom.SystemStatusTest do
         []
       end)
 
-      _ = subway_alerts_for_today()
+      _ = subway_status()
     end
 
-    # does Alerts.Repo.by_route_ids/2 not already scope results to the given day?
-    test "filters alerts for falling within a day" do
-      alert_today = service_range_day() |> disruption_alert()
-      alert_next_week = service_range_next_week() |> disruption_alert()
+    test "returns status without alerts ending earlier that day" do
+      route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
+      line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
+      {day_start, day_end} = service_range_day()
+      earlier_end = Timex.shift(day_start, minutes: 1)
+      alert_today = disruption_alert({day_start, day_end}, route_id_with_alerts)
+      alert_earlier = disruption_alert({day_start, earlier_end}, route_id_with_alerts)
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        [alert_today, alert_next_week]
+        [alert_today, alert_earlier]
       end)
 
-      assert [^alert_today] = subway_alerts_for_today()
-    end
+      assert %{^line => statuses} = subway_status()
 
-    test "filters alerts for service impact" do
-      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        build_list(20, :alert, active_period: [service_range_day()])
-      end)
+      assert %{alerts: [^alert_today], status: non_normal_status} =
+               Enum.find_value(statuses, fn %{status_entries: status_entries} ->
+                 Enum.find(status_entries, &(&1.status != :normal))
+               end)
 
-      assert subway_alerts_for_today() |> Enum.all?(&(&1.effect in service_impacting_effects()))
+      assert non_normal_status == alert_today.effect
     end
   end
 
-  test "subway_status/0" do
-    route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
-    line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
+  describe "active_now_or_later_on_day?/2" do
+    test "returns true if the alert is currently active" do
+      start_time = Timex.now("America/New_York") |> Timex.beginning_of_day()
+      end_time = Timex.now("America/New_York") |> Timex.end_of_day()
 
-    alert =
-      build(:alert_for_route,
-        route_id: route_id_with_alerts,
-        active_period: [service_range_day()],
-        effect: service_impacting_effects() |> Faker.Util.pick()
-      )
+      alert = {start_time, end_time} |> disruption_alert()
 
-    expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-      [alert]
-    end)
+      time = Faker.DateTime.between(start_time, end_time)
 
-    assert %{^line => statuses} = subway_status()
+      assert active_now_or_later_on_day?(alert, time)
+    end
 
-    %{alerts: [^alert], status: non_normal_status} =
-      Enum.find_value(statuses, fn %{status_entries: status_entries} ->
-        Enum.find(status_entries, &(&1.status != :normal))
-      end)
+    test "returns false if the alert starts on the next service day" do
+      start_time =
+        Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(hours: 12)
 
-    assert non_normal_status == alert.effect
+      end_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(days: 1)
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          Timex.now("America/New_York") |> Timex.beginning_of_day(),
+          Timex.now("America/New_York") |> Timex.end_of_day()
+        )
+
+      refute active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns true if the alert starts later, but before the end of the day" do
+      start_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(hours: -2)
+      end_time = Timex.now("America/New_York") |> Timex.end_of_day()
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          start_time |> Timex.beginning_of_day() |> Timex.shift(hours: 12),
+          start_time |> Timex.shift(minutes: -1)
+        )
+
+      assert active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns true if the alert starts on the next day, but before end-of-service" do
+      start_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(hours: 2)
+      end_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(days: 1)
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          Timex.now("America/New_York") |> Timex.beginning_of_day() |> Timex.shift(hours: 12),
+          Timex.now("America/New_York") |> Timex.end_of_day()
+        )
+
+      assert active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns false if the alert has already ended" do
+      start_time = Timex.now("America/New_York") |> Timex.beginning_of_day()
+
+      end_time =
+        Timex.now("America/New_York") |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          end_time |> Timex.shift(minutes: 1),
+          Timex.now("America/New_York") |> Timex.end_of_day()
+        )
+
+      refute active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns true if the alert has no end time" do
+      start_time = Timex.now("America/New_York") |> Timex.beginning_of_day()
+      end_time = nil
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(start_time, Timex.now("America/New_York") |> Timex.end_of_day())
+
+      assert active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns false if the alert has no end time but hasn't started yet" do
+      start_time = Timex.now("America/New_York") |> Timex.end_of_day() |> Timex.shift(hours: 12)
+      end_time = nil
+
+      alert = build(:alert, active_period: [{start_time, end_time}])
+
+      time =
+        Faker.DateTime.between(
+          Timex.now("America/New_York") |> Timex.beginning_of_day(),
+          Timex.now("America/New_York") |> Timex.end_of_day()
+        )
+
+      refute active_now_or_later_on_day?(alert, time)
+    end
+
+    test "returns true if a later part of the alert's active period is active" do
+      start_time_1 = Timex.now("America/New_York") |> Timex.beginning_of_day()
+      end_time_1 = Timex.now("America/New_York") |> Timex.end_of_day()
+      start_time_2 = start_time_1 |> Timex.shift(days: 1)
+      end_time_2 = end_time_1 |> Timex.shift(days: 1)
+
+      alert =
+        build(:alert, active_period: [{start_time_1, end_time_1}, {start_time_2, end_time_2}])
+
+      time = Faker.DateTime.between(start_time_2, end_time_2)
+
+      assert active_now_or_later_on_day?(alert, time)
+    end
   end
 
-  defp disruption_alert(active_period) do
-    build(:alert,
+  defp disruption_alert(active_period)
+  defp disruption_alert(active_period, route_id \\ nil)
+
+  defp disruption_alert(active_period, "Green") do
+    build(:alert_for_routes,
+      route_ids: GreenLine.branch_ids(),
+      active_period: [active_period],
+      effect: service_impacting_effects() |> Faker.Util.pick()
+    )
+  end
+
+  defp disruption_alert(active_period, nil) do
+    route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
+    disruption_alert(active_period, route_id)
+  end
+
+  defp disruption_alert(active_period, route_id) do
+    build(:alert_for_route,
+      route_id: route_id,
       active_period: [active_period],
       effect: service_impacting_effects() |> Faker.Util.pick()
     )

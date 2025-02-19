@@ -5,6 +5,8 @@ defmodule Dotcom.Alerts do
 
   alias Alerts.Alert
 
+  @type service_effect_t() :: :normal | :delay | :shuttle | :suspension | :station_closure
+
   @service_impacting_effects [:delay, :shuttle, :suspension, :station_closure]
 
   @doc """

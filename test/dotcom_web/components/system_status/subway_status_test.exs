@@ -58,11 +58,28 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       assert Floki.text(details) =~ alert_header
       assert [{"img", img_attrs, _}] = Floki.find(details, "img")
-      assert [{"src", ^alert_image}, {"alt", ^alert_image_alternative_text} | _] = img_attrs
+      assert Enum.find(img_attrs, &match?({"src", ^alert_image}, &1))
+      assert Enum.find(img_attrs, &match?({"alt", ^alert_image_alternative_text}, &1))
     end
   end
 
-  defp subway_status_alerts(route_id, num_alerts \\ 1, attrs \\ %{}) do
+  defp subway_status_alerts(route_id, num_alerts \\ 1, attrs \\ %{})
+
+  defp subway_status_alerts("Green", num_alerts, attrs) do
+    Factories.Alerts.Alert.build_list(
+      num_alerts,
+      :alert_for_routes,
+      Map.merge(
+        %{
+          route_ids: GreenLine.branch_ids(),
+          effect: service_impacting_effects() |> Faker.Util.pick()
+        },
+        attrs
+      )
+    )
+  end
+
+  defp subway_status_alerts(route_id, num_alerts, attrs) do
     Factories.Alerts.Alert.build_list(
       num_alerts,
       :alert_for_route,
