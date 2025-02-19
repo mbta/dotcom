@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   use DotcomWeb, :component
 
+  import Dotcom.Utils.ServiceDateTime, only: [service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
@@ -84,12 +85,5 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   # E.g., "Mon Jan 01"
   defp format_date(datetime) do
     datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
-  end
-
-  # Converts a service range atom to a title-cased string.
-  defp service_range_string(service_range) do
-    service_range
-    |> Atom.to_string()
-    |> Recase.to_title()
   end
 end
