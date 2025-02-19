@@ -132,6 +132,17 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     end
   end
 
+  describe "service_range_string/1" do
+    test "returns a string for the given atom" do
+      # Setup
+      random_date_time = random_date_time()
+      service_range = service_range(random_date_time)
+
+      # Exercise / Verify
+      assert service_range |> service_range_string() |> is_binary()
+    end
+  end
+
   describe "beginning_of_next_service_day/1" do
     property "the beginning of the next service day is the same 'day' as the end of the current service day" do
       check all(date_time <- date_time_generator()) do

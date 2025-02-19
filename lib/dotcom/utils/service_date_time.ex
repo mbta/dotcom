@@ -70,6 +70,16 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
+  Converts a service range atom to a title-cased string.
+  """
+  @spec service_range_string(named_service_range()) :: String.t()
+  def service_range_string(service_range) do
+    service_range
+    |> Atom.to_string()
+    |> Recase.to_title()
+  end
+
+  @doc """
   Get the beginning of the service day for the day after the given date_time.
   """
   @spec beginning_of_next_service_day() :: DateTime.t()
