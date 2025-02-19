@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     test "if no alerts, shows normal service for every subway line" do
       html = render_component(&alerts_subway_status/1, %{subway_status: subway_status([])})
 
-      for line_name <- Dotcom.Routes.subway_line_names() do
+      for line_name <- Dotcom.Routes.subway_line_ids() do
         assert html |> Floki.find("[data-test-row-route-info*=\"#{line_name}\"]") |> Floki.text() =~
                  "Normal Service"
       end
