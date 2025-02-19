@@ -15,16 +15,24 @@ defmodule Dotcom.SystemStatusTest do
 
   setup :verify_on_exit!
 
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
+
   describe "subway_alerts_for_today/0" do
     test "requests alerts for all subway lines @ today datetime" do
-      today = Faker.DateTime.forward(1)
+      today = Test.Support.Generators.DateTime.random_date_time()
 
-      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+      # called first when fetching alerts, and again when filtering by active period
+      expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
         today
       end)
 
-      expect(Alerts.Repo.Mock, :by_route_ids, fn route_ids, ^today ->
+      expect(Alerts.Repo.Mock, :by_route_ids, fn route_ids, datetime ->
         assert Enum.sort(route_ids) == Dotcom.Routes.subway_route_ids() |> Enum.sort()
+        assert datetime == today
+
         []
       end)
 
@@ -33,7 +41,6 @@ defmodule Dotcom.SystemStatusTest do
 
     # does Alerts.Repo.by_route_ids/2 not already scope results to the given day?
     test "filters alerts for falling within a day" do
-      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
       alert_today = service_range_day() |> disruption_alert()
       alert_next_week = service_range_next_week() |> disruption_alert()
 
@@ -45,8 +52,6 @@ defmodule Dotcom.SystemStatusTest do
     end
 
     test "filters alerts for service impact" do
-      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         build_list(20, :alert, active_period: [service_range_day()])
       end)
@@ -56,7 +61,6 @@ defmodule Dotcom.SystemStatusTest do
   end
 
   test "subway_status/0" do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
     line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
 

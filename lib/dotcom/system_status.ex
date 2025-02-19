@@ -7,33 +7,16 @@ defmodule Dotcom.SystemStatus do
 
   alias Dotcom.SystemStatus
 
-  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @doc """
-  Returns a list of alerts that satisfy the following criteria:
-  - They are for one of the subway or trolley lines (including Mattapan), and
-  - They are either currently active, or will be later today
+  Returns a list of today's disuptions, omitting alerts which have ended before now 
   """
   @spec subway_alerts_for_today :: [Alerts.Alert.t()]
   def subway_alerts_for_today() do
-    subway_alerts_for_day(@date_time_module.now())
-  end
-
-  defp subway_alerts_for_day(datetime) do
-    [
-      "Red",
-      "Orange",
-      "Blue",
-      "Green-B",
-      "Green-C",
-      "Green-D",
-      "Green-E",
-      "Mattapan"
-    ]
-    |> @alerts_repo.by_route_ids(datetime)
-    |> SystemStatus.Alerts.for_day(datetime)
-    |> SystemStatus.Alerts.filter_relevant()
+    Dotcom.Alerts.Disruptions.Subway.todays_disruptions()
+    |> Map.get(:today, [])
+    |> SystemStatus.Alerts.for_day(@date_time_module.now())
   end
 
   @doc """
