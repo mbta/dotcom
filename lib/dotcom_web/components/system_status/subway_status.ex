@@ -70,6 +70,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       <.lined_list :let={row} items={@rows}>
         <%= if row.alert do %>
           <.unstyled_accordion
+            data-test-row-route-info={inspect(row.route_info)}
             style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
             summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
             chevron_class={"fill-gray-lighter px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
@@ -99,7 +100,11 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             </:content>
           </.unstyled_accordion>
         <% else %>
-          <div class="flex gap-sm" style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}>
+          <div
+            data-test-row-route-info={inspect(row.route_info)}
+            class="flex gap-sm"
+            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+          >
             <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
               <.subway_route_pill
                 class="group-hover/row:ring-brand-primary-lightest"
