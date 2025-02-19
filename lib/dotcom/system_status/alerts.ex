@@ -21,7 +21,7 @@ defmodule Dotcom.SystemStatus.Alerts do
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
       iex> one_hour_ago = Timex.to_datetime(~N[2025-01-05 13:00:00], "America/New_York")
       iex> one_hour_from_now = Timex.to_datetime(~N[2025-01-05 15:00:00], "America/New_York")
-      iex> Dotcom.SystemStatus.Alerts.active_on_day?(
+      iex> Dotcom.SystemStatus.Alerts.active_now_or_later_on_day?(
       ...>   %Alerts.Alert{active_period: [{one_hour_ago, one_hour_from_now}]},
       ...>   now
       ...> )
@@ -31,7 +31,7 @@ defmodule Dotcom.SystemStatus.Alerts do
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
       iex> one_hour_from_now = Timex.to_datetime(~N[2025-01-05 15:00:00], "America/New_York")
       iex> one_day_from_now = Timex.to_datetime(~N[2025-01-06 14:00:00], "America/New_York")
-      iex> Dotcom.SystemStatus.Alerts.active_on_day?(
+      iex> Dotcom.SystemStatus.Alerts.active_now_or_later_on_day?(
       ...>   %Alerts.Alert{active_period: [{one_hour_from_now, one_day_from_now}]},
       ...>   now
       ...> )
@@ -44,7 +44,7 @@ defmodule Dotcom.SystemStatus.Alerts do
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
       iex> two_hours_ago = Timex.to_datetime(~N[2025-01-05 12:00:00], "America/New_York")
       iex> one_hour_ago = Timex.to_datetime(~N[2025-01-05 13:00:00], "America/New_York")
-      iex> Dotcom.SystemStatus.Alerts.active_on_day?(
+      iex> Dotcom.SystemStatus.Alerts.active_now_or_later_on_day?(
       ...>   %Alerts.Alert{active_period: [{two_hours_ago, one_hour_ago}]},
       ...>   now
       ...> )
@@ -54,13 +54,13 @@ defmodule Dotcom.SystemStatus.Alerts do
       iex> now = Timex.to_datetime(~N[2025-01-05 14:00:00], "America/New_York")
       iex> one_day_from_now = Timex.to_datetime(~N[2025-01-06 14:00:00], "America/New_York")
       iex> two_days_from_now = Timex.to_datetime(~N[2025-01-07 14:00:00], "America/New_York")
-      iex> Dotcom.SystemStatus.Alerts.active_on_day?(
+      iex> Dotcom.SystemStatus.Alerts.active_now_or_later_on_day?(
       ...>   %Alerts.Alert{active_period: [{one_day_from_now, two_days_from_now}]},
       ...>   now
       ...> )
       false
   """
-  def active_on_day?(alert, datetime) do
+  def active_now_or_later_on_day?(alert, datetime) do
     Enum.any?(alert.active_period, fn {active_period_start, active_period_end} ->
       starts_before_end_of_service?(active_period_start, datetime) &&
         has_not_ended?(active_period_end, datetime)
@@ -68,10 +68,10 @@ defmodule Dotcom.SystemStatus.Alerts do
   end
 
   @doc """
-  Given a list of alerts, filters only the ones that are active today, as defined in `active_on_day?/2`.
+  Given a list of alerts, filters only the ones that are active at the, as defined in `active_now_or_later_on_day?/2`.
   """
   def for_day(alerts, datetime) do
-    Enum.filter(alerts, &active_on_day?(&1, datetime))
+    Enum.filter(alerts, &active_now_or_later_on_day?(&1, datetime))
   end
 
   @doc """

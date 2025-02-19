@@ -6,7 +6,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
   alias Dotcom.SystemStatus.Alerts
 
-  describe "active_on_day?/2" do
+  describe "active_now_or_later_on_day?/2" do
     test "returns true if the alert is currently active" do
       start_time = Timex.now("America/New_York") |> Timex.beginning_of_day()
       end_time = Timex.now("America/New_York") |> Timex.end_of_day()
@@ -15,7 +15,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
       time = Faker.DateTime.between(start_time, end_time)
 
-      assert Alerts.active_on_day?(alert, time)
+      assert Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert starts on the next service day" do
@@ -32,7 +32,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert starts later, but before the end of the day" do
@@ -47,7 +47,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           start_time |> Timex.shift(minutes: -1)
         )
 
-      assert Alerts.active_on_day?(alert, time)
+      assert Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert starts on the next day, but before end-of-service" do
@@ -62,7 +62,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      assert Alerts.active_on_day?(alert, time)
+      assert Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert has already ended" do
@@ -79,7 +79,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert has no end time" do
@@ -91,7 +91,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
       time =
         Faker.DateTime.between(start_time, Timex.now("America/New_York") |> Timex.end_of_day())
 
-      assert Alerts.active_on_day?(alert, time)
+      assert Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert has no end time but hasn't started yet" do
@@ -106,7 +106,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute Alerts.active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if a later part of the alert's active period is active" do
@@ -120,7 +120,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
       time = Faker.DateTime.between(start_time_2, end_time_2)
 
-      assert Alerts.active_on_day?(alert, time)
+      assert Alerts.active_now_or_later_on_day?(alert, time)
     end
   end
 
