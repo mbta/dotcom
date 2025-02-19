@@ -49,7 +49,7 @@ defmodule Dotcom.ContentRewriters.Links do
     href = Map.get(attr_map, "href", "")
     locale = String.split(languages, "/") |> List.last()
 
-    if String.match?(href, ~r/mycharlie.mbta.com/) do
+    if is_binary(href) && String.match?(href, ~r/mycharlie.mbta.com/) do
       updated_href = "#{href}?locale=#{locale}"
       updated_attrs = attr_map |> Map.replace!("href", updated_href) |> Map.to_list()
 
