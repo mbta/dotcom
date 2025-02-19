@@ -92,6 +92,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
         [alert_later, alert_today]
       end)
 
+      # Exercise/Verify
       assert %{
                today: [^alert_today, ^alert_later]
              } = todays_disruptions()
