@@ -46,10 +46,15 @@ defmodule Dotcom.ContentRewriters.Links do
   """
   def add_locale_params({"a", attrs, children} = element, %{cookies: %{"googtrans" => languages}}) do
     attr_map = Enum.into(attrs, %{})
-    href = Map.get(attr_map, "href", "")
     locale = String.split(languages, "/") |> List.last()
 
-    if is_binary(href) && String.match?(href, ~r/mycharlie.mbta.com/) do
+    href = case Map.get(attr_map, "href") do
+      href when is_binary(href) -> href
+      [href] -> href
+      _ -> ""
+    end
+
+    if String.match?(href, ~r/mycharlie.mbta.com/) do
       updated_href = "#{href}?locale=#{locale}"
       updated_attrs = attr_map |> Map.replace!("href", updated_href) |> Map.to_list()
 
