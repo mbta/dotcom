@@ -14,7 +14,15 @@ defmodule DotcomWeb.Components.Alerts do
   An alert that is embedded within another component.
   It does not include header information like the time range, effect, or route.
   """
-  def embedded_alert(assigns) do
+  def embedded_alert(%{alert: alert} = assigns) do
+    assigns =
+      assign(
+        assigns,
+        Map.new([:description, :header, :url], fn key ->
+          {key, if(Map.get(alert, key) != "", do: Map.get(alert, key))}
+        end)
+      )
+
     ~H"""
     <div class="p-4 bg-gray-100">
       <%= if @alert.image do %>
@@ -24,17 +32,17 @@ defmodule DotcomWeb.Components.Alerts do
           alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
         />
       <% end %>
-      <%= if @alert.header do %>
-        <p class="my-0">{AlertView.format_alert_description(@alert.header)}</p>
+      <%= if @header do %>
+        <p class="my-0">{AlertView.format_alert_description(@header)}</p>
       <% end %>
-      <%= if @alert.description do %>
+      <%= if @description do %>
         <hr class="h-px my-4 bg-gray-200 border-0" />
-        <p class="my-0">{AlertView.format_alert_description(@alert.description)}</p>
+        <p class="my-0">{AlertView.format_alert_description(@description)}</p>
       <% end %>
-      <%= if @alert.url do %>
+      <%= if @url do %>
         <hr class="h-px my-4 bg-gray-200 border-0" />
         <p class="my-0">
-          For more information: <a href={@alert.url}>{@alert.url}</a>
+          For more information: <a href={@url}>{@url}</a>
         </p>
       <% end %>
     </div>

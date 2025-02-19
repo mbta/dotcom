@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   use DotcomWeb, :component
 
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
+  import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel
 
@@ -94,9 +95,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               </div>
             </:heading>
             <:content>
-              {Phoenix.View.render_one(row.alert, DotcomWeb.AlertView, "_item.html",
-                date_time: Util.now()
-              )}
+              <.embedded_alert alert={row.alert} />
             </:content>
           </.unstyled_accordion>
         <% else %>
