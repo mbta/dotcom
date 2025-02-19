@@ -61,7 +61,7 @@ defmodule DotcomWeb.Live.SystemStatus do
       </div>
     <% end %>
     <hr id="planned-disruptions" />
-    <.disruptions disruptions={@disruptions} />
+    <.disruptions disruptions={Disruptions.Subway.future_disruptions()} />
     """
   end
 
