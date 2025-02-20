@@ -5,7 +5,7 @@ defmodule Dotcom.Routes do
 
   alias Routes.Route
 
-  @subway_line_ids ["Blue", "Green", "Orange", "Red"]
+  @subway_line_ids ["Red", "Orange", "Green", "Blue"]
   @green_line_branch_ids Enum.map(["B", "C", "D", "E"], fn branch -> "Green-#{branch}" end)
   @red_line_branch_ids ["Mattapan"]
 
