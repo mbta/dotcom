@@ -5,7 +5,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import Dotcom.Routes, only: [subway_route_ids: 0]
-  import Dotcom.Utils.ServiceDateTime, only: [service_range: 1]
+  import Dotcom.Utils.ServiceDateTime, only: [all_service_ranges: 0, service_range: 1]
 
   alias Alerts.Alert
   alias Dotcom.Utils
@@ -50,12 +50,22 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   defp group_alerts(alert, groups) do
     alert
     |> Map.get(:active_period)
-    |> Enum.map(fn {start, stop} -> [service_range(start), service_range(stop)] end)
-    |> List.flatten()
+    |> Enum.flat_map(&service_range_range/1)
     |> Enum.uniq()
     |> Enum.reduce(groups, fn service_range, groups ->
       Map.update(groups, service_range, [alert], &(&1 ++ [alert]))
     end)
+  end
+
+  # An active period can span many ranges from start to stop
+  # e.g. [:before_today, :today, :later_this_week]
+  defp service_range_range({start, stop}) do
+    start_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(start)))
+    stop_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(stop)))
+
+    all_service_ranges()
+    |> Enum.with_index(&if(&2 in start_index..stop_index, do: &1))
+    |> Enum.reject(&is_nil/1)
   end
 
   # Sorts alerts by the start time of the first active period.

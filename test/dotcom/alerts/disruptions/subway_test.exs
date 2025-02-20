@@ -57,6 +57,43 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
                after_next_week: [^alert_after_next_week]
              } = future_disruptions()
     end
+
+    test "handles single active_period spanning many service ranges" do
+      # Setup
+      {alert_today_start, _} = service_range_day()
+      {alert_after_next_week_start, _} = service_range_after_next_week()
+
+      long_alert =
+        [{alert_today_start, Timex.shift(alert_after_next_week_start, days: 1)}]
+        |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [long_alert]
+      end)
+
+      # Exercise/Verify
+      assert %{
+               later_this_week: [^long_alert],
+               next_week: [^long_alert],
+               after_next_week: [^long_alert]
+             } = future_disruptions()
+    end
+
+    test "handles alert with more than one active_period" do
+      # Setup
+      long_alert =
+        [service_range_later_this_week(), service_range_next_week()] |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [long_alert]
+      end)
+
+      # Exercise/Verify
+      assert %{
+               later_this_week: [^long_alert],
+               next_week: [^long_alert]
+             } = future_disruptions()
+    end
   end
 
   describe "todays_disruptions/0" do
@@ -82,6 +119,30 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       assert %{today: [^alert_today]} = todays_disruptions()
     end
 
+    test "returns alerts for today when applicable to other service ranges" do
+      # Setup
+      {start, _} = service_range_day()
+      {_, stop} = service_range_next_week()
+      alert_today_and_beyond = disruption_alert({start, stop})
+
+      alert_today_and_other_dates =
+        [
+          service_range_day(),
+          service_range_later_this_week(),
+          service_range_next_week()
+        ]
+        |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [alert_today_and_beyond, alert_today_and_other_dates]
+      end)
+
+      # Exercise/Verify
+      assert %{
+               today: [^alert_today_and_beyond, ^alert_today_and_other_dates]
+             } = todays_disruptions()
+    end
+
     test "sorts alerts by start time" do
       # Setup
       {start, stop} = service_range_day()
@@ -100,8 +161,10 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
   end
 
   defp disruption_alert(active_period) do
+    active_period = if(is_list(active_period), do: active_period, else: [active_period])
+
     Factories.Alerts.Alert.build(:alert,
-      active_period: [active_period],
+      active_period: active_period,
       effect: service_impacting_effects() |> Faker.Util.pick()
     )
   end
