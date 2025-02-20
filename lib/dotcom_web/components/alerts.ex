@@ -8,34 +8,52 @@ defmodule DotcomWeb.Components.Alerts do
   alias Alerts.Alert
   alias DotcomWeb.AlertView
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   attr :alert, Alert, required: true
 
   @doc """
   An alert that is embedded within another component.
   It does not include header information like the time range, effect, or route.
   """
-  def embedded_alert(assigns) do
+  def embedded_alert(%{alert: alert} = assigns) do
+    assigns =
+      assign(
+        assigns,
+        Map.new([:description, :header, :url], fn key ->
+          {key, if(Map.get(alert, key) != "", do: Map.get(alert, key))}
+        end)
+      )
+      |> assign(:now, @date_time_module.now())
+      |> assign(:alert_icon_type, Alerts.Alert.icon(alert))
+
     ~H"""
-    <div class="p-4 bg-gray-100">
-      <%= if @alert.image do %>
-        <img
-          class="w-full mb-4"
-          src={@alert.image}
-          alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
-        />
-      <% end %>
-      <%= if @alert.header do %>
-        <p class="my-0">{AlertView.format_alert_description(@alert.header)}</p>
-      <% end %>
-      <%= if @alert.description do %>
-        <hr class="h-px my-4 bg-gray-200 border-0" />
-        <p class="my-0">{AlertView.format_alert_description(@alert.description)}</p>
-      <% end %>
-      <%= if @alert.url do %>
-        <hr class="h-px my-4 bg-gray-200 border-0" />
-        <p class="my-0">
-          For more information: <a href={@alert.url}>{@alert.url}</a>
-        </p>
+    <div class={"p-md c-alert-item c-alert-item--#{@alert.priority}"}>
+      <div class="flex gap-sm">
+        <span :if={@alert_icon_type != :none} class="basis-[1.75rem]">
+          {AlertView.alert_icon(@alert_icon_type)}
+        </span>
+        <span>{AlertView.format_alert_description(@header)}</span>
+      </div>
+      <%= if @description do %>
+        <div class="mt-sm">
+          <img
+            :if={@alert.image}
+            class="w-full mb-4"
+            src={@alert.image}
+            alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
+          />
+          {AlertView.format_alert_description(@description)}
+          <%= if @url do %>
+            <hr class="my-4 border-t-[1px] border-gray-lightest" />
+            <p class="my-0">
+              For more information: <a href={@url}>{@url}</a>
+            </p>
+          <% end %>
+          <div class="c-alert-item__updated">
+            {AlertView.alert_updated(@alert, @now)}
+          </div>
+        </div>
       <% end %>
     </div>
     """

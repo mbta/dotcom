@@ -196,14 +196,14 @@ defmodule DotcomWeb.Components do
 
   slot(:content, required: true)
   slot(:heading, required: true)
-  attr(:class, :string, default: "Class names applied to the underlying <details> element.")
+  attr(:class, :string, default: "")
 
   attr(:summary_class, :string,
     default: "",
     doc: "Class names applied to the underlying <summary> element."
   )
 
-  attr(:chevron_class, :string, default: "Class names applied to the chevron icon.")
+  attr(:chevron_class, :string, default: "")
   attr(:rest, :global)
 
   @doc """
@@ -221,7 +221,9 @@ defmodule DotcomWeb.Components do
     <details class={"#{@class} group"} {@rest}>
       <summary class={"#{@summary_class} cursor-pointer"}>
         {render_slot(@heading)}
-        <.icon name="chevron-down" class={"#{@chevron_class} shrink-0 group-open:rotate-180"} />
+        <div class={"#{@chevron_class} shrink-0"}>
+          <.icon name="chevron-down" class="h-3 w-3 group-open:rotate-180" />
+        </div>
       </summary>
       {render_slot(@content)}
     </details>
