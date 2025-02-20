@@ -15,6 +15,7 @@ defmodule Schedules.Parser do
           early_departure? :: boolean,
           last_stop? :: boolean,
           stop_sequence :: integer,
+          stop_headsign :: String.t(),
           pickup_type :: integer
         }
 
@@ -37,6 +38,7 @@ defmodule Schedules.Parser do
       early_departure?(item),
       last_stop?(item),
       item.attributes["stop_sequence"] || 0,
+      item.attributes["stop_headsign"] || "",
       pickup_type(item)
     }
   end
