@@ -203,7 +203,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
       @class,
       "w-[3.125rem] h-6 rounded-full ring-2 ring-white",
       "flex items-center justify-center",
-      "text-white font-bold font-heading leading-none"
+      "text-white font-bold font-heading leading-none notranslate"
     ]}>
       {@route_abbreviation}
     </div>
