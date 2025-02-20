@@ -36,8 +36,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp disruption(assigns) do
     ~H"""
     <.unstyled_accordion
-      summary_class="flex gap-sm p-2 items-center hover:bg-slate-600 focus:bg-slate-600 hover:text-white focus:text-white cursor-pointer group/row"
-      chevron_class="ml-auto mr-2 w-3 h-3"
+      summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
+      chevron_class="fill-gray-lighter px-2 py-3"
     >
       <:heading>
         <.heading alert={@alert} />
@@ -59,8 +59,12 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, route_ids: route_ids, time_range_str: time_range_str)
 
     ~H"""
-    <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-slate-600" />
-    <.status_label status={@alert.effect} prefix={@time_range_str} />
+    <div class="pl-2 pr-sm">
+      <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
+    </div>
+    <div class="flex items-center justify-between grow text-nowrap gap-sm py-3">
+      <.status_label status={@alert.effect} prefix={@time_range_str} />
+    </div>
     """
   end
 
