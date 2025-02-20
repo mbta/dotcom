@@ -275,11 +275,11 @@ defmodule Schedules.RepoTest do
     end
 
     test "filters out parsed schedules that returned without trips" do
-      refute has_trip?(
-               {"CR-Lowell", nil, "place-NHRML-0254", nil,
-                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
-                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, false, 1, 0}
-             )
+      # Setup
+      response = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil}
+
+      # Exercise/Verify
+      refute has_trip?(response)
     end
   end
 end
