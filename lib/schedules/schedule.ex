@@ -33,7 +33,7 @@ defmodule Schedules.Schedule do
           early_departure?: boolean,
           last_stop?: boolean,
           stop_sequence: non_neg_integer,
-          stop_headsign: String.t(),
+          stop_headsign: String.t() | nil,
           pickup_type: integer,
           platform_stop_id: Stops.Stop.id_t()
         }
