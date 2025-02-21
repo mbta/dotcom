@@ -3,10 +3,18 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   import Dotcom.Alerts, only: [service_impacting_effects: 0]
   import DotcomWeb.Components.SystemStatus.SubwayStatus
+  import Mox
   import Phoenix.LiveViewTest
 
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
+
+  setup :verify_on_exit!
+
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
 
   describe "alerts_subway_status/1" do
     test "if no alerts, shows normal service for every subway line" do
