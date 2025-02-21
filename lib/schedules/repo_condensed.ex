@@ -117,7 +117,7 @@ defmodule Schedules.RepoCondensed do
 
   defp build_structs(schedules) do
     schedules
-    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _} ->
+    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
       Task.async(fn ->
         trip = Repo.trip(trip_id)
         stop = @stops_repo.get!(stop_id)
