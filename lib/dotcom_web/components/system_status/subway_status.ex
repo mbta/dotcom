@@ -45,6 +45,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "flex items-center justify-between grow text-nowrap gap-sm",
             row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
           ]}>
+            <span :if={row.style.hide_route_pill} class="sr-only">
+              {Enum.join([row.route_info.route_id | row.route_info.branch_ids], ",")} Line
+            </span>
             <.status_label
               status={row.status_entry.status}
               prefix={row.status_entry.prefix}
