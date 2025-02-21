@@ -24,7 +24,7 @@ defmodule Schedules.RepoCondensed do
   @default_params [
     include: "trip,trip.occupancies",
     "fields[schedule]":
-      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
+      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,stop_headsign,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
@@ -56,13 +56,11 @@ defmodule Schedules.RepoCondensed do
     end
   end
 
-  defp has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  defp has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
-  defp has_trip?({_, _, _, _, _, _, _, _, _, _, _}) do
-    true
-  end
+  defp has_trip?(_), do: true
 
   defp valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
        when not is_nil(id) do
@@ -119,7 +117,7 @@ defmodule Schedules.RepoCondensed do
 
   defp build_structs(schedules) do
     schedules
-    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _} ->
+    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
       Task.async(fn ->
         trip = Repo.trip(trip_id)
         stop = @stops_repo.get!(stop_id)
