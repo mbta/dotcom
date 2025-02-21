@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   use DotcomWeb, :component
 
+  import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
@@ -33,14 +34,25 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   # A single disruption rendered as an accordion with a header and the alert as the content.
+  # If the alert affects multiple subway lines, show an accordion for each line
   defp disruption(assigns) do
+    route_ids_by_subway_line =
+      alert_route_ids(assigns.alert)
+      |> Enum.chunk_by(&line_name_for_subway_route/1)
+      |> Enum.sort_by(fn [route_id | _] ->
+        Enum.find_index(subway_line_ids(), &(&1 == line_name_for_subway_route(route_id)))
+      end)
+
+    assigns = assign(assigns, :route_ids_by_subway_line, route_ids_by_subway_line)
+
     ~H"""
     <.unstyled_accordion
+      :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
       chevron_class="fill-gray-lighter px-2 py-3"
     >
       <:heading>
-        <.heading alert={@alert} />
+        <.heading route_ids={route_ids} alert={@alert} />
       </:heading>
       <:content>
         <.embedded_alert alert={@alert} />
@@ -51,12 +63,10 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # The heading for a disruption alert, including the route pill and status label (and active period).
   defp heading(assigns) do
-    route_ids = alert_route_ids(assigns.alert)
-
     {start, stop} = alert_date_time_range(assigns.alert)
     time_range_str = "#{format_date(start)} - #{format_date(stop)}"
 
-    assigns = assign(assigns, route_ids: route_ids, time_range_str: time_range_str)
+    assigns = assign(assigns, time_range_str: time_range_str)
 
     ~H"""
     <div class="pl-2 pr-sm">
