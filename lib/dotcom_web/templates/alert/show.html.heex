@@ -1,4 +1,3 @@
-<% show_systemwide_alert? = show_systemwide_alert?(assigns) %>
 <.alerts_layout mode={@id}>
   <:sidebar_top>
     {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
@@ -10,39 +9,16 @@
     {render("_t-alerts.html")}
   </:sidebar_bottom>
   <:main_section>
-    <%= if show_systemwide_alert? do %>
-      <div class="m-alerts-header">
-        <h2 class="m-alerts-header__name--systemwide">Systemwide</h2>
-        <span class="m-alerts-header__icon">
-          {DotcomWeb.PartialView.SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{
-            icon: :t_logo,
-            aria_hidden?: true
-          })}
-        </span>
-      </div>
-      <div class="c-alert-group">
-        {render("_item.html",
-          alert: %{Alerts.Repo.by_id(@alert_banner.id) | priority: :system},
-          date_time: @date_time
-        )}
-      </div>
-    <% end %>
-    <% timeframe = format_alerts_timeframe(@alerts_timeframe) %>
-    <div :for={{route_or_stop, alerts} <- @alert_groups} class="mb-lg">
-      <%= link to: group_header_path(route_or_stop), class: "flex items-center gap-sm hover:no-underline" do %>
+    <.alerts_page_content_layout
+      {assigns}
+      empty_message={"There are no #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+    >
+      <:heading>
+        <h2 class="sr-only">All Alerts</h2>
+      </:heading>
+      <:alert_header_icon :let={route_or_stop}>
         <.route_icon :if={show_mode_icon?(route_or_stop)} route={route_or_stop} />
-        <h3 class="m-alerts-header__name text-lg">{group_header_name(route_or_stop)}</h3>
-      <% end %>
-      {DotcomWeb.AlertView.group(
-        alerts: alerts,
-        route: route_or_stop,
-        date_time: @date_time
-      )}
-    </div>
-    <%= if Enum.empty?(@alert_groups) && !show_systemwide_alert? do %>
-      <div class="m-alerts__notice--no-alerts">
-        There are no {timeframe} {mode_name(@id)} alerts at this time.
-      </div>
-    <% end %>
+      </:alert_header_icon>
+    </.alerts_page_content_layout>
   </:main_section>
 </.alerts_layout>
