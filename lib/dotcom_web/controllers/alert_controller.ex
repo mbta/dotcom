@@ -1,6 +1,6 @@
 defmodule DotcomWeb.AlertController do
   use DotcomWeb, :controller
-  alias Alerts.{Alert, InformedEntity, Match, Repo}
+  alias Alerts.{Alert, InformedEntity, Match}
   alias Stops.Stop
 
   plug(:route_type)
@@ -9,6 +9,7 @@ defmodule DotcomWeb.AlertController do
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
   plug(DotcomWeb.Plug.Mticket)
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -35,14 +36,14 @@ defmodule DotcomWeb.AlertController do
 
   @spec show_by_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show_by_stop(conn, %{"stop_id" => stop_id}) do
-    alerts = Repo.by_stop_id(stop_id)
+    alerts = @alerts_repo.by_stop_id(stop_id)
     json(conn, alerts)
   end
 
   @spec show_by_routes(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show_by_routes(%{query_params: %{"route_ids" => route_ids}} = conn, _) do
     route_id_array = String.split(route_ids, ",")
-    alerts = Repo.by_route_ids(route_id_array, DateTime.utc_now())
+    alerts = @alerts_repo.by_route_ids(route_id_array, DateTime.utc_now())
     json(conn, alerts)
   end
 
@@ -131,7 +132,7 @@ defmodule DotcomWeb.AlertController do
   defp routes(conn, _opts), do: conn
 
   defp alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
-    alerts = Alerts.Repo.all(conn.assigns.date_time)
+    alerts = @alerts_repo.all(conn.assigns.date_time)
     assign(conn, :alerts, alerts)
   end
 

@@ -5,6 +5,7 @@ defmodule Alerts.Repo do
 
   @behaviour Behaviour
 
+  @impl Behaviour
   @spec all(DateTime.t()) :: [Alert.t()]
   def all(now) do
     Store.all_alerts(now)
@@ -63,6 +64,7 @@ defmodule Alerts.Repo do
     |> Store.alerts(now)
   end
 
+  @impl Behaviour
   @spec by_stop_id(String.t(), DateTime.t()) :: [Alert.t()]
   def by_stop_id(stop_id, now \\ DateTime.utc_now()) do
     stop_id

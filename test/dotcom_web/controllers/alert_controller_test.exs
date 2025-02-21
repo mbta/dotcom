@@ -1,3 +1,4 @@
+# credo:disable-for-this-file Credo.Check.Design.AliasUsage
 defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase, async: true
 
@@ -8,10 +9,10 @@ defmodule DotcomWeb.AlertControllerTest do
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
+  alias Test.Support.Factories
 
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
   import Mox
-  import Test.Support.Factories.Routes.Route
 
   setup :verify_on_exit!
 
@@ -19,8 +20,20 @@ defmodule DotcomWeb.AlertControllerTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Alerts.Repo.Mock, :all, fn _date ->
+      Factories.Alerts.Alert.build_list(20, :alert)
+    end)
+
+    stub(Alerts.Repo.Mock, :by_route_ids, fn route_ids, _date ->
+      Enum.map(route_ids, &Factories.Alerts.Alert.build(:alert_for_route, %{route_id: &1}))
+    end)
+
     stub(Routes.Repo.Mock, :by_type, fn route_type ->
-      build_list(2, :route, %{type: route_type})
+      Factories.Routes.Route.build_list(2, :route, %{type: route_type})
+    end)
+
+    stub(Stops.Repo.Mock, :get_parent, fn id ->
+      Factories.Stops.Stop.build(:stop, %{id: id})
     end)
 
     :ok
@@ -28,7 +41,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   test "renders commuter rail", %{conn: conn} do
     expect(Routes.Repo.Mock, :by_type, fn 2 ->
-      build_list(2, :route, %{type: 2})
+      Factories.Routes.Route.build_list(2, :route, %{type: 2})
     end)
 
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
@@ -62,7 +75,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
     test "sets a custom meta description", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 3 ->
-        build_list(2, :route, %{type: 3})
+        Factories.Routes.Route.build_list(2, :route, %{type: 3})
       end)
 
       conn = get(conn, alert_path(conn, :show, :bus))
@@ -292,7 +305,7 @@ defmodule DotcomWeb.AlertControllerTest do
   describe "mTicket detection" do
     test "mTicket matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        build_list(4, :route, %{type: 2})
+        Factories.Routes.Route.build_list(4, :route, %{type: 2})
       end)
 
       response =
@@ -308,7 +321,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
     test "mTicket not matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        build_list(4, :route, %{type: 2})
+        Factories.Routes.Route.build_list(4, :route, %{type: 2})
       end)
 
       response =
