@@ -54,6 +54,7 @@ defmodule Schedules.ScheduleCondensed do
             route_pattern_id: nil,
             train_number: nil,
             stop_sequence: 0,
+            stop_headsign: nil,
             headsign: nil
 
   @type t :: %Schedules.ScheduleCondensed{
@@ -63,6 +64,7 @@ defmodule Schedules.ScheduleCondensed do
           route_pattern_id: String.t() | nil,
           train_number: String.t() | nil,
           stop_sequence: non_neg_integer,
+          stop_headsign: String.t() | nil,
           headsign: String.t()
         }
 end
