@@ -1,6 +1,7 @@
 defmodule DotcomWeb.AlertController do
   use DotcomWeb, :controller
   alias Alerts.{Alert, InformedEntity, Match}
+  alias Dotcom.Alerts.Disruptions
   alias Stops.Stop
 
   plug(:route_type)
@@ -27,7 +28,19 @@ defmodule DotcomWeb.AlertController do
   end
 
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
-    render_routes(conn)
+    # for the subway alert page, service-impacting alerts are shown by the current status and planned work components.
+    if mode == "subway" do
+      conn
+      |> assign(:current_status, Dotcom.SystemStatus.subway_status())
+      |> assign(:disruption_groups, Disruptions.Subway.future_disruptions())
+      |> assign(
+        :alerts,
+        Enum.reject(conn.assigns.alerts, &Dotcom.Alerts.service_impacting_alert?/1)
+      )
+      |> render_routes()
+    else
+      render_routes(conn)
+    end
   end
 
   def show(conn, _params) do

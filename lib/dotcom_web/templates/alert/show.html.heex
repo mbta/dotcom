@@ -1,5 +1,5 @@
 <.alerts_layout mode={@id}>
-  <:sidebar_top>
+  <:sidebar_top :if={@id != :subway}>
     {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
       method: :alert_path,
       item: @id
@@ -8,7 +8,26 @@
   <:sidebar_bottom>
     {render("_t-alerts.html")}
   </:sidebar_bottom>
-  <:main_section>
+  <:main_section :if={@id == :subway}>
+    <section class="mb-lg">
+      <.alerts_subway_status subway_status={@current_status} />
+    </section>
+    <section class="mb-lg">
+      <.disruptions disruptions={@disruption_groups} />
+    </section>
+    <.alerts_page_content_layout
+      {assigns}
+      empty_message={"There are no other #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+    >
+      <:heading>
+        <h2 class="mt-0">Station & Service Alerts</h2>
+      </:heading>
+      <:alert_header_icon :let={route_or_stop}>
+        <.subway_route_pill route_ids={[route_or_stop.id]} />
+      </:alert_header_icon>
+    </.alerts_page_content_layout>
+  </:main_section>
+  <:main_section :if={@id != :subway}>
     <.alerts_page_content_layout
       {assigns}
       empty_message={"There are no #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}

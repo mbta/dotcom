@@ -7,7 +7,7 @@ defmodule DotcomWeb.AlertControllerTest do
   import Phoenix.LiveViewTest
 
   alias Alerts.Alert
-  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Dotcom.Utils
   alias Stops.Stop
   alias Test.Support.Factories
 
@@ -19,6 +19,8 @@ defmodule DotcomWeb.AlertControllerTest do
   setup do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
+
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(Alerts.Repo.Mock, :all, fn _date ->
       Factories.Alerts.Alert.build_list(20, :alert)
@@ -97,120 +99,51 @@ defmodule DotcomWeb.AlertControllerTest do
     end
   end
 
-  describe "mode icons" do
-    setup %{conn: conn} do
-      {:ok,
-       conn: conn,
-       alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
-    end
+  test "route pills are shown for subway alerts", %{conn: conn} do
+    # setup... stub an alert that'll show on the page.
+    # surprisingly involved, as to be included in this section:
+    # - alerts must have nil banner
+    # - alerts must be current to the given datetime
+    # - alerts must not be a disruption
+    # - alerts informed entity has to match the subway routes fetched for
+    #   this page in both route ID and route type
+    route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
+    route_type = Faker.Util.pick([0, 1])
 
-    test "are shown on subway alerts", %{conn: conn, alerts: alerts} do
-      response = render_alerts_page(conn, :subway, alerts)
+    expect(Alerts.Repo.Mock, :all, fn date ->
+      Factories.Alerts.Alert.build_list(1, :alert, %{
+        active_period: [Utils.ServiceDateTime.service_range_day(date)],
+        banner: nil,
+        effect: :amber_alert,
+        informed_entity:
+          Alerts.InformedEntitySet.new([
+            %Alerts.InformedEntity{
+              route_type: route_type,
+              route: route_id
+            }
+          ])
+      })
+    end)
 
-      expected =
-        render_component(
-          &DotcomWeb.Components.RouteSymbols.route_symbol/1,
-          %{route: get_route(:subway), size: :default}
-        )
+    expect(Routes.Repo.Mock, :by_type, fn [0, 1] ->
+      Factories.Routes.Route.build_list(1, :route, %{
+        id: route_id,
+        type: route_type
+      })
+    end)
 
-      assert response =~ expected
-    end
-
-    test "are not shown on non-subway alerts", %{conn: conn, alerts: alerts} do
-      for mode <- [:bus, :commuter_rail, :access] do
-        response = render_alerts_page(conn, mode, alerts)
-        assert response =~ "m-alerts-header"
-        refute response =~ mode_icon_tag(mode)
-      end
-    end
-
-    defp render_alerts_page(conn, mode, alerts) do
+    response =
       conn
-      |> assign(:alerts_timeframe, nil)
-      |> assign(:date_time, ~N[2000-01-01 23:00:07])
-      |> put_view(DotcomWeb.AlertView)
-      |> render(
-        "show.html",
-        id: mode,
-        alert_groups: alerts,
-        breadcrumbs: ["Alerts"],
-        date: Util.now()
-      )
+      |> get(~p"/alerts/subway")
       |> html_response(200)
-    end
 
-    defp mode_icon_tag(mode) do
-      %SvgIconWithCircle{icon: mode}
-      |> SvgIconWithCircle.svg_icon_with_circle()
-      |> Phoenix.HTML.safe_to_string()
-      |> Kernel.<>(mode |> get_route |> Map.get(:name))
-    end
+    expected =
+      render_component(
+        &DotcomWeb.Components.RouteSymbols.subway_route_pill/1,
+        %{route_ids: [route_id]}
+      )
 
-    defp create_alert(mode) do
-      mode
-      |> get_route
-      |> do_create_alert(mode)
-    end
-
-    defp get_route(:ferry),
-      do: %Routes.Route{id: "Boat-F4", description: :ferry, name: "Charlestown Ferry", type: 4}
-
-    defp get_route(:bus),
-      do: %Routes.Route{id: "59", description: :local_bus, name: "59", type: 3}
-
-    defp get_route(mode) when mode in [:subway, :access, :red_line],
-      do: %Routes.Route{id: "Red", description: :rapid_transit, name: "Red Line", type: 1}
-
-    defp get_route(:commuter_rail),
-      do: %Routes.Route{
-        id: "CR-Fitchburg",
-        description: :commuter_rail,
-        name: "Fitchburg Line",
-        type: 2
-      }
-
-    defp do_create_alert(route, mode) do
-      {route,
-       [
-         Alert.new(
-           active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
-           informed_entity: [informed_entity(mode)],
-           updated_at: Util.now() |> Timex.shift(days: -2),
-           effect: effect(mode)
-         )
-       ]}
-    end
-
-    defp informed_entity(mode) when mode in [:subway, :access] do
-      %Alerts.InformedEntity{route: "Red", route_type: 1, direction_id: 1}
-    end
-
-    defp informed_entity(:commuter_rail) do
-      %Alerts.InformedEntity{route: "CR-Fitchburg", route_type: 2, direction_id: 1}
-    end
-
-    defp informed_entity(:bus) do
-      %Alerts.InformedEntity{
-        route: "59",
-        route_type: 3,
-        direction_id: nil,
-        stop: "81448",
-        trip: nil
-      }
-    end
-
-    defp informed_entity(:ferry) do
-      %Alerts.InformedEntity{
-        route: "Boat-F4",
-        route_type: 4,
-        direction_id: 1,
-        stop: "Boat-Charlestown"
-      }
-    end
-
-    defp effect(:commuter_rail), do: :track_change
-    defp effect(:access), do: :access_issue
-    defp effect(_mode), do: :delay
+    assert response =~ expected
   end
 
   describe "group_access_alerts/1" do
