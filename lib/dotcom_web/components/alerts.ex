@@ -27,7 +27,7 @@ defmodule DotcomWeb.Components.Alerts do
       |> assign(:now, @date_time_module.now())
 
     ~H"""
-    <div class={"p-md c-alert-item c-alert-item--#{@alert.priority}"}>
+    <div class={"p-md c-alert-item c-alert-item--#{@alert.priority}"} data-test="alert_id:#{alert.id}">
       {AlertView.format_alert_description(@header)}
       <%= if @description do %>
         <div class="mt-sm">
