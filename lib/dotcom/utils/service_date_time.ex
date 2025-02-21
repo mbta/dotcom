@@ -26,6 +26,12 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
+  Returns an ordered list of service ranges, from earliest to latest.
+  """
+  def all_service_ranges,
+    do: [:before_today, :today, :later_this_week, :next_week, :after_next_week]
+
+  @doc """
   Returns the time at which service rolls over from 'today' to 'tomorrow'.
   """
   def service_rollover_time(), do: @service_rollover_time

@@ -261,9 +261,9 @@ defmodule DotcomWeb.AlertView do
   def type_icon(mode), do: mode_icon(mode, :default)
 
   @spec alert_icon(Alert.icon_type()) :: Phoenix.HTML.Safe.t()
-  defp alert_icon(:shuttle), do: svg("icon-shuttle-default.svg")
-  defp alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
-  defp alert_icon(:snow), do: svg("icon-snow-default.svg")
-  defp alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
-  defp alert_icon(:none), do: ""
+  def alert_icon(:shuttle), do: svg("icon-shuttle-default.svg")
+  def alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
+  def alert_icon(:snow), do: svg("icon-snow-default.svg")
+  def alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
+  def alert_icon(:none), do: ""
 end

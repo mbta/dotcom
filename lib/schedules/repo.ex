@@ -26,7 +26,7 @@ defmodule Schedules.Repo do
   @default_params [
     include: "trip,trip.occupancies",
     "fields[schedule]":
-      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
+      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,stop_headsign,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
@@ -148,21 +148,17 @@ defmodule Schedules.Repo do
     all_from_params(params)
   end
 
-  def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
-  def has_trip?({_, _, _, _, _, _, _, _, _, _, _}) do
-    true
-  end
+  def has_trip?(_), do: true
 
-  defp date_sorter({_, _, _, _, _, %DateTime{} = time, _, _, _, _, _}) do
+  defp date_sorter({_, _, _, _, _, %DateTime{} = time, _, _, _, _, _, _}) do
     DateTime.to_unix(time)
   end
 
-  defp date_sorter({_, _, _, _, _, _, _, _, _, _, _}) do
-    0
-  end
+  defp date_sorter(_), do: 0
 
   def valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
       when not is_nil(id) do
@@ -228,6 +224,7 @@ defmodule Schedules.Repo do
                                 _early_departure?,
                                 _last_stop?,
                                 _stop_sequence,
+                                _stop_headsign,
                                 _pickup_type
                               } ->
       Util.time_is_greater_or_equal?(schedule_time, min_time)
@@ -243,7 +240,7 @@ defmodule Schedules.Repo do
   defp load_from_other_repos(schedules) do
     schedules
     |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
-                    early_departure?, last_stop?, stop_sequence, pickup_type} ->
+                    early_departure?, last_stop?, stop_sequence, stop_headsign, pickup_type} ->
       %Schedules.Schedule{
         route: @routes_repo.get(route_id),
         trip: trip(trip_id),
@@ -256,6 +253,7 @@ defmodule Schedules.Repo do
         early_departure?: early_departure?,
         last_stop?: last_stop?,
         stop_sequence: stop_sequence,
+        stop_headsign: stop_headsign,
         pickup_type: pickup_type
       }
     end)
