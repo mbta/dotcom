@@ -214,44 +214,30 @@ defmodule DotcomWeb.AlertControllerTest do
   end
 
   describe "group_access_alerts/1" do
-    test "given a list of alerts, groups the access alerts by stop" do
-      stop_id1 = Faker.Internet.slug()
-      stop_id2 = Faker.Internet.slug()
+    test "given a list of access alerts, gets associated stop & groups the access alerts by stop" do
+      stops = Factories.Stops.Stop.build_list(1, :stop)
+      stop = List.first(stops)
+      stop_id = stop.id
 
-      stub(Stops.Repo.Mock, :get_parent, fn id ->
-        %Stop{id: id}
+      alerts =
+        Factories.Alerts.Alert.build_list(10, :alert, %{
+          effect: :access_issue,
+          informed_entity:
+            Alerts.InformedEntitySet.new([
+              %Alerts.InformedEntity{
+                stop: stop_id
+              }
+            ])
+        })
+
+      expect(Stops.Repo.Mock, :get_parent, length(alerts), fn ^stop_id ->
+        stop
       end)
 
-      alerts = [
-        Alert.new(
-          id: "stop-1-escalator-alert",
-          effect: :escalator_closure,
-          header: "Escalator Alert 1",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
-        ),
-        Alert.new(
-          id: "stop-2-alert",
-          effect: :escalator_closure,
-          header: "Escalator Alert 2",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id2}]
-        ),
-        Alert.new(
-          id: "stop-1-access-alert",
-          effect: :access_issue,
-          header: "Access Alert",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
-        )
-      ]
+      assert grouped = group_access_alerts(alerts) |> Map.new()
 
-      grouped = alerts |> group_access_alerts() |> Map.new()
-      stop1 = %Stop{id: stop_id1}
-      stop2 = %Stop{id: stop_id2}
-
-      assert [access, escalator] = grouped |> Map.get(stop1) |> MapSet.to_list()
-      assert escalator.id == "stop-1-escalator-alert"
-      assert access.id == "stop-1-access-alert"
-      assert [south_station_alert] = grouped |> Map.get(stop2) |> MapSet.to_list()
-      assert south_station_alert.id == "stop-2-alert"
+      assert %{^stop => grouped_alerts} = grouped
+      assert MapSet.size(grouped_alerts) == length(alerts)
     end
 
     test "deduplicates child stops" do

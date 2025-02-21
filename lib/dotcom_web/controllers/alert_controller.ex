@@ -85,10 +85,6 @@ defmodule DotcomWeb.AlertController do
     alerts
     |> Enum.filter(&MapSet.member?(access_effects, &1.effect))
     |> Enum.reduce(%{}, &group_access_alerts_by_stop/2)
-    |> Enum.map(fn {stop_id, alerts} ->
-      stop = @stops_repo.get_parent(stop_id)
-      {stop, alerts}
-    end)
     |> Enum.sort_by(fn {stop, _} -> stop.name end)
   end
 
@@ -100,10 +96,10 @@ defmodule DotcomWeb.AlertController do
 
   defp do_group_access_alerts_by_stop(stop_id, alert, acc) do
     # stop_ids are sometimes child stops.
-    # Fetch the stop_id from the repo to get the parent id.
+    # Fetch the stop_id from the repo to get the parent stop.
     case @stops_repo.get_parent(stop_id) do
-      %Stop{id: parent_stop_id} ->
-        Map.update(acc, parent_stop_id, MapSet.new([alert]), &MapSet.put(&1, alert))
+      %Stop{} = stop ->
+        Map.update(acc, stop, MapSet.new([alert]), &MapSet.put(&1, alert))
 
       _ ->
         acc
