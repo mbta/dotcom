@@ -68,14 +68,8 @@ const DepartureTimes = ({
     )
   );
 
-  const stopHeadSignDeparture = departures.find(departure => {
-    return departure && departure.schedule && departure.schedule.stop_headsign;
-  });
-
-  const stopHeadsign = stopHeadSignDeparture?.schedule?.stop_headsign || null;
-
   return (
-    <ClickableDepartureRow onClick={onClick} headsignName={stopHeadsign || headsign}>
+    <ClickableDepartureRow onClick={onClick} headsignName={headsign}>
       <div className="departure-card__content">
         {hasService ? (
           <DeparturesWithBadge

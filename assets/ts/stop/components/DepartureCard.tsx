@@ -24,6 +24,29 @@ const isNoncanonicalAndNoDepartures = (
   return isNonCanonical && departures.length === 0;
 };
 
+const groupDepartures = (
+  departures: DepartureInfo[]
+): { [key: string]: DepartureInfo[] } => {
+  return departures.reduce((acc, departure) => {
+    if (departure && departure.schedule && departure.schedule.stop_headsign) {
+      if (!Object.keys(acc).includes(departure.schedule.stop_headsign)) {
+        acc[departure.schedule.stop_headsign] = [];
+      }
+
+      acc[departure.schedule.stop_headsign].push(departure);
+
+    } else if (departure && departure.trip && departure.trip.headsign) {
+      if (!Object.keys(acc).includes(departure.trip.headsign)) {
+        acc[departure.trip.headsign] = [];
+      }
+
+      acc[departure.trip.headsign].push(departure);
+    }
+
+    return acc;
+  }, Object());
+};
+
 const DepartureCard = ({
   alertsForRoute,
   departuresForRoute,
@@ -36,6 +59,14 @@ const DepartureCard = ({
   route: Route;
 }): ReactElement<HTMLElement> | null => {
   const { setRow } = useDepartureRow([route]);
+
+  const departures = groupDepartures(departuresForRoute);
+
+  Object.keys(routePatternsByHeadsign).forEach(headsign => {
+    if (!Object.keys(departures).includes(headsign)) {
+      departures[headsign] = [];
+    }
+  });
 
   let sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
     routePatternsByHeadsign
@@ -76,33 +107,43 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {sortedRoutePatternsByHeadsign.map(
+      {Object.entries(departures).map(
         ([
           headsign,
-          { direction_id: directionId, route_patterns: routePatterns }
+          departures
         ]) => {
+          let alerts : Alert[] = [];
+          let directionId = 0;
+          let routePatternHeadsign = headsign;
+
+          if (departures.length > 0) {
+            directionId = departures[0].trip.direction_id;
+
+            alerts = allAlertsForDirection(
+              alertsForRoute,
+              directionId
+            )
+
+            routePatternHeadsign = departures[0].trip.headsign;
+          }
+
           const onClick = (): void =>
             setRow({
               routeId: route.id,
               directionId: directionId.toString(),
-              headsign
+              headsign: routePatternHeadsign
             });
 
           return (
             <DepartureTimes
               key={headsign}
-              alertsForDirection={allAlertsForDirection(
-                alertsForRoute,
-                directionId
-              )}
+              alertsForDirection={alerts}
               headsign={headsign}
-              departures={departuresForRoute.filter(d =>
-                departureInfoInRoutePatterns(d, routePatterns)
-              )}
+              departures={departures}
               onClick={onClick}
               isCR={isACommuterRailRoute(route)}
               isSubway={isSubwayRoute(route)}
-              hasService={routePatterns.length !== 0}
+              hasService={departures.length !== 0}
             />
           );
         }
