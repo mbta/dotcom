@@ -57,6 +57,7 @@ export interface TripPrediction {
 export interface Schedule {
   time: string;
   stop_sequence: number;
+  stop_headsign: string;
   pickup_type: number;
   "flag?": boolean;
   "early_departure?": boolean;
