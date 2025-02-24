@@ -114,7 +114,6 @@ const DepartureCard = ({
         ]) => {
           let alerts : Alert[] = [];
           let directionId = 0;
-          let routePatternHeadsign = headsign;
 
           if (departures.length > 0) {
             directionId = departures[0].trip.direction_id;
@@ -123,17 +122,15 @@ const DepartureCard = ({
               alertsForRoute,
               directionId
             )
-
-            routePatternHeadsign = departures[0].trip.headsign;
           } else {
-            directionId = routePatternsByHeadsign[routePatternHeadsign].direction_id;
+            directionId = routePatternsByHeadsign[headsign].direction_id;
           }
 
           const onClick = (): void =>
             setRow({
               routeId: route.id,
               directionId: directionId.toString(),
-              headsign: routePatternHeadsign
+              headsign
             });
 
           return (

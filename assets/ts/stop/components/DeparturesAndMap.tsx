@@ -157,11 +157,11 @@ const DeparturesAndMap = ({
   // filter by chosen route and direction
   const filteredDepartures = activeRow
     ? updatedDepartureInfos.filter(departure => {
-        const { route, trip } = departure;
+        const { route, schedule, trip } = departure;
         return (
           route.id === activeRow.route.id &&
           trip.direction_id === activeRow.directionId &&
-          trip.headsign === activeRow.headsign
+          (schedule?.stop_headsign == activeRow.headsign || (schedule?.stop_headsign === null && trip.headsign === activeRow.headsign))
         );
       })
     : updatedDepartureInfos;
@@ -203,10 +203,24 @@ const DeparturesAndMap = ({
     }
   );
 
-  const routePatternsForSelection = activeRow
-    ? updatedGroupedRoutePatterns[activeRow.route.id][activeRow.headsign]
-        .route_patterns
-    : [];
+  const routePatterns = activeRow ? updatedGroupedRoutePatterns[activeRow.route.id] : {};
+  let routePatternsForSelection = [];
+
+  if (activeRow && Object.keys(Object.keys(routePatterns)).includes(activeRow.headsign)) {
+    routePatternsForSelection = routePatterns[activeRow.headsign].route_patterns;
+  } else {
+    const routePatternDeparture = filteredDepartures.find(departure => {
+      return departure && departure.trip && departure.trip.headsign;
+    });
+
+    const routePatternHeadsign = routePatternDeparture?.trip?.headsign || null;
+    if (!routePatternHeadsign) {
+      return (<div></div>);
+    } else {
+      routePatternsForSelection = Object.keys(routePatterns).includes(routePatternHeadsign) ? routePatterns[routePatternHeadsign].route_patterns : [];
+    }
+  }
+
   const shapeForSelection = routePatternsForSelection.map(
     rp => rp.representative_trip_polyline
   );
@@ -240,7 +254,7 @@ const DeparturesAndMap = ({
               directionId={activeRow.directionId}
               headsign={activeRow.headsign}
               alerts={realtimeAlerts}
-              hasService={routePatternsForSelection.length !== 0}
+              hasService={filteredDepartures.length !== 0}
             />
           </div>
         ) : (
