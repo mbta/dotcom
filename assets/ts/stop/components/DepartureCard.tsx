@@ -125,6 +125,8 @@ const DepartureCard = ({
             )
 
             routePatternHeadsign = departures[0].trip.headsign;
+          } else {
+            directionId = routePatternsByHeadsign[routePatternHeadsign].direction_id;
           }
 
           const onClick = (): void =>
