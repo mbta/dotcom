@@ -85,7 +85,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     periods =
       Enum.sort_by(
         active_period,
-        &Kernel.elem(&1, 0),
+        fn {start, _} -> start end,
         DateTime
       )
 
