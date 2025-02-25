@@ -7,6 +7,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   import Dotcom.Routes, only: [subway_route_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [all_service_ranges: 0, service_range: 1]
 
+  alias Dotcom.Utils.ServiceDateTime
   alias Alerts.Alert
   alias Dotcom.Utils
 
@@ -38,12 +39,45 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   defp disruption_groups() do
     subway_route_ids()
     |> @alerts_repo.by_route_ids(@date_time_module.now())
+    |> Enum.flat_map(&separate_active_periods/1)
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
     |> Enum.map(fn {group, alerts} ->
       {group, sort_alerts_by_start_time(alerts)}
     end)
     |> Enum.into(%{})
+  end
+
+  # Given an alert with multiple active periods, some of which may be
+  # contiguous with one another (next one starts the same day or the
+  # day after the previous one), combines the contiguous active
+  # periods, and then returns
+  defp separate_active_periods(alert) do
+    alert.active_period
+    |> combine_contiguous_active_periods()
+    |> Enum.map(fn active_period ->
+      %Alerts.Alert{alert | active_period: [active_period]}
+    end)
+  end
+
+  # Given a list of active periods
+  defp combine_contiguous_active_periods([active_period1, active_period2 | rest]) do
+    {start1, end1} = active_period1
+    {start2, end2} = active_period2
+
+    if Timex.before?(
+         ServiceDateTime.service_date(end1) |> Timex.shift(days: 1),
+         ServiceDateTime.service_date(start2)
+       ) do
+      [active_period1 | combine_contiguous_active_periods([active_period2 | rest])]
+    else
+      combined_active_period = {start1, end2}
+      combine_contiguous_active_periods([combined_active_period | rest])
+    end
+  end
+
+  defp combine_contiguous_active_periods(active_periods) do
+    active_periods
   end
 
   # Looks at every active period for an alert and groups that alert by service range.

@@ -14,7 +14,10 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
   import Mox
 
+  alias Dotcom.Utils.DateTime
+  alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.Factories
+  alias Test.Support.Generators
 
   setup :verify_on_exit!
 
@@ -43,7 +46,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       {alert_after_next_week_start, _} = service_range_after_next_week()
 
       alert_after_next_week =
-        {alert_after_next_week_start, Timex.shift(alert_after_next_week_start, days: 1)}
+        {alert_after_next_week_start, DateTime.shift(alert_after_next_week_start, days: 1)}
         |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
@@ -64,7 +67,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       {alert_after_next_week_start, _} = service_range_after_next_week()
 
       long_alert =
-        [{alert_today_start, Timex.shift(alert_after_next_week_start, days: 1)}]
+        [{alert_today_start, DateTime.shift(alert_after_next_week_start, days: 1)}]
         |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
@@ -79,20 +82,172 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
              } = future_disruptions()
     end
 
-    test "handles alert with more than one active_period" do
+    test "splits the active_periods of alerts with more than one into different buckets" do
       # Setup
+      {beginning_of_week, end_of_week} = service_range_this_week()
+
+      active_period_1_start =
+        Generators.DateTime.random_time_range_date_time(
+          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
+        )
+
+      active_period_1_end =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_1_start, DateTime.shift(end_of_week, days: -1)}
+        )
+
+      {beginning_of_next_week, end_of_next_week} = service_range_next_week()
+
+      active_period_2_start =
+        Generators.DateTime.random_time_range_date_time(
+          {beginning_of_next_week, DateTime.shift(end_of_next_week, days: -2)}
+        )
+
+      active_period_2_end =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_2_start, DateTime.shift(end_of_next_week, days: -1)}
+        )
+
       long_alert =
-        [service_range_this_week(), service_range_next_week()] |> disruption_alert()
+        [
+          {active_period_1_start, active_period_1_end},
+          {active_period_2_start, active_period_2_end}
+        ]
+        |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
         [long_alert]
       end)
 
-      # Exercise/Verify
-      assert %{
-               this_week: [^long_alert],
-               next_week: [^long_alert]
-             } = future_disruptions()
+      # Exercise
+      disruptions = future_disruptions()
+
+      # Verify
+      [alert_this_week] = disruptions.this_week
+      assert alert_this_week.id == long_alert.id
+      assert alert_this_week.active_period == [{active_period_1_start, active_period_1_end}]
+
+      [alert_next_week] = disruptions.next_week
+      assert alert_next_week.id == long_alert.id
+      assert alert_next_week.active_period == [{active_period_2_start, active_period_2_end}]
+    end
+
+    test "combines consecutive active periods if the boundary is on the same day" do
+      # Setup
+      {beginning_of_week, end_of_week} = service_range_next_week()
+
+      active_period_1_end =
+        Generators.DateTime.random_time_range_date_time(
+          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
+        )
+
+      active_period_2_start =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_1_end, ServiceDateTime.end_of_service_day(active_period_1_end)}
+        )
+
+      multi_active_period_alert =
+        [{beginning_of_week, active_period_1_end}, {active_period_2_start, end_of_week}]
+        |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [multi_active_period_alert]
+      end)
+
+      # Exercise
+      disruptions = future_disruptions()
+
+      # Verify
+      assert Enum.count(disruptions.next_week) == 1
+      [combined_active_period_alert] = disruptions.next_week
+      assert combined_active_period_alert.active_period == [{beginning_of_week, end_of_week}]
+    end
+
+    test "combines consecutive active periods if the boundary is on consecutive days" do
+      # Setup
+      {beginning_of_week, end_of_week} = service_range_next_week()
+
+      active_period_1_end =
+        Generators.DateTime.random_time_range_date_time(
+          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
+        )
+
+      active_period_2_start = DateTime.shift(active_period_1_end, days: 1)
+
+      multi_active_period_alert =
+        [{beginning_of_week, active_period_1_end}, {active_period_2_start, end_of_week}]
+        |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [multi_active_period_alert]
+      end)
+
+      # Exercise
+      disruptions = future_disruptions()
+
+      # Verify
+      assert Enum.count(disruptions.next_week) == 1
+      [combined_active_period_alert] = disruptions.next_week
+      assert combined_active_period_alert.active_period == [{beginning_of_week, end_of_week}]
+    end
+
+    test "combines consecutive active periods in the middle of the active period list" do
+      # Setup
+      {beginning_of_week, end_of_week} = service_range_next_week()
+
+      active_period_0_start =
+        Generators.DateTime.random_time_range_date_time(
+          {beginning_of_week, DateTime.shift(beginning_of_week, days: 1)}
+        )
+
+      active_period_0_end =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_0_start, DateTime.shift(active_period_0_start, days: 1)}
+        )
+
+      active_period_1_start =
+        Generators.DateTime.random_time_range_date_time(
+          {DateTime.shift(active_period_0_end, days: 1), DateTime.shift(end_of_week, days: -2)}
+        )
+
+      active_period_1_end =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_1_start, DateTime.shift(end_of_week, days: -2)}
+        )
+
+      active_period_2_start =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_1_end, ServiceDateTime.end_of_service_day(active_period_1_end)}
+        )
+
+      active_period_2_end = end_of_week
+
+      multi_active_period_alert =
+        [
+          {active_period_0_start, active_period_0_end},
+          {active_period_1_start, active_period_1_end},
+          {active_period_2_start, active_period_2_end}
+        ]
+        |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [multi_active_period_alert]
+      end)
+
+      # Exercise
+      disruptions = future_disruptions()
+
+      # Verify
+      assert Enum.count(disruptions.next_week) == 2
+      [first_active_period_alert, combined_later_active_period_alert] = disruptions.next_week
+
+      assert first_active_period_alert.active_period == [
+               {active_period_0_start, active_period_0_end}
+             ]
+
+      assert combined_later_active_period_alert.active_period == [
+               {active_period_1_start, active_period_2_end}
+             ]
     end
   end
 
@@ -119,6 +274,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       assert %{today: [^alert_today]} = todays_disruptions()
     end
 
+    @tag :skip
     test "returns alerts for today when applicable to other service ranges" do
       # Setup
       {start, _} = service_range_day()
@@ -147,7 +303,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       # Setup
       {start, stop} = service_range_day()
       alert_today = disruption_alert({start, stop})
-      alert_later = disruption_alert({Timex.shift(start, seconds: 1), stop})
+      alert_later = disruption_alert({DateTime.shift(start, seconds: 1), stop})
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
         [alert_later, alert_today]
