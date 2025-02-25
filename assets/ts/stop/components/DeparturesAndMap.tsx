@@ -163,7 +163,7 @@ const DeparturesAndMap = ({
           trip.direction_id === activeRow.directionId &&
           // We have to match the headsign from the schedule or the trip.
           // If the schedule doesn't have a headsign, we use the trip's headsign.
-          (schedule?.stop_headsign == activeRow.headsign ||
+          (schedule?.stop_headsign === activeRow.headsign ||
             (schedule?.stop_headsign === null &&
               trip.headsign === activeRow.headsign))
         );
@@ -228,14 +228,14 @@ const DeparturesAndMap = ({
 
     const routePatternHeadsign = routePatternDeparture?.trip?.headsign || null;
     if (!routePatternHeadsign) {
-      return <div></div>;
-    } else {
-      routePatternsForSelection = Object.keys(routePatterns).includes(
-        routePatternHeadsign
-      )
-        ? routePatterns[routePatternHeadsign].route_patterns
-        : [];
+      return <div />;
     }
+
+    routePatternsForSelection = Object.keys(routePatterns).includes(
+      routePatternHeadsign
+    )
+      ? routePatterns[routePatternHeadsign].route_patterns
+      : [];
   }
 
   const shapeForSelection = routePatternsForSelection.map(

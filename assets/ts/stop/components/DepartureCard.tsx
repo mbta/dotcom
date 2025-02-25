@@ -86,10 +86,10 @@ const DepartureCard = ({
       sortedRoutePatternsByHeadsign,
       entry => {
         const [, { route_patterns: routePatterns }] = entry;
-        const departures = departuresForRoute.filter(d =>
+        const filteredDepartures = departuresForRoute.filter(d =>
           departureInfoInRoutePatterns(d, routePatterns)
         );
-        return isNoncanonicalAndNoDepartures(routePatterns, departures);
+        return isNoncanonicalAndNoDepartures(routePatterns, filteredDepartures);
       }
     );
     // don't render a route card if there's no headsigns left to show
@@ -115,13 +115,13 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {Object.entries(departures).map(([headsign, departures]) => {
+      {Object.entries(departures).map(([headsign, departureList]) => {
         // Alerts and direction_id are based on the first departure if there is one.
         let alerts: Alert[] = [];
         let directionId = 0;
 
-        if (departures.length > 0) {
-          directionId = departures[0].trip.direction_id;
+        if (departureList.length > 0) {
+          directionId = departureList[0].trip.direction_id;
 
           alerts = allAlertsForDirection(alertsForRoute, directionId);
           // If there is no departure then alerts is empty and the direction_id is based on the route pattern.
@@ -141,11 +141,11 @@ const DepartureCard = ({
             key={headsign}
             alertsForDirection={alerts}
             headsign={headsign}
-            departures={departures}
+            departures={departureList}
             onClick={onClick}
             isCR={isACommuterRailRoute(route)}
             isSubway={isSubwayRoute(route)}
-            hasService={departures.length !== 0}
+            hasService={departureList.length !== 0}
           />
         );
       })}
