@@ -65,7 +65,7 @@ const DepartureCard = ({
   route: Route;
 }): ReactElement<HTMLElement> | null => {
   const { setRow } = useDepartureRow([route]);
-
+console.log(departuresForRoute);
   const departures = groupDepartures(departuresForRoute);
 
   // We have to ensure that all route patterns are represented in departures.

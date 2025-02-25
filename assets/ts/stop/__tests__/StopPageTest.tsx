@@ -95,6 +95,26 @@ describe("StopPage", () => {
     });
   });
 
+  it("all modes show up in departure list", async () => {
+    let renderResult: RenderResult;
+    act(() => {
+      renderResult = renderWithRouter(<StopPage stopId="123" />);
+    });
+    const { container } = renderResult!;
+    await waitFor(() => {
+      // All routes appear in departures list
+      const routeList = container.querySelector<HTMLElement>(
+        "ul.stop-departures"
+      )!;
+      const routeNames = testRoutes.map(route => route.name);
+      routeNames.forEach(name => {
+        expect(
+          within(routeList).getByText(name, { exact: false })
+        ).toBeTruthy();
+      });
+    });
+  });
+
   const dateFormatter = (date: Date): string => {
     return formatISO(date);
   };
