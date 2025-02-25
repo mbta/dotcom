@@ -22,13 +22,21 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   Planned disruptions organized into service ranges.
   """
   def disruptions(assigns) do
+    ordered_disruptions =
+      [:this_week, :next_week, :after_next_week]
+      |> Enum.map(fn service_range ->
+        {service_range, Map.get(assigns.disruptions, service_range, [])}
+      end)
+
+    assigns = assign(assigns, :ordered_disruptions, ordered_disruptions)
+
     ~H"""
     <.bordered_container>
       <:heading>Planned Work</:heading>
-      <div :for={{service_range, alerts} <- @disruptions} class="py-3">
+      <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
         <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-        <.lined_list :let={alert} items={alerts}>
-          <.disruption alert={alert} />
+        <.lined_list :let={disruption} items={disruptions}>
+          <.disruption alert={disruption} />
         </.lined_list>
       </div>
     </.bordered_container>
