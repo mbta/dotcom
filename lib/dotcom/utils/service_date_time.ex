@@ -7,10 +7,10 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   The service range continuum:
 
-  <---before today---|---later this week---|---next week---|---after next week--->
-                   today
+  <---before today---|---this week---|---next week---|---after next week--->
+                     today
 
-  Before today and after next week are open intervals.
+  Before today and after next week are open intervals. Today is included in this week.
   """
 
   require Logger
