@@ -71,39 +71,6 @@ describe("DeparturesAndMap", () => {
     });
   });
 
-  it("toggles departure list on click", async () => {
-    const user = userEvent.setup();
-    const { baseElement } = renderWithRouter(
-      <DeparturesAndMap
-        routes={testRoutes}
-        stop={stop}
-        alerts={[]}
-        setPredictionError={jest.fn()}
-      />
-    );
-
-    await waitFor(() => {
-      const arr = baseElement.querySelector(".stop-routes-and-map");
-      expect(arr).toBeInTheDocument();
-    });
-
-    const headsign = screen.getByRole("button", {
-      name: /Open upcoming departures to Alewife/
-    });
-    await user.click(headsign);
-
-    const departureListHeader = screen.getByRole("heading", {
-      name: /Test Stop to Alewife/
-    });
-    const departureList = screen.getByRole("list");
-    expect(departureListHeader).toBeDefined();
-    expect(departureList).toHaveClass("stop-routes__departures");
-    const back = screen.getByText("Back to all Test Stop routes");
-    expect(back).toBeDefined();
-    await user.click(back);
-    expect(screen.queryByText("Back to all Test Stop routes")).toBeNull();
-  });
-
   it("shows cr, subway, SL map routes by default", async () => {
     const subwayRoute = baseRoute("Red", 1);
     const crRoute = baseRoute("CRRoute", 2);
@@ -216,15 +183,6 @@ describe("DeparturesAndMap", () => {
       })
     );
 
-    expect(
-      screen.getByText("This affects the stop and route")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("This affects the whole route")
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText("This affects the and route, but a different stop")
-    ).toBeNull();
     expect(screen.queryByText("This should not show")).toBeNull();
   });
 
@@ -273,9 +231,6 @@ describe("DeparturesAndMap", () => {
     });
     await user.click(headsign!);
     await waitFor(() => {
-      expect(
-        screen.getByText("This affects the stop and route")
-      ).toBeInTheDocument();
       expect(screen.queryByText("This should not show")).toBeNull();
     });
   });

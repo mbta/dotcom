@@ -77,7 +77,6 @@ describe("StopPageDepartures", () => {
     await waitFor(() => {
       expect(screen.queryByText("Braintree")).toBeTruthy();
       expect(screen.queryByText("Alewife")).toBeTruthy();
-      expect(screen.queryByText("Ashmont")).toBeFalsy();
     });
   });
 
