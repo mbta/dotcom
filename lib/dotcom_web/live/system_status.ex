@@ -6,6 +6,7 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   use DotcomWeb, :live_view
 
+  import Dotcom.Routes, only: [subway_route_ids: 0]
   import DotcomWeb.Components.PlannedDisruptions
   import DotcomWeb.Components.RouteSymbols
   import DotcomWeb.Components.SystemStatus.StatusLabel
@@ -14,12 +15,16 @@ defmodule DotcomWeb.Live.SystemStatus do
   alias Dotcom.Alerts.Disruptions
   alias Dotcom.SystemStatus
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   def render(assigns) do
-    alerts = Disruptions.Subway.todays_disruptions() |> Map.get(:today, [])
+    live_alerts =
+      subway_route_ids()
+      |> Alerts.Repo.by_route_ids(@date_time_module.now())
 
     assigns =
       assigns
-      |> assign(:alerts, alerts)
+      |> assign(:alerts, live_alerts)
       |> assign(:examples, alerts_examples())
 
     ~H"""

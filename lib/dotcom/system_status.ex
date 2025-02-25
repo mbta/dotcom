@@ -5,8 +5,11 @@ defmodule Dotcom.SystemStatus do
   or whether there are alerts that impact service.
   """
 
+  import Dotcom.Routes, only: [subway_route_ids: 0]
+
   alias Dotcom.SystemStatus
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @doc """
@@ -14,8 +17,8 @@ defmodule Dotcom.SystemStatus do
   """
   @spec subway_status :: %{Routes.Route.id_t() => SystemStatus.Subway.status_entry_group()}
   def subway_status() do
-    Dotcom.Alerts.Disruptions.Subway.todays_disruptions()
-    |> Map.get(:today, [])
+    subway_route_ids()
+    |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(&active_now_or_later_on_day?(&1, @date_time_module.now()))
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
   end
