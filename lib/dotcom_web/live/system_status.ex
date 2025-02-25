@@ -21,6 +21,7 @@ defmodule DotcomWeb.Live.SystemStatus do
     live_alerts =
       subway_route_ids()
       |> Alerts.Repo.by_route_ids(@date_time_module.now())
+      |> Enum.filter(&SystemStatus.status_alert?(&1, @date_time_module.now()))
 
     assigns =
       assigns

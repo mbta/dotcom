@@ -5,6 +5,7 @@ defmodule Dotcom.SystemStatus do
   or whether there are alerts that impact service.
   """
 
+  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import Dotcom.Routes, only: [subway_route_ids: 0]
 
   alias Dotcom.SystemStatus
@@ -19,8 +20,12 @@ defmodule Dotcom.SystemStatus do
   def subway_status() do
     subway_route_ids()
     |> @alerts_repo.by_route_ids(@date_time_module.now())
-    |> Enum.filter(&active_now_or_later_on_day?(&1, @date_time_module.now()))
+    |> Enum.filter(&status_alert?(&1, @date_time_module.now()))
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
+  end
+
+  def status_alert?(alert, datetime) do
+    service_impacting_alert?(alert) and active_now_or_later_on_day?(alert, datetime)
   end
 
   @doc """
