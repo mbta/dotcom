@@ -103,7 +103,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   # Formats the date for display in the heading.
-  # If the service date is today, we display "Today".
+  # If the service date is on or before today, we display "Today".
   # Otherwise, we display the date like "Mon Jan 1".
   defp format_date(datetime) do
     service_date_datetime = service_date(datetime)
