@@ -6,13 +6,15 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   use DotcomWeb, :component
 
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
-  import Dotcom.Utils.ServiceDateTime, only: [service_range_string: 1]
+  import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
 
   alias Alerts.Alert
+
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   attr :disruptions, :map, required: true
 
@@ -80,7 +82,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # Extracts the start and stop times from the active period of an alert.
   defp alert_date_time_range(%Alert{active_period: active_period}) do
-    periods = Enum.sort_by(active_period, fn {start, _} -> start end)
+    periods = Enum.sort_by(
+      active_period,
+      &Kernel.elem(&1, 0),
+      DateTime
+    )
 
     {start, _} = List.first(periods)
     {_, stop} = List.last(periods)
@@ -96,8 +102,16 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   # Formats the date for display in the heading.
-  # E.g., "Mon Jan 01"
+  # If the service date is today, we display "Today".
+  # Otherwise, we display the date like "Mon Jan 1".
   defp format_date(datetime) do
-    datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
+    service_date_datetime = service_date(datetime)
+    service_date_today = @date_time_module.now() |> service_date()
+
+    if service_date_datetime == service_date_today do
+      "Today"
+    else
+      service_date_datetime |> Timex.format!("%a %b %-d", :strftime)
+    end
   end
 end
