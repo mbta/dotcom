@@ -17,7 +17,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   """
   @spec future_disruptions() :: %{Utils.ServiceDateTime.named_service_range() => [Alert.t()]}
   def future_disruptions() do
-    disruption_groups() |> Map.take([:later_this_week, :next_week, :after_next_week])
+    disruption_groups() |> Map.take([:this_week, :next_week, :after_next_week])
   end
 
   @doc """
@@ -58,7 +58,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   end
 
   # An active period can span many ranges from start to stop
-  # e.g. [:before_today, :today, :later_this_week]
+  # e.g. [:before_today, :today, :this_week]
   defp service_range_range({start, stop}) do
     start_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(start)))
     stop_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(stop)))

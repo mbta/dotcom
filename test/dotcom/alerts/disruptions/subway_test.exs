@@ -7,7 +7,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
   import Dotcom.Utils.ServiceDateTime,
     only: [
       service_range_day: 0,
-      service_range_later_this_week: 0,
+      service_range_this_week: 0,
       service_range_next_week: 0,
       service_range_after_next_week: 0
     ]
@@ -37,7 +37,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
     test "returns alerts for later this week, next week, and after next week" do
       # Setup
       alert_today = service_range_day() |> disruption_alert()
-      alert_later_this_week = service_range_later_this_week() |> disruption_alert()
+      alert_this_week = service_range_this_week() |> disruption_alert()
       alert_next_week = service_range_next_week() |> disruption_alert()
 
       {alert_after_next_week_start, _} = service_range_after_next_week()
@@ -47,12 +47,12 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
         |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
-        [alert_today, alert_later_this_week, alert_next_week, alert_after_next_week]
+        [alert_today, alert_this_week, alert_next_week, alert_after_next_week]
       end)
 
       # Exercise/Verify
       assert %{
-               later_this_week: [^alert_later_this_week],
+               this_week: [^alert_this_week],
                next_week: [^alert_next_week],
                after_next_week: [^alert_after_next_week]
              } = future_disruptions()
@@ -73,7 +73,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       # Exercise/Verify
       assert %{
-               later_this_week: [^long_alert],
+               this_week: [^long_alert],
                next_week: [^long_alert],
                after_next_week: [^long_alert]
              } = future_disruptions()
@@ -82,7 +82,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
     test "handles alert with more than one active_period" do
       # Setup
       long_alert =
-        [service_range_later_this_week(), service_range_next_week()] |> disruption_alert()
+        [service_range_this_week(), service_range_next_week()] |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
         [long_alert]
@@ -90,7 +90,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       # Exercise/Verify
       assert %{
-               later_this_week: [^long_alert],
+               this_week: [^long_alert],
                next_week: [^long_alert]
              } = future_disruptions()
     end
@@ -128,7 +128,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       alert_today_and_other_dates =
         [
           service_range_day(),
-          service_range_later_this_week(),
+          service_range_this_week(),
           service_range_next_week()
         ]
         |> disruption_alert()
