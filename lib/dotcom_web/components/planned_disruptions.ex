@@ -109,8 +109,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     service_date_datetime = service_date(datetime)
     service_date_today = @date_time_module.now() |> service_date()
 
-    if Timex.before?(service_date_datetime, service_date_today) ||
-         service_date_datetime == service_date_today do
+    if Timex.equal?(service_date_datetime, service_date_today) ||
+         Timex.before?(service_date_datetime, service_date_today) do
       "Today"
     else
       service_date_datetime |> Timex.format!("%a %b %-d", :strftime)
