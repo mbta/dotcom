@@ -161,7 +161,11 @@ const DeparturesAndMap = ({
         return (
           route.id === activeRow.route.id &&
           trip.direction_id === activeRow.directionId &&
-          (schedule?.stop_headsign == activeRow.headsign || (schedule?.stop_headsign === null && trip.headsign === activeRow.headsign))
+          // We have to match the headsign from the schedule or the trip.
+          // If the schedule doesn't have a headsign, we use the trip's headsign.
+          (schedule?.stop_headsign == activeRow.headsign ||
+            (schedule?.stop_headsign === null &&
+              trip.headsign === activeRow.headsign))
         );
       })
     : updatedDepartureInfos;
@@ -203,11 +207,20 @@ const DeparturesAndMap = ({
     }
   );
 
-  const routePatterns = activeRow ? updatedGroupedRoutePatterns[activeRow.route.id] : {};
+  // We have to have a route pattern in order to show the polyline on a map.
+  // Because the stop headsign doesn't match a route pattern, we have to find the trip headsign from a departure.
+  // If we can't find a trip headsign, we just return an empty div. But, this should never happen.
+  const routePatterns = activeRow
+    ? updatedGroupedRoutePatterns[activeRow.route.id]
+    : {};
   let routePatternsForSelection = [];
 
-  if (activeRow && Object.keys(Object.keys(routePatterns)).includes(activeRow.headsign)) {
-    routePatternsForSelection = routePatterns[activeRow.headsign].route_patterns;
+  if (
+    activeRow &&
+    Object.keys(Object.keys(routePatterns)).includes(activeRow.headsign)
+  ) {
+    routePatternsForSelection =
+      routePatterns[activeRow.headsign].route_patterns;
   } else {
     const routePatternDeparture = filteredDepartures.find(departure => {
       return departure && departure.trip && departure.trip.headsign;
@@ -215,9 +228,13 @@ const DeparturesAndMap = ({
 
     const routePatternHeadsign = routePatternDeparture?.trip?.headsign || null;
     if (!routePatternHeadsign) {
-      return (<div></div>);
+      return <div></div>;
     } else {
-      routePatternsForSelection = Object.keys(routePatterns).includes(routePatternHeadsign) ? routePatterns[routePatternHeadsign].route_patterns : [];
+      routePatternsForSelection = Object.keys(routePatterns).includes(
+        routePatternHeadsign
+      )
+        ? routePatterns[routePatternHeadsign].route_patterns
+        : [];
     }
   }
 
