@@ -82,11 +82,12 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # Extracts the start and stop times from the active period of an alert.
   defp alert_date_time_range(%Alert{active_period: active_period}) do
-    periods = Enum.sort_by(
-      active_period,
-      &Kernel.elem(&1, 0),
-      DateTime
-    )
+    periods =
+      Enum.sort_by(
+        active_period,
+        &Kernel.elem(&1, 0),
+        DateTime
+      )
 
     {start, _} = List.first(periods)
     {_, stop} = List.last(periods)

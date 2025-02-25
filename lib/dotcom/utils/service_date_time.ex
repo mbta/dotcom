@@ -82,7 +82,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   def service_range_string(service_range) do
     case service_range do
       :after_next_week -> "Later"
-      _ -> service_range|> Atom.to_string() |> Recase.to_title()
+      _ -> service_range |> Atom.to_string() |> Recase.to_title()
     end
   end
 
