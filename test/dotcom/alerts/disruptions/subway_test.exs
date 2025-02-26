@@ -276,7 +276,6 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       assert %{today: [^alert_today]} = todays_disruptions()
     end
 
-    @tag :skip
     test "returns alerts for today when applicable to other service ranges" do
       # Setup
       {start, _} = service_range_day()
@@ -295,10 +294,14 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
         [alert_today_and_beyond, alert_today_and_other_dates]
       end)
 
-      # Exercise/Verify
-      assert %{
-               today: [^alert_today_and_beyond, ^alert_today_and_other_dates]
-             } = todays_disruptions()
+      # Exercise
+      disruptions = todays_disruptions()
+
+      # Verify
+      assert disruptions.today |> Enum.map(& &1.id) == [
+               alert_today_and_beyond.id,
+               alert_today_and_other_dates.id
+             ]
     end
 
     test "sorts alerts by start time" do
