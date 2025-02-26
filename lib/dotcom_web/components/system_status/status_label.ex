@@ -47,6 +47,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
       class="h-[1.125rem] w-[1.125rem] shrink-0"
       type="icon-svg"
       name={status_icon_name(@status)}
+      aria-hidden={true}
     />
     """
   end
