@@ -14,7 +14,6 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
   import Mox
 
-  alias Dotcom.Utils.DateTime
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.Factories
   alias Test.Support.Generators
@@ -46,7 +45,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       {alert_after_next_week_start, _} = service_range_after_next_week()
 
       alert_after_next_week =
-        {alert_after_next_week_start, DateTime.shift(alert_after_next_week_start, days: 1)}
+        {alert_after_next_week_start, DateTime.shift(alert_after_next_week_start, day: 1)}
         |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
@@ -67,7 +66,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       {alert_after_next_week_start, _} = service_range_after_next_week()
 
       long_alert =
-        [{alert_today_start, DateTime.shift(alert_after_next_week_start, days: 1)}]
+        [{alert_today_start, DateTime.shift(alert_after_next_week_start, day: 1)}]
         |> disruption_alert()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
@@ -88,12 +87,12 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       active_period_1_start =
         Generators.DateTime.random_time_range_date_time(
-          {beginning_of_next_week, DateTime.shift(end_of_next_week, days: -2)}
+          {beginning_of_next_week, DateTime.shift(end_of_next_week, day: -2)}
         )
 
       active_period_1_end =
         Generators.DateTime.random_time_range_date_time(
-          {active_period_1_start, DateTime.shift(end_of_next_week, days: -1)}
+          {active_period_1_start, DateTime.shift(end_of_next_week, day: -1)}
         )
 
       {beginning_of_week_after_next, _} = service_range_after_next_week()
@@ -134,7 +133,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       active_period_1_end =
         Generators.DateTime.random_time_range_date_time(
-          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
+          {beginning_of_week, DateTime.shift(end_of_week, day: -2)}
         )
 
       active_period_2_start =
@@ -165,7 +164,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       active_period_1_end =
         Generators.DateTime.random_time_range_date_time(
-          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
+          {beginning_of_week, DateTime.shift(end_of_week, day: -2)}
         )
 
       active_period_2_start =
@@ -199,22 +198,22 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       active_period_0_start =
         Generators.DateTime.random_time_range_date_time(
-          {beginning_of_week, DateTime.shift(beginning_of_week, days: 1)}
+          {beginning_of_week, DateTime.shift(beginning_of_week, day: 1)}
         )
 
       active_period_0_end =
         Generators.DateTime.random_time_range_date_time(
-          {active_period_0_start, DateTime.shift(active_period_0_start, days: 1)}
+          {active_period_0_start, DateTime.shift(active_period_0_start, day: 1)}
         )
 
       active_period_1_start =
         Generators.DateTime.random_time_range_date_time(
-          {DateTime.shift(active_period_0_end, days: 2), DateTime.shift(end_of_week, days: -2)}
+          {DateTime.shift(active_period_0_end, day: 2), DateTime.shift(end_of_week, day: -2)}
         )
 
       active_period_1_end =
         Generators.DateTime.random_time_range_date_time(
-          {active_period_1_start, DateTime.shift(end_of_week, days: -2)}
+          {active_period_1_start, DateTime.shift(end_of_week, day: -2)}
         )
 
       active_period_2_start =
@@ -308,7 +307,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       # Setup
       {start, stop} = service_range_day()
       alert_today = disruption_alert({start, stop})
-      alert_later = disruption_alert({DateTime.shift(start, seconds: 1), stop})
+      alert_later = disruption_alert({DateTime.shift(start, second: 1), stop})
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
         [alert_later, alert_today]

@@ -56,16 +56,6 @@ defmodule Dotcom.Utils.DateTime do
   end
 
   @doc """
-  This works very much like `Timex.shift/2`, except that it calls
-  `coerce_ambiguous_date_time/1` in order to get a pure `DateTime` as
-  a result.
-  """
-  def shift(date_time, opts) do
-    Timex.shift(date_time, opts)
-    |> coerce_ambiguous_date_time()
-  end
-
-  @doc """
   Given a date_time_range and a date_time, returns true if the date_time is within the date_time_range.
   """
   @impl Behaviour
