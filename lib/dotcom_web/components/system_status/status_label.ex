@@ -22,10 +22,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     ~H"""
     <span class={[status_classes(@status), "flex items-center gap-2"]}>
       <.status_icon status={@status} />
-      {@rendered_prefix} {description(@status, @plural)}
+      {@rendered_prefix} {expectation(@status, @prefix)} {description(@status, @plural)}
     </span>
     """
   end
+
+  defp expectation(:delay, prefix) when is_binary(prefix), do: "Expect"
+  defp expectation(_, _), do: nil
 
   defp description(status, true), do: description(status) |> Inflex.pluralize()
   defp description(status, false), do: description(status)
