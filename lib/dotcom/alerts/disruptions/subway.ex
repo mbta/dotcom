@@ -65,8 +65,8 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     {start1, end1} = active_period1
     {start2, end2} = active_period2
 
-    if Timex.before?(
-         ServiceDateTime.service_date(end1) |> Timex.shift(days: 1),
+    if Date.before?(
+         ServiceDateTime.service_date(end1) |> Date.shift(day: 1),
          ServiceDateTime.service_date(start2)
        ) do
       [active_period1 | combine_contiguous_active_periods([active_period2 | rest])]
