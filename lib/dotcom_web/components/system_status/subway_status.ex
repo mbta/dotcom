@@ -35,9 +35,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "text-black no-underline font-normal"
           ]}
         >
-          <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
+          <div class="pl-2 py-3">
             <.subway_route_pill
-              class="group-hover/row:ring-brand-primary-lightest"
+              class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
               route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
             />
           </div>
@@ -45,9 +45,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "flex items-center justify-between grow text-nowrap gap-sm",
             row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
           ]}>
-            <span :if={row.style.hide_route_pill} class="sr-only">
-              {Enum.join([row.route_info.route_id | row.route_info.branch_ids], ",")} Line
-            </span>
             <.status_label
               status={row.status_entry.status}
               prefix={row.status_entry.prefix}
@@ -80,9 +77,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             chevron_class={"fill-gray-lighter px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
           >
             <:heading>
-              <div class={["pl-2 py-3 pr-sm", row.style.hide_route_pill && "invisible"]}>
+              <div class="pl-2 py-3 pr-sm">
                 <.subway_route_pill
-                  class="group-hover/row:ring-brand-primary-lightest"
+                  class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
                   route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
                 />
               </div>
@@ -107,9 +104,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             class="flex gap-sm"
             style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
           >
-            <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
+            <div class="pl-2 py-3">
               <.subway_route_pill
-                class="group-hover/row:ring-brand-primary-lightest"
+                class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
                 route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
               />
             </div>
