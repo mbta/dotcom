@@ -226,6 +226,38 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     end
   end
 
+  describe "service_range_range/2" do
+    test "returns all service ranges between two datetimes" do
+      # Setup
+      today = service_range_day() |> random_time_range_date_time()
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(today, next_week) == [:today, :this_week, :next_week]
+    end
+
+    test "handles open end" do
+      # Setup
+      this_week = service_range_this_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(this_week, nil) == [:this_week, :next_week, :after_next_week]
+    end
+
+    test "handles open start" do
+      # Setup
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(nil, next_week) == [
+               :before_today,
+               :today,
+               :this_week,
+               :next_week
+             ]
+    end
+  end
+
   # Do the two date_times share the same time information (to second granularity)?
   defp same_time?(date_time1, date_time2) do
     Map.take(date_time1, [:hour, :minute, :second]) ==

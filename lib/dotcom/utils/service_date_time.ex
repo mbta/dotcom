@@ -223,4 +223,20 @@ defmodule Dotcom.Utils.ServiceDateTime do
   def service_after_next_week?(date_time) do
     service_range_after_next_week() |> @date_time_module.in_range?(date_time)
   end
+
+  @doc """
+  Returns all service ranges between two datetimes, inclusive, supporting open ends.
+  """
+  @spec service_range_range(DateTime.t() | nil, DateTime.t() | nil) :: [named_service_range()]
+  def service_range_range(start, stop) do
+    start_index = if(start, do: service_range_index(start), else: 0)
+    stop_index = if(stop, do: service_range_index(stop), else: length(all_service_ranges()) - 1)
+
+    all_service_ranges()
+    |> Enum.with_index(&if(&2 in start_index..stop_index, do: &1))
+    |> Enum.reject(&is_nil/1)
+  end
+
+  defp service_range_index(datetime),
+    do: Enum.find_index(all_service_ranges(), &(&1 == service_range(datetime)))
 end
