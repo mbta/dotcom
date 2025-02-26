@@ -168,7 +168,13 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
           {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
         )
 
-      active_period_2_start = DateTime.shift(active_period_1_end, days: 1)
+      active_period_2_start =
+        Generators.DateTime.random_time_range_date_time(
+          {active_period_1_end |> ServiceDateTime.beginning_of_next_service_day(),
+           active_period_1_end
+           |> ServiceDateTime.beginning_of_next_service_day()
+           |> ServiceDateTime.end_of_service_day()}
+        )
 
       multi_active_period_alert =
         [{beginning_of_week, active_period_1_end}, {active_period_2_start, end_of_week}]
