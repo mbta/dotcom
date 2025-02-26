@@ -82,7 +82,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <div class="pl-2 pr-sm">
       <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
     </div>
-    <div class="flex items-center justify-between grow text-nowrap gap-sm py-3">
+    <div class="grow py-3">
       <.status_label status={@alert.effect} prefix={@time_range_str} />
     </div>
     """

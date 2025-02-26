@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           href={row.route_info.url}
           style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
           class={[
-            "flex gap-2",
+            "flex gap-2 items-center",
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
@@ -42,7 +42,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             />
           </div>
           <div class={[
-            "flex items-center justify-between grow text-nowrap gap-sm",
+            "flex items-center justify-between grow gap-sm py-3",
             row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
           ]}>
             <.status_label
