@@ -1,21 +1,70 @@
-defmodule Dotcom.SystemStatus.AlertsTest do
-  use ExUnit.Case, async: true
-  doctest Dotcom.SystemStatus.Alerts
+defmodule Dotcom.SystemStatusTest do
+  use ExUnit.Case
 
+  import Dotcom.Alerts, only: [service_impacting_effects: 0]
+  import Dotcom.SystemStatus
+  import Dotcom.Utils.ServiceDateTime, only: [service_range_day: 0]
+  import Mox
   import Test.Support.Factories.Alerts.Alert
 
-  alias Dotcom.SystemStatus.Alerts
+  setup :verify_on_exit!
 
-  describe "active_on_day?/2" do
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
+
+  describe "subway_status/0" do
+    test "requests alerts for all subway lines @ today datetime" do
+      today = Test.Support.Generators.DateTime.random_date_time()
+
+      expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+        today
+      end)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn route_ids, datetime ->
+        assert Enum.sort(route_ids) == Dotcom.Routes.subway_route_ids() |> Enum.sort()
+        assert datetime == today
+
+        []
+      end)
+
+      _ = subway_status()
+    end
+
+    test "returns status without alerts ending earlier that day" do
+      route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
+      line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
+      {day_start, day_end} = service_range_day()
+      earlier_end = Timex.shift(day_start, minutes: 1)
+      currently_active_alert = disruption_alert({day_start, day_end}, route_id_with_alerts)
+      expired_alert = disruption_alert({day_start, earlier_end}, route_id_with_alerts)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [currently_active_alert, expired_alert]
+      end)
+
+      assert %{^line => statuses} = subway_status()
+
+      assert %{alerts: [^currently_active_alert], status: non_normal_status} =
+               Enum.find_value(statuses, fn %{status_entries: status_entries} ->
+                 Enum.find(status_entries, &(&1.status != :normal))
+               end)
+
+      assert non_normal_status == currently_active_alert.effect
+    end
+  end
+
+  describe "active_now_or_later_on_day?/2" do
     test "returns true if the alert is currently active" do
       start_time = Timex.now("America/New_York") |> Timex.beginning_of_day()
       end_time = Timex.now("America/New_York") |> Timex.end_of_day()
 
-      alert = build(:alert, active_period: [{start_time, end_time}])
+      alert = {start_time, end_time} |> disruption_alert()
 
       time = Faker.DateTime.between(start_time, end_time)
 
-      assert Alerts.active_on_day?(alert, time)
+      assert active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert starts on the next service day" do
@@ -32,7 +81,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert starts later, but before the end of the day" do
@@ -47,7 +96,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           start_time |> Timex.shift(minutes: -1)
         )
 
-      assert Alerts.active_on_day?(alert, time)
+      assert active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert starts on the next day, but before end-of-service" do
@@ -62,7 +111,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      assert Alerts.active_on_day?(alert, time)
+      assert active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert has already ended" do
@@ -79,7 +128,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if the alert has no end time" do
@@ -91,7 +140,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
       time =
         Faker.DateTime.between(start_time, Timex.now("America/New_York") |> Timex.end_of_day())
 
-      assert Alerts.active_on_day?(alert, time)
+      assert active_now_or_later_on_day?(alert, time)
     end
 
     test "returns false if the alert has no end time but hasn't started yet" do
@@ -106,7 +155,7 @@ defmodule Dotcom.SystemStatus.AlertsTest do
           Timex.now("America/New_York") |> Timex.end_of_day()
         )
 
-      refute Alerts.active_on_day?(alert, time)
+      refute active_now_or_later_on_day?(alert, time)
     end
 
     test "returns true if a later part of the alert's active period is active" do
@@ -120,58 +169,31 @@ defmodule Dotcom.SystemStatus.AlertsTest do
 
       time = Faker.DateTime.between(start_time_2, end_time_2)
 
-      assert Alerts.active_on_day?(alert, time)
+      assert active_now_or_later_on_day?(alert, time)
     end
   end
 
-  describe "for_day/2" do
-    test "includes alerts that are active today" do
-      start_time =
-        Timex.now("America/New_York") |> Timex.beginning_of_day() |> Timex.shift(hours: 12)
+  defp disruption_alert(active_period)
+  defp disruption_alert(active_period, route_id \\ nil)
 
-      end_time = Timex.now("America/New_York") |> Timex.end_of_day()
-
-      alert1 = build(:alert, active_period: [{start_time, end_time}])
-
-      alert2 =
-        build(:alert,
-          active_period: [{start_time |> Timex.shift(days: 1), end_time |> Timex.shift(days: 1)}]
-        )
-
-      assert Alerts.for_day(
-               [alert1, alert2],
-               Faker.DateTime.between(start_time, end_time)
-             ) == [alert1]
-    end
+  defp disruption_alert(active_period, "Green") do
+    build(:alert_for_routes,
+      route_ids: GreenLine.branch_ids(),
+      active_period: [active_period],
+      effect: service_impacting_effects() |> Faker.Util.pick()
+    )
   end
 
-  describe "filter_relevant/1" do
-    test "includes an alert if its effect is :delay" do
-      alert = build(:alert, effect: :delay)
-      assert Alerts.filter_relevant([alert]) == [alert]
-    end
+  defp disruption_alert(active_period, nil) do
+    route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
+    disruption_alert(active_period, route_id)
+  end
 
-    test "includes an alert if its effect is :shuttle" do
-      alert = build(:alert, effect: :shuttle)
-      assert Alerts.filter_relevant([alert]) == [alert]
-    end
-
-    test "includes an alert if its effect is :suspension" do
-      alert = build(:alert, effect: :suspension)
-      assert Alerts.filter_relevant([alert]) == [alert]
-    end
-
-    test "includes an alert if its effect is :station_closure" do
-      alert = build(:alert, effect: :station_closure)
-      assert Alerts.filter_relevant([alert]) == [alert]
-    end
-
-    test "does not include alerts with other effects" do
-      assert Alerts.filter_relevant([
-               build(:alert, effect: :policy_change),
-               build(:alert, effect: :extra_service),
-               build(:alert, effect: :stop_closure)
-             ]) == []
-    end
+  defp disruption_alert(active_period, route_id) do
+    build(:alert_for_route,
+      route_id: route_id,
+      active_period: [active_period],
+      effect: service_impacting_effects() |> Faker.Util.pick()
+    )
   end
 end

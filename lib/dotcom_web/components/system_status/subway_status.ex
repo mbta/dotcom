@@ -5,7 +5,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1]
+  import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
+  import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel
 
@@ -31,7 +32,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           class={[
             "flex gap-2",
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
-            "text-black no-underline"
+            "text-black no-underline font-normal"
           ]}
         >
           <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
@@ -57,12 +58,87 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     """
   end
 
+  def alerts_subway_status(assigns) do
+    assigns = assigns |> assign(:rows, status_to_alerts_rows(assigns.subway_status))
+
+    ~H"""
+    <.bordered_container hide_divider>
+      <:heading>
+        <div class="px-2 mb-sm">
+          Current Status
+        </div>
+      </:heading>
+      <.lined_list :let={row} items={@rows}>
+        <%= if row.alert do %>
+          <.unstyled_accordion
+            data-test-row-route-info={inspect(row.route_info)}
+            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+            summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
+            chevron_class={"fill-gray-lighter px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
+          >
+            <:heading>
+              <div class={["pl-2 py-3 pr-sm", row.style.hide_route_pill && "invisible"]}>
+                <.subway_route_pill
+                  class="group-hover/row:ring-brand-primary-lightest"
+                  route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
+                />
+              </div>
+              <div class={[
+                "flex items-center justify-between grow text-nowrap gap-sm py-3",
+                row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
+              ]}>
+                <.status_label
+                  status={row.status_entry.status}
+                  prefix={row.status_entry.prefix}
+                  plural={row.status_entry.plural}
+                />
+              </div>
+            </:heading>
+            <:content>
+              <.embedded_alert alert={row.alert} />
+            </:content>
+          </.unstyled_accordion>
+        <% else %>
+          <div
+            data-test-row-route-info={inspect(row.route_info)}
+            class="flex gap-sm"
+            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+          >
+            <div class={["pl-2 py-3", row.style.hide_route_pill && "invisible"]}>
+              <.subway_route_pill
+                class="group-hover/row:ring-brand-primary-lightest"
+                route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
+              />
+            </div>
+            <div class={[
+              "flex items-center justify-between grow text-nowrap gap-sm",
+              row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
+            ]}>
+              <.status_label
+                status={row.status_entry.status}
+                prefix={row.status_entry.prefix}
+                plural={row.status_entry.plural}
+              />
+            </div>
+          </div>
+        <% end %>
+      </.lined_list>
+    </.bordered_container>
+    """
+  end
+
   defp status_to_rows(subway_status) do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
     |> maybe_collapse_rows()
     |> Enum.map(&add_url/1)
+  end
+
+  defp status_to_alerts_rows(subway_status) do
+    @route_ids
+    |> Enum.map(&{&1, subway_status |> Map.get(&1)})
+    |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
   end
 
   defp maybe_collapse_rows(rows) when length(rows) > @max_rows, do: collapse_rows(rows)
@@ -139,41 +215,91 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp route_id_from_route_info(%{branch_ids: [branch_id]}), do: branch_id
   defp route_id_from_route_info(%{route_id: route_id}), do: route_id
 
-  defp rows_for_route({route_id, branches_with_statuses}) do
+  defp rows_for_route({route_id, branches_with_statuses}, opts \\ []) do
     branches_with_statuses
-    |> Enum.flat_map(&rows_for_branch_group/1)
+    |> Enum.flat_map(&rows_for_branch_group(&1, opts))
     |> add_route_id(route_id)
   end
 
-  defp rows_for_branch_group(%{branch_ids: branch_ids, status_entries: status_entries}) do
+  defp rows_for_branch_group(
+         %{branch_ids: branch_ids, status_entries: status_entries},
+         opts
+       ) do
     status_entries
-    |> rows_for_status_entries()
+    |> rows_for_status_entries(opts)
     |> add_branch_ids(branch_ids)
   end
 
-  defp rows_for_status_entries(status_entries) do
+  defp rows_for_status_entries(status_entries, opts) do
     show_prefix = show_prefix?(status_entries)
 
     status_entries
-    |> Enum.map(&row_for_status_entry(&1, show_prefix))
+    |> Enum.flat_map(&rows_for_status_entry(&1, show_prefix, opts))
     |> show_first_route_pill()
   end
 
-  defp row_for_status_entry(status_entry, show_prefix) do
+  defp rows_for_status_entry(%{alerts: []}, _, _) do
+    [
+      %{
+        alert: nil,
+        route_info: %{},
+        status_entry: %{
+          status: :normal,
+          plural: false,
+          prefix: nil
+        },
+        style: %{
+          hide_route_pill: true
+        }
+      }
+    ]
+  end
+
+  defp rows_for_status_entry(%{alerts: alerts} = status_entry, show_prefix, opts) do
+    if Keyword.get(opts, :include_alert) do
+      prefix = if show_prefix, do: prefix(status_entry), else: nil
+
+      Enum.map(
+        alerts,
+        fn alert ->
+          %{
+            alert: alert,
+            route_info: %{},
+            status_entry: %{
+              status: alert.effect,
+              plural: false,
+              prefix: prefix
+            },
+            style: %{
+              hide_route_pill: true
+            }
+          }
+        end
+      )
+    else
+      status_entry
+      |> Map.drop([:alerts])
+      |> rows_for_status_entry(show_prefix, opts)
+    end
+  end
+
+  defp rows_for_status_entry(status_entry, show_prefix, _) do
     %{status: status, multiple: multiple} = status_entry
     prefix = if show_prefix, do: prefix(status_entry), else: nil
 
-    %{
-      route_info: %{},
-      status_entry: %{
-        status: status,
-        plural: multiple,
-        prefix: prefix
-      },
-      style: %{
-        hide_route_pill: true
+    [
+      %{
+        route_info: %{},
+        status_entry: %{
+          status: status,
+          plural: multiple,
+          prefix: prefix
+        },
+        style: %{
+          hide_route_pill: true
+        }
       }
-    }
+    ]
   end
 
   defp add_branch_ids(rows, branch_ids) do
