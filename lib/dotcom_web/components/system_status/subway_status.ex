@@ -327,7 +327,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp future?(_), do: false
 
   defp prefix(%{time: :current}), do: "Now"
-  defp prefix(%{time: {:future, time}}), do: Util.kitchen_downcase_time(time)
+  defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
   defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false}
 end
