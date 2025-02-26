@@ -81,6 +81,25 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
              } = future_disruptions()
     end
 
+    test "handles alert with more than one active_period" do
+      # Setup
+      long_alert = [service_range_this_week(), service_range_next_week()] |> disruption_alert()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [long_alert]
+      end)
+
+      # Exercise
+      disruptions = future_disruptions()
+
+      # Verify
+      [alert_this_week] = disruptions.this_week
+      [alert_next_week] = disruptions.next_week
+
+      assert alert_this_week.id == long_alert.id
+      assert alert_next_week.id == long_alert.id
+    end
+
     test "splits the active_periods of alerts with more than one into different buckets" do
       # Setup
       {beginning_of_next_week, end_of_next_week} = service_range_next_week()
