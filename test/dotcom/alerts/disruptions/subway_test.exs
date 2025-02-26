@@ -84,29 +84,25 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
     test "splits the active_periods of alerts with more than one into different buckets" do
       # Setup
-      {beginning_of_week, end_of_week} = service_range_this_week()
-
-      active_period_1_start =
-        Generators.DateTime.random_time_range_date_time(
-          {beginning_of_week, DateTime.shift(end_of_week, days: -2)}
-        )
-
-      active_period_1_end =
-        Generators.DateTime.random_time_range_date_time(
-          {active_period_1_start, DateTime.shift(end_of_week, days: -1)}
-        )
-
       {beginning_of_next_week, end_of_next_week} = service_range_next_week()
 
-      active_period_2_start =
+      active_period_1_start =
         Generators.DateTime.random_time_range_date_time(
           {beginning_of_next_week, DateTime.shift(end_of_next_week, days: -2)}
         )
 
-      active_period_2_end =
+      active_period_1_end =
         Generators.DateTime.random_time_range_date_time(
-          {active_period_2_start, DateTime.shift(end_of_next_week, days: -1)}
+          {active_period_1_start, DateTime.shift(end_of_next_week, days: -1)}
         )
+
+      {beginning_of_week_after_next, _} = service_range_after_next_week()
+
+      active_period_2_start =
+        Generators.DateTime.random_time_range_date_time({beginning_of_week_after_next, nil})
+
+      active_period_2_end =
+        Generators.DateTime.random_time_range_date_time({active_period_2_start, nil})
 
       long_alert =
         [
@@ -123,13 +119,13 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
       disruptions = future_disruptions()
 
       # Verify
-      [alert_this_week] = disruptions.this_week
-      assert alert_this_week.id == long_alert.id
-      assert alert_this_week.active_period == [{active_period_1_start, active_period_1_end}]
-
       [alert_next_week] = disruptions.next_week
       assert alert_next_week.id == long_alert.id
-      assert alert_next_week.active_period == [{active_period_2_start, active_period_2_end}]
+      assert alert_next_week.active_period == [{active_period_1_start, active_period_1_end}]
+
+      [alert_after_next_week] = disruptions.after_next_week
+      assert alert_after_next_week.id == long_alert.id
+      assert alert_after_next_week.active_period == [{active_period_2_start, active_period_2_end}]
     end
 
     test "combines consecutive active periods if the boundary is on the same day" do
@@ -207,7 +203,7 @@ defmodule Dotcom.Alerts.Disruptions.SubwayTest do
 
       active_period_1_start =
         Generators.DateTime.random_time_range_date_time(
-          {DateTime.shift(active_period_0_end, days: 1), DateTime.shift(end_of_week, days: -2)}
+          {DateTime.shift(active_period_0_end, days: 2), DateTime.shift(end_of_week, days: -2)}
         )
 
       active_period_1_end =
