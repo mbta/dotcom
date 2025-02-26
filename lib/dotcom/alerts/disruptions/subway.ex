@@ -39,7 +39,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   defp disruption_groups() do
     subway_route_ids()
     |> @alerts_repo.by_route_ids(@date_time_module.now())
-    |> Enum.flat_map(&separate_active_periods/1)
+    |> Enum.flat_map(&split_by_discontiguous_active_periods/1)
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
     |> Enum.map(fn {group, alerts} ->
@@ -52,7 +52,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   # contiguous with one another (next one starts the same day or the
   # day after the previous one), combines the contiguous active
   # periods, and then returns
-  defp separate_active_periods(alert) do
+  defp split_by_discontiguous_active_periods(alert) do
     alert.active_period
     |> combine_contiguous_active_periods()
     |> Enum.map(fn active_period ->
