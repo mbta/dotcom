@@ -268,6 +268,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   defp route_label(%Route{type: 4}), do: "Ferry"
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
+  defp route_label(%Route{id: "Mattapan"}), do: "Mattapan Trolley"
 
   defp route_label(%Route{
          external_agency_name: "Massport",
