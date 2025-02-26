@@ -50,7 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               prefix={row.status_entry.prefix}
               plural={row.status_entry.plural}
             />
-            <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-3 mr-2" />
+            <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-3 mr-2 shrink-0" />
           </div>
         </a>
       </.lined_list>

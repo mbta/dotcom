@@ -37,13 +37,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
 
   defp status_icon(%{status: :normal} = assigns) do
     ~H"""
-    <div class="bg-green-line h-4 w-4 rounded-full"></div>
+    <div class="bg-green-line h-4 w-4 rounded-full shrink-0"></div>
     """
   end
 
   defp status_icon(assigns) do
     ~H"""
-    <.icon class="h-[1.125rem] w-[1.125rem]" type="icon-svg" name={status_icon_name(@status)} />
+    <.icon
+      class="h-[1.125rem] w-[1.125rem] shrink-0"
+      type="icon-svg"
+      name={status_icon_name(@status)}
+    />
     """
   end
 
