@@ -37,21 +37,21 @@ defmodule Dotcom.SystemStatusTest do
       line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
       {day_start, day_end} = service_range_day()
       earlier_end = Timex.shift(day_start, minutes: 1)
-      alert_today = disruption_alert({day_start, day_end}, route_id_with_alerts)
-      alert_earlier = disruption_alert({day_start, earlier_end}, route_id_with_alerts)
+      currently_active_alert = disruption_alert({day_start, day_end}, route_id_with_alerts)
+      expired_alert = disruption_alert({day_start, earlier_end}, route_id_with_alerts)
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        [alert_today, alert_earlier]
+        [currently_active_alert, expired_alert]
       end)
 
       assert %{^line => statuses} = subway_status()
 
-      assert %{alerts: [^alert_today], status: non_normal_status} =
+      assert %{alerts: [^currently_active_alert], status: non_normal_status} =
                Enum.find_value(statuses, fn %{status_entries: status_entries} ->
                  Enum.find(status_entries, &(&1.status != :normal))
                end)
 
-      assert non_normal_status == alert_today.effect
+      assert non_normal_status == currently_active_alert.effect
     end
   end
 
