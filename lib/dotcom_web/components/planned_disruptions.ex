@@ -27,18 +27,25 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       |> Enum.map(fn service_range ->
         {service_range, Map.get(assigns.disruptions, service_range, [])}
       end)
+      |> Enum.reject(fn {_, disruptions} ->
+        disruptions == []
+      end)
 
     assigns = assign(assigns, :ordered_disruptions, ordered_disruptions)
 
     ~H"""
     <.bordered_container>
       <:heading>Planned Work</:heading>
-      <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
-        <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-        <.lined_list :let={disruption} items={disruptions}>
-          <.disruption alert={disruption} />
-        </.lined_list>
-      </div>
+      <%= if Enum.empty?(@ordered_disruptions) do %>
+        There is no planned work information at this time.
+      <% else %>
+        <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
+          <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
+          <.lined_list :let={disruption} items={disruptions}>
+            <.disruption alert={disruption} />
+          </.lined_list>
+        </div>
+      <% end %>
     </.bordered_container>
     """
   end
