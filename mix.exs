@@ -107,6 +107,7 @@ defmodule DotCom.Mixfile do
       {:httpoison, "2.2.2"},
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
+      {:joken, "2.6.2"},
       {:kino_live_component, "0.0.5"},
       {:logster, "1.1.1"},
       # reverted from 0.4
