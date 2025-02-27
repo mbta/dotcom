@@ -90,8 +90,8 @@ const DepartureCard = ({
 
   // We have to ensure that all canonical route patterns are represented in departures.
   // This is because we use the departures, but want to show all route patterns even if they have no departures.
-  sortedRoutePatternsByHeadsign.forEach( entry => {
-    let [headsign, _] = entry;
+  sortedRoutePatternsByHeadsign.forEach(entry => {
+    const [headsign] = entry;
 
     if (!Object.keys(departures).includes(headsign)) {
       departures[headsign] = [];
