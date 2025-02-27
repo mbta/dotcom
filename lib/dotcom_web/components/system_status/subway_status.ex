@@ -168,7 +168,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         (branch_ids1 ++ branch_ids2)
         |> Enum.uniq()
         |> Enum.sort()
-        |> collapse_if_all_green_line()
       end
 
     combined_row =
@@ -197,14 +196,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp collapse_rows([]) do
     []
-  end
-
-  defp collapse_if_all_green_line(branch_ids) do
-    if branch_ids == GreenLine.branch_ids() do
-      []
-    else
-      branch_ids
-    end
   end
 
   defp add_url(row) do

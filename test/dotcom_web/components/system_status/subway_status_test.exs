@@ -168,27 +168,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
              |> for_route("Green_#{normal_branch_1}_#{normal_branch_2}")
              |> Enum.map(&status_label_text_for_row/1) == ["Normal Service"]
     end
-
-    test "collapses the Green line if the whole line is disrupted by different alerts" do
-      # Setup
-      alerts =
-        GreenLine.branch_ids()
-        |> Enum.map(fn branch_id ->
-          Factories.Alerts.Alert.build(:alert_for_route,
-            route_id: branch_id,
-            effect: Faker.Util.pick(service_impacting_effects())
-          )
-          |> Factories.Alerts.Alert.active_during(Timex.now())
-        end)
-
-      # Exercise
-      rows = status_rows_for_alerts(alerts)
-
-      # Verify
-      assert rows
-             |> for_route("Green")
-             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts"]
-    end
   end
 
   describe "alerts_subway_status/1" do
