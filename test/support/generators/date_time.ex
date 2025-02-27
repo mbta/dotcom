@@ -30,7 +30,7 @@ defmodule Test.Support.Generators.DateTime do
 
   @doc "Generate a random date_time between the beginning and end of the time range."
   def time_range_date_time_generator({start, nil}) do
-    stop = Timex.shift(start, years: 10)
+    stop = Timex.shift(start, years: 10) |> @date_time_module.coerce_ambiguous_date_time()
     time_range_date_time_generator({start, stop})
   end
 
