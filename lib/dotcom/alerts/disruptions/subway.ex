@@ -51,7 +51,15 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   # Given an alert with multiple active periods, some of which may be
   # contiguous with one another (next one starts the same day or the
   # day after the previous one), combines the contiguous active
-  # periods, and then returns
+  # periods, and then returns one alert per combined-contiguous active
+  # period
+  #
+  # For instance, if an alert has three active periods, {Sun, Mon},
+  # {Mon, Tue}, and {Thu, Fri}, then {Sun, Mon} and {Mon, Tue} are
+  # combined into {Sun, Tue}, but {Thu, Fri} is kept separate. The
+  # result is then two alerts, both equivalent to the alert passed in,
+  # except that one has a single active period of {Sun, Tue}, and the
+  # other has a single active period of {Thu, Fri}.
   defp split_by_discontiguous_active_periods(alert) do
     alert.active_period
     |> combine_contiguous_active_periods()
@@ -60,7 +68,13 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     end)
   end
 
-  # Given a list of active periods
+  # Given a list of active periods, combines contiguous ones. See
+  # split_by_discontiguous_active_periods/1 for more detail.  Active
+  # periods are considered contiguous if the start of the next one is
+  # the same day as the end of the previous one, or if it's the day
+  # after, so active periods of {Mon, Wed} and {Thu, Fri} would be
+  # combined into {Mon, Fri}, as would {Mon, Wed} and {Wed, Fri}, but
+  # {Mon, Tue} and {Thu, Fri} would be kept separate.
   defp combine_contiguous_active_periods([active_period1, active_period2 | rest]) do
     {start1, end1} = active_period1
     {start2, end2} = active_period2
