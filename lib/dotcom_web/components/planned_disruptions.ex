@@ -73,8 +73,10 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # The heading for a disruption alert, including the route pill and status label (and active period).
   defp heading(assigns) do
-    {start, stop} = alert_date_time_range(assigns.alert)
-    time_range_str = "#{format_date(start)} - #{format_date(stop)}"
+    time_range_str =
+      assigns.alert
+      |> alert_date_time_range()
+      |> formatted_time_range()
 
     assigns = assign(assigns, time_range_str: time_range_str)
 
@@ -82,11 +84,16 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <div class="pl-2 pr-sm">
       <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
     </div>
-    <div class="flex items-center justify-between grow text-nowrap gap-sm py-3">
+    <div class="grow py-3">
       <.status_label status={@alert.effect} prefix={@time_range_str} />
     </div>
     """
   end
+
+  defp formatted_time_range({nil, nil}), do: nil
+  defp formatted_time_range({nil, stop}), do: "Until #{format_date(stop)}"
+  defp formatted_time_range({start, nil}), do: "From #{format_date(start)}"
+  defp formatted_time_range({start, stop}), do: "#{format_date(start)} - #{format_date(stop)}"
 
   # Extracts the start and stop times from the active periods of an alert.
   # We do this by sorting the active periods by start time then taking the start of the first and the stop of the last.

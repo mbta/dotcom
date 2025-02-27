@@ -25,24 +25,19 @@ defmodule DotcomWeb.Components.Alerts do
         end)
       )
       |> assign(:now, @date_time_module.now())
-      |> assign(:alert_icon_type, Alerts.Alert.icon(alert))
 
     ~H"""
     <div class={"p-md c-alert-item c-alert-item--#{@alert.priority}"}>
-      <div class="flex gap-sm">
-        <span :if={@alert_icon_type != :none} class="basis-[1.75rem]">
-          {AlertView.alert_icon(@alert_icon_type)}
-        </span>
-        <span>{AlertView.format_alert_description(@header)}</span>
-      </div>
+      {AlertView.format_alert_description(@header)}
       <%= if @description do %>
         <div class="mt-sm">
-          <img
-            :if={@alert.image}
-            class="w-full mb-4"
-            src={@alert.image}
-            alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
-          />
+          <a :if={@alert.image} href={@alert.image} target="_blank">
+            <img
+              class="w-full mb-4"
+              src={@alert.image}
+              alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
+            />
+          </a>
           {AlertView.format_alert_description(@description)}
           <%= if @url do %>
             <hr class="my-4 border-t-[1px] border-gray-lightest" />
