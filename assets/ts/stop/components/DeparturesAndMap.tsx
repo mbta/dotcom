@@ -226,10 +226,7 @@ const DeparturesAndMap = ({
       return departure && departure.trip && departure.trip.headsign;
     });
 
-    const routePatternHeadsign = routePatternDeparture?.trip?.headsign || null;
-    if (!routePatternHeadsign) {
-      return <div />;
-    }
+    const routePatternHeadsign = routePatternDeparture?.trip?.headsign || "";
 
     routePatternsForSelection = Object.keys(routePatterns).includes(
       routePatternHeadsign

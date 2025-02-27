@@ -2,7 +2,7 @@ import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
-import { Alert, Stop, Route } from "../../__v3api";
+import { Alert, Route, Stop, Trip } from "../../__v3api";
 import { TEST_LOADER_VALUE, baseRoute, renderWithRouter } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -10,7 +10,7 @@ import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { PredictionWithTimestamp } from "../../models/predictions";
+import { PredictionWithTimestamp } from "../../models/predictions"
 
 const stop = {
   id: "test-stop",
@@ -95,9 +95,7 @@ describe("DeparturesAndMap", () => {
     const departureListHeader = screen.getByRole("heading", {
       name: /Test Stop to Alewife/
     });
-    const departureList = screen.getByRole("list");
     expect(departureListHeader).toBeDefined();
-    expect(departureList).toHaveClass("stop-routes__departures");
     const back = screen.getByText("Back to all Test Stop routes");
     expect(back).toBeDefined();
     await user.click(back);

@@ -65,16 +65,8 @@ const DepartureCard = ({
   route: Route;
 }): ReactElement<HTMLElement> | null => {
   const { setRow } = useDepartureRow([route]);
-console.log(departuresForRoute);
-  const departures = groupDepartures(departuresForRoute);
 
-  // We have to ensure that all route patterns are represented in departures.
-  // This is because we use the departures, but want to show all route patterns even if they have no departures.
-  Object.keys(routePatternsByHeadsign).forEach(headsign => {
-    if (!Object.keys(departures).includes(headsign)) {
-      departures[headsign] = [];
-    }
-  });
+  const departures = groupDepartures(departuresForRoute);
 
   let sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
     routePatternsByHeadsign
@@ -96,6 +88,16 @@ console.log(departuresForRoute);
     if (sortedRoutePatternsByHeadsign.length === 0) return null;
   }
 
+  // We have to ensure that all canonical route patterns are represented in departures.
+  // This is because we use the departures, but want to show all route patterns even if they have no departures.
+  sortedRoutePatternsByHeadsign.forEach( entry => {
+    let [headsign, _] = entry;
+
+    if (!Object.keys(departures).includes(headsign)) {
+      departures[headsign] = [];
+    }
+  });
+
   const directionIds = uniq(
     sortedRoutePatternsByHeadsign.map(
       ([, { direction_id: directionId }]) => directionId
@@ -116,17 +118,18 @@ console.log(departuresForRoute);
         {routeName(route)}
       </a>
       {Object.entries(departures).map(([headsign, departureList]) => {
-        // Alerts and direction_id are based on the first departure if there is one.
-        let alerts: Alert[] = [];
+        // Direction id and alerts are based on the first departure if there is one.
         let directionId = 0;
+        let alerts: Alert[] = [];
 
         if (departureList.length > 0) {
           directionId = departureList[0].trip.direction_id;
 
           alerts = allAlertsForDirection(alertsForRoute, directionId);
-          // If there is no departure then alerts is empty and the direction_id is based on the route pattern.
         } else {
           directionId = routePatternsByHeadsign[headsign].direction_id;
+
+          alerts = allAlertsForDirection(alertsForRoute, directionId);
         }
 
         const onClick = (): void =>

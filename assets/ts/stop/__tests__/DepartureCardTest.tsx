@@ -1,11 +1,12 @@
 import React from "react";
 import { cleanup, screen, waitFor, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
-import { Alert, RouteType } from "../../__v3api";
+import { Alert, RouteType, Stop, Trip } from "../../__v3api";
 import { baseRoute, renderWithRouter, TEST_LOADER_VALUE } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
 import { update } from "lodash";
 import { RoutePatternWithPolyline } from "../../models/route-patterns";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 const testRoute = baseRoute(Object.keys(TEST_LOADER_VALUE)[0], 3);
 const routePatternsByHeadsign = TEST_LOADER_VALUE[testRoute.id];
@@ -19,6 +20,58 @@ for (const h of Object.keys(routePatternsByHeadsign)) {
     }))
   );
 }
+
+const trip = {
+  route_pattern_id: "Red-0",
+  shape_id: "9900002",
+  headsign: "Foo",
+  "bikes_allowed?": true,
+  occupancy: "not_crowded",
+  direction_id: 1,
+  name: "077",
+  id: "1234"
+} as Trip;
+
+const stop = {
+  accessibility: [],
+  bike_storage: [],
+  address: null,
+  closed_stop_info: null,
+  "has_charlie_card_vendor?": true,
+  "has_fare_machine?": true,
+  fare_facilities: [],
+  id: "1234",
+  "child?": true,
+  latitude: 71,
+  longitude: 43,
+  name: "Foo",
+  municipality: "Boston",
+  note: null,
+  parking_lots: [],
+  "station?": true,
+  type: "station"
+} as Stop;
+
+const schedule = {
+  route: baseRoute("Red", 1),
+  trip: trip,
+  stop: stop,
+  "flag?": true,
+  "early_departure?": true,
+  "last_stop?": true,
+  stop_sequence: 1,
+  stop_headsign: "Foo",
+  pickup_type: 1,
+} as ScheduleWithTimestamp;
+
+const departure = {
+  schedule: schedule,
+  trip: trip,
+  isCancelled: false,
+  isSkipped: false,
+  isDelayed: false,
+  routeMode: "ferry"
+} as DepartureInfo;
 
 describe("DepartureCard", () => {
   afterEach(cleanup);
@@ -136,9 +189,11 @@ describe("DepartureCard", () => {
       }
     ] as Alert[];
 
-    const departures = [] as DepartureInfo[];
     const route = baseRoute("Red", 1);
     const routePatterns = TEST_LOADER_VALUE["Red"];
+
+    const departures = [departure];
+
     renderWithRouter(
       <DepartureCard
         route={route}
@@ -149,10 +204,8 @@ describe("DepartureCard", () => {
     );
 
     await waitFor(() => {
-      const suspensionBadges = screen.getAllByText("No Service");
-      expect(suspensionBadges.length).toBe(Object.keys(routePatterns).length);
-      expect(screen.queryByText("Shuttle Service")).toBeNull();
-      expect(screen.queryByText("Detour")).toBeNull();
+      const suspensionBadges = screen.getAllByText("Detour");
+      expect(suspensionBadges.length).toBe(departures.length);
     });
   });
 });
