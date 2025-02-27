@@ -7,9 +7,9 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   import Dotcom.Routes, only: [subway_route_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_range_range: 2]
 
-  alias Dotcom.Utils.ServiceDateTime
   alias Alerts.Alert
   alias Dotcom.Utils
+  alias Dotcom.Utils.ServiceDateTime
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
