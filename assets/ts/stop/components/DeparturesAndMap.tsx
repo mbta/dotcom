@@ -209,7 +209,6 @@ const DeparturesAndMap = ({
 
   // We have to have a route pattern in order to show the polyline on a map.
   // Because the stop headsign doesn't match a route pattern, we have to find the trip headsign from a departure.
-  // If we can't find a trip headsign, we just return an empty div. But, this should never happen.
   const routePatterns = activeRow
     ? updatedGroupedRoutePatterns[activeRow.route.id]
     : {};
