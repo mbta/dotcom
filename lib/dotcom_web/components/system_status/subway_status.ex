@@ -34,17 +34,21 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
+          data-route-info={route_info_to_string(row.route_info)}
         >
-          <div class="pl-2 py-3">
+          <div class={["pl-2 py-3", row.style.hide_route_pill && "opacity-0"]} data-route-pill>
             <.subway_route_pill
-              class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
+              class="group-hover/row:ring-brand-primary-lightest"
               route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
             />
           </div>
-          <div class={[
-            "flex items-center justify-between grow gap-sm py-3",
-            row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-          ]}>
+          <div
+            class={[
+              "flex items-center justify-between grow gap-sm py-3",
+              row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
+            ]}
+            data-status-label
+          >
             <.status_label
               status={row.status_entry.status}
               prefix={row.status_entry.prefix}
@@ -330,4 +334,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
   defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false}
+
+  defp route_info_to_string(route_info) do
+    [route_info.route_id | route_info.branch_ids] |> Enum.join("_")
+  end
 end

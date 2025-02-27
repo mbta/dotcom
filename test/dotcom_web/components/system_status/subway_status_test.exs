@@ -9,11 +9,186 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
 
+  @lines_without_branches List.delete(Subway.lines(), "Green")
+
   setup :verify_on_exit!
 
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     :ok
+  end
+
+  describe "homepage_subway_status/1" do
+    test "renders all rows as 'Normal Service' when there are no alerts" do
+      # Setup
+      alerts = []
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> Enum.each(fn row ->
+               assert status_label_text_for_row(row) == "Normal Service"
+             end)
+    end
+
+    test "shows all of the route pills by default" do
+      # Setup
+      alerts = []
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> Enum.each(fn row ->
+               assert route_pill_visibility_for_row(row) == :visible
+             end)
+    end
+
+    test "hides the second route pill for a line if that line has more than one alert" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      effects =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(service_impacting_effects()) end)
+
+      alerts =
+        effects
+        |> Enum.map(
+          &(Factories.Alerts.Alert.build(:alert_for_route, route_id: affected_line, effect: &1)
+            |> Factories.Alerts.Alert.active_during(Timex.now()))
+        )
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&route_pill_visibility_for_row/1) ==
+               [:visible, :invisible]
+    end
+
+    test "collapses alerts for non-branched lines if there would otherwise be too many rows" do
+      # Setup
+      [affected_line_1, affected_line_2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(@lines_without_branches) end)
+
+      effects_1 =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(service_impacting_effects()) end)
+
+      effects_2 =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(service_impacting_effects()) end)
+
+      alerts_for_affected_line_1 =
+        effects_1
+        |> Enum.map(
+          &(Factories.Alerts.Alert.build(:alert_for_route,
+              route_id: affected_line_1,
+              effect: &1
+            )
+            |> Factories.Alerts.Alert.active_during(Timex.now()))
+        )
+
+      alerts_for_affected_line_2 =
+        effects_2
+        |> Enum.map(
+          &(Factories.Alerts.Alert.build(:alert_for_route,
+              route_id: affected_line_2,
+              effect: &1
+            )
+            |> Factories.Alerts.Alert.active_during(Timex.now()))
+        )
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts_for_affected_line_1 ++ alerts_for_affected_line_2)
+
+      # Verify
+      assert rows |> for_route(affected_line_1) |> Enum.map(&status_label_text_for_row/1) == [
+               "See Alerts"
+             ]
+
+      assert rows |> for_route(affected_line_2) |> Enum.map(&status_label_text_for_row/1) == [
+               "See Alerts"
+             ]
+    end
+
+    test "collapses Green line alerts if there would otherwise be too many rows" do
+      # Setup
+      affected_branches =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      alerts =
+        affected_branches
+        |> Enum.map(fn branch_id ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: Faker.Util.pick(service_impacting_effects())
+          )
+          |> Factories.Alerts.Alert.active_during(Timex.now())
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      [affected_branch_1, affected_branch_2] = affected_branches |> Enum.sort()
+
+      assert rows
+             |> for_route("Green_#{affected_branch_1}_#{affected_branch_2}")
+             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts"]
+    end
+
+    test "includes normal-status Green line row for non-affected Green line branches when rows are collapsed" do
+      # Setup
+      affected_branches =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+        |> Enum.sort()
+
+      alerts =
+        affected_branches
+        |> Enum.map(fn branch_id ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: Faker.Util.pick(service_impacting_effects())
+          )
+          |> Factories.Alerts.Alert.active_during(Timex.now())
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      [normal_branch_1, normal_branch_2] =
+        GreenLine.branch_ids() -- affected_branches
+
+      assert rows
+             |> for_route("Green_#{normal_branch_1}_#{normal_branch_2}")
+             |> Enum.map(&status_label_text_for_row/1) == ["Normal Service"]
+    end
+
+    test "collapses the Green line if the whole line is disrupted by different alerts" do
+      # Setup
+      alerts =
+        GreenLine.branch_ids()
+        |> Enum.map(fn branch_id ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: Faker.Util.pick(service_impacting_effects())
+          )
+          |> Factories.Alerts.Alert.active_during(Timex.now())
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route("Green")
+             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts"]
+    end
   end
 
   describe "alerts_subway_status/1" do
@@ -101,4 +276,45 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   defp subway_status(alerts) do
     Subway.subway_status(alerts, Dotcom.Utils.DateTime.now())
   end
+
+  defp status_rows_for_alerts(alerts) do
+    subway_status =
+      alerts
+      |> Dotcom.SystemStatus.Subway.subway_status(Timex.now())
+
+    render_component(&homepage_subway_status/1, %{subway_status: subway_status})
+    |> Floki.find("a")
+  end
+
+  defp for_route(rows, route_id) do
+    rows |> Floki.find("[data-route-info=#{route_id}]")
+  end
+
+  defp route_pill_visibility_for_row(row) do
+    classes =
+      row
+      |> Floki.find("[data-route-pill]")
+      |> Floki.attribute("class")
+      |> Enum.join(" ")
+      |> String.split()
+
+    if "opacity-0" in classes do
+      :invisible
+    else
+      :visible
+    end
+  end
+
+  defp status_label_text_for_row(row) do
+    row
+    |> Floki.find("[data-status-label]")
+    |> Floki.text()
+    |> String.trim()
+    |> String.split("\n")
+    |> List.last()
+    |> String.trim()
+  end
+
+  # defp status_label_text_for_effect(:station_closure), do: "Station Closure"
+  # defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> String.capitalize()
 end
