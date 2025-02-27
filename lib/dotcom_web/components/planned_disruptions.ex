@@ -100,7 +100,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp formatted_time_range({nil, nil}), do: nil
   defp formatted_time_range({nil, stop}), do: "Until #{format_date(stop)}"
   defp formatted_time_range({start, nil}), do: "From #{format_date(start)}"
-  defp formatted_time_range({start, stop}), do: "#{format_date(start)} - #{format_date(stop)}"
+  defp formatted_time_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
   # Extracts the start and stop times from the active periods of an alert.
   # We do this by sorting the active periods by start time then taking the start of the first and the stop of the last.
@@ -136,7 +136,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
          Timex.before?(service_date_datetime, service_date_today) do
       "Today"
     else
-      service_date_datetime |> Timex.format!("%a %b %-d", :strftime)
+      service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
     end
   end
 end
