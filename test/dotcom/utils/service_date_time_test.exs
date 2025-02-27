@@ -236,7 +236,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range_range(today, next_week) == [:today, :this_week, :next_week]
     end
 
-    test "handles open end" do
+    test "returns all service ranges starting from a datetime" do
       # Setup
       this_week = service_range_this_week() |> random_time_range_date_time()
 
@@ -244,7 +244,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range_range(this_week, nil) == [:this_week, :next_week, :after_next_week]
     end
 
-    test "handles open start" do
+    test "returns all service ranges up to a datetime" do
       # Setup
       next_week = service_range_next_week() |> random_time_range_date_time()
 
