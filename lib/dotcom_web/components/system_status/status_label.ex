@@ -6,6 +6,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
 
   use DotcomWeb, :component
 
+  alias Alerts.Alert
+
   attr :prefix, :string, default: nil
   attr :plural, :boolean, default: false
   attr :status, :atom, required: true
@@ -22,21 +24,21 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     ~H"""
     <span class={[status_classes(@status), "flex items-center gap-2"]}>
       <.status_icon status={@status} />
-      {@rendered_prefix} {expectation(@status, @prefix)} {description(@status, @plural)}
+      {@rendered_prefix} {description(@status, @prefix, @plural)}
     </span>
     """
   end
 
-  defp expectation(:delay, prefix) when is_binary(prefix), do: "Expect"
-  defp expectation(_, _), do: nil
+  defp description(status, prefix, true), do: description(status, prefix) |> Inflex.pluralize()
+  defp description(status, prefix, false), do: description(status, prefix)
 
-  defp description(status, true), do: description(status) |> Inflex.pluralize()
-  defp description(status, false), do: description(status)
+  defp description(:normal, _), do: "Normal Service"
+  defp description(:see_alerts, _), do: "See Alerts"
 
-  defp description(:normal), do: "Normal Service"
-  defp description(:see_alerts), do: "See Alerts"
-  defp description(:station_closure), do: "Station Closure"
-  defp description(status), do: status |> Atom.to_string() |> String.capitalize()
+  # Special case for delays - when displayed with a future date, say 
+  # "Expect Delay" (or Expect Delays) rather than simply "Delay"
+  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
+  defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp status_icon(%{status: :normal} = assigns) do
     ~H"""
