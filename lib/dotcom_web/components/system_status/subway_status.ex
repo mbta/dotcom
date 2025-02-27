@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           href={row.route_info.url}
           style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
           class={[
-            "flex gap-2",
+            "flex gap-2 items-center",
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
@@ -42,7 +42,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             />
           </div>
           <div class={[
-            "flex items-center justify-between grow text-nowrap gap-sm",
+            "flex items-center justify-between grow gap-sm py-3",
             row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
           ]}>
             <.status_label
@@ -50,7 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               prefix={row.status_entry.prefix}
               plural={row.status_entry.plural}
             />
-            <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-3 mr-2" />
+            <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-3 mr-2 shrink-0" />
           </div>
         </a>
       </.lined_list>
@@ -327,7 +327,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp future?(_), do: false
 
   defp prefix(%{time: :current}), do: "Now"
-  defp prefix(%{time: {:future, time}}), do: Util.kitchen_downcase_time(time)
+  defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
   defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false}
 end
