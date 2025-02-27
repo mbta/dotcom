@@ -113,7 +113,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
       fn alert ->
         alert |> Map.get(:active_period, [{nil, nil}]) |> List.first() |> Kernel.elem(0)
       end,
-      :asc
+      DateTime
     )
   end
 end
