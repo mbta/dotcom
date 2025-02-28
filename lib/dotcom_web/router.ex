@@ -4,6 +4,8 @@ defmodule DotcomWeb.Router do
   use DotcomWeb, :router
   use Plug.ErrorHandler
 
+  import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2], warn: false
+
   alias DotcomWeb.ControllerHelpers
 
   @impl Plug.ErrorHandler
@@ -263,8 +265,6 @@ defmodule DotcomWeb.Router do
 
   if Mix.env() == :dev do
     scope "/kino-live-component", KinoLiveComponent do
-      import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2], warn: false
-
       pipe_through([:allow_insecure_connection])
 
       live("/", Live.Index)
