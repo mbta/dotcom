@@ -336,6 +336,7 @@ export interface Schedule {
   "early_departure?": boolean;
   "last_stop?": boolean;
   stop_sequence: number;
+  stop_headsign: string;
   pickup_type: number;
   train_number?: string;
   arrival_time?: Date | null;

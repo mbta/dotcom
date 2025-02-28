@@ -52,6 +52,7 @@ const DeparturesWithBadge = ({
   const suppressiveAlerts = alerts.filter(alert =>
     isSuppressiveAlert(alert, departuresLength)
   );
+
   const priorityBadge = toHighPriorityAlertBadge(suppressiveAlerts);
   const secondaryBadge = toInformativeAlertBadge(alerts);
   if (!(priorityBadge || secondaryBadge)) return <>{children}</>;
