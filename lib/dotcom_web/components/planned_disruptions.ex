@@ -27,18 +27,25 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       |> Enum.map(fn service_range ->
         {service_range, Map.get(assigns.disruptions, service_range, [])}
       end)
+      |> Enum.reject(fn {_, disruptions} ->
+        disruptions == []
+      end)
 
     assigns = assign(assigns, :ordered_disruptions, ordered_disruptions)
 
     ~H"""
     <.bordered_container>
       <:heading>Planned Work</:heading>
-      <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
-        <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-        <.lined_list :let={disruption} items={disruptions}>
-          <.disruption alert={disruption} />
-        </.lined_list>
-      </div>
+      <%= if Enum.empty?(@ordered_disruptions) do %>
+        There is no planned work information at this time.
+      <% else %>
+        <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
+          <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
+          <.lined_list :let={disruption} items={disruptions}>
+            <.disruption alert={disruption} />
+          </.lined_list>
+        </div>
+      <% end %>
     </.bordered_container>
     """
   end
@@ -59,7 +66,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.unstyled_accordion
       :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
-      chevron_class="fill-gray-lighter px-2 py-3"
+      chevron_class="fill-gray-dark px-2 py-3"
     >
       <:heading>
         <.heading route_ids={route_ids} alert={@alert} />
@@ -92,8 +99,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   defp formatted_time_range({nil, nil}), do: nil
   defp formatted_time_range({nil, stop}), do: "Until #{format_date(stop)}"
-  defp formatted_time_range({start, nil}), do: "From #{format_date(start)}"
-  defp formatted_time_range({start, stop}), do: "#{format_date(start)} - #{format_date(stop)}"
+  defp formatted_time_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_time_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
   # Extracts the start and stop times from the active periods of an alert.
   # We do this by sorting the active periods by start time then taking the start of the first and the stop of the last.
@@ -129,7 +136,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
          Timex.before?(service_date_datetime, service_date_today) do
       "Today"
     else
-      service_date_datetime |> Timex.format!("%a %b %-d", :strftime)
+      service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
     end
   end
 end

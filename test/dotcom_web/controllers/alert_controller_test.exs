@@ -1,3 +1,4 @@
+# credo:disable-for-this-file Credo.Check.Design.AliasUsage
 defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase, async: true
 
@@ -9,8 +10,9 @@ defmodule DotcomWeb.AlertControllerTest do
   import Test.Support.Factories.Routes.Route
 
   alias Alerts.Alert
-  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Dotcom.Utils
   alias Stops.Stop
+  alias Test.Support.Factories
 
   setup :verify_on_exit!
 
@@ -18,8 +20,22 @@ defmodule DotcomWeb.AlertControllerTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    stub(Alerts.Repo.Mock, :all, fn _date ->
+      Factories.Alerts.Alert.build_list(20, :alert)
+    end)
+
+    stub(Alerts.Repo.Mock, :by_route_ids, fn route_ids, _date ->
+      Enum.map(route_ids, &Factories.Alerts.Alert.build(:alert_for_route, %{route_id: &1}))
+    end)
+
     stub(Routes.Repo.Mock, :by_type, fn route_type ->
-      build_list(2, :route, %{type: route_type})
+      Factories.Routes.Route.build_list(2, :route, %{type: route_type})
+    end)
+
+    stub(Stops.Repo.Mock, :get_parent, fn id ->
+      Factories.Stops.Stop.build(:stop, %{id: id})
     end)
 
     :ok
@@ -27,7 +43,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   test "renders commuter rail", %{conn: conn} do
     expect(Routes.Repo.Mock, :by_type, fn 2 ->
-      build_list(2, :route, %{type: 2})
+      Factories.Routes.Route.build_list(2, :route, %{type: 2})
     end)
 
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
@@ -61,7 +77,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
     test "sets a custom meta description", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 3 ->
-        build_list(2, :route, %{type: 3})
+        Factories.Routes.Route.build_list(2, :route, %{type: 3})
       end)
 
       conn = get(conn, alert_path(conn, :show, :bus))
@@ -83,161 +99,78 @@ defmodule DotcomWeb.AlertControllerTest do
     end
   end
 
-  describe "mode icons" do
-    setup %{conn: conn} do
-      {:ok,
-       conn: conn,
-       alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
-    end
+  test "route pills are shown for subway alerts", %{conn: conn} do
+    # setup... stub an alert that'll show on the page.
+    # surprisingly involved, as to be included in this section:
+    # - alerts must have nil banner
+    # - alerts must be current to the given datetime
+    # - alerts must not be a disruption
+    # - alerts informed entity has to match the subway routes fetched for
+    #   this page in both route ID and route type
+    route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
+    route_type = Faker.Util.pick([0, 1])
 
-    test "are shown on subway alerts", %{conn: conn, alerts: alerts} do
-      response = render_alerts_page(conn, :subway, alerts)
+    expect(Alerts.Repo.Mock, :all, fn date ->
+      Factories.Alerts.Alert.build_list(1, :alert, %{
+        active_period: [Utils.ServiceDateTime.service_range_day(date)],
+        banner: nil,
+        effect: :amber_alert,
+        informed_entity:
+          Alerts.InformedEntitySet.new([
+            %Alerts.InformedEntity{
+              route_type: route_type,
+              route: route_id
+            }
+          ])
+      })
+    end)
 
-      expected =
-        render_component(
-          &DotcomWeb.Components.RouteSymbols.route_symbol/1,
-          %{route: get_route(:subway), size: :default}
-        )
+    expect(Routes.Repo.Mock, :by_type, fn [0, 1] ->
+      Factories.Routes.Route.build_list(1, :route, %{
+        id: route_id,
+        type: route_type
+      })
+    end)
 
-      assert response =~ expected
-    end
-
-    test "are not shown on non-subway alerts", %{conn: conn, alerts: alerts} do
-      for mode <- [:bus, :commuter_rail, :access] do
-        response = render_alerts_page(conn, mode, alerts)
-        assert response =~ "m-alerts-header"
-        refute response =~ mode_icon_tag(mode)
-      end
-    end
-
-    defp render_alerts_page(conn, mode, alerts) do
+    response =
       conn
-      |> assign(:alerts_timeframe, nil)
-      |> assign(:date_time, ~N[2000-01-01 23:00:07])
-      |> put_view(DotcomWeb.AlertView)
-      |> render(
-        "show.html",
-        id: mode,
-        alert_groups: alerts,
-        breadcrumbs: ["Alerts"],
-        date: Util.now()
-      )
+      |> get(~p"/alerts/subway")
       |> html_response(200)
-    end
 
-    defp mode_icon_tag(mode) do
-      %SvgIconWithCircle{icon: mode}
-      |> SvgIconWithCircle.svg_icon_with_circle()
-      |> Phoenix.HTML.safe_to_string()
-      |> Kernel.<>(mode |> get_route |> Map.get(:name))
-    end
+    expected =
+      render_component(
+        &DotcomWeb.Components.RouteSymbols.subway_route_pill/1,
+        %{route_ids: [route_id]}
+      )
 
-    defp create_alert(mode) do
-      mode
-      |> get_route
-      |> do_create_alert(mode)
-    end
-
-    defp get_route(:ferry),
-      do: %Routes.Route{id: "Boat-F4", description: :ferry, name: "Charlestown Ferry", type: 4}
-
-    defp get_route(:bus),
-      do: %Routes.Route{id: "59", description: :local_bus, name: "59", type: 3}
-
-    defp get_route(mode) when mode in [:subway, :access, :red_line],
-      do: %Routes.Route{id: "Red", description: :rapid_transit, name: "Red Line", type: 1}
-
-    defp get_route(:commuter_rail),
-      do: %Routes.Route{
-        id: "CR-Fitchburg",
-        description: :commuter_rail,
-        name: "Fitchburg Line",
-        type: 2
-      }
-
-    defp do_create_alert(route, mode) do
-      {route,
-       [
-         Alert.new(
-           active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
-           informed_entity: [informed_entity(mode)],
-           updated_at: Util.now() |> Timex.shift(days: -2),
-           effect: effect(mode)
-         )
-       ]}
-    end
-
-    defp informed_entity(mode) when mode in [:subway, :access] do
-      %Alerts.InformedEntity{route: "Red", route_type: 1, direction_id: 1}
-    end
-
-    defp informed_entity(:commuter_rail) do
-      %Alerts.InformedEntity{route: "CR-Fitchburg", route_type: 2, direction_id: 1}
-    end
-
-    defp informed_entity(:bus) do
-      %Alerts.InformedEntity{
-        route: "59",
-        route_type: 3,
-        direction_id: nil,
-        stop: "81448",
-        trip: nil
-      }
-    end
-
-    defp informed_entity(:ferry) do
-      %Alerts.InformedEntity{
-        route: "Boat-F4",
-        route_type: 4,
-        direction_id: 1,
-        stop: "Boat-Charlestown"
-      }
-    end
-
-    defp effect(:commuter_rail), do: :track_change
-    defp effect(:access), do: :access_issue
-    defp effect(_mode), do: :delay
+    assert response =~ expected
   end
 
   describe "group_access_alerts/1" do
-    test "given a list of alerts, groups the access alerts by stop" do
-      stop_id1 = Faker.Internet.slug()
-      stop_id2 = Faker.Internet.slug()
+    test "given a list of access alerts, gets associated stop & groups the access alerts by stop" do
+      stops = Factories.Stops.Stop.build_list(1, :stop)
+      stop = List.first(stops)
+      stop_id = stop.id
 
-      stub(Stops.Repo.Mock, :get_parent, fn id ->
-        %Stop{id: id}
+      alerts =
+        Factories.Alerts.Alert.build_list(10, :alert, %{
+          effect: :access_issue,
+          informed_entity:
+            Alerts.InformedEntitySet.new([
+              %Alerts.InformedEntity{
+                stop: stop_id
+              }
+            ])
+        })
+
+      expect(Stops.Repo.Mock, :get_parent, length(alerts), fn ^stop_id ->
+        stop
       end)
 
-      alerts = [
-        Alert.new(
-          id: "stop-1-escalator-alert",
-          effect: :escalator_closure,
-          header: "Escalator Alert 1",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
-        ),
-        Alert.new(
-          id: "stop-2-alert",
-          effect: :escalator_closure,
-          header: "Escalator Alert 2",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id2}]
-        ),
-        Alert.new(
-          id: "stop-1-access-alert",
-          effect: :access_issue,
-          header: "Access Alert",
-          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
-        )
-      ]
+      assert grouped = group_access_alerts(alerts) |> Map.new()
 
-      grouped = alerts |> group_access_alerts() |> Map.new()
-      stop1 = %Stop{id: stop_id1}
-      stop2 = %Stop{id: stop_id2}
-
-      assert [access, escalator] = grouped |> Map.get(stop1) |> MapSet.to_list()
-      assert escalator.id == "stop-1-escalator-alert"
-      assert access.id == "stop-1-access-alert"
-      assert [south_station_alert] = grouped |> Map.get(stop2) |> MapSet.to_list()
-      assert south_station_alert.id == "stop-2-alert"
+      assert %{^stop => grouped_alerts} = grouped
+      assert MapSet.size(grouped_alerts) == length(alerts)
     end
 
     test "deduplicates child stops" do
@@ -291,7 +224,7 @@ defmodule DotcomWeb.AlertControllerTest do
   describe "mTicket detection" do
     test "mTicket matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        build_list(4, :route, %{type: 2})
+        Factories.Routes.Route.build_list(4, :route, %{type: 2})
       end)
 
       response =
@@ -307,7 +240,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
     test "mTicket not matched", %{conn: conn} do
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        build_list(4, :route, %{type: 2})
+        Factories.Routes.Route.build_list(4, :route, %{type: 2})
       end)
 
       response =

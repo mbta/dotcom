@@ -236,25 +236,20 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range_range(today, next_week) == [:today, :this_week, :next_week]
     end
 
-    test "returns all service ranges starting from a datetime" do
-      # Setup
-      this_week = service_range_this_week() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range_range(this_week, nil) == [:this_week, :next_week, :after_next_week]
-    end
-
-    test "returns all service ranges up to a datetime" do
+    test "returns one service range when given only one start datetime" do
       # Setup
       next_week = service_range_next_week() |> random_time_range_date_time()
 
       # Exercise / Verify
-      assert service_range_range(nil, next_week) == [
-               :before_today,
-               :today,
-               :this_week,
-               :next_week
-             ]
+      assert service_range_range(next_week, nil) == [:next_week]
+    end
+
+    test "returns one service range when given only one stop datetime" do
+      # Setup
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(nil, next_week) == [:next_week]
     end
   end
 
