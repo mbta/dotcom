@@ -72,12 +72,9 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   # For predictions which have a departure time, filter out ones that are past
-  defp departure_exists_in_past?(prediction) do
-    if prediction.departure_time do
-      Timex.before?(prediction.departure_time, now())
-    else
-      # it doesn't exist
-      false
-    end
+  defp departure_exists_in_past?(%{departure_time: nil}), do: false
+
+  defp departure_exists_in_past?(%{departure_time: departure_time}) do
+    Timex.before?(departure_time, now())
   end
 end

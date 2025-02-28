@@ -1,8 +1,8 @@
 defmodule DotcomWeb.PredictionsChannelTest do
   use DotcomWeb.ChannelCase, async: false
 
-  import Mox
   import Dotcom.Utils.DateTime, only: [now: 0]
+  import Mox
 
   alias DotcomWeb.{PredictionsChannel, UserSocket}
   alias Test.Support.Factories
@@ -114,12 +114,11 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     test "filters out past predictions", context do
       # Setup
-      now = now() |> DateTime.shift(second: 1)
-      past = DateTime.shift(now, second: -15)
-      future = DateTime.shift(now, second: 15)
+      past = DateTime.shift(now(), second: -1)
+      future = DateTime.shift(now(), second: 1)
 
       predictions =
-        [past, now, future]
+        [past, future]
         |> Enum.map(
           &Factories.Predictions.Prediction.build(:canonical_prediction, %{departure_time: &1})
         )
