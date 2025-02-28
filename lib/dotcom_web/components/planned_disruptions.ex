@@ -66,7 +66,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.unstyled_accordion
       :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
-      chevron_class="fill-gray-lighter px-2 py-3"
+      chevron_class="fill-gray-dark px-2 py-3"
     >
       <:heading>
         <.heading route_ids={route_ids} alert={@alert} />
