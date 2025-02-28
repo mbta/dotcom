@@ -18,23 +18,26 @@ defmodule DotcomWeb.Live.SystemStatus do
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   def render(assigns) do
+    now = @date_time_module.now()
+
     live_alerts =
       subway_route_ids()
-      |> Alerts.Repo.by_route_ids(@date_time_module.now())
-      |> Enum.filter(&SystemStatus.status_alert?(&1, @date_time_module.now()))
+      |> Alerts.Repo.by_route_ids(now)
+      |> Enum.filter(&SystemStatus.status_alert?(&1, now))
 
     assigns =
       assigns
       |> assign(:alerts, live_alerts)
       |> assign(:examples, alerts_examples())
+      |> assign(:now, now)
 
     ~H"""
     <h1>Live Data</h1>
-    <.example_table alerts={@alerts} />
+    <.example_table alerts={@alerts} now={@now} />
 
     <h1>Examples</h1>
     <div :for={example <- @examples} class="mb-4">
-      <.example_table alerts={example.alerts} />
+      <.example_table alerts={example.alerts} now={@now} />
     </div>
 
     <h1>Misc Components</h1>
@@ -73,7 +76,7 @@ defmodule DotcomWeb.Live.SystemStatus do
 
   defp example_table(assigns) do
     subway_status =
-      SystemStatus.Subway.subway_status(assigns.alerts, Timex.now() |> Timex.set(hour: 12))
+      SystemStatus.Subway.subway_status(assigns.alerts, assigns.now)
 
     assigns = assign(assigns, :subway_status, subway_status)
 
@@ -92,7 +95,7 @@ defmodule DotcomWeb.Live.SystemStatus do
           <.alerts_subway_status subway_status={@subway_status} />
         </td>
         <td class="bg-slate-600 p-2 w-1/3 align-top">
-          {Phoenix.View.render_many(@alerts, DotcomWeb.AlertView, "_item.html", date_time: Util.now())}
+          {Phoenix.View.render_many(@alerts, DotcomWeb.AlertView, "_item.html", date_time: @now)}
         </td>
       </tr>
     </table>

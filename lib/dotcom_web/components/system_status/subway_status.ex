@@ -50,7 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               prefix={row.status_entry.prefix}
               plural={row.status_entry.plural}
             />
-            <.icon name="chevron-right" class="h-3 w-2 fill-gray-lighter ml-3 mr-2 shrink-0" />
+            <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
           </div>
         </a>
       </.lined_list>
@@ -74,7 +74,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             data-test-row-route-info={inspect(row.route_info)}
             style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
             summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-            chevron_class={"fill-gray-lighter px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
+            chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
           >
             <:heading>
               <div class="pl-2 py-3 pr-sm">
