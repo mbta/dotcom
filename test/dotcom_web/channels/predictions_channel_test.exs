@@ -5,7 +5,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
   import Mox
 
   alias DotcomWeb.{PredictionsChannel, UserSocket}
-  alias Test.Support.Factories
+  alias Test.Support.Factories.{Predictions.Prediction, Routes.Route, Schedules.Trip}
 
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 
@@ -31,7 +31,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
   describe "join/3" do
     test "filters skipped or cancelled predictions", context do
       # Setup
-      canonical_prediction = Factories.Predictions.Prediction.build(:canonical_prediction)
+      canonical_prediction = Prediction.build(:canonical_prediction)
 
       filtered_prediction =
         canonical_prediction
@@ -51,7 +51,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     test "filters predictions with no departure time", context do
       # Setup
-      canonical_prediction = Factories.Predictions.Prediction.build(:canonical_prediction)
+      canonical_prediction = Prediction.build(:canonical_prediction)
 
       filtered_prediction =
         canonical_prediction
@@ -71,14 +71,14 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     test "doesn't filter skipped or cancelled non-subway predictions", context do
       # Setup
-      canonical_prediction = Factories.Predictions.Prediction.build(:canonical_prediction)
+      canonical_prediction = Prediction.build(:canonical_prediction)
 
       not_filtered_cancelled_prediction =
-        Factories.Predictions.Prediction.build(:prediction,
+        Prediction.build(:prediction,
           departure_time: nil,
-          route: Factories.Routes.Route.build(:route, type: 3),
+          route: Route.build(:route, type: 3),
           schedule_relationship: :cancelled,
-          trip: Factories.Schedules.Trip.build(:trip)
+          trip: Trip.build(:trip)
         )
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
@@ -97,7 +97,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
   describe "handle_info/2" do
     test "pushes predictions to the channel", context do
       # Setup
-      predictions = Factories.Predictions.Prediction.build_list(3, :canonical_prediction)
+      predictions = Prediction.build_list(3, :canonical_prediction)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         predictions
@@ -119,9 +119,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
       predictions =
         [past, future]
-        |> Enum.map(
-          &Factories.Predictions.Prediction.build(:canonical_prediction, %{departure_time: &1})
-        )
+        |> Enum.map(&Prediction.build(:canonical_prediction, %{departure_time: &1}))
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         predictions
@@ -142,7 +140,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
   describe "terminate/2" do
     test "casts a closed channel message", context do
       # Setup
-      predictions = Factories.Predictions.Prediction.build_list(3, :canonical_prediction)
+      predictions = Prediction.build_list(3, :canonical_prediction)
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
         predictions
