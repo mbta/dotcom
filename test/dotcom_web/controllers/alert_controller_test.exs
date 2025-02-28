@@ -7,7 +7,6 @@ defmodule DotcomWeb.AlertControllerTest do
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
   import Mox
   import Phoenix.LiveViewTest
-  import Test.Support.Factories.Routes.Route
 
   alias Alerts.Alert
   alias Dotcom.Utils

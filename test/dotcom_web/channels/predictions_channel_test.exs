@@ -1,10 +1,11 @@
 defmodule DotcomWeb.PredictionsChannelTest do
   use DotcomWeb.ChannelCase, async: false
 
+  import Dotcom.Utils.DateTime, only: [now: 0]
   import Mox
 
   alias DotcomWeb.{PredictionsChannel, UserSocket}
-  alias Test.Support.Factories.Predictions.Prediction
+  alias Test.Support.Factories.{Predictions.Prediction, Routes.Route, Schedules.Trip}
 
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 
@@ -67,6 +68,30 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Verify
       assert predictions == [canonical_prediction]
     end
+
+    test "doesn't filter skipped or cancelled non-subway predictions", context do
+      # Setup
+      canonical_prediction = Prediction.build(:canonical_prediction)
+
+      not_filtered_cancelled_prediction =
+        Prediction.build(:prediction,
+          departure_time: nil,
+          route: Route.build(:route, type: 3),
+          schedule_relationship: :cancelled,
+          trip: Trip.build(:trip)
+        )
+
+      expect(@predictions_pub_sub, :subscribe, fn _ ->
+        [canonical_prediction, not_filtered_cancelled_prediction]
+      end)
+
+      # Exercise
+      {:ok, %{predictions: predictions}, _} =
+        PredictionsChannel.join(context.channel, nil, context.socket)
+
+      # Verify
+      assert predictions == [canonical_prediction, not_filtered_cancelled_prediction]
+    end
   end
 
   describe "handle_info/2" do
@@ -89,12 +114,11 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     test "filters out past predictions", context do
       # Setup
-      now = Timex.now() |> Timex.shift(seconds: 1)
-      past = Timex.shift(now, seconds: -15)
-      future = Timex.shift(now, seconds: 15)
+      past = DateTime.shift(now(), second: -1)
+      future = DateTime.shift(now(), second: 1)
 
       predictions =
-        [past, now, future]
+        [past, future]
         |> Enum.map(&Prediction.build(:canonical_prediction, %{departure_time: &1}))
 
       expect(@predictions_pub_sub, :subscribe, fn _ ->
