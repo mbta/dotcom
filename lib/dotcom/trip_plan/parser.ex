@@ -56,7 +56,8 @@ defmodule Dotcom.TripPlan.Parser do
       distance: miles(leg.distance),
       duration: minutes(leg.duration),
       realtime: leg.real_time,
-      realtime_state: leg.realtime_state
+      realtime_state: leg.realtime_state,
+      stop_headsign: leg.headsign
     }
     |> FarePasses.leg_with_fares()
   end
