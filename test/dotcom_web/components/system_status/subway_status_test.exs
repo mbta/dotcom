@@ -177,6 +177,148 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert affected_row |> has_route_symbol_for_branch?(affected_branch_1)
       assert affected_row |> has_route_symbol_for_branch?(affected_branch_2)
     end
+
+    test "does not collapse Green line rows if there are two alerts and other collapsing is happening" do
+      # Setup
+      affected_branch_id =
+        Faker.Util.pick(GreenLine.branch_ids())
+
+      branch_effect = Faker.Util.pick(service_impacting_effects())
+      line_effect = Faker.Util.pick(service_impacting_effects())
+
+      gl_alerts = [
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_branch_id,
+          effect: branch_effect
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_routes,
+          route_ids: GreenLine.branch_ids(),
+          effect: line_effect
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now())
+      ]
+
+      other_affected_route_id = Faker.Util.pick(@lines_without_branches)
+
+      other_effects =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(service_impacting_effects()) end)
+
+      other_alerts =
+        other_effects
+        |> Enum.map(fn effect ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: other_affected_route_id,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_during(Timex.now())
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(gl_alerts ++ other_alerts)
+
+      # Verify
+      assert rows
+             |> for_route("Green")
+             |> Enum.map(&status_label_text_for_row/1) == [
+               status_label_text_for_effect(line_effect),
+               status_label_text_for_effect(branch_effect)
+             ]
+    end
+
+    test "collapses Green line rows if there is a Mattapan alert" do
+      # Setup
+      alerts = [
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: Faker.Util.pick(GreenLine.branch_ids()),
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_routes,
+          route_ids: GreenLine.branch_ids(),
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: "Mattapan",
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now())
+      ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route("Green")
+             |> Enum.map(&status_label_text_for_row/1) == [
+               "See Alerts"
+             ]
+    end
+
+    test "collapses normal and affected Green line rows together if there is a Mattapan alert" do
+      # Setup
+      alerts = [
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: Faker.Util.pick(GreenLine.branch_ids()),
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: "Mattapan",
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now())
+      ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route("Green")
+             |> Enum.map(&status_label_text_for_row/1) == [
+               "See Alerts"
+             ]
+    end
+
+    test "does not collapse Mattapan alerts" do
+      # Setup
+      mattapan_effect = Faker.Util.pick(service_impacting_effects())
+
+      alerts = [
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: Faker.Util.pick(GreenLine.branch_ids()),
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_routes,
+          route_ids: GreenLine.branch_ids(),
+          effect: Faker.Util.pick(service_impacting_effects())
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: "Mattapan",
+          effect: mattapan_effect
+        )
+        |> Factories.Alerts.Alert.active_during(Timex.now())
+      ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route("Red")
+             |> Enum.map(&status_label_text_for_row/1) == [
+               # Red line, main branch
+               "Normal Service",
+
+               # Mattapan branch
+               status_label_text_for_effect(mattapan_effect)
+             ]
+    end
   end
 
   defp has_route_symbol_for_branch?(row, branch_id) do
@@ -302,4 +444,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     |> Floki.text()
     |> String.trim()
   end
+
+  defp status_label_text_for_effect(:station_closure), do: "Station Closure"
+  defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> String.capitalize()
 end

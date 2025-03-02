@@ -131,7 +131,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
-    |> maybe_collapse_rows()
+    |> collapse_rows_if_needed()
     |> Enum.map(&add_url/1)
   end
 
@@ -141,18 +141,45 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
   end
 
-  defp maybe_collapse_rows(rows) when length(rows) > @max_rows, do: collapse_rows(rows)
-  defp maybe_collapse_rows(rows), do: rows
+  defp collapse_rows_if_needed(rows) do
+    rows
+    |> if_too_large(&collapse_identical_route_rows/1)
+    |> if_too_large(&collapse_disrupted_green_line_rows/1)
+    |> if_too_large(&collapse_all_green_line_rows/1)
+  end
 
-  defp collapse_rows([
+  defp if_too_large(rows, collapse_fun) when length(rows) > @max_rows, do: collapse_fun.(rows)
+  defp if_too_large(rows, _collapse_fun), do: rows
+
+  defp collapse_identical_route_rows([
+         %{route_info: %{route_id: route_id1, branch_ids: branch_ids1}} = row1,
+         %{route_info: %{route_id: route_id2, branch_ids: branch_ids2}} = _row2
+         | rest_of_rows
+       ])
+       when route_id1 == route_id2 and branch_ids1 == branch_ids2 do
+    combined_row =
+      row1 |> Map.put(:status_entry, see_alerts_status())
+
+    [combined_row | rest_of_rows] |> collapse_identical_route_rows()
+  end
+
+  defp collapse_identical_route_rows([row1 | rest_of_rows]) do
+    [row1 | collapse_identical_route_rows(rest_of_rows)]
+  end
+
+  defp collapse_identical_route_rows([]) do
+    []
+  end
+
+  defp collapse_disrupted_green_line_rows([
          %{route_info: %{route_id: "Green"}} = row1,
          %{route_info: %{route_id: "Green"}, status_entry: %{status: :normal}} = row2
          | rest_of_rows
        ]) do
-    [row1 | collapse_rows([row2 | rest_of_rows])]
+    [row1 | collapse_disrupted_green_line_rows([row2 | rest_of_rows])]
   end
 
-  defp collapse_rows([
+  defp collapse_disrupted_green_line_rows([
          %{route_info: %{route_id: "Green", branch_ids: branch_ids1}} = row1,
          %{route_info: %{route_id: "Green", branch_ids: branch_ids2}}
          | rest_of_rows
@@ -171,26 +198,35 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       |> Map.put(:status_entry, see_alerts_status())
       |> put_in([:route_info, :branch_ids], combined_branch_ids)
 
-    [combined_row | rest_of_rows] |> collapse_rows()
+    [combined_row | rest_of_rows] |> collapse_disrupted_green_line_rows()
   end
 
-  defp collapse_rows([
-         %{route_info: %{route_id: route_id1}} = row1,
-         %{route_info: %{route_id: route_id2}} = _row2
-         | rest_of_rows
-       ])
-       when route_id1 == route_id2 do
+  defp collapse_disrupted_green_line_rows([first_row | rest_of_rows]) do
+    [first_row | collapse_disrupted_green_line_rows(rest_of_rows)]
+  end
+
+  defp collapse_disrupted_green_line_rows([]) do
+    []
+  end
+
+  def collapse_all_green_line_rows([
+        %{route_info: %{route_id: "Green"}} = row1,
+        %{route_info: %{route_id: "Green"}}
+        | rest_of_rows
+      ]) do
     combined_row =
-      row1 |> Map.put(:status_entry, see_alerts_status())
+      row1
+      |> Map.put(:status_entry, see_alerts_status())
+      |> Map.put(:route_info, %{route_id: "Green", branch_ids: []})
 
-    [combined_row | rest_of_rows] |> collapse_rows()
+    [combined_row | collapse_all_green_line_rows(rest_of_rows)]
   end
 
-  defp collapse_rows([row1 | rest_of_rows]) do
-    [row1 | collapse_rows(rest_of_rows)]
+  def collapse_all_green_line_rows([first_row | rest_of_rows]) do
+    [first_row | collapse_all_green_line_rows(rest_of_rows)]
   end
 
-  defp collapse_rows([]) do
+  def collapse_all_green_line_rows([]) do
     []
   end
 
