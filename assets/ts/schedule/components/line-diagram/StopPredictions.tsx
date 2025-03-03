@@ -43,7 +43,7 @@ const StopPredictions = ({
 }: StopPredictions): JSX.Element => {
   let predictions: JSX.Element[];
   const liveHeadsigns = headsigns.filter(hasPredictionTime);
-
+console.log(liveHeadsigns);
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {

@@ -93,7 +93,7 @@ const CrTableRow = ({
       </td>
     )}
     <td className="schedule-table__cell schedule-table__cell--headsign">
-      {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
+      {modeIcon(journey.route.id)} {breakTextAtSlash(journey?.departure?.schedule?.stop_headsign || journey.trip.headsign)}
     </td>
   </>
 );
@@ -140,6 +140,7 @@ const TableRow = ({
   anySchoolTrips,
   isSchoolTrip
 }: TableRowProps): ReactElement<HTMLElement> | null => {
+  console.log(journey);
   const contentComponent =
     journey.route.type !== 2 &&
     journey.route.description !== "rail_replacement_bus"
