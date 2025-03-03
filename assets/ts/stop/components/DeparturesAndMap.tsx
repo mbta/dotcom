@@ -164,8 +164,7 @@ const DeparturesAndMap = ({
           // We have to match the headsign from the schedule or the trip.
           // If the schedule doesn't have a headsign, we use the trip's headsign.
           (schedule?.stop_headsign === activeRow.headsign ||
-            (schedule?.stop_headsign === null &&
-              trip.headsign === activeRow.headsign))
+            trip.headsign === activeRow.headsign)
         );
       })
     : updatedDepartureInfos;
