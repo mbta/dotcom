@@ -140,7 +140,6 @@ const TableRow = ({
   anySchoolTrips,
   isSchoolTrip
 }: TableRowProps): ReactElement<HTMLElement> | null => {
-  console.log(journey);
   const contentComponent =
     journey.route.type !== 2 &&
     journey.route.description !== "rail_replacement_bus"

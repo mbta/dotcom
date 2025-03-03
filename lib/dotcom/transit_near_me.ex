@@ -537,6 +537,7 @@ defmodule Dotcom.TransitNearMe do
       enhanced_predicted_schedules
       |> Enum.group_by(&headsign_for_enhanced_predicted_schedule/1)
       |> Enum.map(fn {headsign, enhanced_predicted_schedules} ->
+
         route =
           enhanced_predicted_schedules
           |> List.first()

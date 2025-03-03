@@ -43,7 +43,7 @@ const StopPredictions = ({
 }: StopPredictions): JSX.Element => {
   let predictions: JSX.Element[];
   const liveHeadsigns = headsigns.filter(hasPredictionTime);
-console.log(liveHeadsigns);
+
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
@@ -54,6 +54,12 @@ console.log(liveHeadsigns);
       )
         ? "m-schedule-diagram__cr-prediction-time strikethrough"
         : "m-schedule-diagram__cr-prediction-time";
+
+      if (headsign?.time_data_with_crowding_list[0]?.predicted_schedule?.schedule?.stop_headsign) {
+        headsign.name = headsign.time_data_with_crowding_list[0].predicted_schedule.schedule.stop_headsign;
+      }
+
+      console.log(headsign.time_data_with_crowding_list);
 
       return (
         <div key={`${headsign.name}-cr`}>
