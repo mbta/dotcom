@@ -265,7 +265,7 @@ describe("DeparturesAndMap", () => {
     let headsign: HTMLElement | undefined = undefined;
     await waitFor(() => {
       headsign = screen.getByRole("button", {
-        name: /Open upcoming departures to Ashmont/
+        name: /Open upcoming departures to Alewife/
       });
       expect(headsign).toBeDefined();
     });
