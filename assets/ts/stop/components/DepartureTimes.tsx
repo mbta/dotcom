@@ -33,7 +33,7 @@ const ClickableDepartureRow = ({
   if (!hasService) {
     return (
       <div
-        className="departure-card__headsign d-flex"
+        className="departure-card__headsign d-flex pr-2"
         style={{ cursor: "default" }}
       >
         <div className="departure-card__headsign-name notranslate">
