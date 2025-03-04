@@ -159,7 +159,10 @@ export const CrTableRow = ({
   return (
     <>
       <td className="schedule-table__cell schedule-table__cell--headsign">
-        {modeIcon(route.id)} {breakTextAtSlash(trip.headsign)}
+        {modeIcon(route.id)}{" "}
+        {breakTextAtSlash(
+          journey?.departure?.schedule?.stop_headsign || journey.trip.headsign
+        )}
       </td>
       <td className="schedule-table__cell text-right">
         {timeForCommuterRail(

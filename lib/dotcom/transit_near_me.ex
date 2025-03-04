@@ -616,11 +616,15 @@ defmodule Dotcom.TransitNearMe do
   @spec headsign_for_enhanced_predicted_schedule(enhanced_predicted_schedule()) ::
           String.t() | nil
   defp headsign_for_enhanced_predicted_schedule(enhanced_predicted_schedule) do
-    case PredictedSchedule.trip(enhanced_predicted_schedule.predicted_schedule) do
-      %Trip{headsign: headsign} ->
+    cond do
+      Map.get(enhanced_predicted_schedule, :stop_headsign) ->
+        Map.get(enhanced_predicted_schedule, :stop_headsign)
+
+      %Trip{headsign: headsign} =
+          PredictedSchedule.trip(enhanced_predicted_schedule.predicted_schedule) ->
         headsign
 
-      _ ->
+      true ->
         nil
     end
   end
