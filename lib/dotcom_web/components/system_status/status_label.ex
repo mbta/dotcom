@@ -24,7 +24,9 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     ~H"""
     <span class={[status_classes(@status), "flex items-center gap-2"]}>
       <.status_icon status={@status} />
-      {@rendered_prefix} {description(@status, @prefix, @plural)}
+      <span data-test="status_label_text">
+        {@rendered_prefix} {description(@status, @prefix, @plural)}
+      </span>
     </span>
     """
   end

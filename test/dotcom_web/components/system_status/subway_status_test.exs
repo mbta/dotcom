@@ -282,11 +282,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   defp status_label_text_for_row(row) do
     row
-    |> Floki.find("[data-status-label]")
+    |> Floki.find("[data-test=\"status_label_text\"]")
     |> Floki.text()
-    |> String.trim()
-    |> String.split("\n")
-    |> List.last()
     |> String.trim()
   end
 end

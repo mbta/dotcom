@@ -42,13 +42,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
             />
           </div>
-          <div
-            class={[
-              "flex items-center justify-between grow gap-sm py-3",
-              row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-            ]}
-            data-status-label
-          >
+          <div class={[
+            "flex items-center justify-between grow gap-sm py-3",
+            row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
+          ]}>
             <.status_label
               status={row.status_entry.status}
               prefix={row.status_entry.prefix}
