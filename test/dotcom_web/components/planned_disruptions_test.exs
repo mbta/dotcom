@@ -47,6 +47,36 @@ defmodule DotcomWeb.Components.PlannedDisruptionsTest do
                "#{formatted_date_time(start_time)} – #{formatted_date_time(end_time)}"
     end
 
+    test "doesn't render as a range if the alert is on a single day" do
+      {beginning_of_week, _end_of_week} = ServiceDateTime.service_range_next_week()
+
+      start_time =
+        random_time_range_date_time(
+          {beginning_of_week, beginning_of_week |> DateTime.shift(month: 1)}
+        )
+
+      end_time =
+        random_time_range_date_time(
+          {start_time, start_time |> ServiceDateTime.end_of_service_day()}
+        )
+
+      alerts = [
+        Factories.Alerts.Alert.build(:alert, active_period: [{start_time, end_time}])
+      ]
+
+      html =
+        render_component(&disruptions/1, %{
+          disruptions: %{
+            next_week: alerts
+          }
+        })
+
+      formatted_date = date_from_status_label(html)
+
+      assert formatted_date ==
+               "#{formatted_date_time(start_time)}"
+    end
+
     test "renders a start time of today as 'Today'" do
       start_time = Dotcom.Utils.DateTime.now()
 

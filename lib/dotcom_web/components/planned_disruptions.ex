@@ -100,6 +100,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp formatted_date_range({nil, nil}), do: nil
   defp formatted_date_range({nil, stop}), do: "Until #{format_date(stop)}"
   defp formatted_date_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_date_range({start, stop}) when start == stop, do: "#{format_date(start)}"
   defp formatted_date_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
   # Extracts the start and stop times from the active periods of an alert.
