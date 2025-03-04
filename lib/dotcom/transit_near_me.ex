@@ -537,7 +537,6 @@ defmodule Dotcom.TransitNearMe do
       enhanced_predicted_schedules
       |> Enum.group_by(&headsign_for_enhanced_predicted_schedule/1)
       |> Enum.map(fn {headsign, enhanced_predicted_schedules} ->
-
         route =
           enhanced_predicted_schedules
           |> List.first()
@@ -620,8 +619,11 @@ defmodule Dotcom.TransitNearMe do
     cond do
       Map.get(enhanced_predicted_schedule, :stop_headsign) ->
         Map.get(enhanced_predicted_schedule, :stop_headsign)
-      %Trip{headsign: headsign} = PredictedSchedule.trip(enhanced_predicted_schedule.predicted_schedule) ->
+
+      %Trip{headsign: headsign} =
+          PredictedSchedule.trip(enhanced_predicted_schedule.predicted_schedule) ->
         headsign
+
       true ->
         nil
     end
