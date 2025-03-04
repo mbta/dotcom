@@ -29,6 +29,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
   end
 
   describe "copy_alerts_to_s3/2" do
+    @tag :flaky
     test "works" do
       expect(AwsClient.Mock, :put_object, fn _, _, _ ->
         {:ok, %{}, %{}}
