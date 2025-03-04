@@ -27,10 +27,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       rows = status_rows_for_alerts(alerts)
 
       # Verify
-      assert rows
-             |> Enum.each(fn row ->
-               assert status_label_text_for_row(row) == "Normal Service"
-             end)
+      rows
+      |> Enum.each(fn row ->
+        assert status_label_text_for_row(row) == "Normal Service"
+      end)
     end
 
     test "shows all of the route pills by default" do
