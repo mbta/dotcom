@@ -7,6 +7,8 @@ defmodule DotcomWeb.PredictionsChannel do
 
   require Routes.Route
 
+  import Dotcom.Utils.DateTime, only: [now: 0]
+
   alias Routes.Route
   alias Phoenix.{Channel, Socket}
   alias Predictions.Prediction
@@ -46,24 +48,33 @@ defmodule DotcomWeb.PredictionsChannel do
     predictions
     |> Enum.reject(fn prediction ->
       no_trip?(prediction) ||
-        no_departure_time?(prediction) ||
-        skipped_or_cancelled?(prediction)
+        missing_departure_time?(prediction) ||
+        skipped_or_cancelled_subway?(prediction) ||
+        departure_exists_in_past?(prediction)
     end)
-    |> Enum.filter(&in_future_seconds?/1)
   end
 
   defp no_trip?(prediction), do: is_nil(prediction.trip)
 
-  # Used to filter out predictions that have no departure time.
-  # This is common when shuttles are being used at non-terminal stops and at terminal stops.
-  defp no_departure_time?(prediction), do: is_nil(prediction.departure_time)
+  # Used to filter out predictions that have no departure time. This is common
+  # when shuttles are being used at non-terminal stops and at terminal stops.
+  # However, cancelled/skipped predictions are expected to have nil
+  # departure_times, so don't flag those.
+  defp missing_departure_time?(prediction) do
+    is_nil(prediction.departure_time) and
+      prediction.schedule_relationship not in [:cancelled, :skipped]
+  end
 
-  defp skipped_or_cancelled?(prediction) do
+  # Filter out all cancelled/skipped predictions if it's for subway
+  defp skipped_or_cancelled_subway?(prediction) do
     Route.subway?(prediction.route.type, prediction.route.id) &&
       prediction.schedule_relationship in [:cancelled, :skipped]
   end
 
-  defp in_future_seconds?(prediction) do
-    Timex.compare(prediction.departure_time, Util.now(), :seconds) >= 0
+  # For predictions which have a departure time, filter out ones that are past
+  defp departure_exists_in_past?(%{departure_time: nil}), do: false
+
+  defp departure_exists_in_past?(%{departure_time: departure_time}) do
+    Timex.before?(departure_time, now())
   end
 end
