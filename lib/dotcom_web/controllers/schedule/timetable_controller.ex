@@ -264,7 +264,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> with_prioritized_pattern()
       |> Enum.map(&@stops_repo.by_trip(&1.representative_trip_id))
       |> handle_ferry_stops(conn.assigns.route.id, inbound?)
-      |> Enum.reduce(&merge_stop_lists(&1, &2, inbound?))
+      |> Enum.reduce([], &merge_stop_lists(&1, &2, inbound?))
       |> remove_unused_stops(schedules)
       |> add_new_stops(schedules, inbound?)
 
