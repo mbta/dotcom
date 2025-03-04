@@ -136,9 +136,17 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       # Verify
       [affected_branch_1, affected_branch_2] = affected_branches |> Enum.sort()
 
-      assert rows
-             |> for_route("Green_#{affected_branch_1}_#{affected_branch_2}")
-             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts"]
+      [affected_row, _normal_row] =
+        rows
+        |> for_route("Green")
+
+      assert affected_row |> Floki.find("[data-test=\"route_symbol:#{affected_branch_1}\"]") !=
+               []
+
+      assert affected_row |> Floki.find("[data-test=\"route_symbol:#{affected_branch_2}\"]") !=
+               []
+
+      assert status_label_text_for_row(affected_row) == "See Alerts"
     end
 
     test "includes normal-status Green line row for non-affected Green line branches when rows are collapsed" do
@@ -164,9 +172,17 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       [normal_branch_1, normal_branch_2] =
         GreenLine.branch_ids() -- affected_branches
 
-      assert rows
-             |> for_route("Green_#{normal_branch_1}_#{normal_branch_2}")
-             |> Enum.map(&status_label_text_for_row/1) == ["Normal Service"]
+      [_disrupted_row, normal_row] =
+        rows
+        |> for_route("Green")
+
+      assert normal_row |> Floki.find("[data-test=\"route_symbol:#{normal_branch_1}\"]") !=
+               []
+
+      assert normal_row |> Floki.find("[data-test=\"route_symbol:#{normal_branch_2}\"]") !=
+               []
+
+      assert status_label_text_for_row(normal_row) == "Normal Service"
     end
   end
 
@@ -262,7 +278,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   end
 
   defp for_route(rows, route_id) do
-    rows |> Floki.find("[data-route-info=#{route_id}]")
+    rows
+    |> Enum.filter(fn row ->
+      row |> Floki.find("[data-test=\"route_pill:#{route_id}\"]") != []
+    end)
   end
 
   defp route_pill_visibility_for_row(row) do

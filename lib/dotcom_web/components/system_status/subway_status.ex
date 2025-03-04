@@ -34,7 +34,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
-          data-route-info={route_info_to_string(row.route_info)}
         >
           <div class={["pl-2 py-3", row.style.hide_route_pill && "opacity-0"]} data-route-pill>
             <.subway_route_pill
@@ -322,8 +321,4 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
   defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false}
-
-  defp route_info_to_string(route_info) do
-    [route_info.route_id | route_info.branch_ids] |> Enum.join("_")
-  end
 end
