@@ -71,7 +71,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                [:visible, :invisible]
     end
 
-    test "collapses alerts for non-branched lines if there would otherwise be too many rows" do
+    test "collapses alerts for non-branched lines if there would otherwise be more than five rows" do
       # Setup
       [affected_line_1, affected_line_2] =
         Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(@lines_without_branches) end)
@@ -115,7 +115,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
              ]
     end
 
-    test "collapses Green line alerts if there would otherwise be too many rows" do
+    test "collapses Green line alerts if there would otherwise be more than five rows" do
       # Setup
       affected_branches =
         Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
