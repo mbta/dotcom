@@ -5,6 +5,10 @@ defmodule Dotcom.Alerts do
 
   alias Alerts.Alert
 
+  @typedoc "Alert effects associated with disruptions: service alerts which
+   typically impact rider experience."
+  @type service_effect_t() :: :delay | :shuttle | :suspension | :station_closure
+
   @service_impacting_effects [:delay, :shuttle, :suspension, :station_closure]
 
   @doc """

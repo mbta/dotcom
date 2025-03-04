@@ -194,17 +194,21 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns =
       assign(assigns, %{
         bg_color_class: "bg-#{String.downcase(route_id)}-line",
-        route_abbreviation: String.at(route_id, 0) <> "L"
+        route_abbreviation: String.at(route_id, 0) <> "L",
+        route_label: route_id <> " Line"
       })
 
     ~H"""
-    <div class={[
-      @bg_color_class,
-      @class,
-      "w-[3.125rem] h-6 rounded-full ring-2 ring-white",
-      "flex items-center justify-center",
-      "text-white font-bold font-heading leading-none notranslate"
-    ]}>
+    <div
+      aria-label={@route_label}
+      class={[
+        @bg_color_class,
+        @class,
+        "w-[3.125rem] h-6 rounded-full ring-2 ring-white",
+        "flex items-center justify-center",
+        "text-white font-bold font-heading leading-none notranslate"
+      ]}
+    >
       {@route_abbreviation}
     </div>
     """
@@ -264,6 +268,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   defp route_label(%Route{type: 4}), do: "Ferry"
   defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
   defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
+  defp route_label(%Route{id: "Mattapan"}), do: "Mattapan Trolley"
 
   defp route_label(%Route{
          external_agency_name: "Massport",

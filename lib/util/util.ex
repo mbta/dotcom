@@ -1,9 +1,9 @@
 defmodule Util do
   @moduledoc "Utilities module"
 
-  require Logger
-
   use Timex
+
+  require Logger
 
   {:ok, endpoint} = Application.compile_env(:dotcom, :util_endpoint)
   {:ok, route_helper_module} = Application.compile_env(:dotcom, :util_router_helper_module)
@@ -223,6 +223,36 @@ defmodule Util do
   @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
   def kitchen_downcase_time(time) do
     time |> Timex.format!("{kitchen}") |> String.downcase()
+  end
+
+  @doc """
+  A very concise representation of time, with period (AM/PM).
+
+  ## Examples
+      iex> Util.narrow_time(~T[08:30:00])
+      "8:30 AM"
+
+      iex> Util.narrow_time(~T[20:30:00])
+      "8:30 PM"
+
+      # Works for DateTime and NaiveDateTime inputs as well
+      iex> Util.narrow_time(~N[2018-01-17T20:30:00])
+      "8:30 PM"
+
+      # Hides minutes at top of the hour
+      iex> Util.narrow_time(~T[08:00:00])
+      "8 AM"
+
+      iex> Util.narrow_time(~T[00:00:00])
+      "12 AM"
+  """
+  @spec narrow_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
+  def narrow_time(%{minute: 0} = time) do
+    Timex.format!(time, "{h12} {AM}")
+  end
+
+  def narrow_time(time) do
+    Timex.format!(time, "{h12}:{m} {AM}")
   end
 
   @doc """

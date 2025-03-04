@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   use DotcomWeb, :component
 
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
-  import Dotcom.Utils.ServiceDateTime, only: [service_range_string: 1]
+  import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
@@ -14,21 +14,38 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   alias Alerts.Alert
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   attr :disruptions, :map, required: true
 
   @doc """
   Planned disruptions organized into service ranges.
   """
   def disruptions(assigns) do
+    ordered_disruptions =
+      [:this_week, :next_week, :after_next_week]
+      |> Enum.map(fn service_range ->
+        {service_range, Map.get(assigns.disruptions, service_range, [])}
+      end)
+      |> Enum.reject(fn {_, disruptions} ->
+        disruptions == []
+      end)
+
+    assigns = assign(assigns, :ordered_disruptions, ordered_disruptions)
+
     ~H"""
     <.bordered_container>
       <:heading>Planned Work</:heading>
-      <div :for={{service_range, alerts} <- @disruptions} class="py-3">
-        <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-        <.lined_list :let={alert} items={alerts}>
-          <.disruption alert={alert} />
-        </.lined_list>
-      </div>
+      <%= if Enum.empty?(@ordered_disruptions) do %>
+        There is no planned work information at this time.
+      <% else %>
+        <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
+          <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
+          <.lined_list :let={disruption} items={disruptions}>
+            <.disruption alert={disruption} />
+          </.lined_list>
+        </div>
+      <% end %>
     </.bordered_container>
     """
   end
@@ -49,7 +66,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.unstyled_accordion
       :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
-      chevron_class="fill-gray-lighter px-2 py-3"
+      chevron_class="fill-gray-dark px-2 py-3"
     >
       <:heading>
         <.heading route_ids={route_ids} alert={@alert} />
@@ -63,8 +80,10 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # The heading for a disruption alert, including the route pill and status label (and active period).
   defp heading(assigns) do
-    {start, stop} = alert_date_time_range(assigns.alert)
-    time_range_str = "#{format_date(start)} - #{format_date(stop)}"
+    time_range_str =
+      assigns.alert
+      |> alert_date_time_range()
+      |> formatted_time_range()
 
     assigns = assign(assigns, time_range_str: time_range_str)
 
@@ -72,18 +91,29 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <div class="pl-2 pr-sm">
       <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
     </div>
-    <div class="flex items-center justify-between grow text-nowrap gap-sm py-3">
+    <div class="grow py-3">
       <.status_label status={@alert.effect} prefix={@time_range_str} />
     </div>
     """
   end
 
-  # Extracts the start and stop times from the active period of an alert.
-  defp alert_date_time_range(%Alert{active_period: active_period}) do
-    periods = Enum.sort_by(active_period, fn {start, _} -> start end)
+  defp formatted_time_range({nil, nil}), do: nil
+  defp formatted_time_range({nil, stop}), do: "Until #{format_date(stop)}"
+  defp formatted_time_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_time_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
-    {start, _} = List.first(periods)
-    {_, stop} = List.last(periods)
+  # Extracts the start and stop times from the active periods of an alert.
+  # We do this by sorting the active periods by start time then taking the start of the first and the stop of the last.
+  defp alert_date_time_range(%Alert{active_period: active_period}) do
+    sorted_active_periods =
+      Enum.sort_by(
+        active_period,
+        fn {start, _} -> start end,
+        DateTime
+      )
+
+    {start, _} = List.first(sorted_active_periods)
+    {_, stop} = List.last(sorted_active_periods)
 
     {start, stop}
   end
@@ -96,8 +126,17 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   # Formats the date for display in the heading.
-  # E.g., "Mon Jan 01"
+  # If the service date is on or before today, we display "Today".
+  # Otherwise, we display the date like "Mon Jan 1".
   defp format_date(datetime) do
-    datetime |> Util.service_date() |> Timex.format!("%a %b %d", :strftime)
+    service_date_datetime = service_date(datetime)
+    service_date_today = @date_time_module.now() |> service_date()
+
+    if Timex.equal?(service_date_datetime, service_date_today) ||
+         Timex.before?(service_date_datetime, service_date_today) do
+      "Today"
+    else
+      service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
+    end
   end
 end

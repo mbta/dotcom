@@ -5,19 +5,21 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import Dotcom.Routes, only: [subway_route_ids: 0]
-  import Dotcom.Utils.ServiceDateTime, only: [all_service_ranges: 0, service_range: 1]
+  import Dotcom.Utils.ServiceDateTime, only: [service_range_range: 2]
 
   alias Alerts.Alert
   alias Dotcom.Utils
+  alias Dotcom.Utils.ServiceDateTime
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @doc """
   Disruptions that occur any time after today's service range.
   """
   @spec future_disruptions() :: %{Utils.ServiceDateTime.named_service_range() => [Alert.t()]}
   def future_disruptions() do
-    disruption_groups() |> Map.take([:later_this_week, :next_week, :after_next_week])
+    disruption_groups() |> Map.take([:this_week, :next_week, :after_next_week])
   end
 
   @doc """
@@ -36,7 +38,8 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
   # 4. Sorts the alerts within the group by start time.
   defp disruption_groups() do
     subway_route_ids()
-    |> @alerts_repo.by_route_ids(Utils.DateTime.now())
+    |> @alerts_repo.by_route_ids(@date_time_module.now())
+    |> Enum.flat_map(&split_by_discontiguous_active_periods/1)
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
     |> Enum.map(fn {group, alerts} ->
@@ -45,27 +48,62 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     |> Enum.into(%{})
   end
 
+  # Given an alert with multiple active periods, some of which may be
+  # contiguous with one another (next one starts the same day or the
+  # day after the previous one), combines the contiguous active
+  # periods, and then returns one alert per combined-contiguous active
+  # period
+  #
+  # For instance, if an alert has three active periods, {Sun, Mon},
+  # {Mon, Tue}, and {Thu, Fri}, then {Sun, Mon} and {Mon, Tue} are
+  # combined into {Sun, Tue}, but {Thu, Fri} is kept separate. The
+  # result is then two alerts, both equivalent to the alert passed in,
+  # except that one has a single active period of {Sun, Tue}, and the
+  # other has a single active period of {Thu, Fri}.
+  defp split_by_discontiguous_active_periods(alert) do
+    alert.active_period
+    |> combine_contiguous_active_periods()
+    |> Enum.map(fn active_period ->
+      %Alerts.Alert{alert | active_period: [active_period]}
+    end)
+  end
+
+  # Given a list of active periods, combines contiguous ones. See
+  # split_by_discontiguous_active_periods/1 for more detail.  Active
+  # periods are considered contiguous if the start of the next one is
+  # the same day as the end of the previous one, or if it's the day
+  # after, so active periods of {Mon, Wed} and {Thu, Fri} would be
+  # combined into {Mon, Fri}, as would {Mon, Wed} and {Wed, Fri}, but
+  # {Mon, Tue} and {Thu, Fri} would be kept separate.
+  defp combine_contiguous_active_periods([active_period1, active_period2 | rest]) do
+    {start1, end1} = active_period1
+    {start2, end2} = active_period2
+
+    if Date.before?(
+         ServiceDateTime.service_date(end1) |> Date.shift(day: 1),
+         ServiceDateTime.service_date(start2)
+       ) do
+      [active_period1 | combine_contiguous_active_periods([active_period2 | rest])]
+    else
+      combined_active_period = {start1, end2}
+      combine_contiguous_active_periods([combined_active_period | rest])
+    end
+  end
+
+  defp combine_contiguous_active_periods(active_periods) do
+    active_periods
+  end
+
   # Looks at every active period for an alert and groups that alert by service range.
   # Alerts can overlap service ranges, in which case we want them to appear in both.
   defp group_alerts(alert, groups) do
     alert
     |> Map.get(:active_period)
-    |> Enum.flat_map(&service_range_range/1)
+    |> Enum.flat_map(fn {start, stop} -> service_range_range(start, stop) end)
     |> Enum.uniq()
     |> Enum.reduce(groups, fn service_range, groups ->
       Map.update(groups, service_range, [alert], &(&1 ++ [alert]))
     end)
-  end
-
-  # An active period can span many ranges from start to stop
-  # e.g. [:before_today, :today, :later_this_week]
-  defp service_range_range({start, stop}) do
-    start_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(start)))
-    stop_index = Enum.find_index(all_service_ranges(), &(&1 == service_range(stop)))
-
-    all_service_ranges()
-    |> Enum.with_index(&if(&2 in start_index..stop_index, do: &1))
-    |> Enum.reject(&is_nil/1)
   end
 
   # Sorts alerts by the start time of the first active period.
@@ -75,7 +113,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
       fn alert ->
         alert |> Map.get(:active_period, [{nil, nil}]) |> List.first() |> Kernel.elem(0)
       end,
-      :asc
+      DateTime
     )
   end
 end

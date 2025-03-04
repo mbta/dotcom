@@ -1,0 +1,38 @@
+{render_slot(@heading)}
+
+<% show_systemwide_alert? = DotcomWeb.AlertView.show_systemwide_alert?(assigns) %>
+
+<div :if={show_systemwide_alert?} class="m-alerts-header">
+  <h3 class="leading-none m-0">Systemwide</h3>
+  <div class="c-alert-group">
+    {DotcomWeb.AlertView.render("_item.html",
+      alert: %{Alerts.Repo.by_id(@alert_banner.id) | priority: :system},
+      date_time: @date_time
+    )}
+  </div>
+</div>
+
+<%= for {route_or_stop, alerts} <- @alert_groups do %>
+  <div class="m-alerts-header">
+    <%= PhoenixHTMLHelpers.Link.link to: DotcomWeb.AlertView.group_header_path(route_or_stop), class: "flex items-center gap-sm hover:no-underline" do %>
+      {render_slot(@alert_header_icon, route_or_stop)}
+      <h3 class="m-alerts-header__name">
+        {DotcomWeb.AlertView.group_header_name(route_or_stop)}
+      </h3>
+    <% end %>
+  </div>
+  <div>
+    {DotcomWeb.AlertView.group(
+      alerts: alerts,
+      route: route_or_stop,
+      date_time: @date_time
+    )}
+  </div>
+<% end %>
+
+<div
+  :if={Enum.empty?(@alert_groups) && !show_systemwide_alert?}
+  class="m-alerts__notice--no-alerts"
+>
+  {@empty_message}
+</div>

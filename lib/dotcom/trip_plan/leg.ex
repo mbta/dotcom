@@ -18,7 +18,8 @@ defmodule Dotcom.TripPlan.Leg do
             distance: 0.0,
             duration: 0,
             realtime: false,
-            realtime_state: nil
+            realtime_state: nil,
+            stop_headsign: nil
 
   @type mode :: PersonalDetail.t() | TransitDetail.t()
   @type t :: %__MODULE__{
@@ -31,7 +32,8 @@ defmodule Dotcom.TripPlan.Leg do
           distance: Float.t(),
           duration: Integer.t(),
           realtime: boolean(),
-          realtime_state: String.t()
+          realtime_state: String.t(),
+          stop_headsign: String.t()
         }
 
   @doc "Returns the route ID for the leg, if present"

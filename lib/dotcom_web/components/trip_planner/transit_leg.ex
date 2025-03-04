@@ -177,7 +177,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     assigns =
       assigns
       |> assign(:stops_count, Enum.count(assigns.leg.mode.intermediate_stops) + 1)
-      |> assign(:headsign, headsign(assigns.leg.mode))
+      |> assign(:headsign, headsign(assigns.leg))
 
     ~H"""
     <div class="flex items-start">
@@ -206,12 +206,16 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp route_symbol_size(%Route{type: 3} = route) when not is_external?(route), do: "small"
   defp route_symbol_size(_), do: "default"
 
+  defp headsign(%{stop_headsign: stop_headsign}) when not is_nil(stop_headsign) do
+    stop_headsign
+  end
+
   # Massport trips might not have headsigns, so use the route names instead
-  defp headsign(%{route: %Route{} = route}) when is_external?(route) do
+  defp headsign(%{mode: %{route: %Route{} = route}}) when is_external?(route) do
     route_name(route)
   end
 
-  defp headsign(%{trip: %{headsign: headsign}}) when not is_nil(headsign) do
+  defp headsign(%{mode: %{trip: %{headsign: headsign}}}) when not is_nil(headsign) do
     headsign
   end
 

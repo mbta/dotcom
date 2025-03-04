@@ -90,7 +90,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
         Dotcom.Utils.DateTime.now() |> Timex.beginning_of_week() |> beginning_of_service_day()
       end)
 
-      {_, end_of_service_week} = service_range_later_this_week()
+      {_, end_of_service_week} = service_range_this_week()
 
       expect(Dotcom.Utils.DateTime.Mock, :now, 1, fn ->
         end_of_service_week
@@ -100,19 +100,19 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(end_of_service_week) == :today
     end
 
-    test "returns :later_this_week for later this week" do
+    test "returns :this_week for this week" do
       # Setup
-      {beginning_of_service_week, end_of_service_week} = service_range_later_this_week()
+      {beginning_of_service_week, end_of_service_week} = service_range_this_week()
 
       stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
         beginning_of_service_week
       end)
 
       second_service_day = beginning_of_service_week |> beginning_of_next_service_day()
-      later_this_week = random_time_range_date_time({second_service_day, end_of_service_week})
+      this_week = random_time_range_date_time({second_service_day, end_of_service_week})
 
       # Exercise / Verify
-      assert service_range(later_this_week) == :later_this_week
+      assert service_range(this_week) == :this_week
     end
 
     test "returns :next_week for next week" do
@@ -192,17 +192,17 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
     end
   end
 
-  describe "service_later_this_week?/1" do
+  describe "service_this_week?/1" do
     test "returns true when the date_time is in this week's service" do
       # Setup
-      {_, end_of_current_service_week} = service_range_later_this_week()
+      {_, end_of_current_service_week} = service_range_this_week()
       beginning_of_next_service_day = beginning_of_next_service_day()
 
       service_range_date_time =
         random_time_range_date_time({end_of_current_service_week, beginning_of_next_service_day})
 
       # Exercise / Verify
-      assert service_later_this_week?(service_range_date_time)
+      assert service_this_week?(service_range_date_time)
     end
   end
 
@@ -223,6 +223,33 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
 
       # Exercise / Verify
       assert service_after_next_week?(after_next_week)
+    end
+  end
+
+  describe "service_range_range/2" do
+    test "returns all service ranges between two datetimes" do
+      # Setup
+      today = service_range_day() |> random_time_range_date_time()
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(today, next_week) == [:today, :this_week, :next_week]
+    end
+
+    test "returns one service range when given only one start datetime" do
+      # Setup
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(next_week, nil) == [:next_week]
+    end
+
+    test "returns one service range when given only one stop datetime" do
+      # Setup
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(nil, next_week) == [:next_week]
     end
   end
 

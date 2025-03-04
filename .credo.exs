@@ -106,7 +106,14 @@
         {Credo.Check.Readability.PreferImplicitTry, []},
         {Credo.Check.Readability.RedundantBlankLines, []},
         {Credo.Check.Readability.Semicolons, []},
+        {Credo.Check.Readability.SeparateAliasRequire, []},
         {Credo.Check.Readability.SpaceAfterCommas, []},
+        {Credo.Check.Readability.StrictModuleLayout,
+         [
+           order: ~w/moduledoc use require import alias/a,
+           ignore: [],
+           ignore_module_attributes: ~w/moduletag/a
+         ]},
         {Credo.Check.Readability.StringSigils, []},
         {Credo.Check.Readability.TrailingBlankLine, []},
         {Credo.Check.Readability.TrailingWhiteSpace, []},

@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
-  import MbtaMetro.Components.Icon
+  import MbtaMetro.Components.Icon, only: [icon: 1]
 
   embed_templates "layouts/*"
 
