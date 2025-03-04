@@ -32,31 +32,34 @@ const ClickableDepartureRow = ({
 }): ReactElement<HTMLElement> => {
   if (!hasService) {
     return (
-      <div className="departure-card__headsign d-flex" style={{ cursor: "default" }}>
-        <div className="departure-card__headsign-name notranslate">
-            {breakTextAtSlash(headsignName)}
-        </div>
-        {children}
-      </div>
-    );
-  } else {
-    return (
       <div
-        role="button"
-        tabIndex={0}
-        onClick={onClick}
-        onKeyDown={e => handleReactEnterKeyPress(e, onClick)}
-        aria-label={`Open upcoming departures to ${headsignName}`}
         className="departure-card__headsign d-flex"
+        style={{ cursor: "default" }}
       >
         <div className="departure-card__headsign-name notranslate">
           {breakTextAtSlash(headsignName)}
         </div>
         {children}
-        <div>{renderFa("fa-fw", "fa-angle-right")}</div>
       </div>
     );
   }
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={e => handleReactEnterKeyPress(e, onClick)}
+      aria-label={`Open upcoming departures to ${headsignName}`}
+      className="departure-card__headsign d-flex"
+    >
+      <div className="departure-card__headsign-name notranslate">
+        {breakTextAtSlash(headsignName)}
+      </div>
+      {children}
+      <div>{renderFa("fa-fw", "fa-angle-right")}</div>
+    </div>
+  );
 };
 
 const DepartureTimes = ({
@@ -82,7 +85,11 @@ const DepartureTimes = ({
   );
 
   return (
-    <ClickableDepartureRow onClick={onClick} headsignName={headsign} hasService={hasService}>
+    <ClickableDepartureRow
+      onClick={onClick}
+      headsignName={headsign}
+      hasService={hasService}
+    >
       <div className="departure-card__content">
         {hasService ? (
           <DeparturesWithBadge
