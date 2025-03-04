@@ -257,11 +257,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   end
 
   defp status_rows_for_alerts(alerts) do
-    subway_status =
-      alerts
-      |> Dotcom.SystemStatus.Subway.subway_status(Timex.now())
-
-    render_component(&homepage_subway_status/1, %{subway_status: subway_status})
+    render_component(&homepage_subway_status/1, %{subway_status: alerts |> subway_status()})
     |> Floki.find("a")
   end
 
