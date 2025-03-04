@@ -293,7 +293,4 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     |> List.last()
     |> String.trim()
   end
-
-  # defp status_label_text_for_effect(:station_closure), do: "Station Closure"
-  # defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> String.capitalize()
 end
