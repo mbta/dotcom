@@ -58,7 +58,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         effects
         |> Enum.map(
           &(Factories.Alerts.Alert.build(:alert_for_route, route_id: affected_line, effect: &1)
-            |> Factories.Alerts.Alert.active_during(Timex.now()))
+            |> Factories.Alerts.Alert.active_now())
         )
 
       # Exercise
@@ -89,7 +89,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
               route_id: affected_line_1,
               effect: &1
             )
-            |> Factories.Alerts.Alert.active_during(Timex.now()))
+            |> Factories.Alerts.Alert.active_now())
         )
 
       alerts_for_affected_line_2 =
@@ -99,7 +99,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
               route_id: affected_line_2,
               effect: &1
             )
-            |> Factories.Alerts.Alert.active_during(Timex.now()))
+            |> Factories.Alerts.Alert.active_now())
         )
 
       # Exercise
@@ -127,7 +127,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
             route_id: branch_id,
             effect: Faker.Util.pick(service_impacting_effects())
           )
-          |> Factories.Alerts.Alert.active_during(Timex.now())
+          |> Factories.Alerts.Alert.active_now()
         end)
 
       # Exercise
@@ -154,7 +154,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
             route_id: branch_id,
             effect: Faker.Util.pick(service_impacting_effects())
           )
-          |> Factories.Alerts.Alert.active_during(Timex.now())
+          |> Factories.Alerts.Alert.active_now()
         end)
 
       # Exercise
