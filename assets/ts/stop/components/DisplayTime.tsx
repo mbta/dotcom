@@ -67,6 +67,8 @@ const DisplayTime = ({
   } = departure;
   const isDelayedAndDisplayed = isDelayed && routeMode !== "subway";
   const time = departureInfoToTime(departure);
+  if (!time) return null;
+
   const track = prediction?.track;
   const trackName = isCR && !!track && `Track ${track}`;
   const tomorrow = !isSameDayInBoston(targetDate, time);

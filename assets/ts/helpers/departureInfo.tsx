@@ -43,11 +43,10 @@ const toRouteMode = (
   return FERRY;
 };
 
-const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
-  // If there isn't a prediction there should be a schedule
-  return departureInfo.prediction && departureInfo.prediction.time
-    ? departureInfo.prediction.time
-    : departureInfo.schedule!.time;
+const departureInfoToTime = (
+  departureInfo: DepartureInfo
+): Date | undefined => {
+  return departureInfo.prediction?.time || departureInfo.schedule?.time;
 };
 
 const getNextUnCancelledDeparture = (

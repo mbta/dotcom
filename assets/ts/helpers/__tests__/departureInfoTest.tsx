@@ -1,19 +1,48 @@
+import { render, screen } from "@testing-library/react";
+import { add } from "date-fns";
+import React from "react";
+import { DepartureInfo } from "../../models/departureInfo";
 import { PredictionWithTimestamp } from "../../models/predictions";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { baseRoute, customStop } from "../../stop/__tests__/helpers";
 import {
   COMMUTER_RAIL,
   SUBWAY,
+  departureInfoToTime,
   departuresListFromInfos,
   isAtDestination,
   mergeIntoDepartureInfo
 } from "../departureInfo";
-import { baseRoute, customStop } from "../../stop/__tests__/helpers";
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import { DepartureInfo } from "../../models/departureInfo";
-import { add } from "date-fns";
 
 describe("departureInfo", () => {
+  describe("departureInfoToTime", () => {
+    const predictionTime = new Date("2022-04-27T11:15:00-04:00");
+    const scheduleTime = new Date("2025-04-27T11:15:00-04:00");
+    const departureInfo = {
+      prediction: { time: predictionTime } as PredictionWithTimestamp,
+      schedule: { time: scheduleTime } as ScheduleWithTimestamp
+    } as DepartureInfo;
+    test("should prefer prediction time", () => {
+      const time = departureInfoToTime(departureInfo);
+      expect(time).toEqual(predictionTime);
+    });
+    test("should use schedule time otherwise", () => {
+      const time = departureInfoToTime({
+        ...departureInfo,
+        prediction: undefined
+      });
+      expect(time).toEqual(scheduleTime);
+    });
+    test("should return undefined if neither exist", () => {
+      const time = departureInfoToTime({
+        ...departureInfo,
+        prediction: undefined,
+        schedule: undefined
+      });
+      expect(time).toEqual(undefined);
+    });
+  });
+
   describe("mergeIntoDepartureInfo", () => {
     it("should match schedules and predictions", () => {
       const schedules = [
