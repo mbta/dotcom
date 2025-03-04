@@ -61,7 +61,7 @@ const schedule = {
   "last_stop?": true,
   stop_sequence: 1,
   stop_headsign: "Foo",
-  pickup_type: 1,
+  pickup_type: 1
 } as ScheduleWithTimestamp;
 
 const departure = {
