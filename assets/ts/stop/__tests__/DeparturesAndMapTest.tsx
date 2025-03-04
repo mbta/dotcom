@@ -2,7 +2,7 @@ import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
-import { Alert, Stop, Route } from "../../__v3api";
+import { Alert, Route, Stop } from "../../__v3api";
 import { TEST_LOADER_VALUE, baseRoute, renderWithRouter } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -95,9 +95,7 @@ describe("DeparturesAndMap", () => {
     const departureListHeader = screen.getByRole("heading", {
       name: /Test Stop to Alewife/
     });
-    const departureList = screen.getByRole("list");
     expect(departureListHeader).toBeDefined();
-    expect(departureList).toHaveClass("stop-routes__departures");
     const back = screen.getByText("Back to all Test Stop routes");
     expect(back).toBeDefined();
     await user.click(back);
@@ -267,7 +265,7 @@ describe("DeparturesAndMap", () => {
     let headsign: HTMLElement | undefined = undefined;
     await waitFor(() => {
       headsign = screen.getByRole("button", {
-        name: /Open upcoming departures to Ashmont/
+        name: /Open upcoming departures to Alewife/
       });
       expect(headsign).toBeDefined();
     });

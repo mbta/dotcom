@@ -20,6 +20,7 @@ const parse = (schedule: ScheduleData): ScheduleWithTimestamp =>
       "early_departure?",
       "last_stop?",
       "stop_sequence",
+      "stop_headsign",
       "pickup_type: number",
       "train_number?: string"
     ]),

@@ -64,12 +64,11 @@ export default () => {
 
 // Get the current language of the page from the `googtrans` cookie.
 function getCookieLanguage() {
-  const cookie =
-    document.cookie
-      .split(";")
-      .map(cookie => cookie.trim())
-      .map(cookie => cookie.split("="))
-      .find(cookie => cookie[0] === "googtrans");
+  const cookie = document.cookie
+    .split(";")
+    .map(cookie => cookie.trim())
+    .map(cookie => cookie.split("="))
+    .find(cookie => cookie[0] === "googtrans");
 
   if (cookie) {
     const [_key, value] = cookie;

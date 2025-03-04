@@ -22,12 +22,28 @@ interface DepartureTimesProps {
 const ClickableDepartureRow = ({
   onClick,
   headsignName,
+  hasService,
   children
 }: {
   onClick: () => void;
   headsignName: string;
+  hasService: boolean;
   children: ReactNode;
 }): ReactElement<HTMLElement> => {
+  if (!hasService) {
+    return (
+      <div
+        className="departure-card__headsign d-flex pr-2"
+        style={{ cursor: "default" }}
+      >
+        <div className="departure-card__headsign-name notranslate">
+          {breakTextAtSlash(headsignName)}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       role="button"
@@ -69,7 +85,11 @@ const DepartureTimes = ({
   );
 
   return (
-    <ClickableDepartureRow onClick={onClick} headsignName={headsign}>
+    <ClickableDepartureRow
+      onClick={onClick}
+      headsignName={headsign}
+      hasService={hasService}
+    >
       <div className="departure-card__content">
         {hasService ? (
           <DeparturesWithBadge

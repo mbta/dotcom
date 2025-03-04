@@ -24,6 +24,35 @@ const isNoncanonicalAndNoDepartures = (
   return isNonCanonical && departures.length === 0;
 };
 
+/**
+ * Groups departures by headsign.
+ * This can either be the stop headsign (if it exists) or the trip headsign (default).
+ *
+ * @param departures DepartureInfo[]
+ * @returns Object.<string, departures[]>
+ */
+const groupDepartures = (
+  departures: DepartureInfo[]
+): { [key: string]: DepartureInfo[] } => {
+  return departures.reduce((acc, departure) => {
+    if (departure && departure.schedule && departure.schedule.stop_headsign) {
+      if (!Object.keys(acc).includes(departure.schedule.stop_headsign)) {
+        acc[departure.schedule.stop_headsign] = [];
+      }
+
+      acc[departure.schedule.stop_headsign].push(departure);
+    } else if (departure && departure.trip && departure.trip.headsign) {
+      if (!Object.keys(acc).includes(departure.trip.headsign)) {
+        acc[departure.trip.headsign] = [];
+      }
+
+      acc[departure.trip.headsign].push(departure);
+    }
+
+    return acc;
+  }, Object());
+};
+
 const DepartureCard = ({
   alertsForRoute,
   departuresForRoute,
@@ -37,6 +66,8 @@ const DepartureCard = ({
 }): ReactElement<HTMLElement> | null => {
   const { setRow } = useDepartureRow([route]);
 
+  const departures = groupDepartures(departuresForRoute);
+
   let sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
     routePatternsByHeadsign
   );
@@ -47,15 +78,25 @@ const DepartureCard = ({
       sortedRoutePatternsByHeadsign,
       entry => {
         const [, { route_patterns: routePatterns }] = entry;
-        const departures = departuresForRoute.filter(d =>
+        const filteredDepartures = departuresForRoute.filter(d =>
           departureInfoInRoutePatterns(d, routePatterns)
         );
-        return isNoncanonicalAndNoDepartures(routePatterns, departures);
+        return isNoncanonicalAndNoDepartures(routePatterns, filteredDepartures);
       }
     );
     // don't render a route card if there's no headsigns left to show
     if (sortedRoutePatternsByHeadsign.length === 0) return null;
   }
+
+  // We have to ensure that all canonical route patterns are represented in departures.
+  // This is because we use the departures, but want to show all route patterns even if they have no departures.
+  sortedRoutePatternsByHeadsign.forEach(entry => {
+    const [headsign] = entry;
+
+    if (!Object.keys(departures).includes(headsign)) {
+      departures[headsign] = [];
+    }
+  });
 
   const directionIds = uniq(
     sortedRoutePatternsByHeadsign.map(
@@ -76,37 +117,41 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {sortedRoutePatternsByHeadsign.map(
-        ([
-          headsign,
-          { direction_id: directionId, route_patterns: routePatterns }
-        ]) => {
-          const onClick = (): void =>
-            setRow({
-              routeId: route.id,
-              directionId: directionId.toString(),
-              headsign
-            });
+      {Object.entries(departures).map(([headsign, departureList]) => {
+        // Direction id and alerts are based on the first departure if there is one.
+        let directionId = 0;
+        let alerts: Alert[] = [];
 
-          return (
-            <DepartureTimes
-              key={headsign}
-              alertsForDirection={allAlertsForDirection(
-                alertsForRoute,
-                directionId
-              )}
-              headsign={headsign}
-              departures={departuresForRoute.filter(d =>
-                departureInfoInRoutePatterns(d, routePatterns)
-              )}
-              onClick={onClick}
-              isCR={isACommuterRailRoute(route)}
-              isSubway={isSubwayRoute(route)}
-              hasService={routePatterns.length !== 0}
-            />
-          );
+        if (departureList.length > 0) {
+          directionId = departureList[0].trip.direction_id;
+
+          alerts = allAlertsForDirection(alertsForRoute, directionId);
+        } else {
+          directionId = routePatternsByHeadsign[headsign].direction_id;
+
+          alerts = allAlertsForDirection(alertsForRoute, directionId);
         }
-      )}
+
+        const onClick = (): void =>
+          setRow({
+            routeId: route.id,
+            directionId: directionId.toString(),
+            headsign
+          });
+
+        return (
+          <DepartureTimes
+            key={headsign}
+            alertsForDirection={alerts}
+            headsign={headsign}
+            departures={departureList}
+            onClick={onClick}
+            isCR={isACommuterRailRoute(route)}
+            isSubway={isSubwayRoute(route)}
+            hasService={departureList.length !== 0}
+          />
+        );
+      })}
     </li>
   );
 };
