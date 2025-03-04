@@ -214,6 +214,14 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
       assert ["1", "2", "3", "4", ^special_stop_id, "5", "6"] = Enum.map(trip_stops, & &1.id)
     end
+
+    test "doesn't crash when missing canonical route patterns", %{conn: conn} do
+      expect(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ ->
+        []
+      end)
+
+      assert build_timetable(conn, @schedules)
+    end
   end
 
   describe "trip_messages/2" do
