@@ -82,8 +82,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp heading(assigns) do
     time_range_str =
       assigns.alert
-      |> alert_date_time_range()
-      |> formatted_time_range()
+      |> alert_date_range()
+      |> formatted_date_range()
 
     assigns = assign(assigns, time_range_str: time_range_str)
 
@@ -97,14 +97,15 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     """
   end
 
-  defp formatted_time_range({nil, nil}), do: nil
-  defp formatted_time_range({nil, stop}), do: "Until #{format_date(stop)}"
-  defp formatted_time_range({start, nil}), do: "#{format_date(start)} until further notice"
-  defp formatted_time_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
+  defp formatted_date_range({nil, nil}), do: nil
+  defp formatted_date_range({nil, stop}), do: "Until #{format_date(stop)}"
+  defp formatted_date_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_date_range({start, stop}) when start == stop, do: "#{format_date(start)}"
+  defp formatted_date_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
   # Extracts the start and stop times from the active periods of an alert.
   # We do this by sorting the active periods by start time then taking the start of the first and the stop of the last.
-  defp alert_date_time_range(%Alert{active_period: active_period}) do
+  defp alert_date_range(%Alert{active_period: active_period}) do
     sorted_active_periods =
       Enum.sort_by(
         active_period,
@@ -115,8 +116,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     {start, _} = List.first(sorted_active_periods)
     {_, stop} = List.last(sorted_active_periods)
 
-    {start, stop}
+    {service_date_for_display(start), service_date_for_display(stop)}
   end
+
+  defp service_date_for_display(nil), do: nil
+  defp service_date_for_display(datetime), do: service_date(datetime)
 
   # Extracts the route ids of lines and branches from the alert.
   defp alert_route_ids(%Alert{informed_entity: %{entities: entities}}) do
@@ -128,15 +132,13 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   # Formats the date for display in the heading.
   # If the service date is on or before today, we display "Today".
   # Otherwise, we display the date like "Mon Jan 1".
-  defp format_date(datetime) do
-    service_date_datetime = service_date(datetime)
+  defp format_date(service_date_datetime) do
     service_date_today = @date_time_module.now() |> service_date()
 
-    if Timex.equal?(service_date_datetime, service_date_today) ||
-         Timex.before?(service_date_datetime, service_date_today) do
-      "Today"
-    else
+    if Timex.after?(service_date_datetime, service_date_today) do
       service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
+    else
+      "Today"
     end
   end
 end
