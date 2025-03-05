@@ -61,6 +61,10 @@ defmodule Test.Support.Factories.Alerts.Alert do
     %{alert | active_period: [{time_before(time), time_after(time)}]}
   end
 
+  def active_now(alert) do
+    alert |> active_during(Dotcom.Utils.DateTime.now())
+  end
+
   def active_starting_at(alert, start_time) do
     %{alert | active_period: [{start_time, time_after(start_time)}]}
   end

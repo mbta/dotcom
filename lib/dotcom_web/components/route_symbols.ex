@@ -195,11 +195,13 @@ defmodule DotcomWeb.Components.RouteSymbols do
       assign(assigns, %{
         bg_color_class: "bg-#{String.downcase(route_id)}-line",
         route_abbreviation: String.at(route_id, 0) <> "L",
+        route_id: route_id,
         route_label: route_id <> " Line"
       })
 
     ~H"""
     <div
+      data-test={"route_pill:#{@route_id}"}
       aria-label={@route_label}
       class={[
         @bg_color_class,
@@ -247,11 +249,16 @@ defmodule DotcomWeb.Components.RouteSymbols do
         ~H"""
         <span class="flex items-center">
           <.subway_route_pill route_ids={@route_ids} class={"#{@class} -mr-1"} />
-          <.route_symbol
+          <span
             :for={route_id <- @branch_ids}
-            route={%Routes.Route{id: route_id}}
-            class={"#{@class} rounded-full ring-white ring-2 mr-0.5"}
-          />
+            data-test={"route_symbol:#{route_id}"}
+            class="flex items-center"
+          >
+            <.route_symbol
+              route={%Routes.Route{id: route_id}}
+              class={"#{@class} rounded-full ring-white ring-2 mr-0.5"}
+            />
+          </span>
         </span>
         """
       end
