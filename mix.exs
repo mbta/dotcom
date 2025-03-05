@@ -98,7 +98,7 @@ defmodule DotCom.Mixfile do
       {:gen_stage, "1.2.1"},
       {:gettext, "0.26.2"},
       {:hackney, "1.23.0"},
-      {:hammer, "6.2.1"},
+      {:hammer, "7.0.1"},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.2"},
       {:inflex, "2.1.0"},

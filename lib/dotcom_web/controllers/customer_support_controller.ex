@@ -170,7 +170,11 @@ defmodule DotcomWeb.CustomerSupportController do
   defp do_submit(%Plug.Conn{assigns: %{ip_address: {:ok, ip}}} = conn, data) do
     rate_limit_interval = Application.get_env(:dotcom, :feedback_rate_limit, 60_000)
 
-    case Hammer.check_rate("submit-feedback:#{ip}", rate_limit_interval, 1) do
+    case Dotcom.RateLimit.hit(
+           "submit-feedback:#{ip}",
+           rate_limit_interval,
+           1
+         ) do
       {:allow, _count} ->
         attachments = photo_attachments(data["photos"])
         {:ok, pid} = Task.start(__MODULE__, :send_ticket, [data, attachments])
