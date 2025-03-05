@@ -131,7 +131,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
-    |> collapse_rows_if_needed()
+    |> maybe_collapse_rows()
     |> Enum.map(&add_url/1)
   end
 
@@ -141,68 +141,61 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
   end
 
-  defp collapse_rows_if_needed(rows) do
+  defp maybe_collapse_rows(rows) do
     rows
-    |> if_too_large(&collapse_identical_route_rows/1)
-    |> if_too_large(&collapse_disrupted_green_line_rows/1)
-    |> if_too_large(&collapse_all_green_line_rows/1)
+    |> if_too_large(&collapse_rows(&1, :identical_route_info))
+    |> if_too_large(&collapse_rows(&1, :disrupted_green_line))
+    |> if_too_large(&collapse_rows(&1, :all_green_line))
   end
 
   defp if_too_large(rows, collapse_fun) when length(rows) > @max_rows, do: collapse_fun.(rows)
   defp if_too_large(rows, _collapse_fun), do: rows
 
-  defp collapse_identical_route_rows(rows) do
-    collapse_collapsible_rows(rows, &combine_identical_route_rows?/2)
-  end
-
-  defp collapse_disrupted_green_line_rows(rows) do
-    collapse_collapsible_rows(rows, &combine_disrupted_green_line_rows?/2)
-  end
-
-  defp collapse_all_green_line_rows(rows) do
-    collapse_collapsible_rows(rows, &combine_all_green_line_rows?/2)
-  end
-
-  defp collapse_collapsible_rows([row1, row2 | rest_of_rows], combine_fun) do
-    if combine_fun.(row1, row2) do
-      collapse_collapsible_rows([combine_rows(row1, row2) | rest_of_rows], combine_fun)
+  defp collapse_rows([row1, row2 | rest_of_rows], combine_criterion)
+       when is_atom(combine_criterion) do
+    if combine_rows?(combine_criterion, row1, row2) do
+      collapse_rows([combine_rows(row1, row2) | rest_of_rows], combine_criterion)
     else
-      [row1 | collapse_collapsible_rows([row2 | rest_of_rows], combine_fun)]
+      [row1 | collapse_rows([row2 | rest_of_rows], combine_criterion)]
     end
   end
 
-  defp collapse_collapsible_rows(rows, _combine_fun), do: rows
+  defp collapse_rows(rows, _combine_fun), do: rows
 
-  defp combine_identical_route_rows?(
+  defp combine_rows?(
+         :identical_route_info,
          %{route_info: %{route_id: route_id1, branch_ids: branch_ids1}},
          %{route_info: %{route_id: route_id2, branch_ids: branch_ids2}}
        )
        when route_id1 == route_id2 and branch_ids1 == branch_ids2,
        do: true
 
-  defp combine_identical_route_rows?(_row1, _row2), do: false
+  defp combine_rows?(:identical_route_info, _row1, _row2), do: false
 
-  defp combine_disrupted_green_line_rows?(
+  defp combine_rows?(
+         :disrupted_green_line,
          %{route_info: %{route_id: "Green"}},
          %{route_info: %{route_id: "Green"}, status_entry: %{status: :normal}}
        ),
        do: false
 
-  defp combine_disrupted_green_line_rows?(
+  defp combine_rows?(
+         :disrupted_green_line,
          %{route_info: %{route_id: "Green"}},
          %{route_info: %{route_id: "Green"}}
        ),
        do: true
 
-  defp combine_disrupted_green_line_rows?(_row1, _row2), do: false
+  defp combine_rows?(:disrupted_green_line, _row1, _row2), do: false
 
-  defp combine_all_green_line_rows?(
+  defp combine_rows?(
+         :all_green_line,
          %{route_info: %{route_id: "Green"}},
          %{route_info: %{route_id: "Green"}}
        ),
        do: true
 
-  defp combine_all_green_line_rows?(_row1, _row2), do: false
+  defp combine_rows?(:all_green_line, _row1, _row2), do: false
 
   defp combine_rows(
          %{route_info: %{branch_ids: branch_ids1}} = row1,
