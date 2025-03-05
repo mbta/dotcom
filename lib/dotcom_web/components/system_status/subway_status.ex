@@ -143,24 +143,24 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp maybe_collapse_rows(rows) do
     rows
-    |> if_too_large(&collapse_rows(&1, :identical_route_info))
-    |> if_too_large(&collapse_rows(&1, :disrupted_green_line))
-    |> if_too_large(&collapse_rows(&1, :all_green_line))
+    |> if_too_large(&collapse_rows(:identical_route_info, &1))
+    |> if_too_large(&collapse_rows(:disrupted_green_line, &1))
+    |> if_too_large(&collapse_rows(:all_green_line, &1))
   end
 
   defp if_too_large(rows, collapse_fun) when length(rows) > @max_rows, do: collapse_fun.(rows)
   defp if_too_large(rows, _collapse_fun), do: rows
 
-  defp collapse_rows([row1, row2 | rest_of_rows], combine_criterion)
+  defp collapse_rows(combine_criterion, [row1, row2 | rest_of_rows])
        when is_atom(combine_criterion) do
     if combine_rows?(combine_criterion, row1, row2) do
-      collapse_rows([combine_rows(row1, row2) | rest_of_rows], combine_criterion)
+      collapse_rows(combine_criterion, [combine_rows(row1, row2) | rest_of_rows])
     else
-      [row1 | collapse_rows([row2 | rest_of_rows], combine_criterion)]
+      [row1 | collapse_rows(combine_criterion, [row2 | rest_of_rows])]
     end
   end
 
-  defp collapse_rows(rows, _combine_fun), do: rows
+  defp collapse_rows(_combine_fun, rows), do: rows
 
   defp combine_rows?(
          :identical_route_info,
