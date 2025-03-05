@@ -1,19 +1,23 @@
 <% error = Phoenix.Flash.get(@flash, :info) %>
-<%= if error, do: DotcomWeb.PartialView.FullscreenError.render_error(error) %>
+{if error, do: DotcomWeb.PartialView.FullscreenError.render_error(error)}
 <div class="container">
   <h1>Transit Near Me</h1>
-
-  <%= render "_input.html", location: @location, conn: @conn %>
+  {render("_input.html", location: @location, conn: @conn)}
 </div>
 <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
-<script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
-<script id="js-tnm-stop-sidebar-data" type="text/plain"><%= @stops_json |> Poison.encode!() |> raw()  %></script>
+<script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain">
+  <%= raw Poison.encode!(@map_data) %>
+</script>
+<script id="js-tnm-stop-sidebar-data" type="text/plain">
+  <%= @stops_json |> Poison.encode!() |> raw() %>
+</script>
 <div id="react-root">
-    <%= render_react(assigns) %>
+  {render_react(assigns)}
 </div>
 
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/tnm.js" %>"></script>
+  <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
+  </script>
 <% else %>
   <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
   <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
