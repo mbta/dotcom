@@ -185,7 +185,7 @@ defmodule DotcomWeb.Components.PlannedDisruptionsTest do
   defp date_from_status_label(html) do
     [formatted_date | _] =
       html
-      |> Floki.find("[data-test=\"status-label-text\"]")
+      |> Floki.find("[data-test=\"status_label_text\"]")
       |> Floki.text()
       |> String.trim()
       |> String.split(":")
