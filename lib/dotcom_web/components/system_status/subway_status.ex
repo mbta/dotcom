@@ -160,7 +160,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     end
   end
 
-  defp collapse_rows(_combine_fun, rows), do: rows
+  defp collapse_rows(_combine_criterion, rows), do: rows
 
   defp combine_rows?(
          :identical_route_info,
