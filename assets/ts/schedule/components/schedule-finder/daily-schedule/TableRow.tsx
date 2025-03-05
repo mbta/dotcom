@@ -93,7 +93,10 @@ const CrTableRow = ({
       </td>
     )}
     <td className="schedule-table__cell schedule-table__cell--headsign">
-      {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
+      {modeIcon(journey.route.id)}{" "}
+      {breakTextAtSlash(
+        journey?.departure?.schedule?.stop_headsign || journey.trip.headsign
+      )}
     </td>
   </>
 );

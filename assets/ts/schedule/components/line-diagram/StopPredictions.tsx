@@ -55,13 +55,24 @@ const StopPredictions = ({
         ? "m-schedule-diagram__cr-prediction-time strikethrough"
         : "m-schedule-diagram__cr-prediction-time";
 
+      let headsignCopy = headsign;
+      if (
+        headsign?.time_data_with_crowding_list[0]?.predicted_schedule?.schedule
+          ?.stop_headsign
+      ) {
+        const headsignName =
+          headsign.time_data_with_crowding_list[0].predicted_schedule.schedule
+            .stop_headsign;
+        headsignCopy = { ...headsign, name: headsignName };
+      }
+
       return (
-        <div key={`${headsign.name}-cr`}>
+        <div key={`${headsignCopy.name}-cr`}>
           <div className="m-schedule-diagram__cr-prediction">
             {timeForCommuterRail(predictedOrScheduledTime, predictionTimeClass)}
           </div>
           <div className="m-schedule-diagram__cr-prediction-details">
-            {predictionTexts(headsign).map((text: string) => (
+            {predictionTexts(headsignCopy).map((text: string) => (
               <span key={text}>{text}</span>
             ))}
           </div>
