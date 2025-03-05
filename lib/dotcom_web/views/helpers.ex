@@ -571,4 +571,22 @@ defmodule DotcomWeb.ViewHelpers do
       nil
     end
   end
+
+  @doc """
+  Intended for usage with static assets, as these are compatible with the 
+  Phoenix.Endpoint.static_lookup/1 method. Outputs the static URL, attribute 
+  with asset integrity hash, and expected crossorigin attribute (as the 
+  website's assets load from the CDN rather than from the application).
+  """
+  @spec static_attributes(String.t()) :: map()
+  def static_attributes(path) do
+    {static_path, static_integrity} = DotcomWeb.Endpoint.static_lookup(path)
+    href_or_src = if(String.starts_with?(path, "/css"), do: :href, else: :src)
+
+    %{
+      integrity: static_integrity,
+      crossorigin: "anonymous"
+    }
+    |> Map.put(href_or_src, static_path)
+  end
 end

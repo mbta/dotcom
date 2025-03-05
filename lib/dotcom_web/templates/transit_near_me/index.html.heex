@@ -4,7 +4,7 @@
   <h1>Transit Near Me</h1>
   {render("_input.html", location: @location, conn: @conn)}
 </div>
-<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
+<link rel="stylesheet" {static_attributes("/css/map.css")} />
 <script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain">
   <%= raw Poison.encode!(@map_data) %>
 </script>
@@ -19,6 +19,8 @@
   <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
   </script>
 <% else %>
-  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-  <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
+  <script defer {static_attributes("/js/react.js")}>
+  </script>
+  <script defer {static_attributes("/js/tnm.js")}>
+  </script>
 <% end %>

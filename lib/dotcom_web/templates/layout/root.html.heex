@@ -56,11 +56,11 @@
       <script defer src={"#{webpack_path()}/app.js"}>
       </script>
     <% else %>
-      <link rel="stylesheet" href={static_url(@conn, "/css/core.css")} />
-      <link rel="stylesheet" href={static_url(@conn, "/css/app.css")} />
-      <script defer src={static_url(@conn, "/js/vendors.js")}>
+      <link rel="stylesheet" {static_attributes("/css/core.css")} />
+      <link rel="stylesheet" {static_attributes("/css/app.css")} />
+      <script defer {static_attributes("/js/vendors.js")}>
       </script>
-      <script defer src={static_url(@conn, "/js/app.js")}>
+      <script defer {static_attributes("/js/app.js")}>
       </script>
     <% end %>
   </head>
@@ -95,9 +95,9 @@
         <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/iewarning.js"}>
         </script>
       <% else %>
-        <script defer src={static_url(@conn, "/js/react.js")}>
+        <script defer {static_attributes("/js/react.js")}>
         </script>
-        <script defer src={static_url(@conn, "/js/iewarning.js")}>
+        <script defer {static_attributes("/js/iewarning.js")}>
         </script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
