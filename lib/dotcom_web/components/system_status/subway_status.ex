@@ -170,8 +170,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
        when route_id1 == route_id2 and branch_ids1 == branch_ids2,
        do: true
 
-  defp combine_rows?(:identical_route_info, _row1, _row2), do: false
-
   defp combine_rows?(
          :disrupted_green_line,
          %{route_info: %{route_id: "Green"}},
@@ -186,8 +184,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
        ),
        do: true
 
-  defp combine_rows?(:disrupted_green_line, _row1, _row2), do: false
-
   defp combine_rows?(
          :all_green_line,
          %{route_info: %{route_id: "Green"}},
@@ -195,7 +191,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
        ),
        do: true
 
-  defp combine_rows?(:all_green_line, _row1, _row2), do: false
+  defp combine_rows?(_criterion, _row1, _row2), do: false
 
   defp combine_rows(
          %{route_info: %{branch_ids: branch_ids1}} = row1,
