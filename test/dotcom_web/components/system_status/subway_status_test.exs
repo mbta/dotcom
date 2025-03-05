@@ -191,12 +191,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           route_id: affected_branch_id,
           effect: branch_effect
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
           effect: line_effect
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now())
+        |> Factories.Alerts.Alert.active_now()
       ]
 
       other_affected_route_id = Faker.Util.pick(@lines_without_branches)
@@ -211,7 +211,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
             route_id: other_affected_route_id,
             effect: effect
           )
-          |> Factories.Alerts.Alert.active_during(Timex.now())
+          |> Factories.Alerts.Alert.active_now()
         end)
 
       # Exercise
@@ -233,17 +233,17 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now())
+        |> Factories.Alerts.Alert.active_now()
       ]
 
       # Exercise
@@ -264,12 +264,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now())
+        |> Factories.Alerts.Alert.active_now()
       ]
 
       # Exercise
@@ -292,17 +292,17 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
           effect: Faker.Util.pick(service_impacting_effects())
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now()),
+        |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
           effect: mattapan_effect
         )
-        |> Factories.Alerts.Alert.active_during(Timex.now())
+        |> Factories.Alerts.Alert.active_now()
       ]
 
       # Exercise
