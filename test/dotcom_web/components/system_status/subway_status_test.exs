@@ -115,7 +115,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
              ]
     end
 
-    test "collapses Green line alerts if there would otherwise be more than five rows" do
+    test "collapses Green line alerts into two rows if there would otherwise be more than five total" do
       # Setup
       affected_branches =
         Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
@@ -134,26 +134,15 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       rows = status_rows_for_alerts(alerts)
 
       # Verify
-      [affected_branch_1, affected_branch_2] = affected_branches |> Enum.sort()
-
-      [affected_row, _normal_row] =
-        rows
-        |> for_route("Green")
-
-      assert affected_row |> Floki.find("[data-test=\"route_symbol:#{affected_branch_1}\"]") !=
-               []
-
-      assert affected_row |> Floki.find("[data-test=\"route_symbol:#{affected_branch_2}\"]") !=
-               []
-
-      assert status_label_text_for_row(affected_row) == "See Alerts"
+      assert rows
+             |> for_route("Green")
+             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts", "Normal Service"]
     end
 
-    test "includes normal-status Green line row for non-affected Green line branches when rows are collapsed" do
+    test "groups Green line alerts correctly between normal and affected rows when collapsed" do
       # Setup
       affected_branches =
         Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
-        |> Enum.sort()
 
       alerts =
         affected_branches
@@ -169,21 +158,29 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       rows = status_rows_for_alerts(alerts)
 
       # Verify
+      [affected_branch_1, affected_branch_2] = affected_branches
+
       [normal_branch_1, normal_branch_2] =
         GreenLine.branch_ids() -- affected_branches
 
-      [_disrupted_row, normal_row] =
+      [affected_row, normal_row] =
         rows
         |> for_route("Green")
 
-      assert normal_row |> Floki.find("[data-test=\"route_symbol:#{normal_branch_1}\"]") !=
-               []
+      assert normal_row |> has_route_symbol_for_branch?(normal_branch_1)
+      assert normal_row |> has_route_symbol_for_branch?(normal_branch_2)
+      refute normal_row |> has_route_symbol_for_branch?(affected_branch_1)
+      refute normal_row |> has_route_symbol_for_branch?(affected_branch_2)
 
-      assert normal_row |> Floki.find("[data-test=\"route_symbol:#{normal_branch_2}\"]") !=
-               []
-
-      assert status_label_text_for_row(normal_row) == "Normal Service"
+      refute affected_row |> has_route_symbol_for_branch?(normal_branch_1)
+      refute affected_row |> has_route_symbol_for_branch?(normal_branch_2)
+      assert affected_row |> has_route_symbol_for_branch?(affected_branch_1)
+      assert affected_row |> has_route_symbol_for_branch?(affected_branch_2)
     end
+  end
+
+  defp has_route_symbol_for_branch?(row, branch_id) do
+    row |> Floki.find("[data-test=\"route_symbol:#{branch_id}\"]") != []
   end
 
   describe "alerts_subway_status/1" do
