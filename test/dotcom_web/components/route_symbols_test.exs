@@ -125,7 +125,8 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
         |> Floki.parse_fragment!()
         |> List.first()
 
-      assert [{"div", _, _}, {"svg", _, _}] = Floki.children(html, include_text: false)
+      assert [{"div", _, _}, {"span", _, [{"svg", _, _}]}] =
+               Floki.children(html, include_text: false)
     end
 
     test "Multiple branches render pill + multiple icons" do
@@ -139,7 +140,7 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
         |> List.first()
 
       assert [{"div", _, _} | icons] = Floki.children(html, include_text: false)
-      assert [{"svg", _, _} | _] = icons
+      assert [{"span", _, [{"svg", _, _}]} | _] = icons
       assert Enum.count(icons) == num_branches
     end
 

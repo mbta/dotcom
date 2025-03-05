@@ -35,9 +35,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "text-black no-underline font-normal"
           ]}
         >
-          <div class="pl-2 py-3">
+          <div class={["pl-2 py-3", row.style.hide_route_pill && "opacity-0"]} data-route-pill>
             <.subway_route_pill
-              class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
+              class="group-hover/row:ring-brand-primary-lightest"
               route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
             />
           </div>
@@ -164,7 +164,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         (branch_ids1 ++ branch_ids2)
         |> Enum.uniq()
         |> Enum.sort()
-        |> collapse_if_all_green_line()
       end
 
     combined_row =
@@ -193,14 +192,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp collapse_rows([]) do
     []
-  end
-
-  defp collapse_if_all_green_line(branch_ids) do
-    if branch_ids == GreenLine.branch_ids() do
-      []
-    else
-      branch_ids
-    end
   end
 
   defp add_url(row) do
