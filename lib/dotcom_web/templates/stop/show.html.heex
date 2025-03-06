@@ -1,0 +1,16 @@
+<link rel="stylesheet" {static_attributes("/css/map.css")} />
+<div>
+  <div id="react-stop-root" data-mbta-stop-id={"#{@stop_id}"}></div>
+</div>
+
+<%= if Application.get_env(:dotcom, :dev_server?) do %>
+  <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/stop.js"}>
+  </script>
+<% else %>
+  <script defer {static_attributes("/js/react.js")}>
+  </script>
+  <script defer {static_attributes("/js/leaflet.js")}>
+  </script>
+  <script defer {static_attributes("/js/stop.js")}>
+  </script>
+<% end %>

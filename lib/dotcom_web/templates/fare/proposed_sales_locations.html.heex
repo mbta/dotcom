@@ -33,7 +33,7 @@
         <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
         </script>
       <% else %>
-        <script defer src={static_url(@conn, "/js/tnm.js")}>
+        <script defer {static_attributes("/js/tnm.js")}>
         </script>
       <% end %>
     </div>
