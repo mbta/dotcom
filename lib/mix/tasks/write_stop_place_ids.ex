@@ -66,6 +66,9 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
       |> Kernel.to_string()
       |> :json.decode()
 
+    # We have to wait so we don't exceed our rate limit of 10 requests per second.
+    :timer.sleep(100)
+
     if Map.has_key?(places, "places") do
       {id, Map.get(places, "places") |> List.first() |> Map.get("id")}
     else
