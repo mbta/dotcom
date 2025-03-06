@@ -112,6 +112,7 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
 
   # If we got some kind of error in the process, we inspect it and write nothing.
   defp stop_place_id(result) do
+    # credo:disable-for-next-line
     IO.inspect(result, label: "ERROR GETTING PLACE ID")
 
     ""
