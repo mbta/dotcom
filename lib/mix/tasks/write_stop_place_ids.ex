@@ -59,7 +59,7 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     headers = headers()
 
     # We have to wait so we don't exceed our rate limit of 10 requests per second.
-    :timer.sleep(500)
+    :timer.sleep(1000)
 
     {:ok, {{_, 200, _}, _, response}} =
       :httpc.request(:post, {@google_url, headers, ~c"application/json", body}, [], [])
