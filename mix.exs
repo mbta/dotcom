@@ -23,6 +23,7 @@ defmodule DotCom.Mixfile do
         plt_add_apps: [:mix, :phoenix_live_reload],
         flags: [:unmatched_returns]
       ],
+      aliases: aliases(),
       deps: deps(),
 
       # docs
@@ -61,6 +62,12 @@ defmodule DotCom.Mixfile do
       mod: {Dotcom.Application, []},
       # a list of OTP applications your application depends on which are not included in :deps
       extra_applications: extra_apps
+    ]
+  end
+
+  defp aliases() do
+    [
+      generate_stop_place_ids: ["write_stop_place_ids", "format"]
     ]
   end
 
