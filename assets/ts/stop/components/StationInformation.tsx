@@ -41,6 +41,7 @@ const StationInformation = ({
         name={stop.name}
         latitude={stop.latitude}
         longitude={stop.longitude}
+        placeId={stop.place_id}
       />
       <div className="station-amenities u-mt-24">
         {(showBikeInfo || showParkingInfo) && (
