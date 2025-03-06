@@ -22,11 +22,11 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
 
   @impl Mix.Task
   def run(_) do
-    write_header()
+    :ok = write_header()
 
-    write_place_ids()
+    :ok = write_place_ids()
 
-    write_footer()
+    :ok = write_footer()
   end
 
   # Given a latitude and longitude, construct a request body for Google.
@@ -123,7 +123,7 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     default = "\tdef stop_place_id(_), do: nil\n"
     module_end = "end\n"
 
-    File.write!(@file_path, default <> module_end, [:append])
+    File.write(@file_path, default <> module_end, [:append])
   end
 
   # Write the module header.
@@ -132,9 +132,9 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     module_name = "defmodule Dotcom.StopPlaceIds do\n"
     module_doc = "\t@moduledoc \"Generated file linking stop ids to Google place ids.\"\n\n"
     doc = "\t@doc \"Map a stop id to a Google place id.\"\n"
-    spec = "\t@spec stop_place_id(Stop.id_t()) :: String.t() | nil\n"
+    spec = "\t@spec stop_place_id(String.t()) :: String.t() | nil\n"
 
-    File.write!(@file_path, module_name <> module_doc <> doc <> spec)
+    File.write(@file_path, module_name <> module_doc <> doc <> spec)
   end
 
   # Write a function for each stop id linking it to a Google place id.
