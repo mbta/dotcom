@@ -398,6 +398,38 @@ defmodule DotcomWeb.Live.SystemStatus do
               ])
           }
         ]
+      },
+      %{
+        alerts: [
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :shuttle,
+            header:
+              "Mattapan trolleys are replaced with shuttles because the trolleys themselves wanted to explore the rest of the system",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Mattapan"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Cleveland Circle station is closed due to a Mattapan trolley on the tracks",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-C"}])
+          },
+          %Alerts.Alert{
+            active_period: [
+              {Timex.beginning_of_day(Timex.now()), Timex.end_of_day(Timex.now())}
+            ],
+            effect: :station_closure,
+            header: "Reservoir station is closed due to a Mattapan trolley on the tracks",
+            informed_entity:
+              Alerts.InformedEntitySet.new([%Alerts.InformedEntity{route: "Green-D"}])
+          }
+        ]
       }
     ]
   end
