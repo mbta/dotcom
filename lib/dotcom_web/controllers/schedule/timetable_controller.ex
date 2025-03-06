@@ -12,6 +12,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   alias Stops.Stop
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @spring_2025_rating_date ~D[2025-03-24]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   plug(DotcomWeb.Plugs.Route)
@@ -105,7 +106,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:track_changes, track_changes)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
-    |> assign(:trip_messages, trip_messages(route, direction_id))
+    |> assign(:trip_messages, trip_messages(route, direction_id, conn.assigns.date))
   end
 
   def assign_trip_schedules(conn) do
@@ -178,24 +179,77 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   order to match the PDF schedules. Each rating, this should be checked
   against the new PDFs to ensure it's kept up to date.
   """
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
-  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    ["741", "757", "759", "735"]
+  @spec trip_messages(Routes.Route.t(), 0 | 1, Date.t()) :: %{
+          {String.t(), String.t()} => String.t()
+        }
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
+    trips =
+      if Timex.before?(date, @spring_2025_rating_date) do
+        ["741", "757", "759", "735"]
+      else
+        [
+          "1709",
+          "1775",
+          "1785",
+          "793",
+          "5715",
+          "5721",
+          "5731",
+          "5739",
+          "5747",
+          "5755",
+          "5767",
+          "5777",
+          "5785",
+          "5793"
+        ]
+      end
+
+    trips
     |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
     |> Enum.into(%{})
   end
 
-  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "752", "728", "758", "732", "760"]
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
+    trips =
+      if Timex.before?(date, @spring_2025_rating_date) do
+        ["740", "752", "728", "758", "732", "760"]
+      else
+        [
+          "1708",
+          "1782",
+          "1788",
+          "776",
+          "784",
+          "5706",
+          "5724",
+          "5730",
+          "5738",
+          "5746",
+          "5754",
+          "5768",
+          "5778",
+          "5784"
+        ]
+      end
+
+    trips
     |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
     |> Enum.into(%{})
   end
 
-  def trip_messages(%Routes.Route{id: "CR-Providence"}, 0) do
-    ["893"] |> Enum.flat_map(&franklin_via_fairmount(&1, 0)) |> Enum.into(%{})
+  def trip_messages(%Routes.Route{id: "CR-Providence"}, 0, date) do
+    trips =
+      if Timex.before?(date, @spring_2025_rating_date) do
+        ["893"]
+      else
+        ["991"]
+      end
+
+    trips |> Enum.flat_map(&franklin_via_fairmount(&1, 0)) |> Enum.into(%{})
   end
 
-  def trip_messages(_, _) do
+  def trip_messages(_, _, _) do
     %{}
   end
 
