@@ -15,14 +15,17 @@ const getExternalMapURI = (
 
   const latLongString = `${latitude},${longitude}`;
 
-  if (placeId) {
-    params += `&query=${latLongString}&query_place_id=${placeId}`;
+  if (placeId && name) {
+    const encodedName = encodeURIComponent(name);
+
+    params += `&query=${latLongString}&query_place_id=${placeId}&q=${encodedName}&sll=${latLongString}`;
   }
 
   // Apple uses a combination of `q` and `sll` to pin locations
   // Google uses a combination of the `query` and `query_place_id` to pin locations
   if (!placeId && name) {
     const encodedName = encodeURIComponent(name);
+
     params += `&query=${latLongString}&q=${encodedName}&sll=${latLongString}`;
   }
 
