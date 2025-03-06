@@ -58,6 +58,9 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     body = body(latitude, longitude)
     headers = headers()
 
+    # We have to wait so we don't exceed our rate limit of 10 requests per second.
+    :timer.sleep(500)
+
     {:ok, {{_, 200, _}, _, response}} =
       :httpc.request(:post, {@google_url, headers, ~c"application/json", body}, [], [])
 
@@ -65,9 +68,6 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
       response
       |> Kernel.to_string()
       |> :json.decode()
-
-    # We have to wait so we don't exceed our rate limit of 10 requests per second.
-    :timer.sleep(100)
 
     if Map.has_key?(places, "places") do
       {id, Map.get(places, "places") |> List.first() |> Map.get("id")}
