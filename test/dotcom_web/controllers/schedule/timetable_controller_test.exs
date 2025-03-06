@@ -224,11 +224,17 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
-  describe "trip_messages/2" do
-    test "returns proper messages for a CR Franklin train running via Fairmount" do
+  describe "trip_messages/3" do
+    setup do
+      # hardcoded date before the rating switchover that'll change the relevant trip numbers
+      # to do... make a better test
+      [date: ~D[2025-03-06]]
+    end
+
+    test "returns proper messages for a CR Franklin train running via Fairmount", %{date: date} do
       assert Enum.member?(
                %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(0)
+               |> trip_messages(0, date)
                |> Map.keys()
                |> Enum.map(&elem(&1, 0))
                |> Enum.uniq()
@@ -237,8 +243,8 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
              )
     end
 
-    test "returns proper messages for others" do
-      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1) == %{}
+    test "returns proper messages for others", %{date: date} do
+      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1, date) == %{}
     end
   end
 
