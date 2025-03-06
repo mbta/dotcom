@@ -26,7 +26,8 @@ defmodule Dotcom.Application do
 
     children =
       [
-        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []}
+        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
+        {Dotcom.RateLimit, [clean_period: 60_000 * 10]}
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
