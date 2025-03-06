@@ -4,6 +4,8 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
   The function is a simple one to one mapping of stop ids to Google place ids.
   """
 
+  @shortdoc "Create the `Dotcom.StopPlaceIds` module."
+
   use Mix.Task
 
   @file_path "lib/dotcom/stop_place_ids.ex"
