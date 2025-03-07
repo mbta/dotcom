@@ -60,7 +60,7 @@ const ExternalMapLink = ({
   longitude: number;
   placeId?: string;
 }): ReactElement<HTMLElement> => {
-  const externalMapURI = getExternalMapURI(longitude, latitude, name, placeId);
+  const externalMapURI = getExternalMapURI(latitude, longitude, name, placeId);
 
   let displayString = address;
   if (!address) {
