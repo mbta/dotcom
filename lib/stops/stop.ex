@@ -28,7 +28,8 @@ defmodule Stops.Stop do
             platform_name: nil,
             platform_code: nil,
             description: nil,
-            zone: nil
+            zone: nil,
+            place_id: nil
 
   @type id_t :: String.t()
 
@@ -57,7 +58,8 @@ defmodule Stops.Stop do
           platform_name: String.t() | nil,
           platform_code: String.t() | nil,
           description: String.t() | nil,
-          zone: String.t() | nil
+          zone: String.t() | nil,
+          place_id: String.t() | nil
         }
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]

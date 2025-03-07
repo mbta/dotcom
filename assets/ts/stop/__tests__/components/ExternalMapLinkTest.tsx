@@ -22,7 +22,7 @@ describe("getExternalMapURI", () => {
 
   it("should return a query containing the name if name is passed in and lat long", () => {
     const uri = getExternalMapURI(45.001, -35.001, "asdf");
-    expect(uri).toContain("query=asdf");
+    expect(uri).toContain("query=45.001,-35.001");
     expect(uri).toContain("q=asdf");
     expect(uri).toContain("sll=45.001,-35.001");
   });

@@ -5,6 +5,8 @@ defmodule Stops.Api do
 
   require Logger
 
+  import Dotcom.StopPlaceIds, only: [stop_place_id: 1]
+
   alias JsonApi.Item
   alias MBTA.Api
   alias Stops.Stop
@@ -173,7 +175,8 @@ defmodule Stops.Api do
       platform_name: platform_name(item),
       platform_code: platform_code(item),
       description: description(item),
-      zone: zone_number(item)
+      zone: zone_number(item),
+      place_id: stop_place_id(item.id)
     }
 
     {:ok, stop}
