@@ -9,7 +9,6 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
   use Mix.Task
 
   @file_path "lib/dotcom/stop_place_ids.ex"
-  @google_api_key System.get_env("GOOGLE_API_KEY", "")
   @google_url "https://places.googleapis.com/v1/places:searchNearby"
   @included_types [
     "bus_station",
@@ -88,11 +87,16 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     :zip.unzip(path, [{:cwd, String.to_charlist(directory)}])
   end
 
+  # Get the Google API key from the environment.
+  defp google_api_key() do
+    System.get_env("GOOGLE_API_KEY", "")
+  end
+
   # Headers for the Google request.
   defp headers() do
     [
       {~c"accept", ~c"application/json"},
-      {~c"X-Goog-Api-Key", String.to_charlist(@google_api_key)},
+      {~c"X-Goog-Api-Key", String.to_charlist(google_api_key())},
       {~c"X-Goog-FieldMask", ~c"places.id"}
     ]
   end
@@ -165,7 +169,6 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
     |> CSV.decode!(headers: true)
     |> Stream.filter(fn row -> row["parent_station"] == "" end)
     |> Stream.map(&row_to_tuple/1)
-    |> Stream.take(3)
     |> Task.async_stream(&get_place_id/1)
     |> Stream.map(&stop_place_id/1)
     |> Stream.each(&IO.binwrite(file, &1))
