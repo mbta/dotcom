@@ -9,7 +9,7 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
   use Mix.Task
 
   @file_path "lib/dotcom/stop_place_ids.ex"
-  @google_api_key System.get_env("GOOGLE_API_KEY")
+  @google_api_key System.get_env("GOOGLE_API_KEY", "")
   @google_url "https://places.googleapis.com/v1/places:searchNearby"
   @included_types [
     "bus_station",
