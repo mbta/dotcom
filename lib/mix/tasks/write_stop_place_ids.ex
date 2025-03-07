@@ -108,12 +108,12 @@ defmodule Mix.Tasks.WriteStopPlaceIds do
 
   # If the place id is nil, we write out a comment.
   defp stop_place_id({:ok, {stop_id, nil}}) do
-    "\t# Could not find stop: #{stop_id}\n"
+    "# Could not find stop: #{stop_id}\n"
   end
 
   # If we have a place id, we write out a function.
   defp stop_place_id({:ok, {stop_id, place_id}}) do
-    "\tdef stop_place_id(\"#{stop_id}\"), do: \"#{place_id}\"\n"
+    "def stop_place_id(\"#{stop_id}\"), do: \"#{place_id}\"\n"
   end
 
   # If we got some kind of error in the process, we inspect it and write nothing.
