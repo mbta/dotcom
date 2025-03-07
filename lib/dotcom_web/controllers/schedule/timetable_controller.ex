@@ -255,23 +255,33 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp franklin_via_fairmount(train, direction) do
-    stops = stops_for_fairmount(direction)
+    stops = stops_for_fairmount(train, direction)
 
     [
       List.duplicate(train, length(stops)),
       stops,
-      ["Via", "Fair-", "mount", "Line", "-"]
+      ["Via", "Fairmount", "Line", "-"]
     ]
     |> make_via_list()
     |> Enum.concat([{{train}, "Via Fairmount Line"}])
   end
 
-  defp stops_for_fairmount(1) do
-    ["place-NEC-2203", "place-forhl", "place-rugg", "place-bbsta"]
+  # As of Spring 2025, weekend train numbers are 4-digits leading with 5
+  # These weekend trains happen to skip Forest Hills.
+  defp stops_for_fairmount(<<"5", _rest::binary-size(3)>>, 0) do
+    ~w[place-bbsta place-rugg place-NEC-2203]
   end
 
-  defp stops_for_fairmount(0) do
-    ["place-bbsta", "place-rugg", "place-forhl", "place-NEC-2203"]
+  defp stops_for_fairmount(_, 0) do
+    ~w[place-bbsta place-rugg place-forhl place-NEC-2203]
+  end
+
+  defp stops_for_fairmount(<<"5", _rest::binary-size(3)>>, 1) do
+    ~w[place-NEC-2203 place-rugg place-bbsta]
+  end
+
+  defp stops_for_fairmount(_, 1) do
+    ~w[place-NEC-2203 place-forhl place-rugg place-bbsta]
   end
 
   def make_via_list(list) do
