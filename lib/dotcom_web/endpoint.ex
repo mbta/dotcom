@@ -164,5 +164,6 @@ defmodule DotcomWeb.Endpoint do
       )
   end
 
+  plug(ContentSecurityPolicy.Plug.AddNonce, directives: [:script_src])
   plug(DotcomWeb.Router)
 end
