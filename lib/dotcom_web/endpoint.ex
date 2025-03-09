@@ -72,5 +72,97 @@ defmodule DotcomWeb.Endpoint do
     cookie_key: "request_logger"
   )
 
+  host = System.get_env("HOST", "localhost:8090")
+  static_host = System.get_env("STATIC_HOST", "localhost:8090")
+
+  default_policy = %ContentSecurityPolicy.Policy{
+    connect_src: ~w[
+      'self'
+      #{Application.compile_env!(:dotcom, :tile_server_url)}
+      *.arcgis.com
+      analytics.google.com
+      cdn.mbta.com
+      px.ads.linkedin.com
+      stats.g.doubleclick.net
+      translate.googleapis.com
+      translate-pa.googleapis.com
+      www.google.com
+      www.google-analytics.com
+      www.googletagmanager.com
+      ws://#{host}
+    ],
+    default_src: ~w['none'],
+    font_src: ~w['self' #{static_host}],
+    frame_src: ~w[
+      'self'
+      *.arcgis.com
+      *.soundcloud.com
+      *.vimeo.com
+      cdn.knightlab.com
+      data.mbta.com
+      livestream.com
+      vimeo.com
+      www.instagram.com
+      www.google.com
+      www.googletagmanager.com
+      www.youtube.com
+    ],
+    img_src: ~w[
+      'self'
+      #{static_host}
+      #{System.get_env("CMS_API_BASE_URL", "")}
+      #{Application.compile_env!(:dotcom, :tile_server_url)}
+      *.arcgis.com
+      *.google.com
+      *.googleapis.com
+      cdn.mbta.com
+      data:
+      i.ytimg.com
+      fonts.gstatic.com
+      px.ads.linkedin.com
+      www.facebook.com
+      www.googletagmanager.com
+      www.gstatic.com
+      www.linkedin.com
+    ],
+    script_src: ~w[
+      'self'
+      'unsafe-eval'
+      'unsafe-inline'
+      #{static_host}
+      *.arcgis.com
+      connect.facebook.net
+      data.mbta.com
+      insitez.blob.core.windows.net
+      snap.licdn.com
+      translate.google.com
+      translate-pa.googleapis.com
+      www.google.com
+      www.google-analytics.com
+      www.googletagmanager.com
+      www.gstatic.com
+      www.instagram.com
+    ],
+    style_src: ~w[
+      'self'
+      'unsafe-inline'
+      #{static_host}
+      www.gstatic.com
+    ],
+    worker_src: ~w[blob: ;]
+  }
+
+  plug(ContentSecurityPolicy.Plug.Setup, default_policy: default_policy)
+
+  case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
+    nil ->
+      :ok
+
+    [sentry_host | _] ->
+      plug(ContentSecurityPolicy.Plug.AddSourceValue,
+        connect_src: sentry_host
+      )
+  end
+
   plug(DotcomWeb.Router)
 end

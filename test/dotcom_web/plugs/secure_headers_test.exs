@@ -14,7 +14,6 @@ defmodule DotcomWeb.Plugs.SecureHeadersTest do
 
   defp has_security_headers?(conn) do
     [
-      "content-security-policy",
       "strict-transport-security",
       "x-content-type-options",
       "x-frame-options",
