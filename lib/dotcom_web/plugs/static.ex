@@ -5,10 +5,10 @@ defmodule DotcomWeb.Plugs.Static do
 
   use Plug.Builder
 
-  import Phoenix.Controller, only: [redirect: 2]
+  import Phoenix.Controller, only: [redirect: 2, put_secure_browser_headers: 2]
 
   plug(:check_if_apple_touch_icon_request)
-  plug(DotcomWeb.Plugs.SecureHeaders)
+  plug(:put_secure_browser_headers, Application.compile_env(:dotcom, :secure_headers, %{}))
 
   plug(
     Plug.Static,
