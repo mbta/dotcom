@@ -33,6 +33,7 @@ test.describe("Security headers are present", () => {
     ["post", "/schedules/742/line"],
     ["get", "/icon-svg/icon-map-station-marker.svg"],
     ["post", "/schedules/36/line"],
+    ["get", "/error/unexpected/page"],
   ].forEach(([method, path]) => {
     test(`${method} ${path}`, async ({ request }) => {
       const response = await request[method](path);
