@@ -5,17 +5,17 @@ defmodule DotcomWeb.Plugs.Static do
 
   use Plug.Builder
 
-  import DotcomWeb.Plugs.SecureHeaders, only: [default_secure_headers: 0]
   import Phoenix.Controller, only: [redirect: 2]
 
   plug(:check_if_apple_touch_icon_request)
+  plug(DotcomWeb.Plugs.SecureHeaders)
 
   plug(
     Plug.Static,
     at: "/",
     from: :dotcom,
     gzip: Mix.env() == :prod,
-    headers: default_secure_headers() |> Map.put("access-control-allow-origin", "*"),
+    headers: %{"access-control-allow-origin" => "*"},
     cache_control_for_etags: "max-age=86400",
     only: DotcomWeb.static_paths(),
     only_matching: ~w(favicon apple-touch-icon)
