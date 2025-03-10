@@ -13,6 +13,7 @@
     "lib/dotcom/redis/behaviour.ex",
     "lib/dotcom/redix/behaviour.ex",
     "lib/dotcom/redix/pub_sub/behaviour.ex",
+    "lib/dotcom/stop_place_ids.ex",
     "lib/dotcom/telemetry.ex",
     "lib/dotcom_web.ex",
     "lib/dotcom_web/live/admin",

@@ -200,6 +200,7 @@ export interface Stop {
   platform_code?: string | null;
   description?: string | null;
   zone?: string;
+  place_id?: string;
 }
 
 export interface ClosedStopInfo {
