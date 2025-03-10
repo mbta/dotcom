@@ -76,6 +76,7 @@ defmodule DotcomWeb.Endpoint do
   static_host = System.get_env("STATIC_HOST", "localhost:8090")
 
   default_policy = %ContentSecurityPolicy.Policy{
+    base_uri: ~w['none'],
     connect_src: ~w[
       'self'
       #{Application.compile_env!(:dotcom, :tile_server_url)}
@@ -128,19 +129,17 @@ defmodule DotcomWeb.Endpoint do
     script_src: ~w[
       'self'
       'unsafe-eval'
-      'unsafe-inline'
       #{static_host}
       *.arcgis.com
       connect.facebook.net
       data.mbta.com
+      https://www.google.com/recaptcha/api.js
+      https://www.google.com/recaptcha/api/fallback
+      https://www.googletagmanager.com/gtm.js
       insitez.blob.core.windows.net
       snap.licdn.com
-      translate.google.com
+      translate.google.com/translate_a/element.js
       translate-pa.googleapis.com
-      www.google.com
-      www.google-analytics.com
-      www.googletagmanager.com
-      www.gstatic.com
       www.instagram.com
     ],
     style_src: ~w[
