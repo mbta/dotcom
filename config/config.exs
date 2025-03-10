@@ -33,6 +33,13 @@ config :dotcom, :repo_modules,
 
 config :dotcom, :req_module, Req
 
+config :dotcom, :secure_headers, %{
+  "strict-transport-security" => "max-age=31536000",
+  "x-content-type-options" => "nosniff",
+  "x-frame-options" => "SAMEORIGIN",
+  "x-xss-protection" => "1; mode=block"
+}
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"

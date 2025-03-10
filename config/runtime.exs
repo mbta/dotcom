@@ -39,9 +39,7 @@ if config_env() == :dev do
     http: [ip: {0, 0, 0, 0}, port: port],
     static_url: static_url
 
-  config :dotcom,
-    dev_server?: true,
-    webpack_path: webpack_path
+  config :dotcom, webpack_path: webpack_path
 end
 
 # Redis cluster configuration
@@ -161,33 +159,6 @@ end
 
 if config_env() == :prod do
   config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
-
-  # Extract the host fron the sentry dsn
-  sentry_dsn_host =
-    case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
-      nil -> ""
-      [match | _] -> match
-    end
-
-  static_host = System.get_env("STATIC_HOST", "")
-
-  config :dotcom,
-         :content_security_policy_definition,
-         DotcomWeb.Plugs.SecureHeaders.base_csp_directives()
-         |> Enum.map(fn
-           {:connect, directive} ->
-             directive ++ ["wss://#{host}", sentry_dsn_host]
-
-           {:img, directive} ->
-             directive ++ [static_host, System.get_env("CMS_API_BASE_URL", "")]
-
-           {key, directive} when key in [:font, :script, :style] ->
-             directive ++ [static_host]
-
-           {_, directive} ->
-             directive
-         end)
-         |> Enum.map_join("; ", &Enum.join(&1, " "))
 
   config :dotcom, DotcomWeb.Endpoint,
     http: [

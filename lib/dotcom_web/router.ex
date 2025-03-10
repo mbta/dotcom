@@ -10,17 +10,13 @@ defmodule DotcomWeb.Router do
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
-    conn
-    |> DotcomWeb.Plugs.SecureHeaders.call([])
-    |> then(fn conn ->
-      case reason do
-        %Phoenix.Router.NoRouteError{plug_status: 404} ->
-          ControllerHelpers.render_404(conn)
+    case reason do
+      %Phoenix.Router.NoRouteError{plug_status: 404} ->
+        ControllerHelpers.render_404(conn)
 
-        _ ->
-          ControllerHelpers.render_500(conn)
-      end
-    end)
+      _ ->
+        ControllerHelpers.render_500(conn)
+    end
   end
 
   pipeline :secure do
@@ -43,8 +39,8 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
-    plug(DotcomWeb.Plugs.SecureHeaders)
     plug(:optional_disable_indexing)
+    plug(:put_secure_browser_headers, Application.compile_env(:dotcom, :secure_headers, %{}))
   end
 
   pipeline :browser_live do
