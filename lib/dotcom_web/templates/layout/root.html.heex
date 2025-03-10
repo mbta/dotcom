@@ -40,7 +40,7 @@
     />
 
     <%= if Application.get_env(:sentry, :js_dsn) do %>
-      <script>
+      <script nonce={@conn.assigns[:csp_nonce]}>
         window.sentry = {
           dsn: "<%= Application.get_env(:sentry, :js_dsn) %>",
           environment: "<%= Application.get_env(:sentry, :environment_name) %>"
