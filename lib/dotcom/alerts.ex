@@ -12,7 +12,7 @@ defmodule Dotcom.Alerts do
 
   @service_impacting_effects [:delay, :shuttle, :suspension, :station_closure]
 
-  @doc"""
+  @doc """
   Get a list of stations that are affected by the alert.
   """
   @spec affected_stations(Alert.t()) :: [Stop.t()]

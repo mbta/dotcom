@@ -1,4 +1,4 @@
-defmodule Dotcom.Alerts.Disruptions.Subway do
+defmodule Dotcom.Alerts.Subway.Disruptions do
   @moduledoc """
   Disruptions are alerts that have `service_impacting_effects` grouped by `service_range`.
   """

@@ -66,9 +66,9 @@ defmodule DotcomWeb.Components.Alerts do
 
     ~H"""
     <div data-test={"alert_id:#{@alert.id}"}>
-    <%= if Kernel.length(@affected_stations) == 1 do %>
-      {@affected_stations |> List.first() |> Map.get(:name, "")}
-    <% end %>
+      <%= if Kernel.length(@affected_stations) == 1 do %>
+        {@affected_stations |> List.first() |> Map.get(:name, "")}
+      <% end %>
       {AlertView.effect_name(@alert)}
     </div>
     """
