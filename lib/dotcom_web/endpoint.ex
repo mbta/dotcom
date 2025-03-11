@@ -140,7 +140,6 @@ defmodule DotcomWeb.Endpoint do
       snap.licdn.com
       translate.google.com/translate_a/element.js
       translate-pa.googleapis.com
-      www.googletagmanager.com
       www.instagram.com
     ],
     style_src: ~w[
