@@ -92,7 +92,7 @@ defmodule DotcomWeb.Endpoint do
       www.googletagmanager.com
       ws://#{host}
     ],
-    default_src: ~w['none'],
+    default_src: ~w['self'],
     font_src: ~w['self' #{static_host}],
     frame_src: ~w[
       'self'
@@ -140,6 +140,7 @@ defmodule DotcomWeb.Endpoint do
       snap.licdn.com
       translate.google.com/translate_a/element.js
       translate-pa.googleapis.com
+      www.googletagmanager.com
       www.instagram.com
     ],
     style_src: ~w[
