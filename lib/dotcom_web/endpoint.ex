@@ -72,14 +72,26 @@ defmodule DotcomWeb.Endpoint do
     cookie_key: "request_logger"
   )
 
-  host = System.get_env("HOST", "localhost:8090")
-  static_host = System.get_env("STATIC_HOST", "localhost:8090")
+  endpoint_config = Application.compile_env(:dotcom, DotcomWeb.Endpoint, [])
+  static_url = Keyword.get(endpoint_config, :static_url, [])
+
+  static_host =
+    case static_url do
+      [url: url] -> url
+      [host: host, port: port] -> "#{host}:#{port}"
+      _ -> nil
+    end
+
+  host = Keyword.get(endpoint_config, :url)[:host]
+
+  webpack_path =
+    Application.compile_env(:dotcom, :webpack_path, "") |> String.replace("http://", "")
 
   default_policy = %ContentSecurityPolicy.Policy{
     base_uri: ~w['none'],
     connect_src: ~w[
       'self'
-      #{Application.compile_env!(:dotcom, :tile_server_url)}
+      #{Application.compile_env(:dotcom, :tile_server_url)}
       *.arcgis.com
       analytics.google.com
       cdn.mbta.com
@@ -91,9 +103,10 @@ defmodule DotcomWeb.Endpoint do
       www.google-analytics.com
       www.googletagmanager.com
       ws://#{host}
+      #{if(webpack_path != "", do: "ws://#{webpack_path}/ws")}
     ],
     default_src: ~w['self'],
-    font_src: ~w['self' #{static_host}],
+    font_src: ~w['self' #{static_host} #{webpack_path}],
     frame_src: ~w[
       'self'
       *.arcgis.com
@@ -111,8 +124,8 @@ defmodule DotcomWeb.Endpoint do
     img_src: ~w[
       'self'
       #{static_host}
-      #{System.get_env("CMS_API_BASE_URL", "")}
-      #{Application.compile_env!(:dotcom, :tile_server_url)}
+      #{Application.compile_env(:dotcom, :cms_api, [])[:base_url]}
+      #{Application.compile_env(:dotcom, :tile_server_url)}
       *.arcgis.com
       *.google.com
       *.googleapis.com
@@ -130,6 +143,7 @@ defmodule DotcomWeb.Endpoint do
       'self'
       'unsafe-eval'
       #{static_host}
+      #{webpack_path}
       *.arcgis.com
       connect.facebook.net
       data.mbta.com
@@ -146,6 +160,7 @@ defmodule DotcomWeb.Endpoint do
       'self'
       'unsafe-inline'
       #{static_host}
+      #{webpack_path}
       www.gstatic.com
     ],
     worker_src: ~w[blob: ;]
@@ -153,14 +168,18 @@ defmodule DotcomWeb.Endpoint do
 
   plug(ContentSecurityPolicy.Plug.Setup, default_policy: default_policy)
 
-  case Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN", ""), capture: :all_but_first) do
-    nil ->
-      :ok
+  for dsn <- [:dsn, :js_dsn] do
+    case Regex.run(~r/@(.*)\//, Application.compile_env(:sentry, dsn) || "",
+           capture: :all_but_first
+         ) do
+      nil ->
+        :ok
 
-    [sentry_host | _] ->
-      plug(ContentSecurityPolicy.Plug.AddSourceValue,
-        connect_src: sentry_host
-      )
+      [sentry_host | _] ->
+        plug(ContentSecurityPolicy.Plug.AddSourceValue,
+          connect_src: sentry_host
+        )
+    end
   end
 
   plug(ContentSecurityPolicy.Plug.AddNonce, directives: [:script_src])
