@@ -3,6 +3,12 @@ defmodule Dotcom.ContentRewriters.CodeEmbed do
   Code embeds should not be modified unless necessary!
   """
 
+  @tableau_cloud_token_module Application.compile_env(
+                                :dotcom,
+                                :tableau_cloud_token_module,
+                                TableauCloudToken
+                              )
+
   @spec rewrite(Phoenix.HTML.safe()) :: Phoenix.HTML.safe()
   def rewrite({:safe, content}) do
     {:ok, parsed} = Floki.parse_fragment(content)
@@ -16,7 +22,7 @@ defmodule Dotcom.ContentRewriters.CodeEmbed do
   # Tableau dashboards: add the JWT needed for authentication
   @spec dispatch_rewrites(Floki.html_tree()) :: Floki.html_tree()
   defp dispatch_rewrites({"tableau-viz", attrs, children}) do
-    attrs = [{"token", TableauCloudToken.default_token()} | attrs]
+    attrs = [{"token", @tableau_cloud_token_module.default_token()} | attrs]
     {"tableau-viz", attrs, children}
   end
 
