@@ -2,5 +2,4 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%# Output raw CMS source HTML %>
-<%= @content.body %>
+<%= Dotcom.ContentRewriters.CodeEmbed.rewrite(@content.body) %>
