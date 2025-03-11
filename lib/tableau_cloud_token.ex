@@ -6,7 +6,7 @@ defmodule TableauCloudToken do
   """
   use Joken.Config, default_signer: :tableau_signer
 
-  @impl true
+  @impl Joken.Config
   def token_config do
     default_claims(
       aud: "tableau",
@@ -18,10 +18,12 @@ defmodule TableauCloudToken do
     |> add_claim("scp", fn -> ["tableau:views:embed", "tableau:metrics:embed"] end)
   end
 
+  @behaviour __MODULE__
+  @callback default_token() :: Joken.bearer_token() | {:error, Joken.error_reason()}
   @doc """
   Returns a valid token for using with embedding Tableau Cloud visualizations
   """
-  @spec default_token :: Joken.bearer_token() | {:error, Joken.error_reason()}
+  @impl __MODULE__
   def default_token do
     with {:ok, token, _} <- generate_and_sign(),
          {:ok, _claims} <- verify_and_validate(token) do
