@@ -56,6 +56,10 @@ defmodule LocationService do
     |> handle_response()
   end
 
+  defp handle_response({:error, {:unexpected_response, error}}) do
+    handle_response({:error, error})
+  end
+
   defp handle_response({:error, error}) do
     error |> inspect() |> Sentry.capture_message()
     {:error, :internal_error}
