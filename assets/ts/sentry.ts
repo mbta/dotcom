@@ -16,11 +16,13 @@ export default function initializeSentry(): void {
       dsn: window.sentry.dsn,
       environment: window.sentry.environment,
       beforeSend,
-      autoSessionTracking: false,
-      sampleRate: 0.6, // error sampling - might increase later
+      sampleRate: 0.8, // error sampling - might increase later
       initialScope: {
         tags: { "dotcom.application": "frontend" }
       },
+      sendDefaultPii: true,
+      integrations: [Sentry.captureConsoleIntegration()],
+      attachStacktrace: true,
       beforeBreadcrumb: breadcrumb => {
         // omit breadcrumbs that are just these scripts
         // making their incessant pinging
