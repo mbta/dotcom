@@ -8,9 +8,9 @@ export const isEscape = (key: number | string): boolean =>
 export const handleNativeEnterKeyPress = (
   e: KeyboardEvent,
   cb: Function
-): void => (isEnter(e.key || e.keyCode) ? cb(e) : () => {});
+): void => (isEnter(e.key || e.keyCode) ? cb(e) : (() => {})());
 
 export const handleNativeEscapeKeyPress = (
   e: KeyboardEvent,
   cb: Function
-): void => (isEscape(e.key || e.keyCode) ? cb(e) : () => {});
+): void => (isEscape(e.key || e.keyCode) ? cb(e) : (() => {})());

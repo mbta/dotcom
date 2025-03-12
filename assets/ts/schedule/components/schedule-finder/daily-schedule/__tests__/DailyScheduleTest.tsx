@@ -1,11 +1,11 @@
+import { render, screen } from "@testing-library/react";
+import { ReactWrapper, mount } from "enzyme";
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import { ReactWrapper, mount } from "enzyme";
-import { createReactRoot } from "../../../../../app/helpers/testUtils";
-import * as dailyScheduleModule from "../DailySchedule";
 import { DatesNotes, Service, ServiceTypicality } from "../../../../../__v3api";
+import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import { ServiceInSelector } from "../../../__schedule";
-import { render, screen } from "@testing-library/react";
+import * as dailyScheduleModule from "../DailySchedule";
 
 const makeSimpleService = (
   [start_date, end_date]: [string, string],
@@ -368,10 +368,12 @@ describe("fetchJourneys", () => {
       );
 
       // change value in the dropdown:
-      wrapper
+      const fn = wrapper
         .find("SchedulesSelect")
         // @ts-ignore -- types for `invoke` are too restrictive
-        .invoke("onSelectService")("BUS319-P-Sa-02");
+        .invoke("onSelectService") as Function;
+
+      fn("BUS319-P-Sa-02");
 
       expect(fetchJourneysMock).toHaveBeenCalledTimes(2);
       fetchJourneysMock.mockRestore();
