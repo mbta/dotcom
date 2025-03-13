@@ -366,10 +366,13 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Dotcom.TripPlan.OpenTripPlanner.plan()
 
     case plan do
-      {:ok, itineraries} ->
-        itineraries
+      {:ok, %{actual_itineraries: actual_itineraries, ideal_itineraries: ideal_itineraries}} ->
+        actual_itineraries
         |> maybe_filter_accessible(data.wheelchair)
-        |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
+        |> ItineraryGroups.from_itineraries(
+          take_from_end: data.datetime_type == "arrive_by",
+          ideal_itineraries: ideal_itineraries
+        )
 
       error ->
         error

@@ -4,6 +4,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   parses the result.
   """
 
+  alias OpenTripPlannerClient.QueryResult
   alias Dotcom.TripPlan.{InputForm, NamedPosition, Parser}
 
   alias OpenTripPlannerClient.ItineraryTag.{
@@ -12,6 +13,8 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     MostDirect,
     ShortestTrip
   }
+
+  alias OpenTripPlannerClient.Plan
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
@@ -48,7 +51,16 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   defp parse({:error, _} = error), do: error
 
-  defp parse({:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}) do
-    {:ok, Enum.map(itineraries, &Parser.parse/1)}
+  defp parse({:ok, query_result}) do
+    %QueryResult{
+      actual_plan: %Plan{itineraries: actual_itineraries},
+      ideal_plan: %Plan{itineraries: ideal_itineraries}
+    } = query_result
+
+    {:ok,
+     %{
+       actual_itineraries: Enum.map(actual_itineraries, &Parser.parse/1),
+       ideal_itineraries: Enum.map(ideal_itineraries, &Parser.parse/1)
+     }}
   end
 end
