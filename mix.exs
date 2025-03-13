@@ -74,6 +74,10 @@ defmodule DotCom.Mixfile do
       {:aws, "1.0.4"},
       {:aws_credentials, "0.3.2", optional: true},
       {:castore, "1.0.12"},
+      {
+        :content_security_policy,
+        git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
+      },
       {:cowlib, "2.14.0", override: true},
       {:crc, "0.10.5"},
       {:credo, "1.7.11", only: [:dev, :test]},
