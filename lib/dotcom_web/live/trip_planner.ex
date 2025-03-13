@@ -43,10 +43,17 @@ defmodule DotcomWeb.Live.TripPlanner do
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
     changeset = plan |> AntiCorruptionLayer.decode() |> InputForm.changeset()
 
+    %{params: previous_params} = changeset
+
+    params_with_datetime =
+      previous_params
+      |> add_datetime_if_needed(previous_params)
+
     new_socket =
       socket
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
+      |> update_datepicker(params_with_datetime)
       |> submit_changeset(changeset)
 
     {:ok, new_socket}
@@ -354,9 +361,10 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:ok, data} = Ecto.Changeset.apply_action(changeset, :submit)
 
     case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
-      {:ok, itineraries} ->
-        ItineraryGroups.from_itineraries(itineraries,
-          take_from_end: data.datetime_type == "arrive_by"
+      {:ok, %{actual_itineraries: actual_itineraries, ideal_itineraries: ideal_itineraries}} ->
+        ItineraryGroups.from_itineraries(actual_itineraries,
+          take_from_end: data.datetime_type == "arrive_by",
+          ideal_itineraries: ideal_itineraries
         )
 
       error ->
