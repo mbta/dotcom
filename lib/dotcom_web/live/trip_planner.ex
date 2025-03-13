@@ -354,9 +354,10 @@ defmodule DotcomWeb.Live.TripPlanner do
     {:ok, data} = Ecto.Changeset.apply_action(changeset, :submit)
 
     case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
-      {:ok, itineraries} ->
-        ItineraryGroups.from_itineraries(itineraries,
-          take_from_end: data.datetime_type == "arrive_by"
+      {:ok, %{actual_itineraries: actual_itineraries, ideal_itineraries: ideal_itineraries}} ->
+        ItineraryGroups.from_itineraries(actual_itineraries,
+          take_from_end: data.datetime_type == "arrive_by",
+          ideal_itineraries: ideal_itineraries
         )
 
       error ->
