@@ -179,7 +179,7 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
         <img
           src={alert.image}
           alt={alert.image_alternative_text}
-          className="w-100"
+          className="w-full"
         />
       </a>
     )}
