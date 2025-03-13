@@ -7,6 +7,8 @@ defmodule Dotcom.Alerts.SubwayTest do
 
   alias Test.Support.Factories
 
+  setup :verify_on_exit!
+
   setup do
     stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
       Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
@@ -163,17 +165,13 @@ defmodule Dotcom.Alerts.SubwayTest do
 
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
       b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
-      c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "C")
 
-      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
 
-      a_stops = MapSet.new(["A", "B"])
-      b_stops = MapSet.new(["B", "C"])
+      a_stops = MapSet.new(["A"])
+      b_stops = MapSet.new(["B"])
 
       a_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stops)
