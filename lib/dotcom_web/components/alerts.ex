@@ -5,8 +5,6 @@ defmodule DotcomWeb.Components.Alerts do
 
   use DotcomWeb, :component
 
-  import Dotcom.Alerts, only: [affected_stations: 1]
-
   alias Alerts.Alert
   alias DotcomWeb.AlertView
 
