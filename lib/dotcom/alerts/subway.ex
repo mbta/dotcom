@@ -9,7 +9,6 @@ defmodule Dotcom.Alerts.Subway do
       sort_by_station: 1
     ]
 
-
   alias Alerts.Alert
 
   @order ["High Priority", "Elevator & Escalator", "Bike", "Parking", "Other"]
