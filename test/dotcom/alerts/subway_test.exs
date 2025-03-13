@@ -177,8 +177,9 @@ defmodule Dotcom.Alerts.SubwayTest do
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
       b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
 
-      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
+      # This matches teh order of the `alerts` below.
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
 
       a_stops = MapSet.new(["A"])

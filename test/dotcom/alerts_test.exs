@@ -133,10 +133,11 @@ defmodule Dotcom.AlertsTest do
       b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
       c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "C")
 
-      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      # This matches the order of the `alerts` below.
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
 
       a_b_stops = MapSet.new(["A", "B"])
       b_c_stops = MapSet.new(["B", "C"])
