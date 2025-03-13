@@ -21,17 +21,39 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   """
   @spec from_itineraries([Itinerary.t()], Keyword.t()) :: [ItineraryGroup.t()]
   def from_itineraries(itineraries, opts \\ []) do
-    itineraries
-    |> Enum.group_by(&unique_legs_to_hash/1)
-    |> Enum.map(&drop_hash/1)
-    |> Enum.reject(&Enum.empty?/1)
-    |> Enum.map(&limit_itinerary_count(&1, opts))
-    |> Enum.map(&to_group(&1, opts))
-    |> Enum.sort_by(fn
-      %ItineraryGroup{summary: %{tag: tag}} ->
-        Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
-    end)
-    |> Enum.take(5)
+    ideal_itineraries =
+      (opts[:ideal_itineraries] || [])
+      |> Enum.group_by(&unique_legs_to_hash/1)
+
+    actual_itineraries =
+      itineraries
+      |> Enum.group_by(&unique_legs_to_hash/1)
+
+    unavailable_itineraries =
+      ideal_itineraries
+      |> Enum.reject(fn {hash, _} -> actual_itineraries |> Map.has_key?(hash) end)
+      |> Enum.map(&drop_hash/1)
+      |> Enum.reject(&Enum.empty?/1)
+      |> Enum.map(&limit_itinerary_count(&1, opts))
+      |> Enum.map(&to_group(&1, opts |> Keyword.put(:unavailable?, true)))
+      |> Enum.sort_by(fn
+        %ItineraryGroup{summary: %{tag: tag}} ->
+          Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
+      end)
+
+    available_itineraries =
+      actual_itineraries
+      |> Enum.map(&drop_hash/1)
+      |> Enum.reject(&Enum.empty?/1)
+      |> Enum.map(&limit_itinerary_count(&1, opts))
+      |> Enum.map(&to_group(&1, opts))
+      |> Enum.sort_by(fn
+        %ItineraryGroup{summary: %{tag: tag}} ->
+          Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
+      end)
+      |> Enum.take(5)
+
+    unavailable_itineraries ++ available_itineraries
   end
 
   def max_per_group, do: @max_per_group
@@ -76,6 +98,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       grouped_itineraries
       |> Enum.at(representative_index)
       |> to_summary(grouped_itineraries)
+      |> Map.put(:unavailable?, opts[:unavailable?])
 
     %ItineraryGroup{
       itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
