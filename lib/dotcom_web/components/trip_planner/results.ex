@@ -71,7 +71,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           Unavailable
         </div>
         <.itinerary_summary summary={group.summary} />
-        <div class="flex justify-end items-center">
+        <div :if={!group.summary.unavailable?} class="flex justify-end items-center">
           <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">
             {ItineraryGroup.options_text(group)}
           </div>
