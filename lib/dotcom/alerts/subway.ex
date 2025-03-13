@@ -11,7 +11,7 @@ defmodule Dotcom.Alerts.Subway do
 
   alias Alerts.Alert
 
-  @order ["High Priority", "Elevator & Escalator", "Bike", "Parking", "Other"]
+  @group_order ["High Priority", "Elevator & Escalator", "Bike", "Parking", "Other"]
   @effects %{
     "Bike" => [:bike_issue],
     "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
@@ -51,7 +51,7 @@ defmodule Dotcom.Alerts.Subway do
   """
   @spec groups() :: [{String.t(), [atom()]}]
   def groups() do
-    Enum.map(@order, fn group ->
+    Enum.map(@group_order, fn group ->
       {group, @effects[group]}
     end)
   end
@@ -69,6 +69,12 @@ defmodule Dotcom.Alerts.Subway do
   end
 
   @doc """
+  Returns the order of groups.
+  """
+  @spec group_order() :: [String.t()]
+  def group_order(), do: @group_order
+
+  @doc """
   Sort alerts by ongoing and then start time.
   """
   @spec sort_alerts([Alert.t()]) :: [Alert.t()]
@@ -81,7 +87,7 @@ defmodule Dotcom.Alerts.Subway do
 
   # Return a map of groups with no alerts.
   defp empty_alerts() do
-    Enum.map(@order, fn group ->
+    Enum.map(@group_order, fn group ->
       {group, []}
     end)
     |> Enum.into(%{})

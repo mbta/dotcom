@@ -82,12 +82,7 @@ defmodule Dotcom.Alerts do
   @spec sort_by_station([Alert.t()]) :: [Alert.t()]
   def sort_by_station(alerts) do
     alerts
-    |> Enum.sort(fn a_alert, b_alert ->
-      a_key = a_alert |> affected_stations() |> stations_key()
-      b_key = b_alert |> affected_stations() |> stations_key()
-
-      a_key > b_key
-    end)
+    |> Enum.sort_by(fn alert -> alert |> affected_stations() |> stations_key() end, :desc)
   end
 
   # Take a list of stations and return a unique key.

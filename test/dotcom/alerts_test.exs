@@ -98,10 +98,10 @@ defmodule Dotcom.AlertsTest do
       alerts = [not_ongoing_alert, ongoing_alert]
 
       # Exercise
-      result = sort_by_ongoing(alerts)
+      sorted_alerts = sort_by_ongoing(alerts)
 
       # Verify
-      assert [ongoing_alert, not_ongoing_alert] == result
+      assert [ongoing_alert, not_ongoing_alert] == sorted_alerts
     end
   end
 
@@ -117,27 +117,27 @@ defmodule Dotcom.AlertsTest do
       alerts = [later_alert, earlier_alert]
 
       # Exercise
-      result = sort_by_start_time(alerts)
+      sorted_alerts = sort_by_start_time(alerts)
 
       # Verify
-      assert [earlier_alert, later_alert] == result
+      assert [earlier_alert, later_alert] == sorted_alerts
     end
   end
 
   describe "sort_by_station/1" do
     test "sorts by any stations" do
       # Setup
-      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "ABC")
-      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "BCD")
-      c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "CDE")
+      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
+      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
+      c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "C")
 
       expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
       expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
 
-      a_b_stops = MapSet.new([a_station.id, b_station.id])
-      b_c_stops = MapSet.new([b_station.id, c_station.id])
+      a_b_stops = MapSet.new(["A", "B"])
+      b_c_stops = MapSet.new(["B", "C"])
 
       a_b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_b_stops)
@@ -150,10 +150,10 @@ defmodule Dotcom.AlertsTest do
       alerts = [b_c_alert, a_b_alert]
 
       # Exercise
-      result = sort_by_station(alerts)
+      sorted_alerts = sort_by_station(alerts)
 
       # Verify
-      assert [a_b_alert, b_c_alert] == result
+      assert [a_b_alert, b_c_alert] == sorted_alerts
     end
   end
 end
