@@ -3,7 +3,9 @@ defmodule Dotcom.AlertsTest do
 
   import Dotcom.Alerts
   import Mox
-  import Test.Support.Generators.DateTime, only: [random_date_time: 0, random_time_range_date_time: 1]
+
+  import Test.Support.Generators.DateTime,
+    only: [random_date_time: 0, random_time_range_date_time: 1]
 
   alias Test.Support.Factories
 
@@ -141,6 +143,7 @@ defmodule Dotcom.AlertsTest do
 
       a_b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_b_stops)
+
       b_c_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_c_stops)
 

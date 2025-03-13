@@ -3,7 +3,9 @@ defmodule Dotcom.Alerts.SubwayTest do
 
   import Dotcom.Alerts.Subway
   import Mox
-  import Test.Support.Generators.DateTime, only: [random_date_time: 0, random_time_range_date_time: 1]
+
+  import Test.Support.Generators.DateTime,
+    only: [random_date_time: 0, random_time_range_date_time: 1]
 
   alias Test.Support.Factories
 
@@ -51,7 +53,10 @@ defmodule Dotcom.Alerts.SubwayTest do
       # Setup
       groups = groups()
       random_group = Enum.random(groups) |> Kernel.elem(0)
-      effects = Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
+      effects =
+        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
       random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
 
       alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
@@ -95,7 +100,10 @@ defmodule Dotcom.Alerts.SubwayTest do
       # Setup
       groups = groups()
       random_group = Enum.random(groups) |> Kernel.elem(0)
-      effects = Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
+      effects =
+        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
       random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
 
       alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
@@ -146,7 +154,10 @@ defmodule Dotcom.Alerts.SubwayTest do
       # Setup
       groups = groups() |> Enum.reject(fn {group, _effects} -> group == "Other" end)
       random_group = Enum.random(groups) |> Kernel.elem(0)
-      effects = Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
+      effects =
+        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+
       random_effect = Enum.random(effects)
 
       # Exercise
@@ -175,15 +186,33 @@ defmodule Dotcom.Alerts.SubwayTest do
 
       a_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stops)
+
       b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stops)
 
       # 'A' is first because it is ongoing. This is despite the station being last and the active period being later.
-      a_alert = Factories.Alerts.Alert.build(:alert, active_period: [{later, nil}], informed_entity: b_informed_entity, lifecycle: :ongoing)
+      a_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: [{later, nil}],
+          informed_entity: b_informed_entity,
+          lifecycle: :ongoing
+        )
+
       # 'B' is second because of its station. It is not ongoing and its active period is later.
-      b_alert = Factories.Alerts.Alert.build(:alert, active_period: [{later, nil}], informed_entity: a_informed_entity, lifecycle: :not_ongoing)
+      b_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: [{later, nil}],
+          informed_entity: a_informed_entity,
+          lifecycle: :not_ongoing
+        )
+
       # 'C' is last even though its active period is first. It is not ongoing and its station is last.
-      c_alert = Factories.Alerts.Alert.build(:alert, active_period: [{earlier, nil}], informed_entity: b_informed_entity, lifecycle: :not_ongoing)
+      c_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: [{earlier, nil}],
+          informed_entity: b_informed_entity,
+          lifecycle: :not_ongoing
+        )
 
       alerts = [c_alert, b_alert, a_alert]
 
