@@ -11,6 +11,10 @@
   <div class="c-alert-item__top">
     <div class="c-alert-item__top-text-container">
       <div class="c-alert-item__effect">
+        <% affected_stations = Dotcom.Alerts.affected_stations(@alert) %>
+        <%= if Kernel.length(affected_stations) === 1 do %>
+          <%= affected_stations |> List.first() |> Map.get(:name, "") %>
+        <% end %>
         <%= "#{effect_name(@alert)} " %>
         <%= unless label == "" do
           content_tag(:span, [label], class: alert_label_class(@alert))

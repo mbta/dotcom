@@ -1,0 +1,32 @@
+<div class="page-section m-schedule-line">
+  <% subway? =
+    Map.get(@conn.assigns, :breadcrumbs, [])
+    |> Enum.any?(fn %{text: text} -> text === "Subway" end) %>
+  <div class="row">
+    <div class="col-xs-12 col-lg-3">
+      <%= if subway? do %>
+        <h3>Jump to</h3>
+        <DotcomWeb.Components.Alerts.Subway.titles_by_effect alerts={@alerts} />
+      <% else %>
+        {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
+          method: :alerts_path,
+          item: @route
+        )}
+      <% end %>
+    </div>
+    <div class="col-xs-12 col-lg-8 col-lg-offset-1">
+      <h2>Alerts</h2>
+      <%= if subway? do %>
+        <DotcomWeb.Components.Alerts.Subway.alerts_by_effect alerts={@alerts} />
+      <% else %>
+        {DotcomWeb.AlertView.group(
+          alerts: @alerts,
+          route: @route,
+          date_time: @date_time,
+          show_empty?: true,
+          timeframe: @alerts_timeframe
+        )}
+      <% end %>
+    </div>
+  </div>
+</div>

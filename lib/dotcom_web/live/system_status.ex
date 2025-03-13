@@ -12,7 +12,7 @@ defmodule DotcomWeb.Live.SystemStatus do
   import DotcomWeb.Components.SystemStatus.StatusLabel
   import DotcomWeb.Components.SystemStatus.SubwayStatus
 
-  alias Dotcom.Alerts.Disruptions
+  alias Dotcom.Alerts.Subway.Disruptions
   alias Dotcom.SystemStatus
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
@@ -70,7 +70,7 @@ defmodule DotcomWeb.Live.SystemStatus do
       </div>
     <% end %>
     <hr id="planned-disruptions" />
-    <.disruptions disruptions={Disruptions.Subway.future_disruptions()} />
+    <.disruptions disruptions={Disruptions.future_disruptions()} />
     """
   end
 

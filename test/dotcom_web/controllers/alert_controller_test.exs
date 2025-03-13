@@ -33,6 +33,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Routes.Route.build_list(2, :route, %{type: route_type})
     end)
 
+    stub(Stops.Repo.Mock, :get, fn id ->
+      Factories.Stops.Stop.build(:stop, %{id: id})
+    end)
+
     stub(Stops.Repo.Mock, :get_parent, fn id ->
       Factories.Stops.Stop.build(:stop, %{id: id})
     end)

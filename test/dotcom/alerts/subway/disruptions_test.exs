@@ -1,8 +1,8 @@
-defmodule Dotcom.Alerts.Disruptions.SubwayTest do
+defmodule Dotcom.Alerts.Subway.DisruptionsTest do
   use ExUnit.Case
 
   import Dotcom.Alerts, only: [service_impacting_effects: 0]
-  import Dotcom.Alerts.Disruptions.Subway
+  import Dotcom.Alerts.Subway.Disruptions
 
   import Dotcom.Utils.ServiceDateTime,
     only: [

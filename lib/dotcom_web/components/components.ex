@@ -10,6 +10,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
+  import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
   embed_templates "layouts/*"
@@ -76,6 +77,28 @@ defmodule DotcomWeb.Components do
       </div>
       {render_slot(@inner_block)}
     </div>
+    """
+  end
+
+  attr :count, :integer, required: true
+
+  @doc """
+  Renders a square badge that is white on blue if the count is greater than 0,
+  and black on light gray if the count is 0.
+  """
+  def count(%{count: 0} = assigns) do
+    ~H"""
+    <.badge class="bg-charcoal-80 text-black !min-w-7 py-1.5" variant="square">
+      0
+    </.badge>
+    """
+  end
+
+  def count(%{count: _} = assigns) do
+    ~H"""
+    <.badge class="bg-cobalt-30 text-white !min-w-7 py-1.5" variant="square">
+      {@count}
+    </.badge>
     """
   end
 
