@@ -58,13 +58,13 @@ jobs:
         id: ecr
         uses: mbta/actions/build-push-ecr@v2
         with:
-          docker-repo: "${{ secrets.aws-account-id }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
+          docker-repo: "${{ secrets.aws-account-id || secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
-          role-to-assume: ${{ secrets.aws-role-arn }}
+          role-to-assume: ${{ secrets.aws-role-arn || secrets.AWS_ROLE_ARN }}
       - name: Deploy Monitor to ${{ inputs.deployment-env }}
         uses: mbta/actions/deploy-ecs@v2
         with:
-          role-to-assume: ${{ secrets.aws-role-arn }}
+          role-to-assume: ${{ secrets.aws-role-arn || secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-${{ inputs.deployment-env }}
           docker-tag: ${{ steps.ecr.outputs.docker-tag }}
