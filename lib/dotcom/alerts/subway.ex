@@ -1,12 +1,13 @@
 defmodule Dotcom.Alerts.Subway do
   @moduledoc false
 
-  import Dotcom.Alerts, only: [
-    service_impacting_effects: 0,
-    sort_by_ongoing: 1,
-    sort_by_start_time: 1,
-    sort_by_station: 1
-  ]
+  import Dotcom.Alerts,
+    only: [
+      service_impacting_effects: 0,
+      sort_by_ongoing: 1,
+      sort_by_start_time: 1,
+      sort_by_station: 1
+    ]
 
   @order ["High Priority", "Elevator & Escalator", "Bike", "Parking", "Other"]
   @effects %{

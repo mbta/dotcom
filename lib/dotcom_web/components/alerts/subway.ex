@@ -1,11 +1,11 @@
-defmodule DotcomWeb.Components.Alerts.Groups do
+defmodule DotcomWeb.Components.Alerts.Subway do
   @moduledoc false
 
   use DotcomWeb, :component
 
   import Dotcom.Alerts.Subway, only: [group_alerts: 1, group_counts: 1, groups: 0, sort_alerts: 1]
 
-  import DotcomWeb.Components.Alerts, only: [full_alert: 1]
+  import DotcomWeb.Components, only: [count: 1]
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
@@ -25,9 +25,10 @@ defmodule DotcomWeb.Components.Alerts.Groups do
           <%= if Map.get(@grouped_counts, group, 0) == 0 do %>
             <p>No {group} alerts</p>
           <% else %>
-            <%= for alert <- @grouped_alerts |> Map.get(group, []) |> sort_alerts() do %>
-              <.full_alert alert={alert} />
-            <% end %>
+            {Phoenix.View.render(DotcomWeb.AlertView, "group.html",
+              alerts: @grouped_alerts |> Map.get(group, []) |> sort_alerts(),
+              date_time: @now
+            )}
           <% end %>
         </div>
       <% end %>
@@ -40,12 +41,14 @@ defmodule DotcomWeb.Components.Alerts.Groups do
     assigns = assign(assigns, grouped_counts: grouped_counts)
 
     ~H"""
-    <div>
-      <ul>
-        <%= for {group, _} <- groups() do %>
-          <li><a href={"#" <> anchor(group)}>{group}</a> [ {Map.get(@grouped_counts, group, 0)} ]</li>
-        <% end %>
-      </ul>
+    <div class="m-alerts__time-filters">
+      <a
+        :for={{group, _} <- groups()}
+        href={"#" <> anchor(group)}
+        class="m-alerts__time-filter leading-[2]"
+      >
+        {group}<span class="float-right"><.count count={Map.get(@grouped_counts, group, 0)} /></span>
+      </a>
     </div>
     """
   end

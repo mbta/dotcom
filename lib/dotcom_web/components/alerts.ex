@@ -58,19 +58,4 @@ defmodule DotcomWeb.Components.Alerts do
     </div>
     """
   end
-
-  def full_alert(%{alert: alert} = assigns) do
-    affected_stations = affected_stations(alert)
-
-    assigns = assign(assigns, affected_stations: affected_stations)
-
-    ~H"""
-    <div data-test={"alert_id:#{@alert.id}"}>
-      <%= if Kernel.length(@affected_stations) == 1 do %>
-        {@affected_stations |> List.first() |> Map.get(:name, "")}
-      <% end %>
-      {AlertView.effect_name(@alert)}
-    </div>
-    """
-  end
 end
