@@ -2,6 +2,66 @@ defmodule Dotcom.AlertsTest do
   use ExUnit.Case
 
   import Dotcom.Alerts
+  import Mox
+  import Test.Support.Generators.DateTime, only: [random_date_time: 0, random_time_range_date_time: 1]
+
+  alias Test.Support.Factories
+
+  setup :verify_on_exit!
+
+  setup do
+    stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
+      Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
+    end)
+
+    stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+      Dotcom.Utils.DateTime.now()
+    end)
+
+    :ok
+  end
+
+  describe "affected_stations/1" do
+    test "returns a list of stations that are affected by the alert" do
+      # Setup
+      station = Factories.Stops.Stop.build(:stop, station?: true)
+      not_a_station = Factories.Stops.Stop.build(:stop, station?: false)
+
+      expect(Stops.Repo.Mock, :get, fn _ -> station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> not_a_station end)
+
+      stops = MapSet.new([station.id, not_a_station.id])
+
+      informed_entity =
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: stops)
+
+      alert = Factories.Alerts.Alert.build(:alert, informed_entity: informed_entity)
+
+      # Exercise
+      result = affected_stations(alert)
+
+      # Verify
+      assert [station] == result
+    end
+  end
+
+  describe "ongoing?/1" do
+    test "returns true if the alert is ongoing" do
+      # Setup
+      alert = Factories.Alerts.Alert.build(:alert, lifecycle: :ongoing)
+
+      # Exercise/Verify
+      assert ongoing?(alert)
+    end
+
+    test "returns false if the alert is not ongoing" do
+      # Setup
+      alert = Factories.Alerts.Alert.build(:alert, lifecycle: :not_ongoing)
+
+      # Exercise/Verify
+      refute ongoing?(alert)
+    end
+  end
 
   describe "service_impacting_alert?/1" do
     test "returns true if the alert has an effect that is considered service-impacting" do
@@ -26,6 +86,74 @@ defmodule Dotcom.AlertsTest do
     test "returns a list of the alert effects as atoms" do
       # Exercise/Verify
       assert Enum.all?(service_impacting_effects(), &is_atom/1)
+    end
+  end
+
+  describe "sort_by_ongoing/1" do
+    test "sorts the alerts by whether or not they are ongoing" do
+      # Setup
+      ongoing_alert = Factories.Alerts.Alert.build(:alert, lifecycle: :ongoing)
+      not_ongoing_alert = Factories.Alerts.Alert.build(:alert, lifecycle: :not_ongoing)
+
+      alerts = [not_ongoing_alert, ongoing_alert]
+
+      # Exercise
+      result = sort_by_ongoing(alerts)
+
+      # Verify
+      assert [ongoing_alert, not_ongoing_alert] == result
+    end
+  end
+
+  describe "sort_by_start_time/1" do
+    test "sorts the alerts by the start time of the first active period" do
+      # Setup
+      earlier = random_date_time()
+      later = random_time_range_date_time({earlier, nil})
+
+      earlier_alert = Factories.Alerts.Alert.build(:alert, active_period: [{earlier, nil}])
+      later_alert = Factories.Alerts.Alert.build(:alert, active_period: [{later, nil}])
+
+      alerts = [later_alert, earlier_alert]
+
+      # Exercise
+      result = sort_by_start_time(alerts)
+
+      # Verify
+      assert [earlier_alert, later_alert] == result
+    end
+  end
+
+  describe "sort_by_station/1" do
+    test "sorts by any stations" do
+      # Setup
+      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "ABC")
+      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "BCD")
+      c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "CDE")
+
+      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
+
+      a_b_stops = MapSet.new([a_station.id, b_station.id])
+      b_c_stops = MapSet.new([b_station.id, c_station.id])
+
+      a_b_informed_entity =
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_b_stops)
+      b_c_informed_entity =
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_c_stops)
+
+      a_b_alert = Factories.Alerts.Alert.build(:alert, informed_entity: a_b_informed_entity)
+      b_c_alert = Factories.Alerts.Alert.build(:alert, informed_entity: b_c_informed_entity)
+
+      alerts = [b_c_alert, a_b_alert]
+
+      # Exercise
+      result = sort_by_station(alerts)
+
+      # Verify
+      assert [a_b_alert, b_c_alert] == result
     end
   end
 end

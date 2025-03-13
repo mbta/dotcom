@@ -6,6 +6,8 @@ defmodule Dotcom.Alerts do
   alias Alerts.Alert
   alias Stops.Stop
 
+  @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @typedoc "Alert effects associated with disruptions: service alerts which
    typically impact rider experience."
   @type service_effect_t() :: :delay | :shuttle | :suspension | :station_closure
@@ -21,7 +23,7 @@ defmodule Dotcom.Alerts do
     |> Map.get(:informed_entity, %{stop: nil})
     |> Map.get(:stop, [])
     |> Enum.reject(&is_nil/1)
-    |> Enum.map(&Stops.Repo.get(&1))
+    |> Enum.map(&@stops_repo_module.get(&1))
     |> Enum.reject(&is_nil/1)
     |> Enum.filter(& &1.station?)
     |> Enum.sort_by(& &1.name)
@@ -77,8 +79,22 @@ defmodule Dotcom.Alerts do
   @doc """
   Sort alerts by the list of stations they affect.
   """
+  @spec sort_by_station([Alert.t()]) :: [Alert.t()]
   def sort_by_station(alerts) do
     alerts
-    |> Enum.sort_by(&affected_stations/1)
+    |> Enum.sort(fn a_alert, b_alert ->
+      a_key = a_alert |> affected_stations() |> stations_key()
+      b_key = b_alert |> affected_stations() |> stations_key()
+
+      a_key > b_key
+    end)
+  end
+
+  # Take a list of stations and return a unique key.
+  defp stations_key(stations) do
+    stations
+    |> Enum.map(& &1.name)
+    |> Enum.sort()
+    |> Enum.map_join("_", &Recase.to_snake/1)
   end
 end
