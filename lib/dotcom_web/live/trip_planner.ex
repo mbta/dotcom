@@ -43,10 +43,17 @@ defmodule DotcomWeb.Live.TripPlanner do
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
     changeset = plan |> AntiCorruptionLayer.decode() |> InputForm.changeset()
 
+    %{params: params} = changeset
+
+    params_with_datetime =
+      params
+      |> add_datetime_if_needed(params)
+
     new_socket =
       socket
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
+      |> update_datepicker(params_with_datetime)
       |> submit_changeset(changeset)
 
     {:ok, new_socket}
