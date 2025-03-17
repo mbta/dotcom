@@ -23,7 +23,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
         <div>
           <h3 id={anchor(group)}>{group}</h3>
           <%= if Map.get(@grouped_counts, group, 0) == 0 do %>
-            <p>No {group} alerts</p>
+            <p>No {String.downcase(group)} alerts</p>
           <% else %>
             {Phoenix.View.render(DotcomWeb.AlertView, "group.html",
               alerts: @grouped_alerts |> Map.get(group, []) |> sort_alerts(),
