@@ -152,6 +152,11 @@ defmodule DotcomWeb.Router do
       to: "/projects/bus-network-redesign/phase-1-service-changes#116"
     )
 
+    # Commuter Rail route renamed as part of the SCR project
+    get("/schedules/CR-Middleborough/*path_params", Plugs.PathParamsRedirector,
+      to: "/schedules/CR-NewBedford"
+    )
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
