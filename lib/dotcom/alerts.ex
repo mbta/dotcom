@@ -74,13 +74,16 @@ defmodule Dotcom.Alerts do
   end
 
   # Take a list of stations and return a unique key.
-  # The key is the stations' names sorted alphabetically and joined with underscores.
-  defp stations_key(stations) do
-    stations
-    |> Enum.map(& &1.name)
-    |> Enum.sort()
-    |> Enum.map_join("_", &Recase.to_snake/1)
+  # If there is only one station, return the station name in snake case.
+  # If there are multiple stations, return "ZZZ" because we want to sort these alerts last.
+  defp stations_key([station]) do
+    station
+    |> Map.get(:name, "ZZZ")
+    |> Recase.to_snake()
+    |> String.upcase()
   end
+
+  defp stations_key(_), do: "ZZZ"
 
   # Take an alert and return the start time of the first active period.
   # Return nil if there is no active period.

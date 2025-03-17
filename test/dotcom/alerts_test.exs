@@ -115,33 +115,38 @@ defmodule Dotcom.AlertsTest do
       # Setup
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
       b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
-      c_station = Factories.Stops.Stop.build(:stop, station?: true, name: "C")
 
-      # This matches the order of the `alerts` below.
-      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> c_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      stub(Stops.Repo.Mock, :get, fn id ->
+        case id do
+          "A" -> a_station
+          "B" -> b_station
+        end
+      end)
 
+      a_stop = MapSet.new(["A"])
+      b_stop = MapSet.new(["B"])
       a_b_stops = MapSet.new(["A", "B"])
-      b_c_stops = MapSet.new(["B", "C"])
 
-      a_b_informed_entity =
+      a_informed_entity =
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stop)
+
+      b_informed_entity =
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stop)
+
+      c_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_b_stops)
 
-      b_c_informed_entity =
-        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_c_stops)
+      a_alert = Factories.Alerts.Alert.build(:alert, informed_entity: a_informed_entity)
+      b_alert = Factories.Alerts.Alert.build(:alert, informed_entity: b_informed_entity)
+      c_alert = Factories.Alerts.Alert.build(:alert, informed_entity: c_informed_entity)
 
-      a_b_alert = Factories.Alerts.Alert.build(:alert, informed_entity: a_b_informed_entity)
-      b_c_alert = Factories.Alerts.Alert.build(:alert, informed_entity: b_c_informed_entity)
-
-      alerts = [b_c_alert, a_b_alert]
+      alerts = [c_alert, b_alert, a_alert]
 
       # Exercise
       sorted_alerts = Enum.sort(alerts, &sort_by_station_sorter/2)
 
       # Verify
-      assert [a_b_alert, b_c_alert] == sorted_alerts
+      assert [a_alert, b_alert, c_alert] == sorted_alerts
     end
   end
 end
