@@ -91,7 +91,7 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
-  describe "sort_by_start_time_sorter/1" do
+  describe "sort_by_start_time_sorter/2" do
     test "sorts the alerts by the start time of the first active period" do
       # Setup
       earlier = random_date_time()
@@ -110,7 +110,7 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
-  describe "sort_by_station_sorter/1" do
+  describe "sort_by_station_sorter/2" do
     test "sorts by any stations" do
       # Setup
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
