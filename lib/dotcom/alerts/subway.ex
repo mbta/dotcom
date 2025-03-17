@@ -10,11 +10,11 @@ defmodule Dotcom.Alerts.Subway do
 
   alias Alerts.Alert
 
-  @group_order ["High Priority", "Elevator & Escalator", "Bike", "Parking", "Other"]
+  @group_order ["Service", "Elevator & Escalator", "Bike", "Parking", "Other"]
   @effects %{
     "Bike" => [:bike_issue],
     "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
-    "High Priority" => service_impacting_effects(),
+    "Service" => service_impacting_effects() ++ [:service_change],
     "Parking" => [:parking_issue],
     "Other" => []
   }
