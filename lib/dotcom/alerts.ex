@@ -52,44 +52,49 @@ defmodule Dotcom.Alerts do
   def service_impacting_effects(), do: @service_impacting_effects
 
   @doc """
-  Sort alerts by whether or not they are ongoing.
-  """
-  @spec sort_by_ongoing([Alert.t()]) :: [Alert.t()]
-  def sort_by_ongoing(alerts) do
-    ongoing = Enum.filter(alerts, &ongoing?/1)
-    not_ongoing = Enum.reject(alerts, &ongoing?/1)
-
-    Enum.concat(ongoing, not_ongoing)
-  end
-
-  @doc """
   Sort alerts by the start time of the first active period.
   """
-  @spec sort_by_start_time([Alert.t()]) :: [Alert.t()]
-  def sort_by_start_time(alerts) do
-    alerts
-    |> Enum.sort_by(
-      fn alert ->
-        alert |> Map.get(:active_period, [{nil, nil}]) |> List.first() |> Kernel.elem(0)
-      end,
-      DateTime
-    )
+  @spec sort_by_start_time_sorter(Alert.t(), Alert.t()) :: boolean()
+  def sort_by_start_time_sorter(a, b) do
+    a_start_time = sort_by_start_time_mapper(a)
+    b_start_time = sort_by_start_time_mapper(b)
+
+    Timex.compare(a_start_time, b_start_time) < 1
   end
 
   @doc """
   Sort alerts by the list of stations they affect.
   """
-  @spec sort_by_station([Alert.t()]) :: [Alert.t()]
-  def sort_by_station(alerts) do
-    alerts
-    |> Enum.sort_by(fn alert -> alert |> affected_stations() |> stations_key() end, :asc)
+  @spec sort_by_station_sorter(Alert.t(), Alert.t()) :: boolean()
+  def sort_by_station_sorter(a, b) do
+    a_station = sort_by_station_mapper(a)
+    b_station = sort_by_station_mapper(b)
+
+    a_station <= b_station
   end
 
   # Take a list of stations and return a unique key.
+  # The key is the stations' names sorted alphabetically and joined with underscores.
   defp stations_key(stations) do
     stations
     |> Enum.map(& &1.name)
     |> Enum.sort()
     |> Enum.map_join("_", &Recase.to_snake/1)
+  end
+
+  # Take an alert and return the start time of the first active period.
+  # Return nil if there is no active period.
+  defp sort_by_start_time_mapper(alert) do
+    alert
+    |> Map.get(:active_period, [{nil, nil}])
+    |> List.first()
+    |> Kernel.elem(0)
+  end
+
+  # Take an alert and return a unique key for the stations it affects.
+  defp sort_by_station_mapper(alert) do
+    alert
+    |> affected_stations()
+    |> stations_key()
   end
 end

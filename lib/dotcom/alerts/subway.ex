@@ -4,9 +4,8 @@ defmodule Dotcom.Alerts.Subway do
   import Dotcom.Alerts,
     only: [
       service_impacting_effects: 0,
-      sort_by_ongoing: 1,
-      sort_by_start_time: 1,
-      sort_by_station: 1
+      sort_by_start_time_sorter: 2,
+      sort_by_station_sorter: 2
     ]
 
   alias Alerts.Alert
@@ -75,14 +74,13 @@ defmodule Dotcom.Alerts.Subway do
   def group_order(), do: @group_order
 
   @doc """
-  Sort alerts by ongoing and then start time.
+  Sort alerts by station and then by start time.
   """
   @spec sort_alerts([Alert.t()]) :: [Alert.t()]
   def sort_alerts(alerts) do
     alerts
-    |> sort_by_start_time()
-    |> sort_by_station()
-    |> sort_by_ongoing()
+    |> Enum.sort(&sort_by_start_time_sorter/2)
+    |> Enum.sort(&sort_by_station_sorter/2)
   end
 
   # Return a map of groups with no alerts.

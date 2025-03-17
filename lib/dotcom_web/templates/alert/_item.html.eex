@@ -8,7 +8,7 @@
   <div class="c-alert-item__icon">
     <%= alert_icon(alert_icon_type) %>
   </div>
-  <div class="c-alert-item__top">
+  <div class="c-alert-item__top" data-test="alert_id:<%= @alert.id %>">
     <div class="c-alert-item__top-text-container">
       <div class="c-alert-item__effect">
         <% affected_stations = Dotcom.Alerts.affected_stations(@alert) %>

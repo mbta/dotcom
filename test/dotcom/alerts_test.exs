@@ -91,23 +91,7 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
-  describe "sort_by_ongoing/1" do
-    test "sorts the alerts by whether or not they are ongoing" do
-      # Setup
-      ongoing_alert = Factories.Alerts.Alert.build(:alert, lifecycle: :ongoing)
-      not_ongoing_alert = Factories.Alerts.Alert.build(:alert, lifecycle: :not_ongoing)
-
-      alerts = [not_ongoing_alert, ongoing_alert]
-
-      # Exercise
-      sorted_alerts = sort_by_ongoing(alerts)
-
-      # Verify
-      assert [ongoing_alert, not_ongoing_alert] == sorted_alerts
-    end
-  end
-
-  describe "sort_by_start_time/1" do
+  describe "sort_by_start_time_sorter/1" do
     test "sorts the alerts by the start time of the first active period" do
       # Setup
       earlier = random_date_time()
@@ -119,14 +103,14 @@ defmodule Dotcom.AlertsTest do
       alerts = [later_alert, earlier_alert]
 
       # Exercise
-      sorted_alerts = sort_by_start_time(alerts)
+      sorted_alerts = Enum.sort(alerts, &sort_by_start_time_sorter/2)
 
       # Verify
       assert [earlier_alert, later_alert] == sorted_alerts
     end
   end
 
-  describe "sort_by_station/1" do
+  describe "sort_by_station_sorter/1" do
     test "sorts by any stations" do
       # Setup
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
@@ -154,7 +138,7 @@ defmodule Dotcom.AlertsTest do
       alerts = [b_c_alert, a_b_alert]
 
       # Exercise
-      sorted_alerts = sort_by_station(alerts)
+      sorted_alerts = Enum.sort(alerts, &sort_by_station_sorter/2)
 
       # Verify
       assert [a_b_alert, b_c_alert] == sorted_alerts

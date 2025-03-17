@@ -3,7 +3,7 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
   Disruptions are alerts that have `service_impacting_effects` grouped by `service_range`.
   """
 
-  import Dotcom.Alerts, only: [service_impacting_alert?: 1, sort_by_start_time: 1]
+  import Dotcom.Alerts, only: [service_impacting_alert?: 1, sort_by_start_time_sorter: 2]
   import Dotcom.Routes, only: [subway_route_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_range_range: 2]
 
@@ -43,7 +43,7 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
     |> Enum.map(fn {group, alerts} ->
-      {group, sort_by_start_time(alerts)}
+      {group, Enum.sort(alerts, &sort_by_start_time_sorter/2)}
     end)
     |> Enum.into(%{})
   end

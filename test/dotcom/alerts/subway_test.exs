@@ -169,7 +169,7 @@ defmodule Dotcom.Alerts.SubwayTest do
   end
 
   describe "sort_alerts/1" do
-    test "alerts are sorted by ongoing, station, and then start time" do
+    test "alerts are sorted by station, and then start time" do
       # Setup
       earlier = random_date_time()
       later = random_time_range_date_time({earlier, nil})
@@ -177,10 +177,12 @@ defmodule Dotcom.Alerts.SubwayTest do
       a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
       b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
 
-      # This matches teh order of the `alerts` below.
-      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> a_station end)
-      expect(Stops.Repo.Mock, :get, fn _ -> b_station end)
+      stub(Stops.Repo.Mock, :get, fn id ->
+        case id do
+          "A" -> a_station
+          "B" -> b_station
+        end
+      end)
 
       a_stops = MapSet.new(["A"])
       b_stops = MapSet.new(["B"])
@@ -191,28 +193,28 @@ defmodule Dotcom.Alerts.SubwayTest do
       b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stops)
 
-      # 'A' is first because it is ongoing. This is despite the station being last and the active period being later.
+      # 'A' is first because of its station and start time.
       a_alert =
         Factories.Alerts.Alert.build(:alert,
-          active_period: [{later, nil}],
-          informed_entity: b_informed_entity,
-          lifecycle: :ongoing
+          id: "A",
+          active_period: [{earlier, nil}],
+          informed_entity: a_informed_entity
         )
 
-      # 'B' is second because of its station. It is not ongoing and its active period is later.
+      # 'B' is second because of its station and start time.
       b_alert =
         Factories.Alerts.Alert.build(:alert,
+          id: "B",
           active_period: [{later, nil}],
-          informed_entity: a_informed_entity,
-          lifecycle: :not_ongoing
+          informed_entity: a_informed_entity
         )
 
-      # 'C' is last even though its active period is first. It is not ongoing and its station is last.
+      # 'C' is last even though its active period is first. Its station is last.
       c_alert =
         Factories.Alerts.Alert.build(:alert,
+          id: "C",
           active_period: [{earlier, nil}],
-          informed_entity: b_informed_entity,
-          lifecycle: :not_ongoing
+          informed_entity: b_informed_entity
         )
 
       alerts = [c_alert, b_alert, a_alert]
