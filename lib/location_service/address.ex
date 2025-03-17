@@ -30,34 +30,49 @@ defmodule LocationService.Address do
         %{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}},
         queried_text \\ nil
       ) do
-    address =
-      label
-      |> replace_common_street_suffix()
-      |> AddressUS.Parser.parse_address()
-
-    street_address =
-      case address.street do
-        %AddressUS.Street{
-          name: street_name,
-          primary_number: street_number,
-          suffix: street_suffix
-        } ->
-          "#{street_number} #{street_name} #{street_suffix}" |> String.trim()
-
-        _ ->
-          nil
-      end
-
-    %LocationService.Address{
+    label
+    |> replace_common_street_suffix()
+    |> parse_label(%__MODULE__{
       formatted: label,
       highlighted_spans:
         if(queried_text, do: get_highlighted_spans(queried_text, label), else: []),
       latitude: lat,
-      longitude: lon,
-      street_address: street_address |> with_place_name(label),
-      municipality: address.city,
-      state: address.state
-    }
+      longitude: lon
+    })
+  end
+
+  # Because of a [known bug]
+  # (https://smashedtoatoms.github.io/address_us/AddressUS.Parser.html#parse_address/1)
+  # in address parsing, try multiple times to parse it... 
+  # and accept that it might just not work
+  @spec parse_label(String.t(), %__MODULE__{}) :: %__MODULE__{}
+  defp parse_label("", address), do: address
+
+  defp parse_label(label, address) do
+    %AddressUS.Address{
+      street: %AddressUS.Street{
+        name: street_name,
+        primary_number: street_number,
+        suffix: street_suffix
+      },
+      city: city,
+      state: state
+    } = AddressUS.Parser.parse_address(label)
+
+    street_address =
+      "#{street_number} #{street_name} #{street_suffix}"
+      |> String.trim()
+      |> with_place_name(label)
+
+    %__MODULE__{address | street_address: street_address, municipality: city, state: state}
+  rescue
+    _ ->
+      # Remove first section of label, try again!
+      label
+      |> String.split(",", trim: true)
+      |> List.delete_at(0)
+      |> Enum.join(",")
+      |> parse_label(address)
   end
 
   # Get the text before the street address
