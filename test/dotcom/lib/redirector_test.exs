@@ -8,7 +8,7 @@ defmodule DotcomWeb.RedirectorTest do
 
   test "passes along the redirect path when 'to' is defined" do
     opts = [to: "my-path"]
-    assert Redirector.init(opts) == opts
+    assert Redirector.init(opts) |> Map.get(:to) == "my-path"
   end
 
   test "an exception is raised when 'to' is not defined" do
@@ -18,7 +18,34 @@ defmodule DotcomWeb.RedirectorTest do
   end
 
   test "route redirected to internal route", %{conn: conn} do
-    conn = Redirector.call(conn, to: "/miami")
+    conn = call(conn, to: "/miami")
+
+    assert redirected_to(conn, :moved_permanently) == "/miami"
+  end
+
+  test "route redirected to internal route drops path params by default", %{conn: conn} do
+    conn = %{conn | path_params: %{"path_params" => ["food", "tapas"]}}
+
+    conn = call(conn, to: "/miami")
+
+    assert redirected_to(conn, :moved_permanently) == "/miami"
+  end
+
+  test "route redirected to internal route keeps path params if desired", %{
+    conn: conn
+  } do
+    conn = %{conn | path_params: %{"path_params" => ["food", "tapas"]}}
+
+    conn = call(conn, to: "/miami", keep_path_params: true)
+
+    assert redirected_to(conn, :moved_permanently) == "/miami/food/tapas"
+  end
+
+  test "route redirected to internal route works if keep_path_params is true even when there are no path params",
+       %{
+         conn: conn
+       } do
+    conn = call(conn, to: "/miami", keep_path_params: true)
 
     assert redirected_to(conn, :moved_permanently) == "/miami"
   end
@@ -26,7 +53,7 @@ defmodule DotcomWeb.RedirectorTest do
   test "route redirected to internal route with query string", %{conn: conn} do
     conn = %{conn | query_string: "food=tapas"}
 
-    conn = Redirector.call(conn, to: "/miami")
+    conn = call(conn, to: "/miami")
     assert redirected_to(conn, :moved_permanently) == "/miami?food=tapas"
   end
 
@@ -34,7 +61,7 @@ defmodule DotcomWeb.RedirectorTest do
     valid_fixture_id = "1"
     conn = %{conn | params: %{"id" => valid_fixture_id}}
 
-    conn = Redirector.call(conn, to: "/events")
+    conn = call(conn, to: "/events")
 
     assert conn.halted == true
 
@@ -46,7 +73,7 @@ defmodule DotcomWeb.RedirectorTest do
     valid_fixture_id = "1234"
     conn = %{conn | params: %{"id" => valid_fixture_id}}
 
-    conn = Redirector.call(conn, to: "/news")
+    conn = call(conn, to: "/news")
 
     assert conn.halted == true
 
@@ -60,7 +87,7 @@ defmodule DotcomWeb.RedirectorTest do
       |> Map.merge(%{params: %{"id" => "invalid"}})
       |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
 
-    conn = Redirector.call(conn, to: "/news")
+    conn = call(conn, to: "/news")
 
     assert conn.halted == true
     assert conn.status == 404
@@ -72,9 +99,16 @@ defmodule DotcomWeb.RedirectorTest do
       |> Map.merge(%{params: %{"id" => "12345"}})
       |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
 
-    conn = Redirector.call(conn, to: "/projects")
+    conn = call(conn, to: "/projects")
 
     assert conn.halted == true
     assert redirected_to(conn, :moved_permanently) == "/projects"
+  end
+
+  defp call(conn, opts) do
+    Redirector.call(
+      conn,
+      Redirector.init(opts)
+    )
   end
 end
