@@ -104,6 +104,7 @@ defmodule DotCom.Mixfile do
       {:inflex, "2.1.0"},
       {:jason, "1.4.4", override: true},
       {:kino_live_component, "0.0.5"},
+      {:libcluster, "3.5.0"},
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},

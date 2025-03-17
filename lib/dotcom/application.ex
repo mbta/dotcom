@@ -11,6 +11,12 @@ defmodule Dotcom.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
+    topologies = [
+      dotcom: [
+        strategy: Cluster.Strategy.Gossip
+      ]
+    ]
+
     Application.put_env(
       :dotcom,
       :allow_indexing,
@@ -26,6 +32,10 @@ defmodule Dotcom.Application do
 
     children =
       [
+        {
+          Cluster.Supervisor,
+          [topologies, [name: Dotcom.ClusterSupervisor]]
+        },
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
         {Dotcom.RateLimit, [clean_period: 60_000 * 10]}
       ] ++
