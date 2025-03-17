@@ -141,17 +141,39 @@
                     {break_text_at_slash(stop.name)}
                   <% end %>
                   <div class="m-timetable__stop-icons">
-                    {stop_parking_icon(stop)}
-                    {stop_accessibility_icon(stop)}
+                    <%= if length(stop.parking_lots) > 0 do %>
+                      <.tooltip title="Parking available" placement={:top}>
+                        <.icon
+                          name="square-parking"
+                          class="h-4 w-4 fill-gray-light"
+                          aria-hidden="true"
+                        />
+                      </.tooltip>
+                    <% else %>
+                      <span class="sr-only">No parking</span>
+                    <% end %>
+
+                    <%= if Stops.Stop.accessible?(stop) do %>
+                      <.tooltip title="Accessible" placement={:top}>
+                        <.icon
+                          type="icon-svg"
+                          name="icon-accessible-default"
+                          class="h-4 w-4 fill-gray-light"
+                          aria-hidden="true"
+                        />
+                      </.tooltip>
+                    <% else %>
+                      <%= if Stops.Stop.accessibility_known?(stop) do %>
+                        <span class="sr-only">Not accessible</span>
+                      <% else %>
+                        <span class="sr-only">May not be accessible</span>
+                      <% end %>
+                    <% end %>
+
                     <%= if Alerts.Stop.match(@alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
-                      {content_tag(
-                        :span,
-                        fa("exclamation-triangle"),
-                        aria: [hidden: "true"],
-                        class: "m-timetable__stop-alert",
-                        data: [toggle: "tooltip"],
-                        title: "Service alert or delay"
-                      )}
+                      <.tooltip title="Service alert or delay" placement={:top}>
+                        <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
+                      </.tooltip>
                     <% end %>
                   </div>
                 </div>
