@@ -12,19 +12,25 @@ defmodule Dotcom.NodeServer do
   end
 
   @impl GenServer
-  def init(_) do
-    call_self(1)
+  def init(state) do
+    call_self(15)
 
-    {:ok, nil}
+    {:ok, state}
   end
 
   @impl GenServer
-  def handle_info(:run, _) do
-    :ok = log_nodes()
+  def handle_info(:run, state) do
+    log_nodes()
 
-    _ = call_self()
+    call_self()
 
-    {:noreply, nil}
+    {:noreply, state}
+  end
+
+  defp call_self(seconds \\ 60) do
+    timer = :timer.seconds(seconds)
+
+    Process.send_after(self(), :run, timer)
   end
 
   defp log_nodes do
@@ -33,9 +39,5 @@ defmodule Dotcom.NodeServer do
     |> Enum.sort()
     |> Enum.join(", ")
     |> (fn nodes -> Logger.notice("#{__MODULE__} [#{nodes}]") end).()
-  end
-
-  defp call_self(seconds \\ 60) do
-    Process.send_after(self(), :run, :timer.seconds(seconds))
   end
 end

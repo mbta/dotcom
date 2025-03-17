@@ -32,7 +32,7 @@ defmodule Dotcom.Application do
 
     children =
       [
-        Dotcom.NodeServer,
+        {Dotcom.NodeServer, nil},
         {
           Cluster.Supervisor,
           [topologies, [name: Dotcom.ClusterSupervisor]]
