@@ -106,13 +106,18 @@
                   <% else %>
                     <div class="sr-only">Bicycles not allowed</div>
                   <% end %>
-                  <%= if !is_nil(schedule.trip.occupancy) do %>
-                    {Dotcom.React.render("LiveCrowdingIcon", %{
-                      crowding: schedule.trip.occupancy,
-                      tooltipPlacement: "top",
-                      isCommuterRail: true
-                    })}
-                  <% end %>
+                  <.tooltip
+                    :if={!is_nil(schedule.trip.occupancy)}
+                    title={timetable_crowding_description(schedule.trip.occupancy)}
+                    placement={:top}
+                  >
+                    <.icon
+                      type="icon-svg"
+                      name="icon-crowding"
+                      class={"c-svg__icon c-icon__crowding c-icon__crowding--#{schedule.trip.occupancy} monochrome"}
+                      aria-hidden="true"
+                    />
+                  </.tooltip>
                 </td>
               <% end %>
             </tr>

@@ -429,4 +429,19 @@ defmodule DotcomWeb.ScheduleView do
   def frequent_bus_badge(_route) do
     nil
   end
+
+  @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
+  def timetable_crowding_description(crowding) do
+    seats =
+      case crowding do
+        :not_crowded -> "many"
+        :some_crowding -> "some"
+        :crowded -> "few"
+        _ -> nil
+      end
+
+    if seats do
+      ~s(This train typically has<br /><strong>#{seats} seats available</strong>)
+    end
+  end
 end

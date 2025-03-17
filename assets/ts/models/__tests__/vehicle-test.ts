@@ -1,4 +1,4 @@
-import { crowdingDescriptions, crCrowdingDescriptions } from "../vehicle";
+import { crowdingDescriptions } from "../vehicle";
 
 it.each`
   crowding           | description
@@ -8,14 +8,4 @@ it.each`
   ${null}            | ${""}
 `("crowdingDescriptions for $crowding", ({ crowding, description }) => {
   expect(crowdingDescriptions(crowding)).toBe(description);
-});
-
-it.each`
-  crowding           | description
-  ${"not_crowded"}   | ${"many seats available"}
-  ${"some_crowding"} | ${"some seats available"}
-  ${"crowded"}       | ${"few seats available"}
-  ${null}            | ${""}
-`("crCrowdingDescriptions for $crowding", ({ crowding, description }) => {
-  expect(crCrowdingDescriptions(crowding)).toBe(description);
 });
