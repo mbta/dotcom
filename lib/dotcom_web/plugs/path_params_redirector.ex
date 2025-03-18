@@ -23,8 +23,9 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
     |> halt()
   end
 
-  defp add_path_params(to, %Plug.Conn{path_params: %{"path_params" => path_params}}),
-    do: [to | path_params] |> Enum.join("/")
+  defp add_path_params(to, %Plug.Conn{path_params: %{"path_params" => path_params}}) do
+    [to | path_params] |> Enum.join("/")
+  end
 
   defp add_path_params(to, _conn), do: to
 
