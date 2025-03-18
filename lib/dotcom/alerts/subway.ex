@@ -20,6 +20,18 @@ defmodule Dotcom.Alerts.Subway do
   }
 
   @doc """
+  Given an effect, find the group it belongs to.
+  Checks all effects in the group and returns the first group that contains the effect.
+  If the effects list is empty, we know it belongs in "Other".
+  """
+  @spec find_group(atom()) :: String.t()
+  def find_group(effect) do
+    groups()
+    |> Enum.find(fn {_group, effects} -> Enum.empty?(effects) || Enum.member?(effects, effect) end)
+    |> Kernel.elem(0)
+  end
+
+  @doc """
   Given a list of alerts, return a map of groups and their associated alerts.
   We merge the empty alerts map with the grouped alerts to ensure all groups are present.
   """
@@ -46,6 +58,12 @@ defmodule Dotcom.Alerts.Subway do
   end
 
   @doc """
+  Returns the order of groups.
+  """
+  @spec group_order() :: [String.t()]
+  def group_order(), do: @group_order
+
+  @doc """
   Get an ordered list of groups and their associated effects.
   """
   @spec groups() :: [{String.t(), [atom()]}]
@@ -54,24 +72,6 @@ defmodule Dotcom.Alerts.Subway do
       {group, @effects[group]}
     end)
   end
-
-  @doc """
-  Given an effect, find the group it belongs to.
-  Checks all effects in the group and returns the first group that contains the effect.
-  If the effects list is empty, we know it belongs in "Other".
-  """
-  @spec find_group(atom()) :: String.t()
-  def find_group(effect) do
-    groups()
-    |> Enum.find(fn {_group, effects} -> Enum.empty?(effects) || Enum.member?(effects, effect) end)
-    |> Kernel.elem(0)
-  end
-
-  @doc """
-  Returns the order of groups.
-  """
-  @spec group_order() :: [String.t()]
-  def group_order(), do: @group_order
 
   @doc """
   Sort alerts by station and then by start time.
