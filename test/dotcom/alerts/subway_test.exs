@@ -184,14 +184,14 @@ defmodule Dotcom.Alerts.SubwayTest do
         end
       end)
 
-      a_stops = MapSet.new(["A"])
-      b_stops = MapSet.new(["B"])
+      a_stop = MapSet.new(["A"])
+      b_stop = MapSet.new(["B"])
 
       a_informed_entity =
-        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stops)
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stop)
 
       b_informed_entity =
-        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stops)
+        Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stop)
 
       # 'A' is first because of its station and start time.
       a_alert =
