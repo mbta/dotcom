@@ -73,18 +73,6 @@ defmodule Dotcom.Alerts do
     a_station <= b_station
   end
 
-  # Take a list of stations and return a unique key.
-  # If there is only one station, return the station name in snake case.
-  # If there are multiple stations, return "ZZZ" because we want to sort these alerts last.
-  defp stations_key([station]) do
-    station
-    |> Map.get(:name, "ZZZ")
-    |> Recase.to_snake()
-    |> String.upcase()
-  end
-
-  defp stations_key(_), do: "ZZZ"
-
   # Take an alert and return the start time of the first active period.
   # Return nil if there is no active period.
   defp sort_by_start_time_mapper(alert) do
@@ -100,4 +88,16 @@ defmodule Dotcom.Alerts do
     |> affected_stations()
     |> stations_key()
   end
+
+  # Take a list of stations and return a unique key.
+  # If there is only one station, return the station name in upper snake case; e.g. "PARK_ST".
+  # If there are multiple stations, return "ZZZ" because we want to sort these alerts last.
+  defp stations_key([station]) do
+    station
+    |> Map.get(:name, "ZZZ")
+    |> Recase.to_snake()
+    |> String.upcase()
+  end
+
+  defp stations_key(_), do: "ZZZ"
 end
