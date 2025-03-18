@@ -14,9 +14,9 @@ defmodule Dotcom.Alerts.Subway do
   @effects %{
     "Bike" => [:bike_issue],
     "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
-    "Service" => service_impacting_effects() ++ [:service_change],
+    "Other" => [],
     "Parking" => [:parking_issue],
-    "Other" => []
+    "Service" => service_impacting_effects() ++ [:service_change],
   }
 
   @doc """
