@@ -114,11 +114,10 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   end
 
   # More static assets, served locally
-  if Application.compile_env(:dotcom, :dev_server?) and
-       Application.compile_env(:dotcom, :webpack_path) do
-    webpack_path =
-      Application.compile_env(:dotcom, :webpack_path)
-      |> String.replace("http://", "")
+  if Application.compile_env(:dotcom, :dev_server?) do
+    host = System.get_env("HOST", "localhost")
+    webpack_port = String.to_integer(System.get_env("WEBPACK_PORT") || "8090")
+    webpack_path = "#{host}:#{webpack_port}"
 
     plug(ContentSecurityPolicy.Plug.AddSourceValue,
       connect_src: "ws://#{webpack_path}/ws",
