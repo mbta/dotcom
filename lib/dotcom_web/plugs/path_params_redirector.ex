@@ -6,10 +6,8 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
 
   @impl Plug
   @spec init(Keyword.t()) :: Keyword.t()
-  def init(opts) do
-    opts
-    |> validate_to_keyword()
-  end
+  def init([to: _] = opts), do: opts
+  def init(_opts), do: raise("Missing required to: option in redirect")
 
   @impl true
   @spec call(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
@@ -32,7 +30,4 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
 
   defp append_query_string(path, %Plug.Conn{query_string: ""}), do: path
   defp append_query_string(path, %Plug.Conn{query_string: query}), do: "#{path}?#{query}"
-
-  defp validate_to_keyword([to: _] = opts), do: opts
-  defp validate_to_keyword(_), do: raise("Missing required to: option in redirect")
 end
