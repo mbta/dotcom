@@ -55,6 +55,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
       'self'
       'unsafe-eval'
       *.arcgis.com
+      *.tableau.com
       connect.facebook.net
       data.mbta.com
       https://www.google.com/recaptcha/api.js
