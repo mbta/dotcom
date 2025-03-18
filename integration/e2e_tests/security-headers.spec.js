@@ -6,6 +6,23 @@ const baseURL = process.env.HOST
 
 test.use({ baseURL, headless: true, screenshot: "off", video: "off", trace: "off" });
 
+const STATIC_HEADERS = [
+  "cache-control",
+  "strict-transport-security",
+  "x-content-type-options",
+  "x-xss-protection"
+];
+const HTML_HEADERS = STATIC_HEADERS.concat(["content-security-policy", "referrer-policy"]);
+const TEST_REQUESTS = [
+  ["get", "/"],
+  ["post", "/"],
+  ["get", "/favicon.ico"],
+  ["post", "/schedules/742/line"],
+  ["get", "/icon-svg/icon-map-station-marker.svg"],
+  ["post", "/schedules/36/line"],
+  ["get", "/error/unexpected/page"]
+];
+
 /**
  * One-off test suite to verify that responses come with various
  * security-related headers. This doesn't necessarily verify relevant or
@@ -26,15 +43,7 @@ test.use({ baseURL, headless: true, screenshot: "off", video: "off", trace: "off
  * HOST=dev.mbtace.com npx playwright test security-headers
  */
 test.describe("Security headers are present", () => {
-  [
-    ["get", "/"],
-    ["post", "/"],
-    ["get", "/favicon.ico"],
-    ["post", "/schedules/742/line"],
-    ["get", "/icon-svg/icon-map-station-marker.svg"],
-    ["post", "/schedules/36/line"],
-    ["get", "/error/unexpected/page"],
-  ].forEach(([method, path]) => {
+  TEST_REQUESTS.forEach(([method, path]) => {
     test(`${method} ${path}`, async ({ request }) => {
       const response = await request[method](path);
       const headers = response.headers();
@@ -42,19 +51,7 @@ test.describe("Security headers are present", () => {
       // static resources aren't technically required to have all the security
       // headers. do a different check depending on if the response
       // content-type is HTML
-      const expectedHeaders = headers['content-type'].includes("text/html") ? [
-        "cache-control",
-        "content-security-policy",
-        "referrer-policy",
-        "strict-transport-security",
-        "x-content-type-options",
-        "x-xss-protection"
-      ] : [
-        "cache-control",
-        "strict-transport-security",
-        "x-content-type-options",
-        "x-xss-protection"
-      ]
+      const expectedHeaders = headers['content-type'].includes("text/html") ? HTML_HEADERS : STATIC_HEADERS;
 
       expectedHeaders.forEach(expectedHeader => {
         expect(headers[expectedHeader], `${expectedHeader} should be present`).toBeTruthy();
