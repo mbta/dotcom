@@ -4,8 +4,7 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
 
   @behaviour Plug
 
-  @impl true
-
+  @impl Plug
   @spec init(Keyword.t()) :: Keyword.t()
   def init(opts) do
     opts
