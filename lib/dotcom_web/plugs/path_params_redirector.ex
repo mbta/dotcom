@@ -23,11 +23,11 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
     |> halt()
   end
 
-  defp add_path_params(to, %Plug.Conn{path_params: %{"path_params" => path_params}}) do
-    [to | path_params] |> Enum.join("/")
+  defp add_path_params(path, %Plug.Conn{path_params: %{"path_params" => path_params}}) do
+    [path | path_params] |> Enum.join("/")
   end
 
-  defp add_path_params(to, _conn), do: to
+  defp add_path_params(path, _conn), do: path
 
   defp append_query_string(path, %Plug.Conn{query_string: ""}), do: path
   defp append_query_string(path, %Plug.Conn{query_string: query}), do: "#{path}?#{query}"
