@@ -3,7 +3,8 @@ defmodule DotcomWeb.Components.Alerts.Subway do
 
   use DotcomWeb, :component
 
-  import Dotcom.Alerts.Subway, only: [group_alerts: 1, group_counts: 1, groups: 0, sort_alerts: 1]
+  import Dotcom.Alerts.Subway,
+    only: [group_alerts: 1, group_counts: 1, group_order: 0, sort_alerts: 1]
 
   import DotcomWeb.Components, only: [count: 1]
 
@@ -19,7 +20,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
 
     ~H"""
     <div>
-      <%= for {group, _} <- groups() do %>
+      <%= for group <- group_order() do %>
         <div>
           <h3 id={anchor(group)}>{group}</h3>
           <%= if Map.get(@grouped_counts, group, 0) == 0 do %>
@@ -43,7 +44,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
     ~H"""
     <div class="m-alerts__time-filters">
       <a
-        :for={{group, _} <- groups()}
+        :for={group <- group_order()}
         href={"#" <> anchor(group)}
         class="m-alerts__time-filter leading-[2]"
       >
