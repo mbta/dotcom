@@ -37,11 +37,7 @@ config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
 
-tile_server_url =
-  if config_env() == :prod,
-    do: "https://cdn.mbta.com",
-    else: "https://mbta-map-tiles-dev.s3.amazonaws.com"
-
+tile_server_url = "https://cdn.mbta.com"
 config :dotcom, tile_server_url: tile_server_url
 
 config :elixir, ansi_enabled: true
