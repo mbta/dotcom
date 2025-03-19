@@ -1,9 +1,8 @@
-
 defmodule DotcomWeb.AppStoreController do
-@moduledoc """
-Redirects users to the appropriate app store (ios or android) based on
-their brower. When neither store is appropriate, redirects to a project page.
-"""
+  @moduledoc """
+  Redirects users to the appropriate app store (ios or android) based on
+  their brower. When neither store is appropriate, redirects to a project page.
+  """
   use DotcomWeb, :controller
   import Browser
 
