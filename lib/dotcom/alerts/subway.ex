@@ -14,21 +14,20 @@ defmodule Dotcom.Alerts.Subway do
   @effects %{
     "Bike" => [:bike_issue],
     "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
-    "Other" => [],
     "Parking" => [:parking_issue],
-    "Service" => service_impacting_effects() ++ [:service_change],
+    "Service" => service_impacting_effects() ++ [:service_change]
   }
+  @groups_by_effect @effects
+                    |> Enum.flat_map(fn {group, effects} -> effects |> Enum.map(&{&1, group}) end)
+                    |> Enum.into(%{})
 
   @doc """
-  Given an effect, find the group it belongs to.
-  Checks all effects in the group and returns the first group that contains the effect.
-  If the effects list is empty, we know it belongs in "Other".
+  Given an effect, find the group it belongs to. Returns "Other" if it
+  doesn't belong to any predefined groups.
   """
   @spec find_group(atom()) :: String.t()
   def find_group(effect) do
-    groups()
-    |> Enum.find(fn {_group, effects} -> Enum.empty?(effects) || Enum.member?(effects, effect) end)
-    |> Kernel.elem(0)
+    Map.get(@groups_by_effect, effect, "Other")
   end
 
   @doc """
