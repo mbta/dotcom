@@ -73,6 +73,7 @@ defmodule DotCom.Mixfile do
       {:address_us, "0.4.3"},
       {:aws, "1.0.4"},
       {:aws_credentials, "0.3.2", optional: true},
+      {:browser, "~> 0.5.4"},
       {:castore, "1.0.12"},
       {:cowlib, "2.14.0", override: true},
       {:crc, "0.10.5"},

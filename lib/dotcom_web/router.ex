@@ -155,6 +155,8 @@ defmodule DotcomWeb.Router do
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
+    get("/app-store", AppStoreController, :redirect_mbta_go)
+
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
