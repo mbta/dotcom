@@ -79,8 +79,8 @@ defmodule Dotcom.Alerts.Subway do
   @spec sort_alerts([Alert.t()]) :: [Alert.t()]
   def sort_alerts(alerts) do
     alerts
-    |> Enum.sort(&sort_by_start_time_sorter/2)
     |> Enum.sort(&sort_by_station_sorter/2)
+    |> Enum.sort(&sort_by_start_time_sorter/2)
   end
 
   # Return a map of groups with no alerts.
