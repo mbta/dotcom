@@ -51,13 +51,14 @@ defmodule Dotcom.Alerts.SubwayTest do
 
     test "alerts get grouped by effect" do
       # Setup
-      groups = groups()
-      random_group = Enum.random(groups) |> Kernel.elem(0)
+      specified_groups = groups() |> Enum.reject(fn {group, _effects} -> group == "Other" end)
+      random_group = Enum.random(specified_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(specified_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
-      random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
+      random_effect = Enum.random(effects)
 
       alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
       alerts = [alert]
@@ -67,6 +68,20 @@ defmodule Dotcom.Alerts.SubwayTest do
 
       # Verify
       assert grouped_alerts |> Map.get(random_group) == alerts
+    end
+
+    test "alerts with effects that aren't specific to groups are grouped as 'Other'" do
+      # Setup
+      unspecified_group_effect = :foobarbaz
+
+      alert = Factories.Alerts.Alert.build(:alert, effect: unspecified_group_effect)
+      alerts = [alert]
+
+      # Exercise
+      grouped_alerts = group_alerts(alerts)
+
+      # Verify
+      assert grouped_alerts |> Map.get("Other") == alerts
     end
   end
 
