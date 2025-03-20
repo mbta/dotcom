@@ -142,18 +142,20 @@ defmodule Dotcom.Alerts.SubwayTest do
       earlier = random_date_time()
       later = random_time_range_date_time({earlier, nil})
 
-      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
-      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
+      [a_station_name, b_station_name] = Faker.Util.sample_uniq(2, fn -> Faker.Lorem.word() end)
+
+      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: a_station_name)
+      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: b_station_name)
 
       stub(Stops.Repo.Mock, :get, fn id ->
         case id do
-          "A" -> a_station
-          "B" -> b_station
+          ^a_station_name -> a_station
+          ^b_station_name -> b_station
         end
       end)
 
-      a_stop = MapSet.new(["A"])
-      b_stop = MapSet.new(["B"])
+      a_stop = MapSet.new([a_station_name])
+      b_stop = MapSet.new([b_station_name])
 
       a_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stop)
@@ -161,26 +163,23 @@ defmodule Dotcom.Alerts.SubwayTest do
       b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stop)
 
-      # 'A' is first because of its station and start time.
+      # a_alert is first because of its station and start time.
       a_alert =
         Factories.Alerts.Alert.build(:alert,
-          id: "A",
           active_period: [{earlier, nil}],
           informed_entity: a_informed_entity
         )
 
-      # 'B' is second because of its station and start time.
+      # b_alert is second because of its station and start time.
       b_alert =
         Factories.Alerts.Alert.build(:alert,
-          id: "B",
           active_period: [{later, nil}],
           informed_entity: a_informed_entity
         )
 
-      # 'C' is last even though its active period is first. Its station is last.
+      # c_alert is last even though its active period is first. Its station is last.
       c_alert =
         Factories.Alerts.Alert.build(:alert,
-          id: "C",
           active_period: [{earlier, nil}],
           informed_entity: b_informed_entity
         )
