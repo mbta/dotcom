@@ -1,4 +1,20 @@
 defmodule DotcomWeb.Plugs.PathParamsRedirector do
+  @moduledoc """
+  A redirector plug that can redirect from one path to another while
+  preserving path params underneath it.
+
+  For example, a route defined as
+
+  ```
+  get("/foo/bar/*path_params", Plugs.PathParamsRedirector, to: "/baz")
+  ```
+
+  would redirect `/foo/bar` to `/baz` and `/foo/bar/quux` to `/baz/quux`.
+
+  (Note: The wildcard in the path must be called `*path_params`. Other
+  wildcards will not work.)
+  """
+
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
 
