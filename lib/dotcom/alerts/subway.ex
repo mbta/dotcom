@@ -16,7 +16,7 @@ defmodule Dotcom.Alerts.Subway do
     "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
     "Other" => [],
     "Parking" => [:parking_issue],
-    "Service" => service_impacting_effects() ++ [:service_change],
+    "Service" => service_impacting_effects() ++ [:service_change]
   }
 
   @doc """
