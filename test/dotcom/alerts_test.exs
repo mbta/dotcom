@@ -95,19 +95,22 @@ defmodule Dotcom.AlertsTest do
   describe "sort_by_station_sorter/2" do
     test "sorts by any stations" do
       # Setup
-      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: "A")
-      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: "B")
+      [a_station_name, b_station_name] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Lorem.word() end) |> Enum.sort()
+
+      a_station = Factories.Stops.Stop.build(:stop, station?: true, name: a_station_name)
+      b_station = Factories.Stops.Stop.build(:stop, station?: true, name: b_station_name)
 
       stub(Stops.Repo.Mock, :get, fn id ->
         case id do
-          "A" -> a_station
-          "B" -> b_station
+          ^a_station_name -> a_station
+          ^b_station_name -> b_station
         end
       end)
 
-      a_stop = MapSet.new(["A"])
-      b_stop = MapSet.new(["B"])
-      a_b_stops = MapSet.new(["A", "B"])
+      a_stop = MapSet.new([a_station_name])
+      b_stop = MapSet.new([b_station_name])
+      a_b_stops = MapSet.new([a_station_name, b_station_name])
 
       a_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: a_stop)
