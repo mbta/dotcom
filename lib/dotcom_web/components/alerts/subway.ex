@@ -3,8 +3,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
 
   use DotcomWeb, :component
 
-  import Dotcom.Alerts.Subway,
-    only: [group_alerts: 1, group_counts: 1, group_order: 0, sort_alerts: 1]
+  import Dotcom.Alerts.Subway, only: [group_alerts: 1, group_order: 0, sort_alerts: 1]
 
   import DotcomWeb.Components, only: [count: 1]
 
@@ -12,22 +11,21 @@ defmodule DotcomWeb.Components.Alerts.Subway do
 
   def alerts_by_effect(%{alerts: alerts} = assigns) do
     grouped_alerts = group_alerts(alerts)
-    grouped_counts = group_counts(alerts)
     now = @date_time_module.now()
 
-    assigns =
-      assign(assigns, grouped_alerts: grouped_alerts, grouped_counts: grouped_counts, now: now)
+    assigns = assign(assigns, grouped_alerts: grouped_alerts, now: now)
 
     ~H"""
     <div>
       <%= for group <- group_order() do %>
+        <% alerts_for_group = @grouped_alerts |> Map.get(group, []) |> sort_alerts() %>
         <div>
           <h3 id={anchor(group)}>{group}</h3>
-          <%= if Map.get(@grouped_counts, group, 0) == 0 do %>
+          <%= if Enum.empty?(alerts_for_group) do %>
             <p>No {String.downcase(group)} alerts</p>
           <% else %>
             {Phoenix.View.render(DotcomWeb.AlertView, "group.html",
-              alerts: @grouped_alerts |> Map.get(group, []) |> sort_alerts(),
+              alerts: alerts_for_group,
               date_time: @now
             )}
           <% end %>
@@ -38,8 +36,8 @@ defmodule DotcomWeb.Components.Alerts.Subway do
   end
 
   def titles_by_effect(%{alerts: alerts} = assigns) do
-    grouped_counts = group_counts(alerts)
-    assigns = assign(assigns, grouped_counts: grouped_counts)
+    grouped_alerts = group_alerts(alerts)
+    assigns = assign(assigns, grouped_alerts: grouped_alerts)
 
     ~H"""
     <div class="m-alerts__time-filters">
@@ -48,7 +46,9 @@ defmodule DotcomWeb.Components.Alerts.Subway do
         href={"#" <> anchor(group)}
         class="m-alerts__time-filter leading-[2]"
       >
-        {group}<span class="float-right"><.count count={Map.get(@grouped_counts, group, 0)} /></span>
+        {group}<span class="float-right"><.count count={
+            @grouped_alerts |> Map.get(group, []) |> Enum.count()
+          } /></span>
       </a>
     </div>
     """

@@ -45,18 +45,6 @@ defmodule Dotcom.Alerts.Subway do
   end
 
   @doc """
-  Given a list of alerts, return a map of groups and their associated alert counts.
-  Because this uses `group_alerts/1`, we can be sure that all groups are present.
-  """
-  @spec group_counts([Alert.t()]) :: %{String.t() => integer()}
-  def group_counts(alerts) do
-    alerts
-    |> group_alerts()
-    |> Enum.map(fn {group, alerts} -> {group, Enum.count(alerts)} end)
-    |> Enum.into(%{})
-  end
-
-  @doc """
   Returns the order of groups.
   """
   @spec group_order() :: [String.t()]

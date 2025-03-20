@@ -70,53 +70,6 @@ defmodule Dotcom.Alerts.SubwayTest do
     end
   end
 
-  describe "group_counts/1" do
-    test "all groups are present" do
-      # Setup
-      group_order = group_order()
-      alerts = []
-
-      # Exercise
-      grouped_alerts = group_alerts(alerts)
-
-      # Verify
-      Enum.each(group_order, fn group ->
-        assert Map.has_key?(grouped_alerts, group)
-      end)
-    end
-
-    test "counts default to 0" do
-      # Setup
-      alerts = []
-
-      # Exercise
-      group_counts = group_counts(alerts)
-
-      # Verify
-      assert Enum.all?(group_counts, fn {_group, count} -> count == 0 end)
-    end
-
-    test "alerts get counted by effect" do
-      # Setup
-      groups = groups()
-      random_group = Enum.random(groups) |> Kernel.elem(0)
-
-      effects =
-        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
-
-      random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
-
-      alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
-      alerts = [alert]
-
-      # Exercise
-      grouped_counts = group_counts(alerts)
-
-      # Verify
-      assert grouped_counts |> Map.get(random_group) == 1
-    end
-  end
-
   describe "group_order/0" do
     test "returns a list" do
       # Exercise/Verify
