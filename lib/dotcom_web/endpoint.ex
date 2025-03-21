@@ -72,7 +72,5 @@ defmodule DotcomWeb.Endpoint do
     cookie_key: "request_logger"
   )
 
-  plug(DotcomWeb.Plugs.ContentSecurityPolicy)
-
   plug(DotcomWeb.Router)
 end

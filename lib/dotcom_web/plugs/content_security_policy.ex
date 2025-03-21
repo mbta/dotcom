@@ -5,10 +5,16 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   """
   use Plug.Builder
 
+  import DotcomWeb.ControllerHelpers, only: [call_plug_with_opts: 3]
+
+  # Map tiles, hosted either on the CDN or in S3
+  @tile_server_url Application.compile_env(:dotcom, :tile_server_url)
+
   @default_policy %ContentSecurityPolicy.Policy{
     base_uri: ~w['none'],
     connect_src: ~w[
       'self'
+      #{@tile_server_url}
       *.arcgis.com
       analytics.google.com
       cdn.mbta.com
@@ -38,6 +44,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
     ],
     img_src: ~w[
       'self'
+      #{@tile_server_url}
       *.arcgis.com
       *.google.com
       *.googleapis.com
@@ -77,64 +84,65 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
 
   plug(ContentSecurityPolicy.Plug.Setup, default_policy: @default_policy)
 
-  # Map tiles, hosted either on the CDN or in S3
-  tile_server_url = Application.compile_env(:dotcom, :tile_server_url)
+  # The other directives need to be set up at runtime, so we use `Plug.call/2` any time after `ContentSecurityPolicy.Plug.Setup` is done.
+  @impl Plug
+  def call(%{private: %{content_security_policy: _}} = conn, _opts) do
+    drupal_url = Util.config(:dotcom, :cms_api)[:base_url]
+    endpoint_config = Util.config(:dotcom, DotcomWeb.Endpoint)
+    # Static assets, hosted on the CDN or served locally
+    static_host =
+      case Keyword.get(endpoint_config, :static_url, []) do
+        [url: url] -> url
+        [host: host, port: port] -> "#{host}:#{port}"
+        _ -> nil
+      end
 
-  plug(ContentSecurityPolicy.Plug.AddSourceValue,
-    connect_src: tile_server_url,
-    img_src: tile_server_url
-  )
+    webpack_path = Util.config(:dotcom, :webpack_path)
+    websocket_url = "#{Keyword.get(endpoint_config, :url, [])[:host]}"
 
-  # Content from the Drupal CMS
-  plug(ContentSecurityPolicy.Plug.AddSourceValue,
-    img_src: Application.compile_env(:dotcom, :cms_api, [])[:base_url]
-  )
-
-  # Application websocket
-  endpoint_config = Application.compile_env(:dotcom, DotcomWeb.Endpoint, [])
-
-  plug(ContentSecurityPolicy.Plug.AddSourceValue,
-    connect_src: "ws://#{Keyword.get(endpoint_config, :url)[:host]}"
-  )
-
-  # Static assets, hosted on the CDN or served locally
-  static_host =
-    case Keyword.get(endpoint_config, :static_url, []) do
-      [url: url] -> url
-      [host: host, port: port] -> "#{host}:#{port}"
-      _ -> nil
-    end
-
-  if static_host do
-    plug(ContentSecurityPolicy.Plug.AddSourceValue,
-      font_src: static_host,
-      img_src: static_host,
-      script_src: static_host,
-      style_src: static_host
+    conn
+    |> call_plug_with_opts(ContentSecurityPolicy.Plug.AddSourceValue,
+      connect_src: "ws://#{websocket_url}",
+      img_src: drupal_url
     )
+    |> then(fn conn ->
+      if static_host do
+        call_plug_with_opts(conn, ContentSecurityPolicy.Plug.AddSourceValue,
+          font_src: static_host,
+          img_src: static_host,
+          script_src: static_host,
+          style_src: static_host
+        )
+      else
+        conn
+      end
+    end)
+    |> then(fn conn ->
+      if webpack_path do
+        call_plug_with_opts(conn, ContentSecurityPolicy.Plug.AddSourceValue,
+          connect_src: "ws://#{webpack_path}/ws",
+          font_src: webpack_path,
+          script_src: webpack_path,
+          style_src: webpack_path
+        )
+      else
+        conn
+      end
+    end)
+    |> then(fn conn ->
+      # Sentry needs to be able to run code to send events
+      dsn = Sentry.get_dsn()
+      js_dsn = Util.config(:sentry, :js_dsn)
+
+      if dsn do
+        conn
+        |> call_plug_with_opts(ContentSecurityPolicy.Plug.AddSourceValue, connect_src: dsn)
+        |> call_plug_with_opts(ContentSecurityPolicy.Plug.AddSourceValue, connect_src: js_dsn)
+      else
+        conn
+      end
+    end)
   end
 
-  # More static assets, served locally
-  if Application.compile_env(:dotcom, :dev_server?) do
-    host = System.get_env("HOST", "localhost")
-    webpack_port = String.to_integer(System.get_env("WEBPACK_PORT") || "8090")
-    webpack_path = "#{host}:#{webpack_port}"
-
-    plug(ContentSecurityPolicy.Plug.AddSourceValue,
-      connect_src: "ws://#{webpack_path}/ws",
-      font_src: webpack_path,
-      script_src: webpack_path,
-      style_src: webpack_path
-    )
-  end
-
-  # Sentry needs to be able to run code to send events
-  if Sentry.get_dsn() do
-    plug(ContentSecurityPolicy.Plug.AddSourceValue,
-      connect_src: Sentry.get_dsn(),
-      connect_src: Application.compile_env(:sentry, :js_dsn)
-    )
-  end
-
-  plug(ContentSecurityPolicy.Plug.AddNonce, directives: [:script_src])
+  def call(conn, _), do: conn
 end

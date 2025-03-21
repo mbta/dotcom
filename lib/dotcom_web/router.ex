@@ -36,6 +36,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(DotcomWeb.Plugs.CommonFares)
+    plug(DotcomWeb.Plugs.ContentSecurityPolicy)
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)

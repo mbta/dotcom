@@ -39,7 +39,9 @@ if config_env() == :dev do
     http: [ip: {0, 0, 0, 0}, port: port],
     static_url: static_url
 
-  config :dotcom, webpack_path: webpack_path
+  config :dotcom,
+    dev_server?: true,
+    webpack_path: webpack_path
 end
 
 # Redis cluster configuration
