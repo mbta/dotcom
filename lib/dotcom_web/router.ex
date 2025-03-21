@@ -40,8 +40,8 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
+    plug(DotcomWeb.Plugs.SecureHeaders)
     plug(:optional_disable_indexing)
-    plug(:put_secure_browser_headers, Application.compile_env(:dotcom, :secure_headers, %{}))
   end
 
   pipeline :browser_live do
