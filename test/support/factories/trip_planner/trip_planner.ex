@@ -3,6 +3,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   Provides generated test data via ExMachina and Faker.
   """
 
+  alias Test.Support.Generators
   use ExMachina
 
   alias Dotcom.TripPlan.{NamedPosition, Parser}
@@ -41,6 +42,14 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   def ferry_leg_factory do
     build(:otp_ferry_leg)
     |> Parser.parse()
+  end
+
+  def input_form_location_factory do
+    %{
+      name: Generators.Address.address(),
+      latitude: Faker.Address.latitude(),
+      longitude: Faker.Address.longitude()
+    }
   end
 
   def itinerary_factory do

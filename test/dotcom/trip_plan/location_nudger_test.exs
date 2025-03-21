@@ -1,9 +1,10 @@
 defmodule Dotcom.TripPlan.LocationNudgerTest do
-  alias Dotcom.TripPlan.LocationNudger
-  alias Test.Support.Generators
   use ExUnit.Case
 
   import Dotcom.TripPlan.LocationNudger, only: [nudge: 1, nudge_location: 1]
+
+  alias Dotcom.TripPlan.LocationNudger
+  alias Test.Support.Factories.TripPlanner.TripPlanner
 
   @state_house_address_strings ["24 Beacon St", "24 Beacon Street"]
   @state_house_location LocationNudger.state_house_location()
@@ -12,11 +13,7 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
   describe "nudge_location/1" do
     test "does not alter a typical location" do
       # Setup
-      location = %{
-        name: Generators.Address.address(),
-        latitude: Faker.Address.latitude(),
-        longitude: Faker.Address.longitude()
-      }
+      location = TripPlanner.build(:input_form_location)
 
       # Exercise / Verify
       assert nudge_location(location) == location
@@ -27,11 +24,10 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
       zip_code = Faker.Util.pick(@state_house_zip_codes)
 
       # Setup
-      location = %{
-        name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA",
-        latitude: Faker.Address.latitude(),
-        longitude: Faker.Address.longitude()
-      }
+      location =
+        TripPlanner.build(:input_form_location,
+          name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA"
+        )
 
       # Exercise
       nudged_location = nudge_location(location)
@@ -50,12 +46,11 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
         )
 
       # Setup
-      location = %{
-        name:
-          "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{non_state_house_zip_code}, USA",
-        latitude: Faker.Address.latitude(),
-        longitude: Faker.Address.longitude()
-      }
+      location =
+        TripPlanner.build(:input_form_location,
+          name:
+            "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{non_state_house_zip_code}, USA"
+        )
 
       # Exercise
       nudged_location = nudge_location(location)
@@ -75,12 +70,11 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
           ["Boston"]
         )
 
-      location = %{
-        name:
-          "#{Faker.Company.name()}, #{street_address}, #{non_boston_city}, MA, #{zip_code}, USA",
-        latitude: Faker.Address.latitude(),
-        longitude: Faker.Address.longitude()
-      }
+      location =
+        TripPlanner.build(:input_form_location,
+          name:
+            "#{Faker.Company.name()}, #{street_address}, #{non_boston_city}, MA, #{zip_code}, USA"
+        )
 
       # Exercise
       nudged_location = nudge_location(location)
@@ -94,16 +88,8 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
     test "keeps the 'to' and 'from' fields the same for typical addresses" do
       # Setup
       form_data = %{
-        from: %{
-          name: Generators.Address.address(),
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        },
-        to: %{
-          name: Generators.Address.address(),
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        }
+        from: TripPlanner.build(:input_form_location),
+        to: TripPlanner.build(:input_form_location)
       }
 
       # Exercise
@@ -119,16 +105,11 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
 
       # Setup
       form_data = %{
-        from: %{
-          name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA",
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        },
-        to: %{
-          name: Generators.Address.address(),
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        }
+        from:
+          TripPlanner.build(:input_form_location,
+            name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA"
+          ),
+        to: TripPlanner.build(:input_form_location)
       }
 
       # Exercise
@@ -145,16 +126,11 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
 
       # Setup
       form_data = %{
-        from: %{
-          name: Generators.Address.address(),
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        },
-        to: %{
-          name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA",
-          latitude: Faker.Address.latitude(),
-          longitude: Faker.Address.longitude()
-        }
+        from: TripPlanner.build(:input_form_location),
+        to:
+          TripPlanner.build(:input_form_location,
+            name: "#{Faker.Company.name()}, #{street_address}, Boston, MA, #{zip_code}, USA"
+          )
       }
 
       # Exercise
