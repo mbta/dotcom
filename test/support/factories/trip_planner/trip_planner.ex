@@ -3,11 +3,11 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   Provides generated test data via ExMachina and Faker.
   """
 
-  alias Test.Support.Generators
   use ExMachina
 
   alias Dotcom.TripPlan.{NamedPosition, Parser}
   alias OpenTripPlannerClient.Test.Support.Factory
+  alias Test.Support.Generators
 
   # FACTORIES
 
