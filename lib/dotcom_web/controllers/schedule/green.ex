@@ -69,25 +69,19 @@ defmodule DotcomWeb.ScheduleController.Green do
 
   def predictions(conn, _opts) do
     {predictions, vehicle_predictions} =
-      if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
-        predictions_stream =
-          conn
-          |> conn_with_branches
-          |> Task.async_stream(
-            fn conn ->
-              DotcomWeb.ScheduleController.Predictions.predictions(conn)
-            end,
-            timeout: @task_timeout,
-            on_timeout: :kill_task
-          )
-
-        vehicle_predictions =
-          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn)
-
-        {flat_map_results(predictions_stream), vehicle_predictions}
-      else
-        {[], []}
-      end
+      conn
+      |> conn_with_branches
+      |> Task.async_stream(
+        fn branch_conn ->
+          call_plug(branch_conn, DotcomWeb.ScheduleController.Predictions)
+        end,
+        timeout: @task_timeout
+      )
+      |> Enum.reduce({[], []}, fn {:ok, branch_conn},
+                                  {acc_predictions, acc_vehicle_predictions} ->
+        {branch_conn.assigns.predictions ++ acc_predictions,
+         branch_conn.assigns.vehicle_predictions ++ acc_vehicle_predictions}
+      end)
 
     conn
     |> assign(:predictions, predictions)
@@ -118,18 +112,6 @@ defmodule DotcomWeb.ScheduleController.Green do
           params: Map.put(conn.params, "route", route_id)
       }
     end)
-  end
-
-  defp flat_map_results(results) do
-    Enum.flat_map(results, &flat_map_ok/1)
-  end
-
-  @spec flat_map_ok({:ok, [value] | error} | error) :: [value]
-        when error: {:error, any}, value: any
-  defp flat_map_ok({:ok, values}) when is_list(values), do: values
-
-  defp flat_map_ok(_) do
-    []
   end
 
   defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
