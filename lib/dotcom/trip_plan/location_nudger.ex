@@ -34,6 +34,10 @@ defmodule Dotcom.TripPlan.LocationNudger do
   end
 
   defp state_house?(%{name: name}) do
+    state_house_zip_and_address?(name) || state_house_title_and_city?(name)
+  end
+
+  defp state_house_zip_and_address?(name) do
     state_house_zip_code_and_city?(name) &&
       state_house_street_address?(name)
   end
@@ -45,5 +49,10 @@ defmodule Dotcom.TripPlan.LocationNudger do
 
   defp state_house_street_address?(name) do
     name |> String.contains?(@state_house_address_string)
+  end
+
+  defp state_house_title_and_city?(name) do
+    name |> String.contains?("Massachusetts State House") &&
+      name |> String.contains?("City of Boston, MA, USA")
   end
 end

@@ -83,6 +83,20 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
       # Verify
       assert nudged_location == location
     end
+
+    test "nudges locations to the State House lat/long if they have 'Massachusetts State House' and 'City of Boston' in the name" do
+      # Setup
+      location =
+        TripPlanner.build(:input_form_location,
+          name: "Massachusetts State House #{Faker.Company.name()}, City of Boston, MA, USA"
+        )
+
+      # Exercise
+      nudged_location = nudge_location(location)
+
+      # Verify
+      assert @state_house_location = nudged_location
+    end
   end
 
   describe "nudge/1" do
