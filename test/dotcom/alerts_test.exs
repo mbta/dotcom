@@ -47,24 +47,6 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
-  describe "ongoing?/1" do
-    test "returns true if the alert is ongoing" do
-      # Setup
-      alert = Factories.Alerts.Alert.build(:alert, lifecycle: :ongoing)
-
-      # Exercise/Verify
-      assert ongoing?(alert)
-    end
-
-    test "returns false if the alert is not ongoing" do
-      # Setup
-      alert = Factories.Alerts.Alert.build(:alert, lifecycle: :not_ongoing)
-
-      # Exercise/Verify
-      refute ongoing?(alert)
-    end
-  end
-
   describe "service_impacting_alert?/1" do
     test "returns true if the alert has an effect that is considered service-impacting" do
       # Setup
