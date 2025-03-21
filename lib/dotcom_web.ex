@@ -87,6 +87,8 @@ defmodule DotcomWeb do
     quote do
       use Phoenix.LiveView
 
+      on_mount Sentry.LiveViewHook
+
       unquote(view_helpers())
     end
   end
