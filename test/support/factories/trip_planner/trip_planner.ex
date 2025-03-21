@@ -7,6 +7,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   alias Dotcom.TripPlan.{NamedPosition, Parser}
   alias OpenTripPlannerClient.Test.Support.Factory
+  alias Test.Support.Generators
 
   # FACTORIES
 
@@ -41,6 +42,14 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   def ferry_leg_factory do
     build(:otp_ferry_leg)
     |> Parser.parse()
+  end
+
+  def input_form_location_factory do
+    %{
+      name: Generators.Address.address(),
+      latitude: Faker.Address.latitude(),
+      longitude: Faker.Address.longitude()
+    }
   end
 
   def itinerary_factory do
