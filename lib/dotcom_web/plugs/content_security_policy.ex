@@ -27,6 +27,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
     frame_src: ~w[
         'self'
         *.arcgis.com
+        *.tableau.com
         *.soundcloud.com
         *.vimeo.com
         cdn.knightlab.com
