@@ -15,6 +15,7 @@ import ExpandableBranch from "./ExpandableBranch";
 import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
 import { alertsByStop } from "../../../models/alert";
+import OtherStopList from "./OtherStopList";
 
 interface Props {
   stopTree: StopTree | null;
@@ -24,6 +25,7 @@ interface Props {
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
   liveData?: LiveDataByStop;
+  otherRouteStops: RouteStop[];
 }
 
 export const StopRefContext = React.createContext<[RefMap, () => void]>([
@@ -255,7 +257,8 @@ const LineDiagramWithStops = ({
   directionId,
   alerts,
   handleStopClick,
-  liveData
+  liveData,
+  otherRouteStops
 }: Props): ReactElement<HTMLElement> => {
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useTreeStopPositions(
@@ -325,6 +328,12 @@ const LineDiagramWithStops = ({
               ))}
             </>
           )}
+          <OtherStopList
+            alerts={alerts}
+            handleStopClick={handleStopClick}
+            otherRouteStops={otherRouteStops}
+            stopTree={stopTree}
+          />
         </ol>
       </div>
     </StopRefContext.Provider>

@@ -5,7 +5,7 @@ import SearchBox from "../../../components/SearchBox";
 import { stopForId, stopIds } from "../../../helpers/stop-tree";
 import useRealtime from "../../../hooks/useRealtime";
 import { isSubwayRoute } from "../../../models/route";
-import { Alert, DirectionId, Route } from "../../../__v3api";
+import { Alert, DirectionId, Route, Stop } from "../../../__v3api";
 import { StoreProps } from "../../store/ScheduleStore";
 import {
   IndexedRouteStop,
@@ -17,13 +17,15 @@ import { createStopTreeCoordStore } from "./graphics/useTreeStopPositions";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
 import { alertsByStop } from "../../../models/alert";
+import OtherStopList from "./OtherStopList";
 
 interface Props {
-  stopTree: StopTree | null;
+  alerts: Alert[];
+  directionId: DirectionId;
+  otherRouteStops?: RouteStop[];
   route: Route;
   routeStopList: IndexedRouteStop[];
-  directionId: DirectionId;
-  alerts: Alert[];
+  stopTree: StopTree | null;
 }
 
 const stationsOrStops = (routeType: number): string =>
@@ -45,11 +47,12 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
 };
 
 const LineDiagram = ({
-  stopTree,
-  routeStopList,
-  route,
+  alerts,
   directionId,
-  alerts
+  otherRouteStops = [],
+  route,
+  routeStopList,
+  stopTree
 }: Props): ReactElement<HTMLElement> => {
   const stopTreeCoordStore = stopTree
     ? createStopTreeCoordStore(stopTree)
@@ -137,6 +140,12 @@ const LineDiagram = ({
               direction or adjusting your search.
             </div>
           )}
+          <OtherStopList
+            alerts={alerts}
+            handleStopClick={handleStopClick}
+            otherRouteStops={otherRouteStops}
+            stopTree={stopTree}
+          />
         </ol>
       ) : (
         <Provider store={stopTreeCoordStore}>
@@ -148,6 +157,7 @@ const LineDiagram = ({
             alerts={alerts}
             handleStopClick={handleStopClick}
             liveData={liveData}
+            otherRouteStops={otherRouteStops}
           />
         </Provider>
       )}

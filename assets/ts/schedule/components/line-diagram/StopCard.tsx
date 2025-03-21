@@ -37,6 +37,7 @@ interface Props {
   onClick: (stop: RouteStop) => void;
   liveData?: LiveData;
   searchQuery?: string;
+  noLineDiagram?: boolean;
 }
 
 const width = (stopTree: StopTree, stopId: StopId): number =>
@@ -118,7 +119,8 @@ const StopCard = ({
   alerts,
   onClick,
   liveData,
-  searchQuery
+  searchQuery,
+  noLineDiagram = false
 }: Props): ReactElement<HTMLElement> => {
   const refs = useContext(StopRefContext)[0];
   const routeStop = stopTree
@@ -142,7 +144,7 @@ const StopCard = ({
     <li
       className="m-schedule-diagram__stop"
       style={{
-        paddingLeft: searchQuery ? "0.5rem" : `${left}px`
+        paddingLeft: searchQuery || noLineDiagram ? "0.5rem" : `${left}px`
       }}
     >
       <section className="m-schedule-diagram__content">

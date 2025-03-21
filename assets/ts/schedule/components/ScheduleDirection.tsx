@@ -80,8 +80,9 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(({ stop_tree, route_stop_lists }) => {
+      .then(({ stop_tree, route_stop_lists, other_route_stops }) => {
         const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
+        const otherRouteStops = other_route_stops as RouteStop[];
         const routeStopListsWithIndices: IndexedRouteStop[][] = route_stop_lists
           ? (route_stop_lists as RouteStop[][]).map(rs_list =>
               rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
@@ -89,7 +90,11 @@ export const fetchLineData = (
           : [];
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { stopTree, routeStopLists: routeStopListsWithIndices }
+          payload: {
+            stopTree,
+            routeStopLists: routeStopListsWithIndices,
+            otherRouteStops
+          }
         });
       })
       // @ts-ignore
@@ -191,7 +196,8 @@ const ScheduleDirection = ({
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
       stopTree: initialStopTree,
-      routeStopLists: initialRouteStopLists
+      routeStopLists: initialRouteStopLists,
+      otherRouteStops: []
     },
     isLoading: false,
     error: false
@@ -204,6 +210,11 @@ const ScheduleDirection = ({
       dispatchLineData
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
+
+  const otherRouteStops =
+    lineState.data && lineState.data.otherRouteStops
+      ? (lineState.data.otherRouteStops as RouteStop[])
+      : [];
 
   const routeStopList =
     lineState.data && lineState.data.routeStopLists
@@ -231,11 +242,12 @@ const ScheduleDirection = ({
       </div>
       {isSubwayRoute(route) && lineState.data && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
-          routeStopList={routeStopList}
-          route={route}
-          directionId={state.directionId}
+          otherRouteStops={otherRouteStops}
           alerts={alerts}
+          directionId={state.directionId}
+          route={route}
+          routeStopList={routeStopList}
+          stopTree={lineState.data.stopTree}
         />
       )}
       {!staticMapData && mapState.data && (
@@ -265,11 +277,12 @@ const ScheduleDirection = ({
       )}
       {!isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data && lineState.data.stopTree}
-          routeStopList={routeStopList}
-          route={route}
-          directionId={state.directionId}
           alerts={alerts}
+          directionId={state.directionId}
+          otherRouteStops={otherRouteStops}
+          route={route}
+          routeStopList={routeStopList}
+          stopTree={lineState.data && lineState.data.stopTree}
         />
       )}
     </>
