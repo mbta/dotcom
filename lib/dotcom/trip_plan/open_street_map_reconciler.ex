@@ -1,4 +1,4 @@
-defmodule Dotcom.TripPlan.LocationNudger do
+defmodule Dotcom.TripPlan.OpenStreetMapReconciler do
   @moduledoc """
   There are some locations that are fairly close to transit stops, but
   for which all of the OpenStreetMap paths are not public. The
@@ -8,7 +8,7 @@ defmodule Dotcom.TripPlan.LocationNudger do
   security guards. That said, plenty of people need to plan trips to
   the State House.
 
-  This location nudger is responsible for nudging locations that
+  This module is responsible for reconcilinglocations that
   aren't publicly accessible, but that should still be possible to
   plan trips to and from, to a sensible lat/long that can be used in
   trip plans, e.g. the public side of a security entrance.
@@ -18,14 +18,14 @@ defmodule Dotcom.TripPlan.LocationNudger do
   @state_house_zip_codes ["02108", "02133"]
   @state_house_location %{latitude: 42.35861, longitude: -71.06297}
 
-  def nudge(%{from: from, to: to} = data) do
-    %{data | from: nudge_location(from), to: nudge_location(to)}
+  def reconcile(%{from: from, to: to} = data) do
+    %{data | from: reconcile_location(from), to: reconcile_location(to)}
   end
 
   def state_house_location, do: @state_house_location
   def state_house_zip_codes(), do: @state_house_zip_codes
 
-  def nudge_location(location) do
+  def reconcile_location(location) do
     if state_house?(location) do
       location |> Map.merge(@state_house_location)
     else

@@ -362,7 +362,7 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     plan =
       data
-      |> Dotcom.TripPlan.LocationNudger.nudge()
+      |> Dotcom.TripPlan.OpenStreetMapReconciler.reconcile()
       |> Dotcom.TripPlan.OpenTripPlanner.plan()
 
     case plan do
