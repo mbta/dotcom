@@ -4,7 +4,7 @@ const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
 
-test.use({ baseURL, headless: true, screenshot: "off", video: "off", trace: "off" });
+test.use({ baseURL, headless: true, screenshot: "off", video: "off", trace: "off", bypassCSP: false });
 
 const STATIC_HEADERS = [
   "cache-control",
@@ -42,7 +42,7 @@ const TEST_REQUESTS = [
  * 
  * HOST=dev.mbtace.com npx playwright test security-headers
  */
-test.describe("Security headers are present", () => {
+test.describe(`Security headers are present (${baseURL})`, () => {
   TEST_REQUESTS.forEach(([method, path]) => {
     test(`${method} ${path}`, async ({ request }) => {
       const response = await request[method](path);
