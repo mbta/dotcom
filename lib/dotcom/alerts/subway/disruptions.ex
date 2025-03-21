@@ -1,9 +1,9 @@
-defmodule Dotcom.Alerts.Disruptions.Subway do
+defmodule Dotcom.Alerts.Subway.Disruptions do
   @moduledoc """
   Disruptions are alerts that have `service_impacting_effects` grouped by `service_range`.
   """
 
-  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
+  import Dotcom.Alerts, only: [service_impacting_alert?: 1, sort_by_start_time_sorter: 2]
   import Dotcom.Routes, only: [subway_route_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_range_range: 2]
 
@@ -43,7 +43,7 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     |> Enum.filter(&service_impacting_alert?/1)
     |> Enum.reduce(%{}, &group_alerts/2)
     |> Enum.map(fn {group, alerts} ->
-      {group, sort_alerts_by_start_time(alerts)}
+      {group, Enum.sort(alerts, &sort_by_start_time_sorter/2)}
     end)
     |> Enum.into(%{})
   end
@@ -104,16 +104,5 @@ defmodule Dotcom.Alerts.Disruptions.Subway do
     |> Enum.reduce(groups, fn service_range, groups ->
       Map.update(groups, service_range, [alert], &(&1 ++ [alert]))
     end)
-  end
-
-  # Sorts alerts by the start time of the first active period.
-  defp sort_alerts_by_start_time(alerts) do
-    alerts
-    |> Enum.sort_by(
-      fn alert ->
-        alert |> Map.get(:active_period, [{nil, nil}]) |> List.first() |> Kernel.elem(0)
-      end,
-      DateTime
-    )
   end
 end
