@@ -14,6 +14,11 @@ config :dotcom, :location_service, LocationService
 
 config :dotcom, :mbta_api_module, MBTA.Api
 
+config :dotcom, :mbta_go_app,
+  android_store_base_url: "https://play.google.com/store/apps/details?id=com.mbta.tid.mbta_app",
+  ios_store_base_url: "https://apps.apple.com/app/apple-store/id6472726821?",
+  default_project_page: "/goapp"
+
 config :dotcom, :otp_module, OpenTripPlannerClient
 
 config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub
