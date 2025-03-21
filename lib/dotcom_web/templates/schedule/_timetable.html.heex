@@ -1,0 +1,234 @@
+{DotcomWeb.AlertView.group(
+  alerts: @alerts,
+  route: @route,
+  date_time: @date_time,
+  priority_filter: :high,
+  always_show: List.wrap(@blocking_alert)
+)}
+{render("_trip_view_filters.html", assigns)}
+
+<div class="calendar-covered m-timetable">
+  {content_tag(:div, "", class: "calendar-cover", hidden: !@show_date_select?)}
+  <%= cond do %>
+    <% @blocking_alert != nil -> %>
+      {render("_timetable_blocked.html", formatted_date: @formatted_date, alert: @blocking_alert)}
+    <% Enum.empty?(@header_schedules) -> %>
+      {render("_empty.html",
+        date: @date,
+        direction: Routes.Route.direction_name(@route, @direction_id),
+        conn: @conn,
+        error: assigns[:schedule_error]
+      )}
+    <% true -> %>
+      <% # only show scroll controllers if we have 2 or more schedules
+      should_show_scroll_controls? = match?([_, _ | _], @header_schedules) %>
+      <div class="m-timetable__header hidden-no-js">
+        <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
+        </div>
+        <div class="m-timetable__col-headers" aria-hidden="true">
+          <%= if should_show_scroll_controls? do %>
+            <span class="m-timetable__trains-label">
+              {Routes.Route.vehicle_name(@route) <> "s"}
+            </span>
+            <button
+              class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
+              data-scroll="earlier"
+            >
+              {fa("angle-left m-timetable__scroll-btn-arrow")} Earlier {Routes.Route.vehicle_name(
+                @route
+              ) <> "s"}
+            </button>
+            <button
+              class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
+              data-scroll="later"
+            >
+              Later {Routes.Route.vehicle_name(@route) <> "s"} {fa(
+                "angle-right m-timetable__scroll-btn-arrow"
+              )}
+            </button>
+          <% end %>
+        </div>
+      </div>
+      <div id="timetable" class="m-timetable__table-container" data-sticky-container>
+        <table
+          class="m-timetable__table"
+          aria-label={"#{@direction_name} timetable for #{@route.name}, #{@formatted_date}"}
+        >
+          <tr class="js-timetable-train-labels">
+            <th
+              scope="col"
+              class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header"
+              data-absolute
+            >
+              <div class="m-timetable__row-header">Stops</div>
+            </th>
+            <td class="hidden-no-js">
+              <div class="m-timetable__row-header"></div>
+            </td>
+            <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
+              <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == @offset do [scroll: [to: true]] end] do %>
+                <span class="sr-only">Train {schedule.trip.name}</span>
+                <span aria-hidden="true">{schedule.trip.name}</span>
+                <%= if Alerts.Trip.match(@alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
+                  {svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})}
+                <% end %>
+              <% end %>
+            <% end %>
+          </tr>
+          <%= if not ferry?(@route) do %>
+            <tr>
+              <th
+                scope="row"
+                class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer"
+                data-absolute
+              >
+                <div class="m-timetable__row-header">
+                  <span class="sr-only">Bicycles Allowed?</span>
+                  {# this icon is set to visibility: hidden by CSS;
+                  # it's needed to keep the absolutely positioned
+                  # header cell height consistent with the cells
+                  # that have icons in them.
+                  svg("icon-bikes-default.svg")}
+                </div>
+              </th>
+              <td class="hidden-no-js">
+                <div class="m-timetable__row-header"></div>
+              </td>
+              <%= for schedule <- @header_schedules do %>
+                <td class="m-timetable__header-cell">
+                  <%= if schedule.trip.bikes_allowed? do %>
+                    {content_tag(:span, svg("icon-bikes-default.svg"),
+                      data: [toggle: "tooltip"],
+                      title: "Bicycles allowed",
+                      class: "bicycles-allowed-icon"
+                    )}
+                    <div class="sr-only">Bicycles allowed</div>
+                  <% else %>
+                    <div class="sr-only">Bicycles not allowed</div>
+                  <% end %>
+                  <.tooltip
+                    :if={!is_nil(schedule.trip.occupancy)}
+                    title={timetable_crowding_description(schedule.trip.occupancy)}
+                    placement={:top}
+                  >
+                    <.icon
+                      type="icon-svg"
+                      name="icon-crowding"
+                      class={"c-svg__icon c-icon__crowding c-icon__crowding--#{schedule.trip.occupancy} monochrome"}
+                      aria-hidden="true"
+                    />
+                  </.tooltip>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+          <%= for {stop, idx} <- @header_stops do %>
+            <% cell_background =
+              if rem(idx, 2) == 0 do
+                "white"
+              else
+                "gray"
+              end %>
+            <%= content_tag :tr, [class: stop_row_class(idx)] do %>
+              <%= content_tag :th, [
+              scope: "row",
+              data: [absolute: true],
+              class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
+                cell_background
+            ] do %>
+                <div class="m-timetable__row-header m-timetable__stop-name notranslate">
+                  <%= link to: stop_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
+                    {break_text_at_slash(stop.name)}
+                  <% end %>
+                  <div class="m-timetable__stop-icons">
+                    <%= if length(stop.parking_lots) > 0 do %>
+                      <.tooltip title="Parking available" placement={:top}>
+                        <.icon
+                          name="square-parking"
+                          class="h-4 w-4 fill-gray-light"
+                          aria-hidden="true"
+                        />
+                      </.tooltip>
+                    <% else %>
+                      <span class="sr-only">No parking</span>
+                    <% end %>
+
+                    <%= if Stops.Stop.accessible?(stop) do %>
+                      <.tooltip title="Accessible" placement={:top}>
+                        <.icon
+                          type="icon-svg"
+                          name="icon-accessible-default"
+                          class="h-4 w-4 fill-gray-light"
+                          aria-hidden="true"
+                        />
+                      </.tooltip>
+                    <% else %>
+                      <%= if Stops.Stop.accessibility_known?(stop) do %>
+                        <span class="sr-only">Not accessible</span>
+                      <% else %>
+                        <span class="sr-only">May not be accessible</span>
+                      <% end %>
+                    <% end %>
+
+                    <%= if Alerts.Stop.match(@alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
+                      <.tooltip title="Service alert or delay" placement={:top}>
+                        <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
+                      </.tooltip>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <td class="js-tt-cell hidden-no-js">
+                <div class="m-timetable__row-header"></div>
+              </td>
+              <%= for schedule <- @header_schedules do %>
+                <% trip_id = schedule.trip.id
+                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
+                track_change = @track_changes[{trip_id, stop.id} || nil]
+                tooltip = stop_tooltip(trip_schedule, track_change)
+                full_trip_message = @trip_messages[{schedule.trip.name}]
+                trip_message = @trip_messages[{schedule.trip.name, stop.id}]
+                tooltip_attrs = [html: "true", toggle: "tooltip"] %>
+                <%= content_tag :td, [
+                class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
+                id: "#{stop.name}-#{trip_id}-tooltip",
+                data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
+                title: if tooltip do raw(tooltip) end
+              ] do %>
+                  <%= if trip_message do %>
+                    <div class="sr-only">{full_trip_message}</div>
+                    <div aria-hidden="true">{trip_message}</div>
+                  <% else %>
+                    {render(
+                      "_timetable_schedule.html",
+                      Map.merge(assigns, %{
+                        trip_schedule: trip_schedule,
+                        schedule: schedule,
+                        stop: stop,
+                        track_change: track_change
+                      })
+                    )}
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </table>
+      </div>
+  <% end %>
+</div>
+{timetable_note(assigns)}
+<div class="m-timetable__key-and-pdfs">
+  <% show_crowding =
+    Enum.any?(@header_schedules, fn schedule -> !is_nil(schedule.trip.occupancy) end) %>
+  {render("_timetable_icon_key.html", Map.merge(assigns, %{show_crowding: show_crowding}))}
+  {render("_pdf_schedules.html", assigns)}
+</div>
+<script type="text/plaintext" id="js-cr-vehicle-data" data-channel={@channel}>
+</script>
+<script type="application/json" id="js-cr-vehicle-schedules-data">
+  <%= raw Poison.encode!(@vehicle_schedules) %>
+</script>
+<script type="application/json" id="js-cr-vehicle-prior-stops-data">
+  <%= raw Poison.encode!(@prior_stops) %>
+</script>

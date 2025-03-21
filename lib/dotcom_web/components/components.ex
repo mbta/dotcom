@@ -252,4 +252,38 @@ defmodule DotcomWeb.Components do
     </details>
     """
   end
+
+  slot(:inner_block, required: true)
+  attr(:class, :string, default: "")
+
+  attr(:placement, :atom,
+    default: :left,
+    values: [:left, :right, :top, :bottom],
+    doc: "Where the tooltip appears relative to the hovered content."
+  )
+
+  attr(:title, :string,
+    doc:
+      "A preferably short bit of content which will appear on hover. Supports rendering of HTML."
+  )
+
+  @doc """
+  Basic tooltip to display content on hover.
+
+  This uses Bootstrap's JS plugin under the hood.
+  """
+  def tooltip(assigns) do
+    ~H"""
+    <span
+      class={@class}
+      data-html="true"
+      data-trigger="hover"
+      data-toggle="tooltip"
+      data-placement={@placement}
+      title={@title}
+    >
+      {render_slot(@inner_block)}
+    </span>
+    """
+  end
 end

@@ -11,14 +11,3 @@ export const crowdingDescriptions = (crowding: CrowdingType): string =>
         crowded: "Crowded"
       }[crowding]
     : "";
-
-export const crCrowdingDescriptions = (crowding: CrowdingType): string =>
-  crowding
-    ? {
-        // eslint-disable-next-line camelcase
-        not_crowded: "many seats available",
-        // eslint-disable-next-line camelcase
-        some_crowding: "some seats available",
-        crowded: "few seats available"
-      }[crowding]
-    : "";

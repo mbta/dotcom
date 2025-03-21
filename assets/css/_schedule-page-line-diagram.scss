@@ -273,8 +273,9 @@
 }
 
 .m-schedule-diagram__prediction-crowding {
-  @include icon-size-inline(1.125em, .125em);
+  @include icon-size-inline(1.125em, .15em);
   display: inline-block;
+  margin-left: .25rem;
 
   .u-no-crowding-data & {
     display: none;

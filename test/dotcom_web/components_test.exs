@@ -128,4 +128,27 @@ defmodule DotcomWeb.ComponentsTest do
       end
     end
   end
+
+  describe "tooltip" do
+    test "sets up basic tooltip" do
+      assigns = %{
+        title: Faker.Lorem.sentence(2),
+        placement: Faker.Util.pick([:left, :right, :top, :bottom]),
+        content: Faker.App.name()
+      }
+
+      tooltip =
+        rendered_to_string(~H"""
+        <.tooltip title={assigns.title} placement={assigns.placement}>
+          {assigns.content}
+        </.tooltip>
+        """)
+        |> Floki.parse_fragment!()
+
+      assert Floki.attribute(tooltip, "data-toggle") == ["tooltip"]
+      assert Floki.attribute(tooltip, "data-placement") == ["#{assigns.placement}"]
+      assert Floki.attribute(tooltip, "title") == ["#{assigns.title}"]
+      assert Floki.text(tooltip) =~ assigns.content
+    end
+  end
 end
