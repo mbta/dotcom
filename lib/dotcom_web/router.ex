@@ -4,23 +4,20 @@ defmodule DotcomWeb.Router do
   use DotcomWeb, :router
   use Plug.ErrorHandler
 
+  import DotcomWeb.ContentSecurityPolicy, only: [default_policy: 0, runtime_directives: 0]
   import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2], warn: false
 
   alias DotcomWeb.ControllerHelpers
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
-    conn
-    |> DotcomWeb.Plugs.SecureHeaders.call([])
-    |> then(fn conn ->
-      case reason do
-        %Phoenix.Router.NoRouteError{plug_status: 404} ->
-          ControllerHelpers.render_404(conn)
+    case reason do
+      %Phoenix.Router.NoRouteError{plug_status: 404} ->
+        ControllerHelpers.render_404(conn)
 
-        _ ->
-          ControllerHelpers.render_500(conn)
-      end
-    end)
+      _ ->
+        ControllerHelpers.render_500(conn)
+    end
   end
 
   pipeline :secure do
@@ -35,6 +32,9 @@ defmodule DotcomWeb.Router do
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
+    plug(ContentSecurityPolicy.Plug.Setup, default_policy: default_policy())
+    plug(ContentSecurityPolicy.Plug.AddSourceValue, runtime_directives())
+    plug(ContentSecurityPolicy.Plug.AddNonce, directives: [:script_src])
     plug(DotcomWeb.Plugs.Banner)
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.ClearCookies)
