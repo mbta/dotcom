@@ -30,14 +30,6 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
-  Is the alert ongoing?
-  """
-  @spec ongoing?(Alert.t()) :: boolean()
-  def ongoing?(%Alert{lifecycle: :ongoing}), do: true
-
-  def ongoing?(_), do: false
-
-  @doc """
   Does the alert have an effect that is considered service-impacting?
   """
   @spec service_impacting_alert?(Alert.t()) :: boolean()
