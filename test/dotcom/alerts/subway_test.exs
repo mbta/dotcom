@@ -169,7 +169,7 @@ defmodule Dotcom.Alerts.SubwayTest do
   end
 
   describe "sort_alerts/1" do
-    test "alerts are sorted by station, and then start time" do
+    test "alerts are sorted by start time and then station" do
       # Setup
       earlier = random_date_time()
       later = random_time_range_date_time({earlier, nil})
@@ -193,28 +193,25 @@ defmodule Dotcom.Alerts.SubwayTest do
       b_informed_entity =
         Factories.Alerts.InformedEntitySet.build(:informed_entity_set, stop: b_stop)
 
-      # 'A' is first because of its station and start time.
+      # 'A' is first because its start time is first and its station is first.
       a_alert =
         Factories.Alerts.Alert.build(:alert,
-          id: "A",
           active_period: [{earlier, nil}],
           informed_entity: a_informed_entity
         )
 
-      # 'B' is second because of its station and start time.
+      # 'B' is second because of its start time is first and its station is second.
       b_alert =
         Factories.Alerts.Alert.build(:alert,
-          id: "B",
-          active_period: [{later, nil}],
-          informed_entity: a_informed_entity
-        )
-
-      # 'C' is last even though its active period is first. Its station is last.
-      c_alert =
-        Factories.Alerts.Alert.build(:alert,
-          id: "C",
           active_period: [{earlier, nil}],
           informed_entity: b_informed_entity
+        )
+
+      # 'C' is last because its start time is last even though its station is first.
+      c_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: [{later, nil}],
+          informed_entity: a_informed_entity
         )
 
       alerts = [c_alert, b_alert, a_alert]

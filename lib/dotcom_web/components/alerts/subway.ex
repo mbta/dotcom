@@ -4,7 +4,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
   use DotcomWeb, :component
 
   import Dotcom.Alerts.Subway,
-    only: [group_alerts: 1, group_counts: 1, group_order: 0, groups: 0, sort_alerts: 1]
+    only: [group_alerts: 1, group_counts: 1, group_order: 0, sort_alerts: 1]
 
   import DotcomWeb.Components, only: [count: 1]
 
