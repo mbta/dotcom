@@ -2,6 +2,7 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
   use ExUnit.Case
 
   import Dotcom.TripPlan.LocationNudger, only: [nudge: 1, nudge_location: 1]
+  import Test.Support.Generators.FakeWithBlocklist, only: [fake_with_blocklist: 2]
 
   alias Dotcom.TripPlan.LocationNudger
   alias Test.Support.Factories.TripPlanner.TripPlanner
@@ -139,16 +140,6 @@ defmodule Dotcom.TripPlan.LocationNudgerTest do
       # Verify
       assert @state_house_location = nudged_form_data.to
       assert nudged_form_data.from == form_data.from
-    end
-  end
-
-  defp fake_with_blocklist(fake_fun, blocklist) do
-    value = fake_fun.()
-
-    if blocklist |> Enum.member?(value) do
-      fake_with_blocklist(fake_fun, blocklist)
-    else
-      value
     end
   end
 end
