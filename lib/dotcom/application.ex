@@ -53,8 +53,7 @@ defmodule Dotcom.Application do
             Supervisor.child_spec(
               {Dotcom.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
               id: :vehicles_channel_broadcaster
-            ),
-            {Dotcom.GreenLine.Supervisor, name: Dotcom.GreenLine.Supervisor}
+            )
           ]
         else
           []

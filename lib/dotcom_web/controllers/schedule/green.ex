@@ -4,8 +4,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   """
   use DotcomWeb, :controller
 
-  import UrlHelpers, only: [update_url: 2]
-
   import DotcomWeb.ControllerHelpers,
     only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
@@ -14,17 +12,13 @@ defmodule DotcomWeb.ScheduleController.Green do
 
   plug(:route)
   plug(DotcomWeb.Plugs.DateInRating)
-  plug(DotcomWeb.ScheduleController.DatePicker)
   plug(:assign_alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
   plug(DotcomWeb.ScheduleController.Defaults)
   plug(:stops_on_routes)
-  plug(:validate_direction)
   plug(:vehicle_locations)
   plug(:predictions)
   plug(DotcomWeb.ScheduleController.VehicleTooltips)
-  plug(DotcomWeb.ScheduleController.Journeys)
-  plug(:validate_journeys)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(DotcomWeb.ScheduleController.ScheduleError)
   plug(:route_pdfs)
@@ -115,36 +109,6 @@ defmodule DotcomWeb.ScheduleController.Green do
     assign(conn, :vehicle_locations, vehicle_locations)
   end
 
-  @doc """
-
-  If we built an empty journey list, but we had predictions for the
-  origin, then redirect the user away from their selected destination so they
-  at least get partial results.
-
-  """
-  def validate_journeys(%{assigns: %{destination: nil}} = conn, []) do
-    conn
-  end
-
-  def validate_journeys(%{assigns: %{journeys: %JourneyList{journeys: [_ | _]}}} = conn, []) do
-    conn
-  end
-
-  def validate_journeys(conn, []) do
-    origin_predictions =
-      conn.assigns.predictions |> Enum.find(&(&1.stop.id == conn.assigns.origin.id))
-
-    if is_nil(origin_predictions) do
-      conn
-    else
-      url = UrlHelpers.update_url(conn, destination: nil)
-
-      conn
-      |> redirect(to: url)
-      |> halt
-    end
-  end
-
   defp conn_with_branches(conn) do
     GreenLine.branch_ids()
     |> Enum.map(fn route_id ->
@@ -167,32 +131,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   defp flat_map_ok(_) do
     []
   end
-
-  defp validate_direction(
-         %{
-           assigns: %{
-             origin: origin,
-             destination: destination,
-             direction_id: direction_id
-           }
-         } = conn,
-         _
-       )
-       when not is_nil(origin) and not is_nil(destination) do
-    {stops, _map} = conn.assigns.stops_on_routes
-
-    stops = Enum.reverse(stops)
-
-    if Util.ListHelpers.find_first(stops, origin, destination) == destination do
-      conn
-      |> redirect(to: update_url(conn, direction_id: 1 - direction_id))
-      |> halt()
-    else
-      conn
-    end
-  end
-
-  defp validate_direction(conn, _), do: conn
 
   defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
     pdfs = Dotcom.RoutePdfs.fetch_and_choose_pdfs("Green", date)
