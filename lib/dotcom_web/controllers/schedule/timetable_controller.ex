@@ -20,6 +20,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:tab_name)
   plug(:direction_id)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
+  plug(DotcomWeb.ScheduleController.DatePicker)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:alert_blocks)
   plug(:do_assign_trip_schedules)

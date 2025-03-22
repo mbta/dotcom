@@ -11,13 +11,6 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
   setup :verify_on_exit!
 
-  setup_all %{} do
-    # Start parent supervisor - Dotcom.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
-    _ = start_supervised(Dotcom.GreenLine.Supervisor)
-
-    :ok
-  end
-
   describe "from_itinerary" do
     setup do
       # Start parent supervisor - Dotcom.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.

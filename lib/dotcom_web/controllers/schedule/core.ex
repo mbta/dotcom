@@ -11,7 +11,6 @@ defmodule DotcomWeb.ScheduleController.Core do
 
   defp schedule_pipeline_setup(conn, _opts) do
     conn
-    |> call_plug(DotcomWeb.ScheduleController.DatePicker)
     |> call_plug(DotcomWeb.ScheduleController.Defaults)
     |> call_plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   end
