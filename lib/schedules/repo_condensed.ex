@@ -10,8 +10,6 @@ defmodule Schedules.RepoCondensed do
 
   import Kernel, except: [to_string: 1]
 
-  alias MBTA.Api.Schedules, as: SchedulesApi
-  alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -28,7 +26,9 @@ defmodule Schedules.RepoCondensed do
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
-  @spec by_route_ids([Route.id_t()], Keyword.t()) :: [ScheduleCondensed.t()] | {:error, any}
+  @behaviour Schedules.RepoCondensed.Behaviour
+
+  @impl Schedules.RepoCondensed.Behaviour
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     opts = Keyword.put_new(opts, :date, Util.service_date())
 
@@ -44,7 +44,7 @@ defmodule Schedules.RepoCondensed do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- SchedulesApi.all(params) do
+    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data = Enum.filter(data, &valid?/1)
       Repo.insert_trips_into_cache(data)
 
