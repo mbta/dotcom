@@ -8,12 +8,10 @@ defmodule DotcomWeb.RealtimeScheduleApi do
   alias Stops.Stop
 
   def stops(conn, params) do
-    now = conn.assigns.date_time
-
     payload =
       params
       |> parse_stops()
-      |> RealtimeSchedule.stop_data(now)
+      |> RealtimeSchedule.stop_data()
 
     json(conn, %{"status" => "ok", "payload" => payload})
   end

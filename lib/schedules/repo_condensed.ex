@@ -50,9 +50,27 @@ defmodule Schedules.RepoCondensed do
 
       data
       |> Stream.map(&Parser.parse/1)
-      |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 5)))
-      |> build_structs()
+      |> Stream.filter(&has_trip?/1)
+      |> Task.async_stream(
+        fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
+          trip = Repo.trip(trip_id)
+          stop = @stops_repo.get!(stop_id)
+
+          %ScheduleCondensed{
+            time: time,
+            trip_id: trip_id,
+            headsign: trip.headsign,
+            route_pattern_id: trip.route_pattern_id,
+            stop_id: stop.parent_id || stop.id,
+            train_number: trip.name,
+            stop_sequence: stop_sequence
+          }
+        end,
+        timeout: @long_timeout
+      )
+      |> Stream.filter(&match?({:ok, _}, &1))
+      |> Stream.map(fn {:ok, result} -> result end)
+      |> Enum.to_list()
     end
   end
 
@@ -113,26 +131,5 @@ defmodule Schedules.RepoCondensed do
     Enum.filter(schedules, fn schedule ->
       Util.time_is_greater_or_equal?(schedule.time, min_time)
     end)
-  end
-
-  defp build_structs(schedules) do
-    schedules
-    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
-      Task.async(fn ->
-        trip = Repo.trip(trip_id)
-        stop = @stops_repo.get!(stop_id)
-
-        %ScheduleCondensed{
-          time: time,
-          trip_id: trip_id,
-          headsign: trip.headsign,
-          route_pattern_id: trip.route_pattern_id,
-          stop_id: stop.parent_id || stop.id,
-          train_number: trip.name,
-          stop_sequence: stop_sequence
-        }
-      end)
-    end)
-    |> Enum.map(&Task.await(&1, @long_timeout))
   end
 end
