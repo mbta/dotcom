@@ -3,7 +3,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
 
   import DotcomWeb.ScheduleView.Timetable
   import Phoenix.ConnTest, only: [build_conn: 0]
-  import Phoenix.HTML, only: [safe_to_string: 1]
+  import Phoenix.LiveViewTest, only: [rendered_to_string: 1]
 
   alias Schedules.Schedule
 
@@ -113,8 +113,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
 
       assigns = Keyword.put(assigns, :header_schedules, header_schedules)
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)
-      refute safe_to_string(rendered) =~ "Earlier Trains"
-      refute safe_to_string(rendered) =~ "Later Trains"
+      refute rendered_to_string(rendered) =~ "Earlier Trains"
+      refute rendered_to_string(rendered) =~ "Later Trains"
     end
 
     test "renders the earlier/later train columns when there are two or more schedules", %{
@@ -129,8 +129,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
 
       assigns = Keyword.put(assigns, :header_schedules, header_schedules)
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)
-      assert safe_to_string(rendered) =~ "Earlier Trains"
-      assert safe_to_string(rendered) =~ "Later Trains"
+      assert rendered_to_string(rendered) =~ "Earlier Trains"
+      assert rendered_to_string(rendered) =~ "Later Trains"
     end
 
     test "should show the track change information if present", %{assigns: assigns} do
@@ -164,7 +164,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         )
 
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)
-      assert safe_to_string(rendered) =~ "New Track"
+      assert rendered_to_string(rendered) =~ "New Track"
     end
   end
 end

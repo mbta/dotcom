@@ -44,8 +44,8 @@ describe("passes smoke test", () => {
 
   it("fares sales locations", () => {
     cy.visit("/fare-transformation/proposed-sales-locations");
-    cy.get('input[placeholder="Enter a location"]').type("Boston Common");
     cy.wait(1000);
+    cy.get('input[placeholder="Enter a location"]').type("Boston Common");
     cy.get(".c-search-bar__autocomplete-results .aa-List").should("have.length.greaterThan", 0);
     cy.get(".c-search-bar__autocomplete-results .aa-List li")
       .first()
@@ -82,6 +82,7 @@ describe("passes smoke test", () => {
 
   it("projects page, filter, selected project", () => {
     cy.visit("/projects");
+    cy.wait(1000);
     cy.get("#mode-button__bus").click();
     cy.contains("Bus Projects");
     cy.get(".m-more-projects-table__title")
@@ -102,6 +103,7 @@ describe("passes smoke test", () => {
       .contains("Ferry")
       .click();
     cy.contains("a.m-detailed-stop", "Hingham").click();
+    cy.wait(1000);
     cy.url().should("contain", "Boat-Hingham");
     cy.contains("main", "Stop Information");
   });
@@ -129,10 +131,12 @@ describe("passes smoke test", () => {
     ];
     for (let [route, tab] of schedule_sections) {
       cy.visit(`/schedules/${route}/${tab}`);
+      cy.wait(1000);
       if (tab == "line") {
         cy.get(".m-schedule-diagram");
         // test both directions
         cy.contains("Change Direction").click();
+        cy.wait(1000);
         cy.url().then(url => {
           if (url.includes("schedule_direction%5Bdirection_id%5D=1")) {
             // default direction was 0 so verify it goes back
@@ -160,6 +164,7 @@ describe("passes smoke test", () => {
 
   it("search page", () => {
     cy.visit("/search");
+    cy.wait(1000);
     cy.get(
       'input[placeholder="Search for routes, places, information, and more"]'
     ).type("Charles");

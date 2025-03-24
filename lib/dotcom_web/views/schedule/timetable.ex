@@ -3,10 +3,6 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   Functions for showing timetable content.
   """
 
-  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
-
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias DotcomWeb.ViewHelpers, as: Helpers
   alias Routes.Route
   alias Schedules.Schedule
   alias Stops.Stop
@@ -59,43 +55,6 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   @spec track_change_description(String.t(), String.t() | nil) :: String.t() | nil
   def track_change_description(station_name, track_change_stop) do
     "Train scheduled to board from #{track_change_stop.platform_name} at #{station_name}"
-  end
-
-  @spec stop_parking_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
-  def stop_parking_icon(stop) do
-    if length(stop.parking_lots) > 0 do
-      [
-        content_tag(
-          :span,
-          Helpers.fa("square-parking"),
-          aria: [hidden: "true"],
-          class: "m-timetable__parking-icon",
-          data: [toggle: "tooltip"],
-          title: "Parking available"
-        ),
-        content_tag(:span, "Parking available", class: "sr-only")
-      ]
-    else
-      [content_tag(:span, "No parking", class: "sr-only")]
-    end
-  end
-
-  @spec stop_accessibility_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
-  def stop_accessibility_icon(stop) do
-    cond do
-      Stop.accessible?(stop) ->
-        SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: :access})
-
-      Stop.accessibility_known?(stop) ->
-        [
-          content_tag(:span, "Not accessible", class: "sr-only")
-        ]
-
-      true ->
-        [
-          content_tag(:span, "May not be accessible", class: "sr-only")
-        ]
-    end
   end
 
   @spec stop_row_class(integer) :: String.t()

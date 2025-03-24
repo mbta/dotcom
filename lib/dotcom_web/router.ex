@@ -10,17 +10,13 @@ defmodule DotcomWeb.Router do
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
-    conn
-    |> DotcomWeb.Plugs.SecureHeaders.call([])
-    |> then(fn conn ->
-      case reason do
-        %Phoenix.Router.NoRouteError{plug_status: 404} ->
-          ControllerHelpers.render_404(conn)
+    case reason do
+      %Phoenix.Router.NoRouteError{plug_status: 404} ->
+        ControllerHelpers.render_404(conn)
 
-        _ ->
-          ControllerHelpers.render_500(conn)
-      end
-    end)
+      _ ->
+        ControllerHelpers.render_500(conn)
+    end
   end
 
   pipeline :secure do
@@ -40,6 +36,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(DotcomWeb.Plugs.CommonFares)
+    plug(DotcomWeb.Plugs.ContentSecurityPolicy)
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
@@ -152,9 +149,15 @@ defmodule DotcomWeb.Router do
       to: "/projects/bus-network-redesign/phase-1-service-changes#116"
     )
 
+    # Commuter Rail route renamed as part of the SCR project
+    get("/schedules/CR-Middleborough/*path_params", Plugs.PathParamsRedirector,
+      to: "/schedules/CR-NewBedford"
+    )
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
+    get("/app-store", AppStoreController, :redirect_mbta_go)
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)

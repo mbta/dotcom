@@ -36,7 +36,12 @@ defmodule DotCom.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:dev),
-    do: ["lib", "test/support/factories", "test/support/factory_helpers.ex"]
+    do: [
+      "lib",
+      "test/support/factories",
+      "test/support/factory_helpers.ex",
+      "test/support/generators"
+    ]
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -73,7 +78,12 @@ defmodule DotCom.Mixfile do
       {:address_us, "0.4.3"},
       {:aws, "1.0.4"},
       {:aws_credentials, "0.3.2", optional: true},
+      {:browser, "~> 0.5.4"},
       {:castore, "1.0.12"},
+      {
+        :content_security_policy,
+        git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
+      },
       {:cowlib, "2.14.0", override: true},
       {:crc, "0.10.5"},
       {:credo, "1.7.11", only: [:dev, :test]},

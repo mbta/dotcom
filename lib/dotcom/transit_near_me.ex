@@ -181,9 +181,6 @@ defmodule Dotcom.TransitNearMe do
 
   @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
           [String.t()] | String.t()
-  def format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
-    format_time(time)
-  end
 
   def format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
     Display.do_time_difference(time, now, &format_time/1, 120)
@@ -196,6 +193,10 @@ defmodule Dotcom.TransitNearMe do
   end
 
   def format_prediction_time(_, _, :bus, _), do: ["arriving"]
+
+  def format_prediction_time(%DateTime{} = time, _now, _, _) do
+    format_time(time)
+  end
 
   @spec format_time(DateTime.t()) :: [String.t()]
   def format_time(time) do
@@ -385,6 +386,12 @@ defmodule Dotcom.TransitNearMe do
           PredictedSchedule.t()
         ]
   defp get_predicted_schedules(schedules, params, opts) do
+    params =
+      Keyword.update!(params, :route, fn
+        "Green" -> GreenLine.branch_ids() |> Enum.join(",")
+        other -> other
+      end)
+
     now = Keyword.fetch!(opts, :now)
 
     predictions = @predictions_repo.all(params)

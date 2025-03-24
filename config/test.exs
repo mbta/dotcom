@@ -24,6 +24,7 @@ config :dotcom, :repo_modules,
   predictions: Predictions.Repo.Mock,
   route_patterns: RoutePatterns.Repo.Mock,
   routes: Routes.Repo.Mock,
+  schedules_condensed: Schedules.RepoCondensed.Mock,
   stops: Stops.Repo.Mock
 
 config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub.Mock

@@ -1,12 +1,11 @@
-import ReactServer from "react-dom/server";
 import React from "react";
+import ReactServer from "react-dom/server";
 import readline from "readline";
 
-import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
+import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
-import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
-import LiveCrowdingIcon from "./ts/schedule/components/line-diagram/LiveCrowdingIcon";
+import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 
 const log = (title, obj) => {
   process.stdout.write(
@@ -55,8 +54,7 @@ const Components = {
   ScheduleFinder,
   AdditionalLineInfo,
   TransitNearMe,
-  ProjectsPage,
-  LiveCrowdingIcon
+  ProjectsPage
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");
