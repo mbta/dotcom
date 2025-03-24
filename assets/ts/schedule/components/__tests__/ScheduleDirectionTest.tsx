@@ -394,10 +394,6 @@ describe("ScheduleDirectionTest", () => {
       .simulate("keydown", { key: "ArrowRight" });
 
     wrapper
-      .find("#route-pattern_uncommon")
-      .simulate("keydown", { key: "ArrowRight" });
-
-    wrapper
       .find("#route-pattern_pattern-1")
       .simulate("keydown", { key: "ArrowLeft" });
 
@@ -410,8 +406,6 @@ describe("ScheduleDirectionTest", () => {
       .simulate("keydown", { key: "Tab", shiftKey: true });
 
     wrapper.find("#route-pattern_pattern-3").simulate("keydown", { key: "X" });
-
-    wrapper.find("#route-pattern_uncommon").simulate("click");
 
     wrapper.find(".m-schedule-direction__button").simulate("click");
   });
@@ -440,8 +434,6 @@ describe("ScheduleDirectionTest", () => {
     wrapper
       .find(".m-schedule-direction__route-pattern--clickable")
       .simulate("click");
-
-    wrapper.find("#route-pattern_uncommon").simulate("keyUp", { key: "Enter" });
   });
 
   it("can change route for green line with click", () => {

@@ -63,22 +63,25 @@ exports[`ExpandedBusMenu renders a menu 1`] = `
       </div>
     </div>
     <div
-      aria-label="click for additional routes"
+      class="m-schedule-direction__menu-item-spacer"
+    >
+      Uncommon destinations
+    </div>
+    <div
       class="m-schedule-direction__menu-item"
-      id="route-pattern_uncommon"
+      id="route-pattern_66-B-0"
       role="menuitem"
       tabindex="0"
     >
       <div
-        class="m-schedule-direction__menu-item-more"
+        class="m-schedule-direction__menu-item-headsign"
       >
-        Uncommon destinations 
-        <span
-          aria-hidden="true"
-          class="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
-        >
-          SVG
-        </span>
+        Watertown Yard via Union Square Allston
+      </div>
+      <div
+        class="m-schedule-direction__menu-item-description"
+      >
+        School days only
       </div>
     </div>
   </div>
