@@ -223,8 +223,6 @@ const ScheduleDirection = ({
           routePatternsByDirection={routePatternsByDirection}
           selectedRoutePatternId={state.routePattern.id}
           menuOpen={state.routePatternMenuOpen}
-          showAllRoutePatterns={state.routePatternMenuAll}
-          itemFocus={state.itemFocus}
           dispatch={dispatch}
         />
         {directionIsChangeable ? (

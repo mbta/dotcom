@@ -6,7 +6,6 @@ import React, {
 import {
   MenuAction,
   setRoutePatternAction,
-  showAllRoutePatternsAction,
   toggleRoutePatternMenuAction
 } from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
@@ -19,8 +18,6 @@ import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react
 interface ExpandedBusMenuProps {
   routePatterns: EnhancedRoutePattern[];
   selectedRoutePatternId: string;
-  showAllRoutePatterns: boolean;
-  itemFocus: string | null;
   dispatch: Dispatch<MenuAction>;
 }
 
@@ -28,13 +25,7 @@ interface RoutePatternItem {
   routePatternIds: string[];
   routePattern: EnhancedRoutePattern;
   selected: boolean;
-  focused: boolean;
   duplicated: boolean;
-  dispatch: Dispatch<MenuAction>;
-}
-
-interface UncommonDestinationsItem {
-  routePatternIds: string[];
   dispatch: Dispatch<MenuAction>;
 }
 
@@ -54,7 +45,6 @@ const RoutePatternItem = ({
   routePatternIds,
   routePattern,
   selected,
-  focused,
   duplicated,
   dispatch
 }: RoutePatternItem): ReactElement<HTMLElement> => {
@@ -76,7 +66,7 @@ const RoutePatternItem = ({
       role="menuitem"
       className={`m-schedule-direction__menu-item${selectedClass}`}
       onClick={handleClick}
-      ref={item => item && focused && item.focus()}
+      ref={item => item && item.focus()}
       onKeyUp={(e: ReactKeyboardEvent) => {
         handleReactEnterKeyPress(e, () => {
           handleClick();
@@ -99,54 +89,10 @@ const RoutePatternItem = ({
   );
 };
 
-const UncommonDestinationsItem = ({
-  routePatternIds,
-  dispatch
-}: UncommonDestinationsItem): ReactElement<HTMLElement> => {
-  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
-
-  return (
-    <div
-      id="route-pattern_uncommon"
-      role="menuitem"
-      tabIndex={0}
-      aria-label="click for additional routes"
-      className="m-schedule-direction__menu-item"
-      onClick={handleClick}
-      onKeyUp={(e: ReactKeyboardEvent) =>
-        handleReactEnterKeyPress(e, () => {
-          handleClick();
-        })
-      }
-      onKeyDown={(e: ReactKeyboardEvent) => {
-        handleNavigation(e, routePatternIds);
-      }}
-    >
-      <div className="m-schedule-direction__menu-item-more">
-        Uncommon destinations{" "}
-        {renderSvg(
-          "c-svg__icon m-schedule-direction__route-pattern-arrow",
-          arrowIcon
-        )}
-      </div>
-    </div>
-  );
-};
-
 const hasMoreRoutePatterns = (routePatterns: EnhancedRoutePattern[]): boolean =>
   routePatterns.some(
     (routePattern: EnhancedRoutePattern) => routePattern.typicality > 2
   );
-
-const determineFocusIndex = (
-  itemFocus: string | null,
-  routePatterns: EnhancedRoutePattern[]
-): number => {
-  if (itemFocus === "first") return 0;
-  return routePatterns.findIndex(
-    (routePattern: EnhancedRoutePattern) => routePattern.typicality > 2
-  );
-};
 
 const isDuplicateHeadsign = (
   compareRoutePattern: EnhancedRoutePattern,
@@ -161,47 +107,48 @@ const isDuplicateHeadsign = (
 export const ExpandedBusMenu = ({
   routePatterns,
   selectedRoutePatternId,
-  showAllRoutePatterns,
-  itemFocus,
   dispatch
 }: ExpandedBusMenuProps): ReactElement<HTMLElement> => {
-  const filterRule = (routePattern: EnhancedRoutePattern): boolean =>
-    showAllRoutePatterns ? true : routePattern.typicality < 3;
+  const regularRoutePatterns = routePatterns.filter(
+    (routePattern: EnhancedRoutePattern) => routePattern.typicality < 3
+  );
+  const uncommonRoutePatterns = routePatterns.filter(
+    (routePattern: EnhancedRoutePattern) => routePattern.typicality >= 3
+  );
 
-  const focusIndex = determineFocusIndex(itemFocus, routePatterns);
-
-  const toggleButtonIds =
-    hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
-      ? ["uncommon"]
-      : [];
-
-  const routePatternIds = routePatterns
-    .filter(filterRule)
-    .map((routePattern: EnhancedRoutePattern) => routePattern.id)
-    .concat(toggleButtonIds);
+  const routePatternIds = routePatterns.map(
+    (routePattern: EnhancedRoutePattern) => routePattern.id
+  );
 
   return (
     <div className="m-schedule-direction__menu" role="menu">
-      {routePatterns
-        .filter(filterRule)
-        .map((routePattern: EnhancedRoutePattern, index: number) => (
-          <RoutePatternItem
-            key={routePattern.id}
-            routePatternIds={routePatternIds}
-            routePattern={routePattern}
-            selected={selectedRoutePatternId === routePattern.id}
-            focused={index === focusIndex}
-            duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
-            dispatch={dispatch}
-          />
-        ))}
-      {hasMoreRoutePatterns(routePatterns) &&
-        showAllRoutePatterns === false && (
-          <UncommonDestinationsItem
-            routePatternIds={routePatternIds}
-            dispatch={dispatch}
-          />
-        )}
+      {regularRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
+        <RoutePatternItem
+          key={routePattern.id}
+          routePatternIds={routePatternIds}
+          routePattern={routePattern}
+          selected={selectedRoutePatternId === routePattern.id}
+          duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
+          dispatch={dispatch}
+        />
+      ))}
+      {hasMoreRoutePatterns(routePatterns) && (
+        <>
+          <div className="m-schedule-direction__menu-item-spacer">
+            Uncommon destinations
+          </div>
+          {uncommonRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
+            <RoutePatternItem
+              key={routePattern.id}
+              routePatternIds={routePatternIds}
+              routePattern={routePattern}
+              selected={selectedRoutePatternId === routePattern.id}
+              duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
+              dispatch={dispatch}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 };

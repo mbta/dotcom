@@ -116,8 +116,6 @@ describe("ExpandedBusMenu", () => {
       <ExpandedBusMenu
         routePatterns={routePatterns}
         selectedRoutePatternId="66-6-0"
-        showAllRoutePatterns={false}
-        itemFocus={"first"}
         dispatch={mockDisptach}
       />
     );
@@ -130,8 +128,6 @@ describe("ExpandedBusMenu", () => {
       <ExpandedBusMenu
         routePatterns={routePatterns}
         selectedRoutePatternId="66-6-0"
-        showAllRoutePatterns={true}
-        itemFocus={"first"}
         dispatch={mockDisptach}
       />
     );
