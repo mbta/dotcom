@@ -122,4 +122,44 @@ describe("ExpandedBusMenu", () => {
 
     expect(asFragment()).toMatchSnapshot();
   });
+
+  it("selects a new route pattern when an item is clicked on", () => {
+    const { container } = render(
+      <ExpandedBusMenu
+        routePatterns={routePatterns}
+        selectedRoutePatternId="66-6-0"
+        dispatch={mockDisptach}
+      />
+    );
+
+    expect(
+      container.querySelectorAll(".m-schedule-direction__menu-item")
+    ).toHaveLength(2);
+
+    const routePattern = routePatterns[1];
+    expect(
+      container.querySelectorAll(`#route-pattern_${routePattern.id}`)
+    ).toHaveLength(1);
+
+    fireEvent.click(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!
+    );
+
+    expect(mockDisptach).toHaveBeenCalledWith(
+      setRoutePatternAction(routePattern)
+    );
+
+    fireEvent.keyUp(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!,
+      { key: "Enter" }
+    );
+    fireEvent.keyDown(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!,
+      { key: "Enter" }
+    );
+
+    const menu = screen.getByRole("menu");
+    fireEvent.keyUp(menu, { key: "Enter" });
+    fireEvent.keyDown(menu, { key: "Tab" });
+  });
 });
