@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ContentSecurityPolicy do
+defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   @moduledoc """
   Defines the content security policy, accomodating the wide variety
   of embedded scripts and inserted content across the website.
@@ -78,11 +78,20 @@ defmodule DotcomWeb.ContentSecurityPolicy do
     worker_src: ~w[blob: ;]
   }
 
-  @spec default_policy :: ContentSecurityPolicy.Policy.t()
-  def default_policy, do: @default_policy
+  @behaviour Plug
 
-  @spec runtime_directives :: [{atom(), String.t()}]
-  def runtime_directives do
+  @impl Plug
+  def init(opts), do: opts
+
+  @impl Plug
+  def call(conn, _opts) do
+    conn
+    |> ContentSecurityPolicy.Plug.Setup.call(default_policy: @default_policy)
+    |> ContentSecurityPolicy.Plug.AddNonce.call(directives: [:script_src])
+    |> ContentSecurityPolicy.Plug.AddSourceValue.call(runtime_directives())
+  end
+
+  defp runtime_directives do
     drupal_url = Util.config(:dotcom, :cms_api)[:base_url]
     endpoint_config = Util.config(:dotcom, DotcomWeb.Endpoint)
     websocket_url = "#{Keyword.get(endpoint_config, :url, [])[:host]}"
@@ -130,6 +139,7 @@ defmodule DotcomWeb.ContentSecurityPolicy do
     webpack_path = String.replace(webpack_path, "http://", "")
 
     [
+      {:connect_src, webpack_path},
       {:connect_src, "ws://#{webpack_path}/ws"},
       {:font_src, webpack_path},
       {:script_src, webpack_path},
