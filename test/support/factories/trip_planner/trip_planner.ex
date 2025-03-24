@@ -3,6 +3,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   Provides generated test data via ExMachina and Faker.
   """
 
+  alias Dotcom.TripPlan.InputForm
   use ExMachina
 
   alias Dotcom.TripPlan.{NamedPosition, Parser}
@@ -45,7 +46,7 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
   end
 
   def input_form_location_factory do
-    %{
+    %InputForm.Location{
       name: Generators.Address.address(),
       latitude: Faker.Address.latitude(),
       longitude: Faker.Address.longitude()

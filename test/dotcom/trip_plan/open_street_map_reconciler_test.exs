@@ -3,6 +3,7 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconcilerTest do
 
   import Dotcom.TripPlan.OpenStreetMapReconciler, only: [reconcile: 1, reconcile_location: 1]
 
+  alias Dotcom.TripPlan.InputForm
   alias Dotcom.TripPlan.OpenStreetMapReconciler
   alias Test.Support.Factories.TripPlanner.TripPlanner
 
@@ -37,7 +38,7 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconcilerTest do
   describe "reconcile/1" do
     test "keeps the 'to' and 'from' fields the same for typical addresses" do
       # Setup
-      form_data = %{
+      form_data = %InputForm{
         from: TripPlanner.build(:input_form_location, @location_outside_state_house),
         to: TripPlanner.build(:input_form_location, @location_outside_state_house)
       }
@@ -51,7 +52,7 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconcilerTest do
 
     test "reconciles the 'from' field when needed" do
       # Setup
-      form_data = %{
+      form_data = %InputForm{
         from: TripPlanner.build(:input_form_location, @location_inside_state_house),
         to: TripPlanner.build(:input_form_location, @location_outside_state_house)
       }
@@ -66,7 +67,7 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconcilerTest do
 
     test "reconciles the 'to' field when needed" do
       # Setup
-      form_data = %{
+      form_data = %InputForm{
         from: TripPlanner.build(:input_form_location, @location_outside_state_house),
         to: TripPlanner.build(:input_form_location, @location_inside_state_house)
       }
