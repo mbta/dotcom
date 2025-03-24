@@ -1,8 +1,0 @@
-Did you mean?
-<ul>
-  <%= for result <- @results do %>
-    <li>
-      <%= link result.name, to: update_url(@conn, plan: %{@field => result.name}) %>
-    </li>
-  <% end %>
-</ul>

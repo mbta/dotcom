@@ -11,11 +11,6 @@ defmodule Dotcom.TripPlan.Map do
 
   @type t :: MapData.t()
 
-  def initial_map_data do
-    {630, 400}
-    |> MapData.new(14)
-  end
-
   @doc """
   Returns the static map data and source URL
   Accepts a function that will return either a
@@ -94,7 +89,7 @@ defmodule Dotcom.TripPlan.Map do
     |> LeafletPolyline.new(color: color, weight: path_weight)
   end
 
-  @spec extend_to_endpoints(String.t(), Leg.t()) :: String.t()
+  @spec extend_to_endpoints(String.t() | charlist(), Leg.t()) :: String.t()
   defp extend_to_endpoints(polyline, _leg) when not is_binary(polyline), do: ""
 
   defp extend_to_endpoints(polyline, %{from: from, to: to})

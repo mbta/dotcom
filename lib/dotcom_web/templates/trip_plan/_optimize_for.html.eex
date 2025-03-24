@@ -1,9 +1,0 @@
-<div class="form-group m-trip-plan__optimize-for">
-  <%=
-
-      content_tag(:div, [
-        checkbox(@form, :wheelchair, checked: @wheelchair == true, class: "c-checkbox__input", hidden_input: false),
-        label(@form, :wheelchair, ["Wheelchair accessible", svg_icon_with_circle(%SvgIconWithCircle{icon: :access})], class: "c-checkbox__label")
-      ], class: "c-checkbox")
-  %>
-</div>

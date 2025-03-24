@@ -3,6 +3,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   import Mox
 
+  setup :verify_on_exit!
+
   describe "location/2" do
     test "from|to/query redirects with an encoded plan when the location is found", %{conn: conn} do
       # Setup
