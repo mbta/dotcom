@@ -19,6 +19,9 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   Requests to OpenTripPlanner's /plan GraphQL endpoint and parses the response..
   """
   @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
+  @spec plan(NamedPosition.t(), NamedPosition.t(), Keyword.t()) ::
+          OpenTripPlannerClient.Behaviour.plan_result()
+
   def plan(%InputForm{} = input_form) do
     input_form
     |> InputForm.to_params()
@@ -26,8 +29,6 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     |> parse()
   end
 
-  @spec plan(NamedPosition.t(), NamedPosition.t(), Keyword.t()) ::
-          OpenTripPlannerClient.Behaviour.plan_result()
   def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
     with from <- NamedPosition.to_keywords(from),
          to <- NamedPosition.to_keywords(to),
