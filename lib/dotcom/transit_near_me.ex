@@ -385,6 +385,12 @@ defmodule Dotcom.TransitNearMe do
           PredictedSchedule.t()
         ]
   defp get_predicted_schedules(schedules, params, opts) do
+    params =
+      Keyword.update!(params, :route, fn
+        "Green" -> GreenLine.branch_ids() |> Enum.join(",")
+        other -> other
+      end)
+
     now = Keyword.fetch!(opts, :now)
 
     predictions = @predictions_repo.all(params)
