@@ -6,7 +6,6 @@ import React, {
 import {
   MenuAction,
   setRoutePatternAction,
-  showAllRoutePatternsAction,
   toggleRoutePatternMenuAction
 } from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
@@ -28,11 +27,6 @@ interface RoutePatternItem {
   selected: boolean;
   focused: boolean;
   duplicated: boolean;
-  dispatch: Dispatch<MenuAction>;
-}
-
-interface UncommonDestinationsItem {
-  routePatternIds: string[];
   dispatch: Dispatch<MenuAction>;
 }
 
@@ -97,54 +91,10 @@ const RoutePatternItem = ({
   );
 };
 
-const UncommonDestinationsItem = ({
-  routePatternIds,
-  dispatch
-}: UncommonDestinationsItem): ReactElement<HTMLElement> => {
-  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
-
-  return (
-    <div
-      id="route-pattern_uncommon"
-      role="menuitem"
-      tabIndex={0}
-      aria-label="click for additional routes"
-      className="m-schedule-direction__menu-item"
-      onClick={handleClick}
-      onKeyUp={(e: ReactKeyboardEvent) =>
-        handleReactEnterKeyPress(e, () => {
-          handleClick();
-        })
-      }
-      onKeyDown={(e: ReactKeyboardEvent) => {
-        handleNavigation(e, routePatternIds);
-      }}
-    >
-      <div className="m-schedule-direction__menu-item-more">
-        Uncommon destinations{" "}
-        {renderSvg(
-          "c-svg__icon m-schedule-direction__route-pattern-arrow",
-          arrowIcon
-        )}
-      </div>
-    </div>
-  );
-};
-
 const hasMoreRoutePatterns = (routePatterns: EnhancedRoutePattern[]): boolean =>
   routePatterns.some(
     (routePattern: EnhancedRoutePattern) => routePattern.typicality > 2
   );
-
-const determineFocusIndex = (
-  itemFocus: string | null,
-  routePatterns: EnhancedRoutePattern[]
-): number => {
-  if (itemFocus === "first") return 0;
-  return routePatterns.findIndex(
-    (routePattern: EnhancedRoutePattern) => routePattern.typicality > 2
-  );
-};
 
 const isDuplicateHeadsign = (
   compareRoutePattern: EnhancedRoutePattern,
@@ -168,13 +118,30 @@ export const ExpandedBusMenu = ({
     (routePattern: EnhancedRoutePattern) => routePattern.typicality >= 3
   );
 
-  const routePatternIds = routePatterns
-    .map((routePattern: EnhancedRoutePattern) => routePattern.id)
+  const routePatternIds = routePatterns.map(
+    (routePattern: EnhancedRoutePattern) => routePattern.id
+  );
 
   return (
     <div className="m-schedule-direction__menu" role="menu">
-      {regularRoutePatterns
-        .map((routePattern: EnhancedRoutePattern, index: number) => (
+      {regularRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
+        <RoutePatternItem
+          key={routePattern.id}
+          routePatternIds={routePatternIds}
+          routePattern={routePattern}
+          selected={selectedRoutePatternId === routePattern.id}
+          focused={false}
+          duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
+          dispatch={dispatch}
+        />
+      ))}
+      {hasMoreRoutePatterns(routePatterns) && (
+        <div className="m-schedule-direction__menu-item-spacer">
+          Uncommon destinations
+        </div>
+      )}
+      {hasMoreRoutePatterns(routePatterns) &&
+        uncommonRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
           <RoutePatternItem
             key={routePattern.id}
             routePatternIds={routePatternIds}
@@ -185,23 +152,6 @@ export const ExpandedBusMenu = ({
             dispatch={dispatch}
           />
         ))}
-      {hasMoreRoutePatterns(routePatterns) && (
-        <div className="m-schedule-direction__menu-item-spacer">Uncommon destinations</div>
-      )}
-      {hasMoreRoutePatterns(routePatterns) && (
-        uncommonRoutePatterns
-          .map((routePattern: EnhancedRoutePattern, index: number) => (
-            <RoutePatternItem
-              key={routePattern.id}
-              routePatternIds={routePatternIds}
-              routePattern={routePattern}
-              selected={selectedRoutePatternId === routePattern.id}
-              focused={false}
-              duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
-              dispatch={dispatch}
-            />
-          ))
-      )}
     </div>
   );
 };

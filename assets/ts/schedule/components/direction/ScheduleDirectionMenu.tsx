@@ -13,8 +13,6 @@ interface Props {
   directionId: DirectionId;
   selectedRoutePatternId: string;
   menuOpen: boolean;
-  showAllRoutePatterns: boolean;
-  itemFocus: string | null;
   dispatch: Dispatch<MenuAction>;
 }
 
@@ -24,8 +22,6 @@ const ScheduleDirectionMenu = ({
   directionId,
   selectedRoutePatternId,
   menuOpen,
-  showAllRoutePatterns,
-  itemFocus,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
   const routePatterns = routePatternsByDirection[directionId];
