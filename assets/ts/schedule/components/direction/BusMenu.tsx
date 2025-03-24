@@ -25,7 +25,6 @@ interface RoutePatternItem {
   routePatternIds: string[];
   routePattern: EnhancedRoutePattern;
   selected: boolean;
-  focused: boolean;
   duplicated: boolean;
   dispatch: Dispatch<MenuAction>;
 }
@@ -46,7 +45,6 @@ const RoutePatternItem = ({
   routePatternIds,
   routePattern,
   selected,
-  focused,
   duplicated,
   dispatch
 }: RoutePatternItem): ReactElement<HTMLElement> => {
@@ -68,7 +66,7 @@ const RoutePatternItem = ({
       role="menuitem"
       className={`m-schedule-direction__menu-item${selectedClass}`}
       onClick={handleClick}
-      ref={item => item && focused && item.focus()}
+      ref={item => item && item.focus()}
       onKeyUp={(e: ReactKeyboardEvent) => {
         handleReactEnterKeyPress(e, () => {
           handleClick();
@@ -130,28 +128,27 @@ export const ExpandedBusMenu = ({
           routePatternIds={routePatternIds}
           routePattern={routePattern}
           selected={selectedRoutePatternId === routePattern.id}
-          focused={false}
           duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
           dispatch={dispatch}
         />
       ))}
       {hasMoreRoutePatterns(routePatterns) && (
-        <div className="m-schedule-direction__menu-item-spacer">
-          Uncommon destinations
-        </div>
+        <>
+          <div className="m-schedule-direction__menu-item-spacer">
+            Uncommon destinations
+          </div>
+          {uncommonRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
+            <RoutePatternItem
+              key={routePattern.id}
+              routePatternIds={routePatternIds}
+              routePattern={routePattern}
+              selected={selectedRoutePatternId === routePattern.id}
+              duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
+              dispatch={dispatch}
+            />
+          ))}
+        </>
       )}
-      {hasMoreRoutePatterns(routePatterns) &&
-        uncommonRoutePatterns.map((routePattern: EnhancedRoutePattern) => (
-          <RoutePatternItem
-            key={routePattern.id}
-            routePatternIds={routePatternIds}
-            routePattern={routePattern}
-            selected={selectedRoutePatternId === routePattern.id}
-            focused={false}
-            duplicated={isDuplicateHeadsign(routePattern, routePatterns)}
-            dispatch={dispatch}
-          />
-        ))}
     </div>
   );
 };
