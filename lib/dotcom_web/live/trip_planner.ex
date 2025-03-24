@@ -360,7 +360,12 @@ defmodule DotcomWeb.Live.TripPlanner do
   defp get_itinerary_groups(%Ecto.Changeset{valid?: true} = changeset) do
     {:ok, data} = Ecto.Changeset.apply_action(changeset, :submit)
 
-    case Dotcom.TripPlan.OpenTripPlanner.plan(data) do
+    plan =
+      data
+      |> Dotcom.TripPlan.OpenStreetMapReconciler.reconcile()
+      |> Dotcom.TripPlan.OpenTripPlanner.plan()
+
+    case plan do
       {:ok, itineraries} ->
         ItineraryGroups.from_itineraries(itineraries,
           take_from_end: data.datetime_type == "arrive_by"

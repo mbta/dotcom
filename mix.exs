@@ -161,6 +161,7 @@ defmodule DotCom.Mixfile do
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       {:timex, "3.7.11"},
+      {:topo, "~> 1.0"},
       {:typed_ecto_schema, "0.4.1"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
