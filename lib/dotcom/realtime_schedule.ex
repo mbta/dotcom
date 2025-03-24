@@ -254,7 +254,8 @@ defmodule Dotcom.RealtimeSchedule do
     Map.put(prediction, :headsign, Map.get(trip, :headsign))
   end
 
-  @spec do_shrink_predicted_schedule(Prediction.t() | ScheduleCondensed.t() | nil) :: map | nil
+  @spec do_shrink_predicted_schedule(Prediction.t() | Schedules.ScheduleCondensed.t() | nil) ::
+          map | nil
   defp do_shrink_predicted_schedule(nil), do: nil
 
   defp do_shrink_predicted_schedule(prediction_or_schedule),

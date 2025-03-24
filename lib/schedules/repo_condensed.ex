@@ -122,14 +122,14 @@ defmodule Schedules.RepoCondensed do
     Integer.to_string(int)
   end
 
-  @spec filter_by_min_time([ScheduleCondensed.t()], DateTime.t() | nil) :: [ScheduleCondensed.t()]
-  defp filter_by_min_time(schedules, nil) do
-    schedules
-  end
+  @spec filter_by_min_time([ScheduleCondensed.t()] | {:error, any}, DateTime.t() | nil) ::
+          [ScheduleCondensed.t()] | {:error, any}
 
-  defp filter_by_min_time(schedules, %DateTime{} = min_time) do
+  defp filter_by_min_time(schedules, %DateTime{} = min_time) when is_list(schedules) do
     Enum.filter(schedules, fn schedule ->
       Util.time_is_greater_or_equal?(schedule.time, min_time)
     end)
   end
+
+  defp filter_by_min_time(schedules, _), do: schedules
 end
