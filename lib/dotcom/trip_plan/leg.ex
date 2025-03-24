@@ -29,44 +29,20 @@ defmodule Dotcom.TripPlan.Leg do
           from: NamedPosition.t(),
           to: NamedPosition.t(),
           polyline: String.t(),
-          distance: Float.t(),
-          duration: Integer.t(),
+          distance: float(),
+          duration: integer(),
           realtime: boolean(),
           realtime_state: String.t(),
           stop_headsign: String.t()
         }
-
-  @doc "Returns the route ID for the leg, if present"
-  @spec route_id(t) :: {:ok, Routes.Route.id_t()} | :error
-  def route_id(%__MODULE__{mode: %TransitDetail{route: route}}), do: {:ok, route.id}
-  def route_id(%__MODULE__{}), do: :error
-
-  @doc "Returns the trip ID for the leg, if present"
-  @spec trip_id(t) :: {:ok, Schedules.Trip.id_t()} | :error
-  def trip_id(%__MODULE__{mode: %TransitDetail{trip: %{id: trip_id}}}), do: {:ok, trip_id}
-  def trip_id(%__MODULE__{}), do: :error
-
-  @spec route_trip_ids(t) :: {:ok, {Routes.Route.id_t(), Schedules.Trip.id_t()}} | :error
-  def route_trip_ids(%__MODULE__{mode: %TransitDetail{} = mode}) do
-    {:ok, {mode.route.id, mode.trip.id}}
-  end
-
-  def route_trip_ids(%__MODULE__{}) do
-    :error
-  end
 
   @doc "Determines if this leg uses public transit"
   @spec transit?(t) :: boolean
   def transit?(%__MODULE__{mode: %PersonalDetail{}}), do: false
   def transit?(%__MODULE__{mode: %TransitDetail{}}), do: true
 
-  @spec walking_distance(t) :: float
-  def walking_distance(%__MODULE__{mode: %PersonalDetail{distance: nil}}), do: 0.0
-  def walking_distance(%__MODULE__{mode: %PersonalDetail{distance: distance}}), do: distance
-  def walking_distance(%__MODULE__{mode: %TransitDetail{}}), do: 0.0
-
   @doc "Returns the stop IDs for the leg"
-  @spec stop_ids(t) :: [Stops.Stop.id_t()]
+  @spec stop_ids(t()) :: %{term() => [Stops.Stop.id_t()]}
   def stop_ids(%__MODULE__{from: from, to: to}) do
     %{
       from:
@@ -110,12 +86,8 @@ defmodule Dotcom.TripPlan.Leg do
          from: %NamedPosition{stop: origin},
          to: %NamedPosition{stop: destination}
        }) do
-    if route do
-      Routes.Route.type_atom(route) == :commuter_rail and
-        not Enum.all?([origin, destination], &Stops.Stop.has_zone?(&1))
-    else
-      true
-    end
+    Routes.Route.type_atom(route) == :commuter_rail and
+      not Enum.all?([origin, destination], &Stops.Stop.has_zone?(&1))
   end
 
   defp leg_missing_zone?(_), do: false

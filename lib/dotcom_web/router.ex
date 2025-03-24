@@ -235,8 +235,6 @@ defmodule DotcomWeb.Router do
     get("/trip-planner/from/", Redirector, to: "/trip-planner")
     get("/trip-planner/to/", Redirector, to: "/trip-planner")
     get("/trip-planner/:direction/:query", TripPlanController, :location)
-    delete("/trip-planner/feedback", TripPlan.Feedback, :delete)
-    post("/trip-planner/feedback", TripPlan.Feedback, :put)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
