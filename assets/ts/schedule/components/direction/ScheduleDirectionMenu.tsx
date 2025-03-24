@@ -91,7 +91,6 @@ const ScheduleDirectionMenu = ({
         <ExpandedBusMenu
           routePatterns={routePatterns}
           selectedRoutePatternId={selectedRoutePatternId}
-          itemFocus={itemFocus}
           dispatch={dispatch}
         />
       )}

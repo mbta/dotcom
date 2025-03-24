@@ -91,10 +91,10 @@
 
 .m-schedule-direction__menu-item-spacer {
   background-color: $gray-lightest;
-  padding: calc(#{$base-spacing} / 2) $base-spacing * 2.5;
-  position: relative;
   font-size: 1rem;
   font-weight: 500;
+  padding: calc(#{$base-spacing} / 2) $base-spacing * 2.5;
+  position: relative;
 }
 
 .m-schedule-direction__menu-item {

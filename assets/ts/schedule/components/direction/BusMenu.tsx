@@ -19,7 +19,6 @@ import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react
 interface ExpandedBusMenuProps {
   routePatterns: EnhancedRoutePattern[];
   selectedRoutePatternId: string;
-  itemFocus: string | null;
   dispatch: Dispatch<MenuAction>;
 }
 
@@ -160,7 +159,6 @@ const isDuplicateHeadsign = (
 export const ExpandedBusMenu = ({
   routePatterns,
   selectedRoutePatternId,
-  itemFocus,
   dispatch
 }: ExpandedBusMenuProps): ReactElement<HTMLElement> => {
   const regularRoutePatterns = routePatterns.filter(
@@ -169,8 +167,6 @@ export const ExpandedBusMenu = ({
   const uncommonRoutePatterns = routePatterns.filter(
     (routePattern: EnhancedRoutePattern) => routePattern.typicality >= 3
   );
-
-  const focusIndex = determineFocusIndex(itemFocus, routePatterns);
 
   const routePatternIds = routePatterns
     .map((routePattern: EnhancedRoutePattern) => routePattern.id)
