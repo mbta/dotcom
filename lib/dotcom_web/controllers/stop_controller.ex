@@ -5,10 +5,8 @@ defmodule DotcomWeb.StopController do
 
   use DotcomWeb, :controller
 
-  alias Alerts.Alert
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
-  alias Dotcom.JsonHelpers
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
@@ -306,11 +304,6 @@ defmodule DotcomWeb.StopController do
 
   defp alerts(conn, _opts) do
     assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
-  end
-
-  @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
-  def json_safe_alerts(alerts, date) do
-    Enum.map(alerts, &JsonHelpers.stringified_alert(&1, date))
   end
 
   @type json_safe_routes :: %{

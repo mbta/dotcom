@@ -10,8 +10,6 @@ defmodule Schedules.RepoCondensed do
 
   import Kernel, except: [to_string: 1]
 
-  alias MBTA.Api.Schedules, as: SchedulesApi
-  alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -28,7 +26,9 @@ defmodule Schedules.RepoCondensed do
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
-  @spec by_route_ids([Route.id_t()], Keyword.t()) :: [ScheduleCondensed.t()] | {:error, any}
+  @behaviour Schedules.RepoCondensed.Behaviour
+
+  @impl Schedules.RepoCondensed.Behaviour
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     opts = Keyword.put_new(opts, :date, Util.service_date())
 
@@ -44,15 +44,33 @@ defmodule Schedules.RepoCondensed do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- SchedulesApi.all(params) do
+    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data = Enum.filter(data, &valid?/1)
       Repo.insert_trips_into_cache(data)
 
       data
       |> Stream.map(&Parser.parse/1)
-      |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 5)))
-      |> build_structs()
+      |> Stream.filter(&has_trip?/1)
+      |> Task.async_stream(
+        fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
+          trip = Repo.trip(trip_id)
+          stop = @stops_repo.get!(stop_id)
+
+          %ScheduleCondensed{
+            time: time,
+            trip_id: trip_id,
+            headsign: trip.headsign,
+            route_pattern_id: trip.route_pattern_id,
+            stop_id: stop.parent_id || stop.id,
+            train_number: trip.name,
+            stop_sequence: stop_sequence
+          }
+        end,
+        timeout: @long_timeout
+      )
+      |> Stream.filter(&match?({:ok, _}, &1))
+      |> Stream.map(fn {:ok, result} -> result end)
+      |> Enum.to_list()
     end
   end
 
@@ -104,35 +122,14 @@ defmodule Schedules.RepoCondensed do
     Integer.to_string(int)
   end
 
-  @spec filter_by_min_time([ScheduleCondensed.t()], DateTime.t() | nil) :: [ScheduleCondensed.t()]
-  defp filter_by_min_time(schedules, nil) do
-    schedules
-  end
+  @spec filter_by_min_time([ScheduleCondensed.t()] | {:error, any}, DateTime.t() | nil) ::
+          [ScheduleCondensed.t()] | {:error, any}
 
-  defp filter_by_min_time(schedules, %DateTime{} = min_time) do
+  defp filter_by_min_time(schedules, %DateTime{} = min_time) when is_list(schedules) do
     Enum.filter(schedules, fn schedule ->
       Util.time_is_greater_or_equal?(schedule.time, min_time)
     end)
   end
 
-  defp build_structs(schedules) do
-    schedules
-    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
-      Task.async(fn ->
-        trip = Repo.trip(trip_id)
-        stop = @stops_repo.get!(stop_id)
-
-        %ScheduleCondensed{
-          time: time,
-          trip_id: trip_id,
-          headsign: trip.headsign,
-          route_pattern_id: trip.route_pattern_id,
-          stop_id: stop.parent_id || stop.id,
-          train_number: trip.name,
-          stop_sequence: stop_sequence
-        }
-      end)
-    end)
-    |> Enum.map(&Task.await(&1, @long_timeout))
-  end
+  defp filter_by_min_time(schedules, _), do: schedules
 end
