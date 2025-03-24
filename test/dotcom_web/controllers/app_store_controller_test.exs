@@ -2,25 +2,21 @@ defmodule DotcomWeb.AppStoreControllerTest do
   use DotcomWeb.ConnCase, async: true
   import Test.Support.EnvHelpers
 
-  test "redirects to default project page by default", %{conn: conn} do
+  test "redirects to default project page by default, preserving params", %{conn: conn} do
     reassign_env(:dotcom, :mbta_go_app, default_project_page: "/default_project_page")
 
     conn =
       get(
         conn,
         app_store_path(conn, :redirect_mbta_go, %{
-          "pt" => "fake pt",
-          "ct" => "fake ct",
-          "mt" => "fake-mt"
+          "param_1" => "val_1"
         })
       )
 
-    assert redirected_to(conn, 302) =~ "/default_project_page"
+    assert redirected_to(conn, 302) =~ "/goapp?param_1=val_1"
   end
 
   test "redirects to app store for ios browser", %{conn: conn} do
-    reassign_env(:dotcom, :mbta_go_app, ios_store_base_url: "fake_app_store_url?")
-
     conn =
       conn
       |> put_req_header(
@@ -35,14 +31,12 @@ defmodule DotcomWeb.AppStoreControllerTest do
         })
       )
 
-    assert redirected_to(conn, 302) =~ "fake_app_store_url?ct=fake+ct&mt=fake-mt&pt=fake+pt"
+    redirected_to = redirected_to(conn, 302)
+    assert redirected_to =~ "https://apps.apple.com"
+    assert redirected_to =~ "?ct=fake+ct&mt=fake-mt&pt=fake+pt"
   end
 
   test "redirects to app store for android browser", %{conn: conn} do
-    reassign_env(:dotcom, :mbta_go_app,
-      android_store_base_url: "fake_app_store_url?id=already_set"
-    )
-
     conn =
       conn
       |> put_req_header(
@@ -57,7 +51,10 @@ defmodule DotcomWeb.AppStoreControllerTest do
         })
       )
 
-    assert redirected_to(conn, 302) =~
-             "fake_app_store_url?id=already_set&referrer=fake+referrer&utm_campaign=fake-utm-campaign&utm_source=fake+utm+source"
+    redirected_to = redirected_to(conn, 302)
+    assert redirected_to =~ "https://play.google.com"
+
+    assert redirected_to =~
+             "&referrer=fake+referrer&utm_campaign=fake-utm-campaign&utm_source=fake+utm+source"
   end
 end
