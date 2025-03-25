@@ -66,6 +66,7 @@ const RoutePatternItem = ({
       role="menuitem"
       className={`m-schedule-direction__menu-item${selectedClass}`}
       onClick={handleClick}
+      ref={item => selected && item && item.focus()}
       onKeyUp={(e: ReactKeyboardEvent) => {
         handleReactEnterKeyPress(e, () => {
           handleClick();
