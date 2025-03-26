@@ -107,13 +107,20 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   end
 
   defp sentry(directives, dsn) do
-    if dsn do
+    if is_binary(dsn) do
       [
-        {:connect_src, dsn},
-        {:connect_src, Util.config(:sentry, :js_dsn)}
+        {:connect_src, sentry_host(dsn)},
+        {:connect_src, Util.config(:sentry, :js_dsn) |> sentry_host()}
       ] ++ directives
     else
       directives
+    end
+  end
+
+  defp sentry_host(dsn) do
+    case Regex.run(~r/@(.*)\//, dsn, capture: :all_but_first) do
+      nil -> ""
+      [match | _] -> match
     end
   end
 
