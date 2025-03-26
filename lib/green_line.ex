@@ -3,7 +3,6 @@ defmodule GreenLine do
   Functions for handling the Green Line and its associated schedules.
   """
 
-  alias Dotcom.GreenLine.CacheSupervisor
   alias Routes.Route
   alias Stops.Stop
 
@@ -18,7 +17,7 @@ defmodule GreenLine do
   """
   @spec stops_on_routes(0 | 1, Date.t() | nil) :: stop_routes_pair
   def stops_on_routes(direction_id, date \\ nil) do
-    CacheSupervisor.stops_on_routes(direction_id, date)
+    calculate_stops_on_routes(direction_id, date)
   end
 
   @doc """

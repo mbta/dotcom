@@ -51,15 +51,15 @@ defmodule DotcomWeb.ScheduleController.Predictions do
   end
 
   @spec predictions(Plug.Conn.t()) :: [Prediction.t()]
-  def predictions(%{
-        assigns: %{
-          origin: origin,
-          destination: destination,
-          route: %{id: route_id},
-          direction_id: direction_id
-        }
-      })
-      when not is_nil(origin) do
+  defp predictions(%{
+         assigns: %{
+           origin: origin,
+           destination: destination,
+           route: %{id: route_id},
+           direction_id: direction_id
+         }
+       })
+       when not is_nil(origin) do
     destination_id = if destination, do: Map.get(destination, :id)
 
     opts =
@@ -86,7 +86,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end
   end
 
-  def predictions(_conn) do
+  defp predictions(_conn) do
     []
   end
 
@@ -108,7 +108,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
   end
 
   @spec vehicle_predictions(Plug.Conn.t()) :: [Prediction.t()]
-  def vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}) do
+  defp vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}) do
     {trip_ids, stop_ids} =
       vehicle_locations
       |> Map.keys()
@@ -128,7 +128,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end
   end
 
-  def vehicle_predictions(_conn) do
+  defp vehicle_predictions(_conn) do
     []
   end
 end
