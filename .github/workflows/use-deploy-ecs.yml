@@ -106,28 +106,32 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     needs: deploy
-    name: Upload screenshots for Smoke Tests against ${{ inputs.deployment-env }}
+    name: Run smoke tests against ${{ inputs.deployment-env }}
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.48.0-jammy
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: ./.github/actions/setup-all
-      - run: npx --prefix assets cypress run --spec cypress/e2e/smoke.cy.js
-        continue-on-error: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm install --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test smoke
         env:
-          CYPRESS_BASE_URL: "https://${{ needs.deploy.outputs.deployment-host }}"
+          CI: true
+          HOME: /root
+          HOST: ${{ needs.deploy.outputs.deployment-host }}
       - uses: actions/upload-artifact@v4
+        if: failure()
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos
-          path: cypress/videos
-          if-no-files-found: ignore
-      - run: echo "Smoke test complete, check artifact for screenshots"
-
+          name: smoke-test-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
+          path: playwright-report
+          retention-days: 30
   cuj:
     runs-on: ubuntu-latest
     needs: deploy
