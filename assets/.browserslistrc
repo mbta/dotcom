@@ -1,16 +1,11 @@
 # Defines target browsers for use by Autoprefixer, Stylelint, babel-preset-env
 # https://github.com/browserslist/browserslist
+# https://browsersl.ist/#q=%22browserslist%22%3A+%5B%0A++%22last+4+major+versions+and+%3E+.25%25+in+US%22%2C%0A++%22not+FirefoxAndroid+%3E+0%22%2C%0A++%22not+Samsung+%3E+0%22%2C%0A++%22not+OperaMobile+%3E+0%22%2C%0A++%22not+IE+%3E+0%22%2C%0A++%22not+dead%22%0A%5D&region=US shows a good enough approximation (it can't display based on our own stats, but '.25% in US' is very comparable to our stats)
 
-# browserslist-stats.json has GA pageviews from 1/18/2022-2/16/2022 
-> 0.5% in my stats
-
-# Stats are not guaranteed to be up to date, 
-# so cover the latest browsers we explicitly support
-last 2 Chrome major versions
-last 2 Safari major versions
-last 2 Firefox major versions
-last 2 Edge major versions
-last 2 iOS major versions
-ios 14
-ios 15
-ios 16
+# browserslist-stats.json has GA pageviews from 3/25/2024-3/25/2025
+last 4 major versions and > .5% in my stats
+not FirefoxAndroid > 0
+not Samsung > 0
+not OperaMobile > 0
+not IE > 0
+not dead
