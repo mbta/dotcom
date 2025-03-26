@@ -36,7 +36,15 @@ defmodule DotcomWeb.PageController do
     |> async_assign_default(:homepage_fares, fn -> fares end)
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
-    |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
+    |> async_assign_default(
+      :alerts,
+      fn ->
+        conn.assigns.date_time
+        |> Alerts.Repo.all()
+        |> Enum.filter(&Alerts.Match.any_time_match?(&1, conn.assigns.date_time))
+      end,
+      []
+    )
     |> async_assign_default(
       :event_teasers,
       fn -> CMS.Repo.next_n_event_teasers(conn.assigns.date, 6) end,
