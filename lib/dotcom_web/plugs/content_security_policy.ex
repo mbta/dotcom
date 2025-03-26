@@ -61,6 +61,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         *.tableau.com
         connect.facebook.net
         data.mbta.com
+        edge.fullstory.com
         https://www.google.com/recaptcha/api.js
         https://www.google.com/recaptcha/api/fallback
         https://www.googletagmanager.com/gtm.js
