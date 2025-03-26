@@ -38,6 +38,7 @@ const ServiceOptGroup = ({
         } else if (
           ["extra_service", "holiday_service"].includes(service.typicality) &&
           service.added_dates &&
+          service.added_dates.length > 0 &&
           service.added_dates_notes
         ) {
           const addedDate = service.added_dates[0];
