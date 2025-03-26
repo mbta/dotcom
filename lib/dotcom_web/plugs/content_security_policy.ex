@@ -61,6 +61,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         *.tableau.com
         connect.facebook.net
         data.mbta.com
+        edge.fullstory.com
         https://www.google.com/recaptcha/api.js
         https://www.google.com/recaptcha/api/fallback
         https://www.googletagmanager.com/gtm.js
@@ -98,6 +99,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
 
     [
       {:connect_src, "ws://#{websocket_url}"},
+      {:connect_src, "wss://#{websocket_url}"},
       {:img_src, drupal_url}
     ]
     |> static_host(Keyword.get(endpoint_config, :static_url))
@@ -106,13 +108,20 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   end
 
   defp sentry(directives, dsn) do
-    if dsn do
+    if is_binary(dsn) do
       [
-        {:connect_src, dsn},
-        {:connect_src, Util.config(:sentry, :js_dsn)}
+        {:connect_src, sentry_host(dsn)},
+        {:connect_src, Util.config(:sentry, :js_dsn) |> sentry_host()}
       ] ++ directives
     else
       directives
+    end
+  end
+
+  defp sentry_host(dsn) do
+    case Regex.run(~r/@(.*)\//, dsn, capture: :all_but_first) do
+      nil -> ""
+      [match | _] -> match
     end
   end
 
