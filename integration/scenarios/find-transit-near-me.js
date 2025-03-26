@@ -11,8 +11,7 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.waitForSelector(".c-search-bar__autocomplete-results .aa-List");
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
-
-  await page.waitForSelector("div.m-tnm-sidebar__route");
+  await page.waitForTimeout(10000);
   await expect
     .poll(async () => page.locator("div.m-tnm-sidebar__route").count())
     .toBeGreaterThan(0);
