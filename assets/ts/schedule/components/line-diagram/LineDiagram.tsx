@@ -69,6 +69,9 @@ const LineDiagram = ({
   const filteredStops: RouteStop[] = allStops.filter(stop =>
     stop.name.toLowerCase().includes(query.toLowerCase())
   );
+  const filteredOtherStops: RouteStop[] = otherRouteStops.filter(stop =>
+    stop.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   const changeOrigin = (origin: SelectedOrigin): void => {
     dispatch({
@@ -143,7 +146,8 @@ const LineDiagram = ({
           <OtherStopList
             alerts={alerts}
             handleStopClick={handleStopClick}
-            otherRouteStops={otherRouteStops}
+            otherRouteStops={filteredOtherStops}
+            searchQuery={query}
             stopTree={stopTree}
           />
         </ol>

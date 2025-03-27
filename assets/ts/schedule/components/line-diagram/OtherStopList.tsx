@@ -7,6 +7,7 @@ interface Props {
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
   otherRouteStops: RouteStop[];
+  searchQuery?: string;
   stopTree: StopTree | null;
 }
 
@@ -17,6 +18,7 @@ const OtherStopList = ({
   alerts,
   handleStopClick,
   otherRouteStops,
+  searchQuery,
   stopTree
 }: Props): ReactElement<HTMLElement> =>
   otherRouteStops.length > 0 ? (
@@ -41,6 +43,7 @@ const OtherStopList = ({
             noLineDiagram
             onClick={handleStopClick}
             routeStopList={otherRouteStops}
+            searchQuery={searchQuery}
             stopId={stop.id}
             stopTree={stopTree}
           />
