@@ -193,9 +193,8 @@ exports[`ScheduleDirectionTest renders a CR component 1`] = `
                 </defs>
               </svg>
             </SimpleDiagram>
-            <ol>
-              <OtherStopList />
-            </ol>
+            <ol />
+            <OtherStopList />
           </div>
         </LineDiagramWithStops>
       </Provider>
@@ -341,9 +340,8 @@ exports[`ScheduleDirectionTest renders a bus component 1`] = `
                 </defs>
               </svg>
             </SimpleDiagram>
-            <ol>
-              <OtherStopList />
-            </ol>
+            <ol />
+            <OtherStopList />
           </div>
         </LineDiagramWithStops>
       </Provider>
@@ -546,9 +544,8 @@ exports[`ScheduleDirectionTest renders with a static map 1`] = `
                 </defs>
               </svg>
             </SimpleDiagram>
-            <ol>
-              <OtherStopList />
-            </ol>
+            <ol />
+            <OtherStopList />
           </div>
         </LineDiagramWithStops>
       </Provider>
@@ -705,9 +702,8 @@ exports[`ScheduleDirectionTest respects the initially selected pattern ID, if sp
                 </defs>
               </svg>
             </SimpleDiagram>
-            <ol>
-              <OtherStopList />
-            </ol>
+            <ol />
+            <OtherStopList />
           </div>
         </LineDiagramWithStops>
       </Provider>
