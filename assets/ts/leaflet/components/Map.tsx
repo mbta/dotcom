@@ -135,7 +135,7 @@ const Component = ({
             onclick={marker.onClick}
           >
             {marker.tooltip && (
-              <Popup maxHeight={0} offset={[0, 40]}>
+              <Popup offset={[0, 40]}>
                 {marker.tooltip}
               </Popup>
             )}

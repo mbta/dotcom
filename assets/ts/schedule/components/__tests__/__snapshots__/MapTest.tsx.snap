@@ -11,8 +11,8 @@ exports[`Schedule Map renders and matches snapshot 1`] = `
           </ForwardRef(Leaflet(TileLayer))>
           <ForwardRef(Leaflet(Marker)) icon={{...}} alt=\\"Marker\\" position={{...}} zIndexOffset={[undefined]} keyboard={false} onclick={[undefined]}>
             <Marker icon={{...}} alt=\\"Marker\\" position={{...}} zIndexOffset={[undefined]} keyboard={false} onclick={[undefined]} leaflet={{...}}>
-              <ForwardRef(Leaflet(Popup)) maxHeight={0} offset={{...}}>
-                <Popup maxHeight={0} offset={{...}} leaflet={{...}} pane=\\"popupPane\\" />
+              <ForwardRef(Leaflet(Popup)) offset={{...}}>
+                <Popup offset={{...}} leaflet={{...}} pane=\\"popupPane\\" />
               </ForwardRef(Leaflet(Popup))>
             </Marker>
           </ForwardRef(Leaflet(Marker))>
