@@ -10,8 +10,8 @@ interface Props {
   stopTree: StopTree | null;
 }
 
-const stopCountWords = (stopCount: number) =>
-  stopCount == 1 ? `1 Stop` : `${stopCount} Stops`;
+const stopCountWords = (stopCount: number): string =>
+  stopCount === 1 ? `1 Stop` : `${stopCount} Stops`;
 
 const OtherStopList = ({
   alerts,

@@ -5,7 +5,7 @@ import SearchBox from "../../../components/SearchBox";
 import { stopForId, stopIds } from "../../../helpers/stop-tree";
 import useRealtime from "../../../hooks/useRealtime";
 import { isSubwayRoute } from "../../../models/route";
-import { Alert, DirectionId, Route, Stop } from "../../../__v3api";
+import { Alert, DirectionId, Route } from "../../../__v3api";
 import { StoreProps } from "../../store/ScheduleStore";
 import {
   IndexedRouteStop,
