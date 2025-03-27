@@ -7,7 +7,7 @@ const isIPhone = agent => {
 };
 
 const isMobile = agent => {
-  return isAndroid(agent) || isIPhone(agent) || true;
+  return isAndroid(agent) || isIPhone(agent);
 };
 
 const isNotFerry = url => {
