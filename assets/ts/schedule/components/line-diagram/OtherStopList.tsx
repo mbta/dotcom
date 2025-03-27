@@ -25,7 +25,7 @@ const OtherStopList = ({
     <>
       <details className="group/other-stops">
         <summary className="flex justify-between w-full bg-charcoal-90 border-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium">
-          <span className="text-black">
+          <span>
             {stopCountWords(otherRouteStops.length)} Served By Other Trips On
             This Route
           </span>
