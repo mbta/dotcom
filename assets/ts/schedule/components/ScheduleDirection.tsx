@@ -80,7 +80,7 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(({ stop_tree, route_stop_lists, other_route_stops }) => {
+      .then(({ other_route_stops, route_stop_lists, stop_tree }) => {
         const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
         const otherRouteStops = other_route_stops as RouteStop[];
         const routeStopListsWithIndices: IndexedRouteStop[][] = route_stop_lists
@@ -91,9 +91,9 @@ export const fetchLineData = (
         dispatch({
           type: "FETCH_COMPLETE",
           payload: {
-            stopTree,
+            otherRouteStops,
             routeStopLists: routeStopListsWithIndices,
-            otherRouteStops
+            stopTree
           }
         });
       })
