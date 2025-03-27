@@ -49,7 +49,11 @@ export default function mobileAppBanner() {
   if (isMobile(agent) && isIncludedPage(url)) {
     const text = isTransitNearMe(url) ? "find transit near you" : "track your trip";
 
-    document.querySelector("#mobile-app-banner span").textContent = text;
-    document.querySelector("#mobile-app-banner").style.display = "block";
+    const mobileAppBanner = document.querySelector("#mobile-app-banner");
+
+    if (mobileAppBanner) {
+      mobileAppBanner.querySelector("span").textContent = text;
+      mobileAppBanner.style.display = "block";
+    }
   }
 };
