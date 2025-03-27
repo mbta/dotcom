@@ -106,7 +106,7 @@ const LineDiagram = ({
   };
 
   return (
-    <>
+    <div className="mb-4">
       {!isSubwayRoute(route) && (
         <h3 className="m-schedule-diagram__heading">
           {stationsOrStops(route.type)}
@@ -167,7 +167,7 @@ const LineDiagram = ({
           />
         </Provider>
       )}
-    </>
+    </div>
   );
 };
 
