@@ -22,34 +22,32 @@ const OtherStopList = ({
   stopTree
 }: Props): ReactElement<HTMLElement> =>
   otherRouteStops.length > 0 ? (
-    <>
-      <details className="group/other-stops">
-        <summary className="flex justify-between w-full bg-charcoal-90 border-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium">
-          <span>
-            {stopCountWords(otherRouteStops.length)} Served By Other Trips On
-            This Route
-          </span>
-          <span className="text-brand-primary group-open/other-stops:hidden">
-            Show
-          </span>
-          <span className="text-brand-primary hidden group-open/other-stops:inline">
-            Hide
-          </span>
-        </summary>
-        {otherRouteStops.map(stop => (
-          <StopCard
-            alerts={alerts}
-            key={stop.id}
-            noLineDiagram
-            onClick={handleStopClick}
-            routeStopList={otherRouteStops}
-            searchQuery={searchQuery}
-            stopId={stop.id}
-            stopTree={stopTree}
-          />
-        ))}
-      </details>
-    </>
+    <details className="group/other-stops">
+      <summary className="flex justify-between w-full bg-charcoal-90 border-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium">
+        <span>
+          {stopCountWords(otherRouteStops.length)} Served By Other Trips On This
+          Route
+        </span>
+        <span className="text-brand-primary group-open/other-stops:hidden">
+          Show
+        </span>
+        <span className="text-brand-primary hidden group-open/other-stops:inline">
+          Hide
+        </span>
+      </summary>
+      {otherRouteStops.map(stop => (
+        <StopCard
+          alerts={alerts}
+          key={stop.id}
+          noLineDiagram
+          onClick={handleStopClick}
+          routeStopList={otherRouteStops}
+          searchQuery={searchQuery}
+          stopId={stop.id}
+          stopTree={stopTree}
+        />
+      ))}
+    </details>
   ) : (
     <></>
   );
