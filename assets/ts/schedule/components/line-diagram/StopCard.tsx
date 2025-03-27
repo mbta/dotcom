@@ -30,13 +30,13 @@ import { StopRefContext } from "./LineDiagramWithStops";
 import { LiveData } from "./__line-diagram";
 
 interface Props {
-  stopTree: StopTree | null;
-  routeStopList: RouteStop[];
-  stopId: StopId;
   alerts: Alert[];
-  onClick: (stop: RouteStop) => void;
   liveData?: LiveData;
+  onClick: (stop: RouteStop) => void;
+  routeStopList: RouteStop[];
   searchQuery?: string;
+  stopId: StopId;
+  stopTree: StopTree | null;
 }
 
 const width = (stopTree: StopTree, stopId: StopId): number =>
@@ -112,13 +112,13 @@ const Alert = (): JSX.Element => (
 );
 
 const StopCard = ({
-  stopTree,
-  stopId,
-  routeStopList,
   alerts,
-  onClick,
   liveData,
-  searchQuery
+  onClick,
+  routeStopList,
+  searchQuery,
+  stopId,
+  stopTree
 }: Props): ReactElement<HTMLElement> => {
   const refs = useContext(StopRefContext)[0];
   const routeStop = stopTree

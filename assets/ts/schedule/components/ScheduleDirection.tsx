@@ -22,15 +22,15 @@ import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./SchedulePage";
 
 export interface Props {
-  route: EnhancedRoute;
-  directionId: DirectionId;
-  routePatternsByDirection: RoutePatternsByDirection;
-  mapData?: MapData;
-  staticMapData?: StaticMapData;
-  stopTree: StopTree | null;
-  routeStopLists: RouteStop[][] | null;
   alerts: Alert[];
   busVariantId: string | null;
+  directionId: DirectionId;
+  mapData?: MapData;
+  route: EnhancedRoute;
+  routePatternsByDirection: RoutePatternsByDirection;
+  routeStopLists: RouteStop[][] | null;
+  staticMapData?: StaticMapData;
+  stopTree: StopTree | null;
 }
 
 export const fetchMapData = (
@@ -98,15 +98,15 @@ export const fetchLineData = (
 };
 
 const ScheduleDirection = ({
-  route,
-  directionId,
-  routePatternsByDirection,
-  mapData,
-  staticMapData,
-  stopTree: initialStopTree,
-  routeStopLists: initialRouteStopLists,
   alerts,
-  busVariantId
+  busVariantId,
+  directionId,
+  mapData,
+  route,
+  routePatternsByDirection,
+  routeStopLists: initialRouteStopLists,
+  staticMapData,
+  stopTree: initialStopTree
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
   const defaultRoutePattern =
@@ -190,8 +190,8 @@ const ScheduleDirection = ({
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
-      stopTree: initialStopTree,
-      routeStopLists: initialRouteStopLists
+      routeStopLists: initialRouteStopLists,
+      stopTree: initialStopTree
     },
     isLoading: false,
     error: false
@@ -218,12 +218,12 @@ const ScheduleDirection = ({
           {route.direction_names[state.directionId]}
         </div>
         <ScheduleDirectionMenu
-          route={route}
           directionId={state.directionId}
+          dispatch={dispatch}
+          menuOpen={state.routePatternMenuOpen}
+          route={route}
           routePatternsByDirection={routePatternsByDirection}
           selectedRoutePatternId={state.routePattern.id}
-          menuOpen={state.routePatternMenuOpen}
-          dispatch={dispatch}
         />
         {directionIsChangeable ? (
           <ScheduleDirectionButton dispatch={dispatch} />
@@ -231,32 +231,32 @@ const ScheduleDirection = ({
       </div>
       {isSubwayRoute(route) && lineState.data && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
-          routeStopList={routeStopList}
-          route={route}
-          directionId={state.directionId}
           alerts={alerts}
+          directionId={state.directionId}
+          route={route}
+          routeStopList={routeStopList}
+          stopTree={lineState.data.stopTree}
         />
       )}
       {!staticMapData && mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
-          data={mapState.data}
           currentShapes={currentShapes}
           currentStops={currentStops}
+          data={mapState.data}
         />
       )}
       {staticMapData && (
         <>
           <img
-            src={staticMapData.img_src}
             alt={`${route.name} route map`}
             className="img-fluid"
+            src={staticMapData.img_src}
           />
           <a
             href={staticMapData.pdf_url}
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <i className="fa fa-search-plus" aria-hidden="true" />
             View map as a PDF
@@ -265,11 +265,11 @@ const ScheduleDirection = ({
       )}
       {!isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data && lineState.data.stopTree}
-          routeStopList={routeStopList}
-          route={route}
-          directionId={state.directionId}
           alerts={alerts}
+          directionId={state.directionId}
+          route={route}
+          routeStopList={routeStopList}
+          stopTree={lineState.data && lineState.data.stopTree}
         />
       )}
     </>

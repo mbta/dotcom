@@ -19,11 +19,11 @@ import StopCard from "./StopCard";
 import { alertsByStop } from "../../../models/alert";
 
 interface Props {
-  stopTree: StopTree | null;
+  alerts: Alert[];
+  directionId: DirectionId;
   route: Route;
   routeStopList: IndexedRouteStop[];
-  directionId: DirectionId;
-  alerts: Alert[];
+  stopTree: StopTree | null;
 }
 
 const stationsOrStops = (routeType: number): string =>
@@ -45,11 +45,11 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
 };
 
 const LineDiagram = ({
-  stopTree,
-  routeStopList,
-  route,
+  alerts,
   directionId,
-  alerts
+  route,
+  routeStopList,
+  stopTree
 }: Props): ReactElement<HTMLElement> => {
   const stopTreeCoordStore = stopTree
     ? createStopTreeCoordStore(stopTree)
@@ -119,14 +119,14 @@ const LineDiagram = ({
           {filteredStops.length ? (
             filteredStops.map((stop: RouteStop) => (
               <StopCard
-                key={stop.id}
-                stopTree={stopTree}
-                stopId={stop.id}
-                routeStopList={routeStopList}
                 alerts={alertsByStop(alerts, stop.id)}
-                onClick={handleStopClick}
+                key={stop.id}
                 liveData={liveData?.[stop.id]}
+                onClick={handleStopClick}
+                routeStopList={routeStopList}
                 searchQuery={query}
+                stopId={stop.id}
+                stopTree={stopTree}
               />
             ))
           ) : (
@@ -141,13 +141,13 @@ const LineDiagram = ({
       ) : (
         <Provider store={stopTreeCoordStore}>
           <LineDiagramWithStops
-            stopTree={stopTree}
-            routeStopList={routeStopList}
-            route={route}
-            directionId={directionId}
             alerts={alerts}
+            directionId={directionId}
             handleStopClick={handleStopClick}
             liveData={liveData}
+            route={route}
+            routeStopList={routeStopList}
+            stopTree={stopTree}
           />
         </Provider>
       )}

@@ -189,13 +189,13 @@ describe("LineDiagramWithStops", () => {
     wrapper = mount(
       <redux.Provider store={store}>
         <LineDiagramWithStops
-          stopTree={stopTree}
-          routeStopList={testRouteStopList}
-          route={route}
-          directionId={1}
           alerts={[]}
+          directionId={1}
           handleStopClick={handleStopClick}
           liveData={liveDataWithCrowding}
+          route={route}
+          routeStopList={testRouteStopList}
+          stopTree={stopTree}
         />
       </redux.Provider>
     );
@@ -217,12 +217,12 @@ describe("LineDiagramWithStops", () => {
     const wrapperWithoutCrowding = mount(
       <redux.Provider store={store}>
         <LineDiagramWithStops
-          stopTree={stopTree}
-          routeStopList={testRouteStopList}
-          route={route}
-          directionId={1}
           alerts={[]}
+          directionId={1}
           handleStopClick={handleStopClick}
+          route={route}
+          routeStopList={testRouteStopList}
+          stopTree={stopTree}
         />
       </redux.Provider>
     );
@@ -243,12 +243,12 @@ describe("LineDiagramWithStops", () => {
     const { container } = render(
       <redux.Provider store={store}>
         <LineDiagramWithStops
-          stopTree={stopTree}
-          routeStopList={testRouteStopList}
-          route={route}
-          directionId={1}
           alerts={[currentDiversionAlert]}
+          directionId={1}
           handleStopClick={handleStopClick}
+          route={route}
+          routeStopList={testRouteStopList}
+          stopTree={stopTree}
         />
       </redux.Provider>
     );

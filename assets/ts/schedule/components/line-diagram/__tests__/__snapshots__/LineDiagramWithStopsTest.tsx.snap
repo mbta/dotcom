@@ -2,9 +2,9 @@
 
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <LineDiagramWithStops stopTree={{...}} routeStopList={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+  <LineDiagramWithStops alerts={{...}} directionId={1} handleStopClick={[Function: handleStopClick]} liveData={{...}} route={{...}} routeStopList={{...}} stopTree={{...}}>
     <div className=\\"m-schedule-diagram \\">
-      <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
+      <Diagram alerts={{...}} directionId={1} liveData={{...}} route={{...}} stopTree={{...}}>
         <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
         <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
         <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
@@ -110,8 +110,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         </svg>
       </Diagram>
       <ol>
-        <NextStopOrBranch stopTree={{...}} stopId=\\"b1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-          <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b1\\" stopTree={{...}}>
+          <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b1\\" stopTree={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -141,8 +141,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               </section>
             </li>
           </StopCard>
-          <NextStopOrBranch stopTree={{...}} stopId=\\"b2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-            <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+          <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b2\\" stopTree={{...}}>
+            <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b2\\" stopTree={{...}}>
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -172,8 +172,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </section>
               </li>
             </StopCard>
-            <NextStopOrBranch stopTree={{...}} stopId=\\"b3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-              <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b3\\" stopTree={{...}}>
+              <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b3\\" stopTree={{...}}>
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -203,8 +203,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </section>
                 </li>
               </StopCard>
-              <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"a1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+              <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
+                <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"a1\\" stopTree={{...}}>
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -234,7 +234,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </section>
                   </li>
                 </StopCard>
-                <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+                <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} stopIds={{...}} stopTree={{...}}>
                   <div className=\\"m-schedule-diagram__expander\\">
                     <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                       <h3 className=\\"c-expandable-block__header \\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -266,8 +266,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </ExpandableBlock>
                   </div>
                 </ExpandableBranch>
-                <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                  <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
+                  <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m1\\" stopTree={{...}}>
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -297,8 +297,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </section>
                     </li>
                   </StopCard>
-                  <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                    <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"c1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                  <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
+                    <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"c1\\" stopTree={{...}}>
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -328,7 +328,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </section>
                       </li>
                     </StopCard>
-                    <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+                    <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} stopIds={{...}} stopTree={{...}}>
                       <div className=\\"m-schedule-diagram__expander\\">
                         <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                           <h3 className=\\"c-expandable-block__header \\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -360,8 +360,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </ExpandableBlock>
                       </div>
                     </ExpandableBranch>
-                    <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                      <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                    <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
+                      <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m2\\" stopTree={{...}}>
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -391,8 +391,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </section>
                         </li>
                       </StopCard>
-                      <NextStopOrBranch stopTree={{...}} stopId=\\"m3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                        <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                      <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m3\\" stopTree={{...}}>
+                        <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m3\\" stopTree={{...}}>
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -422,7 +422,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </section>
                           </li>
                         </StopCard>
-                        <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+                        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x1\\" stopTree={{...}}>
                           <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
@@ -449,7 +449,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </li>
                           </StopCard>
                           <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                            <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"x1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                            <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x1\\" stopTree={{...}}>
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -479,8 +479,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 </section>
                               </li>
                             </StopCard>
-                            <NextStopOrBranch stopTree={{...}} stopId=\\"x2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                              <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"x2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x2\\" stopTree={{...}}>
+                              <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x2\\" stopTree={{...}}>
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <header className=\\"m-schedule-diagram__stop-heading\\">
