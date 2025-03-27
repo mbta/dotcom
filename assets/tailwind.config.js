@@ -17,9 +17,6 @@ const moreColors = {
     lightest: "#e9eaed",
     "bordered-background": "#f2f3f5"
   },
-  "action-primary": {
-    DEFAULT: "#165c96"
-  },
   "brand-primary": {
     DEFAULT: "#165c96",
     darkest: "#0b2f4c",

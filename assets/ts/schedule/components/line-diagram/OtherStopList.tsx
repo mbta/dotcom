@@ -29,10 +29,10 @@ const OtherStopList = ({
             {stopCountWords(otherRouteStops.length)} Served By Other Trips On
             This Route
           </span>
-          <span className="text-action-primary group-open/other-stops:hidden">
+          <span className="text-brand-primary group-open/other-stops:hidden">
             Show
           </span>
-          <span className="text-action-primary hidden group-open/other-stops:inline">
+          <span className="text-brand-primary hidden group-open/other-stops:inline">
             Hide
           </span>
         </summary>
