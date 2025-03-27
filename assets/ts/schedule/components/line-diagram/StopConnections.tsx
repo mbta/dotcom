@@ -42,10 +42,11 @@ const connectionName = (connection: Route): string => {
   return connection.name;
 };
 
-const StopConnections = (
-  route_id: string,
-  connections: Route[]
-): JSX.Element => (
+const StopConnections = ({
+  connections
+}: {
+  connections: Route[];
+}): JSX.Element => (
   <div className="m-schedule-diagram__connections">
     {filteredConnections(connections).map((connectingRoute: Route) => (
       <TooltipWrapper

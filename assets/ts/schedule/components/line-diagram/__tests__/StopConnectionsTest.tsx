@@ -17,7 +17,7 @@ describe("StopConnections", () => {
         expect(params.tooltipText).toEqual("Commuter Rail");
         return <div>Test</div>;
       });
-    render(StopConnections("a", [commuterRailRoute as any]));
+    render(<StopConnections connections={[commuterRailRoute as any]} />);
     expect(wrapperSpy).toHaveBeenCalled();
   });
 
@@ -29,7 +29,9 @@ describe("StopConnections", () => {
         return <div>Test</div>;
       });
     render(
-      StopConnections("a", [{ type: 3, name: "SL-Test", id: "SL" } as any])
+      <StopConnections
+        connections={[{ type: 3, name: "SL-Test", id: "SL" } as any]}
+      />
     );
     expect(wrapperSpy).toHaveBeenCalled();
   });
@@ -42,7 +44,9 @@ describe("StopConnections", () => {
         return <div>Test</div>;
       });
     render(
-      StopConnections("a", [{ type: 3, name: "Bus-Test", id: "Bus" } as any])
+      <StopConnections
+        connections={[{ type: 3, name: "Bus-Test", id: "Bus" } as any]}
+      />
     );
     expect(wrapperSpy).toHaveBeenCalled();
   });
@@ -55,9 +59,9 @@ describe("StopConnections", () => {
         return <div>Test</div>;
       });
     render(
-      StopConnections("a", [
-        { type: 1, name: "Line-Test", id: "Test-Line" } as any
-      ])
+      <StopConnections
+        connections={[{ type: 1, name: "Line-Test", id: "Test-Line" } as any]}
+      />
     );
     expect(wrapperSpy).toHaveBeenCalled();
   });

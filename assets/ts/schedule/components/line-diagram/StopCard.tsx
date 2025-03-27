@@ -163,7 +163,7 @@ const StopCard = ({
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {StopConnections(stopId, connections)}
+          <StopConnections connections={connections} />
           {hasLivePredictions(liveData) && !isEnd ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
