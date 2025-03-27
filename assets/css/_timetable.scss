@@ -160,7 +160,7 @@
   display: inline-flex; // better alignment in Edge
 
   @include media-breakpoint-down(sm) {
-    font-size: 12px;
+    font-size: .75rem;
   }
 }
 

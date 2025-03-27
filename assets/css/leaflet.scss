@@ -23,7 +23,7 @@ $leaflet-transparent-black: rgba(0, 0, 0, .65);
 
 .leaflet-container {
   background: $gray-lighter;
-  font: 14px/1.5 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: .875rem/1.5 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   outline: 0;
   overflow: hidden;
 }
@@ -47,16 +47,16 @@ $leaflet-transparent-black: rgba(0, 0, 0, .65);
 
 .leaflet-control-attribution,
 .leaflet-control-scale {
-  font-size: 11px;
+  font-size: .68rem;
 }
 
 .leaflet-popup-close-button {
   background: transparent;
   border: 0;
   color: $gray-lighter;
-  font: 16px/14px Tahoma, Verdana, sans-serif;
+  font: 1rem/.875rem Tahoma, Verdana, sans-serif;
   font-weight: bold;
-  height: 14px;
+  height: .875rem;
   padding: 4px 4px 0 0;
   position: absolute;
   right: $base-spacing * .75;

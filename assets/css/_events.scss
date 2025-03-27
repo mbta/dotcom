@@ -76,7 +76,7 @@ $mobile-control-height: 73px;
 
   a {
     display: block;
-    font-size: 18px;
+    font-size: 1.125rem;
     margin-bottom: calc(#{$base-spacing} / 2);
   }
 
@@ -108,7 +108,7 @@ $mobile-control-height: 73px;
   border-radius: 4px;
   display: flex;
   margin-left: $space-12;
-  padding: 4px;
+  padding: .25rem;
 
   a {
     color: $gray-lighter;
@@ -196,37 +196,37 @@ $mobile-control-height: 73px;
   display: flex;
   flex-direction: column;
   font-family: $headings-font-family;
-  height: 64px;
+  height: 4rem;
   justify-content: center;
-  margin-right: 24px;
+  margin-right: 1.5rem;
   text-transform: uppercase;
-  width: 64px;
+  width: 4rem;
   @include media-breakpoint-down(xs) {
     display: none;
   }
 }
 
 .m-event__month {
-  font-size: 14px;
-  line-height: 17px;
+  font-size: .875rem;
+  line-height: 1.06rem;
 }
 
 .m-event__day {
-  font-size: 23.62px;
-  line-height: 28px;
+  font-size: 1.47rem;
+  line-height: 1.75rem;
   margin: 0;
 }
 
 .m-event__date-range {
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 500;
-  line-height: 22.95px;
-  padding-bottom: 4px;
-  padding-top: 4px;
+  line-height: 1.43rem;
+  padding-bottom: .25rem;
+  padding-top: .25rem;
   text-transform: uppercase;
   @include media-breakpoint-down(xs) {
-    font-size: 12px;
-    padding-bottom: 9px;
+    font-size: .75rem;
+    padding-bottom: .56rem;
     padding-top: 0;
   }
   &.gray {
@@ -235,13 +235,13 @@ $mobile-control-height: 73px;
 }
 
 .m-event__title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
-  line-height: 24px;
-  padding-bottom: 9px;
+  line-height: 1.5rem;
+  padding-bottom: .56rem;
   @include media-breakpoint-down(xs) {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: .875rem;
+    line-height: 1.31rem;
     padding-bottom: 0;
   }
 
@@ -256,22 +256,22 @@ $mobile-control-height: 73px;
 .m-event__status-message {
 
   &.list-version {
-    margin-left: 30px;
+    margin-left: 1.875rem;
     text-align: right;
     .m-event__add-button {
-      padding: 9px 12px;
+      padding: .56rem .75rem;
     }
   }
   &.popup-version {
     margin-right: $base-spacing;
     .m-event__add-button {
-      padding: 13px;
+      padding: .81rem;
     }
   }
   .m-event__add-button {
     align-items: center;
     display: flex;
-    font-size: 21px;
+    font-size: 1.31rem;
     font-weight: 500;
 
     &:disabled {
@@ -283,12 +283,12 @@ $mobile-control-height: 73px;
     }
 
     i {
-      margin-left: 1px;
+      margin-left: .0625rem;
     }
 
     .m-event__add-text {
-      font-size: 18px;
-      padding-left: 8px;
+      font-size: 1.125rem;
+      padding-left: .5rem;
       @include media-breakpoint-down(xs) {
         display: none;
       }
@@ -298,9 +298,9 @@ $mobile-control-height: 73px;
 
 .m-event__ended-message {
   color: $gray;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
-  width: 96px;
+  width: 6rem;
 }
 
 .m-event-calendar {
@@ -334,7 +334,7 @@ $mobile-control-height: 73px;
     border: 0;
     color: $gray-dark;
     display: flex;
-    font-size: 12px;
+    font-size: .75rem;
     padding: 0;
     width: 100%;
 
@@ -346,14 +346,14 @@ $mobile-control-height: 73px;
     .fa-circle {
       color: $brand-primary;
       font-size: xx-small;
-      padding-right: 8px;
+      padding-right: .5rem;
       &.ended {
         color: $gray;
       }
     }
     &-time {
       flex-shrink: 0;
-      padding-right: 4px;
+      padding-right: .25rem;
     }
     &-title {
       font-weight: 700;

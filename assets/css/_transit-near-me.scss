@@ -232,7 +232,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 
   &.u-bg--bus  .c-link-block__inner-link {
     svg {
-      margin-top: 1px;
+      margin-top: .0625rem;
     }
   }
 
@@ -267,7 +267,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
 
   & + & {
-    margin-top: 5px;
+    margin-top: .3125rem;
   }
 }
 

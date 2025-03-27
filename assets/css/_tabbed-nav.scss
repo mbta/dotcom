@@ -21,21 +21,21 @@
   .m-tabbed-nav__items {
     @include make-container-max-widths();
     display: flex;
-    height: 89px;
+    height: 5.56rem;
     padding: 0 4em;
 
     @include media-breakpoint-down(md) {
-      height: 80px;
+      height: 5rem;
       padding: 0 2.5em;
     }
 
     @include media-breakpoint-down(sm) {
-      height: 64px;
+      height: 4rem;
       padding: 0 2em;
     }
 
     @include media-breakpoint-down(xs) {
-      height: 48px;
+      height: 3rem;
       justify-content: center;
       padding: 0 1em;
     }
@@ -64,15 +64,15 @@
     }
 
     @include media-breakpoint-down(md) {
-      height: 80px;
+      height: 5rem;
     }
 
     @include media-breakpoint-down(sm) {
-      height: 64px;
+      height: 4rem;
     }
 
     @include media-breakpoint-down(xs) {
-      height: 48px;
+      height: 3rem;
     }
   }
 

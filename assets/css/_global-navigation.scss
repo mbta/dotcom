@@ -68,9 +68,9 @@ nav.m-menu--desktop {
     border: 0;
     color: $brand-primary-lightest-contrast;
     cursor: pointer;
-    margin-left: 4px;
+    margin-left: .25rem;
     outline: none;
-    padding: 0 4px;
+    padding: 0 .25rem;
     text-decoration: none;
     width: 5em; // arbitrary, but would be too wide otherwise
 
@@ -107,10 +107,10 @@ nav.m-menu--desktop {
   // place for up/down arrows
   .c-indicator--angle {
     @include fa-icon-solid($fa-var-caret-down);
-    margin-left: 4px;
+    margin-left: .25rem;
     pointer-events: none;
     @include media-breakpoint-only(xxl) {
-      margin-left: 8px;
+      margin-left: .5rem;
     }
   }
 
@@ -153,10 +153,10 @@ nav.m-menu--desktop {
   color: $body-color;
   column-gap: $base-spacing;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr)); // space unknown number of columns evenly
+  grid-template-columns: repeat(auto-fit, minmax(0.625rem, 1fr)); // space unknown number of columns evenly
   grid-template-rows: auto 1fr;
   margin: $base-spacing * 2 0;
-  margin-top: 24px;
+  margin-top: 1.5rem;
 
   .m-menu__section-heading {
     grid-row: 1;
@@ -177,7 +177,7 @@ nav.m-menu--desktop {
   }
 
   .m-menu__link {
-    padding: 8px 0;
+    padding: .5rem 0;
   }
 
   // Alternate layout for Contact menu
@@ -190,7 +190,7 @@ nav.m-menu--desktop {
     }
 
     .m-menu-feature.emergency-contacts.desktop {
-      border-radius: 0 8px 8px;
+      border-radius: 0 .5rem .5rem;
       grid-row: 3 / 4;
       width: unset;
     }
@@ -208,8 +208,8 @@ nav.m-menu--desktop {
   font-size: $font-size-base-sm;
   font-weight: $headings-font-weight;
   line-height: 1.75;
-  margin-bottom: 16px;
-  padding-bottom: 4px;
+  margin-bottom: 1rem;
+  padding-bottom: .25rem;
   text-transform: uppercase;
   white-space: normal;
 
@@ -244,12 +244,12 @@ nav.m-menu--desktop {
 // Contact numbers & Popular fares sections
 .m-menu__feature {
   background-color: $brand-primary-darkest;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 .5rem .5rem 0;
   font-size: $font-size-base-sm;
-  margin-bottom: 8px;
+  margin-bottom: .5rem;
   margin-top: 1rem;
-  padding: 12px;
-  width: calc(100% - 40px);
+  padding: .75rem;
+  width: calc(100% - 2.5rem);
 
   // Description list
   dl {
@@ -261,7 +261,7 @@ nav.m-menu--desktop {
   dt,
   dd {
     border-bottom: 1px solid $brand-primary;
-    padding: 8px 0;
+    padding: .5rem 0;
 
     &:last-of-type {
       border-bottom: unset;
@@ -279,7 +279,7 @@ nav.m-menu--desktop {
   dd {
     font-weight: $headings-font-weight;
     margin-bottom: 0;
-    padding-right: 16px;
+    padding-right: 1rem;
     text-align: right;
 
     &:last-of-type {
@@ -295,7 +295,7 @@ nav.m-menu--desktop {
   }
 
   @include media-breakpoint-up(sm) {
-    border-radius: 0 8px 8px;
+    border-radius: 0 .5rem .5rem;
   }
 
   @include media-breakpoint-up(lg) {
@@ -305,14 +305,14 @@ nav.m-menu--desktop {
 
   // CSS for the Contact Numbers split-container
   &.top-section {
-    border-radius: 0 8px 0 0;
-    margin-bottom: 2px;
+    border-radius: 0 .5rem 0 0;
+    margin-bottom: .125rem;
   }
 
   &.emergency-contacts {
     &.mobile {
       border-radius: 0;
-      margin-bottom: 2px;
+      margin-bottom: .125rem;
       margin-top: 0;
 
       @include media-breakpoint-up(lg) {
@@ -322,29 +322,29 @@ nav.m-menu--desktop {
   }
 
   &.bottom-section {
-    border-radius: 0 0 8px;
+    border-radius: 0 0 .5rem;
     margin-top: 0;
 
     @include media-breakpoint-up(sm) {
-      border-radius: 0 0 8px 8px;
+      border-radius: 0 0 .5rem .5rem;
     }
 
     .m-menu__feature_phone {
       a {
-        font-size: 14px;
+        font-size: .875rem;
       }
     }
   }
 }
 
 .m-menu__feature_phone {
-  padding-top: 12px;
+  padding-top: .75rem;
   white-space: normal;
 
   a {
     @include media-breakpoint-down(md) {
       color: $brand-primary-light-contrast;
-      font-size: 14px;
+      font-size: .875rem;
     }
   }
 

@@ -23,8 +23,6 @@ body {
   -webkit-font-smoothing: antialiased;
   height: 100%;
   justify-content: center;
-  max-width: 100%;
-  min-width: 20rem;
   text-rendering: optimizeLegibility;
 
   // if display: flex is not reverted to display: block in print mode,
@@ -106,7 +104,7 @@ select {
   // prevents page from zooming when user taps on input on mobile
   // https://techstacker.com/html-disable-auto-zoom-input-element-ios/rexPaNAgaJG7xRYRk
   @include media-breakpoint-down(sm) {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -213,7 +211,7 @@ small {
 // To be removed once the smart banner is disabled
 div {
   &.smartbanner {
-    top: -80px;
+    top: -5rem;
   }
 }
 
