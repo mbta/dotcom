@@ -90,17 +90,6 @@
         {content_tag(:main, @inner_content, id: "main", tabindex: -1)}
       </div>
       {render(__MODULE__, "_footer.html", conn: @conn)}
-
-      <%= if Application.get_env(:dotcom, :dev_server?) do %>
-        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/iewarning.js"}>
-        </script>
-      <% else %>
-        <script defer {static_attributes("/js/react.js")}>
-        </script>
-        <script defer {static_attributes("/js/iewarning.js")}>
-        </script>
-      <% end %>
-      <div id="ie-warning" class="c-ie-warning"></div>
     </div>
 
     <%= if google_tag_manager_id() do %>
