@@ -18,14 +18,14 @@ import { alertsByStop } from "../../../models/alert";
 import OtherStopList from "./OtherStopList";
 
 interface Props {
-  stopTree: StopTree | null;
-  routeStopList: IndexedRouteStop[];
-  route: Route;
-  directionId: DirectionId;
   alerts: Alert[];
+  directionId: DirectionId;
   handleStopClick: (stop: RouteStop) => void;
   liveData?: LiveDataByStop;
   otherRouteStops: RouteStop[];
+  route: Route;
+  routeStopList: IndexedRouteStop[];
+  stopTree: StopTree | null;
 }
 
 export const StopRefContext = React.createContext<[RefMap, () => void]>([
@@ -53,21 +53,21 @@ const nextPrimaryAndBranches = (
 };
 
 const NextStopOrBranch = ({
-  stopTree,
-  stopId,
   alerts,
+  handleStopClick,
+  liveData,
   mergingInBranches,
   splittingOffBranches,
-  handleStopClick,
-  liveData
+  stopId,
+  stopTree
 }: {
-  stopTree: StopTree;
-  stopId: StopId;
   alerts: Alert[];
-  mergingInBranches: StopId[][];
-  splittingOffBranches: StopId[];
   handleStopClick: (stop: RouteStop) => void;
   liveData?: LiveDataByStop;
+  mergingInBranches: StopId[][];
+  splittingOffBranches: StopId[];
+  stopId: StopId;
+  stopTree: StopTree;
 }): ReactElement<HTMLElement> => {
   // Splitting off branch
   if (splittingOffBranches.length) {
@@ -136,36 +136,35 @@ const NextStopOrBranch = ({
     const expandableBranch = nonStartingStops.length
       ? [
           <ExpandableBranch
-            key={`branch-${startingId}`}
-            stopTree={stopTree}
-            // Strip the merge stop
-            stopIds={nonStartingStops}
             alerts={alerts}
             handleStopClick={handleStopClick}
+            key={`branch-${startingId}`}
             liveData={liveData}
+            stopIds={nonStartingStops} // Strip the merge stop
+            stopTree={stopTree}
           />
         ]
       : [];
     const children = [
       <StopCard
+        alerts={alertsByStop(alerts, startingId)}
         key={`stop-card-${startingId}`}
-        stopTree={stopTree}
+        liveData={liveData?.[startingId]}
+        onClick={handleStopClick}
         routeStopList={[]}
         stopId={startingId}
-        alerts={alertsByStop(alerts, startingId)}
-        onClick={handleStopClick}
-        liveData={liveData?.[startingId]}
+        stopTree={stopTree}
       />,
       ...expandableBranch,
       <NextStopOrBranch
-        key={`tail-${startingId}`}
-        stopTree={stopTree}
-        stopId={stopId}
         alerts={alerts}
+        handleStopClick={handleStopClick}
+        key={`tail-${startingId}`}
+        liveData={liveData}
         mergingInBranches={remainingMergingInBranches}
         splittingOffBranches={splittingOffBranches}
-        handleStopClick={handleStopClick}
-        liveData={liveData}
+        stopId={stopId}
+        stopTree={stopTree}
       />
     ];
 
@@ -184,23 +183,23 @@ const NextStopOrBranch = ({
       // Display splitting off branches before any next stops on the primary branch
       const children = [
         <StopCard
+          alerts={alertsByStop(alerts, stopId)}
           key={stopId}
-          stopTree={stopTree}
+          liveData={liveData?.[stopId]}
+          onClick={handleStopClick}
           routeStopList={[]}
           stopId={stopId}
-          alerts={alertsByStop(alerts, stopId)}
-          onClick={handleStopClick}
-          liveData={liveData?.[stopId]}
+          stopTree={stopTree}
         />,
         <NextStopOrBranch
-          key={`${stopId}-${nextId}`}
-          stopTree={stopTree}
-          stopId={nextId}
           alerts={alerts}
+          handleStopClick={handleStopClick}
+          key={`${stopId}-${nextId}`}
+          liveData={liveData}
           mergingInBranches={mergingInBranches}
           splittingOffBranches={newSplittingOffBranches}
-          handleStopClick={handleStopClick}
-          liveData={liveData}
+          stopId={nextId}
+          stopTree={stopTree}
         />
       ];
 
@@ -214,23 +213,23 @@ const NextStopOrBranch = ({
 
     const children = [
       <StopCard
+        alerts={alertsByStop(alerts, stopId)}
         key={stopId}
-        stopTree={stopTree}
+        liveData={liveData?.[stopId]}
+        onClick={handleStopClick}
         routeStopList={[]}
         stopId={stopId}
-        alerts={alertsByStop(alerts, stopId)}
-        onClick={handleStopClick}
-        liveData={liveData?.[stopId]}
+        stopTree={stopTree}
       />,
       <NextStopOrBranch
-        key={`${stopId}-${nextId}`}
-        stopTree={stopTree}
-        stopId={nextId}
         alerts={alerts}
+        handleStopClick={handleStopClick}
+        key={`${stopId}-${nextId}`}
+        liveData={liveData}
         mergingInBranches={mergingInBranchesWithNext}
         splittingOffBranches={[]}
-        handleStopClick={handleStopClick}
-        liveData={liveData}
+        stopId={nextId}
+        stopTree={stopTree}
       />
     ];
 
@@ -239,26 +238,26 @@ const NextStopOrBranch = ({
 
   return (
     <StopCard
+      alerts={alertsByStop(alerts, stopId)}
       key={stopId}
-      stopTree={stopTree}
+      liveData={liveData?.[stopId]}
+      onClick={handleStopClick}
       routeStopList={[]}
       stopId={stopId}
-      alerts={alertsByStop(alerts, stopId)}
-      onClick={handleStopClick}
-      liveData={liveData?.[stopId]}
+      stopTree={stopTree}
     />
   );
 };
 
 const LineDiagramWithStops = ({
-  stopTree,
-  routeStopList,
-  route,
-  directionId,
   alerts,
+  directionId,
   handleStopClick,
   liveData,
-  otherRouteStops
+  otherRouteStops,
+  route,
+  routeStopList,
+  stopTree
 }: Props): ReactElement<HTMLElement> => {
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useTreeStopPositions(
@@ -287,43 +286,43 @@ const LineDiagramWithStops = ({
       >
         {stopTree ? (
           <Diagram
-            stopTree={stopTree}
-            route={route}
-            directionId={directionId}
             alerts={alerts}
+            directionId={directionId}
             liveData={liveData}
+            route={route}
+            stopTree={stopTree}
           />
         ) : (
           <SimpleDiagram
-            routeStopList={routeStopList}
-            route={route}
-            directionId={directionId}
             alerts={alerts}
+            directionId={directionId}
             liveData={liveData}
+            route={route}
+            routeStopList={routeStopList}
           />
         )}
         <ol>
           {stopTree ? (
             <NextStopOrBranch
-              stopTree={stopTree}
-              stopId={longestPathStartingId(stopTree)}
               alerts={alerts}
-              mergingInBranches={[]}
-              splittingOffBranches={[]}
               handleStopClick={handleStopClick}
               liveData={liveData}
+              mergingInBranches={[]}
+              splittingOffBranches={[]}
+              stopId={longestPathStartingId(stopTree)}
+              stopTree={stopTree}
             />
           ) : (
             <>
               {routeStopList.map(routeStop => (
                 <StopCard
+                  alerts={alertsByStop(alerts, routeStop.id)}
                   key={`stop-card-${routeStop.routeIndex}`}
-                  stopTree={null}
+                  liveData={liveData?.[routeStop.id]}
+                  onClick={handleStopClick}
                   routeStopList={routeStopList}
                   stopId={routeStop.id}
-                  alerts={alertsByStop(alerts, routeStop.id)}
-                  onClick={handleStopClick}
-                  liveData={liveData?.[routeStop.id]}
+                  stopTree={null}
                 />
               ))}
             </>

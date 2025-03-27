@@ -126,14 +126,14 @@ const LineDiagram = ({
             {filteredStops.length ? (
               filteredStops.map((stop: RouteStop) => (
                 <StopCard
-                  key={stop.id}
-                  stopTree={stopTree}
-                  stopId={stop.id}
-                  routeStopList={routeStopList}
                   alerts={alertsByStop(alerts, stop.id)}
-                  onClick={handleStopClick}
+                  key={stop.id}
                   liveData={liveData?.[stop.id]}
+                  onClick={handleStopClick}
+                  routeStopList={routeStopList}
                   searchQuery={query}
+                  stopId={stop.id}
+                  stopTree={stopTree}
                 />
               ))
             ) : (
@@ -156,14 +156,14 @@ const LineDiagram = ({
       ) : (
         <Provider store={stopTreeCoordStore}>
           <LineDiagramWithStops
-            stopTree={stopTree}
-            routeStopList={routeStopList}
-            route={route}
-            directionId={directionId}
             alerts={alerts}
+            directionId={directionId}
             handleStopClick={handleStopClick}
             liveData={liveData}
             otherRouteStops={otherRouteStops}
+            route={route}
+            routeStopList={routeStopList}
+            stopTree={stopTree}
           />
         </Provider>
       )}
