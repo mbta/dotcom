@@ -52,4 +52,4 @@ export default function mobileAppBanner() {
     document.querySelector("#mobile-app-banner span").textContent = text;
     document.querySelector("#mobile-app-banner").style.display = "block";
   }
-}
+};
