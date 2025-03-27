@@ -196,6 +196,7 @@ describe("LineDiagramWithStops", () => {
           alerts={[]}
           handleStopClick={handleStopClick}
           liveData={liveDataWithCrowding}
+          otherRouteStops={[]}
         />
       </redux.Provider>
     );
@@ -223,6 +224,7 @@ describe("LineDiagramWithStops", () => {
           directionId={1}
           alerts={[]}
           handleStopClick={handleStopClick}
+          otherRouteStops={[]}
         />
       </redux.Provider>
     );
@@ -249,6 +251,7 @@ describe("LineDiagramWithStops", () => {
           directionId={1}
           alerts={[currentDiversionAlert]}
           handleStopClick={handleStopClick}
+          otherRouteStops={[]}
         />
       </redux.Provider>
     );

@@ -2,7 +2,7 @@
 
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <LineDiagramWithStops stopTree={{...}} routeStopList={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+  <LineDiagramWithStops stopTree={{...}} routeStopList={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} otherRouteStops={{...}}>
     <div className=\\"m-schedule-diagram \\">
       <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
         <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
@@ -516,6 +516,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             </NextStopOrBranch>
           </NextStopOrBranch>
         </NextStopOrBranch>
+        <OtherStopList alerts={{...}} handleStopClick={[Function: handleStopClick]} otherRouteStops={{...}} stopTree={{...}} />
       </ol>
     </div>
   </LineDiagramWithStops>
