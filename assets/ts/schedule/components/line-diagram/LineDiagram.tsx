@@ -121,28 +121,30 @@ const LineDiagram = ({
         className="m-schedule-diagram__filter"
       />
       {query !== "" ? (
-        <ol className="m-schedule-diagram m-schedule-diagram--searched">
-          {filteredStops.length ? (
-            filteredStops.map((stop: RouteStop) => (
-              <StopCard
-                key={stop.id}
-                stopTree={stopTree}
-                stopId={stop.id}
-                routeStopList={routeStopList}
-                alerts={alertsByStop(alerts, stop.id)}
-                onClick={handleStopClick}
-                liveData={liveData?.[stop.id]}
-                searchQuery={query}
-              />
-            ))
-          ) : (
-            <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
-              No stops {route.direction_names[directionId]} to{" "}
-              {route.direction_destinations[directionId]} matching{" "}
-              <b className="u-highlight">{query}</b>. Try changing your
-              direction or adjusting your search.
-            </div>
-          )}
+        <>
+          <ol className="m-schedule-diagram m-schedule-diagram--searched">
+            {filteredStops.length ? (
+              filteredStops.map((stop: RouteStop) => (
+                <StopCard
+                  key={stop.id}
+                  stopTree={stopTree}
+                  stopId={stop.id}
+                  routeStopList={routeStopList}
+                  alerts={alertsByStop(alerts, stop.id)}
+                  onClick={handleStopClick}
+                  liveData={liveData?.[stop.id]}
+                  searchQuery={query}
+                />
+              ))
+            ) : (
+              <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+                No stops {route.direction_names[directionId]} to{" "}
+                {route.direction_destinations[directionId]} matching{" "}
+                <b className="u-highlight">{query}</b>. Try changing your
+                direction or adjusting your search.
+              </div>
+            )}
+          </ol>
           <OtherStopList
             alerts={alerts}
             handleStopClick={handleStopClick}
@@ -150,7 +152,7 @@ const LineDiagram = ({
             searchQuery={query}
             stopTree={stopTree}
           />
-        </ol>
+        </>
       ) : (
         <Provider store={stopTreeCoordStore}>
           <LineDiagramWithStops

@@ -328,13 +328,13 @@ const LineDiagramWithStops = ({
               ))}
             </>
           )}
-          <OtherStopList
-            alerts={alerts}
-            handleStopClick={handleStopClick}
-            otherRouteStops={otherRouteStops}
-            stopTree={stopTree}
-          />
         </ol>
+        <OtherStopList
+          alerts={alerts}
+          handleStopClick={handleStopClick}
+          otherRouteStops={otherRouteStops}
+          stopTree={stopTree}
+        />
       </div>
     </StopRefContext.Provider>
   );

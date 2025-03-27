@@ -35,18 +35,20 @@ const OtherStopList = ({
           Hide
         </span>
       </summary>
-      {otherRouteStops.map(stop => (
-        <StopCard
-          alerts={alerts}
-          key={stop.id}
-          noLineDiagram
-          onClick={handleStopClick}
-          routeStopList={otherRouteStops}
-          searchQuery={searchQuery}
-          stopId={stop.id}
-          stopTree={stopTree}
-        />
-      ))}
+      <ul className="list-unstyled p-0 m-0">
+        {otherRouteStops.map(stop => (
+          <StopCard
+            alerts={alerts}
+            key={stop.id}
+            noLineDiagram
+            onClick={handleStopClick}
+            routeStopList={otherRouteStops}
+            searchQuery={searchQuery}
+            stopId={stop.id}
+            stopTree={stopTree}
+          />
+        ))}
+      </ul>
     </details>
   ) : (
     <></>
