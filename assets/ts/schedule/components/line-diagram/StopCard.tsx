@@ -38,6 +38,7 @@ interface Props {
   liveData?: LiveData;
   searchQuery?: string;
   noLineDiagram?: boolean;
+  forceShowSchedule?: boolean;
 }
 
 const width = (stopTree: StopTree, stopId: StopId): number =>
@@ -120,7 +121,8 @@ const StopCard = ({
   onClick,
   liveData,
   searchQuery,
-  noLineDiagram = false
+  noLineDiagram = false,
+  forceShowSchedule = false
 }: Props): ReactElement<HTMLElement> => {
   const refs = useContext(StopRefContext)[0];
   const routeStop = stopTree
@@ -139,6 +141,8 @@ const StopCard = ({
   const connections = stopTree
     ? connectionsFor(routeStop, stopTree)
     : routeStop.connections;
+
+  const showSchedule = forceShowSchedule || !isEnd;
 
   return (
     <li
@@ -182,7 +186,7 @@ const StopCard = ({
           )}
         </div>
 
-        {!isEnd &&
+        {showSchedule &&
           (stopTree
             ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
             : true) && (
