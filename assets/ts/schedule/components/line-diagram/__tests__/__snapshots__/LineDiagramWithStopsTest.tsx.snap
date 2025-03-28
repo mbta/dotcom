@@ -131,7 +131,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </div>
                 </header>
                 <div className=\\"m-schedule-diagram__stop-details\\">
-                  <div className=\\"m-schedule-diagram__connections\\" />
+                  <StopConnections connections={{...}}>
+                    <div className=\\"m-schedule-diagram__connections\\" />
+                  </StopConnections>
                 </div>
                 <footer className=\\"m-schedule-diagram__footer\\">
                   <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -162,7 +164,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </div>
                   </header>
                   <div className=\\"m-schedule-diagram__stop-details\\">
-                    <div className=\\"m-schedule-diagram__connections\\" />
+                    <StopConnections connections={{...}}>
+                      <div className=\\"m-schedule-diagram__connections\\" />
+                    </StopConnections>
                   </div>
                   <footer className=\\"m-schedule-diagram__footer\\">
                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -193,7 +197,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </div>
                     </header>
                     <div className=\\"m-schedule-diagram__stop-details\\">
-                      <div className=\\"m-schedule-diagram__connections\\" />
+                      <StopConnections connections={{...}}>
+                        <div className=\\"m-schedule-diagram__connections\\" />
+                      </StopConnections>
                     </div>
                     <footer className=\\"m-schedule-diagram__footer\\">
                       <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -224,7 +230,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </div>
                       </header>
                       <div className=\\"m-schedule-diagram__stop-details\\">
-                        <div className=\\"m-schedule-diagram__connections\\" />
+                        <StopConnections connections={{...}}>
+                          <div className=\\"m-schedule-diagram__connections\\" />
+                        </StopConnections>
                       </div>
                       <footer className=\\"m-schedule-diagram__footer\\">
                         <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -287,7 +295,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </div>
                         </header>
                         <div className=\\"m-schedule-diagram__stop-details\\">
-                          <div className=\\"m-schedule-diagram__connections\\" />
+                          <StopConnections connections={{...}}>
+                            <div className=\\"m-schedule-diagram__connections\\" />
+                          </StopConnections>
                         </div>
                         <footer className=\\"m-schedule-diagram__footer\\">
                           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -318,7 +328,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </div>
                           </header>
                           <div className=\\"m-schedule-diagram__stop-details\\">
-                            <div className=\\"m-schedule-diagram__connections\\" />
+                            <StopConnections connections={{...}}>
+                              <div className=\\"m-schedule-diagram__connections\\" />
+                            </StopConnections>
                           </div>
                           <footer className=\\"m-schedule-diagram__footer\\">
                             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -381,7 +393,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               </div>
                             </header>
                             <div className=\\"m-schedule-diagram__stop-details\\">
-                              <div className=\\"m-schedule-diagram__connections\\" />
+                              <StopConnections connections={{...}}>
+                                <div className=\\"m-schedule-diagram__connections\\" />
+                              </StopConnections>
                             </div>
                             <footer className=\\"m-schedule-diagram__footer\\">
                               <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -412,7 +426,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 </div>
                               </header>
                               <div className=\\"m-schedule-diagram__stop-details\\">
-                                <div className=\\"m-schedule-diagram__connections\\" />
+                                <StopConnections connections={{...}}>
+                                  <div className=\\"m-schedule-diagram__connections\\" />
+                                </StopConnections>
                               </div>
                               <footer className=\\"m-schedule-diagram__footer\\">
                                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -443,7 +459,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                   </div>
                                 </header>
                                 <div className=\\"m-schedule-diagram__stop-details\\">
-                                  <div className=\\"m-schedule-diagram__connections\\" />
+                                  <StopConnections connections={{...}}>
+                                    <div className=\\"m-schedule-diagram__connections\\" />
+                                  </StopConnections>
                                 </div>
                               </section>
                             </li>
@@ -469,7 +487,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                     </div>
                                   </header>
                                   <div className=\\"m-schedule-diagram__stop-details\\">
-                                    <div className=\\"m-schedule-diagram__connections\\" />
+                                    <StopConnections connections={{...}}>
+                                      <div className=\\"m-schedule-diagram__connections\\" />
+                                    </StopConnections>
                                   </div>
                                   <footer className=\\"m-schedule-diagram__footer\\">
                                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -500,7 +520,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                       </div>
                                     </header>
                                     <div className=\\"m-schedule-diagram__stop-details\\">
-                                      <div className=\\"m-schedule-diagram__connections\\" />
+                                      <StopConnections connections={{...}}>
+                                        <div className=\\"m-schedule-diagram__connections\\" />
+                                      </StopConnections>
                                     </div>
                                   </section>
                                 </li>

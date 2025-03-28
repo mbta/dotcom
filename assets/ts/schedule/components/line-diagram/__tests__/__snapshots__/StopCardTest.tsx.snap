@@ -29,15 +29,17 @@ exports[`StopCard renders and matches snapshot 1`] = `
           </div>
         </header>
         <div className=\\"m-schedule-diagram__stop-details\\">
-          <div className=\\"m-schedule-diagram__connections\\">
-            <TooltipWrapper href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
-              <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\">
-                <span className=\\"m-schedule-diagram__connection\\">
-                  <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                </span>
-              </a>
-            </TooltipWrapper>
-          </div>
+          <StopConnections connections={{...}}>
+            <div className=\\"m-schedule-diagram__connections\\">
+              <TooltipWrapper href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\">
+                  <span className=\\"m-schedule-diagram__connection\\">
+                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </a>
+              </TooltipWrapper>
+            </div>
+          </StopConnections>
           <div className=\\"m-schedule-diagram__alert\\">
             Detour
           </div>
