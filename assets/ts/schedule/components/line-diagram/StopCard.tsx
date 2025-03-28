@@ -31,7 +31,9 @@ import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
+  forceShowSchedule?: boolean;
   liveData?: LiveData;
+  noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
   routeStopList: RouteStop[];
   searchQuery?: string;
@@ -113,7 +115,9 @@ const Alert = (): JSX.Element => (
 
 const StopCard = ({
   alerts,
+  forceShowSchedule = false,
   liveData,
+  noLineDiagram = false,
   onClick,
   routeStopList,
   searchQuery,
@@ -138,11 +142,13 @@ const StopCard = ({
     ? connectionsFor(routeStop, stopTree)
     : routeStop.connections;
 
+  const showSchedule = forceShowSchedule || !isEnd;
+
   return (
     <li
       className="m-schedule-diagram__stop"
       style={{
-        paddingLeft: searchQuery ? "0.5rem" : `${left}px`
+        paddingLeft: searchQuery || noLineDiagram ? "0.5rem" : `${left}px`
       }}
     >
       <section className="m-schedule-diagram__content">
@@ -180,7 +186,7 @@ const StopCard = ({
           )}
         </div>
 
-        {!isEnd &&
+        {showSchedule &&
           (stopTree
             ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
             : true) && (

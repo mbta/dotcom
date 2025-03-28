@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   Provides JSON endpoints for retrieving line diagram data.
   """
 
+  alias Stops.RouteStop
   use DotcomWeb, :controller
 
   require Logger
@@ -44,12 +45,31 @@ defmodule DotcomWeb.ScheduleController.LineApi do
             conn.query_params["route_pattern"]
           )
 
+        branch_route_stop_ids =
+          branch_route_stops
+          |> Enum.flat_map(fn rs ->
+            rs
+            |> Map.get(:stops)
+            |> Enum.map(& &1.id)
+          end)
+          |> MapSet.new()
+
+        other_route_stops =
+          @stops_repo.by_route(route.id, direction_id)
+          |> Enum.reject(&MapSet.member?(branch_route_stop_ids, &1.id))
+          |> Enum.map(&RouteStop.build_route_stop(&1, route))
+          |> Enum.map(&RouteStop.fetch_connections/1)
+
         {stop_tree, route_stop_lists} =
           LineHelpers.get_stop_tree_or_lists(branch_route_stops, route.type)
 
         json(
           conn,
-          %{stop_tree: stop_tree, route_stop_lists: route_stop_lists}
+          %{
+            other_route_stops: other_route_stops,
+            route_stop_lists: route_stop_lists,
+            stop_tree: stop_tree
+          }
         )
 
       :not_found ->

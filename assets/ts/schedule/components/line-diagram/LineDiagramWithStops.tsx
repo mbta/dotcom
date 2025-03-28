@@ -15,12 +15,14 @@ import ExpandableBranch from "./ExpandableBranch";
 import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
 import { alertsByStop } from "../../../models/alert";
+import OtherStopList from "./OtherStopList";
 
 interface Props {
   alerts: Alert[];
   directionId: DirectionId;
   handleStopClick: (stop: RouteStop) => void;
   liveData?: LiveDataByStop;
+  otherRouteStops: RouteStop[];
   route: Route;
   routeStopList: IndexedRouteStop[];
   stopTree: StopTree | null;
@@ -252,6 +254,7 @@ const LineDiagramWithStops = ({
   directionId,
   handleStopClick,
   liveData,
+  otherRouteStops,
   route,
   routeStopList,
   stopTree
@@ -325,6 +328,12 @@ const LineDiagramWithStops = ({
             </>
           )}
         </ol>
+        <OtherStopList
+          alerts={alerts}
+          handleStopClick={handleStopClick}
+          otherRouteStops={otherRouteStops}
+          stopTree={stopTree}
+        />
       </div>
     </StopRefContext.Provider>
   );
