@@ -413,7 +413,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   defp status_rows_for_alerts(alerts) do
     render_component(&homepage_subway_status/1, %{subway_status: alerts |> subway_status()})
-    |> Floki.find("a")
+    |> Floki.find("[data-test=\"status-row\"]")
   end
 
   defp for_route(rows, route_id) do
