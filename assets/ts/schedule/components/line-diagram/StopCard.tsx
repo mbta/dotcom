@@ -31,6 +31,7 @@ import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
+  forceShowSchedule?: boolean;
   liveData?: LiveData;
   noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
@@ -38,7 +39,6 @@ interface Props {
   searchQuery?: string;
   stopId: StopId;
   stopTree: StopTree | null;
-  suppressViewScheduleLink?: boolean;
 }
 
 const width = (stopTree: StopTree, stopId: StopId): number =>
@@ -115,14 +115,14 @@ const Alert = (): JSX.Element => (
 
 const StopCard = ({
   alerts,
+  forceShowSchedule = false,
   liveData,
   noLineDiagram = false,
   onClick,
   routeStopList,
   searchQuery,
   stopId,
-  stopTree,
-  suppressViewScheduleLink = false
+  stopTree
 }: Props): ReactElement<HTMLElement> => {
   const refs = useContext(StopRefContext)[0];
   const routeStop = stopTree
@@ -142,7 +142,7 @@ const StopCard = ({
     ? connectionsFor(routeStop, stopTree)
     : routeStop.connections;
 
-  const showSchedule = !isEnd && !suppressViewScheduleLink;
+  const showSchedule = forceShowSchedule || !isEnd;
 
   return (
     <li
