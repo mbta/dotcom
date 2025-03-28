@@ -11,12 +11,6 @@ defmodule DotcomWeb.Plugs.CookiesTest do
       assert Map.has_key?(conn.cookies, id_cookie_name())
     end
 
-    test "creates an ie_warning cookie", %{conn: conn} do
-      conn = %{conn | cookies: %{}}
-      conn = call(conn, [])
-      assert Map.has_key?(conn.cookies, "show_ie_warning")
-    end
-
     test "does not create a new mbta_id cookie if it exists", %{conn: conn} do
       conn = %{conn | cookies: %{id_cookie_name() => "123"}}
       conn = call(conn, [])
