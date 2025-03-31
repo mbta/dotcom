@@ -21,9 +21,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     ~H"""
     <.bordered_container hide_divider>
       <:heading>
-        <div class="px-2 flex items-center gap-2 mb-sm">
+        <a
+          href={~p"/alerts/subway"}
+          class="px-2 flex items-center gap-2 mb-sm font-heading font-bold text-gray-dark no-underline"
+        >
           <.icon type="icon-svg" name="icon-mode-subway-default" class="h-7 w-7" /> Subway Status
-        </div>
+        </a>
       </:heading>
       <.lined_list :let={row} items={@rows}>
         <a
@@ -34,6 +37,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
+          data-test="status-row"
         >
           <div class={["pl-2 py-3", row.style.hide_route_pill && "opacity-0"]} data-route-pill>
             <.subway_route_pill
