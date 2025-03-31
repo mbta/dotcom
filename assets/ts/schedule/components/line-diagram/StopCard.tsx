@@ -180,22 +180,21 @@ const StopCard = ({
           )}
         </div>
 
-        {!isEnd &&
-          (stopTree
-            ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
-            : true) && (
-            <footer className="m-schedule-diagram__footer">
-              <button
-                className="btn btn-link"
-                type="button"
-                onClick={() => onClick(routeStop)}
-              >
-                {schedulesButtonLabel(
-                  stopTree ? routeForStop(stopTree, stopId) : routeStop.route
-                )}
-              </button>
-            </footer>
-          )}
+        {(stopTree
+          ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
+          : true) && (
+          <footer className="m-schedule-diagram__footer">
+            <button
+              className="btn btn-link"
+              type="button"
+              onClick={() => onClick(routeStop)}
+            >
+              {schedulesButtonLabel(
+                stopTree ? routeForStop(stopTree, stopId) : routeStop.route
+              )}
+            </button>
+          </footer>
+        )}
       </section>
     </li>
   );
