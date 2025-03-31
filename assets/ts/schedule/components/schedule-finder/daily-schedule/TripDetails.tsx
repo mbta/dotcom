@@ -23,7 +23,8 @@ const TripSummary = ({
         <span className="trip-details-table__title u-small-caps font-bold">
           Trip length
         </span>
-        {tripInfo.times.length} stops, {tripInfo.duration} minutes total
+        {tripStopCountWords(tripInfo.times.length)}, {tripInfo.duration} minutes
+        total
       </div>
       {showFare && (
         <div>
@@ -43,6 +44,9 @@ const TripSummary = ({
     </td>
   </tr>
 );
+
+const tripStopCountWords = (stopCount: number): string =>
+  stopCount === 1 ? "1 stop" : `${stopCount} stops`;
 
 const allTimesHaveSchedule = (tripInfo: TripInfo): boolean =>
   tripInfo.times.every(time => !!time.schedule);
