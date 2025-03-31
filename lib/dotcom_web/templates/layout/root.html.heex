@@ -76,6 +76,13 @@
           </div>
         </div>
       <% end %>
+      <%= if assigns[:breadcrumbs] do %>
+        <div class="breadcrumb-container">
+          <div class="container">
+            {breadcrumb_trail(@conn)}
+          </div>
+        </div>
+      <% end %>
       <!-- START BANNERS -->
       <div
         id="mobile-app-banner"
@@ -91,13 +98,6 @@
         </a>
       </div>
       <!-- END BANNERS -->
-      <%= if assigns[:breadcrumbs] do %>
-        <div class="breadcrumb-container">
-          <div class="container">
-            {breadcrumb_trail(@conn)}
-          </div>
-        </div>
-      <% end %>
       <%= if assigns[:search_header?] do %>
         {render("_searchbar.html", assigns)}
       <% end %>
