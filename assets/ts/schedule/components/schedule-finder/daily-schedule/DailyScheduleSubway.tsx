@@ -196,6 +196,24 @@ const DailyScheduleSubway = ({
 
   return (
     <div>
+      <div
+        style={{
+          backgroundColor: "#DCD3E8",
+          display: "block",
+          margin: "0 -1.5rem",
+          padding: "10px",
+          textAlign: "center"
+        }}
+      >
+        <a
+          href="https://mbta.com/app-store?pt=117998862&ct=Dotcom%20Banners&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dbanners"
+          rel="noreferrer"
+          style={{ color: "black", display: "block" }}
+          target="_blank"
+        >
+          Download <strong>MBTA Go</strong> to track your trip &#x2192;
+        </a>
+      </div>
       <div className="u-highlight-gray u-m-n24">
         <div className="u-m-24">
           <div className="d-flex u-pt-10">
