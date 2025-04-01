@@ -14,7 +14,6 @@ module.exports = {
     "!./components/ErrorPage.tsx",
     "!./sentry.ts",
     "!**/*.d.ts",
-    "!./ie-warning/**",
     "!./phoenix-hooks/**"
   ],
   coverageReporters: ["html"],

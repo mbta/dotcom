@@ -9,26 +9,26 @@ import {
 } from "date-fns";
 import { find, toLower } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
-import ExpandableBlock from "../../../../components/ExpandableBlock";
-import {
-  formatToBostonTime,
-  stringToDateObject
-} from "../../../../helpers/date";
-import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
-import RouteIcon from "../../../../projects/components/RouteIcon";
 import {
   DirectionId,
   Route,
   StopHours,
   StopHoursByStop
 } from "../../../../__v3api";
+import ExpandableBlock from "../../../../components/ExpandableBlock";
+import {
+  formatToBostonTime,
+  stringToDateObject
+} from "../../../../helpers/date";
+import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
+import { useStop } from "../../../../hooks/useStop";
+import RouteIcon from "../../../../projects/components/RouteIcon";
 import {
   ScheduleNote,
   ServiceInSelector,
   SimpleStopMap
 } from "../../__schedule";
 import SelectContainer from "../SelectContainer";
-import { useStop } from "../../../../hooks/useStop";
 
 const findStopName = (
   stopId: string,

@@ -142,8 +142,6 @@ const StopCard = ({
     ? connectionsFor(routeStop, stopTree)
     : routeStop.connections;
 
-  const showSchedule = forceShowSchedule || !isEnd;
-
   return (
     <li
       className="m-schedule-diagram__stop"
@@ -169,7 +167,7 @@ const StopCard = ({
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {StopConnections(stopId, connections)}
+          <StopConnections connections={connections} />
           {hasLivePredictions(liveData) && !isEnd ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
@@ -186,22 +184,21 @@ const StopCard = ({
           )}
         </div>
 
-        {showSchedule &&
-          (stopTree
-            ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
-            : true) && (
-            <footer className="m-schedule-diagram__footer">
-              <button
-                className="btn btn-link"
-                type="button"
-                onClick={() => onClick(routeStop)}
-              >
-                {schedulesButtonLabel(
-                  stopTree ? routeForStop(stopTree, stopId) : routeStop.route
-                )}
-              </button>
-            </footer>
-          )}
+        {(stopTree
+          ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
+          : true) && (
+          <footer className="m-schedule-diagram__footer">
+            <button
+              className="btn btn-link"
+              type="button"
+              onClick={() => onClick(routeStop)}
+            >
+              {schedulesButtonLabel(
+                stopTree ? routeForStop(stopTree, stopId) : routeStop.route
+              )}
+            </button>
+          </footer>
+        )}
       </section>
     </li>
   );

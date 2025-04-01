@@ -165,8 +165,8 @@ defmodule TripInfoTest do
                Enum.drop_while(@time_list, &(PredictedSchedule.stop(&1).id != "place-north"))
     end
 
-    test "if there are not enough times, returns an error" do
-      actual = @time_list |> Enum.take(1) |> from_list
+    test "if there are no times, returns an error" do
+      actual = from_list([])
       assert {:error, _} = actual
     end
 

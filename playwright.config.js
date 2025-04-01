@@ -27,15 +27,15 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    /* We'll eventually want other browsers and devices, but for now, we'll just use Chrome
     {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      testMatch: /mobile-app-banner.spec.js/,
+      use: { ...devices['Pixel 7'] },
     },
     {
       name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    },
-    */
+      testMatch: /mobile-app-banner.spec.js/,
+      use: { ...devices['iPhone SE'] },
+    }
   ]
 });
