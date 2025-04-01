@@ -52,7 +52,6 @@ const OriginModalContent = ({
             stop={stop}
             changeOrigin={handleChangeOrigin}
             selectedOrigin={selectedOrigin}
-            lastStop={stops[stops.length - 1]}
           />
         ))}
       </div>

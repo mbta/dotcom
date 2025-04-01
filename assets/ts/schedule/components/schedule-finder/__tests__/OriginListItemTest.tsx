@@ -45,7 +45,6 @@ describe("<OriginListItem />", () => {
     renderWithProvider(
       <OriginListItem
         stop={stopWithZone}
-        lastStop={lastStop}
         selectedOrigin="456"
         changeOrigin={() => {}}
       />
@@ -57,25 +56,10 @@ describe("<OriginListItem />", () => {
     ).toBeTruthy();
   });
 
-  test("disabled for last stop", () => {
-    renderWithProvider(
-      <OriginListItem
-        stop={lastStop}
-        lastStop={lastStop}
-        selectedOrigin="456"
-        changeOrigin={() => {}}
-      />
-    );
-
-    const btn = screen.getByRole("button");
-    expect(btn.classList.contains("disabled")).toBeTruthy();
-  });
-
   test("disabled for closed stop", () => {
     renderWithProvider(
       <OriginListItem
         stop={closedStop}
-        lastStop={lastStop}
         selectedOrigin="456"
         changeOrigin={() => {}}
       />
@@ -89,7 +73,6 @@ describe("<OriginListItem />", () => {
     renderWithProvider(
       <OriginListItem
         stop={stopWithZone}
-        lastStop={lastStop}
         selectedOrigin="741"
         changeOrigin={() => {}}
       />
@@ -102,7 +85,6 @@ describe("<OriginListItem />", () => {
     renderWithProvider(
       <OriginListItem
         stop={stopWithZone}
-        lastStop={lastStop}
         selectedOrigin="456"
         changeOrigin={spy}
       />
@@ -118,7 +100,6 @@ describe("<OriginListItem />", () => {
     renderWithProvider(
       <OriginListItem
         stop={stopWithZone}
-        lastStop={lastStop}
         selectedOrigin="456"
         changeOrigin={spy}
       />
