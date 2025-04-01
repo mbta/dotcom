@@ -190,10 +190,13 @@ defmodule Dotcom.SystemStatusTest do
   end
 
   defp disruption_alert(active_period, route_id) do
+    {random_effect, random_severity} = service_impacting_effects() |> Faker.Util.pick()
+
     build(:alert_for_route,
       route_id: route_id,
       active_period: [active_period],
-      effect: service_impacting_effects() |> Faker.Util.pick()
+      effect: random_effect,
+      severity: random_severity
     )
   end
 end

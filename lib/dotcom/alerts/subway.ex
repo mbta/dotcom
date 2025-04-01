@@ -3,6 +3,7 @@ defmodule Dotcom.Alerts.Subway do
 
   import Dotcom.Alerts,
     only: [
+      effects_match?: 2,
       service_impacting_effects: 0,
       sort_by_start_time_sorter: 2,
       sort_by_station_sorter: 2
@@ -12,22 +13,25 @@ defmodule Dotcom.Alerts.Subway do
 
   @group_order ["Service", "Elevator & Escalator", "Bike", "Parking", "Other"]
   @effects %{
-    "Bike" => [:bike_issue],
-    "Elevator & Escalator" => [:elevator_closure, :escalator_closure],
+    "Bike" => [bike_issue: 1],
+    "Elevator & Escalator" => [
+      elevator_closure: 1,
+      escalator_closure: 1
+    ],
     "Other" => [],
-    "Parking" => [:parking_issue],
-    "Service" => service_impacting_effects() ++ [:service_change]
+    "Parking" => [parking_issue: 1],
+    "Service" => service_impacting_effects()
   }
 
   @doc """
-  Given an effect, find the group it belongs to.
+  Given an effect and severity of an Alert, find the group it belongs to.
   Checks all effects in the group and returns the first group that contains the effect.
   If the effects list is empty, we know it belongs in "Other".
   """
   @spec find_group(atom()) :: String.t()
-  def find_group(effect) do
+  def find_group(alert) do
     groups()
-    |> Enum.find(fn {_group, effects} -> Enum.empty?(effects) || Enum.member?(effects, effect) end)
+    |> Enum.find(&group_match?(&1, alert))
     |> Kernel.elem(0)
   end
 
@@ -38,8 +42,8 @@ defmodule Dotcom.Alerts.Subway do
   @spec group_alerts([Alert.t()]) :: %{String.t() => [Alert.t()]}
   def group_alerts(alerts) do
     grouped_alerts =
-      Enum.group_by(alerts, fn %{effect: effect} ->
-        find_group(effect)
+      Enum.group_by(alerts, fn alert ->
+        find_group(alert)
       end)
 
     Map.merge(empty_alerts(), grouped_alerts)
@@ -81,6 +85,13 @@ defmodule Dotcom.Alerts.Subway do
     alerts
     |> Enum.sort(&sort_by_station_sorter/2)
     |> Enum.sort(&sort_by_start_time_sorter/2)
+  end
+
+  # Does the alert match the group?
+  defp group_match?({_, []}, _), do: true
+
+  defp group_match?({_, effects}, alert) do
+    effects_match?(effects, alert)
   end
 
   # Return a map of groups with no alerts.

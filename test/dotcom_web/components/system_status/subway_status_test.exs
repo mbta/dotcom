@@ -183,18 +183,20 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       affected_branch_id =
         Faker.Util.pick(GreenLine.branch_ids())
 
-      branch_effect = Faker.Util.pick(service_impacting_effects())
-      line_effect = Faker.Util.pick(service_impacting_effects())
+      {branch_effect, branch_severity} = Faker.Util.pick(service_impacting_effects())
+      {line_effect, line_severity} = Faker.Util.pick(service_impacting_effects())
 
       gl_alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: affected_branch_id,
-          effect: branch_effect
+          effect: branch_effect,
+          severity: branch_severity
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
-          effect: line_effect
+          effect: line_effect,
+          severity: line_severity
         )
         |> Factories.Alerts.Alert.active_now()
       ]
@@ -228,20 +230,25 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
     test "collapses Green line rows if there is a Mattapan alert" do
       # Setup
+      {effect, severity} = Faker.Util.pick(service_impacting_effects())
+
       alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: effect,
+          severity: severity
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: effect,
+          severity: severity
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: effect,
+          severity: severity
         )
         |> Factories.Alerts.Alert.active_now()
       ]
@@ -259,15 +266,19 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
     test "collapses normal and affected Green line rows together if there is a Mattapan alert" do
       # Setup
+      {random_effect, random_severity} = Faker.Util.pick(service_impacting_effects())
+
       alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: random_effect,
+          severity: random_severity
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: random_effect,
+          severity: random_severity
         )
         |> Factories.Alerts.Alert.active_now()
       ]
@@ -285,7 +296,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
     test "does not collapse Mattapan alerts" do
       # Setup
-      mattapan_effect = Faker.Util.pick(service_impacting_effects())
+      {mattapan_effect, mattapan_severity} = Faker.Util.pick(service_impacting_effects())
 
       alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -300,7 +311,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: "Mattapan",
-          effect: mattapan_effect
+          effect: mattapan_effect,
+          severity: mattapan_severity
         )
         |> Factories.Alerts.Alert.active_now()
       ]
@@ -336,12 +348,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     end
 
     test "displays multiple rows when multiple alerts affect the same line" do
-      for effect <- service_impacting_effects() do
+      for {effect, severity} <- service_impacting_effects() do
         route = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
         num_alerts = Faker.Util.pick(2..6)
 
         subway_status =
-          subway_status_alerts(route, num_alerts, %{effect: effect})
+          subway_status_alerts(route, num_alerts, %{effect: effect, severity: severity})
           |> subway_status()
 
         html = render_component(&alerts_subway_status/1, %{subway_status: subway_status})
@@ -351,7 +363,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         singular_effect =
           if(effect == :station_closure,
             do: "Station Closure",
-            else: effect |> Atom.to_string() |> String.capitalize()
+            else: effect |> Atom.to_string() |> Recase.to_title()
           )
 
         assert html =~ singular_effect
@@ -446,5 +458,5 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   end
 
   defp status_label_text_for_effect(:station_closure), do: "Station Closure"
-  defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> String.capitalize()
+  defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
 end
