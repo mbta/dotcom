@@ -15,10 +15,7 @@ const isNotFerry = url => {
 };
 
 const isSchedulePage = url => {
-  return (
-    isNotFerry(url) &&
-    /\/schedules\/[\w.-]+\//.test(url)
-  );
+  return isNotFerry(url) && /\/schedules\/[\w.-]+\//.test(url);
 };
 
 const isStopPage = url => {
@@ -34,7 +31,7 @@ const isIncludedPage = url => {
     return fn(url);
   });
 };
-  
+
 /**
  * If the user is on a mobile device,
  * and the page is one of the pages we want to show the banner on,
@@ -50,10 +47,12 @@ export default function mobileAppBanner() {
     const mobileAppBanner = document.querySelector("#mobile-app-banner");
 
     if (mobileAppBanner) {
-      const text = isTransitNearMe(url) ? "find transit near you" : "track your trip";
+      const text = isTransitNearMe(url)
+        ? "find transit near you"
+        : "track your trip";
 
       mobileAppBanner.querySelector("span").textContent = text;
       mobileAppBanner.style.display = "block";
     }
   }
-};
+}
