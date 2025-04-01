@@ -15,8 +15,8 @@ defmodule Dotcom.Alerts do
     delay: 1,
     service_change: 3,
     shuttle: 1,
-    suspension: 1,
-    station_closure: 1
+    station_closure: 1,
+    suspension: 1
   ]
 
   @doc """
@@ -37,13 +37,15 @@ defmodule Dotcom.Alerts do
   @doc """
   Does the alert match a group of effects/severities?
   """
+  @spec effects_match?(list(), Alert.t()) :: boolean()
   def effects_match?(effects, alert) do
     Enum.any?(effects, &effect_match?(&1, alert))
   end
 
   @doc """
-  Does the alert have an effect that is considered service-impacting?
+  Does the alert have an effect/severity that is considered service-impacting?
   """
+  @spec service_impacting_alert?(Alert.t()) :: boolean()
   def service_impacting_alert?(alert) do
     effects_match?(@service_impacting_effects, alert)
   end
@@ -51,7 +53,7 @@ defmodule Dotcom.Alerts do
   @doc """
   Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
   """
-  @spec service_impacting_effects() :: [atom()]
+  @spec service_impacting_effects() :: [{service_effect_t(), integer()}]
   def service_impacting_effects(), do: @service_impacting_effects
 
   @doc """
