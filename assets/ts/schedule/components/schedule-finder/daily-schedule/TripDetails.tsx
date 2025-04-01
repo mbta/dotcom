@@ -10,6 +10,9 @@ interface Props {
   showFare: boolean;
 }
 
+const tripStopCountWords = (stopCount: number): string =>
+  stopCount === 1 ? "1 stop" : `${stopCount} stops`;
+
 const TripSummary = ({
   tripInfo,
   showFare
@@ -44,9 +47,6 @@ const TripSummary = ({
     </td>
   </tr>
 );
-
-const tripStopCountWords = (stopCount: number): string =>
-  stopCount === 1 ? "1 stop" : `${stopCount} stops`;
 
 const allTimesHaveSchedule = (tripInfo: TripInfo): boolean =>
   tripInfo.times.every(time => !!time.schedule);
