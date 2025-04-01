@@ -2,20 +2,21 @@ import React, { ReactElement } from "react";
 import { Dispatch } from "redux";
 import { DirectionId, Route } from "../../../__v3api";
 import { routeToModeName } from "../../../helpers/css";
+import formattedDate, { stringToDateObject } from "../../../helpers/date";
+import { isInAddedDates, isInCurrentService } from "../../../helpers/service";
+import useMobileAppBanner from "../../../hooks/useMobileAppBanner";
+import { isSubwayRoute } from "../../../models/route";
 import {
-  SimpleStopMap,
   RoutePatternsByDirection,
-  ServiceInSelector,
+  ScheduleNote,
   SelectedOrigin,
-  ScheduleNote
+  ServiceInSelector,
+  SimpleStopMap
 } from "../__schedule";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
-import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
-import { isSubwayRoute } from "../../../models/route";
 import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
-import formattedDate, { stringToDateObject } from "../../../helpers/date";
-import { isInAddedDates, isInCurrentService } from "../../../helpers/service";
+import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 
 interface Props {
   handleChangeDirection: (direction: DirectionId) => void;
@@ -65,6 +66,7 @@ const ScheduleModalContent = ({
         There are no scheduled trips for {formattedDate(today)}.
       </div>
     );
+  const mobileAppBanner = useMobileAppBanner();
 
   return (
     <>
@@ -79,6 +81,7 @@ const ScheduleModalContent = ({
           stopsByDirection={stops}
         />
       </div>
+      {mobileAppBanner && <div className="-mx-lg">{mobileAppBanner}</div>}
       {!isSubwayRoute(route) ? null : (
         <DailyScheduleSubway
           stops={stops}
