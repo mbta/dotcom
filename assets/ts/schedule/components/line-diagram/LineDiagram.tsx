@@ -17,10 +17,12 @@ import { createStopTreeCoordStore } from "./graphics/useTreeStopPositions";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
 import { alertsByStop } from "../../../models/alert";
+import OtherStopList from "./OtherStopList";
 
 interface Props {
   alerts: Alert[];
   directionId: DirectionId;
+  otherRouteStops?: RouteStop[];
   route: Route;
   routeStopList: IndexedRouteStop[];
   stopTree: StopTree | null;
@@ -47,6 +49,7 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
 const LineDiagram = ({
   alerts,
   directionId,
+  otherRouteStops = [],
   route,
   routeStopList,
   stopTree
@@ -64,6 +67,9 @@ const LineDiagram = ({
     ? stopIds(stopTree).map(stopId => stopForId(stopTree, stopId))
     : routeStopList;
   const filteredStops: RouteStop[] = allStops.filter(stop =>
+    stop.name.toLowerCase().includes(query.toLowerCase())
+  );
+  const filteredOtherStops: RouteStop[] = otherRouteStops.filter(stop =>
     stop.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -100,7 +106,7 @@ const LineDiagram = ({
   };
 
   return (
-    <>
+    <div className="mb-4">
       {!isSubwayRoute(route) && (
         <h3 className="m-schedule-diagram__heading">
           {stationsOrStops(route.type)}
@@ -115,29 +121,38 @@ const LineDiagram = ({
         className="m-schedule-diagram__filter"
       />
       {query !== "" ? (
-        <ol className="m-schedule-diagram m-schedule-diagram--searched">
-          {filteredStops.length ? (
-            filteredStops.map((stop: RouteStop) => (
-              <StopCard
-                alerts={alertsByStop(alerts, stop.id)}
-                key={stop.id}
-                liveData={liveData?.[stop.id]}
-                onClick={handleStopClick}
-                routeStopList={routeStopList}
-                searchQuery={query}
-                stopId={stop.id}
-                stopTree={stopTree}
-              />
-            ))
-          ) : (
-            <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
-              No stops {route.direction_names[directionId]} to{" "}
-              {route.direction_destinations[directionId]} matching{" "}
-              <b className="u-highlight">{query}</b>. Try changing your
-              direction or adjusting your search.
-            </div>
-          )}
-        </ol>
+        <>
+          <ol className="m-schedule-diagram m-schedule-diagram--searched">
+            {filteredStops.length ? (
+              filteredStops.map((stop: RouteStop) => (
+                <StopCard
+                  alerts={alertsByStop(alerts, stop.id)}
+                  key={stop.id}
+                  liveData={liveData?.[stop.id]}
+                  onClick={handleStopClick}
+                  routeStopList={routeStopList}
+                  searchQuery={query}
+                  stopId={stop.id}
+                  stopTree={stopTree}
+                />
+              ))
+            ) : (
+              <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+                No stops {route.direction_names[directionId]} to{" "}
+                {route.direction_destinations[directionId]} matching{" "}
+                <b className="u-highlight">{query}</b>. Try changing your
+                direction or adjusting your search.
+              </div>
+            )}
+          </ol>
+          <OtherStopList
+            alerts={alerts}
+            handleStopClick={handleStopClick}
+            otherRouteStops={filteredOtherStops}
+            searchQuery={query}
+            stopTree={stopTree}
+          />
+        </>
       ) : (
         <Provider store={stopTreeCoordStore}>
           <LineDiagramWithStops
@@ -145,13 +160,14 @@ const LineDiagram = ({
             directionId={directionId}
             handleStopClick={handleStopClick}
             liveData={liveData}
+            otherRouteStops={otherRouteStops}
             route={route}
             routeStopList={routeStopList}
             stopTree={stopTree}
           />
         </Provider>
       )}
-    </>
+    </div>
   );
 };
 

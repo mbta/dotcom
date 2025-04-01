@@ -104,99 +104,104 @@ exports[`ScheduleDirectionTest renders a CR component 1`] = `
       </ScheduleDirectionButton>
     </div>
     <LineDiagram>
-      <h3
-        className="m-schedule-diagram__heading"
+      <div
+        className="mb-4"
       >
-        Stations
-      </h3>
-      <SearchBox>
-        <div
-          className="m-schedule-diagram__filter c-form__input-container"
+        <h3
+          className="m-schedule-diagram__heading"
         >
-          <label
-            className="sr-only"
-            htmlFor="stop-search"
-          >
-            Search for a station
-          </label>
-          <input
-            className="c-form__input"
-            id="stop-search"
-            onChange={[Function]}
-            placeholder="Search for a station"
-            type="text"
-            value=""
-          />
-          <button
-            aria-label="search"
-            className="c-form__submit-btn"
-            onClick={[Function]}
-            type="button"
-          >
-            <span
-              aria-hidden="false"
-              className="notranslate c-svg__icon-search-reverse-default"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
-            />
-          </button>
-        </div>
-      </SearchBox>
-      <Provider>
-        <LineDiagramWithStops>
+          Stations
+        </h3>
+        <SearchBox>
           <div
-            className="m-schedule-diagram u-no-crowding-data"
+            className="m-schedule-diagram__filter c-form__input-container"
           >
-            <SimpleDiagram>
-              <svg
-                aria-labelledby="diagram-title diagram-desc"
-                className="line-diagram-svg commuter-rail"
-                height="100%"
-                role="img"
-                style={
+            <label
+              className="sr-only"
+              htmlFor="stop-search"
+            >
+              Search for a station
+            </label>
+            <input
+              className="c-form__input"
+              id="stop-search"
+              onChange={[Function]}
+              placeholder="Search for a station"
+              type="text"
+              value=""
+            />
+            <button
+              aria-label="search"
+              className="c-form__submit-btn"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-search-reverse-default"
+                dangerouslySetInnerHTML={
                   Object {
-                    "left": 5,
-                    "overflow": "visible",
+                    "__html": "SVG",
                   }
                 }
-                width="36px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title
-                  id="diagram-title"
-                >
-                  Line diagram for 
-                  route 1
-                </title>
-                <desc
-                  id="diagram-desc"
-                >
-                  0 stops going Inbound to End
-                </desc>
-                <defs>
-                  <pattern
-                    height="10"
-                    id="diagonalHatch"
-                    patternTransform="rotate(45 0 0)"
-                    patternUnits="userSpaceOnUse"
-                    width="10"
-                  >
-                    <line
-                      className="line-diagram-svg__line"
-                      strokeWidth="16px"
-                      y2={8}
-                    />
-                  </pattern>
-                </defs>
-              </svg>
-            </SimpleDiagram>
-            <ol />
+              />
+            </button>
           </div>
-        </LineDiagramWithStops>
-      </Provider>
+        </SearchBox>
+        <Provider>
+          <LineDiagramWithStops>
+            <div
+              className="m-schedule-diagram u-no-crowding-data"
+            >
+              <SimpleDiagram>
+                <svg
+                  aria-labelledby="diagram-title diagram-desc"
+                  className="line-diagram-svg commuter-rail"
+                  height="100%"
+                  role="img"
+                  style={
+                    Object {
+                      "left": 5,
+                      "overflow": "visible",
+                    }
+                  }
+                  width="36px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title
+                    id="diagram-title"
+                  >
+                    Line diagram for 
+                    route 1
+                  </title>
+                  <desc
+                    id="diagram-desc"
+                  >
+                    0 stops going Inbound to End
+                  </desc>
+                  <defs>
+                    <pattern
+                      height="10"
+                      id="diagonalHatch"
+                      patternTransform="rotate(45 0 0)"
+                      patternUnits="userSpaceOnUse"
+                      width="10"
+                    >
+                      <line
+                        className="line-diagram-svg__line"
+                        strokeWidth="16px"
+                        y2={8}
+                      />
+                    </pattern>
+                  </defs>
+                </svg>
+              </SimpleDiagram>
+              <ol />
+              <OtherStopList />
+            </div>
+          </LineDiagramWithStops>
+        </Provider>
+      </div>
     </LineDiagram>
   </ScheduleDirection>
 </Provider>
@@ -250,99 +255,104 @@ exports[`ScheduleDirectionTest renders a bus component 1`] = `
       </ScheduleDirectionButton>
     </div>
     <LineDiagram>
-      <h3
-        className="m-schedule-diagram__heading"
+      <div
+        className="mb-4"
       >
-        Stops
-      </h3>
-      <SearchBox>
-        <div
-          className="m-schedule-diagram__filter c-form__input-container"
+        <h3
+          className="m-schedule-diagram__heading"
         >
-          <label
-            className="sr-only"
-            htmlFor="stop-search"
-          >
-            Search for a stop
-          </label>
-          <input
-            className="c-form__input"
-            id="stop-search"
-            onChange={[Function]}
-            placeholder="Search for a stop"
-            type="text"
-            value=""
-          />
-          <button
-            aria-label="search"
-            className="c-form__submit-btn"
-            onClick={[Function]}
-            type="button"
-          >
-            <span
-              aria-hidden="false"
-              className="notranslate c-svg__icon-search-reverse-default"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
-            />
-          </button>
-        </div>
-      </SearchBox>
-      <Provider>
-        <LineDiagramWithStops>
+          Stops
+        </h3>
+        <SearchBox>
           <div
-            className="m-schedule-diagram u-no-crowding-data"
+            className="m-schedule-diagram__filter c-form__input-container"
           >
-            <SimpleDiagram>
-              <svg
-                aria-labelledby="diagram-title diagram-desc"
-                className="line-diagram-svg bus"
-                height="100%"
-                role="img"
-                style={
+            <label
+              className="sr-only"
+              htmlFor="stop-search"
+            >
+              Search for a stop
+            </label>
+            <input
+              className="c-form__input"
+              id="stop-search"
+              onChange={[Function]}
+              placeholder="Search for a stop"
+              type="text"
+              value=""
+            />
+            <button
+              aria-label="search"
+              className="c-form__submit-btn"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-search-reverse-default"
+                dangerouslySetInnerHTML={
                   Object {
-                    "left": 5,
-                    "overflow": "visible",
+                    "__html": "SVG",
                   }
                 }
-                width="36px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title
-                  id="diagram-title"
-                >
-                  Line diagram for 
-                  route 1
-                </title>
-                <desc
-                  id="diagram-desc"
-                >
-                  0 stops going Inbound to End
-                </desc>
-                <defs>
-                  <pattern
-                    height="10"
-                    id="diagonalHatch"
-                    patternTransform="rotate(45 0 0)"
-                    patternUnits="userSpaceOnUse"
-                    width="10"
-                  >
-                    <line
-                      className="line-diagram-svg__line"
-                      strokeWidth="16px"
-                      y2={8}
-                    />
-                  </pattern>
-                </defs>
-              </svg>
-            </SimpleDiagram>
-            <ol />
+              />
+            </button>
           </div>
-        </LineDiagramWithStops>
-      </Provider>
+        </SearchBox>
+        <Provider>
+          <LineDiagramWithStops>
+            <div
+              className="m-schedule-diagram u-no-crowding-data"
+            >
+              <SimpleDiagram>
+                <svg
+                  aria-labelledby="diagram-title diagram-desc"
+                  className="line-diagram-svg bus"
+                  height="100%"
+                  role="img"
+                  style={
+                    Object {
+                      "left": 5,
+                      "overflow": "visible",
+                    }
+                  }
+                  width="36px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title
+                    id="diagram-title"
+                  >
+                    Line diagram for 
+                    route 1
+                  </title>
+                  <desc
+                    id="diagram-desc"
+                  >
+                    0 stops going Inbound to End
+                  </desc>
+                  <defs>
+                    <pattern
+                      height="10"
+                      id="diagonalHatch"
+                      patternTransform="rotate(45 0 0)"
+                      patternUnits="userSpaceOnUse"
+                      width="10"
+                    >
+                      <line
+                        className="line-diagram-svg__line"
+                        strokeWidth="16px"
+                        y2={8}
+                      />
+                    </pattern>
+                  </defs>
+                </svg>
+              </SimpleDiagram>
+              <ol />
+              <OtherStopList />
+            </div>
+          </LineDiagramWithStops>
+        </Provider>
+      </div>
     </LineDiagram>
   </ScheduleDirection>
 </Provider>
@@ -453,99 +463,104 @@ exports[`ScheduleDirectionTest renders with a static map 1`] = `
       View map as a PDF
     </a>
     <LineDiagram>
-      <h3
-        className="m-schedule-diagram__heading"
+      <div
+        className="mb-4"
       >
-        Stops
-      </h3>
-      <SearchBox>
-        <div
-          className="m-schedule-diagram__filter c-form__input-container"
+        <h3
+          className="m-schedule-diagram__heading"
         >
-          <label
-            className="sr-only"
-            htmlFor="stop-search"
-          >
-            Search for a stop
-          </label>
-          <input
-            className="c-form__input"
-            id="stop-search"
-            onChange={[Function]}
-            placeholder="Search for a stop"
-            type="text"
-            value=""
-          />
-          <button
-            aria-label="search"
-            className="c-form__submit-btn"
-            onClick={[Function]}
-            type="button"
-          >
-            <span
-              aria-hidden="false"
-              className="notranslate c-svg__icon-search-reverse-default"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
-            />
-          </button>
-        </div>
-      </SearchBox>
-      <Provider>
-        <LineDiagramWithStops>
+          Stops
+        </h3>
+        <SearchBox>
           <div
-            className="m-schedule-diagram u-no-crowding-data"
+            className="m-schedule-diagram__filter c-form__input-container"
           >
-            <SimpleDiagram>
-              <svg
-                aria-labelledby="diagram-title diagram-desc"
-                className="line-diagram-svg ferry"
-                height="100%"
-                role="img"
-                style={
+            <label
+              className="sr-only"
+              htmlFor="stop-search"
+            >
+              Search for a stop
+            </label>
+            <input
+              className="c-form__input"
+              id="stop-search"
+              onChange={[Function]}
+              placeholder="Search for a stop"
+              type="text"
+              value=""
+            />
+            <button
+              aria-label="search"
+              className="c-form__submit-btn"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-search-reverse-default"
+                dangerouslySetInnerHTML={
                   Object {
-                    "left": 5,
-                    "overflow": "visible",
+                    "__html": "SVG",
                   }
                 }
-                width="36px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title
-                  id="diagram-title"
-                >
-                  Line diagram for 
-                  route 1
-                </title>
-                <desc
-                  id="diagram-desc"
-                >
-                  0 stops going Inbound to End
-                </desc>
-                <defs>
-                  <pattern
-                    height="10"
-                    id="diagonalHatch"
-                    patternTransform="rotate(45 0 0)"
-                    patternUnits="userSpaceOnUse"
-                    width="10"
-                  >
-                    <line
-                      className="line-diagram-svg__line"
-                      strokeWidth="16px"
-                      y2={8}
-                    />
-                  </pattern>
-                </defs>
-              </svg>
-            </SimpleDiagram>
-            <ol />
+              />
+            </button>
           </div>
-        </LineDiagramWithStops>
-      </Provider>
+        </SearchBox>
+        <Provider>
+          <LineDiagramWithStops>
+            <div
+              className="m-schedule-diagram u-no-crowding-data"
+            >
+              <SimpleDiagram>
+                <svg
+                  aria-labelledby="diagram-title diagram-desc"
+                  className="line-diagram-svg ferry"
+                  height="100%"
+                  role="img"
+                  style={
+                    Object {
+                      "left": 5,
+                      "overflow": "visible",
+                    }
+                  }
+                  width="36px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title
+                    id="diagram-title"
+                  >
+                    Line diagram for 
+                    route 1
+                  </title>
+                  <desc
+                    id="diagram-desc"
+                  >
+                    0 stops going Inbound to End
+                  </desc>
+                  <defs>
+                    <pattern
+                      height="10"
+                      id="diagonalHatch"
+                      patternTransform="rotate(45 0 0)"
+                      patternUnits="userSpaceOnUse"
+                      width="10"
+                    >
+                      <line
+                        className="line-diagram-svg__line"
+                        strokeWidth="16px"
+                        y2={8}
+                      />
+                    </pattern>
+                  </defs>
+                </svg>
+              </SimpleDiagram>
+              <ol />
+              <OtherStopList />
+            </div>
+          </LineDiagramWithStops>
+        </Provider>
+      </div>
     </LineDiagram>
   </ScheduleDirection>
 </Provider>
@@ -610,99 +625,104 @@ exports[`ScheduleDirectionTest respects the initially selected pattern ID, if sp
       </ScheduleDirectionButton>
     </div>
     <LineDiagram>
-      <h3
-        className="m-schedule-diagram__heading"
+      <div
+        className="mb-4"
       >
-        Stops
-      </h3>
-      <SearchBox>
-        <div
-          className="m-schedule-diagram__filter c-form__input-container"
+        <h3
+          className="m-schedule-diagram__heading"
         >
-          <label
-            className="sr-only"
-            htmlFor="stop-search"
-          >
-            Search for a stop
-          </label>
-          <input
-            className="c-form__input"
-            id="stop-search"
-            onChange={[Function]}
-            placeholder="Search for a stop"
-            type="text"
-            value=""
-          />
-          <button
-            aria-label="search"
-            className="c-form__submit-btn"
-            onClick={[Function]}
-            type="button"
-          >
-            <span
-              aria-hidden="false"
-              className="notranslate c-svg__icon-search-reverse-default"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
-            />
-          </button>
-        </div>
-      </SearchBox>
-      <Provider>
-        <LineDiagramWithStops>
+          Stops
+        </h3>
+        <SearchBox>
           <div
-            className="m-schedule-diagram u-no-crowding-data"
+            className="m-schedule-diagram__filter c-form__input-container"
           >
-            <SimpleDiagram>
-              <svg
-                aria-labelledby="diagram-title diagram-desc"
-                className="line-diagram-svg bus"
-                height="100%"
-                role="img"
-                style={
+            <label
+              className="sr-only"
+              htmlFor="stop-search"
+            >
+              Search for a stop
+            </label>
+            <input
+              className="c-form__input"
+              id="stop-search"
+              onChange={[Function]}
+              placeholder="Search for a stop"
+              type="text"
+              value=""
+            />
+            <button
+              aria-label="search"
+              className="c-form__submit-btn"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-search-reverse-default"
+                dangerouslySetInnerHTML={
                   Object {
-                    "left": 5,
-                    "overflow": "visible",
+                    "__html": "SVG",
                   }
                 }
-                width="36px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title
-                  id="diagram-title"
-                >
-                  Line diagram for 
-                  route 1
-                </title>
-                <desc
-                  id="diagram-desc"
-                >
-                  0 stops going Outbound to Begin
-                </desc>
-                <defs>
-                  <pattern
-                    height="10"
-                    id="diagonalHatch"
-                    patternTransform="rotate(45 0 0)"
-                    patternUnits="userSpaceOnUse"
-                    width="10"
-                  >
-                    <line
-                      className="line-diagram-svg__line"
-                      strokeWidth="16px"
-                      y2={8}
-                    />
-                  </pattern>
-                </defs>
-              </svg>
-            </SimpleDiagram>
-            <ol />
+              />
+            </button>
           </div>
-        </LineDiagramWithStops>
-      </Provider>
+        </SearchBox>
+        <Provider>
+          <LineDiagramWithStops>
+            <div
+              className="m-schedule-diagram u-no-crowding-data"
+            >
+              <SimpleDiagram>
+                <svg
+                  aria-labelledby="diagram-title diagram-desc"
+                  className="line-diagram-svg bus"
+                  height="100%"
+                  role="img"
+                  style={
+                    Object {
+                      "left": 5,
+                      "overflow": "visible",
+                    }
+                  }
+                  width="36px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title
+                    id="diagram-title"
+                  >
+                    Line diagram for 
+                    route 1
+                  </title>
+                  <desc
+                    id="diagram-desc"
+                  >
+                    0 stops going Outbound to Begin
+                  </desc>
+                  <defs>
+                    <pattern
+                      height="10"
+                      id="diagonalHatch"
+                      patternTransform="rotate(45 0 0)"
+                      patternUnits="userSpaceOnUse"
+                      width="10"
+                    >
+                      <line
+                        className="line-diagram-svg__line"
+                        strokeWidth="16px"
+                        y2={8}
+                      />
+                    </pattern>
+                  </defs>
+                </svg>
+              </SimpleDiagram>
+              <ol />
+              <OtherStopList />
+            </div>
+          </LineDiagramWithStops>
+        </Provider>
+      </div>
     </LineDiagram>
   </ScheduleDirection>
 </Provider>

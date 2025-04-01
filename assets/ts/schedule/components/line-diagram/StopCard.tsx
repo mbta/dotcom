@@ -32,6 +32,7 @@ import { LiveData } from "./__line-diagram";
 interface Props {
   alerts: Alert[];
   liveData?: LiveData;
+  noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
   routeStopList: RouteStop[];
   searchQuery?: string;
@@ -114,6 +115,7 @@ const Alert = (): JSX.Element => (
 const StopCard = ({
   alerts,
   liveData,
+  noLineDiagram = false,
   onClick,
   routeStopList,
   searchQuery,
@@ -142,7 +144,7 @@ const StopCard = ({
     <li
       className="m-schedule-diagram__stop"
       style={{
-        paddingLeft: searchQuery ? "0.5rem" : `${left}px`
+        paddingLeft: searchQuery || noLineDiagram ? "0.5rem" : `${left}px`
       }}
     >
       <section className="m-schedule-diagram__content">

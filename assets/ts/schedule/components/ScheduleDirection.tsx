@@ -80,8 +80,9 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(({ stop_tree, route_stop_lists }) => {
+      .then(({ other_route_stops, route_stop_lists, stop_tree }) => {
         const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
+        const otherRouteStops = other_route_stops as RouteStop[];
         const routeStopListsWithIndices: IndexedRouteStop[][] = route_stop_lists
           ? (route_stop_lists as RouteStop[][]).map(rs_list =>
               rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
@@ -89,7 +90,11 @@ export const fetchLineData = (
           : [];
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { stopTree, routeStopLists: routeStopListsWithIndices }
+          payload: {
+            otherRouteStops,
+            routeStopLists: routeStopListsWithIndices,
+            stopTree
+          }
         });
       })
       // @ts-ignore
@@ -190,6 +195,7 @@ const ScheduleDirection = ({
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
+      otherRouteStops: [],
       routeStopLists: initialRouteStopLists,
       stopTree: initialStopTree
     },
@@ -204,6 +210,11 @@ const ScheduleDirection = ({
       dispatchLineData
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
+
+  const otherRouteStops =
+    lineState.data && lineState.data.otherRouteStops
+      ? (lineState.data.otherRouteStops as RouteStop[])
+      : [];
 
   const routeStopList =
     lineState.data && lineState.data.routeStopLists
@@ -233,6 +244,7 @@ const ScheduleDirection = ({
         <LineDiagram
           alerts={alerts}
           directionId={state.directionId}
+          otherRouteStops={otherRouteStops}
           route={route}
           routeStopList={routeStopList}
           stopTree={lineState.data.stopTree}
@@ -267,6 +279,7 @@ const ScheduleDirection = ({
         <LineDiagram
           alerts={alerts}
           directionId={state.directionId}
+          otherRouteStops={otherRouteStops}
           route={route}
           routeStopList={routeStopList}
           stopTree={lineState.data && lineState.data.stopTree}
