@@ -31,7 +31,6 @@ import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
-  forceShowSchedule?: boolean;
   liveData?: LiveData;
   noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
@@ -115,7 +114,6 @@ const Alert = (): JSX.Element => (
 
 const StopCard = ({
   alerts,
-  forceShowSchedule = false,
   liveData,
   noLineDiagram = false,
   onClick,

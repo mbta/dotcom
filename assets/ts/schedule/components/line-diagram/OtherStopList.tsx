@@ -39,7 +39,6 @@ const OtherStopList = ({
         {otherRouteStops.map(stop => (
           <StopCard
             alerts={alerts}
-            forceShowSchedule
             key={stop.id}
             noLineDiagram
             onClick={handleStopClick}
