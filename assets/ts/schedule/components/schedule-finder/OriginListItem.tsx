@@ -8,16 +8,14 @@ interface OriginListItemProps {
   changeOrigin: Function;
   stop: SimpleStop;
   selectedOrigin: SelectedOrigin;
-  lastStop: SimpleStop;
 }
 
 const OriginListItem = ({
   changeOrigin,
   stop,
-  selectedOrigin,
-  lastStop
+  selectedOrigin
 }: OriginListItemProps): ReactElement<HTMLElement> => {
-  const isDisabled = stop.is_closed || stop.id === lastStop.id;
+  const isDisabled = stop.is_closed;
   const handleClick = (): void => {
     if (isDisabled) return;
     changeOrigin(stop.id);

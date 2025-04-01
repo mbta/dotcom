@@ -10,6 +10,9 @@ interface Props {
   showFare: boolean;
 }
 
+const tripStopCountWords = (stopCount: number): string =>
+  stopCount === 1 ? "1 stop" : `${stopCount} stops`;
+
 const TripSummary = ({
   tripInfo,
   showFare
@@ -23,7 +26,8 @@ const TripSummary = ({
         <span className="trip-details-table__title u-small-caps font-bold">
           Trip length
         </span>
-        {tripInfo.times.length} stops, {tripInfo.duration} minutes total
+        {tripStopCountWords(tripInfo.times.length)}, {tripInfo.duration} minutes
+        total
       </div>
       {showFare && (
         <div>

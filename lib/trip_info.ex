@@ -88,7 +88,7 @@ defmodule TripInfo do
   end
 
   defp do_from_list(
-         [time, _ | _] = times,
+         [time | _] = times,
          [origin_id | _],
          destination_id,
          vehicle_stop_name,
