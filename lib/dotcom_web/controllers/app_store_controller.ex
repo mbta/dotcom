@@ -5,6 +5,8 @@ defmodule DotcomWeb.AppStoreController do
   """
   use DotcomWeb, :controller
 
+  require Logger
+
   @android_store_base_url "https://play.google.com/store/apps/details?id=com.mbta.tid.mbta_app"
   @ios_store_base_url "https://apps.apple.com/app/apple-store/id6472726821?"
   @default_project_page "/goapp"
@@ -18,7 +20,7 @@ defmodule DotcomWeb.AppStoreController do
   defp redirect_to_app_store(conn, params) do
     cond do
       Browser.ios?(conn) ->
-        redirect(conn, external: campaign_url(@ios_store_base_url, params))
+        redirect(conn, external: log_and_return(campaign_url(@ios_store_base_url, params)))
 
       Browser.android?(conn) ->
         redirect(conn, external: campaign_url(@android_store_base_url, params))
@@ -35,5 +37,10 @@ defmodule DotcomWeb.AppStoreController do
     |> URI.parse()
     |> URI.append_query(encoded_params)
     |> URI.to_string()
+  end
+
+  defp log_and_return(url) do
+    Logger.info("app-store redirect", %{url: url})
+    url
   end
 end
