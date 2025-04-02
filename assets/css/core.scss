@@ -9,6 +9,13 @@
 @import 'social';
 @import 'layout-core-shared';
 
+/* Inherit the iOS font settings in order to support dynamic text sizing */
+@supports (font: -apple-system-body) and (-webkit-touch-callout: none) {
+  html {
+    font: -apple-system-body;
+  }
+}
+
 html {
   height: 100%;
   position: relative;
