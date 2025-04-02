@@ -66,8 +66,8 @@
       <%= unless Enum.empty?(Map.get(assigns, :recently_visited, [])) do %>
         <hr />
       <% end %>
-      <div class="my-6 lg:flex divide-y lg:divide-y-0 lg:divide-x">
-        <div class="flex-1 pb-6 lg:pb-0 lg:pe-6 grid gap-4 grid-cols-3 grid-rows-2 justify-items-stretch">
+      <div class=" my-3 md:my-6 lg:flex divide-y lg:divide-y-0 lg:divide-x">
+        <div class="flex-1 pb-6 lg:pb-0 lg:pe-6 grid gap-2 md:gap-4 grid-cols-3 grid-rows-2 justify-items-stretch">
           {shortcut_icons()}
         </div>
         <div class="pt-6 lg:pt-0 lg:ps-6 basis-2/5">

@@ -23,7 +23,7 @@
 
   &::before {
     background-color: $input-bg;
-    border: 2px solid $brand-primary-dark;
+    border: .125rem solid $brand-primary-dark;
     border-radius: 50%;
     content: '';
     cursor: pointer;
@@ -38,7 +38,7 @@
   &::after {
     background-clip: content-box;
     background-color: $brand-primary-dark;
-    border: 1px solid transparent; // Added a border for IE bug ignoring border-radius otherwise
+    border: .0625rem solid transparent; // Added a border for IE bug ignoring border-radius otherwise
     border-radius: 50%;
     bottom: calc(1.25 * #{$base-spacing} + (#{$base-spacing} / 4) - #{$space-4});
     content: none;

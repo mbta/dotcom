@@ -12,22 +12,6 @@
   }
 }
 
-.index {
-  .page-section {
-    @include media-breakpoint-down(xxl) {
-      margin-top: 5rem;
-    }
-
-    @include media-breakpoint-down(md) {
-      margin-top: 4rem;
-    }
-
-    @include media-breakpoint-down(sm) {
-      margin-top: 2.5rem;
-    }
-  }
-}
-
 .pre-container-tnm {
   color: $white;
 }

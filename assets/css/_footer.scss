@@ -12,17 +12,18 @@
   background-color: $footer-color;
   color: $white;
   flex-basis: 70%;
-  padding-bottom: 1.5rem;
-  padding-top: 1.5rem;
+  min-width: 20rem;
+  padding-bottom: 24px;
+  padding-top: 24px;
 
   @include media-breakpoint-down(sm) {
-    border-radius: 0 1.5rem 0 0;
+    border-radius: 0 24px 0 0;
   }
 
   @include media-breakpoint-between(sm, md) {
-    border-radius: 0 2.5rem 0 0;
-    padding-left: .687rem;
-    padding-top: 2rem;
+    border-radius: 0 40px 0 0;
+    padding-left: 11px;
+    padding-top: 32px;
   }
 
   @include media-breakpoint-up(xxl) {
@@ -30,10 +31,10 @@
   }
 
   @include media-breakpoint-up(lg) {
-    border-radius: 0 2.5rem 0 0;
+    border-radius: 0 40px 0 0;
     height: auto;
     padding-left: 1rem;
-    padding-top: 2.5rem;
+    padding-top: 40px;
     position: relative;
   }
 
@@ -45,12 +46,12 @@
   }
 
   .container {
-    padding: 0 .25rem;
-    padding-bottom: 2.75rem;
+    padding: 0 4px;
+    padding-bottom: 44px;
 
     @include media-breakpoint-up(lg) {
       padding-left: 0;
-      padding-right: .25rem;
+      padding-right: 4px;
     }
   }
 }
@@ -71,12 +72,12 @@
 
   @include media-breakpoint-down(xs) {
     display: block;
-    padding-bottom: 1.25rem;
+    padding-bottom: 20px;
   }
 
   @include media-breakpoint-down(sm) {
     .m-footer__group {
-      padding-left: .75rem;
+      padding-left: 12px;
     }
   }
 
@@ -94,7 +95,7 @@
     }
 
     @include media-breakpoint-down(xs) {
-      margin-bottom: .25rem;
+      margin-bottom: 4px;
     }
 
     &:hover {
@@ -114,12 +115,12 @@
 }
 
 .m-footer__group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 20px;
 }
 
 .m-footer__group-title {
   @include h3();
-  margin: 0 0 1.5rem;
+  margin: 0 0 24px;
 
   @include media-breakpoint-only(xs) {
     font-size: 1.125rem;
@@ -133,22 +134,22 @@
     font-family: $font-family-base;
     font-size: 1.5rem;
     line-height: 1.875rem;
-    margin-bottom: 1.5rem;
-    margin-top: 1rem;
+    margin-bottom: 24px;
+    margin-top: 16px;
   }
 }
 
 .m-footer__copyright {
   font-size: $font-size-base-xs;
   @include media-breakpoint-up(lg) {
-    bottom: 2.125rem;
+    bottom: 34px;
     left: 0;
-    margin: 0 2.5rem 0 3.5rem;
+    margin: 0 40px 0 56px;
     right: 0;
   }
   @include media-breakpoint-down(xs) {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 }
 
@@ -160,7 +161,7 @@
 
 @include media-breakpoint-up(lg) {
   .m-footer__group {
-    padding-left: 2.5rem;
+    padding-left: 40px;
   }
 }
 
@@ -179,11 +180,11 @@ address {
 
 .call-us-container {
   background: $brand-primary-lightest-contrast;
-  border-radius: 2.5rem 0 0;
+  border-radius: 40px 0 0;
   flex-basis: 30%;
-  margin-bottom: -3.125rem;
+  margin-bottom: -50px;
   padding-bottom: 0;
-  padding-top: 2.5rem;
+  padding-top: 40px;
 
   .m-footer__links {
     margin-bottom: 0;
@@ -203,10 +204,10 @@ address {
   .m-menu__feature {
     background: $brand-primary-lightest-contrast;
     font-size: 1rem;
-    margin-bottom: .875rem;
+    margin-bottom: 14px;
 
     &.top-section {
-      padding-top: .75rem !important;
+      padding-top: 12px !important;
     }
 
     &.emergency-contacts {
@@ -214,7 +215,7 @@ address {
       white-space: normal;
       &.mobile {
         border-radius: 0;
-        margin-bottom: .125rem;
+        margin-bottom: 2px;
         margin-top: 0;
 
         @include media-breakpoint-up(lg) {
@@ -224,19 +225,19 @@ address {
     }
 
     @include media-breakpoint-down(sm) {
-      padding-bottom: .875rem;
+      padding-bottom: 14px;
       a {
-        margin-top: 1.25rem;
+        margin-top: 20px;
       }
     }
 
     @include media-breakpoint-down(xs) {
       margin-bottom: 0;
-      padding-top: 1.5rem;
+      padding-top: 24px;
     }
 
     @include media-breakpoint-up(lg) {
-      padding-bottom: 1.625rem;
+      padding-bottom: 26px;
     }
 
     small {
@@ -249,17 +250,17 @@ address {
   }
 
   @include media-breakpoint-down(xs) {
-    padding-top: 1.375rem !important;
+    padding-top: 22px !important;
     .container {
-      border-radius: 1.5rem 0 0;
-      padding-left: .25rem;
-      padding-right: .25rem;
+      border-radius: 24px 0 0;
+      padding-left: 4px;
+      padding-right: 4px;
     }
   }
 
   @include media-breakpoint-down(md) {
-    border-radius: 2.5rem 0 0;
-    padding-top: 2rem;
+    border-radius: 40px 0 0;
+    padding-top: 32px;
   }
 
   @include media-breakpoint-only(md) {
@@ -268,8 +269,8 @@ address {
   }
 
   @include media-breakpoint-down(sm) {
-    border-radius: 1.5rem 0 0;
-    padding-bottom: 3.125rem;
+    border-radius: 24px 0 0;
+    padding-bottom: 50px;
   }
   .m-footer__links {
     @include media-breakpoint-down(xs) {
@@ -283,7 +284,7 @@ address {
   @include media-breakpoint-up(lg) {
     font-size: $font-size-base;
     margin-bottom: 0;
-    padding-right: 2.5rem;
+    padding-right: 40px;
     .container {
       ul {
         display: flex;
@@ -295,7 +296,7 @@ address {
     }
 
     .m-footer__group {
-      padding-left: .93rem;
+      padding-left: 15px;
     }
   }
 
@@ -331,14 +332,14 @@ address {
       strong {
         display: inline;
         font-size: .875rem;
-        padding-right: .25rem;
+        padding-right: 4px;
       }
     }
   }
   @include media-breakpoint-up(lg) {
     a {
       margin-bottom: 0;
-      padding-top: .75rem;
+      padding-top: 12px;
     }
   }
 }
@@ -347,16 +348,16 @@ address {
   @include media-breakpoint-up(lg) {
     font-family: $font-family-base;
     font-size: 1.5rem;
-    margin-bottom: .75rem;
-    margin-top: 1.125rem;
+    margin-bottom: 12px;
+    margin-top: 18px;
   }
   @include media-breakpoint-down(md) {
-    padding-left: .75rem;
+    padding-left: 12px;
   }
   @include media-breakpoint-down(xs) {
     font-size: 1.125rem;
     margin-bottom: 0;
-    margin-top: .125rem;
+    margin-top: 2px;
   }
 }
 
@@ -366,8 +367,8 @@ address {
     display: flex;
   }
   strong {
-    margin-top: .75rem;
-    padding-right: .25rem;
+    margin-top: 12px;
+    padding-right: 4px;
   }
   a {
     color: $brand-primary;
@@ -384,26 +385,26 @@ address {
 .lower-footer {
   @include media-breakpoint-down(xs) {
     flex-direction: column;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   @include media-breakpoint-between(sm, md) {
-    margin-right: .687rem;
+    margin-right: 11px;
   }
 
   @include media-breakpoint-up(lg) {
-    bottom: 3.75rem;
+    bottom: 60px;
     left: 0;
-    margin: 0 2.5rem 0 3.5rem;
+    margin: 0 40px 0 56px;
     right: 0;
   }
   border-top: 2px solid $brand-primary-light-contrast;
-  bottom: 5.625rem;
+  bottom: 90px;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 1.25rem;
-  padding-top: 1.25rem;
+  padding-bottom: 20px;
+  padding-top: 20px;
 
   .m-menu__language {
     color: $brand-primary-light-contrast;
@@ -423,7 +424,7 @@ address {
 
 .social-icons-container {
   @include media-breakpoint-down(xs) {
-    padding-top: 1.25rem;
+    padding-top: 20px;
   }
 }
 
@@ -435,7 +436,7 @@ address {
 
 .social-icon {
   color: $brand-primary-light-contrast;
-  padding-left: 1.25rem;
+  padding-left: 20px;
   &:hover {
     color: $brand-primary-light;
   }
@@ -456,13 +457,13 @@ address {
 
 .m-footer__link {
   @include media-breakpoint-down(xs) {
-    padding-bottom: 1rem;
+    padding-bottom: 16px;
   }
 }
 
 .m-footer__last-link {
   @include media-breakpoint-down(xs) {
-    padding-bottom: 2rem;
+    padding-bottom: 32px;
   }
 }
 
@@ -470,20 +471,20 @@ address {
   @include media-breakpoint-up(lg) {
     margin-left: auto;
     margin-right: auto;
-    max-width: 60rem;
+    max-width: 960px;
   }
 
   @include media-breakpoint-up(xxl) {
     margin-left: auto;
     margin-right: auto;
-    max-width: 75rem;
+    max-width: 1200px;
   }
 }
 
 .m-footer__outer-background {
   @include media-breakpoint-up(lg) {
     background: linear-gradient(90deg, $brand-primary-lightest-contrast 50%, $footer-color 50%);
-    border-radius: 2.5rem 2.5rem 0 0;
+    border-radius: 40px 40px 0 0;
   }
 }
 

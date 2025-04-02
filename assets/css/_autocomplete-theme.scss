@@ -5,7 +5,7 @@
 }
 
 // styles that will be used for every instance
-[phx-hook='AlgoliaAutocomplete'], .aa-Detached {
+[phx-hook="AlgoliaAutocomplete"], .aa-Detached {
   .text-danger & {
     --aa-accent-color: 179, 0, 15; // matches $error-text
   }
@@ -21,6 +21,7 @@
 
   .aa-Input {
     font-size: 1rem !important; // override the default `font` declaration
+    height: 2.75rem; // override default height
   }
 
   .aa-Label {
@@ -94,6 +95,7 @@
   }
 
   .aa-Panel {
+    font-size: 1rem;
     margin-top: .25rem;
     z-index: var(--aa-base-z-index);
   }

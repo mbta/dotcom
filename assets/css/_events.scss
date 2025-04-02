@@ -191,14 +191,15 @@ $mobile-control-height: 73px;
 .m-event__date-circle {
   align-items: center;
   background-color: $gray-bordered-background;
-  border-radius: 32px;
+  border-radius: 2rem;
   color: $gray;
   display: flex;
   flex-direction: column;
   font-family: $headings-font-family;
   height: 4rem;
   justify-content: center;
-  margin-right: 1.5rem;
+  margin-right: 24px;
+  min-width: 4rem;
   text-transform: uppercase;
   width: 4rem;
   @include media-breakpoint-down(xs) {

@@ -16,7 +16,7 @@
   @include icon-size(4em);
   background-color: $white;
   border: $border;
-  border-radius: .5rem;
+  border-radius: 8px;
   color: $gray-dark;
   padding: $base-spacing;
   text-align: center;
@@ -33,7 +33,7 @@
 
   @include media-breakpoint-only(xs) {
     @include icon-size(2.5em);
-    padding: $space-12;
+    padding: 12px;
   }
 
   [class*='c-svg__icon'] {
