@@ -8,7 +8,7 @@ defmodule DotcomWeb.AppStoreController do
   require Logger
 
   @android_store_base_url "https://play.google.com/store/apps/details?id=com.mbta.tid.mbta_app"
-  @ios_store_base_url "https://apps.apple.com/app/apple-store/id6472726821?"
+  @ios_store_base_url "https://apps.apple.com/app/apple-store/id6472726821"
   @default_project_page "/goapp"
 
   def redirect_mbta_go(conn, params) do
@@ -20,7 +20,7 @@ defmodule DotcomWeb.AppStoreController do
   defp redirect_to_app_store(conn, params) do
     cond do
       Browser.ios?(conn) ->
-        redirect(conn, external: log_and_return(campaign_url(@ios_store_base_url, params)))
+        redirect(conn, external: log_and_return(campaign_url(@ios_store_base_url, ios_params(params))))
 
       Browser.android?(conn) ->
         redirect(conn, external: campaign_url(@android_store_base_url, params))
@@ -31,12 +31,21 @@ defmodule DotcomWeb.AppStoreController do
   end
 
   defp campaign_url(base_url, params) do
-    encoded_params = URI.encode_query(params)
+    encoded_params = URI.encode_query(params, :rfc3986)
 
     base_url
     |> URI.parse()
     |> URI.append_query(encoded_params)
     |> URI.to_string()
+  end
+
+  # Order the params as iOS expects and ignore any extraneous params
+  defp ios_params(param_map) do
+    [
+      pt: param_map["pt"],
+      ct: param_map["ct"],
+      mt: param_map["mt"]
+    ]
   end
 
   defp log_and_return(url) do
