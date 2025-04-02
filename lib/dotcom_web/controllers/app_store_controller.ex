@@ -20,7 +20,9 @@ defmodule DotcomWeb.AppStoreController do
   defp redirect_to_app_store(conn, params) do
     cond do
       Browser.ios?(conn) ->
-        redirect(conn, external: log_and_return(campaign_url(@ios_store_base_url, ios_params(params))))
+        redirect(conn,
+          external: log_and_return(campaign_url(@ios_store_base_url, ios_params(params)))
+        )
 
       Browser.android?(conn) ->
         redirect(conn, external: campaign_url(@android_store_base_url, params))

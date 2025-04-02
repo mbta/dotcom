@@ -25,15 +25,16 @@ defmodule DotcomWeb.AppStoreControllerTest do
       )
       |> get(
         app_store_path(conn, :redirect_mbta_go, %{
-          "pt" => "fake pt",
+          "mt" => "fake-mt",
           "ct" => "fake ct",
-          "mt" => "fake-mt"
+          "pt" => "fake pt",
+          "extra" => "other param"
         })
       )
 
     redirected_to = redirected_to(conn, 302)
     assert redirected_to =~ "https://apps.apple.com"
-    assert redirected_to =~ "?ct=fake+ct&mt=fake-mt&pt=fake+pt"
+    assert redirected_to =~ "?pt=fake%20pt&ct=fake%20ct&mt=fake-mt"
   end
 
   test "redirects to app store for android browser", %{conn: conn} do
@@ -55,6 +56,6 @@ defmodule DotcomWeb.AppStoreControllerTest do
     assert redirected_to =~ "https://play.google.com"
 
     assert redirected_to =~
-             "&referrer=fake+referrer&utm_campaign=fake-utm-campaign&utm_source=fake+utm+source"
+             "&referrer=fake%20referrer&utm_campaign=fake-utm-campaign&utm_source=fake%20utm%20source"
   end
 end
