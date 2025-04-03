@@ -39,14 +39,6 @@ defmodule Alerts.Alert do
     :unknown | @ongoing_effects
   ]
 
-  @diversion_effects [
-    :detour,
-    :shuttle,
-    :stop_closure,
-    :station_closure,
-    :suspension
-  ]
-
   @lifecycles [:new, :ongoing, :ongoing_upcoming, :unknown, :upcoming]
 
   defstruct id: "",
@@ -290,15 +282,6 @@ defmodule Alerts.Alert do
     do: true
 
   def high_severity_or_high_priority?(_), do: false
-
-  @spec diversion?(t) :: boolean()
-  def diversion?(alert) do
-    alert.effect in @diversion_effects &&
-      alert.active_period
-      |> List.first()
-      |> Kernel.elem(0)
-      |> Timex.after?(alert.created_at)
-  end
 
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do

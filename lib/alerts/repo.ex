@@ -1,4 +1,6 @@
 defmodule Alerts.Repo do
+  import Dotcom.Alerts, only: [diversion_alert?: 1]
+
   alias Alerts.{Alert, Banner, Priority}
   alias Alerts.Cache.Store
   alias Alerts.Repo.Behaviour
@@ -33,15 +35,15 @@ defmodule Alerts.Repo do
   end
 
   @doc """
-  Get alerts that are diversion types: shuttle, station_closure, suspension.
+  Get alerts that are diversions: detour, service change, shuttle, station closure, stop closure, or suspension.
 
-  We sort them so that earlier alerts are displaed first.
+  Sort them so that earlier alerts are displaed first.
   """
   @spec diversions_by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)
-    |> Enum.filter(&Alert.diversion?/1)
+    |> Enum.filter(&diversion_alert?/1)
     |> Enum.sort(fn a, b ->
       first = a.active_period |> List.first() |> elem(0)
       second = b.active_period |> List.first() |> elem(0)

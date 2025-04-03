@@ -8,8 +8,21 @@ defmodule Dotcom.Alerts do
 
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  @type diversion_effect_t() ::
+          :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
+
   @typedoc "Service alerts which typically impact rider experience."
   @type service_effect_t() :: :delay | :service_change | :shuttle | :suspension | :station_closure
+
+  # A keyword list of effects and the severity level necessary to make an alert a 'diversion.'
+  @diversion_effects [
+    detour: 1,
+    service_change: 3,
+    shuttle: 1,
+    station_closure: 1,
+    stop_closure: 1,
+    suspension: 1
+  ]
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
@@ -34,6 +47,22 @@ defmodule Dotcom.Alerts do
     |> Enum.filter(& &1.station?)
     |> Enum.sort_by(& &1.name)
   end
+
+  @doc """
+  Does the alert have an effect/severity that is considered a diversion?
+  And, was it planned?
+  """
+  @spec diversion_alert?(Alert.t()) :: boolean()
+  def diversion_alert?(alert) do
+    effects_match?(@diversion_effects, alert) &&
+      planned_alert?(alert)
+  end
+
+  @doc """
+  Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
+  """
+  @spec diversion_effects() :: [{diversion_effect_t(), integer()}]
+  def diversion_effects(), do: @diversion_effects
 
   @doc """
   Does the alert match a group of effects/severities?
@@ -84,6 +113,14 @@ defmodule Dotcom.Alerts do
   #   2. Have a severity that is greater than or equal to the effect's severity?
   defp effect_match?({effect, severity}, alert) do
     effect == alert.effect && alert.severity >= severity
+  end
+
+  # We consider an alert planned if the first active period starts after the alert was created.
+  defp planned_alert?(alert) do
+    alert.active_period
+    |> List.first()
+    |> Kernel.elem(0)
+    |> Timex.after?(alert.created_at)
   end
 
   # Take an alert and return the start time of the first active period.
