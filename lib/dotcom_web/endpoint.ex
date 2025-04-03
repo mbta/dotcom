@@ -9,7 +9,6 @@ defmodule DotcomWeb.Endpoint do
                    signing_salt: "TInvb4GN",
                    secure: true
 
-
   socket(
     "/socket",
     DotcomWeb.UserSocket,
