@@ -12,6 +12,8 @@ defmodule Dotcom.Alerts.Subway do
   alias Alerts.Alert
 
   @group_order ["Service", "Elevator & Escalator", "Bike", "Parking", "Other"]
+
+  # A map of groups, the effects they contain, and the severity levels we care about.
   @effects %{
     "Bike" => [bike_issue: 1],
     "Elevator & Escalator" => [

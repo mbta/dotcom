@@ -11,6 +11,7 @@ defmodule Dotcom.Alerts do
   @typedoc "Service alerts which typically impact rider experience."
   @type service_effect_t() :: :delay | :service_change | :shuttle | :suspension | :station_closure
 
+  # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
     delay: 1,
     service_change: 3,
