@@ -66,8 +66,8 @@ defmodule Alerts.RepoTest do
   describe "diversions_by_route_id/2" do
     test "returns only diversions for the given route_ids" do
       # Setup
-      diversion = Factories.Alerts.Alert.build(:alert, effect: :shuttle)
-      non_diversion = Factories.Alerts.Alert.build(:alert, effect: :delay)
+      diversion = Factories.Alerts.Alert.build(:alert, effect: :service_change, severity: 3)
+      non_diversion = Factories.Alerts.Alert.build(:alert, effect: :delay, severity: 1)
 
       Store.update([diversion, non_diversion], nil)
 

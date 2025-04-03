@@ -7,7 +7,6 @@ defmodule AlertsTest do
 
   alias Alerts.Alert
   alias Alerts.InformedEntity
-  alias Test.Support.Factories
 
   setup :verify_on_exit!
 
@@ -145,48 +144,6 @@ defmodule AlertsTest do
 
     test "returns false otherwise" do
       refute high_severity_or_high_priority?(%Alert{severity: 3, priority: :low})
-    end
-  end
-
-  describe "diversion?/1" do
-    test "returns true when created at is before active period" do
-      created_at = Timex.now()
-      active_period = [{Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)}]
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          active_period: active_period,
-          created_at: created_at,
-          effect: :shuttle
-        )
-
-      assert diversion?(alert)
-    end
-
-    test "returns false when created at is after active period" do
-      created_at = Timex.now()
-      active_period = [{Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)}]
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          active_period: active_period,
-          created_at: created_at,
-          effect: :shuttle
-        )
-
-      refute diversion?(alert)
-    end
-
-    test "returns true for certain effects" do
-      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :shuttle))
-      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :stop_closure))
-      assert diversion?(Factories.Alerts.Alert.build(:alert, effect: :station_closure))
-    end
-
-    test "returns false for other effects" do
-      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :access_issue))
-      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :amber_alert))
-      refute diversion?(Factories.Alerts.Alert.build(:alert, effect: :delay))
     end
   end
 

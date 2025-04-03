@@ -7,7 +7,6 @@ defmodule Dotcom.AlertsTest do
   import Test.Support.Generators.DateTime,
     only: [random_date_time: 0, random_time_range_date_time: 1]
 
-  alias Alerts.Alert
   alias Test.Support.Factories
 
   setup :verify_on_exit!
@@ -22,6 +21,32 @@ defmodule Dotcom.AlertsTest do
     end)
 
     :ok
+  end
+
+  describe "diversion_alert?/1" do
+    test "returns true if the alert has an effect that is considered a diversion" do
+      # Setup
+      {effect, severity} = diversion_effects() |> Faker.Util.pick()
+      alert = Factories.Alerts.Alert.build(:alert, effect: effect, severity: severity)
+
+      # Exercise/Verify
+      assert diversion_alert?(alert)
+    end
+
+    test "returns false if the alert does not have an effect that is considered a diversion" do
+      # Setup
+      alert = Factories.Alerts.Alert.build(:alert, effect: :not_a_diversion)
+
+      # Exercise/Verify
+      refute diversion_alert?(alert)
+    end
+  end
+
+  describe "diversion_effects/0" do
+    test "returns a list of the alert effects as keywords" do
+      # Exercise/Verify
+      assert Keyword.keyword?(diversion_effects())
+    end
   end
 
   describe "affected_stations/1" do
@@ -52,7 +77,7 @@ defmodule Dotcom.AlertsTest do
     test "returns true if the alert has an effect that is considered service-impacting" do
       # Setup
       {effect, severity} = service_impacting_effects() |> Faker.Util.pick()
-      alert = %Alert{effect: effect, severity: severity}
+      alert = Factories.Alerts.Alert.build(:alert, effect: effect, severity: severity)
 
       # Exercise/Verify
       assert service_impacting_alert?(alert)
@@ -60,7 +85,7 @@ defmodule Dotcom.AlertsTest do
 
     test "returns false if the alert does not have an effect that is considered service-impacting" do
       # Setup
-      alert = %Alert{effect: :not_service_impacting}
+      alert = Factories.Alerts.Alert.build(:alert, effect: :not_service_impacting)
 
       # Exercise/Verify
       refute service_impacting_alert?(alert)

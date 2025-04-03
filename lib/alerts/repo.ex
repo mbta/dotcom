@@ -1,4 +1,6 @@
 defmodule Alerts.Repo do
+  import Dotcom.Alerts, only: [diversion_alert?: 1]
+
   alias Alerts.{Alert, Banner, Priority}
   alias Alerts.Cache.Store
   alias Alerts.Repo.Behaviour
@@ -41,7 +43,7 @@ defmodule Alerts.Repo do
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)
-    |> Enum.filter(&Alert.diversion?/1)
+    |> Enum.filter(&diversion_alert?/1)
     |> Enum.sort(fn a, b ->
       first = a.active_period |> List.first() |> elem(0)
       second = b.active_period |> List.first() |> elem(0)
