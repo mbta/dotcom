@@ -35,9 +35,9 @@ defmodule Alerts.Repo do
   end
 
   @doc """
-  Get alerts that are diversion types: shuttle, station_closure, suspension.
+  Get alerts that are diversions: detour, service change, shuttle, station closure, stop closure, or suspension.
 
-  We sort them so that earlier alerts are displaed first.
+  Sort them so that earlier alerts are displaed first.
   """
   @spec diversions_by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def diversions_by_route_ids(route_ids, now) do
