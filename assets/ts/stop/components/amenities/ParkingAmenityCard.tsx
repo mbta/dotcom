@@ -84,7 +84,7 @@ const getModalContent = (
 
             return (
               <div key={park.name}>
-                <h2 className="u-mt-6">{park.name}</h2>
+                <h2 className="text-xl u-mt-6">{park.name}</h2>
                 <h3>Parking Rates</h3>
                 <ul>
                   {park.payment?.daily_rate && (

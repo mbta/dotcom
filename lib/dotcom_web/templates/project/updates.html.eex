@@ -9,7 +9,7 @@
       <div class="c-cms__body">
         <%= for update <- @updates do
           text_content = [
-                content_tag(:h2, update.title, class: "text-2xl m-project-updates__title"),
+                content_tag(:h2, update.title, class: "text-xl m-project-updates__title"),
                 content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "text-lg font-heading font-bold mt-11 mb-3")
               ]
 
