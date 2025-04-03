@@ -5,7 +5,7 @@ exports[`it renders 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--red-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--red-line"
   >
     <a
       className="c-link-block__outer-link"
@@ -229,7 +229,7 @@ exports[`renders blue line routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--blue-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--blue-line"
   >
     <a
       className="c-link-block__outer-link"
@@ -285,7 +285,7 @@ exports[`renders bus routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
   >
     <a
       className="c-link-block__outer-link"
@@ -341,7 +341,7 @@ exports[`renders ferry routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--ferry"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--ferry"
   >
     <a
       className="c-link-block__outer-link"
@@ -397,7 +397,7 @@ exports[`renders green line routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--green-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--green-line"
   >
     <a
       className="c-link-block__outer-link"
@@ -453,7 +453,7 @@ exports[`renders orange line routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--orange-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--orange-line"
   >
     <a
       className="c-link-block__outer-link"
@@ -509,7 +509,7 @@ exports[`renders red line routes 1`] = `
   className="m-stop-page__departures-route"
 >
   <div
-    className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--red-line"
+    className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--red-line"
   >
     <a
       className="c-link-block__outer-link"

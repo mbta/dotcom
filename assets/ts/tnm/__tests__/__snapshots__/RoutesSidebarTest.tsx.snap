@@ -111,7 +111,7 @@ exports[`render it renders 1`] = `
         data-mode="subway"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--orange-line"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--orange-line"
         >
           <a
             className="c-link-block__outer-link"
@@ -316,7 +316,7 @@ exports[`render it renders 1`] = `
         data-mode="commuter_rail"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--commuter-rail"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--commuter-rail"
         >
           <a
             className="c-link-block__outer-link"
@@ -495,7 +495,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -700,7 +700,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -905,7 +905,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -1108,7 +1108,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -1313,7 +1313,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -1518,7 +1518,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -1821,7 +1821,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -2026,7 +2026,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -2165,7 +2165,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -2370,7 +2370,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -2557,7 +2557,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -2762,7 +2762,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
@@ -3025,7 +3025,7 @@ exports[`render it renders 1`] = `
         data-mode="bus"
       >
         <div
-          className="c-link-block font-heading font-bold mt-11 mb-3 text-2xl m-tnm-sidebar__route-name u-bg--bus"
+          className="c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name u-bg--bus"
         >
           <a
             className="c-link-block__outer-link"
