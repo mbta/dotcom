@@ -50,16 +50,12 @@ defmodule Dotcom.Alerts do
 
   @doc """
   Does the alert have an effect/severity that is considered a diversion?
-  And, is the first active period *after* the created at time?
-  That is, was/is it planned rather than reactive?
+  And, was it planned?
   """
   @spec diversion_alert?(Alert.t()) :: boolean()
   def diversion_alert?(alert) do
     effects_match?(@diversion_effects, alert) &&
-      alert.active_period
-      |> List.first()
-      |> Kernel.elem(0)
-      |> Timex.after?(alert.created_at)
+      planned_alert?(alert)
   end
 
   @doc """
@@ -117,6 +113,14 @@ defmodule Dotcom.Alerts do
   #   2. Have a severity that is greater than or equal to the effect's severity?
   defp effect_match?({effect, severity}, alert) do
     effect == alert.effect && alert.severity >= severity
+  end
+
+  # We consider an alert planned if the first active period starts after the alert was created.
+  defp planned_alert?(alert) do
+    alert.active_period
+    |> List.first()
+    |> Kernel.elem(0)
+    |> Timex.after?(alert.created_at)
   end
 
   # Take an alert and return the start time of the first active period.
