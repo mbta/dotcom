@@ -22,6 +22,9 @@
           <div class="m-event-section">
             <h2 class="u-mt-0">Event Description</h2>
             <%= Dotcom.ContentRewriter.rewrite(@event.body, @conn) %>
+            <%= for paragraph <- @event.paragraphs do %>
+              <%= DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
+            <% end %>
             <%= if has_related_files do %>
               <h3>Related Files</h3>
               <%= if @event.agenda_file do %>
