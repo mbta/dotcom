@@ -1,20 +1,20 @@
 /* eslint-disable no-underscore-dangle */
-import React from "react";
-import { get, uniqueId } from "lodash";
 import { SourceTemplates, VNode } from "@algolia/autocomplete-js";
-import { AutocompleteItem } from "../__autocomplete";
-import {
-  getTitleAttribute,
-  isContentItem,
-  isRouteItem,
-  isSearchResultItem,
-  isStopItem
-} from "../helpers";
+import { get, uniqueId } from "lodash";
+import React from "react";
 import {
   contentIcon,
   getFeatureIcons,
   getIcon
 } from "../../../../js/algolia-result";
+import { AutocompleteItem } from "../__autocomplete";
+import {
+  getTitleAttribute,
+  isContentItem,
+  isRouteItem,
+  isStopItem
+} from "../helpers";
+import { itemURL } from "./helpers";
 
 // parse this from a stop's address until we can get it as a stop field
 const stateAbbr = (address: string): string =>
@@ -26,16 +26,7 @@ export function LinkForItem(props: {
   children: string | VNode | VNode[];
 }): React.ReactElement {
   const { item, query, children } = props;
-
-  let url = isContentItem(item) ? item._content_url : item.url;
-
-  // Search result items are a subset of content items that point to a different URL
-  if (isSearchResultItem(item)) {
-    url = item._search_result_url.replace(/(internal|entity):/g, "/");
-  }
-
-  // Strip extra forward slashes as they break relative links
-  url = url.replace(/\/\//g, "/");
+  const url = itemURL(item);
 
   // Special case: When the matching text isn't part of the page title, help the
   // user locate the matching text by linking directly to / scrolling to the

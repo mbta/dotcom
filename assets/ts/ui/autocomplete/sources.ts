@@ -1,13 +1,13 @@
 import { AutocompleteSource } from "@algolia/autocomplete-js";
 import { SearchResponse } from "@algolia/client-search";
-import { LocationItem, PopularItem, AutocompleteItem } from "./__autocomplete";
-import { UrlType, WithUrls, itemWithUrl } from "./helpers";
-import AlgoliaItemTemplate from "./templates/algolia";
-import { templateWithLink } from "./templates/helpers";
-import LocationItemTemplate from "./templates/location";
-import PopularItemTemplate from "./templates/popular";
 import geolocationPromise from "../../../js/geolocation-promise";
 import { fetchJsonOrThrow } from "../../helpers/fetch-json";
+import { AutocompleteItem, LocationItem, PopularItem } from "./__autocomplete";
+import { UrlType, WithUrls, itemWithUrl } from "./helpers";
+import AlgoliaItemTemplate from "./templates/algolia";
+import { itemURL, templateWithLink } from "./templates/helpers";
+import LocationItemTemplate from "./templates/location";
+import PopularItemTemplate from "./templates/popular";
 
 /**
  * Renders a simple UI for requesting the browser's location.
@@ -184,9 +184,6 @@ export const algoliaSource = (
       .catch(() => []);
   },
   ...(withLink && {
-    getItemUrl: ({ item }) => {
-      const { url, _content_url } = item as AutocompleteItem;
-      return (url || _content_url) as string;
-    }
+    getItemUrl: ({ item }) => itemURL(item)
   })
 });
