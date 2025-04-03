@@ -1,5 +1,15 @@
 import Config
 
+# Configures the endpoint
+config :dotcom, DotcomWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
+  render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "root.html"}],
+  pubsub_server: Dotcom.PubSub,
+  live_view: [
+    signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
+  ]
+
 if config_env() == :prod do
   # For producton, we configure the host to read the PORT
   # from the system environment. Therefore, you will need
