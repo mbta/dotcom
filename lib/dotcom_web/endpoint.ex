@@ -9,20 +9,6 @@ defmodule DotcomWeb.Endpoint do
                    signing_salt: "TInvb4GN",
                    secure: true
 
-  @doc """
-  Callback invoked for dynamically configuring the endpoint.
-
-  It receives the endpoint configuration and checks if
-  configuration should be loaded from the system environment.
-  """
-  @spec init(atom, Keyword.t()) :: {:ok, Keyword.t()} | no_return
-  def init(_key, config) do
-    secret_key_base =
-      System.get_env("SITE_SECRET_KEY_BASE") ||
-        :dotcom |> Application.get_env(DotcomWeb.Endpoint) |> Keyword.get(:secret_key_base)
-
-    {:ok, Keyword.put(config, :secret_key_base, secret_key_base)}
-  end
 
   socket(
     "/socket",
