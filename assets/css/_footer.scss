@@ -12,7 +12,6 @@
   background-color: $footer-color;
   color: $white;
   flex-basis: 70%;
-  min-width: 20rem;
   padding-bottom: 24px;
   padding-top: 24px;
 
@@ -244,7 +243,6 @@ address {
       font-size: 1rem;
       @include media-breakpoint-down(xs) {
         font-size: .875rem;
-        white-space: nowrap;
       }
     }
   }
