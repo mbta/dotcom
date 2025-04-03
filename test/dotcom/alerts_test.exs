@@ -56,6 +56,7 @@ defmodule Dotcom.AlertsTest do
           severity: severity
         )
 
+      # Exercise/Verify
       assert diversion_alert?(alert)
     end
 
@@ -73,6 +74,7 @@ defmodule Dotcom.AlertsTest do
           severity: severity
         )
 
+      # Exercise/Verify
       refute diversion_alert?(alert)
     end
   end
