@@ -223,3 +223,9 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
+
+default_key_base = "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0"
+secret_key_base = System.get_env("SITE_SECRET_KEY_BASE", default_key_base)
+
+# Configures the endpoint
+config :dotcom, DotcomWeb.Endpoint, secret_key_base: secret_key_base

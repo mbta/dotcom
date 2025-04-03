@@ -1,7 +1,7 @@
 defmodule Util.AsyncAssignTest do
   use ExUnit.Case, async: true
-  use Plug.Test
 
+  import Plug.Test
   import Util.AsyncAssign
 
   test "async_assign_default/4 and await_assign_all_default/2" do
