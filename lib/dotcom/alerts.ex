@@ -50,6 +50,8 @@ defmodule Dotcom.Alerts do
 
   @doc """
   Does the alert have an effect/severity that is considered a diversion?
+  And, is the first active period *after* the created at time?
+  That is, was/is it planned rather than reactive?
   """
   @spec diversion_alert?(Alert.t()) :: boolean()
   def diversion_alert?(alert) do
