@@ -7,6 +7,7 @@ defmodule Dotcom.Alerts.SubwayTest do
   import Test.Support.Generators.DateTime,
     only: [random_date_time: 0, random_time_range_date_time: 1]
 
+  alias Alerts.Alert
   alias Test.Support.Factories
 
   setup :verify_on_exit!
@@ -49,7 +50,7 @@ defmodule Dotcom.Alerts.SubwayTest do
       assert Enum.all?(group_counts, fn {_group, alerts} -> Enum.empty?(alerts) end)
     end
 
-    test "alerts get grouped by effect" do
+    test "alerts get grouped by effect and severity" do
       # Setup
       groups = groups()
       random_group = Enum.random(groups) |> Kernel.elem(0)
@@ -57,9 +58,12 @@ defmodule Dotcom.Alerts.SubwayTest do
       effects =
         Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
 
-      random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
+      {random_effect, random_severity} =
+        if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
 
-      alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
+      alert =
+        Factories.Alerts.Alert.build(:alert, effect: random_effect, severity: random_severity)
+
       alerts = [alert]
 
       # Exercise
@@ -104,9 +108,12 @@ defmodule Dotcom.Alerts.SubwayTest do
       effects =
         Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
 
-      random_effect = if Enum.empty?(effects), do: :foobarbaz, else: Enum.random(effects)
+      {random_effect, random_severity} =
+        if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
 
-      alert = Factories.Alerts.Alert.build(:alert, effect: random_effect)
+      alert =
+        Factories.Alerts.Alert.build(:alert, effect: random_effect, severity: random_severity)
+
       alerts = [alert]
 
       # Exercise
@@ -141,10 +148,12 @@ defmodule Dotcom.Alerts.SubwayTest do
   describe "find_group/1" do
     test "returns 'Other' when the group is not found" do
       # Setup
-      effect = :foobarbaz
+      unknown_effect = :foobarbaz
+      random_severity = :rand.uniform(10)
+      alert = %Alert{effect: unknown_effect, severity: random_severity}
 
       # Exercise
-      group = find_group(effect)
+      group = find_group(alert)
 
       # Verify
       assert group == "Other"
@@ -158,10 +167,12 @@ defmodule Dotcom.Alerts.SubwayTest do
       effects =
         Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
 
-      random_effect = Enum.random(effects)
+      {random_effect, random_severity} = Enum.random(effects)
+
+      alert = %Alert{effect: random_effect, severity: random_severity}
 
       # Exercise
-      group = find_group(random_effect)
+      group = find_group(alert)
 
       # Verify
       assert group == random_group

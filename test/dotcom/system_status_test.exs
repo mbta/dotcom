@@ -177,23 +177,30 @@ defmodule Dotcom.SystemStatusTest do
   defp disruption_alert(active_period, route_id \\ nil)
 
   defp disruption_alert(active_period, "Green") do
+    {random_effect, random_severity} = service_impacting_effects() |> Faker.Util.pick()
+
     build(:alert_for_routes,
       route_ids: GreenLine.branch_ids(),
       active_period: [active_period],
-      effect: service_impacting_effects() |> Faker.Util.pick()
+      effect: random_effect,
+      severity: random_severity
     )
   end
 
   defp disruption_alert(active_period, nil) do
     route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
+
     disruption_alert(active_period, route_id)
   end
 
   defp disruption_alert(active_period, route_id) do
+    {random_effect, random_severity} = service_impacting_effects() |> Faker.Util.pick()
+
     build(:alert_for_route,
       route_id: route_id,
       active_period: [active_period],
-      effect: service_impacting_effects() |> Faker.Util.pick()
+      effect: random_effect,
+      severity: random_severity
     )
   end
 end

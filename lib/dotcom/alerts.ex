@@ -8,11 +8,17 @@ defmodule Dotcom.Alerts do
 
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  @typedoc "Alert effects associated with disruptions: service alerts which
-   typically impact rider experience."
-  @type service_effect_t() :: :delay | :shuttle | :suspension | :station_closure
+  @typedoc "Service alerts which typically impact rider experience."
+  @type service_effect_t() :: :delay | :service_change | :shuttle | :suspension | :station_closure
 
-  @service_impacting_effects [:delay, :shuttle, :suspension, :station_closure]
+  # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
+  @service_impacting_effects [
+    delay: 1,
+    service_change: 3,
+    shuttle: 1,
+    station_closure: 1,
+    suspension: 1
+  ]
 
   @doc """
   Get a list of stations that are affected by the alert.
@@ -30,17 +36,25 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
-  Does the alert have an effect that is considered service-impacting?
+  Does the alert match a group of effects/severities?
   """
-  @spec service_impacting_alert?(Alert.t()) :: boolean()
-  def service_impacting_alert?(%Alert{effect: effect}) do
-    effect in @service_impacting_effects
+  @spec effects_match?(list(), Alert.t()) :: boolean()
+  def effects_match?(effects, alert) do
+    Enum.any?(effects, &effect_match?(&1, alert))
   end
 
   @doc """
-  Returns a list of the alert effects that are considered service-impacting.
+  Does the alert have an effect/severity that is considered service-impacting?
   """
-  @spec service_impacting_effects() :: [atom()]
+  @spec service_impacting_alert?(Alert.t()) :: boolean()
+  def service_impacting_alert?(alert) do
+    effects_match?(@service_impacting_effects, alert)
+  end
+
+  @doc """
+  Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
+  """
+  @spec service_impacting_effects() :: [{service_effect_t(), integer()}]
   def service_impacting_effects(), do: @service_impacting_effects
 
   @doc """
@@ -63,6 +77,13 @@ defmodule Dotcom.Alerts do
     b_station = sort_by_station_mapper(b)
 
     a_station <= b_station
+  end
+
+  # Does the alert:
+  #   1. Have an effect that is in the list of given effects?
+  #   2. Have a severity that is greater than or equal to the effect's severity?
+  defp effect_match?({effect, severity}, alert) do
+    effect == alert.effect && alert.severity >= severity
   end
 
   # Take an alert and return the start time of the first active period.

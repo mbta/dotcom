@@ -341,10 +341,12 @@ defmodule Dotcom.Alerts.Subway.DisruptionsTest do
 
   defp disruption_alert(active_period) do
     active_period = if(is_list(active_period), do: active_period, else: [active_period])
+    {effect, severity} = service_impacting_effects() |> Faker.Util.pick()
 
     Factories.Alerts.Alert.build(:alert,
       active_period: active_period,
-      effect: service_impacting_effects() |> Faker.Util.pick()
+      effect: effect,
+      severity: severity
     )
   end
 end

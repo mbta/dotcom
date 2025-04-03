@@ -7,6 +7,7 @@ defmodule Dotcom.AlertsTest do
   import Test.Support.Generators.DateTime,
     only: [random_date_time: 0, random_time_range_date_time: 1]
 
+  alias Alerts.Alert
   alias Test.Support.Factories
 
   setup :verify_on_exit!
@@ -50,8 +51,8 @@ defmodule Dotcom.AlertsTest do
   describe "service_impacting_alert?/1" do
     test "returns true if the alert has an effect that is considered service-impacting" do
       # Setup
-      effect = service_impacting_effects() |> Faker.Util.pick()
-      alert = %Alerts.Alert{effect: effect}
+      {effect, severity} = service_impacting_effects() |> Faker.Util.pick()
+      alert = %Alert{effect: effect, severity: severity}
 
       # Exercise/Verify
       assert service_impacting_alert?(alert)
@@ -59,7 +60,7 @@ defmodule Dotcom.AlertsTest do
 
     test "returns false if the alert does not have an effect that is considered service-impacting" do
       # Setup
-      alert = %Alerts.Alert{effect: :not_service_impacting}
+      alert = %Alert{effect: :not_service_impacting}
 
       # Exercise/Verify
       refute service_impacting_alert?(alert)
@@ -67,9 +68,9 @@ defmodule Dotcom.AlertsTest do
   end
 
   describe "service_impacting_effects/0" do
-    test "returns a list of the alert effects as atoms" do
+    test "returns a list of the alert effects as keywords" do
       # Exercise/Verify
-      assert Enum.all?(service_impacting_effects(), &is_atom/1)
+      assert Keyword.keyword?(service_impacting_effects())
     end
   end
 
