@@ -55,13 +55,13 @@ const workers = fs.readdirSync(filesPath).map((file) => {
 });
 
 /*
- * A task runs every minute between the hours of 5am and midnight EST.
+ * A task runs every 5 minutes between the hours of 5am and midnight EST.
  * Spread out the worker runs over the minute to avoid overwhelming the
  * system. If we receive a message from a worker, it means that there was a
  * failure. Capture the exception with Sentry and attach a screenshot to the
  * event.
  */
-cron.schedule("* 5-23 * * *", (_) => {
+cron.schedule("*/5 5-23 * * *", (_) => {
   workers.forEach((worker, index) => {
     setTimeout(
       (_) => {
