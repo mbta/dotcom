@@ -256,6 +256,30 @@ defmodule Util do
   end
 
   @doc """
+
+  Formats a number of minutes as a string. If the number of minutes is
+  greater than 60, then split it out into hours and minutes
+
+  ## Examples
+      iex> Util.format_minutes_duration(59)
+      "59 min"
+
+      iex> Util.format_minutes_duration(60)
+      "1 hr"
+
+      iex> Util.format_minutes_duration(61)
+      "1 hr 1 min"
+  """
+  @spec format_minutes_duration(integer) :: String.t()
+  def format_minutes_duration(duration) do
+    case {div(duration, 60), rem(duration, 60)} do
+      {0 = _hours, minutes} -> "#{minutes} min"
+      {hours, 0 = _minutes} -> "#{hours} hr"
+      {hours, minutes} -> "#{hours} hr #{minutes} min"
+    end
+  end
+
+  @doc """
   Converts an `{:error, _}` tuple to a default value.
 
   ## Examples
