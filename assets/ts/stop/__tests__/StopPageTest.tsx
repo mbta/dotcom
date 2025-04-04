@@ -3,7 +3,7 @@ import { screen, waitFor, within } from "@testing-library/dom";
 import { act, cleanup, RenderResult } from "@testing-library/react";
 import StopPage from "../components/StopPage";
 import * as useStop from "../../hooks/useStop";
-import { InformedEntitySet, Alert, Route } from "../../__v3api";
+import { InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
 import {
   TEST_LOADER_VALUE,
