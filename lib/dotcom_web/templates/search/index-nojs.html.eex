@@ -7,7 +7,7 @@
       <%= if @facets["content_type"] != [] do %>
         <div class="search-results-facet" data-facet="search">
           <fieldset>
-            <legend class="text-3xl font-heading font-bold mt-11 mb-3 search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></legend>
+            <legend class="h2 font-heading font-bold mt-11 mb-3 search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></legend>
             <ul class="search-filter-container" data-container="search-filter">
               <%= for option <- @facets["content_type"], do: render_filter_option(f, :content_type, option) %>
             </ul>

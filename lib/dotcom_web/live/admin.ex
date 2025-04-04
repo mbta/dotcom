@@ -26,12 +26,12 @@ defmodule DotcomWeb.Live.Admin do
     <section class="grid gap-2 grid-cols-3">
       <%= for feature <- @admin_features do %>
         <%= link to: feature.url, class: "btn btn-secondary", style: "white-space: inherit;" do %>
-          <header class="font-heading font-bold mb-3 text-2xl mt-0">{feature.title}</header>
+          <header class="h3">{feature.title}</header>
           <p class="mb-0">{feature.description}</p>
         <% end %>
       <% end %>
       <div class="btn btn-secondary disabled" style="white-space: inherit;">
-        <header class="font-heading font-bold mb-3 text-2xl mt-0">???</header>
+        <header class="h3">???</header>
         <p class="mb-0">Your idea here (just send a message to <code>@thecristen</code>)</p>
       </div>
     </section>

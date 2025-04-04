@@ -22,9 +22,9 @@
         <h1>MBTA Tech Style Guide</h1>
         <nav class="primary-nav">
           <ul class="row">
-            <li class="col-sm-12 col-md-2"><a class="font-heading font-bold mt-11 mb-3 text-lg" href="/style-guide">Home</a></li>
-            <li class="col-sm-12 col-md-2"><a class="font-heading font-bold mt-11 mb-3 text-lg" href="/style-guide/components">UI Components</a></li>
-            <li class="col-sm-12 col-md-2"><a class="font-heading font-bold mt-11 mb-3 text-lg" href="/style-guide/content">Content Style Guide</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide">Home</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/components">UI Components</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/content">Content Style Guide</a></li>
           </ul>
         </nav>
       </header>
