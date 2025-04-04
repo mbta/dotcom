@@ -44,9 +44,9 @@ const isBannerAlertEffect = ({ effect }: Alert): boolean =>
   ].includes(effect);
 
 const isActiveElevatorAlert = (alert: Alert): boolean =>
-  alert.effect == "elevator_closure" && isInNextXDays(alert, 0);
+  alert.effect === "elevator_closure" && isInNextXDays(alert, 0);
 
-const isBannerAlert = (alert: Alert) =>
+const isBannerAlert = (alert: Alert): boolean =>
   (isBannerAlertEffect(alert) &&
     isInNextXDays(alert, 7) &&
     !isGlobalBannerAlert(alert)) ||
