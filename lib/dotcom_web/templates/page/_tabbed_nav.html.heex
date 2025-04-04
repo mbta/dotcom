@@ -61,7 +61,7 @@
         routes: Map.get(assigns, :recently_visited, []),
         alerts: @alerts,
         date_time: @date_time,
-        header_class: "text-2xl"
+        header_class: "text-xl"
       )}
       <%= unless Enum.empty?(Map.get(assigns, :recently_visited, [])) do %>
         <hr />

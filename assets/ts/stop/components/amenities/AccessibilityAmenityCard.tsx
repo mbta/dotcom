@@ -23,7 +23,7 @@ const accessibilityNames: {
 
 const StationFeatures = (features: AccessibilityType[]): JSX.Element => (
   <>
-    <h2 className="text-2xl">Station Features</h2>
+    <h2 className="text-xl">Station Features</h2>
     {features.length > 0 ? (
       <ul>
         {features.map(
@@ -44,7 +44,7 @@ const StationFeatures = (features: AccessibilityType[]): JSX.Element => (
 
 const StopFeatures = (
   <>
-    <h2 className="text-2xl">Bus Features</h2>
+    <h2 className="text-xl">Bus Features</h2>
     <ul>
       <li>Buses that can be lowered for easier boarding and exiting</li>
       <li>Onboard ramps at the front door of each bus</li>
@@ -100,7 +100,7 @@ const AccessibilityAmenityCard = ({
               url="/customer-support"
             />
             {AccessibilityLink(isStation)}
-            <h2 className="text-2xl">Accessibility Resources</h2>
+            <h2 className="text-xl">Accessibility Resources</h2>
             <ul>
               <li>
                 <a href="/accessibility/trip-planning">

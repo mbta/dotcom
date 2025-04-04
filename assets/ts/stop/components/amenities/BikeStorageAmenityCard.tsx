@@ -60,7 +60,7 @@ const BikeStorageAmenityCard = ({
         hasBikeStorage && (
           <AmenityModal headerText={`Bike Storage at ${stopName}`}>
             {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
-            <h2 className="text-2xl">Facility Information</h2>
+            <h2 className="text-xl">Facility Information</h2>
             {hasPedalAndPark && (
               <AmenityImage
                 className="u-mt-8 u-mb-1"
