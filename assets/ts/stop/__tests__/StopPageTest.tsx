@@ -211,7 +211,7 @@ describe("StopPage", () => {
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
-        id: "000009",
+        id: "000007",
         header: "Station Closed",
         effect: "station_closure"
       },
@@ -224,6 +224,56 @@ describe("StopPage", () => {
         id: "000008",
         header: "Stop has Moved",
         effect: "stop_moved"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000009",
+        header: "Service has Changed",
+        effect: "service_change"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000010",
+        header: "Station has an Issue",
+        effect: "station_issue"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000011",
+        header: "Dock is Closed",
+        effect: "dock_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000012",
+        header: "Dock has an Issue",
+        effect: "dock_issue"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000013",
+        header: "Shoveling is now Banned",
+        effect: "stop_shoveling"
       }
     ] as Alert[];
 
@@ -238,8 +288,14 @@ describe("StopPage", () => {
       expect(screen.getByText(/Stop has Moved/)).toBeInTheDocument();
       expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
       expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
+      expect(screen.getByText(/Service has Changed/)).toBeInTheDocument();
+      expect(screen.getByText(/Station has an Issue/)).toBeInTheDocument();
+      expect(screen.getByText(/Dock is Closed/)).toBeInTheDocument();
+      expect(screen.getByText(/Dock has an Issue/)).toBeInTheDocument();
+      expect(screen.getByText(/Shoveling is now Banned/)).toBeInTheDocument();
+
       expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
-      expect(screen.queryByText(/The Elevator Is Closed/)).toBeNull();
+      expect(screen.queryByText(/The Escalator Is Closed/)).toBeNull();
     });
   });
 

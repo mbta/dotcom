@@ -31,10 +31,15 @@ const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
 
 const isBannerAlertEffect = ({ effect }: Alert): boolean =>
   [
+    "dock_closure",
+    "dock_issue",
+    "service_change",
     "shuttle",
     "station_closure",
+    "station_issue",
     "stop_closure",
     "stop_moved",
+    "stop_shoveling",
     "suspension"
   ].includes(effect);
 
