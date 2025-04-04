@@ -1,7 +1,7 @@
 // Featured project elixir template
 
 .featured-project-title {
-  @include h3();
+  @apply h3;
 
   @include media-breakpoint-up(sm) {
     margin-top: 0;

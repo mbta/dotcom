@@ -30,7 +30,7 @@
 .c-descriptive-link__title {
   // Use all aspects of H3 except
   // font-family and margin-top
-  @include h3();
+  @apply h3;
   color: $link-color;
   font-family: $font-family-base;
   margin-top: 0;
