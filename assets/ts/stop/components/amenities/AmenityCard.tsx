@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext, useState } from "react";
-import renderFa from "../../../helpers/render-fa";
 import Modal from "../../../components/Modal";
+import renderFa from "../../../helpers/render-fa";
 
 const AmenityModalContext = React.createContext({
   closeModal: () => {}
@@ -21,7 +21,7 @@ export const AmenityModal = ({
       closeModal={closeModal}
       ariaLabel={{ elementId }}
     >
-      <h1 id={elementId} className="text-lg">
+      <h1 id={elementId} className="h4">
         {headerText}
       </h1>
       {children}
@@ -85,7 +85,7 @@ const AmenityCard = ({
         <div className="c-descriptive-link__text">
           <div className="c-descriptive-link__header">
             {icon}
-            <div className="c-descriptive-link__title u-mb-0">{headerText}</div>
+            <div className="c-descriptive-link__title mb-0">{headerText}</div>
             {badge && <div className="c-descriptive-link__badge">{badge}</div>}
           </div>
           {children && <div className="u-mt-8 hidden-sm-down">{children}</div>}
