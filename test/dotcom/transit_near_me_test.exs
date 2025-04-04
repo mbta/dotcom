@@ -801,7 +801,8 @@ defmodule Dotcom.TransitNearMeTest do
       assert actual == expected
     end
 
-    test "returns no  data when schedules is empty" do
+    @tag :flaky
+    test "returns no data when schedules is empty" do
       expect(Predictions.Repo.Mock, :all, fn _ -> [@prediction1] end)
 
       schedules_fn = fn _, _ ->

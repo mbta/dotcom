@@ -120,7 +120,9 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   defp leg_icon(assigns) do
-    inspect(assigns) |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+    _ =
+      inspect(assigns)
+      |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
 
     ~H"""
     <span></span>

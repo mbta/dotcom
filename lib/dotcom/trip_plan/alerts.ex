@@ -48,17 +48,6 @@ defmodule Dotcom.TripPlan.Alerts do
     )
   end
 
-  @doc "Filters a list of Alerts to those relevant to the Itinerary"
-  @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]
-  def filter_for_itinerary(alerts, itinerary) do
-    alerts
-    |> Enum.reject(&reject_irrelevant_alert(&1, itinerary.accessible?))
-    |> Alerts.Match.match(
-      Enum.concat(intermediate_entities(itinerary), entities(itinerary)),
-      itinerary.start
-    )
-  end
-
   @doc "Filters a list of Alerts to those relevant to the Leg"
   @spec filter_for_leg([Alert.t()], Leg.t()) :: [Alert.t()]
   def filter_for_leg(alerts, leg) do
@@ -85,12 +74,6 @@ defmodule Dotcom.TripPlan.Alerts do
   # - escalator closure
   defp reject_accessibility_alert(alert, accessible?) do
     not accessible? && (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
-  end
-
-  defp intermediate_entities(itinerary) do
-    itinerary
-    |> Itinerary.intermediate_stop_ids()
-    |> Enum.map(&%InformedEntity{stop: &1})
   end
 
   @spec entities(Itinerary.t()) :: [InformedEntity.t()]
