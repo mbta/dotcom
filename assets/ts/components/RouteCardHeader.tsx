@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { Alert, EnhancedRoute } from "../__v3api";
-import { routeBgClass, busClass } from "../helpers/css";
-import { isASilverLineRoute } from "../models/route";
+import { busClass, routeBgClass } from "../helpers/css";
 import { alertIcon } from "../helpers/icon";
 import { breakTextAtSlash } from "../helpers/text";
+import { isASilverLineRoute } from "../models/route";
 
 const RouteCardHeader = ({
   route,
@@ -13,7 +13,7 @@ const RouteCardHeader = ({
   alerts: Alert[];
 }): ReactElement<HTMLElement> => (
   <div
-    className={`c-link-block font-heading font-bold mt-11 mb-3 text-xl m-tnm-sidebar__route-name ${routeBgClass(
+    className={`c-link-block h3 m-tnm-sidebar__route-name ${routeBgClass(
       route
     )}`}
   >

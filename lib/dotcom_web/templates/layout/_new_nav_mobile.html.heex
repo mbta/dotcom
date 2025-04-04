@@ -1,6 +1,6 @@
 <nav class="m-menu--mobile" id="navmenu" aria-label="Navigation Menu">
   <div class="m-menu__content" data-nav="mobile-content">
-    <h1 class="m-menu__title text-3xl">Main Menu</h1>
+    <h1 class="m-menu__title h2">Main Menu</h1>
     <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content()) do %>
       <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
         <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading">

@@ -118,7 +118,7 @@
 }
 
 .m-footer__group-title {
-  @include h3();
+  @apply h3;
   margin: 0 0 24px;
 
   @include media-breakpoint-only(xs) {
