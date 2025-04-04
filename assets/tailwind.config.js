@@ -95,9 +95,6 @@ module.exports = {
     ),
     plugin(({ addBase, theme }) =>
       addBase({
-        a: {
-          fontWeight: theme("fontWeight.medium")
-        },
         "h1, h2, h3, h4, h5, h6": {
           fontFamily: theme("fontFamily.heading"),
           fontWeight: theme("fontWeight.bold"),
