@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { concat, filter } from "lodash";
+import { concat } from "lodash";
 import { useLoaderData } from "react-router-dom";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
@@ -13,22 +13,35 @@ import {
   isGlobalBannerAlert,
   routeWideAlerts,
   isInNextXDays,
-  isAmenityAlert,
-  hasDetour
+  isAmenityAlert
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
 
-const isStopPageAlert = ({ effect }: Alert): boolean =>
+const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
   [
-    "suspension",
-    "stop_closure",
-    "station_closure",
-    "shuttle",
     "detour",
-    "stop_moved"
+    "shuttle",
+    "station_closure",
+    "stop_closure",
+    "stop_moved",
+    "suspension"
   ].includes(effect);
+
+const isBannerAlertEffect = ({ effect }: Alert): boolean =>
+  [
+    "shuttle",
+    "station_closure",
+    "stop_closure",
+    "stop_moved",
+    "suspension"
+  ].includes(effect);
+
+const isBannerAlert = (alert: Alert) =>
+  isBannerAlertEffect(alert) &&
+  isInNextXDays(alert, 7) &&
+  !isGlobalBannerAlert(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
@@ -81,34 +94,27 @@ const StopPage = ({
 
   const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
-  const allAmenityAlerts = filter(allAlerts, a => isAmenityAlert(a));
-  const allStopPageAlerts = filter(allAlerts, a => isStopPageAlert(a));
-
-  const alertsWithinSevenDays = filter(allStopPageAlerts, alert =>
-    isInNextXDays(alert, 7)
-  );
+  const amenityAlerts = allAlerts.filter(isAmenityAlert);
+  const departuresAndMapAlerts = allAlerts.filter(isDeparturesAndMapAlert);
+  const bannerAlerts = allAlerts.filter(isBannerAlert);
 
   return (
     <article>
       <StopPageHeader stop={stopResult.data} routes={routes} />
       {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
-        <Alerts
-          alerts={alertsWithinSevenDays.filter(
-            alert => !isGlobalBannerAlert(alert) && !hasDetour([alert])
-          )}
-        />
+        <Alerts alerts={bannerAlerts} />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
-          alerts={allStopPageAlerts}
+          alerts={departuresAndMapAlerts}
           setPredictionError={setPredictionError}
         />
         <footer>
           <StationInformation
             stop={stopResult.data}
             facilities={facilities.data}
-            alerts={allAmenityAlerts}
+            alerts={amenityAlerts}
           />
         </footer>
       </div>
