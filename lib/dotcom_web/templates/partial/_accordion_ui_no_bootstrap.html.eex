@@ -4,7 +4,7 @@
   <%= for section <- @sections do %>
     <% expanded = Map.get(section, :expanded?, false) |> to_string() %>
     <h3 class="c-accordion-ui__heading<%= if assigns[:sticky] do %> fixedsticky sticky-top<% end %>" data-accordion-expanded="<%= expanded %>">
-      <button class="c-accordion-ui__trigger c-accordion-ui__title font-headings text-lg"
+      <button class="c-accordion-ui__trigger c-accordion-ui__title font-headings"
         id="<%= section.prefix %>-title"
         aria-expanded="<%= expanded %>"
         aria-controls="<%= section.prefix %>-section">
