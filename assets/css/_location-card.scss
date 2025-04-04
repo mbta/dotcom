@@ -5,11 +5,11 @@
     padding-top: $space-16;
   }
   .limited-width {
-    max-width: 600px;
+    max-width: 37.5rem;
   }
   .error-message {
     color: $error-text;
-    padding: 7px;
+    padding: .4375rem;
   }
   .feedback-section {
     margin-bottom: $base-spacing * 2;
@@ -28,12 +28,12 @@
 
     display: flex;
     font-weight: 500;
-    height: 40px;
+    height: 2.5rem;
     margin: $base-spacing * .5 $base-spacing * .5 0 0;
     padding: 0 $base-spacing * .75;
     white-space: nowrap;
     @include media-breakpoint-down(sm) {
-      height: 32px;
+      height: 2rem;
     }
 
     &:hover,
@@ -69,7 +69,7 @@
 .c-sales-locations__card {
   background-color: $white;
   border: 1px solid $gray-lightest;
-  border-radius: 4px;
+  border-radius: .25rem;
   padding: $base-spacing;
 
   @include media-breakpoint-up(sm) {

@@ -28,7 +28,7 @@
     align-items: flex-start;
     box-sizing: border-box;
     display: flex;
-    padding: 1px;
+    padding: .0625rem;
     width: 100%;
     @include media-breakpoint-down(xs) {
       margin-left: 20px;
@@ -50,8 +50,8 @@
   }
 
   &__header {
-    margin-bottom: 10px;
-    margin-top: 24px;
+    margin-bottom: .625rem;
+    margin-top: 1.5rem;
     @include media-breakpoint-down(xs) {
       display: none;
     }
@@ -59,8 +59,8 @@
 
   &__subheader {
     @include h4();
-    margin-bottom: 10px;
-    margin-top: 24px;
+    margin-bottom: .625rem;
+    margin-top: 1.5rem;
     @include media-breakpoint-down(xs) {
       @include h3();
       margin-left: 0;

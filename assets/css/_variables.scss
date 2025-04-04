@@ -1,3 +1,4 @@
+@use "sass:map";
 @use 'sass:math';
 @import 'colors';
 
@@ -12,9 +13,9 @@ $grid-breakpoints: (
 $container-max-widths: (
   xs: 100%,
   sm: 100%,
-  md: map-get($grid-breakpoints, md) - (16px * 2),
-  lg: map-get($grid-breakpoints, lg) - (16px * 8),
-  xxl: map-get($grid-breakpoints, xxl) - (18px * 8)
+  md: map.get($grid-breakpoints, md) - (16px * 2),
+  lg: map.get($grid-breakpoints, lg) - (16px * 8),
+  xxl: map.get($grid-breakpoints, xxl) - (18px * 8)
 );
 
 @import 'node_modules/bootstrap/scss/variables';
@@ -71,11 +72,12 @@ $font-family-base: 'Inter', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
 $headings-font-weight: 700;
 
-$font-size-base-xs: 12px;
-$font-size-base-sm: 14px;
-$font-size-base: 16px;
-$font-size-base-xxl: 18px;
-$font-size-base-print: 24px;
+$font-size-root: 100%;
+$font-size-base-xs: .75rem;
+$font-size-base-sm: .875rem;
+$font-size-base: 1rem;
+$font-size-base-xxl: 1.125rem;
+$font-size-base-print: 1.5rem;
 
 $headings: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6';
 
@@ -97,16 +99,16 @@ $headings-margin-bottom: .375em;
 
 $pagination-line-height: 1.5rem;
 
-$border-width: 1px;
+$border-width: .0625rem;
 $border-color: $gray-lightest;
 $border: $border-width solid $border-color;
-$border-md: 2px solid $border-color;
+$border-md: .125rem solid $border-color;
 $drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
 
 $header-navbar-height-multiplier: 3;
 $header-navbar-height: $base-spacing * $header-navbar-height-multiplier;
-$header-navbar-height-new: 72px;
-$header-navbar-height-xs: 52px;
+$header-navbar-height-new: 4.5rem;
+$header-navbar-height-xs: 3.25rem;
 
 $navbar-padding-vertical: $base-spacing * .75;
 $navbar-padding-horizontal: 0;

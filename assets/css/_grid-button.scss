@@ -10,9 +10,7 @@
 }
 
 .c-home-grid-section {
-
   align-items: center;
-
   border-bottom: 2px solid $gray-lightest;
   display: flex;
   flex-direction: row;
@@ -23,22 +21,22 @@
   padding-bottom: 1rem;
   @include media-breakpoint-down(xs) {
     border-bottom: none;
-    padding: 0 16px;
+    padding: 0 1rem;
   }
 }
 
 .grid-first-section {
   @include media-breakpoint-down(xs) {
-    margin: 24px 0;
+    margin: 1.5rem 0;
   }
   @include  media-breakpoint-up(xs) {
-    margin: 40px 0;
+    margin: 2.5rem 0;
   }
 }
 
 .c-home-grid-section-header {
-  flex-basis: 300px;
-  gap: 12px;
+  flex-basis: 18.75rem;
+  gap: .75rem;
 
   h2 {
     margin: 0;
@@ -53,7 +51,7 @@
   gap: .5rem 1rem;
 
   @include media-breakpoint-up(xxl) {
-    max-width: 500px;
+    max-width: 31.25rem;
   }
 }
 
@@ -62,8 +60,6 @@
   display: inline-block;
   flex: 1 0 0;
   font-weight: $font-weight-medium;
-  height: 42px;
-  min-width: max-content;
 
   &:hover {
     text-decoration: none;

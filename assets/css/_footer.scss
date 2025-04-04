@@ -12,7 +12,6 @@
   background-color: $footer-color;
   color: $white;
   flex-basis: 70%;
-  min-width: 20rem;
   padding-bottom: 24px;
   padding-top: 24px;
 
@@ -53,8 +52,6 @@
       padding-left: 0;
       padding-right: 4px;
     }
-
-
   }
 }
 
@@ -67,7 +64,7 @@
     width: initial;
     @include media-breakpoint-up(lg) {
       .m-menu__section-heading {
-        font-size: 16px;
+        font-size: 1rem;
       }
     }
   }
@@ -86,7 +83,7 @@
   a {
     color: $brand-primary-light-contrast;
     display: block;
-    font-size: 18px;
+    font-size: 1.125rem;
     margin-bottom: .75rem;
     @include media-breakpoint-up(lg) {
       margin-bottom: 1rem;
@@ -125,7 +122,7 @@
   margin: 0 0 24px;
 
   @include media-breakpoint-only(xs) {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   @include media-breakpoint-only(sm) {
@@ -134,8 +131,8 @@
 
   @include media-breakpoint-up(lg) {
     font-family: $font-family-base;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
     margin-bottom: 24px;
     margin-top: 16px;
   }
@@ -174,8 +171,8 @@ address {
     }
 
     @include media-breakpoint-down(xs) {
-      font-size: 14px;
-      line-height: 21px;
+      font-size: .875rem;
+      line-height: 1.31rem;
     }
   }
 }
@@ -197,7 +194,7 @@ address {
       display: inline;
       a {
         color: $brand-primary !important;
-        font-size: 14px;
+        font-size: .875rem;
         font-weight: 500;
       }
     }
@@ -243,10 +240,9 @@ address {
     }
 
     small {
-      font-size: 16px;
+      font-size: 1rem;
       @include media-breakpoint-down(xs) {
-        font-size: 14px;
-        white-space: nowrap;
+        font-size: .875rem;
       }
     }
   }
@@ -328,12 +324,12 @@ address {
     }
     @include media-breakpoint-down(xs) {
       a {
-        font-size: 14px;
+        font-size: .875rem;
         margin-top: 0;
       }
       strong {
         display: inline;
-        font-size: 14px;
+        font-size: .875rem;
         padding-right: 4px;
       }
     }
@@ -349,7 +345,7 @@ address {
 .call-us-header {
   @include media-breakpoint-up(lg) {
     font-family: $font-family-base;
-    font-size: 24px;
+    font-size: 1.5rem;
     margin-bottom: 12px;
     margin-top: 18px;
   }
@@ -357,7 +353,7 @@ address {
     padding-left: 12px;
   }
   @include media-breakpoint-down(xs) {
-    font-size: 18px;
+    font-size: 1.125rem;
     margin-bottom: 0;
     margin-top: 2px;
   }
@@ -403,7 +399,6 @@ address {
   }
   border-top: 2px solid $brand-primary-light-contrast;
   bottom: 90px;
-
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;

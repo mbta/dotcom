@@ -12,22 +12,6 @@
   }
 }
 
-.index {
-  .page-section {
-    @include media-breakpoint-down(xxl) {
-      margin-top: 80px;
-    }
-
-    @include media-breakpoint-down(md) {
-      margin-top: 64px;
-    }
-
-    @include media-breakpoint-down(sm) {
-      margin-top: 40px;
-    }
-  }
-}
-
 .pre-container-tnm {
   color: $white;
 }

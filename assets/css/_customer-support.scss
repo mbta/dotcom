@@ -116,7 +116,7 @@
 }
 
 .upload-photo-link {
-  border: 2px solid $brand-primary;
+  border: .125rem solid $brand-primary;
   border-radius: calc(#{$base-spacing} / 4);
   cursor: pointer;
   display: inline-block;
@@ -165,7 +165,7 @@ body {
 
 // styles the input fields
 .support-form-input {
-  border: 2px solid $brand-primary;
+  border: .125rem solid $brand-primary;
   display: block;
   font-size: inherit; // Bootstrap override
   padding: calc(#{$base-spacing} / 2);

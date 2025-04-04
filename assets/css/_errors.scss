@@ -3,13 +3,13 @@
 // Used in the error layout page
 .error-page {
   @include media-breakpoint-between(md, xxl) {
-    margin-top: 40px;
+    margin-top: 2.5rem;
   }
   @include media-breakpoint-only(sm) {
-    margin: 24px 40px;
+    margin: 1.5rem 2.5rem;
   }
   @include media-breakpoint-only(xs) {
-    margin: 16px 24px;
+    margin: 1rem 1.5rem;
   }
 }
 
@@ -20,7 +20,7 @@
 }
 
 .error-details-container .error-title {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   @include media-breakpoint-between(xs, sm) {
     display: none;
   }
@@ -29,9 +29,9 @@
 .error-pre-title {
   color: $gray;
   line-height: 1.4;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
   @include media-breakpoint-only(sm) {
-    margin-bottom: 8px;
+    margin-bottom: .5rem;
   }
 }
 
@@ -47,7 +47,7 @@
   flex-direction: column;
   @include media-breakpoint-up(sm) {
     flex-direction: row-reverse;
-    margin-top: 24px;
+    margin-top: 1.5rem;
   }
   @include media-breakpoint-up(xxl) {
     margin-top: 0;
@@ -56,11 +56,11 @@
 
 .error-details-container {
   @include media-breakpoint-only(sm) {
-    margin-right: 24px;
-    margin-top: 16px;
+    margin-right: 1.5rem;
+    margin-top: 1rem;
   }
   @include media-breakpoint-between(md, lg) {
-    margin-right: 40px;
+    margin-right: 2.5rem;
   }
   @include media-breakpoint-only(xxl) {
     margin-right: 60px;
@@ -70,15 +70,15 @@
 .error-svg-container {
   flex: 0 0 auto;
   @include media-breakpoint-only(xxl) {
-    margin: 0 80px;
+    margin: 0 5rem;
     width: 380px;
   }
   @include media-breakpoint-between(md,lg) {
-    margin: 0 40px;
+    margin: 0 2.5rem;
     width: 280px;
   }
   @include media-breakpoint-down(sm) {
-    margin: 0 24px;
+    margin: 0 1.5rem;
     width: 220px;
   }
   @include media-breakpoint-only(xs) {

@@ -14,9 +14,9 @@
 
   &:focus {
     + .c-checkbox__label::before {
-      outline: 3px solid; // Focus for IE11, auto doesn't work the same
+      outline: .25rem solid; // Focus for IE11, auto doesn't work the same
       // Use webkit focus color so IE11 above works
-      outline: auto -webkit-focus-ring-color 5px;
+      outline: auto -webkit-focus-ring-color .25rem;
       outline-color: $brand-primary-light;
       -moz-outline-radius: $border-radius; // Less ugly focus style for FF
     }
@@ -42,7 +42,7 @@
 
   &::before {
     background: $input-bg;
-    border: 2px solid $brand-primary-dark;
+    border: .125rem solid $brand-primary-dark;
     border-radius: $border-radius;
     content: '';
     cursor: pointer;
@@ -56,7 +56,7 @@
 
   &::after {
     background: transparent;
-    border: 4px solid $white;
+    border: .25rem solid $white;
     border-right: 0;
     border-top: 0;
     content: none;

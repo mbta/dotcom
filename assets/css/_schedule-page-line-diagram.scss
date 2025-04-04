@@ -286,7 +286,7 @@
 
 // live vehicle located along line diagram
 .m-schedule-diagram__vehicle {
-  $icon-size: 18px;
+  $icon-size: 1.125rem;
   position: absolute;
   transform: scale(1, -1); // point down
   z-index: 3;

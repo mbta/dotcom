@@ -155,8 +155,8 @@ defmodule DotcomWeb.Components do
   """
   def bordered_container(assigns) do
     ~H"""
-    <div class="px-5 py-4 border-[1px] bg-white border-gray-lightest rounded-lg">
-      <div :if={@heading} class="font-heading font-bold text-[1.75rem] text-nowrap">
+    <div class="px-2 py-3 md:px-5 md:py-4 border-[1px] bg-white border-gray-lightest rounded-lg">
+      <div :if={@heading} class="font-heading font-bold text-[1.75rem] leading-normal">
         {render_slot(@heading)}
       </div>
       <hr :if={!@hide_divider} class="h-px my-2 bg-gray-lightest border-0" />

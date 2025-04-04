@@ -193,12 +193,12 @@
 }
 
 .schedule-finder-vertical {
+  padding-bottom: 1.5rem;
   border-bottom: 2px solid $gray-bordered-background;
-  padding-bottom: 24px;
 
   .schedule-finder__heading {
-    margin-bottom: 8px;
-    margin-top: 6px;
+    margin-bottom: .5rem;
+    margin-top: .375rem;
     .c-svg__icon {
       display: none;
     }
@@ -207,7 +207,7 @@
   .schedule-finder__inputs {
     display: flex;
     label:first-child > div {
-      margin-right: 16px;
+      margin-right: 1rem;
     }
   }
 
@@ -250,7 +250,7 @@
   .schedule-finder__submit {
     margin-top: 0;
     .btn {
-      margin-top: 3px;
+      margin-top: .1875rem;
       width: 100%;
     }
   }

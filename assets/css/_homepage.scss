@@ -13,10 +13,10 @@
 }
 
 .m-homepage__shortcut {
-  @include icon-size(80px);
+  @include icon-size(4em);
   background-color: $white;
   border: $border;
-  border-radius: .5rem;
+  border-radius: 8px;
   color: $gray-dark;
   padding: $base-spacing;
   text-align: center;
@@ -28,12 +28,12 @@
   }
 
   @include media-breakpoint-down(md) {
-    @include icon-size(52px);
+    @include icon-size(3.25em);
   }
 
   @include media-breakpoint-only(xs) {
-    @include icon-size(40px);
-    padding: $space-12;
+    @include icon-size(2.5em);
+    padding: 12px;
   }
 
   [class*='c-svg__icon'] {
@@ -248,53 +248,53 @@
 
   h2 {
     @include media-breakpoint-down(sm) {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
     }
 
     @include media-breakpoint-only(md) {
-      font-size: 21px;
-      line-height: 27px;
+      font-size: 1.31rem;
+      line-height: 1.68rem;
     }
 
     @include media-breakpoint-up(lg) {
-      font-size: 32px;
-      line-height: 40px;
+      font-size: 2rem;
+      line-height: 2.5rem;
     }
   }
 
   h3 {
     @include media-breakpoint-down(sm) {
-      font-size: 14px;
-      line-height: 16px;
+      font-size: .875rem;
+      line-height: 1rem;
     }
 
     @include media-breakpoint-only(md) {
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
 
     @include media-breakpoint-up(lg) {
-      font-size: 24px;
-      line-height: 30px;
+      font-size: 1.5rem;
+      line-height: 1.875rem;
     }
   }
 
   p,
   a {
     @include media-breakpoint-down(sm) {
-      font-size: 14px;
-      line-height: 21px;
+      font-size: .875rem;
+      line-height: 1.31rem;
     }
 
     @include media-breakpoint-only(md) {
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
 
     @include media-breakpoint-up(lg) {
-      font-size: 18px;
-      line-height: 27px;
+      font-size: 1.125rem;
+      line-height: 1.68rem;
     }
   }
 
@@ -356,7 +356,7 @@
   }
 
   ul.subway svg {
-    height: 24px;
+    height: 1.5rem;
   }
 
   /* adjusts #7c878e -> #6c777e (4.59 contrast ratio) */
@@ -378,7 +378,7 @@
   }
 
   .m-homepage__alerts-high-priority {
-    flex: 1 1 590px;
+    flex: 1 1 36.875rem;
 
     @include media-breakpoint-down(xs) {
       h2 {
@@ -390,14 +390,14 @@
   .m-homepage__alerts-high-priority-by-mode {
     display: flex;
 
-    flex: 1 1 450px;
+    flex: 1 1 28.125rem;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
 
     .m-homepage__alerts-mode {
 
-      flex: 1 1 max(250px, calc(50% - 1em));
+      flex: 1 1 max(15.625rem, calc(50% - 1em));
       position: relative;
 
       h3 {
@@ -412,8 +412,8 @@
     }
 
     li {
-      margin-bottom: 12px;
-      margin-right: 12px;
+      margin-bottom: .625rem;
+      margin-right: .625rem;
 
       a {
         text-decoration: none;
@@ -424,7 +424,7 @@
   .m-homepage__alerts-accessibility {
 
     display: flex;
-    flex: 1 1 320px;
+    flex: 1 1 20rem;
     flex-direction: column;
     position: relative;
 
@@ -471,7 +471,7 @@
       background: $gray-lightest;
       content: '';
       display: block;
-      height: 2px;
+      height: .625rem;
       left: 1rem;
 
       position: absolute;
@@ -490,7 +490,7 @@
 
       position: absolute;
       top: 1rem;
-      width: 2px;
+      width: .625rem;
     }
   }
 
@@ -500,7 +500,7 @@
       bottom: .25rem;
       content: '';
       display: block;
-      height: 2px;
+      height: .625rem;
       left: 0;
 
       position: absolute;
@@ -566,7 +566,7 @@
 
       color: inherit;
       display: block;
-      min-width: 230px;
+      min-width: 21.875rem;
       text-decoration: none;
 
       h3 {
@@ -583,12 +583,12 @@
 
 .m-homepage__events {
   .m-homepage__header {
-    margin-right: 10px;
+    margin-right: .625rem;
   }
 
   .m-homepage__header-link {
-    margin-bottom: 20px;
-    margin-top: 12px;
+    margin-bottom: 1.25rem;
+    margin-top: .625rem;
   }
 
   .list-group-item {

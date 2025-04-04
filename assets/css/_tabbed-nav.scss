@@ -21,23 +21,23 @@
   .m-tabbed-nav__items {
     @include make-container-max-widths();
     display: flex;
-    height: 89px;
-    padding: 0 4em;
+    height: 5.56rem;
+    padding: 0 64px;
 
     @include media-breakpoint-down(md) {
-      height: 80px;
-      padding: 0 2.5em;
+      height: 5rem;
+      padding: 0 40px;
     }
 
     @include media-breakpoint-down(sm) {
-      height: 64px;
-      padding: 0 2em;
+      height: 4rem;
+      padding: 0 32px;
     }
 
     @include media-breakpoint-down(xs) {
-      height: 48px;
+      height: 3rem;
       justify-content: center;
-      padding: 0 1em;
+      padding: 0 16px;
     }
   }
 
@@ -64,15 +64,15 @@
     }
 
     @include media-breakpoint-down(md) {
-      height: 80px;
+      height: 5rem;
     }
 
     @include media-breakpoint-down(sm) {
-      height: 64px;
+      height: 4rem;
     }
 
     @include media-breakpoint-down(xs) {
-      height: 48px;
+      height: 3rem;
     }
   }
 
@@ -83,11 +83,11 @@
     display: flex;
     font-weight: $font-weight-medium;
     justify-content: center;
-    padding: $space-12 $space-24 calc(#{$space-12} - 8px) $space-24;
+    padding: 12px 24px 4px 24px;
 
     @include media-breakpoint-down(sm) {
       border-bottom: 4px solid $brand-primary;
-      padding-bottom: calc(#{$space-12} - 4px);
+      padding-bottom: 8px;
     }
 
     [class*='c-svg__icon'] {
@@ -159,18 +159,18 @@
 
   .m-tabbed-nav__content {
     background-color: $gray-bordered-background;
-    padding: 2.5em 4em;
+    padding: 40px 64px;
 
     @include media-breakpoint-only(md) {
-      padding: 2em 2.5em 2.5em;
+      padding: 32px 40px 40px;
     }
 
     @include media-breakpoint-only(sm) {
-      padding: 1.5em 2em 2em;
+      padding: 24px 32px 32px;
     }
 
     @include media-breakpoint-down(xs) {
-      padding: 1em 1em 1.5em;
+      padding: 16px 16px 24px;
     }
 
     hr {

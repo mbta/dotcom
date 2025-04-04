@@ -23,9 +23,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       <:heading>
         <a
           href={~p"/alerts/subway"}
-          class="px-2 flex items-center gap-2 mb-sm font-heading font-bold text-gray-dark no-underline"
+          class="px-xs flex items-center gap-2 mb-sm font-heading font-bold text-gray-dark no-underline"
         >
-          <.icon type="icon-svg" name="icon-mode-subway-default" class="h-7 w-7" /> Subway Status
+          <.icon type="icon-svg" name="icon-mode-subway-default" class="shrink-0 h-7 w-7" />
+          Subway Status
         </a>
       </:heading>
       <.lined_list :let={row} items={@rows}>

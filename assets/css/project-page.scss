@@ -226,7 +226,7 @@
   padding-right: calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-up(lg) {
-    height: 64px;
+    height: 4rem;
   }
 
   @include media-breakpoint-down(md) {

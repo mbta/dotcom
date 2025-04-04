@@ -17,7 +17,7 @@
 
   .c-svg__mbta-name-and-logo {
     @include media-breakpoint-down(md) {
-      margin-left: 24px;
+      margin-left: 1.5rem;
     }
   }
 
@@ -38,11 +38,11 @@
 
       svg {
         display: unset;
-        height: 24px;
+        height: 1.5rem;
       }
       .c-svg__mbta-logo {
         display: unset;
-        height: 24px;
+        height: 1.5rem;
       }
       .c-svg__mbta-name-and-logo {
         display: none;
@@ -54,10 +54,10 @@
         width: unset;
       }
       @include media-breakpoint-only(sm) {
-        height: 24px;
+        height: 1.5rem;
       }
       @include media-breakpoint-up(md) {
-        height: 40px;
+        height: 2.5rem;
       }
     }
   }
@@ -99,7 +99,7 @@
 
 .header-navbar.new .search {
   display: block;
-  padding-left: 24px;
+  padding-left: 1.5rem;
   width: 100%;
 
   @include media-breakpoint-only(xs) {
@@ -150,7 +150,7 @@ nav.m-menu--mobile {
 .m-menu__title {
   background-color: $brand-primary-darkest;
   margin: 0;
-  padding: 10px 12px;
+  padding: .625rem .75rem;
 
   @include media-breakpoint-up(sm) {
     display: none;
@@ -188,7 +188,7 @@ nav.m-menu--mobile {
   background-color: $brand-primary-darkest;
   display: none;
   height: 0;
-  padding: 0 12px 16px;
+  padding: 0  .75rem 1rem;
   width: 100%;
 
   .c-form__input-container {
@@ -200,7 +200,7 @@ nav.m-menu--mobile {
 .m-menu__link {
   align-items: center;
   display: flex;
-  padding: 12px 12px 12px 24px;
+  padding: .75rem .75rem .75rem 1.5rem;
 
   span {
     margin-left: calc(#{$base-spacing} / 2);
@@ -213,24 +213,24 @@ nav.m-menu--mobile {
   box-shadow: 0 7px 14px 0 $gray-shadow;
   overflow-y: auto;
   overscroll-behavior: none;
-  padding-bottom: calc(200px - $base-spacing);
+  padding-bottom: calc(12.5rem - $base-spacing);
   width: 0;
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
-    margin: 16px 0 0 16px;
+    margin: 1rem 0 0 1rem;
   }
 
   .m-menu__section {
     border-bottom: 1px solid $brand-primary-light-contrast;
-    padding-bottom: 16px;
-    padding-top: 8px;
+    padding-bottom: 1rem;
+    padding-top: .5rem;
 
     @include media-breakpoint-only(sm) {
-      margin-left: 40px;
+      margin-left: 2.5rem;
     }
     @include media-breakpoint-only(md) {
-      margin-left: 63px;
+      margin-left: 4rem;
     }
   }
 
@@ -315,11 +315,11 @@ nav.m-menu--mobile {
     }
 
     @include media-breakpoint-only(sm) {
-      width: 360px;
+      width: 22.5rem;
     }
 
     @include media-breakpoint-only(md) {
-      width: 384px;
+      width: 24rem;
     }
   }
 
@@ -350,7 +350,7 @@ nav.m-menu--mobile {
 .header--new[data-search-open] {
   .m-menu__search {
     display: block;
-    height: 60px;
+    height: 3.75rem;
   }
 
   .m-menu__toggle {
@@ -404,7 +404,7 @@ nav.m-menu--mobile {
 
 .m-menu__toggle,
 .m-menu--desktop__toggle {
-  padding: 6px 12px 5px;
+  padding: .375rem .75rem .31rem;
 
   // this button is a link when JS is disabled
   // in this case remove link focus/hover styles
@@ -415,18 +415,17 @@ nav.m-menu--mobile {
   }
 
   @include media-breakpoint-only(md) {
-    padding: 7px 12px 6px;
+    padding: .44rem .75rem .375rem;
   }
 }
 
 // Search button in top nav
 .header-search__toggle {
   align-items: center;
-
   display: flex;
-  height: 30px;
+  height: 1.875rem;
   justify-content: center;
-  margin-left: calc(4rem - 30px);
+  margin-left: calc(4rem - 1.875rem);
   padding: unset;
-  width: 30px;
+  width: 1.875rem;
 }

@@ -1,14 +1,14 @@
 .m-whats-happening__section {
   @include media-breakpoint-down(xxl) {
-    margin-top: 80px;
+    margin-top: 5rem;
   }
 
   @include media-breakpoint-down(md) {
-    margin-top: 64px;
+    margin-top: 4rem;
   }
 
   @include media-breakpoint-down(sm) {
-    margin-top: 40px;
+    margin-top: 2.5rem;
   }
 
   width: 100%;

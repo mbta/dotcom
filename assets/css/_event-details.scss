@@ -11,7 +11,7 @@
   }
 
   .m-event__date-range {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
   }
 
@@ -46,12 +46,12 @@
 
   .m-event__livestream {
     height: 56vw;
-    max-height: 560px;
+    max-height: 35rem;
     width: 100%;
   }
 }
 
-$bullet-size: math.div(32px, $font-size-base-xxl) * $base-spacing; // 32px on large viewport
+$bullet-size: 2rem;
 $separator-border: solid 1px $gray-lightest;
 $agenda-column-gap: $base-spacing * .75;
 
