@@ -264,17 +264,18 @@ defmodule Util do
       iex> Util.format_minutes_duration(59)
       "59 min"
 
+      iex> Util.format_minutes_duration(60)
+      "1 hr"
+
       iex> Util.format_minutes_duration(61)
       "1 hr 1 min"
   """
   @spec format_minutes_duration(integer) :: String.t()
   def format_minutes_duration(duration) do
-    case duration do
-      duration when duration >= 60 ->
-        "#{div(duration, 60)} hr #{rem(duration, 60)} min"
-
-      _ ->
-        "#{duration} min"
+    case {div(duration, 60), rem(duration, 60)} do
+      {0 = _hours, minutes} -> "#{minutes} min"
+      {hours, 0 = _minutes} -> "#{hours} hr"
+      {hours, minutes} -> "#{hours} hr #{minutes} min"
     end
   end
 
