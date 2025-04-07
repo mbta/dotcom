@@ -328,7 +328,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
              ) != []
     end
 
-    @tag :flaky
     test "unselecting a group shows all groups", %{view: view} do
       group_count = :rand.uniform(5)
 

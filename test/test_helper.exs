@@ -7,6 +7,7 @@ Application.ensure_all_started(:ex_machina)
 Application.ensure_all_started(:mox)
 Application.ensure_all_started(:tzdata)
 
+ExUnit.configure(assert_receive_timeout: 500)
 ExUnit.configure(exclude: [external: true, flaky: true])
 ExUnit.configure(formatters: [ExUnit.CLIFormatter, ExUnitSummary.Formatter])
 
