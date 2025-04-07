@@ -10,6 +10,8 @@ defmodule Dotcom.ScheduleNote do
   alias Phoenix.HTML
   alias Routes.Route
 
+  @green_line_branch_ids GreenLine.branch_ids()
+
   defstruct alternate_text: nil,
             exceptions: [],
             offpeak_service: "",
@@ -38,75 +40,41 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      peak_service: "6 \u2013 20 minutes",
-      saturday_service: "9 \u2013 18 minutes",
-      sunday_service: "9 \u2013 18 minutes"
+      offpeak_service: "8 \u2013 12 minutes",
+      peak_service: "5 \u2013 8 minutes",
+      saturday_service: "6 \u2013 8 minutes",
+      sunday_service: "6 \u2013 8 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Mattapan"}) do
     %__MODULE__{
       offpeak_service: "8 \u2013 12 minutes",
-      peak_service: "7 minutes",
-      saturday_service: "13 minutes",
-      sunday_service: "13 minutes"
+      peak_service: "6 minutes",
+      saturday_service: "12 \u2013 13 minutes",
+      sunday_service: "12 \u2013 13 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
-      peak_service: "6 \u2013 9 minutes",
-      saturday_service: "9 \u2013 10 minutes",
-      sunday_service: "12 \u2013 14 minutes"
+      peak_service: "6 \u2013 8 minutes",
+      saturday_service: "8 \u2013 10 minutes",
+      sunday_service: "9 \u2013 11 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Blue"}) do
     %__MODULE__{
-      offpeak_service: "6 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes",
       peak_service: "4 \u2013 5 minutes",
-      saturday_service: "9 \u2013 13 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      saturday_service: "7 \u2013 10 minutes",
+      sunday_service: "7 \u2013 10 minutes"
     }
   end
 
-  def schedule_note(%Route{id: "Green"}) do
-    %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 15 minutes",
-      sunday_service: "8 \u2013 20 minutes"
-    }
-  end
-
-  def schedule_note(%Route{id: "Green-B"}) do
-    %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 15 minutes",
-      sunday_service: "8 \u2013 20 minutes"
-    }
-  end
-
-  def schedule_note(%Route{id: "Green-C"}) do
-    %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 15 minutes",
-      sunday_service: "8 \u2013 20 minutes"
-    }
-  end
-
-  def schedule_note(%Route{id: "Green-D"}) do
-    %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 15 minutes",
-      sunday_service: "8 \u2013 20 minutes"
-    }
-  end
-
-  def schedule_note(%Route{id: "Green-E"}) do
+  def schedule_note(%Route{id: route_id})
+      when route_id == "Green" or route_id in @green_line_branch_ids do
     %__MODULE__{
       offpeak_service: "7 \u2013 12 minutes",
       peak_service: "6 \u2013 8 minutes",
