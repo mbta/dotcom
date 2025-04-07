@@ -19,7 +19,7 @@ RUN git config --global url.https://github.com/.insteadOf git://github.com/
 RUN mix local.hex --force && \
 	mix local.rebar --force
 
-ADD . .
+COPY . .
 
 RUN mix deps.get --only prod
 
@@ -34,8 +34,8 @@ ARG SENTRY_DSN=""
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
 # copy in static assets
-ADD ./priv/static /root/priv/static
-ADD ./assets /root/assets
+COPY ./priv/static /root/priv/static
+COPY ./assets /root/assets
 
 WORKDIR /root/assets
 
