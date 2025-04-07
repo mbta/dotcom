@@ -413,23 +413,6 @@ defmodule DotcomWeb.ScheduleView do
     stop.station?
   end
 
-  @spec frequent_bus_badge(Route.t()) :: Safe.t() | nil
-  def frequent_bus_badge(%Route{description: :frequent_bus_route}) do
-    content_tag :div,
-      class: "bg-white rounded-full h-8 w-fit flex gap-2 items-center py-1 pl-1 pr-3 mb-6" do
-      [
-        svg("icon-frequent-bus.svg"),
-        content_tag :span, class: "text-sm font-bold text-black" do
-          "Service every 15 minutes or better"
-        end
-      ]
-    end
-  end
-
-  def frequent_bus_badge(_route) do
-    nil
-  end
-
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
   def timetable_crowding_description(crowding) do
     seats =
