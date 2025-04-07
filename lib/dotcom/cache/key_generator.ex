@@ -17,7 +17,7 @@ defmodule Dotcom.Cache.KeyGenerator do
   end
 
   def generate(mod, fun, args) do
-    "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(args)}"
+    "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(args, 2 ** 32)}"
   end
 
   defp clean_mod(mod) do
