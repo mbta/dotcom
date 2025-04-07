@@ -87,7 +87,11 @@ defmodule DotcomWeb.CMSController do
     |> handle_page_response(conn)
   end
 
-  defp handle_page_response({:error, :not_found}, %Conn{} = conn) do
+  defp handle_page_response({:error, :not_found}, conn) do
+    render_404(conn)
+  end
+
+  defp handle_page_response({:error, :unexpected_status}, conn) do
     render_404(conn)
   end
 
