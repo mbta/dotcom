@@ -149,6 +149,7 @@ const LineDiagram = ({
             alerts={alerts}
             handleStopClick={handleStopClick}
             otherRouteStops={filteredOtherStops}
+            route={route}
             searchQuery={query}
             stopTree={stopTree}
           />

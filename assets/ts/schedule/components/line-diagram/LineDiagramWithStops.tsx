@@ -332,6 +332,7 @@ const LineDiagramWithStops = ({
           alerts={alerts}
           handleStopClick={handleStopClick}
           otherRouteStops={otherRouteStops}
+          route={route}
           stopTree={stopTree}
         />
       </div>

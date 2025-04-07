@@ -1,12 +1,14 @@
 import React, { ReactElement } from "react";
 import { RouteStop, StopTree } from "../__schedule";
 import StopCard from "./StopCard";
-import { Alert } from "../../../__v3api";
+import { Alert, Route } from "../../../__v3api";
+import { isABusRoute } from "../../../models/route";
 
 interface Props {
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
   otherRouteStops: RouteStop[];
+  route: Route;
   searchQuery?: string;
   stopTree: StopTree | null;
 }
@@ -18,10 +20,11 @@ const OtherStopList = ({
   alerts,
   handleStopClick,
   otherRouteStops,
+  route,
   searchQuery,
   stopTree
 }: Props): ReactElement<HTMLElement> | null =>
-  (otherRouteStops.length > 0 && (
+  (otherRouteStops.length > 0 && isABusRoute(route) && (
     <details className="group/other-stops">
       <summary className="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium">
         <span>
