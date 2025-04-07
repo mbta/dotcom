@@ -12,8 +12,8 @@ defmodule Dotcom.Cache.KeyGenerator do
     "#{clean_mod(mod)}|#{fun}"
   end
 
-  def generate(mod, fun, [arg]) do
-    "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(arg)}"
+  def generate(mod, fun, [arg]) when is_binary(arg) do
+    "#{clean_mod(mod)}|#{fun}|#{arg}"
   end
 
   def generate(mod, fun, args) do
