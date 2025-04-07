@@ -549,7 +549,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
           </NextStopOrBranch>
         </NextStopOrBranch>
       </ol>
-      <OtherStopList alerts={{...}} handleStopClick={[Function: handleStopClick]} otherRouteStops={{...}} stopTree={{...}} />
+      <OtherStopList alerts={{...}} handleStopClick={[Function: handleStopClick]} otherRouteStops={{...}} route={{...}} stopTree={{...}} />
     </div>
   </LineDiagramWithStops>
 </Provider>"
