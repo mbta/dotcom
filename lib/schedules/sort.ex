@@ -6,15 +6,14 @@ defmodule Schedules.Sort do
   alias Schedules.Schedule
 
   @doc """
-  Sorts a list of schedules into trip lists. Two lists are compared by checking the departure time at the
-  first shared stop.
+  Sorts by grouping them into trips and then comparing the first departure.
   """
   @spec sort_by_first_times([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_times(schedules) do
     schedules
     |> Enum.group_by(& &1.trip.id)
     |> Enum.sort_by(&mapper/1, &sorter/2)
-    |> Enum.map(fn {_trip, schedules} -> schedules end)
+    |> Enum.map(fn {_, schedules} -> schedules end)
   end
 
   # Gets the first departure time for a list of schedules.
