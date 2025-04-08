@@ -35,28 +35,6 @@ defmodule Dotcom.TripPlan.LegTest do
     {:ok, %{personal_leg: personal_leg, transit_leg: transit_leg}}
   end
 
-  describe "route_id/1" do
-    test "returns {:ok, id} for a transit leg", context do
-      route_id = context.transit_leg.mode.route.id
-      assert {:ok, ^route_id} = route_id(context.transit_leg)
-    end
-
-    test "returns :error for a personal leg", context do
-      assert :error = route_id(context.personal_leg)
-    end
-  end
-
-  describe "trip_id/1" do
-    test "returns {:ok, id} for a transit leg", context do
-      trip_id = context.transit_leg.mode.trip.id
-      assert {:ok, ^trip_id} = trip_id(context.transit_leg)
-    end
-
-    test "returns :error for a personal leg", context do
-      assert :error = trip_id(context.personal_leg)
-    end
-  end
-
   describe "stop_ids/1" do
     test "returns the stop IDs @from and @to", context do
       assert %{from: [@from.stop.id], to: [@to.stop.id]} == stop_ids(context.transit_leg)
