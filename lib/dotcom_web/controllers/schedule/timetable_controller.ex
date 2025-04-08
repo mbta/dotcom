@@ -470,7 +470,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # Add Readville (canonically on other routes) back into the Providence timetable
     "place-DB-0095" => {:after, "Route 128"},
     # Add Newton Highlands shuttle stop to Needham timetable
-    "place-newtn" => {:before, "Needham Heights"}
+    "place-newtn" => {:before, "Needham Heights"},
+    # Foxboro - Mansfield shuttle stops
+    "place-NEC-2040" => {:after, "Bird St @ Railroad Ave - Foxboro Town Centre"},
+    "FoxboroTownCentre-S" => {:after, "Foxboro"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
