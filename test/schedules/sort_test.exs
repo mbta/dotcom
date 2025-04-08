@@ -10,16 +10,12 @@ defmodule SortTest do
   @now Timex.now()
 
   @schedules [
-    %Schedule{departure_time: @now, trip: %Trip{id: "1"}, stop: "s1"},
-    %Schedule{departure_time: shift(@now, minutes: 5), trip: %Trip{id: "1"}, stop: "s2"},
-    %Schedule{departure_time: shift(@now, minutes: 10), trip: %Trip{id: "1"}, stop: "s3"},
-    %Schedule{departure_time: shift(@now, minutes: 15), trip: %Trip{id: "1"}, stop: "s4"},
-    %Schedule{departure_time: shift(@now, minutes: 10), trip: %Trip{id: "3"}, stop: "s1"},
-    %Schedule{departure_time: shift(@now, minutes: 15), trip: %Trip{id: "3"}, stop: "s2"},
-    %Schedule{departure_time: shift(@now, minutes: 20), trip: %Trip{id: "3"}, stop: "s3"},
-    %Schedule{departure_time: shift(@now, minutes: 25), trip: %Trip{id: "3"}, stop: "s4"},
-    %Schedule{departure_time: shift(@now, minutes: 15), trip: %Trip{id: "2"}, stop: "s3"},
-    %Schedule{departure_time: shift(@now, minutes: 20), trip: %Trip{id: "2"}, stop: "s4"}
+    %Schedule{departure_time: shift(@now, minutes: 1), trip: %Trip{id: "1"}},
+    %Schedule{departure_time: shift(@now, minutes: 2), trip: %Trip{id: "1"}},
+    %Schedule{departure_time: shift(@now, minutes: 5), trip: %Trip{id: "2"}},
+    %Schedule{departure_time: shift(@now, minutes: 6), trip: %Trip{id: "2"}},
+    %Schedule{departure_time: shift(@now, minutes: 3), trip: %Trip{id: "3"}},
+    %Schedule{departure_time: shift(@now, minutes: 4), trip: %Trip{id: "3"}}
   ]
 
   describe "sort_by_first_time/1" do
@@ -35,9 +31,9 @@ defmodule SortTest do
       result = sort_by_first_times(@schedules)
 
       assert Enum.map(result, &List.first/1) == [
-               %Schedule{departure_time: @now, trip: %Trip{id: "1"}, stop: "s1"},
-               %Schedule{departure_time: shift(@now, minutes: 10), trip: %Trip{id: "3"}, stop: "s1"},
-               %Schedule{departure_time: shift(@now, minutes: 15), trip: %Trip{id: "2"}, stop: "s3"}
+               %Schedule{departure_time: shift(@now, minutes: 1), trip: %Trip{id: "1"}},
+               %Schedule{departure_time: shift(@now, minutes: 3), trip: %Trip{id: "3"}},
+               %Schedule{departure_time: shift(@now, minutes: 5), trip: %Trip{id: "2"}}
              ]
     end
   end
