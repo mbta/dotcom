@@ -2,7 +2,6 @@ defmodule Feedback.MockAws do
   @moduledoc """
   Mock AWS functions so that we aren't dependent on AWS in development.
   """
-  require Logger
 
   alias Mail.{Encoders.Base64, Parsers.RFC2822}
 
@@ -17,17 +16,15 @@ defmodule Feedback.MockAws do
   end
 
   defp log_email(%Mail.Message{headers: %{"to" => to}, body: body}) do
-    Logger.info(fn ->
-      """
+    IO.puts("""
 
-      MOCK EMAIL
+    MOCK EMAIL
 
-      To: #{to}
+    To: #{to}
 
-      Body:
-      #{body}
+    Body:
+    #{body}
 
-      """
-    end)
+    """)
   end
 end
