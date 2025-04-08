@@ -7,7 +7,7 @@ describe("Customer Support Form", () => {
 
   it("shows an error state for missing type and comments", () => {
     cy.get("#support-submit").click();
-    cy.get(".has-danger #service").should("be.visible");
+    cy.get(".has-danger #support_subject").should("be.visible");
     cy.get(".has-danger #comments").should("be.visible");
   });
 
@@ -63,7 +63,7 @@ describe("Customer Support Form", () => {
       cy.get("#comments").type(comment);
       cy.get("#no_request_response_label").click();
       cy.fillRecaptcha();
-      cy.get('[type="submit"]').click();
+      cy.get("#support-submit").click();
 
       cy.wait("@submitForm")
         .its("response.statusCode")
@@ -95,7 +95,7 @@ describe("Customer Support Form", () => {
       cy.get("#comments").type(comment);
       cy.get("#no_request_response_label").click();
       cy.fillRecaptcha();
-      cy.get('[type="submit"]').click();
+      cy.get("#support-submit").click();
 
       cy.wait("@submitForm")
         .its("response.statusCode")
@@ -120,7 +120,7 @@ describe("Customer Support Form", () => {
       cy.get("#privacy_label").click();
       cy.get("#promotions_label").click();
       cy.fillRecaptcha();
-      cy.get('[type="submit"]').click();
+      cy.get("#support-submit").click();
 
       cy.wait("@submitForm")
         .its("response.statusCode")
@@ -159,7 +159,7 @@ describe("Customer Support Form", () => {
       cy.get("input#photo").attachFile("customer-support-form/test_image1.png");
       cy.get("#no_request_response_label").click();
       cy.fillRecaptcha();
-      cy.get('[type="submit"]').click();
+      cy.get("#support-submit").click();
 
       cy.wait("@submitForm")
         .its("response.statusCode")
@@ -198,7 +198,7 @@ describe("Customer Support Form", () => {
       cy.get("input#photo").attachFile("customer-support-form/test_image2.png");
       cy.get("#no_request_response_label").click();
       cy.fillRecaptcha();
-      cy.get('[type="submit"]').click();
+      cy.get("#support-submit").click();
 
       cy.wait("@submitForm")
         .its("response.statusCode")

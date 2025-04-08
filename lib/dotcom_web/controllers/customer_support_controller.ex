@@ -448,7 +448,21 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   defp set_service_options(conn, _) do
-    assign(conn, :service_options, Feedback.Message.service_options())
+    service_options =
+      Feedback.Message.service_options()
+      |> Enum.map(fn {category_label, category_value, options} ->
+        {category_label, Enum.map(options, &option(&1, category_value))}
+      end)
+
+    assign(conn, :service_options, service_options)
+  end
+
+  defp option(value, category) do
+    Keyword.new()
+    |> Keyword.put(:key, value)
+    |> Keyword.put(:value, value)
+    |> Keyword.put(:"aria-label", value)
+    |> Keyword.put(:"data-category", category)
   end
 
   defp assign_ip(conn, _) do

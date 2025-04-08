@@ -47,25 +47,14 @@ Cypress.Commands.add("fillRecaptcha", () => {
  * Usage: `cy.selectRandomServiceAndSubject()`
  * Get values: `cy.get('@selectedService')` or `cy.get('@selectedSubject')`
  */
-const randomSelection = availableSelections =>
-  availableSelections[Cypress._.random(0, availableSelections.length - 1)];
-
 Cypress.Commands.add("selectRandomServiceAndSubject", () => {
-  cy.get("#js-subjects-by-service")
+  cy.get("#support_subject").select(Cypress._.random(0, 20));
+  cy.get("#support_subject option:selected")
     .invoke("text")
-    .then(text => {
-      const subjectsByService = JSON.parse(text);
-      const service = randomSelection(Object.keys(subjectsByService));
-      const subject = randomSelection(subjectsByService[service]);
-      cy.get(`#service-${service}`).check({ force: true });
-      cy.get("#support_subject").select(subject);
-      cy.get('[name="support[service]"]:checked')
-        .invoke("val")
-        .as("selectedService", { type: "static" });
-      cy.get("#support_subject option:selected")
-        .invoke("text")
-        .as("selectedSubject", { type: "static" });
-    });
+    .as("selectedSubject", { type: "static" });
+  cy.get("#support_subject option:selected")
+    .invoke("attr", "data-category")
+    .as("selectedService", { type: "static" });
 });
 
 /**
