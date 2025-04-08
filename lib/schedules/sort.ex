@@ -6,7 +6,7 @@ defmodule Schedules.Sort do
   alias Schedules.Schedule
 
   @doc """
-  Sorts by grouping them into trips and then comparing the first departure.
+  Sorts schedules by grouping them into trips and then comparing the first departure.
   """
   @spec sort_by_first_times([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_times(schedules) do
