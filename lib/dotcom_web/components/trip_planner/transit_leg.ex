@@ -123,6 +123,13 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     "bg-logan-express-#{name}"
   end
 
+  defp leg_line_class(%Route{name: name} = route) when is_shuttle?(route) do
+    %Route{id: name |> String.split(" ") |> List.first()}
+    |> Route.icon_atom()
+    |> CSSHelpers.atom_to_class()
+    |> route_background_class()
+  end
+
   defp leg_line_class(%Route{} = route) do
     route
     |> Route.to_naive()
