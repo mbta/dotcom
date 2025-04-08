@@ -4,12 +4,12 @@ defmodule Feedback.MockAws do
   """
   require Logger
 
-  alias Mail.Parsers.RFC2822
+  alias Mail.{Encoders.Base64, Parsers.RFC2822}
 
   def send_email(%{"RawMessage" => %{"Data" => raw_message}}) do
     _ =
       raw_message
-      |> Base.decode64!()
+      |> Base64.decode()
       |> RFC2822.parse()
       |> log_email()
 
