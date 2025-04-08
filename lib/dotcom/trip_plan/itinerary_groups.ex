@@ -25,7 +25,6 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
     |> Enum.group_by(&unique_legs_to_hash/1)
     |> Enum.map(&drop_hash/1)
     |> Enum.reject(&Enum.empty?/1)
-    |> Enum.map(&limit_itinerary_count(&1, opts))
     |> Enum.map(&to_group(&1, opts))
     |> Enum.sort_by(fn
       %ItineraryGroup{summary: %{tag: tag}} ->
@@ -69,8 +68,10 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   # - representative_time_key: An itinerary departs at the :start time and arrives
   #   by the :stop time. This denotes which of those is relevant to the group.
   defp to_group(grouped_itineraries, opts) do
+    limited_itineraries = grouped_itineraries |> limit_itinerary_count(opts)
+
     representative_index =
-      if(opts[:take_from_end], do: Enum.count(grouped_itineraries) - 1, else: 0)
+      if(opts[:take_from_end], do: Enum.count(limited_itineraries) - 1, else: 0)
 
     summary =
       grouped_itineraries
@@ -78,7 +79,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       |> to_summary(grouped_itineraries)
 
     %ItineraryGroup{
-      itineraries: ItineraryTag.sort_tagged(grouped_itineraries),
+      itineraries: ItineraryTag.sort_tagged(limited_itineraries),
       representative_index: representative_index,
       representative_time_key: if(opts[:take_from_end], do: :stop, else: :start),
       summary: summary
