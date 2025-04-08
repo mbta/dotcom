@@ -23,7 +23,7 @@ defmodule SortTest do
       result = sort_by_first_times(@schedules)
 
       for [first | _] = trip_list <- result do
-        assert Enum.all?(trip_list, &(&1.trip == first.trip))
+        assert Enum.all?(trip_list, &(&1.trip.id == first.trip.id))
       end
     end
 
