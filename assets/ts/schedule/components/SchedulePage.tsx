@@ -117,7 +117,7 @@ const getDirectionAndMap = (
     ? fromStopTreeData(stopTree)
     : null;
 
-  return isFerryRoute(route) ? (
+  return isFerryRoute(route) && route.id !== "Boat-F1" ? (
     <>
       <ScheduleFinder
         updateURL={updateURL}

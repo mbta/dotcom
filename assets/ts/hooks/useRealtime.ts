@@ -15,13 +15,9 @@ const useRealtime = (
   enabled: boolean = true
 ): LiveDataByStop | undefined => {
   const liveUrl = `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`;
-  const { data } = useSWR<LiveDataByStop>(
-    enabled && route.type !== 4 ? liveUrl : null,
-    fetcher,
-    {
-      refreshInterval: 15000
-    }
-  );
+  const { data } = useSWR<LiveDataByStop>(enabled ? liveUrl : null, fetcher, {
+    refreshInterval: 15000
+  });
   return data;
 };
 
