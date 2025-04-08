@@ -412,7 +412,7 @@ export const SchedulePage = ({
               currentState.modalOpen
             )}
           {schedulePageData.schedule_note === null &&
-            !isFerryRoute(route) &&
+            (!isFerryRoute(route) || route.id === "Boat-F1") &&
             getScheduleFinder(schedulePageData, readjustedDirectionId)}
         </div>
         <div
