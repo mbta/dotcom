@@ -146,7 +146,7 @@ $body-columns: ();
 }
 
 .c-cms__meta {
-  @include h4();
+  @apply h4;
 }
 
 .c-cms__content,
@@ -193,7 +193,7 @@ $body-columns: ();
 
     @include media-breakpoint-up(md) {
       .c-cms__sidebar-title {
-        @include h3();
+        @apply h3;
         margin: 0 0 $h1-bottom; // Match the below the h1
         padding: $top-adjust 0 $bottom-adjust; // Equalize line-height differences and base-align
       }

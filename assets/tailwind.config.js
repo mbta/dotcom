@@ -75,42 +75,112 @@ module.exports = {
     //
     //     <div class="phx-click-loading:animate-ping">
     //
-    plugin(({ addVariant }) =>
-      addVariant("phx-click-loading", [
-        ".phx-click-loading&",
-        ".phx-click-loading &"
-      ])
-    ),
-    plugin(({ addVariant }) =>
-      addVariant("phx-submit-loading", [
-        ".phx-submit-loading&",
-        ".phx-submit-loading &"
-      ])
-    ),
-    plugin(({ addVariant }) =>
-      addVariant("phx-change-loading", [
-        ".phx-change-loading&",
-        ".phx-change-loading &"
-      ])
-    ),
-    plugin(({ addBase, theme }) =>
-      addBase({
-        "h1, h2, h3, h4, h5, h6": {
-          fontFamily: theme("fontFamily.heading"),
-          fontWeight: theme("fontWeight.bold"),
-          marginTop: theme("spacing.11"),
-          marginBottom: theme("spacing.3"),
-          "&:has(+p)": {
-            marginBottom: theme("spacing.1")
-          }
-        },
-        "h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6, p + h3, p + h4, p + h5, p + h6": {
-          marginTop: theme("spacing.4")
-        },
-        "fieldset legend": {
-          fontSize: "initial"
+    plugin(({ addVariant }) => [
+      addVariant("phx-click-loading", [".phx-click-loading&", ".phx-click-loading &"]),
+      addVariant("phx-submit-loading", [".phx-submit-loading&", ".phx-submit-loading &"]),
+      addVariant("phx-change-loading", [".phx-change-loading&", ".phx-change-loading &"])
+    ]),
+    // Base styling for HTML elements
+    plugin(({ addBase }) => addBase({
+      "fieldset legend": { fontSize: "initial" }
+    })),
+    // Add a component for each heading level, .h1 through .h6
+    // Also handles reducing space between adjacent headings, copy directly following 
+    // headlines, and other complex content structures.
+    plugin(({ addComponents, theme }) => {
+      const breakpointSmDown = `@media (max-width: ${theme("screens.sm")})`;
+      const breakpointSmUp = `@media (min-width: ${theme("screens.sm")})`;
+      const baseHeading = {
+        fontFamily: theme("fontFamily.heading"),
+        fontWeight: theme("fontWeight.bold"),
+        lineHeight: "1.275em",
+        marginTop: "1.075em",
+        marginBottom: ".375em"
+      };
+
+      // Paragraph copy directly following headlines (even if nested in divs)
+      // have their own built-in spacing (line-heights, em-square), so we
+      // undo the global after-heading spacing when paragraphs directly
+      // follow headings. If an author floats media between a heading and
+      // body copy, we lose the heading + copy relationship. When images are
+      // visually directly after a headline, they should get the same gap
+      // non-paragraphs get by default (undo negative margin above). Make
+      // floated media items align with the top of adjacent wrapped text
+      // characters
+      const afterHeadingSpace = { marginTop: "-.25em" };
+      const afterHeadingSpaceRules = {
+        "+ :where(p, ul, ol)": afterHeadingSpace,
+        "+ div > :where(p, ul, ol):first-child": afterHeadingSpace,
+        "+ div > div > :where(p, ul, ol):first-child": afterHeadingSpace,
+        "+ p > img:first-child, + p > a:first-child > img:first-child": afterHeadingSpace,
+        "+ .c-media--half + p": { [breakpointSmUp]: afterHeadingSpace },
+        "+ .c-media--half .c-media__content": { [breakpointSmUp]: afterHeadingSpace },
+        "+ div > div ~ div > :where(p, ul, ol):first-child": {
+          [breakpointSmDown]: { marginTop: "0" }
         }
-      })
-    )
+      };
+
+      // Adjacent (sibling) headings should not have additional space between
+      // them (similar concept to paragraphs following headlines).
+      //
+      // This rule helps sub-headings feel "attached" or grouped under their
+      // parent headings, and not disjointed or ambiguous.
+      //
+      // EXCLUSIONS: H1 and H2. H1 usually exists in its own space and we want
+      // to always have consistent space after it. H2 is used to introduce
+      // large sections often with tables and other non-text content, so it's
+      // OK to have the original space under it.
+      const reduceAdjacentHeadingSpace = { marginTop: "-.125em" };
+
+      return [
+        addComponents({
+          ".h1": {
+            ...baseHeading,
+            fontSize: "2.5rem",
+            [breakpointSmDown]: { fontSize: "2rem" }
+          },
+          ".h2": {
+            ...baseHeading,
+            fontSize: "1.75rem",
+            [breakpointSmDown]: { fontSize: "1.625rem" },
+            ...afterHeadingSpaceRules,
+            "+ :where(.h3, h3)": reduceAdjacentHeadingSpace
+          },
+          ".h3": {
+            ...baseHeading,
+            fontSize: "1.3125rem",
+            ...afterHeadingSpaceRules,
+            "+ :where(.h4, h4)": reduceAdjacentHeadingSpace
+          },
+          ".h4": {
+            ...baseHeading,
+            fontSize: "1.125rem",
+            ...afterHeadingSpaceRules,
+            "+ :where(.h5, h5)": reduceAdjacentHeadingSpace
+          },
+          ".h5": {
+            ...baseHeading,
+            fontSize: "1rem",
+            ...afterHeadingSpaceRules,
+            "+ :where(.h6, h6)": reduceAdjacentHeadingSpace,
+          },
+          ".h6": {
+            ...baseHeading,
+            fontWeight: theme("fontWeight.medium"),
+            fontSize: "1rem",
+          },
+        })
+      ]
+    }),
+    // Use the above heading components to style our actual headings by
+    // default. No <h2 class="h2"> needed.
+    plugin(({ addBase }) =>  addBase({
+      "h1": { "@apply h1": {} },
+      "h2": { "@apply h2": {} },
+      "h3": { "@apply h3": {} },
+      "h4": { "@apply h4": {} },
+      "h5": { "@apply h5": {} },
+      "h6": { "@apply h6": {} }
+    }))
   ]
 };

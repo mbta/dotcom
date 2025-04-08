@@ -1,13 +1,13 @@
 import React from "react";
+import { Alert, BikeStorageType } from "../../../__v3api";
+import Alerts from "../../../components/Alerts";
+import Badge from "../../../components/Badge";
+import { bikeIcon } from "../../../helpers/icon";
 import AmenityCard, {
   AmenityImage,
   AmenityLink,
   AmenityModal
 } from "./AmenityCard";
-import { bikeIcon } from "../../../helpers/icon";
-import { Alert, BikeStorageType } from "../../../__v3api";
-import Alerts from "../../../components/Alerts";
-import Badge from "../../../components/Badge";
 
 const availabilityMessage = (
   pedal: boolean,
@@ -60,7 +60,7 @@ const BikeStorageAmenityCard = ({
         hasBikeStorage && (
           <AmenityModal headerText={`Bike Storage at ${stopName}`}>
             {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
-            <h2 className="text-xl">Facility Information</h2>
+            <h2 className="h3">Facility Information</h2>
             {hasPedalAndPark && (
               <AmenityImage
                 className="u-mt-8 u-mb-1"

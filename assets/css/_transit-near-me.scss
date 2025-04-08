@@ -288,7 +288,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 }
 
 .m-tnm-sidebar__direction-destination {
-  @include h3();
+  @apply h3;
   margin: 0;
 }
 
@@ -305,7 +305,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 }
 
 .m-tnm-sidebar__headsign-name--large {
-  @include h3();
+  @apply h3;
   margin: 0;
 }
 
@@ -369,7 +369,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 }
 
 .m-tnm-sidebar__time-number {
-  @include h3();
+  @apply h3;
   line-height: 1em;
   margin-bottom: 0;
   margin-top: calc(#{$base-spacing} / 4);

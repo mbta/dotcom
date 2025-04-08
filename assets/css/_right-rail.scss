@@ -15,10 +15,8 @@
     // Optical adjustment to top margin of the first direct child
     // heading due to presence background color in sidebar paragraphs.
     @each $heading in $headings {
-      > #{$heading}:first-child,
-      > .#{$heading}:first-child,
-      .c-multi-column__column:first-child > #{$heading}:first-child,
-      .c-multi-column__column:first-child > .#{$heading}:first-child {
+      > :where(#{$heading}, .#{$heading}):first-child,
+      .c-multi-column__column:first-child > :where(#{$heading}, .#{$heading}):first-child {
         margin-top: .125em; // Should be relative to heading font-size
       }
     }

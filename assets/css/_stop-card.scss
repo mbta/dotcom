@@ -227,7 +227,7 @@ $radius: 4px;
   }
 
   .departure-card__headsign-name {
-    @include h4();
+    @apply h4;
     flex-grow: 1;
     margin: 0;
     max-width: 16.25rem;
