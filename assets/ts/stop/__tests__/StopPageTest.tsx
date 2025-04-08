@@ -3,7 +3,7 @@ import { screen, waitFor, within } from "@testing-library/dom";
 import { act, cleanup, RenderResult } from "@testing-library/react";
 import StopPage from "../components/StopPage";
 import * as useStop from "../../hooks/useStop";
-import { InformedEntitySet, Alert, Route } from "../../__v3api";
+import { InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
 import {
   TEST_LOADER_VALUE,
@@ -14,7 +14,7 @@ import {
 } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
-import { add, formatISO } from "date-fns";
+import { add, formatISO, sub } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/predictions";
@@ -172,8 +172,8 @@ describe("StopPage", () => {
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
         id: "000013",
-        header: "The Elevator Is Closed",
-        effect: "elevator_closure"
+        header: "The Escalator Is Closed",
+        effect: "escalator_closure"
       },
       {
         informed_entity: {
@@ -211,7 +211,7 @@ describe("StopPage", () => {
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
-        id: "000009",
+        id: "000007",
         header: "Station Closed",
         effect: "station_closure"
       },
@@ -224,6 +224,56 @@ describe("StopPage", () => {
         id: "000008",
         header: "Stop has Moved",
         effect: "stop_moved"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000009",
+        header: "Service has Changed",
+        effect: "service_change"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000010",
+        header: "Station has an Issue",
+        effect: "station_issue"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000011",
+        header: "Dock is Closed",
+        effect: "dock_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000012",
+        header: "Dock has an Issue",
+        effect: "dock_issue"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000013",
+        header: "Shoveling is now Banned",
+        effect: "stop_shoveling"
       }
     ] as Alert[];
 
@@ -238,8 +288,14 @@ describe("StopPage", () => {
       expect(screen.getByText(/Stop has Moved/)).toBeInTheDocument();
       expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
       expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
+      expect(screen.getByText(/Service has Changed/)).toBeInTheDocument();
+      expect(screen.getByText(/Station has an Issue/)).toBeInTheDocument();
+      expect(screen.getByText(/Dock is Closed/)).toBeInTheDocument();
+      expect(screen.getByText(/Dock has an Issue/)).toBeInTheDocument();
+      expect(screen.getByText(/Shoveling is now Banned/)).toBeInTheDocument();
+
       expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
-      expect(screen.queryByText(/The Elevator Is Closed/)).toBeNull();
+      expect(screen.queryByText(/The Escalator Is Closed/)).toBeNull();
     });
   });
 
@@ -353,6 +409,58 @@ describe("StopPage", () => {
     renderWithAct(<StopPage stopId="Test 1" />);
 
     expect(screen.queryByText("Road Is Closed")).toBeNull();
+  });
+
+  it(`should render active elevator closures, but not future or past ones`, async () => {
+    const now = new Date();
+    const future1 = add(now, { days: 1 });
+    const future2 = add(now, { days: 2 });
+    const future3 = add(now, { days: 3 });
+    const past1 = sub(now, { days: 2 });
+    const past2 = sub(now, { days: 1 });
+    const alertsForRoute: Alert[] = [
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000001",
+        header: "The elevator is closed",
+        effect: "elevator_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(future2), dateFormatter(future3)]],
+        lifecycle: "new",
+        id: "000002",
+        header: "The elevator will be closed",
+        effect: "elevator_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(past1), dateFormatter(past2)]],
+        lifecycle: "new",
+        id: "000003",
+        header: "The elevator was closed",
+        effect: "elevator_closure"
+      }
+    ] as Alert[];
+
+    jest
+      .spyOn(useAlerts, "useAlertsByRoute")
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
+
+    renderWithAct(<StopPage stopId="Test 1" />);
+    await waitFor(() => {
+      expect(screen.getByText(/The elevator is closed/)).toBeInTheDocument();
+      expect(screen.queryByText(/The elevator will be closed/)).toBeNull();
+      expect(screen.queryByText(/The elevator was closed before/)).toBeNull();
+    });
   });
 
   it("should only render alerts with no banner", async () => {
