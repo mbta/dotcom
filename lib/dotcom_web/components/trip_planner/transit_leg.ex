@@ -210,7 +210,10 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
-  defp route_symbol_size(%Route{type: 3} = route) when not is_external?(route), do: "small"
+  defp route_symbol_size(%Route{type: 3} = route)
+       when not is_external?(route) and not is_shuttle?(route),
+       do: "small"
+
   defp route_symbol_size(_), do: "default"
 
   defp headsign(%{stop_headsign: stop_headsign}) when not is_nil(stop_headsign) do
