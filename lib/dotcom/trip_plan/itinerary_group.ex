@@ -20,6 +20,7 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
           summarized_legs: [summarized_leg()],
           tag: String.t(),
           total_cost: non_neg_integer(),
+          unavailable?: boolean(),
           walk_distance: float()
         }
 
