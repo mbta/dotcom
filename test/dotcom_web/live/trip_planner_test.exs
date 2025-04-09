@@ -281,6 +281,36 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert Floki.get_by_id(document, "trip-planner-results")
     end
 
+    test "using wheelchair: true limits to accessible results", %{view: view} do
+      # Setup
+      itineraries = TripPlanner.build_list(4, :otp_itinerary)
+      accessible_itinerary = TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: [accessible_itinerary | itineraries]}}
+      end)
+
+      # Exercise
+      params = %{
+        "from" => @valid_params["from"],
+        "to" => @valid_params["to"],
+        "wheelchair" => "true"
+      }
+
+      view |> element("form") |> render_change(%{"input_form" => params})
+
+      # Verify
+      rendered = render_async(view)
+
+      assert rendered
+             |> Floki.parse_document!()
+             |> Floki.get_by_id("trip-planner-results")
+
+      refute rendered =~ "May not be accessible"
+
+      assert rendered =~ "Accessible"
+    end
+
     test "groupable results show up in groups", %{view: view} do
       # Setup
       group_count = :rand.uniform(5)
