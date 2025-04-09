@@ -177,7 +177,7 @@ defmodule Dotcom.TripPlan.Map do
   @spec leg_color(Leg.t()) :: String.t()
   defp leg_color(%Leg{
          mode: %TransitDetail{
-           route: %Route{description: :rail_replacement_bus, name: name, color: color}
+           route: %Route{description: :rail_replacement_bus, name: name}
          }
        }) do
     case name do
@@ -185,7 +185,7 @@ defmodule Dotcom.TripPlan.Map do
       "Green" <> _ -> "00843D"
       "Orange" <> _ -> "#ED8B00"
       "Red" <> _ -> "#DA291C"
-      _ -> color
+      _ -> "#80276c"
     end
   end
 
