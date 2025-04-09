@@ -374,6 +374,11 @@ defmodule DotcomWeb.Live.TripPlanner do
           ideal_itineraries: ideal_itineraries
         )
 
+      # ItineraryGroups.from_itineraries(ideal_itineraries,
+      #   take_from_end: data.datetime_type == "arrive_by",
+      #   ideal_itineraries: []
+      # )
+
       error ->
         error
     end

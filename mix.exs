@@ -130,6 +130,7 @@ defmodule DotCom.Mixfile do
           github: "mbta/open_trip_planner_client",
           branch: "jdl/trip-planner/unavailable-trips-spike"
         ]
+        # path: "../open_trip_planner_client"
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.7.21"},
