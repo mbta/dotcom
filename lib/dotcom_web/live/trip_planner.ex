@@ -368,13 +368,7 @@ defmodule DotcomWeb.Live.TripPlanner do
     case plan do
       {:ok, itineraries} ->
         itineraries
-        |> then(fn all_itineraries ->
-          if data.wheelchair do
-            Enum.filter(all_itineraries, & &1.accessible?)
-          else
-            all_itineraries
-          end
-        end)
+        |> maybe_filter_accessible(data.wheelchair)
         |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
 
       error ->
@@ -384,6 +378,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # If the changeset is invalid, we return an empty list of itinerary groups.
   defp get_itinerary_groups(_), do: []
+
+  # If wheelchair access is requested, limit results to accessible ones
+  defp maybe_filter_accessible(itineraries, true) do
+    Enum.filter(itineraries, & &1.accessible?)
+  end
+
+  defp maybe_filter_accessible(itineraries, _) do
+    itineraries
+  end
 
   # Convert the input form changeset to a list of pins for the map.
   # I.e., add pins for the from and to locations.
