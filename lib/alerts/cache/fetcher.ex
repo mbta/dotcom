@@ -50,8 +50,8 @@ defmodule Alerts.Cache.Fetcher do
       %{data: data} ->
         alerts =
           data
+          |> Stream.reject(&suppressed_alert?/1)
           |> Enum.map(&Parser.Alert.parse/1)
-          |> Enum.reject(&suppressed_alert?/1)
 
         banner =
           data
@@ -81,6 +81,7 @@ defmodule Alerts.Cache.Fetcher do
     Process.send_after(self(), :fetch, ms)
   end
 
-  defp suppressed_alert?(%Alerts.Alert{id: "636777"}), do: true
-  defp suppressed_alert?(%Alerts.Alert{}), do: false
+  defp suppressed_alert?(%JsonApi.Item{type: "alert", id: "636777"}), do: true
+  defp suppressed_alert?(%JsonApi.Item{}), do: false
+
 end
