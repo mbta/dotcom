@@ -175,6 +175,20 @@ defmodule Dotcom.TripPlan.Map do
   def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
   @spec leg_color(Leg.t()) :: String.t()
+  defp leg_color(%Leg{
+         mode: %TransitDetail{
+           route: %Route{description: :rail_replacement_bus, name: name, color: color}
+         }
+       }) do
+    case name do
+      "Blue" <> _ -> "#003DA5"
+      "Green" <> _ -> "00843D"
+      "Orange" <> _ -> "#ED8B00"
+      "Red" <> _ -> "#DA291C"
+      _ -> color
+    end
+  end
+
   defp leg_color(%Leg{mode: %TransitDetail{route: %Route{color: color}}})
        when not is_nil(color) do
     "#" <> color
