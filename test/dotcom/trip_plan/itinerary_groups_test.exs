@@ -158,6 +158,41 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     refute Enum.any?(counts, &(&1 > ItineraryGroups.max_per_group()))
   end
 
+  test "does not cap itineraries in the summary" do
+    base_itinerary =
+      TripPlanner.build(:itinerary, legs: [TripPlanner.build(:bus_leg)])
+
+    route_ids = Faker.Util.sample_uniq(10, fn -> Faker.Lorem.word() end)
+
+    base_leg = TripPlanner.build(:bus_leg)
+
+    itineraries =
+      route_ids
+      |> Enum.with_index(fn route_id, n ->
+        leg =
+          base_leg
+          |> Map.update!(:mode, fn mode ->
+            mode |> Map.update!(:route, fn route -> route |> Map.put(:id, route_id) end)
+          end)
+
+        base_itinerary
+        |> Map.put(:start, Timex.shift(base_itinerary.start, minutes: 10 * n))
+        |> Map.put(:legs, [leg])
+      end)
+
+    summarized_route_ids =
+      itineraries
+      |> ItineraryGroups.from_itineraries()
+      |> List.first()
+      |> Map.fetch!(:summary)
+      |> Map.fetch!(:summarized_legs)
+      |> List.first()
+      |> Map.fetch!(:routes)
+      |> Enum.map(& &1.id)
+
+    assert MapSet.new(summarized_route_ids) == MapSet.new(route_ids)
+  end
+
   test "uses second argument to pick last N itineraries per group instead of first" do
     base_start_time = Faker.DateTime.forward(1)
 
