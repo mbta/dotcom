@@ -367,9 +367,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
     case plan do
       {:ok, itineraries} ->
-        ItineraryGroups.from_itineraries(itineraries,
-          take_from_end: data.datetime_type == "arrive_by"
-        )
+        itineraries
+        |> then(fn all_itineraries ->
+          if data.wheelchair do
+            Enum.filter(all_itineraries, & &1.accessible?)
+          else
+            all_itineraries
+          end
+        end)
+        |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
 
       error ->
         error
