@@ -48,7 +48,10 @@ defmodule Alerts.Cache.Fetcher do
   def handle_info(:fetch, {update_fn, api_mfa, repeat_ms} = state) do
     case api_result(api_mfa) do
       %{data: data} ->
-        alerts = Enum.map(data, &Parser.Alert.parse/1)
+        alerts =
+          data
+          |> Enum.map(&Parser.Alert.parse/1)
+          |> Enum.reject(&suppressed_alert?/1)
 
         banner =
           data
@@ -77,4 +80,7 @@ defmodule Alerts.Cache.Fetcher do
   defp schedule_fetch(ms) do
     Process.send_after(self(), :fetch, ms)
   end
+
+  defp suppressed_alert?(%Alerts.Alert{id: "636777"}), do: true
+  defp suppressed_alert?(%Alerts.Alert{}), do: false
 end
