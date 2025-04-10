@@ -439,11 +439,13 @@ defmodule DotcomWeb.ScheduleView do
     assigns = %{}
 
     ~H"""
-    <div class="bg-white rounded-full min-h-8 w-fit flex gap-2 items-center py-1 pl-1 pr-3 mb-6">
+    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
       <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
         <.icon class="h-3.5 w-3.5" name="flag" />
       </div>
-      <span class="text-sm font-bold text-black">Flag the bus in any safe place along the route</span>
+      <span class="text-sm font-bold text-black my-[0.094rem]">
+        Flag the bus in any safe place along the route
+      </span>
     </div>
     """
   end
