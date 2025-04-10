@@ -22,8 +22,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   @spec from_itineraries([Itinerary.t()], Keyword.t()) :: [ItineraryGroup.t()]
   def from_itineraries(itineraries, opts \\ []) do
     itineraries
-    |> Enum.group_by(&unique_legs_to_hash/1)
-    |> Enum.map(&drop_hash/1)
+    |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
+    |> Enum.map(&elem(&1, 1))
     |> Enum.reject(&Enum.empty?/1)
     |> Enum.map(&to_group(&1, opts))
     |> Enum.sort_by(fn
@@ -47,11 +47,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   end
 
   defp unique_leg_to_tuple(%Leg{mode: %{route: route}} = leg) do
-    {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
-  end
-
-  defp drop_hash({_hash, grouped_itineraries}) do
-    grouped_itineraries
+    {Routes.Route.type_atom(route.type), route.description == :rail_replacement_bus,
+     leg.from.name, leg.to.name}
   end
 
   defp limit_itinerary_count(itineraries, opts) do

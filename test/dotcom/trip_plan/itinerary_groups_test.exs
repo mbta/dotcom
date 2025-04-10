@@ -98,6 +98,40 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       # VERIFY
       assert Kernel.length(grouped_itineraries) == 2
     end
+
+    test "does not group itineraries with different accessibility", %{stops: [a, b, _]} do
+      # SETUP
+      bus_legs = TripPlanner.build_list(3, :bus_leg, from: a, to: b)
+
+      first_itinerary = TripPlanner.build(:itinerary, accessible?: true, legs: bus_legs)
+      second_interary = TripPlanner.build(:itinerary, accessible?: false, legs: bus_legs)
+
+      # EXERCISE
+      grouped_itineraries = ItineraryGroups.from_itineraries([first_itinerary, second_interary])
+
+      # VERIFY
+      assert Kernel.length(grouped_itineraries) == 2
+    end
+
+    test "does not group bus itineraries with shuttles", %{stops: [a, b, _]} do
+      # SETUP
+      shuttle_leg = TripPlanner.build(:shuttle_leg, from: a, to: b)
+
+      bus_itineraries =
+        TripPlanner.build_list(5, :itinerary,
+          accessible?: true,
+          legs: [TripPlanner.build(:bus_leg, from: a, to: b)]
+        )
+
+      shuttle_itinerary = TripPlanner.build(:itinerary, accessible?: true, legs: [shuttle_leg])
+      many_itineraries = [shuttle_itinerary | bus_itineraries]
+
+      # EXERCISE
+      grouped_itineraries = ItineraryGroups.from_itineraries(many_itineraries)
+
+      # VERIFY
+      assert Kernel.length(grouped_itineraries) == 2
+    end
   end
 
   test "ignores short walking distances of < 0.2 miles when grouping", %{stops: [a, b, c]} do
