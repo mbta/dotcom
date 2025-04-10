@@ -83,5 +83,4 @@ defmodule Alerts.Cache.Fetcher do
 
   defp suppressed_alert?(%JsonApi.Item{type: "alert", id: "636777"}), do: true
   defp suppressed_alert?(%JsonApi.Item{}), do: false
-
 end
