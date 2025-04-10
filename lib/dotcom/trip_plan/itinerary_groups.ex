@@ -47,7 +47,8 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   end
 
   defp unique_leg_to_tuple(%Leg{mode: %{route: route}} = leg) do
-    {Routes.Route.type_atom(route.type), leg.from.name, leg.to.name}
+    {Routes.Route.type_atom(route.type), route.description == :rail_replacement_bus,
+     leg.from.name, leg.to.name}
   end
 
   defp limit_itinerary_count(itineraries, opts) do
