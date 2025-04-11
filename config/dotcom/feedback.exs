@@ -15,5 +15,6 @@ end
 
 if config_env() == :dev do
   config :dotcom,
-    send_email_fn: &Feedback.MockAws.send_email/1
+    send_email_fn: &Feedback.MockAws.send_email/1,
+    feedback_rate_limit: 50
 end

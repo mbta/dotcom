@@ -2,31 +2,15 @@
   <%= raw Poison.encode!(@all_options_per_mode) %>
 </script>
 <% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
-<script id="js-subjects-by-service" type="text/plain">
-<%= raw Poison.encode!(subject_map(@service_options)) %>
-</script>
 
 <%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support", class: "support-form"], fn f -> %>
   <h2>Email Us</h2>
   <%= preamble_text() %>
   <section>
     <h3>Message</h3>
-    <%= support_error_tag @errors, "service" %>
-    <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "has-success") %>">
-      <legend class="form-control-label">Category*</legend>
-      <div id="service" class="service-radios">
-        <%= for {text, value, _subjects} <- @service_options do %>
-          <span class="form-check service-radio">
-            <%= radio_button f, :service, value, class: "support-form-control service c-radio", id: "service-#{value}" %>
-            <%= label f, :service, text, [for: "service-#{value}", class: "c-radio__label"] %>
-          </span>
-        <% end %>
-      </div>
-    </fieldset>
     <div id="subject" class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
-      <%= label f, :subject, "Subject*", [for: "support_subject", class: "form-control-label"] %>
-      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select", "aria-describedby": "subjectHelp" %>
-      <small id="subjectHelp" class="form-text">Please choose a Category to view available Subject values.</small>
+      <%= label f, :subject, "Category and Subject*", [for: "support_subject", class: "form-control-label"] %>
+      <%= select f, :subject, @service_options, prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select" %>
     </div>
     <div id="charlie-card-or-ticket-number" class="form-group">
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>

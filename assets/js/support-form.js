@@ -1,6 +1,6 @@
 /* eslint-disable */
-import Filter from "bad-words";
 import * as Sentry from "@sentry/browser";
+import Filter from "bad-words";
 
 export default function($ = window.jQuery) {
   window.addEventListener(
@@ -17,7 +17,6 @@ export default function($ = window.jQuery) {
         setupPhotoPreviews($, toUpload);
         setupTextArea();
         setupRequestResponse($);
-        setupSubject($);
         setupValidation($);
 
         handleSubmitClick($, toUpload);
@@ -269,32 +268,6 @@ export function setupTextArea() {
   );
 }
 
-export function setupSubject($) {
-  const support_service_opts = JSON.parse(
-    document.getElementById("js-subjects-by-service").innerHTML
-  );
-
-  // show the field once a category is selected
-  $("[name='support[service]']").change(function() {
-    const selectedCategory = $("[name='support[service]']:checked").val();
-    const selectedOptions = support_service_opts[selectedCategory];
-    if (selectedOptions) {
-      // remove all <options> except the first
-      $("#support_subject option")
-        .nextAll()
-        .remove();
-      $("#support_subject").append(
-        selectedOptions.map(
-          opt => `<option value=${encodeURIComponent(opt)}>${opt}</option>`
-        )
-      );
-      $("#subject").show();
-    } else {
-      $("#subject").hide();
-    }
-  });
-}
-
 function findSiblingWithClass(node, className) {
   node = node.nextElementSibling;
   while (node && node.className.indexOf(className) === -1) {
@@ -310,6 +283,7 @@ export function setupRequestResponse($) {
   $("#no_request_response").change(function() {
     $("#contactInfoForm").toggle(!$(this).is(":checked"));
   });
+  $("#no_request_response").change();
 }
 
 const validators = {
@@ -319,9 +293,6 @@ const validators = {
   support_subject: function($) {
     const subject = $("#support_subject").val();
     return subject && subject.length !== 0;
-  },
-  service: function($) {
-    return !!$("[name='support[service]']:checked").val();
   },
   first_name: function($) {
     if (responseRequested($)) {
@@ -405,20 +376,12 @@ function validateForm($) {
   const privacy = "#privacy",
     subject = "#support_subject",
     comments = "#comments",
-    service = "#service",
     vehicle = "#vehicle",
     email = "#email",
     first_name = "#first_name",
     last_name = "#last_name",
     recaptcha = "#g-recaptcha-response",
     errors = [];
-  // Service
-  if (!validators.service($)) {
-    displayError($, service);
-    errors.push(service);
-  } else {
-    displaySuccess($, service);
-  }
   // Subject
   if (!validators.support_subject($)) {
     displayError($, subject);
@@ -533,12 +496,17 @@ export function handleSubmitClick($, toUpload) {
         if (name === "support[comments]") {
           value = filter.clean(value);
         }
+        if (name === "support[subject]") {
+          // hack the category selection out of the <option>
+          const selectedOption = document.querySelector("#support_subject")
+            .selectedOptions[0];
+          const category = selectedOption.dataset.category;
+          if (category) {
+            formData.append("support[service]", category);
+          }
+        }
         formData.append(name, value);
       });
-
-    // overwrite subject value with the decoded content:
-    const encodedSubjectValue = formData.get("support[subject]");
-    formData.set("support[subject]", decodeURIComponent(encodedSubjectValue));
 
     toUpload.forEach(photo => {
       formData.append("support[photos][]", photo, photo.name);
@@ -573,14 +541,15 @@ export function handleSubmitClick($, toUpload) {
 }
 
 export function handleSubjectChange($) {
-  $("#charlie-card-or-ticket-number").hide();
-  const subjectEl = document.getElementById("support_subject");
-  subjectEl.addEventListener("change", ev => {
+  const subjectEl = $("#support_subject");
+  subjectEl.on("change", ev => {
     const optionText = ev.target.options[ev.target.selectedIndex].text;
-    if (ev.target.value === encodeURIComponent("CharlieCards & Tickets")) {
+    if (ev.target.value === "CharlieCards & Tickets") {
       $("#charlie-card-or-ticket-number").show();
     } else {
       $("#charlie-card-or-ticket-number").hide();
     }
   });
+
+  subjectEl.change(); // initialize with right value
 }
