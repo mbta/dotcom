@@ -50,35 +50,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   # optionally displaying a tag and description of alternate times
   defp itinerary_panel(%{results: %{itinerary_group_selection: nil}} = assigns) do
     ~H"""
-    <div class="flex flex-col gap-4">
-      <div
-        :for={{group, index} <- Enum.with_index(@results.itinerary_groups)}
-        class="border border-solid border-gray-lighter p-4"
-        phx-click="select_itinerary_group"
-        phx-value-index={index}
-        data-test={"results:itinerary_group:#{index}"}
-      >
-        <div
-          :if={group.summary.tag}
-          class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
-        >
-          {Phoenix.Naming.humanize(group.summary.tag)}
-        </div>
-        <.itinerary_summary summary={group.summary} />
-        <div class="flex justify-end items-center">
-          <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">
-            {ItineraryGroup.options_text(group)}
-          </div>
-          <button
-            class="btn-link font-semibold underline"
-            phx-click="select_itinerary_group"
-            phx-value-index={index}
-          >
-            Details
-          </button>
-        </div>
-      </div>
-    </div>
+    <.itinerary_groups indexed_groups={Enum.with_index(@results.itinerary_groups)} />
     """
   end
 
@@ -130,6 +102,42 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </div>
       </div>
       <.itinerary_detail itinerary={@itinerary} />
+    </div>
+    """
+  end
+
+  attr(:indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`")
+
+  defp itinerary_groups(assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <div
+        :for={{group, index} <- @indexed_groups}
+        class="border border-solid border-gray-lighter p-4"
+        phx-click="select_itinerary_group"
+        phx-value-index={index}
+        data-test={"results:itinerary_group:#{index}"}
+      >
+        <div
+          :if={group.summary.tag}
+          class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+        >
+          {Phoenix.Naming.humanize(group.summary.tag)}
+        </div>
+        <.itinerary_summary summary={group.summary} />
+        <div class="flex justify-end items-center">
+          <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">
+            {ItineraryGroup.options_text(group)}
+          </div>
+          <button
+            class="btn-link font-semibold underline"
+            phx-click="select_itinerary_group"
+            phx-value-index={index}
+          >
+            Details
+          </button>
+        </div>
+      </div>
     </div>
     """
   end
