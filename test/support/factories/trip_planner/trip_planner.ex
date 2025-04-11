@@ -81,6 +81,13 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
     })
   end
 
+  def otp_commuter_rail_leg_factory do
+    Factory.build(:transit_leg, %{
+      agency: Factory.build(:agency, %{name: "MBTA"}),
+      route: Factory.build(:route, %{type: 2})
+    })
+  end
+
   def otp_ferry_leg_factory do
     Factory.build(:transit_leg, %{
       agency: Factory.build(:agency, %{name: "MBTA"}),
@@ -97,6 +104,11 @@ defmodule Test.Support.Factories.TripPlanner.TripPlanner do
 
   def otp_itinerary_factory do
     Factory.build(:itinerary)
+    |> limit_route_types()
+  end
+
+  def otp_transit_leg_factory do
+    Factory.build(:transit_leg)
     |> limit_route_types()
   end
 
