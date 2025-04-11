@@ -58,7 +58,7 @@ defmodule DotcomWeb.ScheduleViewTest do
         |> IO.iodata_to_binary()
 
       assert result =~
-               "We can only provide trip data for the Spring schedule, valid until May 31, 2018"
+               "We can only provide trip data for the spring schedule, valid until May 31, 2018"
     end
 
     test "when a starting and ending stop are provided" do

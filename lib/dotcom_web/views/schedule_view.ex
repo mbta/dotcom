@@ -113,6 +113,7 @@ defmodule DotcomWeb.ScheduleView do
     version
     |> String.split(" ", parts: 2)
     |> List.first()
+    |> String.downcase()
   end
 
   defp rating_end_date(%{meta: %{"end_date" => end_date}}) do
