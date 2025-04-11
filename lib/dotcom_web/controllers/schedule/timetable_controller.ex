@@ -90,7 +90,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     header_schedules =
       trip_schedules
       |> Map.values()
-      |> header_schedules()
+      |> Kernel.then(&header_schedules(route, &1))
 
     track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
 
@@ -513,10 +513,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     {{nil, nil}, schedule}
   end
 
-  @spec header_schedules(list) :: list
-  defp header_schedules(timetable_schedules) do
-    timetable_schedules
-    |> Schedules.Sort.sort_by_first_times()
+  defp header_schedules(%Route{description: :ferry}, schedules) do
+    schedules
+    |> Schedules.Sort.sort_by_first_departure()
+    |> Enum.map(&List.first/1)
+  end
+
+  defp header_schedules(%Route{}, schedules) do
+    schedules
+    |> Schedules.Sort.sort_by_first_shared_stop()
     |> Enum.map(&List.first/1)
   end
 
