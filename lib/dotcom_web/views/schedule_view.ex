@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
 
+  use DotcomWeb, :component
   use DotcomWeb, :view
 
   require Routes.Route
@@ -8,6 +9,7 @@ defmodule DotcomWeb.ScheduleView do
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
   import DotcomWeb.ViewHelpers
+  import MbtaMetro.Components.Icon, only: [icon: 1]
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers
@@ -27,6 +29,8 @@ defmodule DotcomWeb.ScheduleView do
     "Blue",
     "Mattapan"
   ]
+
+  @flag_stop_routes ["714", "716"]
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -411,6 +415,26 @@ defmodule DotcomWeb.ScheduleView do
   @spec station?(Stops.Stop.t()) :: boolean()
   def station?(stop) do
     stop.station?
+  end
+
+  @spec flag_stop_badge(Route.t()) :: Safe.t() | nil
+  def flag_stop_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
+    assigns = %{}
+
+    ~H"""
+    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
+      <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
+        <.icon class="h-3.5 w-3.5" name="flag" />
+      </div>
+      <span class="text-sm font-bold text-black my-[0.094rem]">
+        Flag the bus in any safe place along the route
+      </span>
+    </div>
+    """
+  end
+
+  def flag_stop_badge(_route) do
+    nil
   end
 
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil

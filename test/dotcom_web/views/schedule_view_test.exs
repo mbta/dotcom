@@ -456,4 +456,15 @@ defmodule DotcomWeb.ScheduleViewTest do
       assert station?(%Stop{id: "11257", station?: false}) == false
     end
   end
+
+  describe "flag_stop_badge/1" do
+    test "returns a badge for the flag stop routes" do
+      refute flag_stop_badge(%Route{id: "714"}) == nil
+      refute flag_stop_badge(%Route{id: "716"}) == nil
+    end
+
+    test "returns nothing otherwise" do
+      assert flag_stop_badge(%Route{id: "39"}) == nil
+    end
+  end
 end
