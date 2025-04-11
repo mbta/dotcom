@@ -18,7 +18,7 @@ defmodule Schedules.Sort do
   end
 
   @doc """
-  Sorts schedules by comparing the departure time of the first shared stop.
+  Sorts schedules by comparing the time of the first shared stop.
   """
   @spec sort_by_first_shared_stop([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_shared_stop(schedules) do
