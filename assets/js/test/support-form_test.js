@@ -1,19 +1,19 @@
 import { assert } from "chai";
-import jsdom from "mocha-jsdom";
 import { File } from "file-api";
-import sinon from "sinon";
 import { cloneDeep } from "lodash";
+import jsdom from "mocha-jsdom";
+import sinon from "sinon";
+import testConfig from "../../ts/jest.config";
 import {
   clearFallbacks,
-  handleUploadedPhoto,
-  setupTextArea,
-  setupSubject,
-  handleSubmitClick,
-  rescale,
   handleModeChangeSelection,
-  handleSubjectChange
+  handleSubjectChange,
+  handleSubmitClick,
+  handleUploadedPhoto,
+  rescale,
+  setupSubject,
+  setupTextArea
 } from "../support-form";
-import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -218,51 +218,6 @@ describe("support form", () => {
     });
   });
 
-  describe("setupSubject", () => {
-    beforeEach(() => {
-      $("#test").html(`
-        <script id="js-subjects-by-service" type="text/plain">
-          ${JSON.stringify({
-            Complaint: ["complaint 1", "complaint 2"],
-            Inquiry: ["inquiry 1", "inquiry 2", "inquiry 3"]
-          })}
-        </script>
-        <div class="form-group">
-          <input type="radio" name="support[service]" value="Complaint">Complaint</input>
-          <input type="radio" name="support[service]" value="Inquiry">Question</input>
-        </div>
-        <div id="subject">
-        <select class="form-control c-select" id="support_subject" name="support[subject]"><option value="">Please choose a subject</option></select>
-        </div>
-      `);
-
-      setupSubject($);
-    });
-
-    afterEach(() => {
-      $("#test").empty();
-    });
-
-    it("changes options based on selected service", () => {
-      const servicesChoices = document.querySelectorAll(
-        "[name='support[service]']"
-      );
-      $(servicesChoices)
-        .eq(0)
-        .prop("checked", true)
-        .trigger("change");
-      const options1 = [...document.querySelectorAll("option")];
-      assert.lengthOf(options1, 3);
-      $(servicesChoices)
-        .eq(1)
-        .prop("checked", true)
-        .trigger("change");
-      const options2 = [...document.querySelectorAll("option")];
-      assert.lengthOf(options2, 4);
-      assert.notEqual(options1, options2);
-    });
-  });
-
   describe("handleSubmitClick", () => {
     let spy;
     const toUpload = [];
@@ -273,15 +228,12 @@ describe("support form", () => {
         <div class="form-container">
           <div class="support-confirmation support-confirmation--success hidden-xs-up"></div>
           <form id="support" action="/customer-support">
-            <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
-            <input name="support[service]" value="Complaint">Complaint</input>
-            <input name="support[service]" value="Suggestion">Comment</input>
-            <input name="support[service]" value="Inquiry">Question</input>
-            <input name="support[service]" value="Commendation">Request</input>
             <div class="support-support_subject-error-container hidden-xs-up"></div>
-            <select id="support_subject" name="support[subject]" required="required">
+            <select id="support_subject" name="support[subject]" required="required"> 
             <option value="">Please choose a subject</option>
-            <option value="Random_option" selected="selected">Random option</option>
+            <optgroup label="Question">
+              <option data-category="Inquiry" aria-label="Random option" value="Random option" selected="selected">Random option</option>
+            </optgroup>
             </select>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
@@ -362,14 +314,6 @@ describe("support form", () => {
       );
     });
 
-    it("requires a service to be selected", () => {
-      $("#support-submit").click();
-      assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
-      assert.isTrue(
-        $(".support-confirmation--success").hasClass("hidden-xs-up")
-      );
-    });
-
     it("requires a subject to be selected", () => {
       // set the selected value to an invalid one
       $("#support_subject").html(
@@ -438,11 +382,6 @@ describe("support form", () => {
 
     it("focuses to the highest error message on the page", () => {
       $("#support-submit").click();
-      assert.equal(
-        document.activeElement,
-        $(".support-service-error-container")[0]
-      );
-      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#support-submit").click();
       assert.equal(
         document.activeElement,
@@ -483,7 +422,6 @@ describe("support form", () => {
         isWaiting = true;
       });
 
-      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#email").val("test@email.com");
       $("#first_name").val("tom");
       $("#last_name").val("brady");
@@ -501,7 +439,6 @@ describe("support form", () => {
       $("#first_name").val("tom");
       $("#last_name").val("brady");
       $("#comments").val("A comment");
-      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#privacy").prop("checked", "checked");
       $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
@@ -526,7 +463,6 @@ describe("support form", () => {
       $("#email").val("test@email.com");
       $("#first_name").val("tom");
       $("#last_name").val("brady");
-      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
       $("#g-recaptcha-response").val("response");
@@ -565,7 +501,6 @@ describe("support form", () => {
       toUpload.push(new window.Blob([file_1], { type: "image/png" }));
       toUpload.push(new window.Blob([file_2], { type: "image/png" }));
 
-      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
       $("#g-recaptcha-response").val("response");
@@ -587,10 +522,6 @@ describe("support form", () => {
         .stub(Filter.prototype, "clean")
         .callsFake(fakeCleanFn);
 
-      $('[name="support[service]"][value="Commendation"]').attr(
-        "checked",
-        true
-      );
       $("#comments").val("the redsox win");
       $("#no_request_response").attr("checked", true);
       $("#g-recaptcha-response").val("response");
@@ -664,8 +595,8 @@ describe("support form", () => {
       $("#test").html(`
        <select class="c-select c-mode-selector" id="support_subject">
          <option value>Please choose a subject</option>
-         <option value="Bus%20Stop">Bus Stop</option>
-         <option value="CharlieCards%20%26%20Tickets">CharlieCards &amp; Tickets</option>
+         <option value="Bus Stop">Bus Stop</option>
+         <option value="CharlieCards & Tickets">CharlieCards & Tickets</option>
        </select>
        <div id="charlie-card-or-ticket-number" class="form-group">
         <label class="form-control-label" for="support_ticket_number">CharlieCard or Ticket number (optional)</label>
@@ -683,7 +614,7 @@ describe("support form", () => {
       // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
 
       const sortBySelect = document.querySelector("select.c-mode-selector");
-      sortBySelect.value = "CharlieCards%20%26%20Tickets";
+      sortBySelect.value = "CharlieCards & Tickets";
       const event = document.createEvent("HTMLEvents");
       event.initEvent("change", false, false);
       sortBySelect.dispatchEvent(event);
@@ -698,7 +629,7 @@ describe("support form", () => {
       // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
 
       const sortBySelect = document.querySelector("select.c-mode-selector");
-      sortBySelect.value = "Bus%20Stop";
+      sortBySelect.value = "Bus Stop";
       const event = document.createEvent("HTMLEvents");
       event.initEvent("change", false, false);
       sortBySelect.dispatchEvent(event);

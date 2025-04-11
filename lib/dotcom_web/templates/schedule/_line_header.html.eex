@@ -4,7 +4,6 @@
       <%= route_header_text(@route) %>
     </h1>
     <%= route_header_description(@route) %>
-    <%= frequent_bus_badge(@route) %>
     <%= flag_stop_badge(@route) %>
     <div class="schedule__header-tabs">
       <%= route_header_tabs(@conn) %>
