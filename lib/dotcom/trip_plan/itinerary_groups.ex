@@ -23,16 +23,15 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   def from_itineraries(itineraries, opts \\ []) do
     ideal_itineraries =
       (opts[:ideal_itineraries] || [])
-      |> Enum.group_by(&unique_legs_to_hash/1)
+      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
 
     actual_itineraries =
       itineraries
-      |> Enum.group_by(&unique_legs_to_hash/1)
+      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
 
     unavailable_itineraries =
       ideal_itineraries
       |> Enum.reject(fn {hash, _} -> actual_itineraries |> Map.has_key?(hash) end)
-      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
       |> Enum.map(&elem(&1, 1))
       |> Enum.reject(&Enum.empty?/1)
       |> Enum.map(&to_group(&1, opts))
@@ -44,7 +43,6 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
 
     available_itineraries =
       actual_itineraries
-      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
       |> Enum.map(&elem(&1, 1))
       |> Enum.reject(&Enum.empty?/1)
       |> Enum.map(&to_group(&1, opts))
