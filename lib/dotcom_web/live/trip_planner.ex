@@ -77,6 +77,13 @@ defmodule DotcomWeb.Live.TripPlanner do
   - Results: Itinerary groups and itinerary details
   """
   def render(assigns) do
+    assigns =
+      assign(
+        assigns,
+        :accessible_grouping?,
+        assigns.input_form.changeset.params["wheelchair"] == "false"
+      )
+
     ~H"""
     <h1>Trip Planner</h1>
     <div>
@@ -90,6 +97,7 @@ defmodule DotcomWeb.Live.TripPlanner do
             :if={Enum.count(@results.itinerary_groups) > 0 || @results.loading?}
             class="md:max-w-[25rem] md:sticky md:top-4"
             results={@results}
+            accessible_grouping?={@accessible_grouping?}
           />
           <.live_component
             module={MbtaMetro.Live.Map}

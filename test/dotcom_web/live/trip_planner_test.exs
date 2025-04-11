@@ -283,7 +283,17 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     test "using wheelchair: true limits to accessible results", %{view: view} do
       # Setup
-      itineraries = TripPlanner.build_list(4, :otp_itinerary)
+      non_bus_leg =
+        [:otp_commuter_rail_leg, :otp_ferry_leg, :otp_subway_leg]
+        |> Faker.Util.pick()
+        |> TripPlanner.build()
+
+      itineraries =
+        TripPlanner.build_list(4, :otp_itinerary,
+          accessibility_score: :rand.uniform(99) / 100,
+          legs: [non_bus_leg]
+        )
+
       accessible_itinerary = TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
@@ -309,6 +319,54 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute rendered =~ "May not be accessible"
 
       assert rendered =~ "Accessible"
+    end
+
+    test "toggling wheelchair checkbox displays groupings", %{view: view} do
+      # Setup
+      non_bus_leg =
+        [:otp_commuter_rail_leg, :otp_ferry_leg, :otp_subway_leg]
+        |> Faker.Util.pick()
+        |> TripPlanner.build()
+
+      itineraries = [
+        TripPlanner.build(:otp_itinerary,
+          accessibility_score: :rand.uniform(99) / 100,
+          legs: [non_bus_leg]
+        ),
+        TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
+      ]
+
+      expect(OpenTripPlannerClient.Mock, :plan, 2, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+      end)
+
+      # Exercise
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => Map.put(@valid_params, "wheelchair", "false")})
+
+      # Verify
+      rendered =
+        render_async(view)
+        |> Floki.parse_document!()
+        |> Floki.text()
+
+      assert rendered =~ "1 Inaccessible Route"
+      assert rendered =~ "1 Accessible Route"
+
+      # Exercise again
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => Map.put(@valid_params, "wheelchair", "true")})
+
+      # Verify again
+      rerendered =
+        render_async(view)
+        |> Floki.parse_document!()
+        |> Floki.text()
+
+      refute rerendered =~ "Inaccessible Route"
+      refute rerendered =~ "Accessible Route"
     end
 
     test "groupable results show up in groups", %{view: view} do

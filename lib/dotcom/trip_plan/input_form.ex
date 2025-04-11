@@ -40,8 +40,7 @@ defmodule Dotcom.TripPlan.InputForm do
         to: to,
         datetime_type: datetime_type,
         datetime: datetime,
-        modes: modes,
-        wheelchair: wheelchair
+        modes: modes
       }) do
     %{
       fromPlace: PlanParams.to_place_param(from),
@@ -51,7 +50,7 @@ defmodule Dotcom.TripPlan.InputForm do
       numItineraries: 100,
       time: PlanParams.to_time_param(datetime),
       transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
-      wheelchair: wheelchair
+      wheelchair: true
     }
     |> PlanParams.new()
   end

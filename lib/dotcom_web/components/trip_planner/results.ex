@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </button>
       </div>
       <div class="w-full">
-        <.itinerary_panel results={@results} />
+        <.itinerary_panel results={@results} accessible_grouping?={@accessible_grouping?} />
       </div>
     </section>
     """
@@ -48,9 +48,39 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   # When an itinerary group is selected, show a list of group summaries, each
   # optionally displaying a tag and description of alternate times
-  defp itinerary_panel(%{results: %{itinerary_group_selection: nil}} = assigns) do
+  defp itinerary_panel(
+         %{accessible_grouping?: false, results: %{itinerary_group_selection: nil}} = assigns
+       ) do
     ~H"""
     <.itinerary_groups indexed_groups={Enum.with_index(@results.itinerary_groups)} />
+    """
+  end
+
+  defp itinerary_panel(
+         %{accessible_grouping?: true, results: %{itinerary_group_selection: nil}} = assigns
+       ) do
+    {accessible_groups, inaccessible_groups} =
+      assigns.results.itinerary_groups
+      |> Enum.with_index()
+      |> Enum.split_with(fn {group, _} -> group.summary.accessible? end)
+
+    assigns =
+      assign(assigns, %{
+        accessible_groups: accessible_groups,
+        accessible_count: Enum.count(accessible_groups),
+        inaccessible_groups: inaccessible_groups,
+        inaccessible_count: Enum.count(inaccessible_groups)
+      })
+
+    ~H"""
+    <%= if @accessible_count > 0 do %>
+      <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
+      <.itinerary_groups indexed_groups={@accessible_groups} />
+    <% end %>
+    <%= if @inaccessible_count > 0 do %>
+      <.group_header text={"#{@inaccessible_count} Inaccessible #{Inflex.inflect("Route", @inaccessible_count)}"} />
+      <.itinerary_groups indexed_groups={@inaccessible_groups} />
+    <% end %>
     """
   end
 
@@ -139,6 +169,16 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </div>
       </div>
     </div>
+    """
+  end
+
+  attr(:text, :string, required: true)
+
+  defp group_header(assigns) do
+    ~H"""
+    <h2 class="h5 mt-lg first-of-type:mt-0 mb-md font-inter">
+      {@text}
+    </h2>
     """
   end
 end
