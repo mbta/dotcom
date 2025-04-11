@@ -11,6 +11,7 @@ defmodule Schedules.Sort do
   @spec sort_by_first_departure([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_departure(schedules) do
     schedules
+    |> Enum.sort_by(& &1.departure_time, &datetime_sorter/2)
     |> Enum.group_by(& &1.trip.id)
     |> Enum.sort_by(&mapper/1, &departure_sorter/2)
     |> Enum.map(&mapper/1)
@@ -22,6 +23,7 @@ defmodule Schedules.Sort do
   @spec sort_by_first_shared_stop([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_shared_stop(schedules) do
     schedules
+    |> Enum.sort_by(& &1.time, &datetime_sorter/2)
     |> Enum.group_by(& &1.trip.id)
     |> Enum.sort_by(&mapper/1, &first_shared_stop_sorter/2)
     |> Enum.map(&mapper/1)
@@ -71,7 +73,7 @@ defmodule Schedules.Sort do
       a_schedule = find_schedule_with_stop(a, common_stop)
       b_schedule = find_schedule_with_stop(b, common_stop)
 
-      datetime_sorter(a_schedule.departure_time, b_schedule.departure_time)
+      datetime_sorter(a_schedule.time, b_schedule.time)
     else
       departure_sorter(a, b)
     end
