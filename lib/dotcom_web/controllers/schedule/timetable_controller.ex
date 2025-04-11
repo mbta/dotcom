@@ -513,7 +513,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     {{nil, nil}, schedule}
   end
 
-  @spec header_schedules(Route, list) :: list
   defp header_schedules(%Route{description: :ferry}, schedules) do
     schedules
     |> Schedules.Sort.sort_by_first_departure()
