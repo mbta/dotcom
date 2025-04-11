@@ -71,7 +71,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       if(opts[:take_from_end], do: Enum.count(limited_itineraries) - 1, else: 0)
 
     summary =
-      grouped_itineraries
+      limited_itineraries
       |> Enum.at(representative_index)
       |> to_summary(grouped_itineraries)
 
