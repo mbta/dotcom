@@ -88,7 +88,10 @@ defmodule DotcomWeb.Components do
   """
   def count(%{count: 0} = assigns) do
     ~H"""
-    <.badge class="bg-charcoal-80 text-black !min-w-6 md:!min-w-7 py-1.125 text-sm md:text-base/5" variant="square">
+    <.badge
+      class="bg-charcoal-80 text-black !min-w-6 md:!min-w-7 py-1.125 text-sm md:text-base/5"
+      variant="square"
+    >
       0
     </.badge>
     """
@@ -96,7 +99,10 @@ defmodule DotcomWeb.Components do
 
   def count(%{count: _} = assigns) do
     ~H"""
-    <.badge class="bg-cobalt-30 text-white !min-w-6 md:!min-w-7 py-1.125 text-sm md:text-base/5" variant="square">
+    <.badge
+      class="bg-cobalt-30 text-white !min-w-6 md:!min-w-7 py-1.125 text-sm md:text-base/5"
+      variant="square"
+    >
       {@count}
     </.badge>
     """
