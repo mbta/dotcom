@@ -61,7 +61,7 @@ const BranchToggle = (
         )}
       </div>
       <button className="btn btn-link m-schedule-diagram__toggle" type="button">
-        {stopIds.length} stops
+        {stopIds.length} {stopIds.length > 1 ? "stops" : "stop"}
       </button>
     </div>
   );
