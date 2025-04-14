@@ -31,7 +31,7 @@ defmodule Dotcom.TripPlan.Parser do
     struct(
       Itinerary,
       Map.merge(Map.from_struct(itinerary), %{
-        accessible?: accessibility_score == 1 || accessible?(legs),
+        accessible?: accessibility_score == 1 || all_mbta_buses?(legs),
         duration: minutes(seconds),
         legs: legs_with_fares,
         stop: itinerary.end,
@@ -62,18 +62,10 @@ defmodule Dotcom.TripPlan.Parser do
     |> FarePasses.leg_with_fares()
   end
 
-  # If all the transit legs are MBTA buses, mark them as accessible
-  defp accessible?(legs) do
-    case Enum.filter(legs, & &1.transit_leg) do
-      [] ->
-        false
-
-      transit_legs ->
-        Enum.all?(
-          transit_legs,
-          &(&1.route.type == 3 && &1.agency.name == "MBTA")
-        )
-    end
+  defp all_mbta_buses?(legs) do
+    legs
+    |> Enum.filter(& &1.transit_leg)
+    |> Enum.all?(&(&1.route.type == 3 && &1.agency.name == "MBTA"))
   end
 
   defp time(%Schema.LegTime{estimated: nil, scheduled_time: time}), do: time
