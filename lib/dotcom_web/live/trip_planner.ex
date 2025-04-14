@@ -374,7 +374,9 @@ defmodule DotcomWeb.Live.TripPlanner do
           ideal_itineraries: ideal_itineraries
         )
 
-      # ItineraryGroups.from_itineraries(ideal_itineraries,
+      # ideal_itineraries
+      # |> maybe_filter_accessible(data.wheelchair)
+      # |> ItineraryGroups.from_itineraries(
       #   take_from_end: data.datetime_type == "arrive_by",
       #   ideal_itineraries: []
       # )

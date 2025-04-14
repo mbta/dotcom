@@ -34,7 +34,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       |> Enum.reject(fn {hash, _} -> actual_itineraries |> Map.has_key?(hash) end)
       |> Enum.map(&elem(&1, 1))
       |> Enum.reject(&Enum.empty?/1)
-      |> Enum.map(&to_group(&1, opts))
+      |> Enum.map(&to_group(&1, opts |> Keyword.put(:unavailable?, true)))
       |> Enum.sort_by(fn
         %ItineraryGroup{summary: %{tag: tag}} ->
           Enum.find_index(ItineraryTag.tag_priority_order(), &(&1 == tag))
