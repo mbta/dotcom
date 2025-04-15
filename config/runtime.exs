@@ -207,6 +207,16 @@ config :dotcom, DotcomWeb.ViewHelpers,
 
 config :dotcom, google_api_key: System.get_env("GOOGLE_API_KEY")
 
+config :joken,
+  tableau_signer: [
+    signer_alg: "HS256",
+    key_octet: System.get_env("TABLEAU_SECRET_VALUE"),
+    jose_extra_headers: %{
+      "kid" => System.get_env("TABLEAU_SECRET_ID"),
+      "iss" => System.get_env("TABLEAU_CLIENT_ID")
+    }
+  ]
+
 config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
   secret: System.get_env("RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")

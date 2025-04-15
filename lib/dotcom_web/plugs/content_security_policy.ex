@@ -12,6 +12,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         'self'
         #{@tile_server_url}
         *.arcgis.com
+        *.tableau.com
         analytics.google.com
         cdn.mbta.com
         px.ads.linkedin.com
@@ -27,6 +28,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
     frame_src: ~w[
         'self'
         *.arcgis.com
+        *.tableau.com
         *.soundcloud.com
         *.vimeo.com
         cdn.knightlab.com
