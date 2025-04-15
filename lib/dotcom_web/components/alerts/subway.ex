@@ -41,11 +41,7 @@ defmodule DotcomWeb.Components.Alerts.Subway do
 
     ~H"""
     <div class="m-alerts__time-filters">
-      <a
-        :for={group <- group_order()}
-        href={"#" <> anchor(group)}
-        class="m-alerts__time-filter leading-[2]"
-      >
+      <a :for={group <- group_order()} href={"#" <> anchor(group)} class="m-alerts__time-filter">
         {group}<span class="float-right"><.count count={Map.get(@grouped_counts, group, 0)} /></span>
       </a>
     </div>
