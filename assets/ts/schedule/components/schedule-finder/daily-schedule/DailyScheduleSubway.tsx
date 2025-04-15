@@ -196,19 +196,7 @@ const DailyScheduleSubway = ({
 
   return (
     <div>
-      <div className="u-highlight-gray u-m-n24">
-        <div className="u-m-24">
-          <div className="d-flex u-pt-10">
-            <RouteIcon
-              tag={toLower(routeId)}
-              extraClasses="schedule__icon-header--size u-me-8"
-            />
-            <div className="text-lg font-bold">{originStopName}</div>
-          </div>
-          <div className="text-xs font-bold u-pb-10">To {destinationName}</div>
-        </div>
-      </div>
-      <h3 className="u-pt-18">Daily Schedule</h3>
+      <h3>Daily Schedule</h3>
       <div className="u-pt-8">
         <SelectContainer>
           <select
