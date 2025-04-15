@@ -87,7 +87,6 @@ const ScheduleModalContent = ({
 
       {isSubwayRoute(route) ? (
         <DailyScheduleSubway
-          stops={stops}
           services={services}
           stopId={selectedOrigin}
           directionId={selectedDirection}

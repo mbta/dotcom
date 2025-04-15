@@ -20,23 +20,8 @@ import {
   stringToDateObject
 } from "../../../../helpers/date";
 import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
-import { useStop } from "../../../../hooks/useStop";
-import {
-  ScheduleNote,
-  ServiceInSelector,
-  SimpleStopMap
-} from "../../__schedule";
+import { ScheduleNote, ServiceInSelector } from "../../__schedule";
 import SelectContainer from "../SelectContainer";
-
-const findStopName = (
-  stopId: string,
-  directionId: DirectionId,
-  stops: SimpleStopMap
-): string => {
-  const stopsInDirection = stops[directionId];
-  const stop = find(stopsInDirection, stopData => stopData.id === stopId);
-  return stop ? stop.name : "";
-};
 
 const getHoursByStop = (
   stopId: string,
@@ -87,7 +72,6 @@ const getSpecialServiceByDate = (
 
 const DailyScheduleSubway = ({
   directionId,
-  stops,
   stopId,
   routeId,
   route,
@@ -96,7 +80,6 @@ const DailyScheduleSubway = ({
   today
 }: {
   directionId: DirectionId;
-  stops: SimpleStopMap;
   stopId: string;
   routeId: string;
   route: Route;
@@ -107,19 +90,12 @@ const DailyScheduleSubway = ({
   const [selectedSchedule, setSelectedSchedule] = useState<string>("");
   const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>();
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
-  const [stopLatLong, setStopLatLong] = useState<string>("");
   const [scheduleNoteText, setScheduleNoteText] = useState<string>("");
-  const stop = useStop(stopId);
 
   const todayDate = stringToDateObject(today);
-  const originStopName = findStopName(stopId, directionId, stops);
   // Hours will always be rapid transit hours when given a rapid tranist route id
   // (Which all of the routes passed to this component would be)
   const hoursOfOperation = useHoursOfOperationByStop(routeId);
-
-  const { direction_destinations: directionDestinations } = route;
-
-  const destinationName = directionDestinations[directionId];
 
   const specialServices = getSpecialServiceMaps(services);
 
@@ -134,14 +110,6 @@ const DailyScheduleSubway = ({
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   const hideScheduleFrequency = route.id === "Orange";
-
-  useEffect(() => {
-    if (stop.data) {
-      setStopLatLong(`${stop.data.latitude},${stop.data.longitude}`);
-    } else {
-      setStopLatLong("");
-    }
-  }, [stop.data]);
 
   useEffect(() => {
     if (isTodayAWeekday) {

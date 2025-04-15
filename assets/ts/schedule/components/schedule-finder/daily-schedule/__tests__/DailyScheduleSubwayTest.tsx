@@ -83,7 +83,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -100,7 +99,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -117,7 +115,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -134,7 +131,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -171,7 +167,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -221,7 +216,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -250,7 +244,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -305,7 +298,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -361,7 +353,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -409,7 +400,6 @@ describe("DailyScheduleSubway", () => {
     render(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -425,7 +415,6 @@ describe("DailyScheduleSubway", () => {
     render(
       <DailyScheduleSubway
         directionId={1}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
