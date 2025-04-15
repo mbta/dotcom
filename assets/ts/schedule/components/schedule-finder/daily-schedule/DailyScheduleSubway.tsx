@@ -7,7 +7,7 @@ import {
   isWeekend,
   parse
 } from "date-fns";
-import { find, toLower } from "lodash";
+import { find } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
 import {
   DirectionId,
@@ -15,14 +15,12 @@ import {
   StopHours,
   StopHoursByStop
 } from "../../../../__v3api";
-import ExpandableBlock from "../../../../components/ExpandableBlock";
 import {
   formatToBostonTime,
   stringToDateObject
 } from "../../../../helpers/date";
 import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
 import { useStop } from "../../../../hooks/useStop";
-import RouteIcon from "../../../../projects/components/RouteIcon";
 import {
   ScheduleNote,
   ServiceInSelector,
