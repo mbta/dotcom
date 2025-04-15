@@ -1,7 +1,6 @@
 import Config
 
 config :dotcom, :cache, Dotcom.Cache.Multilevel
-config :dotcom, :trip_plan_feedback_cache, Dotcom.Cache.TripPlanFeedback.Cache
 
 config :kino_live_component,
   css_path: "http://localhost:8090/app.css",

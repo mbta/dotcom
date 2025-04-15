@@ -94,8 +94,6 @@ config :dotcom, Dotcom.Cache.Multilevel,
     {Dotcom.Cache.Multilevel.Publisher, stats: true, telemetry: true}
   ]
 
-config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
-
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
     basic_auth: [
