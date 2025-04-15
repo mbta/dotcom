@@ -163,40 +163,38 @@ const DailyScheduleSubway = ({
   return (
     <div>
       <h3>Daily Schedule</h3>
-      <div className="u-pt-8">
-        <SelectContainer>
-          <select
-            value={selectedSchedule}
-            className="c-select-custom notranslate"
-            onChange={e => {
-              setSelectedSchedule(e.target.value);
-            }}
-          >
-            <option value="weekday" key="weekday">
-              Weekday {isTodayAWeekday ? "(Today)" : ""}
-            </option>
-            <option value="saturday" key="saturday">
-              Saturday {isTodaySaturday ? "(Today)" : ""}
-            </option>
-            <option value="sunday" key="sunday">
-              Sunday {isTodaySunday ? "(Today)" : ""}
-            </option>
-            {specialServices.length > 0 && (
-              <optgroup label="Special Service">
-                {specialServices.map(service => {
-                  const dateString = format(service.date, "MMM dd");
-                  const isToday = isSameDay(todayDate, service.date);
-                  return (
-                    <option value={service.dateString} key={service.dateString}>
-                      {service.name}, {dateString} {isToday ? "(Today)" : ""}
-                    </option>
-                  );
-                })}
-              </optgroup>
-            )}
-          </select>
-        </SelectContainer>
-      </div>
+      <SelectContainer>
+        <select
+          value={selectedSchedule}
+          className="c-select-custom notranslate"
+          onChange={e => {
+            setSelectedSchedule(e.target.value);
+          }}
+        >
+          <option value="weekday" key="weekday">
+            Weekday {isTodayAWeekday ? "(Today)" : ""}
+          </option>
+          <option value="saturday" key="saturday">
+            Saturday {isTodaySaturday ? "(Today)" : ""}
+          </option>
+          <option value="sunday" key="sunday">
+            Sunday {isTodaySunday ? "(Today)" : ""}
+          </option>
+          {specialServices.length > 0 && (
+            <optgroup label="Special Service">
+              {specialServices.map(service => {
+                const dateString = format(service.date, "MMM dd");
+                const isToday = isSameDay(todayDate, service.date);
+                return (
+                  <option value={service.dateString} key={service.dateString}>
+                    {service.name}, {dateString} {isToday ? "(Today)" : ""}
+                  </option>
+                );
+              })}
+            </optgroup>
+          )}
+        </select>
+      </SelectContainer>
       <div
         className="d-flex justify-content-space-between u-pt-8"
         style={{ gap: "2%" }}
