@@ -249,23 +249,19 @@ const DailyScheduleSubway = ({
           </div>
         </div>
       </div>
+
       {!hideScheduleFrequency && scheduleNoteText !== "" && (
-        <ExpandableBlock
-          header={{
-            text: "Train Frequency",
-            iconSvgText: null,
-            classOverride: "u-mt-8"
-          }}
-          initiallyExpanded={false}
-          id="train-frequency"
-        >
-          <div className="m-schedule-page__sidebar-hours">
+        <div className="mt-2">
+          <div className="bg-brand-primary-lightest-contrast px-2 py-4">
+            <h3 className="m-0">Train Frequency</h3>
+          </div>
+          <div className="border-[1px] border-gray-lightest px-2 py-4">
             <div className="font-weight-bold text-sm">Regular schedule</div>
-            <div className="text-base u-pt-8">
+            <div className="text-base mt-2">
               Trains depart every {scheduleNoteText}
             </div>
           </div>
-        </ExpandableBlock>
+        </div>
       )}
       <div className="d-flex u-pt-8 u-pb-18 text-lg">
         <a

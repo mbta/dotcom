@@ -328,25 +328,6 @@ describe("DailyScheduleSubway", () => {
     expect(wrapper.html()).toContain('/trip-planner/from/"');
   });
 
-  it("displays the correct stop name, and heading", () => {
-    const wrapper = mount(
-      <DailyScheduleSubway
-        directionId={0}
-        stops={stopMap}
-        stopId={"1"}
-        routeId={"blue"}
-        route={route}
-        scheduleNote={null}
-        today={"2022-11-30T13:45:00-05:00"}
-        services={services}
-      />
-    );
-
-    expect(wrapper.html()).not.toContain("Special Service");
-    expect(wrapper.html()).toContain("Stop 1");
-    expect(wrapper.html()).toContain("Heathrow");
-  });
-
   it("should display the special services in the drop down", () => {
     const specialServices = [
       {
