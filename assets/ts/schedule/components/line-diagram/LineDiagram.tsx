@@ -18,6 +18,7 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
 import { alertsByStop } from "../../../models/alert";
 import OtherStopList from "./OtherStopList";
+import { uniqBy } from "lodash";
 
 interface Props {
   alerts: Alert[];
@@ -66,11 +67,17 @@ const LineDiagram = ({
   const allStops: RouteStop[] = stopTree
     ? stopIds(stopTree).map(stopId => stopForId(stopTree, stopId))
     : routeStopList;
-  const filteredStops: RouteStop[] = allStops.filter(stop =>
-    stop.name.toLowerCase().includes(query.toLowerCase())
+  const filteredStops: RouteStop[] = uniqBy(
+    allStops.filter(stop =>
+      stop.name.toLowerCase().includes(query.toLowerCase())
+    ),
+    rs => rs.id
   );
-  const filteredOtherStops: RouteStop[] = otherRouteStops.filter(stop =>
-    stop.name.toLowerCase().includes(query.toLowerCase())
+  const filteredOtherStops: RouteStop[] = uniqBy(
+    otherRouteStops.filter(stop =>
+      stop.name.toLowerCase().includes(query.toLowerCase())
+    ),
+    rs => rs.id
   );
 
   const changeOrigin = (origin: SelectedOrigin): void => {
