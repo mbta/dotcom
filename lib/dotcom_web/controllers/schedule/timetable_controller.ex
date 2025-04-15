@@ -383,6 +383,12 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       "Boat-Logan",
       "Boat-Fan",
       "Boat-Aquarium"
+    ],
+    "Boat-F7" => [
+      "Boat-Quincy",
+      "Boat-Logan",
+      "Boat-Fan",
+      "Boat-Aquarium"
     ]
   }
   @ferry_inbound_keys Map.keys(@ferry_inbound_ids)
