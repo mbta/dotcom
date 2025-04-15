@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { updateInLocation } from "use-query-params";
+import { uniqBy } from "lodash";
 import SearchBox from "../../../components/SearchBox";
 import { stopForId, stopIds } from "../../../helpers/stop-tree";
 import useRealtime from "../../../hooks/useRealtime";
@@ -18,7 +19,6 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
 import { alertsByStop } from "../../../models/alert";
 import OtherStopList from "./OtherStopList";
-import { uniqBy } from "lodash";
 
 interface Props {
   alerts: Alert[];
