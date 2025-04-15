@@ -263,14 +263,6 @@ const DailyScheduleSubway = ({
           </div>
         </div>
       )}
-      <div className="d-flex u-pt-8 u-pb-18 text-lg">
-        <a
-          href={`/trip-planner/from/${stopLatLong}`}
-          className="btn btn-secondary btn-block u-mt-8"
-        >
-          Plan Your Trip
-        </a>
-      </div>
     </div>
   );
 };
