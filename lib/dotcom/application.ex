@@ -35,9 +35,7 @@ defmodule Dotcom.Application do
             {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
-            {Req.Telemetry, []},
-            # We don't need to run this cache because we are using the local cache for tests
-            {Dotcom.Cache.TripPlanFeedback.Cache, []}
+            {Req.Telemetry, []}
           ]
         else
           []

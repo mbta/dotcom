@@ -253,17 +253,6 @@ defmodule DotcomWeb.Router do
     live_dashboard("/dashboard")
   end
 
-  scope "/admin", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-
-    live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
-      get("/trip-planner/feedback/download", TripPlan.Feedback, :download)
-      live("/", Live.Admin)
-      live("/trip-plan-feedback", Live.Admin.TripPlanFeedback)
-    end
-  end
-
   if Mix.env() == :dev do
     scope "/kino-live-component", KinoLiveComponent do
       pipe_through([:allow_insecure_connection])

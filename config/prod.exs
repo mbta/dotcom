@@ -1,7 +1,6 @@
 import Config
 
 config :dotcom, :cache, Dotcom.Cache.Multilevel
-config :dotcom, :trip_plan_feedback_cache, Dotcom.Cache.TripPlanFeedback.Cache
 
 # configured separately so that we can have the health check not require
 # SSL
