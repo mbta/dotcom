@@ -7,7 +7,7 @@ import {
   isWeekend,
   parse
 } from "date-fns";
-import { find, toLower } from "lodash";
+import { find } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
 import {
   DirectionId,
@@ -15,30 +15,13 @@ import {
   StopHours,
   StopHoursByStop
 } from "../../../../__v3api";
-import ExpandableBlock from "../../../../components/ExpandableBlock";
 import {
   formatToBostonTime,
   stringToDateObject
 } from "../../../../helpers/date";
 import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
-import { useStop } from "../../../../hooks/useStop";
-import RouteIcon from "../../../../projects/components/RouteIcon";
-import {
-  ScheduleNote,
-  ServiceInSelector,
-  SimpleStopMap
-} from "../../__schedule";
+import { ScheduleNote, ServiceInSelector } from "../../__schedule";
 import SelectContainer from "../SelectContainer";
-
-const findStopName = (
-  stopId: string,
-  directionId: DirectionId,
-  stops: SimpleStopMap
-): string => {
-  const stopsInDirection = stops[directionId];
-  const stop = find(stopsInDirection, stopData => stopData.id === stopId);
-  return stop ? stop.name : "";
-};
 
 const getHoursByStop = (
   stopId: string,
@@ -89,7 +72,6 @@ const getSpecialServiceByDate = (
 
 const DailyScheduleSubway = ({
   directionId,
-  stops,
   stopId,
   routeId,
   route,
@@ -98,7 +80,6 @@ const DailyScheduleSubway = ({
   today
 }: {
   directionId: DirectionId;
-  stops: SimpleStopMap;
   stopId: string;
   routeId: string;
   route: Route;
@@ -109,19 +90,12 @@ const DailyScheduleSubway = ({
   const [selectedSchedule, setSelectedSchedule] = useState<string>("");
   const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>();
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
-  const [stopLatLong, setStopLatLong] = useState<string>("");
   const [scheduleNoteText, setScheduleNoteText] = useState<string>("");
-  const stop = useStop(stopId);
 
   const todayDate = stringToDateObject(today);
-  const originStopName = findStopName(stopId, directionId, stops);
   // Hours will always be rapid transit hours when given a rapid tranist route id
   // (Which all of the routes passed to this component would be)
   const hoursOfOperation = useHoursOfOperationByStop(routeId);
-
-  const { direction_destinations: directionDestinations } = route;
-
-  const destinationName = directionDestinations[directionId];
 
   const specialServices = getSpecialServiceMaps(services);
 
@@ -136,14 +110,6 @@ const DailyScheduleSubway = ({
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   const hideScheduleFrequency = route.id === "Orange";
-
-  useEffect(() => {
-    if (stop.data) {
-      setStopLatLong(`${stop.data.latitude},${stop.data.longitude}`);
-    } else {
-      setStopLatLong("");
-    }
-  }, [stop.data]);
 
   useEffect(() => {
     if (isTodayAWeekday) {
@@ -196,53 +162,39 @@ const DailyScheduleSubway = ({
 
   return (
     <div>
-      <div className="u-highlight-gray u-m-n24">
-        <div className="u-m-24">
-          <div className="d-flex u-pt-10">
-            <RouteIcon
-              tag={toLower(routeId)}
-              extraClasses="schedule__icon-header--size u-me-8"
-            />
-            <div className="text-lg font-bold">{originStopName}</div>
-          </div>
-          <div className="text-xs font-bold u-pb-10">To {destinationName}</div>
-        </div>
-      </div>
-      <h3 className="u-pt-18">Daily Schedule</h3>
-      <div className="u-pt-8">
-        <SelectContainer>
-          <select
-            value={selectedSchedule}
-            className="c-select-custom notranslate"
-            onChange={e => {
-              setSelectedSchedule(e.target.value);
-            }}
-          >
-            <option value="weekday" key="weekday">
-              Weekday {isTodayAWeekday ? "(Today)" : ""}
-            </option>
-            <option value="saturday" key="saturday">
-              Saturday {isTodaySaturday ? "(Today)" : ""}
-            </option>
-            <option value="sunday" key="sunday">
-              Sunday {isTodaySunday ? "(Today)" : ""}
-            </option>
-            {specialServices.length > 0 && (
-              <optgroup label="Special Service">
-                {specialServices.map(service => {
-                  const dateString = format(service.date, "MMM dd");
-                  const isToday = isSameDay(todayDate, service.date);
-                  return (
-                    <option value={service.dateString} key={service.dateString}>
-                      {service.name}, {dateString} {isToday ? "(Today)" : ""}
-                    </option>
-                  );
-                })}
-              </optgroup>
-            )}
-          </select>
-        </SelectContainer>
-      </div>
+      <h3>Daily Schedule</h3>
+      <SelectContainer>
+        <select
+          value={selectedSchedule}
+          className="c-select-custom notranslate"
+          onChange={e => {
+            setSelectedSchedule(e.target.value);
+          }}
+        >
+          <option value="weekday" key="weekday">
+            Weekday {isTodayAWeekday ? "(Today)" : ""}
+          </option>
+          <option value="saturday" key="saturday">
+            Saturday {isTodaySaturday ? "(Today)" : ""}
+          </option>
+          <option value="sunday" key="sunday">
+            Sunday {isTodaySunday ? "(Today)" : ""}
+          </option>
+          {specialServices.length > 0 && (
+            <optgroup label="Special Service">
+              {specialServices.map(service => {
+                const dateString = format(service.date, "MMM dd");
+                const isToday = isSameDay(todayDate, service.date);
+                return (
+                  <option value={service.dateString} key={service.dateString}>
+                    {service.name}, {dateString} {isToday ? "(Today)" : ""}
+                  </option>
+                );
+              })}
+            </optgroup>
+          )}
+        </select>
+      </SelectContainer>
       <div
         className="d-flex justify-content-space-between u-pt-8"
         style={{ gap: "2%" }}
@@ -261,32 +213,20 @@ const DailyScheduleSubway = ({
           </div>
         </div>
       </div>
+
       {!hideScheduleFrequency && scheduleNoteText !== "" && (
-        <ExpandableBlock
-          header={{
-            text: "Train Frequency",
-            iconSvgText: null,
-            classOverride: "u-mt-8"
-          }}
-          initiallyExpanded={false}
-          id="train-frequency"
-        >
-          <div className="m-schedule-page__sidebar-hours">
+        <div className="mt-2">
+          <div className="bg-brand-primary-lightest-contrast px-2 py-4">
+            <h3 className="m-0">Train Frequency</h3>
+          </div>
+          <div className="border-[1px] border-gray-lightest px-2 py-4">
             <div className="font-weight-bold text-sm">Regular schedule</div>
-            <div className="text-base u-pt-8">
+            <div className="text-base mt-2">
               Trains depart every {scheduleNoteText}
             </div>
           </div>
-        </ExpandableBlock>
+        </div>
       )}
-      <div className="d-flex u-pt-8 u-pb-18 text-lg">
-        <a
-          href={`/trip-planner/from/${stopLatLong}`}
-          className="btn btn-secondary btn-block u-mt-8"
-        >
-          Plan Your Trip
-        </a>
-      </div>
     </div>
   );
 };

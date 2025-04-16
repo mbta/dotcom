@@ -83,7 +83,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -100,7 +99,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -117,7 +115,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -134,7 +131,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -171,7 +167,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -221,7 +216,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -250,7 +244,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -261,90 +254,6 @@ describe("DailyScheduleSubway", () => {
     );
 
     expect(wrapper.html()).toContain("Daily Schedule");
-  });
-
-  it("should link to plan your trip pre-populated", () => {
-    const stopSpy = jest.spyOn(useStop, "useStop").mockImplementation(() => {
-      return {
-        status: FetchStatus.Data,
-        data: {
-          latitude: 15,
-          longitude: -25
-        } as any
-      };
-    });
-    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
-      return {
-        week: [
-          [
-            {
-              stop_name: "Stop 1",
-              stop_id: "123",
-              parent_stop_id: "543",
-              last_departure: "2022-11-28T22:58:00-05:00",
-              first_departure: "2022-11-28T05:58:00-05:00",
-              is_terminus: false
-            }
-          ],
-          []
-        ],
-        saturday: [[], []],
-        sunday: [[], []],
-        special_service: {}
-      };
-    });
-
-    const wrapper = mount(
-      <DailyScheduleSubway
-        directionId={0}
-        stops={stopMap}
-        stopId={"543"}
-        routeId={"blue"}
-        route={route}
-        scheduleNote={null}
-        today={"2022-11-30T13:45:00-05:00"}
-        services={services}
-      />
-    );
-
-    expect(wrapper.html()).toContain("/trip-planner/from/15,-25");
-    stopSpy.mockRestore();
-  });
-
-  it("should link to plan your trip not populated", () => {
-    const wrapper = mount(
-      <DailyScheduleSubway
-        directionId={0}
-        stops={stopMap}
-        stopId={"1"}
-        routeId={"blue"}
-        route={route}
-        scheduleNote={null}
-        today={"2022-11-30T13:45:00-05:00"}
-        services={services}
-      />
-    );
-
-    expect(wrapper.html()).toContain('/trip-planner/from/"');
-  });
-
-  it("displays the correct stop name, and heading", () => {
-    const wrapper = mount(
-      <DailyScheduleSubway
-        directionId={0}
-        stops={stopMap}
-        stopId={"1"}
-        routeId={"blue"}
-        route={route}
-        scheduleNote={null}
-        today={"2022-11-30T13:45:00-05:00"}
-        services={services}
-      />
-    );
-
-    expect(wrapper.html()).not.toContain("Special Service");
-    expect(wrapper.html()).toContain("Stop 1");
-    expect(wrapper.html()).toContain("Heathrow");
   });
 
   it("should display the special services in the drop down", () => {
@@ -389,7 +298,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -445,7 +353,6 @@ describe("DailyScheduleSubway", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"1"}
         routeId={"blue"}
         route={route}
@@ -493,7 +400,6 @@ describe("DailyScheduleSubway", () => {
     render(
       <DailyScheduleSubway
         directionId={0}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}
@@ -509,7 +415,6 @@ describe("DailyScheduleSubway", () => {
     render(
       <DailyScheduleSubway
         directionId={1}
-        stops={stopMap}
         stopId={"543"}
         routeId={"blue"}
         route={route}

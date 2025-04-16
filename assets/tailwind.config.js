@@ -20,7 +20,8 @@ const moreColors = {
   "brand-primary": {
     DEFAULT: "#165c96",
     darkest: "#0b2f4c",
-    lightest: "#cee0f4"
+    lightest: "#cee0f4",
+    "lightest-contrast": "#e2ecf9"
   },
   "logan-express": {
     BB: "#f16823",

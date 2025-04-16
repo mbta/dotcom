@@ -82,9 +82,11 @@ const ScheduleModalContent = ({
         />
       </div>
       {mobileAppBanner && <div className="-mx-lg">{mobileAppBanner}</div>}
-      {!isSubwayRoute(route) ? null : (
+
+      {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
+
+      {isSubwayRoute(route) ? (
         <DailyScheduleSubway
-          stops={stops}
           services={services}
           stopId={selectedOrigin}
           directionId={selectedDirection}
@@ -93,11 +95,7 @@ const ScheduleModalContent = ({
           scheduleNote={scheduleNote}
           today={today}
         />
-      )}
-
-      {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
-
-      {isSubwayRoute(route) ? null : (
+      ) : (
         <DailySchedule
           selectedOrigin={selectedOrigin}
           services={services}
