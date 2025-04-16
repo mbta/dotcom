@@ -77,7 +77,7 @@ defmodule DotcomWeb.ScheduleControllerTest do
 
       assert conn.assigns.header_schedules ==
                conn.assigns.timetable_schedules
-               |> Sort.sort_by_first_times()
+               |> Sort.sort_by_first_shared_stop()
                |> Enum.map(&List.first/1)
     end
   end
