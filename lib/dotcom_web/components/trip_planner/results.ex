@@ -101,6 +101,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           </.button>
         </div>
       </div>
+      <div>Cost: {@itinerary.generalized_cost}</div>
       <.itinerary_detail itinerary={@itinerary} />
     </div>
     """
@@ -130,6 +131,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         >
           Unavailable
         </div>
+        <div>Cost: {group.generalized_cost}</div>
         <.itinerary_summary summary={group.summary} />
         <div :if={!group.summary.unavailable?} class="flex justify-end items-center">
           <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">

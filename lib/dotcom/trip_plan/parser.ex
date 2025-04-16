@@ -22,6 +22,7 @@ defmodule Dotcom.TripPlan.Parser do
         %Schema.Itinerary{
           accessibility_score: accessibility_score,
           duration: seconds,
+          generalized_cost: generalized_cost,
           legs: legs,
           walk_distance: meters
         } = itinerary
@@ -32,6 +33,7 @@ defmodule Dotcom.TripPlan.Parser do
       Itinerary,
       Map.merge(Map.from_struct(itinerary), %{
         accessible?: accessibility_score == 1 || all_mbta_buses?(legs),
+        generalized_cost: generalized_cost,
         duration: minutes(seconds),
         legs: legs_with_fares,
         stop: itinerary.end,

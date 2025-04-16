@@ -21,12 +21,15 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
   """
   @spec from_itineraries([Itinerary.t()], Keyword.t()) :: [ItineraryGroup.t()]
   def from_itineraries(itineraries, opts \\ []) do
-    ideal_itineraries =
-      (opts[:ideal_itineraries] || [])
-      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
-
     actual_itineraries =
       itineraries
+      |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
+
+    best_actual_cost = itineraries |> Enum.map(& &1.generalized_cost) |> Enum.min()
+
+    ideal_itineraries =
+      (opts[:ideal_itineraries] || [])
+      |> Enum.reject(&(&1.generalized_cost > best_actual_cost))
       |> Enum.group_by(&{&1.accessible?, unique_legs_to_hash(&1)})
 
     unavailable_itineraries =
@@ -99,6 +102,7 @@ defmodule Dotcom.TripPlan.ItineraryGroups do
       |> Map.put(:unavailable?, opts[:unavailable?])
 
     %ItineraryGroup{
+      generalized_cost: limited_itineraries |> Enum.map(& &1.generalized_cost) |> Enum.min(),
       itineraries: ItineraryTag.sort_tagged(limited_itineraries),
       representative_index: representative_index,
       representative_time_key: if(opts[:take_from_end], do: :stop, else: :start),
