@@ -124,8 +124,14 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         >
           {Phoenix.Naming.humanize(group.summary.tag)}
         </div>
+        <div
+          :if={group.summary.unavailable?}
+          class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-gray-lighter text-black px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+        >
+          Unavailable
+        </div>
         <.itinerary_summary summary={group.summary} />
-        <div class="flex justify-end items-center">
+        <div :if={!group.summary.unavailable?} class="flex justify-end items-center">
           <div :if={ItineraryGroup.options_text(group)} class="grow text-sm text-grey-dark">
             {ItineraryGroup.options_text(group)}
           </div>

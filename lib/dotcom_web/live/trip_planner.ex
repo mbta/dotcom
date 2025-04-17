@@ -79,6 +79,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def render(assigns) do
     ~H"""
     <h1>Trip Planner</h1>
+    <h2>Now with Unavailable Trips!</h2>
     <div>
       <.input_form class="mb-4" changeset={@input_form.changeset} />
       <div>
@@ -366,10 +367,20 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Dotcom.TripPlan.OpenTripPlanner.plan()
 
     case plan do
-      {:ok, itineraries} ->
-        itineraries
+      {:ok, %{actual_itineraries: actual_itineraries, ideal_itineraries: ideal_itineraries}} ->
+        actual_itineraries
         |> maybe_filter_accessible(data.wheelchair)
-        |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
+        |> ItineraryGroups.from_itineraries(
+          take_from_end: data.datetime_type == "arrive_by",
+          ideal_itineraries: ideal_itineraries
+        )
+
+      # ideal_itineraries
+      # |> maybe_filter_accessible(data.wheelchair)
+      # |> ItineraryGroups.from_itineraries(
+      #   take_from_end: data.datetime_type == "arrive_by",
+      #   ideal_itineraries: []
+      # )
 
       error ->
         error

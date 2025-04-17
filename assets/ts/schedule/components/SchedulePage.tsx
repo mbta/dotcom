@@ -117,7 +117,7 @@ const getDirectionAndMap = (
     ? fromStopTreeData(stopTree)
     : null;
 
-  return isFerryRoute(route) ? (
+  return isFerryRoute(route) && route.id !== "Boat-F1" ? (
     <>
       <ScheduleFinder
         updateURL={updateURL}
@@ -412,7 +412,7 @@ export const SchedulePage = ({
               currentState.modalOpen
             )}
           {schedulePageData.schedule_note === null &&
-            !isFerryRoute(route) &&
+            (!isFerryRoute(route) || route.id === "Boat-F1") &&
             getScheduleFinder(schedulePageData, readjustedDirectionId)}
         </div>
         <div

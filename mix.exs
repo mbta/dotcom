@@ -125,7 +125,12 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.11.5"]
+        # [github: "mbta/open_trip_planner_client", tag: "v0.11.5"]
+        [
+          github: "mbta/open_trip_planner_client",
+          branch: "jdl/trip-planner/unavailable-trips-spike"
+        ]
+        # path: "../open_trip_planner_client"
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.7.21"},

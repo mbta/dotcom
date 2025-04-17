@@ -5,7 +5,13 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
 
   alias Dotcom.TripPlan.Itinerary
 
-  defstruct [:itineraries, :representative_index, :representative_time_key, :summary]
+  defstruct [
+    :generalized_cost,
+    :itineraries,
+    :representative_index,
+    :representative_time_key,
+    :summary
+  ]
 
   @type summarized_leg :: %{
           routes: [Routes.Route.t()],
@@ -20,10 +26,12 @@ defmodule Dotcom.TripPlan.ItineraryGroup do
           summarized_legs: [summarized_leg()],
           tag: String.t(),
           total_cost: non_neg_integer(),
+          unavailable?: boolean(),
           walk_distance: float()
         }
 
   @type t :: %__MODULE__{
+          generalized_cost: non_neg_integer(),
           itineraries: [Itinerary.t()],
           representative_index: non_neg_integer(),
           representative_time_key: :start | :stop,

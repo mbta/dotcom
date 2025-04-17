@@ -356,7 +356,8 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   @spec get_stop_tree_or_lists([RouteStops.t()], Route.type_int()) ::
           {UnrootedPolytree.t() | nil, [[RouteStop.t()]] | nil}
 
-  def get_stop_tree_or_lists(_, 4), do: {nil, nil}
+  def get_stop_tree_or_lists(route_stops_lists, 4),
+    do: {nil, Enum.map(route_stops_lists, & &1.stops)}
 
   def get_stop_tree_or_lists(route_stops_lists, 3),
     do: {nil, Enum.map(route_stops_lists, & &1.stops)}

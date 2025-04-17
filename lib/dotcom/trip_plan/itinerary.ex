@@ -14,6 +14,7 @@ defmodule Dotcom.TripPlan.Itinerary do
   @enforce_keys [:start, :stop]
   defstruct [
     :duration,
+    :generalized_cost,
     :start,
     :stop,
     :passes,
@@ -25,6 +26,7 @@ defmodule Dotcom.TripPlan.Itinerary do
 
   @type t :: %__MODULE__{
           duration: non_neg_integer(),
+          generalized_cost: non_neg_integer(),
           start: DateTime.t(),
           stop: DateTime.t(),
           legs: [Leg.t()],
