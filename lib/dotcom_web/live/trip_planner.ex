@@ -79,6 +79,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   def render(assigns) do
     ~H"""
     <h1>Trip Planner</h1>
+    <h2>Now with Unavailable Trips!</h2>
     <div>
       <.input_form class="mb-4" changeset={@input_form.changeset} />
       <div>
