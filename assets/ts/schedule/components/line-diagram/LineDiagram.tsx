@@ -43,7 +43,7 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     };
     const newLoc = updateInLocation(newQuery, window.location);
     // newLoc is not a true Location, so toString doesn't work
-    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+    window.history.pushState({}, "", `${newLoc.pathname}${newLoc.search}`);
   }
 };
 

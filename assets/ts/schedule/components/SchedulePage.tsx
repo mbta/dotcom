@@ -35,7 +35,7 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     };
     const newLoc = updateInLocation(newQuery, window.location);
     // newLoc is not a true Location, so toString doesn't work
-    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+    window.history.pushState({}, "", `${newLoc.pathname}${newLoc.search}`);
   }
 };
 
@@ -319,6 +319,17 @@ export const SchedulePage = ({
   });
 
   const currentState = useSelector((state: StoreProps) => state);
+
+  useEffect(() => {
+    if (currentState.modalOpen) {
+      const updateLocation = (): void => closeModal(dispatch);
+
+      window.addEventListener("popstate", updateLocation);
+      return () => window.removeEventListener("popstate", updateLocation);
+    }
+
+    return () => {};
+  }, [currentState.modalOpen, dispatch]);
 
   useEffect(() => {
     // get initial values from the store:
