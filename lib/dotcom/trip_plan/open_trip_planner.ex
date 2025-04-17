@@ -4,14 +4,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   parses the result.
   """
 
-  alias Dotcom.TripPlan.{InputForm, NamedPosition, Parser}
-
-  alias OpenTripPlannerClient.ItineraryTag.{
-    EarliestArrival,
-    LeastWalking,
-    MostDirect,
-    ShortestTrip
-  }
+  alias Dotcom.TripPlan.InputForm
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
@@ -19,36 +12,19 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   Requests to OpenTripPlanner's /plan GraphQL endpoint and parses the response..
   """
   @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
-  @spec plan(NamedPosition.t(), NamedPosition.t(), Keyword.t()) ::
-          OpenTripPlannerClient.Behaviour.plan_result()
 
   def plan(%InputForm{} = input_form) do
     input_form
-    |> InputForm.to_params()
+    |> to_params()
     |> @otp_module.plan()
-    |> parse()
   end
 
-  def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
-    with from <- NamedPosition.to_keywords(from),
-         to <- NamedPosition.to_keywords(to),
-         opts <- Keyword.put_new(opts, :tags, tags(opts)) do
-      @otp_module.plan(from, to, opts)
-      |> parse()
-    end
-  end
-
-  def tags(opts) do
-    if Keyword.has_key?(opts, :arrive_by) do
-      [ShortestTrip, MostDirect, LeastWalking]
-    else
-      [EarliestArrival, MostDirect, LeastWalking]
-    end
-  end
-
-  defp parse({:error, _} = error), do: error
-
-  defp parse({:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}) do
-    {:ok, Enum.map(itineraries, &Parser.parse/1)}
+  def to_params(form) do
+    OpenTripPlannerClient.PlanParams.new(form.from, form.to,
+      arrive_by: form.datetime_type == "arrive_by",
+      modes: InputForm.Modes.selected_mode_keys(form.modes),
+      datetime: form.datetime,
+      wheelchair: form.wheelchair
+    )
   end
 end

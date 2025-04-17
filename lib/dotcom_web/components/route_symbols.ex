@@ -12,6 +12,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   @logan_express_icon_names Route.logan_express_icon_names()
   @massport_icon_names Route.massport_icon_names()
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @subway_branch_ids Dotcom.Routes.subway_branch_ids()
   @subway_line_ids Dotcom.Routes.subway_line_ids()
 
@@ -26,7 +27,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   attr(:class, :string, default: "")
   attr(:rest, :global)
-  attr(:route, Routes.Route, required: true)
+  attr(:route, :any, required: true)
 
   @doc """
   Creates a simple symbol representing a single route. Currently shows rounded
@@ -51,6 +52,39 @@ defmodule DotcomWeb.Components.RouteSymbols do
   <.route_symbol route={%Routes.Route{type: 3}} data-toggle="tooltip" />
   ```
   """
+  def route_symbol(
+        %{
+          route: %OpenTripPlannerClient.Schema.Route{
+            gtfs_id: "massport-ma-us:" <> route_id,
+            short_name: short_name,
+            long_name: long_name
+          }
+        } =
+          assigns
+      ) do
+    assigns =
+      assign(assigns, :route, %Routes.Route{
+        id: route_id,
+        name: short_name || long_name,
+        external_agency_name: "Massport"
+      })
+
+    ~H"""
+    <.route_symbol {assigns} />
+    """
+  end
+
+  def route_symbol(
+        %{route: %OpenTripPlannerClient.Schema.Route{gtfs_id: "mbta-ma-us:" <> route_id}} =
+          assigns
+      ) do
+    assigns = assign(assigns, :route, @routes_repo.get(route_id))
+
+    ~H"""
+    <.route_symbol {assigns} />
+    """
+  end
+
   def route_symbol(%{route: %Route{description: description, type: 3} = route} = assigns)
       when not is_external?(route) and not is_shuttle?(route) and
              description != :rapid_transit do

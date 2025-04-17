@@ -3,28 +3,47 @@ defmodule Dotcom.TripPlan.TransferTest do
 
   import Mox
   import Dotcom.TripPlan.Transfer
+  import OpenTripPlannerClient.Test.Support.Factory
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
-  alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
+  alias Test.Support.Factories.Stops.Stop
+
+  # alias OpenTripPlannerClient.Schema.{Leg, Place, Stop}
 
   setup :verify_on_exit!
 
-  setup do
-    stub(Stops.Repo.Mock, :get, fn _ ->
-      Stop.build(:stop)
-    end)
+  # setup do
+  #   stub(Stops.Repo.Mock, :get, fn _ ->
+  #     Stop.build(:stop)
+  #   end)
 
-    :ok
-  end
+  #   :ok
+  # end
 
   describe "maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
-    defp bus_leg, do: TripPlanner.build(:bus_leg)
-    defp subway_leg, do: TripPlanner.build(:subway_leg)
-    defp cr_leg, do: TripPlanner.build(:cr_leg)
-    defp ferry_leg, do: TripPlanner.build(:ferry_leg)
-    defp xp_leg, do: TripPlanner.build(:express_bus_leg)
-    defp sl_rapid_leg, do: TripPlanner.build(:sl_rapid_leg)
-    defp shuttle_leg, do: TripPlanner.build(:shuttle_leg)
+    defp bus_leg, do: build(:transit_leg, route: build(:route, type: 3, desc: "Local Bus"))
+    defp subway_leg, do: build(:transit_leg, route: build(:route, type: 1))
+    defp cr_leg, do: build(:transit_leg, route: build(:route, type: 2))
+    defp ferry_leg, do: build(:transit_leg, route: build(:route, type: 4))
+
+    defp xp_leg,
+      do:
+        build(:transit_leg,
+          route:
+            build(:route, type: 3, gtfs_id: "mbta-ma-us:" <> Faker.Util.pick(Fares.express()))
+        )
+
+    defp sl_rapid_leg,
+      do:
+        build(:transit_leg,
+          route:
+            build(:route,
+              type: 3,
+              gtfs_id: "mbta-ma-us:" <> Faker.Util.pick(Fares.silver_line_rapid_transit())
+            )
+        )
+
+    defp shuttle_leg,
+      do: build(:transit_leg, route: build(:route, type: 3, desc: "Rail Replacement Bus"))
 
     test "if from or to is nil" do
       refute [nil, nil] |> maybe_transfer?
@@ -100,89 +119,32 @@ defmodule Dotcom.TripPlan.TransferTest do
   end
 
   describe "subway_transfer?/1" do
-    test "picks a transit-transit sequence" do
-      expect(Stops.Repo.Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
+    test "handles transfers between different stops" do
+      [stop1, stop2] = Stop.build_list(2, :stop)
 
-      legs_with_transfer = [
-        %Leg{
-          mode: %PersonalDetail{
-            steps: [
-              %OpenTripPlannerClient.Schema.Step{
-                street_name: "Path"
-              }
-            ]
-          }
-        },
-        %Leg{
-          mode: %TransitDetail{
-            route: %Routes.Route{id: "Green-C"}
-          },
-          to: %NamedPosition{
-            stop: %Stops.Stop{id: "70202"}
-          }
-        },
-        %Leg{
-          mode: %TransitDetail{
-            route: %Routes.Route{id: "Blue"}
-          },
-          from: %NamedPosition{
-            stop: %Stops.Stop{id: "70040"}
-          }
-        }
-      ]
+      Stops.Repo.Mock
+      |> expect(:get_parent, fn _ -> stop1 end)
+      |> expect(:get_parent, fn _ -> stop2 end)
 
-      legs_without_transfer = [
-        %Leg{
-          mode: %TransitDetail{
-            route: %Routes.Route{id: "Green-C"}
-          },
-          to: %NamedPosition{
-            stop: %Stops.Stop{id: "70202"}
-          }
-        },
-        %Leg{
-          mode: %PersonalDetail{
-            steps: [
-              %OpenTripPlannerClient.Schema.Step{
-                street_name: "Path"
-              }
-            ]
-          },
-          from: %NamedPosition{
-            stop: %Stops.Stop{id: "70202"}
-          },
-          to: %NamedPosition{
-            stop: %Stops.Stop{id: "70040"}
-          }
-        }
-      ]
+      refute subway_transfer?([subway_leg(), subway_leg()])
+    end
 
-      assert subway_transfer?(legs_with_transfer)
-      refute subway_transfer?(legs_without_transfer)
+    test "handles transfers within same parent stop" do
+      parent_stop = Stop.build(:stop)
+
+      Stops.Repo.Mock
+      |> expect(:get_parent, fn _ -> parent_stop end)
+      |> expect(:get_parent, fn _ -> parent_stop end)
+
+      assert subway_transfer?([subway_leg(), subway_leg()])
     end
 
     test "handles transfers within the Winter St. Concourse" do
-      expect(Stops.Repo.Mock, :get_parent, 2, fn _ -> %Stops.Stop{id: "parent-station"} end)
+      Stops.Repo.Mock
+      |> expect(:get_parent, fn _ -> Stop.build(:stop, id: "place-pktrm") end)
+      |> expect(:get_parent, fn _ -> Stop.build(:stop, id: "place-dwnxg") end)
 
-      leg_to_park = %Leg{
-        mode: %TransitDetail{
-          route: %Routes.Route{id: "Green-C"}
-        },
-        to: %NamedPosition{
-          stop: %Stops.Stop{id: "70200"}
-        }
-      }
-
-      leg_from_dtx = %Leg{
-        mode: %TransitDetail{
-          route: %Routes.Route{id: "Orange"}
-        },
-        from: %NamedPosition{
-          stop: %Stops.Stop{id: "70020"}
-        }
-      }
-
-      assert subway_transfer?([leg_to_park, leg_from_dtx])
+      assert subway_transfer?([subway_leg(), subway_leg()])
     end
   end
 end

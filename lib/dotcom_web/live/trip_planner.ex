@@ -11,7 +11,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   import DotcomWeb.Router.Helpers, only: [live_path: 2]
 
   alias Dotcom.TripPlan
-  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroup, ItineraryGroups}
+  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm}
+  alias OpenTripPlannerClient.ItineraryGroup
 
   @state %{
     input_form: %{
@@ -366,10 +367,8 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Dotcom.TripPlan.OpenTripPlanner.plan()
 
     case plan do
-      {:ok, itineraries} ->
-        itineraries
-        |> maybe_filter_accessible(data.wheelchair)
-        |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
+      {:ok, itinerary_groups} ->
+        itinerary_groups
 
       error ->
         error
@@ -378,15 +377,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # If the changeset is invalid, we return an empty list of itinerary groups.
   defp get_itinerary_groups(_), do: []
-
-  # If wheelchair access is requested, limit results to accessible ones
-  defp maybe_filter_accessible(itineraries, true) do
-    Enum.filter(itineraries, & &1.accessible?)
-  end
-
-  defp maybe_filter_accessible(itineraries, _) do
-    itineraries
-  end
 
   # Convert the input form changeset to a list of pins for the map.
   # I.e., add pins for the from and to locations.

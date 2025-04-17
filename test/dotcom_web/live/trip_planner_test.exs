@@ -4,9 +4,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   import DotcomWeb.Router.Helpers, only: [live_path: 2]
   import Mox
   import Phoenix.LiveViewTest
+  import OpenTripPlannerClient.Test.Support.Factory
 
   alias Dotcom.TripPlan.AntiCorruptionLayer
-  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
+  # alias Test.Support.Factories.MBTA.Api
 
   setup :verify_on_exit!
 
@@ -116,9 +117,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     test "swapping from/to swaps pins on the map", %{view: view} do
       # Setup
-      stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
-      end)
+      stub(OpenTripPlannerClient.Mock, :plan, fn _ -> {:ok, []} end)
 
       # Exercise
       view |> element("form") |> render_change(%{"input_form" => @valid_params})
@@ -146,9 +145,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     test "disabled swap with invalid from/to", %{view: view} do
       # Setup
-      stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
-      end)
+      stub(OpenTripPlannerClient.Mock, :plan, fn _ -> {:ok, []} end)
 
       params = Map.take(@valid_params, ["from"]) |> Map.put("to", %{"name" => Faker.Cat.breed()})
 
@@ -248,13 +245,13 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
   describe "results" do
     setup %{conn: conn} do
-      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-        %JsonApi{data: [Api.build(:trip_item, %{id: id})]}
-      end)
+      # stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
+      #   %JsonApi{data: [Api.build(:trip_item, %{id: id})]}
+      # end)
 
-      stub(Stops.Repo.Mock, :get, fn _ ->
-        Stop.build(:stop)
-      end)
+      # stub(Stops.Repo.Mock, :get, fn _ ->
+      #   Stop.build(:stop)
+      # end)
 
       {:error, {:live_redirect, %{to: url}}} =
         live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
@@ -267,9 +264,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     test "using valid params shows results", %{view: view} do
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.build_list(1, :otp_itinerary)
-
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+        {:ok, build_list(1, :itinerary_group)}
       end)
 
       # Exercise
@@ -283,11 +278,18 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
     test "using wheelchair: true limits to accessible results", %{view: view} do
       # Setup
-      itineraries = TripPlanner.build_list(4, :otp_itinerary)
-      accessible_itinerary = TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
+      inaccessible_itinerary_groups =
+        build_list(3, :itinerary_group,
+          itineraries: build_list(1, :itinerary, accessibility_score: nil)
+        )
+
+      accessible_itinerary_group =
+        build(:itinerary_group,
+          itineraries: build_list(1, :itinerary, accessibility_score: 1.0)
+        )
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: [accessible_itinerary | itineraries]}}
+        {:ok, [accessible_itinerary_group | inaccessible_itinerary_groups]}
       end)
 
       # Exercise
@@ -316,9 +318,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       group_count = :rand.uniform(5)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
-
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+        {:ok, build_list(group_count, :itinerary_group)}
       end)
 
       # Exercise
@@ -337,9 +337,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       group_count = :rand.uniform(5)
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
-
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+        {:ok, build_list(group_count, :itinerary_group)}
       end)
 
       selected_group = Faker.Util.pick(0..(group_count - 1))
@@ -363,9 +361,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.groupable_otp_itineraries(group_count)
-
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+        {:ok, build_list(group_count, :itinerary_group)}
       end)
 
       selected_group = Faker.Util.pick(0..(group_count - 1))
@@ -391,9 +387,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
     test "selecting an itinerary displays it", %{view: view} do
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        itineraries = TripPlanner.groupable_otp_itineraries(2, 2)
-
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
+        {:ok, build_list(1, :itinerary_group)}
       end)
 
       # Exercise

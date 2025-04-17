@@ -46,7 +46,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             />
           </summary>
           <.list class="m-0">
-            <:item :for={step <- @leg.mode.steps}>
+            <:item :for={step <- @leg.steps}>
               <span class="text-sm">
                 {Step.walk_summary(step)}
               </span>

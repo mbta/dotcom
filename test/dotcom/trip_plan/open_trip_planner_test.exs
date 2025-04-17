@@ -2,46 +2,37 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.TripPlanner.TripPlanner
+  import Test.Support.Factories.TripPlanner.InputForm
 
-  alias Dotcom.TripPlan.{NamedPosition, OpenTripPlanner}
-
-  @date_time Faker.DateTime.forward(2)
-  @from build(:stop_named_position)
-  @to build(:named_position)
-  @opts [arrive_by: @date_time]
+  alias Dotcom.TripPlan.OpenTripPlanner
 
   setup :verify_on_exit!
 
-  describe "plan/1" do
-    test "processes arguments, adds tags,runs OpenTripPlannerClient.plan/3" do
-      expect(OpenTripPlannerClient.Mock, :plan, fn from, to, plan_opts ->
-        assert from == NamedPosition.to_keywords(@from)
-        assert to == NamedPosition.to_keywords(@to)
-        assert plan_opts[:arrive_by] == @opts[:arrive_by]
-        assert plan_opts[:tags]
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
-      end)
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
-      assert {:ok, _} = OpenTripPlanner.plan(@from, @to, @opts)
+    :ok
+  end
+
+  describe "to_params/1 translates an %InputForm{} into %PlanParams{}" do
+    test "translates an %InputForm{} into %PlanParams{}" do
+      input_form = build(:form)
+      assert %OpenTripPlannerClient.PlanParams{} = OpenTripPlanner.to_params(input_form)
     end
   end
 
-  describe "tags/1" do
-    test "outputs list of OpenTripPlannerClient.ItineraryTag modules" do
-      tags = OpenTripPlanner.tags([])
-      assert length(tags) > 0
+  describe "plan/1" do
+    test "accepts an %InputForm{} and passes %PlanParams{} to OpenTripPlanner" do
+      input = build(:form)
 
-      for tag <- tags do
-        assert tag.module_info()[:attributes][:behaviour] == [
-                 OpenTripPlannerClient.ItineraryTag.Behaviour
-               ]
-      end
-    end
+      expect(OpenTripPlannerClient.Mock, :plan, fn params ->
+        assert %OpenTripPlannerClient.PlanParams{} = params
+        assert params == OpenTripPlanner.to_params(input)
 
-    test "uses different tags based on opt values" do
-      refute OpenTripPlanner.tags(arrive_by: Faker.DateTime.forward(2)) ==
-               OpenTripPlanner.tags(depart_at: Faker.DateTime.forward(2))
+        {:ok, []}
+      end)
+
+      assert {:ok, _} = OpenTripPlanner.plan(input)
     end
   end
 end

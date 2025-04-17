@@ -3,39 +3,31 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   import Dotcom.TripPlan.Alerts
   import Mox
+  import OpenTripPlannerClient.Test.Support.Factory
 
   alias Alerts.{Alert, InformedEntity}
-  alias Dotcom.TripPlan.{Itinerary, Leg}
-  alias Test.Support.Factories.{MBTA.Api, Stops.Stop, TripPlanner.TripPlanner}
+  alias OpenTripPlannerClient.Schema.Itinerary
 
   setup :verify_on_exit!
 
-  @tag :flaky
   test "by_mode_and_stops/2 groups alerts by route, to, and from" do
-    stub(Stops.Repo.Mock, :get, &Stop.build(:stop, id: &1))
+    from_stop_id = Faker.Internet.slug()
+    to_stop_id = Faker.Internet.slug()
+    route_id = Faker.Internet.slug()
 
-    leg = TripPlanner.build(:transit_leg)
-
-    itinerary =
-      TripPlanner.build(:itinerary,
-        legs: [leg]
+    leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, gtfs_id: "mbta-ma-us:#{from_stop_id}")),
+        to: build(:place, stop: build(:stop, gtfs_id: "mbta-ma-us:#{to_stop_id}")),
+        route: build(:route, gtfs_id: "mbta-ma-us:#{route_id}")
       )
 
-    expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, [] ->
-      %JsonApi{
-        data: [
-          Api.build(:trip_item, %{id: id})
-        ]
-      }
-    end)
-
-    [leg] = itinerary.legs
-    [from_stop_id, to_stop_id] = leg |> Leg.stop_ids()
+    itinerary = build(:itinerary, legs: [leg])
 
     route_alert =
       Alert.new(
         active_period: [valid_active_period(itinerary)],
-        informed_entity: [%InformedEntity{route: leg.route.id}]
+        informed_entity: [%InformedEntity{route: route_id}]
       )
 
     from_alert =
@@ -57,7 +49,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
            }
   end
 
-  defp valid_active_period(%Itinerary{start: start, stop: stop}) do
+  defp valid_active_period(%Itinerary{start: start, end: stop}) do
     {start, stop}
   end
 end

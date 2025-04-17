@@ -101,7 +101,7 @@ defmodule Routes.Route do
   def logan_express_icon_names, do: @logan_express_icon_names
   def massport_icon_names, do: @massport_icon_names
 
-  @spec type_atom(t | type_int | String.t()) :: route_type
+  @spec type_atom(t | type_int | String.t()) :: route_type | nil
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -116,6 +116,7 @@ defmodule Routes.Route do
   def type_atom("bus"), do: :bus
   def type_atom("ferry"), do: :ferry
   def type_atom("the_ride"), do: :the_ride
+  def type_atom(_), do: nil
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
@@ -220,17 +221,13 @@ defmodule Routes.Route do
   end
 
   @spec vehicle_name(t) :: String.t()
-  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
-    "Train"
+  def vehicle_name(%__MODULE__{type: type}) do
+    vehicle_name(type)
   end
 
-  def vehicle_name(%__MODULE__{type: 3}) do
-    "Bus"
-  end
-
-  def vehicle_name(%__MODULE__{type: 4}) do
-    "Boat"
-  end
+  def vehicle_name(type) when type in [0, 1, 2], do: "Train"
+  def vehicle_name(3), do: "Bus"
+  def vehicle_name(4), do: "Boat"
 
   @spec vehicle_atom(0..4) :: atom
   def vehicle_atom(0), do: :trolley

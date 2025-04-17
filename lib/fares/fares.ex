@@ -80,47 +80,47 @@ defmodule Fares do
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
-  defp calculate_ferry(origin, destination)
-       when "Boat-George" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-George" in [origin, destination] do
     :ferry_george
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Blossom" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-Blossom" in [origin, destination] do
     :ferry_lynn
   end
 
-  defp calculate_ferry(origin, destination)
-       when origin in @winthrop_ferry_stops or destination in @winthrop_ferry_stops do
+  def calculate_ferry(origin, destination)
+      when origin in @winthrop_ferry_stops or destination in @winthrop_ferry_stops do
     :ferry_winthrop
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Charlestown" in [origin, destination] and "Boat-Logan" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-Charlestown" in [origin, destination] and "Boat-Logan" in [origin, destination] do
     :ferry_cross_harbor
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
     :ferry_cross_harbor
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
     :ferry_east_boston
   end
 
-  defp calculate_ferry(origin, destination)
-       when "Boat-Charlestown" in [origin, destination] and
-              "Boat-Long-South" in [origin, destination] do
+  def calculate_ferry(origin, destination)
+      when "Boat-Charlestown" in [origin, destination] and
+             "Boat-Long-South" in [origin, destination] do
     :ferry_inner_harbor
   end
 
-  defp calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do
+  def calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do
     :commuter_ferry_logan
   end
 
-  defp calculate_ferry(_origin, _destination) do
+  def calculate_ferry(_origin, _destination) do
     :commuter_ferry
   end
 
@@ -153,7 +153,17 @@ defmodule Fares do
       %Route{description: :rail_replacement_bus} ->
         :free_service
 
+      %{desc: "Rail Replacement Bus"} ->
+        :free_service
+
       %Route{type: 3, id: id} ->
+        cond do
+          silver_line_rapid_transit?(id) -> :subway
+          express?(id) -> :express_bus
+          true -> :bus
+        end
+
+      %{type: 3, gtfs_id: "mbta-ma-us:" <> id} ->
         cond do
           silver_line_rapid_transit?(id) -> :subway
           express?(id) -> :express_bus
@@ -163,21 +173,14 @@ defmodule Fares do
       %Route{} ->
         Route.type_atom(route_or_atom)
 
+      %{type: type} ->
+        Route.type_atom(type)
+
       <<id::binary>> ->
         @routes_repo.get(id) |> to_fare_atom
 
       _ ->
         route_or_atom
     end
-  end
-
-  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t() | nil
-  def get_fare_by_type(leg, fare_type) do
-    leg
-    |> Kernel.get_in([
-      Access.key(:mode, %{}),
-      Access.key(:fares, %{}),
-      Access.key(fare_type)
-    ])
   end
 end
