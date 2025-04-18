@@ -31,7 +31,7 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
 1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
