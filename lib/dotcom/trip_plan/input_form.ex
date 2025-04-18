@@ -9,8 +9,6 @@ defmodule Dotcom.TripPlan.InputForm do
 
   import Ecto.Changeset
 
-  alias OpenTripPlannerClient.PlanParams
-
   @error_messages %{
     from: "Please select an origin location.",
     from_to_same: "Please select a destination at a different location from the origin.",
@@ -33,27 +31,6 @@ defmodule Dotcom.TripPlan.InputForm do
     __MODULE__.Modes.fields()
     |> Enum.map(&{Atom.to_string(&1), "true"})
     |> Map.new()
-  end
-
-  def to_params(%__MODULE__{
-        from: from,
-        to: to,
-        datetime_type: datetime_type,
-        datetime: datetime,
-        modes: modes,
-        wheelchair: wheelchair
-      }) do
-    %{
-      fromPlace: PlanParams.to_place_param(from),
-      toPlace: PlanParams.to_place_param(to),
-      arriveBy: datetime_type == "arrive_by",
-      date: PlanParams.to_date_param(datetime),
-      numItineraries: 100,
-      time: PlanParams.to_time_param(datetime),
-      transportModes: __MODULE__.Modes.selected_mode_keys(modes) |> PlanParams.to_modes_param(),
-      wheelchair: wheelchair
-    }
-    |> PlanParams.new()
   end
 
   def changeset(params \\ %{}) do
