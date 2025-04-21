@@ -5,7 +5,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
 
   import Mox
 
-  alias Dotcom.TripPlan.ItineraryGroups
+  alias Dotcom.TripPlan.{Itinerary, ItineraryGroups}
   alias Test.Support.Factories.{Stops.Stop, TripPlanner.TripPlanner}
 
   setup :verify_on_exit!
@@ -26,8 +26,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
       subway_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
 
-      itineraries =
-        TripPlanner.build_list(:rand.uniform(5), :itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
+      itinerary = TripPlanner.build(:itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
+      itineraries = Faker.Util.list(:rand.uniform(5), fn -> itinerary end)
 
       # EXERCISE
       grouped_itineraries = ItineraryGroups.from_itineraries(itineraries)
@@ -40,9 +40,8 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
       # SETUP
       bus_a_b_leg = TripPlanner.build(:bus_leg, from: a, to: b)
       subway_b_c_leg = TripPlanner.build(:subway_leg, from: b, to: c)
-
-      itineraries =
-        TripPlanner.build_list(10, :itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
+      itinerary = TripPlanner.build(:itinerary, legs: [bus_a_b_leg, subway_b_c_leg])
+      itineraries = Faker.Util.list(10, fn -> itinerary end)
 
       # EXERCISE
       [group] = ItineraryGroups.from_itineraries(itineraries)
@@ -144,7 +143,7 @@ defmodule Dotcom.TripPlan.ItineraryGroupsTest do
     first_itinerary =
       TripPlanner.build(:itinerary, legs: [bus_a_b_leg, walk_b_c_leg, walk_c_b_leg, bus_b_a_leg])
 
-    second_itinerary = TripPlanner.build(:itinerary, legs: [bus_a_b_leg, bus_b_a_leg])
+    second_itinerary = %Itinerary{first_itinerary | legs: [bus_a_b_leg, bus_b_a_leg]}
 
     # EXERCISE
     grouped_itineraries = ItineraryGroups.from_itineraries([first_itinerary, second_itinerary])

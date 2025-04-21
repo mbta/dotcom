@@ -281,34 +281,52 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert Floki.get_by_id(document, "trip-planner-results")
     end
 
-    test "using wheelchair: true limits to accessible results", %{view: view} do
+    test "toggling wheelchair checkbox displays groupings", %{view: view} do
       # Setup
-      itineraries = TripPlanner.build_list(4, :otp_itinerary)
-      accessible_itinerary = TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
+      non_bus_leg =
+        [:otp_commuter_rail_leg, :otp_ferry_leg, :otp_subway_leg]
+        |> Faker.Util.pick()
+        |> TripPlanner.build()
 
-      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: [accessible_itinerary | itineraries]}}
+      itineraries = [
+        TripPlanner.build(:otp_itinerary,
+          accessibility_score: :rand.uniform(99) / 100,
+          legs: [non_bus_leg]
+        ),
+        TripPlanner.build(:otp_itinerary, accessibility_score: 1.0)
+      ]
+
+      expect(OpenTripPlannerClient.Mock, :plan, 2, fn _ ->
+        {:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}
       end)
 
       # Exercise
-      params = %{
-        "from" => @valid_params["from"],
-        "to" => @valid_params["to"],
-        "wheelchair" => "true"
-      }
-
-      view |> element("form") |> render_change(%{"input_form" => params})
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => Map.put(@valid_params, "wheelchair", "true")})
 
       # Verify
-      rendered = render_async(view)
+      rendered =
+        render_async(view)
+        |> Floki.parse_document!()
+        |> Floki.text()
 
-      assert rendered
-             |> Floki.parse_document!()
-             |> Floki.get_by_id("trip-planner-results")
+      assert rendered =~ "1 Inaccessible Route"
+      assert rendered =~ "1 Accessible Route"
 
-      refute rendered =~ "May not be accessible"
+      # Exercise again
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => Map.put(@valid_params, "wheelchair", "false")})
 
-      assert rendered =~ "Accessible"
+      # Verify again
+      rerendered =
+        render_async(view)
+        |> Floki.parse_document!()
+        |> Floki.text()
+
+      refute rerendered =~ "Inaccessible Route"
+      refute rerendered =~ "Accessible Route"
     end
 
     test "groupable results show up in groups", %{view: view} do
