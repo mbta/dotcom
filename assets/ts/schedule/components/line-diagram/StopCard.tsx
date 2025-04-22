@@ -14,19 +14,13 @@ import {
   isCurrentLifecycle,
   isHighSeverityOrHighPriority
 } from "../../../models/alert";
-import { hasPredictionTime } from "../../../models/prediction";
-import {
-  isACommuterRailRoute,
-  isAGreenLineRoute,
-  isSubwayRoute
-} from "../../../models/route";
+import { isACommuterRailRoute, isAGreenLineRoute } from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
 import { RouteStop, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
-import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
@@ -77,11 +71,6 @@ const visibleAlert = (alert: Alert): boolean => {
 
 const hasHighPriorityAlert = (stopId: StopId, alerts: Alert[]): boolean =>
   alertsByStop(alerts, stopId).filter(visibleAlert).length > 0;
-
-const routeForStop = (stopTree: StopTree, stopId: StopId): Route | null => {
-  const { route } = stopForId(stopTree, stopId);
-  return route;
-};
 
 const Alert = (): JSX.Element => (
   <>

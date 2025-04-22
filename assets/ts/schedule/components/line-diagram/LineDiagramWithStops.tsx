@@ -6,14 +6,12 @@ import {
   newBranchesStartingInSlice,
   nextStopIds
 } from "../../../helpers/stop-tree";
-import { hasPredictionTime } from "../../../models/prediction";
 import { Alert, DirectionId, Route } from "../../../__v3api";
 import { IndexedRouteStop, RouteStop, StopId, StopTree } from "../__schedule";
 import { Diagram, SimpleDiagram } from "./graphics/Diagram";
 import useTreeStopPositions, { RefMap } from "./graphics/useTreeStopPositions";
 import ExpandableBranch from "./ExpandableBranch";
 import StopCard from "./StopCard";
-import { LiveDataByStop } from "./__line-diagram";
 import { alertsByStop } from "../../../models/alert";
 import OtherStopList from "./OtherStopList";
 
@@ -251,9 +249,7 @@ const LineDiagramWithStops = ({
 
   return (
     <StopRefContext.Provider value={[stopRefsMap, updateAllStopCoords]}>
-      <div
-        className="m-schedule-diagram"
-      >
+      <div className="m-schedule-diagram">
         {stopTree ? (
           <Diagram
             alerts={alerts}
