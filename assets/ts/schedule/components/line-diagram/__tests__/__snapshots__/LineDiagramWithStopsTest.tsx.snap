@@ -5,19 +5,6 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
   <LineDiagramWithStops alerts={{...}} directionId={1} handleStopClick={[Function: handleStopClick]} liveData={{...}} otherRouteStops={{...}} route={{...}} routeStopList={{...}} stopTree={{...}}>
     <div className=\\"m-schedule-diagram \\">
       <Diagram alerts={{...}} directionId={1} liveData={{...}} route={{...}} stopTree={{...}}>
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
         <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"36px\\" height=\\"100%\\" style={{...}}>
           <title id=\\"diagram-title\\">
             Line diagram for 
@@ -137,7 +124,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </div>
                 <footer className=\\"m-schedule-diagram__footer\\">
                   <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                    View schedule
+                    View departures
                   </button>
                 </footer>
               </section>
@@ -170,7 +157,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </div>
                   <footer className=\\"m-schedule-diagram__footer\\">
                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                      View schedule
+                      View departures
                     </button>
                   </footer>
                 </section>
@@ -203,7 +190,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </div>
                     <footer className=\\"m-schedule-diagram__footer\\">
                       <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                        View schedule
+                        View departures
                       </button>
                     </footer>
                   </section>
@@ -236,7 +223,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </div>
                       <footer className=\\"m-schedule-diagram__footer\\">
                         <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                          View schedule
+                          View departures
                         </button>
                       </footer>
                     </section>
@@ -302,7 +289,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </div>
                         <footer className=\\"m-schedule-diagram__footer\\">
                           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                            View schedule
+                            View departures
                           </button>
                         </footer>
                       </section>
@@ -335,7 +322,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </div>
                           <footer className=\\"m-schedule-diagram__footer\\">
                             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                              View schedule
+                              View departures
                             </button>
                           </footer>
                         </section>
@@ -401,7 +388,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </div>
                             <footer className=\\"m-schedule-diagram__footer\\">
                               <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                View schedule
+                                View departures
                               </button>
                             </footer>
                           </section>
@@ -434,7 +421,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               </div>
                               <footer className=\\"m-schedule-diagram__footer\\">
                                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                  View schedule
+                                  View departures
                                 </button>
                               </footer>
                             </section>
@@ -467,7 +454,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 </div>
                                 <footer className=\\"m-schedule-diagram__footer\\">
                                   <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                    View schedule
+                                    View departures
                                   </button>
                                 </footer>
                               </section>
@@ -500,7 +487,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                   </div>
                                   <footer className=\\"m-schedule-diagram__footer\\">
                                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                      View schedule
+                                      View departures
                                     </button>
                                   </footer>
                                 </section>
@@ -533,7 +520,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                     </div>
                                     <footer className=\\"m-schedule-diagram__footer\\">
                                       <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                        View schedule
+                                        View departures
                                       </button>
                                     </footer>
                                   </section>

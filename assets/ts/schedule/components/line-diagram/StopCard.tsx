@@ -25,7 +25,6 @@ import { RouteStop, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
-import StopPredictions from "./StopPredictions";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { LiveData } from "./__line-diagram";
 
@@ -98,12 +97,6 @@ const hasUpcomingDeparturesIfSubway = (
   return !!liveData && liveData.headsigns.length > 0;
 };
 
-const schedulesButtonLabel = (route: Route | null): string => {
-  return route && isSubwayRoute(route)
-    ? "View upcoming departures"
-    : "View schedule";
-};
-
 const Alert = (): JSX.Element => (
   <>
     {alertIcon("c-svg__icon-alerts-triangle")}
@@ -166,20 +159,11 @@ const StopCard = ({
 
         <div className="m-schedule-diagram__stop-details">
           <StopConnections connections={connections} />
-          {hasLivePredictions(liveData) && !isEnd ? (
-            <StopPredictions
-              headsigns={liveData!.headsigns}
-              isCommuterRail={
-                !!routeStop.route && isACommuterRailRoute(routeStop.route)
-              }
-            />
-          ) : (
-            showDiversion && (
-              <div className="m-schedule-diagram__alert">
-                {effectNameForAlert(diversionAlert!)}
-              </div>
-            )
-          )}
+          {showDiversion ? (
+            <div className="m-schedule-diagram__alert">
+              {effectNameForAlert(diversionAlert!)}
+            </div>
+          ) : null}
         </div>
 
         {(stopTree
@@ -191,9 +175,7 @@ const StopCard = ({
               type="button"
               onClick={() => onClick(routeStop)}
             >
-              {schedulesButtonLabel(
-                stopTree ? routeForStop(stopTree, stopId) : routeStop.route
-              )}
+              View departures
             </button>
           </footer>
         )}

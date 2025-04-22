@@ -46,7 +46,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
         </div>
         <footer className=\\"m-schedule-diagram__footer\\">
           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
+            View departures
           </button>
         </footer>
       </section>

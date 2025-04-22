@@ -7,7 +7,6 @@ import { Diagram } from "../graphics/Diagram";
 import { Route, RouteType } from "../../../../__v3api";
 import Stop from "../graphics/Stop";
 import { LiveDataByStop } from "../__line-diagram";
-import VehicleIcons from "../VehicleIcons";
 
 const stopTree: StopTree = {
   byId: {
@@ -128,9 +127,5 @@ describe("Diagram", () => {
 
   it("shows merges for branches", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
-  });
-
-  test("filters out incoming <VehicleIcons /> at first stop", () => {
-    expect(wrapper.find(VehicleIcons)).toHaveLength(1);
   });
 });

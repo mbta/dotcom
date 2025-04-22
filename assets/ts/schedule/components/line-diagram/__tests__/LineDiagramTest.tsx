@@ -153,7 +153,7 @@ describe("LineDiagram", () => {
       />
     );
 
-    const scheduleLinks = screen.getAllByText("View schedule");
+    const scheduleLinks = screen.getAllByText("View departures");
     await user.click(scheduleLinks[0]);
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -213,7 +213,7 @@ describe("LineDiagram", () => {
     const search = screen.getByLabelText(/Search for a */);
     await user.type(search, "a");
 
-    const scheduleButton = await screen.findByText("View schedule");
+    const scheduleButton = await screen.findByText("View departures");
 
     await userEvent.click(scheduleButton);
 
