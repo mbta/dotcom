@@ -93,8 +93,13 @@ const StopCard = ({
   const routeStop = stopTree
     ? stopForId(stopTree, stopId)
     : routeStopList.find(rs => rs.id === stopId)!;
+  const routeStopIndex = routeStopList.indexOf(routeStop);
+  const isEnd = stopTree
+    ? isEndNode(stopTree, stopId)
+    : routeStopIndex === routeStopList.length - 1;
 
   const diversionAlert = alerts.find(isActiveDiversion);
+  const showDiversion = diversionAlert && !isEnd;
 
   const left = stopTree ? width(stopTree, stopId) : diagramWidth(1);
   const connections = stopTree
@@ -127,7 +132,7 @@ const StopCard = ({
 
         <div className="m-schedule-diagram__stop-details">
           <StopConnections connections={connections} />
-          {diversionAlert ? (
+          {showDiversion ? (
             <div className="m-schedule-diagram__alert">
               {effectNameForAlert(diversionAlert!)}
             </div>
