@@ -97,6 +97,8 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   """
   @spec realtime(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def realtime(conn, %{"id" => route_id, "direction_id" => direction_id}) do
+    Logger.warning("#{__MODULE__}.realtime called with route_id: #{route_id}, direction_id: #{direction_id}")
+
     case LineHelpers.get_route(route_id) do
       {:ok, route} ->
         conn =
