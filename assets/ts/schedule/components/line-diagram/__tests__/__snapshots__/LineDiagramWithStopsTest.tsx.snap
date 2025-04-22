@@ -452,11 +452,6 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                     <div className=\\"m-schedule-diagram__connections\\" />
                                   </StopConnections>
                                 </div>
-                                <footer className=\\"m-schedule-diagram__footer\\">
-                                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                    View departures
-                                  </button>
-                                </footer>
                               </section>
                             </li>
                           </StopCard>
@@ -518,11 +513,6 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                         <div className=\\"m-schedule-diagram__connections\\" />
                                       </StopConnections>
                                     </div>
-                                    <footer className=\\"m-schedule-diagram__footer\\">
-                                      <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                        View departures
-                                      </button>
-                                    </footer>
                                   </section>
                                 </li>
                               </StopCard>
