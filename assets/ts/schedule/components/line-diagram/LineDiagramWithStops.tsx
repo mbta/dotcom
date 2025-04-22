@@ -21,7 +21,6 @@ interface Props {
   alerts: Alert[];
   directionId: DirectionId;
   handleStopClick: (stop: RouteStop) => void;
-  liveData?: LiveDataByStop;
   otherRouteStops: RouteStop[];
   route: Route;
   routeStopList: IndexedRouteStop[];
@@ -55,7 +54,6 @@ const nextPrimaryAndBranches = (
 const NextStopOrBranch = ({
   alerts,
   handleStopClick,
-  liveData,
   mergingInBranches,
   splittingOffBranches,
   stopId,
@@ -63,7 +61,6 @@ const NextStopOrBranch = ({
 }: {
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
-  liveData?: LiveDataByStop;
   mergingInBranches: StopId[][];
   splittingOffBranches: StopId[];
   stopId: StopId;
@@ -87,7 +84,6 @@ const NextStopOrBranch = ({
             stopIds={nonTerminalStops}
             alerts={alerts}
             handleStopClick={handleStopClick}
-            liveData={liveData}
           />
         ]
       : [];
@@ -100,7 +96,6 @@ const NextStopOrBranch = ({
         stopId={terminalStopId}
         alerts={alertsByStop(alerts, terminalStopId)}
         onClick={handleStopClick}
-        liveData={liveData?.[terminalStopId]}
       />,
       <NextStopOrBranch
         key={`tail-${terminalStopId}`}
@@ -110,7 +105,6 @@ const NextStopOrBranch = ({
         mergingInBranches={mergingInBranches}
         splittingOffBranches={remainingSplittingOffBranches}
         handleStopClick={handleStopClick}
-        liveData={liveData}
       />
     ];
 
@@ -139,7 +133,6 @@ const NextStopOrBranch = ({
             alerts={alerts}
             handleStopClick={handleStopClick}
             key={`branch-${startingId}`}
-            liveData={liveData}
             stopIds={nonStartingStops} // Strip the merge stop
             stopTree={stopTree}
           />
@@ -149,7 +142,6 @@ const NextStopOrBranch = ({
       <StopCard
         alerts={alertsByStop(alerts, startingId)}
         key={`stop-card-${startingId}`}
-        liveData={liveData?.[startingId]}
         onClick={handleStopClick}
         routeStopList={[]}
         stopId={startingId}
@@ -160,7 +152,6 @@ const NextStopOrBranch = ({
         alerts={alerts}
         handleStopClick={handleStopClick}
         key={`tail-${startingId}`}
-        liveData={liveData}
         mergingInBranches={remainingMergingInBranches}
         splittingOffBranches={splittingOffBranches}
         stopId={stopId}
@@ -185,7 +176,6 @@ const NextStopOrBranch = ({
         <StopCard
           alerts={alertsByStop(alerts, stopId)}
           key={stopId}
-          liveData={liveData?.[stopId]}
           onClick={handleStopClick}
           routeStopList={[]}
           stopId={stopId}
@@ -195,7 +185,6 @@ const NextStopOrBranch = ({
           alerts={alerts}
           handleStopClick={handleStopClick}
           key={`${stopId}-${nextId}`}
-          liveData={liveData}
           mergingInBranches={mergingInBranches}
           splittingOffBranches={newSplittingOffBranches}
           stopId={nextId}
@@ -215,7 +204,6 @@ const NextStopOrBranch = ({
       <StopCard
         alerts={alertsByStop(alerts, stopId)}
         key={stopId}
-        liveData={liveData?.[stopId]}
         onClick={handleStopClick}
         routeStopList={[]}
         stopId={stopId}
@@ -225,7 +213,6 @@ const NextStopOrBranch = ({
         alerts={alerts}
         handleStopClick={handleStopClick}
         key={`${stopId}-${nextId}`}
-        liveData={liveData}
         mergingInBranches={mergingInBranchesWithNext}
         splittingOffBranches={[]}
         stopId={nextId}
@@ -240,7 +227,6 @@ const NextStopOrBranch = ({
     <StopCard
       alerts={alertsByStop(alerts, stopId)}
       key={stopId}
-      liveData={liveData?.[stopId]}
       onClick={handleStopClick}
       routeStopList={[]}
       stopId={stopId}
@@ -253,7 +239,6 @@ const LineDiagramWithStops = ({
   alerts,
   directionId,
   handleStopClick,
-  liveData,
   otherRouteStops,
   route,
   routeStopList,
@@ -264,31 +249,15 @@ const LineDiagramWithStops = ({
     stopTree || routeStopList
   );
 
-  const anyCrowding = Object.values(
-    liveData || {}
-  ).some(({ headsigns }): boolean =>
-    headsigns
-      ? headsigns
-          .filter(hasPredictionTime)
-          .some(
-            ({ time_data_with_crowding_list: timeData }): boolean =>
-              !!timeData[0].crowding
-          )
-      : false
-  );
-
   return (
     <StopRefContext.Provider value={[stopRefsMap, updateAllStopCoords]}>
       <div
-        className={`m-schedule-diagram ${
-          !anyCrowding ? "u-no-crowding-data" : ""
-        }`}
+        className="m-schedule-diagram"
       >
         {stopTree ? (
           <Diagram
             alerts={alerts}
             directionId={directionId}
-            liveData={liveData}
             route={route}
             stopTree={stopTree}
           />
@@ -296,7 +265,6 @@ const LineDiagramWithStops = ({
           <SimpleDiagram
             alerts={alerts}
             directionId={directionId}
-            liveData={liveData}
             route={route}
             routeStopList={routeStopList}
           />
@@ -306,7 +274,6 @@ const LineDiagramWithStops = ({
             <NextStopOrBranch
               alerts={alerts}
               handleStopClick={handleStopClick}
-              liveData={liveData}
               mergingInBranches={[]}
               splittingOffBranches={[]}
               stopId={longestPathStartingId(stopTree)}
@@ -318,7 +285,6 @@ const LineDiagramWithStops = ({
                 <StopCard
                   alerts={alertsByStop(alerts, routeStop.id)}
                   key={`stop-card-${routeStop.routeIndex}`}
-                  liveData={liveData?.[routeStop.id]}
                   onClick={handleStopClick}
                   routeStopList={routeStopList}
                   stopId={routeStop.id}

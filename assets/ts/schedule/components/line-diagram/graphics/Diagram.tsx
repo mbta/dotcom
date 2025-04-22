@@ -1,9 +1,7 @@
 import React, { ReactElement } from "react";
-import { uniqBy } from "lodash";
 import { routeToModeName } from "../../../../helpers/css";
 import {
   isBranchingNode,
-  isStartNode,
   largestSliceSize,
   longestPath,
   longestPathLength,
@@ -20,7 +18,6 @@ import {
   StopTree
 } from "../../__schedule";
 import { diagramWidth } from "../line-diagram-helpers";
-import { LiveDataByStop } from "../__line-diagram";
 import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 import Stop from "./Stop";
 import { Line, SimpleLine } from "./Line";
@@ -31,7 +28,6 @@ interface Props {
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
-  liveData?: LiveDataByStop;
 }
 
 const routeName = (route: Route): string =>
@@ -79,15 +75,13 @@ interface SimpleProps {
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
-  liveData?: LiveDataByStop;
 }
 
 const SimpleDiagram = ({
   routeStopList,
   route,
   directionId,
-  alerts,
-  liveData
+  alerts
 }: SimpleProps): ReactElement<HTMLElement> => (
   <>
     <svg
@@ -130,8 +124,7 @@ const Diagram = ({
   stopTree,
   route,
   directionId,
-  alerts,
-  liveData
+  alerts
 }: Props): ReactElement<HTMLElement> => (
   <>
     <svg

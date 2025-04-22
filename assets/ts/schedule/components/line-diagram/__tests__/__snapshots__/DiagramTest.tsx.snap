@@ -2,7 +2,7 @@
 
 exports[`Diagram renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
+  <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}}>
     <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"36px\\" height=\\"100%\\" style={{...}}>
       <title id=\\"diagram-title\\">
         Line diagram for 

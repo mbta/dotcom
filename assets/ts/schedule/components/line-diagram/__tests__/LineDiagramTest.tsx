@@ -117,25 +117,6 @@ describe("LineDiagram", () => {
     expect(screen.getByText("Stations")).toBeInTheDocument();
   });
 
-  it("requests live data for most route types", () => {
-    const useSWRSpy = jest.spyOn(swr, "default");
-    renderWithProviders(
-      <LineDiagram
-        stopTree={stopTree}
-        routeStopList={testRouteStopList}
-        route={route}
-        directionId={1}
-        alerts={[]}
-      />
-    );
-    expect(useSWRSpy).toHaveBeenCalled();
-    expect(useSWRSpy).toHaveBeenCalledWith(
-      "/schedules/line_api/realtime?id=route-1&direction_id=1",
-      expect.any(Function),
-      expect.objectContaining({ refreshInterval: expect.any(Number) })
-    );
-  });
-
   it("should update the URL when the schedule finder modal is opened", async () => {
     const updateInLocationSpy = jest.spyOn(UseQueryParams, "updateInLocation");
     const user = userEvent.setup();

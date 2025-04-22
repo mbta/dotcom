@@ -58,7 +58,6 @@ const LineDiagram = ({
   const stopTreeCoordStore = stopTree
     ? createStopTreeCoordStore(stopTree)
     : createStopTreeCoordStore(routeStopList);
-  const liveData = useRealtime(route, directionId, true);
   const [query, setQuery] = useState("");
 
   const dispatch = useDispatch();
@@ -135,7 +134,6 @@ const LineDiagram = ({
                 <StopCard
                   alerts={alertsByStop(alerts, stop.id)}
                   key={stop.id}
-                  liveData={liveData?.[stop.id]}
                   onClick={handleStopClick}
                   routeStopList={routeStopList}
                   searchQuery={query}
@@ -166,7 +164,6 @@ const LineDiagram = ({
             alerts={alerts}
             directionId={directionId}
             handleStopClick={handleStopClick}
-            liveData={liveData}
             otherRouteStops={otherRouteStops}
             route={route}
             routeStopList={routeStopList}

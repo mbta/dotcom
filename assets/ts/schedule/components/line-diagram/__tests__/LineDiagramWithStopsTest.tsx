@@ -174,12 +174,6 @@ const route = {
 
 const handleStopClick = () => {};
 
-const liveDataWithCrowding = (cloneDeep(
-  simpleLiveData
-) as unknown) as LiveDataByStop;
-(liveDataWithCrowding["line-stop2"].headsigns[0].time_data_with_crowding_list[0]
-  .crowding as CrowdingType) = "not_crowded";
-
 const spy = jest.spyOn(UseTreeStopPositions, "default");
 
 describe("LineDiagramWithStops", () => {
@@ -192,7 +186,6 @@ describe("LineDiagramWithStops", () => {
           alerts={[]}
           directionId={1}
           handleStopClick={handleStopClick}
-          liveData={liveDataWithCrowding}
           otherRouteStops={[]}
           route={route}
           routeStopList={testRouteStopList}
@@ -212,25 +205,6 @@ describe("LineDiagramWithStops", () => {
 
   it("uses the useTreeStopPositions hook", () => {
     expect(spy).toHaveBeenCalled();
-  });
-
-  it("toggles u-no-crowding-data class if crowding present", () => {
-    const wrapperWithoutCrowding = mount(
-      <redux.Provider store={store}>
-        <LineDiagramWithStops
-          alerts={[]}
-          directionId={1}
-          handleStopClick={handleStopClick}
-          otherRouteStops={[]}
-          route={route}
-          routeStopList={testRouteStopList}
-          stopTree={stopTree}
-        />
-      </redux.Provider>
-    );
-
-    expect(wrapper.exists(".u-no-crowding-data")).toBeFalsy();
-    expect(wrapperWithoutCrowding.exists(".u-no-crowding-data")).toBeTruthy();
   });
 
   it("doesn't show one stop's diversions for whole route", () => {

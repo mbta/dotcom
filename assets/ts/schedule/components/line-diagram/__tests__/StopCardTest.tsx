@@ -139,7 +139,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -165,7 +164,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -185,7 +183,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -204,7 +201,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[alertC]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -221,7 +217,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -250,7 +245,6 @@ describe("StopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={emptyLiveData}
         />
       </redux.Provider>
     );

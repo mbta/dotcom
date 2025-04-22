@@ -21,7 +21,6 @@ interface Props {
   stopIds: StopId[];
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
-  liveData?: LiveDataByStop;
 }
 
 const BranchToggle = (
@@ -72,7 +71,6 @@ const ExpandableBranch = ({
   stopIds,
   alerts,
   handleStopClick,
-  liveData
 }: Props): ReactElement<HTMLElement> => {
   const [isExpanded, setIsExpanded] = useState(false);
   const updateAllStopCoords = useContext(StopRefContext)[1];
@@ -104,7 +102,6 @@ const ExpandableBranch = ({
               stopId={stopId}
               alerts={alertsByStop(alerts, stopId)}
               onClick={handleStopClick}
-              liveData={liveData?.[stopId]}
             />
           ))}
         </>

@@ -30,7 +30,6 @@ import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
-  liveData?: LiveData;
   noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
   routeStopList: RouteStop[];
@@ -61,9 +60,6 @@ const lineName = ({ name, route: routeStopRoute }: RouteStop): string => {
   return `${title} ${lineOrBranch}`;
 };
 
-const hasLivePredictions = (liveData?: LiveData): boolean =>
-  !!liveData && liveData.headsigns.some(hasPredictionTime);
-
 const connectionsFor = (routeStop: RouteStop, stopTree: StopTree): Route[] => {
   const { connections } = routeStop;
   const greenLineConnections = connections.filter(isAGreenLineRoute);
@@ -87,16 +83,6 @@ const routeForStop = (stopTree: StopTree, stopId: StopId): Route | null => {
   return route;
 };
 
-const hasUpcomingDeparturesIfSubway = (
-  stopTree: StopTree,
-  stopId: StopId,
-  liveData?: LiveData
-): boolean => {
-  const route = routeForStop(stopTree, stopId);
-  if (!route || !isSubwayRoute(route)) return true;
-  return !!liveData && liveData.headsigns.length > 0;
-};
-
 const Alert = (): JSX.Element => (
   <>
     {alertIcon("c-svg__icon-alerts-triangle")}
@@ -107,7 +93,6 @@ const Alert = (): JSX.Element => (
 
 const StopCard = ({
   alerts,
-  liveData,
   noLineDiagram = false,
   onClick,
   routeStopList,
@@ -119,14 +104,8 @@ const StopCard = ({
   const routeStop = stopTree
     ? stopForId(stopTree, stopId)
     : routeStopList.find(rs => rs.id === stopId)!;
-  const routeStopIndex = routeStopList.indexOf(routeStop);
-  const isEnd = stopTree
-    ? isEndNode(stopTree, stopId)
-    : routeStopIndex === routeStopList.length - 1;
 
   const diversionAlert = alerts.find(isActiveDiversion);
-  const showDiversion =
-    diversionAlert && !(hasLivePredictions(liveData) && isEnd);
 
   const left = stopTree ? width(stopTree, stopId) : diagramWidth(1);
   const connections = stopTree
@@ -159,26 +138,21 @@ const StopCard = ({
 
         <div className="m-schedule-diagram__stop-details">
           <StopConnections connections={connections} />
-          {showDiversion ? (
+          {diversionAlert ? (
             <div className="m-schedule-diagram__alert">
               {effectNameForAlert(diversionAlert!)}
             </div>
           ) : null}
         </div>
-
-        {(stopTree
-          ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
-          : true) && (
-          <footer className="m-schedule-diagram__footer">
-            <button
-              className="btn btn-link"
-              type="button"
-              onClick={() => onClick(routeStop)}
-            >
-              View departures
-            </button>
-          </footer>
-        )}
+        <footer className="m-schedule-diagram__footer">
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={() => onClick(routeStop)}
+          >
+            View departures
+          </button>
+        </footer>
       </section>
     </li>
   );
