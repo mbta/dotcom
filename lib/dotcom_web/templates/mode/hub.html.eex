@@ -4,9 +4,8 @@
   <div class="page-section">
     <div class="row">
       <div class="mode-hub col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
-        <h1><%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
-          <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %> <%= @mode_name %>
-        </h1>
+        <%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
+        <h1><%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %> <%= @mode_name %></h1>
         <div class="m-mode__recently-visited">
           <%= render(DotcomWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                     routes: @recently_visited,

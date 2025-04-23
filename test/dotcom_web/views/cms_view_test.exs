@@ -98,7 +98,7 @@ defmodule DotcomWeb.CMSViewTest do
         |> render(page: diversion, conn: fake_conn)
         |> HTML.safe_to_string()
 
-      assert rendered =~ ~s(<h1 class=\"c-cms__title-text\">\nDiversion Test 2)
+      assert rendered =~ ~s(<h1 class=\"c-cms__title-text\">Diversion Test 2)
       assert rendered =~ "<p><strong>Start date: January 1, 2020</strong></p>"
     end
   end
