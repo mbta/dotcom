@@ -25,7 +25,8 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
       arrive_by: form.datetime_type == "arrive_by",
       modes: InputForm.Modes.selected_mode_keys(form.modes),
       datetime: form.datetime,
-      wheelchair: form.wheelchair
+      wheelchair: form.wheelchair,
+      num_itineraries: 100
     )
   end
 

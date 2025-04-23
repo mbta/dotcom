@@ -15,9 +15,13 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
   end
 
   describe "to_params/1 translates an %InputForm{} into %PlanParams{}" do
-    test "translates an %InputForm{} into %PlanParams{}" do
+    test "translates an %InputForm{} into %PlanParams{} with custom numItineraries" do
       input_form = build(:form)
-      assert %OpenTripPlannerClient.PlanParams{} = OpenTripPlanner.to_params(input_form)
+
+      assert %OpenTripPlannerClient.PlanParams{} =
+               plan_params = OpenTripPlanner.to_params(input_form)
+
+      assert plan_params.numItineraries > 5
     end
   end
 
