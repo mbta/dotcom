@@ -61,10 +61,3 @@ User-Agent: DuckAssistBot
 User-Agent: Scrapy
 Disallow: /
 DisallowAITraining: /
-
-# Block any non-specified AI crawlers (e.g., new
-# or unknown bots) from using content for training
-# AI models.  This directive is still experimental
-# and may not be supported by all AI crawlers.
-User-Agent: *
-DisallowAITraining: /
