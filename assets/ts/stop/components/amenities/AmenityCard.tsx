@@ -21,7 +21,9 @@ export const AmenityModal = ({
       closeModal={closeModal}
       ariaLabel={{ elementId }}
     >
-      <h1 id={elementId} className="h4">{headerText}</h1>
+      <h1 id={elementId} className="h4">
+        {headerText}
+      </h1>
       {children}
     </Modal>
   );
