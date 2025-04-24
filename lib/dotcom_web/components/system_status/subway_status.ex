@@ -9,6 +9,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
+  import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   @max_rows 5
   @route_ids ["Red", "Orange", "Green", "Blue"]
@@ -40,7 +41,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           ]}
           data-test="status-row"
         >
-          <.status_row_header row={row} />
+          <.heading row={row} />
 
           <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
         </a>
@@ -68,40 +69,29 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
           >
             <:heading>
-              <.status_row_header row={row} />
+              <.heading row={row} />
             </:heading>
             <:content>
               <.embedded_alert alert={row.alert} />
             </:content>
           </.unstyled_accordion>
         <% else %>
-          <.status_row_header row={row} />
+          <.heading row={row} />
         <% end %>
       </.lined_list>
     </.bordered_container>
     """
   end
 
-  defp status_row_header(assigns) do
+  defp heading(assigns) do
     ~H"""
-    <div class="flex grow">
-      <div class={["px-2 py-3", @row.style.hide_route_pill && "opacity-0"]} data-route-pill>
-        <.subway_route_pill
-          class="group-hover/row:ring-brand-primary-lightest"
-          route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
-        />
-      </div>
-      <div class={[
-        "py-3 grow",
-        @row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-      ]}>
-        <.status_label
-          status={@row.status_entry.status}
-          prefix={@row.status_entry.prefix}
-          plural={@row.status_entry.plural}
-        />
-      </div>
-    </div>
+    <.status_row_heading
+      hide_route_pill={@row.style.hide_route_pill}
+      status={@row.status_entry.status}
+      prefix={@row.status_entry.prefix}
+      plural={@row.status_entry.plural}
+      route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
+    />
     """
   end
 
