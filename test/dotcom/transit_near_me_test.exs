@@ -2,7 +2,6 @@ defmodule Dotcom.TransitNearMeTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Predictions.Prediction
 
   alias Dotcom.TransitNearMe
   alias LocationService.Address
