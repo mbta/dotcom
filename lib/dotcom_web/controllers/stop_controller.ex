@@ -66,7 +66,7 @@ defmodule DotcomWeb.StopController do
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
-          stop_id: stop_id,
+          stop: stop,
           routes_by_stop: routes_by_stop
         })
       end
