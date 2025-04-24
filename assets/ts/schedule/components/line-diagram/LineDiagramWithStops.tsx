@@ -280,7 +280,7 @@ const LineDiagramWithStops = ({
               {routeStopList.map(routeStop => (
                 <StopCard
                   alerts={alertsByStop(alerts, routeStop.id)}
-                  key={`stop-card-${routeStop.routeIndex}`}
+                  key={`stop-card-${routeStop.id}`}
                   onClick={handleStopClick}
                   routeStopList={routeStopList}
                   stopId={routeStop.id}

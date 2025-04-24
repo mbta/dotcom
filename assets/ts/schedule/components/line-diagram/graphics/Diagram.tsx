@@ -114,7 +114,7 @@ const SimpleDiagram = ({
 
       {/* Draw circles for each stop */
       routeStopList.map(routeStop => (
-        <Stop key={`stop-${routeStop.routeIndex}`} stopId={routeStop.id} />
+        <Stop key={`stop-${routeStop.id}`} stopId={routeStop.id} />
       ))}
     </svg>
   </>
