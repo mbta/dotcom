@@ -5,7 +5,7 @@
   end
 %>
 <%= unless Enum.empty?(pdfs) do %>
-  <div class="pdf-schedules-container">
+  <div class="pdf-schedules-container" id="pdf-schedules">
     <h2 class="pdf-schedules-header">PDF Schedules</h2>
     <%= route_pdf_link(pdfs, @route, @date) %>
   </div>
