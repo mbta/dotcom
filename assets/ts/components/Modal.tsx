@@ -62,14 +62,6 @@ const ModalContent = ({
     }
   }, [children]);
 
-  useEffect(() => {
-    document.addEventListener("DOMContentLoaded", closeModal, {
-      passive: true
-    });
-
-    return () => document.removeEventListener("DOMContentLoaded", closeModal);
-  }, [closeModal]);
-
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
     const trap = createFocusTrap("#modal-cover", {
