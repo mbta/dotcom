@@ -6,7 +6,6 @@ import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import { Diagram } from "../graphics/Diagram";
 import { Route, RouteType } from "../../../../__v3api";
 import Stop from "../graphics/Stop";
-import { LiveDataByStop } from "../__line-diagram";
 
 const stopTree: StopTree = {
   byId: {

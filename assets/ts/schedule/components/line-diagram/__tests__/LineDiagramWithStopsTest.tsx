@@ -7,7 +7,6 @@ import { CrowdingType, RouteStop, StopTree } from "../../__schedule";
 import * as UseTreeStopPositions from "../graphics/useTreeStopPositions";
 import { cloneDeep } from "lodash";
 import * as simpleLiveData from "./lineDiagramData/live-data.json";
-import { LiveDataByStop } from "../__line-diagram";
 import { Alert, InformedEntitySet, RouteType } from "../../../../__v3api";
 import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 

@@ -3,19 +3,10 @@ import React from "react";
 import * as redux from "react-redux";
 import * as StopTreeHelpers from "../../../../helpers/stop-tree";
 import { aroundNow } from "../../../../models/__tests__/alert-test";
-import {
-  Alert,
-  HeadsignWithCrowding,
-  InformedEntitySet,
-  Prediction,
-  Route,
-  Schedule
-} from "../../../../__v3api";
+import { Alert, InformedEntitySet, Route } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
-import { TripPrediction } from "../../__trips";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopCard from "../StopCard";
-import { LiveData } from "../__line-diagram";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
@@ -122,8 +113,6 @@ const alertC: Alert = {
 } as Alert;
 
 const handleStopClick = () => {};
-
-const emptyLiveData = { headsigns: [], vehicles: [] };
 
 describe("StopCard", () => {
   afterEach(() => {
