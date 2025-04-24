@@ -27,15 +27,19 @@ import HoursOfOperation from "./HoursOfOperation";
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
   if (window) {
-    // eslint-disable-next-line camelcase
-    const newQuery = {
-      "schedule_finder[direction_id]":
-        direction !== undefined ? direction.toString() : "",
-      "schedule_finder[origin]": origin
-    };
-    const newLoc = updateInLocation(newQuery, window.location);
-    // newLoc is not a true Location, so toString doesn't work
-    window.history.pushState({}, "", `${newLoc.pathname}${newLoc.search}`);
+    if (origin === "") {
+      window.history.back();
+    } else {
+      // eslint-disable-next-line camelcase
+      const newQuery = {
+        "schedule_finder[direction_id]":
+          direction !== undefined ? direction.toString() : "",
+        "schedule_finder[origin]": origin
+      };
+      const newLoc = updateInLocation(newQuery, window.location);
+      // newLoc is not a true Location, so toString doesn't work
+      window.history.pushState({}, "", `${newLoc.pathname}${newLoc.search}`);
+    }
   }
 };
 
