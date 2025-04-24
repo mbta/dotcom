@@ -15,14 +15,14 @@ defmodule DotcomWeb.Components.Stops.Header do
     ~H"""
     <div class="flex items-center justify-content-space-between">
       <h1 class="text-xl mt-3 mb-3">{@stop.name}</h1>
-      <div>
+      <div class="mt-3 mb-3">
         <div class="flex items-end justify-items-end gap-2">
           <.mode_icons routes_by_stop={@routes_by_stop} />
           <.zone_icon stop={@stop} />
           <.accessibility_icon :if={accessible?(assigns)} />
           <.parking_icon :if={parking?(assigns)} />
         </div>
-        <div :if={all_bus_routes?(assigns)} class="text-sm">
+        <div :if={all_bus_routes?(assigns) and not @stop.station?} class="text-sm">
           Stop {@stop.id}
         </div>
       </div>
@@ -109,7 +109,7 @@ defmodule DotcomWeb.Components.Stops.Header do
     # """
     ~H"""
     <.badge
-      class="bg-gray-light font-bold text-white max-h-6 px-1 min-w-6 !rounded-sm"
+      class="bg-gray-light font-bold text-white max-h-6 !px-1.5 min-w-2 !rounded-sm"
       variant="square"
     >
       P
