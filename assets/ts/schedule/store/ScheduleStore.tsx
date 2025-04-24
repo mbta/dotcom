@@ -9,7 +9,6 @@ export interface StoreProps {
   selectedOrigin: SelectedOrigin | "";
   modalOpen: boolean;
   modalMode: ModalMode;
-  modalCameFromSchedulePage?: boolean;
 }
 
 interface ActionData {
@@ -17,7 +16,6 @@ interface ActionData {
   selectedOrigin?: SelectedOrigin | "";
   modalOpen?: boolean;
   modalMode?: ModalMode;
-  modalCameFromSchedulePage?: boolean;
 }
 
 export interface Action {
@@ -34,8 +32,7 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
       selectedDirection: undefined,
       selectedOrigin: undefined,
       modalOpen: false,
-      modalMode: "schedule",
-      modalCameFromSchedulePage: false
+      modalMode: "schedule"
     },
     state
   );
@@ -61,8 +58,7 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
       return {
         ...newState,
         modalMode: action.newStoreValues.modalMode!,
-        modalOpen: true,
-        modalCameFromSchedulePage: true
+        modalOpen: true
       };
     case "CLOSE_MODAL":
       return {
