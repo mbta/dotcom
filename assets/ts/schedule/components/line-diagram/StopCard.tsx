@@ -138,17 +138,15 @@ const StopCard = ({
             </div>
           ) : null}
         </div>
-        {!isEnd ? (
-          <footer className="m-schedule-diagram__footer">
-            <button
-              className="btn btn-link"
-              type="button"
-              onClick={() => onClick(routeStop)}
-            >
-              View departures
-            </button>
-          </footer>
-        ) : null}
+        <footer className="m-schedule-diagram__footer">
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={() => onClick(routeStop)}
+          >
+            View departures
+          </button>
+        </footer>
       </section>
     </li>
   );
