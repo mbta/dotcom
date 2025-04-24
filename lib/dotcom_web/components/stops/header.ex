@@ -17,14 +17,10 @@ defmodule DotcomWeb.Components.Stops.Header do
       <h1 class="text-xl mt-3 mb-3">{@stop.name}</h1>
       <div>
         <div class="flex items-end justify-items-end gap-2">
-          <.mode_icons stop={@stop} routes_by_stop={@routes_by_stop} />
+          <.mode_icons routes_by_stop={@routes_by_stop} />
           <.zone_icon stop={@stop} />
-          <.accessibility_icon
-            :if={accessible?(assigns)}
-            stop={@stop}
-            routes_by_stop={@routes_by_stop}
-          />
-          <.parking_icon :if={parking?(assigns)} stop={@stop} routes_by_stop={@routes_by_stop} />
+          <.accessibility_icon :if={accessible?(assigns)} />
+          <.parking_icon :if={parking?(assigns)} />
         </div>
         <div :if={all_bus_routes?(assigns)} class="text-sm">
           Stop {@stop.id}
