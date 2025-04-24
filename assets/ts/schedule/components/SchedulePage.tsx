@@ -27,17 +27,17 @@ import HoursOfOperation from "./HoursOfOperation";
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
   if (window) {
+    // eslint-disable-next-line camelcase
+    const newQuery = {
+      "schedule_finder[direction_id]":
+        direction !== undefined ? direction.toString() : "",
+      "schedule_finder[origin]": origin
+    };
+    const newLoc = updateInLocation(newQuery, window.location);
+    // newLoc is not a true Location, so toString doesn't work
     if (origin === "") {
-      window.history.back();
+      window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
     } else {
-      // eslint-disable-next-line camelcase
-      const newQuery = {
-        "schedule_finder[direction_id]":
-          direction !== undefined ? direction.toString() : "",
-        "schedule_finder[origin]": origin
-      };
-      const newLoc = updateInLocation(newQuery, window.location);
-      // newLoc is not a true Location, so toString doesn't work
       window.history.pushState({}, "", `${newLoc.pathname}${newLoc.search}`);
     }
   }
@@ -81,15 +81,6 @@ export const changeDirection = (
   });
 };
 
-const closeModal = (dispatch: Dispatch): void => {
-  dispatch({
-    type: "CLOSE_MODAL",
-    newStoreValues: {}
-  });
-  // clear parameters from URL when closing the modal:
-  updateURL("");
-};
-
 export const handleOriginSelectClick = (dispatch: Dispatch): void => {
   dispatch({
     type: "OPEN_MODAL",
@@ -103,7 +94,8 @@ const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   mapData: MapData,
   staticMapData: StaticMapData | undefined,
-  directionId: DirectionId
+  directionId: DirectionId,
+  closeModal: (dispatch: Dispatch) => void
 ): JSX.Element => {
   const {
     route,
@@ -174,7 +166,8 @@ const getDirectionAndMap = (
 
 const getScheduleFinder = (
   schedulePageData: SchedulePageData,
-  directionId: DirectionId
+  directionId: DirectionId,
+  closeModal: (dispatch: Dispatch) => void
 ): JSX.Element | undefined => {
   const {
     route,
@@ -204,7 +197,8 @@ const getScheduleFinder = (
 const getScheduleNote = (
   schedulePageData: SchedulePageData,
   directionId: DirectionId,
-  modalOpen: boolean
+  modalOpen: boolean,
+  closeModal: (dispatch: Dispatch) => void
 ): JSX.Element => {
   const {
     pdfs,
@@ -324,6 +318,20 @@ export const SchedulePage = ({
 
   const currentState = useSelector((state: StoreProps) => state);
 
+  const closeModal = (dispatch: Dispatch): void => {
+    console.log("MODAL CLOSE THE MODAL");
+    dispatch({
+      type: "CLOSE_MODAL",
+      newStoreValues: {}
+    });
+    // clear parameters from URL when closing the modal:
+    if (currentState.modalCameFromSchedulePage) {
+      window.history.back();
+    } else {
+      updateURL("");
+    }
+  };
+
   useEffect(() => {
     if (currentState.modalOpen) {
       const updateLocation = (): void => closeModal(dispatch);
@@ -376,6 +384,7 @@ export const SchedulePage = ({
     : "col-lg-offset-1";
   const ferry = isFerryRoute(route) ? "ferry" : "";
   const title = getPageTitle(route);
+
   if (!!currentState && Object.keys(currentState).length !== 0) {
     const {
       selectedDirection: currentDirection,
@@ -410,7 +419,8 @@ export const SchedulePage = ({
                   schedulePageData,
                   mapData,
                   staticMapData,
-                  readjustedDirectionId
+                  readjustedDirectionId,
+                  closeModal
                 )}
               </div>
             </div>
@@ -424,11 +434,16 @@ export const SchedulePage = ({
             getScheduleNote(
               schedulePageData,
               readjustedDirectionId,
-              currentState.modalOpen
+              currentState.modalOpen,
+              closeModal
             )}
           {schedulePageData.schedule_note === null &&
             !isFerryRoute(route) &&
-            getScheduleFinder(schedulePageData, readjustedDirectionId)}
+            getScheduleFinder(
+              schedulePageData,
+              readjustedDirectionId,
+              closeModal
+            )}
         </div>
         <div
           className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
