@@ -4,7 +4,6 @@ defmodule FaresTest do
 
   import Mox
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias Test.Support.Factories.{Routes.Route, Stops.Stop}
 
   setup :verify_on_exit!
@@ -182,82 +181,6 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(:subway) == :subway
       assert Fares.to_fare_atom(:commuter_rail) == :commuter_rail
       assert Fares.to_fare_atom(:bus) == :bus
-    end
-  end
-
-  describe "get_fare_by_type/2" do
-    test "gets fare by type" do
-      non_transit_leg = %Leg{
-        from: %NamedPosition{
-          latitude: 42.365486,
-          longitude: -71.103802,
-          name: "Central",
-          stop: nil
-        },
-        mode: %PersonalDetail{
-          distance: 24.274,
-          steps: [
-            %OpenTripPlannerClient.Schema.Step{
-              absolute_direction: :southeast,
-              distance: 24.274,
-              relative_direction: :depart,
-              street_name: "Massachusetts Avenue"
-            }
-          ]
-        },
-        polyline: "eoqaGzm~pLTe@BE@A",
-        to: %NamedPosition{
-          latitude: 42.365304,
-          longitude: -71.103621,
-          name: "Central",
-          stop: %Stops.Stop{id: "70069"}
-        }
-      }
-
-      assert Fares.get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
-      assert Fares.get_fare_by_type(non_transit_leg, :lowest_one_way_fare) == nil
-      assert Fares.get_fare_by_type(non_transit_leg, :reduced_one_way_fare) == nil
-
-      highest_one_way_fare = %{
-        cents: 290
-      }
-
-      lowest_one_way_fare = %{
-        cents: 240
-      }
-
-      reduced_one_way_fare = %{
-        cents: 110
-      }
-
-      transit_leg = %Leg{
-        from: %NamedPosition{
-          latitude: 42.365304,
-          longitude: -71.103621,
-          name: "Central",
-          stop: %Stops.Stop{id: "70069"}
-        },
-        mode: %TransitDetail{
-          fares: %{
-            highest_one_way_fare: highest_one_way_fare,
-            lowest_one_way_fare: lowest_one_way_fare,
-            reduced_one_way_fare: reduced_one_way_fare
-          },
-          intermediate_stops: [%Stops.Stop{id: "70071"}, %Stops.Stop{id: "70073"}],
-          route: %Routes.Route{id: "Red"},
-          trip: %Schedules.Trip{id: "43870769C0"}
-        },
-        to: %NamedPosition{
-          latitude: 42.356395,
-          longitude: -71.062424,
-          name: "Park Street",
-          stop: %Stops.Stop{id: "70075"}
-        }
-      }
-
-      assert Fares.get_fare_by_type(transit_leg, :highest_one_way_fare) == highest_one_way_fare
-      assert Fares.get_fare_by_type(transit_leg, :lowest_one_way_fare) == lowest_one_way_fare
-      assert Fares.get_fare_by_type(transit_leg, :reduced_one_way_fare) == reduced_one_way_fare
     end
   end
 end
