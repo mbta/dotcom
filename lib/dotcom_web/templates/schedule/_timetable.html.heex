@@ -5,11 +5,15 @@
   priority_filter: :high,
   always_show: List.wrap(@blocking_alert)
 )}
-{render("_trip_view_filters.html", assigns)}
+<%= if !@suppress_timetable? do %>
+  {render("_trip_view_filters.html", assigns)}
+<% end %>
 
 <div class="calendar-covered m-timetable">
   {content_tag(:div, "", class: "calendar-cover", hidden: !@show_date_select?)}
   <%= cond do %>
+    <% @suppress_timetable? -> %>
+      {render("_timetable_suppressed.html")}
     <% @blocking_alert != nil -> %>
       {render("_timetable_blocked.html", formatted_date: @formatted_date, alert: @blocking_alert)}
     <% Enum.empty?(@header_schedules) -> %>

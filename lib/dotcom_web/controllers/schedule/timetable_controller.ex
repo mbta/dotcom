@@ -14,6 +14,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @spring_2025_rating_date ~D[2025-03-24]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @loop_ferries ["Boat-F6", "Boat-F7"]
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
@@ -23,6 +24,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.ScheduleController.DatePicker)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:alert_blocks)
+  plug(:suppress_loop_ferries)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.Offset)
   plug(DotcomWeb.ScheduleController.ScheduleError)
@@ -66,6 +68,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         conn.assigns.date
       )
     )
+  end
+
+  def suppress_loop_ferries(conn, _) do
+    assign(conn, :suppress_timetable?, Enum.member?(@loop_ferries, conn.assigns.route.id))
   end
 
   def assign_trip_schedules(
