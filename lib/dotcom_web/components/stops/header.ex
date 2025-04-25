@@ -1,5 +1,8 @@
 defmodule DotcomWeb.Components.Stops.Header do
-  alias Jason.Encoder.OpenTripPlannerClient.Schema.Route
+  @moduledoc """
+  TODO
+  """
+
   use DotcomWeb, :component
 
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
