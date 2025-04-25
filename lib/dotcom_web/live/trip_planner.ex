@@ -11,7 +11,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   import DotcomWeb.Router.Helpers, only: [live_path: 2]
 
   alias Dotcom.TripPlan
-  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm, ItineraryGroup, ItineraryGroups}
+  alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm}
+  alias OpenTripPlannerClient.ItineraryGroup
 
   @state %{
     input_form: %{
@@ -374,9 +375,8 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> Dotcom.TripPlan.OpenTripPlanner.plan()
 
     case plan do
-      {:ok, itineraries} ->
-        itineraries
-        |> ItineraryGroups.from_itineraries(take_from_end: data.datetime_type == "arrive_by")
+      {:ok, itinerary_groups} ->
+        itinerary_groups
 
       error ->
         error

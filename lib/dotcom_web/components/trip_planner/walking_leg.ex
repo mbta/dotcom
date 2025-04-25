@@ -6,23 +6,28 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
   use Phoenix.Component
 
+  import Dotcom.TripPlan.Helpers
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import MbtaMetro.Components.List, only: [list: 1]
 
-  alias OpenTripPlannerClient.Schema.Step
+  alias OpenTripPlannerClient.Schema.{Leg, Step}
 
   @doc """
   Renders a walking leg.
-
-  Must be given a `leg` with a:
-    - `distance` (float) in miles
-    - `duration` (integer) in minutes
-    - `mode` with a list of `steps` (list of `Step` structs)
   """
 
-  attr :leg, :map, required: true
+  attr :leg, Leg, required: true
 
   def walking_leg(assigns) do
+    assigns =
+      assign(assigns, %{
+        formatted_duration:
+          assigns.leg
+          |> leg_duration_minutes()
+          |> Util.format_minutes_duration(),
+        miles: assigns.leg |> leg_distance_miles()
+      })
+
     ~H"""
     <div class="px-3">
       <div class="flex items-stretch gap-x-2">
@@ -37,7 +42,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             <div class="flex flex-col text-sm">
               <div class="font-medium">Walk</div>
               <div>
-                {@leg.duration} min, {@leg.distance} mi
+                {@formatted_duration}, {@miles} mi
               </div>
             </div>
             <.icon
@@ -46,7 +51,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
             />
           </summary>
           <.list class="m-0">
-            <:item :for={step <- @leg.mode.steps}>
+            <:item :for={step <- @leg.steps}>
               <span class="text-sm">
                 {Step.walk_summary(step)}
               </span>
