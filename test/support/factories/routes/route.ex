@@ -5,11 +5,10 @@ defmodule Test.Support.Factories.Routes.Route do
 
   use ExMachina
 
+  import Dotcom.TripPlan.Helpers, only: [logan_express_icon_names: 0, massport_icon_names: 0]
+
   alias Routes.Route
   alias Test.Support.FactoryHelpers
-
-  @logan_express_icon_names Route.logan_express_icon_names()
-  @massport_icon_names Route.massport_icon_names()
 
   def bus_route_factory(attrs) do
     %{
@@ -32,7 +31,7 @@ defmodule Test.Support.Factories.Routes.Route do
     %{
       description: nil,
       external_agency_name: "Logan Express",
-      name: Faker.Util.pick(@logan_express_icon_names),
+      name: Faker.Util.pick(logan_express_icon_names()),
       type: 3
     }
     |> Map.merge(attrs)
@@ -43,7 +42,7 @@ defmodule Test.Support.Factories.Routes.Route do
     %{
       description: nil,
       external_agency_name: "Massport",
-      name: Faker.Util.pick(@massport_icon_names),
+      name: Faker.Util.pick(massport_icon_names()),
       type: 3
     }
     |> Map.merge(attrs)
