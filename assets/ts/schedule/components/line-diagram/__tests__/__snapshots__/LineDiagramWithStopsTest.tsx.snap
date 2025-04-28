@@ -2,22 +2,9 @@
 
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <LineDiagramWithStops alerts={{...}} directionId={1} handleStopClick={[Function: handleStopClick]} liveData={{...}} otherRouteStops={{...}} route={{...}} routeStopList={{...}} stopTree={{...}}>
-    <div className=\\"m-schedule-diagram \\">
-      <Diagram alerts={{...}} directionId={1} liveData={{...}} route={{...}} stopTree={{...}}>
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+  <LineDiagramWithStops alerts={{...}} directionId={1} handleStopClick={[Function: handleStopClick]} otherRouteStops={{...}} route={{...}} routeStopList={{...}} stopTree={{...}}>
+    <div className=\\"m-schedule-diagram\\">
+      <Diagram alerts={{...}} directionId={1} route={{...}} stopTree={{...}}>
         <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"36px\\" height=\\"100%\\" style={{...}}>
           <title id=\\"diagram-title\\">
             Line diagram for 
@@ -110,8 +97,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         </svg>
       </Diagram>
       <ol>
-        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b1\\" stopTree={{...}}>
-          <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b1\\" stopTree={{...}}>
+        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b1\\" stopTree={{...}}>
+          <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b1\\" stopTree={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -137,14 +124,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </div>
                 <footer className=\\"m-schedule-diagram__footer\\">
                   <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                    View schedule
+                    View departures
                   </button>
                 </footer>
               </section>
             </li>
           </StopCard>
-          <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b2\\" stopTree={{...}}>
-            <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b2\\" stopTree={{...}}>
+          <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b2\\" stopTree={{...}}>
+            <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b2\\" stopTree={{...}}>
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -170,14 +157,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </div>
                   <footer className=\\"m-schedule-diagram__footer\\">
                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                      View schedule
+                      View departures
                     </button>
                   </footer>
                 </section>
               </li>
             </StopCard>
-            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b3\\" stopTree={{...}}>
-              <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b3\\" stopTree={{...}}>
+            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"b3\\" stopTree={{...}}>
+              <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"b3\\" stopTree={{...}}>
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -203,14 +190,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </div>
                     <footer className=\\"m-schedule-diagram__footer\\">
                       <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                        View schedule
+                        View departures
                       </button>
                     </footer>
                   </section>
                 </li>
               </StopCard>
-              <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
-                <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"a1\\" stopTree={{...}}>
+              <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
+                <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"a1\\" stopTree={{...}}>
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -236,13 +223,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </div>
                       <footer className=\\"m-schedule-diagram__footer\\">
                         <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                          View schedule
+                          View departures
                         </button>
                       </footer>
                     </section>
                   </li>
                 </StopCard>
-                <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} stopIds={{...}} stopTree={{...}}>
+                <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} stopIds={{...}} stopTree={{...}}>
                   <div className=\\"m-schedule-diagram__expander\\">
                     <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                       <h3 className=\\"c-expandable-block__header \\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -275,8 +262,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </ExpandableBlock>
                   </div>
                 </ExpandableBranch>
-                <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
-                  <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m1\\" stopTree={{...}}>
+                <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m1\\" stopTree={{...}}>
+                  <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m1\\" stopTree={{...}}>
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -302,14 +289,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </div>
                         <footer className=\\"m-schedule-diagram__footer\\">
                           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                            View schedule
+                            View departures
                           </button>
                         </footer>
                       </section>
                     </li>
                   </StopCard>
-                  <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
-                    <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"c1\\" stopTree={{...}}>
+                  <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
+                    <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"c1\\" stopTree={{...}}>
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -335,13 +322,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </div>
                           <footer className=\\"m-schedule-diagram__footer\\">
                             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                              View schedule
+                              View departures
                             </button>
                           </footer>
                         </section>
                       </li>
                     </StopCard>
-                    <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} stopIds={{...}} stopTree={{...}}>
+                    <ExpandableBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} stopIds={{...}} stopTree={{...}}>
                       <div className=\\"m-schedule-diagram__expander\\">
                         <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                           <h3 className=\\"c-expandable-block__header \\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -374,8 +361,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </ExpandableBlock>
                       </div>
                     </ExpandableBranch>
-                    <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
-                      <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m2\\" stopTree={{...}}>
+                    <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m2\\" stopTree={{...}}>
+                      <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m2\\" stopTree={{...}}>
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -401,14 +388,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </div>
                             <footer className=\\"m-schedule-diagram__footer\\">
                               <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                View schedule
+                                View departures
                               </button>
                             </footer>
                           </section>
                         </li>
                       </StopCard>
-                      <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m3\\" stopTree={{...}}>
-                        <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m3\\" stopTree={{...}}>
+                      <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"m3\\" stopTree={{...}}>
+                        <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"m3\\" stopTree={{...}}>
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -434,14 +421,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               </div>
                               <footer className=\\"m-schedule-diagram__footer\\">
                                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                  View schedule
+                                  View departures
                                 </button>
                               </footer>
                             </section>
                           </li>
                         </StopCard>
-                        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x1\\" stopTree={{...}}>
-                          <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                        <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x1\\" stopTree={{...}}>
+                          <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]}>
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
                                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -467,14 +454,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 </div>
                                 <footer className=\\"m-schedule-diagram__footer\\">
                                   <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                    View schedule
+                                    View departures
                                   </button>
                                 </footer>
                               </section>
                             </li>
                           </StopCard>
-                          <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                            <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x1\\" stopTree={{...}}>
+                          <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]}>
+                            <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x1\\" stopTree={{...}}>
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -500,14 +487,14 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                   </div>
                                   <footer className=\\"m-schedule-diagram__footer\\">
                                     <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                      View schedule
+                                      View departures
                                     </button>
                                   </footer>
                                 </section>
                               </li>
                             </StopCard>
-                            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x2\\" stopTree={{...}}>
-                              <StopCard alerts={{...}} liveData={[undefined]} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x2\\" stopTree={{...}}>
+                            <NextStopOrBranch alerts={{...}} handleStopClick={[Function: handleStopClick]} mergingInBranches={{...}} splittingOffBranches={{...}} stopId=\\"x2\\" stopTree={{...}}>
+                              <StopCard alerts={{...}} onClick={[Function: handleStopClick]} routeStopList={{...}} stopId=\\"x2\\" stopTree={{...}}>
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -533,7 +520,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                     </div>
                                     <footer className=\\"m-schedule-diagram__footer\\">
                                       <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                                        View schedule
+                                        View departures
                                       </button>
                                     </footer>
                                   </section>

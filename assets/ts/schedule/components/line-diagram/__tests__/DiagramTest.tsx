@@ -6,8 +6,6 @@ import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import { Diagram } from "../graphics/Diagram";
 import { Route, RouteType } from "../../../../__v3api";
 import Stop from "../graphics/Stop";
-import { LiveDataByStop } from "../__line-diagram";
-import VehicleIcons from "../VehicleIcons";
 
 const stopTree: StopTree = {
   byId: {
@@ -62,32 +60,6 @@ const route: Route = {
   line_id: null
 };
 
-const liveData: LiveDataByStop = {
-  a1: {
-    headsigns: [],
-    vehicles: [
-      {
-        id: "veh0",
-        status: "stopped",
-        crowding: null,
-        tooltip: "tooltip for stopped vehicle at stop 1"
-      },
-      {
-        id: "veh1",
-        status: "incoming",
-        crowding: null,
-        tooltip: "tooltip for vehicle 1 incoming to stop 1"
-      },
-      {
-        id: "veh2",
-        status: "in_transit",
-        crowding: null,
-        tooltip: "tooltip for vehicle 2 in_transit at stop 1"
-      }
-    ]
-  }
-};
-
 describe("Diagram", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
@@ -98,7 +70,6 @@ describe("Diagram", () => {
           route={route}
           directionId={1}
           alerts={[]}
-          liveData={liveData}
         />
       </redux.Provider>
     );
@@ -128,9 +99,5 @@ describe("Diagram", () => {
 
   it("shows merges for branches", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
-  });
-
-  test("filters out incoming <VehicleIcons /> at first stop", () => {
-    expect(wrapper.find(VehicleIcons)).toHaveLength(1);
   });
 });

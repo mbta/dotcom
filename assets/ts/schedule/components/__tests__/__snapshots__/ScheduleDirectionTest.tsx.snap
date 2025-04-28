@@ -151,7 +151,7 @@ exports[`ScheduleDirectionTest renders a CR component 1`] = `
         <Provider>
           <LineDiagramWithStops>
             <div
-              className="m-schedule-diagram u-no-crowding-data"
+              className="m-schedule-diagram"
             >
               <SimpleDiagram>
                 <svg
@@ -302,7 +302,7 @@ exports[`ScheduleDirectionTest renders a bus component 1`] = `
         <Provider>
           <LineDiagramWithStops>
             <div
-              className="m-schedule-diagram u-no-crowding-data"
+              className="m-schedule-diagram"
             >
               <SimpleDiagram>
                 <svg
@@ -510,7 +510,7 @@ exports[`ScheduleDirectionTest renders with a static map 1`] = `
         <Provider>
           <LineDiagramWithStops>
             <div
-              className="m-schedule-diagram u-no-crowding-data"
+              className="m-schedule-diagram"
             >
               <SimpleDiagram>
                 <svg
@@ -672,7 +672,7 @@ exports[`ScheduleDirectionTest respects the initially selected pattern ID, if sp
         <Provider>
           <LineDiagramWithStops>
             <div
-              className="m-schedule-diagram u-no-crowding-data"
+              className="m-schedule-diagram"
             >
               <SimpleDiagram>
                 <svg

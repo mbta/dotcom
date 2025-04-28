@@ -16,10 +16,6 @@ exports.scenario = async ({ page, baseURL }) => {
     "Orange Line",
   );
   await page.waitForSelector("li.m-schedule-diagram__stop");
-  await page.waitForSelector("div.m-schedule-diagram__predictions");
-  await expect
-    .poll(async () => page.locator("div.m-schedule-diagram__prediction-time").count())
-    .toBeGreaterThan(1);
 
   await page.locator("a.alerts-tab").click();
   await expect(

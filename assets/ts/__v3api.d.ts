@@ -20,12 +20,6 @@ export interface Headsign {
   train_number: string | null;
 }
 
-export interface HeadsignWithCrowding {
-  name: string;
-  time_data_with_crowding_list: PredictedOrScheduledTimeWithCrowding[];
-  train_number: string | null;
-}
-
 export interface PredictedOrScheduledTimeWithCrowding {
   time_data: PredictedOrScheduledTime;
   crowding: CrowdingType;

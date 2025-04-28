@@ -229,80 +229,6 @@
   padding: calc(#{$base-spacing} / 2);
 }
 
-// Live departure predictions
-.m-schedule-diagram__predictions {
-  flex-grow: 1;
-
-  .m-schedule-diagram__prediction,
-  .m-schedule-diagram__cr-prediction {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  .m-schedule-diagram__prediction-time,
-  .m-schedule-diagram__cr-prediction-time {
-    font-variant-numeric: tabular-nums;
-    font-weight: bold;
-  }
-
-  .m-schedule-diagram__prediction-time {
-    margin-left: .5rem;
-    white-space: nowrap;
-  }
-
-  .m-schedule-diagram__cr-prediction-time--delayed {
-    font-weight: normal;
-    margin-right: calc(#{$base-spacing} / 2);
-    text-align: right;
-    text-decoration: line-through;
-  }
-
-  .m-schedule-diagram__cr-prediction-details {
-    font-size: $font-size-sm;
-    text-align: right;
-
-    @include media-breakpoint-down(sm) {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    // Disallow line breaks in the middle of each prediction detail item
-    span {
-      white-space: nowrap;
-    }
-  }
-}
-
-.m-schedule-diagram__prediction-crowding {
-  @include icon-size-inline(1.125em, .15em);
-  display: inline-block;
-  margin-left: .25rem;
-
-  .u-no-crowding-data & {
-    display: none;
-  }
-}
-
-// live vehicle located along line diagram
-.m-schedule-diagram__vehicle {
-  $icon-size: 1.125rem;
-  position: absolute;
-  transform: scale(1, -1); // point down
-  z-index: 3;
-
-  &-tooltip {
-    text-align: left;
-  }
-
-  &--icon {
-    display: block;
-    height: $icon-size;
-    width: $icon-size;
-  }
-}
-
 // stop filter
 .m-schedule-diagram__filter {
   margin-bottom: $base-spacing;
@@ -315,6 +241,16 @@
 
 .m-schedule-diagram--searched {
   .m-schedule-diagram__lines {
+    display: none;
+  }
+}
+
+.m-schedule-diagram__prediction-crowding {
+  @include icon-size-inline(1.125em, .15em);
+  display: inline-block;
+  margin-left: .25rem;
+
+  .u-no-crowding-data & {
     display: none;
   }
 }

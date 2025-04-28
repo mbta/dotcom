@@ -2,7 +2,7 @@
 
 exports[`StopCard renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
+  <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]}>
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
         <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -46,7 +46,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
         </div>
         <footer className=\\"m-schedule-diagram__footer\\">
           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
+            View departures
           </button>
         </footer>
       </section>

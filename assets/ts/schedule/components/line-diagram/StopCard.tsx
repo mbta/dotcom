@@ -14,24 +14,16 @@ import {
   isCurrentLifecycle,
   isHighSeverityOrHighPriority
 } from "../../../models/alert";
-import { hasPredictionTime } from "../../../models/prediction";
-import {
-  isACommuterRailRoute,
-  isAGreenLineRoute,
-  isSubwayRoute
-} from "../../../models/route";
+import { isACommuterRailRoute, isAGreenLineRoute } from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
 import { RouteStop, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
-import StopPredictions from "./StopPredictions";
 import { StopRefContext } from "./LineDiagramWithStops";
-import { LiveData } from "./__line-diagram";
 
 interface Props {
   alerts: Alert[];
-  liveData?: LiveData;
   noLineDiagram?: boolean;
   onClick: (stop: RouteStop) => void;
   routeStopList: RouteStop[];
@@ -62,9 +54,6 @@ const lineName = ({ name, route: routeStopRoute }: RouteStop): string => {
   return `${title} ${lineOrBranch}`;
 };
 
-const hasLivePredictions = (liveData?: LiveData): boolean =>
-  !!liveData && liveData.headsigns.some(hasPredictionTime);
-
 const connectionsFor = (routeStop: RouteStop, stopTree: StopTree): Route[] => {
   const { connections } = routeStop;
   const greenLineConnections = connections.filter(isAGreenLineRoute);
@@ -83,27 +72,6 @@ const visibleAlert = (alert: Alert): boolean => {
 const hasHighPriorityAlert = (stopId: StopId, alerts: Alert[]): boolean =>
   alertsByStop(alerts, stopId).filter(visibleAlert).length > 0;
 
-const routeForStop = (stopTree: StopTree, stopId: StopId): Route | null => {
-  const { route } = stopForId(stopTree, stopId);
-  return route;
-};
-
-const hasUpcomingDeparturesIfSubway = (
-  stopTree: StopTree,
-  stopId: StopId,
-  liveData?: LiveData
-): boolean => {
-  const route = routeForStop(stopTree, stopId);
-  if (!route || !isSubwayRoute(route)) return true;
-  return !!liveData && liveData.headsigns.length > 0;
-};
-
-const schedulesButtonLabel = (route: Route | null): string => {
-  return route && isSubwayRoute(route)
-    ? "View upcoming departures"
-    : "View schedule";
-};
-
 const Alert = (): JSX.Element => (
   <>
     {alertIcon("c-svg__icon-alerts-triangle")}
@@ -114,7 +82,6 @@ const Alert = (): JSX.Element => (
 
 const StopCard = ({
   alerts,
-  liveData,
   noLineDiagram = false,
   onClick,
   routeStopList,
@@ -132,8 +99,7 @@ const StopCard = ({
     : routeStopIndex === routeStopList.length - 1;
 
   const diversionAlert = alerts.find(isActiveDiversion);
-  const showDiversion =
-    diversionAlert && !(hasLivePredictions(liveData) && isEnd);
+  const showDiversion = diversionAlert && !isEnd;
 
   const left = stopTree ? width(stopTree, stopId) : diagramWidth(1);
   const connections = stopTree
@@ -166,37 +132,21 @@ const StopCard = ({
 
         <div className="m-schedule-diagram__stop-details">
           <StopConnections connections={connections} />
-          {hasLivePredictions(liveData) && !isEnd ? (
-            <StopPredictions
-              headsigns={liveData!.headsigns}
-              isCommuterRail={
-                !!routeStop.route && isACommuterRailRoute(routeStop.route)
-              }
-            />
-          ) : (
-            showDiversion && (
-              <div className="m-schedule-diagram__alert">
-                {effectNameForAlert(diversionAlert!)}
-              </div>
-            )
-          )}
+          {showDiversion ? (
+            <div className="m-schedule-diagram__alert">
+              {effectNameForAlert(diversionAlert!)}
+            </div>
+          ) : null}
         </div>
-
-        {(stopTree
-          ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
-          : true) && (
-          <footer className="m-schedule-diagram__footer">
-            <button
-              className="btn btn-link"
-              type="button"
-              onClick={() => onClick(routeStop)}
-            >
-              {schedulesButtonLabel(
-                stopTree ? routeForStop(stopTree, stopId) : routeStop.route
-              )}
-            </button>
-          </footer>
-        )}
+        <footer className="m-schedule-diagram__footer">
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={() => onClick(routeStop)}
+          >
+            View departures
+          </button>
+        </footer>
       </section>
     </li>
   );

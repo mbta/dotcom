@@ -146,7 +146,6 @@ const stopTree: StopTree = {
 const store = createStopTreeCoordStore(stopTree);
 
 const handleStopClick = () => {};
-const liveData = {};
 
 describe("ExpandableBranch", () => {
   let wrapper: ReactWrapper;
@@ -159,7 +158,6 @@ describe("ExpandableBranch", () => {
           stopIds={["x1", "x2"]}
           alerts={[]}
           handleStopClick={handleStopClick}
-          liveData={liveData}
         />
       </redux.Provider>
     );

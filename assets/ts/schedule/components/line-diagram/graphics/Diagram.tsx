@@ -1,9 +1,7 @@
 import React, { ReactElement } from "react";
-import { uniqBy } from "lodash";
 import { routeToModeName } from "../../../../helpers/css";
 import {
   isBranchingNode,
-  isStartNode,
   largestSliceSize,
   longestPath,
   longestPathLength,
@@ -20,8 +18,6 @@ import {
   StopTree
 } from "../../__schedule";
 import { diagramWidth } from "../line-diagram-helpers";
-import VehicleIcons from "../VehicleIcons";
-import { LiveDataByStop } from "../__line-diagram";
 import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 import Stop from "./Stop";
 import { Line, SimpleLine } from "./Line";
@@ -32,7 +28,6 @@ interface Props {
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
-  liveData?: LiveDataByStop;
 }
 
 const routeName = (route: Route): string =>
@@ -75,56 +70,20 @@ const branchingDescription = (stopTree: StopTree): string => {
   return branchText.join("");
 };
 
-const LiveVehicleIconSet = ({
-  isStart,
-  stop,
-  liveData
-}: {
-  isStart: boolean;
-  stop: RouteStop;
-  liveData?: LiveDataByStop;
-}): ReactElement<HTMLElement> | null => {
-  const stopId = stop.id;
-  if (!liveData || !liveData[stopId]) return null;
-  const vehicles = uniqBy(liveData[stopId].vehicles, "id");
-  // Hide vehicles arriving to the origin from 'off the line'
-  const vehicleData = isStart
-    ? vehicles.filter(vehicle => vehicle.status === "stopped")
-    : vehicles;
-
-  return (
-    <VehicleIcons
-      key={`${stopId}-vehicles`}
-      stop={stop}
-      vehicles={vehicleData}
-    />
-  );
-};
-
 interface SimpleProps {
   routeStopList: IndexedRouteStop[];
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
-  liveData?: LiveDataByStop;
 }
 
 const SimpleDiagram = ({
   routeStopList,
   route,
   directionId,
-  alerts,
-  liveData
+  alerts
 }: SimpleProps): ReactElement<HTMLElement> => (
   <>
-    {routeStopList.map((routeStop, index) => (
-      <LiveVehicleIconSet
-        key={`vehicle-set-${routeStop.routeIndex}`}
-        isStart={index === 0}
-        stop={routeStop}
-        liveData={liveData}
-      />
-    ))}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       role="img"
@@ -155,7 +114,7 @@ const SimpleDiagram = ({
 
       {/* Draw circles for each stop */
       routeStopList.map(routeStop => (
-        <Stop key={`stop-${routeStop.routeIndex}`} stopId={routeStop.id} />
+        <Stop key={`stop-${routeStop.id}`} stopId={routeStop.id} />
       ))}
     </svg>
   </>
@@ -165,18 +124,9 @@ const Diagram = ({
   stopTree,
   route,
   directionId,
-  alerts,
-  liveData
+  alerts
 }: Props): ReactElement<HTMLElement> => (
   <>
-    {stopIds(stopTree).map(stopId => (
-      <LiveVehicleIconSet
-        key={stopId}
-        isStart={isStartNode(stopTree, stopId)}
-        stop={stopForId(stopTree, stopId)}
-        liveData={liveData}
-      />
-    ))}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       role="img"

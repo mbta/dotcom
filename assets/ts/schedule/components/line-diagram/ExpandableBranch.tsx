@@ -13,7 +13,6 @@ import {
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import { StopRefContext } from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
-import { LiveDataByStop } from "./__line-diagram";
 import { alertsByStop } from "../../../models/alert";
 
 interface Props {
@@ -21,7 +20,6 @@ interface Props {
   stopIds: StopId[];
   alerts: Alert[];
   handleStopClick: (stop: RouteStop) => void;
-  liveData?: LiveDataByStop;
 }
 
 const BranchToggle = (
@@ -71,8 +69,7 @@ const ExpandableBranch = ({
   stopTree,
   stopIds,
   alerts,
-  handleStopClick,
-  liveData
+  handleStopClick
 }: Props): ReactElement<HTMLElement> => {
   const [isExpanded, setIsExpanded] = useState(false);
   const updateAllStopCoords = useContext(StopRefContext)[1];
@@ -104,7 +101,6 @@ const ExpandableBranch = ({
               stopId={stopId}
               alerts={alertsByStop(alerts, stopId)}
               onClick={handleStopClick}
-              liveData={liveData?.[stopId]}
             />
           ))}
         </>
