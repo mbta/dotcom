@@ -9,6 +9,36 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
   alias Stops.Stop
 
   describe "header/1" do
+    test "renders only one of each mode icon" do
+      # Setup
+      stop = %Stop{}
+      routes_by_stop = [
+        %Route{type: 3},
+        %Route{type: 3},
+      ]
+
+      # Exercise
+      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+
+      # Verify
+      assert html |> Floki.find("title") |> Kernel.length() == 1
+    end
+
+    test "renders the commuter rail icon last" do
+      # Setup
+      stop = %Stop{}
+      routes_by_stop = [
+        %Route{type: 2}, # Commuter Rail
+        %Route{type: 3}  # Bus
+      ]
+
+      # Exercise
+      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+
+      # Verify
+      assert html |> Floki.find("title") |> Enum.at(-1) |> Floki.text() == "Commuter Rail"
+    end
+
     test "renders the accessibility icon when the stop is accessible" do
       # Setup
       stop = %Stop{accessibility: ["accessible"]}
@@ -18,7 +48,7 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
 
       # Verify
-      assert html =~ "accessible"
+      assert html =~ "Accessible"
     end
 
     test "renders the accessibility icon when it is a bus-only stop" do
@@ -30,19 +60,19 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
 
       # Verify
-      assert html =~ "accessible"
+      assert html =~ "Accessible"
     end
 
     test "does not render the accessibility icon when the stop is not accessible" do
       # Setup
       stop = %Stop{accessibility: []}
-      routes_by_stop = [%Route{type: 1}]
+      routes_by_stop = []
 
       # Exercise
       html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
 
       # Verify
-      refute html =~ "accessible"
+      refute html =~ "Accessible"
     end
 
     test "renders the parking icon when parking lots are present" do
@@ -79,7 +109,7 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
 
       # Verify
-      assert html =~ zone
+      assert html =~ "Zone #{zone}"
     end
 
     test "does not render the zone information when none is present" do
