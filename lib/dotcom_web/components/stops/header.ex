@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.Stops.Header do
   use DotcomWeb, :component
 
   import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
-  import MbtaMetro.Components.Badge, only: [badge: 1]
+  import DotcomWeb.Components.TransitIcons, only: [accessibility: 1, parking: 1, zone: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
   alias Routes.Route
@@ -21,21 +21,15 @@ defmodule DotcomWeb.Components.Stops.Header do
       <div class="mt-3 mb-3">
         <div class="flex items-end justify-items-end gap-2">
           <.mode_icons routes_by_stop={@routes_by_stop} />
-          <.zone_icon stop={@stop} />
-          <.accessibility_icon :if={accessible?(assigns)} />
-          <.parking_icon :if={parking?(assigns)} />
+          <.zone stop={@stop} />
+          <.accessibility :if={accessible?(assigns)} />
+          <.parking :if={parking?(assigns)} />
         </div>
         <div :if={all_bus_routes?(assigns) and not @stop.station?} class="text-sm">
           Stop {@stop.id}
         </div>
       </div>
     </div>
-    """
-  end
-
-  defp accessibility_icon(assigns) do
-    ~H"""
-    <.icon type="icon-svg" name="icon-accessible-default" class="h-6 w-6 fill-cobalt-80 inline-flex" />
     """
   end
 
@@ -102,39 +96,7 @@ defmodule DotcomWeb.Components.Stops.Header do
     """
   end
 
-  defp parking_icon(assigns) do
-    # ~H"""
-    # <.icon
-    #   name="square-parking"
-    #   class="h-7 w-7 pt-[3px] fill-gray-light inline-flex"
-    #   aria-hidden="true"
-    # />
-    # """
-    ~H"""
-    <.badge
-      class="bg-gray-light font-bold text-white max-h-6 !px-1.5 !min-w-6 !rounded-sm"
-      variant="square"
-      aria-label="Parking"
-    >
-      P
-    </.badge>
-    """
-  end
-
   defp parking?(%{stop: stop}) do
     not Enum.empty?(stop.parking_lots)
   end
-
-  defp zone_icon(assigns) when not is_nil(assigns.stop.zone) do
-    ~H"""
-    <.badge
-      class="border-[1px] border-commuter-rail text-commuter-rail max-h-6 !rounded-sm"
-      variant="square"
-    >
-      Zone {@stop.zone}
-    </.badge>
-    """
-  end
-
-  defp zone_icon(assigns), do: ~H""
 end
