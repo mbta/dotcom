@@ -12,9 +12,10 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
     test "renders only one of each mode icon" do
       # Setup
       stop = %Stop{}
+
       routes_by_stop = [
         %Route{type: 3},
-        %Route{type: 3},
+        %Route{type: 3}
       ]
 
       # Exercise
@@ -27,9 +28,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
     test "renders the commuter rail icon last" do
       # Setup
       stop = %Stop{}
+
       routes_by_stop = [
-        %Route{type: 2}, # Commuter Rail
-        %Route{type: 3}  # Bus
+        # Commuter Rail
+        %Route{type: 2},
+        # Bus
+        %Route{type: 3}
       ]
 
       # Exercise
