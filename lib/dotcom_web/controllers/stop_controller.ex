@@ -69,7 +69,7 @@ defmodule DotcomWeb.StopController do
         |> render("show.html", %{
           stop: stop,
           routes_by_stop: routes_by_stop,
-          accessible?: accessible?,
+          accessible?: accessible?
         })
       end
     else

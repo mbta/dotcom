@@ -7,7 +7,12 @@
 </div>
 
 <div>
-  <div id="react-stop-root" data-mbta-stop-id={"#{@stop.id}"} data-mbta-accessible={"#{@accessible?}"}></div>
+  <div
+    id="react-stop-root"
+    data-mbta-stop-id={"#{@stop.id}"}
+    data-mbta-accessible={"#{@accessible?}"}
+  >
+  </div>
 </div>
 
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
