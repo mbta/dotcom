@@ -13,7 +13,7 @@ defmodule DotcomWeb.Components.TransitIcons do
   def accessibility(assigns) do
     ~H"""
     <.badge
-      class="bg-cobalt-30 h-6 !px-1.5 !min-w-6 !rounded-sm inline-flex"
+      class="bg-cobalt-30 h-6 !px-1.5 !min-w-6 max-w-6 !rounded-sm inline-flex"
       variant="square"
     >
       <.icon name="wheelchair" class="h-3.5 w-3.5 fill-white" aria-label="accessible" />
