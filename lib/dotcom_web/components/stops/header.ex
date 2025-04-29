@@ -112,8 +112,9 @@ defmodule DotcomWeb.Components.Stops.Header do
     # """
     ~H"""
     <.badge
-      class="bg-gray-light font-bold text-white max-h-6 !px-1.5 min-w-2 !rounded-sm"
+      class="bg-gray-light font-bold text-white max-h-6 !px-1.5 !min-w-6 !rounded-sm"
       variant="square"
+      aria-label="Parking"
     >
       P
     </.badge>
