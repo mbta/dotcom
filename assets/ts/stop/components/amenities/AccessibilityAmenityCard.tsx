@@ -84,12 +84,13 @@ const AccessibilityAmenityCard = ({
   const hasAccessibleFeatures = accessibleFeatures.includes("accessible");
 
   const accessibleElement = document.querySelector("div[data-mbta-accessible]");
-  const accessibleOverride = accessibleElement != null && accessibleElement.getAttribute("data-mbta-accessible") === "true";
+  const accessibleOverride =
+    accessibleElement != null &&
+    accessibleElement.getAttribute("data-mbta-accessible") === "true";
 
-  const badge =
-    !hasAccessibleFeatures && !accessibleOverride && (
-      <Badge text="Not accessible" bgClass="u-bg--gray-lighter" />
-    );
+  const badge = !hasAccessibleFeatures && !accessibleOverride && (
+    <Badge text="Not accessible" bgClass="u-bg--gray-lighter" />
+  );
 
   const icon = accessibleIcon("c-svg__icon-accessible-default");
   return (
