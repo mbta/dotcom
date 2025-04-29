@@ -102,7 +102,7 @@ defmodule DotcomWeb.Components.Stops.Header do
   end
 
   # We use all of the routes, get the unique modes, and then sort so commuter rail is last.
-  # We do this so that the coummter rail icon will be next to zone information.
+  # We do this so that the commuter rail icon will be next to zone information.
   defp mode_icons(assigns) do
     unique_modes =
       assigns.routes_by_stop
