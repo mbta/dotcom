@@ -1,16 +1,29 @@
 defmodule DotcomWeb.Components.TransitIcons do
   @moduledoc """
-  Reusable transit icons.
+  An approved set of icons with consistent styling.
   """
 
   use DotcomWeb, :component
 
+  import MbtaMetro.Components.Icon, only: [icon: 1]
+
+  @doc """
+  Icon for accessibility.
+  """
   def accessibility(assigns) do
     ~H"""
-    <.icon type="icon-svg" name="icon-accessible-default" class="h-6 w-6 fill-cobalt-80 inline-flex" />
+    <.badge
+      class="bg-cobalt-30 h-6 !px-1.5 !min-w-6 !rounded-sm inline-flex"
+      variant="square"
+    >
+      <.icon name="wheelchair" class="h-3.5 w-3.5 fill-white" aria-label="accessible" />
+    </.badge>
     """
   end
 
+  @doc """
+  Icon for parking.
+  """
   def parking(assigns) do
     ~H"""
     <.badge
@@ -22,6 +35,9 @@ defmodule DotcomWeb.Components.TransitIcons do
     """
   end
 
+  @doc """
+  Icon for displaying the zone of a stop.
+  """
   def zone(assigns) when not is_nil(assigns.stop.zone) do
     ~H"""
     <.badge
