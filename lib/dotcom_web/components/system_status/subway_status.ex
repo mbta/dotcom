@@ -59,23 +59,24 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         </div>
       </:heading>
       <.lined_list :let={row} items={@rows}>
-        <%= if row.alert do %>
-          <.unstyled_accordion
-            data-test-row-route-info={inspect(row.route_info)}
-            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
-            summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-            chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
-          >
-            <:heading>
-              <.heading row={row} />
-            </:heading>
-            <:content>
-              <.embedded_alert alert={row.alert} />
-            </:content>
-          </.unstyled_accordion>
-        <% else %>
-          <.heading row={row} />
-        <% end %>
+        <div data-test-row-route-info={inspect(row.route_info)}>
+          <%= if row.alert do %>
+            <.unstyled_accordion
+              style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+              summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
+              chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
+            >
+              <:heading>
+                <.heading row={row} />
+              </:heading>
+              <:content>
+                <.embedded_alert alert={row.alert} />
+              </:content>
+            </.unstyled_accordion>
+          <% else %>
+            <.heading row={row} />
+          <% end %>
+        </div>
       </.lined_list>
     </.bordered_container>
     """
