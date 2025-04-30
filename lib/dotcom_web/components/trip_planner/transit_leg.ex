@@ -11,7 +11,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
   alias Dotcom.TripPlan.Alerts
-  alias OpenTripPlannerClient.Schema.{LegTime, Route, Trip}
+  alias OpenTripPlannerClient.Schema.{Leg, LegTime, Route, Trip}
 
   @doc """
   Renders a transit leg.
@@ -20,7 +20,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   """
 
   attr :alerts, :list, default: []
-  attr :leg, :any, required: true
+  attr :leg, Leg, required: true
 
   def transit_leg(assigns) do
     assigns =
@@ -230,13 +230,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp vehicle_name(%Route{mode: mode}) when mode in [:TRAM, :SUBWAY], do: "train"
 
-  defp vehicle_name(%Route{mode: mode}) do
+  defp vehicle_name(%Route{mode: mode}) when is_atom(mode) do
     mode
     |> Atom.to_string()
     |> String.downcase()
   end
-
-  defp vehicle_name(_), do: nil
 
   defp leg_details(assigns) do
     ~H"""

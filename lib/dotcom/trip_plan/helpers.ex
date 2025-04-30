@@ -129,7 +129,7 @@ defmodule Dotcom.TripPlan.Helpers do
       "BB" -> "#f16823"
       "DV" -> "#704c9f"
       "WO" -> "#00954c"
-      _ -> "##{route.color}" || "#000000"
+      _ -> if(route.color, do: "##{route.color}", else: "#000000")
     end
   end
 
@@ -143,7 +143,7 @@ defmodule Dotcom.TripPlan.Helpers do
     end
   end
 
-  def route_color(route), do: "##{route.color}" || "#000000"
+  def route_color(route), do: if(route.color, do: "##{route.color}", else: "#000000")
 
   def route_line_name(route) do
     route
