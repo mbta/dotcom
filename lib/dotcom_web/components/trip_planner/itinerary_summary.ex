@@ -102,12 +102,21 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     """
   end
 
+  defp leg_icon(%{routes: [first_route | _]} = assigns) when mbta_shuttle?(first_route) do
+    # if multiple shuttles with same name, remove extras
+    assigns = assign(assigns, :routes, Enum.uniq_by(assigns.routes, &route_name/1))
+
+    ~H"""
+    <.otp_route_icon :for={route <- @routes} route={route} class={@class} />
+    """
+  end
+
   defp leg_icon(assigns) do
-    lines = Enum.map(assigns.routes, &route_line_name/1) |> Enum.reject(&is_nil/1)
+    lines = Enum.map(assigns.routes, &route_line_name/1) |> Enum.reject(&is_nil/1) |> Enum.uniq()
 
     case lines do
       [] ->
-        assigns = assign(assigns, :names, Enum.map(assigns.routes, &route_name/1))
+        assigns = assign(assigns, :names, Enum.map(assigns.routes, &route_name/1) |> Enum.uniq())
 
         ~H"""
         <.stacked_route_icon names={@names} class={@class} />

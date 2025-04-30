@@ -54,6 +54,28 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIcons do
     end
   end
 
+  def otp_route_icon(%{route: route} = assigns) when mbta_shuttle?(route) do
+    shuttle_type =
+      case route.short_name do
+        "Blue" <> _ -> "blue"
+        "Green" <> _ -> "green"
+        "Orange" <> _ -> "orange"
+        "Red" <> _ -> "red"
+        _ -> "cr"
+      end
+
+    assigns = assign(assigns, :shuttle_type, shuttle_type)
+
+    ~H"""
+    <.icon
+      type="icon-svg"
+      name={"icon-rail-replacement-shuttle-#{@shuttle_type}"}
+      class={"#{@class} h-6 w-6"}
+      aria-label={@route.short_name}
+    />
+    """
+  end
+
   def otp_route_icon(%{route: route} = assigns) when agency_name?(route, "MBTA"),
     do: mbta_icon(assigns)
 
