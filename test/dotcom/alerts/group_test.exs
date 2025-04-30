@@ -1,4 +1,4 @@
-defmodule Dotcom.Alerts.SubwayTest do
+defmodule Dotcom.Alerts.GroupTest do
   use ExUnit.Case
 
   import Dotcom.Alerts.Subway
