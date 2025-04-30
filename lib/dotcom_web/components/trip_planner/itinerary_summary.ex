@@ -102,7 +102,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     """
   end
 
-  defp leg_icon(%{routes: [first_route | _]} = assigns) when mbta_shuttle?(first_route) do
+  defp leg_icon(%{routes: [first_route | _]} = assigns)
+       when mbta_shuttle?(first_route) or not agency_name?(first_route, "MBTA") do
     # if multiple shuttles with same name, remove extras
     assigns = assign(assigns, :routes, Enum.uniq_by(assigns.routes, &route_name/1))
 
