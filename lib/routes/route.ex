@@ -143,9 +143,9 @@ defmodule Routes.Route do
     def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)
   end
 
-  def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
+  def icon_atom(%__MODULE__{type: type}) when type in 0..4, do: type_atom(type)
 
-  def icon_atom(nil), do: nil
+  def icon_atom(_), do: nil
 
   @spec path_atom(t) :: gtfs_route_type
   def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"
