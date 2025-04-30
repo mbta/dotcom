@@ -1,12 +1,10 @@
 <div class="page-section m-schedule-line">
-  <% subway? =
-    Map.get(@conn.assigns, :breadcrumbs, [])
-    |> Enum.any?(fn %{text: text} -> text === "Subway" end) %>
+  <% group_alerts? = Enum.member?(["Commuter Rail", "Subway"], @mode) %>
   <div class="row">
     <div class="col-xs-12 col-lg-3">
-      <%= if subway? do %>
+      <%= if group_alerts? do %>
         <h3>Jump to</h3>
-        <DotcomWeb.Components.Alerts.Subway.titles_by_effect alerts={@alerts} />
+        <DotcomWeb.Components.Alerts.Grouped.titles_by_effect alerts={@alerts} mode={@mode} />
       <% else %>
         {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
           method: :alerts_path,
@@ -16,8 +14,8 @@
     </div>
     <div class="col-xs-12 col-lg-8 col-lg-offset-1">
       <h2>Alerts</h2>
-      <%= if subway? do %>
-        <DotcomWeb.Components.Alerts.Subway.alerts_by_effect alerts={@alerts} />
+      <%= if group_alerts? do %>
+        <DotcomWeb.Components.Alerts.Grouped.alerts_by_effect alerts={@alerts} mode={@mode} />
       <% else %>
         {DotcomWeb.AlertView.group(
           alerts: @alerts,

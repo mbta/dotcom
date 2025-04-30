@@ -1,5 +1,6 @@
-defmodule Dotcom.Alerts.Subway do
-  @moduledoc false
+defmodule Dotcom.Alerts.CommuterRail do
+  @moduledoc """
+  """
 
   use Dotcom.Alerts.Group
 
@@ -15,12 +16,13 @@ defmodule Dotcom.Alerts.Subway do
       ],
       "Other" => [],
       "Parking" => [parking_issue: 1],
-      "Service" => service_impacting_effects()
+      "Service" => service_impacting_effects(),
+      "Track Change" => [track_change: 1]
     }
   end
 
   @impl Dotcom.Alerts.Group
   def group_order do
-    ["Service", "Elevator & Escalator", "Bike", "Parking", "Other"]
+    ["Service", "Track Change", "Elevator & Escalator", "Bike", "Parking", "Other"]
   end
 end

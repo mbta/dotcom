@@ -12,8 +12,16 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   plug(:tab_name)
 
   def show(conn, _) do
+    mode =
+      conn
+      |> Map.get(:assigns, %{})
+      |> Map.get(:breadcrumbs, %{})
+      |> Enum.at(1, %{})
+      |> Map.get(:text)
+
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
+    |> assign(:mode, mode)
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
