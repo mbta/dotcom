@@ -1,6 +1,14 @@
 defmodule Dotcom.Alerts.Group do
   @moduledoc """
-  TODO
+  This module defines a behaviour for grouping alerts by their effects.
+
+  Implementations must provide a list of effects and the order of the groups.
+  Combined, the two approximate an ordered map.
+
+  The `effects/0` function should return a map where the keys are group names
+  and the values are lists of tuples. Each tuple contains an effect name and
+  its severity. The severity is a number that indicates the importance of the
+  effect. The higher the number, the more important the effect is.
   """
 
   @callback effects() :: %{String.t() => [{atom(), byte()}]}

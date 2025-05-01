@@ -1,5 +1,7 @@
 defmodule Dotcom.Alerts.Subway do
-  @moduledoc false
+  @moduledoc """
+  Implements `Dotcom.Alerts.Group` for Subway alerts.
+  """
 
   use Dotcom.Alerts.Group
 

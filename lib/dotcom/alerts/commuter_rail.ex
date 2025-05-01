@@ -1,5 +1,6 @@
 defmodule Dotcom.Alerts.CommuterRail do
   @moduledoc """
+  Implements `Dotcom.Alerts.Group` for Commuter Rail alerts.
   """
 
   use Dotcom.Alerts.Group

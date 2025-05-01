@@ -12,7 +12,8 @@ defmodule Dotcom.Alerts do
           :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
 
   @typedoc "Service alerts which typically impact rider experience."
-  @type service_effect_t() :: :cancellation | :delay | :service_change | :shuttle | :suspension | :station_closure
+  @type service_effect_t() ::
+          :cancellation | :delay | :service_change | :shuttle | :suspension | :station_closure
 
   # A keyword list of effects and the severity level necessary to make an alert a 'diversion.'
   @diversion_effects [
