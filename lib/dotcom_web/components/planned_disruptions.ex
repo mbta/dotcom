@@ -9,8 +9,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
-  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
-  import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
+  import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   alias Alerts.Alert
 
@@ -88,12 +87,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, time_range_str: time_range_str)
 
     ~H"""
-    <div class="pl-2 pr-sm">
-      <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
-    </div>
-    <div class="grow py-3">
-      <.status_label status={@alert.effect} prefix={@time_range_str} />
-    </div>
+    <.status_row_heading route_ids={@route_ids} status={@alert.effect} prefix={@time_range_str} />
     """
   end
 

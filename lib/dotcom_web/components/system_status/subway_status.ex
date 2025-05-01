@@ -7,8 +7,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
-  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
-  import DotcomWeb.Components.SystemStatus.StatusLabel
+  import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   @max_rows 5
   @route_ids ["Red", "Orange", "Green", "Blue"]
@@ -40,23 +39,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           ]}
           data-test="status-row"
         >
-          <div class={["pl-2 py-3", row.style.hide_route_pill && "opacity-0"]} data-route-pill>
-            <.subway_route_pill
-              class="group-hover/row:ring-brand-primary-lightest"
-              route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
-            />
-          </div>
-          <div class={[
-            "flex items-center justify-between grow gap-sm py-3",
-            row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-          ]}>
-            <.status_label
-              status={row.status_entry.status}
-              prefix={row.status_entry.prefix}
-              plural={row.status_entry.plural}
-            />
-            <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-          </div>
+          <.heading row={row} />
+
+          <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
         </a>
       </.lined_list>
     </.bordered_container>
@@ -74,61 +59,38 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         </div>
       </:heading>
       <.lined_list :let={row} items={@rows}>
-        <%= if row.alert do %>
-          <.unstyled_accordion
-            data-test-row-route-info={inspect(row.route_info)}
-            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
-            summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-            chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
-          >
-            <:heading>
-              <div class="pl-2 py-3 pr-sm">
-                <.subway_route_pill
-                  class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
-                  route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
-                />
-              </div>
-              <div class={[
-                "flex items-center justify-between grow text-nowrap gap-sm py-3",
-                row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-              ]}>
-                <.status_label
-                  status={row.status_entry.status}
-                  prefix={row.status_entry.prefix}
-                  plural={row.status_entry.plural}
-                />
-              </div>
-            </:heading>
-            <:content>
-              <.embedded_alert alert={row.alert} />
-            </:content>
-          </.unstyled_accordion>
-        <% else %>
-          <div
-            data-test-row-route-info={inspect(row.route_info)}
-            class="flex gap-sm"
-            style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
-          >
-            <div class="pl-2 py-3">
-              <.subway_route_pill
-                class={"group-hover/row:ring-brand-primary-lightest #{if(row.style.hide_route_pill, do: "opacity-0")}"}
-                route_ids={[row.route_info.route_id | row.route_info.branch_ids]}
-              />
-            </div>
-            <div class={[
-              "flex items-center justify-between grow text-nowrap gap-sm",
-              row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"
-            ]}>
-              <.status_label
-                status={row.status_entry.status}
-                prefix={row.status_entry.prefix}
-                plural={row.status_entry.plural}
-              />
-            </div>
-          </div>
-        <% end %>
+        <div data-test-row-route-info={inspect(row.route_info)}>
+          <%= if row.alert do %>
+            <.unstyled_accordion
+              style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+              summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
+              chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
+            >
+              <:heading>
+                <.heading row={row} />
+              </:heading>
+              <:content>
+                <.embedded_alert alert={row.alert} />
+              </:content>
+            </.unstyled_accordion>
+          <% else %>
+            <.heading row={row} />
+          <% end %>
+        </div>
       </.lined_list>
     </.bordered_container>
+    """
+  end
+
+  defp heading(assigns) do
+    ~H"""
+    <.status_row_heading
+      hide_route_pill={@row.style.hide_route_pill}
+      status={@row.status_entry.status}
+      prefix={@row.status_entry.prefix}
+      plural={@row.status_entry.plural}
+      route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
+    />
     """
   end
 
