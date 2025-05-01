@@ -12,7 +12,7 @@ defmodule Dotcom.Alerts do
           :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
 
   @typedoc "Service alerts which typically impact rider experience."
-  @type service_effect_t() :: :delay | :service_change | :shuttle | :suspension | :station_closure
+  @type service_effect_t() :: :cancellation | :delay | :service_change | :shuttle | :suspension | :station_closure
 
   # A keyword list of effects and the severity level necessary to make an alert a 'diversion.'
   @diversion_effects [
@@ -26,6 +26,7 @@ defmodule Dotcom.Alerts do
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
+    cancellation: 1,
     delay: 1,
     service_change: 3,
     shuttle: 1,
