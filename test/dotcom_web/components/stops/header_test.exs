@@ -11,7 +11,11 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
   describe "header/1" do
     test "renders only one of each mode icon" do
       # Setup
-      stop = %Stop{}
+      stop = %Stop{
+        accessibility: [],
+        parent_id: Faker.Pizza.topping(),
+        parking_lots: [],
+      }
 
       routes_by_stop = [
         %Route{type: 3},
@@ -25,9 +29,13 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       assert html |> Floki.find("title") |> Kernel.length() == 1
     end
 
-    test "renders the commuter rail icon last" do
+    test "renders the commuter rail mode icon last" do
       # Setup
-      stop = %Stop{}
+      stop = %Stop{
+        accessibility: [],
+        parent_id: Faker.Pizza.topping(),
+        parking_lots: [],
+      }
 
       routes_by_stop = [
         # Commuter Rail

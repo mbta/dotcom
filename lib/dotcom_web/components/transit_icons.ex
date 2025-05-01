@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.TransitIcons do
   """
   def accessibility(assigns) do
     ~H"""
-    <.icon type="icon-svg" name="icon-accessible-small" class="h-6 w-6" />
+    <.icon type="icon-svg" name="icon-accessible-small" class="h-6 w-6" aria-label="Accessible" />
     """
   end
 
