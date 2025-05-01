@@ -1,6 +1,18 @@
 <link rel="stylesheet" {static_attributes("/css/map.css")} />
+
+<div class="u-bg--gray-bordered-background">
+  <div class="container">
+    <DotcomWeb.Components.Stops.Header.header stop={@stop} routes_by_stop={@routes_by_stop} />
+  </div>
+</div>
+
 <div>
-  <div id="react-stop-root" data-mbta-stop-id={"#{@stop_id}"}></div>
+  <div
+    id="react-stop-root"
+    data-mbta-stop-id={"#{@stop.id}"}
+    data-mbta-accessible={"#{@accessible?}"}
+  >
+  </div>
 </div>
 
 <%= if Application.get_env(:dotcom, :dev_server?) do %>

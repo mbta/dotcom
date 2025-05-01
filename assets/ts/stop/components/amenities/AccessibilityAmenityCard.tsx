@@ -82,9 +82,16 @@ const AccessibilityAmenityCard = ({
   const stationOrStop = isStation ? "station" : "stop";
   const features = without(accessibleFeatures, "accessible");
   const hasAccessibleFeatures = accessibleFeatures.includes("accessible");
-  const badge = !hasAccessibleFeatures && (
+
+  const accessibleElement = document.querySelector("div[data-mbta-accessible]");
+  const accessibleOverride =
+    accessibleElement != null &&
+    accessibleElement.getAttribute("data-mbta-accessible") === "true";
+
+  const badge = !hasAccessibleFeatures && !accessibleOverride && (
     <Badge text="Not accessible" bgClass="u-bg--gray-lighter" />
   );
+
   const icon = accessibleIcon("c-svg__icon-accessible-default");
   return (
     <AmenityCard
@@ -92,7 +99,7 @@ const AccessibilityAmenityCard = ({
       icon={icon}
       badge={badge}
       modalContent={
-        hasAccessibleFeatures && (
+        (hasAccessibleFeatures || accessibleOverride) && (
           <AmenityModal headerText={`Accessibility at ${stopName}`}>
             {isStation ? StationFeatures(features) : StopFeatures}
             <AmenityLink
@@ -117,7 +124,7 @@ const AccessibilityAmenityCard = ({
         )
       }
     >
-      {hasAccessibleFeatures
+      {hasAccessibleFeatures || accessibleOverride
         ? `Learn more about the accessibility features at this ${stationOrStop}.`
         : `This ${stationOrStop} is not accessible.`}
     </AmenityCard>

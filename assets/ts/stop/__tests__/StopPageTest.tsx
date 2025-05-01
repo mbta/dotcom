@@ -63,13 +63,6 @@ describe("StopPage", () => {
     cleanup();
   });
 
-  it("should render", async () => {
-    renderWithAct(<StopPage stopId="123" />);
-    await waitFor(() => {
-      expect(screen.queryByText("Test Stop")).not.toBeNull();
-    });
-  });
-
   it("shows Loading without stop", async () => {
     jest
       .spyOn(useStop, "useStop")
