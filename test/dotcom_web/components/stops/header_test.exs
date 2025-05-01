@@ -14,7 +14,7 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       stop = %Stop{
         accessibility: [],
         parent_id: Faker.Pizza.topping(),
-        parking_lots: [],
+        parking_lots: []
       }
 
       routes_by_stop = [
@@ -34,7 +34,7 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       stop = %Stop{
         accessibility: [],
         parent_id: Faker.Pizza.topping(),
-        parking_lots: [],
+        parking_lots: []
       }
 
       routes_by_stop = [
