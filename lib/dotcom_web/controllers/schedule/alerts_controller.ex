@@ -1,13 +1,17 @@
 defmodule DotcomWeb.ScheduleController.AlertsController do
+  @moduledoc """
+  Used in the alerts tab on schedule pages.
+  """
+
   use DotcomWeb, :controller
 
-  alias DotcomWeb.ScheduleView
+  alias DotcomWeb.{Plugs, ScheduleView}
   alias Routes.Route
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.ScheduleController.Defaults)
   plug(:alerts)
-  plug(DotcomWeb.Plugs.AlertsByTimeframe)
+  plug(:alerts_by_timeframe)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(:tab_name)
 
@@ -45,5 +49,15 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     route
     |> Route.type_atom()
     |> Route.type_name()
+  end
+
+  # The alert timeframe filter is being phased out of schedule pages
+  # Adjust this condition as we update more route alert page layouts
+  defp alerts_by_timeframe(%{assigns: %{route: %Route{id: route_id}}} = conn, _) do
+    if route_id in Dotcom.Routes.subway_route_ids() do
+      conn
+    else
+      Plugs.AlertsByTimeframe.call(conn, [])
+    end
   end
 end
