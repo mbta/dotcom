@@ -11,7 +11,7 @@ defmodule Dotcom.TripPlan.Fares do
 
   alias Dotcom.TripPlan.Transfer
   alias Fares.Fare
-  alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place}
+  alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
 
   @spec fare(Itinerary.t()) :: non_neg_integer()
   def fare(%Itinerary{legs: legs}) do
@@ -56,19 +56,17 @@ defmodule Dotcom.TripPlan.Fares do
   def cents_for_leg(leg) when agency_name?(leg, "Massport"), do: 0
 
   # Back Bay Logan Express route is free from the Airport, $3 otherwise
-  # All other Logan Express buses are $9.00
-  def cents_for_leg(%Leg{from: %Place{name: from_name}, route: route})
-      when agency_name?(route, "Logan Express") do
-    if route.short_name == "BB" do
-      if String.contains?(from_name, "Logan Airport") || String.contains?(from_name, "Terminal") do
-        0
-      else
-        300
-      end
+  def cents_for_leg(%Leg{from: %Place{name: from_name}, route: %Route{short_name: "BB"}} = leg)
+      when agency_name?(leg, "Logan Express") do
+    if String.contains?(from_name, "Logan Airport") || String.contains?(from_name, "Terminal") do
+      0
     else
-      900
+      300
     end
   end
+
+  # All other Logan Express buses are $9.00
+  def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
 
   def cents_for_leg(%Leg{from: from, route: route, to: to}) when agency_name?(route, "MBTA") do
     route
