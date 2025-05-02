@@ -18,15 +18,22 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   def status_row_heading(assigns) do
     ~H"""
     <div class="flex grow">
-      <div class={["px-2 py-3", @hide_route_pill && "opacity-0"]} data-route-pill>
+      <div
+        class={[
+          "px-2 py-3",
+          "flex items-center",
+          @hide_route_pill && "opacity-0",
+          !@hide_route_pill && "border-t-[1px] border-gray-lightest"
+        ]}
+        data-route-pill
+      >
         <.subway_route_pill
           class="group-hover/row:ring-brand-primary-lightest"
           route_ids={@route_ids}
         />
       </div>
       <div class={[
-        "py-3 grow",
-        @hide_route_pill && "border-t-[1px] border-gray-lightest"
+        "py-3 grow border-t-[1px] border-gray-lightest"
       ]}>
         <.status_label status={@status} prefix={@prefix} plural={@plural} />
       </div>

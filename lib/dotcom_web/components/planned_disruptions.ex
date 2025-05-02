@@ -40,9 +40,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       <% else %>
         <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
           <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-          <.lined_list :let={disruption} items={disruptions}>
-            <.disruption alert={disruption} />
-          </.lined_list>
+          <div class="border-b-[1px] border-gray-lightest">
+            <div :for={disruption <- disruptions}>
+              <.disruption alert={disruption} />
+            </div>
+          </div>
         </div>
       <% end %>
     </.bordered_container>
@@ -65,7 +67,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.unstyled_accordion
       :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
-      chevron_class="fill-gray-dark px-2 py-3"
+      chevron_class="border-t-[1px] border-gray-lightest fill-gray-dark px-2 py-3"
     >
       <:heading>
         <.heading route_ids={route_ids} alert={@alert} />

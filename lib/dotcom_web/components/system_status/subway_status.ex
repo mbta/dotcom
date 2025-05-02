@@ -28,12 +28,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           Subway Status
         </a>
       </:heading>
-      <.lined_list :let={row} items={@rows}>
+      <div class="border-b-[1px] border-gray-lightest">
         <a
+          :for={row <- @rows}
           href={row.route_info.url}
-          style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
           class={[
-            "flex gap-2 items-center",
+            "flex items-center",
             "hover:bg-brand-primary-lightest cursor-pointer group/row",
             "text-black no-underline font-normal"
           ]}
@@ -41,9 +41,11 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         >
           <.heading row={row} />
 
-          <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+          <div class="border-t-[1px] border-gray-lightest self-stretch flex items-center">
+            <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+          </div>
         </a>
-      </.lined_list>
+      </div>
     </.bordered_container>
     """
   end
@@ -58,13 +60,13 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           Current Status
         </div>
       </:heading>
-      <.lined_list :let={row} items={@rows}>
-        <div data-test-row-route-info={inspect(row.route_info)}>
+      <div class="border-b-[1px] border-gray-lightest">
+        <div :for={row <- @rows} data-test-row-route-info={inspect(row.route_info)}>
           <%= if row.alert do %>
             <.unstyled_accordion
               style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
               summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-              chevron_class={"fill-gray-dark px-2 py-3 #{row.style.hide_route_pill && "border-t-[1px] border-gray-lightest"}"}
+              chevron_class="fill-gray-dark px-2 py-3 border-t-[1px] border-gray-lightest"
             >
               <:heading>
                 <.heading row={row} />
@@ -77,7 +79,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             <.heading row={row} />
           <% end %>
         </div>
-      </.lined_list>
+      </div>
     </.bordered_container>
     """
   end
