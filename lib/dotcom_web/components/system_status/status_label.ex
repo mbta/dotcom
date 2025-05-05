@@ -22,11 +22,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     assigns = assigns |> assign(:rendered_prefix, rendered_prefix)
 
     ~H"""
-    <span class={[status_classes(@status), "flex items-center gap-2"]}>
-      <.status_icon status={@status} />
-      <span data-test="status_label_text">
-        {@rendered_prefix} {description(@status, @prefix, @plural)}
-      </span>
+    <span data-test="status_label_text" class={status_classes(@status)}>
+      {@rendered_prefix} {description(@status, @prefix, @plural)}
     </span>
     """
   end
@@ -42,30 +39,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
   defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
-  defp status_icon(%{status: :normal} = assigns) do
-    ~H"""
-    <div class="bg-green-line h-4 w-4 rounded-full shrink-0"></div>
-    """
-  end
+  def status_icon_name(:shuttle), do: "icon-shuttle-default"
 
-  defp status_icon(assigns) do
-    ~H"""
-    <.icon
-      class="h-[1.125rem] w-[1.125rem] shrink-0"
-      type="icon-svg"
-      name={status_icon_name(@status)}
-      aria-hidden={true}
-    />
-    """
-  end
-
-  defp status_icon_name(:shuttle), do: "icon-shuttle-default"
-
-  defp status_icon_name(status) when status in [:station_closure, :suspension],
+  def status_icon_name(status) when status in [:station_closure, :suspension],
     do: "icon-cancelled-default"
 
-  defp status_icon_name(_), do: "icon-alerts-triangle"
+  def status_icon_name(_), do: "icon-alerts-triangle"
 
   defp status_classes(:normal), do: ""
-  defp status_classes(_), do: "font-bold"
+  defp status_classes(_), do: "font-bold text-lg"
 end
