@@ -7,7 +7,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
-  import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
+  import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
