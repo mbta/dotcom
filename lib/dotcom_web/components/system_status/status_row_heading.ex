@@ -8,6 +8,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
+  import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
   attr :hide_route_pill, :boolean, default: false
   attr :plural, :boolean, default: false
@@ -17,11 +18,10 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   def status_row_heading(assigns) do
     ~H"""
-    <div class="flex grow">
+    <div class="grid items-center grid-cols-[min-content_min-content_auto] items-stretch grow">
       <div
         class={[
-          "px-2 py-3",
-          "flex items-center",
+          "flex items-center py-3 pl-1 pr-2",
           @hide_route_pill && "opacity-0",
           !@hide_route_pill && "border-t-[1px] border-gray-lightest"
         ]}
@@ -33,7 +33,14 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         />
       </div>
       <div class={[
-        "py-3 grow border-t-[1px] border-gray-lightest"
+        "pr-2",
+        "flex items-center",
+        "border-t-[1px] border-gray-lightest"
+      ]}>
+        <.status_icon status={@status} />
+      </div>
+      <div class={[
+        "grow border-t-[1px] border-gray-lightest flex items-center"
       ]}>
         <.status_label status={@status} prefix={@prefix} plural={@plural} />
       </div>
