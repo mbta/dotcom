@@ -167,12 +167,12 @@ defmodule AlertsTest do
     end
   end
 
-  describe "endpoints/2" do
+  describe "endpoint_stops/2" do
     test "returns nil if an alert's informed entities don't include any stops" do
       route_id = FactoryHelpers.build(:id)
       alert = Alert.new(informed_entity: [%InformedEntity{stop: nil}])
 
-      assert Alert.endpoints(alert, route_id) == nil
+      assert Alert.endpoint_stops(alert, route_id) == nil
     end
 
     test "returns nil if an alert's informed entities includes precisely one stop" do
@@ -181,7 +181,7 @@ defmodule AlertsTest do
 
       alert = Alert.new(informed_entity: [%InformedEntity{stop: stop.id}])
 
-      assert Alert.endpoints(alert, route_id) == nil
+      assert Alert.endpoint_stops(alert, route_id) == nil
     end
 
     test "returns the first and last stops according to the order given by Stops.Repo" do
@@ -202,7 +202,7 @@ defmodule AlertsTest do
         stops
       end)
 
-      assert Alert.endpoints(alert, route_id) == {first_stop, last_stop}
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
     end
 
     test "does not include stops that aren't in the informed entity set" do
@@ -225,7 +225,7 @@ defmodule AlertsTest do
           Factories.Stops.Stop.build_list(2, :stop)
       end)
 
-      assert Alert.endpoints(alert, route_id) == {first_stop, last_stop}
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
     end
 
     test "uses a direction ID if there is one as an informed entity" do
@@ -255,7 +255,7 @@ defmodule AlertsTest do
         stops
       end)
 
-      assert Alert.endpoints(alert, route_id) == {first_stop, last_stop}
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
     end
   end
 end

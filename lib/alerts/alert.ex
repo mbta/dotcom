@@ -295,8 +295,8 @@ defmodule Alerts.Alert do
     end)
   end
 
-  @spec endpoints(t(), Routes.Route.id_t()) :: {Stops.Stop.t(), Stops.Stop.t()} | nil
-  def endpoints(alert, route_id) do
+  @spec endpoint_stops(t(), Routes.Route.id_t()) :: {Stops.Stop.t(), Stops.Stop.t()} | nil
+  def endpoint_stops(alert, route_id) do
     informed_stop_ids = alert |> get_entity(:stop)
 
     if MapSet.size(informed_stop_ids) < 2 do
