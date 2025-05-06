@@ -39,13 +39,6 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
   defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
-  def status_icon_name(:shuttle), do: "icon-shuttle-default"
-
-  def status_icon_name(status) when status in [:station_closure, :suspension],
-    do: "icon-cancelled-default"
-
-  def status_icon_name(_), do: "icon-alerts-triangle"
-
   defp status_classes(:normal), do: ""
   defp status_classes(_), do: "font-bold text-lg"
 end
