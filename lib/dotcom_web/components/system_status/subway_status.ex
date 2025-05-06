@@ -66,7 +66,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             <.unstyled_accordion
               style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
               summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-              chevron_class="fill-gray-dark px-2 py-3 border-t-[1px] border-gray-lightest"
+              chevron_class="fill-gray-dark px-2 border-t-[1px] border-gray-lightest self-stretch flex items-center"
             >
               <:heading>
                 <.heading row={row} />
