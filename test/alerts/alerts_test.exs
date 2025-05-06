@@ -1,7 +1,5 @@
 defmodule AlertsTest do
   use ExUnit.Case, async: true
-  alias Test.Support.FactoryHelpers
-  alias Test.Support.Factories
   use Timex
 
   import Alerts.Alert
@@ -9,6 +7,8 @@ defmodule AlertsTest do
 
   alias Alerts.Alert
   alias Alerts.InformedEntity
+  alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
 
