@@ -15,9 +15,10 @@ export default function initializeSentry(): void {
     Sentry.init({
       dsn: window.sentry.dsn,
       environment: window.sentry.environment,
+      integrations: [Sentry.captureConsoleIntegration()],
       beforeSend,
       autoSessionTracking: false,
-      sampleRate: 0.6, // error sampling - might increase later
+      sampleRate: 0.8, // error sampling - might increase later
       initialScope: {
         tags: { "dotcom.application": "frontend" }
       },
