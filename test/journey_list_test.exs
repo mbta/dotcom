@@ -2,11 +2,22 @@ defmodule JourneyListTest do
   use ExUnit.Case, async: true
 
   import JourneyList
+  import Mox
+  import Test.Support.Factories.Schedules.Schedule
 
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
+  alias Test.Support.Factories.Stops.Stop, as: StopFactory
+  alias Test.Support.Factories.Schedules.Trip, as: TripFactory
+
+  setup :verify_on_exit!
+
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
 
   @time ~N[2017-01-01T22:30:00]
   @route %Route{id: "86", type: 3, name: "86"}
@@ -563,6 +574,26 @@ defmodule JourneyListTest do
       actual = build(@origin_schedules, [], :last_trip_and_upcoming, true, optionals)
 
       assert actual == expected
+    end
+
+    test "if origin is in the trip twice, only use first for ferry" do
+      # setup - two schedules on the same trip visiting the same stop
+      stop = StopFactory.build(:stop)
+
+      ferry_schedules =
+        build_list(2, :schedule,
+          stop: stop,
+          trip: TripFactory.build(:trip)
+        )
+
+      %JourneyList{journeys: journeys} =
+        build(ferry_schedules, [], :predictions_then_schedules, true,
+          origin_id: stop.id,
+          current_time: @time
+        )
+
+      refute Enum.count(journeys) == Enum.count(ferry_schedules)
+      assert Enum.count(journeys) == 1
     end
   end
 

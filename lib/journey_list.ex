@@ -6,6 +6,7 @@ defmodule JourneyList do
 
   alias PredictedSchedule.Group
   alias Predictions.Prediction
+  alias Routes.Route
   alias Schedules.{Schedule, Trip}
 
   defstruct journeys: [],
@@ -216,8 +217,15 @@ defmodule JourneyList do
   @spec build_schedule_map(Schedule.t(), schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
     key = schedule.trip
-    updater = fn trip_map -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
-    Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
+
+    # Some ferry trips visit the same stop multiple times along the route. In
+    # this case we don't want to overwrite the existing schedule_map entry
+    if Route.type_atom(schedule.route) == :ferry && get_in(schedule_map, [key, schedule.stop.id]) do
+      schedule_map
+    else
+      updater = fn trip_map -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
+      Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
+    end
   end
 
   @spec first_trip([Schedule.t() | Prediction.t() | nil]) :: Trip.t() | nil
