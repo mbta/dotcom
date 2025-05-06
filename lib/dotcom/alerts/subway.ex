@@ -8,21 +8,13 @@ defmodule Dotcom.Alerts.Subway do
   import import Dotcom.Alerts, only: [service_impacting_effects: 0]
 
   @impl Dotcom.Alerts.Group
-  def effects do
-    %{
-      "Bike" => [bike_issue: 1],
-      "Elevator & Escalator" => [
-        elevator_closure: 1,
-        escalator_closure: 1
-      ],
-      "Other" => [],
-      "Parking" => [parking_issue: 1],
-      "Service" => service_impacting_effects()
-    }
-  end
-
-  @impl Dotcom.Alerts.Group
-  def group_order do
-    ["Service", "Elevator & Escalator", "Bike", "Parking", "Other"]
+  def effect_groups do
+    [
+      {"Service", service_impacting_effects()},
+      {"Elevator & Escalator", [elevator_closure: 1, escalator_closure: 1]},
+      {"Bike", [bike_issue: 1]},
+      {"Parking", [parking_issue: 1]},
+      {"Other", []}
+    ]
   end
 end

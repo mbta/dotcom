@@ -2,17 +2,14 @@ defmodule Dotcom.Alerts.Group do
   @moduledoc """
   This module defines a behaviour for grouping alerts by their effects.
 
-  Implementations must provide a list of effects and the order of the groups.
-  Combined, the two approximate an ordered map.
-
-  The `effects/0` function should return a map where the keys are group names
-  and the values are lists of tuples. Each tuple contains an effect name and
-  its severity. The severity is a number that indicates the importance of the
-  effect. The higher the number, the more important the effect is.
+  Implementations must provide a list of effect groups: a list of tuples where the
+  first element is the group name and the second element is a list of effects.
+  Each tuple contains an effect name and its severity. The severity is a number
+  that indicates the importance of the effect. The higher the number, the more
+  important the effect is.
   """
 
-  @callback effects() :: %{String.t() => [{atom(), byte()}]}
-  @callback group_order() :: [String.t()]
+  @callback effect_groups :: [{String.t(), [{atom(), byte()}]}]
 
   defmacro __using__(_) do
     quote do
@@ -34,7 +31,7 @@ defmodule Dotcom.Alerts.Group do
       """
       @spec find_group(atom()) :: String.t()
       def find_group(alert) do
-        groups()
+        __MODULE__.effect_groups()
         |> Enum.find(&group_match?(&1, alert))
         |> Kernel.elem(0)
       end
@@ -66,13 +63,11 @@ defmodule Dotcom.Alerts.Group do
       end
 
       @doc """
-      Get an ordered list of groups and their associated effects.
+      Get the order of the groups as a list.
       """
-      @spec groups() :: [{String.t(), [atom()]}]
-      def groups() do
-        Enum.map(__MODULE__.group_order(), fn group ->
-          {group, __MODULE__.effects()[group]}
-        end)
+      def group_order() do
+        __MODULE__.effect_groups()
+        |> Enum.map(&elem(&1, 0))
       end
 
       @doc """
@@ -94,7 +89,7 @@ defmodule Dotcom.Alerts.Group do
 
       # Return a map of groups with no alerts.
       defp empty_alerts() do
-        Enum.map(__MODULE__.group_order(), fn group ->
+        Enum.map(group_order(), fn group ->
           {group, []}
         end)
         |> Enum.into(%{})
