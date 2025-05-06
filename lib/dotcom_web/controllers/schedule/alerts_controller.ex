@@ -15,9 +15,8 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     mode =
       conn
       |> Map.get(:assigns, %{})
-      |> Map.get(:breadcrumbs, %{})
-      |> Enum.at(1, %{})
-      |> Map.get(:text)
+      |> Map.get(:route)
+      |> Routes.Route.type_atom()
 
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))

@@ -75,6 +75,12 @@ defmodule DotcomWeb.Components.Alerts.Grouped do
   defp anchor(group), do: Recase.to_kebab(group)
 
   defp mode_to_module(mode) do
-    "Elixir.Dotcom.Alerts.#{Recase.to_pascal(mode)}" |> String.to_atom()
+    mode
+    |> Atom.to_string()
+    |> Recase.to_pascal()
+    |> Kernel.then(fn mode ->
+      "Elixir.Dotcom.Alerts.#{mode}"
+    end)
+    |> String.to_atom()
   end
 end
