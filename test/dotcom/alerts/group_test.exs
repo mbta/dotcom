@@ -1,4 +1,4 @@
-defmodule Dotcom.Alerts.SubwayTest do
+defmodule Dotcom.Alerts.GroupTest do
   use ExUnit.Case
 
   import Dotcom.Alerts.Subway
@@ -25,7 +25,7 @@ defmodule Dotcom.Alerts.SubwayTest do
   end
 
   describe "group_alerts/1" do
-    test "all groups are present" do
+    test "all effect_groups are present" do
       # Setup
       group_order = group_order()
       alerts = []
@@ -52,11 +52,12 @@ defmodule Dotcom.Alerts.SubwayTest do
 
     test "alerts get grouped by effect and severity" do
       # Setup
-      groups = groups()
-      random_group = Enum.random(groups) |> Kernel.elem(0)
+      effect_groups = effect_groups()
+      random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} =
         if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
@@ -75,7 +76,7 @@ defmodule Dotcom.Alerts.SubwayTest do
   end
 
   describe "group_counts/1" do
-    test "all groups are present" do
+    test "all effect_groups are present" do
       # Setup
       group_order = group_order()
       alerts = []
@@ -102,11 +103,12 @@ defmodule Dotcom.Alerts.SubwayTest do
 
     test "alerts get counted by effect" do
       # Setup
-      groups = groups()
-      random_group = Enum.random(groups) |> Kernel.elem(0)
+      effect_groups = effect_groups()
+      random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} =
         if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
@@ -131,17 +133,17 @@ defmodule Dotcom.Alerts.SubwayTest do
     end
   end
 
-  describe "groups/0" do
+  describe "effect_groups/0" do
     test "returns an ordered list" do
       # Setup
       group_order = group_order()
 
       # Exercise
-      groups = groups()
+      effect_groups = effect_groups()
 
       # Verify
-      assert groups |> List.first() |> Kernel.elem(0) == Enum.at(group_order, 0)
-      assert groups |> List.last() |> Kernel.elem(0) == Enum.at(group_order, -1)
+      assert effect_groups |> List.first() |> Kernel.elem(0) == Enum.at(group_order, 0)
+      assert effect_groups |> List.last() |> Kernel.elem(0) == Enum.at(group_order, -1)
     end
   end
 
@@ -161,11 +163,12 @@ defmodule Dotcom.Alerts.SubwayTest do
 
     test "returns the correct group for grouped effects" do
       # Setup
-      groups = groups() |> Enum.reject(fn {group, _effects} -> group == "Other" end)
-      random_group = Enum.random(groups) |> Kernel.elem(0)
+      effect_groups = effect_groups() |> Enum.reject(fn {group, _effects} -> group == "Other" end)
+      random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} = Enum.random(effects)
 
