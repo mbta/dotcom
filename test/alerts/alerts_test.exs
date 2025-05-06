@@ -248,10 +248,57 @@ defmodule AlertsTest do
         )
 
       Stops.Repo.Mock
-      |> stub(:by_route, fn ^route_id, 0 ->
+      |> expect(:by_route, 0, fn ^route_id, 0 ->
         stops |> Enum.reverse()
       end)
-      |> stub(:by_route, fn ^route_id, ^direction_id ->
+      |> expect(:by_route, fn ^route_id, ^direction_id ->
+        stops
+      end)
+
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
+    end
+
+    test "returns nil if the alert applies to multiple Green Line branches" do
+      route_ids = Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops
+        |> Enum.flat_map(fn stop ->
+          route_ids |> Enum.map(&%InformedEntity{route: &1, stop: stop.id})
+        end)
+        |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, 0, fn _, _ -> stops end)
+
+      route_ids
+      |> Enum.each(fn route_id ->
+        assert Alert.endpoint_stops(alert, route_id) == nil
+      end)
+    end
+
+    test "works normally if the alert applies to a single Green Line branch" do
+      route_id = Faker.Util.pick(GreenLine.branch_ids())
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops |> Enum.map(&%InformedEntity{route: route_id, stop: &1.id}) |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, fn ^route_id, 0 ->
         stops
       end)
 
