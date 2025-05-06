@@ -56,7 +56,8 @@ defmodule Dotcom.Alerts.GroupTest do
       random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} =
         if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
@@ -106,7 +107,8 @@ defmodule Dotcom.Alerts.GroupTest do
       random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} =
         if Enum.empty?(effects), do: {:foo, 0}, else: Enum.random(effects)
@@ -165,7 +167,8 @@ defmodule Dotcom.Alerts.GroupTest do
       random_group = Enum.random(effect_groups) |> Kernel.elem(0)
 
       effects =
-        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end) |> Kernel.elem(1)
+        Enum.find(effect_groups, fn {group, _effects} -> group == random_group end)
+        |> Kernel.elem(1)
 
       {random_effect, random_severity} = Enum.random(effects)
 
