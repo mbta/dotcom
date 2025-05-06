@@ -12,9 +12,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   alias OpenTripPlannerClient.Schema.{Itinerary, Route}
 
-  attr :accessible?, :boolean
   attr :itinerary, Itinerary, required: true
-  attr :summarized_legs, :list, required: true
+  attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
 
   def itinerary_summary(assigns) do
     itinerary_fare = fare(assigns.itinerary)
@@ -27,6 +26,8 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         |> itinerary_duration_minutes()
         |> Util.format_minutes_duration()
       )
+      |> assign(:accessible?, Itinerary.accessible?(assigns.itinerary))
+      |> assign_new(:summarized_legs, fn -> Itinerary.summary(assigns.itinerary) end)
 
     ~H"""
     <div>

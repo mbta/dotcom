@@ -99,21 +99,15 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     itinerary = itinerary_group.itineraries |> Enum.at(assigns.results.itinerary_selection)
 
     assigns = %{
-      accessible?: Itinerary.accessible?(itinerary),
       all_times: ItineraryGroup.all_times(itinerary_group),
       itinerary: itinerary,
       itinerary_selection: assigns.results.itinerary_selection,
-      time_label: if(itinerary_group.time_key == :end, do: "Arrive by", else: "Depart at"),
-      summarized_legs: ItineraryGroup.leg_summaries(itinerary_group)
+      time_label: if(itinerary_group.time_key == :end, do: "Arrive by", else: "Depart at")
     }
 
     ~H"""
     <div data-test={"itinerary_detail:selected:#{@itinerary_selection}"}>
-      <.itinerary_summary
-        itinerary={@itinerary}
-        summarized_legs={@summarized_legs}
-        accessible?={@accessible?}
-      />
+      <.itinerary_summary itinerary={@itinerary} />
       <div :if={Enum.count(@all_times) > 1}>
         <hr class="border-gray-lighter" />
         <p class="text-sm mb-2 mt-3">{@time_label}</p>
@@ -151,7 +145,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
                alternatives_text: ItineraryGroup.alternatives_text(group),
                tag: itinerary[:tag],
                representative_itinerary: itinerary,
-               summarized_legs: ItineraryGroup.leg_summaries(group)
+               summary: group.summary
              }, index}
           end)
       })
@@ -172,8 +166,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           {Phoenix.Naming.humanize(group.tag)}
         </div>
         <.itinerary_summary
-          accessible?={group.accessible?}
-          summarized_legs={group.summarized_legs}
+          summarized_legs={group.summary}
           itinerary={group.representative_itinerary}
         />
         <div class="flex justify-end items-center">
