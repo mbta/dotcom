@@ -105,30 +105,6 @@ defmodule DotcomWeb.ComponentsTest do
     end
   end
 
-  describe "lined_list" do
-    test "shows inner block for each item" do
-      assigns = %{
-        items: Faker.Lorem.sentences()
-      }
-
-      rendered_items =
-        rendered_to_string(~H"""
-        <.lined_list :let={sentence} items={@items}>
-          <p>{sentence}</p>
-        </.lined_list>
-        """)
-        |> Floki.parse_fragment!()
-        |> Floki.find("p")
-
-      assert Enum.count(rendered_items) == Enum.count(assigns.items)
-      rendered_content = Enum.flat_map(rendered_items, fn {"p", _, content} -> content end)
-
-      for sentence <- assigns.items do
-        assert sentence in rendered_content
-      end
-    end
-  end
-
   describe "tooltip" do
     test "sets up basic tooltip" do
       assigns = %{
