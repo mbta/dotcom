@@ -101,7 +101,10 @@ defmodule Dotcom.TripPlan.FarePasses do
     %Leg{leg | mode: mode_with_fares}
   end
 
-  defp logan_express_fare(%Leg{from: from, mode: %TransitDetail{route: %Routes.Route{name: "BB"}}}) do
+  defp logan_express_fare(%Leg{
+         from: from,
+         mode: %TransitDetail{route: %Routes.Route{name: "BB"}}
+       }) do
     if String.contains?(from.name, "Logan Airport") || String.contains?(from.name, "Terminal") do
       0
     else

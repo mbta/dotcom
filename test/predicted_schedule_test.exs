@@ -492,7 +492,10 @@ defmodule PredictedScheduleTest do
                prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}
              }) == 0
 
-      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{}}) ==
+      assert delay(%PredictedSchedule{
+               schedule: %Schedule{time: @time},
+               prediction: %Prediction{}
+             }) ==
                0
 
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
