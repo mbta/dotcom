@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="hidden-sm-up">
-    <%# mobile banner design requires a different div structure %>
+    <% # mobile banner design requires a different div structure %>
     <%= render "_banner_content.html", banner: @banner, conn: @conn %>
   </div>
 </div>

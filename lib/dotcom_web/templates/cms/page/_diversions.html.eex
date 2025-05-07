@@ -7,15 +7,15 @@
   </div>
 
   <div class="c-cms__content">
-    <%# Sidebar Left %>
+    <% # Sidebar Left %>
     <%= if @sidebar_left, do: DotcomWeb.CMSView.render("_sidebar_left.html", page: @page, conn: @conn) %>
 
-    <%# Main Content %>
+    <% # Main Content %>
     <div class="c-cms__body">
       <%= render_page_content(@page, @conn) %>
     </div>
 
-    <%# Sidebar Right %>
+    <% # Sidebar Right %>
     <%= if !@sidebar_left && @sidebar_right, do: DotcomWeb.CMSView.render("_sidebar_right.html", page: @page, conn: @conn) %>
   </div>
 </div>
