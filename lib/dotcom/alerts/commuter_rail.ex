@@ -5,7 +5,7 @@ defmodule Dotcom.Alerts.CommuterRail do
 
   use Dotcom.Alerts.Group
 
-  import import Dotcom.Alerts, only: [service_impacting_effects: 0]
+  import Dotcom.Alerts, only: [service_impacting_effects: 0]
 
   @impl Dotcom.Alerts.Group
   def effect_groups do

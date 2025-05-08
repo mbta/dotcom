@@ -16,7 +16,7 @@
   <% end %>
 </div>
 
-<%# DEPRECATED: Render the Contact information component (now served by paragraph) %>
+<% # DEPRECATED: Render the Contact information component (now served by paragraph) %>
 <%= if Project.contact?(@page) do %>
   <div class="page-section project-contact">
     <div class="callout">

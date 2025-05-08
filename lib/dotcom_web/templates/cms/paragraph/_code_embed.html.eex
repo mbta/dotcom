@@ -2,5 +2,5 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%# Output raw CMS source HTML %>
+<% # Output raw CMS source HTML %>
 <%= @content.body %>

@@ -293,7 +293,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def make_via_list(list) do
     list
-    |> List.zip()
+    |> Enum.zip()
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 

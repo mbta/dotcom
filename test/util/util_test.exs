@@ -56,7 +56,10 @@ defmodule UtilTest do
       after_date = Util.to_local_time(~N[2018-11-04T06:00:00])
 
       assert after_date ==
-               Util.to_local_time(%Timex.AmbiguousDateTime{after: after_date, before: before_date})
+               Util.to_local_time(%Timex.AmbiguousDateTime{
+                 after: after_date,
+                 before: before_date
+               })
     end
   end
 

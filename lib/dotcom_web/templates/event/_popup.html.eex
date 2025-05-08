@@ -1,8 +1,8 @@
-<%#
+<%!--
   Uses the 3rd-party a11y-dialog library as a base to create
   accessible dialog windows for various use cases.
   See documentation at https://a11y-dialog.netlify.app
-%>
+--%>
 <div
   class="m-event-overlay <%= @class %>"
   id="<%= @id %>"
