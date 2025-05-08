@@ -127,7 +127,7 @@ defmodule Dotcom.TripPlan.Transfer do
 
   defp same_station?(_, _), do: false
 
-  defp bus?(route) when not mbta_shuttle?(route) do
+  defp bus?(route) when route.type == 3 and not mbta_shuttle?(route) do
     route_id = mbta_id(route)
     not Fares.silver_line_rapid_transit?(route_id)
   end
