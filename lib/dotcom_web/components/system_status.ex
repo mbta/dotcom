@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
+defmodule DotcomWeb.Components.SystemStatus do
   @moduledoc """
   A component that renders the given `@statuses` in a table.
   """
@@ -12,10 +12,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   @max_rows 5
   @route_ids ["Red", "Orange", "Green", "Blue"]
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   attr :subway_status, :any, required: true
 
   def homepage_subway_status(assigns) do
-    assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
+    assigns = assigns |> assign(:rows, subway_status_to_rows(assigns.subway_status))
 
     ~H"""
     <.bordered_container hide_divider>
@@ -39,7 +41,65 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           ]}
           data-test="status-row"
         >
-          <.heading row={row} />
+          <.heading row={row} mode="subway" />
+
+          <div class="border-t-[1px] border-gray-lightest self-stretch flex items-center">
+            <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+          </div>
+        </a>
+      </div>
+    </.bordered_container>
+    """
+  end
+
+  def alerts_commuter_rail_status(assigns) do
+    rows =
+      assigns
+      |> Map.get(:commuter_rail_status)
+      |> Enum.map(fn {route_id, statuses} ->
+        {route_id, [%{branch_ids: [], status_entries: statuses}]}
+      end)
+      |> Map.new()
+      |> commuter_rail_status_to_alerts_rows()
+      |> Enum.map(fn row ->
+        Map.update(row, :route_info, %{}, fn route_info ->
+          route = @routes_repo.get(route_info.route_id)
+
+          url =
+            if row.alert,
+              do: ~p"/schedules/#{route.id}/alerts",
+              else: ~p"/schedules/#{route.id}/timetable"
+
+          %{
+            branch_ids: [],
+            route_id: route.id,
+            route_name: route.name,
+            url: url
+          }
+        end)
+      end)
+
+    assigns = assigns |> assign(:rows, rows)
+
+    ~H"""
+    <.bordered_container hide_divider>
+      <:heading>
+        <div class="px-2 mb-sm">
+          Current Status
+        </div>
+      </:heading>
+      <div class="border-b-[1px] border-gray-lightest">
+        <a
+          :for={row <- @rows}
+          class={[
+            "flex items-center",
+            "hover:bg-brand-primary-lightest cursor-pointer group/row",
+            "text-black no-underline font-normal"
+          ]}
+          href={row.route_info.url}
+          data-test="status-row"
+        >
+          <.heading row={row} mode="commuter-rail" />
 
           <div class="border-t-[1px] border-gray-lightest self-stretch flex items-center">
             <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
@@ -51,7 +111,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   def alerts_subway_status(assigns) do
-    assigns = assigns |> assign(:rows, status_to_alerts_rows(assigns.subway_status))
+    assigns = assigns |> assign(:rows, subway_status_to_alerts_rows(assigns.subway_status))
 
     ~H"""
     <.bordered_container hide_divider>
@@ -69,14 +129,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               chevron_class="fill-gray-dark px-2 border-t-[1px] border-gray-lightest self-stretch flex items-center"
             >
               <:heading>
-                <.heading row={row} />
+                <.heading row={row} mode="subway" />
               </:heading>
               <:content>
                 <.embedded_alert alert={row.alert} />
               </:content>
             </.unstyled_accordion>
           <% else %>
-            <.heading row={row} />
+            <.heading row={row} mode="subway" />
           <% end %>
         </div>
       </div>
@@ -92,11 +152,21 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       prefix={@row.status_entry.prefix}
       plural={@row.status_entry.plural}
       route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
+      route_name={@row.route_info.route_name}
+      mode={@mode}
     />
     """
   end
 
-  defp status_to_rows(subway_status) do
+  defp commuter_rail_status_to_alerts_rows(commuter_rail_status) do
+    commuter_rail_status
+    |> Map.keys()
+    |> Enum.map(&{&1, commuter_rail_status |> Map.get(&1)})
+    |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
+    |> maybe_collapse_rows()
+  end
+
+  defp subway_status_to_rows(subway_status) do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route/1)
@@ -104,7 +174,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     |> Enum.map(&add_url/1)
   end
 
-  defp status_to_alerts_rows(subway_status) do
+  defp subway_status_to_alerts_rows(subway_status) do
     @route_ids
     |> Enum.map(&{&1, subway_status |> Map.get(&1)})
     |> Enum.flat_map(&rows_for_route(&1, include_alert: true))
@@ -219,7 +289,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     [
       %{
         alert: nil,
-        route_info: %{},
+        route_info: %{route_name: nil},
         status_entry: %{
           status: :normal,
           plural: false,
@@ -241,7 +311,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         fn alert ->
           %{
             alert: alert,
-            route_info: %{},
+            route_info: %{route_name: nil},
             status_entry: %{
               status: alert.effect,
               plural: false,
@@ -266,7 +336,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
     [
       %{
-        route_info: %{},
+        route_info: %{route_name: nil},
         status_entry: %{
           status: status,
           plural: multiple,
@@ -286,7 +356,11 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp add_route_id(rows, route_id) do
     rows
-    |> Enum.map(fn row -> row |> put_in([:route_info, :route_id], route_id) end)
+    |> Enum.map(fn row ->
+      row
+      |> put_in([:route_info, :route_id], route_id)
+      |> put_in([:route_info, :route_name], route_id)
+    end)
   end
 
   defp show_first_route_pill([first_entry | rest_of_entries]) do

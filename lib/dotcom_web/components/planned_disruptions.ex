@@ -70,7 +70,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       chevron_class="border-t-[1px] border-gray-lightest fill-gray-dark px-2 py-3"
     >
       <:heading>
-        <.heading route_ids={route_ids} alert={@alert} />
+        <.heading route_ids={route_ids} alert={@alert} mode="subway" />
       </:heading>
       <:content>
         <.embedded_alert alert={@alert} />
@@ -89,7 +89,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, time_range_str: time_range_str)
 
     ~H"""
-    <.status_row_heading route_ids={@route_ids} status={@alert.effect} prefix={@time_range_str} />
+    <.status_row_heading route_ids={@route_ids} status={@alert.effect} prefix={@time_range_str} mode={@mode} />
     """
   end
 
