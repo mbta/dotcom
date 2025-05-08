@@ -142,8 +142,6 @@ defmodule Dotcom.SystemStatus do
     [normal_status()]
   end
 
-
-
   # If there are alerts, then create a starting list of statuses that
   # maps one-to-one with the alerts provided.
   defp alerts_to_statuses_naive(alerts, time) do

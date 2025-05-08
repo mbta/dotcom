@@ -18,8 +18,8 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   def commuter_rail_status() do
     commuter_rail_routes()
-    |> Enum.map(fn route ->
-      {route.id, SystemStatus.service_today?(route)}
+    |> Map.new(fn route ->
+      {route.id, commuter_rail_route_alerts(route)}
     end)
   end
 
@@ -33,7 +33,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(&service_impacting_alert?/1)
-    |> Kernel.then(fn alerts -> {route.name, SystemStatus.alerts_to_statuses(alerts, @date_time_module.now())} end)
+    |> SystemStatus.alerts_to_statuses(@date_time_module.now)
   end
 
   defp commuter_rail_routes() do

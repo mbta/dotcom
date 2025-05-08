@@ -6,7 +6,7 @@ defmodule DotcomWeb.PageView do
   import PhoenixHTMLHelpers.Tag
   import DotcomWeb.CMSHelpers
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
-  import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [homepage_subway_status: 1]
+  import DotcomWeb.Components.SystemStatus, only: [homepage_subway_status: 1]
 
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
