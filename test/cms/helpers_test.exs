@@ -2,6 +2,7 @@ defmodule CMS.HelpersTest do
   use ExUnit.Case, async: true
 
   import CMS.Helpers
+  import Test.Support.EnvHelpers, only: [reassign_env: 3]
 
   alias CMS.Helpers
   alias Phoenix.HTML
@@ -55,7 +56,9 @@ defmodule CMS.HelpersTest do
       assert handle_html(html) == {:safe, "<p>Content</p>"}
     end
 
-    test "rewrites static file links" do
+    test "rewrites static file links on prod" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       {:ok, endpoint} = Application.get_env(:dotcom, :util_endpoint)
       html = "<img src=\"/sites/default/files/converted.jpg\">"
 
