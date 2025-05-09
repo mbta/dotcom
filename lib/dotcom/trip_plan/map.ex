@@ -82,12 +82,11 @@ defmodule Dotcom.TripPlan.Map do
 
   @spec build_leg_path(Leg.t()) :: LeafletPolyline.t()
   defp build_leg_path(leg) do
-    color = if(leg.route, do: route_color(leg.route), else: "#000000")
     path_weight = if leg.transit_leg, do: 5, else: 1
 
     leg.leg_geometry.points
     |> extend_to_endpoints(leg)
-    |> LeafletPolyline.new(color: color, weight: path_weight)
+    |> LeafletPolyline.new(color: route_color(leg.route), weight: path_weight)
   end
 
   @spec extend_to_endpoints(String.t() | charlist(), Leg.t()) :: String.t()

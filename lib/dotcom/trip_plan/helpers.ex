@@ -143,7 +143,8 @@ defmodule Dotcom.TripPlan.Helpers do
     end
   end
 
-  def route_color(route), do: if(route.color, do: "##{route.color}", else: "#000000")
+  def route_color(%{color: color}) when is_binary(color), do: "##{color}"
+  def route_color(_), do: "#000000"
 
   def route_line_name(route) do
     route
