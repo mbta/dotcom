@@ -7,6 +7,8 @@ defmodule AlertsTest do
 
   alias Alerts.Alert
   alias Alerts.InformedEntity
+  alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
 
@@ -162,6 +164,145 @@ defmodule AlertsTest do
 
       assert "Metropolis" = municipality(alert_with_muni)
       refute municipality(alert_no_muni)
+    end
+  end
+
+  describe "endpoint_stops/2" do
+    test "returns nil if an alert's informed entities don't include any stops" do
+      route_id = FactoryHelpers.build(:id)
+      alert = Alert.new(informed_entity: [%InformedEntity{stop: nil}])
+
+      assert Alert.endpoint_stops(alert, route_id) == nil
+    end
+
+    test "returns nil if an alert's informed entities includes precisely one stop" do
+      route_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert = Alert.new(informed_entity: [%InformedEntity{stop: stop.id}])
+
+      assert Alert.endpoint_stops(alert, route_id) == nil
+    end
+
+    test "returns the first and last stops according to the order given by Stops.Repo" do
+      route_id = FactoryHelpers.build(:id)
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops |> Enum.map(&%InformedEntity{route: route_id, stop: &1.id}) |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, fn ^route_id, 0 ->
+        stops
+      end)
+
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
+    end
+
+    test "does not include stops that aren't in the informed entity set" do
+      route_id = FactoryHelpers.build(:id)
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops |> Enum.map(&%InformedEntity{route: route_id, stop: &1.id}) |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, fn ^route_id, 0 ->
+        Factories.Stops.Stop.build_list(2, :stop) ++
+          stops ++
+          Factories.Stops.Stop.build_list(2, :stop)
+      end)
+
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
+    end
+
+    test "uses a direction ID if there is one as an informed entity" do
+      route_id = FactoryHelpers.build(:id)
+      direction_id = 1
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops |> Enum.map(&%InformedEntity{route: route_id, stop: &1.id}) |> Enum.shuffle()
+
+      alert =
+        Alert.new(
+          informed_entity:
+            stop_informed_entities ++
+              [%InformedEntity{route: route_id, direction_id: direction_id}]
+        )
+
+      Stops.Repo.Mock
+      |> expect(:by_route, 0, fn ^route_id, 0 ->
+        stops |> Enum.reverse()
+      end)
+      |> expect(:by_route, fn ^route_id, ^direction_id ->
+        stops
+      end)
+
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
+    end
+
+    test "returns nil if the alert applies to multiple Green Line branches" do
+      route_ids = Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops
+        |> Enum.flat_map(fn stop ->
+          route_ids |> Enum.map(&%InformedEntity{route: &1, stop: stop.id})
+        end)
+        |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, 0, fn _, _ -> stops end)
+
+      route_ids
+      |> Enum.each(fn route_id ->
+        assert Alert.endpoint_stops(alert, route_id) == nil
+      end)
+    end
+
+    test "works normally if the alert applies to a single Green Line branch" do
+      route_id = Faker.Util.pick(GreenLine.branch_ids())
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      stop_informed_entities =
+        stops |> Enum.map(&%InformedEntity{route: route_id, stop: &1.id}) |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      Stops.Repo.Mock
+      |> expect(:by_route, fn ^route_id, 0 ->
+        stops
+      end)
+
+      assert Alert.endpoint_stops(alert, route_id) == {first_stop, last_stop}
     end
   end
 end
