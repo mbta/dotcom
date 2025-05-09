@@ -22,10 +22,12 @@ defmodule Dotcom.TripPlan.Transfer do
   # For Local Bus, Express Bus, Silver Line, and/or Subway, transfer up to two times
   # and pay only the cost of the highest-priced service.
   @multi_ride_transfers [
+    [:bus, :subway, :bus],
     [:bus, :subway, :subway],
     [:bus, :bus, :subway],
     [:bus, :bus, :bus],
     [:subway, :bus, :bus],
+    [:subway, :bus, :subway],
     [:subway, :subway, :bus],
     [:subway, :subway, :subway]
   ]

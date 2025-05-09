@@ -128,6 +128,14 @@ defmodule Dotcom.TripPlan.TransferTest do
     test "bus -> bus -> bus" do
       assert [bus_leg(), bus_leg(), bus_leg()] |> maybe_transfer?
     end
+
+    test "bus -> subway -> bus" do
+      assert [bus_leg(), subway_leg(), bus_leg()] |> maybe_transfer?
+    end
+
+    test "subway -> bus -> subway" do
+      assert [subway_leg(), bus_leg(), subway_leg()] |> maybe_transfer?
+    end
   end
 
   describe "subway_transfer?/1" do
