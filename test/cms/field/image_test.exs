@@ -20,7 +20,7 @@ defmodule CMS.Field.ImageTest do
       image = Image.from_api(image_data)
 
       assert image.alt == image_data["alt"]
-      assert %URI{host: "localhost", path: "/files/purple-train.jpeg"} = URI.parse(image.url)
+      assert %URI{path: "/files/purple-train.jpeg"} = URI.parse(image.url)
     end
   end
 end

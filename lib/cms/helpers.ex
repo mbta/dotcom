@@ -253,7 +253,11 @@ defmodule CMS.Helpers do
         uri.path
       end
 
-    Util.site_path(:static_url, [path])
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      Util.site_path(:static_url, [path])
+    else
+      Application.get_env(:dotcom, :cms_api)[:base_url] <> path
+    end
   end
 
   @spec int_or_string_to_int(integer | String.t() | nil) :: integer | nil

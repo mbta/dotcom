@@ -118,6 +118,8 @@ defmodule CMS.HelpersTest do
 
   describe "parse_image/2" do
     test "parses the image data" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       data = %{
         "field_my_image" => [
           %{
@@ -140,6 +142,8 @@ defmodule CMS.HelpersTest do
 
   describe "parse_images/2" do
     test "parses image data with multiple images" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       data = %{
         "field_with_images" => [
           %{
@@ -487,6 +491,10 @@ defmodule CMS.HelpersTest do
   end
 
   describe "rewrite_url/1" do
+    setup do
+      reassign_env(:dotcom, :is_prod_env?, true)
+    end
+
     test "rewrites when the URL has query params" do
       assert %URI{} =
                uri =
