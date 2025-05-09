@@ -113,23 +113,31 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     """
   end
 
+  # figure out if we're showing a group of buses or group of rail lines
   defp leg_icon(assigns) do
-    lines = Enum.map(assigns.routes, &route_line_name/1) |> Enum.reject(&is_nil/1) |> Enum.uniq()
+    lines =
+      assigns.routes
+      |> Enum.map(&route_line_name/1)
+      |> Enum.reject(&is_nil/1)
+      |> Enum.uniq()
 
-    case lines do
-      [] ->
-        assigns = assign(assigns, :names, Enum.map(assigns.routes, &route_name/1) |> Enum.uniq())
+    if length(lines) > 0 do
+      assigns = assign(assigns, :lines, lines)
 
-        ~H"""
-        <.stacked_route_icon names={@names} class={@class} />
-        """
+      ~H"""
+      <.stacked_route_icon lines={@lines} class={@class} />
+      """
+    else
+      names =
+        assigns.routes
+        |> Enum.map(&route_name/1)
+        |> Enum.uniq()
 
-      lines ->
-        assigns = assign(assigns, :lines, lines)
+      assigns = assign(assigns, :names, names)
 
-        ~H"""
-        <.stacked_route_icon lines={@lines} class={@class} />
-        """
+      ~H"""
+      <.stacked_route_icon names={@names} class={@class} />
+      """
     end
   end
 end
