@@ -136,18 +136,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_groups(assigns) do
     assigns =
       assign(assigns, %{
-        summarized_groups:
-          Enum.map(assigns.indexed_groups, fn {group, index} ->
-            itinerary = ItineraryGroup.representative_itinerary(group)
-
-            {%{
-               accessible?: Itinerary.accessible?(itinerary),
-               alternatives_text: ItineraryGroup.alternatives_text(group),
-               tag: itinerary[:tag],
-               representative_itinerary: itinerary,
-               summary: group.summary
-             }, index}
-          end)
+        summarized_groups: Enum.map(assigns.indexed_groups, &summarize_indexed_group/1)
       })
 
     ~H"""
@@ -184,6 +173,20 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       </div>
     </div>
     """
+  end
+
+  defp summarize_indexed_group({group, index}) do
+    itinerary = ItineraryGroup.representative_itinerary(group)
+
+    summarized_group = %{
+      accessible?: Itinerary.accessible?(itinerary),
+      alternatives_text: ItineraryGroup.alternatives_text(group),
+      tag: itinerary[:tag],
+      representative_itinerary: itinerary,
+      summary: group.summary
+    }
+
+    {summarized_group, index}
   end
 
   attr(:text, :string, required: true)
