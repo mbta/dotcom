@@ -15,7 +15,7 @@ export default function initializeSentry(): void {
     Sentry.init({
       dsn: window.sentry.dsn,
       environment: window.sentry.environment,
-      integrations: [Sentry.captureConsoleIntegration()],
+      integrations: [Sentry.captureConsoleIntegration({ levels: ["error"] })],
       beforeSend,
       autoSessionTracking: false,
       sampleRate: 0.8, // error sampling - might increase later
