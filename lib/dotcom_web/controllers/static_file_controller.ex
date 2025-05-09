@@ -16,7 +16,7 @@ defmodule DotcomWeb.StaticFileController do
   end
 
   def redirect_through_cdn(conn) do
-    url = static_url(DotcomWeb.Endpoint, conn.request_path)
+    url = CMS.Helpers.rewrite_url(conn.request_path)
 
     conn
     |> put_status(301)

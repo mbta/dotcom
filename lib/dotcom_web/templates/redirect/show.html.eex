@@ -9,6 +9,6 @@
     </a>
   </p>
   <p class="error-card-content">
-    <%= img_tag static_url(DotcomWeb.Endpoint, "/images/transfer.gif"), class: "img-fluid error-card-image" %>
+    <%= img_tag CMS.Helpers.rewrite_url("/images/transfer.gif"), class: "img-fluid error-card-image" %>
   </p>
 </div>
