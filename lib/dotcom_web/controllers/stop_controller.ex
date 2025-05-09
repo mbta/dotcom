@@ -61,13 +61,15 @@ defmodule DotcomWeb.StopController do
         |> halt()
       else
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        accessible? = accessible?(stop, routes_by_stop)
 
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
-          stop_id: stop_id,
-          routes_by_stop: routes_by_stop
+          stop: stop,
+          routes_by_stop: routes_by_stop,
+          accessible?: accessible?
         })
       end
     else
@@ -382,5 +384,11 @@ defmodule DotcomWeb.StopController do
     else
       ""
     end
+  end
+
+  # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
+  defp accessible?(stop, routes_by_stop) do
+    Enum.member?(stop.accessibility, "accessible") ||
+      (is_nil(stop.parent_id) && Enum.any?(routes_by_stop, &(&1.type === 3)))
   end
 end

@@ -7,10 +7,9 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
-  import DotcomWeb.Components, only: [bordered_container: 1, lined_list: 1, unstyled_accordion: 1]
+  import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
-  import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
-  import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
+  import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   alias Alerts.Alert
 
@@ -41,9 +40,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       <% else %>
         <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
           <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
-          <.lined_list :let={disruption} items={disruptions}>
-            <.disruption alert={disruption} />
-          </.lined_list>
+          <div class="border-b-[1px] border-gray-lightest">
+            <div :for={disruption <- disruptions}>
+              <.disruption alert={disruption} />
+            </div>
+          </div>
         </div>
       <% end %>
     </.bordered_container>
@@ -66,7 +67,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     <.unstyled_accordion
       :for={route_ids <- @route_ids_by_subway_line}
       summary_class="flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row"
-      chevron_class="fill-gray-dark px-2 py-3"
+      chevron_class="border-t-[1px] border-gray-lightest fill-gray-dark px-2 py-3"
     >
       <:heading>
         <.heading route_ids={route_ids} alert={@alert} />
@@ -88,12 +89,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, time_range_str: time_range_str)
 
     ~H"""
-    <div class="pl-2 pr-sm">
-      <.subway_route_pill route_ids={@route_ids} class="group-hover/row:ring-brand-primary-lightest" />
-    </div>
-    <div class="grow py-3">
-      <.status_label status={@alert.effect} prefix={@time_range_str} />
-    </div>
+    <.status_row_heading route_ids={@route_ids} status={@alert.effect} prefix={@time_range_str} />
     """
   end
 

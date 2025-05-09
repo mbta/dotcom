@@ -31,7 +31,7 @@ defmodule DotcomWeb.TransitNearMeController do
     data = TransitNearMe.build(location, [])
 
     case data do
-      {:stops, {:error, _}} -> :error
+      %{stops: {:error, _}} -> :error
       _ -> assign(conn, :stops_json, data)
     end
   end

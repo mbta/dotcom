@@ -375,7 +375,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       route = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
       alerts = subway_status_alerts(route)
       html = render_component(&alerts_subway_status/1, %{subway_status: subway_status(alerts)})
-      details = Floki.find(html, "details[data-test-row-route-info*=\"#{route}\"]")
+      details = Floki.find(html, "[data-test-row-route-info*=\"#{route}\"]")
 
       [
         %Alerts.Alert{

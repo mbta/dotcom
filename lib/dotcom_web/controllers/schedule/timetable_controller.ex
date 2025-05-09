@@ -293,7 +293,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def make_via_list(list) do
     list
-    |> List.zip()
+    |> Enum.zip()
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
@@ -366,6 +366,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp with_prioritized_pattern([%RoutePattern{route_id: "CR-NewBedford"} | _] = route_patterns) do
     route_patterns
     |> with_prioritized_pattern("Fall River")
+  end
+
+  defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Foxboro"} | _] = route_patterns) do
+    route_patterns
+    |> with_prioritized_pattern("South Station - Foxboro")
   end
 
   defp with_prioritized_pattern(route_patterns), do: route_patterns

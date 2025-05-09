@@ -171,58 +171,6 @@ defmodule DotcomWeb.Components do
     """
   end
 
-  slot(:inner_block, required: true)
-  attr(:items, :list, required: true)
-
-  @doc """
-  Generic list with a faint dividing line between list items. The `@inner_block`
-  gets repeated for every list item.
-
-  Example usage:
-
-  ```elixir
-  <.lined_list :let={stop} items={@stops}>
-    <p class="p-1 m-0 text-xl">
-      {stop.name} @ {stop.address}
-    </p>
-  </.lined_list>
-  ```
-
-  Not recommended but possible: Removing or altering the dividing line can be
-  done on a per-line basis by wrapping the line with an element which redefines
-  the Tailwind CSS properties affecting the `divide-y` helper.
-
-  ```elixir
-  <.lined_list :let={thing} items={@things}>
-    <%= if thing.important do %>
-      <div style="--tw-divide-y-reverse: 10">
-        {stop.name} has larger bottom border width
-      </div>
-    <% else %>
-      <%= if thing.sequence > 1 do %>
-        <div style="--tw-divide-opacity: 0" class="border-dashed border-t-2">
-          {stop.name} has custom top border
-        </div>
-      <% else %>
-        {stop.name} has default border
-      <% end %>
-    <% end %>
-  </.lined_list>
-  ```
-
-  Not recommended for simple lists which should use `<ul>` or `<ol>`, as this
-  does not implement the ARIA role for "list".
-  """
-  def lined_list(assigns) do
-    ~H"""
-    <div class="border-gray-lightest border-y-[1px] divide-gray-lightest divide-y-[1px]">
-      <%= for item <- @items do %>
-        {render_slot(@inner_block, item)}
-      <% end %>
-    </div>
-    """
-  end
-
   slot(:content, required: true)
   slot(:heading, required: true)
   attr(:class, :string, default: "")

@@ -4,7 +4,6 @@ import { useLoaderData } from "react-router-dom";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutes } from "../../hooks/useRoute";
-import StopPageHeader from "./StopPageHeader";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
@@ -109,7 +108,6 @@ const StopPage = ({
 
   return (
     <article>
-      <StopPageHeader stop={stopResult.data} routes={routes} />
       {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
         <Alerts alerts={bannerAlerts} />

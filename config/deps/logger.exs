@@ -17,6 +17,8 @@ if config_env() == :prod do
 end
 
 if config_env() == :dev do
+  config :logger, truncate: :infinity
+
   config :logger, :console,
     format: "$date $time [$level] $metadata$message\n",
     level: :notice,

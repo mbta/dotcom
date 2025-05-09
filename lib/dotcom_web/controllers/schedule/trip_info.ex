@@ -74,7 +74,9 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     end
   end
 
-  defp trip_id(%Conn{assigns: %{journeys: %JourneyList{journeys: journeys}, date_time: date_time}})
+  defp trip_id(%Conn{
+         assigns: %{journeys: %JourneyList{journeys: journeys}, date_time: date_time}
+       })
        when journeys != [] do
     current_trip(journeys, date_time)
   end

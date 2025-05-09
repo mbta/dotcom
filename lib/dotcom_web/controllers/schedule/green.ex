@@ -35,6 +35,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   def alerts(conn, _params) do
     conn
     |> assign(:tab, "alerts")
+    |> assign(:mode, :subway)
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
