@@ -34,23 +34,23 @@ defmodule Dotcom.MapHelpers do
 
   @spec thumbnail(atom) :: String.t()
   def thumbnail(:subway) do
-    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-subway.jpg")
+    CMS.Helpers.rewrite_url("/images/map-thumbnail-subway.jpg")
   end
 
   def thumbnail(:commuter_rail) do
-    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-commuter-rail.jpg")
+    CMS.Helpers.rewrite_url("/images/map-thumbnail-commuter-rail.jpg")
   end
 
   def thumbnail(:commuter_rail_zones) do
-    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-fare-zones.jpg")
+    CMS.Helpers.rewrite_url("/images/map-thumbnail-fare-zones.jpg")
   end
 
   def thumbnail(:bus) do
-    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-bus-system.jpg")
+    CMS.Helpers.rewrite_url("/images/map-thumbnail-bus-system.jpg")
   end
 
   def thumbnail(:ferry) do
-    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-ferry.jpg")
+    CMS.Helpers.rewrite_url("/images/map-thumbnail-ferry.jpg")
   end
 
   @spec image(atom) :: String.t()

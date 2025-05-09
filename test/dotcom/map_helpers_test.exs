@@ -1,6 +1,12 @@
 defmodule MapHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import Dotcom.MapHelpers
+  import Test.Support.EnvHelpers, only: [reassign_env: 3]
+
+  setup do
+    reassign_env(:dotcom, :is_prod_env?, true)
+  end
 
   describe "map_pdf_url/1" do
     test "returns a URL string" do
