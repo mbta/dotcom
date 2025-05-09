@@ -5,8 +5,18 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.TripPlanner.RouteIcons
-  import Dotcom.TripPlan.Helpers
+  import DotcomWeb.Components.TripPlanner.RouteIcons, only: [otp_route_icon: 1]
+
+  import Dotcom.TripPlan.Helpers,
+    only: [
+      agency_name?: 2,
+      itinerary_distance_miles: 1,
+      itinerary_duration_minutes: 1,
+      mbta_shuttle?: 1,
+      route_line_name: 1,
+      route_name: 1
+    ]
+
   import Dotcom.TripPlan.Fares, only: [fare: 1]
   import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1, stacked_route_icon: 1]
 
