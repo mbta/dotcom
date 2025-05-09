@@ -141,7 +141,7 @@ defmodule DotcomWeb.ScheduleView do
   @spec route_pdfs_map(RoutePdf.t(), Route.t(), Date.t(), boolean) :: map
   def route_pdfs_map(pdf, route, today, all_current?) do
     %{
-      url: static_url(DotcomWeb.Endpoint, pdf.path),
+      url: CMS.Helpers.rewrite_url(pdf.path),
       title: IO.iodata_to_binary(route_pdf_title(pdf, route, today, all_current?))
     }
   end
@@ -153,7 +153,7 @@ defmodule DotcomWeb.ScheduleView do
 
     content_tag :div, class: "pdf-links" do
       for pdf <- route_pdfs do
-        url = static_url(DotcomWeb.Endpoint, pdf.path)
+        url = CMS.Helpers.rewrite_url(pdf.path)
 
         content_tag :div, class: "schedules-pdf-link" do
           link(to: url, target: "_blank") do

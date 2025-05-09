@@ -1,8 +1,12 @@
 defmodule DotcomWeb.ScheduleController.PdfTest do
   use DotcomWeb.ConnCase, async: true
 
+  import Test.Support.EnvHelpers, only: [reassign_env: 3]
+
   describe "pdf/2" do
     test "redirects to PDF for route when present", %{conn: conn} do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       expected_path = "/sites/default/files/route_pdfs/route087.pdf"
 
       conn =
