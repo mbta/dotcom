@@ -10,8 +10,10 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   import DotcomWeb.Components.TripPlanner.TransitLeg, only: [transit_leg: 1]
   import DotcomWeb.Components.TripPlanner.WalkingLeg, only: [walking_leg: 1]
 
-  alias Dotcom.TripPlan.LegToSegmentHelper
-  alias Dotcom.TripPlan.Alerts
+  alias Dotcom.TripPlan.{Alerts, LegToSegmentHelper}
+  alias OpenTripPlannerClient.Schema.Itinerary
+
+  attr :itinerary, Itinerary, required: true
 
   def itinerary_detail(assigns) do
     assigns =

@@ -5,28 +5,59 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   use DotcomWeb, :component
 
-  attr :summary, :map, required: true
+  import DotcomWeb.Components.TripPlanner.RouteIcons, only: [otp_route_icon: 1]
+
+  import Dotcom.TripPlan.Helpers,
+    only: [
+      agency_name?: 2,
+      itinerary_distance_miles: 1,
+      itinerary_duration_minutes: 1,
+      mbta_shuttle?: 1,
+      route_line_name: 1,
+      route_name: 1
+    ]
+
+  import Dotcom.TripPlan.Fares, only: [fare: 1]
+  import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1, stacked_route_icon: 1]
+
+  alias OpenTripPlannerClient.Schema.{Itinerary, Route}
+
+  attr :itinerary, Itinerary, required: true
+  attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
 
   def itinerary_summary(assigns) do
+    itinerary_fare = fare(assigns.itinerary)
+
+    assigns =
+      assign(assigns, :price, Fares.Format.price(itinerary_fare))
+      |> assign(
+        :duration,
+        assigns.itinerary
+        |> itinerary_duration_minutes()
+        |> Util.format_minutes_duration()
+      )
+      |> assign(:accessible?, Itinerary.accessible?(assigns.itinerary))
+      |> assign_new(:summarized_legs, fn -> Itinerary.summary(assigns.itinerary) end)
+
     ~H"""
     <div>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          {Util.kitchen_downcase_time(@summary.start)} - {Util.kitchen_downcase_time(@summary.stop)}
+          {Util.kitchen_downcase_time(@itinerary.start)} - {Util.kitchen_downcase_time(@itinerary.end)}
         </div>
         <div>
-          {Util.format_minutes_duration(@summary.duration)}
+          {@duration}
         </div>
       </div>
       <div class="flex flex-wrap gap-1 items-center content-center mb-3">
-        <%= for {summary_leg, index} <- Enum.with_index(@summary.summarized_legs) do %>
+        <%= for {summary_leg, index} <- Enum.with_index(@summarized_legs) do %>
           <.icon :if={index > 0} name="angle-right" class="font-black w-2" aria-label="to" />
           <.leg_icon {summary_leg} />
         <% end %>
       </div>
       <div class="flex flex-wrap gap-1 items-center mb-3 text-sm text-grey-dark">
         <div class="inline-flex items-center gap-0.5">
-          <%= if @summary.accessible? do %>
+          <%= if @accessible? do %>
             <.icon type="icon-svg" name="icon-accessible-small" class="h-3 w-3 mr-0.5" /> Accessible
           <% else %>
             <.icon type="icon-svg" name="icon-not-accessible-small" class="h-4 w-4 mr-0.5" />
@@ -36,13 +67,12 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         </div>
         <div class="inline-flex items-center gap-0.5">
           <.icon name="person-walking" class="h-3 w-3" />
-          {@summary.walk_distance} mi
+          {itinerary_distance_miles(@itinerary)} mi
         </div>
-        <% price = Fares.Format.price(@summary.total_cost) %>
-        <div :if={price != ""} class="inline-flex items-center gap-0.5">
+        <div :if={@price != ""} class="inline-flex items-center gap-0.5">
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
           <.icon name="wallet" class="h-3 w-3" />
-          {price}
+          {@price}
         </div>
       </div>
     </div>
@@ -50,7 +80,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   attr(:class, :string, default: "")
-  attr(:routes, :list, required: true, doc: "List of %Routes.Route{}")
+  attr(:routes, :list, required: true, doc: "List of %OpenTripPlannerClient.Schema.Route{}")
   attr(:walk_minutes, :integer, required: true)
 
   # No routes: this is a walking leg
@@ -70,66 +100,54 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   end
 
   # Group of commuter rail routes are summarized to one symbol.
-  defp leg_icon(%{routes: [%Routes.Route{type: 2} | _]} = assigns) do
+  defp leg_icon(%{routes: [%Route{type: 2} | _]} = assigns) do
     ~H"""
-    <.route_symbol route={List.first(@routes)} class={@class} />
+    <.mode_icon mode="commuter-rail" class={@class} />
     """
   end
 
   # No grouping when there's only one route!
-  defp leg_icon(%{routes: [%Routes.Route{}]} = assigns) do
+  defp leg_icon(%{routes: [%Route{}]} = assigns) do
     ~H"""
-    <.route_symbol route={List.first(@routes)} {assigns} />
+    <.otp_route_icon route={List.first(@routes)} class={@class} />
     """
   end
 
-  defp leg_icon(
-         %{routes: [%Routes.Route{type: type, external_agency_name: agency} | _]} = assigns
-       ) do
-    slashed? = type == 3 && is_nil(agency)
-
-    assigns =
-      assigns
-      |> assign(:slashed?, slashed?)
-      |> assign(
-        :grouped_classes,
-        if(slashed?,
-          do: "[&:not(:first-child)]:rounded-l-none [&:not(:last-child)]:rounded-r-none",
-          else: "rounded-full ring-white ring-2"
-        )
-      )
+  defp leg_icon(%{routes: [first_route | _]} = assigns)
+       when mbta_shuttle?(first_route) or not agency_name?(first_route, "MBTA") do
+    # if multiple shuttles with same name, remove extras
+    assigns = assign(assigns, :routes, Enum.uniq_by(assigns.routes, &route_name/1))
 
     ~H"""
-    <div class="flex items-center -space-x-0.5">
-      <%= for {route, index} <- Enum.with_index(@routes) do %>
-        <.route_symbol route={route} class={"#{@grouped_classes} #{zindex(index)} #{@class}"} />
-
-        <%= if index < Kernel.length(@routes) - 1 do %>
-          <%= if @slashed? do %>
-            <div
-              class={"bg-white -mt-0.5 w-1 h-7 #{zindex(index)} transform rotate-[17deg]"}
-              aria-label="or"
-            />
-          <% else %>
-            <span class="sr-only">or</span>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
+    <.otp_route_icon :for={route <- @routes} route={route} class={@class} />
     """
   end
 
+  # figure out if we're showing a group of buses or group of rail lines
   defp leg_icon(assigns) do
-    _ =
-      inspect(assigns)
-      |> Sentry.capture_message(tags: %{feature: "Trip Planner"})
+    lines =
+      assigns.routes
+      |> Enum.map(&route_line_name/1)
+      |> Enum.reject(&is_nil/1)
+      |> Enum.uniq()
 
-    ~H"""
-    <span></span>
-    """
-  end
+    if length(lines) > 0 do
+      assigns = assign(assigns, :lines, lines)
 
-  defp zindex(index) do
-    "z-#{50 - index * 10}"
+      ~H"""
+      <.stacked_route_icon lines={@lines} class={@class} />
+      """
+    else
+      names =
+        assigns.routes
+        |> Enum.map(&route_name/1)
+        |> Enum.uniq()
+
+      assigns = assign(assigns, :names, names)
+
+      ~H"""
+      <.stacked_route_icon names={@names} class={@class} />
+      """
+    end
   end
 end

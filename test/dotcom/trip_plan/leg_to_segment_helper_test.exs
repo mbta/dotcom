@@ -3,8 +3,9 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
 
   use ExUnit.Case, async: true
 
+  import OpenTripPlannerClient.Test.Support.Factory
+
   alias Dotcom.TripPlan.LegToSegmentHelper
-  alias Dotcom.TripPlan.{Leg, PersonalDetail, TransitDetail}
 
   test "works for a typical walking-transit-walking itinerary and puts a location on either end" do
     assert [
@@ -15,9 +16,9 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
              {:location_segment, _}
            ] =
              LegToSegmentHelper.legs_to_segments([
-               %Leg{mode: %PersonalDetail{}},
-               %Leg{mode: %TransitDetail{}},
-               %Leg{mode: %PersonalDetail{}}
+               build(:walking_leg),
+               build(:transit_leg),
+               build(:walking_leg)
              ])
   end
 
@@ -28,8 +29,8 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
              {:location_segment, _}
            ] =
              LegToSegmentHelper.legs_to_segments([
-               %Leg{mode: %TransitDetail{}},
-               %Leg{mode: %PersonalDetail{}}
+               build(:transit_leg),
+               build(:walking_leg)
              ])
   end
 
@@ -40,8 +41,8 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
              {:transit_segment, _}
            ] =
              LegToSegmentHelper.legs_to_segments([
-               %Leg{mode: %PersonalDetail{}},
-               %Leg{mode: %TransitDetail{}}
+               build(:walking_leg),
+               build(:transit_leg)
              ])
   end
 
@@ -50,7 +51,7 @@ defmodule Dotcom.TripPlan.LegToSegmentHelperTest do
              {:transit_segment, _}
            ] =
              LegToSegmentHelper.legs_to_segments([
-               %Leg{mode: %TransitDetail{}}
+               build(:transit_leg)
              ])
   end
 end

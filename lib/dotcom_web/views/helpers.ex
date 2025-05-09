@@ -119,7 +119,7 @@ defmodule DotcomWeb.ViewHelpers do
       when is_binary(name) do
     route_number = String.slice(name, 0..1)
 
-    if route_number in Route.massport_icon_names() do
+    if route_number in Dotcom.TripPlan.Helpers.massport_icon_names() do
       svg("icon-massport-#{route_number}.svg")
     else
       report_missing_icon("route Massport #{route_number}")
@@ -130,7 +130,7 @@ defmodule DotcomWeb.ViewHelpers do
   # Logan Express shuttle routes
   def line_icon(%Route{external_agency_name: "Logan Express", name: name}, _)
       when is_binary(name) do
-    if name in Route.logan_express_icon_names() do
+    if name in Dotcom.TripPlan.Helpers.logan_express_icon_names() do
       svg("icon-logan-express-#{name}.svg")
     else
       report_missing_icon("route Logan Express #{name}")

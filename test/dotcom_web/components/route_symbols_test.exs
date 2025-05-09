@@ -14,30 +14,6 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
                render_component(&route_symbol/1, %{route: route, size: :small})
     end
 
-    test "handles Logan Express, falling back to generic shuttle bus" do
-      assert render_component(&route_symbol/1, %{
-               route: build(:logan_express_route)
-             })
-             |> matches_title?("Logan Express")
-
-      assert render_component(&route_symbol/1, %{
-               route: build(:logan_express_route, name: "unknown")
-             })
-             |> matches_title?("Shuttle Bus")
-    end
-
-    test "handles Massport, falling back to generic shuttle bus" do
-      assert render_component(&route_symbol/1, %{
-               route: build(:massport_route)
-             })
-             |> matches_title?("Massport")
-
-      assert render_component(&route_symbol/1, %{
-               route: build(:massport_route, name: "unknown")
-             })
-             |> matches_title?("Shuttle Bus")
-    end
-
     test "handles buses" do
       route = build(:bus_route)
 

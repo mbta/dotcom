@@ -3,10 +3,11 @@ defmodule Dotcom.TripPlan.Map do
   Handles generating the maps displayed within the TripPlan Controller
   """
 
-  alias Dotcom.TripPlan.{Leg, NamedPosition, TransitDetail}
+  import Dotcom.TripPlan.Helpers, only: [route_color: 1]
+
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
-  alias Routes.Route
+  alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Stop}
   alias Util.Position
 
   @type t :: MapData.t()
@@ -16,7 +17,7 @@ defmodule Dotcom.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map([Leg.t()]) :: t
+  @spec itinerary_map(Itinerary.t()) :: t
   def itinerary_map(itinerary) do
     markers =
       itinerary
@@ -24,7 +25,7 @@ defmodule Dotcom.TripPlan.Map do
       |> Enum.with_index()
       |> Enum.map(fn {marker, idx} -> %{marker | id: "marker-#{idx}"} end)
 
-    paths = Enum.map(itinerary, &build_leg_path(&1))
+    paths = Enum.map(itinerary.legs, &build_leg_path(&1))
 
     {600, 600}
     |> MapData.new()
@@ -81,12 +82,11 @@ defmodule Dotcom.TripPlan.Map do
 
   @spec build_leg_path(Leg.t()) :: LeafletPolyline.t()
   defp build_leg_path(leg) do
-    color = leg_color(leg)
-    path_weight = if Leg.transit?(leg), do: 5, else: 1
+    path_weight = if leg.transit_leg, do: 5, else: 1
 
-    leg.polyline
+    leg.leg_geometry.points
     |> extend_to_endpoints(leg)
-    |> LeafletPolyline.new(color: color, weight: path_weight)
+    |> LeafletPolyline.new(color: route_color(leg.route), weight: path_weight)
   end
 
   @spec extend_to_endpoints(String.t() | charlist(), Leg.t()) :: String.t()
@@ -105,8 +105,8 @@ defmodule Dotcom.TripPlan.Map do
 
   defp extend_to_endpoints(_polyline, _leg), do: ""
 
-  @spec markers_for_legs([Leg.t()]) :: [Marker.t()]
-  defp markers_for_legs(legs) do
+  @spec markers_for_legs(Itinerary.t()) :: [Marker.t()]
+  defp markers_for_legs(%Itinerary{legs: legs}) do
     leg_count = Enum.count(legs)
 
     legs
@@ -135,7 +135,7 @@ defmodule Dotcom.TripPlan.Map do
     end
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t(), map) :: Marker.t()
+  @spec build_marker_for_leg_position(Place.t(), map) :: Marker.t()
   defp build_marker_for_leg_position(leg_position, indexes) do
     icon_name = stop_icon_name(indexes)
 
@@ -174,33 +174,9 @@ defmodule Dotcom.TripPlan.Map do
   def stop_icon_size("map-pin-b"), do: nil
   def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
-  @spec leg_color(Leg.t()) :: String.t()
-  defp leg_color(%Leg{
-         mode: %TransitDetail{
-           route: %Route{description: :rail_replacement_bus, name: name}
-         }
-       }) do
-    case name do
-      "Blue" <> _ -> "#003DA5"
-      "Green" <> _ -> "00843D"
-      "Orange" <> _ -> "#ED8B00"
-      "Red" <> _ -> "#DA291C"
-      _ -> "#80276c"
-    end
-  end
-
-  defp leg_color(%Leg{mode: %TransitDetail{route: %Route{color: color}}})
-       when not is_nil(color) do
-    "#" <> color
-  end
-
-  defp leg_color(_) do
-    "#000000"
-  end
-
-  @spec tooltip_for_position(NamedPosition.t()) :: String.t()
-  defp tooltip_for_position(%NamedPosition{name: name, stop: nil}), do: name
-  defp tooltip_for_position(%NamedPosition{stop: %Stops.Stop{name: name}}), do: name
+  @spec tooltip_for_position(Place.t()) :: String.t()
+  defp tooltip_for_position(%Place{name: name, stop: nil}), do: name
+  defp tooltip_for_position(%Place{stop: %Stop{name: name}}), do: name
 
   @spec z_index(map) :: 0 | 1
   def z_index(%{current: idx, start: idx}), do: 100

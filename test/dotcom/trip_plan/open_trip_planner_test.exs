@@ -33,7 +33,7 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
         assert %OpenTripPlannerClient.PlanParams{} = params
         assert params == OpenTripPlanner.to_params(input)
 
-        {:ok, %OpenTripPlannerClient.Plan{itineraries: []}}
+        {:ok, []}
       end)
 
       assert {:ok, _} = OpenTripPlanner.plan(input)

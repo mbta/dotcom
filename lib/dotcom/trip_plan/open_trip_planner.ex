@@ -1,10 +1,9 @@
 defmodule Dotcom.TripPlan.OpenTripPlanner do
   @moduledoc """
-  Makes requests to OpenTripPlanner via the OpenTripPlannerClient library, and
-  parses the result.
+  Makes requests to OpenTripPlanner via the OpenTripPlannerClient library.
   """
 
-  alias Dotcom.TripPlan.{InputForm, Parser}
+  alias Dotcom.TripPlan.InputForm
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
@@ -17,7 +16,6 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     input_form
     |> to_params()
     |> @otp_module.plan()
-    |> parse()
   end
 
   def to_params(form) do
@@ -28,11 +26,5 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
       wheelchair: form.wheelchair,
       num_itineraries: 100
     )
-  end
-
-  defp parse({:error, _} = error), do: error
-
-  defp parse({:ok, %OpenTripPlannerClient.Plan{itineraries: itineraries}}) do
-    {:ok, Enum.map(itineraries, &Parser.parse/1)}
   end
 end

@@ -8,10 +8,14 @@ defmodule Dotcom.TripPlan.Alerts do
   * at the times they'll be travelling
   """
 
-  alias Alerts.{Alert, InformedEntity}
-  alias Dotcom.TripPlan.{Itinerary, Leg, TransitDetail}
+  import Dotcom.TripPlan.Helpers, only: [agency_name?: 2, mbta_id: 1]
 
-  def by_mode_and_stops(alerts, leg) do
+  alias Alerts.{Alert, InformedEntity}
+  alias OpenTripPlannerClient.Schema.{Itinerary, Leg, LegTime}
+
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+
+  def by_mode_and_stops(alerts, leg) when agency_name?(leg, "MBTA") do
     {route_alerts, stop_alerts} =
       alerts
       |> Enum.split_with(fn alert ->
@@ -22,12 +26,12 @@ defmodule Dotcom.TripPlan.Alerts do
         end)
       end)
 
-    %{from: from_stop_ids, to: to_stop_ids} = Leg.stop_ids(leg)
-
-    entities_from = mode_entities_with_stop_ids(leg.mode, from_stop_ids)
+    from_stop_id = mbta_id(leg.from.stop)
+    to_stop_id = mbta_id(leg.to.stop)
+    entities_from = mode_entities_with_stop_ids(leg, [from_stop_id])
     from = Alerts.Match.match(stop_alerts, entities_from)
 
-    entities_to = mode_entities_with_stop_ids(leg.mode, to_stop_ids)
+    entities_to = mode_entities_with_stop_ids(leg, [to_stop_id])
     to = Alerts.Match.match(stop_alerts, entities_to)
 
     %{
@@ -37,11 +41,19 @@ defmodule Dotcom.TripPlan.Alerts do
     }
   end
 
+  def by_mode_and_stops(_, _) do
+    %{
+      route: [],
+      from: [],
+      to: []
+    }
+  end
+
   @spec from_itinerary(Itinerary.t()) :: [Alerts.Alert.t()]
   def from_itinerary(itinerary) do
     itinerary.start
-    |> Alerts.Repo.all()
-    |> Enum.reject(&reject_irrelevant_alert(&1, itinerary.accessible?))
+    |> @alerts_repo.all()
+    |> Enum.reject(&reject_irrelevant_alert(&1, Itinerary.accessible?(itinerary)))
     |> Alerts.Match.match(
       entities(itinerary),
       itinerary.start
@@ -50,13 +62,15 @@ defmodule Dotcom.TripPlan.Alerts do
 
   @doc "Filters a list of Alerts to those relevant to the Leg"
   @spec filter_for_leg([Alert.t()], Leg.t()) :: [Alert.t()]
-  def filter_for_leg(alerts, leg) do
+  def filter_for_leg(alerts, leg) when agency_name?(leg, "MBTA") do
     Alerts.Match.match(
       alerts,
       leg_entities(leg),
-      leg.start
+      LegTime.time(leg.start)
     )
   end
+
+  def filter_for_leg(_, _), do: []
 
   # Reject an alert that is not relevant to a trip plan:
   #  - accessibility issue (see `reject_accessibility_alert`)
@@ -73,39 +87,43 @@ defmodule Dotcom.TripPlan.Alerts do
   # - elevator closure
   # - escalator closure
   defp reject_accessibility_alert(alert, accessible?) do
-    not accessible? && (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
+    is_nil(accessible?) &&
+      (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
   end
 
   @spec entities(Itinerary.t()) :: [InformedEntity.t()]
   defp entities(itinerary) do
-    itinerary
+    itinerary.legs
     |> Enum.flat_map(&leg_entities(&1))
     |> Enum.uniq()
   end
 
-  defp leg_entities(%Leg{mode: mode} = leg) do
-    %{from: from, to: to} = Leg.stop_ids(leg)
+  defp leg_entities(leg) when agency_name?(leg, "MBTA") do
+    from = mbta_id(leg.from.stop)
+    to = mbta_id(leg.to.stop)
 
-    mode_entities_with_stop_ids(mode, from ++ to)
+    mode_entities_with_stop_ids(leg, [from, to])
   end
 
-  defp mode_entities_with_stop_ids(mode, stop_ids) do
-    for entity <- mode_entities(mode),
+  defp leg_entities(_), do: []
+
+  defp mode_entities_with_stop_ids(leg, stop_ids) when agency_name?(leg, "MBTA") do
+    for entity <- mode_entities(leg),
         stop_id <- stop_ids do
       %{entity | stop: stop_id}
     end
   end
 
-  defp mode_entities(%TransitDetail{route: route, trip: %{id: trip_id}}) do
-    trip =
-      if is_nil(route.external_agency_name) do
-        Schedules.Repo.trip(trip_id)
-      end
+  defp mode_entities_with_stop_ids(_, _), do: []
 
+  defp mode_entities(%Leg{route: route, trip: trip} = leg) when agency_name?(leg, "MBTA") do
     route_type =
       if route do
         route.type
       end
+
+    route_id = mbta_id(route)
+    trip_id = mbta_id(trip)
 
     direction_id =
       if trip do
@@ -115,7 +133,7 @@ defmodule Dotcom.TripPlan.Alerts do
     [
       %InformedEntity{
         route_type: route_type,
-        route: route.id,
+        route: route_id,
         trip: trip_id,
         direction_id: direction_id
       }
