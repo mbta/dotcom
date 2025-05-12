@@ -100,8 +100,8 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     active_stop = VehicleLocations.active_stop(conn.assigns.vehicle_locations, trip_id)
 
     case opts[:trip_fn].(trip_id, date: conn.assigns.date) do
-      trips when is_list(trips) ->
-        trips
+      schedules when is_list(schedules) ->
+        schedules
         |> build_trip_times(conn.assigns, trip_id)
         |> TripInfo.from_list(
           vehicle: opts[:vehicle_fn].(trip_id),
