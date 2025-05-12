@@ -19,6 +19,7 @@ defmodule DotcomWeb.AlertControllerTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(Alerts.Repo.Mock, :all, fn _date ->

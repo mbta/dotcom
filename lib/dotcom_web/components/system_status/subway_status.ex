@@ -87,6 +87,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp heading(assigns) do
     ~H"""
     <.status_row_heading
+      alert={@row |> Map.get(:alert)}
       hide_route_pill={@row.style.hide_route_pill}
       status={@row.status_entry.status}
       prefix={@row.status_entry.prefix}
