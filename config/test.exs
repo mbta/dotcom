@@ -5,6 +5,8 @@ config :aws_credentials,
   credential_providers: [],
   fail_if_unavailable: false
 
+config :dotcom, :affected_stops_module, Dotcom.Alerts.AffectedStops.Mock
+
 config :dotcom, :aws_client, AwsClient.Mock
 
 config :dotcom, :cache, Dotcom.Cache.TestCache

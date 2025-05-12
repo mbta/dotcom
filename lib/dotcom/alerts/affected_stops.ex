@@ -4,9 +4,13 @@ defmodule Dotcom.Alerts.AffectedStops do
   """
 
   alias Alerts.Alert
+  alias Dotcom.Alerts.AffectedStops.Behaviour
+
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  @spec affected_stops(Alerts.Alert.t(), [Routes.Route.id_t()]) :: [Stops.Stop.t()]
+  @behaviour Behaviour
+
+  @impl Behaviour
   def affected_stops(alert, route_ids) do
     stop_ids = alert |> Alert.get_entity(:stop)
 
