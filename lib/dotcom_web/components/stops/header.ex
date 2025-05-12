@@ -29,7 +29,7 @@ defmodule DotcomWeb.Components.Stops.Header do
     <div class="flex items-center justify-content-space-between">
       <h1 class="text-xl mt-3 mb-3">{@stop.name}</h1>
       <div class="mt-3 mb-3">
-        <div class="flex items-end justify-items-end gap-2">
+        <div class="flex items-end justify-items-end gap-2 flex-wrap">
           <.mode_icons routes_by_stop={@routes_by_stop} />
           <.zone stop={@stop} />
           <.accessibility :if={accessible?(assigns)} />
