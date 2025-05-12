@@ -63,7 +63,6 @@ defmodule TripInfo do
       end
 
     times
-    |> clamp_times_to_origin_destination(origin_id, destination_id)
     |> do_from_list(starting_stop_ids, destination_id, vehicle_stop_name, opts)
   end
 
@@ -113,35 +112,6 @@ defmodule TripInfo do
 
   defp do_from_list(_times, _starting_stop_ids, _destination_id, _vehicle_stop_name, _opts) do
     {:error, "not enough times to build a trip"}
-  end
-
-  # Filters the list of times to those between origin and destination,
-  # inclusive.  If the origin is after the trip, or one/both are not
-  # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, String.t(), String.t()) :: time_list
-  defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
-    case Enum.drop_while(times, &(origin_id != PredictedSchedule.stop(&1).id)) do
-      [origin | rest] ->
-        [origin | clamp_to_destination(rest, destination_id, [])]
-
-      [] ->
-        []
-    end
-  end
-
-  defp clamp_to_destination([], _destination_id, _acc) do
-    # if we get to the end of the list without finding the destination, don't
-    # return anything.
-    []
-  end
-
-  defp clamp_to_destination([time | rest], destination_id, acc) do
-    if PredictedSchedule.stop(time).id == destination_id do
-      [time | acc]
-      |> Enum.reverse()
-    else
-      clamp_to_destination(rest, destination_id, [time | acc])
-    end
   end
 
   defp duration(times, origin_id) do
