@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.TransitIcons do
   """
   def zone(assigns) when not is_nil(assigns.stop.zone) do
     ~H"""
-    <div class="border-[1px] border-commuter-rail text-commuter-rail max-h-6 rounded-sm px-1.5 font-bold inline-flex justify-center">
+    <div class="border-[1px] border-commuter-rail text-commuter-rail max-h-6 rounded-sm px-1.5 font-bold inline-flex justify-center text-nowrap">
       Zone {@stop.zone}
     </div>
     """
