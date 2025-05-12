@@ -75,6 +75,19 @@ defmodule DotcomWeb.NewsEntryControllerTest do
                "Between Forge Park/495 and Readville Stations for 8 Weekends 112"
     end
 
+    test "returns a 404 if the given node is missing", %{conn: conn} do
+      news_entry = news_entry_factory(1)
+
+      conn =
+        get(
+          conn,
+          news_entry_path(conn, :show, news_entry) <>
+            "?preview&vid=112&nid=#{Faker.random_between(9000, 9999)}"
+        )
+
+      assert html_response(conn, 404)
+    end
+
     test "includes Recent News suggestions", %{conn: conn} do
       news_entry = news_entry_factory(1)
 

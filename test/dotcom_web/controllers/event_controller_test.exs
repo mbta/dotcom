@@ -103,6 +103,19 @@ defmodule DotcomWeb.EventControllerTest do
       assert %{"preview" => "", "vid" => "112", "nid" => "5"} == conn.query_params
     end
 
+    test "returns a 404 if the given node is missing", %{conn: conn} do
+      event = event_factory(1)
+
+      conn =
+        get(
+          conn,
+          event_path(conn, :show, event) <>
+            "?preview&vid=112&nid=#{Faker.random_between(9000, 9999)}"
+        )
+
+      assert html_response(conn, 404)
+    end
+
     test "retains params (except _format) and redirects when CMS returns a native redirect", %{
       conn: conn
     } do

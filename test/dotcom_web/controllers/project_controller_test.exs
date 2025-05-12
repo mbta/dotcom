@@ -152,6 +152,19 @@ defmodule DotcomWeb.ProjectControllerTest do
       assert %{"preview" => "", "vid" => "112", "nid" => "3174"} == conn.query_params
     end
 
+    test "returns a 404 if the given node is missing", %{conn: conn} do
+      project_update = project_update_factory(1)
+
+      conn =
+        get(
+          conn,
+          project_update_path(conn, :project_update, project_update) <>
+            "?preview&vid=112&nid=#{Faker.random_between(9000, 9999)}"
+        )
+
+      assert conn.status == 404
+    end
+
     test "doesn't redirect update when project part of path would by itself return a native redirect",
          %{conn: conn} do
       conn =
