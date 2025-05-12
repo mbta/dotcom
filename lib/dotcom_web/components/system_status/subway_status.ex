@@ -270,7 +270,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
       [
         %{
-          alerts: [],
+          alerts: alerts,
           route_info: %{},
           status_entry: %{
             status: status,
