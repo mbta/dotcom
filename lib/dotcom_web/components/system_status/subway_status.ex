@@ -62,32 +62,42 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       </:heading>
       <div class="border-b-[1px] border-gray-lightest">
         <div :for={row <- @rows} data-test-row-route-info={inspect(row.route_info)}>
-          <%= if row.alert do %>
-            <.unstyled_accordion
-              style={if(row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
-              summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
-              chevron_class="fill-gray-dark px-2 border-t-[1px] border-gray-lightest self-stretch flex items-center"
-            >
-              <:heading>
-                <.heading row={row} />
-              </:heading>
-              <:content>
-                <.embedded_alert alert={row.alert} />
-              </:content>
-            </.unstyled_accordion>
-          <% else %>
-            <.heading row={row} />
-          <% end %>
+          <.alerts_page_row row={row} />
         </div>
       </div>
     </.bordered_container>
     """
   end
 
+  defp alerts_page_row(%{row: %{alerts: [alert]}} = assigns) do
+    assigns = assigns |> assign(:alert, alert)
+
+    ~H"""
+    <.unstyled_accordion
+      style={if(@row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
+      summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow text-nowrap"
+      chevron_class="fill-gray-dark px-2 border-t-[1px] border-gray-lightest self-stretch flex items-center"
+    >
+      <:heading>
+        <.heading row={@row} />
+      </:heading>
+      <:content>
+        <.embedded_alert alert={@alert} />
+      </:content>
+    </.unstyled_accordion>
+    """
+  end
+
+  defp alerts_page_row(assigns) do
+    ~H"""
+    <.heading row={@row} />
+    """
+  end
+
   defp heading(assigns) do
     ~H"""
     <.status_row_heading
-      alert={@row |> Map.get(:alert)}
+      alerts={@row |> Map.get(:alerts)}
       hide_route_pill={@row.style.hide_route_pill}
       status={@row.status_entry.status}
       prefix={@row.status_entry.prefix}
@@ -219,7 +229,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp rows_for_status_entry(%{alerts: []}, _, _) do
     [
       %{
-        alert: nil,
+        alerts: [],
         route_info: %{},
         status_entry: %{
           status: :normal,
@@ -241,7 +251,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         alerts,
         fn alert ->
           %{
-            alert: alert,
+            alerts: [alert],
             route_info: %{},
             status_entry: %{
               status: alert.effect,
@@ -255,9 +265,23 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         end
       )
     else
-      status_entry
-      |> Map.drop([:alerts])
-      |> rows_for_status_entry(show_prefix, opts)
+      %{status: status, multiple: multiple} = status_entry
+      prefix = if show_prefix, do: prefix(status_entry), else: nil
+
+      [
+        %{
+          alerts: [],
+          route_info: %{},
+          status_entry: %{
+            status: status,
+            plural: multiple,
+            prefix: prefix
+          },
+          style: %{
+            hide_route_pill: true
+          }
+        }
+      ]
     end
   end
 

@@ -90,7 +90,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
     ~H"""
     <.status_row_heading
-      alert={@alert}
+      alerts={[@alert]}
       prefix={@time_range_str}
       route_ids={@route_ids}
       status={@alert.effect}

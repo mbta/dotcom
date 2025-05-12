@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
 
-  attr :alert, Alerts.Alert, default: nil
+  attr :alerts, :list, default: []
   attr :hide_route_pill, :boolean, default: false
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         status={@status}
       />
 
-      <.subheading alert={@alert} status={@status} route_ids={@route_ids} />
+      <.subheading alerts={@alerts} status={@status} route_ids={@route_ids} />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
     </div>
@@ -63,14 +63,14 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     """
   end
 
-  defp subheading(%{alert: nil} = assigns), do: ~H""
+  defp subheading(%{alerts: []} = assigns), do: ~H""
 
   defp subheading(%{status: :station_closure} = assigns) do
     assigns =
       assigns
       |> assign(
         :text,
-        @affected_stops.affected_stops(assigns.alert, assigns.route_ids)
+        @affected_stops.affected_stops(assigns.alerts, assigns.route_ids)
         |> Enum.map(& &1.name)
         |> humanize_stop_names()
       )

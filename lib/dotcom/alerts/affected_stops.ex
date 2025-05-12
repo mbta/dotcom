@@ -11,8 +11,11 @@ defmodule Dotcom.Alerts.AffectedStops do
   @behaviour Behaviour
 
   @impl Behaviour
-  def affected_stops(alert, route_ids) do
-    stop_ids = alert |> Alert.get_entity(:stop)
+  def affected_stops(alerts, route_ids) do
+    stop_ids =
+      alerts
+      |> Enum.map(&(&1 |> Alert.get_entity(:stop)))
+      |> Enum.reduce(MapSet.new(), &MapSet.union/2)
 
     route_ids
     |> Enum.flat_map(&(&1 |> @stops_repo.by_route(0)))

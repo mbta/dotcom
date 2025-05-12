@@ -20,7 +20,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       alert = Alert.new(informed_entity: [%InformedEntity{stop: nil}])
 
       # Exercise
-      affected_stops = AffectedStops.affected_stops(alert, [route_id])
+      affected_stops = AffectedStops.affected_stops([alert], [route_id])
 
       # Verify
       assert affected_stops == []
@@ -43,7 +43,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       # Exercise
       queried_route_ids = build_random_size_id_list() ++ [route_id] ++ build_random_size_id_list()
 
-      affected_stops = AffectedStops.affected_stops(alert, queried_route_ids)
+      affected_stops = AffectedStops.affected_stops([alert], queried_route_ids)
 
       # Verify
       assert affected_stops == stops
@@ -84,7 +84,45 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
         |> Enum.shuffle()
 
       affected_stops_count =
-        AffectedStops.affected_stops(alert, queried_route_ids) |> Enum.count()
+        AffectedStops.affected_stops([alert], queried_route_ids) |> Enum.count()
+
+      # Verify
+      total_stops_count = (stops1 ++ stops2 ++ overlap_stops) |> Enum.count()
+      assert affected_stops_count == total_stops_count
+    end
+
+    test "combines stops from multiple alerts" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      stops1 = build_random_size_non_empty_stop_list()
+      stops2 = build_random_size_non_empty_stop_list()
+
+      overlap_stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, 0 ->
+          build_random_size_stop_list() ++
+            stops1 ++ stops2 ++ overlap_stops ++ build_random_size_stop_list()
+
+        _, 0 ->
+          build_random_size_stop_list()
+      end)
+
+      informed_entities1 =
+        (stops1 ++ overlap_stops) |> Enum.map(&%InformedEntity{stop: &1.id})
+
+      informed_entities2 =
+        (stops2 ++ overlap_stops) |> Enum.map(&%InformedEntity{stop: &1.id})
+
+      alert1 = Alert.new(informed_entity: informed_entities1)
+      alert2 = Alert.new(informed_entity: informed_entities2)
+
+      # Exercise
+
+      affected_stops_count =
+        AffectedStops.affected_stops([alert1, alert2], [route_id]) |> Enum.count()
 
       # Verify
       total_stops_count = (stops1 ++ stops2 ++ overlap_stops) |> Enum.count()
