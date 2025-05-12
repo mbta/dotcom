@@ -85,10 +85,6 @@ defmodule Routes.Route do
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
   @type branch_name :: String.t() | nil
 
-  # Icons we know we have SVGs for, modify if new icons are added/removed
-  # These names are equivalent to the route names from the Massport GTFS
-  @logan_express_icon_names ["BB", "BT", "DV", "FH", "WO"]
-  @massport_icon_names ["11", "22", "33", "44", "55", "66", "77", "88", "99"]
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
 
@@ -97,9 +93,6 @@ defmodule Routes.Route do
   defguard is_shuttle?(route)
            when route.type == 3 and route.description == :rail_replacement_bus and
                   not is_external?(route)
-
-  def logan_express_icon_names, do: @logan_express_icon_names
-  def massport_icon_names, do: @massport_icon_names
 
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
@@ -150,9 +143,9 @@ defmodule Routes.Route do
     def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)
   end
 
-  def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
+  def icon_atom(%__MODULE__{type: type}) when type in 0..4, do: type_atom(type)
 
-  def icon_atom(nil), do: nil
+  def icon_atom(_), do: nil
 
   @spec path_atom(t) :: gtfs_route_type
   def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"

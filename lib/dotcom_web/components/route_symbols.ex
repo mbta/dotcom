@@ -10,8 +10,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
 
   alias Routes.Route
 
-  @logan_express_icon_names Route.logan_express_icon_names()
-  @massport_icon_names Route.massport_icon_names()
   @subway_branch_ids Dotcom.Routes.subway_branch_ids()
   @subway_line_ids Dotcom.Routes.subway_line_ids()
 
@@ -87,6 +85,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
   attr(:rest, :global)
   attr(:route, Routes.Route, required: true)
 
+  # MBTA rail replacement bus - neither a CR nor a regular bus. Returns green/red/blue/orange or commuter rail icon
   def route_icon(%{route: %Route{name: shuttle_name} = route} = assigns)
       when is_shuttle?(route) do
     route_class =
@@ -109,6 +108,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     """
   end
 
+  # MBTA routes - either green/b/c/d/e/red/mattapan/blue/orange/silver or a mode (ferry/commuter-rail/bus)
   def route_icon(%{route: route} = assigns) when not is_external?(route) do
     assigns =
       assigns
@@ -130,39 +130,6 @@ defmodule DotcomWeb.Components.RouteSymbols do
     <.icon
       type="icon-svg"
       name={@icon_name}
-      class={"#{@class} #{@cva_class}"}
-      aria-label={route_label(@route)}
-    />
-    """
-  end
-
-  def route_icon(
-        %{
-          route: %Route{
-            external_agency_name: "Massport",
-            name: <<route_number::binary-size(2), _::binary>>
-          }
-        } = assigns
-      )
-      when route_number in @massport_icon_names do
-    assigns = assign(assigns, :route_number, route_number)
-
-    ~H"""
-    <.icon
-      type="icon-svg"
-      name={"icon-massport-#{@route_number}"}
-      class={"#{@class} #{@cva_class}"}
-      aria-label={route_label(@route)}
-    />
-    """
-  end
-
-  def route_icon(%{route: %Route{external_agency_name: "Logan Express", name: name}} = assigns)
-      when name in @logan_express_icon_names do
-    ~H"""
-    <.icon
-      type="icon-svg"
-      name={"icon-logan-express-#{@route.name}"}
       class={"#{@class} #{@cva_class}"}
       aria-label={route_label(@route)}
     />

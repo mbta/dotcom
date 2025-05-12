@@ -6,14 +6,12 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components.RouteSymbols, only: [route_symbol: 1]
-  import DotcomWeb.Components.TripPlanner.Place
+  import Dotcom.TripPlan.Helpers
+  import DotcomWeb.Components.TripPlanner.{Place, RouteIcons}
   import MbtaMetro.Components.Icon, only: [icon: 1]
-  import Routes.Route, only: [is_external?: 1, is_shuttle?: 1]
 
-  alias Dotcom.TripPlan.{Alerts, TransitDetail}
-  alias Routes.Route
-  alias Stops.Stop
+  alias Dotcom.TripPlan.Alerts
+  alias OpenTripPlannerClient.Schema.{Leg, LegTime, Route, Trip}
 
   @doc """
   Renders a transit leg.
@@ -22,7 +20,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   """
 
   attr :alerts, :list, default: []
-  attr :leg, :any, required: true
+  attr :leg, Leg, required: true
 
   def transit_leg(assigns) do
     assigns =
@@ -34,17 +32,17 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       <.transit_place
         show_leg_line
         place={@leg.from}
-        time={@leg.start}
-        route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+        time={LegTime.time(@leg.start)}
+        route={@leg.route}
         alerts={@alerts.from}
       />
 
       <div class="flex items-stretch gap-x-2">
         <div class="flex flex-col items-center">
           <div class="w-5"></div>
-          <div class={["w-1 flex-grow", leg_line_class(@leg.mode.route)]}></div>
+          <div class={["w-1 flex-grow", leg_line_class(@leg.route)]}></div>
         </div>
-        <%= if Enum.count(@leg.mode.intermediate_stops) == 0 do %>
+        <%= if Enum.count(@leg.intermediate_stops) == 0 do %>
           <div class="w-full py-5">
             <.leg_summary leg={@leg} alerts={@alerts.route} />
             <.leg_details leg={@leg} />
@@ -65,8 +63,8 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
       <.transit_place
         place={@leg.to}
-        time={@leg.stop}
-        route={if(match?(%TransitDetail{}, @leg.mode), do: @leg.mode.route)}
+        time={LegTime.time(@leg.end)}
+        route={@leg.route}
         alerts={@alerts.to}
       />
     </div>
@@ -85,12 +83,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       <.place
         time={@time}
         name={@place.stop.name}
-        accessible={!is_nil(@place.stop) and Stop.accessible?(@place.stop)}
-        url={stop_url(@route, @place.stop)}
+        accessible={@place.stop.wheelchair_boarding == :POSSIBLE}
+        url={@place.stop.url}
       >
         <:icon>
           <.transit_leg_icon route={@route} />
-
           <div :if={@show_leg_line} class={["w-1 flex-grow", leg_line_class(@route)]}></div>
         </:icon>
       </.place>
@@ -107,35 +104,35 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
-  defp stop_url(_, %Stop{} = stop) when is_nil(stop.id), do: nil
-
-  defp stop_url(%Route{external_agency_name: nil}, %Stop{} = stop) do
-    ~p"/stops/#{stop}"
-  end
-
-  defp stop_url(_, _), do: nil
-
-  defp leg_line_class(%Route{external_agency_name: "Massport"}) do
+  defp leg_line_class(route) when agency_name?(route, "Massport") do
     "bg-massport"
   end
 
-  defp leg_line_class(%Route{external_agency_name: "Logan Express", name: name}) do
-    "bg-logan-express-#{name}"
+  defp leg_line_class(route) when agency_name?(route, "Logan Express") do
+    "bg-logan-express-#{route_name(route)}"
   end
 
-  defp leg_line_class(%Route{name: name} = route) when is_shuttle?(route) do
-    %Route{id: name |> String.split(" ") |> List.first()}
-    |> Route.icon_atom()
+  defp leg_line_class(%Route{short_name: name} = route) when mbta_shuttle?(route) do
+    %Routes.Route{id: name |> String.split(" ") |> List.first()}
+    |> Routes.Route.icon_atom()
     |> CSSHelpers.atom_to_class()
     |> route_background_class()
   end
 
-  defp leg_line_class(%Route{} = route) do
-    route
-    |> Route.to_naive()
-    |> Route.icon_atom()
-    |> CSSHelpers.atom_to_class()
-    |> route_background_class()
+  defp leg_line_class(%Route{type: 2}), do: "bg-commuter-rail"
+  defp leg_line_class(%Route{type: 4}), do: "bg-ferry"
+
+  defp leg_line_class(route) do
+    case mbta_id(route) do
+      "Green-" <> _ ->
+        "bg-green-line"
+
+      other ->
+        %Routes.Route{id: other, type: route.type}
+        |> Routes.Route.icon_atom()
+        |> CSSHelpers.atom_to_class()
+        |> route_background_class()
+    end
   end
 
   defp route_background_class("bus") do
@@ -146,17 +143,15 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     "bg-#{route}"
   end
 
-  defp transit_leg_icon(assigns) do
-    name =
-      case Route.vehicle_name(assigns.route) do
-        "Bus" -> "icon-stop-default"
-        _ -> "icon-circle-t-default"
-      end
-
-    assigns = assigns |> assign(:name, name)
-
+  defp transit_leg_icon(%{route: %Route{mode: :BUS}} = assigns) do
     ~H"""
-    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name={@name} />
+    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-stop-default" />
+    """
+  end
+
+  defp transit_leg_icon(%{} = assigns) do
+    ~H"""
+    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-circle-t-default" />
     """
   end
 
@@ -183,23 +178,18 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   defp leg_summary(assigns) do
     assigns =
       assigns
-      |> assign(:stops_count, Enum.count(assigns.leg.mode.intermediate_stops) + 1)
+      |> assign(:stops_count, Enum.count(assigns.leg.intermediate_stops) + 1)
       |> assign(:headsign, headsign(assigns.leg))
 
     ~H"""
-    <div class="flex items-start">
-      <div class="h-6 w-[2.375rem] shrink-0 flex items-center justify-start">
-        <.route_symbol
-          class="shrink-0"
-          route={@leg.mode.route}
-          size={route_symbol_size(@leg.mode.route)}
-        />
+    <div class="flex items-start gap-sm">
+      <div class="h-6 w-max-content shrink-0 flex items-center justify-start">
+        <.otp_route_icon route={@leg.route} class="shrink-0" />
       </div>
-
       <div class="flex flex-col">
         <span class="font-bold">{@headsign}</span>
         <span class="text-sm">
-          <.ride_message mode={@leg.mode} />
+          <.ride_message route={@leg.route} trip={@leg.trip} />
           <span class="font-semibold">
             {@stops_count} {Inflex.inflect("stop", @stops_count)}
           </span>
@@ -210,43 +200,27 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
-  defp route_symbol_size(%Route{type: 3} = route)
-       when not is_external?(route) and not is_shuttle?(route),
-       do: "small"
-
-  defp route_symbol_size(_), do: "default"
-
-  defp headsign(%{stop_headsign: stop_headsign}) when not is_nil(stop_headsign) do
-    stop_headsign
+  defp headsign(%{route: route, trip: %Trip{trip_headsign: headsign}})
+       when not is_nil(headsign) do
+    if agency_name?(route, "MBTA") do
+      headsign
+    else
+      route_name(route) <> " to #{Recase.to_name(headsign)}"
+    end
   end
 
-  # Massport trips might not have headsigns, so use the route names instead
-  defp headsign(%{mode: %{route: %Route{} = route}}) when is_external?(route) do
-    route_name(route)
-  end
-
-  defp headsign(%{mode: %{trip: %{headsign: headsign}}}) when not is_nil(headsign) do
-    headsign
+  # Massport trips might not have headsigns, so use the route labels instead
+  defp headsign(%{route: %Route{} = route}) when not agency_name?(route, "MBTA") do
+    route_label(route)
   end
 
   defp headsign(_), do: nil
 
-  defp ride_message(%{mode: %{route: %Route{} = route}} = assigns)
-       when is_external?(route) do
-    assigns =
-      assigns
-      |> assign(:vehicle_name, vehicle_name(route))
-
-    ~H"""
-    Ride the {@vehicle_name}
-    """
-  end
-
-  defp ride_message(%{mode: %{route: route, trip: trip}} = assigns) do
+  defp ride_message(%{route: route, trip: trip} = assigns) do
     assigns =
       assigns
       |> assign(:route_name, route_name(route))
-      |> assign(:train_number, train_number(trip))
+      |> assign(:train_number, if(route.mode == :RAIL, do: trip.trip_short_name))
       |> assign(:vehicle_name, vehicle_name(route))
 
     ~H"""
@@ -254,44 +228,19 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     """
   end
 
-  # Returns the name of the route for the given row.
-  # If there is an external agency name, we use the long name.
-  # If it is a bus, we use the short name.
-  # For all others, we use the long name.
-  defp route_name(%Route{} = route) when is_external?(route),
-    do: route.long_name
+  defp vehicle_name(%Route{mode: mode}) when mode in [:TRAM, :SUBWAY], do: "train"
 
-  defp route_name(%Route{name: name, type: 3})
-       when is_binary(name),
-       do: name
-
-  defp route_name(%Route{long_name: long_name})
-       when is_binary(long_name),
-       do: long_name
-
-  defp route_name(%Route{name: name}), do: name
-  defp route_name(_), do: nil
-
-  defp train_number(%Schedules.Trip{name: name}) when not is_nil(name), do: name
-  defp train_number(_), do: nil
-
-  defp vehicle_name(%Route{} = route) when is_shuttle?(route) do
-    "shuttle bus"
-  end
-
-  defp vehicle_name(%Route{} = route) do
-    route
-    |> Route.vehicle_name()
+  defp vehicle_name(%Route{mode: mode}) when is_atom(mode) do
+    mode
+    |> Atom.to_string()
     |> String.downcase()
   end
-
-  defp vehicle_name(nil), do: nil
 
   defp leg_details(assigns) do
     ~H"""
     <ul class="w-full m-0 pl-0 flex flex-col divide-y divide-gray-lightest">
       <li
-        :for={stop <- @leg.mode.intermediate_stops}
+        :for={stop <- @leg.intermediate_stops}
         class="inline-flex items-center gap-x-2 py-2 relative"
       >
         <.icon name="circle" class="h-1.5 w-1.5 absolute -left-[1.3125rem] fill-white" />

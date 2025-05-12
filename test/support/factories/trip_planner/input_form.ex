@@ -3,9 +3,9 @@ defmodule Test.Support.Factories.TripPlanner.InputForm do
   Provides generated test data via ExMachina and Faker.
   """
 
-  alias Dotcom.TripPlan.InputForm
   use ExMachina
 
+  alias Dotcom.TripPlan.InputForm
   alias Test.Support.Generators
 
   def form_factory do

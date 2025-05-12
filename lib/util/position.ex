@@ -17,3 +17,8 @@ defimpl Util.Position, for: Tuple do
   def latitude({latitude, _}), do: latitude
   def longitude({_, longitude}), do: longitude
 end
+
+defimpl Util.Position, for: OpenTripPlannerClient.Schema.Place do
+  def latitude(%OpenTripPlannerClient.Schema.Place{lat: latitude}), do: latitude
+  def longitude(%OpenTripPlannerClient.Schema.Place{lon: longitude}), do: longitude
+end
