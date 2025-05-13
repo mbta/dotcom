@@ -96,7 +96,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     ~H"""
     <div></div>
     <div></div>
-    <div class="text-sm">
+    <div class="text-sm" data-test="status_subheading">
       {@text}
     </div>
     """
