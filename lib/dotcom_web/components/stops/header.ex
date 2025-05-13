@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.Stops.Header do
         <div class="flex items-end justify-items-end gap-2 flex-wrap">
           <.mode_icons routes_by_stop={@routes_by_stop} />
           <.zone stop={@stop} />
-          <.accessibility :if={accessible?(assigns)} />
+          <.accessibility :if={@accessible?} />
           <.parking :if={parking?(assigns)} />
         </div>
         <div :if={all_bus_routes?(assigns) and not @stop.station?} class="text-sm">
@@ -41,12 +41,6 @@ defmodule DotcomWeb.Components.Stops.Header do
       </div>
     </div>
     """
-  end
-
-  # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
-  defp accessible?(%{stop: stop, routes_by_stop: routes_by_stop}) do
-    Enum.member?(stop.accessibility, "accessible") ||
-      (is_nil(stop.parent_id) && Enum.any?(routes_by_stop, &(&1.type === 3)))
   end
 
   # All routes are bus routes if they are all type 3 or are Silver Line.

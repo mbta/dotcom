@@ -23,7 +23,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       ]
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       assert html |> Floki.find("title") |> Kernel.length() == 1
@@ -45,7 +50,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       ]
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       assert html |> Floki.find("title") |> Enum.at(-1) |> Floki.text() == "Commuter Rail"
@@ -57,19 +67,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
-
-      # Verify
-      assert html =~ "Accessible"
-    end
-
-    test "renders the accessibility icon when it is a bus-only stop" do
-      # Setup
-      stop = %Stop{parent_id: nil, accessibility: []}
-      routes_by_stop = [%Route{type: 3}]
-
-      # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: true,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       assert html =~ "Accessible"
@@ -81,7 +84,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       refute html =~ "Accessible"
@@ -93,7 +101,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       assert html =~ "Parking"
@@ -105,7 +118,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       refute html =~ "Parking"
@@ -118,7 +136,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       assert html =~ "Zone #{zone}"
@@ -130,7 +153,12 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       routes_by_stop = []
 
       # Exercise
-      html = render_component(&header/1, %{stop: stop, routes_by_stop: routes_by_stop})
+      html =
+        render_component(&header/1, %{
+          accessible?: false,
+          stop: stop,
+          routes_by_stop: routes_by_stop
+        })
 
       # Verify
       refute html =~ "Zone"
