@@ -106,8 +106,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
     assert_push("data", _)
   end
 
-  test "fetches and processes vehicle prediction when buliding tooltip_text" do
-    route = %Routes.Route{id: "CR-Lowell"}
+  test "fetches and processes vehicle prediction when building tooltip_text" do
+    route = %Routes.Route{id: "CR-Lowell", type: 2}
 
     trip = %Schedules.Trip{
       id: "trip",
