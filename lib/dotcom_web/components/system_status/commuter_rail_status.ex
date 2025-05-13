@@ -28,23 +28,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
           Current Status
         </div>
       </:heading>
-      <div class="border-b-[1px] border-gray-lightest">
-        <a
-          :for={row <- @rows}
-          class={[
-            "flex items-center",
-            "hover:bg-brand-primary-lightest cursor-pointer group/row",
-            "text-black no-underline font-normal"
-          ]}
-          href={row.url}
-          data-test="status-row"
-        >
-          <.heading row={row} />
-          <div class="border-t-[1px] border-gray-lightest self-stretch flex items-center">
-            <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-          </div>
-        </a>
-      </div>
+      <.row :for={row <- @rows} row={row} />
     </.bordered_container>
     """
   end
@@ -59,65 +43,177 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     |> Map.put(:url, ~p"/schedules/#{id}/alerts")
   end
 
+  defp combine_alert_counts(alert_counts) when alert_counts == %{}, do: []
+
+  # We have delays and cancellations.
+  defp combine_alert_counts(%{delay: delays, cancellation: cancellations} = alert_counts) do
+    other_alert_counts =
+      reject_cancellations_and_delays(alert_counts) |> IO.inspect(label: "OTHER")
+
+    [{:alert, "#{cancellations + delays} Cancellations / Delays"}] ++
+      combine_alert_counts(other_alert_counts)
+  end
+
+  # We have cancellations and no delays.
+  defp combine_alert_counts(%{cancellations: cancellations} = alert_counts) do
+    other_alert_counts = reject_cancellations_and_delays(alert_counts)
+
+    [{:alert, "#{cancellations} Cancellations"}] ++ combine_alert_counts(other_alert_counts)
+  end
+
+  # We have delays and no cancellations.
+  defp combine_alert_counts(%{delay: delays} = alert_counts) do
+    other_alert_counts = reject_cancellations_and_delays(alert_counts)
+
+    [{:alert, "#{delays} Delays"}] ++ combine_alert_counts(other_alert_counts)
+  end
+
   defp combine_alert_counts(alert_counts) do
-    alert_counts
-    |> Enum.reduce("", fn {effect, count}, acc ->
-      effect = effect |> Atom.to_string() |> Recase.to_title()
-      count_effect = if count == 1, do: "#{count} #{effect}", else: "#{count} #{Inflex.pluralize(effect)}"
+    total = Enum.reduce(alert_counts, 0, fn {_, count}, acc -> acc + count end)
 
-      if acc == "" do
-        count_effect
-      else
-        "#{acc} / #{count_effect}"
-      end
-    end)
+    case total do
+      0 ->
+        []
+
+      1 ->
+        effect = alert_counts |> Keyword.keys() |> List.first()
+        effect_string = effect |> Atom.to_string() |> Recase.to_title()
+
+        [{effect, "1 #{effect_string}"}]
+
+      _ ->
+        [{:alert, "See #{total} Alerts"}]
+    end
   end
 
-  defp heading(%{row: %{service_today?: false}} = assigns) do
+  defp reject_cancellations_and_delays(alert_counts) when alert_counts == %{}, do: %{}
+
+  defp reject_cancellations_and_delays(alert_counts) do
+    Enum.reject(alert_counts, fn {effect, _} -> Enum.member?(~w(cancellation delay)a, effect) end)
+  end
+
+  defp row(%{row: %{service_today?: false}} = assigns) do
     ~H"""
-    <div class="flex items-center pl-1 pr-2">
-      <p>{@row.name}</p>
-    </div>
+    <a
+      class={[
+        "flex items-center py-2",
+        "hover:bg-brand-primary-lightest cursor-pointer group/row",
+        "text-black no-underline font-normal",
+        "border-t-[1px] border-gray-lightest"
+      ]}
+      href={@row.url}
+      data-test="status-row"
+    >
+      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-center pl-1 pr-2 min-w-72">
+          <span class="text-gray-light text-lg">{@row.name}</span>
+        </div>
 
-    <div class="pr-2 flex items-center">
-      <.status_icon status={:not_in_service} />
-    </div>
+        <div class="pr-2 flex items-center">
+          <.status_icon status={:no_scheduled_service} />
+        </div>
 
-    <div class="grow flex items-center">
-      Not in Service
-    </div>
+        <div class="grow flex items-center text-gray-light">
+          No Scheduled Service
+        </div>
+      </div>
+      <div class="self-stretch flex items-center">
+        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+      </div>
+    </a>
     """
   end
 
-  defp heading(%{row: %{alert_counts: []}} = assigns) do
+  defp row(%{row: %{alert_counts: alert_counts}} = assigns) when alert_counts == %{} do
     ~H"""
-    <div class="flex items-center pl-1 pr-2">
-      <p>{@row.name}</p>
-    </div>
+    <a
+      class={[
+        "flex items-center py-2",
+        "hover:bg-brand-primary-lightest cursor-pointer group/row",
+        "text-black no-underline font-normal",
+        "border-t-[1px] border-gray-lightest"
+      ]}
+      href={@row.url}
+      data-test="status-row"
+    >
+      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-center pl-1 pr-2 min-w-72">
+          <span class="text-lg">{@row.name}</span>
+        </div>
 
-    <div class="pr-2 flex items-center">
-      <.status_icon status={:normal} />
-    </div>
+        <div class="pr-2 flex items-center">
+          <.status_icon status={:normal} />
+        </div>
 
-    <div class="grow flex items-center">
-      <.status_label status={:normal} />
-    </div>
+        <div class="grow flex items-center">
+          <.status_label status={:normal} />
+        </div>
+      </div>
+      <div class="self-stretch flex items-center">
+        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+      </div>
+    </a>
     """
   end
 
-  defp heading(%{row: %{alert_counts: _}} = assigns) do
+  defp row(%{row: %{alert_counts: alert_counts}} = assigns) do
+    [first | rest] = combine_alert_counts(alert_counts)
+    assigns = assigns |> assign(:first, first) |> assign(:rest, rest)
+
     ~H"""
-    <div class="flex items-center pl-1 pr-2">
-      <p>{@row.name}</p>
-    </div>
+    <a
+      class={[
+        "flex items-center py-2",
+        "hover:bg-brand-primary-lightest cursor-pointer group/row",
+        "text-black no-underline font-normal",
+        "border-t-[1px] border-gray-lightest"
+      ]}
+      href={@row.url}
+      data-test="status-row"
+    >
+      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-center pl-1 pr-2 min-w-72">
+          <span class="text-lg">{@row.name}</span>
+        </div>
 
-    <div class="pr-2 flex items-center">
-      <.status_icon status={:alerts} />
-    </div>
+        <div class="pr-2 flex items-center">
+          <.status_icon status={elem(@first, 0)} />
+        </div>
 
-    <div class="grow flex items-center">
-      {combine_alert_counts(@row.alert_counts)}
-    </div>
+        <div class="grow flex items-center font-bold">
+          {elem(@first, 1)}
+        </div>
+      </div>
+      <div class="self-stretch flex items-center">
+        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+      </div>
+    </a>
+    <a
+      :for={row <- @rest}
+      class={[
+        "flex items-center py-2",
+        "hover:bg-brand-primary-lightest cursor-pointer group/row",
+        "text-black no-underline font-normal",
+        "border-t-[1px] border-gray-lightest"
+      ]}
+      href={@row.url}
+      data-test="status-row"
+    >
+      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-center pl-1 pr-2 min-w-72"></div>
+
+        <div class="pr-2 flex items-center">
+          <.status_icon status={elem(row, 0)} />
+        </div>
+
+        <div class="grow flex items-center font-bold">
+          {elem(row, 1)}
+        </div>
+      </div>
+      <div class="self-stretch flex items-center">
+        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+      </div>
+    </a>
     """
   end
 end

@@ -40,6 +40,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     |> Enum.map(fn {effect, alerts} ->
       {effect, Kernel.length(alerts)}
     end)
+    |> Map.new()
   end
 
   defp service_today?(id) do
