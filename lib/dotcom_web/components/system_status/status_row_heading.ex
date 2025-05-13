@@ -20,16 +20,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :status, :atom, required: true
 
   def status_row_heading(assigns) do
+    %{subheading_text: subheading_text, plural: plural} =
+      subheading_text(%{
+        status: assigns.status,
+        alerts: assigns.alerts,
+        plural: assigns.plural,
+        route_ids: assigns.route_ids
+      })
+
     assigns =
       assigns
-      |> assign(
-        :subheading_text,
-        subheading_text(%{
-          status: assigns.status,
-          alerts: assigns.alerts,
-          route_ids: assigns.route_ids
-        })
-      )
+      |> assign(:subheading_text, subheading_text)
+      |> assign(:plural, plural)
 
     ~H"""
     <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
@@ -75,12 +77,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   end
 
   defp subheading_text(%{status: :station_closure, alerts: alerts, route_ids: route_ids}) do
-    @affected_stops.affected_stops(alerts, route_ids)
-    |> Enum.map(& &1.name)
-    |> humanize_stop_names()
+    affected_stops = @affected_stops.affected_stops(alerts, route_ids)
+
+    %{
+      plural: affected_stops |> Enum.count() > 1,
+      subheading_text:
+        affected_stops
+        |> Enum.map(& &1.name)
+        |> humanize_stop_names()
+    }
   end
 
-  defp subheading_text(_), do: nil
+  defp subheading_text(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
 
   defp humanize_stop_names([stop_name]), do: stop_name
   defp humanize_stop_names([stop_name1, stop_name2]), do: "#{stop_name1} & #{stop_name2}"
