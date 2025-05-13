@@ -48,7 +48,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # We have delays and cancellations.
   defp combine_alert_counts(%{delay: delays, cancellation: cancellations} = alert_counts) do
     other_alert_counts =
-      reject_cancellations_and_delays(alert_counts) |> IO.inspect(label: "OTHER")
+      reject_cancellations_and_delays(alert_counts)
 
     [{:alert, "#{cancellations + delays} Cancellations / Delays"}] ++
       combine_alert_counts(other_alert_counts)
@@ -76,7 +76,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         []
 
       1 ->
-        effect = alert_counts |> Keyword.keys() |> List.first()
+        effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title()
 
         [{effect, "1 #{effect_string}"}]
@@ -89,7 +89,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   defp reject_cancellations_and_delays(alert_counts) when alert_counts == %{}, do: %{}
 
   defp reject_cancellations_and_delays(alert_counts) do
-    Enum.reject(alert_counts, fn {effect, _} -> Enum.member?(~w(cancellation delay)a, effect) end)
+    alert_counts
+    |> Enum.reject(fn {effect, _} -> Enum.member?(~w(cancellation delay)a, effect) end)
+    |> Map.new()
   end
 
   defp row(%{row: %{service_today?: false}} = assigns) do
@@ -157,6 +159,13 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   end
 
   defp row(%{row: %{alert_counts: alert_counts}} = assigns) do
+    # alert_counts = %{
+    #   cancellation: Enum.random([0, 1]),
+    #   delay: Enum.random([0, 1]),
+    #   shuttle: Enum.random([0, 1]),
+    #   station_closure: Enum.random([0, 1]),
+    # } |> Map.reject(fn {_, v} -> v == 0 end) |> Map.new()
+
     [first | rest] = combine_alert_counts(alert_counts)
     assigns = assigns |> assign(:first, first) |> assign(:rest, rest)
 
@@ -189,7 +198,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       </div>
     </a>
     <a
-      :for={row <- @rest}
       class={[
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
@@ -198,9 +206,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       ]}
       href={@row.url}
       data-test="status-row"
+      :for={row <- @rest}
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72"></div>
+        <div class="flex items-center pl-1 pr-2 min-w-72">
+        </div>
 
         <div class="pr-2 flex items-center">
           <.status_icon status={elem(row, 0)} />
