@@ -482,9 +482,9 @@ defmodule CMS.Api.Static do
   def preview(node_id, revision_id)
   def preview(3518, vid), do: {:ok, do_preview(Enum.at(news_repo(), 1), vid)}
   def preview(5, vid), do: {:ok, do_preview(Enum.at(events_response(), 1), vid)}
-  def preview(3480, vid), do: {:ok, do_preview(Enum.at(project_repo(), 1), vid)}
   def preview(3174, vid), do: {:ok, do_preview(Enum.at(project_update_repo(), 1), vid)}
   def preview(6, vid), do: {:ok, do_preview(basic_page_response(), vid)}
+  def preview(_, _vid), do: {:error, :not_found}
 
   defp filter_by(map, key, value) do
     Enum.filter(map, &match?(%{^key => [%{"value" => ^value}]}, &1))

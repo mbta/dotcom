@@ -54,6 +54,16 @@ defmodule DotcomWeb.CMSControllerTest do
       assert html_response(conn, 200) =~ "Arts on the T 112"
     end
 
+    test "returns a 404 if the given node is missing", %{conn: conn} do
+      conn =
+        get(
+          conn,
+          "/basic_page_no_sidebar?preview&vid=112&nid=#{Faker.random_between(9000, 9999)}"
+        )
+
+      assert html_response(conn, 404)
+    end
+
     test "renders a basic page without sidebar", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar")
       rendered = html_response(conn, 200)
