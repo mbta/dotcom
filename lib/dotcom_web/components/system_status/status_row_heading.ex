@@ -11,10 +11,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
   attr :hide_route_pill, :boolean, default: false
-  attr :mode, :string, required: true
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
-  attr :route_name, :string, default: nil
   attr :route_ids, :list, required: true
   attr :status, :atom, required: true
 
@@ -28,9 +26,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         plural={@plural}
         prefix={@prefix}
         route_ids={@route_ids}
-        route_name={@route_name}
         status={@status}
-        mode={@mode}
       />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
@@ -43,22 +39,6 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     <div class="h-3"></div>
     <div class="h-3"></div>
     <div class="h-3"></div>
-    """
-  end
-
-  defp heading(%{mode: "commuter-rail"} = assigns) do
-    ~H"""
-    <div class={["flex items-center pl-1 pr-4 min-w-72", @hide_route_pill && "opacity-0"]}>
-      <p class="my-2 text-lg">{@route_name}</p>
-    </div>
-
-    <div class="pr-2 flex items-center">
-      <.status_icon status={@status} />
-    </div>
-
-    <div class="grow flex items-center">
-      <.status_label status={@status} prefix={@prefix} plural={@plural} />
-    </div>
     """
   end
 

@@ -24,7 +24,7 @@ defmodule Dotcom.SystemStatus do
 
   @type status_entry() :: %{
           alerts: [Alert.t()],
-          multiple?: boolean(),
+          multiple: boolean(),
           status: status_t(),
           time: status_time()
         }
@@ -160,12 +160,12 @@ defmodule Dotcom.SystemStatus do
   defp alert_to_status(alert, time) do
     time = future_start_time(alert.active_period, time)
 
-    %{alerts: [alert], multiple?: false, status: alert.effect, time: time}
+    %{alerts: [alert], multiple: false, status: alert.effect, time: time}
   end
 
   @spec normal_status() :: status_entry()
   defp normal_status() do
-    %{multiple?: false, status: :normal, time: :current, alerts: []}
+    %{multiple: false, status: :normal, time: :current, alerts: []}
   end
 
   # Returns true if the alert (as signified by the active_period_start provided)
@@ -211,7 +211,7 @@ defmodule Dotcom.SystemStatus do
       %{
         time: time,
         status: effect,
-        multiple?: length(grouped_statuses) > 1,
+        multiple: length(grouped_statuses) > 1,
         alerts: Enum.flat_map(grouped_statuses, & &1.alerts) |> Enum.uniq()
       }
     end)

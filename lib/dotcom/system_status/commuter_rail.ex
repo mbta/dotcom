@@ -29,7 +29,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     |> Map.new()
   end
 
-  defp commuter_rail_route_alerts(%Route{id: id} = route) do
+  defp commuter_rail_route_alerts(%Route{id: id}) do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(&service_impacting_alert?/1)
