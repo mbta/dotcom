@@ -174,7 +174,7 @@ defmodule VehicleHelpers do
   defp realtime_status_text(:in_transit), do: " is on the way to "
 
   @spec display_trip_name(Route.t(), Trip.t() | nil) :: iodata
-  defp display_trip_name(%{type: 2}, %{name: name}), do: [" ", name]
+  defp display_trip_name(%{type: 2}, %{name: name}) when is_binary(name), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
   @spec build_tooltip(iodata, iodata) :: String.t()

@@ -49,12 +49,15 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
+    # We need the prediction's status and track number to display on tooltips text such as "All aboard on track 9"
     prediction =
-      @predictions_repo.all(
-        route: vehicle.route_id,
-        direction_id: vehicle.direction_id
-      )
-      |> Enum.find(&(&1.vehicle_id == vehicle.id))
+      if route.type == 2 do
+        @predictions_repo.all(
+          route: vehicle.route_id,
+          direction_id: vehicle.direction_id
+        )
+        |> Enum.find(&(&1.vehicle_id == vehicle.id))
+      end
 
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
