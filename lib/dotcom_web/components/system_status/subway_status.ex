@@ -285,25 +285,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     end
   end
 
-  defp rows_for_status_entry(status_entry, show_prefix, _) do
-    %{status: status, multiple: multiple} = status_entry
-    prefix = if show_prefix, do: prefix(status_entry), else: nil
-
-    [
-      %{
-        route_info: %{},
-        status_entry: %{
-          status: status,
-          plural: multiple,
-          prefix: prefix
-        },
-        style: %{
-          hide_route_pill: true
-        }
-      }
-    ]
-  end
-
   defp add_branch_ids(rows, branch_ids) do
     rows
     |> Enum.map(fn row -> row |> put_in([:route_info, :branch_ids], branch_ids) end)
