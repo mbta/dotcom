@@ -20,6 +20,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :status, :atom, required: true
 
   def status_row_heading(assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :subheading_text,
+        subheading_text(%{
+          status: assigns.status,
+          alerts: assigns.alerts,
+          route_ids: assigns.route_ids
+        })
+      )
+
     ~H"""
     <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
       <.top_padding hide_route_pill={@hide_route_pill} />
@@ -32,7 +43,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         status={@status}
       />
 
-      <.subheading alerts={@alerts} status={@status} route_ids={@route_ids} />
+      <.subheading text={@subheading_text} />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
     </div>
@@ -63,24 +74,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     """
   end
 
-  defp subheading(%{alerts: []} = assigns), do: ~H""
-
-  defp subheading(%{status: :station_closure} = assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :text,
-        @affected_stops.affected_stops(assigns.alerts, assigns.route_ids)
-        |> Enum.map(& &1.name)
-        |> humanize_stop_names()
-      )
-
-    ~H"""
-    <.text_to_subheading text={@text} />
-    """
+  defp subheading_text(%{status: :station_closure, alerts: alerts, route_ids: route_ids}) do
+    @affected_stops.affected_stops(alerts, route_ids)
+    |> Enum.map(& &1.name)
+    |> humanize_stop_names()
   end
 
-  defp subheading(assigns), do: ~H""
+  defp subheading_text(_), do: nil
 
   defp humanize_stop_names([stop_name]), do: stop_name
   defp humanize_stop_names([stop_name1, stop_name2]), do: "#{stop_name1} & #{stop_name2}"
@@ -90,9 +90,9 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp humanize_stop_names(_stop_names), do: nil
 
-  defp text_to_subheading(%{text: nil} = assigns), do: ~H""
+  defp subheading(%{text: nil} = assigns), do: ~H""
 
-  defp text_to_subheading(assigns) do
+  defp subheading(assigns) do
     ~H"""
     <div></div>
     <div></div>
