@@ -60,7 +60,7 @@ defmodule DotcomWeb.StopController do
         |> redirect(to: stop_path(conn, :show, @stops_repo.get_parent(stop)))
         |> halt()
       else
-        routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        routes_by_stop = @routes_repo.by_stop(stop_id)
         accessible? = accessible?(stop, routes_by_stop)
 
         conn
