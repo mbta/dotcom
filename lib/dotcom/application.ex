@@ -31,7 +31,7 @@ defmodule Dotcom.Application do
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
-            {Finch, name: Telemetry.Finch},
+            {Finch, name: Telemetry.Finch, pools: %{default: [size: 200]}},
             {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
