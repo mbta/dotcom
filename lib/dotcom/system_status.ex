@@ -9,14 +9,10 @@ defmodule Dotcom.SystemStatus do
   import Dotcom.Routes, only: [subway_route_ids: 0]
 
   alias Dotcom.SystemStatus
-  alias Routes.Route
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
-  @repos_modules Application.compile_env!(:dotcom, :repo_modules)
-
-  @alerts_repo @repos_modules[:alerts]
-  @schedules_repo @repos_modules[:schedules_condensed]
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
 
   @type status_time() :: :current | {:future, DateTime.t()}
 
@@ -105,13 +101,6 @@ defmodule Dotcom.SystemStatus do
       starts_before_end_of_service?(active_period_start, datetime) &&
         has_not_ended?(active_period_end, datetime)
     end)
-  end
-
-  def service_today?(%Route{id: id}) do
-    [id]
-    |> @schedules_repo.by_route_ids()
-    |> Kernel.length()
-    |> Kernel.>=(1)
   end
 
   @doc """

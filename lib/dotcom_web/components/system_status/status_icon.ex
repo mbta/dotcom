@@ -12,6 +12,12 @@ defmodule DotcomWeb.Components.SystemStatus.StatusIcon do
     """
   end
 
+  def status_icon(%{status: :not_in_service} = assigns) do
+    ~H"""
+    <div class="bg-gray-light h-4 w-4 rounded-full shrink-0"></div>
+    """
+  end
+
   def status_icon(assigns) do
     ~H"""
     <.icon

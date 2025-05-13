@@ -7,7 +7,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
 
-  alias Dotcom.SystemStatus
   alias Routes.Route
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
@@ -15,30 +14,49 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   @alerts_repo @repos_module[:alerts]
   @routes_repo @repos_module[:routes]
+  @schedules_repo @repos_module[:schedules_condensed]
 
   def commuter_rail_status() do
     commuter_rail_routes()
-    |> Map.new(fn route ->
-      {route.id, commuter_rail_route_alerts(route)}
-    end)
-  end
-
-  def commuter_rail_alerts() do
-    commuter_rail_routes()
-    |> Enum.map(&commuter_rail_route_alerts/1)
+    |> Enum.map(&route_info/1)
     |> Map.new()
   end
 
-  defp commuter_rail_route_alerts(%Route{id: id}) do
+  defp commuter_rail_route_alerts(id) do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(&service_impacting_alert?/1)
-    |> SystemStatus.alerts_to_statuses(@date_time_module.now)
   end
 
   defp commuter_rail_routes() do
     @routes_repo.all()
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
     |> Enum.sort_by(& &1.sort_order)
+  end
+
+  defp alert_counts(alerts) do
+    alerts
+    |> Enum.group_by(& &1.effect)
+    |> Enum.map(fn {effect, alerts} ->
+      {effect, Kernel.length(alerts)}
+    end)
+  end
+
+  defp service_today?(id) do
+    [id]
+    |> @schedules_repo.by_route_ids()
+    |> Kernel.length()
+    |> Kernel.>=(1)
+  end
+
+  defp route_info(%Route{id: id, name: name}) do
+    alert_counts =
+      id
+      |> commuter_rail_route_alerts()
+      |> alert_counts()
+
+    service_today? = service_today?(id)
+
+    {id, %{alert_counts: alert_counts, name: name, service_today?: service_today?}}
   end
 end
