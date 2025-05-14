@@ -128,14 +128,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
         "border-t-[1px] border-gray-lightest",
-        "min-h-12"
+        "min-h-12 text-md md:text-lg"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72">
-          <span class="text-black text-lg">{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72">
+          <span class="text-black">{@row.name}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -163,14 +163,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
         "border-t-[1px] border-gray-lightest",
-        "min-h-12"
+        "min-h-12 text-md md:text-lg"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72">
-          <span class="text-lg">{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72">
+          <span>{@row.name}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -201,14 +201,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
         "border-t-[1px] border-gray-lightest",
-        "min-h-12"
+        "min-h-12 text-md md:text-lg"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72 border-bottom-[1px] border-black">
-          <span class="text-lg">{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72 border-bottom-[1px] border-black">
+          <span>{@row.name}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -236,7 +236,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-top pl-1 pr-2 min-w-72 min-h-full border-t-[1px] -mt-[25px] border-white">
+        <div class="flex items-top pl-1 pr-2 min-w-64 md:min-w-72 min-h-full border-t-[1px] -mt-[25px] border-white">
         </div>
 
         <div class="pr-2 flex items-center">
