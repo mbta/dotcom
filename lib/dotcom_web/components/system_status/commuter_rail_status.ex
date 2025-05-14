@@ -25,6 +25,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         |> Map.put(:id, id)
         |> attach_url()
       end)
+      |> Enum.sort_by(& &1.sort_order)
 
     assigns = Map.put(assigns, :rows, rows)
 

@@ -22,7 +22,12 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   and whether the line is running service today.
   """
   @spec commuter_rail_status() :: %{
-          String.t() => %{alert_counts: map(), name: String.t(), service_today?: boolean()}
+          String.t() => %{
+            alert_counts: map(),
+            name: String.t(),
+            service_today?: boolean(),
+            sort_order: integer()
+          }
         }
   def commuter_rail_status() do
     commuter_rail_routes()
@@ -71,11 +76,17 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   end
 
   # Returns a tuple with the Route ID and a map containing
-  # the alert counts, name of the route, and whether the route
+  # the alert counts, name of the route, sort order, and whether the route
   # is running service today.
   @spec route_info(Route.t()) ::
-          {String.t(), %{alert_counts: map(), name: String.t(), service_today?: boolean()}}
-  defp route_info(%Route{id: id, name: name}) do
+          {String.t(),
+           %{
+             alert_counts: map(),
+             name: String.t(),
+             service_today?: boolean(),
+             sort_order: integer()
+           }}
+  defp route_info(%Route{id: id, name: name, sort_order: sort_order}) do
     alert_counts =
       id
       |> commuter_rail_route_alerts()
@@ -83,6 +94,12 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
     service_today? = service_today?(id)
 
-    {id, %{alert_counts: alert_counts, name: name, service_today?: service_today?}}
+    {id,
+     %{
+       alert_counts: alert_counts,
+       name: name,
+       service_today?: service_today?,
+       sort_order: sort_order
+     }}
   end
 end
