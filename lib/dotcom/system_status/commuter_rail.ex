@@ -71,8 +71,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp service_today?(id) do
     [id]
     |> @schedules_repo.by_route_ids()
-    |> Kernel.length()
-    |> Kernel.>=(1)
+    |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
   end
 
   # Returns a tuple with the Route ID and a map containing

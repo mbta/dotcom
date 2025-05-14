@@ -102,7 +102,11 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       end)
 
       expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-        []
+        [
+          %Schedules.ScheduleCondensed{
+            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
+          }
+        ]
       end)
 
       # EXERCISE
