@@ -21,7 +21,9 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   and the value includes alerts grouped by effect, the name of the line,
   and whether the line is running service today.
   """
-  @spec commuter_rail_status() :: %{String.t() => %{alert_counts: map(), name: String.t(), service_today?: boolean()}}
+  @spec commuter_rail_status() :: %{
+          String.t() => %{alert_counts: map(), name: String.t(), service_today?: boolean()}
+        }
   def commuter_rail_status() do
     commuter_rail_routes()
     |> Enum.map(&route_info/1)
@@ -71,7 +73,8 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # Returns a tuple with the Route ID and a map containing
   # the alert counts, name of the route, and whether the route
   # is running service today.
-  @spec route_info(Route.t()) :: {String.t(), %{alert_counts: map(), name: String.t(), service_today?: boolean()}}
+  @spec route_info(Route.t()) ::
+          {String.t(), %{alert_counts: map(), name: String.t(), service_today?: boolean()}}
   defp route_info(%Route{id: id, name: name}) do
     alert_counts =
       id
