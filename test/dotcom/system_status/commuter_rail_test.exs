@@ -74,8 +74,21 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
     test "groups alerts into the correct counts" do
       # SETUP
       stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        []
+        [
+          Factories.Alerts.Alert.build(:alert, effect: :delay),
+          Factories.Alerts.Alert.build(:alert, effect: :delay),
+          Factories.Alerts.Alert.build(:alert, effect: :shuttle)
+        ]
       end)
+
+      # EXERCISE
+      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+
+      # VERIFY
+      assert result |> Map.values() |> List.first() |> Map.get(:alert_counts) == %{
+               delay: 2,
+               shuttle: 1
+             }
     end
 
     test "indicates whether or not the route is running service today" do
