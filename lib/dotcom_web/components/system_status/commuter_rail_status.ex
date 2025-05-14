@@ -57,15 +57,17 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # We have cancellations and no delays.
   defp combine_alert_counts(%{cancellations: cancellations} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
+    effect_string = if cancellations == 1, do: "Cancellation", else: "Cancellations"
 
-    [{:alert, "#{cancellations} Cancellations"}] ++ combine_alert_counts(other_alert_counts)
+    [{:alert, "#{cancellations} #{effect_string}"}] ++ combine_alert_counts(other_alert_counts)
   end
 
   # We have delays and no cancellations.
   defp combine_alert_counts(%{delay: delays} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
+    effect_string = if delays == 1, do: "Delay", else: "Delays"
 
-    [{:alert, "#{delays} Delays"}] ++ combine_alert_counts(other_alert_counts)
+    [{:alert, "#{delays} #{effect_string}"}] ++ combine_alert_counts(other_alert_counts)
   end
 
   defp combine_alert_counts(alert_counts) do
