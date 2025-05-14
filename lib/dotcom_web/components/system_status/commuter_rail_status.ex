@@ -127,21 +127,22 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest"
+        "border-t-[1px] border-gray-lightest",
+        "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
         <div class="flex items-center pl-1 pr-2 min-w-72">
-          <span class="text-gray-light text-lg">{@row.name}</span>
+          <span class="text-black text-lg">{@row.name}</span>
         </div>
 
         <div class="pr-2 flex items-center">
           <.status_icon status={:no_scheduled_service} />
         </div>
 
-        <div class="grow flex items-center text-gray-light">
+        <div class="grow flex items-center text-black">
           No Scheduled Service
         </div>
       </div>
@@ -161,7 +162,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest"
+        "border-t-[1px] border-gray-lightest",
+        "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
@@ -189,6 +191,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
   defp row(%{row: %{alert_counts: alert_counts}} = assigns) do
+    alert_counts = %{
+      delay: 1,
+      shuttle: 2
+    }
+
     [first | rest] = combine_alert_counts(alert_counts)
     assigns = assigns |> assign(:first, first) |> assign(:rest, rest)
 
@@ -198,13 +205,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest"
+        "border-t-[1px] border-gray-lightest",
+        "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72">
+        <div class="flex items-center pl-1 pr-2 min-w-72 border-bottom-[1px] border-black">
           <span class="text-lg">{@row.name}</span>
         </div>
 
@@ -226,13 +234,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest"
+        "border-t-[1px] border-gray-lightest",
+        "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72"></div>
+        <div class="flex items-top pl-1 pr-2 min-w-72 min-h-full border-t-[1px] -mt-[25px] border-white"></div>
 
         <div class="pr-2 flex items-center">
           <.status_icon status={elem(row, 0)} />
