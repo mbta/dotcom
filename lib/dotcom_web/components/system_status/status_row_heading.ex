@@ -34,7 +34,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:plural, plural)
 
     ~H"""
-    <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+    <div class="grid grid-cols-[min-content_min-content_auto] items-start grow">
       <.top_padding hide_route_pill={@hide_route_pill} />
 
       <.heading
@@ -43,9 +43,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         prefix={@prefix}
         route_ids={@route_ids}
         status={@status}
+        subheading_text={@subheading_text}
       />
-
-      <.subheading text={@subheading_text} />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
     </div>
@@ -66,12 +65,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
 
-    <div class="pr-2 flex items-center">
+    <div class="h-6 pr-2 flex items-center">
       <.status_icon status={@status} />
     </div>
 
-    <div class="grow flex items-center">
+    <div class="grow flex flex-wrap items-baseline gap-x-2">
       <.status_label status={@status} prefix={@prefix} plural={@plural} />
+      <.subheading text={@subheading_text} />
     </div>
     """
   end
@@ -102,9 +102,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp subheading(assigns) do
     ~H"""
-    <div></div>
-    <div></div>
-    <div class="text-sm" data-test="status_subheading">
+    <div class="text-sm leading-[1.5rem]" data-test="status_subheading">
       {@text}
     </div>
     """
