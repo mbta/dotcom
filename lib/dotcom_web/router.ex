@@ -270,6 +270,12 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/preview", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+
+    live_session :system_status, layout: {DotcomWeb.LayoutView, :preview} do
+      live "/system-status", Live.SystemStatus
+    end
   end
 
   scope "/api", DotcomWeb do
