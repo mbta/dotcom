@@ -198,6 +198,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       </div>
     </a>
     <a
+      :for={row <- @rest}
       class={[
         "flex items-center py-2",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
@@ -206,11 +207,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       ]}
       href={@row.url}
       data-test="status-row"
-      :for={row <- @rest}
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-72">
-        </div>
+        <div class="flex items-center pl-1 pr-2 min-w-72"></div>
 
         <div class="pr-2 flex items-center">
           <.status_icon status={elem(row, 0)} />
