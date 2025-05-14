@@ -44,7 +44,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # Attaches a URL to the row based on the number of alerts.
   # If there are no alerts, the URL will be for the timetable.
   # If there are alerts, the URL will be for the alerts page.
-  defp attach_url(%{alert_counts: [], id: id} = row) do
+  defp attach_url(%{alert_counts: alert_counts, id: id} = row) when alert_counts == %{} do
     row
     |> Map.put(:url, ~p"/schedules/#{id}/timetable")
   end
@@ -67,8 +67,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     other_alert_counts =
       reject_cancellations_and_delays(alert_counts)
 
-    [{:alert, "#{cancellations + delays} Cancellations / Delays"}] ++
-      combine_alert_counts(other_alert_counts)
+    combine_alert_counts(other_alert_counts) ++
+      [{:alert, "#{cancellations + delays} Cancellations / Delays"}]
   end
 
   # We have at least one cancellation and no delays.
@@ -76,7 +76,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
     effect_string = if cancellations == 1, do: "Cancellation", else: "Cancellations"
 
-    [{:alert, "#{cancellations} #{effect_string}"}] ++ combine_alert_counts(other_alert_counts)
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{cancellations} #{effect_string}"}]
   end
 
   # We have at least one delay and no cancellations.
@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
     effect_string = if delays == 1, do: "Delay", else: "Delays"
 
-    [{:alert, "#{delays} #{effect_string}"}] ++ combine_alert_counts(other_alert_counts)
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{delays} #{effect_string}"}]
   end
 
   # The default case where we have non-cancellation and non-delay alerts.
@@ -104,7 +104,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         [{effect, "1 #{effect_string}"}]
 
       _ ->
-        [{:alert, "See #{total} Alerts"}]
+        [{:alert, "#{total} Service Alerts"}]
     end
   end
 
@@ -189,13 +189,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
   defp row(%{row: %{alert_counts: alert_counts}} = assigns) do
-    # alert_counts = %{
-    #   cancellation: Enum.random([0, 1]),
-    #   delay: Enum.random([0, 1]),
-    #   shuttle: Enum.random([0, 1]),
-    #   station_closure: Enum.random([0, 1]),
-    # } |> Map.reject(fn {_, v} -> v == 0 end) |> Map.new()
-
     [first | rest] = combine_alert_counts(alert_counts)
     assigns = assigns |> assign(:first, first) |> assign(:rest, rest)
 
