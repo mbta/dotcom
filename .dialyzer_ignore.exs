@@ -28,7 +28,6 @@
   {"lib/dotcom_web/controllers/map_config_controller.ex", :unknown_type},
   {"lib/dotcom_web/controllers/mode/hub_behavior.ex", :unknown_type},
   {"lib/dotcom_web/controllers/schedule/line/maps.ex", :unknown_type},
-  {"lib/dotcom_web/controllers/schedule/line_api.ex", :invalid_contract},
   {"lib/dotcom_web/controllers/schedule/predictions.ex", :pattern_match},
   {"lib/dotcom_web/controllers/schedule/timetable_controller.ex", :call},
   {"lib/dotcom_web/controllers/schedule/timetable_controller.ex", :no_return},

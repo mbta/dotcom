@@ -56,6 +56,10 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     end
   end
 
+  def show(conn, params) do
+    return_invalid_arguments_error(conn)
+  end
+
   defp other_route_stops(%{
          route: %Route{type: 3} = route,
          direction_id: direction_id,
