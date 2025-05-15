@@ -138,6 +138,28 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "1 Shuttle"
     end
 
+    test "does not combine service alerts when there is only one type" do
+      # SETUP
+      assigns = %{
+        commuter_rail_status: %{
+          Faker.Cat.breed() => %{
+            alert_counts: %{
+              shuttle: 2
+            },
+            name: Faker.Cat.breed(),
+            service_today?: true,
+            sort_order: 0
+          }
+        }
+      }
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "2 Shuttles"
+    end
+
     test "combines service alerts into a single row" do
       # SETUP
       assigns = %{

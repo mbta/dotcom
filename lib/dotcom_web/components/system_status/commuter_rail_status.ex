@@ -88,23 +88,32 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   end
 
   # The default case where we have non-cancellation and non-delay alerts.
-  # If there is one alert, we keey the original effect.
-  # If there is more than one alert, we combine them to just say "See X Alerts".
+  # If there is one alert, we say "1 ...".
+  # If there are multiple alerts, but of only one type, we say "X ...".
+  # If there are multiple types of alerts, we combine them to just say "X Service Alerts".
   defp combine_alert_counts(alert_counts) do
-    total = Enum.reduce(alert_counts, 0, fn {_, count}, acc -> acc + count end)
+    effect_count = alert_counts |> Map.keys() |> Enum.count()
+    total_count = Enum.reduce(alert_counts, 0, fn {_, count}, acc -> acc + count end)
 
-    case total do
-      0 ->
+    case {effect_count, total_count} do
+      {0, _} ->
         []
 
-      1 ->
+      {1, 1} ->
         effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title()
 
         [{effect, "1 #{effect_string}"}]
 
+      {1, _} ->
+        effect = alert_counts |> Map.keys() |> List.first()
+        effect_string = effect |> Atom.to_string() |> Recase.to_title() |> Inflex.pluralize()
+        count = alert_counts[effect]
+
+        [{effect, "#{count} #{effect_string}"}]
+
       _ ->
-        [{:alert, "#{total} Service Alerts"}]
+        [{:alert, "#{total_count} Service Alerts"}]
     end
   end
 
