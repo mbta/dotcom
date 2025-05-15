@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     ~H"""
     <.bordered_container hide_divider>
       <:heading>
-        <div class="px-2 mb-sm">
+        <div class="mb-sm">
           Current Status
         </div>
       </:heading>
@@ -72,7 +72,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   end
 
   # We have at least one cancellation and no delays.
-  defp combine_alert_counts(%{cancellations: cancellations} = alert_counts) do
+  defp combine_alert_counts(%{cancellation: cancellations} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
     effect_string = if cancellations == 1, do: "Cancellation", else: "Cancellations"
 

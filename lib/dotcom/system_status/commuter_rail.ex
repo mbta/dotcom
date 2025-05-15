@@ -48,7 +48,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp commuter_rail_routes() do
     @routes_repo.all()
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
-    |> Enum.sort_by(& &1.sort_order)
   end
 
   # Returns a map where the key is the effect of the alert

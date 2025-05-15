@@ -45,6 +45,51 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "Normal Service"
     end
 
+    test "shows a single cancellation" do
+      # SETUP
+      assigns = %{
+        commuter_rail_status: %{
+          Faker.Cat.breed() => %{
+            alert_counts: %{
+              cancellation: 1
+            },
+            name: Faker.Cat.breed(),
+            service_today?: true,
+            sort_order: 0
+          }
+        }
+      }
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "1 Cancellation"
+      refute html =~ "1 Cancellations"
+    end
+
+    test "shows multiple cancellations" do
+      # SETUP
+      assigns = %{
+        commuter_rail_status: %{
+          Faker.Cat.breed() => %{
+            alert_counts: %{
+              cancellation: 2
+            },
+            name: Faker.Cat.breed(),
+            service_today?: true,
+            sort_order: 0
+          }
+        }
+      }
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "2 Cancellations"
+    end
+
     test "combines cancellations and delays into a single row" do
       # SETUP
       assigns = %{
