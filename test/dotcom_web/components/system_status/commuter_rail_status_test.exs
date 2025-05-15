@@ -160,7 +160,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "2 Shuttles"
     end
 
-    test "combines service alerts into a single row" do
+    test "combines service alerts into a single row when there multiple types" do
       # SETUP
       assigns = %{
         commuter_rail_status: %{
