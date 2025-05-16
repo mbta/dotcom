@@ -294,6 +294,37 @@ defmodule Alerts.Alert do
       end
     end)
   end
+
+  @spec endpoint_stops(t(), Routes.Route.id_t()) :: {Stops.Stop.t(), Stops.Stop.t()} | nil
+  def endpoint_stops(alert, route_id) do
+    informed_stop_ids = alert |> get_entity(:stop)
+    informed_route_ids = alert |> get_entity(:route)
+
+    if MapSet.size(informed_stop_ids) < 2 || multiple_green_line_routes?(informed_route_ids) do
+      nil
+    else
+      affected_stops =
+        @stops_repo.by_route(route_id, informed_direction_id(alert))
+        |> Enum.filter(&MapSet.member?(informed_stop_ids, &1.id))
+
+      {List.first(affected_stops), List.last(affected_stops)}
+    end
+  end
+
+  @spec multiple_green_line_routes?(MapSet.t()) :: boolean()
+  defp multiple_green_line_routes?(route_ids) do
+    route_ids
+    |> MapSet.intersection(MapSet.new(GreenLine.branch_ids()))
+    |> MapSet.size() > 1
+  end
+
+  @spec informed_direction_id(t()) :: 0 | 1
+  defp informed_direction_id(alert) do
+    alert
+    |> get_entity(:direction_id)
+    |> Enum.reject(&(&1 == nil))
+    |> List.first() || 0
+  end
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do
