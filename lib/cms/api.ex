@@ -50,7 +50,8 @@ defmodule CMS.Api do
 
     @req.new(
       base_url: config[:base_url],
-      headers: config[:headers] ++ headers
+      headers: config[:headers] ++ headers,
+      finch: Dotcom.Finch
     )
   end
 

@@ -27,11 +27,12 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
-        {Dotcom.RateLimit, [clean_period: 60_000 * 10]}
+        {Dotcom.RateLimit, [clean_period: 60_000 * 10]},
+        {Finch, name: Dotcom.Finch, pools: %{default: [size: 300, count: 10]}}
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
-            {Finch, name: Telemetry.Finch},
+            {Finch, name: Telemetry.Finch, pools: %{default: [size: 200]}},
             {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},

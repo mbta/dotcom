@@ -24,7 +24,8 @@ defmodule MBTA.Api do
 
     @req.new(
       base_url: config[:base_url],
-      headers: config[:headers]
+      headers: config[:headers],
+      finch: Dotcom.Finch
     )
   end
 end
