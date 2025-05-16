@@ -84,13 +84,14 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
 
+  defp humanize_stop_names([]), do: nil
   defp humanize_stop_names([stop_name]), do: stop_name
   defp humanize_stop_names([stop_name1, stop_name2]), do: "#{stop_name1} & #{stop_name2}"
 
   defp humanize_stop_names([stop_name1, stop_name2, stop_name3]),
     do: "#{stop_name1}, #{stop_name2} & #{stop_name3}"
 
-  defp humanize_stop_names(_stop_names), do: nil
+  defp humanize_stop_names(stop_names), do: "#{Enum.count(stop_names)} Stops"
 
   defp subheading(%{text: nil} = assigns), do: ~H""
 

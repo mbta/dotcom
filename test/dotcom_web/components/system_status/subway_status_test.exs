@@ -424,7 +424,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                ["#{stop1.name}, #{stop2.name} & #{stop3.name}"]
     end
 
-    test "does not show a subheading for four or more stop closures" do
+    test "does not show individual stop names when four or more stops are closed" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
@@ -435,7 +435,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         )
         |> Factories.Alerts.Alert.active_now()
 
-      stops = Factories.Stops.Stop.build_list(Faker.random_between(4, 10), :stop)
+      count = Faker.random_between(4, 10)
+      stops = Factories.Stops.Stop.build_list(count, :stop)
 
       expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
 
@@ -446,7 +447,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route(affected_line)
              |> Enum.map(&status_subheading_for_row/1) ==
-               [""]
+               ["#{count} Stops"]
     end
 
     test "does not attempt to find affected stops when the status isn't station_closure" do
