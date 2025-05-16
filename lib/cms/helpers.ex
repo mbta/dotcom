@@ -256,7 +256,7 @@ defmodule CMS.Helpers do
     if Application.get_env(:dotcom, :is_prod_env?) do
       Util.site_path(:static_url, [path])
     else
-      Application.get_env(:dotcom, :cms_api)[:base_url] <> path
+      path
     end
   end
 

@@ -18,7 +18,7 @@ defmodule DotcomWeb.ScheduleController.Pdf do
         render_404(conn)
 
       [%RoutePdf{path: path} | _] ->
-        redirect(conn, external: CMS.Helpers.rewrite_url(path))
+        redirect(conn, path)
     end
   end
 end

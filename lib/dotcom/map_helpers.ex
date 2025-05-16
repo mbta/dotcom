@@ -2,7 +2,6 @@ defmodule Dotcom.MapHelpers do
   @moduledoc """
   Map-related helper functions.
   """
-  import DotcomWeb.Router.Helpers, only: [static_url: 2]
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @spec map_pdf_url(atom) :: String.t()
@@ -34,23 +33,23 @@ defmodule Dotcom.MapHelpers do
 
   @spec thumbnail(atom) :: String.t()
   def thumbnail(:subway) do
-    CMS.Helpers.rewrite_url("/images/map-thumbnail-subway.jpg")
+    "/images/map-thumbnail-subway.jpg"
   end
 
   def thumbnail(:commuter_rail) do
-    CMS.Helpers.rewrite_url("/images/map-thumbnail-commuter-rail.jpg")
+    "/images/map-thumbnail-commuter-rail.jpg"
   end
 
   def thumbnail(:commuter_rail_zones) do
-    CMS.Helpers.rewrite_url("/images/map-thumbnail-fare-zones.jpg")
+    "/images/map-thumbnail-fare-zones.jpg"
   end
 
   def thumbnail(:bus) do
-    CMS.Helpers.rewrite_url("/images/map-thumbnail-bus-system.jpg")
+    "/images/map-thumbnail-bus-system.jpg"
   end
 
   def thumbnail(:ferry) do
-    CMS.Helpers.rewrite_url("/images/map-thumbnail-ferry.jpg")
+    "/images/map-thumbnail-ferry.jpg"
   end
 
   @spec image(atom) :: String.t()
