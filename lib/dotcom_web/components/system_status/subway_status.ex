@@ -56,7 +56,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     ~H"""
     <.bordered_container hide_divider>
       <:heading>
-        <div class="px-2 mb-sm">
+        <div class="mb-sm">
           Current Status
         </div>
       </:heading>
