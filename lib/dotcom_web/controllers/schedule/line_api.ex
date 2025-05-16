@@ -56,7 +56,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     end
   end
 
-  def show(conn, params) do
+  def show(conn, _params) do
     return_invalid_arguments_error(conn)
   end
 
