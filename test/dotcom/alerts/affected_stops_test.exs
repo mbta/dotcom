@@ -51,6 +51,29 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       assert affected_stops == stops
     end
 
+    test "uses the direction in the alert if present" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+      stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, 1 -> build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
+        _, 1 -> build_random_size_stop_list()
+      end)
+
+      informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id})
+      alert = Alert.new(informed_entity: informed_entities ++ [%InformedEntity{direction_id: 1}])
+
+      # Exercise
+      queried_route_ids = build_random_size_id_list() ++ [route_id] ++ build_random_size_id_list()
+
+      affected_stops = AffectedStops.affected_stops([alert], queried_route_ids)
+
+      # Verify
+      assert affected_stops == stops
+    end
+
     test "dedupes stops that are part of multiple routes given" do
       # Setup
       route_id1 = FactoryHelpers.build(:id)
