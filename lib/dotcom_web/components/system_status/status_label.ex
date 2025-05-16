@@ -37,6 +37,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
   # Special case for delays - when displayed with a future date, say 
   # "Expect Delay" (or Expect Delays) rather than simply "Delay"
   defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
+  defp description(:shuttle, _), do: "Shuttles"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp status_classes(:normal), do: ""

@@ -10,6 +10,8 @@ config :dotcom, :content_security_policy_definition, ""
 
 config :dotcom, :date_time_module, Dotcom.Utils.DateTime
 
+config :dotcom, :endpoint_stops_module, Dotcom.Alerts.EndpointStops
+
 config :dotcom, :httpoison, HTTPoison
 
 config :dotcom, :location_service, LocationService
