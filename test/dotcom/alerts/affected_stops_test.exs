@@ -9,7 +9,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
 
   setup :verify_on_exit!
 
-  describe "affected_stops/1" do
+  describe "affected_stops/2" do
     test "returns an empty list if there are no informed-entity stops" do
       # Setup
       route_id = FactoryHelpers.build(:id)
