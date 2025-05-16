@@ -51,7 +51,7 @@ defmodule Schedules.RepoTest do
           stop_sequences: ["first"]
         )
 
-      assert response != []
+      refute response |> Enum.empty?()
 
       assert %{stop: %{id: "place-alfcl", name: "Alewife"}, platform_stop_id: platform_stop_id} =
                first_schedule
