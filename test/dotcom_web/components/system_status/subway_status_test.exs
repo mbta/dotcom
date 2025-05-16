@@ -14,6 +14,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   setup :verify_on_exit!
 
   setup do
+    stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     :ok
   end
@@ -44,6 +45,20 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> Enum.each(fn row ->
                assert route_pill_visibility_for_row(row) == :visible
+             end)
+    end
+
+    test "does not show any subheadings" do
+      # Setup
+      alerts = []
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> Enum.each(fn row ->
+               assert status_subheading_for_row(row) == ""
              end)
     end
 
@@ -331,6 +346,234 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                status_label_text_for_effect(mattapan_effect)
              ]
     end
+
+    test "shows a subheading for a single stop closure" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stop = Factories.Stops.Stop.build(:stop)
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [stop] end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               [stop.name]
+    end
+
+    test "shows a correctly-formatted subheading for two stop closures" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stops = Factories.Stops.Stop.build_list(2, :stop)
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      [stop1, stop2] = stops
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop1.name} & #{stop2.name}"]
+    end
+
+    test "shows a correctly-formatted subheading for three stop closures" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stops = Factories.Stops.Stop.build_list(3, :stop)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      [stop1, stop2, stop3] = stops
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop1.name}, #{stop2.name} & #{stop3.name}"]
+    end
+
+    test "does not show individual stop names when four or more stops are closed" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      count = Faker.random_between(4, 10)
+      stops = Factories.Stops.Stop.build_list(count, :stop)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{count} Stops"]
+    end
+
+    test "does not attempt to find affected stops when the status isn't station_closure" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect, _severity} =
+        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}])
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: effect
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, 0, fn _, _ -> [] end)
+
+      # Exercise
+      status_rows_for_alerts([alert])
+    end
+
+    test "shows 'Station Closure' singular if a single station is closed" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        [Factories.Stops.Stop.build(:stop)]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               ["Station Closure"]
+    end
+
+    test "shows 'Station Closures' plural if multiple stations are closed" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        Factories.Stops.Stop.build_list(Faker.random_between(2, 10), :stop)
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               ["Station Closures"]
+    end
+
+    test "shows effect name singular if there is a single alert for the effect" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect, _severity} =
+        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}])
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: effect
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      expected_status_text = effect |> status_label_text_for_effect()
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
+
+    test "shows effect name plural if there are multiple alerts for the effect" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect, _severity} =
+        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}])
+
+      alerts =
+        1..2
+        |> Enum.map(fn _ ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_now()
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_text = effect |> status_label_text_for_effect() |> Inflex.pluralize()
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
   end
 
   defp has_route_symbol_for_branch?(row, branch_id) do
@@ -459,4 +702,11 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   defp status_label_text_for_effect(:station_closure), do: "Station Closure"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
+
+  defp status_subheading_for_row(row) do
+    row
+    |> Floki.find("[data-test=\"status_subheading\"]")
+    |> Floki.text()
+    |> String.trim()
+  end
 end

@@ -89,7 +89,12 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, time_range_str: time_range_str)
 
     ~H"""
-    <.status_row_heading route_ids={@route_ids} status={@alert.effect} prefix={@time_range_str} />
+    <.status_row_heading
+      alerts={[@alert]}
+      prefix={@time_range_str}
+      route_ids={@route_ids}
+      status={@alert.effect}
+    />
     """
   end
 

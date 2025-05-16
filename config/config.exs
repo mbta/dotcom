@@ -1,5 +1,7 @@
 import Config
 
+config :dotcom, :affected_stops_module, Dotcom.Alerts.AffectedStops
+
 config :dotcom, :aws_client, AwsClient.Behaviour
 
 config :dotcom, :cms_api_module, CMS.Api

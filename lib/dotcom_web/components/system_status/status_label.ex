@@ -22,7 +22,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     assigns = assigns |> assign(:rendered_prefix, rendered_prefix)
 
     ~H"""
-    <span data-test="status_label_text" class={status_classes(@status)}>
+    <span data-test="status_label_text" class={["leading-[1.5rem]", status_classes(@status)]}>
       {@rendered_prefix} {description(@status, @prefix, @plural)}
     </span>
     """

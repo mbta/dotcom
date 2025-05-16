@@ -10,6 +10,9 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
+  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+
+  attr :alerts, :list, default: []
   attr :hide_route_pill, :boolean, default: false
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
@@ -17,8 +20,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :status, :atom, required: true
 
   def status_row_heading(assigns) do
+    %{subheading_text: subheading_text, plural: plural} = decorations(assigns)
+
+    assigns =
+      assigns
+      |> assign(:subheading_text, subheading_text)
+      |> assign(:plural, plural)
+
     ~H"""
-    <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
+    <div class="grid grid-cols-[min-content_min-content_auto] items-start grow">
       <.top_padding hide_route_pill={@hide_route_pill} />
 
       <.heading
@@ -27,6 +37,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         prefix={@prefix}
         route_ids={@route_ids}
         status={@status}
+        subheading_text={@subheading_text}
       />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
@@ -48,12 +59,46 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
 
-    <div class="pr-2 flex items-center">
+    <div class="h-6 pr-2 flex items-center">
       <.status_icon status={@status} />
     </div>
 
-    <div class="grow flex items-center">
+    <div class="grow flex flex-wrap items-baseline gap-x-2">
       <.status_label status={@status} prefix={@prefix} plural={@plural} />
+      <.subheading text={@subheading_text} />
+    </div>
+    """
+  end
+
+  defp decorations(%{status: :station_closure, alerts: alerts, route_ids: route_ids}) do
+    affected_stops = @affected_stops.affected_stops(alerts, route_ids)
+
+    %{
+      plural: affected_stops |> Enum.count() > 1,
+      subheading_text:
+        affected_stops
+        |> Enum.map(& &1.name)
+        |> humanize_stop_names()
+    }
+  end
+
+  defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
+
+  defp humanize_stop_names([]), do: nil
+  defp humanize_stop_names([stop_name]), do: stop_name
+  defp humanize_stop_names([stop_name1, stop_name2]), do: "#{stop_name1} & #{stop_name2}"
+
+  defp humanize_stop_names([stop_name1, stop_name2, stop_name3]),
+    do: "#{stop_name1}, #{stop_name2} & #{stop_name3}"
+
+  defp humanize_stop_names(stop_names), do: "#{Enum.count(stop_names)} Stops"
+
+  defp subheading(%{text: nil} = assigns), do: ~H""
+
+  defp subheading(assigns) do
+    ~H"""
+    <div class="text-sm leading-[1.5rem]" data-test="status_subheading">
+      {@text}
     </div>
     """
   end
