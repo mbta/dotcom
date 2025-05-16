@@ -7,6 +7,8 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
   alias Dotcom.Alerts.AffectedStops
   alias Test.Support.{Factories.Stops.Stop, FactoryHelpers}
 
+  setup :verify_on_exit!
+
   describe "affected_stops/1" do
     test "returns an empty list if there are no informed-entity stops" do
       # Setup
@@ -101,7 +103,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       overlap_stops = build_random_size_non_empty_stop_list()
 
       Stops.Repo.Mock
-      |> stub(:by_route, fn
+      |> expect(:by_route, fn
         ^route_id, 0 ->
           build_random_size_stop_list() ++
             stops1 ++ stops2 ++ overlap_stops ++ build_random_size_stop_list()
