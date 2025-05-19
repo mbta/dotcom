@@ -186,14 +186,15 @@ defmodule DotcomWeb.ControllerHelpers do
     end)
   end
 
-  @spec add_headers_if_valid(Conn.t(), [{String.t(), String.t()}]) :: Conn.t()
+  @spec add_headers_if_valid(Conn.t(), %{optional(binary()) => [binary()]}) :: Conn.t()
   defp add_headers_if_valid(conn, headers) do
-    Enum.reduce(headers, conn, fn {key, value}, conn ->
-      if key in @valid_resp_headers && is_binary(value) do
+    Enum.reduce(headers, conn, fn
+      {key, [value]}, conn
+      when key in @valid_resp_headers and is_binary(value) ->
         Conn.put_resp_header(conn, key, value)
-      else
+
+      _, conn ->
         conn
-      end
     end)
   end
 
