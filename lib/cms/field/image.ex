@@ -4,7 +4,12 @@ defmodule CMS.Field.Image do
   in other content types like CMS.Page.NewsEntry. Captions only used on galleries.
   """
 
-  import CMS.Helpers, only: [field_value: 2, handle_html: 1]
+  import CMS.Helpers,
+    only: [
+      field_value: 2,
+      handle_html: 1,
+      rewrite_url: 1
+    ]
 
   alias Phoenix.HTML
 
@@ -21,7 +26,7 @@ defmodule CMS.Field.Image do
   @spec from_api(map) :: t
   def from_api(%{"alt" => alt, "url" => url} = data) do
     %__MODULE__{
-      url: url,
+      url: rewrite_url(url),
       alt: alt,
       caption: data |> field_value("field_image_caption") |> handle_caption()
     }

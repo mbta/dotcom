@@ -2,6 +2,7 @@ defmodule Dotcom.MapHelpers do
   @moduledoc """
   Map-related helper functions.
   """
+  import DotcomWeb.Router.Helpers, only: [static_url: 2]
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @spec map_pdf_url(atom) :: String.t()
@@ -33,23 +34,23 @@ defmodule Dotcom.MapHelpers do
 
   @spec thumbnail(atom) :: String.t()
   def thumbnail(:subway) do
-    "/images/map-thumbnail-subway.jpg"
+    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-subway.jpg")
   end
 
   def thumbnail(:commuter_rail) do
-    "/images/map-thumbnail-commuter-rail.jpg"
+    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-commuter-rail.jpg")
   end
 
   def thumbnail(:commuter_rail_zones) do
-    "/images/map-thumbnail-fare-zones.jpg"
+    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-fare-zones.jpg")
   end
 
   def thumbnail(:bus) do
-    "/images/map-thumbnail-bus-system.jpg"
+    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-bus-system.jpg")
   end
 
   def thumbnail(:ferry) do
-    "/images/map-thumbnail-ferry.jpg"
+    static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-ferry.jpg")
   end
 
   @spec image(atom) :: String.t()

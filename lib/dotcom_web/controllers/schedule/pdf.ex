@@ -18,7 +18,7 @@ defmodule DotcomWeb.ScheduleController.Pdf do
         render_404(conn)
 
       [%RoutePdf{path: path} | _] ->
-        redirect(conn, path)
+        redirect(conn, to: path)
     end
   end
 end

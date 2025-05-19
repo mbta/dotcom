@@ -13,7 +13,7 @@ defmodule DotcomWeb.ScheduleController.PdfTest do
         conn
         |> get(route_pdf_path(conn, :pdf, "87"), date: Date.to_iso8601(~D[2018-01-01]))
 
-      assert redirected_to(conn, 302) == static_url(DotcomWeb.Endpoint, expected_path)
+      assert redirected_to(conn, 302) == expected_path
     end
 
     test "renders 404 if we have no pdfs for the route", %{conn: conn} do
