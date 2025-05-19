@@ -8,13 +8,6 @@ config :dotcom, start_data_processes: config_env() != :test
 
 config :dotcom, Dotcom.BodyTag, mticket_header: "x-mticket"
 
-response_fn =
-  if config_env() == :prod,
-    do: {DotcomWeb.StaticFileController, :redirect_through_cdn},
-    else: {DotcomWeb.StaticFileController, :send_file}
-
-config :dotcom, StaticFileController, response_fn: response_fn
-
 config :dotcom,
   util_router_helper_module: {:ok, DotcomWeb.Router.Helpers},
   util_endpoint: {:ok, DotcomWeb.Endpoint}
