@@ -256,6 +256,11 @@ defmodule DotcomWeb.Router do
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
     get("/vote", VoteController, :show)
+
+    get("/gotest/redir/dotcom", MbtaGoDeepLinkTestController, :redir_dotcom)
+    get("/gotest/redir/backend", MbtaGoDeepLinkTestController, :redir_backend)
+    get("/gotest/link/dotcom", MbtaGoDeepLinkTestController, :link_dotcom)
+    get("/gotest/link/backend", MbtaGoDeepLinkTestController, :link_backend)
   end
 
   scope "/go", DotcomWeb do
