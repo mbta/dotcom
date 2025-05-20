@@ -324,10 +324,10 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
     test "returns the body and headers from the response if it's a 200" do
       headers = [
-        {"content-type", "text/plain"},
-        {"etag", "tag"},
-        {"content-length", "6"},
-        {"date", "Tue, 13 Nov 2018 00:00:00 EST"}
+        {"content-type", ["text/plain"]},
+        {"etag", ["tag"]},
+        {"content-length", ["6"]},
+        {"date", ["Tue, 13 Nov 2018 00:00:00 EST"]}
       ]
 
       expect(Req.Mock, :new, fn _ ->
