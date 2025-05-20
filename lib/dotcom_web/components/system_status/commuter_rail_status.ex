@@ -252,7 +252,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
           <.status_icon status={elem(row, 0)} />
         </div>
 
-        <div class="grow flex items-center font-bold">
+        <div class="grow flex items-center font-bold text-md md:text-lg">
           {elem(row, 1)}
         </div>
       </div>
