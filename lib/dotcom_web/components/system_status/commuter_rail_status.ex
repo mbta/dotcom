@@ -216,7 +216,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 border-bottom-[1px] border-black">
+        <div class="flex items-center pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-bottom-[1px] border-black">
           <span>{row_name(@row)}</span>
         </div>
 
