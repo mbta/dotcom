@@ -37,7 +37,7 @@ defmodule Algolia.Api do
   def action(
         action,
         %__MODULE__{} = opts,
-        %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config
+        %Config{search: <<_::binary>>, app_id: <<_::binary>>} = config
       ) do
     do_action(action, opts, config)
   end
@@ -125,8 +125,10 @@ defmodule Algolia.Api do
 
   @spec headers(Config.t()) :: [{String.t(), String.t()}]
   defp headers(%Config{} = config) do
+    key = if(config.write, do: config.write, else: config.search)
+
     [
-      {"X-Algolia-API-Key", config.write},
+      {"X-Algolia-API-Key", key},
       {"X-Algolia-Application-Id", config.app_id}
     ]
   end
