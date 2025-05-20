@@ -143,8 +143,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72">
-          <span class="text-black">{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-48 sm:min-w-64 md:min-w-72">
+          <span class="text-black">{row_name(@row)}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -178,8 +178,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72">
-          <span>{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-48 sm:min-w-64 md:min-w-72">
+          <span>{row_name(@row)}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -216,8 +216,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-64 md:min-w-72 border-bottom-[1px] border-black">
-          <span>{@row.name}</span>
+        <div class="flex items-center pl-1 pr-2 min-w-48 sm:min-w-64 md:min-w-72 border-bottom-[1px] border-black">
+          <span>{row_name(@row)}</span>
         </div>
 
         <div class="pr-2 flex items-center">
@@ -245,7 +245,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       data-test="status-row"
     >
       <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-top pl-1 pr-2 min-w-64 md:min-w-72 min-h-full border-t-[1px] -mt-[25px] border-white">
+        <div class="flex items-top pl-1 pr-2 min-w-48 sm:min-w-64 md:min-w-72 min-h-full border-t-[1px] -mt-[25px] border-white">
         </div>
 
         <div class="pr-2 flex items-center">
@@ -261,5 +261,12 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       </div>
     </a>
     """
+  end
+
+  defp row_name(%{name: name}) do
+    name
+    |> String.replace(" Line", "")
+    |> String.replace("/", "/&#8203;")
+    |> Phoenix.HTML.raw()
   end
 end
