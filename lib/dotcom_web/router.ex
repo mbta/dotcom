@@ -64,6 +64,14 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)
+
+    get(
+      "/.well-known/apple-app-site-association",
+      MbtaGoDeepLinkController,
+      :apple_app_site_association
+    )
+
+    get("/.well-known/assetlinks.json", MbtaGoDeepLinkController, :assetlinks_json)
   end
 
   scope "/cache", DotcomWeb do
@@ -243,6 +251,12 @@ defmodule DotcomWeb.Router do
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
     get("/vote", VoteController, :show)
+  end
+
+  scope "/go", DotcomWeb do
+    pipe_through([:secure, :browser])
+
+    get("/", MbtaGoDeepLinkController, :root)
   end
 
   scope "/", DotcomWeb do

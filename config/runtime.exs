@@ -152,6 +152,11 @@ config :dotcom, OpenTripPlanner,
   timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
   otp_url: System.get_env("OPEN_TRIP_PLANNER_URL")
 
+config :dotcom, :mbta_go,
+  android_package_name: System.get_env("MBTA_GO_ANDROID_PACKAGE_NAME"),
+  android_cert_fingerprint: System.get_env("MBTA_GO_ANDROID_CERT_FINGERPRINT"),
+  ios_appid: System.get_env("MBTA_GO_IOS_APPID")
+
 if config_env() != :test and System.get_env("OPEN_TRIP_PLANNER_URL") != "" do
   config :open_trip_planner_client,
     otp_url: System.get_env("OPEN_TRIP_PLANNER_URL")
