@@ -58,7 +58,7 @@ defmodule DotcomWeb.SearchControllerTest do
 
     test "handles algolia config errors", %{conn: conn} do
       config = Application.get_env(:dotcom, :algolia_config)
-      bad_config = Keyword.delete(config, :write)
+      bad_config = Keyword.delete(config, :search)
       Application.put_env(:dotcom, :algolia_config, bad_config)
 
       on_exit(fn -> Application.put_env(:dotcom, :algolia_config, config) end)
