@@ -151,7 +151,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
           <.status_icon status={:no_scheduled_service} />
         </div>
 
-        <div class="grow flex items-center text-black">
+        <div class="grow flex items-center text-black text-md">
           No Scheduled Service
         </div>
       </div>
