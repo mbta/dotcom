@@ -2,6 +2,7 @@ defmodule DotcomWeb.StaticFileControllerTest do
   use DotcomWeb.ConnCase, async: false
 
   import Mox
+  import Test.Support.EnvHelpers, only: [reassign_env: 3]
 
   setup :set_mox_global
   setup :verify_on_exit!
@@ -28,6 +29,8 @@ defmodule DotcomWeb.StaticFileControllerTest do
 
   describe "redirect_through_cdn/1" do
     test "redirects to the CDN rather than going to Drupal" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       path = "/path"
       conn = %{build_conn() | request_path: path}
       expected_url = static_url(DotcomWeb.Endpoint, path)

@@ -2,6 +2,7 @@ defmodule CMS.HelpersTest do
   use ExUnit.Case, async: true
 
   import CMS.Helpers
+  import Test.Support.EnvHelpers, only: [reassign_env: 3]
 
   alias CMS.Helpers
   alias Phoenix.HTML
@@ -55,7 +56,9 @@ defmodule CMS.HelpersTest do
       assert handle_html(html) == {:safe, "<p>Content</p>"}
     end
 
-    test "rewrites static file links" do
+    test "rewrites static file links on prod" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       {:ok, endpoint} = Application.get_env(:dotcom, :util_endpoint)
       html = "<img src=\"/sites/default/files/converted.jpg\">"
 
@@ -115,6 +118,8 @@ defmodule CMS.HelpersTest do
 
   describe "parse_image/2" do
     test "parses the image data" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       data = %{
         "field_my_image" => [
           %{
@@ -137,6 +142,8 @@ defmodule CMS.HelpersTest do
 
   describe "parse_images/2" do
     test "parses image data with multiple images" do
+      reassign_env(:dotcom, :is_prod_env?, true)
+
       data = %{
         "field_with_images" => [
           %{
@@ -484,6 +491,10 @@ defmodule CMS.HelpersTest do
   end
 
   describe "rewrite_url/1" do
+    setup do
+      reassign_env(:dotcom, :is_prod_env?, true)
+    end
+
     test "rewrites when the URL has query params" do
       assert %URI{} =
                uri =

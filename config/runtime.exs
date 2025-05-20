@@ -219,7 +219,10 @@ config :sentry,
   environment_name: System.get_env("SENTRY_ENVIRONMENT"),
   js_dsn: System.get_env("SENTRY_JS_DSN")
 
-config :dotcom, env: config_env()
+config :dotcom,
+  env: config_env(),
+  # soon: use a better env var name
+  is_prod_env?: System.get_env("SENTRY_ENVIRONMENT") == "prod"
 
 if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
      config_env() != :test do

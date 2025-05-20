@@ -233,9 +233,13 @@ defmodule CMS.Helpers do
 
   @spec rewrite_static_file_links(String.t()) :: String.t()
   defp rewrite_static_file_links(body) do
-    Regex.replace(~r/"(#{@static_path}[^"]+)"/, body, fn _, path ->
-      [~c"\"", Util.site_path(:static_url, [path]), ~c"\""]
-    end)
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      Regex.replace(~r/"(#{@static_path}[^"]+)"/, body, fn _, path ->
+        [~c"\"", Util.site_path(:static_url, [path]), ~c"\""]
+      end)
+    else
+      body
+    end
   end
 
   @spec rewrite_url(String.t()) :: String.t()
@@ -249,7 +253,11 @@ defmodule CMS.Helpers do
         uri.path
       end
 
-    Util.site_path(:static_url, [path])
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      Util.site_path(:static_url, [path])
+    else
+      path
+    end
   end
 
   @spec int_or_string_to_int(integer | String.t() | nil) :: integer | nil

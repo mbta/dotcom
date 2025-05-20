@@ -1,12 +1,12 @@
 defmodule DotcomWeb.StaticFileController do
   use DotcomWeb, :controller
 
-  @config Application.compile_env!(:dotcom, StaticFileController)
-  @response_fn @config[:response_fn]
-
   def index(conn, _params) do
-    {m, f} = @response_fn
-    apply(m, f, [conn])
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      redirect_through_cdn(conn)
+    else
+      send_file(conn)
+    end
   end
 
   def send_file(conn) do
@@ -16,7 +16,7 @@ defmodule DotcomWeb.StaticFileController do
   end
 
   def redirect_through_cdn(conn) do
-    url = static_url(DotcomWeb.Endpoint, conn.request_path)
+    url = CMS.Helpers.rewrite_url(conn.request_path)
 
     conn
     |> put_status(301)
