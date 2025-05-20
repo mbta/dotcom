@@ -172,7 +172,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
         "border-t-[1px] border-gray-lightest",
-        "min-h-12 text-md md:text-lg"
+        "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
