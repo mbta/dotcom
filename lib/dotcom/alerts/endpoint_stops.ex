@@ -36,7 +36,6 @@ defmodule Dotcom.Alerts.EndpointStops do
     else
       route_ids
       |> affected_stop_lists_for(affected_direction_id, affected_stop_ids)
-      |> drop_sublists()
       |> to_endpoints(direction_names)
       |> case do
         endpoints -> endpoints
@@ -58,9 +57,6 @@ defmodule Dotcom.Alerts.EndpointStops do
     do: %{forward: direction_names[1], backward: direction_names[0]}
 
   defp to_endpoints([], _direction_names), do: nil
-
-  defp to_endpoints([stop_list], _direction_names),
-    do: {List.first(stop_list), List.last(stop_list)}
 
   defp to_endpoints(stop_lists, direction_names) do
     stop_tree =
@@ -127,7 +123,6 @@ defmodule Dotcom.Alerts.EndpointStops do
     route_ids
     |> route_patterns_for_routes(affected_direction_id)
     |> affected_stop_lists_per_route_pattern(affected_stop_ids)
-    |> Enum.uniq_by(&stop_ids/1)
   end
 
   defp affected_direction_id(alert) do
@@ -139,28 +134,6 @@ defmodule Dotcom.Alerts.EndpointStops do
 
   defp first_or([first | _], _default), do: first
   defp first_or([], default), do: default
-
-  defp drop_sublists(lists) do
-    lists
-    |> Enum.reject(fn list ->
-      sublist_of_any?(list, lists |> List.delete(list))
-    end)
-  end
-
-  defp sublist_of_any?(list, other_lists) do
-    other_lists |> Enum.any?(fn other_list -> sublist?(list, other_list) end)
-  end
-
-  defp sublist?(list, other_list) do
-    MapSet.subset?(
-      list |> stop_ids(),
-      other_list |> stop_ids()
-    )
-  end
-
-  defp stop_ids(stop_list) do
-    stop_list |> Enum.map(& &1.id) |> MapSet.new()
-  end
 
   defp ancestor_stop(%Stops.Stop{parent_id: nil} = stop), do: stop
 
