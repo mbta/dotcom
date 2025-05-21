@@ -135,11 +135,8 @@ defmodule Dotcom.Alerts.EndpointStops do
     alert
     |> Alert.get_entity(:direction_id)
     |> Enum.reject(&Kernel.is_nil/1)
-    |> first_or(0)
+    |> List.first(0)
   end
-
-  defp first_or([first | _], _default), do: first
-  defp first_or([], default), do: default
 
   defp route_patterns_for_routes(route_ids, direction_id) do
     route_ids
