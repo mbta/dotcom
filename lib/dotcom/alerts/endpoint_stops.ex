@@ -37,9 +37,6 @@ defmodule Dotcom.Alerts.EndpointStops do
       route_ids
       |> affected_stop_lists_for(affected_direction_id, affected_stop_ids)
       |> to_endpoints(direction_names)
-      |> case do
-        endpoints -> endpoints
-      end
     end
   end
 
