@@ -1,4 +1,4 @@
-defmodule Dotcom.Alerts.AffectedStopsTest do
+defmodule Dotcom.Alerts.EndpointStopsTest do
   use ExUnit.Case
 
   import Mox
