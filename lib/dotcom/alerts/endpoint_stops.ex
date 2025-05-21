@@ -25,9 +25,8 @@ defmodule Dotcom.Alerts.EndpointStops do
 
     direction_names =
       route_ids
-      |> as_actual_route_ids()
       |> List.first()
-      |> @routes_repo.get()
+      |> get_route()
       |> Kernel.then(& &1.direction_names)
       |> to_forward_backward_direction_map(affected_direction_id)
 
@@ -40,12 +39,8 @@ defmodule Dotcom.Alerts.EndpointStops do
     end
   end
 
-  defp as_actual_route_ids([]), do: []
-
-  defp as_actual_route_ids(["Green" | rest]),
-    do: GreenLine.branch_ids() ++ as_actual_route_ids(rest)
-
-  defp as_actual_route_ids([first | rest]), do: [first | as_actual_route_ids(rest)]
+  defp get_route("Green"), do: @routes_repo.green_line()
+  defp get_route(route_id), do: @routes_repo.get(route_id)
 
   defp to_forward_backward_direction_map(direction_names, 0),
     do: %{forward: direction_names[0], backward: direction_names[1]}
