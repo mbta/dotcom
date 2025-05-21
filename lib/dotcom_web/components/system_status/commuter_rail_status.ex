@@ -36,7 +36,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
           Current Status
         </div>
       </:heading>
-      <.row :for={row <- @rows} row={row} />
+      <div class="border-b-xs border-gray-lightest">
+        <.row :for={row <- @rows} row={row} />
+      </div>
     </.bordered_container>
     """
   end
@@ -133,29 +135,28 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     ~H"""
     <a
       class={[
-        "flex items-center py-2",
+        "flex items-stretch",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest",
         "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
-      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg">
+      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] grow">
+        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
           <span class="text-black">{row_name(@row)}</span>
         </div>
 
-        <div class="pr-2 flex items-center">
+        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
           <.status_icon status={:no_scheduled_service} />
         </div>
 
-        <div class="grow flex items-center text-black text-md">
+        <div class="grow flex items-center py-2 text-black text-md border-t-xs border-gray-lightest">
           No Scheduled Service
         </div>
       </div>
-      <div class="self-stretch flex items-center">
+      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
         <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
       </div>
     </a>
@@ -168,29 +169,28 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     ~H"""
     <a
       class={[
-        "flex items-center py-2",
+        "flex items-stretch",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest",
         "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
-      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg">
+      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] grow">
+        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
           <span>{row_name(@row)}</span>
         </div>
 
-        <div class="pr-2 flex items-center">
+        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
           <.status_icon status={:normal} />
         </div>
 
-        <div class="grow flex items-center">
+        <div class="grow flex items-center py-2 border-t-xs border-gray-lightest">
           <.status_label status={:normal} />
         </div>
       </div>
-      <div class="self-stretch flex items-center">
+      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
         <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
       </div>
     </a>
@@ -206,57 +206,55 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     ~H"""
     <a
       class={[
-        "flex items-center py-2",
+        "flex items-stretch",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest",
         "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
-      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-bottom-[1px] border-black">
+      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
           <span>{row_name(@row)}</span>
         </div>
 
-        <div class="pr-2 flex items-center">
+        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
           <.status_icon status={elem(@first, 0)} />
         </div>
 
-        <div class="grow flex items-center font-bold text-md md:text-lg">
+        <div class="grow flex items-center py-2 font-bold text-md md:text-lg border-t-xs border-gray-lightest">
           {elem(@first, 1)}
         </div>
       </div>
-      <div class="self-stretch flex items-center">
+      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
         <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
       </div>
     </a>
     <a
       :for={row <- @rest}
       class={[
-        "flex items-center py-2",
+        "flex items-stretch",
         "hover:bg-brand-primary-lightest cursor-pointer group/row",
         "text-black no-underline font-normal",
-        "border-t-[1px] border-gray-lightest",
         "min-h-12"
       ]}
       href={@row.url}
       data-test="status-row"
     >
-      <div class="grid items-center grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-top pl-1 pr-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 border-t-[1px] -mt-[25px] border-white">
+      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] items-center grow">
+        <div class="flex items-top pl-1 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 -mt-[25px]">
         </div>
 
-        <div class="pr-2 flex items-center">
+        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
           <.status_icon status={elem(row, 0)} />
         </div>
 
-        <div class="grow flex items-center font-bold text-md md:text-lg">
+        <div class="grow flex items-center py-2 font-bold text-md md:text-lg border-t-xs border-gray-lightest">
           {elem(row, 1)}
         </div>
       </div>
-      <div class="self-stretch flex items-center">
+      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
         <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
       </div>
     </a>
