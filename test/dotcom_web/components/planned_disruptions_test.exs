@@ -13,6 +13,7 @@ defmodule DotcomWeb.Components.PlannedDisruptionsTest do
 
   setup do
     stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
+    stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     :ok
   end

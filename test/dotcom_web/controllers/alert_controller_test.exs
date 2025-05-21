@@ -42,6 +42,8 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Stops.Stop.build(:stop, %{id: id})
     end)
 
+    stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
+
     :ok
   end
 
