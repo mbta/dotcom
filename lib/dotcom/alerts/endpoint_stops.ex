@@ -63,9 +63,14 @@ defmodule Dotcom.Alerts.EndpointStops do
     do: {List.first(stop_list), List.last(stop_list)}
 
   defp to_endpoints(stop_lists, direction_names) do
+    stop_tree =
+      stop_lists
+      |> Enum.map(fn stops -> stops |> Enum.map(&{&1.id, &1}) end)
+      |> UnrootedPolytree.from_lists()
+
     %{
-      first_stops: stop_lists |> Enum.map(&List.first/1) |> Enum.uniq_by(& &1.id),
-      last_stops: stop_lists |> Enum.map(&List.last/1) |> Enum.uniq_by(& &1.id)
+      first_stops: stop_tree |> first_stops(),
+      last_stops: stop_tree |> last_stops()
     }
     |> case do
       %{first_stops: [first_stop], last_stops: [last_stop]} ->
@@ -80,9 +85,42 @@ defmodule Dotcom.Alerts.EndpointStops do
       %{first_stops: _first_stops, last_stops: _last_stops} ->
         {"#{direction_names.backward} Stops", "#{direction_names.forward} Stops"}
     end
+  end
 
-    # dbg(first_stop_list)
-    # dbg(last_stop_list)
+  defp first_stops(stop_tree) do
+    stop_tree
+    |> traverse_from_nodes(stop_tree.starting_nodes, & &1.previous)
+    |> Enum.map(& &1.value)
+  end
+
+  defp last_stops(stop_tree) do
+    stop_tree
+    |> traverse_from_nodes(stop_tree.starting_nodes, & &1.next)
+    |> Enum.map(& &1.value)
+  end
+
+  defp traverse_from_nodes(unrooted_polytree, node_ids, traversal_fun) do
+    node_ids
+    |> Enum.flat_map(&(unrooted_polytree |> traverse_from_node(&1, traversal_fun)))
+    |> Enum.uniq_by(& &1.id)
+  end
+
+  defp traverse_from_node(unrooted_polytree, node_id, traversal_fun) do
+    unrooted_polytree
+    |> UnrootedPolytree.edges_for_id(node_id)
+    |> Kernel.then(traversal_fun)
+    |> case do
+      [] ->
+        unrooted_polytree
+        |> UnrootedPolytree.node_for_id(node_id)
+        |> case do
+          {:ok, foo} -> [foo]
+          _ -> []
+        end
+
+      edges ->
+        unrooted_polytree |> traverse_from_nodes(edges, traversal_fun)
+    end
   end
 
   defp affected_stop_lists_for(route_ids, affected_direction_id, affected_stop_ids) do
