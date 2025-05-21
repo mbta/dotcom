@@ -62,7 +62,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id -> last_stop
         stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
@@ -106,7 +106,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id -> last_stop
         stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
@@ -161,7 +161,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id1 -> first_stop1
         ^last_stop_id1 -> last_stop1
         ^first_stop_id2 -> first_stop2
@@ -227,7 +227,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id -> last_stop
         stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
@@ -281,7 +281,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id -> last_stop
         stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
@@ -342,7 +342,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id_a -> last_stop_a
         ^last_stop_id_b -> last_stop_b
@@ -420,7 +420,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       end)
 
       Stops.Repo.Mock
-      |> stub(:get, fn
+      |> stub(:get_parent, fn
         ^first_stop_id -> first_stop
         ^last_stop_id -> last_stop
         stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)

@@ -126,8 +126,7 @@ defmodule Dotcom.Alerts.EndpointStops do
     route_patterns
     |> Enum.map(fn rp ->
       rp.stop_ids
-      |> Enum.map(&@stops_repo.get/1)
-      |> Enum.map(&ancestor_stop/1)
+      |> Enum.map(&@stops_repo.get_parent/1)
       |> Enum.filter(&MapSet.member?(affected_stop_ids, &1.id))
     end)
   end
@@ -141,11 +140,6 @@ defmodule Dotcom.Alerts.EndpointStops do
 
   defp first_or([first | _], _default), do: first
   defp first_or([], default), do: default
-
-  defp ancestor_stop(%Stops.Stop{parent_id: nil} = stop), do: stop
-
-  defp ancestor_stop(%Stops.Stop{parent_id: parent_id}),
-    do: parent_id |> Stops.Repo.get() |> ancestor_stop()
 
   defp route_patterns_for_routes(route_ids, direction_id) do
     route_ids
