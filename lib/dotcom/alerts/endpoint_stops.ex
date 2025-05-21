@@ -125,6 +125,16 @@ defmodule Dotcom.Alerts.EndpointStops do
     |> affected_stop_lists_per_route_pattern(affected_stop_ids)
   end
 
+  defp affected_stop_lists_per_route_pattern(route_patterns, affected_stop_ids) do
+    route_patterns
+    |> Enum.map(fn rp ->
+      rp.stop_ids
+      |> Enum.map(&@stops_repo.get/1)
+      |> Enum.map(&ancestor_stop/1)
+      |> Enum.filter(&MapSet.member?(affected_stop_ids, &1.id))
+    end)
+  end
+
   defp affected_direction_id(alert) do
     alert
     |> Alert.get_entity(:direction_id)
@@ -152,15 +162,5 @@ defmodule Dotcom.Alerts.EndpointStops do
       direction_id: direction_id,
       include: "representative_trip.stops"
     )
-  end
-
-  defp affected_stop_lists_per_route_pattern(route_patterns, affected_stop_ids) do
-    route_patterns
-    |> Enum.map(fn rp ->
-      rp.stop_ids
-      |> Enum.map(&@stops_repo.get/1)
-      |> Enum.map(&ancestor_stop/1)
-      |> Enum.filter(&MapSet.member?(affected_stop_ids, &1.id))
-    end)
   end
 end
