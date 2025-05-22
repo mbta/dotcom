@@ -453,4 +453,30 @@ defmodule DotcomWeb.ScheduleControllerTest do
       end
     end
   end
+
+  describe "route redirects" do
+    test "redirect with tracking params", %{conn: conn} do
+      conn = conn |> get("/route/66")
+      redirected_to = redirected_to(conn, 302)
+
+      assert redirected_to =~
+               "/schedules/66?utm_campaign=TAlertsDotcom&utm_source=TAlerts"
+    end
+
+    test "passes through provided params", %{conn: conn} do
+      conn = conn |> get("/route/1?test_param=value&utm_source=bad_source")
+      redirected_to = redirected_to(conn, 302)
+
+      assert redirected_to =~
+               "/schedules/1?test_param=value&utm_campaign=TAlertsDotcom&utm_source=TAlerts"
+    end
+
+    test "route ids that don't exist are still passed", %{conn: conn} do
+      conn = conn |> get("/route/Green")
+      redirected_to = redirected_to(conn, 302)
+
+      assert redirected_to =~
+               "/schedules/Green?utm_campaign=TAlertsDotcom&utm_source=TAlerts"
+    end
+  end
 end
