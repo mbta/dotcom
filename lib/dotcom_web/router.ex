@@ -232,6 +232,7 @@ defmodule DotcomWeb.Router do
     get("/schedules/:route", ScheduleController, :show, as: :schedule)
     get("/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf)
     get("/schedules/:route/*path", Plugs.ScheduleRedirector, [])
+    get("/route/*path", ScheduleController, :route_redirect)
     get("/style-guide", StyleGuideController, :index)
     get("/style-guide/principles", Redirector, to: "/style-guide")
     get("/style-guide/about", Redirector, to: "/style-guide")

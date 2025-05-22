@@ -6,7 +6,10 @@ defmodule DotcomWeb.ScheduleController do
   alias Routes.Route
   alias Schedules.Schedule
 
-  plug(DotcomWeb.Plugs.Route when action not in [:cape_flyer, :schedules_for_stop])
+  plug(
+    DotcomWeb.Plugs.Route
+    when action not in [:cape_flyer, :route_redirect, :schedules_for_stop]
+  )
 
   @spec show(Plug.Conn.t(), map) :: Phoenix.HTML.Safe.t()
   def show(%{query_params: %{"tab" => "timetable"} = query_params} = conn, _params) do
@@ -80,6 +83,33 @@ defmodule DotcomWeb.ScheduleController do
             json(conn, [])
         end
     end
+  end
+
+  @doc """
+  This is a shortcut to the schedules page used in T-alerts message text,
+  it adds GA campaign params before redirecting
+  """
+  @spec route_redirect(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def route_redirect(
+        %{query_params: query_params} = conn,
+        %{"path" => [route_id]}
+      ) do
+    utm_params = %{
+      "utm_source" => "TAlerts",
+      "utm_campaign" => "TAlertsDotcom"
+    }
+
+    merged_params =
+      if is_nil(query_params),
+        do: utm_params,
+        else: Map.merge(query_params, utm_params)
+
+    schedule_path =
+      URI.parse("/schedules/#{route_id}")
+      |> URI.append_query(URI.encode_query(merged_params, :rfc3986))
+      |> URI.to_string()
+
+    conn |> redirect(to: schedule_path) |> halt
   end
 
   def cape_flyer(conn, _params) do
