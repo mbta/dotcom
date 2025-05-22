@@ -25,7 +25,7 @@
           <div class="page-section">
             <div class="callout">
               <h2 class="h3 callout-heading">Media Contact Information</h2>
-              <p>For all queries and comments, please contact:</p>
+              <p>For questions or comments about this press release, please contact:</p>
 
               <%= if (contact = @news_entry.media_contact) do %>
                 <div class="contact-element-contact"><%= contact %></div>
@@ -38,6 +38,9 @@
               <%= if (phone = @news_entry.media_phone) do %>
                 <div class="contact-element-phone"><%= tel_link phone %></div>
               <% end %>
+
+              <%# This emails is hardcoded on purpose; the email can differ from the #{email} value. %>
+              <p>Members of the press can request to join our media list by emailing <a href="mailto:MediaRelations@mbta.com">MediaRelations@mbta.com</a>. We'll send you MBTA press releases and media advisories directly.</p>
             </div>
           </div>
         <% end %>
