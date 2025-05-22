@@ -373,6 +373,71 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
              ]
     end
 
+    test "returns specific stops including a direction name if an alert spans branches but still has unambiguous endpoints" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      trunk_count = Faker.random_between(3, 20)
+      branch_a_count = Faker.random_between(3, 20)
+      branch_b_count = Faker.random_between(3, 20)
+
+      all_stop_ids =
+        Faker.Util.sample_uniq(trunk_count + branch_a_count + branch_b_count, fn ->
+          FactoryHelpers.build(:id)
+        end)
+
+      {stop_ids_on_trunk, branch_ids} = all_stop_ids |> Enum.split(trunk_count)
+      {stop_ids_on_branch_a, stop_ids_on_branch_b} = branch_ids |> Enum.split(branch_a_count)
+
+      first_stop_index = Faker.random_between(0, branch_a_count - 1)
+      first_stop_id = stop_ids_on_branch_a |> Enum.at(first_stop_index)
+      first_stop = Stop.build(:stop, parent_id: nil, id: first_stop_id)
+
+      last_stop_index = Faker.random_between(0, branch_b_count - 1)
+      last_stop_id = stop_ids_on_branch_b |> Enum.at(last_stop_index)
+      last_stop = Stop.build(:stop, parent_id: nil, id: last_stop_id)
+
+      RoutePatterns.Repo.Mock
+      |> expect(:by_route_id, fn ^route_id,
+                                 canonical: true,
+                                 direction_id: 0,
+                                 include: "representative_trip.stops" ->
+        [
+          RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_branch_a ++ stop_ids_on_trunk),
+          RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_trunk ++ stop_ids_on_branch_b)
+        ]
+      end)
+
+      Stops.Repo.Mock
+      |> stub(:get_parent, fn
+        ^first_stop_id -> first_stop
+        ^last_stop_id -> last_stop
+        stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
+      end)
+
+      direction_name = Faker.Cat.breed()
+
+      Routes.Repo.Mock
+      |> stub(:get, fn ^route_id ->
+        Route.build(:route, direction_names: %{0 => direction_name, 1 => Faker.Cat.breed()})
+      end)
+
+      {_, affected_branch_a_ids} = stop_ids_on_branch_a |> Enum.split(first_stop_index)
+      {affected_branch_b_ids, _} = stop_ids_on_branch_b |> Enum.split(last_stop_index + 1)
+
+      stop_informed_entities =
+        (stop_ids_on_trunk ++ affected_branch_a_ids ++ affected_branch_b_ids)
+        |> Enum.map(&%InformedEntity{route: route_id, stop: &1})
+        |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      # Exercise / Verify
+      assert EndpointStops.endpoint_stops([alert], [route_id]) == [
+               {first_stop, last_stop}
+             ]
+    end
+
     test "treats multiple routes with shared stops as branched routes" do
       # Setup
       route_id1 = FactoryHelpers.build(:id)
