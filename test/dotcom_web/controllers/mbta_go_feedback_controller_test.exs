@@ -1,6 +1,5 @@
 defmodule DotcomWeb.MbtaGoFeedbackControllerTest do
   use DotcomWeb.ConnCase, async: true
-  import Test.Support.EnvHelpers
 
   test "redirects to english by default for ios", %{conn: conn} do
     conn = conn |> get(mbta_go_feedback_path(conn, :ios))
