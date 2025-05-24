@@ -41,6 +41,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(&service_impacting_alert?/1)
+    |> Enum.filter(&in_effect_today?/1)
   end
 
   # Returns a list of all commuter rail routes.
@@ -62,6 +63,15 @@ defmodule Dotcom.SystemStatus.CommuterRail do
       {effect, Kernel.length(alerts)}
     end)
     |> Map.new()
+  end
+
+  # Returns a boolean indicating whether or not the alert is in effect for the service day.
+  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
+  defp in_effect_today?(%Alerts.Alert{active_period: active_period}) do
+    Enum.any?(active_period, fn {start, stop} ->
+      Dotcom.Utils.ServiceDateTime.service_today?(start) ||
+      Dotcom.Utils.ServiceDateTime.service_today?(stop)
+    end)
   end
 
   # Returns a boolean indicating whether or not the route has a schedule
