@@ -70,7 +70,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp in_effect_today?(%Alerts.Alert{active_period: active_period}) do
     Enum.any?(active_period, fn {start, stop} ->
       Dotcom.Utils.ServiceDateTime.service_today?(start) ||
-      Dotcom.Utils.ServiceDateTime.service_today?(stop)
+        Dotcom.Utils.ServiceDateTime.service_today?(stop)
     end)
   end
 
