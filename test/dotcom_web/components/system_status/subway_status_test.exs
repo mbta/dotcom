@@ -9,12 +9,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
 
+  @alert_effects_with_endpoints [:service_change, :shuttle, :suspension]
   @lines_without_branches List.delete(Subway.lines(), "Green")
 
   setup :verify_on_exit!
 
   setup do
     stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
+    stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     :ok
   end
@@ -520,12 +522,125 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                ["Station Closures"]
     end
 
+    test "shows a subheading for a shuttle or suspension with endpoints" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{first_stop, last_stop}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{first_stop.name} \u2194 #{last_stop.name}"]
+    end
+
+    test "shows a single stop instead of an endpoint range if the first and last stops are the same" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stop = Factories.Stops.Stop.build(:stop)
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{stop, stop}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop.name}"]
+    end
+
+    test "does not show a subheading if there's more than one endpoint" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      first_stop1 = Factories.Stops.Stop.build(:stop)
+      last_stop1 = Factories.Stops.Stop.build(:stop)
+
+      first_stop2 = Factories.Stops.Stop.build(:stop)
+      last_stop2 = Factories.Stops.Stop.build(:stop)
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{first_stop1, last_stop1}, {first_stop2, last_stop2}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) == [""]
+    end
+
+    test "renders direction-strings as endpoints when given" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      first_stop = Faker.Cat.breed()
+      last_stop = Faker.Cat.breed()
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{first_stop, last_stop}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{first_stop} \u2194 #{last_stop}"]
+    end
+
     test "shows effect name singular if there is a single alert for the effect" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
       {effect, _severity} =
-        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}])
+        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}, {:shuttle, 1}])
 
       alert =
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -610,7 +725,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           )
 
         assert html =~ singular_effect
-        refute html =~ Inflex.pluralize(singular_effect)
+
+        if effect != :shuttle do
+          refute html =~ Inflex.pluralize(singular_effect)
+        end
       end
     end
 
@@ -700,6 +818,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     |> String.trim()
   end
 
+  defp status_label_text_for_effect(:shuttle), do: "Shuttles"
   defp status_label_text_for_effect(:station_closure), do: "Station Closure"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
 

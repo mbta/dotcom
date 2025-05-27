@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
   @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
 
   attr :alerts, :list, default: []
   attr :hide_route_pill, :boolean, default: false
@@ -82,7 +83,31 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
+  defp decorations(%{status: status, alerts: alerts, route_ids: route_ids, plural: plural})
+       when status in [:service_change, :shuttle, :suspension] do
+    endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
+
+    %{
+      plural: plural,
+      subheading_text: endpoints |> humanize_endpoint_list()
+    }
+  end
+
   defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
+
+  defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
+       when id1 == id2 do
+    "#{humanize_endpoint_name(stop)}"
+  end
+
+  defp humanize_endpoint_list([{first, last}]) do
+    "#{humanize_endpoint_name(first)} \u2194 #{humanize_endpoint_name(last)}"
+  end
+
+  defp humanize_endpoint_list(_list), do: nil
+
+  defp humanize_endpoint_name(%Stops.Stop{name: name}), do: name
+  defp humanize_endpoint_name(label) when is_binary(label), do: label
 
   defp humanize_stop_names([]), do: nil
   defp humanize_stop_names([stop_name]), do: stop_name
