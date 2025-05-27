@@ -78,6 +78,37 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
              |> Kernel.get_in([:alert_counts, random_service_impacting_effect]) == 1
     end
 
+    test "only uses alerts that are in effect today" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 24),
+         Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 25)}
+      ]
+
+      random_service_impacting_effect =
+        Dotcom.Alerts.service_impacting_effects()
+        |> Enum.random()
+        |> Kernel.elem(0)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [
+          Factories.Alerts.Alert.build(:alert,
+            active_period: active_period,
+            effect: random_service_impacting_effect
+          )
+        ]
+      end)
+
+      # EXERCISE
+      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+
+      # VERIFY
+      assert result
+             |> Map.values()
+             |> List.first()
+             |> Kernel.get_in([:alert_counts, random_service_impacting_effect]) == nil
+    end
+
     test "groups alerts into the correct counts" do
       # SETUP
       active_period = [
