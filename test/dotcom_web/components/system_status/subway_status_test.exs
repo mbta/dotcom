@@ -550,6 +550,33 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                ["#{first_stop.name} \u2194 #{last_stop.name}"]
     end
 
+    test "shows a single stop instead of an endpoint range if the first and last stops are the same" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stop = Factories.Stops.Stop.build(:stop)
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{stop, stop}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop.name}"]
+    end
+
     test "does not show a subheading if there's more than one endpoint" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)

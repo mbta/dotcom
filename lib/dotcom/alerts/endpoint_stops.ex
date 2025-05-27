@@ -31,7 +31,12 @@ defmodule Dotcom.Alerts.EndpointStops do
   @spec endpoint_stops_for_alert(Alerts.Alert.t(), [Routes.Route.id_t()]) ::
           Behaviour.endpoint_t() | nil
   defp endpoint_stops_for_alert(alert, route_ids) do
-    affected_stop_ids = alert |> Alert.get_entity(:stop)
+    affected_stop_ids =
+      alert
+      |> Alert.get_entity(:stop)
+      |> Enum.reject(&Kernel.is_nil/1)
+      |> MapSet.new()
+
     affected_direction_id = alert |> affected_direction_id()
 
     direction_names =
@@ -41,7 +46,7 @@ defmodule Dotcom.Alerts.EndpointStops do
       |> Kernel.then(& &1.direction_names)
       |> to_forward_backward_direction_map(affected_direction_id)
 
-    if MapSet.size(affected_stop_ids) < 2 do
+    if Enum.empty?(affected_stop_ids) do
       nil
     else
       route_ids

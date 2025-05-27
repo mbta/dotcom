@@ -95,6 +95,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
 
+  defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
+       when id1 == id2 do
+    "#{humanize_endpoint_name(stop)}"
+  end
+
   defp humanize_endpoint_list([{first, last}]) do
     "#{humanize_endpoint_name(first)} \u2194 #{humanize_endpoint_name(last)}"
   end

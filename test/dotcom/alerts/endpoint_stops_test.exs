@@ -27,13 +27,38 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
       assert EndpointStops.endpoint_stops([alert], [route_id]) == []
     end
 
-    test "returns nil if an alert's informed entities includes precisely one stop" do
+    test "returns the same stop twice if an alert's informed entities includes precisely one stop" do
+      # Setup
       route_id = FactoryHelpers.build(:id)
-      stop = Stop.build(:stop, parent_id: nil)
 
-      alert = Alert.new(informed_entity: [%InformedEntity{stop: stop.id}])
+      stop_count = Faker.random_between(3, 20)
+      stop_ids_on_route = Faker.Util.sample_uniq(stop_count, fn -> FactoryHelpers.build(:id) end)
 
-      assert EndpointStops.endpoint_stops([alert], [route_id]) == []
+      stop_index = Faker.random_between(0, stop_count - 1)
+
+      stop_id = stop_ids_on_route |> Enum.at(stop_index)
+      stop = Stop.build(:stop, parent_id: nil, id: stop_id)
+
+      RoutePatterns.Repo.Mock
+      |> expect(:by_route_id, fn ^route_id,
+                                 canonical: true,
+                                 direction_id: 0,
+                                 include: "representative_trip.stops" ->
+        [RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_route)]
+      end)
+
+      Stops.Repo.Mock
+      |> stub(:get_parent, fn
+        ^stop_id -> stop
+        stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
+      end)
+
+      stop_informed_entities = [%InformedEntity{route: route_id, stop: stop_id}]
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      # Exercise / Verify
+      assert EndpointStops.endpoint_stops([alert], [route_id]) == [{stop, stop}]
     end
 
     test "returns the first and last affected stops according to the order given by RoutePattern.Repo" do
