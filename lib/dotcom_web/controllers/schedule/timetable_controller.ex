@@ -495,7 +495,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "place-kencl" => {:after, "Boston Landing"},
     "7651" => {:before, "Newtonville"},
     "7631" => {:before, "Boston Landing"},
-    "9370044" => {:before, "Washington St @ Walnut St"}
+    "9370044" => {:before, "Washington St @ Walnut St"},
+    "place-river" => {:after, "Wellesley Hills"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
