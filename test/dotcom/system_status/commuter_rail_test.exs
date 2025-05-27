@@ -47,6 +47,10 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
     test "only uses service impacting alerts" do
       # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
       random_service_impacting_effect =
         Dotcom.Alerts.service_impacting_effects()
         |> Enum.random()
@@ -55,7 +59,10 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [
           # Service impacting alert
-          Factories.Alerts.Alert.build(:alert, effect: random_service_impacting_effect),
+          Factories.Alerts.Alert.build(:alert,
+            active_period: active_period,
+            effect: random_service_impacting_effect
+          ),
           # Non-service impacting alert
           Factories.Alerts.Alert.build(:alert, effect: :summary)
         ]
@@ -73,11 +80,15 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
     test "groups alerts into the correct counts" do
       # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
       stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [
-          Factories.Alerts.Alert.build(:alert, effect: :delay),
-          Factories.Alerts.Alert.build(:alert, effect: :delay),
-          Factories.Alerts.Alert.build(:alert, effect: :shuttle)
+          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :delay),
+          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :delay),
+          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :shuttle)
         ]
       end)
 
