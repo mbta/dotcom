@@ -9,6 +9,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
 
+  @alert_effects_with_endpoints [:service_change, :shuttle, :suspension]
   @lines_without_branches List.delete(Subway.lines(), "Green")
 
   setup :verify_on_exit!
@@ -528,7 +529,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       alert =
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: affected_line,
-          effect: Faker.Util.pick([:shuttle, :suspension])
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
         )
         |> Factories.Alerts.Alert.active_now()
 
@@ -556,7 +557,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       alert =
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: affected_line,
-          effect: Faker.Util.pick([:shuttle, :suspension])
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
         )
         |> Factories.Alerts.Alert.active_now()
 
@@ -586,7 +587,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       alert =
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: affected_line,
-          effect: Faker.Util.pick([:shuttle, :suspension])
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
         )
         |> Factories.Alerts.Alert.active_now()
 

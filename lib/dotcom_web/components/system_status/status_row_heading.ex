@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   end
 
   defp decorations(%{status: status, alerts: alerts, route_ids: route_ids, plural: plural})
-       when status in [:shuttle, :suspension] do
+       when status in [:service_change, :shuttle, :suspension] do
     endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
 
     %{
