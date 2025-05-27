@@ -490,7 +490,13 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "place-newtn" => {:before, "Needham Heights"},
     # Foxboro - Mansfield shuttle stops
     "place-NEC-2040" => {:after, "Bird St @ Railroad Ave - Foxboro Town Centre"},
-    "FoxboroTownCentre-S" => {:after, "Foxboro"}
+    "FoxboroTownCentre-S" => {:after, "Foxboro"},
+    # Worcester shuttle stops
+    "place-kencl" => {:after, "Boston Landing"},
+    "7651" => {:before, "Newtonville"},
+    "7631" => {:before, "Boston Landing"},
+    "9370044" => {:before, "Washington St @ Walnut St"},
+    "place-river" => {:after, "Wellesley Hills"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
