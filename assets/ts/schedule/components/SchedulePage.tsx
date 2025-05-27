@@ -197,11 +197,15 @@ const getScheduleFinder = (
   );
 };
 
-const getScheduleNote = (
-  schedulePageData: SchedulePageData,
-  directionId: DirectionId,
-  modalOpen: boolean
-): JSX.Element => {
+const ScheduleNote = ({
+  schedulePageData,
+  directionId,
+  modalOpen
+}: {
+  schedulePageData: SchedulePageData;
+  directionId: DirectionId;
+  modalOpen: boolean;
+}): JSX.Element => {
   const {
     pdfs,
     hours,
@@ -404,13 +408,13 @@ export const SchedulePage = ({
         <div
           className={`col-md-5 col-lg-4 ${offset} m-schedule-page__schedule-finder-or-note`}
         >
-          {isSubwayRoute(route) &&
-            schedulePageData.schedule_note !== null &&
-            getScheduleNote(
-              schedulePageData,
-              readjustedDirectionId,
-              currentState.modalOpen
-            )}
+          {isSubwayRoute(route) && schedulePageData.schedule_note !== null && (
+            <ScheduleNote
+              schedulePageData={schedulePageData}
+              directionId={readjustedDirectionId}
+              modalOpen={currentState.modalOpen}
+            />
+          )}
           {schedulePageData.schedule_note === null &&
             !isFerryRoute(route) &&
             getScheduleFinder(schedulePageData, readjustedDirectionId)}
