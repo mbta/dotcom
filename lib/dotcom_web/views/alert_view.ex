@@ -6,7 +6,12 @@ defmodule DotcomWeb.AlertView do
   import DotcomWeb.ViewHelpers
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.RouteSymbols
+
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
+
+  import DotcomWeb.Components.SystemStatus.CommuterRailStatus,
+    only: [alerts_commuter_rail_status: 1]
+
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
 
   alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}

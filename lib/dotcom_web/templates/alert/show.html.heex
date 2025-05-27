@@ -8,9 +8,23 @@
   <:sidebar_bottom>
     {render("_t-alerts.html")}
   </:sidebar_bottom>
+  <:main_section :if={@id == :commuter_rail}>
+    <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
+    <.alerts_page_content_layout
+      {assigns}
+      empty_message={"There are no other #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+    >
+      <:heading>
+        <h2 class="mt-8">Station & Service Alerts</h2>
+      </:heading>
+      <:alert_header_icon :let={route_or_stop}>
+        <.subway_route_pill route_ids={[route_or_stop.id]} />
+      </:alert_header_icon>
+    </.alerts_page_content_layout>
+  </:main_section>
   <:main_section :if={@id == :subway}>
     <section class="mb-lg">
-      <.alerts_subway_status subway_status={@current_status} />
+      <.alerts_subway_status subway_status={@subway_status} />
     </section>
     <section id="planned" class="mb-lg">
       <.disruptions disruptions={@disruption_groups} />
@@ -27,7 +41,7 @@
       </:alert_header_icon>
     </.alerts_page_content_layout>
   </:main_section>
-  <:main_section :if={@id != :subway}>
+  <:main_section :if={@id != :commuter_rail && @id != :subway}>
     <.alerts_page_content_layout
       {assigns}
       empty_message={"There are no #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}

@@ -1,5 +1,8 @@
 defmodule DotcomWeb.AlertController do
+  @moduledoc false
+
   use DotcomWeb, :controller
+
   alias Alerts.{Alert, InformedEntity, Match}
   alias Dotcom.Alerts.Subway.Disruptions
   alias Stops.Stop
@@ -27,20 +30,29 @@ defmodule DotcomWeb.AlertController do
     |> render_alert_groups(group_access_alerts(alerts))
   end
 
+  def show(conn, %{"id" => "commuter-rail"}) do
+    conn
+    |> assign(:commuter_rail_status, Dotcom.SystemStatus.CommuterRail.commuter_rail_status())
+    |> assign(
+      :alerts,
+      Enum.reject(conn.assigns.alerts, &Dotcom.Alerts.service_impacting_alert?/1)
+    )
+    |> render_routes()
+  end
+
+  def show(conn, %{"id" => "subway"}) do
+    conn
+    |> assign(:subway_status, Dotcom.SystemStatus.subway_status())
+    |> assign(:disruption_groups, Disruptions.future_disruptions())
+    |> assign(
+      :alerts,
+      Enum.reject(conn.assigns.alerts, &Dotcom.Alerts.service_impacting_alert?/1)
+    )
+    |> render_routes()
+  end
+
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
-    # for the subway alert page, service-impacting alerts are shown by the current status and planned work components.
-    if mode == "subway" do
-      conn
-      |> assign(:current_status, Dotcom.SystemStatus.subway_status())
-      |> assign(:disruption_groups, Disruptions.future_disruptions())
-      |> assign(
-        :alerts,
-        Enum.reject(conn.assigns.alerts, &Dotcom.Alerts.service_impacting_alert?/1)
-      )
-      |> render_routes()
-    else
-      render_routes(conn)
-    end
+    render_routes(conn)
   end
 
   def show(conn, _params) do
