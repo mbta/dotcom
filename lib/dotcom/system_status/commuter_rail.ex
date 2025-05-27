@@ -40,8 +40,9 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp commuter_rail_route_alerts(id) do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
-    |> Enum.filter(&service_impacting_alert?/1)
-    |> Enum.filter(&in_effect_today?/1)
+    |> Enum.filter(fn alert ->
+      service_impacting_alert?(alert) && in_effect_today?(alert)
+    end)
   end
 
   # Returns a list of all commuter rail routes.
