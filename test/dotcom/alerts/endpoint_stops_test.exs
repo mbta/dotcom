@@ -301,7 +301,7 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
       assert EndpointStops.endpoint_stops([alert], [route_id]) == [{first_stop, last_stop}]
     end
 
-    test "returns a range including a direction name if an alert spans multiple branches" do
+    test "returns a range including a direction name if an alert spans multiple branches on their forward parts" do
       # Setup
       route_id = FactoryHelpers.build(:id)
 
@@ -370,6 +370,77 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
       # Exercise / Verify
       assert EndpointStops.endpoint_stops([alert], [route_id]) == [
                {first_stop, "#{direction_name} Stops"}
+             ]
+    end
+
+    test "returns a range including a direction name if an alert spans multiple branches on their backward parts" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      trunk_count = Faker.random_between(3, 20)
+      branch_a_count = Faker.random_between(3, 20)
+      branch_b_count = Faker.random_between(3, 20)
+
+      all_stop_ids =
+        Faker.Util.sample_uniq(trunk_count + branch_a_count + branch_b_count, fn ->
+          FactoryHelpers.build(:id)
+        end)
+
+      {stop_ids_on_trunk, branch_ids} = all_stop_ids |> Enum.split(trunk_count)
+      {stop_ids_on_branch_a, stop_ids_on_branch_b} = branch_ids |> Enum.split(branch_a_count)
+
+      first_stop_index_a = Faker.random_between(0, branch_a_count - 1)
+      first_stop_id_a = stop_ids_on_branch_a |> Enum.at(first_stop_index_a)
+      first_stop_a = Stop.build(:stop, parent_id: nil, id: first_stop_id_a)
+
+      first_stop_index_b = Faker.random_between(0, branch_b_count - 1)
+      first_stop_id_b = stop_ids_on_branch_b |> Enum.at(first_stop_index_b)
+      first_stop_b = Stop.build(:stop, parent_id: nil, id: first_stop_id_b)
+
+      last_stop_index = Faker.random_between(0, trunk_count - 1)
+      last_stop_id = stop_ids_on_trunk |> Enum.at(last_stop_index)
+      last_stop = Stop.build(:stop, parent_id: nil, id: last_stop_id)
+
+      RoutePatterns.Repo.Mock
+      |> expect(:by_route_id, fn ^route_id,
+                                 canonical: true,
+                                 direction_id: 0,
+                                 include: "representative_trip.stops" ->
+        [
+          RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_branch_a ++ stop_ids_on_trunk),
+          RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_branch_b ++ stop_ids_on_trunk)
+        ]
+      end)
+
+      Stops.Repo.Mock
+      |> stub(:get_parent, fn
+        ^first_stop_id_a -> first_stop_a
+        ^first_stop_id_b -> first_stop_b
+        ^last_stop_id -> last_stop
+        stop_id -> Stop.build(:stop, id: stop_id, parent_id: nil)
+      end)
+
+      direction_name = Faker.Cat.breed()
+
+      Routes.Repo.Mock
+      |> stub(:get, fn ^route_id ->
+        Route.build(:route, direction_names: %{0 => Faker.Cat.breed(), 1 => direction_name})
+      end)
+
+      {affected_trunk_ids, _} = stop_ids_on_trunk |> Enum.split(last_stop_index + 1)
+      {_, affected_branch_a_ids} = stop_ids_on_branch_a |> Enum.split(first_stop_index_a)
+      {_, affected_branch_b_ids} = stop_ids_on_branch_b |> Enum.split(first_stop_index_b)
+
+      stop_informed_entities =
+        (affected_trunk_ids ++ affected_branch_a_ids ++ affected_branch_b_ids)
+        |> Enum.map(&%InformedEntity{route: route_id, stop: &1})
+        |> Enum.shuffle()
+
+      alert = Alert.new(informed_entity: stop_informed_entities)
+
+      # Exercise / Verify
+      assert EndpointStops.endpoint_stops([alert], [route_id]) == [
+               {last_stop, "#{direction_name} Stops"}
              ]
     end
 
