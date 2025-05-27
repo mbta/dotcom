@@ -23,6 +23,7 @@ import { DirectionId, Route } from "../../__v3api";
 import { StoreProps } from "../store/ScheduleStore";
 import { isFerryRoute, isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
+import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
@@ -216,6 +217,9 @@ const ScheduleNote = ({
     services,
     stops
   } = schedulePageData;
+
+  const currentDirection = useDirectionChangeEvent(directionId);
+
   return (
     <>
       <HoursOfOperation
@@ -228,7 +232,7 @@ const ScheduleNote = ({
         <ScheduleFinderModal
           closeModal={closeModal}
           directionChanged={changeDirection}
-          initialDirection={directionId}
+          initialDirection={currentDirection}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
