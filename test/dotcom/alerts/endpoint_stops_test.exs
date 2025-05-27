@@ -100,7 +100,7 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
       RoutePatterns.Repo.Mock
       |> expect(:by_route_id, fn ^route_id,
                                  canonical: true,
-                                 direction_id: 1,
+                                 direction_id: ^direction_id,
                                  include: "representative_trip.stops" ->
         [RoutePattern.build(:route_pattern, stop_ids: stop_ids_on_route)]
       end)
