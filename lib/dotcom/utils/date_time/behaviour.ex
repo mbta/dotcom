@@ -13,7 +13,7 @@ defmodule Dotcom.Utils.DateTime.Behaviour do
               DateTime.t()
 
   @callback in_range?(
-              Dotcom.Utils.DateTime.date_time_range(),
-              DateTime.t()
+              Dotcom.Utils.DateTime.date_time_range() | Dotcom.Utils.DateTime.date_range(),
+              DateTime.t() | Date.t()
             ) :: boolean
 end

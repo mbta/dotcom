@@ -15,6 +15,13 @@ defmodule Dotcom.Utils.DateTime do
   @behaviour Behaviour
 
   @typedoc """
+  A date_range is a tuple of two dates: {start, stop}.
+  Either the start or stop can be nil, but not both.
+  """
+  @type date_range() ::
+          {Date.t(), Date.t()} | {nil, Date.t()} | {Date.t(), nil}
+
+  @typedoc """
   A date_time_range is a tuple of two date_times: {start, stop}.
   Either the start or stop can be nil, but not both.
   """
@@ -65,12 +72,24 @@ defmodule Dotcom.Utils.DateTime do
     Timex.before?(date_time, stop) || Timex.equal?(date_time, stop, :microsecond)
   end
 
+  def in_range?({nil, %Date{} = stop}, %Date{} = date) do
+    Timex.before?(date, stop) || Timex.equal?(date, stop, :day)
+  end
+
   def in_range?({%DateTime{} = start, nil}, %DateTime{} = date_time) do
     Timex.after?(date_time, start) || Timex.equal?(date_time, start, :microsecond)
   end
 
+  def in_range?({%Date{} = start, nil}, %Date{} = date) do
+    Timex.after?(date, start) || Timex.equal?(date, start, :day)
+  end
+
   def in_range?({%DateTime{} = start, %DateTime{} = stop}, %DateTime{} = date_time) do
     in_range?({start, nil}, date_time) && in_range?({nil, stop}, date_time)
+  end
+
+  def in_range?({%Date{} = start, %Date{} = stop}, %Date{} = date) do
+    in_range?({start, nil}, date) && in_range?({nil, stop}, date)
   end
 
   def in_range?(_, _), do: false
