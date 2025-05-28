@@ -3,6 +3,8 @@ defmodule Dotcom.Alerts do
   A collection of functions that help to work with alerts in a unified way.
   """
 
+  import Dotcom.Utils.ServiceDateTime, only: [service_today?: 1]
+
   alias Alerts.Alert
   alias Stops.Stop
 
@@ -80,6 +82,16 @@ defmodule Dotcom.Alerts do
   @spec service_impacting_alert?(Alert.t()) :: boolean()
   def service_impacting_alert?(alert) do
     effects_match?(@service_impacting_effects, alert)
+  end
+
+  @doc """
+  Returns a boolean indicating whether or not the alert is in effect for the service day.
+  """
+  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
+  def in_effect_today?(%Alerts.Alert{active_period: active_period}) do
+    Enum.any?(active_period, fn {start, stop} ->
+      service_today?(start) || service_today?(stop)
+    end)
   end
 
   @doc """
