@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="c-cms c-cms--no-sidebar">
+  <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
@@ -31,8 +31,8 @@
         </div>
       </div>
       <div class="c-cms__sidebar">
-        <%= for paragraph <- @right_rail_paragraphs do %>
-          <%= DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
+        <%= if @media_relations_paragraph do %>
+          <%= DotcomWeb.CMS.ParagraphView.render_paragraph(@media_relations_paragraph, @conn) %>
         <% end %>
       </div>
     </div>

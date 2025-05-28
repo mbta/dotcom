@@ -29,8 +29,13 @@ defmodule DotcomWeb.NewsEntryController do
       )
     end
 
-    right_rail_paragraphs_fn = fn ->
-      [Repo.get_paragraph("/about/media-relations")]
+    media_relations_paragraph_fn = fn ->
+      url = "/paragraphs/custom-html/custom-html-media-relations-members-the-press-l"
+
+      case Repo.get_paragraph(url) do
+        {:error, _} -> nil
+        paragraph -> Map.put(paragraph, :right_rail, false)
+      end
     end
 
     conn
@@ -38,7 +43,7 @@ defmodule DotcomWeb.NewsEntryController do
     |> assign(:page, page)
     |> async_assign_default(:news_entries, news_entry_teasers_fn, [])
     |> async_assign_default(:upcoming_news_entries, upcoming_news_entry_teasers_fn, [])
-    |> async_assign_default(:right_rail_paragraphs, right_rail_paragraphs_fn, [])
+    |> async_assign_default(:media_relations_paragraph, media_relations_paragraph_fn, nil)
     |> await_assign_all_default(__MODULE__)
     |> render(:index)
   end
