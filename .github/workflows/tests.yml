@@ -17,10 +17,10 @@ jobs:
   file_changes:
     runs-on: ubuntu-latest
     outputs:
-      ts: ${{ steps.changes.outputs.ts == 'true' }}
-      js: ${{ steps.changes.outputs.js == 'true' }}
-      ex: ${{ steps.changes.outputs.ex == 'true' }}
-      scss: ${{ steps.changes.outputs.scss == 'true' }}
+      ts: steps.changes.outputs.ts
+      js: steps.changes.outputs.js
+      ex: steps.changes.outputs.ex
+      scss: steps.changes.outputs.scss
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -50,7 +50,7 @@ jobs:
     name: Linting / TypeScript
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -60,7 +60,7 @@ jobs:
     name: Linting / JavaScript
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') ||needs.file_changes.outputs.js }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.js == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -70,7 +70,7 @@ jobs:
     name: Linting / CSS
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.scss }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.scss == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -80,7 +80,7 @@ jobs:
     name: Linting / Elixir
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ (contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex) && github.event_name == 'pull_request' }}
+    if: ${{ (contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex == 'true') && github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -110,7 +110,7 @@ jobs:
     name: Unit tests / Elixir / mix coveralls.html
     runs-on: ubuntu-latest
     needs: [file_changes, build_app]
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -135,7 +135,7 @@ jobs:
     name: Unit tests / JavaScript / Mocha
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.js }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.js == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -145,7 +145,7 @@ jobs:
     name: Unit tests / JavaScript & TypeScript / Jest
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -155,7 +155,7 @@ jobs:
     name: Type checks / Elixir
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -165,7 +165,7 @@ jobs:
     name: Type checks / TypeScript
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ts == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -175,7 +175,7 @@ jobs:
     name: Formatting / Elixir
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
@@ -185,7 +185,7 @@ jobs:
     name: Formatting / JavaScript & TypeScript
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
+    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.js == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
