@@ -61,7 +61,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
           # Service impacting alert
           Factories.Alerts.Alert.build(:alert,
             active_period: active_period,
-            effect: random_service_impacting_effect
+            effect: random_service_impacting_effect,
+            severity: 3
           ),
           # Non-service impacting alert
           Factories.Alerts.Alert.build(:alert, effect: :summary)
