@@ -5,7 +5,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   or whether there are alerts that impact service.
   """
 
-  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
+  import Dotcom.Alerts, only: [in_effect_today?: 1, service_impacting_alert?: 1]
 
   alias Routes.Route
 
@@ -64,15 +64,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
       {effect, Kernel.length(alerts)}
     end)
     |> Map.new()
-  end
-
-  # Returns a boolean indicating whether or not the alert is in effect for the service day.
-  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
-  defp in_effect_today?(%Alerts.Alert{active_period: active_period}) do
-    Enum.any?(active_period, fn {start, stop} ->
-      Dotcom.Utils.ServiceDateTime.service_today?(start) ||
-        Dotcom.Utils.ServiceDateTime.service_today?(stop)
-    end)
   end
 
   # Returns a boolean indicating whether or not the route has a schedule

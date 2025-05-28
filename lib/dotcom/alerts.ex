@@ -83,6 +83,17 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
+  Returns a boolean indicating whether or not the alert is in effect for the service day.
+  """
+  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
+  def in_effect_today?(%Alerts.Alert{active_period: active_period}) do
+    Enum.any?(active_period, fn {start, stop} ->
+      Dotcom.Utils.ServiceDateTime.service_today?(start) ||
+        Dotcom.Utils.ServiceDateTime.service_today?(stop)
+    end)
+  end
+
+  @doc """
   Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
   """
   @spec service_impacting_effects() :: [{service_effect_t(), integer()}]
