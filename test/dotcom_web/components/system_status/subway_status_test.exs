@@ -635,6 +635,34 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                ["#{first_stop} \u2194 #{last_stop}"]
     end
 
+    test "gives endpoints readable aria labels" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: Faker.Util.pick(@alert_effects_with_endpoints)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      first_stop = Faker.Cat.breed()
+      last_stop = Faker.Cat.breed()
+
+      expect(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ ->
+        [{first_stop, last_stop}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_a11y_for_row/1) ==
+               ["between #{first_stop} and #{last_stop}"]
+    end
+
     test "shows effect name singular if there is a single alert for the effect" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
@@ -827,5 +855,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     |> Floki.find("[data-test=\"status_subheading\"]")
     |> Floki.text()
     |> String.trim()
+  end
+
+  defp status_subheading_a11y_for_row(row) do
+    row
+    |> Floki.find("[data-test=\"status_subheading\"]")
+    |> Floki.attribute("aria-label")
+    |> List.first()
   end
 end
