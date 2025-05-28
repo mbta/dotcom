@@ -29,11 +29,16 @@ defmodule DotcomWeb.NewsEntryController do
       )
     end
 
+    right_rail_paragraphs_fn = fn ->
+      [Repo.get_paragraph("/about/media-relations")]
+    end
+
     conn
     |> assign(:breadcrumbs, index_breadcrumbs())
     |> assign(:page, page)
     |> async_assign_default(:news_entries, news_entry_teasers_fn, [])
     |> async_assign_default(:upcoming_news_entries, upcoming_news_entry_teasers_fn, [])
+    |> async_assign_default(:right_rail_paragraphs, right_rail_paragraphs_fn, [])
     |> await_assign_all_default(__MODULE__)
     |> render(:index)
   end

@@ -30,6 +30,11 @@
           </div>
         </div>
       </div>
+      <div class="c-cms__sidebar">
+        <%= for paragraph <- @right_rail_paragraphs do %>
+          <%= DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
