@@ -21,12 +21,23 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :status, :atom, required: true
 
   def status_row_heading(assigns) do
-    %{subheading_text: subheading_text, plural: plural} = decorations(assigns)
+    %{
+      plural: plural,
+      subheading_aria_label: subheading_aria_label,
+      subheading_text: subheading_text
+    } =
+      decorations(assigns)
+      |> Enum.into(%{
+        plural: assigns.plural,
+        subheading_aria_label: nil,
+        subheading_text: nil
+      })
 
     assigns =
       assigns
-      |> assign(:subheading_text, subheading_text)
       |> assign(:plural, plural)
+      |> assign(:subheading_aria_label, subheading_aria_label)
+      |> assign(:subheading_text, subheading_text)
 
     ~H"""
     <div class="grid grid-cols-[min-content_min-content_auto] items-start grow">
@@ -39,6 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         route_ids={@route_ids}
         status={@status}
         subheading_text={@subheading_text}
+        subheading_aria_label={@subheading_aria_label}
       />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
@@ -66,7 +78,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
     <div class="grow flex flex-wrap items-baseline gap-x-2">
       <.status_label status={@status} prefix={@prefix} plural={@plural} />
-      <.subheading text={@subheading_text} />
+      <.subheading text={@subheading_text} aria_label={@subheading_aria_label} />
     </div>
     """
   end
@@ -83,13 +95,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
-  defp decorations(%{status: status, alerts: alerts, route_ids: route_ids, plural: plural})
+  defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
        when status in [:service_change, :shuttle, :suspension] do
     endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
 
     %{
-      plural: plural,
-      subheading_text: endpoints |> humanize_endpoint_list()
+      subheading_text: endpoints |> humanize_endpoint_list(),
+      subheading_aria_label: endpoints |> humanize_endpoint_list_a11y()
     }
   end
 
@@ -105,6 +117,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   end
 
   defp humanize_endpoint_list(_list), do: nil
+
+  defp humanize_endpoint_list_a11y([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
+       when id1 == id2 do
+    "#{humanize_endpoint_name(stop)}"
+  end
+
+  defp humanize_endpoint_list_a11y([{first, last}]) do
+    "between #{humanize_endpoint_name(first)} and #{humanize_endpoint_name(last)}"
+  end
+
+  defp humanize_endpoint_list_a11y(_list), do: nil
 
   defp humanize_endpoint_name(%Stops.Stop{name: name}), do: name
   defp humanize_endpoint_name(label) when is_binary(label), do: label
@@ -122,7 +145,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp subheading(assigns) do
     ~H"""
-    <div class="text-sm leading-[1.5rem]" data-test="status_subheading">
+    <div class="text-sm leading-[1.5rem]" data-test="status_subheading" aria-label={@aria_label}>
       {@text}
     </div>
     """
