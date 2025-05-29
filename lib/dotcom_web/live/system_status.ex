@@ -23,7 +23,6 @@ defmodule DotcomWeb.Live.SystemStatus do
   def render(assigns) do
     ~H"""
     <div class="p-4">
-      <h1 class="text-2xl font-bold mb-4">Commuter Rail System Status</h1>
       <.alerts_commuter_rail_status commuter_rail_status={@status} />
     </div>
     """
