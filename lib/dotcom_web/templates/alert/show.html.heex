@@ -9,7 +9,9 @@
     {render("_t-alerts.html")}
   </:sidebar_bottom>
   <:main_section :if={@id == :commuter_rail}>
-    <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
+    <div class="">
+      <iframe src="/preview/system-status" class="w-full h-full"></iframe>
+    </div>
     <.alerts_page_content_layout
       {assigns}
       empty_message={"There are no other #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
