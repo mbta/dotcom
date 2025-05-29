@@ -6,7 +6,9 @@ defmodule DotcomWeb.Live.SystemStatus do
   use DotcomWeb, :live_view
 
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status: 0]
-  import DotcomWeb.Components.SystemStatus.CommuterRailStatus, only: [alerts_commuter_rail_status: 1]
+
+  import DotcomWeb.Components.SystemStatus.CommuterRailStatus,
+    only: [alerts_commuter_rail_status: 1]
 
   def mount(_params, _session, socket) do
     if connected?(socket) do

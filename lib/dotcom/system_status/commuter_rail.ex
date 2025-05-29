@@ -36,20 +36,35 @@ defmodule Dotcom.SystemStatus.CommuterRail do
         }
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def commuter_rail_status() do
-    status =
-      commuter_rail_routes()
-      |> Enum.map(&route_info/1)
-      |> Map.new()
+    commuter_rail_routes()
+    |> Enum.map(&route_info/1)
+    |> Map.new()
+    |> maybe_broadcast_status()
+  end
 
+  defp maybe_broadcast_status(status) do
+    new_hash = :erlang.phash2(status)
+    old_hash = @cache.get(:commuter_rail_status_hash)
+
+    if new_hash != old_hash do
+      @cache.put(:commuter_rail_status_hash, new_hash)
+
+      broadcast_status(status)
+
+      IO.puts("BROADCASTING COMMUTER RAIL STATUS #{new_hash}")
+    else
+      IO.puts("NOT BROADCASTING COMMUTER RAIL STATUS #{old_hash}")
+    end
+
+    status
+  end
+
+  defp broadcast_status(status) do
     Phoenix.PubSub.broadcast(
       Dotcom.PubSub,
       "commuter-rail-system-status",
       {:commuter_rail_status, status}
     )
-
-    IO.puts("COMMUTER RAIL STATUS PUSHED: #{:erlang.phash2(status)}")
-
-    status
   end
 
   # Return all service impacting alerts for a given Route ID.
