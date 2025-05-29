@@ -59,7 +59,10 @@ module.exports = {
     }
   ],
   theme: {
-    extend: tailwindTheme,
+    extend: {
+      ...tailwindTheme,
+      spacing: { "120": "30rem" }
+    },
     // match screens to Bootstrap's breakpoints for now
     // matched from $container-max-widths
     screens: {

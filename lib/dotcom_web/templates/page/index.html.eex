@@ -1,5 +1,12 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
+  <!-- <img src="/images/header-image-bl-airport.jpg" class="h-120 w-full object-cover object-[50%_80%] max-sm:hidden -z-10 relative" /> -->
+  <!-- <img src="/images/header-image-bus-harbor-point.jpg" class="h-120 w-full object-cover object-[50%_65%] max-sm:hidden -z-10 relative" /> -->
+  <!-- <img src="/images/header-image-cr-highway.jpg" class="h-120 w-full object-cover object-[50%_60%] max-sm:hidden -z-10 relative" /> -->
+  <!-- <img src="/images/header-image-gl-washington-sq.jpg" class="h-120 w-full object-cover max-sm:hidden -z-10 relative" /> -->
+  <img src="/images/header-image-ol-green-st.jpg" class="h-120 w-full object-cover max-sm:hidden -z-10 relative" />
+  <!-- <img src="/images/header-image-rl-longfellow.jpg" class="h-120 w-full object-cover object-[50%_70%] max-sm:hidden -z-10 relative" /> -->
+  <!-- <img src="/images/header-image-sl-downtown-crossing.jpg" class="h-120 w-full object-cover object-bottom max-sm:hidden -z-10 relative" /> -->
   <%= render "_tabbed_nav.html", assigns %>
   <div class="container page-section">
     <%= render "_find_a_location.html", conn: @conn %>
