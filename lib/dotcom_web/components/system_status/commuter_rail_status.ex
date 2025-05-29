@@ -17,18 +17,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   But, it depends on the types of alerts.
   """
   def alerts_commuter_rail_status(assigns) do
-    rows =
-      assigns
-      |> Map.get(:commuter_rail_status)
-      |> Enum.map(fn {id, row} ->
-        row
-        |> Map.put(:id, id)
-        |> attach_url()
-      end)
-      |> Enum.sort_by(& &1.sort_order)
-
-    assigns = Map.put(assigns, :rows, rows)
-
     ~H"""
     <.bordered_container hide_divider>
       <:heading>
@@ -37,10 +25,22 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         </div>
       </:heading>
       <div class="border-b-xs border-gray-lightest">
-        <.row :for={row <- @rows} row={row} />
+        <.row :for={row <- build_rows(@commuter_rail_status)} row={row} />
       </div>
     </.bordered_container>
     """
+  end
+
+  # Converts the commuter rail status into a list of rows to be
+  # rendered.
+  defp build_rows(commuter_rail_status) do
+    commuter_rail_status
+    |> Enum.map(fn {id, row} ->
+      row
+      |> Map.put(:id, id)
+      |> attach_url()
+    end)
+    |> Enum.sort_by(& &1.sort_order)
   end
 
   # Attaches a URL to the row based on the number of alerts.
