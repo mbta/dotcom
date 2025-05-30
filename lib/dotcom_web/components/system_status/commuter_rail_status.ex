@@ -161,7 +161,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       }
       disrupted
       label={label}
-      row_name={(index == 0 && row_name(@status)) || nil}
+      row_name={if index == 0, do: row_name(@status)}
       status={status}
       url={@status.url}
     />
