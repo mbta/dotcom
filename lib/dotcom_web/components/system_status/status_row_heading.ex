@@ -8,7 +8,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
-  import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
+
+  alias Alerts.Alert
 
   @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
   @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
@@ -40,7 +41,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:subheading_text, subheading_text)
 
     ~H"""
-    <div class="grid grid-cols-[min-content_min-content_auto] items-start grow">
+    <div class="grid grid-cols-[min-content_auto] items-start grow">
       <.top_padding hide_route_pill={@hide_route_pill} />
 
       <.heading
@@ -62,24 +63,29 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     ~H"""
     <div class="h-3"></div>
     <div class="h-3"></div>
-    <div class="h-3"></div>
     """
   end
 
   defp heading(assigns) do
+    rendered_prefix =
+      case assigns.prefix do
+        nil -> ""
+        prefix -> "#{prefix}: "
+      end
+
+    assigns = assigns |> assign(:rendered_prefix, rendered_prefix)
+
     ~H"""
     <div class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]} data-route-pill>
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
 
-    <div class="h-6 pr-2 flex items-center">
-      <.status_icon status={@status} />
-    </div>
-
-    <div class="grow flex flex-wrap items-baseline gap-x-2">
-      <.status_label status={@status} prefix={@prefix} plural={@plural} />
-      <.subheading text={@subheading_text} aria_label={@subheading_aria_label} />
-    </div>
+    <.status_label
+      description={"#{@rendered_prefix}#{description(@status, @prefix, @plural)}"}
+      status={@status}
+      subheading_aria_label={@subheading_aria_label}
+      subheading_text={@subheading_text}
+    />
     """
   end
 
@@ -106,6 +112,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   end
 
   defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
+
+  defp description(status, prefix, true), do: description(status, prefix) |> Inflex.pluralize()
+  defp description(status, prefix, false), do: description(status, prefix)
+
+  defp description(:normal, _), do: "Normal Service"
+  defp description(:see_alerts, _), do: "See Alerts"
+
+  # Special case for delays - when displayed with a future date, say 
+  # "Expect Delay" (or Expect Delays) rather than simply "Delay"
+  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
+  defp description(:shuttle, _), do: "Shuttles"
+  defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
        when id1 == id2 do
@@ -141,20 +159,9 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp humanize_stop_names(stop_names), do: "#{Enum.count(stop_names)} Stops"
 
-  defp subheading(%{text: nil} = assigns), do: ~H""
-
-  defp subheading(assigns) do
-    ~H"""
-    <div class="text-sm leading-[1.5rem]" data-test="status_subheading" aria-label={@aria_label}>
-      {@text}
-    </div>
-    """
-  end
-
   defp top_padding(assigns) do
     ~H"""
     <div class={["h-3", !@hide_route_pill && "border-t-xs border-gray-lightest"]}></div>
-    <div class={["h-3", "border-t-xs border-gray-lightest"]}></div>
     <div class={["h-3", "border-t-xs border-gray-lightest"]}></div>
     """
   end

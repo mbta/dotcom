@@ -43,13 +43,19 @@ defmodule DotcomWeb.Live.SystemStatus do
     <h1>Misc Components</h1>
     <h2>Status Labels</h2>
     <div class="flex flex-col gap-2">
-      <.status_label status={:normal} />
-      <.status_label status={:shuttle} />
-      <.status_label status={:shuttle} plural />
-      <.status_label status={:shuttle} prefix="8:30pm" />
-      <.status_label status={:shuttle} prefix="Wed Feb 12 - Fri Feb 14" />
-      <.status_label status={:station_closure} />
-      <.status_label status={:delay} />
+      <.status_label status={:normal} description="Normal Service" />
+      <.status_label status={:no_scheduled_service} description="No Scheduled Service" />
+      <.status_label status={:shuttle} description="Shuttles" />
+      <.status_label status={:suspension} description="Suspension" />
+      <.status_label status={:shuttle} description="8:30pm: Shuttles" />
+      <.status_label status={:shuttle} description="Wed Feb 12 - Fri Feb 14: Shuttles" />
+      <.status_label status={:delay} description="Delay" />
+      <.status_label
+        status={:shuttle}
+        description="Shuttles"
+        subheading_text={"Forest Hills" <> " \u2194 " <> "Back Bay"}
+        subheading_aria_label="between Forest Hills and Back Bay"
+      />
     </div>
 
     <h2>Route Pills</h2>
