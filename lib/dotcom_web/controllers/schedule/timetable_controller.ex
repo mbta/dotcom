@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
+  import DotcomWeb.ControllerHelpers, only: [call_plug: 2]
+
   alias DotcomWeb.ScheduleView
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
@@ -24,7 +26,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.ScheduleController.Core)
   plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
-  plug(DotcomWeb.ScheduleController.Offset)
   plug(DotcomWeb.ScheduleController.ScheduleError)
   plug(:channel_id)
 
@@ -77,6 +78,45 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
             date_in_rating?: true
           }
         } = conn
+      )
+      when route.id in ~w(Boat-F6 Boat-F7) do
+    timetable_schedules = Dotcom.Timetable.csv(route.id, direction_id, conn.assigns.date)
+
+    if timetable_schedules do
+      header_schedules = List.first(timetable_schedules)
+
+      header_stops =
+        timetable_schedules
+        |> Enum.map(&List.first/1)
+        |> Enum.with_index(fn trip, index ->
+          {@stops_repo.get(trip.stop_id), index}
+        end)
+
+      conn
+      |> assign(:use_pdf_schedules?, true)
+      |> assign(:timetable_schedules, timetable_schedules)
+      |> assign(:header_schedules, header_schedules)
+      |> assign(:header_stops, header_stops)
+      |> assign(:vehicle_schedules, [])
+      |> assign(:prior_stops, %{})
+    else
+      conn
+      |> assign(:timetable_schedules, [])
+      |> assign(:header_schedules, [])
+      |> assign(:vehicle_schedules, [])
+      |> assign(:prior_stops, %{})
+    end
+  end
+
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            direction_id: direction_id,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
@@ -101,6 +141,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
+    |> call_plug(DotcomWeb.ScheduleController.Offset)
     |> assign(:header_schedules, header_schedules)
     |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)

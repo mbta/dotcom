@@ -12,7 +12,7 @@
   <%= cond do %>
     <% @blocking_alert != nil -> %>
       {render("_timetable_blocked.html", formatted_date: @formatted_date, alert: @blocking_alert)}
-    <% Enum.empty?(@header_schedules) -> %>
+    <% Enum.empty?(@timetable_schedules) -> %>
       {render("_empty.html",
         date: @date,
         direction: Routes.Route.direction_name(@route, @direction_id),
@@ -66,8 +66,8 @@
               <div class="m-timetable__row-header"></div>
             </td>
             <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-              <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == @offset do [scroll: [to: true]] end] do %>
-                <span class="sr-only">Train {schedule.trip.name}</span>
+              <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
+                <span class="sr-only">Trip {schedule.trip.name}</span>
                 <span aria-hidden="true">{schedule.trip.name}</span>
                 <%= if Alerts.Trip.match(@alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
                   {svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})}
@@ -181,7 +181,15 @@
               <td class="js-tt-cell hidden-no-js">
                 <div class="m-timetable__row-header"></div>
               </td>
-              <%= for schedule <- @header_schedules do %>
+              <%= if assigns[:use_pdf_schedules?] do %>
+                <td
+                  :for={trip <- Enum.at(@timetable_schedules, idx)}
+                  class="js-tt-cell m-timetable__cell px-lg"
+                >
+                  {trip.time}
+                </td>
+              <% end %>
+              <%= for schedule <- @header_schedules, !assigns[:use_pdf_schedules?] do %>
                 <% trip_id = schedule.trip.id
                 trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
                 track_change = @track_changes[{trip_id, stop.id} || nil]
@@ -220,7 +228,10 @@
 {timetable_note(assigns)}
 <div class="m-timetable__key-and-pdfs">
   <% show_crowding =
-    Enum.any?(@header_schedules, fn schedule -> !is_nil(schedule.trip.occupancy) end) %>
+    Enum.any?(@header_schedules, fn
+      %Schedules.Schedule{trip: trip} when not is_nil(trip) -> trip.occupancy
+      _ -> false
+    end) %>
   {render("_timetable_icon_key.html", Map.merge(assigns, %{show_crowding: show_crowding}))}
   {render("_pdf_schedules.html", assigns)}
 </div>

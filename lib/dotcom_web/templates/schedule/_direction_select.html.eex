@@ -1,17 +1,31 @@
 <%= if Routes.Route.direction_destination(@route, @direction_id) do %>
+  <% opposite_direction = Routes.Route.direction_destination(@route, 1 - @direction_id) %>
   <div class="direction-filter col-xs-12 col-sm-<%= @column_width %>" <%= if @show_date_select? do "hidden" end %>>
-    <%= link to: update_url(@conn, reverse_direction_opts(1 - @direction_id)) <> "#direction-filter", id: "direction-filter", class: "filter-button" do %>
-      <div class="filter-text">
-        <span class="sr-only">Change Direction of Trip.</span>
-        <div class="inner-label">
-          Direction of your trip:
+    <%= if opposite_direction do %>
+      <%= link to: update_url(@conn, reverse_direction_opts(1 - @direction_id)) <> "#direction-filter", id: "direction-filter", class: "filter-button" do %>
+        <div class="filter-text">
+          <span class="sr-only">Change Direction of Trip.</span>
+          <div class="inner-label">
+            Direction of your trip:
+          </div>
+          <div class="notranslate">
+            <%= direction_with_headsign(@route, @direction_id, []) %>
+          </div>
         </div>
-        <div class="notranslate">
-          <%= direction_with_headsign(@route, @direction_id, []) %>
+        <div class="filter-icon">
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :reversal, show_tooltip?: false}) %>
         </div>
-      </div>
-      <div class="filter-icon">
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :reversal, show_tooltip?: false}) %>
+      <% end %>
+    <% else %>
+      <div class="filter-button">
+        <div class="filter-text">
+          <div class="inner-label">
+            Direction of your trip:
+          </div>
+          <div class="notranslate">
+            <%= direction_with_headsign(@route, @direction_id, []) %>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>

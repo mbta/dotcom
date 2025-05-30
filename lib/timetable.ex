@@ -42,6 +42,15 @@ defmodule Dotcom.Timetable do
 
     if in_timetable_date_range?(route_id, date) do
       get_csv("#{route_id}-#{direction_id}.csv")
+      |> Enum.map(fn stop_row ->
+        {stop_id, trips} = Map.pop!(stop_row, "Stop")
+
+        Enum.map(trips, fn {trip_key, time} ->
+          Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
+        end)
+        # another hack.
+        |> Enum.sort_by(& &1.trip.name)
+      end)
     end
   end
 
