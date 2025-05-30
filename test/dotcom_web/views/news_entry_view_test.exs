@@ -17,6 +17,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
           "index.html",
           conn: conn,
           page: 1,
+          media_relations_paragraph: nil,
           news_entries: [news_entry],
           upcoming_news_entries: []
         )
@@ -34,6 +35,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
           "index.html",
           conn: conn,
           page: 1,
+          media_relations_paragraph: nil,
           news_entries: [news_entry],
           upcoming_news_entries: []
         )
