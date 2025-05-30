@@ -26,7 +26,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       end)
       |> Enum.sort_by(& &1.sort_order)
 
-    assigns = Map.put(assigns, :status_for_line, status_for_line)
+    assigns = assigns |> assign(:status_for_line, status_for_line)
 
     ~H"""
     <.bordered_container hide_divider>
