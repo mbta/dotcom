@@ -45,6 +45,7 @@ import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
+import juxtapose from "./juxtapose";
 
 import mobileAppBanner from "./mobile-app-banner.js";
 
@@ -158,5 +159,6 @@ eventPageSetup();
 previousEventsButton();
 pslPageSetup();
 accordionInit();
+juxtapose();
 
 mobileAppBanner();
