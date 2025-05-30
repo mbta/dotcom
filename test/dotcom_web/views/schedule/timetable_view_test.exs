@@ -96,8 +96,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         date_time: ~N[2017-03-01T07:29:00],
         direction_name: "Southeastbound",
         formatted_date: "March 1, 2017",
-        blocking_alert: nil,
-        suppress_timetable?: false
+        blocking_alert: nil
       ]
 
       {:ok, %{assigns: assigns}}
