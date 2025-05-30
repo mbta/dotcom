@@ -6,7 +6,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   use DotcomWeb, :component
 
   import DotcomWeb.Components, only: [bordered_container: 1]
-  import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
   attr :commuter_rail_status, :map
@@ -17,7 +16,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   But, it depends on the types of alerts.
   """
   def alerts_commuter_rail_status(assigns) do
-    rows =
+    status_for_line =
       assigns
       |> Map.get(:commuter_rail_status)
       |> Enum.map(fn {id, row} ->
@@ -27,7 +26,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       end)
       |> Enum.sort_by(& &1.sort_order)
 
-    assigns = Map.put(assigns, :rows, rows)
+    assigns = assigns |> assign(:status_for_line, status_for_line)
 
     ~H"""
     <.bordered_container hide_divider>
@@ -37,7 +36,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         </div>
       </:heading>
       <div class="border-b-xs border-gray-lightest">
-        <.row :for={row <- @rows} row={row} />
+        <.rows_for_line :for={status <- @status_for_line} status={status} />
       </div>
     </.bordered_container>
     """
@@ -131,78 +130,51 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
 
   # A row that indicates that the service is not running today.
   # This trumps any other status.
-  defp row(%{row: %{service_today?: false}} = assigns) do
+  defp rows_for_line(%{status: %{service_today?: false}} = assigns) do
     ~H"""
-    <a
-      class={[
-        "flex items-stretch",
-        "hover:bg-brand-primary-lightest cursor-pointer group/row",
-        "text-black no-underline font-normal",
-        "min-h-12"
-      ]}
-      href={@row.url}
-      data-test="status-row"
-    >
-      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] grow">
-        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
-          <span class="text-black">{row_name(@row)}</span>
-        </div>
-
-        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
-          <.status_icon status={:no_scheduled_service} />
-        </div>
-
-        <div class="grow flex items-center py-2 text-black text-md border-t-xs border-gray-lightest">
-          No Scheduled Service
-        </div>
-      </div>
-      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
-        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-      </div>
-    </a>
+    <.row
+      label="No Scheduled Service"
+      row_name={row_name(@status)}
+      status={:no_scheduled_service}
+      url={@status.url}
+    />
     """
   end
 
   # The 'normal' case where there are no alerts.
   # We show a row indicating "Normal Service".
-  defp row(%{row: %{alert_counts: alert_counts}} = assigns) when alert_counts == %{} do
+  defp rows_for_line(%{status: %{alert_counts: alert_counts}} = assigns)
+       when alert_counts == %{} do
     ~H"""
-    <a
-      class={[
-        "flex items-stretch",
-        "hover:bg-brand-primary-lightest cursor-pointer group/row",
-        "text-black no-underline font-normal",
-        "min-h-12"
-      ]}
-      href={@row.url}
-      data-test="status-row"
-    >
-      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] grow">
-        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
-          <span>{row_name(@row)}</span>
-        </div>
-
-        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
-          <.status_icon status={:normal} />
-        </div>
-
-        <div class="grow flex items-center py-2 border-t-xs border-gray-lightest">
-          <.status_label status={:normal} />
-        </div>
-      </div>
-      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
-        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-      </div>
-    </a>
+    <.row label="Normal Service" row_name={row_name(@status)} status={:normal} url={@status.url} />
     """
   end
 
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
-  defp row(%{row: %{alert_counts: alert_counts}} = assigns) do
-    [first | rest] = combine_alert_counts(alert_counts)
-    assigns = assigns |> assign(:first, first) |> assign(:rest, rest)
+  defp rows_for_line(assigns) do
+    ~H"""
+    <.row
+      :for={
+        {{status, label}, index} <-
+          @status.alert_counts |> combine_alert_counts() |> Enum.with_index()
+      }
+      disrupted
+      label={label}
+      row_name={if index == 0, do: row_name(@status)}
+      status={status}
+      url={@status.url}
+    />
+    """
+  end
 
+  attr :disrupted, :boolean, default: false
+  attr :label, :string, required: true
+  attr :status, :atom, required: true
+  attr :row_name, :any, required: true
+  attr :url, :string, required: true
+
+  defp row(assigns) do
     ~H"""
     <a
       class={[
@@ -211,47 +183,26 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         "text-black no-underline font-normal",
         "min-h-12"
       ]}
-      href={@row.url}
+      href={@url}
       data-test="status-row"
     >
       <div class="grid items-stretch grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg border-t-xs border-gray-lightest">
-          <span>{row_name(@row)}</span>
+        <div class={[
+          "flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg",
+          @row_name != nil && "border-t-xs border-gray-lightest"
+        ]}>
+          <span>{@row_name}</span>
         </div>
 
         <div class="px-2 flex items-center border-t-xs border-gray-lightest">
-          <.status_icon status={elem(@first, 0)} />
+          <.status_icon status={@status} />
         </div>
 
-        <div class="grow flex items-center py-2 font-bold text-md md:text-lg border-t-xs border-gray-lightest">
-          {elem(@first, 1)}
-        </div>
-      </div>
-      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
-        <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-      </div>
-    </a>
-    <a
-      :for={row <- @rest}
-      class={[
-        "flex items-stretch",
-        "hover:bg-brand-primary-lightest cursor-pointer group/row",
-        "text-black no-underline font-normal",
-        "min-h-12"
-      ]}
-      href={@row.url}
-      data-test="status-row"
-    >
-      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class="flex items-top pl-1 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 -mt-[25px]">
-        </div>
-
-        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
-          <.status_icon status={elem(row, 0)} />
-        </div>
-
-        <div class="grow flex items-center py-2 font-bold text-md md:text-lg border-t-xs border-gray-lightest">
-          {elem(row, 1)}
+        <div class={[
+          "grow flex items-center py-2 border-t-xs border-gray-lightest text-md",
+          @disrupted && "font-bold md:text-lg"
+        ]}>
+          {@label}
         </div>
       </div>
       <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
