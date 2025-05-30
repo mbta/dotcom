@@ -35,7 +35,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
           Current Status
         </div>
       </:heading>
-      <div class="border-b-xs border-gray-lightest">
+      <div class="border-b-xs border-gray-lightest grid grid-cols-[min-content_auto_min-content]">
         <.rows_for_line :for={status <- @status_for_line} status={status} />
       </div>
     </.bordered_container>
@@ -176,36 +176,20 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
 
   defp row(assigns) do
     ~H"""
-    <a
-      class={[
-        "flex items-stretch",
-        "hover:bg-brand-primary-lightest cursor-pointer group/row",
-        "text-black no-underline font-normal",
-        "min-h-12"
-      ]}
-      href={@url}
-      data-test="status-row"
-    >
-      <div class="grid items-stretch grid-cols-[min-content_min-content_auto] items-center grow">
-        <div class={[
-          "flex items-center pl-1 py-2 min-w-32 sm:min-w-48 md:min-w-56 lg:min-w-72 text-md md:text-lg",
-          @row_name != nil && "border-t-xs border-gray-lightest"
-        ]}>
-          <span>{@row_name}</span>
-        </div>
+    <a href={@url} class="contents group cursor-pointer text-black">
+      <div class="min-h-12 pl-1 pr-6 sm:pr-8 py-2 border-t-xs border-gray-lightest group-hover:bg-brand-primary-lightest flex items-center">
+        <span class="text-wrap sm:text-nowrap text-md md:text-lg">{@row_name}</span>
+      </div>
 
-        <div class="px-2 flex items-center border-t-xs border-gray-lightest">
-          <.status_icon status={@status} />
-        </div>
+      <div class="py-2 border-t-xs border-gray-lightest group-hover:bg-brand-primary-lightest flex items-center gap-2">
+        <.status_icon status={@status} />
 
-        <div class={[
-          "grow flex items-center py-2 border-t-xs border-gray-lightest text-md",
-          @disrupted && "font-bold md:text-lg"
-        ]}>
+        <div class={["text-md", @disrupted && "font-bold md:text-lg"]}>
           {@label}
         </div>
       </div>
-      <div class="self-stretch flex items-center border-t-xs border-gray-lightest">
+
+      <div class="border-t-xs border-gray-lightest group-hover:bg-brand-primary-lightest flex items-center">
         <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
       </div>
     </a>
