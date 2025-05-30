@@ -5,9 +5,14 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   or whether there are alerts that impact service.
   """
 
+  use Nebulex.Caching.Decorators
+
   import Dotcom.Alerts, only: [in_effect_today?: 1, service_impacting_alert?: 1]
 
   alias Routes.Route
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.seconds(30)
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @repos_module Application.compile_env!(:dotcom, :repo_modules)
@@ -29,10 +34,37 @@ defmodule Dotcom.SystemStatus.CommuterRail do
             sort_order: integer()
           }
         }
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def commuter_rail_status() do
     commuter_rail_routes()
     |> Enum.map(&route_info/1)
     |> Map.new()
+    |> maybe_broadcast_status()
+  end
+
+  defp maybe_broadcast_status(status) do
+    new_hash = :erlang.phash2(status)
+    old_hash = @cache.get(:commuter_rail_status_hash)
+
+    if new_hash != old_hash do
+      @cache.put(:commuter_rail_status_hash, new_hash)
+
+      broadcast_status(status)
+
+      IO.puts("BROADCASTING COMMUTER RAIL STATUS #{new_hash}")
+    else
+      IO.puts("NOT BROADCASTING COMMUTER RAIL STATUS #{old_hash}")
+    end
+
+    status
+  end
+
+  defp broadcast_status(status) do
+    Phoenix.PubSub.broadcast(
+      Dotcom.PubSub,
+      "commuter-rail-system-status",
+      {:commuter_rail_status, status}
+    )
   end
 
   # Return all service impacting alerts for a given Route ID.

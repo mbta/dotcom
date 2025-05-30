@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    {csrf_meta_tag()}
+    <%= if Application.get_env(:dotcom, :dev_server?) do %>
+      <link rel="stylesheet" href={"#{webpack_path()}/css/core.css"} />
+      <link rel="stylesheet" href={"#{webpack_path()}/css/app.css"} />
+      <script defer src={"#{webpack_path()}/core.js"}>
+      </script>
+      <script defer src={"#{webpack_path()}/iframe.js"}>
+      </script>
+    <% else %>
+      <link rel="stylesheet" {static_attributes("/css/core.css")} />
+      <link rel="stylesheet" {static_attributes("/css/app.css")} />
+      <script defer {static_attributes("/js/vendors.js")}>
+      </script>
+      <script defer {static_attributes("/js/iframe.js")}>
+      </script>
+    <% end %>
+  </head>
+  <body>
+    {@inner_content}
+  </body>
+</html>
