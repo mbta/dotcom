@@ -209,7 +209,7 @@ defmodule Routes.Route do
 
   def direction_destination(%__MODULE__{direction_destinations: destinations}, direction_id)
       when direction_id in [0, 1] do
-    Map.fetch!(destinations, direction_id)
+    Map.get(destinations, direction_id)
   end
 
   @spec vehicle_name(t) :: String.t()
