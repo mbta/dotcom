@@ -9,6 +9,8 @@ defmodule Dotcom.TimetableLoader do
   an `:effective_dates` key indicating the timetable's start and end dates as a tuple.
   """
 
+  import Dotcom.Utils.Time, only: [between?: 3]
+
   @metadata %{
     "Boat-F6" => %{
       effective_dates: {~D[2025-04-28], ~D[2025-11-26]},
@@ -73,7 +75,7 @@ defmodule Dotcom.TimetableLoader do
   def in_timetable_date_range?(route_id, date) do
     case get_in(@metadata, [route_id, :effective_dates]) do
       {start, ending} ->
-        Dotcom.Utils.Time.between?(date, start, ending)
+        between?(date, start, ending)
 
       _ ->
         false
