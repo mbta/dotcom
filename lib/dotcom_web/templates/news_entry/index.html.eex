@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="c-cms c-cms--no-sidebar">
+  <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
@@ -29,6 +29,11 @@
             <% end %>
           </div>
         </div>
+      </div>
+      <div class="c-cms__sidebar">
+        <%= if @media_relations_paragraph do %>
+          <%= DotcomWeb.CMS.ParagraphView.render_paragraph(@media_relations_paragraph, @conn) %>
+        <% end %>
       </div>
     </div>
   </div>

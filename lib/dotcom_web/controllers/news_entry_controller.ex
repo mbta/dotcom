@@ -29,11 +29,21 @@ defmodule DotcomWeb.NewsEntryController do
       )
     end
 
+    media_relations_paragraph_fn = fn ->
+      url = "/paragraphs/custom-html/custom-html-media-relations-members-the-press-l"
+
+      case Repo.get_paragraph(url) do
+        {:error, _} -> nil
+        paragraph -> Map.put(paragraph, :right_rail, false)
+      end
+    end
+
     conn
     |> assign(:breadcrumbs, index_breadcrumbs())
     |> assign(:page, page)
     |> async_assign_default(:news_entries, news_entry_teasers_fn, [])
     |> async_assign_default(:upcoming_news_entries, upcoming_news_entry_teasers_fn, [])
+    |> async_assign_default(:media_relations_paragraph, media_relations_paragraph_fn, nil)
     |> await_assign_all_default(__MODULE__)
     |> render(:index)
   end
