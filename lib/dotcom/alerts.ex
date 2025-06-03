@@ -4,7 +4,6 @@ defmodule Dotcom.Alerts do
   """
 
   import Dotcom.Utils.DateTime, only: [in_range?: 2]
-  import Dotcom.Utils.ServiceDateTime, only: [beginning_of_service_day: 1, end_of_service_day: 1]
 
   alias Alerts.Alert
   alias Stops.Stop
@@ -93,10 +92,7 @@ defmodule Dotcom.Alerts do
   @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
   def in_effect_today?(%Alerts.Alert{active_period: active_period}) do
     Enum.any?(active_period, fn {start, stop} ->
-      first_service = beginning_of_service_day(start)
-      last_service = end_of_service_day(stop)
-
-      in_range?({first_service, last_service}, @date_time_module.now())
+      in_range?({start, stop}, @date_time_module.now())
     end)
   end
 
