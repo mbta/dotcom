@@ -1,11 +1,20 @@
 defmodule Dotcom.SystemStatus.CommuterRailTest do
   use ExUnit.Case
 
+  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status_for_route: 1]
   import Mox
 
-  alias Test.Support.Factories
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
+  alias Dotcom.Utils.ServiceDateTime
+  alias Test.Support.{Factories, FactoryHelpers, Generators}
 
   setup :verify_on_exit!
+
+  @service_impacting_effects Dotcom.Alerts.service_impacting_effects()
+                             |> Enum.map(fn {effect, _severity} -> effect end)
+
+  @service_effects @service_impacting_effects -- [:cancellation, :delay]
 
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
@@ -18,7 +27,19 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ -> [] end)
+    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
+      [
+        %Schedules.ScheduleCondensed{
+          time: Dotcom.Utils.DateTime.now()
+        }
+      ]
+    end)
+
+    stub(Schedules.Repo.Mock, :trip, fn _ -> Factories.Schedules.Trip.build(:trip) end)
+
+    stub(Schedules.Repo.Mock, :schedule_for_trip, fn _ ->
+      Factories.Schedules.Schedule.build_list(20, :schedule)
+    end)
 
     :ok
   end
@@ -86,10 +107,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
          Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 25)}
       ]
 
-      random_service_impacting_effect =
-        Dotcom.Alerts.service_impacting_effects()
-        |> Enum.random()
-        |> Kernel.elem(0)
+      random_service_impacting_effect = @service_impacting_effects |> Enum.random()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [
@@ -157,6 +175,336 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       refute result |> Map.values() |> List.first() |> Map.get(:service_today?)
+    end
+  end
+
+  describe "commuter_rail_status_for_route/1" do
+    test "returns :normal if there are no alerts" do
+      # SETUP
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+
+      # VERIFY
+      assert status == :normal
+    end
+
+    test "returns :no_scheduled_service if there's no scheduled service for today" do
+      # SETUP
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
+        [
+          %Schedules.ScheduleCondensed{
+            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
+          }
+        ]
+      end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+
+      # VERIFY
+      assert status == :no_scheduled_service
+    end
+
+    test "does not factor in non-service-impacting alerts" do
+      # SETUP
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [
+          Factories.Alerts.Alert.build(:alert, effect: :summary)
+        ]
+      end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+
+      # VERIFY
+      assert status == :normal
+    end
+
+    test "returns an empty list of cancellations and service_alerts when only delays are present" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_trip,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          trip_id: trip.id
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+
+      # VERIFY
+      assert status.cancellations == []
+      assert status.service_alerts == []
+    end
+
+    test "returns delays when present" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      [delay] =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+        |> Map.get(:delays)
+
+      # VERIFY
+      assert delay.alert == alert
+    end
+
+    test "returns cancellations when present" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :cancellation,
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      [cancellation] =
+        commuter_rail_id
+        |> Dotcom.SystemStatus.CommuterRail.commuter_rail_status_for_route()
+        |> Map.get(:cancellations)
+
+      # VERIFY
+      assert cancellation.alert == alert
+    end
+
+    test "groups other service-impacting alerts under `service_alerts`" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      random_service_effect = @service_effects |> Enum.random()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: random_service_effect,
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+
+      # VERIFY
+      assert status.service_alerts == [alert]
+    end
+
+    test "returns the trip info when a single trip is assigned to the alert" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      trip_id = trip.id
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_trip,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          trip_id: trip_id
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+      expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
+
+      first_departure_time =
+        Generators.DateTime.random_time_range_date_time({
+          ServiceDateTime.beginning_of_service_day(Dotcom.Utils.DateTime.now()),
+          ServiceDateTime.end_of_service_day(Dotcom.Utils.DateTime.now())
+        })
+
+      departure_times = first_departure_time |> Stream.iterate(&DateTime.shift(&1, minute: 1))
+
+      first_stop = Factories.Stops.Stop.build(:stop)
+      last_stop = Factories.Stops.Stop.build(:stop)
+
+      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id ->
+        stops
+        |> Enum.zip(departure_times)
+        |> Enum.map(fn {stop, departure_time} ->
+          Factories.Schedules.Schedule.build(:schedule,
+            departure_time: departure_time,
+            stop: stop
+          )
+        end)
+      end)
+
+      # EXERCISE
+      [delay] =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+        |> Map.get(:delays)
+
+      # VERIFY
+      {:trip, trip_info} = delay.trip_info
+      assert trip_info.name == trip.name
+      assert trip_info.direction_id == trip.direction_id
+      assert trip_info.first_stop == first_stop
+      assert trip_info.last_stop == last_stop
+      assert trip_info.first_departure_time == first_departure_time
+    end
+
+    test "returns multiple entries if an alert has multiple trips" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      trip1 = Factories.Schedules.Trip.build(:trip, id: trip_id1)
+      trip2 = Factories.Schedules.Trip.build(:trip, id: trip_id2)
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_trips,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          trip_ids: [trip_id1, trip_id2]
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      expect(Schedules.Repo.Mock, :trip, 2, fn
+        ^trip_id1 -> trip1
+        ^trip_id2 -> trip2
+      end)
+
+      # EXERCISE
+      [delay1, delay2] =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+        |> Map.get(:delays)
+
+      # VERIFY
+      {:trip, trip_info1} = delay1.trip_info
+      {:trip, trip_info2} = delay2.trip_info
+
+      assert MapSet.new([trip_info1.name, trip_info2.name]) ==
+               MapSet.new([trip1.name, trip2.name])
+    end
+
+    test "returns direction info only if no specific trips are given" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      direction_id = FactoryHelpers.build(:direction_id)
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          informed_entity: InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      [delay] =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+        |> Map.get(:delays)
+
+      # VERIFY
+      {:direction, direction_info} = delay.trip_info
+
+      assert direction_info.direction_id == direction_id
+    end
+
+    test "returns `:all` if no trip and no direction is selected" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :delay,
+          informed_entity: InformedEntitySet.new([]),
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      [delay] =
+        commuter_rail_id
+        |> commuter_rail_status_for_route()
+        |> Map.get(:delays)
+
+      # VERIFY
+      assert delay.trip_info == :all
     end
   end
 end
