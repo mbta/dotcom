@@ -5,7 +5,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   or whether there are alerts that impact service.
   """
 
-  import Dotcom.Alerts, only: [in_effect_today?: 1, service_impacting_alert?: 1]
+  import Dotcom.Alerts, only: [in_effect_now?: 1, service_impacting_alert?: 1]
 
   alias Routes.Route
 
@@ -41,7 +41,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(fn alert ->
-      service_impacting_alert?(alert) && in_effect_today?(alert)
+      service_impacting_alert?(alert) && in_effect_now?(alert)
     end)
   end
 

@@ -87,10 +87,10 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
-  Returns a boolean indicating whether or not the alert is in effect for the service day.
+  Returns a boolean indicating whether or not the alert is in effect right now.
   """
-  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
-  def in_effect_today?(%Alerts.Alert{active_period: active_period}) do
+  @spec in_effect_now?(Alerts.Alert.t()) :: boolean()
+  def in_effect_now?(%Alerts.Alert{active_period: active_period}) do
     Enum.any?(active_period, fn {start, stop} ->
       in_range?({start, stop}, @date_time_module.now())
     end)
