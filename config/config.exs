@@ -87,7 +87,10 @@ config :sentry,
 
 config :dotcom, Dotcom.Scheduler,
   jobs: [
-    {{:extended, "*/30 * * * *"}, {Dotcom.SystemStatus.CommuterRail, :commuter_rail_status, []}}
+    commuter_rail_status: [
+      schedule: {:extended, "*/30"}, # Runs every two seconds
+      task: {Dotcom.SystemStatus.CommuterRail, :commuter_rail_status, []}
+    ]
   ]
 
 import_config "#{config_env()}.exs"
