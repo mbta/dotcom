@@ -3,12 +3,14 @@ defmodule Dotcom.Alerts do
   A collection of functions that help to work with alerts in a unified way.
   """
 
-  import Dotcom.Utils.ServiceDateTime, only: [service_today?: 1]
+  import Dotcom.Utils.DateTime, only: [in_range?: 2]
 
   alias Alerts.Alert
   alias Stops.Stop
 
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @type diversion_effect_t() ::
           :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
@@ -85,12 +87,12 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
-  Returns a boolean indicating whether or not the alert is in effect for the service day.
+  Returns a boolean indicating whether or not the alert is in effect right now.
   """
-  @spec in_effect_today?(Alerts.Alert.t()) :: boolean()
-  def in_effect_today?(%Alerts.Alert{active_period: active_period}) do
+  @spec in_effect_now?(Alerts.Alert.t()) :: boolean()
+  def in_effect_now?(%Alerts.Alert{active_period: active_period}) do
     Enum.any?(active_period, fn {start, stop} ->
-      service_today?(start) || service_today?(stop)
+      in_range?({start, stop}, @date_time_module.now())
     end)
   end
 

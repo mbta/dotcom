@@ -3,7 +3,7 @@ defmodule DotcomWeb.AlertController do
 
   use DotcomWeb, :controller
 
-  import Dotcom.Alerts, only: [in_effect_today?: 1, service_impacting_alert?: 1]
+  import Dotcom.Alerts, only: [in_effect_now?: 1, service_impacting_alert?: 1]
 
   alias Alerts.{Alert, InformedEntity, Match}
   alias Dotcom.Alerts.Subway.Disruptions
@@ -35,7 +35,7 @@ defmodule DotcomWeb.AlertController do
   def show(conn, %{"id" => "commuter-rail"}) do
     alerts =
       Enum.reject(conn.assigns.alerts, fn alert ->
-        service_impacting_alert?(alert) && in_effect_today?(alert)
+        service_impacting_alert?(alert) && in_effect_now?(alert)
       end)
 
     conn
