@@ -450,4 +450,35 @@ defmodule DotcomWeb.ScheduleView do
       ~s(This train typically has<br /><strong>#{seats} seats available</strong>)
     end
   end
+
+  attr :track_changes, :list, required: true
+
+  def track_changes(assigns) do
+    assigns = assign(assigns, :count, Enum.count(assigns.track_changes))
+
+    ~H"""
+    <.unstyled_accordion
+      :if={@count > 0}
+      class="rounded-lg border border-[1px] border-gray-lighter"
+      summary_class="bg-gray-lightest rounded-lg group-open:rounded-none group-open:rounded-t-lg p-3 font-bold flex justify-between"
+    >
+      <:heading>
+        <div class="flex items-center gap-sm">
+          <.icon type="icon-svg" name="icon-alerts-triangle" class="h-4 w-4" aria-hidden="true" />
+          <span>{@count} Additional Track {Inflex.inflect("Change", @count)}</span>
+        </div>
+      </:heading>
+      <:content>
+        <div class="px-3 py-xs leading-snug">
+          <div
+            :for={change <- @track_changes}
+            class="py-sm [&:not(:last-child)]:border-b-[1px] border-gray-lightest"
+          >
+            {change.header}
+          </div>
+        </div>
+      </:content>
+    </.unstyled_accordion>
+    """
+  end
 end
