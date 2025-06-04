@@ -58,6 +58,7 @@ defmodule Dotcom.Application do
           []
         end ++
         [
+          Dotcom.Scheduler,
           {Dotcom.React, name: Dotcom.React},
           Routes.Supervisor,
           Predictions.Supervisor,
