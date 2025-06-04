@@ -65,7 +65,6 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         https://www.google.com/recaptcha/api.js
         https://www.google.com/recaptcha/api/fallback
         https://www.googletagmanager.com/gtm.js
-        insitez.blob.core.windows.net
         snap.licdn.com
         translate.google.com/translate_a/element.js
         translate-pa.googleapis.com
