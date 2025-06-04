@@ -221,36 +221,11 @@ defmodule CMS.Repo do
   @behaviour Nebulex.Caching.KeyGenerator
 
   @impl true
-  def generate(_, _, [path, %Plug.Conn.Unfetched{aspect: :query_params}]) do
+  def generate(_, _, [path, _]) do
     key = path |> String.trim("/") |> String.replace(~r/\//, "|")
 
     "cms.repo|#{key}"
   end
-
-  def generate(_, _, [path, params]) do
-    key = path |> String.trim("/") |> String.replace(~r/\//, "|")
-
-    "cms.repo|#{key}" <> params_to_string(params)
-  end
-
-  defp params_to_string(params) when params == %{}, do: ""
-  defp params_to_string(params) when is_binary(params), do: params
-
-  defp params_to_string(params) when is_map(params) do
-    case params
-         |> Enum.reduce([], &CMS.Api.stringify_params/2)
-         |> Enum.map(fn {k, v} -> "#{k}=#{v}" end) do
-      [head | tail] ->
-        ["?#{head}", "#{Enum.join(tail, "&")}"]
-        |> Enum.reject(&(&1 == ""))
-        |> Enum.join("&")
-
-      _ ->
-        ""
-    end
-  end
-
-  defp params_to_string(_), do: ""
 
   @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, API.error()}
   defp view_or_preview(path, %{"preview" => _, "vid" => "latest"} = params) do
