@@ -46,10 +46,9 @@ defmodule Dotcom.TimetableLoader do
         {stop_id, trips} = Map.pop!(stop_row, "Stop")
 
         Enum.map(trips, fn {trip_key, time} ->
+          # The PDFs don't have trip names
           Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
         end)
-        # another hack.
-        |> Enum.sort_by(& &1.trip.name)
       end)
     end
   end
