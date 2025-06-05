@@ -1,10 +1,5 @@
-{DotcomWeb.AlertView.group(
-  alerts: @alerts,
-  route: @route,
-  date_time: @date_time,
-  priority_filter: :high,
-  always_show: List.wrap(@blocking_alert)
-)}
+<.commuter_rail_timetable_status status={@status} />
+
 <%= if !assigns[:suppress_timetable?] do %>
   {render("_trip_view_filters.html", assigns)}
 <% end %>
