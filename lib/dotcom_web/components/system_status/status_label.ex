@@ -1,45 +1,58 @@
 defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
   @moduledoc """
-  Renders a status as a readable version of that status, along with an
-  optional prefix.
+  Renders a status and a description as a consistently-formatted
+  header with an icon.
   """
 
   use DotcomWeb, :component
 
-  alias Alerts.Alert
+  import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
-  attr :prefix, :string, default: nil
-  attr :plural, :boolean, default: false
+  attr :description, :string, required: true
   attr :status, :atom, required: true
+  attr :subheading_text, :string, default: nil
+  attr :subheading_aria_label, :string, default: nil
 
   def status_label(assigns) do
-    rendered_prefix =
-      case assigns.prefix do
-        nil -> ""
-        prefix -> "#{prefix}: "
-      end
-
-    assigns = assigns |> assign(:rendered_prefix, rendered_prefix)
-
     ~H"""
-    <span data-test="status_label_text" class={["leading-[1.5rem]", status_classes(@status)]}>
-      {@rendered_prefix} {description(@status, @prefix, @plural)}
+    <div class="flex">
+      <div class="h-6 pr-2 flex items-center">
+        <.status_icon status={@status} />
+      </div>
+
+      <div class="grow flex flex-wrap items-baseline gap-x-2">
+        <.heading description={@description} disrupted={disrupted?(@status)} />
+        <.subheading text={@subheading_text} aria_label={@subheading_aria_label} />
+      </div>
+    </div>
+    """
+  end
+
+  defp disrupted?(:normal), do: false
+  defp disrupted?(:no_scheduled_service), do: false
+  defp disrupted?(_status), do: true
+
+  attr :description, :string, required: true
+  attr :disrupted, :boolean, default: false
+
+  defp heading(assigns) do
+    ~H"""
+    <span
+      data-test="status_label_text"
+      class={["leading-[1.5rem] text-md", @disrupted && "font-bold md:text-lg"]}
+    >
+      {@description}
     </span>
     """
   end
 
-  defp description(status, prefix, true), do: description(status, prefix) |> Inflex.pluralize()
-  defp description(status, prefix, false), do: description(status, prefix)
+  defp subheading(%{text: nil} = assigns), do: ~H""
 
-  defp description(:normal, _), do: "Normal Service"
-  defp description(:see_alerts, _), do: "See Alerts"
-
-  # Special case for delays - when displayed with a future date, say 
-  # "Expect Delay" (or Expect Delays) rather than simply "Delay"
-  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
-  defp description(:shuttle, _), do: "Shuttles"
-  defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
-
-  defp status_classes(:normal), do: ""
-  defp status_classes(_), do: "font-bold text-lg"
+  defp subheading(assigns) do
+    ~H"""
+    <div class="text-sm leading-[1.5rem]" data-test="status_subheading" aria-label={@aria_label}>
+      {@text}
+    </div>
+    """
+  end
 end
