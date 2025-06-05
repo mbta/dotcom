@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   import DotcomWeb.Components.SystemStatus.SubwayStatus
   import Mox
   import Phoenix.LiveViewTest
+  import Test.Support.Generators.DateTime, only: [random_time_range_date_time: 1]
 
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
@@ -716,6 +717,155 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
              |> for_route(affected_line)
              |> Enum.map(&status_label_text_for_row/1) ==
                [expected_status_text]
+    end
+
+    test "shows a prefix if the alert applies in the future" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_desc = effect |> status_label_text_for_effect()
+      expected_prefix = Util.narrow_time(start_time)
+      expected_status_text = "#{expected_prefix}: #{expected_status_desc}"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
+
+    test "shows 'Now' as a prefix if there are any alerts in the future" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect1, _severity} = Faker.Util.pick(service_impacting_effects())
+      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: effect1
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: effect2
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_desc1 = effect1 |> status_label_text_for_effect()
+      expected_status_text1 = "Now: #{expected_status_desc1}"
+
+      expected_status_desc2 = effect2 |> status_label_text_for_effect()
+      expected_prefix2 = Util.narrow_time(start_time)
+      expected_status_text2 = "#{expected_prefix2}: #{expected_status_desc2}"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text1, expected_status_text2]
+    end
+
+    test "shows 'Expect Delay' instead of 'Delay' for a future delay" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_prefix = Util.narrow_time(start_time)
+      expected_status_text = "#{expected_prefix}: Expect Delay"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
+
+    test "shows 'Now: Delay' instead of 'Now: Expect Delay'" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: effect2
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_text1 = "Now: Delay"
+
+      expected_status_desc2 = effect2 |> status_label_text_for_effect()
+      expected_prefix2 = Util.narrow_time(start_time)
+      expected_status_text2 = "#{expected_prefix2}: #{expected_status_desc2}"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text1, expected_status_text2]
     end
   end
 
