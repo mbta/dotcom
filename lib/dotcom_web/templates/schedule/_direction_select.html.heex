@@ -1,0 +1,26 @@
+<%= if Routes.Route.direction_destination(@route, @direction_id) do %>
+  <% has_opposite_direction? =
+    Routes.Route.direction_destination(@route, 1 - @direction_id) != nil %>
+  <div class={"direction-filter col-xs-12 col-sm-#{@column_width} #{if(@show_date_select?, do: "hidden")}"}>
+    <.dynamic_tag
+      id="direction-filter"
+      tag_name={if(has_opposite_direction?, do: "a", else: "div")}
+      href={
+        if(has_opposite_direction?,
+          do: update_url(@conn, reverse_direction_opts(1 - @direction_id)) <> "#direction-filter"
+        )
+      }
+    >
+      <div class="filter-button">
+        <div class="filter-text">
+          <span :if={has_opposite_direction?} class="sr-only">Change Direction of Trip.</span>
+          <div class="inner-label">Direction of your trip:</div>
+          <div class="notranslate">{direction_with_headsign(@route, @direction_id, [])}</div>
+        </div>
+        <div :if={has_opposite_direction?} class="filter-icon">
+          {svg_icon_with_circle(%SvgIconWithCircle{icon: :reversal, show_tooltip?: false})}
+        </div>
+      </div>
+    </.dynamic_tag>
+  </div>
+<% end %>
