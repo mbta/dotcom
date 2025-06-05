@@ -120,7 +120,10 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   defp description(:see_alerts, _), do: "See Alerts"
 
   # Special case for delays - when displayed with a future date, say 
-  # "Expect Delay" (or Expect Delays) rather than simply "Delay"
+  # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
+  # prefix of "Now" should still display as "Delay", rather than
+  # "Expect Delay".
+  defp description(:delay, "Now"), do: "Delay"
   defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
   defp description(:shuttle, _), do: "Shuttles"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
