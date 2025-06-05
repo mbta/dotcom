@@ -317,7 +317,6 @@ const beforeSend = (event, hint) => {
       "localStorage", // Mobile device settings (usually coming from Android)
       "/Users/", // MacOS localhost
       "C:\\Users\\", // Windows localhost
-      "insitez.blob.core.windows" // informizely
     ].some(predicate => parsedEvent.includes(predicate));
 
     if (match) {
