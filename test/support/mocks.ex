@@ -19,6 +19,7 @@ Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
 Mox.defmock(Predictions.Phoenix.PubSub.Mock, for: Phoenix.Channel)
 Mox.defmock(Predictions.PubSub.Mock, for: [GenServer, Predictions.PubSub.Behaviour])
 Mox.defmock(Predictions.Store.Mock, for: Predictions.Store.Behaviour)
+Mox.defmock(Dotcom.TimetableLoader.Mock, for: Dotcom.TimetableLoader.Behaviour)
 
 # Repos
 Mox.defmock(Alerts.Repo.Mock, for: Alerts.Repo.Behaviour)

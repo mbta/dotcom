@@ -11,6 +11,8 @@ defmodule Dotcom.TimetableLoader do
 
   import Dotcom.Utils.Time, only: [between?: 3]
 
+  @loader_module Application.compile_env!(:dotcom, :timetable_loader_module)
+
   @metadata %{
     "Boat-F6" => %{
       effective_dates: {~D[2025-04-28], ~D[2025-11-26]},
@@ -41,7 +43,7 @@ defmodule Dotcom.TimetableLoader do
     route_id = maybe_use_weekend_route(route_id, date)
 
     if in_timetable_date_range?(route_id, date) do
-      case get_csv("#{route_id}-#{direction_id}.csv") do
+      case @loader_module.get_csv("#{route_id}-#{direction_id}.csv") do
         data when is_list(data) ->
           Enum.map(data, &trip_maps_from_row/1)
 
@@ -90,7 +92,10 @@ defmodule Dotcom.TimetableLoader do
     end)
   end
 
-  defp get_csv(filename) do
+  @behaviour Dotcom.TimetableLoader.Behaviour
+
+  @impl Dotcom.TimetableLoader.Behaviour
+  def get_csv(filename) do
     path = Path.join(@timetable_directory, filename)
 
     if File.exists?(path) do
@@ -99,5 +104,13 @@ defmodule Dotcom.TimetableLoader do
       |> CSV.decode!(headers: true)
       |> Enum.to_list()
     end
+  end
+
+  defmodule Behaviour do
+    @moduledoc """
+    Behaviour for describing fetching a timetable CSV
+    """
+
+    @callback get_csv(String.t()) :: list() | nil
   end
 end
