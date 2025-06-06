@@ -4,8 +4,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status_for_route: 1]
   import Mox
 
-  alias Alerts.InformedEntity
-  alias Alerts.InformedEntitySet
+  alias Alerts.{InformedEntity, InformedEntitySet}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators}
 
