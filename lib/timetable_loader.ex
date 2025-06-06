@@ -11,6 +11,8 @@ defmodule Dotcom.TimetableLoader do
 
   import Dotcom.Utils.Time, only: [between?: 3]
 
+  @loader_module Application.compile_env!(:dotcom, :timetable_loader_module)
+
   @metadata %{
     "Boat-F6" => %{
       effective_dates: {~D[2025-04-28], ~D[2025-11-26]},
@@ -25,7 +27,6 @@ defmodule Dotcom.TimetableLoader do
     }
   }
   @available_route_ids Map.keys(@metadata)
-  @timetable_directory Application.app_dir(:dotcom) <> "/priv/timetables/"
 
   @doc """
   Routes supported by `Dotcom.Timetable`, listed by ID.
@@ -41,15 +42,13 @@ defmodule Dotcom.TimetableLoader do
     route_id = maybe_use_weekend_route(route_id, date)
 
     if in_timetable_date_range?(route_id, date) do
-      get_csv("#{route_id}-#{direction_id}.csv")
-      |> Enum.map(fn stop_row ->
-        {stop_id, trips} = Map.pop!(stop_row, "Stop")
+      case @loader_module.get_csv("#{route_id}-#{direction_id}.csv") do
+        data when is_list(data) ->
+          Enum.map(data, &trip_maps_from_row/1)
 
-        Enum.map(trips, fn {trip_key, time} ->
-          # The PDFs don't have trip names
-          Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
-        end)
-      end)
+        _ ->
+          nil
+      end
     end
   end
 
@@ -81,8 +80,22 @@ defmodule Dotcom.TimetableLoader do
     end
   end
 
-  defp get_csv(filename) do
-    path = @timetable_directory <> filename
+  # transform each row from a single map e.g. %{"Stop" => stop_id, "0600" => "11:00 AM", ...}
+  # to a list containing a map for each trip/time
+  defp trip_maps_from_row(stop_row) do
+    {stop_id, trips} = Map.pop!(stop_row, "Stop")
+
+    Enum.map(trips, fn {trip_key, time} ->
+      # The PDFs don't have trip names
+      Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
+    end)
+  end
+
+  @behaviour Dotcom.TimetableLoader.Behaviour
+
+  @impl Dotcom.TimetableLoader.Behaviour
+  def get_csv(filename) do
+    path = Path.join(timetable_directory(), filename)
 
     if File.exists?(path) do
       path
@@ -90,5 +103,17 @@ defmodule Dotcom.TimetableLoader do
       |> CSV.decode!(headers: true)
       |> Enum.to_list()
     end
+  end
+
+  defp timetable_directory() do
+    Application.app_dir(:dotcom) |> Path.join("/priv/timetables")
+  end
+
+  defmodule Behaviour do
+    @moduledoc """
+    Behaviour for describing fetching a timetable CSV
+    """
+
+    @callback get_csv(String.t()) :: list() | nil
   end
 end

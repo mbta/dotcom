@@ -53,6 +53,9 @@ RUN npm run webpack:build:react
 # 3) now, build the application back in the Elixir container
 FROM elixir-builder as app-builder
 
+# Add data for release
+COPY ./priv/timetables /root/priv/timetables
+
 WORKDIR /root
 
 # Add frontend assets, required by phx.digest
