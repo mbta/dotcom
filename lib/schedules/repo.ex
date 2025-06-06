@@ -12,8 +12,10 @@ defmodule Schedules.Repo do
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
   alias Routes.Route
-  alias Schedules.{Parser, Schedule}
+  alias Schedules.{Parser, Repo.Behaviour, Schedule}
   alias Util
+
+  @behaviour Behaviour
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -50,6 +52,7 @@ defmodule Schedules.Repo do
   defp cache_condition(params, true), do: all_from_params(params)
   defp cache_condition(params, _), do: cache_all_from_params(params)
 
+  @impl Behaviour
   def schedule_for_trip(trip_id, opts \\ [])
 
   def schedule_for_trip("", _) do
@@ -77,6 +80,7 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
+  @impl Behaviour
   def trip(trip_id, trip_by_id_fn \\ &Trips.by_id/2)
 
   def trip("", _trip_fn) do
