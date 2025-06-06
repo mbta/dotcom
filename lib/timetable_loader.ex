@@ -27,7 +27,7 @@ defmodule Dotcom.TimetableLoader do
     }
   }
   @available_route_ids Map.keys(@metadata)
-  @timetable_directory Application.app_dir(:dotcom) |> Path.join("/priv/timetables")
+  @timetable_directory :code.priv_dir(:dotcom) |> Path.join("/timetables")
 
   @doc """
   Routes supported by `Dotcom.Timetable`, listed by ID.
