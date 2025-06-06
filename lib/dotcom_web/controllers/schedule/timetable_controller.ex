@@ -48,6 +48,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
+    |> assign(
+      :status,
+      Dotcom.SystemStatus.CommuterRail.commuter_rail_status_for_route(conn.assigns.route.id)
+    )
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end

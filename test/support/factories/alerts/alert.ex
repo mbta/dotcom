@@ -57,6 +57,34 @@ defmodule Test.Support.Factories.Alerts.Alert do
     )
   end
 
+  def alert_for_trip_factory(attrs) do
+    {trip_id, attrs} = Map.pop(attrs, :trip_id)
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(
+        :informed_entity,
+        InformedEntitySet.new([
+          Factories.Alerts.InformedEntity.build(:informed_entity, trip: trip_id)
+        ])
+      )
+    )
+  end
+
+  def alert_for_trips_factory(attrs) do
+    {trip_ids, attrs} = Map.pop(attrs, :trip_ids)
+
+    entities =
+      trip_ids |> Enum.map(&Factories.Alerts.InformedEntity.build(:informed_entity, trip: &1))
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(:informed_entity, InformedEntitySet.new(entities))
+    )
+  end
+
   def active_during(alert, time) do
     %{alert | active_period: [{time_before(time), time_after(time)}]}
   end
