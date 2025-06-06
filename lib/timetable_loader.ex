@@ -41,15 +41,13 @@ defmodule Dotcom.TimetableLoader do
     route_id = maybe_use_weekend_route(route_id, date)
 
     if in_timetable_date_range?(route_id, date) do
-      get_csv("#{route_id}-#{direction_id}.csv")
-      |> Enum.map(fn stop_row ->
-        {stop_id, trips} = Map.pop!(stop_row, "Stop")
+      case get_csv("#{route_id}-#{direction_id}.csv") do
+        data when is_list(data) ->
+          Enum.map(data, &trip_maps_from_row/1)
 
-        Enum.map(trips, fn {trip_key, time} ->
-          # The PDFs don't have trip names
-          Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
-        end)
-      end)
+        _ ->
+          nil
+      end
     end
   end
 
@@ -79,6 +77,17 @@ defmodule Dotcom.TimetableLoader do
       _ ->
         false
     end
+  end
+
+  # transform each row from a single map e.g. %{"Stop" => stop_id, "0600" => "11:00 AM", ...}
+  # to a list containing a map for each trip/time
+  defp trip_maps_from_row(stop_row) do
+    {stop_id, trips} = Map.pop!(stop_row, "Stop")
+
+    Enum.map(trips, fn {trip_key, time} ->
+      # The PDFs don't have trip names
+      Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
+    end)
   end
 
   defp get_csv(filename) do
