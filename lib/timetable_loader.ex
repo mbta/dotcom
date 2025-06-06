@@ -27,7 +27,6 @@ defmodule Dotcom.TimetableLoader do
     }
   }
   @available_route_ids Map.keys(@metadata)
-  @timetable_directory Application.app_dir(:dotcom) |> Path.join("/priv/timetables")
 
   @doc """
   Routes supported by `Dotcom.Timetable`, listed by ID.
@@ -96,7 +95,7 @@ defmodule Dotcom.TimetableLoader do
 
   @impl Dotcom.TimetableLoader.Behaviour
   def get_csv(filename) do
-    path = Path.join(@timetable_directory, filename)
+    path = Path.join(timetable_directory(), filename)
 
     if File.exists?(path) do
       path
@@ -104,6 +103,10 @@ defmodule Dotcom.TimetableLoader do
       |> CSV.decode!(headers: true)
       |> Enum.to_list()
     end
+  end
+
+  defp timetable_directory() do
+    Application.app_dir(:dotcom) |> Path.join("/priv/timetables")
   end
 
   defmodule Behaviour do
