@@ -19,7 +19,7 @@ module.exports = {
   coverageReporters: ["html"],
   coverageThreshold: {
     global: {
-      branches: 89,
+      branches: 88,
       functions: 90,
       lines: 90,
       statements: 90
@@ -31,12 +31,6 @@ module.exports = {
       branches: 75,
       functions: 85,
       lines: 94,
-      statements: -25
-    },
-    "./ts/tnm/components/leaflet": {
-      branches: 50,
-      functions: 60,
-      lines: 60,
       statements: -25
     }
   },

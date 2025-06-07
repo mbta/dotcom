@@ -28,7 +28,6 @@ module.exports = {
     app: ["./js/app-entry.js"],
     core: ["./js/core.js"], // For core.css only, not js
     map: ["./js/leaflet-css.js"], // For leaflet.css only, not js
-    tnm: ["./ts/transit-near-me-entry.ts"],
     stop: ["./ts/stop-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],

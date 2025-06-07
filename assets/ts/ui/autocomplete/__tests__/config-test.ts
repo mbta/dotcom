@@ -54,29 +54,6 @@ describe("Basic configuration", () => {
   });
 });
 
-describe("Transit near me configuration", () => {
-  const config = configs["transit-near-me"];
-
-  test("sets initial state", () => {
-    expect(config().initialState).toBeTruthy();
-  });
-
-  test("adjusts sources based on presence of query", async () => {
-    const paramsWithQuery = { ...baseSourceParams, query: "my text here" };
-    const { getSources } = config();
-    expect(getSources).toBeFunction();
-    //@ts-ignore
-    const sources = await getSources(baseSourceParams);
-    expect(sources).toHaveLength(1);
-    expect(sourceIds(sources)).toEqual(["geolocation"]);
-
-    //@ts-ignore
-    const sourcesWithQuery = await getSources(paramsWithQuery);
-    expect(sourcesWithQuery).toHaveLength(1);
-    expect(sourceIds(sourcesWithQuery)).toEqual(["locations"]);
-  });
-});
-
 describe("Retail sales locations configuration", () => {
   const config = configs["retail-locations"];
 
