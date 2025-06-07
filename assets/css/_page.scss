@@ -12,10 +12,6 @@
   }
 }
 
-.pre-container-tnm {
-  color: $white;
-}
-
 .pre-container-header {
   @include media-breakpoint-only(xs) {
     display: none;

@@ -14,13 +14,6 @@
           placeholder="Enter a location"
         />
       </p>
-      <%= if Application.get_env(:dotcom, :dev_server?) do %>
-        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>
-        </script>
-      <% else %>
-        <script defer {static_attributes("/js/tnm.js")}>
-        </script>
-      <% end %>
     </div>
     <%= if !is_nil(@fare_sales_locations) do %>
       <%= if Enum.empty?(@fare_sales_locations) do %>

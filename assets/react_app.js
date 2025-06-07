@@ -5,7 +5,6 @@ import readline from "readline";
 import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
-import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 
 const log = (title, obj) => {
   process.stdout.write(
@@ -53,7 +52,6 @@ const logMemoryUsage = setInterval(memoryUsage, 60000);
 const Components = {
   ScheduleFinder,
   AdditionalLineInfo,
-  TransitNearMe,
   ProjectsPage
 };
 
