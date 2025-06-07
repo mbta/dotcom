@@ -1,17 +1,17 @@
 import { HighlightResultOption, Hit } from "@algolia/client-search";
 import { Route, Stop } from "../../../__v3api";
 import {
-  ContentItem,
-  Item,
-  PopularItem,
-  RouteItem,
-  StopItem
+    ContentItem,
+    Item,
+    PopularItem,
+    RouteItem,
+    StopItem
 } from "../__autocomplete";
 import {
-  getLikelyQueryParams,
-  getTitleAttribute,
-  itemWithUrl,
-  WithUrls
+    WithUrls,
+    getLikelyQueryParams,
+    getTitleAttribute,
+    itemWithUrl
 } from "../helpers";
 
 const testRouteItem = { route: {} as Route } as RouteItem;
@@ -51,7 +51,6 @@ test("itemWithUrl gets a requested URL", () => {
     state: "MA",
     url: "",
     urls: {
-      "transit-near-me": "/transit-near-me/logan",
       "retail-sales-locations": "/retail-locations-somewhere",
       "proposed-sales-locations": "/proposed-locations-near-logan",
       vote: "/vote"

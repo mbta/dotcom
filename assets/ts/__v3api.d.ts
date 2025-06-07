@@ -135,11 +135,6 @@ export interface EnhancedRoute extends Route {
   href?: string;
 }
 
-export interface RouteWithStopsWithDirections {
-  route: EnhancedRoute;
-  stops_with_directions: StopWithDirections[];
-}
-
 export type RouteType = 0 | 1 | 2 | 3 | 4;
 
 export type BikeStorageType =
@@ -201,12 +196,6 @@ export interface Stop {
 export interface ClosedStopInfo {
   reason: string;
   info_link: string;
-}
-
-export interface StopWithDirections {
-  stop: Stop;
-  directions: Direction[];
-  distance: string;
 }
 
 export type Activity =

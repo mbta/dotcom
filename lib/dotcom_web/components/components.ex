@@ -29,7 +29,6 @@ defmodule DotcomWeb.Components do
       "A mapping to the AlgoliaJS configuration described in assets/ts/ui/autocomplete/config.ts",
     values: [
       "basic-config",
-      "transit-near-me",
       "retail-locations",
       "proposed-locations",
       "trip-planner"
@@ -56,7 +55,7 @@ defmodule DotcomWeb.Components do
   results and rendering them.
 
   ```elixir
-  <.algolia_autocomplete id="transit-near-me-locations" config_type="transit-near-me" placeholder="Find transit near a location" />
+  <.algolia_autocomplete id="some-locations" config_type="retail-locations" placeholder="Find retail sales locations near a place" />
   <.algolia_autocomplete id="cms-search" config_type="my-custom-project-search-config" placeholder="Find a project" />
   ```
   """
