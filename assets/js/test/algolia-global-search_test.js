@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import sinon from "sinon";
 import jsdom from "mocha-jsdom";
-import Algolia from "../algolia-search";
+import sinon from "sinon";
 import { AlgoliaGlobalSearch } from "../algolia-global-search";
+import Algolia from "../algolia-search";
 import testConfig from "./../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -72,10 +72,9 @@ describe("AlgoliaGlobalSearch", function() {
       window.history.replaceState = sinon.spy();
       const globalSearch = new AlgoliaGlobalSearch();
       globalSearch.init();
-      globalSearch.loadState("?query=foobar&facets=lines-routes,locations");
+      globalSearch.loadState("?query=foobar&facets=lines-routes");
       expect(globalSearch._facetsWidget.selectedFacetNames()).to.have.members([
         "lines-routes",
-        "locations",
         "subway",
         "bus",
         "commuter-rail",
