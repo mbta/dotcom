@@ -5,7 +5,6 @@ import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
 import { Hooks } from "mbta_metro";
 import setupChannels from "../ts/app/channels";
-import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
 import initializeSentry from "../ts/sentry";
