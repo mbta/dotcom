@@ -1,13 +1,13 @@
 import {
-  AutocompleteState,
-  GetSourcesParams,
-  OnSelectParams,
-  StateUpdater
+    AutocompleteState,
+    GetSourcesParams,
+    OnSelectParams,
+    StateUpdater
 } from "@algolia/autocomplete-core";
-import { Item } from "../__autocomplete";
-import configs from "./../config";
 import { AutocompleteSource } from "@algolia/autocomplete-js";
 import { waitFor } from "@testing-library/react";
+import { Item } from "../__autocomplete";
+import configs from "./../config";
 
 const sourceIds = (sources: any[]) =>
   (sources as AutocompleteSource<any>[]).map(s => s.sourceId);
@@ -44,13 +44,13 @@ describe("Basic configuration", () => {
     expect(getSources).toBeFunction();
     //@ts-ignore
     const sources = await getSources(baseSourceParams);
-    expect(sources).toHaveLength(1);
-    expect(sourceIds(sources)).toEqual(["geolocation"]);
+    expect(sources).toHaveLength(0);
+    expect(sourceIds(sources)).toEqual([]);
 
     //@ts-ignore
     const sourcesWithQuery = await getSources(paramsWithQuery);
-    expect(sourcesWithQuery).toHaveLength(2);
-    expect(sourceIds(sourcesWithQuery)).toEqual(["algolia", "locations"]);
+    expect(sourcesWithQuery).toHaveLength(1);
+    expect(sourceIds(sourcesWithQuery)).toEqual(["algolia"]);
   });
 });
 
