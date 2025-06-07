@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  AutocompleteOptions,
-  AutocompleteSource
-} from "@algolia/autocomplete-js";
 import { OnSelectParams } from "@algolia/autocomplete-core";
 import {
-  AutocompleteItem,
-  ContentItem,
-  Item,
-  LocationItem,
-  PopularItem
-} from "./__autocomplete";
-import {
-  algoliaSource,
-  geolocationSource,
-  locationSource,
-  popularLocationSource
-} from "./sources";
-import { isLGDown } from "../../helpers/media-breakpoints";
-import { customRenderer, getLikelyQueryParams } from "./helpers";
-import { debouncePromise } from "../../helpers/debounce";
+    AutocompleteOptions,
+    AutocompleteSource
+} from "@algolia/autocomplete-js";
 import { Route, Stop } from "../../__v3api";
+import { debouncePromise } from "../../helpers/debounce";
+import { isLGDown } from "../../helpers/media-breakpoints";
+import {
+    AutocompleteItem,
+    ContentItem,
+    Item,
+    LocationItem,
+    PopularItem
+} from "./__autocomplete";
+import { customRenderer, getLikelyQueryParams } from "./helpers";
+import {
+    algoliaSource,
+    geolocationSource,
+    locationSource,
+    popularLocationSource
+} from "./sources";
 
 // prevent search from firing too frequently
 const debounced = debouncePromise(
@@ -73,7 +73,7 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
    * GTFS data
    */
   getSources({ query }): AutocompleteSource<any>[] {
-    if (!query) return [geolocationSource("transit-near-me")];
+    if (!query) return [];
     return debounced([
       algoliaSource(query, {
         routes: {
@@ -96,8 +96,7 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
             ]
           ]
         }
-      }),
-      locationSource(query, 2, "transit-near-me")
+      })
     ]);
   }
 };
