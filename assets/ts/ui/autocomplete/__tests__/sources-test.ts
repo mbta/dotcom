@@ -126,6 +126,9 @@ describe("geolocationSource", () => {
         expect(global.fetch).toHaveBeenCalledWith(
           `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
         );
+        expect(window.location.assign).toHaveBeenCalledExactlyOnceWith(
+          `/fares/retail-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+        );
       });
     });
     test("fires onLocationFound on success", async () => {
