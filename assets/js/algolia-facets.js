@@ -129,15 +129,6 @@ export class AlgoliaFacets {
           icon: this._faIcon("fa-newspaper-o"),
           facets: ["news_entry"]
         }
-      },
-      locations: {
-        queryId: "locations",
-        item: {
-          id: "locations",
-          name: "Locations",
-          cls: "FacetLocationGroup",
-          icon: this._faIcon("fa-map-marker")
-        }
       }
     };
 
@@ -203,8 +194,6 @@ export class AlgoliaFacets {
             facetResults[`${prefix}:${facet}`] = values[facet];
           });
         });
-      } else if (key == "locations") {
-        facetResults.locations = results.locations.hits.length;
       }
     });
 
