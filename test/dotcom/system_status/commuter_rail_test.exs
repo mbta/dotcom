@@ -366,10 +366,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       first_departure_time =
-        Generators.DateTime.random_time_range_date_time({
-          ServiceDateTime.beginning_of_service_day(Dotcom.Utils.DateTime.now()),
-          ServiceDateTime.end_of_service_day(Dotcom.Utils.DateTime.now())
-        })
+        ServiceDateTime.service_range_day()
+        |> Generators.DateTime.random_time_range_date_time()
 
       departure_times = first_departure_time |> Stream.iterate(&DateTime.shift(&1, minute: 1))
 
