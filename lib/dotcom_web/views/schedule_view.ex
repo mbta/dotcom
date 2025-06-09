@@ -465,7 +465,7 @@ defmodule DotcomWeb.ScheduleView do
       <:heading>
         <div class="flex items-center gap-sm">
           <.icon type="icon-svg" name="icon-alerts-triangle" class="h-4 w-4" aria-hidden="true" />
-          <span>{@count} Additional Track {Inflex.inflect("Change", @count)}</span>
+          <span>{@count} Temporary Track {Inflex.inflect("Change", @count)}</span>
         </div>
       </:heading>
       <:content>
