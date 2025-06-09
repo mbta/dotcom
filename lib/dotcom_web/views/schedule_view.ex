@@ -460,7 +460,7 @@ defmodule DotcomWeb.ScheduleView do
     <.unstyled_accordion
       :if={@count > 0}
       class="rounded-lg border border-[1px] border-gray-lighter"
-      summary_class="bg-gray-lightest rounded-lg group-open:rounded-none group-open:rounded-t-lg p-3 font-bold flex justify-between"
+      summary_class="bg-gray-lightest rounded-lg group-open:rounded-b-none p-3 font-bold flex justify-between"
     >
       <:heading>
         <div class="flex items-center gap-sm">
