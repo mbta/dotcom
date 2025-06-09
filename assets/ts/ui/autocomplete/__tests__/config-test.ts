@@ -1,8 +1,8 @@
 import {
-    AutocompleteState,
-    GetSourcesParams,
-    OnSelectParams,
-    StateUpdater
+  AutocompleteState,
+  GetSourcesParams,
+  OnSelectParams,
+  StateUpdater
 } from "@algolia/autocomplete-core";
 import { AutocompleteSource } from "@algolia/autocomplete-js";
 import { waitFor } from "@testing-library/react";

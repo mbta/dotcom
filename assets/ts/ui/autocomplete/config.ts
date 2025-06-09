@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OnSelectParams } from "@algolia/autocomplete-core";
 import {
-    AutocompleteOptions,
-    AutocompleteSource
+  AutocompleteOptions,
+  AutocompleteSource
 } from "@algolia/autocomplete-js";
 import { Route, Stop } from "../../__v3api";
 import { debouncePromise } from "../../helpers/debounce";
 import { isLGDown } from "../../helpers/media-breakpoints";
 import {
-    AutocompleteItem,
-    ContentItem,
-    Item,
-    LocationItem,
-    PopularItem
+  AutocompleteItem,
+  ContentItem,
+  Item,
+  LocationItem,
+  PopularItem
 } from "./__autocomplete";
 import { customRenderer, getLikelyQueryParams } from "./helpers";
 import {
-    algoliaSource,
-    geolocationSource,
-    locationSource,
-    popularLocationSource
+  algoliaSource,
+  geolocationSource,
+  locationSource,
+  popularLocationSource
 } from "./sources";
 
 // prevent search from firing too frequently
