@@ -158,7 +158,6 @@
     "mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js --retries 3",
     "webpack:watch": "webpack serve --config webpack.config.dev.js --env development --watch-options-stdin",
     "webpack:build": "NODE_ENV=production webpack --config webpack.config.prod.js --env production",
-    "webpack:build:react": "NODE_ENV=production webpack --config webpack.config.react_app.js --env production",
     "webpack:analyze": "webpack --config webpack.config.prod.js --env production --profile --json > stats.json && webpack-bundle-analyzer stats.json ../priv/static/js/"
   }
 }

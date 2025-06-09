@@ -101,7 +101,6 @@
   "poison": {:hex, :poison, "6.0.0", "9bbe86722355e36ffb62c51a552719534257ba53f3271dacd20fbbd6621a583a", [:mix], [{:decimal, "~> 2.1", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "bb9064632b94775a3964642d6a78281c07b7be1319e0016e1643790704e739a2"},
   "pollution": {:hex, :pollution, "0.9.2", "3f67542631071c99f807d2a8f9da799c07cd983c902f5357b9e1569c20a26e76", [:mix], [], "hexpm", "6399fd8ffd97dcc3d9d277f60542a234d644d7bcc0d48c8fda93d6be4801bac2"},
   "polyline": {:hex, :polyline, "1.6.0", "f34a460e2c38a8a0930d2c5d5300f2046e885da8c53dd041d7f5eccc398eb177", [:mix], [], "hexpm", "68d30940121d6191f21060cfe75c7dd2cee92a3c280d95aaebaa0b9c8aa2262d"},
-  "poolboy": {:hex, :poolboy, "1.5.2", "392b007a1693a64540cead79830443abf5762f5d30cf50bc95cb2c1aaafa006b", [:rebar3], [], "hexpm", "dad79704ce5440f3d5a3681c8590b9dc25d1a561e8f5a9c995281012860901e3"},
   "proper": {:hex, :proper, "1.5.0", "4a87ce8b219858e64c9aa015f4f7ed739d0ac3ca6bfd77fa62794617ee784225", [:rebar3], [], "hexpm", "fbf7cf0625e5441a314514f7d8e1eaff52090fcd94ff34b5171ff293d3f9969a"},
   "quixir": {:hex, :quixir, "0.9.3", "f01c37386b9e1d0526f01a8734a6d7884af294a0ec360f05c24c7171d74632bd", [:mix], [{:pollution, "~> 0.9.2", [hex: :pollution, repo: "hexpm", optional: false]}], "hexpm", "4f3a1fe7c82b767d935b3f7b94cf34b91ef78bb487ef256b303d77417fc7d589"},
   "ranch": {:hex, :ranch, "2.2.0", "25528f82bc8d7c6152c57666ca99ec716510fe0925cb188172f41ce93117b1b0", [:make, :rebar3], [], "hexpm", "fa0b99a1780c80218a4197a59ea8d3bdae32fbff7e88527d7d8a4787eff4f8e7"},
