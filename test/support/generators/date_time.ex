@@ -28,6 +28,11 @@ defmodule Test.Support.Generators.DateTime do
     time_range_date_time_generator({start, stop}) |> Enum.take(1) |> List.first()
   end
 
+  @doc "Get a random date_time after the date_time provided"
+  def random_date_time_after(date_time) do
+    random_time_range_date_time({date_time, nil})
+  end
+
   @doc "Generate a random date_time between the beginning and end of the time range."
   def time_range_date_time_generator({start, nil}) do
     stop = Timex.shift(start, years: 10) |> @date_time_module.coerce_ambiguous_date_time()

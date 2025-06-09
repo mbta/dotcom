@@ -172,12 +172,11 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # and its direction.
   @spec trip_info_for_trip(Schedules.Trip.id_t()) :: trip_info_t()
   defp trip_info_for_trip(trip_id) do
-    trip = @schedules_repo.trip(trip_id)
-
-    {first_schedule, last_schedule} =
+    [first_schedule, last_schedule] =
       trip_id
-      |> @schedules_repo.schedule_for_trip()
-      |> Kernel.then(&{List.first(&1), List.last(&1)})
+      |> @schedules_repo.schedule_for_trip("filter[stop_sequence]": "first,last")
+
+    trip = first_schedule.trip
 
     {:trip,
      %{

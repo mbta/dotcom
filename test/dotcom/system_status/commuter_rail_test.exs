@@ -34,10 +34,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       ]
     end)
 
-    stub(Schedules.Repo.Mock, :trip, fn _ -> Factories.Schedules.Trip.build(:trip) end)
-
-    stub(Schedules.Repo.Mock, :schedule_for_trip, fn _ ->
-      Factories.Schedules.Schedule.build_list(20, :schedule)
+    stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
+      Factories.Schedules.Schedule.build_list(2, :schedule)
     end)
 
     :ok
@@ -363,28 +361,30 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         )
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
-      expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       first_departure_time =
         ServiceDateTime.service_range_day()
         |> Generators.DateTime.random_time_range_date_time()
 
-      departure_times = first_departure_time |> Stream.iterate(&DateTime.shift(&1, minute: 1))
+      last_departure_time = Generators.DateTime.random_date_time_after(first_departure_time)
 
       first_stop = Factories.Stops.Stop.build(:stop)
       last_stop = Factories.Stops.Stop.build(:stop)
 
-      stops = [first_stop] ++ Factories.Stops.Stop.build_list(5, :stop) ++ [last_stop]
-
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id ->
-        stops
-        |> Enum.zip(departure_times)
-        |> Enum.map(fn {stop, departure_time} ->
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         "filter[stop_sequence]": "first,last" ->
+        [
           Factories.Schedules.Schedule.build(:schedule,
-            departure_time: departure_time,
-            stop: stop
+            departure_time: first_departure_time,
+            stop: first_stop,
+            trip: trip
+          ),
+          Factories.Schedules.Schedule.build(:schedule,
+            departure_time: last_departure_time,
+            stop: last_stop,
+            trip: trip
           )
-        end)
+        ]
       end)
 
       # EXERCISE
@@ -425,9 +425,9 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
 
-      expect(Schedules.Repo.Mock, :trip, 2, fn
-        ^trip_id1 -> trip1
-        ^trip_id2 -> trip2
+      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn
+        ^trip_id1, _ -> Factories.Schedules.Schedule.build_list(2, :schedule, trip: trip1)
+        ^trip_id2, _ -> Factories.Schedules.Schedule.build_list(2, :schedule, trip: trip2)
       end)
 
       # EXERCISE
