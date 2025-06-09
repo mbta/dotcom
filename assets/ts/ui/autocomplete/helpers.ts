@@ -4,14 +4,14 @@ import { createElement, Fragment } from "react";
 import { render } from "react-dom";
 import { parseQuery } from "../../helpers/query";
 import {
-    AutocompleteItem,
-    ContentItem,
-    Item,
-    LocationItem,
-    PopularItem,
-    RouteItem,
-    SearchResultItem,
-    StopItem
+  AutocompleteItem,
+  ContentItem,
+  Item,
+  LocationItem,
+  PopularItem,
+  RouteItem,
+  SearchResultItem,
+  StopItem
 } from "./__autocomplete";
 
 export function isAlgoliaItem(x: Item): x is AutocompleteItem {
