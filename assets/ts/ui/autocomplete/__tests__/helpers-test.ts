@@ -1,17 +1,17 @@
 import { HighlightResultOption, Hit } from "@algolia/client-search";
 import { Route, Stop } from "../../../__v3api";
 import {
-    ContentItem,
-    Item,
-    PopularItem,
-    RouteItem,
-    StopItem
+  ContentItem,
+  Item,
+  PopularItem,
+  RouteItem,
+  StopItem
 } from "../__autocomplete";
 import {
-    WithUrls,
-    getLikelyQueryParams,
-    getTitleAttribute,
-    itemWithUrl
+  WithUrls,
+  getLikelyQueryParams,
+  getTitleAttribute,
+  itemWithUrl
 } from "../helpers";
 
 const testRouteItem = { route: {} as Route } as RouteItem;

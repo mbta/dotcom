@@ -1,17 +1,17 @@
 import {
-    AutocompleteState,
-    OnInputParams,
-    OnSelectParams,
-    StateUpdater
+  AutocompleteState,
+  OnInputParams,
+  OnSelectParams,
+  StateUpdater
 } from "@algolia/autocomplete-core";
 import { waitFor } from "@testing-library/dom";
 import { AutocompleteItem, LocationItem, PopularItem } from "../__autocomplete";
 import { UrlType } from "../helpers";
 import {
-    algoliaSource,
-    geolocationSource,
-    locationSource,
-    popularLocationSource
+  algoliaSource,
+  geolocationSource,
+  locationSource,
+  popularLocationSource
 } from "../sources";
 
 beforeEach(() => {
@@ -113,7 +113,9 @@ describe("geolocationSource", () => {
 
     test("redirects to a URL on success", async () => {
       setMocks(true, true);
-      const { source, onSelectParams } = setupGeolocationSource("retail-sales-locations");
+      const { source, onSelectParams } = setupGeolocationSource(
+        "retail-sales-locations"
+      );
       expect(source.getItems({} as OnInputParams<{ value: string }>)).toEqual([
         { value: "Use my location" }
       ]);
@@ -194,9 +196,9 @@ describe("locationSource", () => {
   });
   test("has optional getItemUrl", () => {
     expect(locationSource("any query", 4)).not.toContainKey("getItemUrl");
-    expect(locationSource("any query", 5, "retail-sales-locations")).toContainKey(
-      "getItemUrl"
-    );
+    expect(
+      locationSource("any query", 5, "retail-sales-locations")
+    ).toContainKey("getItemUrl");
   });
 });
 
