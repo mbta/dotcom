@@ -50,7 +50,7 @@ defmodule Dotcom.Utils.Time do
   #
   # Also, if the second argument is nil, then it's considered to be
   # the end of time, which means that before? will always be true
-  # (everything is before the beginning of time, after all).
+  # (everything is before the end of time, after all).
   defp before?(_dt1, nil, _inclusive), do: true
   defp before?(dt1, dt2, _inclusive = true) when dt1 == dt2, do: true
   defp before?(dt1, dt2, _inclusive), do: Timex.before?(dt1, dt2)
