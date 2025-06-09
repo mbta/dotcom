@@ -74,14 +74,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
     human_effect = Alert.human_effect(%Alert{effect: assigns.effect})
     count = Enum.count(assigns.impacts)
 
-    description =
-      if count == 1 do
-        "1 #{human_effect}"
-      else
-        "#{count} #{Inflex.pluralize(human_effect)}"
-      end
-
-    assigns = assigns |> assign(:description, description)
+    assigns = assigns |> assign(:description, "#{count} #{Inflex.inflect(human_effect, count)}")
 
     ~H"""
     <.row>
