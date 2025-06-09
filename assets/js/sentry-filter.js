@@ -316,7 +316,7 @@ const beforeSend = (event, hint) => {
       "crypto.getRandomValues", // third-party app
       "localStorage", // Mobile device settings (usually coming from Android)
       "/Users/", // MacOS localhost
-      "C:\\Users\\", // Windows localhost
+      "C:\\Users\\" // Windows localhost
     ].some(predicate => parsedEvent.includes(predicate));
 
     if (match) {

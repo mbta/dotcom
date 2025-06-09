@@ -1,7 +1,7 @@
-import { AlgoliaWithGeo } from "./algolia-search-with-geo";
+import * as QueryHelpers from "../ts/helpers/query";
 import { AlgoliaFacets } from "./algolia-facets";
 import { AlgoliaResults } from "./algolia-results";
-import * as QueryHelpers from "../ts/helpers/query";
+import AlgoliaSearch from "./algolia-search";
 
 export function init() {
   const search = new AlgoliaGlobalSearch();
@@ -41,10 +41,9 @@ export class AlgoliaGlobalSearch {
       return false;
     }
     if (!this.controller) {
-      this.controller = new AlgoliaWithGeo(
+      this.controller = new AlgoliaSearch(
         AlgoliaGlobalSearch.INITIAL_QUERIES,
-        AlgoliaGlobalSearch.DEFAULT_PARAMS,
-        AlgoliaGlobalSearch.LATLNGBOUNDS
+        AlgoliaGlobalSearch.DEFAULT_PARAMS
       );
     }
 
@@ -97,9 +96,6 @@ export class AlgoliaGlobalSearch {
 
     const facetState = this._queryParams.facets || "";
     this._facetsWidget.loadState(facetState.split(","));
-    if (facetState != "") {
-      this.controller.enableLocationSearch(facetState.includes("locations"));
-    }
   }
 
   reset(ev) {
@@ -245,11 +241,4 @@ AlgoliaGlobalSearch.SELECTORS = {
   showFacetsButton: "show-facets",
   resetButton: "search-global__reset",
   input: "search-global__input"
-};
-
-AlgoliaGlobalSearch.LATLNGBOUNDS = {
-  west: 41.3193,
-  north: -71.938,
-  east: 42.8266,
-  south: -69.6189
 };

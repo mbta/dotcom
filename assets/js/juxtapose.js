@@ -1,11 +1,11 @@
-export default function () {
-  const iframe = document.getElementById('juxtapose');
+export default function() {
+  const iframe = document.getElementById("juxtapose");
 
   if (!iframe) {
     return;
   }
 
   setTimeout(() => {
-    iframe.src += '';
+    iframe.src += "";
   }, 1000);
 }
