@@ -31,11 +31,7 @@ export const geolocationSource = (
   },
   // Helps display the "Use my location" prompt
   getItems() {
-    const value =
-      urlType === "transit-near-me"
-        ? "Use my location to find transit near me"
-        : "Use my location";
-    return [{ value }];
+    return [{ value: "Use my location" }];
   },
   // This is the URL that the user will be redirected to
   ...(urlType && {

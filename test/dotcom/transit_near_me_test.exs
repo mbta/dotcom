@@ -4,59 +4,12 @@ defmodule Dotcom.TransitNearMeTest do
   import Mox
 
   alias Dotcom.TransitNearMe
-  alias LocationService.Address
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
 
-  @address %Address{
-    latitude: 42.351,
-    longitude: -71.066,
-    formatted: "10 Park Plaza, Boston, MA, 02116"
-  }
-
-  @date Util.service_date()
-
   setup :verify_on_exit!
-
-  setup_all do
-    # needed by DotcomWeb.ScheduleController.VehicleLocations plug
-    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
-    _ = start_supervised(Vehicles.Repo)
-
-    :ok
-  end
-
-  describe "build/2" do
-    @tag :external
-    test "builds a set of data for a location" do
-      assert %{stops: stops, distances: distances} =
-               TransitNearMe.build(@address, date: @date, now: Util.now())
-
-      for stop_id <- Enum.map(stops, & &1.id) do
-        assert stop_id in Map.keys(distances)
-      end
-
-      # stops are in order of distance from location
-      distances = Enum.map(stops, &distances[&1.id])
-
-      assert distances == [
-               "238 ft",
-               "444 ft",
-               "0.1 mi",
-               "0.1 mi",
-               "0.1 mi",
-               "0.2 mi",
-               "0.2 mi",
-               "0.2 mi",
-               "0.2 mi",
-               "0.2 mi",
-               "0.4 mi",
-               "0.6 mi"
-             ]
-    end
-  end
 
   describe "simple_prediction/2" do
     @now Util.now()
