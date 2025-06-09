@@ -17,10 +17,10 @@ jobs:
   file_changes:
     runs-on: ubuntu-latest
     outputs:
-      ts: steps.changes.outputs.ts
-      js: steps.changes.outputs.js
-      ex: steps.changes.outputs.ex
-      scss: steps.changes.outputs.scss
+      ts: ${{ steps.changes.outputs.ts == 'true' }}
+      js: ${{ steps.changes.outputs.js == 'true' }}
+      ex: ${{ steps.changes.outputs.ex == 'true' }}
+      scss: ${{ steps.changes.outputs.scss == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
