@@ -52,7 +52,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
     ~H"""
     <div :for={alert <- @alerts} class="">
       <.unstyled_accordion
-        summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 px-1"
+        summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 pl-1"
         chevron_class="fill-gray-dark px-2 flex items-center"
       >
         <:heading>
