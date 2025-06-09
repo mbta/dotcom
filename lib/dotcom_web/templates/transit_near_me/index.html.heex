@@ -11,9 +11,7 @@
 <script id="js-tnm-stop-sidebar-data" type="text/plain">
   <%= @stops_json |> Poison.encode!() |> raw() %>
 </script>
-<div id="react-root">
-  {render_react(assigns)}
-</div>
+<div id="react-root"></div>
 
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}>

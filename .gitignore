@@ -19,7 +19,6 @@ stats.json
 npm-debug.log
 doc/
 coverage
-/rel/app.js
 cover/
 
 .iex.exs
@@ -44,9 +43,6 @@ erl_crash.dump
 
 # Static artifacts
 node_modules
-
-# compiled js file for react renderer server
-/**/react_renderer/dist
 
 # Since we are building assets from assets,
 # we ignore certain directories in priv/static.

@@ -190,9 +190,6 @@ if config_env() == :prod do
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
     support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL")
-
-  config :dotcom, :react,
-    build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/dotcom/app.js")
 end
 
 config :dotcom, LocationService,
