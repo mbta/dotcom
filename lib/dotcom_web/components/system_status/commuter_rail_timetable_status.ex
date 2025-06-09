@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
     <div>
       <.unstyled_accordion
         :for={impact <- @impacts}
-        class="first:-mt-1"
+        class="first:-mt-2"
         summary_class="flex items-center grow pl-7.5 py-1 hover:bg-brand-primary-lightest"
         chevron_class="fill-gray-dark px-2 flex items-center"
       >
