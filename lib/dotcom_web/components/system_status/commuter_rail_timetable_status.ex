@@ -135,19 +135,15 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
     """
   end
 
-  defp trip_info_heading(%{trip_info: {:direction, trip_info}} = assigns) do
-    direction =
-      case trip_info.direction_id do
-        0 -> "Outbound"
-        1 -> "Inbound"
-      end
-
-    assigns =
-      assigns
-      |> assign(:direction, direction)
-
+  defp trip_info_heading(%{trip_info: {:direction, %{direction_id: 0}}} = assigns) do
     ~H"""
-    <span class="text-md md:text-lg">All {@direction} Trains</span>
+    <span class="text-md md:text-lg">All Outbound Trains</span>
+    """
+  end
+
+  defp trip_info_heading(%{trip_info: {:direction, %{direction_id: 1}}} = assigns) do
+    ~H"""
+    <span class="text-md md:text-lg">All Inbound Trains</span>
     """
   end
 
