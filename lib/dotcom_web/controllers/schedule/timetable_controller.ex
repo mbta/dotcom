@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
+  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status_for_route: 1]
+
   alias Dotcom.TimetableLoader
   alias DotcomWeb.ScheduleView
   alias Plug.Conn
@@ -48,12 +50,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
-    |> assign(
-      :status,
-      Dotcom.SystemStatus.CommuterRail.commuter_rail_status_for_route(conn.assigns.route.id)
-    )
+    |> assign_cr_status()
     |> put_view(ScheduleView)
     |> render("show.html", [])
+  end
+
+  defp assign_cr_status(%{assigns: %{route: route}} = conn) do
+    cr_status =
+      if Routes.Route.type_atom(route) == :commuter_rail do
+        commuter_rail_status_for_route(route.id)
+      end
+
+    conn |> assign(:cr_status, cr_status)
   end
 
   # Plug that assigns trip schedule to the connection

@@ -13,6 +13,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
 
   attr :status, :map
 
+  def commuter_rail_timetable_status(%{status: nil} = assigns), do: ~H""
+
   def commuter_rail_timetable_status(assigns) do
     ~H"""
     <.bordered_container hide_divider>
