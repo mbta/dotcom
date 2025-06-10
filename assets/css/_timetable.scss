@@ -267,19 +267,10 @@
   }
 }
 
-.m-timetable__vehicle-icon {
-  width: $base-spacing;
-}
-
 .m-timetable__left-icons {
   display: flex;
   justify-content: right;
   min-width: $base-spacing;
-}
-
-.js-train-icon {
-  display: inline-flex;
-  transform: translate(0, -10%);
 }
 
 .track-change-icon {
