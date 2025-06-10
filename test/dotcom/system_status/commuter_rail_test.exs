@@ -257,7 +257,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       assert status.cancellations == []
-      assert status.service_alerts == []
+      assert status.service_impacts == []
     end
 
     test "returns delays when present" do
@@ -316,30 +316,27 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
     test "groups other service-impacting alerts under `service_alerts`" do
       # SETUP
-      active_period = [
-        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
-      ]
-
       commuter_rail_id = Faker.Color.fancy_name()
 
       random_service_effect = @service_effects |> Enum.random()
 
       alert =
         Factories.Alerts.Alert.build(:alert,
-          active_period: active_period,
           effect: random_service_effect,
           severity: 3
         )
+        |> Factories.Alerts.Alert.active_now()
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
 
       # EXERCISE
-      status =
+      [service_impact] =
         commuter_rail_id
         |> commuter_rail_route_status()
+        |> Map.get(:service_impacts)
 
       # VERIFY
-      assert status.service_alerts == [alert]
+      assert service_impact.alert == alert
     end
 
     test "returns the trip info when a single trip is assigned to the alert" do

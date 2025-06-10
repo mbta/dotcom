@@ -44,26 +44,29 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
   defp rows_for_status(assigns) do
     ~H"""
-    <.service_alert_rows alerts={@status.service_alerts} />
+    <.service_impact_rows impacts={@status.service_impacts} />
     <.train_impact_rows impacts={@status.cancellations} effect={:cancellation} />
     <.train_impact_rows impacts={@status.delays} effect={:delay} />
     """
   end
 
-  defp service_alert_rows(assigns) do
+  defp service_impact_rows(assigns) do
     ~H"""
-    <div :for={alert <- @alerts} class="">
+    <div :for={impact <- @impacts} class="">
       <.unstyled_accordion
         summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 pl-1"
         chevron_class="fill-gray-dark px-2 flex items-center"
       >
         <:heading>
           <div class="grow">
-            <.status_label status={alert.effect} description={Alert.human_effect(alert)} />
+            <.status_label
+              status={impact.alert.effect}
+              description={Alert.human_effect(impact.alert)}
+            />
           </div>
         </:heading>
         <:content>
-          <.embedded_alert alert={alert} />
+          <.embedded_alert alert={impact.alert} />
         </:content>
       </.unstyled_accordion>
     </div>

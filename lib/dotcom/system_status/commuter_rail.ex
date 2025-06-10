@@ -40,7 +40,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @typep disrupted_status_t() :: %{
            cancellations: [train_impact_t()],
            delays: [train_impact_t()],
-           service_alerts: [Alert.t()]
+           service_impacts: [Alert.t()]
          }
 
   @typep route_status_t() ::
@@ -93,18 +93,19 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp group_by_impact(alerts) do
     alerts
     |> Enum.group_by(&train_or_service_category/1)
-    |> Enum.into(%{cancellations: [], delays: [], service_alerts: []})
+    |> Enum.into(%{cancellations: [], delays: [], service_impacts: []})
     |> Map.update!(:delays, &add_trip_info/1)
     |> Map.update!(:cancellations, &add_trip_info/1)
+    |> Map.update!(:service_impacts, &add_impact_info/1)
   end
 
   # Returns the category into which an alert should be grouped. Delays
   # and cancellations are each their own category, and other alerts
-  # are grouped together as `service_alerts`.
-  @spec train_or_service_category(Alert.t()) :: :delays | :cancellations | :service_alerts
+  # are grouped together as `service_impacts`.
+  @spec train_or_service_category(Alert.t()) :: :delays | :cancellations | :service_impacts
   defp train_or_service_category(%Alert{effect: :delay}), do: :delays
   defp train_or_service_category(%Alert{effect: :cancellation}), do: :cancellations
-  defp train_or_service_category(%Alert{}), do: :service_alerts
+  defp train_or_service_category(%Alert{}), do: :service_impacts
 
   # Given a list of alerts, uses alert_with_trip_info_list/1 to get
   # the trip_info entries for each alert, and flat_maps them all
@@ -189,11 +190,15 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     end
   end
 
+  defp add_impact_info(alerts) do
+    alerts |> Enum.map(fn alert -> %{alert: alert} end)
+  end
+
   # Given a status struct (with service impacts and train impacts),
   # returns that status struct if it has an disruptions, and :normal
   # if all of its disruption lists are empty.
   @spec as_status(disrupted_status_t()) :: disrupted_status_t() | :normal
-  defp as_status(%{delays: [], cancellations: [], service_alerts: []}), do: :normal
+  defp as_status(%{delays: [], cancellations: [], service_impacts: []}), do: :normal
   defp as_status(status), do: status
 
   # Return all service impacting alerts for a given Route ID.
