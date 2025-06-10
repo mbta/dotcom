@@ -73,9 +73,6 @@
               <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
                 <span class="sr-only">Trip {schedule.trip.name}</span>
                 <span aria-hidden="true">{schedule.trip.name}</span>
-                <%= if Alerts.Trip.match(@alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
-                  {svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})}
-                <% end %>
               <% end %>
             <% end %>
           </tr>
