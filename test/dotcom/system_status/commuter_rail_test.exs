@@ -444,6 +444,79 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
                MapSet.new([trip1.name, trip2.name])
     end
 
+    test "does not return entries corresponding to invalid trip ID's" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      trip1 = Factories.Schedules.Trip.build(:trip, id: trip_id1)
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_trips,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          trip_ids: [trip_id1, trip_id2]
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn
+        ^trip_id1, _ -> Factories.Schedules.Schedule.build_list(2, :schedule, trip: trip1)
+        ^trip_id2, _ -> []
+      end)
+
+      # EXERCISE
+      [delay1] =
+        commuter_rail_id
+        |> commuter_rail_route_status()
+        |> Map.get(:delays)
+
+      # VERIFY
+      {:trip, trip_info1} = delay1.trip_info
+
+      assert trip_info1.name == trip1.name
+    end
+
+    test "treats all-trip-id's-invalid as normal service" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_trips,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3,
+          trip_ids: [trip_id1, trip_id2]
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn
+        ^trip_id1, _ -> []
+        ^trip_id2, _ -> []
+      end)
+
+      # EXERCISE
+      status =
+        commuter_rail_id
+        |> commuter_rail_route_status()
+
+      # VERIFY
+      assert status == :normal
+    end
+
     test "returns direction info only if no specific trips are given" do
       # SETUP
       active_period = [

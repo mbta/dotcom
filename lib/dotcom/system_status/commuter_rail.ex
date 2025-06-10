@@ -37,14 +37,16 @@ defmodule Dotcom.SystemStatus.CommuterRail do
              trip_info: trip_info_t()
            }
 
+  @typep disrupted_status_t() :: %{
+           cancellations: [train_impact_t()],
+           delays: [train_impact_t()],
+           service_alerts: [Alert.t()]
+         }
+
   @typep route_status_t() ::
            :normal
            | :no_scheduled_service
-           | %{
-               cancellations: [train_impact_t()],
-               delays: [train_impact_t()],
-               service_alerts: [Alert.t()]
-             }
+           | disrupted_status_t()
 
   @doc """
   Returns a map where the key is the Route ID of a commuter rail line
@@ -73,29 +75,22 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   """
   @spec commuter_rail_route_status(Route.id_t()) :: route_status_t()
   def commuter_rail_route_status(route_id) do
-    status_for_alerts(commuter_rail_route_alerts(route_id), service_today?(route_id))
+    if service_today?(route_id) do
+      route_id
+      |> commuter_rail_route_alerts()
+      |> group_by_impact()
+      |> as_status()
+    else
+      :no_scheduled_service
+    end
   end
 
-  # Given a list of alerts and a boolean indicating whether service is
-  # running today, return the status of the route that provided that
-  # info.
-  @spec status_for_alerts([Alert.t()], boolean()) :: route_status_t()
-
-  # Regardless of alerts, if there's no scheduled service, then the
-  # status is :no_scheduled_service
-  defp status_for_alerts(_alerts, false = _service_today?) do
-    :no_scheduled_service
-  end
-
-  # If there are no alerts, then the status is :normal
-  defp status_for_alerts([] = _alerts, _service_today?) do
-    :normal
-  end
-
-  # If there are alerts, then construct a status based on the
-  # alerts. For delays and cancellations, add trip info (first
-  # departure time, train number, etc) as well.
-  defp status_for_alerts(alerts, _service_today?) do
+  # Groups the alerts given into train impacts (delays and
+  # cancellations) versus service impacts (everything else). For
+  # train impacts, add trip info (first departure time, train number,
+  # etc) as well.
+  @spec group_by_impact([Alert.t()]) :: disrupted_status_t()
+  defp group_by_impact(alerts) do
     alerts
     |> Enum.group_by(&train_or_service_category/1)
     |> Enum.into(%{cancellations: [], delays: [], service_alerts: []})
@@ -163,30 +158,43 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # If an alert has any trip ID's, then it applies only to those
   # trips, so we return one entry per trip.
   defp trip_info(trip_ids, _direction_ids) do
-    trip_ids |> Enum.map(&trip_info_for_trip/1)
+    trip_ids |> Enum.flat_map(&trip_info_for_trip/1)
   end
 
   # Given a trip ID, return a trip_info entry for that trip. A
   # trip_info entry has info about its first and last stop, its first
   # departure time, its name (train number for commuter-rail trips),
   # and its direction.
-  @spec trip_info_for_trip(Schedules.Trip.id_t()) :: trip_info_t()
+  @spec trip_info_for_trip(Schedules.Trip.id_t()) :: [trip_info_t()]
   defp trip_info_for_trip(trip_id) do
-    [first_schedule, last_schedule] =
-      trip_id
-      |> @schedules_repo.schedule_for_trip("filter[stop_sequence]": "first,last")
+    trip_id
+    |> @schedules_repo.schedule_for_trip("filter[stop_sequence]": "first,last")
+    |> case do
+      [first_schedule, last_schedule] ->
+        trip = first_schedule.trip
 
-    trip = first_schedule.trip
+        [
+          {:trip,
+           %{
+             direction_id: trip.direction_id,
+             first_departure_time: first_schedule.departure_time,
+             first_stop: first_schedule.stop,
+             last_stop: last_schedule.stop,
+             name: trip.name
+           }}
+        ]
 
-    {:trip,
-     %{
-       direction_id: trip.direction_id,
-       first_departure_time: first_schedule.departure_time,
-       first_stop: first_schedule.stop,
-       last_stop: last_schedule.stop,
-       name: trip.name
-     }}
+      _ ->
+        []
+    end
   end
+
+  # Given a status struct (with service impacts and train impacts),
+  # returns that status struct if it has an disruptions, and :normal
+  # if all of its disruption lists are empty.
+  @spec as_status(disrupted_status_t()) :: disrupted_status_t() | :normal
+  defp as_status(%{delays: [], cancellations: [], service_alerts: []}), do: :normal
+  defp as_status(status), do: status
 
   # Return all service impacting alerts for a given Route ID.
   @spec commuter_rail_route_alerts(String.t()) :: [Alerts.Alert.t()]
