@@ -15,13 +15,13 @@
         </span>
       </div>
     <% end %>
-    <%= link to: cms_static_page_path(@conn, "/transit-near-me"), class: "c-home-grid-button" do %>
+    <%= link to: cms_static_page_path(@conn, "/maps"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon" aria-hidden="true">
           <%= fa "map-location-dot", class: "c-grid-button__icon" %>
         </span>
         <span class="c-grid-button__name">
-          Transit Near Me
+          Maps
         </span>
       </div>
     <% end %>
