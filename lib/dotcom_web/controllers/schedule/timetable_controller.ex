@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
-  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status_for_route: 1]
+  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
 
   alias Dotcom.TimetableLoader
   alias DotcomWeb.ScheduleView
@@ -58,7 +58,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp assign_cr_status(%{assigns: %{route: route}} = conn) do
     cr_status =
       if Routes.Route.type_atom(route) == :commuter_rail do
-        commuter_rail_status_for_route(route.id)
+        commuter_rail_route_status(route.id)
       end
 
     conn |> assign(:cr_status, cr_status)

@@ -37,7 +37,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
              trip_info: trip_info_t()
            }
 
-  @typep status_for_route_t() ::
+  @typep route_status_t() ::
            :normal
            | :no_scheduled_service
            | %{
@@ -71,15 +71,15 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   `:no_scheduled_service` if the route is not running today, and the
   service-impacting alerts, grouped by effect, if there are any.
   """
-  @spec commuter_rail_status_for_route(Route.id_t()) :: status_for_route_t()
-  def commuter_rail_status_for_route(route_id) do
+  @spec commuter_rail_route_status(Route.id_t()) :: route_status_t()
+  def commuter_rail_route_status(route_id) do
     status_for_alerts(commuter_rail_route_alerts(route_id), service_today?(route_id))
   end
 
   # Given a list of alerts and a boolean indicating whether service is
   # running today, return the status of the route that provided that
   # info.
-  @spec status_for_alerts([Alert.t()], boolean()) :: status_for_route_t()
+  @spec status_for_alerts([Alert.t()], boolean()) :: route_status_t()
 
   # Regardless of alerts, if there's no scheduled service, then the
   # status is :no_scheduled_service

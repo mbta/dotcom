@@ -1,7 +1,7 @@
 defmodule Dotcom.SystemStatus.CommuterRailTest do
   use ExUnit.Case
 
-  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status_for_route: 1]
+  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
   import Mox
 
   alias Alerts.{InformedEntity, InformedEntitySet}
@@ -175,7 +175,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
     end
   end
 
-  describe "commuter_rail_status_for_route/1" do
+  describe "commuter_rail_route_status/1" do
     test "returns :normal if there are no alerts" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
@@ -185,7 +185,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       status =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
 
       # VERIFY
       assert status == :normal
@@ -206,7 +206,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       status =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
 
       # VERIFY
       assert status == :no_scheduled_service
@@ -225,7 +225,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       status =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
 
       # VERIFY
       assert status == :normal
@@ -253,7 +253,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       status =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
 
       # VERIFY
       assert status.cancellations == []
@@ -280,7 +280,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [delay] =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
         |> Map.get(:delays)
 
       # VERIFY
@@ -307,7 +307,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [cancellation] =
         commuter_rail_id
-        |> Dotcom.SystemStatus.CommuterRail.commuter_rail_status_for_route()
+        |> Dotcom.SystemStatus.CommuterRail.commuter_rail_route_status()
         |> Map.get(:cancellations)
 
       # VERIFY
@@ -336,7 +336,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       status =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
 
       # VERIFY
       assert status.service_alerts == [alert]
@@ -390,7 +390,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [delay] =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
         |> Map.get(:delays)
 
       # VERIFY
@@ -433,7 +433,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [delay1, delay2] =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
         |> Map.get(:delays)
 
       # VERIFY
@@ -467,7 +467,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [delay] =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
         |> Map.get(:delays)
 
       # VERIFY
@@ -497,7 +497,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # EXERCISE
       [delay] =
         commuter_rail_id
-        |> commuter_rail_status_for_route()
+        |> commuter_rail_route_status()
         |> Map.get(:delays)
 
       # VERIFY
