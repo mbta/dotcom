@@ -11,8 +11,8 @@ defmodule DotcomWeb.ScheduleView do
   import DotcomWeb.ViewHelpers
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
-  import DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus,
-    only: [commuter_rail_timetable_status: 1]
+  import DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus,
+    only: [commuter_rail_route_status: 1]
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers

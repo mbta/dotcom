@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
+defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   @moduledoc """
   Component displaying the status of a specific commuter rail line.
   """
@@ -13,9 +13,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailTimetableStatus do
 
   attr :status, :map
 
-  def commuter_rail_timetable_status(%{status: nil} = assigns), do: ~H""
+  def commuter_rail_route_status(%{status: nil} = assigns), do: ~H""
 
-  def commuter_rail_timetable_status(assigns) do
+  def commuter_rail_route_status(assigns) do
     ~H"""
     <.bordered_container hide_divider>
       <:heading>Current Status</:heading>

@@ -1,5 +1,5 @@
 <%= if commuter_rail?(@route) do %>
-  <.commuter_rail_timetable_status status={@cr_status} />
+  <.commuter_rail_route_status status={@cr_status} />
 <% else %>
   {DotcomWeb.AlertView.group(
     alerts: @alerts,
