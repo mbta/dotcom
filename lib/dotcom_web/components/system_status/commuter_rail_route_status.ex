@@ -44,23 +44,15 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
   defp rows_for_status(assigns) do
     ~H"""
-    <.service_impact_rows impacts={@status.service_impacts} />
+    <.service_impact_row :for={impact <- @status.service_impacts} impact={impact} />
     <.train_impact_rows impacts={@status.cancellations} effect={:cancellation} />
     <.train_impact_rows impacts={@status.delays} effect={:delay} />
     """
   end
 
-  defp service_impact_rows(assigns) do
-    ~H"""
-    <div :for={impact <- @impacts} class="">
-      <.service_impact_row alert={impact.alert} start_time={impact.start_time} />
-    </div>
-    """
-  end
-
   defp service_impact_row(assigns) do
     prefix =
-      case assigns.start_time do
+      case assigns.impact.start_time do
         :current -> ""
         {:future, time} -> "#{Util.narrow_time(time)}: "
       end
@@ -75,13 +67,13 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
       <:heading>
         <div class="grow">
           <.status_label
-            description={"#{@prefix}#{Alert.human_effect(@alert)}"}
-            status={@alert.effect}
+            description={"#{@prefix}#{Alert.human_effect(@impact.alert)}"}
+            status={@impact.alert.effect}
           />
         </div>
       </:heading>
       <:content>
-        <.embedded_alert alert={@alert} />
+        <.embedded_alert alert={@impact.alert} />
       </:content>
     </.unstyled_accordion>
     """
