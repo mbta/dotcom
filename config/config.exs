@@ -39,6 +39,8 @@ config :dotcom, :repo_modules,
 
 config :dotcom, :req_module, Req
 
+config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"

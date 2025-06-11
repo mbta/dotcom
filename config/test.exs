@@ -43,6 +43,8 @@ config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 
+config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader.Mock
+
 # Let test requests get routed through the :secure pipeline
 config :dotcom, :secure_pipeline,
   force_ssl: [
