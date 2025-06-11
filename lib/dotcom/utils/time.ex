@@ -22,14 +22,9 @@ defmodule Dotcom.Utils.Time do
           boolean()
   def between?(t, start, ending, opts \\ @default_between_opts)
 
-  def between?(t, start, nil, _) when not is_nil(start) do
-    t == start or Timex.after?(t, start)
+  def between?(t, start, ending, opts) do
+    start = if(start, do: start, else: ~D[0000-01-01])
+    ending = if(ending, do: ending, else: ~D[9999-12-31])
+    Timex.between?(t, start, ending, Keyword.merge(@default_between_opts, opts))
   end
-
-  def between?(t, nil, ending, _) when not is_nil(ending) do
-    t == ending or Timex.before?(t, ending)
-  end
-
-  def between?(t, start, ending, opts),
-    do: Timex.between?(t, start, ending, Keyword.merge(@default_between_opts, opts))
 end
