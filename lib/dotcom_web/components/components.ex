@@ -199,7 +199,10 @@ defmodule DotcomWeb.Components do
       <summary class={"#{@summary_class} cursor-pointer"}>
         {render_slot(@heading)}
         <div class={"#{@chevron_class} shrink-0"}>
-          <.icon name="chevron-down" class="h-3 w-3 group-open:rotate-180" />
+          <.icon
+            name="chevron-down"
+            class="h-3 w-3 group-open:rotate-180 transition-all motion-reduce:transition-none"
+          />
         </div>
       </summary>
       {render_slot(@content)}
