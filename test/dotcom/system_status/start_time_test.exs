@@ -22,6 +22,16 @@ defmodule Dotcom.SystemStatus.StartTimeTest do
       assert next_active_time(alert, time) == :current
     end
 
+    test "treats a nil end_time as active indefinitely" do
+      time = Test.Support.Generators.DateTime.random_date_time()
+      start_time = Test.Support.Generators.DateTime.random_date_time_before(time)
+      end_time = nil
+
+      alert = Alert.build(:alert, active_period: [{start_time, end_time}])
+
+      assert next_active_time(alert, time) == :current
+    end
+
     test "returns :future and the start time if the active period starts after the time given" do
       time = Test.Support.Generators.DateTime.random_date_time()
       start_time = Test.Support.Generators.DateTime.random_date_time_after(time)

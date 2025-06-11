@@ -30,7 +30,7 @@ defmodule Dotcom.SystemStatus.StartTime do
         time
       ) do
     cond do
-      DateTime.before?(end_time, time) ->
+      ends_before?(end_time, time) ->
         next_active_period_active_time(rest_of_active_periods, time)
 
       DateTime.before?(start_time, time) ->
@@ -40,4 +40,10 @@ defmodule Dotcom.SystemStatus.StartTime do
         {:future, start_time}
     end
   end
+
+  # A little utility for checking whether an active period has already
+  # ended. If the end_time given is nil, then it's treated as the end
+  # of time, which means the active period has not ended.
+  defp ends_before?(nil = _end_time, _time), do: false
+  defp ends_before?(end_time, time), do: DateTime.before?(end_time, time)
 end
