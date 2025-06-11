@@ -23,47 +23,8 @@ defmodule Dotcom.Utils.Time do
   def between?(t, start, ending, opts \\ @default_between_opts)
 
   def between?(t, start, ending, opts) do
-    inclusive_opt = opts |> Keyword.get(:inclusive, true)
-
-    in_bounds_beginning? = after?(t, start, inclusive_start?(inclusive_opt))
-    in_bounds_ending? = before?(t, ending, inclusive_end?(inclusive_opt))
-
-    in_bounds_beginning? && in_bounds_ending?
+    start = if(start, do: start, else: ~D[0000-01-01])
+    ending = if(ending, do: ending, else: ~D[9999-12-31])
+    Timex.between?(t, start, ending, Keyword.merge(@default_between_opts, opts))
   end
-
-  # A slight modification to Timex.after?/2 that takes an additional
-  # argument indicating whether the bound should be considered
-  # inclusive. If the "inclusive" argument is true, then this returns
-  # true if the given DateTime's are equal.
-  #
-  # Also, if the second argument is nil, then it's considered to be
-  # the beginning of time, which means that after? will always be true
-  # (everything is after the beginning of time, after all).
-  defp after?(_dt1, nil, _inclusive), do: true
-  defp after?(dt1, dt2, _inclusive = true) when dt1 == dt2, do: true
-  defp after?(dt1, dt2, _inclusive), do: Timex.after?(dt1, dt2)
-
-  # A slight modification to Timex.before?/2 that takes an additional
-  # argument indicating whether the bound should be considered
-  # inclusive. If the "inclusive" argument is true, then this returns
-  # true if the given DateTime's are equal.
-  #
-  # Also, if the second argument is nil, then it's considered to be
-  # the end of time, which means that before? will always be true
-  # (everything is before the end of time, after all).
-  defp before?(_dt1, nil, _inclusive), do: true
-  defp before?(dt1, dt2, _inclusive = true) when dt1 == dt2, do: true
-  defp before?(dt1, dt2, _inclusive), do: Timex.before?(dt1, dt2)
-
-  # Given a keyword arg that could be true, false, :start, or :end,
-  # returns a boolean indicating whether the start boundary should be
-  # inclusive.
-  defp inclusive_start?(opt) when opt in [true, :start], do: true
-  defp inclusive_start?(_), do: false
-
-  # Given a keyword arg that could be true, false, :start, or :end,
-  # returns a boolean indicating whether the end boundary should be
-  # inclusive.
-  defp inclusive_end?(opt) when opt in [true, :end], do: true
-  defp inclusive_end?(_), do: false
 end

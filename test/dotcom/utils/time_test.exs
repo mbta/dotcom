@@ -81,7 +81,7 @@ defmodule Dotcom.Utils.TimeTest do
     end
 
     test "raises error for invalid inputs" do
-      assert_raise ArgumentError, fn ->
+      assert_raise Protocol.UndefinedError, fn ->
         between?(random_date_time(), random_date_time(), "2025-12-12")
       end
 
