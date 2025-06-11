@@ -33,9 +33,19 @@ defmodule Test.Support.Generators.DateTime do
     random_time_range_date_time({date_time, nil})
   end
 
+  @doc "Get a random date_time before the date_time provided"
+  def random_date_time_before(date_time) do
+    random_time_range_date_time({nil, date_time})
+  end
+
   @doc "Generate a random date_time between the beginning and end of the time range."
   def time_range_date_time_generator({start, nil}) do
     stop = Timex.shift(start, years: 10) |> @date_time_module.coerce_ambiguous_date_time()
+    time_range_date_time_generator({start, stop})
+  end
+
+  def time_range_date_time_generator({nil, stop}) do
+    start = Timex.shift(stop, years: -10) |> @date_time_module.coerce_ambiguous_date_time()
     time_range_date_time_generator({start, stop})
   end
 
