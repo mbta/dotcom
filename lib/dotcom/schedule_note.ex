@@ -58,7 +58,7 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
-      peak_service: "6 \u2013 8 minutes",
+      peak_service: "5 \u2013 7 minutes",
       saturday_service: "8 \u2013 10 minutes",
       sunday_service: "9 \u2013 11 minutes"
     }
