@@ -94,9 +94,15 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
     <div>
       <.unstyled_accordion
-        :for={impact <- @impacts}
+        :for={{impact, index} <- Enum.with_index(@impacts)}
         class="first:-mt-2"
-        summary_class="flex items-center grow pl-7.5 py-1 hover:bg-brand-primary-lightest"
+        summary_class={
+          [
+            "flex items-center grow pl-7.5 hover:bg-brand-primary-lightest pt-1",
+            if(index == Enum.count(@impacts) - 1, do: "pb-2", else: "pb-1")
+          ]
+          |> Enum.join(" ")
+        }
         chevron_class="fill-gray-dark px-2 flex items-center"
       >
         <:heading>
