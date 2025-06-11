@@ -34,7 +34,7 @@ defmodule Dotcom.SystemStatus.StartTime do
         next_active_period_active_time(rest_of_active_periods, time)
 
       DateTime.before?(start_time, time) ->
-        :current
+        {:current, start_time}
 
       true ->
         {:future, start_time}

@@ -338,7 +338,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       assert service_impact.alert == alert
-      assert service_impact.start_time == :current
+      assert {:current, _} = service_impact.start_time
     end
 
     test "service-impacting alerts starting later in the day are given a {:future, time} start time" do
@@ -368,6 +368,42 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # VERIFY
       assert service_impact.alert == alert
       assert service_impact.start_time == {:future, start_time}
+    end
+
+    test "service-impacting alerts are sorted by start time" do
+      # SETUP
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      random_service_effect = @service_effects |> Enum.random()
+      {service_day_beginning, service_day_end} = ServiceDateTime.service_range_day()
+
+      start_time2 =
+        random_time_range_date_time({service_day_beginning, Dotcom.Utils.DateTime.now()})
+
+      start_time1 = random_time_range_date_time({service_day_beginning, start_time2})
+      start_time3 = random_time_range_date_time({Dotcom.Utils.DateTime.now(), service_day_end})
+      start_time4 = random_time_range_date_time({start_time3, service_day_end})
+
+      alerts =
+        [start_time1, start_time2, start_time3, start_time4]
+        |> Enum.map(fn start_time ->
+          Factories.Alerts.Alert.build(:alert,
+            effect: random_service_effect,
+            severity: 3
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        end)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> alerts |> Enum.shuffle() end)
+
+      # EXERCISE
+      service_impacts =
+        commuter_rail_id
+        |> commuter_rail_route_status()
+        |> Map.get(:service_impacts)
+
+      # VERIFY
+      assert service_impacts |> Enum.map(& &1.alert.id) == alerts |> Enum.map(& &1.id)
     end
 
     test "returns the trip info when a single trip is assigned to the alert" do
@@ -430,7 +466,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       assert trip_info.first_departure_time == first_departure_time
     end
 
-    test "returns multiple entries if an alert has multiple trips" do
+    test "returns multiple entries sorted by first_departure_time if an alert has multiple trips" do
       # SETUP
       active_period = [
         {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}

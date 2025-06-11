@@ -19,7 +19,7 @@ defmodule Dotcom.SystemStatus.StartTimeTest do
 
       alert = Alert.build(:alert, active_period: [{start_time, end_time}])
 
-      assert next_active_time(alert, time) == :current
+      assert next_active_time(alert, time) == {:current, start_time}
     end
 
     test "treats a nil end_time as active indefinitely" do
@@ -29,7 +29,7 @@ defmodule Dotcom.SystemStatus.StartTimeTest do
 
       alert = Alert.build(:alert, active_period: [{start_time, end_time}])
 
-      assert next_active_time(alert, time) == :current
+      assert next_active_time(alert, time) == {:current, start_time}
     end
 
     test "returns :future and the start time if the active period starts after the time given" do

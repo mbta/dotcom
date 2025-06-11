@@ -3,6 +3,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
   Generated fake data for %Alerts.Alert{}
   """
 
+  alias Dotcom.Utils.ServiceDateTime
   use ExMachina
 
   alias Alerts.{Alert, InformedEntitySet, Priority}
@@ -94,7 +95,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
   end
 
   def active_starting_at(alert, start_time) do
-    %{alert | active_period: [{start_time, time_after(start_time)}]}
+    %{alert | active_period: [{start_time, ServiceDateTime.end_of_service_day(start_time)}]}
   end
 
   # Returns a random time during the day today before the time provided.

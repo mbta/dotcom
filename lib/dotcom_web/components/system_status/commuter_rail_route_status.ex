@@ -53,7 +53,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp service_impact_row(assigns) do
     prefix =
       case assigns.impact.start_time do
-        :current -> ""
+        {:current, _} -> ""
         {:future, time} -> "#{Util.narrow_time(time)}: "
       end
 

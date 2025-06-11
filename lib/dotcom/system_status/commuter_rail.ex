@@ -113,7 +113,35 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # together.
   @spec add_trip_info([Alert.t()]) :: [train_impact_t()]
   defp add_trip_info(alerts) when is_list(alerts) do
-    alerts |> Enum.flat_map(&alert_with_trip_info_list/1)
+    alerts
+    |> Enum.flat_map(&alert_with_trip_info_list/1)
+    |> Enum.sort_by(&first_departure_mapper/1)
+  end
+
+  # A simple mapper used for sorting train impact entries by
+  # first-departure-time when that field is available
+  defp first_departure_mapper(%{
+         trip_info: :all
+       }) do
+    {0, nil}
+  end
+
+  defp first_departure_mapper(%{
+         trip_info: {:direction, %{direction_id: direction_id}}
+       }) do
+    {1, direction_id}
+  end
+
+  defp first_departure_mapper(%{
+         trip_info: {:trip, %{first_departure_time: nil}}
+       }) do
+    {2, nil}
+  end
+
+  defp first_departure_mapper(%{
+         trip_info: {:trip, %{first_departure_time: first_departure_time}}
+       }) do
+    {3, first_departure_time |> DateTime.to_unix()}
   end
 
   # Given an alert, figures a list of trip_info entries for that
@@ -191,12 +219,20 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     end
   end
 
+  # Given a list of alerts, returns a list of maps containing the
+  # alerts, each bundled with the next time the alert will become
+  # active. This list will be sorted by next-active-time.
   defp add_impact_info(alerts) do
     alerts
     |> Enum.map(fn alert ->
       %{alert: alert, start_time: next_active_time(alert)}
     end)
+    |> Enum.sort_by(&start_time_mapper/1, DateTime)
   end
+
+  # Returns the start time for a service impact (without
+  # :current/:future), for sorting purposes.
+  defp start_time_mapper(%{start_time: {_, start_time}}), do: start_time
 
   # Given a status struct (with service impacts and train impacts),
   # returns that status struct if it has an disruptions, and :normal
