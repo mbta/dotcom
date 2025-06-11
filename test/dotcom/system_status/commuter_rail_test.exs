@@ -3,6 +3,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
   import Mox
+  import Test.Support.Generators.DateTime, only: [random_time_range_date_time: 1]
 
   alias Alerts.{InformedEntity, InformedEntitySet}
   alias Dotcom.Utils.ServiceDateTime
@@ -314,7 +315,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       assert cancellation.alert == alert
     end
 
-    test "groups other service-impacting alerts under `service_alerts`" do
+    test "groups other service-impacting alerts under `service_impacts`" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
 
@@ -337,6 +338,36 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       assert service_impact.alert == alert
+      assert service_impact.start_time == :current
+    end
+
+    test "service-impacting alerts starting later in the day are given a {:future, time} start time" do
+      # SETUP
+      commuter_rail_id = Faker.Color.fancy_name()
+
+      random_service_effect = @service_effects |> Enum.random()
+      {_, service_day_end} = ServiceDateTime.service_range_day()
+
+      start_time = random_time_range_date_time({Dotcom.Utils.DateTime.now(), service_day_end})
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: random_service_effect,
+          severity: 3
+        )
+        |> Factories.Alerts.Alert.active_starting_at(start_time)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert] end)
+
+      # EXERCISE
+      [service_impact] =
+        commuter_rail_id
+        |> commuter_rail_route_status()
+        |> Map.get(:service_impacts)
+
+      # VERIFY
+      assert service_impact.alert == alert
+      assert service_impact.start_time == {:future, start_time}
     end
 
     test "returns the trip info when a single trip is assigned to the alert" do

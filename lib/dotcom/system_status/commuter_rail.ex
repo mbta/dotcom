@@ -7,6 +7,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import Dotcom.SystemStatus, only: [active_now_or_later_on_day?: 2]
+  import Dotcom.SystemStatus.StartTime, only: [next_active_time: 1]
 
   alias Alerts.Alert
   alias Routes.Route
@@ -191,7 +192,10 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   end
 
   defp add_impact_info(alerts) do
-    alerts |> Enum.map(fn alert -> %{alert: alert} end)
+    alerts
+    |> Enum.map(fn alert ->
+      %{alert: alert, start_time: next_active_time(alert)}
+    end)
   end
 
   # Given a status struct (with service impacts and train impacts),

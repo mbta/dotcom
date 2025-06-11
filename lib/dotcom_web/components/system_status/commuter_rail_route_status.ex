@@ -53,23 +53,37 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp service_impact_rows(assigns) do
     ~H"""
     <div :for={impact <- @impacts} class="">
-      <.unstyled_accordion
-        summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 pl-1"
-        chevron_class="fill-gray-dark px-2 flex items-center"
-      >
-        <:heading>
-          <div class="grow">
-            <.status_label
-              status={impact.alert.effect}
-              description={Alert.human_effect(impact.alert)}
-            />
-          </div>
-        </:heading>
-        <:content>
-          <.embedded_alert alert={impact.alert} />
-        </:content>
-      </.unstyled_accordion>
+      <.service_impact_row alert={impact.alert} start_time={impact.start_time} />
     </div>
+    """
+  end
+
+  defp service_impact_row(assigns) do
+    prefix =
+      case assigns.start_time do
+        :current -> ""
+        {:future, time} -> "#{Util.narrow_time(time)}: "
+      end
+
+    assigns = assigns |> assign(:prefix, prefix)
+
+    ~H"""
+    <.unstyled_accordion
+      summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 pl-1"
+      chevron_class="fill-gray-dark px-2 flex items-center"
+    >
+      <:heading>
+        <div class="grow">
+          <.status_label
+            description={"#{@prefix}#{Alert.human_effect(@alert)}"}
+            status={@alert.effect}
+          />
+        </div>
+      </:heading>
+      <:content>
+        <.embedded_alert alert={@alert} />
+      </:content>
+    </.unstyled_accordion>
     """
   end
 
