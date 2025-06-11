@@ -71,7 +71,6 @@ defmodule DotcomWeb.LayoutView do
           %{
             sub_menu_section: "Find a Location",
             links: [
-              {"Find Nearby Transit", "/transit-near-me", :internal_link},
               {"MBTA Stations", "/stops", :internal_link},
               {"Destinations", "/destinations", :internal_link},
               {"Maps", "/maps", :internal_link}
