@@ -51,6 +51,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
     |> assign_cr_status()
+    |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
@@ -62,6 +63,24 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       end
 
     conn |> assign(:cr_status, cr_status)
+  end
+
+  defp assign_banner_alerts(%{assigns: %{alerts: alerts, cr_status: cr_status}} = conn) do
+    status_alert_ids =
+      case cr_status do
+        status when is_map(status) ->
+          cr_status
+          |> Enum.flat_map(fn {_, entries} -> entries |> Enum.map(& &1.alert.id) end)
+
+        _ ->
+          []
+      end
+      |> MapSet.new()
+
+    banner_alerts = alerts |> Enum.reject(&MapSet.member?(status_alert_ids, &1.id))
+
+    conn
+    |> assign(:banner_alerts, banner_alerts)
   end
 
   # Plug that assigns trip schedule to the connection
