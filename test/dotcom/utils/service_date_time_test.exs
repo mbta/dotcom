@@ -3,6 +3,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   use ExUnitProperties
 
   import Mox
+  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1]
   import Dotcom.Utils.ServiceDateTime
   import Test.Support.Generators.DateTime
   import Test.Support.Generators.ServiceDateTime
@@ -53,7 +54,7 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
           time_range_date_time_generator({beginning_of_day, end_of_service_day})
 
         check all(service_date_time <- date_time_generator) do
-          yesterday = service_date_time |> Timex.shift(days: -1)
+          yesterday = service_date_time |> Timex.shift(days: -1) |> coerce_ambiguous_date_time()
 
           # Exercise
           date = Timex.to_date(yesterday)
