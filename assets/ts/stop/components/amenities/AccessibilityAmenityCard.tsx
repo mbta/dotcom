@@ -141,8 +141,6 @@ const AccessibilityAmenityCard = ({
 
   const icon = accessibleIcon("c-svg__icon-accessible-default");
 
-  const content = Content(isStation, isFerry, features);
-
   return (
     <AmenityCard
       headerText="Accessibility"
@@ -151,7 +149,7 @@ const AccessibilityAmenityCard = ({
       modalContent={
         (hasAccessibleFeatures || accessibleOverride) && (
           <AmenityModal headerText={`Accessibility at ${stopName}`}>
-            {content}
+            {Content(isStation, isFerry, features)}
             <AmenityLink
               text="Report an accessibility issue"
               url="/customer-support"
