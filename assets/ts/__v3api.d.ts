@@ -187,6 +187,7 @@ export interface Stop {
   note: string | null;
   parking_lots: ParkingLot[];
   "station?": boolean;
+  "ferry?": boolean;
   type: StopType;
   distance?: string;
   href?: string;

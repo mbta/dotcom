@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { isStopAStation } from "../../helpers/stops";
+import { isStopAFerryStop, isStopAStation } from "../../helpers/stops";
 import { Alert, Facility, Stop } from "../../__v3api";
 import ExternalMapLink from "./ExternalMapLink";
 import ParkingAmenityCard from "./amenities/ParkingAmenityCard";
@@ -23,6 +23,7 @@ const StationInformation = ({
   facilities: Facility[];
 }): ReactElement<HTMLElement> => {
   const isStation = isStopAStation(stop);
+  const isFerry = isStopAFerryStop(stop);
   const elevators = facilities.filter(
     ({ attributes }) => attributes.type === "ELEVATOR"
   );
@@ -81,6 +82,7 @@ const StationInformation = ({
           accessibleFeatures={stop.accessibility}
           stopName={stop.name}
           isStation={isStation}
+          isFerry={isFerry}
         />
         {isStation && <h3 className="hidden-md-up">Purchasing fares</h3>}
         <FareSalesAmenityCard stop={stop} />

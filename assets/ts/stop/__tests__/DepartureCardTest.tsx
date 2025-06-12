@@ -49,6 +49,7 @@ const stop = {
   note: null,
   parking_lots: [],
   "station?": true,
+  "ferry?": false,
   type: "station"
 } as Stop;
 
