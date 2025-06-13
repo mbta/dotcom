@@ -1,7 +1,4 @@
 <%= if @trip_schedule do %>
-  <%
-    trip_id = @schedule.trip.id
-  %>
   <span class="m-timetable__schedule">
     <span class="m-timetable__left-icons">
       <span class="m-timetable__track-change-icon">
@@ -28,9 +25,6 @@
     </span>
     <span>
       <%= format_schedule_time(@trip_schedule.time) %>
-    </span>
-    <span class="m-timetable__vehicle-icon" id="<%="#{@stop.name}-#{trip_id}"%>">
-        &nbsp;
     </span>
   </span>
 <% else %>

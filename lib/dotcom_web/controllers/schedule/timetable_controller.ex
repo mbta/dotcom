@@ -27,7 +27,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.ScheduleError)
-  plug(:channel_id)
 
   defdelegate direction_id(conn, params),
     to: DotcomWeb.ScheduleController.Defaults,
@@ -91,15 +90,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> assign(:timetable_schedules, timetable_schedules)
       |> assign(:header_schedules, header_schedules)
       |> assign(:header_stops, header_stops)
-      |> assign(:vehicle_schedules, [])
-      |> assign(:prior_stops, %{})
     else
       conn
       |> assign(:suppress_timetable?, true)
       |> assign(:timetable_schedules, [])
       |> assign(:header_schedules, [])
-      |> assign(:vehicle_schedules, [])
-      |> assign(:prior_stops, %{})
     end
   end
 
@@ -114,8 +109,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
-    vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
-    prior_stops = prior_stops(vehicle_schedules)
 
     %{
       trip_schedules: trip_schedules,
@@ -141,8 +134,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
-    |> assign(:vehicle_schedules, vehicle_schedules)
-    |> assign(:prior_stops, prior_stops)
     |> assign(:trip_messages, trip_messages(route, direction_id, conn.assigns.date))
   end
 
@@ -150,8 +141,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     conn
     |> assign(:timetable_schedules, [])
     |> assign(:header_schedules, [])
-    |> assign(:vehicle_schedules, [])
-    |> assign(:prior_stops, %{})
   end
 
   @spec track_changes(
@@ -578,55 +567,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> Enum.map(&List.first/1)
   end
 
-  @spec vehicle_schedules(Conn.t(), list) :: map
-  def vehicle_schedules(%{assigns: %{date: date}}, timetable_schedules) do
-    case Date.compare(date, Util.service_date()) do
-      :eq -> do_vehicle_schedules(timetable_schedules)
-      _ -> %{}
-    end
-  end
-
-  def do_vehicle_schedules(timetable_schedules) do
-    timetable_schedules
-    |> Enum.map(&construct_vehicle_data/1)
-    |> Map.new(&{"#{&1.stop_name}-#{&1.trip_id}", &1})
-  end
-
-  defp construct_vehicle_data(%Schedules.Schedule{
-         stop: nil,
-         stop_sequence: s,
-         trip: %Schedules.Trip{id: ti, headsign: headsign}
-       }) do
-    %{stop_sequence: s, stop_name: headsign, trip_id: ti}
-  end
-
-  defp construct_vehicle_data(%Schedules.Schedule{
-         stop: %Stops.Stop{name: sn},
-         stop_sequence: s,
-         trip: %Schedules.Trip{id: ti}
-       }) do
-    %{stop_sequence: s, stop_name: sn, trip_id: ti}
-  end
-
-  defp construct_vehicle_data(%Schedules.Schedule{
-         route: %Route{description: :rail_replacement_bus},
-         stop_sequence: s,
-         trip: %Schedules.Trip{id: ti, headsign: headsign}
-       }) do
-    %{stop_sequence: s, stop_name: headsign, trip_id: ti}
-  end
-
-  defp construct_vehicle_data(_) do
-    %{stop_sequence: nil, stop_name: nil, trip_id: nil}
-  end
-
-  @spec prior_stops(map) :: map
-  def prior_stops(vehicle_schedules) do
-    vehicle_schedules
-    |> Map.values()
-    |> Map.new(&{"#{&1.trip_id}-#{&1.stop_sequence}", "#{&1.stop_name}-#{&1.trip_id}"})
-  end
-
   defp remove_unused_stops(all_stops, schedules) do
     timetable_stops = Enum.map(schedules, & &1.stop) |> Enum.uniq()
     Enum.filter(all_stops, &contains_stop?(timetable_stops, &1))
@@ -659,8 +599,4 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp insertion_position(:before, false, index), do: index + 1
   defp insertion_position(:after, true, index), do: index + 1
   defp insertion_position(:after, false, index), do: index
-
-  defp channel_id(conn, _) do
-    assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
-  end
 end
