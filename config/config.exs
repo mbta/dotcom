@@ -33,6 +33,7 @@ config :dotcom, :repo_modules,
   predictions: Predictions.Repo,
   route_patterns: RoutePatterns.Repo,
   routes: Routes.Repo,
+  schedules: Schedules.Repo,
   schedules_condensed: Schedules.RepoCondensed,
   stops: Stops.Repo
 
