@@ -3,6 +3,8 @@ defmodule Alerts.Priority do
   Calculate an alert's priority
   """
 
+  import Dotcom.Utils.Time, only: [between?: 3]
+
   alias Alerts.Match
 
   @type priority_level :: :high | :low | :system
@@ -14,7 +16,7 @@ defmodule Alerts.Priority do
   def priority_levels, do: @priority_levels
 
   @spec priority(map, DateTime.t()) :: priority_level
-  def priority(map, now \\ Util.now())
+  def priority(map, now \\ Dotcom.Utils.DateTime.now())
 
   def priority(%{lifecycle: lifecycle}, _) when lifecycle == :upcoming do
     # Ongoing alerts are low
@@ -46,12 +48,16 @@ defmodule Alerts.Priority do
   end
 
   def priority(%{effect: :cancellation, active_period: active_period} = params, time) do
-    date = Timex.to_date(time)
+    date = DateTime.to_date(time)
 
     if Enum.all?(active_period, &outside_date_range?(date, &1)) and
          urgent?(params, time) == false,
        do: :low,
        else: :high
+  end
+
+  def priority(%{effect: :track_change}, _) do
+    :low
   end
 
   def priority(%{severity: severity} = params, time) when severity >= 7 do
@@ -127,24 +133,14 @@ defmodule Alerts.Priority do
   end
 
   def within_one_week(time_1, time_2) do
-    diff = Timex.diff(time_1, time_2, :days)
-    diff <= 6 && diff >= -6
+    diff = DateTime.diff(time_1, time_2, :day) |> abs()
+    diff <= 6
   end
 
-  @spec outside_date_range?(Date.t(), {Date.t(), Date.t()}) :: boolean
-  defp outside_date_range?(date, {nil, until}) do
-    until_date = Timex.to_date(until)
-    date > until_date
-  end
-
-  defp outside_date_range?(date, {from, nil}) do
-    from_date = Timex.to_date(from)
-    date < from_date
-  end
-
+  @spec outside_date_range?(Date.t(), Alerts.Alert.period_pair()) :: boolean
   defp outside_date_range?(date, {from, until}) do
-    from_date = Timex.to_date(from)
-    until_date = Timex.to_date(until)
-    date < from_date || date > until_date
+    from_date = if(from, do: DateTime.to_date(from))
+    until_date = if(until, do: DateTime.to_date(until))
+    not between?(date, from_date, until_date)
   end
 end

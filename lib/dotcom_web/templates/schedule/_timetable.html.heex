@@ -5,6 +5,9 @@
   priority_filter: :high,
   always_show: List.wrap(@blocking_alert)
 )}
+
+<.track_changes track_changes={Enum.filter(@alerts, &(&1.effect == :track_change))} />
+
 <%= if !assigns[:suppress_timetable?] do %>
   {render("_trip_view_filters.html", assigns)}
 <% end %>
