@@ -3,11 +3,11 @@
 ###
 
 # 1.) Get the Elixir dependencies within an Elixir container
-FROM hexpm/elixir:1.18.3-erlang-27.3.3-debian-buster-20240612-slim as elixir-builder
+FROM hexpm/elixir:1.18.3-erlang-27.3.3-debian-buster-20240612-slim AS elixir-builder
 
-ENV LANG="C.UTF-8" MIX_ENV="prod"
+ENV LANG="C.UTF-8" MIX_ENV="prod" REPLACE_OS_VARS=true
 
-WORKDIR /root
+
 
 # Debian dependencies
 RUN apt-get update --allow-releaseinfo-change && apt-get install -y curl git make build-essential
@@ -19,79 +19,80 @@ RUN git config --global url.https://github.com/.insteadOf git://github.com/
 RUN mix local.hex --force && \
 	mix local.rebar --force
 
-ADD . .
+WORKDIR /root
+
+COPY mix.exs mix.exs
+COPY mix.lock mix.lock
 
 RUN mix deps.get --only prod
 
+COPY config config
+
+RUN mix deps.compile
+
+
 # 2) Build the frontend assets within a node.js container instead of installing node/npm
-FROM node:18.17.1-buster as assets-builder
+FROM node:18.17.1-buster AS assets-builder
 
 # Stop cypress from downloading it's massive binary.
 ENV CYPRESS_INSTALL_BINARY=0
 
 ARG SENTRY_DSN=""
 
+WORKDIR /root
+
+COPY assets assets
+COPY priv/static priv/static
+
 # copy in Elixir deps required to build node modules for Phoenix
-COPY --from=elixir-builder /root/deps /root/deps
-# copy in static assets
-ADD ./priv/static /root/priv/static
-ADD ./assets /root/assets
-
-WORKDIR /root/assets
-
-RUN npm install --package-lock-only
-RUN npm ci --ignore-scripts
-RUN npm install -S -install-links ../deps/mbta_metro/priv/
+COPY --from=elixir-builder /root/deps deps
+RUN npm ci --ignore-scripts --prefix assets -S -install-links deps/mbta_metro/priv/
 
 # required so that Tailwind styles used in Elixir templates are built
-COPY ./lib/dotcom_web/ /root/lib/dotcom_web
+COPY lib/dotcom_web/ lib/dotcom_web
 # Compile JS/CSS to priv/static
-RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
-# Create react_renderer/dist/app.js
-RUN npm run webpack:build:react
+RUN npm --prefix assets run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 
 # 3) now, build the application back in the Elixir container
-FROM elixir-builder as app-builder
-
-# Add data for release
-COPY ./priv/timetables /root/priv/timetables
+FROM elixir-builder AS app-builder
 
 WORKDIR /root
 
-# Add frontend assets, required by phx.digest
-COPY --from=assets-builder /root/priv/static ./priv/static
+ENV MIX_ENV="prod" REPLACE_OS_VARS=true
 
-# package source code for Sentry
-RUN mix sentry.package_source_code
+COPY lib lib
+COPY priv priv
+COPY --from=assets-builder /root/assets assets
+COPY --from=assets-builder /root/priv/static priv/static
 
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
-RUN mix do compile, phx.digest
-RUN mix sentry.package_source_code
+RUN mix compile --no-deps-check --no-app-loading
+RUN mix phx.digest
+RUN mix sentry.package_source_code --no-compile --no-deps-check
+
+COPY config/runtime.exs config
+COPY rel rel
+
 RUN mix release
 
-# 4) Use the nodejs container for the runtime environment
-# Since we're server-rendering the React templates, we need a Javascript engine running inside the container.
-FROM node:18.17.1-buster-slim
+# --- Set up runtime container ---
+FROM hexpm/elixir:1.18.3-erlang-27.3.3-debian-buster-20240612-slim
+
+RUN apt-get update --allow-releaseinfo-change && \
+  apt-get upgrade -y --no-install-recommends && \
+  apt-get install -y --no-install-recommends \
+    ca-certificates curl dumb-init libssl1.1 libsctp1 && \
+  rm -rf /var/lib/apt/lists/*
 
 # Set exposed ports
 EXPOSE 4000
-
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
-
-# erlang-crypto requires system library libssl1.1
-RUN apt-get update && apt-get install -y --no-install-recommends \
-	libssl1.1 libsctp1 curl \
-	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 
-COPY --from=app-builder /root/_build/prod/rel /root/rel
-COPY --from=assets-builder /root/react_renderer/dist/app.js /root/rel/dotcom/app.js
+COPY --from=app-builder /root/priv/static ./priv/static
+COPY --from=app-builder /root/_build/prod/rel/dotcom .
 
-RUN mkdir /root/work
-
-WORKDIR /root/work
-
-# run the application
-CMD ["/root/rel/dotcom/bin/dotcom", "start"]
+ENTRYPOINT ["/usr/bin/dumb-init", "/root/bin/dotcom"]
+CMD ["start"]

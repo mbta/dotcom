@@ -136,7 +136,6 @@ defmodule DotCom.Mixfile do
       {:plug_cowboy, "2.7.3"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
-      {:poolboy, "1.5.2"},
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.5.0"},
       {:quixir, "0.9.3", [only: :test]},

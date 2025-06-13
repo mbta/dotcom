@@ -58,7 +58,6 @@ defmodule Dotcom.Application do
           []
         end ++
         [
-          {Dotcom.React, name: Dotcom.React},
           Routes.Supervisor,
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
