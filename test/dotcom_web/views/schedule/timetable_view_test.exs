@@ -85,6 +85,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         origin: origin,
         destination: destination,
         alerts: alerts,
+        banner_alerts: [],
         offset: offset,
         show_date_select?: show_date_select?,
         header_stops: header_stops,
