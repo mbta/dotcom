@@ -12,6 +12,8 @@ defmodule Stops.Api do
   alias Stops.Stop
   alias Stops.Stop.ParkingLot.{Capacity, Manager, Payment, Utilization}
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
   @default_params [
     include: "parent_station,facilities,child_stops",
     "fields[facility]": "long_name,type,properties,latitude,longitude,id",
@@ -167,6 +169,7 @@ defmodule Stops.Api do
       bike_storage: bike_storage(item),
       child?: child?(item),
       station?: item.attributes["location_type"] == 1,
+      ferry?: ferry?(item.id),
       has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
       has_charlie_card_vendor?: MapSet.member?(fare_facilities, :fare_media_assistant),
       latitude: item.attributes["latitude"],
@@ -180,6 +183,14 @@ defmodule Stops.Api do
     }
 
     {:ok, stop}
+  end
+
+  defp ferry?(id) do
+    @routes_repo.by_stop(id)
+    |> Enum.any?(fn route ->
+      # Ferry
+      route.type == 4
+    end)
   end
 
   defp type(%Item{attributes: %{"location_type" => 0}}) do

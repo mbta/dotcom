@@ -99,7 +99,8 @@ describe("filterData", () => {
               municipality: "Malden",
               note: null,
               parking_lots: [],
-              "station?": false
+              "station?": false,
+              "ferry?": false,
             },
             distance: "85 ft",
             directions: [

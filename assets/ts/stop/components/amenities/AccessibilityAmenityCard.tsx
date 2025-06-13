@@ -42,6 +42,18 @@ const StationFeatures = (features: AccessibilityType[]): JSX.Element => (
   </>
 );
 
+const FerryFeatures = (
+  <>
+    <p>
+      Most, but not all, MBTA docks are accessible to riders with disabilities.
+      Based on the tide level and the type of vessel used for travel, you may
+      encounter significant slopes and narrow walkways, even at accessible
+      docks. At all docks, wait until a crew member tells you it is safe to
+      proceed.
+    </p>
+  </>
+);
+
 const StopFeatures = (
   <>
     <h2 className="h3">Bus Features</h2>
@@ -57,27 +69,62 @@ const StopFeatures = (
   </>
 );
 
-const AccessibilityLink = (isStation: boolean): JSX.Element =>
-  isStation ? (
-    <AmenityLink
-      text="Learn more about accessibility on the T"
-      url="/accessibility"
-    />
-  ) : (
+const Content = (
+  isStation: boolean,
+  isFerry: boolean,
+  features: AccessibilityType[]
+): JSX.Element => {
+  if (isFerry) {
+    return FerryFeatures;
+  }
+
+  if (isStation) {
+    return StationFeatures(features);
+  }
+
+  return StopFeatures;
+};
+
+const AccessibilityLink = (
+  isStation: boolean,
+  isFerry: boolean
+): JSX.Element => {
+  if (isFerry) {
+    return (
+      <AmenityLink
+        text="Learn more about ferry accessibility"
+        url="/accessibility/ferry-guide"
+      />
+    );
+  }
+
+  if (isStation) {
+    return (
+      <AmenityLink
+        text="Learn more about accessibility on the T"
+        url="/accessibility"
+      />
+    );
+  }
+
+  return (
     <AmenityLink
       text="Learn more about bus accessibility"
       url="/accessibility/bus-guide"
     />
   );
+};
 
 const AccessibilityAmenityCard = ({
   accessibleFeatures,
   stopName,
-  isStation
+  isStation,
+  isFerry
 }: {
   accessibleFeatures: AccessibilityType[];
   stopName: string;
   isStation: boolean;
+  isFerry: boolean;
 }): JSX.Element => {
   const stationOrStop = isStation ? "station" : "stop";
   const features = without(accessibleFeatures, "accessible");
@@ -93,6 +140,7 @@ const AccessibilityAmenityCard = ({
   );
 
   const icon = accessibleIcon("c-svg__icon-accessible-default");
+
   return (
     <AmenityCard
       headerText="Accessibility"
@@ -101,12 +149,12 @@ const AccessibilityAmenityCard = ({
       modalContent={
         (hasAccessibleFeatures || accessibleOverride) && (
           <AmenityModal headerText={`Accessibility at ${stopName}`}>
-            {isStation ? StationFeatures(features) : StopFeatures}
+            {Content(isStation, isFerry, features)}
             <AmenityLink
               text="Report an accessibility issue"
               url="/customer-support"
             />
-            {AccessibilityLink(isStation)}
+            {AccessibilityLink(isStation, isFerry)}
             <h2 className="h3">Accessibility Resources</h2>
             <ul>
               <li>
