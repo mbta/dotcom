@@ -23,6 +23,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   alias OpenTripPlannerClient.Schema.{Itinerary, Route}
 
   attr :itinerary, Itinerary, required: true
+  attr :show_accessible, :boolean, default: false
   attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
 
   def itinerary_summary(assigns) do
@@ -56,22 +57,23 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         <% end %>
       </div>
       <div class="flex flex-wrap gap-1 items-center mb-3 text-sm text-grey-dark">
-        <div class="inline-flex items-center gap-0.5">
+        <div :if={@show_accessible} class="inline-flex items-center gap-0.5">
           <%= if @accessible? do %>
-            <.icon type="icon-svg" name="icon-accessible-small" class="h-3 w-3 mr-0.5" /> Accessible
+            <.icon type="icon-svg" name="icon-accessible-light" class="h-4.5 mr-0.5" aria-hidden />
+            Accessible
           <% else %>
-            <.icon type="icon-svg" name="icon-not-accessible-small" class="h-4 w-4 mr-0.5" />
-            May not be accessible
+            <.icon type="icon-svg" name="icon-not-accessible-light" class="h-4.5 mr-0.5" aria-hidden />
+            Not accessible
           <% end %>
-          <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
+          <.icon name="circle" class="h-0.5 w-0.5 mx-1" aria-hidden />
         </div>
         <div class="inline-flex items-center gap-0.5">
-          <.icon name="person-walking" class="h-3 w-3" />
+          <.icon name="person-walking" class="h-4 w-4" aria-label="Walking distance" />
           {itinerary_distance_miles(@itinerary)} mi
         </div>
         <div :if={@price != ""} class="inline-flex items-center gap-0.5">
-          <.icon name="circle" class="h-0.5 w-0.5 mx-1" />
-          <.icon name="wallet" class="h-3 w-3" />
+          <.icon name="circle" class="h-0.5 w-0.5 mx-1" aria-hidden />
+          <.icon type="icon-svg" name="icon-fares-default" class="h-4 w-4" />
           {@price}
         </div>
       </div>

@@ -80,11 +80,11 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <%= if @accessible_count > 0 do %>
       <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
-      <.itinerary_groups indexed_groups={@accessible_groups} />
+      <.itinerary_groups indexed_groups={@accessible_groups} show_accessible />
     <% end %>
     <%= if @inaccessible_count > 0 do %>
       <.group_header text={"#{@inaccessible_count} Inaccessible #{Inflex.inflect("Route", @inaccessible_count)}"} />
-      <.itinerary_groups indexed_groups={@inaccessible_groups} />
+      <.itinerary_groups indexed_groups={@inaccessible_groups} show_accessible />
     <% end %>
     """
   end
@@ -102,12 +102,13 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       all_times: ItineraryGroup.all_times(itinerary_group),
       itinerary: itinerary,
       itinerary_selection: assigns.results.itinerary_selection,
+      show_accessible?: assigns.accessible_grouping?,
       time_label: if(itinerary_group.time_key == :end, do: "Arrive by", else: "Depart at")
     }
 
     ~H"""
     <div data-test={"itinerary_detail:selected:#{@itinerary_selection}"}>
-      <.itinerary_summary itinerary={@itinerary} />
+      <.itinerary_summary itinerary={@itinerary} show_accessible={@show_accessible?} />
       <div :if={Enum.count(@all_times) > 1}>
         <hr class="border-gray-lighter" />
         <p class="text-sm mb-2 mt-3">{@time_label}</p>
@@ -132,6 +133,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   end
 
   attr(:indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`")
+  attr :show_accessible, :boolean, default: false
 
   defp itinerary_groups(assigns) do
     assigns =
@@ -157,6 +159,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         <.itinerary_summary
           summarized_legs={group.summary}
           itinerary={group.representative_itinerary}
+          show_accessible={@show_accessible}
         />
         <div class="flex justify-end items-center">
           <div :if={group.alternatives_text} class="grow text-sm text-grey-dark">
