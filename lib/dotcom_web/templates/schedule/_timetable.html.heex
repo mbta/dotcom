@@ -1,12 +1,17 @@
 {DotcomWeb.AlertView.group(
-  alerts: @alerts,
+  alerts: @banner_alerts,
   route: @route,
   date_time: @date_time,
   priority_filter: :high,
   always_show: List.wrap(@blocking_alert)
 )}
 
-<.track_changes track_changes={Enum.filter(@alerts, &(&1.effect == :track_change))} />
+<%= if commuter_rail?(@route) do %>
+  <.commuter_rail_route_status status={@cr_status} />
+  <div class="mt-4">
+    <.track_changes track_changes={Enum.filter(@alerts, &(&1.effect == :track_change))} />
+  </div>
+<% end %>
 
 <%= if !assigns[:suppress_timetable?] do %>
   {render("_trip_view_filters.html", assigns)}

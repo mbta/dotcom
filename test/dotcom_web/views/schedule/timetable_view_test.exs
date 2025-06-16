@@ -85,6 +85,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         origin: origin,
         destination: destination,
         alerts: alerts,
+        banner_alerts: [],
         offset: offset,
         show_date_select?: show_date_select?,
         header_stops: header_stops,
@@ -97,7 +98,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         direction_name: "Southeastbound",
         formatted_date: "March 1, 2017",
         blocking_alert: nil,
-        suppress_timetable?: false
+        suppress_timetable?: false,
+        status: :normal
       ]
 
       {:ok, %{assigns: assigns}}

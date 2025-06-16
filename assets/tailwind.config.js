@@ -63,7 +63,8 @@ module.exports = {
       ...tailwindTheme,
       spacing: {
         ...tailwindTheme.spacing,
-        "4.5": "1.125rem"
+        "4.5": "1.125rem",
+        "7.5": "1.875rem"
       }
     },
     // match screens to Bootstrap's breakpoints for now

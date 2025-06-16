@@ -8,6 +8,11 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
   @lines_without_branches List.delete(Subway.lines(), "Green")
 
+  setup _ do
+    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
+
   describe "heavy rail groups" do
     test "when there are no alerts, lists each line as normal" do
       # Exercise

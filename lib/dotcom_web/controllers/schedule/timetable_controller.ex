@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
+  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
+
   alias Dotcom.TimetableLoader
   alias DotcomWeb.ScheduleView
   alias Plug.Conn
@@ -48,8 +50,37 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
+    |> assign_cr_status()
+    |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
+  end
+
+  defp assign_cr_status(%{assigns: %{route: route}} = conn) do
+    cr_status =
+      if Routes.Route.type_atom(route) == :commuter_rail do
+        commuter_rail_route_status(route.id)
+      end
+
+    conn |> assign(:cr_status, cr_status)
+  end
+
+  defp assign_banner_alerts(%{assigns: %{alerts: alerts, cr_status: cr_status}} = conn) do
+    status_alert_ids =
+      case cr_status do
+        status when is_map(status) ->
+          cr_status
+          |> Enum.flat_map(fn {_, entries} -> entries |> Enum.map(& &1.alert.id) end)
+
+        _ ->
+          []
+      end
+      |> MapSet.new()
+
+    banner_alerts = alerts |> Enum.reject(&MapSet.member?(status_alert_ids, &1.id))
+
+    conn
+    |> assign(:banner_alerts, banner_alerts)
   end
 
   # Plug that assigns trip schedule to the connection

@@ -3,6 +3,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
   Generated fake data for %Alerts.Alert{}
   """
 
+  alias Dotcom.Utils.ServiceDateTime
   use ExMachina
 
   alias Alerts.{Alert, InformedEntitySet, Priority}
@@ -57,6 +58,34 @@ defmodule Test.Support.Factories.Alerts.Alert do
     )
   end
 
+  def alert_for_trip_factory(attrs) do
+    {trip_id, attrs} = Map.pop(attrs, :trip_id)
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(
+        :informed_entity,
+        InformedEntitySet.new([
+          Factories.Alerts.InformedEntity.build(:informed_entity, trip: trip_id)
+        ])
+      )
+    )
+  end
+
+  def alert_for_trips_factory(attrs) do
+    {trip_ids, attrs} = Map.pop(attrs, :trip_ids)
+
+    entities =
+      trip_ids |> Enum.map(&Factories.Alerts.InformedEntity.build(:informed_entity, trip: &1))
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(:informed_entity, InformedEntitySet.new(entities))
+    )
+  end
+
   def active_during(alert, time) do
     %{alert | active_period: [{time_before(time), time_after(time)}]}
   end
@@ -66,7 +95,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
   end
 
   def active_starting_at(alert, start_time) do
-    %{alert | active_period: [{start_time, time_after(start_time)}]}
+    %{alert | active_period: [{start_time, ServiceDateTime.end_of_service_day(start_time)}]}
   end
 
   # Returns a random time during the day today before the time provided.
