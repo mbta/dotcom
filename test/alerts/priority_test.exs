@@ -1,12 +1,11 @@
 defmodule Alerts.PriorityTest do
   use ExUnit.Case, async: true
-  use Timex
 
   import Alerts.Priority
   alias Alerts.Alert
   alias Alerts.InformedEntity
 
-  @now Util.to_local_time(~N[2018-01-15T12:00:00])
+  @now Dotcom.Utils.DateTime.now()
 
   describe "priority_levels/0" do
     test "returns a list" do
@@ -116,9 +115,9 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts updated within the last week are always high" do
-      updated = Timex.shift(@now, days: -6, hours: -23)
-      period_start = Timex.shift(@now, days: -8)
-      period_end = Timex.shift(@now, days: 8)
+      updated = DateTime.shift(@now, day: -6, hour: -23)
+      period_start = DateTime.shift(@now, day: -8)
+      period_end = DateTime.shift(@now, day: 8)
       assert within_one_week(@now, updated) == true
 
       for type <- types_which_can_be_notices() do
@@ -140,9 +139,9 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts not updated in the last week are high within a week of the start date" do
-      updated = Timex.shift(@now, days: -10)
-      period_start = Timex.shift(@now, days: -5)
-      period_end = Timex.shift(@now, days: 15)
+      updated = DateTime.shift(@now, day: -10)
+      period_start = DateTime.shift(@now, day: -5)
+      period_end = DateTime.shift(@now, day: 15)
 
       for type <- types_which_can_be_notices() do
         params = %{
@@ -157,9 +156,9 @@ defmodule Alerts.PriorityTest do
     end
 
     test "severe alerts not updated in the last week are high within a week of the end date" do
-      updated = Timex.shift(@now, days: -8)
-      period_start = Timex.shift(@now, days: -20)
-      period_end = Timex.shift(@now, days: 6)
+      updated = DateTime.shift(@now, day: -8)
+      period_start = DateTime.shift(@now, day: -20)
+      period_end = DateTime.shift(@now, day: 6)
 
       for type <- types_which_can_be_notices() do
         params = %{
@@ -178,8 +177,8 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -7, hours: -1),
-          active_period: [{Timex.shift(@now, days: -6, hours: -20), nil}]
+          updated_at: DateTime.shift(@now, day: -7, hour: -1),
+          active_period: [{DateTime.shift(@now, day: -6, hour: -20), nil}]
         }
 
         assert {type, priority(params, @now)} == {type, :high}
@@ -191,8 +190,10 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -7, hours: -1),
-          active_period: [{Timex.shift(@now, days: -14), Timex.shift(@now, days: 6, hours: 23)}]
+          updated_at: DateTime.shift(@now, day: -7, hour: -1),
+          active_period: [
+            {DateTime.shift(@now, day: -14), DateTime.shift(@now, day: 6, hour: 23)}
+          ]
         }
 
         assert {type, priority(params, @now)} == {type, :high}
@@ -204,8 +205,8 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -7, hours: -1),
-          active_period: [{nil, Timex.shift(@now, days: 6, hours: 23)}]
+          updated_at: DateTime.shift(@now, day: -7, hour: -1),
+          active_period: [{nil, DateTime.shift(@now, day: 6, hour: 23)}]
         }
 
         assert {type, priority(params, @now)} == {type, :high}
@@ -217,9 +218,9 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -7, hours: -1),
+          updated_at: DateTime.shift(@now, day: -7, hour: -1),
           active_period: [
-            {Timex.shift(@now, days: -7, hours: -1), Timex.shift(@now, days: 7, hours: 1)}
+            {DateTime.shift(@now, day: -7, hour: -1), DateTime.shift(@now, day: 7, hour: 1)}
           ]
         }
 
@@ -234,9 +235,9 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -6, hours: -20),
+          updated_at: DateTime.shift(@now, day: -6, hour: -20),
           active_period: [
-            {Timex.shift(@now, days: -7, hours: -1), Timex.shift(@now, days: 7, hours: 1)}
+            {DateTime.shift(@now, day: -7, hour: -1), DateTime.shift(@now, day: 7, hour: 1)}
           ]
         }
 
@@ -249,10 +250,10 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -6, hours: -1),
+          updated_at: DateTime.shift(@now, day: -6, hour: -1),
           active_period: [
-            {Timex.shift(@now, days: -7, hours: -1), Timex.shift(@now, days: 7, hours: 1)},
-            {Timex.shift(@now, days: -6, hours: -23), Timex.shift(@now, days: 6, hours: 23)}
+            {DateTime.shift(@now, day: -7, hour: -1), DateTime.shift(@now, day: 7, hour: 1)},
+            {DateTime.shift(@now, day: -6, hour: -23), DateTime.shift(@now, day: 6, hour: 23)}
           ]
         }
 
@@ -265,11 +266,11 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -7, hours: -1),
+          updated_at: DateTime.shift(@now, day: -7, hour: -1),
           active_period: [
-            {Timex.shift(@now, days: 10, hours: -1), Timex.shift(@now, days: 11, hours: 1)},
-            {nil, Timex.shift(@now, days: -10, hours: 1)},
-            {Timex.shift(@now, days: 10, hours: 1), nil}
+            {DateTime.shift(@now, day: 10, hour: -1), DateTime.shift(@now, day: 11, hour: 1)},
+            {nil, DateTime.shift(@now, day: -10, hour: 1)},
+            {DateTime.shift(@now, day: 10, hour: 1), nil}
           ]
         }
 
@@ -288,7 +289,7 @@ defmodule Alerts.PriorityTest do
     test "Current non-minor Service Change is high" do
       params = %{
         effect: :service_change,
-        active_period: [{Timex.shift(@now, days: -1), nil}]
+        active_period: [{DateTime.shift(@now, day: -1), nil}]
       }
 
       assert priority(params, @now) == :high
@@ -297,32 +298,28 @@ defmodule Alerts.PriorityTest do
     test "Future non-minor Service Change is low" do
       params = %{
         effect: :service_change,
-        active_period: [{Timex.shift(@now, days: 5), nil}]
+        active_period: [{DateTime.shift(@now, day: 5), nil}]
       }
 
       assert priority(params, @now)
     end
 
     test "Shuttle is high if it's active and not Ongoing" do
-      today = Timex.now("America/New_York")
-
       shuttle = %{
         effect: :shuttle,
-        active_period: [{Timex.shift(today, days: -1), nil}],
+        active_period: [{DateTime.shift(@now, day: -1), nil}],
         lifecycle: :new
       }
 
-      assert priority(shuttle, today) == :high
-      assert priority(shuttle, Timex.shift(today, days: -2)) == :low
-      assert priority(shuttle, today |> Timex.shift(days: -2) |> DateTime.to_date()) == :low
+      assert priority(shuttle, @now) == :high
+      assert priority(shuttle, DateTime.shift(@now, day: -2)) == :low
+      assert priority(shuttle, @now |> DateTime.shift(day: -2) |> DateTime.to_date()) == :low
     end
 
     test "Shuttle is low if it's Ongoing" do
-      today = Timex.now("America/New_York")
-
       shuttle = %{
         effect: :shuttle,
-        active_period: [{Timex.shift(today, days: -1), nil}],
+        active_period: [{DateTime.shift(@now, day: -1), nil}],
         lifecycle: :ongoing
       }
 
@@ -330,38 +327,35 @@ defmodule Alerts.PriorityTest do
     end
 
     test "Non on-going alerts are notices if they arent happening now" do
-      today = ~N[2017-01-01T12:00:00]
-      tomorrow = Timex.shift(today, days: 1)
+      tomorrow = DateTime.shift(@now, day: 1)
       shuttle = %{effect: :shuttle, active_period: [{tomorrow, nil}], lifecycle: :upcoming}
-      assert priority(shuttle, today) == :low
+      assert priority(shuttle, @now) == :low
     end
 
     test "Cancellation is high if it's today" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
-      future = Timex.shift(@now, minutes: 5)
+      today = DateTime.shift(@now, minute: 5)
 
       cancellation = %{
         effect: :cancellation,
-        active_period: [{future, future}],
+        active_period: [{today, today}],
         lifecycle: :new
       }
 
-      today = future |> DateTime.to_date()
-      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
+      yesterday = today |> DateTime.shift(day: -1)
       assert priority(cancellation, today) == :high
       assert priority(cancellation, yesterday) == :low
     end
 
     test "Cancellation with multiple periods are notices if today is within on of the periods" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
-      future = Timex.shift(@now, minutes: 5)
-      today = future |> DateTime.to_date()
-      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
-      tomorrow = future |> Timex.shift(days: 1) |> DateTime.to_date()
+      today = DateTime.shift(@now, minute: 5)
+      yesterday = today |> DateTime.shift(day: -1)
+      tomorrow = today |> DateTime.shift(day: 1)
 
       cancellation = %{
         effect: :cancellation,
-        active_period: [{future, future}, {tomorrow, tomorrow}],
+        active_period: [{today, today}, {tomorrow, tomorrow}],
         lifecycle: :new
       }
 
@@ -371,10 +365,10 @@ defmodule Alerts.PriorityTest do
   end
 
   test "within_one_week/2" do
-    assert within_one_week(~N[2018-01-01T12:00:00], ~N[2018-01-08T12:00:00]) == false
-    assert within_one_week(~N[2018-01-08T12:00:00], ~N[2018-01-01T12:00:00]) == false
-    assert within_one_week(~N[2018-01-01T12:00:00], ~N[2018-01-07T11:59:00]) == true
-    assert within_one_week(~N[2018-01-07T11:59:00], ~N[2018-01-01T12:00:00]) == true
+    assert within_one_week(@now, DateTime.shift(@now, day: -7)) == false
+    assert within_one_week(@now, DateTime.shift(@now, day: 7)) == false
+    assert within_one_week(@now, DateTime.shift(@now, day: -6)) == true
+    assert within_one_week(@now, DateTime.shift(@now, day: 6)) == true
   end
 
   describe "urgent_period?/2" do
@@ -384,32 +378,32 @@ defmodule Alerts.PriorityTest do
 
     test "severe alerts within 1 week of end date are urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
-      start_date = Timex.shift(now, days: -10)
-      end_date = Timex.shift(now, days: 6)
+      start_date = DateTime.shift(now, day: -10)
+      end_date = DateTime.shift(now, day: 6)
       assert urgent_period?({nil, end_date}, now) == true
       assert urgent_period?({start_date, end_date}, now) == true
     end
 
     test "severe alerts beyond 1 week of end date are not urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
-      start_date = Timex.shift(now, days: -10)
-      end_date = Timex.shift(now, days: 14)
+      start_date = DateTime.shift(now, day: -10)
+      end_date = DateTime.shift(now, day: 14)
       assert urgent_period?({nil, end_date}, now) == false
       assert urgent_period?({start_date, end_date}, now) == false
     end
 
     test "severe alerts within 1 week of start date are urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
-      start_date = Timex.shift(now, days: -6)
-      end_date = Timex.shift(now, days: 10)
+      start_date = DateTime.shift(now, day: -6)
+      end_date = DateTime.shift(now, day: 10)
       assert urgent_period?({start_date, nil}, now) == true
       assert urgent_period?({start_date, end_date}, now) == true
     end
 
     test "severe alerts beyond 1 week of start date are not urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
-      start_date = Timex.shift(now, days: -14)
-      end_date = Timex.shift(now, days: 10)
+      start_date = DateTime.shift(now, day: -14)
+      end_date = DateTime.shift(now, day: 10)
       assert urgent_period?({start_date, nil}, now) == false
       assert urgent_period?({start_date, end_date}, now) == false
     end
@@ -431,7 +425,7 @@ defmodule Alerts.PriorityTest do
              %{
                effect: type,
                severity: 7,
-               updated_at: Timex.shift(@now, days: -30),
+               updated_at: DateTime.shift(@now, day: -30),
                active_period: []
              },
              @now
@@ -446,7 +440,7 @@ defmodule Alerts.PriorityTest do
         params = %{
           effect: type,
           severity: 7,
-          updated_at: Timex.shift(@now, days: -6),
+          updated_at: DateTime.shift(@now, day: -6),
           active_period: [{nil, nil}]
         }
 
@@ -459,5 +453,6 @@ defmodule Alerts.PriorityTest do
     Alert.all_types()
     |> List.delete(:delay)
     |> List.delete(:suspension)
+    |> List.delete(:track_change)
   end
 end
