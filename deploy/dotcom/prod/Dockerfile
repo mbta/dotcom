@@ -19,8 +19,7 @@ RUN git config --global url.https://github.com/.insteadOf git://github.com/
 RUN mix local.hex --force && \
 	mix local.rebar --force
 
-ADD mix.exs mix.exs
-ADD mix.lock mix.lock
+ADD . .
 
 RUN mix deps.get --only prod
 
