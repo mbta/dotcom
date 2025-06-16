@@ -34,7 +34,12 @@ describe("AccessibilityAmenityCard", () => {
 
   it("should indicate absense of accessibility", () => {
     render(
-      <AccessibilityAmenityCard stopName="" accessibleFeatures={[]} isStation isFerry={false} />
+      <AccessibilityAmenityCard
+        stopName=""
+        accessibleFeatures={[]}
+        isStation
+        isFerry={false}
+      />
     );
     expect(screen.getByText("Not accessible")).toBeDefined();
     expect(screen.getByText("This station is not accessible.")).toBeDefined();
