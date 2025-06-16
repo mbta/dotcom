@@ -65,8 +65,8 @@ RUN mix do compile, phx.digest
 RUN mix sentry.package_source_code --no-compile --no-deps-check
 RUN mix release
 
-# --- Set up runtime container ---
-FROM debian:buster-20240612-slim AS app-runner
+# TODO: We no longer need nodejs container for the runtime environment
+FROM node:18.17.1-buster-slim
 
 # Set exposed ports
 EXPOSE 4000

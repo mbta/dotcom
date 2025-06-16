@@ -2,14 +2,13 @@
 set -e -x
 
 BUILD_TAG="${1:-dotcom}"
-CONTAINER=$(docker create ${BUILD_TAG})
 VERSION=$(grep -o 'version: .*"' mix.exs | grep -E -o '([0-9]+\.)+[0-9]+')
 TEMP_DIR=$(mktemp -d)
 CACHE_CONTROL="public,max-age=31536000"
-STATIC_DIR=$TEMP_DIR/static
+STATIC_DIR=$TEMP_DIR/lib/dotcom-$VERSION/priv/static
 
 pushd "$TEMP_DIR" >/dev/null
-sh -c "docker cp $CONTAINER:/root/lib/dotcom-$VERSION/priv/static ."
+sh -c "docker run --rm ${BUILD_TAG} tar -c /root/rel/dotcom/lib/dotcom-$VERSION/priv/static" | tar -x --strip-components 3
 popd >/dev/null
 
 # sync the digested files with a cache control header
