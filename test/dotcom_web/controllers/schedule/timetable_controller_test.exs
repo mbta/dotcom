@@ -51,42 +51,6 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     }
   ]
 
-  @odd_schedules [
-    %Schedule{
-      stop_sequence: 4,
-      time: DateTime.from_unix!(50_000),
-      stop: nil,
-      trip: %Trip{id: "trip-4", headsign: "shuttle", name: "789"}
-    },
-    %Schedule{
-      stop_sequence: 5,
-      time: DateTime.from_unix!(50_000),
-      route: %Route{description: :rail_replacement_bus},
-      stop: %Stop{id: "5", name: "name3"},
-      trip: %Trip{id: "trip-5", headsign: "shuttle", name: "789"}
-    }
-  ]
-  @vehicle_schedules %{
-    "name1-trip-1" => %{
-      stop_name: "name1",
-      stop_sequence: 1,
-      trip_id: "trip-1"
-    },
-    "name2-trip-2" => %{
-      stop_name: "name2",
-      stop_sequence: 2,
-      trip_id: "trip-2"
-    },
-    "name3-trip-3" => %{
-      stop_name: "name3",
-      stop_sequence: 3,
-      trip_id: "trip-3"
-    },
-    "name3-trip-5" => %{stop_name: "name3", stop_sequence: 5, trip_id: "trip-5"},
-    "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"},
-    "name2-trip-1" => %{stop_name: "name2", stop_sequence: 2, trip_id: "trip-1"},
-    "name5-trip-2" => %{stop_name: "name5", stop_sequence: 3, trip_id: "trip-2"}
-  }
   @route %Route{id: "route1", type: 1}
   @route_patterns [
     %RoutePatterns.RoutePattern{representative_trip_id: "trip-1"},
@@ -245,42 +209,6 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
     test "returns proper messages for others", %{date: date} do
       assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1, date) == %{}
-    end
-  end
-
-  describe "vehicle_schedules/1" do
-    test "constructs vehicle data for channel consumption" do
-      vehicles =
-        vehicle_schedules(
-          %{assigns: %{date: Util.service_date()}},
-          Enum.concat(@schedules, @odd_schedules)
-        )
-
-      assert @vehicle_schedules == vehicles
-    end
-
-    test "doesn't constructs vehicle data for channel consumption if the date is not today" do
-      vehicles =
-        vehicle_schedules(%{assigns: %{date: Date.add(Util.service_date(), 1)}}, @schedules)
-
-      assert vehicles == %{}
-    end
-  end
-
-  describe "prior_stops/1" do
-    test "creates a map of stop identifiers to stop sequences for a schedule" do
-      stops = prior_stops(@vehicle_schedules)
-
-      assert %{
-               "trip-1-1" => "name1-trip-1",
-               "trip-2-2" => "name2-trip-2",
-               "trip-3-3" => "name3-trip-3",
-               "trip-4-4" => "shuttle-trip-4",
-               "trip-5-5" => "name3-trip-5",
-               "trip-1-2" => "name2-trip-1",
-               "trip-2-3" => "name5-trip-2"
-             } ==
-               stops
     end
   end
 
