@@ -1,10 +1,13 @@
 defmodule DotcomWeb.ScheduleViewTest do
   use DotcomWeb.ConnCase
 
+  require Phoenix.LiveViewTest
+
   import DotcomWeb.ScheduleView
   import Mox
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
+  import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
+  import Test.Support.Factories.Alerts.Alert
 
   alias CMS.Partial.RoutePdf
   alias Routes.Route
@@ -463,6 +466,38 @@ defmodule DotcomWeb.ScheduleViewTest do
 
     test "returns nothing otherwise" do
       assert flag_stop_badge(%Route{id: "39"}) == nil
+    end
+  end
+
+  describe "track_changes/1 shows alert headers" do
+    test "no content with no changes" do
+      none = Phoenix.LiveViewTest.render_component(&track_changes/1, track_changes: [])
+      assert none == ""
+    end
+
+    test "with 1 change" do
+      one =
+        Phoenix.LiveViewTest.render_component(&track_changes/1,
+          track_changes: build_list(1, :alert)
+        )
+
+      assert one =~ "<details"
+      assert one =~ "1 Unscheduled Track Change"
+    end
+
+    test "with 2+ changes" do
+      changes = Faker.random_between(2, 200) |> build_list(:alert)
+
+      more =
+        Phoenix.LiveViewTest.render_component(&track_changes/1, track_changes: changes)
+
+      assert more =~ "<details"
+      assert more =~ "#{Enum.count(changes)} Unscheduled Track Changes"
+
+      for header <- Enum.map(changes, & &1.header) do
+        header_text = html_escape(header) |> safe_to_string()
+        assert more =~ header_text
+      end
     end
   end
 end

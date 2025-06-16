@@ -31,6 +31,7 @@ const stop: Stop = {
   note: null,
   parking_lots: [],
   "station?": true,
+  "ferry?": false,
   href: "/stops/stop-id",
   type: "station"
 };

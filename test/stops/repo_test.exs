@@ -24,6 +24,10 @@ defmodule Stops.RepoTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Routes.Repo.Mock, :by_stop, fn _ ->
+      []
+    end)
+
     stub(MBTA.Api.Mock, :get_json, fn "/stops/" <> id, _ ->
       %JsonApi{
         data: [

@@ -9,6 +9,7 @@ describe("AccessibilityAmenityCard", () => {
         stopName=""
         accessibleFeatures={["accessible", "ramp"]}
         isStation
+        isFerry={false}
       />
     );
     expect(screen.getByText("Accessibility")).toBeDefined();
@@ -33,7 +34,7 @@ describe("AccessibilityAmenityCard", () => {
 
   it("should indicate absense of accessibility", () => {
     render(
-      <AccessibilityAmenityCard stopName="" accessibleFeatures={[]} isStation />
+      <AccessibilityAmenityCard stopName="" accessibleFeatures={[]} isStation isFerry={false} />
     );
     expect(screen.getByText("Not accessible")).toBeDefined();
     expect(screen.getByText("This station is not accessible.")).toBeDefined();
@@ -45,6 +46,7 @@ describe("AccessibilityAmenityCard", () => {
         stopName="StopName"
         accessibleFeatures={["accessible"]}
         isStation={false}
+        isFerry={false}
       />
     );
     expect(
@@ -70,6 +72,7 @@ describe("AccessibilityAmenityCard", () => {
         stopName=""
         accessibleFeatures={["accessible"]}
         isStation
+        isFerry={false}
       />
     );
     screen.getByRole("button").click(); // open modal

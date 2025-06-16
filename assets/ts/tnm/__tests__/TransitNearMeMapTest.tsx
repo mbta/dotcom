@@ -138,6 +138,7 @@ const stop: Stop = {
   parking_lots: [],
   /* eslint-enable camelcase */
   "station?": true,
+  "ferry?": false,
   href: "/stops/stop-id",
   type: "station"
 };

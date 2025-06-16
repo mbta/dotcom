@@ -53,6 +53,7 @@ const defaultStop: Stop = {
   note: null,
   parking_lots: [] as ParkingLot[],
   "station?": false,
+  "ferry?": false,
   type: "stop"
 };
 export const customStop = (args: Partial<Stop>): Stop =>
