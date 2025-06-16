@@ -13,7 +13,7 @@ defmodule Dotcom.Alerts.Subway do
       {"Service", service_impacting_effects()},
       {"Elevator & Escalator", [elevator_closure: 1, escalator_closure: 1]},
       {"Bike", [bike_issue: 1]},
-      {"Parking", [parking_issue: 1]},
+      {"Parking", [parking_closure: 1, parking_issue: 1]},
       {"Other", []}
     ]
   end
