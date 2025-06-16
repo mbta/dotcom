@@ -482,7 +482,7 @@ defmodule DotcomWeb.ScheduleViewTest do
         )
 
       assert one =~ "<details"
-      assert one =~ "1 Temporary Track Change"
+      assert one =~ "1 Unscheduled Track Change"
     end
 
     test "with 2+ changes" do
@@ -492,7 +492,7 @@ defmodule DotcomWeb.ScheduleViewTest do
         Phoenix.LiveViewTest.render_component(&track_changes/1, track_changes: changes)
 
       assert more =~ "<details"
-      assert more =~ "#{Enum.count(changes)} Temporary Track Changes"
+      assert more =~ "#{Enum.count(changes)} Unscheduled Track Changes"
 
       for header <- Enum.map(changes, & &1.header) do
         header_text = html_escape(header) |> safe_to_string()
