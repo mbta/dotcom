@@ -42,7 +42,6 @@ The root (three-stage) `Dockerfile` is responsible for building and running the 
 
 - Build:
   Because most of us develop on a Mac but the servers are Linux, we need to run the build inside a Docker (Elixir) container so that everything is compiled correctly. The build uses `mix release` to make the Erlang release, along with all our dependencies.
-  For the frontend assets, we use a Node container.
 
 - Run:
   The part of the Dockerfile used to run the application (last stage) runs the script that `mix release` provides for us to run the server (`/root/rel/dotcom/bin/dotcom start`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
@@ -79,8 +78,4 @@ export STATIC_SCHEME=http
 
 # override default :info to keep our console readable
 export LOGGER_LEVEL=error
-
-# only needed for pages with server-rendered React
-# run `npm run webpack:build:react` to create this file
-export REACT_BUILD_PATH=react_renderer/dist/app.js
 ```
