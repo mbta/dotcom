@@ -102,22 +102,6 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
 };
 
 /**
- * This configuration is used in Transit Near Me. It fetches and displays
- * results from geolocation or AWS location service, and also attempts to
- * pre-populate the input value using URL params.
- */
-const TNM: Partial<AutocompleteOptions<any>> = {
-  ...baseOptions,
-  initialState: {
-    query: getLikelyQueryParams()
-  },
-  getSources({ query }): AutocompleteSource<any>[] {
-    if (!query) return debounced([geolocationSource("transit-near-me")]);
-    return debounced([locationSource(query, 5, "transit-near-me")]);
-  }
-};
-
-/**
  * This configuration is used for finding Retail Sales Locations near a user's
  * geolocation or selected location from AWS location service.
  */
@@ -246,7 +230,6 @@ const TRIP_PLANNER = ({
 
 const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
   "basic-config": () => BASIC,
-  "transit-near-me": () => TNM,
   "retail-locations": () => RETAIL,
   "proposed-locations": () => PROPOSED_RETAIL,
   vote: () => VOTE,

@@ -6,20 +6,14 @@ defmodule Dotcom.TransitNearMe do
   require Logger
 
   alias DotcomWeb.ViewHelpers
-  alias LocationService.Address
   alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias Stops.{Nearby, Stop}
-  alias Util.Distance
+  alias Stops.Stop
   alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
-    schedules_fn: &Schedules.Repo.schedules_for_stop/2
-  ]
 
   @stops_without_predictions [
     "place-lake",
@@ -28,27 +22,10 @@ defmodule Dotcom.TransitNearMe do
     "place-hsmnl"
   ]
 
-  defstruct stops: [],
-            distances: %{},
-            schedules: %{}
-
   @type schedule_data :: %{
           Route.id_t() => %{
             Trip.headsign() => Schedule.t()
           }
-        }
-
-  @type distance_hash :: %{Stop.id_t() => float}
-
-  @type t :: %__MODULE__{
-          stops: [Stop.t()],
-          distances: distance_hash,
-          schedules: %{Stop.id_t() => schedule_data}
-        }
-
-  @type stops_with_distances :: %{
-          stops: [Stop.t()],
-          distances: distance_hash
         }
 
   @type error :: {:error, :timeout | :no_stops}
@@ -91,22 +68,6 @@ defmodule Dotcom.TransitNearMe do
           time_data: time_data(),
           crowding: Vehicle.crowding() | nil
         }
-
-  @spec build(Address.t(), Keyword.t()) :: stops_with_distances
-  def build(%Address{} = location, opts) do
-    opts = Keyword.merge(@default_opts, opts)
-    nearby_fn = Keyword.fetch!(opts, :stops_nearby_fn)
-    stops = nearby_fn.(location)
-
-    %{
-      stops: stops,
-      distances:
-        Map.new(
-          stops,
-          &{&1.id, &1 |> Distance.haversine(location) |> ViewHelpers.round_distance()}
-        )
-    }
-  end
 
   @spec get_direction_map([PredictedSchedule.t()], Keyword.t()) :: [direction_data]
   def get_direction_map(schedules, opts) do

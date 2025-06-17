@@ -50,7 +50,7 @@ defmodule DotcomWeb.PlacesController do
   end
 
   @doc """
-  /places/urls with latitude and longitude params will return an object containing URLs specific to that location for Transit Near Me, the Retail Sales Location page, and the Proposed Sales Location pages, e.g.
+  /places/urls with latitude and longitude params will return an object containing URLs specific to that location for the Retail Sales Location page, and the Proposed Sales Location pages, e.g.
 
   %{
     "latitude" => "1",
@@ -58,8 +58,7 @@ defmodule DotcomWeb.PlacesController do
     "url" => null,
     "urls" => %{
       "proposed-sales-locations" => "/fare-transformation/proposed-sales-locations?latitude=1&longitude=2",
-      "retail-sales-locations" => "/fares/retail-sales-locations?location[latitude]=1&location[longitude]=2",
-      "transit-near-me" => "/transit-near-me?latitude=1&longitude=2"
+      "retail-sales-locations" => "/fares/retail-sales-locations?location[latitude]=1&location[longitude]=2"
     }
   }
   """
@@ -68,11 +67,10 @@ defmodule DotcomWeb.PlacesController do
   end
 
   @doc """
-  /places/popular returns a static list of popular locations, each with an object containing URLs specific to that location for Transit Near Me, the Retail Sales Location page, and the Proposed Sales Location pages, e.g.
+  /places/popular returns a static list of popular locations, each with an object containing URLs specific to that location for the Retail Sales Location page, and the Proposed Sales Location pages, e.g.
 
   %{
     "urls" => {
-      "transit_near_me" => "/transit-near-me?latitude=42.352271&longitude=-71.055242&name=South+Station",
       "retail-sales-locations" => "/fares/retail-sales-locations?location[latitude]=42.352271&location[longitude]=-71.055242&location[name]=South+Station",
       "proposed_sales_locations" => "/fare-transformation/proposed-sales-locations?location[latitude]=42.352271&location[longitude]=-71.055242&location[name]=South+Station"
     },
@@ -90,7 +88,7 @@ defmodule DotcomWeb.PlacesController do
 
   @doc """
   First fetches address suggestions, then geocodes each suggestion to get a list of coordinates for a search query.
-  /places/search/Prudential/6 returns 6 results, each with an object containing URLs specific to that location for Transit Near Me, the Retail Sales Location page, and the Proposed Sales Location pages.
+  /places/search/Prudential/6 returns 6 results, each with an object containing URLs specific to that location for the Retail Sales Location page, and the Proposed Sales Location pages.
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
     case Integer.parse(hit_limit_str) do
@@ -123,7 +121,6 @@ defmodule DotcomWeb.PlacesController do
             required(:highlighted_spans) => [map()] | nil,
             required(:url) => nil,
             required(:urls) => %{
-              required(:"transit-near-me") => String.t(),
               required(:"retail-sales-locations") => String.t(),
               required(:"proposed-sales-locations") => String.t()
             }
@@ -176,7 +173,6 @@ defmodule DotcomWeb.PlacesController do
           :show_transformation,
           params
         ),
-      "transit-near-me" => transit_near_me_path(DotcomWeb.Endpoint, :index, params),
       "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })
   end

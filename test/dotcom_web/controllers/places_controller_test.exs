@@ -190,12 +190,11 @@ defmodule DotcomWeb.PlacesControllerTest do
 
   defp has_urls?(%{
          "urls" => %{
-           "transit-near-me" => tnm,
            "retail-sales-locations" => r,
            "proposed-sales-locations" => p
          }
        })
-       when is_binary(tnm) and is_binary(r) and is_binary(p),
+       when is_binary(r) and is_binary(p),
        do: true
 
   defp has_urls?(_), do: false

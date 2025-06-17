@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`it renders with initial markers 1`] = `null`;
-
-exports[`it renders without initial markers 1`] = `null`;

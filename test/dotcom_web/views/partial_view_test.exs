@@ -7,7 +7,7 @@ defmodule DotcomWeb.PartialViewTest do
 
   alias CMS.Partial.Teaser
   alias DotcomWeb.PartialView
-  alias DotcomWeb.PartialView.{FullscreenError, HeaderTab, HeaderTabBadge, SvgIconWithCircle}
+  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle}
 
   describe "clear_selector_link/1" do
     test "returns the empty string when clearable? is false" do
@@ -178,23 +178,6 @@ defmodule DotcomWeb.PartialViewTest do
 
       expected =
         "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"
-
-      assert actual == expected
-    end
-  end
-
-  describe "render_error/1" do
-    test "returns full screen error" do
-      actual =
-        %FullscreenError{
-          heading: "Danger",
-          body: "Will Robinson"
-        }
-        |> FullscreenError.render_error()
-        |> safe_to_string()
-
-      expected =
-        "<div class=\"c-fullscreen-error__container js-fullscreen-error\"><div class=\"container\"><a class=\"c-fullscreen-error__dismiss js-fullscreen-error__dismiss\" tabindex=\"0\">Dismiss <i aria-hidden=\"true\" class=\"notranslate fa fa-times \"></i></a><h1 class=\"c-fullscreen-error__heading\">Danger</h1><p>Will Robinson</p></div></div>"
 
       assert actual == expected
     end

@@ -98,7 +98,6 @@ defmodule DotcomWeb.Router do
     get("/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail")
     get("/stops/commuter_rail", Redirector, to: "/stops/commuter-rail")
     get("/style_guide", Redirector, to: "/style-guide")
-    get("/transit_near_me", Redirector, to: "/transit-near-me")
 
     # redirect cape flyer to an external site
     get("/schedules/CapeFlyer", ScheduleController, :cape_flyer)
@@ -189,8 +188,6 @@ defmodule DotcomWeb.Router do
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
-    get("/api/realtime/stops", RealtimeScheduleApi, :stops)
-
     get("/schedules", ModeController, :index)
     get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
@@ -235,7 +232,6 @@ defmodule DotcomWeb.Router do
     get("/style-guide/about", Redirector, to: "/style-guide")
     get("/style-guide/:section", StyleGuideController, :index)
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
-    get("/transit-near-me", TransitNearMeController, :index)
     resources("/alerts", AlertController, only: [:index, :show])
     get("/trip-planner/from/", Redirector, to: "/trip-planner")
     get("/trip-planner/to/", Redirector, to: "/trip-planner")

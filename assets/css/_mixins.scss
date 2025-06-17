@@ -221,25 +221,6 @@
   }
 }
 
-// Supports more sophisticated coloring of icons. Has been tested with the
-// triangle alert icon, might need tweaking in the selectors here to work as
-// expected with more complex SVG shapes.
-@mixin icon-mbta-colored($line-name, $inverse: false) {
-  $icon-colors: get-icon-colors($line-name, $inverse);
-
-  [class*='c-svg__icon'] {
-    path {
-      fill: map-get($icon-colors, 'fill');
-    }
-
-    g {
-      path {
-        fill: map-get($icon-colors, 'empty-fill');
-      }
-    }
-  }
-}
-
 // Caret used in some expandable/collapsable blocks in the application
 @mixin caret($color) {
   color: $color;

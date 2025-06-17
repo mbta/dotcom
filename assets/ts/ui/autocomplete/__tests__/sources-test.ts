@@ -4,15 +4,15 @@ import {
   OnSelectParams,
   StateUpdater
 } from "@algolia/autocomplete-core";
+import { waitFor } from "@testing-library/dom";
+import { AutocompleteItem, LocationItem, PopularItem } from "../__autocomplete";
+import { UrlType } from "../helpers";
 import {
   algoliaSource,
   geolocationSource,
   locationSource,
   popularLocationSource
 } from "../sources";
-import { AutocompleteItem, LocationItem, PopularItem } from "../__autocomplete";
-import { UrlType } from "../helpers";
-import { waitFor } from "@testing-library/dom";
 
 beforeEach(() => {
   global.fetch = jest.fn(() =>
@@ -31,7 +31,6 @@ const mockCoords = {
 const mockUrlsResponse = {
   result: {
     urls: {
-      "transit-near-me": `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
       "retail-sales-locations": `/fares/retail-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`,
       "proposed-sales-locations": `/fare-transformation/proposed-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
     },
@@ -115,10 +114,10 @@ describe("geolocationSource", () => {
     test("redirects to a URL on success", async () => {
       setMocks(true, true);
       const { source, onSelectParams } = setupGeolocationSource(
-        "transit-near-me"
+        "retail-sales-locations"
       );
       expect(source.getItems({} as OnInputParams<{ value: string }>)).toEqual([
-        { value: "Use my location to find transit near me" }
+        { value: "Use my location" }
       ]);
       source.onSelect!(onSelectParams);
 
@@ -130,7 +129,7 @@ describe("geolocationSource", () => {
           `/places/urls?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
         );
         expect(window.location.assign).toHaveBeenCalledExactlyOnceWith(
-          `/transit-near-me?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
+          `/fares/retail-sales-locations?latitude=${mockCoords.latitude}&longitude=${mockCoords.longitude}`
         );
       });
     });
@@ -148,9 +147,7 @@ describe("geolocationSource", () => {
     });
     test("displays error on geolocation error", async () => {
       setMocks(false, true);
-      const { source, onSelectParams } = setupGeolocationSource(
-        "transit-near-me"
-      );
+      const { source, onSelectParams } = setupGeolocationSource();
       source.onSelect!(onSelectParams);
       await waitFor(() => {
         expect(onSelectParams.setQuery).toHaveBeenCalledWith(
@@ -199,9 +196,9 @@ describe("locationSource", () => {
   });
   test("has optional getItemUrl", () => {
     expect(locationSource("any query", 4)).not.toContainKey("getItemUrl");
-    expect(locationSource("any query", 5, "transit-near-me")).toContainKey(
-      "getItemUrl"
-    );
+    expect(
+      locationSource("any query", 5, "retail-sales-locations")
+    ).toContainKey("getItemUrl");
   });
 });
 

@@ -10,7 +10,7 @@ exports.scenario = async ({ page, baseURL }) => {
     .locator("input#search-global__input")
     .pressSequentially("Orange Line");
   await page.waitForSelector("div#search-results-container");
-  await page.locator("div.c-search-result__hit a").first().click();
+  await page.locator("div.c-search-result__hit a").filter({ hasText: "Orange Line" }).first().click();
 
   await expect(page.locator("h1.schedule__route-name")).toHaveText(
     "Orange Line",

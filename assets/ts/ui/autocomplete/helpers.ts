@@ -1,7 +1,8 @@
+import { AutocompleteRenderer } from "@algolia/autocomplete-js";
 import { omit } from "lodash";
 import { createElement, Fragment } from "react";
 import { render } from "react-dom";
-import { AutocompleteRenderer } from "@algolia/autocomplete-js";
+import { parseQuery } from "../../helpers/query";
 import {
   AutocompleteItem,
   ContentItem,
@@ -12,7 +13,6 @@ import {
   SearchResultItem,
   StopItem
 } from "./__autocomplete";
-import { parseQuery } from "../../helpers/query";
 
 export function isAlgoliaItem(x: Item): x is AutocompleteItem {
   return Object.keys(x).includes("objectID");
@@ -49,7 +49,6 @@ export const getTitleAttribute = (item: Item): string[] => {
 };
 
 export type UrlType =
-  | "transit-near-me"
   | "retail-sales-locations"
   | "proposed-sales-locations"
   | "vote";

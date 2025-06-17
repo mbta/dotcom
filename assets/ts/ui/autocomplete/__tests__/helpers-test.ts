@@ -8,10 +8,10 @@ import {
   StopItem
 } from "../__autocomplete";
 import {
+  WithUrls,
   getLikelyQueryParams,
   getTitleAttribute,
-  itemWithUrl,
-  WithUrls
+  itemWithUrl
 } from "../helpers";
 
 const testRouteItem = { route: {} as Route } as RouteItem;
@@ -51,7 +51,6 @@ test("itemWithUrl gets a requested URL", () => {
     state: "MA",
     url: "",
     urls: {
-      "transit-near-me": "/transit-near-me/logan",
       "retail-sales-locations": "/retail-locations-somewhere",
       "proposed-sales-locations": "/proposed-locations-near-logan",
       vote: "/vote"
