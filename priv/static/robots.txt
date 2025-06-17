@@ -13,7 +13,7 @@ Disallow: /policies/terms-use-charlie*
 Disallow: /charlieapp
 Disallow: /learnmore-transfer
 
-# Prevent Sentry from creating monitors
+# Prevent Sentry from creating monitors.
 # Source: https://docs.sentry.io/product/uptime-monitoring/automatic-detection/#disabling-automatic-detection
 User-agent: SentryUptimeBot
 Disallow: *
