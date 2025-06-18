@@ -143,36 +143,66 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
     ~H"""
     <div class="flex flex-col gap-4">
-      <div
+      <.itinerary_group
         :for={{group, index} <- @summarized_groups}
-        class="border border-solid border-gray-lighter p-4"
-        phx-click="select_itinerary_group"
-        phx-value-index={index}
-        data-test={"results:itinerary_group:#{index}"}
-      >
-        <div
-          :if={group.tag}
-          class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
-        >
-          {Phoenix.Naming.humanize(group.tag)}
-        </div>
+        group={group}
+        index={index}
+        show_accessible={@show_accessible}
+      />
+    </div>
+    """
+  end
+
+  defp itinerary_group(%{group: %{available?: false}} = assigns) do
+    ~H"""
+    <div
+      class="border border-solid border-gray-lighter"
+      data-test={"results:itinerary_group:#{@index}"}
+    >
+      <div class="flex gap-2 items-center whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-gray-lightest text-black px-3 py-2 w-full">
+        <.icon name="triangle-exclamation" class="h-4.5 w-4.5" /> Unavailable
+      </div>
+      <div class="opacity-50 p-4">
         <.itinerary_summary
-          summarized_legs={group.summary}
-          itinerary={group.representative_itinerary}
+          summarized_legs={@group.summary}
+          itinerary={@group.representative_itinerary}
           show_accessible={@show_accessible}
         />
-        <div class="flex justify-end items-center">
-          <div :if={group.alternatives_text} class="grow text-sm text-grey-dark">
-            {group.alternatives_text}
-          </div>
-          <button
-            class="btn-link font-semibold underline"
-            phx-click="select_itinerary_group"
-            phx-value-index={index}
-          >
-            Details
-          </button>
+      </div>
+    </div>
+    """
+  end
+
+  defp itinerary_group(assigns) do
+    ~H"""
+    <div
+      class="border border-solid border-gray-lighter p-4"
+      phx-click="select_itinerary_group"
+      phx-value-index={@index}
+      data-test={"results:itinerary_group:#{@index}"}
+    >
+      <div
+        :if={@group.tag}
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+      >
+        {Phoenix.Naming.humanize(@group.tag)}
+      </div>
+      <.itinerary_summary
+        summarized_legs={@group.summary}
+        itinerary={@group.representative_itinerary}
+        show_accessible={@show_accessible}
+      />
+      <div class="flex justify-end items-center">
+        <div :if={@group.alternatives_text} class="grow text-sm text-grey-dark">
+          {@group.alternatives_text}
         </div>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click="select_itinerary_group"
+          phx-value-index={@index}
+        >
+          Details
+        </button>
       </div>
     </div>
     """
@@ -184,6 +214,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     summarized_group = %{
       accessible?: Itinerary.accessible?(itinerary),
       alternatives_text: ItineraryGroup.alternatives_text(group),
+      available?: group.available?,
       tag: itinerary[:tag],
       representative_itinerary: itinerary,
       summary: group.summary

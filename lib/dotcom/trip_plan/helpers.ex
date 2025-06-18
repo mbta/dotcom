@@ -11,6 +11,7 @@ defmodule Dotcom.TripPlan.Helpers do
   @spec mbta_id(Place.t() | Route.t() | Stop.t() | Trip.t() | any()) :: String.t() | nil
   def mbta_id(%Place{stop: stop}), do: mbta_id(stop)
   def mbta_id(%{gtfs_id: "mbta-ma-us:" <> id}), do: id
+  def mbta_id(%{gtfs_id: "mbta-ma-us-no-disruptions:" <> id}), do: id
   def mbta_id(_), do: nil
 
   @doc """
