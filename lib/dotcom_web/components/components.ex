@@ -30,10 +30,13 @@ defmodule DotcomWeb.Components do
     values: [
       "basic-config",
       "retail-locations",
+      "projects",
       "proposed-locations",
       "trip-planner"
     ]
   )
+
+  attr(:rest, :global)
 
   slot(:inner_block,
     required: false,
@@ -65,7 +68,7 @@ defmodule DotcomWeb.Components do
       |> assign_new(:config_type, fn -> false end)
 
     ~H"""
-    <div>
+    <div {@rest}>
       <div id={@id} phx-hook="AlgoliaAutocomplete" phx-update="ignore">
         <div
           class="c-search-bar__autocomplete"
