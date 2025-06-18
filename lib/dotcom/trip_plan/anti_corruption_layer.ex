@@ -75,20 +75,32 @@ defmodule Dotcom.TripPlan.AntiCorruptionLayer do
   # Copy the old params into the new param structure.
   defp copy_params(params) do
     %{
-      "from" => %{
-        "latitude" => Map.get(params, "from_latitude", ""),
-        "longitude" => Map.get(params, "from_longitude", ""),
-        "name" => Map.get(params, "from", ""),
-        "stop_id" => Map.get(params, "from_stop_id", "")
-      },
+      "from" => copy_place(params, "from"),
       "modes" => Map.get(params, "modes") |> convert_modes(),
-      "to" => %{
-        "latitude" => Map.get(params, "to_latitude", ""),
-        "longitude" => Map.get(params, "to_longitude", ""),
-        "name" => Map.get(params, "to", ""),
-        "stop_id" => Map.get(params, "to_stop_id", "")
-      },
+      "to" => copy_place(params, "to"),
       "wheelchair" => Map.get(params, "wheelchair") || "false"
+    }
+  end
+
+  defp copy_place(%{"from" => from}, "from") when is_map(from), do: from
+
+  defp copy_place(params, "from") do
+    %{
+      "latitude" => Map.get(params, "from_latitude", ""),
+      "longitude" => Map.get(params, "from_longitude", ""),
+      "name" => Map.get(params, "from", ""),
+      "stop_id" => Map.get(params, "from_stop_id", "")
+    }
+  end
+
+  defp copy_place(%{"to" => to}, "to") when is_map(to), do: to
+
+  defp copy_place(params, "to") do
+    %{
+      "latitude" => Map.get(params, "to_latitude", ""),
+      "longitude" => Map.get(params, "to_longitude", ""),
+      "name" => Map.get(params, "to", ""),
+      "stop_id" => Map.get(params, "to_stop_id", "")
     }
   end
 

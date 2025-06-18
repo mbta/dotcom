@@ -8,6 +8,7 @@ defmodule DotcomWeb.PartialView do
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
   import DotcomWeb.CMS.TeaserView, only: [transit_svg: 1, transit_tag: 1, handle_fields: 2]
   import DotcomWeb.CMSView, only: [file_description: 1]
+  import DotcomWeb.Components.TripPlanner.InputForm, only: [location_search_box: 1]
 
   alias CMS.{Partial.Teaser, Repo}
   alias DotcomWeb.CMS.TeaserView
