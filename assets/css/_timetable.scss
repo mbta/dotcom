@@ -35,18 +35,19 @@
     // -kh
 
     position: relative;
-    width: $base-spacing * 12.45;
+    width: $base-spacing * 12.55;
 
     @include media-breakpoint-only(lg) {
       width: $base-spacing * 12.55;
     }
-
-    @include media-breakpoint-only(sm) {
-      width: $base-spacing * 12.05;
+    @include media-breakpoint-only(md) {
+      width: $base-spacing * 12.45;
     }
-
+    @include media-breakpoint-only(sm) {
+      width: $base-spacing * 12;
+    }
     @include media-breakpoint-down(xs) {
-      width: $base-spacing * 9.05;
+      width: $base-spacing * 9;
     }
   }
 }
