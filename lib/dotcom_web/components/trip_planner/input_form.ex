@@ -113,7 +113,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
     """
   end
 
-  defp location_search_box(assigns) do
+  def location_search_box(assigns) do
     assigns =
       assigns
       |> assign(%{
