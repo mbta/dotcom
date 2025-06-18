@@ -13,6 +13,11 @@ Disallow: /policies/terms-use-charlie*
 Disallow: /charlieapp
 Disallow: /learnmore-transfer
 
+# Prevent Sentry from creating monitors.
+# Source: https://docs.sentry.io/product/uptime-monitoring/automatic-detection/#disabling-automatic-detection
+User-agent: SentryUptimeBot
+Disallow: *
+
 # Block all known AI crawlers and assistants
 # from using content for training AI models.
 # Source: https://robotstxt.com/ai
