@@ -146,6 +146,9 @@ const PROJECTS: Partial<AutocompleteOptions<any>> = {
       `;
     };
     return debounced([projectSource]);
+  },
+  onSubmit({ state }) {
+    window.location.assign(`/search?query=${state.query}&facets=projects&showmore=`);
   }
 };
 
@@ -171,6 +174,9 @@ const STOPS: Partial<AutocompleteOptions<any>> = {
       `;
     };
     return debounced([stopsSource]);
+  },
+  onSubmit({ state }) {
+    window.location.assign(`/search?query=${state.query}&facets=stops%2Cfacet-station%2Cfacet-stop&showmore=`);
   }
 };
 
