@@ -1,5 +1,0 @@
-<div class="c-trip-plan-widget__submit-container">
-  <button id="trip-plan__submit" type="submit" class="btn btn-primary hidden-print c-trip-plan-widget__submit">
-  <%= if assigns[:button_text], do: @button_text, else: "Get trip suggestions" %>
-  </button>
-</div>

@@ -1,11 +1,11 @@
 <% form_options = [
   as: :plan,
   method: :get,
-  class: "c-trip-plan-widget__form",
+  class: "grid grid-cols-1 @xl/trip-planner-widget:grid-cols-[1fr_1fr_auto] gap-md pt-sm",
   id: "plan"
 ] %>
-<div class="c-trip-plan-widget">
-  <h2>{if assigns[:title], do: @title, else: "Plan a trip"}</h2>
+<div class="@container/trip-planner-widget c-trip-plan-widget">
+  <h2 :if={assigns[:title]}>{@title}</h2>
   <p :if={assigns[:text]}>{@text}</p>
   <%= form_for @conn, "/trip-planner", form_options, fn f -> %>
     <.location_search_box
@@ -13,25 +13,15 @@
       field={f[:from]}
       placeholder="Enter an origin location"
     />
-    <div class="-mb-[20px] md:-mt-md md:mb-0 self-end md:self-auto">
-      <div class="hidden md:block md:py-sm md:mb-[10px]">
-        &nbsp; <%!-- helps align the swap button on desktop--%>
-      </div>
-      <button
-        type="button"
-        disabled={length(f.errors) > 0}
-        phx-click="swap_direction"
-        class="px-xs bg-transparent fill-brand-primary disabled:fill-gray-light hover:fill-black"
-      >
-        <span class="sr-only">Swap origin and destination locations</span>
-        <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
-      </button>
-    </div>
     <.location_search_box
       name="trip-planner-input-form--to"
       field={f[:to]}
       placeholder="Enter a destination location"
     />
-    {DotcomWeb.TripPlanView.render("_submit_button.html", assigns)}
+    <div class="self-end mb-sm pb-[2px]">
+      <.button id="trip-plan__submit" type="submit">
+        {if assigns[:button_text], do: @button_text, else: "Get trip suggestions"}
+      </.button>
+    </div>
   <% end %>
 </div>
