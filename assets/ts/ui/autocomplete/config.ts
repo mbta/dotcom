@@ -150,6 +150,31 @@ const PROJECTS: Partial<AutocompleteOptions<any>> = {
 };
 
 /**
+ * This configuration is used for finding stops.
+ */
+const STOPS: Partial<AutocompleteOptions<any>> = {
+  ...baseOptions,
+  getSources({ query }): AutocompleteSource<any>[] {
+    if (!query) return [];
+    const stopsSource = algoliaSource(query, {
+      stops: {
+        hitsPerPage: 10
+      }
+    });
+    stopsSource.templates.noResults = ({ html }) => {
+      return html`
+        <i
+          class="fa fa-fw fa-circle-exclamation text-firebrick-50 mr-sm"
+          aria-hidden="true"
+        ></i>
+        No stops or stations found matching "${query}".
+      `;
+    };
+    return debounced([stopsSource]);
+  }
+};
+
+/**
  * This configuration is used for finding Proposed Retail Sales Locations near a
  * user's geolocation or selected location from AWS location service.
  */
@@ -262,6 +287,7 @@ const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
   "retail-locations": () => RETAIL,
   projects: () => PROJECTS,
   "proposed-locations": () => PROPOSED_RETAIL,
+  stops: () => STOPS,
   vote: () => VOTE,
   "trip-planner": TRIP_PLANNER
 };

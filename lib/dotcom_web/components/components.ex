@@ -32,6 +32,7 @@ defmodule DotcomWeb.Components do
       "retail-locations",
       "projects",
       "proposed-locations",
+      "stops",
       "trip-planner"
     ]
   )
