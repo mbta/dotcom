@@ -160,6 +160,7 @@ defmodule DotCom.Mixfile do
       {:typed_ecto_schema, "0.4.1"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
+      {:vancouver, "0.3.0"},
       {:wallaby, "0.30.10", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.11.0", only: [:dev]},
       {:ymlr, "5.1.3", only: [:dev]}
