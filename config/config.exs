@@ -87,4 +87,8 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
+config :vancouver,
+  name: "MBTA MCP",
+  version: "1.0.0"
+
 import_config "#{config_env()}.exs"
