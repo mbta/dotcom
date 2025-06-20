@@ -5,8 +5,10 @@
   id: "plan"
 ] %>
 <div class="@container/trip-planner-widget c-trip-plan-widget">
-  <h2 :if={assigns[:title]}>{@title}</h2>
-  <p :if={assigns[:text]}>{@text}</p>
+  <%= if !assigns[:hide_text] do %>
+    <h2>{if assigns[:title], do: @title, else: "Plan a trip"}</h2>
+    <p :if={assigns[:text]}>{@text}</p>
+  <% end %>
   <%= form_for @conn, "/trip-planner", form_options, fn f -> %>
     <.location_search_box
       name="trip-planner-input-form--from"
@@ -18,7 +20,7 @@
       field={f[:to]}
       placeholder="Enter a destination location"
     />
-    <div class="self-end mb-sm pb-[2px]">
+    <div class="mb-sm pb-[2px] justify-self-end self-end">
       <.button id="trip-plan__submit" type="submit">
         {if assigns[:button_text], do: @button_text, else: "Get trip suggestions"}
       </.button>

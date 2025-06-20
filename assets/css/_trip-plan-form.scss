@@ -4,22 +4,33 @@
   }
 }
 
-// adjustments for when rendered as a paragraph from the CMS
-.c-paragraph--trip-plan-widget .c-trip-plan-widget {
-  h2:first-child {
-    margin-top: 0;
+
+.c-trip-plan-widget {
+  legend {
+    color: $gray-dark;
+    font-weight: bold;
   }
 
-  button[type="submit"] {
-    justify-content: start;
+  // adjustments for when rendered from the CMS
+  .m-mode-hub__trip-plan-widget & {
+    background-color: $gray-bordered-background;
+    border: solid 1px $gray-lightest;
+    padding: 0 $base-spacing $base-spacing;
   }
 
-  @include media-breakpoint-down(sm) {
-    padding-bottom: 1rem;
-    padding-top: 1rem;
-
+  // adjustments for when rendered as a paragraph from the CMS
+  .c-paragraph--trip-plan-widget & {
     h2:first-child {
-      margin-top: .5rem;
+      margin-top: 0;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+
+      h2:first-child {
+        margin-top: .5rem;
+      }
     }
   }
 }
