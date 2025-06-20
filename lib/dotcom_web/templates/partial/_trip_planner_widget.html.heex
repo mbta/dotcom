@@ -1,15 +1,16 @@
-<% form_options = [
-  as: :plan,
-  method: :get,
-  class: "grid grid-cols-1 @xl/trip-planner-widget:grid-cols-[1fr_1fr_auto] gap-md pt-sm",
-  id: "plan"
-] %>
+<% form = to_form(%{}, as: :plan, id: "plan") %>
 <div class="@container/trip-planner-widget c-trip-plan-widget">
   <%= if !assigns[:hide_text] do %>
     <h2>{if assigns[:title], do: @title, else: "Plan a trip"}</h2>
     <p :if={assigns[:text]}>{@text}</p>
   <% end %>
-  <%= form_for @conn, "/trip-planner", form_options, fn f -> %>
+  <.form
+    :let={f}
+    for={form}
+    action={~p"/trip-planner"}
+    method="get"
+    class="grid grid-cols-1 @xl/trip-planner-widget:grid-cols-[1fr_1fr_auto] gap-md pt-sm"
+  >
     <.location_search_box
       name="trip-planner-input-form--from"
       field={f[:from]}
@@ -25,5 +26,5 @@
         {if assigns[:button_text], do: @button_text, else: "Get trip suggestions"}
       </.button>
     </div>
-  <% end %>
+  </.form>
 </div>

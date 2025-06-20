@@ -129,7 +129,7 @@ defmodule DotcomWeb do
       use MbtaMetro
 
       import DotcomWeb.{Components, Components.RouteSymbols, ErrorHelpers}
-      import Phoenix.{HTML, LiveView.Helpers}
+      import Phoenix.{Component, HTML, LiveView.Helpers}
       import PhoenixHTMLHelpers.Form, except: [label: 1]
       import PhoenixHTMLHelpers.{Format, Link, Tag}
 
