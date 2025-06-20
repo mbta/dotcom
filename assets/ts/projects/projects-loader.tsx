@@ -1,10 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
 import ProjectsPage from "./components/ProjectsPage";
-import { initWithoutGoogle } from "../../js/algolia-embedded-search";
 
 export const projectsLoader = (): void => {
-  initWithoutGoogle();
   const projectDataEl = document.getElementById("js-projects-data");
   const projectsRootEl = document.getElementById("react-projects-root");
 

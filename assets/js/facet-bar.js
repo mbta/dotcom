@@ -1,8 +1,7 @@
 import hogan from "hogan.js";
 import { FacetGroup } from "./facet-group";
-import { FacetLocationGroup } from "./facet-location-group";
 
-const facetGroupClasses = { FacetGroup, FacetLocationGroup };
+const facetGroupClasses = { FacetGroup };
 
 export class FacetBar {
   constructor(container, search, facets, parent) {

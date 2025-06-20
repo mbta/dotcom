@@ -1,10 +1,9 @@
 import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
-import { FacetItem } from "../facet-item.js";
 import { FacetBar } from "../facet-bar.js";
 import { FacetGroup } from "../facet-group.js";
-import { FacetLocationGroup } from "../facet-location-group.js";
+import { FacetItem } from "../facet-item.js";
 import testConfig from "./../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -68,21 +67,11 @@ describe("facet", function() {
           }
         ]
       }
-    },
-    locations: {
-      queryId: "locations",
-      item: {
-        id: "locations",
-        name: "Locations",
-        cls: "FacetLocationGroup",
-        icon: getFeatureIcon("station")
-      }
     }
   };
 
   const search = {
-    updateActiveQueries: sinon.spy(),
-    enableLocationSearch: sinon.spy()
+    updateActiveQueries: sinon.spy()
   };
   const changeAllCheckboxes = state => {
     Object.keys(checkBoxes).forEach(key => {
@@ -116,8 +105,8 @@ describe("facet", function() {
   });
 
   describe("item event handlers", function() {
-    it("makes 8 checkboxes, one for each item", function() {
-      assert.equal($("input[type='checkbox']").length, 8);
+    it("makes 7 checkboxes, one for each item", function() {
+      assert.equal($("input[type='checkbox']").length, 7);
     });
 
     it("unchecks all children when unchecking the parent box", function() {
@@ -166,16 +155,7 @@ describe("facet", function() {
 
   describe("bar", function() {
     it("properly parses facet data into groups with items", function() {
-      assert.deepEqual(Object.keys(this.facetBar._items), [
-        "routes",
-        "stops",
-        "locations"
-      ]);
-      assert.instanceOf(
-        this.facetBar._items["routes"],
-        FacetGroup,
-        "routes facet is instance of FacetLocationGroup"
-      );
+      assert.deepEqual(Object.keys(this.facetBar._items), ["routes", "stops"]);
       assert.equal(this.facetBar._items["routes"]._item._id, "lines-routes");
       assert.deepEqual(
         this.facetBar._items["routes"]._item._children.map(item => {
@@ -189,11 +169,6 @@ describe("facet", function() {
           return item._id;
         }),
         ["stop-subway"]
-      );
-      assert.instanceOf(
-        this.facetBar._items["locations"],
-        FacetLocationGroup,
-        "locations facet is instance of FacetLocationGroup"
       );
     });
 
@@ -244,7 +219,6 @@ describe("facet", function() {
         $(checkboxHandlers.parent).trigger("click");
         expect(this.facetBar._items["routes"]._item.isChecked()).to.be.true;
         expect(this.facetBar._items["stops"]._item.isChecked()).to.be.false;
-        expect(this.facetBar._items["locations"]._item.isChecked()).to.be.false;
         this.facetBar.reset();
         for (const key in this.facetBar._items) {
           expect(this.facetBar._items[key]._item.isChecked()).to.be.false;

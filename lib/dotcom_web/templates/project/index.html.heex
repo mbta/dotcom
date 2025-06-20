@@ -19,21 +19,12 @@
 </div>
 
 <div class="container">
-  {content_tag(
-    :div,
-    [
-      DotcomWeb.PartialView.render(
-        "_search_input.html",
-        Map.merge(assigns, %{
-          placeholder: "Enter keyword(s)",
-          aria_label: "Enter keywords",
-          prefix: "projects"
-        })
-      )
-    ],
-    id: "projects-search",
-    class: "hidden-no-js c-search-bar c-search-bar--embedded-large"
-  )}
+  <.algolia_autocomplete
+    id="projects-search"
+    class="md:max-w-2xl mb-md"
+    config_type="projects"
+    placeholder="Enter keyword(s)"
+  />
 </div>
 
 <% [banner | featured] =

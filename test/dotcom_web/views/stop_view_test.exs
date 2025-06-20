@@ -55,9 +55,10 @@ defmodule DotcomWeb.StopViewTest do
       html =
         "_search_bar.html"
         |> StopView.render(stop_info: stops, conn: conn)
-        |> HTML.safe_to_string()
+        |> HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
-      assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
+      assert html =~ "c-search-bar__autocomplete"
     end
   end
 end
