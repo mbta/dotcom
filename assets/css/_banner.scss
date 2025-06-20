@@ -100,7 +100,7 @@
   padding: $base-spacing;
 
   @include media-breakpoint-down(xs) {
-    margin-bottom: $base-spacing * 2;
+    margin-bottom: $base-spacing * 4;
     margin-left: $base-spacing * 2;
     margin-right: $base-spacing * 2;
     margin-top: -$base-spacing * 4;
