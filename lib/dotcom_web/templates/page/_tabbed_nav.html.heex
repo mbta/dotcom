@@ -81,9 +81,7 @@
       class="m-tabbed-nav__content-item"
       data-tab-content-type="trip-planner"
     >
-      <div class="m-mode-hub__trip-plan-widget">
-        {DotcomWeb.PartialView.render("_trip_planner_widget.html", assigns)}
-      </div>
+      {DotcomWeb.PartialView.render("_trip_planner_widget.html", %{hide_text: true})}
     </div>
     <div
       role="tabpanel"
