@@ -134,8 +134,16 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [
-          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :delay),
-          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :delay),
+          Factories.Alerts.Alert.build(:alert,
+            active_period: active_period,
+            effect: :delay,
+            severity: 2
+          ),
+          Factories.Alerts.Alert.build(:alert,
+            active_period: active_period,
+            effect: :delay,
+            severity: 2
+          ),
           Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :shuttle)
         ]
       end)

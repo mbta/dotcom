@@ -32,7 +32,7 @@ defmodule Dotcom.Alerts do
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
     cancellation: 1,
-    delay: 1,
+    delay: 2,
     service_change: 3,
     shuttle: 1,
     station_closure: 1,
