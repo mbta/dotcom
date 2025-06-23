@@ -728,7 +728,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       affected_line = Faker.Util.pick(@lines_without_branches)
 
-      {effect, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+      {effect, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 2}])
 
       alerts =
         [
@@ -763,7 +763,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       affected_line = Faker.Util.pick(@lines_without_branches)
 
       {effect1, _severity} = Faker.Util.pick(service_impacting_effects())
-      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 2}])
 
       alerts =
         [
@@ -836,7 +836,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       affected_line = Faker.Util.pick(@lines_without_branches)
 
-      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 1}])
+      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 2}])
 
       alerts =
         [
