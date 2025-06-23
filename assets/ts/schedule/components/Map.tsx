@@ -135,7 +135,7 @@ export const reducer: DataReducerType = (state, action) => {
     default:
       /* istanbul ignore next */
       // eslint-disable-next-line no-console
-      console.error("unexpected event", action);
+      console.warn("unexpected event", action);
       return state;
   }
 };
