@@ -58,14 +58,19 @@ const noPaymentLot = {
   payment: null
 } as ParkingLot;
 
+const past = new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(); // 1 day ago
+const future = new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(); // 1 day in the future
+
 const closedAlerts = [
   {
+    active_period: [[past, future]],
     effect: "parking_closure",
     informed_entity: {
       facility: ["test1"]
     }
   },
   {
+    active_period: [[past, future]],
     effect: "parking_closure",
     informed_entity: {
       facility: ["test2"]

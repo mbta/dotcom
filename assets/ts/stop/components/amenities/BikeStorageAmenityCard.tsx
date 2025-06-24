@@ -8,6 +8,7 @@ import AmenityCard, {
   AmenityLink,
   AmenityModal
 } from "./AmenityCard";
+import { alertsInEffect } from "../../../models/alert";
 
 const availabilityMessage = (
   pedal: boolean,
@@ -34,7 +35,9 @@ const BikeStorageAmenityCard = ({
   bikeStorage: BikeStorageType[];
   alerts: Alert[];
 }): JSX.Element => {
-  const hasBikeFacilityAlert = alerts.length > 0;
+  const filteredAlerts = alertsInEffect(alerts);
+
+  const hasBikeFacilityAlert = filteredAlerts.length > 0;
   const hasBikeStorage = bikeStorage.length > 0;
   // inferred from gtfs_creator: these 3 Bike storage facility types
   const hasPedalAndPark = bikeStorage.includes("bike_storage_cage");
@@ -42,12 +45,13 @@ const BikeStorageAmenityCard = ({
   const hasEnclosedRack = bikeStorage.includes("bike_storage_rack_covered");
 
   const cardBadge = (): React.ReactNode => {
-    if (hasBikeFacilityAlert) {
-      return <Badge text="Temporarily closed" />;
-    }
     if (!hasBikeStorage) {
       return <Badge text="Not available" bgClass="u-bg--gray-lighter" />;
     }
+    if (hasBikeFacilityAlert) {
+      return <Badge text="Temporarily closed" />;
+    }
+
     return null;
   };
 
@@ -59,7 +63,7 @@ const BikeStorageAmenityCard = ({
       modalContent={
         hasBikeStorage && (
           <AmenityModal headerText={`Bike Storage at ${stopName}`}>
-            {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
+            <Alerts alerts={alerts} />
             <h2 className="h3">Facility Information</h2>
             {hasPedalAndPark && (
               <AmenityImage

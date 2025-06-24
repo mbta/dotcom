@@ -3,6 +3,14 @@ import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
 import { Activity, Alert, Facility, TimePeriodPairs } from "../__v3api";
 
+const activePeriodToDates = (
+  activePeriod: TimePeriodPairs
+): (Date | null)[] => {
+  return activePeriod.map((d: string): Date | null => {
+    return parseISO(d);
+  });
+};
+
 export const isHighSeverityOrHighPriority = ({
   priority,
   severity
@@ -19,6 +27,16 @@ export const isDiversion = ({ effect }: Alert): boolean =>
 
 export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
   effect === "detour" || effect === "suspension" || effect === "shuttle";
+
+export const alertsInEffect = (alerts: Alert[]): Alert[] =>
+  alerts.filter(a => {
+    return a.active_period?.some((period: TimePeriodPairs): boolean => {
+      const [start, end] = activePeriodToDates(period);
+      const now = new Date();
+
+      return (start === null || now >= start) && (end === null || now <= end);
+    });
+  });
 
 export const alertsForEffects = (alerts: Alert[], effects: string[]): Alert[] =>
   alerts.filter(a => effects.includes(a.effect));
@@ -184,14 +202,6 @@ export const uniqueByEffect = (
   index: number,
   alerts: Alert[]
 ): boolean => alerts.findIndex(a => a.effect === alert.effect) === index;
-
-const activePeriodToDates = (
-  activePeriod: TimePeriodPairs
-): (Date | null)[] => {
-  return activePeriod.map((d: string): Date | null => {
-    return parseISO(d);
-  });
-};
 
 export const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "new" ||
