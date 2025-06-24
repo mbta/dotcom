@@ -8,6 +8,7 @@ import AmenityCard, {
   AmenityLink,
   AmenityModal
 } from "./AmenityCard";
+import { alertsInEffect } from "../../../models/alert";
 
 const availabilityMessage = (
   pedal: boolean,
@@ -34,7 +35,9 @@ const BikeStorageAmenityCard = ({
   bikeStorage: BikeStorageType[];
   alerts: Alert[];
 }): JSX.Element => {
-  const hasBikeFacilityAlert = alerts.length > 0;
+  const filteredAlerts = alertsInEffect(alerts);
+
+  const hasBikeFacilityAlert = filteredAlerts.length > 0;
   const hasBikeStorage = bikeStorage.length > 0;
   // inferred from gtfs_creator: these 3 Bike storage facility types
   const hasPedalAndPark = bikeStorage.includes("bike_storage_cage");

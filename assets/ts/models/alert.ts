@@ -20,6 +20,18 @@ export const isDiversion = ({ effect }: Alert): boolean =>
 export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
   effect === "detour" || effect === "suspension" || effect === "shuttle";
 
+export const alertsInEffect = (alerts: Alert[]): Alert[] =>
+  alerts.filter(a => {
+    return a.active_period.some((period: TimePeriodPairs): boolean => {
+      const [start, end] = activePeriodToDates(period);
+      const now = new Date();
+
+      const active = (start === null || now >= start) && (end === null || now <= end);
+
+      return active;
+    });
+  });
+
 export const alertsForEffects = (alerts: Alert[], effects: string[]): Alert[] =>
   alerts.filter(a => effects.includes(a.effect));
 
