@@ -122,7 +122,8 @@ defmodule DotCom.Mixfile do
       {
         :open_trip_planner_client,
         # [github: "mbta/open_trip_planner_client", tag: "v0.14.1"]
-        path: "../open_trip_planner_client"
+        [github: "mbta/open_trip_planner_client", branch: "jdl/feat/unavailable-trips"]
+        # path: "../open_trip_planner_client"
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.7.21"},
