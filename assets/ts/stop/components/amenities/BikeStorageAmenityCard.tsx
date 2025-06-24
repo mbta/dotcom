@@ -45,12 +45,13 @@ const BikeStorageAmenityCard = ({
   const hasEnclosedRack = bikeStorage.includes("bike_storage_rack_covered");
 
   const cardBadge = (): React.ReactNode => {
-    if (hasBikeFacilityAlert) {
-      return <Badge text="Temporarily closed" />;
-    }
     if (!hasBikeStorage) {
       return <Badge text="Not available" bgClass="u-bg--gray-lighter" />;
     }
+    if (hasBikeFacilityAlert) {
+      return <Badge text="Temporarily closed" />;
+    }
+
     return null;
   };
 
@@ -62,7 +63,7 @@ const BikeStorageAmenityCard = ({
       modalContent={
         hasBikeStorage && (
           <AmenityModal headerText={`Bike Storage at ${stopName}`}>
-            {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
+            <Alerts alerts={alerts} />
             <h2 className="h3">Facility Information</h2>
             {hasPedalAndPark && (
               <AmenityImage

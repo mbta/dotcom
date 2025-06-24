@@ -184,9 +184,10 @@ const allParkingLotsClosed = (
   }
 
   const filteredAlerts = alertsInEffect(alerts);
-  const parkingClosuresIDs = alertsForEffect(filteredAlerts, "parking_closure").flatMap(
-    a => a.informed_entity.facility
-  );
+  const parkingClosuresIDs = alertsForEffect(
+    filteredAlerts,
+    "parking_closure"
+  ).flatMap(a => a.informed_entity.facility);
 
   const parkingLotIDs = parkingLots.map(p => p.id);
 
