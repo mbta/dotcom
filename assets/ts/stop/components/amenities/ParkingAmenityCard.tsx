@@ -187,9 +187,9 @@ const allParkingLotsClosed = (
   const parkingClosuresIDs = alertsForEffect(filteredAlerts, "parking_closure").flatMap(
     a => a.informed_entity.facility
   );
-  console.log(parkingClosuresIDs);
+
   const parkingLotIDs = parkingLots.map(p => p.id);
-  console.log(parkingLotIDs);
+
   // if both arrays have the same ids in them then all lots are closed
   // meaning `openParkingLotIDs` should be empty if all lots are closed
   const openParkingLotIDs = difference(parkingLotIDs, parkingClosuresIDs);

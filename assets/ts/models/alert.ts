@@ -26,9 +26,7 @@ export const alertsInEffect = (alerts: Alert[]): Alert[] =>
       const [start, end] = activePeriodToDates(period);
       const now = new Date();
 
-      const active = (start === null || now >= start) && (end === null || now <= end);
-
-      return active;
+      return (start === null || now >= start) && (end === null || now <= end);
     });
   });
 
