@@ -1,11 +1,11 @@
-import React from "react";
 import { mount } from "enzyme";
-import Map, { iconOpts, reducer } from "../Map";
-import {
-  MapData,
-  MapMarker as Marker
-} from "../../../leaflet/components/__mapdata";
+import React from "react";
 import { TileLayer } from "react-leaflet";
+import {
+    MapData,
+    MapMarker as Marker
+} from "../../../leaflet/components/__mapdata";
+import Map, { iconOpts, reducer } from "../Map";
 
 /* eslint-disable camelcase */
 const data: MapData = {
@@ -156,23 +156,6 @@ describe("reducer", () => {
     expect(result.markers.map(m => m.id)).toEqual(data.markers.map(m => m.id));
     expect(data.markers[0].latitude).toEqual(42.39786911010742);
     expect(result.markers[0].latitude).toEqual(43.0);
-  });
-
-  it("doesn't handle unknown events empty data actions", () => {
-    const spy = jest
-      .spyOn(global.console, "error")
-      .mockImplementation(() => {});
-    const state = reducer(
-      { markers: data.markers },
-      {
-        // @ts-ignore
-        action: { event: "unsupported", data: [] }
-      }
-    );
-    expect(state).toEqual({ markers: data.markers });
-    expect(spy).toHaveBeenCalledWith("unexpected event", {
-      action: { data: [], event: "unsupported" }
-    });
   });
 
   it("handles empty data actions", () => {

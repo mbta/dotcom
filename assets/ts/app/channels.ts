@@ -1,4 +1,4 @@
-import { Socket, Channel } from "phoenix";
+import { Channel, Socket } from "phoenix";
 
 declare global {
   interface Window {
@@ -67,12 +67,9 @@ const joinChannel = <T>(
   });
 
   channel.onError((reason: string) => {
-    console.error(`error on channel ${channelId} : ${reason}`);
-    /* eslint-enable no-console */
-    const errorEvent = new CustomEvent<{ error: string }>(channelId, {
-      detail: { error: reason }
-    });
-    document.dispatchEvent(errorEvent);
+    if (reason) {
+      console.error(`error on channel ${channelId} : ${reason}`);
+    }
   });
 
   if (isVehicleChannel(channelId)) {
