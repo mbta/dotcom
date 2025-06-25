@@ -30,7 +30,6 @@
   {"lib/dotcom_web/controllers/schedule/timetable_controller.ex", :call},
   {"lib/dotcom_web/controllers/schedule/timetable_controller.ex", :no_return},
   {"lib/dotcom_web/controllers/search_controller.ex", :unknown_type},
-  {"lib/dotcom_web/controllers/transit_near_me_controller.ex", :pattern_match},
   {"lib/dotcom_web/router.ex", :unused_fun},
   {"lib/dotcom_web/stats.ex", :unmatched_return},
   {"lib/dotcom_web/views/bus_stop_change_view.ex", :unknown_type},
