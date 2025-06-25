@@ -51,6 +51,7 @@
     "@babel/preset-env": "^7.22.5",
     "@babel/register": "^7.17.0",
     "@faker-js/faker": "^8.0.2",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",

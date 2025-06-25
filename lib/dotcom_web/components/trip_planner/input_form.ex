@@ -113,7 +113,17 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
     """
   end
 
-  defp location_search_box(assigns) do
+  attr :field, Phoenix.HTML.FormField,
+    required: true,
+    doc: "A form field for a `Dotcom.TripPlan.InputForm.Location`"
+
+  attr :name, :string, required: true, doc: "Needed for the underlying autocomplete ID"
+
+  attr :placeholder, :string,
+    doc: "Placeholder text for empty search box",
+    default: "Enter a location"
+
+  def location_search_box(assigns) do
     assigns =
       assigns
       |> assign(%{
