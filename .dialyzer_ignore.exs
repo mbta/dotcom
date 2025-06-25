@@ -56,8 +56,6 @@
   {"lib/predictions/stream_worker.ex", :unknown_type},
   {"lib/req/stats.ex", :unmatched_return},
   {"lib/routes/populate_caches.ex", :unmatched_return},
-  {"lib/schedules/by_stop/departures.ex", :unknown_type},
-  {"lib/schedules/by_stop/schedules_by_stop_repo.ex", :unknown_type},
   {"lib/schedules/hours_of_operation.ex", :unknown_type},
   {"lib/telemetry/helper.ex", :unmatched_return},
   {"test/support/cms/factory.ex", :call},
