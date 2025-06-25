@@ -132,6 +132,7 @@
   }
 
   .c-search-bar__autocomplete-results {
+    display: block;
     position: relative;
 
     // Autocomplete.JS doesn't support multiple instances per page, and one way

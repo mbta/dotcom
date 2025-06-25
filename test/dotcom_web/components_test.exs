@@ -31,6 +31,34 @@ defmodule DotcomWeb.ComponentsTest do
 
       assert html =~ ~s(<div id="#{id}" phx-hook="AlgoliaAutocomplete" phx-update="ignore">)
     end
+
+    test "defaults to placeholder for aria-label" do
+      placeholder = Faker.App.name()
+
+      html =
+        render_component(&algolia_autocomplete/1, %{
+          id: Faker.String.base64(5),
+          config_type: "basic-config",
+          placeholder: placeholder
+        })
+
+      assert html =~ ~s(<search aria-label="#{placeholder}")
+    end
+
+    test "uses custom aria-label" do
+      placeholder = Faker.App.name()
+      label = Faker.Beer.brand()
+
+      html =
+        render_component(&algolia_autocomplete/1, %{
+          id: Faker.String.base64(5),
+          config_type: "basic-config",
+          placeholder: placeholder,
+          "aria-label": label
+        })
+
+      assert html =~ ~s(<search aria-label="#{label}")
+    end
   end
 
   describe "error_container" do
