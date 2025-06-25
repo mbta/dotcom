@@ -132,6 +132,7 @@
   }
 
   .c-search-bar__autocomplete-results {
+    display: block;
     position: relative;
 
     // Autocomplete.JS doesn't support multiple instances per page, and one way
@@ -189,8 +190,10 @@
 
 // a larger-format search box, with the search icon displayed as white on blue.
 #error-page,
+#projects-search,
 #proposed-sales-locations,
 #sales-locations,
+#stops-search,
 #vote {
   --aa-search-input-height: 2.5rem;
 
