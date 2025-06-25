@@ -1,6 +1,6 @@
 <p>
   <strong>Emergency:</strong> <%= tel_link "617-222-1212" %><br>
-  <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+  <strong>TTY:</strong> <%= tel_link "711" %>
 </p>
 <p>
 <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-call-to-action" do %>
