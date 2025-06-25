@@ -42,14 +42,15 @@ const isBannerAlertEffect = ({ effect }: Alert): boolean =>
     "suspension"
   ].includes(effect);
 
-const isActiveElevatorAlert = (alert: Alert): boolean =>
-  alert.effect === "elevator_closure" && isInNextXDays(alert, 0);
+const isActiveBannerAlert = (alert: Alert): boolean =>
+  ["access_issue", "elevator_closure"].includes(alert.effect) &&
+  isInNextXDays(alert, 0);
 
 const isBannerAlert = (alert: Alert): boolean =>
   (isBannerAlertEffect(alert) &&
     isInNextXDays(alert, 7) &&
     !isGlobalBannerAlert(alert)) ||
-  isActiveElevatorAlert(alert);
+  isActiveBannerAlert(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
