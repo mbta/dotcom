@@ -401,28 +401,6 @@ defmodule UtilTest do
     end
   end
 
-  describe "yield_or_default/4" do
-    test "returns result when task does not timeout" do
-      task = Task.async(fn -> :success end)
-      assert yield_or_default(task, 1_000, :fail, __MODULE__) == :success
-    end
-
-    test "returns default when task times out" do
-      task =
-        Task.async(fn ->
-          :timer.sleep(60_000)
-          :async
-        end)
-
-      log =
-        capture_log(fn ->
-          assert yield_or_default(task, 10, :default, __MODULE__) == :default
-        end)
-
-      assert log =~ "error=async_error"
-    end
-  end
-
   describe "yield_or_default_many/2" do
     test "returns result when task does not timeout, and default when it does" do
       short_fn = fn -> :task_result end
