@@ -24,7 +24,7 @@ defmodule DotcomWeb.ComponentsTest do
           config_type: config
         })
 
-      assert html =~ ~s(<div class="c-search-bar__autocomplete-results"></div>)
+      assert html =~ ~s(<output class="c-search-bar__autocomplete-results">)
 
       assert html =~
                ~s(<div class="c-search-bar__autocomplete" data-placeholder="Search for routes, info, and more" data-config="#{config}"></div>)
