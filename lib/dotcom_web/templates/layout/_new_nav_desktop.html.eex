@@ -28,7 +28,7 @@
                       <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
                     </div>
                     <div class="m-menu__feature_phone">
-                      <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+                      <strong>TTY:</strong> <%= tel_link "711" %>
                     </div>
                   </div>
                 <%end %>
