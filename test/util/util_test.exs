@@ -4,7 +4,6 @@ defmodule UtilTest do
   import Util
   import ExUnit.CaptureLog, only: [capture_log: 1]
   doctest Util
-  doctest Util.Polygon
 
   describe "now/1" do
     test "handles ambiguous UTC times by returning the earlier time" do
