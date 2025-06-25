@@ -1,0 +1,39 @@
+# Alerts
+
+## Section
+
+```elixir
+import Dotcom.Utils.DateTime, only: [now: 0]
+
+alias Test.Support.Factories.Alerts.{Alert, InformedEntity}
+
+# Create an informed entity for a route (Orange) and stop (Downtown Crossing)
+informed_entity = InformedEntity.build(:informed_entity,
+  activities: MapSet.new([:exit, :ride, :board]),
+  route: "Orange",
+  route_type: 1,
+  stop: "place-dwnxg"
+)
+informed_entity_set = Alerts.InformedEntitySet.new([informed_entity])
+
+# Create a currently active suspension alert
+alert = Alert.build(:alert,
+  active_period: [{
+    now() |> Timex.shift(hours: -4), now() |> Timex.shift(hours: 8)
+  }],
+  effect: :suspension,
+  informed_entity: informed_entity_set
+)
+alerts = [alert]
+
+# Stop the fetcher so it doesn't update alerts
+Supervisor.which_children(Dotcom.Supervisor)
+|> Enum.find(fn {_, _, _, list} -> list == [Alerts.CacheSupervisor] end)
+|> elem(1)
+|> Supervisor.terminate_child(Alerts.Cache.Fetcher)
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
