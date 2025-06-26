@@ -12,9 +12,7 @@ ADD . .
 # ALPINE PACKAGES
 RUN apk update
 RUN apk add build-base
-RUN apk add curl
 RUN apk add git
-RUN apk add libssl3
 RUN apk add nodejs
 RUN apk add npm
 
@@ -43,6 +41,10 @@ RUN mix release
 FROM hexpm/elixir:1.18.3-erlang-27.3.3-alpine-3.21.3
 
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
+
+RUN apk update
+RUN apk add curl
+RUN apk add libssl3
 
 COPY --from=builder /home/_build /home/_build
 
