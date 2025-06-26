@@ -37,7 +37,7 @@ RUN npm run --prefix assets webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # CREATE ELIXIR RELEASE
 RUN mix compile
 RUN mix phx.digest
-RUN mix sentry.package_source_code --no-compile --no-deps-check
+# RUN mix sentry.package_source_code --no-compile --no-deps-check
 RUN mix release
 
 FROM hexpm/elixir:1.18.3-erlang-27.3.3-alpine-3.21.3
