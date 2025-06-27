@@ -7,12 +7,11 @@ defmodule VehicleHelpers do
 
   alias DotcomWeb.ScheduleController.VehicleLocations
   alias Predictions.Prediction
-  alias Routes.{Route, Shape}
+  alias Routes.Route
   alias Stops.Stop
   alias Schedules.Trip
   alias Vehicles.Vehicle
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
@@ -79,37 +78,6 @@ defmodule VehicleHelpers do
   @spec stop_name(Stops.Stop.t() | nil) :: String.t()
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
-
-  @doc """
-  Get polylines for vehicles that didn't already have their shape included when the route polylines were requested
-  """
-  @spec get_vehicle_polylines(VehicleLocations.t(), [Shape.t()]) :: [String.t()]
-  def get_vehicle_polylines(locations, route_shapes) do
-    vehicle_shape_ids = vehicle_shape_ids(locations)
-    route_shape_ids = MapSet.new(route_shapes, & &1.id)
-
-    vehicle_shape_ids
-    |> MapSet.difference(route_shape_ids)
-    |> Enum.map(&@routes_repo.get_shape(&1))
-    |> Enum.flat_map(fn
-      [] ->
-        []
-
-      [%Shape{} = shape | _] ->
-        [shape.polyline]
-    end)
-  end
-
-  @spec vehicle_shape_ids(VehicleLocations.t()) :: MapSet.t()
-  defp vehicle_shape_ids(locations) do
-    for {_, vehicle} <- locations,
-        is_binary(vehicle.trip_id),
-        trip = Schedules.Repo.trip(vehicle.trip_id),
-        not is_nil(trip),
-        into: MapSet.new() do
-      trip.shape_id
-    end
-  end
 
   @doc """
   Function used to return tooltip text for a VehicleTooltip struct

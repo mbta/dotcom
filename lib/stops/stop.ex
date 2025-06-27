@@ -64,8 +64,6 @@ defmodule Stops.Stop do
           place_id: String.t() | nil
         }
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   defimpl Util.Position do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
@@ -86,20 +84,6 @@ defmodule Stops.Stop do
   @spec accessible?(t) :: boolean
   def accessible?(%__MODULE__{accessibility: ["accessible" | _]}), do: true
   def accessible?(%__MODULE__{}), do: false
-
-  @doc """
-  Returns a boolean indicating whether the stop has a known zone
-  """
-  @spec has_zone?(t | id_t) :: boolean
-  def has_zone?(<<id::binary>>) do
-    case @stops_repo.get(id) do
-      nil -> false
-      stop -> has_zone?(stop)
-    end
-  end
-
-  def has_zone?(%__MODULE__{zone: zone}) when not is_nil(zone), do: true
-  def has_zone?(_), do: false
 end
 
 defmodule Stops.Stop.ParkingLot do

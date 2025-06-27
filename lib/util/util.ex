@@ -23,23 +23,6 @@ defmodule Util do
     # to_local_time(utc_now_fn.())
   end
 
-  def date_as_js_string(%DateTime{} = date_time) do
-    Timex.format!(date_time, "%FT%H:%M", :strftime)
-  end
-
-  def date_as_js_string(%Date{} = date) do
-    Timex.format!(date, "%FT%H:%M", :strftime)
-  end
-
-  def date_as_js_string(%NaiveDateTime{} = naive_date_time) do
-    Timex.format!(naive_date_time, "%FT%H:%M", :strftime)
-  end
-
-  @doc "Today's date in the America/New_York timezone."
-  def today do
-    now() |> Timex.to_date()
-  end
-
   @spec time_is_greater_or_equal?(
           DateTime.t() | NaiveDateTime.t(),
           DateTime.t() | NaiveDateTime.t()
@@ -60,30 +43,6 @@ defmodule Util do
       :lt -> false
     end
   end
-
-  def parse_date_time(%DateTime{} = date_time) do
-    date_time
-  end
-
-  def parse_date_time(%NaiveDateTime{} = date_time) do
-    date_time
-  end
-
-  def parse_date_time(string) when is_binary(string) do
-    Timex.parse!(string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
-  end
-
-  def parse_date_time(map) when is_map(map) do
-    case parse(map) do
-      {:error, _} ->
-        Timex.now()
-
-      date_time ->
-        date_time
-    end
-  end
-
-  def parse_date_time(_), do: Timex.now()
 
   @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   def parse(date_params) do
@@ -201,8 +160,6 @@ defmodule Util do
   defp handle_ambiguous_time({:error, error}) do
     {:error, error}
   end
-
-  def local_tz, do: @local_tz
 
   @doc """
 
@@ -408,16 +365,6 @@ defmodule Util do
     else
       task_result_or_default(result, default, task, module, index)
     end
-  end
-
-  @doc """
-  Yields the value from a task, or returns a default value.
-  """
-  @spec yield_or_default(Task.t(), non_neg_integer, any, atom) :: any
-  def yield_or_default(%Task{} = task, timeout, default, module) when is_atom(module) do
-    task
-    |> Task.yield(timeout)
-    |> task_result_or_default(default, task, module, "")
   end
 
   @doc """
