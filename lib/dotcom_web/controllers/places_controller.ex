@@ -105,7 +105,10 @@ defmodule DotcomWeb.PlacesController do
       {:ok, suggestions} ->
         json(conn, %{result: with_coordinates(suggestions)})
 
-      {:error, _} ->
+      {:error, :invalid_arguments} ->
+        ControllerHelpers.return_invalid_arguments_error(conn)
+
+      _ ->
         ControllerHelpers.return_internal_error(conn)
     end
   end

@@ -26,7 +26,11 @@ defmodule LocationService do
 
   @impl LocationService.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def autocomplete(text, limit, options \\ @bias_options) do
+  def autocomplete(text, limit, options \\ @bias_options)
+
+  def autocomplete(text, _, _) when length(text) > 200, do: {:error, :invalid_arguments}
+
+  def autocomplete(text, limit, options) do
     options
     |> Map.merge(%{"Text" => text, "MaxResults" => limit})
     |> then(&@aws_client.search_place_index_for_suggestions(index(), &1))
