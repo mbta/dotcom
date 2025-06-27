@@ -61,6 +61,8 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.CacheControl, max_age: 86_400)
   end
 
+  forward "/mcp", Vancouver.Router, tools: [Dotcom.Tools.PlanTrip]
+
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)
