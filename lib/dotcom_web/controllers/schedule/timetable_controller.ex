@@ -250,13 +250,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           "1785",
           "793",
           "5715",
-          "5721",
-          "5731",
-          "5739",
-          "5747",
-          "5755",
-          "5767",
-          "5777",
           "5785",
           "5793"
         ]
@@ -280,12 +273,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           "776",
           "784",
           "5706",
-          "5724",
-          "5730",
-          "5738",
-          "5746",
-          "5754",
-          "5768",
           "5778",
           "5784"
         ]
