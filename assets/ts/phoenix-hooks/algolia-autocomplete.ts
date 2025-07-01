@@ -1,4 +1,4 @@
-import { ViewHook } from "phoenix_live_view";
+import { LiveSocket, ViewHook } from "phoenix_live_view";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
 import {
   Item,
@@ -20,6 +20,10 @@ function valuesFromData(data: Partial<Item>): object {
   return { name, stop_id, latitude, longitude };
 }
 
+const hasConnected = (liveSocket: LiveSocket): boolean => {
+  return liveSocket.getSocket().connectionState() === "open";
+};
+
 const AlgoliaAutocomplete = {
   mounted() {
     if (this.el) {
@@ -31,9 +35,12 @@ const AlgoliaAutocomplete = {
         const pushToLiveView = (data: Partial<Item>): void => {
           const values = valuesFromData(data);
 
-          this.pushEvent!("input_form_change", {
-            input_form: { [key]: values }
-          });
+          // @ts-ignore
+          if (hasConnected(this.liveSocket) && this.pushEvent) {
+            this.pushEvent("input_form_change", {
+              input_form: { [key]: values }
+            });
+          }
 
           // for the disconnected-to-LiveView case, make sure to write
           // the selected data into the form fields themselves.
