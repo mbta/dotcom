@@ -268,9 +268,15 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     alerts
     |> Enum.group_by(& &1.effect)
     |> Enum.map(fn {effect, alerts} ->
-      {effect, Kernel.length(alerts)}
+      {effect, %{count: Kernel.length(alerts), next_active: next_active(alerts)}}
     end)
     |> Map.new()
+  end
+
+  defp next_active(alerts) when is_list(alerts) do
+    alerts
+    |> Enum.filter(&active_now_or_later_on_day?(&1, @date_time_module.now()))
+    |> Enum.map(&next_active_time/1)
   end
 
   # Returns a boolean indicating whether or not the route has a schedule

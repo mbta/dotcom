@@ -45,14 +45,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # Attaches a URL to the row based on the number of alerts.
   # If there are no alerts, the URL will be for the timetable.
   # If there are alerts, the URL will be for the alerts page.
-  defp attach_url(%{alert_counts: alert_counts, id: id} = row) when alert_counts == %{} do
-    row
-    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
-  end
-
   defp attach_url(%{id: id} = row) do
     row
-    |> Map.put(:url, ~p"/schedules/#{id}/alerts")
+    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
   end
 
   # Returns a list of tuples where the first element is the effect of the alert
@@ -94,7 +89,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # If there are multiple types of alerts, we combine them to just say "X Service Alerts".
   defp combine_alert_counts(alert_counts) do
     effect_count = alert_counts |> Map.keys() |> Enum.count()
-    total_count = Enum.reduce(alert_counts, 0, fn {_, count}, acc -> acc + count end)
+    total_count = Enum.reduce(alert_counts, 0, fn {_, %{count: count}}, acc -> acc + count end)
 
     case {effect_count, total_count} do
       {0, _} ->
@@ -103,13 +98,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       {1, 1} ->
         effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title()
+        count_or_time = alert_counts |> Map.values() |> List.first() |> count_or_time()
 
-        [{effect, "1 #{effect_string}"}]
+        [{effect, "#{count_or_time} #{effect_string}"}]
 
       {1, _} ->
         effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title() |> Inflex.pluralize()
-        count = alert_counts[effect]
+        count = alert_counts |> Map.values() |> List.first() |> Map.get(:count, 0)
 
         [{effect, "#{count} #{effect_string}"}]
 
@@ -117,6 +113,20 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         [{:alert, "#{total_count} Service Alerts"}]
     end
   end
+
+  # If there is one alert of the effect, and it is active in the future, give the time.
+  # Otherwise, give the count of 1.
+  # For all others, just give the count.
+  defp count_or_time(%{count: 1, next_active: next_active}) do
+    active = List.first(next_active)
+
+    case active do
+      {:future, time} -> "#{Util.narrow_time(time)}:"
+      _ -> "1"
+    end
+  end
+
+  defp count_or_time(alerts), do: length(alerts)
 
   # Rejects cancellations and delays from the alert counts
   # so that we can separate cancellations and delays from other alerts.
