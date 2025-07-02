@@ -9,20 +9,32 @@ defmodule Dotcom.SystemStatus.StartTime do
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @doc """
-  Checks an active period (which is actually a list of start/end pairs) for
-  the next one that will become active.
-   - If the active period is in the future, returns its start_time.
-   - If the active period indicates that the alert is currently active, returns nil.
-   - Raises an error if the alert is completely in the past.
+  Gets the next active time of a single alert or group of alerts.
   """
-  @spec next_active_time(Alert.t(), DateTime.t()) ::
-          :past | :current | {:future, DateTime.t()}
-  def next_active_time(alert, time \\ @date_time_module.now()) do
+  @spec next_active_time([Alert.t()] | Alert.t(), DateTime.t()) ::
+          :past | {:current, DateTime.t()} | {:future, DateTime.t()}
+  def next_active_time(alerts, time \\ @date_time_module.now())
+
+  def next_active_time(alerts, time) when is_list(alerts) do
+    alerts
+    |> Enum.map(fn alert -> next_active_time(alert, time) end)
+    |> List.flatten()
+    |> Enum.sort_by(fn next_active ->
+      case next_active do
+        :past -> 0
+        :current -> @date_time_module.now() |> DateTime.to_unix()
+        {_, date_time} -> DateTime.to_unix(date_time)
+      end
+    end)
+    |> List.last()
+  end
+
+  def next_active_time(alert, time) do
     next_active_period_active_time(alert.active_period, time)
   end
 
   @spec next_active_period_active_time([Alert.period_pair()], DateTime.t()) ::
-          :past | :current | {:future, DateTime.t()}
+          :past | {:current, DateTime.t()} | {:future, DateTime.t()}
   def next_active_period_active_time([], _time), do: :past
 
   def next_active_period_active_time(
