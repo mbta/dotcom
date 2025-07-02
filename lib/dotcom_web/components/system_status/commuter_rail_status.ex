@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     <.bordered_container hide_divider>
       <:heading>
         <div class="mb-sm">
-          Current Status
+          Commuter Rail Status
         </div>
       </:heading>
       <div class="border-b-xs border-gray-lightest grid grid-cols-[min-content_auto_min-content]">
