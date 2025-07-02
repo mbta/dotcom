@@ -273,14 +273,19 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     |> Map.new()
   end
 
+  # Given a list of alerts, find the next active time of any of the alerts.
   defp next_active(alerts) do
     alerts
     |> Enum.map(&next_active_time/1)
     |> List.flatten()
-    |> Enum.sort_by(fn {_, date_time} ->
-      DateTime.to_unix(date_time)
+    |> Enum.sort_by(fn next_active ->
+      case next_active do
+        :past -> 0
+        :current -> @date_time_module.now() |> DateTime.to_unix()
+        {_, date_time} -> DateTime.to_unix(date_time)
+      end
     end)
-    |> List.first()
+    |> List.last()
   end
 
   # Returns a boolean indicating whether or not the route has a schedule

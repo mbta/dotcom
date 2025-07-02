@@ -42,9 +42,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     """
   end
 
-  # Attaches a URL to the row based on the number of alerts.
-  # If there are no alerts, the URL will be for the timetable.
-  # If there are alerts, the URL will be for the alerts page.
+  # Attaches a URL to the row.
   defp attach_url(%{id: id} = row) do
     row
     |> Map.put(:url, ~p"/schedules/#{id}/timetable")
