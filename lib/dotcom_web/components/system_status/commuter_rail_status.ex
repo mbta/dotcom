@@ -59,28 +59,28 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   defp combine_alert_counts(alert_counts) when alert_counts == %{}, do: []
 
   # We have at least one cancellation and one delay.
-  defp combine_alert_counts(%{delay: delays, cancellation: cancellations} = alert_counts) do
+  defp combine_alert_counts(%{cancellation: cancellations, delay: delays} = alert_counts) do
     other_alert_counts =
       reject_cancellations_and_delays(alert_counts)
 
     combine_alert_counts(other_alert_counts) ++
-      [{:alert, "#{cancellations + delays} Cancellations / Delays"}]
+      [{:alert, "#{cancellations.count + delays.count} Cancellations / Delays"}]
   end
 
   # We have at least one cancellation and no delays.
-  defp combine_alert_counts(%{cancellation: cancellations} = alert_counts) do
+  defp combine_alert_counts(%{cancellation: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if cancellations == 1, do: "Cancellation", else: "Cancellations"
+    effect_string = if count == 1, do: "Cancellation", else: "Cancellations"
 
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{cancellations} #{effect_string}"}]
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
 
   # We have at least one delay and no cancellations.
-  defp combine_alert_counts(%{delay: delays} = alert_counts) do
+  defp combine_alert_counts(%{delay: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if delays == 1, do: "Delay", else: "Delays"
+    effect_string = if count == 1, do: "Delay", else: "Delays"
 
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{delays} #{effect_string}"}]
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
 
   # The default case where we have non-cancellation and non-delay alerts.
@@ -115,18 +115,12 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   end
 
   # If there is one alert of the effect, and it is active in the future, give the time.
-  # Otherwise, give the count of 1.
   # For all others, just give the count.
-  defp count_or_time(%{count: 1, next_active: next_active}) do
-    active = List.first(next_active)
-
-    case active do
-      {:future, time} -> "#{Util.narrow_time(time)}:"
-      _ -> "1"
-    end
+  defp count_or_time(%{count: 1, next_active: {:future, time}}) do
+    "#{Util.narrow_time(time)}:"
   end
 
-  defp count_or_time(alerts), do: length(alerts)
+  defp count_or_time(%{count: count}), do: Integer.to_string(count)
 
   # Rejects cancellations and delays from the alert counts
   # so that we can separate cancellations and delays from other alerts.
