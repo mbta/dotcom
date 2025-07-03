@@ -32,6 +32,7 @@ jobs:
 
   sentry:
     needs: [release]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
