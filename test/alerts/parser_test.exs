@@ -252,6 +252,55 @@ defmodule Alerts.ParserTest do
              } = alert
     end
 
+    test "parses alerts as :single_tracking if their effect/cause/severity is :delay/:single_tracking/1" do
+      alert =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [],
+            "header" => "",
+            "active_period" => [],
+            "severity" => 1,
+            "lifecycle" => "ONGOING",
+            "effect" => "DELAY",
+            "cause" => "SINGLE_TRACKING",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => ""
+          }
+        })
+
+      assert %Alerts.Alert{
+               severity: 1,
+               effect: :single_tracking
+             } = alert
+    end
+
+    test "parses single-tracking alerts as :delay if their severity is >1" do
+      alert =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [],
+            "header" => "",
+            "active_period" => [],
+            "severity" => 2,
+            "lifecycle" => "ONGOING",
+            "effect" => "DELAY",
+            "cause" => "SINGLE_TRACKING",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => ""
+          }
+        })
+
+      assert %Alerts.Alert{
+               severity: 2,
+               effect: :delay,
+               cause: :single_tracking
+             } = alert
+    end
+
     test "Categorizes ACCESS_ISSUE alerts without special text as :access_issue" do
       alert =
         Parser.Alert.parse(%JsonApi.Item{

@@ -30,6 +30,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusIcon do
   end
 
   def status_icon_name(:shuttle), do: "icon-shuttle-default"
+  def status_icon_name(:single_tracking), do: "icon-single-tracking-default"
 
   def status_icon_name(status) when status in [:cancellation, :station_closure, :suspension],
     do: "icon-cancelled-default"

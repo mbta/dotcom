@@ -95,6 +95,11 @@ defmodule Alerts.Parser do
     end
 
     @spec effect(%{String.t() => String.t()}) :: Alerts.Alert.effect()
+    # Special case to parse an info-level delay-due-to-single-tracking
+    # as having a :single_tracking effect.
+    def effect(%{"severity" => 1, "effect" => "DELAY", "cause" => "SINGLE_TRACKING"}),
+      do: :single_tracking
+
     def effect(attributes) do
       case Map.fetch(attributes, "effect_name") do
         {:ok, effect_name} ->
@@ -166,6 +171,7 @@ defmodule Alerts.Parser do
     defp do_cause("CONSTRUCTION"), do: :construction
     defp do_cause("POLICE_ACTIVITY"), do: :police_activity
     defp do_cause("MEDICAL_EMERGENCY"), do: :medical_emergency
+    defp do_cause("SINGLE_TRACKING"), do: :single_tracking
     defp do_cause("UNKNOWN_CAUSE"), do: :unknown_cause
     defp do_cause(_), do: :unknown_cause
 
