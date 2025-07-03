@@ -30,6 +30,7 @@ defmodule Alerts.Alert do
     :escalator_closure,
     :policy_change,
     :schedule_change,
+    :single_tracking,
     :station_closure,
     :station_issue,
     :stop_moved,
@@ -79,6 +80,7 @@ defmodule Alerts.Alert do
           | :policy_change
           | :service_change
           | :shuttle
+          | :single_tracking
           | :suspension
           | :station_closure
           | :stop_closure
