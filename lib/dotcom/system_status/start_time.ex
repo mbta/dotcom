@@ -22,7 +22,6 @@ defmodule Dotcom.SystemStatus.StartTime do
     |> Enum.sort_by(fn next_active ->
       case next_active do
         :past -> 0
-        :current -> @date_time_module.now() |> DateTime.to_unix()
         {_, date_time} -> DateTime.to_unix(date_time)
       end
     end)
