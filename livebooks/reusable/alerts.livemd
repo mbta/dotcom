@@ -1,4 +1,4 @@
-# Mock Alerts
+# Alerts
 
 ## Section
 
@@ -7,17 +7,23 @@ import Dotcom.Utils.DateTime, only: [now: 0]
 
 alias Test.Support.Factories.Alerts.{Alert, InformedEntity}
 
-foxboro = InformedEntity.build(:informed_entity,
-  route: "CR-Franklin",
-  stop: "place-FS-0049"
+# Create an informed entity for a route (Orange) and stop (Downtown Crossing)
+informed_entity = InformedEntity.build(:informed_entity,
+  activities: MapSet.new([:exit, :ride, :board]),
+  route: "Orange",
+  route_type: 1,
+  stop: "place-dwnxg"
 )
-informed_entity_set = Alerts.InformedEntitySet.new([foxboro])
-alert = Alert.build(:alert,
-  active_period: [{now() |> Timex.shift(hours: -2), now() |> Timex.shift(hours: 2)}],
-  informed_entity: informed_entity_set,
-  effect: :station_closure
-)
+informed_entity_set = Alerts.InformedEntitySet.new([informed_entity])
 
+# Create a currently active suspension alert
+alert = Alert.build(:alert,
+  active_period: [{
+    now() |> Timex.shift(hours: -4), now() |> Timex.shift(hours: 8)
+  }],
+  effect: :suspension,
+  informed_entity: informed_entity_set
+)
 alerts = [alert]
 
 # Stop the fetcher so it doesn't update alerts
@@ -29,5 +35,5 @@ Supervisor.which_children(Dotcom.Supervisor)
 # Remove all other alerts and only use the one's you created
 Alerts.Cache.Store.update(alerts, nil)
 
-Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+now() |> Alerts.Repo.all()
 ```
