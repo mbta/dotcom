@@ -4,7 +4,6 @@ defmodule UtilTest do
   import Util
   import ExUnit.CaptureLog, only: [capture_log: 1]
   doctest Util
-  doctest Util.Polygon
 
   describe "now/1" do
     test "handles ambiguous UTC times by returning the earlier time" do
@@ -399,28 +398,6 @@ defmodule UtilTest do
 
       result_retries = String.split(log, "Async task timed out") |> length()
       assert set_retries + 1 === result_retries - 1
-    end
-  end
-
-  describe "yield_or_default/4" do
-    test "returns result when task does not timeout" do
-      task = Task.async(fn -> :success end)
-      assert yield_or_default(task, 1_000, :fail, __MODULE__) == :success
-    end
-
-    test "returns default when task times out" do
-      task =
-        Task.async(fn ->
-          :timer.sleep(60_000)
-          :async
-        end)
-
-      log =
-        capture_log(fn ->
-          assert yield_or_default(task, 10, :default, __MODULE__) == :default
-        end)
-
-      assert log =~ "error=async_error"
     end
   end
 

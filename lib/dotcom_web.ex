@@ -72,7 +72,7 @@ defmodule DotcomWeb do
           static_url: 2
         ]
 
-      import DotcomWeb.Views.Helpers.{AlertHelpers, StopHelpers}
+      import DotcomWeb.Views.Helpers.AlertHelpers
       import Phoenix.Controller, only: [view_module: 1]
       import UrlHelpers
 
