@@ -1,0 +1,25 @@
+# Mock OTP
+
+## Section
+
+```elixir
+import OpenTripPlannerClient.Test.Support.Factory
+
+# Define the mock and set it globally so it is picked up by all processes
+Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
+Mox.set_mox_global()
+
+# Override the factory itinerary defaults
+overrides = %{}
+
+# Stub out 0, 1, or more itinerary groups to return
+Mox.stub(OpenTripPlannerClient.Mock, :plan, fn _ ->
+  {:ok, build_list(1, :itinerary_group, overrides)}
+end)
+
+# Set the application variable so it is picked up when we recompile
+Application.put_env(:dotcom, :otp_module, OpenTripPlannerClient.Mock)
+
+# Recompile the code using the mock
+IEx.Helpers.r(Dotcom.TripPlan.OpenTripPlanner)
+```
