@@ -1,3 +1,0 @@
-<%= content_tag :span, class: "tooltip-icon" do
-  fa "question-circle", [data_toggle: "tooltip", title: @text, data_html: "true"]
-end %>
