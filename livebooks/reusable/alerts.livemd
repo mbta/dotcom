@@ -29,11 +29,5 @@ Supervisor.which_children(Dotcom.Supervisor)
 # Remove all other alerts and only use the one's you created
 Alerts.Cache.Store.update(alerts, nil)
 
-now() |> Alerts.Repo.all()
-```
-
-```elixir
-IEx.Helpers.r(Dotcom.SystemStatus.CommuterRail)
-
 Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 ```
