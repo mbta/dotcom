@@ -267,6 +267,20 @@ defmodule Alerts.Alert do
 
   def human_label(_), do: ""
 
+  def human_severity(%__MODULE__{effect: :delay, severity: severity}),
+    do: do_human_delay_severity(severity)
+
+  def human_severity(%__MODULE__{}), do: nil
+
+  defp do_human_delay_severity(3), do: "up to 10 min"
+  defp do_human_delay_severity(4), do: "up to 15 min"
+  defp do_human_delay_severity(5), do: "up to 20 min"
+  defp do_human_delay_severity(6), do: "up to 25 min"
+  defp do_human_delay_severity(7), do: "up to 30 min"
+  defp do_human_delay_severity(8), do: "of more than 30 min"
+  defp do_human_delay_severity(9), do: "of more than an hour"
+  defp do_human_delay_severity(_), do: nil
+
   @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel

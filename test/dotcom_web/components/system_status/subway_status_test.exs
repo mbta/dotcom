@@ -10,6 +10,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   alias Dotcom.SystemStatus.Subway
   alias Test.Support.Factories
 
+  @effects_with_simple_descriptions service_impacting_effects()
+                                    |> Enum.reject(fn {effect, _} -> effect == :delay end)
   @alert_effects_with_endpoints [:service_change, :shuttle, :suspension]
   @lines_without_branches List.delete(Subway.lines(), "Green")
 
@@ -201,8 +203,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       affected_branch_id =
         Faker.Util.pick(GreenLine.branch_ids())
 
-      {branch_effect, branch_severity} = Faker.Util.pick(service_impacting_effects())
-      {line_effect, line_severity} = Faker.Util.pick(service_impacting_effects())
+      {branch_effect, branch_severity} = Faker.Util.pick(@effects_with_simple_descriptions)
+      {line_effect, line_severity} = Faker.Util.pick(@effects_with_simple_descriptions)
 
       gl_alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -314,17 +316,17 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
     test "does not collapse Mattapan alerts" do
       # Setup
-      {mattapan_effect, mattapan_severity} = Faker.Util.pick(service_impacting_effects())
+      {mattapan_effect, mattapan_severity} = Faker.Util.pick(@effects_with_simple_descriptions)
 
       alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
           route_id: Faker.Util.pick(GreenLine.branch_ids()),
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: Faker.Util.pick(@effects_with_simple_descriptions)
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_routes,
           route_ids: GreenLine.branch_ids(),
-          effect: Faker.Util.pick(service_impacting_effects())
+          effect: Faker.Util.pick(@effects_with_simple_descriptions)
         )
         |> Factories.Alerts.Alert.active_now(),
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -669,7 +671,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       affected_line = Faker.Util.pick(@lines_without_branches)
 
       {effect, _severity} =
-        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}, {:shuttle, 1}])
+        Faker.Util.pick(
+          @effects_with_simple_descriptions -- [{:station_closure, 1}, {:shuttle, 1}]
+        )
 
       alert =
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -695,7 +699,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       affected_line = Faker.Util.pick(@lines_without_branches)
 
       {effect, _severity} =
-        Faker.Util.pick(service_impacting_effects() -- [{:station_closure, 1}])
+        Faker.Util.pick(@effects_with_simple_descriptions -- [{:station_closure, 1}])
 
       alerts =
         1..2
@@ -762,8 +766,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       affected_line = Faker.Util.pick(@lines_without_branches)
 
-      {effect1, _severity} = Faker.Util.pick(service_impacting_effects())
-      {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 2}])
+      {effect1, _severity} = Faker.Util.pick(@effects_with_simple_descriptions)
+      {effect2, _severity} = Faker.Util.pick(@effects_with_simple_descriptions)
 
       alerts =
         [
@@ -796,6 +800,65 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                [expected_status_text1, expected_status_text2]
     end
 
+    test "shows a human-readable delay severity (e.g. 'up to 20 min') for delays" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      severity = Faker.random_between(3, 9)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay,
+            severity: severity
+          )
+          |> Factories.Alerts.Alert.active_now()
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_text = "Delays #{human_delay_severity(severity)}"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
+
+    test "shows the human delay severity for the more severe delay if there are multiple" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      [severity1, severity2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(3, 9) end) |> Enum.sort()
+
+      alerts =
+        [severity1, severity2]
+        |> Enum.map(fn sev ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay,
+            severity: sev
+          )
+          |> Factories.Alerts.Alert.active_now()
+        end)
+        |> Enum.shuffle()
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      expected_status_text = "Delays #{human_delay_severity(severity2)}"
+
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_label_text_for_row/1) ==
+               [expected_status_text]
+    end
+
     test "shows 'Expect Delay' instead of 'Delay' for a future delay" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -805,11 +868,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       affected_line = Faker.Util.pick(@lines_without_branches)
 
+      severity = Faker.random_between(3, 9)
+
       alerts =
         [
           Factories.Alerts.Alert.build(:alert_for_route,
             route_id: affected_line,
-            effect: :delay
+            effect: :delay,
+            severity: severity
           )
           |> Factories.Alerts.Alert.active_starting_at(start_time)
         ]
@@ -819,7 +885,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       # Verify
       expected_prefix = Util.narrow_time(start_time)
-      expected_status_text = "#{expected_prefix}: Expect Delay"
+
+      expected_status_text =
+        "#{expected_prefix}: Expect Delays #{human_delay_severity(severity)}"
 
       assert rows
              |> for_route(affected_line)
@@ -836,13 +904,16 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       affected_line = Faker.Util.pick(@lines_without_branches)
 
+      severity1 = Faker.random_between(3, 9)
+
       {effect2, _severity} = Faker.Util.pick(service_impacting_effects() -- [{:delay, 2}])
 
       alerts =
         [
           Factories.Alerts.Alert.build(:alert_for_route,
             route_id: affected_line,
-            effect: :delay
+            effect: :delay,
+            severity: severity1
           )
           |> Factories.Alerts.Alert.active_now(),
           Factories.Alerts.Alert.build(:alert_for_route,
@@ -856,7 +927,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       rows = status_rows_for_alerts(alerts)
 
       # Verify
-      expected_status_text1 = "Now: Delay"
+      expected_status_text1 = "Now: Delays #{human_delay_severity(severity1)}"
 
       expected_status_desc2 = effect2 |> status_label_text_for_effect()
       expected_prefix2 = Util.narrow_time(start_time)
@@ -884,7 +955,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     end
 
     test "displays multiple rows when multiple alerts affect the same line" do
-      for {effect, severity} <- service_impacting_effects() do
+      for {effect, severity} <- @effects_with_simple_descriptions do
         route = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
         num_alerts = Faker.Util.pick(2..6)
 
@@ -996,9 +1067,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     |> String.trim()
   end
 
+  defp status_label_text_for_effect(:delay), do: "Delays"
   defp status_label_text_for_effect(:shuttle), do: "Shuttles"
   defp status_label_text_for_effect(:station_closure), do: "Station Closure"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
+
+  defp human_delay_severity(severity) do
+    Alerts.Alert.human_severity(%Alerts.Alert{effect: :delay, severity: severity})
+  end
 
   defp status_subheading_for_row(row) do
     row
