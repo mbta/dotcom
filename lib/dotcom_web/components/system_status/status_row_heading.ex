@@ -101,8 +101,14 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
+  defp decorations(%{status: :delay, alerts: [%Alert{cause: :single_tracking}]}) do
+    %{
+      subheading_text: "Due to Single Tracking"
+    }
+  end
+
   defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
-       when status in [:service_change, :shuttle, :suspension] do
+       when status in [:service_change, :shuttle, :single_tracking, :suspension] do
     endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
 
     %{

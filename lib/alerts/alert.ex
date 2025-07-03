@@ -244,6 +244,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:escalator_closure), do: "Escalator Closure"
   defp do_human_effect(:policy_change), do: "Policy Change"
   defp do_human_effect(:summary), do: "Summary"
+  defp do_human_effect(:single_tracking), do: "Single Tracking"
   defp do_human_effect(_), do: "Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"
