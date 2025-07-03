@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     <.bordered_container hide_divider>
       <:heading>
         <div class="mb-sm">
-          Current Status
+          Commuter Rail Status
         </div>
       </:heading>
       <div class="border-b-xs border-gray-lightest grid grid-cols-[min-content_auto_min-content]">
@@ -42,17 +42,10 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     """
   end
 
-  # Attaches a URL to the row based on the number of alerts.
-  # If there are no alerts, the URL will be for the timetable.
-  # If there are alerts, the URL will be for the alerts page.
-  defp attach_url(%{alert_counts: alert_counts, id: id} = row) when alert_counts == %{} do
-    row
-    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
-  end
-
+  # Attaches a URL to the row.
   defp attach_url(%{id: id} = row) do
     row
-    |> Map.put(:url, ~p"/schedules/#{id}/alerts")
+    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
   end
 
   # Returns a list of tuples where the first element is the effect of the alert
@@ -64,28 +57,28 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   defp combine_alert_counts(alert_counts) when alert_counts == %{}, do: []
 
   # We have at least one cancellation and one delay.
-  defp combine_alert_counts(%{delay: delays, cancellation: cancellations} = alert_counts) do
+  defp combine_alert_counts(%{cancellation: cancellations, delay: delays} = alert_counts) do
     other_alert_counts =
       reject_cancellations_and_delays(alert_counts)
 
     combine_alert_counts(other_alert_counts) ++
-      [{:alert, "#{cancellations + delays} Cancellations / Delays"}]
+      [{:alert, "#{cancellations.count + delays.count} Cancellations / Delays"}]
   end
 
   # We have at least one cancellation and no delays.
-  defp combine_alert_counts(%{cancellation: cancellations} = alert_counts) do
+  defp combine_alert_counts(%{cancellation: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if cancellations == 1, do: "Cancellation", else: "Cancellations"
+    effect_string = if count == 1, do: "Cancellation", else: "Cancellations"
 
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{cancellations} #{effect_string}"}]
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
 
   # We have at least one delay and no cancellations.
-  defp combine_alert_counts(%{delay: delays} = alert_counts) do
+  defp combine_alert_counts(%{delay: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if delays == 1, do: "Delay", else: "Delays"
+    effect_string = if count == 1, do: "Delay", else: "Delays"
 
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{delays} #{effect_string}"}]
+    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
 
   # The default case where we have non-cancellation and non-delay alerts.
@@ -94,7 +87,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # If there are multiple types of alerts, we combine them to just say "X Service Alerts".
   defp combine_alert_counts(alert_counts) do
     effect_count = alert_counts |> Map.keys() |> Enum.count()
-    total_count = Enum.reduce(alert_counts, 0, fn {_, count}, acc -> acc + count end)
+    total_count = Enum.reduce(alert_counts, 0, fn {_, %{count: count}}, acc -> acc + count end)
 
     case {effect_count, total_count} do
       {0, _} ->
@@ -103,13 +96,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       {1, 1} ->
         effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title()
+        count_or_time = alert_counts |> Map.values() |> List.first() |> count_or_time()
 
-        [{effect, "1 #{effect_string}"}]
+        [{effect, "#{count_or_time} #{effect_string}"}]
 
       {1, _} ->
         effect = alert_counts |> Map.keys() |> List.first()
         effect_string = effect |> Atom.to_string() |> Recase.to_title() |> Inflex.pluralize()
-        count = alert_counts[effect]
+        count = alert_counts |> Map.values() |> List.first() |> Map.get(:count, 0)
 
         [{effect, "#{count} #{effect_string}"}]
 
@@ -117,6 +111,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         [{:alert, "#{total_count} Service Alerts"}]
     end
   end
+
+  # If there is one alert of the effect, and it is active in the future, give the time.
+  # For all others, just give the count.
+  defp count_or_time(%{count: 1, next_active: {:future, time}}) do
+    "#{Util.narrow_time(time)}:"
+  end
+
+  defp count_or_time(%{count: count}), do: Integer.to_string(count)
 
   # Rejects cancellations and delays from the alert counts
   # so that we can separate cancellations and delays from other alerts.
