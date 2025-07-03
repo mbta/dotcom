@@ -13,7 +13,7 @@ foxboro = InformedEntity.build(:informed_entity,
 )
 informed_entity_set = Alerts.InformedEntitySet.new([foxboro])
 alert = Alert.build(:alert,
-  active_period: [{now() |> Timex.shift(hours: -3), now() |> Timex.shift(hours: -1)}],
+  active_period: [{now() |> Timex.shift(hours: -2), now() |> Timex.shift(hours: 2)}],
   informed_entity: informed_entity_set,
   effect: :station_closure
 )
