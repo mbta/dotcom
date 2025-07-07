@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 
-#: lib/dotcom_web/templates/layout/admin.html.heex:6
+#: lib/dotcom_web/templates/error/error_layout.html.heex:3
 #, elixir-autogen, elixir-format
-msgid "Admins Only Space"
+msgid "Error"
 msgstr ""

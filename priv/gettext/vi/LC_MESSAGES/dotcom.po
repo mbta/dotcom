@@ -8,8 +8,8 @@
 ### to merge POT files into PO files.
 msgid ""
 msgstr ""
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: lib/dotcom_web/templates/layout/admin.html.heex:6
 #, elixir-autogen, elixir-format, fuzzy
