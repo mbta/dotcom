@@ -21,9 +21,11 @@ defmodule DotcomWeb.Gettext do
   See the [Gettext Docs](http://hexdocs.pm/gettext) for detailed usage.
   """
 
-  @dialyzer [
-    {:nowarn_function, lngettext: 6}
-  ]
-
-  use Gettext.Backend, otp_app: :dotcom
+  use Gettext.Backend,
+    default_domain: "dotcom",
+    default_locale: :en,
+    locales: ["es", "fr", "ht", "pt_BR", "vi", "zh_CN", "zh_TW"],
+    otp_app: :dotcom,
+    plural_forms: DotcomWeb.GettextPlural,
+    priv: "priv/gettext"
 end
