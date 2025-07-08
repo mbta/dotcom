@@ -113,7 +113,7 @@ defmodule DotCom.Mixfile do
       {:kino_live_component, "0.0.5"},
       {:logster, "1.1.1"},
       # reverted from 0.4
-      {:mail, "0.3.1"},
+      {:mail, "0.5.1"},
       {:mbta_metro, "0.2.3"},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
