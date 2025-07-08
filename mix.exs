@@ -101,7 +101,7 @@ defmodule DotCom.Mixfile do
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       {:excoveralls, "0.18.5", only: :test},
       {:faker, "0.19.0-alpha.1", only: [:dev, :test]},
-      {:floki, "0.37.1"},
+      {:floki, "0.38.0"},
       {:gen_stage, "1.3.1"},
       {:gettext, "0.26.2"},
       {:hackney, "1.24.1"},

@@ -68,21 +68,23 @@ defmodule DotcomWeb.PartialViewTest do
     end
 
     test "Title tooltip is shown if show_tooltip? is not specified" do
-      rendered =
+      document =
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
         |> safe_to_string()
+        |> Floki.parse_document!()
 
-      assert Floki.attribute(rendered, "data-toggle") == ["tooltip"]
+      assert Floki.attribute(document, "data-toggle") == ["tooltip"]
     end
 
     test "Tooltip is not shown if show_tooltip? is false" do
-      rendered =
+      document =
         %SvgIconWithCircle{icon: :subway, show_tooltip?: false}
         |> svg_icon_with_circle()
         |> safe_to_string()
+        |> Floki.parse_document!()
 
-      assert rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
+      assert document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
     end
   end
 

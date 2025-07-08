@@ -23,15 +23,16 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       ]
 
       # Exercise
-      html =
+      document =
         render_component(&header/1, %{
           accessible?: false,
           stop: stop,
           routes_by_stop: routes_by_stop
         })
+        |> Floki.parse_document!()
 
       # Verify
-      assert html |> Floki.find("title") |> Kernel.length() == 1
+      assert document |> Floki.find("title") |> Kernel.length() == 1
     end
 
     test "renders the commuter rail mode icon last" do
@@ -50,15 +51,16 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
       ]
 
       # Exercise
-      html =
+      document =
         render_component(&header/1, %{
           accessible?: false,
           stop: stop,
           routes_by_stop: routes_by_stop
         })
+        |> Floki.parse_document!()
 
       # Verify
-      assert html |> Floki.find("title") |> Enum.at(-1) |> Floki.text() == "Commuter Rail"
+      assert document |> Floki.find("title") |> Enum.at(-1) |> Floki.text() == "Commuter Rail"
     end
 
     test "renders the accessibility icon when the stop is accessible" do

@@ -648,16 +648,17 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
         }
       ]
 
-      rendered_accordion =
+      document =
         %Accordion{sections: sections}
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
+        |> Floki.parse_document!()
 
       [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] =
-        Floki.find(rendered_accordion, ".c-accordion-ui__title")
+        Floki.find(document, ".c-accordion-ui__title")
 
       [{_, _, [body_1]}, {_, _, [body_2]}] =
-        Floki.find(rendered_accordion, ".c-accordion-ui__target > .c-accordion-ui__content")
+        Floki.find(document, ".c-accordion-ui__target > .c-accordion-ui__content")
 
       [
         {_,
@@ -678,7 +679,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
            _,
            {"data-parent", parent_2}
          ], _}
-      ] = Floki.find(rendered_accordion, ".c-accordion-ui__trigger")
+      ] = Floki.find(document, ".c-accordion-ui__trigger")
 
       assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}],
               [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
@@ -745,15 +746,16 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
 
       prepared_input = HTML.raw(raw_input)
 
-      rendered_code_embed =
+      document =
         %CodeEmbed{body: prepared_input}
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
+        |> Floki.parse_document!()
 
       [{"script", [{"type", type}, {"src", src}], [inline_js]}] =
-        Floki.find(rendered_code_embed, "script")
+        Floki.find(document, "script")
 
-      [{"noscript", [], no_script_children}] = Floki.find(rendered_code_embed, "noscript")
+      [{"noscript", [], no_script_children}] = Floki.find(document, "noscript")
 
       [{"a", [{"href", href}, {"title", title}], [text_node]}] = no_script_children
 
