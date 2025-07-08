@@ -56,8 +56,10 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIconsTest do
   end
 
   defp matches_title?(html, text) do
+    {:ok, document} = Floki.parse_document(html)
+
     title =
-      html
+      document
       |> Floki.find("title")
       |> Floki.text()
       |> String.trim()

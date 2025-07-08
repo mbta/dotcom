@@ -10,12 +10,13 @@ defmodule Dotcom.ComponentsTest do
 
   describe "buttons > button_group" do
     test "button list renders links in button containers" do
-      rendered =
+      document =
         %ButtonGroup{links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]}
         |> button_group()
         |> safe_to_string()
+        |> Floki.parse_document!()
 
-      assert [{"div", [{"class", "button-group"}], links}] = Floki.find(rendered, ".button-group")
+      assert [{"div", [{"class", "button-group"}], links}] = Floki.find(document, ".button-group")
 
       for link <- links do
         assert Floki.attribute(link, "class") == ["button-container"]
@@ -59,17 +60,23 @@ defmodule Dotcom.ComponentsTest do
     end
 
     test "Title tooltip is shown if show_tooltip? is not specified" do
-      rendered = %SvgIcon{icon: :subway} |> svg_icon() |> safe_to_string()
+      document =
+        %SvgIcon{icon: :subway} |> svg_icon() |> safe_to_string() |> Floki.parse_document!()
 
       [data_toggle] =
-        rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle")
+        document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle")
 
       assert data_toggle == "tooltip"
     end
 
     test "Tooltip is not shown if show_tooltip? is false" do
-      rendered = %SvgIcon{icon: :subway, show_tooltip?: false} |> svg_icon() |> safe_to_string()
-      assert rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
+      document =
+        %SvgIcon{icon: :subway, show_tooltip?: false}
+        |> svg_icon()
+        |> safe_to_string()
+        |> Floki.parse_document!()
+
+      assert document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
     end
   end
 
@@ -181,10 +188,10 @@ defmodule Dotcom.ComponentsTest do
     end
 
     test "Icons are shown if given" do
-      rendered = tab_args() |> tab_selector() |> safe_to_string()
+      document = tab_args() |> tab_selector() |> safe_to_string() |> Floki.parse_document!()
 
       option =
-        rendered
+        document
         |> Floki.find(".tab-select-btn-selected")
         |> Enum.at(0)
         |> elem(2)
@@ -194,10 +201,10 @@ defmodule Dotcom.ComponentsTest do
     end
 
     test "Selected option is shown as such" do
-      rendered = tab_args() |> tab_selector() |> safe_to_string()
+      document = tab_args() |> tab_selector() |> safe_to_string() |> Floki.parse_document!()
 
       option =
-        rendered
+        document
         |> Floki.find(".tab-select-btn-selected")
 
       assert inspect(option) =~ "Info"

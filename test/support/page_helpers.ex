@@ -12,8 +12,10 @@ defmodule Dotcom.PageHelpers do
   end
 
   def breadcrumbs_include?(html, crumbs) do
+    {:ok, document} = Floki.parse_document(html)
+
     rendered_breadcrumbs =
-      html
+      document
       |> Floki.find(".breadcrumb-container")
       |> Floki.raw_html()
 

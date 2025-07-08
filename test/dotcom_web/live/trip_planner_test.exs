@@ -235,7 +235,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       view |> element("form") |> render_change(%{"input_form" => @valid_params})
 
       # Verify
-      document = render_async(view)
+      document = render_async(view) |> Floki.parse_document!()
       text = document |> Floki.find("span[data-test='results-summary:error']") |> Floki.text()
 
       assert text == error
