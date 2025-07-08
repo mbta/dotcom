@@ -666,6 +666,87 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                ["between #{first_stop} and #{last_stop}"]
     end
 
+    test "shows a subheading of 'Due to Single Tracking' for single-tracking delays" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :delay,
+          cause: :single_tracking
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["Due to Single Tracking"]
+    end
+
+    test "shows a subheading of 'Due to Single Tracking' for multiple single-tracking delays" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay,
+            cause: :single_tracking
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay,
+            cause: :single_tracking
+          )
+          |> Factories.Alerts.Alert.active_now()
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["Due to Single Tracking"]
+    end
+
+    test "does not show a single-tracking-subheading if there are non-single-tracking delays" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay,
+            cause: :single_tracking
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: affected_line,
+            effect: :delay
+          )
+          |> Factories.Alerts.Alert.active_now()
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               [""]
+    end
+
     test "shows effect name singular if there is a single alert for the effect" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)

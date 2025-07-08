@@ -30,6 +30,7 @@ defmodule Alerts.Alert do
     :escalator_closure,
     :policy_change,
     :schedule_change,
+    :single_tracking,
     :station_closure,
     :station_issue,
     :stop_moved,
@@ -79,6 +80,7 @@ defmodule Alerts.Alert do
           | :policy_change
           | :service_change
           | :shuttle
+          | :single_tracking
           | :suspension
           | :station_closure
           | :stop_closure
@@ -244,6 +246,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:escalator_closure), do: "Escalator Closure"
   defp do_human_effect(:policy_change), do: "Policy Change"
   defp do_human_effect(:summary), do: "Summary"
+  defp do_human_effect(:single_tracking), do: "Single Tracking"
   defp do_human_effect(_), do: "Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"

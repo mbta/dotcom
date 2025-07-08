@@ -102,8 +102,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
+  defp decorations(%{status: :delay, alerts: alerts}) do
+    all_single_tracking? = alerts |> Enum.all?(&(&1.cause == :single_tracking))
+
+    subheading_text = if all_single_tracking?, do: "Due to Single Tracking"
+
+    %{
+      subheading_text: subheading_text
+    }
+  end
+
   defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
-       when status in [:service_change, :shuttle, :suspension] do
+       when status in [:service_change, :shuttle, :single_tracking, :suspension] do
     endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
 
     %{
