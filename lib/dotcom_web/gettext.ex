@@ -25,5 +25,8 @@ defmodule DotcomWeb.Gettext do
     {:nowarn_function, lngettext: 6}
   ]
 
-  use Gettext.Backend, otp_app: :dotcom
+  use Gettext.Backend,
+    otp_app: :dotcom,
+    default_locale: Dotcom.Locales.default_locale_code(),
+    locales: Dotcom.Locales.locale_codes()
 end
