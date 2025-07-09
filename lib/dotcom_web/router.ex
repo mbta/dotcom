@@ -41,6 +41,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
+    plug(DotcomWeb.Plugs.SetLocale)
     plug(:optional_disable_indexing)
   end
 

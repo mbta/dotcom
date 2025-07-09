@@ -6,8 +6,9 @@ defmodule Dotcom.Locales do
   alias Dotcom.Locale
 
   @default_locale %Locale{code: "en", endonym: "English"}
-  @development_locale %Locale{code: "es", endonym: "Español"}
+  @development_locale %Locale{code: "xx", endonym: "Development"}
   # @future_locales [
+  #   %Locale{code: "es", endonym: "Español"},
   #   %Locale{code: "ht", endonym: "Kreyòl Ayisyen"},
   #   %Locale{code: "pt", endonym: "Português"},
   #   %Locale{code: "vi", endonym: "Tiếng Việt"},
@@ -42,7 +43,7 @@ defmodule Dotcom.Locales do
   Given a locale code, return the entire locale or nil.
   """
   def locale(code) do
-    Enum.find(@locales, fn locale -> locale.code === code end)
+    Map.get(locales_map(), code)
   end
 
   @doc """
@@ -50,5 +51,9 @@ defmodule Dotcom.Locales do
   """
   def locale?(code) do
     locale(code) != nil
+  end
+
+  defp locales_map do
+    Enum.reduce(@locales, %{}, fn locale, locales -> Map.put(locales, locale.code, locale) end)
   end
 end
