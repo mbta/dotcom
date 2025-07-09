@@ -9,33 +9,47 @@ defmodule DotcomWeb.TripPlanController do
 
   alias Dotcom.TripPlan.AntiCorruptionLayer
 
+  @lat_lon_regex ~r/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/
   @location_service Application.compile_env!(:dotcom, :location_service)
 
   @doc """
-  When visiting /trip-planner/:from/some%20address or /trip-planner/:to/some%20address,
+  When visiting /trip-planner/from/lat,lon or /trip-planner/to/some%20address,
   we lookup the location and redirect to the trip planner with that location encoded in the query string.
   """
   def location(conn, %{"direction" => direction, "query" => query})
       when direction in ["from", "to"] do
-    case @location_service.geocode(query) do
-      {:ok, [%LocationService.Address{} = location | _]} ->
-        encoded = build_params(direction, location, query) |> AntiCorruptionLayer.encode()
-        path = live_path(conn, DotcomWeb.Live.TripPlanner)
+    path = live_path(conn, DotcomWeb.Live.TripPlanner)
+    encoded = build_params(direction, query) |> AntiCorruptionLayer.encode()
 
-        conn |> put_status(301) |> redirect(to: "#{path}?plan=#{encoded}") |> halt()
+    conn |> put_status(301) |> redirect(to: "#{path}?plan=#{encoded}") |> halt()
+  end
 
-      _ ->
-        location(conn, %{})
+  defp build_params(direction, query) do
+    if String.match?(query, @lat_lon_regex) do
+      build_latitude_longitude_params(direction, query)
+    else
+      case @location_service.geocode(query) do
+        {:ok, [%LocationService.Address{} = location | _]} ->
+          build_location_params(direction, location, query)
+
+        _ ->
+          %{}
+      end
     end
   end
 
-  def location(conn, _params) do
-    path = live_path(conn, DotcomWeb.Live.TripPlanner)
+  defp build_latitude_longitude_params(direction, query) do
+    [latitude, longitude] = String.split(query, ",")
 
-    conn |> put_status(301) |> redirect(to: path) |> halt()
+    %{
+      "#{direction}" => %{
+        "latitude" => latitude,
+        "longitude" => longitude
+      }
+    }
   end
 
-  defp build_params(direction, location, query) do
+  defp build_location_params(direction, location, query) do
     %{
       "#{direction}" => %{
         "latitude" => location.latitude,
