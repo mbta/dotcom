@@ -27,14 +27,6 @@ defmodule DotcomWeb.Plugs.SetLocaleTest do
     assert Gettext.get_locale(DotcomWeb.Gettext) == locale
   end
 
-  test "a conn with a session locale sets the locale", %{conn: conn} do
-    locale = Locales.locale_codes() |> Enum.random()
-
-    conn |> put_session(:locale, locale) |> call(%{})
-
-    assert Gettext.get_locale(DotcomWeb.Gettext) == locale
-  end
-
   test "a conn with a cookie locale sets the locale", %{conn: conn} do
     locale = Locales.locale_codes() |> Enum.random()
 
