@@ -25,8 +25,7 @@ defmodule DotcomWeb.Plugs.SetLocale do
 
   # Check params, then cookie, and use the default if neither are present or supported.
   defp get_locale(conn) do
-    locale =
-      get_locale_from_params(conn) || get_locale_from_cookie(conn)
+    locale = get_locale_from_params(conn) || get_locale_from_cookie(conn)
 
     if locale?(locale), do: locale, else: default_locale_code()
   end
