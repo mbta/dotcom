@@ -36,7 +36,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="<%= url_address %>">
           <li>
-            <%= link "View on MBTA Trip Planner", to: "/trip-planner", target: "_blank", class: "dropdown-item" %>
+            <%= link "View on MBTA Trip Planner", to: "/trip-planner/to/#{URI.encode(url_address)}", target: "_blank", class: "dropdown-item" %>
           </li>
           <li>
             <%= link "View on Google Maps", to: direction_map_url(@search_position, location), target: "_blank", class: "dropdown-item" %>
