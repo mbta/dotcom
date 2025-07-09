@@ -181,8 +181,14 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       class="border border-solid border-gray-lighter"
       data-test={"results:itinerary_group:#{@index}"}
     >
-      <div class="flex gap-2 items-center whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-gray-lightest text-black px-3 py-2 w-full">
-        <.icon name="triangle-exclamation" class="h-4.5 w-4.5" /> Unavailable
+      <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest px-3 py-2 w-full">
+        <.icon name="triangle-exclamation" class="h-4.5 w-4.5" />
+        <span class="leading-none font-medium font-heading text-sm text-black">
+          Temporarily Unavailable
+        </span>
+        <span class="leading-none underline text-sm ml-auto">
+          <a href="/alerts" target="_blank">View Alerts</a>
+        </span>
       </div>
       <div class="opacity-50 p-4">
         <.itinerary_summary
