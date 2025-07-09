@@ -1,6 +1,6 @@
 defmodule DotcomWeb.Gettext.Sigils do
   @moduledoc """
-
+  Sigils for Gettext translations.
   """
 
   defmacro __using__(_ \\ []) do
@@ -12,7 +12,7 @@ defmodule DotcomWeb.Gettext.Sigils do
   end
 
   @doc """
-
+  Sigil for Gettext translations.
   """
   defmacro sigil_i(string, []) do
     quote do
@@ -22,9 +22,6 @@ defmodule DotcomWeb.Gettext.Sigils do
     end
   end
 
-  @doc """
-
-  """
   defmacro sigil_i(string, [?p]) do
     quote do
       [s, p, n] = unquote(string) |> String.split("|") |> Enum.map(&String.trim/1)
