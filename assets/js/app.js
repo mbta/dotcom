@@ -49,6 +49,8 @@ let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 
+import storageOptions from "./storage.js";
+
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: { ...Hooks, ...DotcomHooks },
@@ -71,7 +73,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
         }
       }
     }
-  }
+  },
+  ...storageOptions
 });
 
 // connect if there are any LiveViews on the page
