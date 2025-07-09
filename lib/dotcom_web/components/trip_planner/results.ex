@@ -60,24 +60,43 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_panel(
          %{accessible_grouping?: true, results: %{itinerary_group_selection: nil}} = assigns
        ) do
-    {accessible_groups, inaccessible_groups} =
+    %{
+      accessible: accessible_groups,
+      inaccessible: inaccessible_groups,
+      unavailable: unavailable_groups
+    } =
       assigns.results.itinerary_groups
       |> Enum.with_index()
-      |> Enum.split_with(fn {group, _} ->
-        group
-        |> ItineraryGroup.representative_itinerary()
-        |> Itinerary.accessible?()
+      |> Enum.group_by(fn {group, _} ->
+        cond do
+          !group.available? ->
+            :unavailable
+
+          group
+          |> ItineraryGroup.representative_itinerary()
+          |> Itinerary.accessible?() ->
+            :accessible
+
+          true ->
+            :inaccessible
+        end
       end)
+      |> Enum.into(%{accessible: [], inaccessible: [], unavailable: []})
 
     assigns =
       assign(assigns, %{
         accessible_groups: accessible_groups,
         accessible_count: Enum.count(accessible_groups),
         inaccessible_groups: inaccessible_groups,
-        inaccessible_count: Enum.count(inaccessible_groups)
+        inaccessible_count: Enum.count(inaccessible_groups),
+        unavailable_groups: unavailable_groups,
+        unavailable_count: Enum.count(unavailable_groups)
       })
 
     ~H"""
+    <%= if @unavailable_count > 0 do %>
+      <.itinerary_groups indexed_groups={@unavailable_groups} class="mb-md" />
+    <% end %>
     <%= if @accessible_count > 0 do %>
       <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
       <.itinerary_groups indexed_groups={@accessible_groups} show_accessible />
@@ -132,8 +151,9 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     """
   end
 
-  attr(:indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`")
+  attr :indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`"
   attr :show_accessible, :boolean, default: false
+  attr :class, :string, default: ""
 
   defp itinerary_groups(assigns) do
     assigns =
@@ -142,13 +162,15 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       })
 
     ~H"""
-    <div class="flex flex-col gap-4">
-      <.itinerary_group
-        :for={{group, index} <- @summarized_groups}
-        group={group}
-        index={index}
-        show_accessible={@show_accessible}
-      />
+    <div class={@class}>
+      <div class="flex flex-col gap-4">
+        <.itinerary_group
+          :for={{group, index} <- @summarized_groups}
+          group={group}
+          index={index}
+          show_accessible={@show_accessible}
+        />
+      </div>
     </div>
     """
   end
