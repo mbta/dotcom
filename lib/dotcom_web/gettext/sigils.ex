@@ -3,7 +3,13 @@ defmodule DotcomWeb.Gettext.Sigils do
 
   """
 
-  use Gettext, backend: DotcomWeb.Gettext
+  defmacro __using__(_ \\ []) do
+    quote do
+      use Gettext, backend: DotcomWeb.Gettext
+
+      import unquote(__MODULE__)
+    end
+  end
 
   @doc """
 

@@ -20,7 +20,7 @@ defmodule DotcomWeb do
 
   def controller do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
+      use DotcomWeb.Gettext.Sigils
       use Phoenix.Controller, namespace: DotcomWeb
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
