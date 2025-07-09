@@ -9,19 +9,17 @@ defmodule DotcomWeb.Plugs.SetLocaleTest do
     {:ok, conn: Plug.Test.init_test_session(conn, %{})}
   end
 
-  describe "supported locales" do
-    test "sets the locale for each supported locale", %{conn: conn} do
-      Enum.each(Locales.locale_codes(), fn locale ->
-        conn
-        |> Map.put(:params, %{"locale" => locale})
-        |> call(%{})
+  test "sets the locale for each supported locale", %{conn: conn} do
+    Enum.each(Locales.locale_codes(), fn locale ->
+      conn
+      |> Map.put(:params, %{"locale" => locale})
+      |> call(%{})
 
-        assert Gettext.get_locale(DotcomWeb.Gettext) == locale
-      end)
-    end
+      assert Gettext.get_locale(DotcomWeb.Gettext) == locale
+    end)
   end
 
-  test "a conn with a param locale set the locale", %{conn: conn} do
+  test "a conn with a param locale sets the locale", %{conn: conn} do
     locale = Locales.locale_codes() |> Enum.random()
 
     conn |> Map.put(:params, %{"locale" => locale}) |> call(%{})
@@ -29,7 +27,15 @@ defmodule DotcomWeb.Plugs.SetLocaleTest do
     assert Gettext.get_locale(DotcomWeb.Gettext) == locale
   end
 
-  test "a conn with a cookie locale set the locale", %{conn: conn} do
+  test "a conn with a session locale sets the locale", %{conn: conn} do
+    locale = Locales.locale_codes() |> Enum.random()
+
+    conn |> put_session(:locale, locale) |> call(%{})
+
+    assert Gettext.get_locale(DotcomWeb.Gettext) == locale
+  end
+
+  test "a conn with a cookie locale sets the locale", %{conn: conn} do
     locale = Locales.locale_codes() |> Enum.random()
 
     conn |> Map.put(:cookies, %{"locale" => locale}) |> call(%{})
