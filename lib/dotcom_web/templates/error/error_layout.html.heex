@@ -1,6 +1,6 @@
 <div class="container error-page">
   <div class="font-small error-pre-title">
-    {@error_code <> " Error \u2022 " <> @error_type}
+    {@error_code <> " #{dgettext("errors", "Error")} \u2022 " <> @error_type}
   </div>
   <!-- This error title appears for XS-S screens -->
   <div class="h1 error-title">{@error_title}</div>
