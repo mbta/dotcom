@@ -43,9 +43,4 @@ defmodule DotcomWeb.Plugs.SetLocale do
   end
 
   defp get_locale_from_params(_), do: nil
-
-  # Get the locale from the session, if present.
-  defp get_locale_from_session(conn) do
-    get_session(conn, :locale)
-  end
 end
