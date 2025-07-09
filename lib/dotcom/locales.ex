@@ -43,7 +43,7 @@ defmodule Dotcom.Locales do
   Given a locale code, return the entire locale or nil.
   """
   def locale(code) do
-    Map.get(locales_map(), code)
+    Enum.find(@locales, fn locale -> locale.code === code end)
   end
 
   @doc """
@@ -51,9 +51,5 @@ defmodule Dotcom.Locales do
   """
   def locale?(code) do
     locale(code) != nil
-  end
-
-  defp locales_map do
-    Enum.reduce(@locales, %{}, fn locale, locales -> Map.put(locales, locale.code, locale) end)
   end
 end
