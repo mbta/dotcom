@@ -21,15 +21,11 @@ defmodule DotcomWeb.Plugs.SetLocale do
 
     conn
     |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
-    |> put_session(:locale, locale)
   end
 
-  # Check params, then session, then cookie, and use the default if none are present or supported.
+  # Check params, then cookie, and use the default if none are present or supported.
   defp get_locale(conn) do
-    locale =
-      get_locale_from_params(conn) ||
-        get_locale_from_session(conn) ||
-        get_locale_from_cookie(conn)
+    locale = get_locale_from_params(conn) || get_locale_from_cookie(conn)
 
     if locale?(locale), do: locale, else: default_locale_code()
   end
