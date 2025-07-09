@@ -1,5 +1,6 @@
 defmodule DotcomWeb.Plugs.SetLocale do
   @moduledoc """
+  A plug to set the locale for a request.
   """
 
   import Plug.Conn
@@ -8,6 +9,10 @@ defmodule DotcomWeb.Plugs.SetLocale do
 
   def init(default), do: default
 
+  @doc """
+  Gets a locale from a query param or cookie value and sets Gettext.
+  If no locale is present, the default locale "en" is used.
+  """
   def call(conn, _opts) do
     locale = get_locale(conn)
 
@@ -18,18 +23,22 @@ defmodule DotcomWeb.Plugs.SetLocale do
     |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
   end
 
+  # Check params, then cookie, and use the default if neither are present or supported.
   defp get_locale(conn) do
-    locale = get_locale_from_params(conn) || get_locale_from_cookie(conn) |> IO.inspect(label: "LOCALE")
+    locale =
+      get_locale_from_params(conn) || get_locale_from_cookie(conn)
 
     if locale?(locale), do: locale, else: default_locale_code()
   end
 
+  # Destructure the params for the locale.
   defp get_locale_from_params(%{params: %{"locale" => locale}}) do
     locale
   end
 
   defp get_locale_from_params(_), do: nil
 
+  # Destructure the cookies for the locale.
   defp get_locale_from_cookie(%{cookies: %{"locale" => locale}}) do
     locale
   end
