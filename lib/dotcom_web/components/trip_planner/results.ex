@@ -96,7 +96,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <%= if @unavailable_count > 0 do %>
       <.group_header text={"#{@unavailable_count} Unavailable #{Inflex.inflect("Route", @unavailable_count)}"} />
-      <.itinerary_groups indexed_groups={@unavailable_groups} class="mb-md" />
+      <.itinerary_groups indexed_groups={@unavailable_groups} class="mb-md" show_accessible />
     <% end %>
     <%= if @accessible_count > 0 do %>
       <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
