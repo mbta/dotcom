@@ -13,5 +13,5 @@ msgstr ""
 
 #: lib/dotcom_web/controllers/test_controller.ex:11
 #, elixir-autogen, elixir-format
-msgid "All clear, captain!"
+msgid "All clear, Captain!"
 msgstr ""

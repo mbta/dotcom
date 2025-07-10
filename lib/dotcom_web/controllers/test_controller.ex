@@ -8,7 +8,7 @@ defmodule DotcomWeb.TestController do
   use DotcomWeb, :controller
 
   def index(conn, _params) do
-    status = gettext("All clear, captain!")
+    status = ~t(All clear, Captain!)
 
     Logger.notice("#{__MODULE__}: #{status}")
 
