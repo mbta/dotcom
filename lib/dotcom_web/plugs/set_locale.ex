@@ -10,17 +10,18 @@ defmodule DotcomWeb.Plugs.SetLocale do
   def init(default), do: default
 
   @doc """
-  Gets a locale from a query param or cookie value and sets Gettext.
+  Gets a locale from a query param or cookie value and sets Gettext and Cldr.
   If no locale is present, the default locale "en" is used.
   """
   def call(conn, _opts) do
     locale = get_locale(conn)
 
     _ = Gettext.put_locale(Dotcom.Gettext, locale)
+    _ = Cldr.put_locale(Dotcom.Cldr, locale)
+
     Logger.metadata(locale: locale)
 
-    conn
-    |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
+    put_resp_cookie(conn, "locale", locale, max_age: 365 * 24 * 60 * 60)
   end
 
   # Check params, then cookie, and use the default if none are present or supported.
