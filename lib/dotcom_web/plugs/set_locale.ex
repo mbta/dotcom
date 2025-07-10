@@ -16,7 +16,7 @@ defmodule DotcomWeb.Plugs.SetLocale do
   def call(conn, _opts) do
     locale = get_locale(conn)
 
-    Gettext.put_locale(DotcomWeb.Gettext, locale)
+    Gettext.put_locale(Dotcom.Gettext, locale)
     Logger.metadata(locale: locale)
 
     conn

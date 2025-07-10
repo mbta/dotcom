@@ -1,4 +1,6 @@
 defmodule Dotcom.GettextTest do
+  @moduledoc false
+
   use ExUnit.Case, async: true
 
   test "has additional locales established" do

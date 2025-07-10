@@ -20,7 +20,7 @@ defmodule DotcomWeb do
 
   def controller do
     quote do
-      use Dotcom.Gettext.Sigils
+      use Gettext, backend: Dotcom.Gettext
       use Phoenix.Controller, namespace: DotcomWeb
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
@@ -118,14 +118,14 @@ defmodule DotcomWeb do
 
   def channel do
     quote do
-      use Dotcom.Gettext.Sigils
+      use Gettext, backend: Dotcom.Gettext
       use Phoenix.Channel
     end
   end
 
   defp view_helpers do
     quote do
-      use Dotcom.Gettext.Sigils
+      use Gettext, backend: Dotcom.Gettext
       use MbtaMetro
 
       import DotcomWeb.{Components, Components.RouteSymbols}
