@@ -14,12 +14,6 @@ defmodule DotcomWeb.Gettext.Sigils do
   @doc """
   Sigil for Gettext translations.
   """
-  defmacro sigil_i(string, []) when is_binary(string) do
-    quote do
-      gettext(unquote(string))
-    end
-  end
-
   defmacro sigil_i({:<<>>, _, pieces} = string, [?p]) do
     [s, p, _] = pieces |> List.first() |> String.split(" | ")
 
@@ -27,6 +21,12 @@ defmodule DotcomWeb.Gettext.Sigils do
       n = unquote(string) |> String.split(" | ") |> List.last() |> String.to_integer()
 
       ngettext(unquote(s), unquote(p), n)
+    end
+  end
+
+  defmacro sigil_i(string, []) do
+    quote do
+      gettext(unquote(string))
     end
   end
 end
