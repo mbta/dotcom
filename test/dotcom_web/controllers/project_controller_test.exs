@@ -24,19 +24,20 @@ defmodule DotcomWeb.ProjectControllerTest do
         [teaser]
       end
 
-      resp =
+      document =
         conn
         |> assign(:get_page_fn, fn _, _ -> project end)
         |> assign(:teasers_fn, teasers_fn)
         |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
         |> html_response(200)
+        |> Floki.parse_document!()
 
-      assert [update] = Floki.find(resp, ".m-project-updates__teaser")
+      assert [update] = Floki.find(document, ".m-project-updates__teaser")
       assert Floki.text(update) =~ "How the Wollaston Station Closure Affects Your Trip"
       assert {"a", attrs, _} = update
       assert attrs |> Map.new() |> Map.get("href") == teaser.path
 
-      assert [view_project] = Floki.find(resp, ".c-descriptive-link")
+      assert [view_project] = Floki.find(document, ".c-descriptive-link")
       assert Floki.text(view_project) =~ project.title
       assert {"a", attrs, _} = view_project
       assert attrs |> Map.new() |> Map.get("href") == project_path(conn, :show, project)
@@ -50,18 +51,19 @@ defmodule DotcomWeb.ProjectControllerTest do
         []
       end
 
-      resp =
+      document =
         conn
         |> assign(:get_page_fn, fn _, _ -> project end)
         |> assign(:teasers_fn, teasers_fn)
         |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
         |> html_response(200)
+        |> Floki.parse_document!()
 
-      assert Floki.find(resp, ".m-project-updates__teaser") == []
+      assert Floki.find(document, ".m-project-updates__teaser") == []
 
-      assert Floki.text(resp) =~ "no updates"
+      assert Floki.text(document) =~ "no updates"
 
-      assert [view_project] = Floki.find(resp, ".c-descriptive-link")
+      assert [view_project] = Floki.find(document, ".c-descriptive-link")
       assert Floki.text(view_project) =~ project.title
       assert {"a", attrs, _} = view_project
       assert attrs |> Map.new() |> Map.get("href") == project_path(conn, :show, project)

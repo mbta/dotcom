@@ -354,12 +354,13 @@ defmodule DotcomWeb.ViewHelpersTest do
     test "wraps svg in span with icon class" do
       svg_name = "alert.svg"
 
-      rendered =
+      document =
         svg_name
         |> svg()
         |> safe_to_string()
+        |> Floki.parse_document!()
 
-      assert [{"span", _, _}] = Floki.find(rendered, ".c-svg__#{Path.rootname(svg_name)}")
+      assert [{"span", _, _}] = Floki.find(document, ".c-svg__#{Path.rootname(svg_name)}")
     end
 
     test "provides fallback for unknown SVG" do

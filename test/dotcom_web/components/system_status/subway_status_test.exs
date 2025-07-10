@@ -1027,10 +1027,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   describe "alerts_subway_status/1" do
     test "if no alerts, shows normal service for every subway line" do
-      html = render_component(&alerts_subway_status/1, %{subway_status: subway_status([])})
+      document =
+        render_component(&alerts_subway_status/1, %{subway_status: subway_status([])})
+        |> Floki.parse_document!()
 
       for line_name <- Dotcom.Routes.subway_line_ids() do
-        assert html |> Floki.find("[data-test-row-route-info*=\"#{line_name}\"]") |> Floki.text() =~
+        assert document
+               |> Floki.find("[data-test-row-route-info*=\"#{line_name}\"]")
+               |> Floki.text() =~
                  "Normal Service"
       end
     end
@@ -1044,8 +1048,13 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
           subway_status_alerts(route, num_alerts, %{effect: effect, severity: severity})
           |> subway_status()
 
-        html = render_component(&alerts_subway_status/1, %{subway_status: subway_status})
-        row_count = Floki.find(html, "[data-test-row-route-info*=\"#{route}\"]") |> Enum.count()
+        document =
+          render_component(&alerts_subway_status/1, %{subway_status: subway_status})
+          |> Floki.parse_document!()
+
+        row_count =
+          Floki.find(document, "[data-test-row-route-info*=\"#{route}\"]") |> Enum.count()
+
         assert row_count == num_alerts, "#{row_count} rows don't match #{num_alerts} alerts"
 
         singular_effect =
@@ -1054,10 +1063,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
             else: effect |> Atom.to_string() |> Recase.to_title()
           )
 
-        assert html =~ singular_effect
+        assert document |> Floki.text() =~ singular_effect
 
         if effect != :shuttle do
-          refute html =~ Inflex.pluralize(singular_effect)
+          refute document |> Floki.text() =~ Inflex.pluralize(singular_effect)
         end
       end
     end
@@ -1065,8 +1074,13 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
     test "contains alert information in a row with alerts" do
       route = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
       alerts = subway_status_alerts(route)
-      html = render_component(&alerts_subway_status/1, %{subway_status: subway_status(alerts)})
-      details = Floki.find(html, "[data-test-row-route-info*=\"#{route}\"]")
+      status = %{subway_status: subway_status(alerts)}
+
+      document =
+        render_component(&alerts_subway_status/1, status)
+        |> Floki.parse_document!()
+
+      details = Floki.find(document, "[data-test-row-route-info*=\"#{route}\"]")
 
       [
         %Alerts.Alert{
@@ -1115,8 +1129,13 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   end
 
   defp status_rows_for_alerts(alerts) do
-    render_component(&homepage_subway_status/1, %{subway_status: alerts |> subway_status()})
-    |> Floki.find("[data-test=\"status-row\"]")
+    status = %{subway_status: subway_status(alerts)}
+
+    document =
+      render_component(&homepage_subway_status/1, status)
+      |> Floki.parse_document!()
+
+    Floki.find(document, "[data-test=\"status-row\"]")
   end
 
   defp for_route(rows, route_id) do

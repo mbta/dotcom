@@ -470,14 +470,15 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
 
       conn = assign(conn, :view_module, DotcomWeb.CustomerSupportView)
 
-      rendered =
+      document =
         safe_to_string(
           html_escape(
             DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
           )
         )
+        |> Floki.parse_document!()
 
-      anchor = Floki.find(rendered, ".c-expandable-block__link")
+      anchor = Floki.find(document, ".c-expandable-block__link")
       assert Enum.count(anchor) == 1
     end
 
