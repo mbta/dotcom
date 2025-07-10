@@ -49,6 +49,7 @@ defmodule DotcomWeb do
   def view do
     quote do
       use Dotcom.Components.Precompiler
+      use DotcomWeb.Gettext.Sigils
 
       use Phoenix.View,
         root: "lib/dotcom_web/templates",
@@ -118,14 +119,12 @@ defmodule DotcomWeb do
 
   def channel do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
       use Phoenix.Channel
     end
   end
 
   defp view_helpers do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
       use MbtaMetro
 
       import DotcomWeb.{Components, Components.RouteSymbols, ErrorHelpers}
