@@ -1,4 +1,4 @@
-defmodule DotcomWeb.GettextPlural do
+defmodule Dotcom.Gettext.Plural do
   @moduledoc """
   This module defines plural form equations for languages for PO files.
 
@@ -8,6 +8,7 @@ defmodule DotcomWeb.GettextPlural do
   There's a list of plural forms for most languages here:
   https://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
   """
+
   @behaviour Gettext.Plural
 
   # Haitian Creole is not supported by default by Gettext.Plural (which uses Expo.PluralForms)

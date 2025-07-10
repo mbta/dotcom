@@ -1,6 +1,6 @@
-defmodule DotcomWeb.Gettext do
+defmodule Dotcom.Gettext do
   @moduledoc """
-  Implements Gettext.
+  Implement [Gettext](https://hexdocs.pm/gettext/Gettext.html).
   """
 
   use Gettext.Backend,
@@ -8,6 +8,6 @@ defmodule DotcomWeb.Gettext do
     default_locale: Dotcom.Locales.default_locale_code(),
     locales: Dotcom.Locales.locale_codes(),
     otp_app: :dotcom,
-    plural_forms: DotcomWeb.GettextPlural,
+    plural_forms: Dotcom.Gettext.Plural,
     priv: "priv/gettext"
 end
