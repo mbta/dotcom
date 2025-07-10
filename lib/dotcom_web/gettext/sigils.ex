@@ -1,6 +1,25 @@
 defmodule DotcomWeb.Gettext.Sigils do
   @moduledoc """
   Sigils for Gettext translations.
+
+  ## Usage
+
+  ```elixir
+  use DotcomWeb.Gettext.Sigils
+  ```
+
+  ```heex
+  <div>{~t(Text to translate)}</div>
+  ```
+
+  ## Examples
+    iex> use DotcomWeb.Gettext.Sigils
+    iex> ~t(Simple text!)
+    "Simple text!"
+    iex> ~t(1 error | %{count} errors | 1)p
+    "1 error"
+    iex> ~t(1 error | %{count} errors | 54)p
+    "54 errors"
   """
 
   defmacro __using__(_ \\ []) do
