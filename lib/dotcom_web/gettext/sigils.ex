@@ -14,7 +14,7 @@ defmodule DotcomWeb.Gettext.Sigils do
   @doc """
   Sigil for Gettext translations.
   """
-  defmacro sigil_i({:<<>>, _, pieces} = string, [?p]) do
+  defmacro sigil_t({:<<>>, _, pieces} = string, [?p]) do
     [s, p, _] = pieces |> List.first() |> String.split(" | ")
 
     quote do
@@ -24,7 +24,7 @@ defmodule DotcomWeb.Gettext.Sigils do
     end
   end
 
-  defmacro sigil_i(string, []) do
+  defmacro sigil_t(string, []) do
     quote do
       gettext(unquote(string))
     end

@@ -6,7 +6,7 @@ defmodule DotcomWeb.HealthController do
   use DotcomWeb, :controller
 
   def index(conn, _params) do
-    status = ~i(1 error | %{count} errors | #{:rand.uniform(99)})p
+    status = ~t(1 error | %{count} errors | #{:rand.uniform(99)})p
 
     conn
     |> send_resp(200, status)
