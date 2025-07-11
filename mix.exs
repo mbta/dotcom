@@ -95,6 +95,7 @@ defmodule DotCom.Mixfile do
       {:ecto, "3.12.5"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
+      {:ex_cldr, "2.42.0"},
       {:ex_doc, "0.38.2", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
