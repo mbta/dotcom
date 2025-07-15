@@ -76,9 +76,6 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
           <.icon type="icon-svg" name="icon-fares-default" class="h-4 w-4" />
           {@price}
         </div>
-        <.icon name="circle" class="h-0.5 w-0.5 mx-1" aria-hidden />
-        <.icon name="gamepad" class="h-4 w-4" />
-        {@itinerary.generalized_cost}
       </div>
     </div>
     """
