@@ -319,6 +319,37 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       refute rerendered =~ "Accessible Route"
     end
 
+    test "shows unavailable trips in their own group when doing accessibility grouping", %{
+      view: view
+    } do
+      # Setup
+      num_available = Faker.random_between(2, 5)
+      num_unavailable = Faker.random_between(2, 5)
+
+      available_itinerary_groups =
+        build_list(num_available, :itinerary_group, available?: true)
+
+      unavailable_itinerary_groups =
+        build_list(num_unavailable, :itinerary_group, available?: false)
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, unavailable_itinerary_groups ++ available_itinerary_groups}
+      end)
+
+      # Exercise
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => Map.put(@valid_params, "wheelchair", "true")})
+
+      # Verify
+      rendered =
+        render_async(view)
+        |> Floki.parse_document!()
+        |> Floki.text()
+
+      assert rendered =~ "#{num_unavailable} Unavailable Routes"
+    end
+
     test "groupable results show up in groups", %{view: view} do
       # Setup
       group_count = :rand.uniform(5)
