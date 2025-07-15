@@ -7,7 +7,9 @@ defmodule DotcomWeb.TestController do
 
   use DotcomWeb, :controller
 
-  1..10 |> Enum.to_list() |> Enum.each(fn n ->
+  1..10
+  |> Enum.to_list()
+  |> Enum.each(fn n ->
     def star_wars_quote(unquote(n)) do
       gettext(unquote(Faker.StarWars.quote()))
     end
