@@ -118,14 +118,14 @@ defmodule DotcomWeb do
 
   def channel do
     quote do
-      use Gettext, backend: Dotcom.Gettext
+      use Dotcom.Gettext.Sigils
       use Phoenix.Channel
     end
   end
 
   defp view_helpers do
     quote do
-      use Gettext, backend: Dotcom.Gettext
+      use Dotcom.Gettext.Sigils
       use MbtaMetro
 
       import DotcomWeb.{Components, Components.RouteSymbols}
