@@ -43,7 +43,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     conn
     |> assign(
       :meta_description,
-      "MBTA #{route_name_for_description(conn.assigns.route)} stations and " <>
+      "MBTA #{route_name_for_description(conn.assigns.route)} #{station_type_name(conn.assigns.route)} and " <>
         "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
         "and connections."
     )
@@ -57,6 +57,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   defp route_name_for_description(%Route{type: 2} = route), do: "#{route.name} Commuter Rail"
   defp route_name_for_description(route), do: route.name
+
+  defp station_type_name(%Route{type: 4}), do: "docks"
+  defp station_type_name(_route), do: "stations"
 
   defp assign_cr_status(%{assigns: %{route: route}} = conn) do
     cr_status =
