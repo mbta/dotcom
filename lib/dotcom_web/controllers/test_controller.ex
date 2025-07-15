@@ -7,8 +7,14 @@ defmodule DotcomWeb.TestController do
 
   use DotcomWeb, :controller
 
+  1..10 |> Enum.to_list() |> Enum.each(fn n ->
+    def star_wars_quote(unquote(n)) do
+      gettext(unquote(Faker.StarWars.quote()))
+    end
+  end)
+
   def index(conn, _params) do
-    status = ~t(All clear, Captain!)
+    status = ~t(Star Wars quote of the day) <> " -> " <> star_wars_quote(:rand.uniform(10))
 
     Logger.notice("#{__MODULE__}: #{status}")
 

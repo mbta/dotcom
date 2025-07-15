@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   @url "http://localhost:9999/translate"
 
   @impl Mix.Task
-  # Translate the `.pot` file into the given locales.
+  # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
   def run(["--locales", locales]) do
     Finch.start_link(name: TranslateFinch)
@@ -109,6 +109,6 @@ defmodule Mix.Tasks.Gettext.Translate do
       IO.puts(file, "# Alternative: #{alternative}")
     end)
 
-    IO.puts("")
+    IO.puts(file, "")
   end
 end

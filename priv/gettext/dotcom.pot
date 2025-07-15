@@ -11,7 +11,53 @@
 msgid ""
 msgstr ""
 
-#: lib/dotcom_web/controllers/test_controller.ex:11
+#: lib/dotcom_web/controllers/test_controller.ex:12
 #, elixir-autogen, elixir-format
-msgid "All clear, Captain!"
+msgid "How ya feeling kid? You don't look so bad to me. You look strong enough to pull the ears off a gundark."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "I want to come with you to Alderaan. There's nothing for me here now. I want to learn the ways of the Force and become a Jedi like my father."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "I'm not Resistance. I'm not a hero. I'm a stormtrooper. Like all of them, I was taken from a family I'll never know. And raised to do one thing. But my first battle, I made a choice. I wasn't gonna kill for them. So I ran. Right into you. And you looked at me like no one ever had. I was ashamed of what I was. But I'm done with the First Order. I'm never going back. Rey, come with me."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "I've got a bad feeling about this."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "If there's a bright center to the universe, you're on the planet that it's farthest from."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:17
+#, elixir-autogen, elixir-format
+msgid "Star Wars quote of the day"
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "The fear of loss is a path to the Dark Side."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "This is a rebellion, isn't it? I rebel."
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "Would it help if I got out and pushed?"
+msgstr ""
+
+#: lib/dotcom_web/controllers/test_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "Your eyes can deceive you; don't trust them."
 msgstr ""
