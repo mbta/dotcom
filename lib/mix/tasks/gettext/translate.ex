@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
   def run(["--locales", locales]) do
-    Finch.start_link(name: TranslateFinch)
+    _ = Finch.start_link(name: TranslateFinch)
 
     locales
     |> String.split(",")
