@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate all non-default locales.
   def run([]) do
-    Finch.start_link(name: TranslateFinch)
+    _ = Finch.start_link(name: TranslateFinch)
 
     (locale_codes() -- [default_locale_code()]) |> translate()
   end
