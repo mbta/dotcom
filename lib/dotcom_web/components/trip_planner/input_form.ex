@@ -157,10 +157,10 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   defp datepicker_config do
     %{
-      default_date: ServiceDateTime.service_date(),
+      default_date: ServiceDateTime.beginning_of_service_day(),
       enable_time: true,
       max_date: @schedules_repo.end_of_rating() |> Timex.shift(days: 1),
-      min_date: ServiceDateTime.service_date() |> Timex.shift(days: 1)
+      min_date: ServiceDateTime.beginning_of_service_day()
     }
   end
 

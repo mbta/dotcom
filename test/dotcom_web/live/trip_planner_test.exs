@@ -15,6 +15,10 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
     end)
 
+    stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
+      Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
+    end)
+
     stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
       Dotcom.Utils.DateTime.now()
     end)
