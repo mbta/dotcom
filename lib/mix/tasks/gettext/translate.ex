@@ -1,5 +1,7 @@
 defmodule Mix.Tasks.Gettext.Translate do
   @moduledoc """
+  This mix task translates all lines in every domain `.pot` file for every locale.
+
   Run Libretranslate locally loading only the locales we support.
 
   docker run -ti --rm -p 9999:5000 libretranslate/libretranslate --load-only en,es
@@ -47,6 +49,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     end)
   end
 
+  # Build a request to be sent to Libretranslate.
   defp build_request(text, locale) do
     %{
       q: text,
@@ -56,12 +59,14 @@ defmodule Mix.Tasks.Gettext.Translate do
     }
   end
 
+  # Gets the content of msgid of a `.pot` file.
   defp domain_line(line) do
     Regex.scan(~r/(?<=\")(.*?)(?=\")/, line)
     |> List.flatten()
     |> List.first()
   end
 
+  # Gets all of the msgids of a `.pot` file.
   defp domain_lines(domain) do
     "#{@directory}/#{domain}.pot"
     |> File.read!()
@@ -70,6 +75,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.map(&domain_line/1)
   end
 
+  # Looks for all `.pot` files to get a list of domains.
   defp domains() do
     @directory
     |> File.ls!()
@@ -77,12 +83,14 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.map(fn ref -> String.split(ref, ".") |> List.first() end)
   end
 
+  # Gets all of the domain lines in a domain and then translates them into the locale.
   defp translate_domain(domain, locale) do
     domain_lines(domain)
     |> Enum.map(fn text -> {text, translate_text(text, locale)} end)
     |> Map.new()
   end
 
+  # Translates a piece of text to a specific locale via Libretranslate.
   defp translate_text(text, locale) do
     @url
     |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
@@ -90,6 +98,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Map.new(fn {k, v} -> {Recase.to_snake(k), v} end)
   end
 
+  # Writes a translated `.po` file for the domain and locale.
   defp write_domain_translations(domain, locale) do
     file = File.open!("#{@directory}/#{locale}/LC_MESSAGES/#{domain}.po", [:write, :utf8])
 
@@ -100,6 +109,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.each(fn {k, v} -> write_translation(file, k, v) end)
   end
 
+  # Writes a single translation into a single file.
   defp write_translation(file, text, translation) do
     IO.puts(file, "msgid \"#{text}\"")
     IO.puts(file, "msgstr \"#{Map.get(translation, "translated_text")}\"")
