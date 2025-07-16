@@ -62,7 +62,10 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
         })
 
       assert icon |> matches_title?("Shuttle Bus")
-      classnames = icon |> Floki.attribute("class") |> List.first()
+
+      {:ok, document} = Floki.parse_document(icon)
+
+      classnames = document |> Floki.attribute("class") |> List.first()
 
       assert classnames =~ "text-#{String.downcase(replaced_route)}-line" ||
                classnames =~ "text-commuter-rail"
@@ -136,8 +139,10 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
   end
 
   defp matches_title?(html, text) do
+    {:ok, document} = Floki.parse_document(html)
+
     title =
-      html
+      document
       |> Floki.find("title")
       |> Floki.text()
       |> String.trim()

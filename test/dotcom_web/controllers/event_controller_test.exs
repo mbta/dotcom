@@ -26,7 +26,9 @@ defmodule DotcomWeb.EventControllerTest do
     test "renders a list of events", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
       assert conn.assigns.year == 2019
-      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+      document = html_response(conn, 200) |> Floki.parse_document!()
+
+      events_hub = Floki.find(document, ".m-events-hub")
 
       assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
 
@@ -60,8 +62,9 @@ defmodule DotcomWeb.EventControllerTest do
 
     test "renders the toggle for calendar view", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, calendar: true))
+      document = html_response(conn, 200) |> Floki.parse_document!()
 
-      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub__nav--navigation-toggle")
+      events_hub = Floki.find(document, ".m-events-hub__nav--navigation-toggle")
       assert [{"div", [{"class", "m-events-hub__nav--navigation-toggle"}], _}] = events_hub
 
       event_icons = Floki.find(events_hub, ".m-nav-toggle-icon")

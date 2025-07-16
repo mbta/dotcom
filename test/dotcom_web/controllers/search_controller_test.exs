@@ -239,9 +239,9 @@ defmodule DotcomWeb.SearchControllerTest do
       content_type = %{"event" => "true"}
       params = %{@params | "search" => Map.put(@params["search"], "content_type", content_type)}
       conn = get(conn, search_path(conn, :index, params))
-      response = html_response(conn, 200)
+      document = html_response(conn, 200) |> Floki.parse_document!()
 
-      assert [{"input", attrs, _}] = Floki.find(response, "#content_type_event")
+      assert [{"input", attrs, _}] = Floki.find(document, "#content_type_event")
       attrs = Map.new(attrs)
       assert Map.get(attrs, "name") == "search[content_type][event]"
       assert Map.get(attrs, "type") == "checkbox"

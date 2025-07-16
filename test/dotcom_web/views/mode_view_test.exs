@@ -42,21 +42,22 @@ defmodule DotcomWeb.ModeViewTest do
       ]
 
       for {mode, text, href} <- modes do
-        header =
+        document =
           mode
           |> ModeView.mode_group_header(href, false)
           |> safe_to_string()
+          |> Floki.parse_document!()
 
-        assert header
+        assert document
                |> Floki.find(".m-mode__name")
                |> Floki.text(deep: false)
                |> String.trim() == text
 
-        assert header
+        assert document
                |> Floki.find(".m-mode__name")
                |> Floki.attribute("href") == [href]
 
-        view_all = Floki.find(header, ".m-mode__view-all")
+        view_all = Floki.find(document, ".m-mode__view-all")
 
         if mode === :bus do
           assert Floki.attribute(view_all, "href") == [href]
