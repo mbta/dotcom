@@ -30,6 +30,12 @@ defmodule Dotcom.Utils.DateTime do
   def now(), do: Timex.now(@timezone)
 
   @doc """
+  Get the date in the set @timezone.
+  """
+  @impl Behaviour
+  def today(), do: Timex.today(@timezone)
+
+  @doc """
   In the default case, we'll return a DateTime when given one.
 
   Timex can give us ambiguous times when we "fall-back" in DST transitions.

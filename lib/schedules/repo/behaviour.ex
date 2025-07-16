@@ -10,4 +10,7 @@ defmodule Schedules.Repo.Behaviour do
 
   @callback trip(Trip.id_t(), (Trip.id_t(), Keyword.t() -> JsonApi.t())) :: Trip.t() | nil
   @callback trip(Trip.id_t()) :: Trip.t() | nil
+
+  @callback end_of_rating() :: Date.t() | :error
+  @callback end_of_rating(fun()) :: Date.t() | :error
 end

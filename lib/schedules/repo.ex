@@ -100,23 +100,7 @@ defmodule Schedules.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp fetch_trip(trip_id, trip_by_id_fn) do
-    trip_opts =
-      case Util.config(:dotcom, :enable_experimental_features) do
-        "true" -> [include: "occupancies"]
-        _ -> []
-      end
-
-    case trip_by_id_fn.(trip_id, trip_opts) do
-      %JsonApi{} = response ->
-        {:ok, Parser.trip(response)}
-
-      error ->
-        error
-    end
-  end
-
+  @impl Behaviour
   def end_of_rating(all_fn \\ &MBTA.Api.Schedules.all/1) do
     case rating_dates(all_fn) do
       {_start_date, end_date} -> end_date
@@ -132,6 +116,23 @@ defmodule Schedules.Repo do
       {start_date, end_date}
     else
       _ -> :error
+    end
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp fetch_trip(trip_id, trip_by_id_fn) do
+    trip_opts =
+      case Util.config(:dotcom, :enable_experimental_features) do
+        "true" -> [include: "occupancies"]
+        _ -> []
+      end
+
+    case trip_by_id_fn.(trip_id, trip_opts) do
+      %JsonApi{} = response ->
+        {:ok, Parser.trip(response)}
+
+      error ->
+        error
     end
   end
 
