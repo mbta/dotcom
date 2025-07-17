@@ -25,16 +25,6 @@ defmodule Dotcom.Alerts do
           | :suspension
           | :station_closure
 
-  # A keyword list of effects and the severity level necessary to make an alert a 'diversion.'
-  @diversion_effects [
-    detour: 1,
-    service_change: 3,
-    shuttle: 1,
-    station_closure: 1,
-    stop_closure: 1,
-    suspension: 1
-  ]
-
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
     cancellation: 1,
@@ -62,27 +52,20 @@ defmodule Dotcom.Alerts do
   end
 
   @doc """
-  Does the alert have an effect/severity that is considered a diversion?
-  And, was it planned?
-  """
-  @spec diversion_alert?(Alert.t()) :: boolean()
-  def diversion_alert?(alert) do
-    effects_match?(@diversion_effects, alert) &&
-      planned_alert?(alert)
-  end
-
-  @doc """
-  Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
-  """
-  @spec diversion_effects() :: [{diversion_effect_t(), integer()}]
-  def diversion_effects(), do: @diversion_effects
-
-  @doc """
   Does the alert match a group of effects/severities?
   """
   @spec effects_match?(list(), Alert.t()) :: boolean()
   def effects_match?(effects, alert) do
     Enum.any?(effects, &effect_match?(&1, alert))
+  end
+
+  @doc """
+  Does the alert have an effect/severity that is considered service impacting?
+  And, was it planned?
+  """
+  @spec planned_service_impacting_alert?(Alert.t()) :: boolean()
+  def planned_service_impacting_alert?(alert) do
+    service_impacting_alert?(alert) && planned_alert?(alert)
   end
 
   @doc """
