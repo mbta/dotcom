@@ -1,7 +1,18 @@
 defmodule DotcomWeb.CMSControllerTest do
   use DotcomWeb.ConnCase, async: false
+  import Mox
 
   alias Plug.Conn
+
+  setup :verify_on_exit!
+
+  setup do
+    stub(Alerts.Repo.Mock, :all, fn _ ->
+      []
+    end)
+
+    :ok
+  end
 
   describe "GET - page" do
     test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do
