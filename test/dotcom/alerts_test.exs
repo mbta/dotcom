@@ -23,69 +23,6 @@ defmodule Dotcom.AlertsTest do
     :ok
   end
 
-  describe "diversion_alert?/1" do
-    test "returns true if the alert has an effect that is considered a diversion" do
-      # Setup
-      {effect, severity} = diversion_effects() |> Faker.Util.pick()
-      alert = Factories.Alerts.Alert.build(:alert, effect: effect, severity: severity)
-
-      # Exercise/Verify
-      assert diversion_alert?(alert)
-    end
-
-    test "returns false if the alert does not have an effect that is considered a diversion" do
-      # Setup
-      alert = Factories.Alerts.Alert.build(:alert, effect: :not_a_diversion)
-
-      # Exercise/Verify
-      refute diversion_alert?(alert)
-    end
-
-    test "returns true when created at is before active period" do
-      # Setup
-      created_at = Timex.now()
-      active_period = [{Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)}]
-
-      {effect, severity} = diversion_effects() |> Faker.Util.pick()
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          active_period: active_period,
-          created_at: created_at,
-          effect: effect,
-          severity: severity
-        )
-
-      # Exercise/Verify
-      assert diversion_alert?(alert)
-    end
-
-    test "returns false when created at is after active period" do
-      created_at = Timex.now()
-      active_period = [{Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)}]
-
-      {effect, severity} = diversion_effects() |> Faker.Util.pick()
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          active_period: active_period,
-          created_at: created_at,
-          effect: effect,
-          severity: severity
-        )
-
-      # Exercise/Verify
-      refute diversion_alert?(alert)
-    end
-  end
-
-  describe "diversion_effects/0" do
-    test "returns a list of the alert effects as keywords" do
-      # Exercise/Verify
-      assert Keyword.keyword?(diversion_effects())
-    end
-  end
-
   describe "affected_stations/1" do
     test "returns a list of stations that are affected by the alert" do
       # Setup
