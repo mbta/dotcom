@@ -1,14 +1,14 @@
-import { Channel, Socket } from "phoenix";
 import { waitFor } from "@testing-library/react";
-import setupChannels, {
-  isVehicleChannel,
-  joinChannel,
-  leaveChannel
-} from "../channels";
+import { Channel, Socket } from "phoenix";
 import {
-  makeMockSocket,
-  makeMockChannel
+    makeMockChannel,
+    makeMockSocket
 } from "../../helpers/socketTestHelpers";
+import setupChannels, {
+    isVehicleChannel,
+    joinChannel,
+    leaveChannel
+} from "../channels";
 
 const mockOnLoadEventListener = () => {
   const ev = new CustomEvent("load");
@@ -127,18 +127,12 @@ describe("setupChannels", () => {
     // This should test the onError callback of the channel
     setupChannels();
     mockOnLoadEventListener();
-    const mockEventListener = jest.fn();
-    document.addEventListener("vehicles:Red:0", mockEventListener);
+
     const channel = window.channels["vehicles:Red:0"];
-    const consoleMock = jest
-      .spyOn(global.console, "error")
-      .mockImplementation(() => {});
+    const consoleMock = jest.spyOn(global.console, "error");
     // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
-    channel.trigger("phx_error", { reason: "bad data" });
-    const event = new CustomEvent("vehicles:Red:0", {
-      detail: { error: "bad data" }
-    });
-    expect(mockEventListener).toHaveBeenCalledWith(event);
+    channel.trigger("phx_error", "bad data");
+    expect(consoleMock).toHaveBeenCalledWith("error on channel vehicles:Red:0 : bad data");
 
     consoleMock.mockRestore();
   });

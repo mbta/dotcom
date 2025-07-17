@@ -20,7 +20,7 @@ defmodule DotcomWeb do
 
   def controller do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
+      use Dotcom.Gettext.Sigils
       use Phoenix.Controller, namespace: DotcomWeb
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
@@ -72,7 +72,7 @@ defmodule DotcomWeb do
           static_url: 2
         ]
 
-      import DotcomWeb.Views.Helpers.{AlertHelpers, StopHelpers}
+      import DotcomWeb.Views.Helpers.AlertHelpers
       import Phoenix.Controller, only: [view_module: 1]
       import UrlHelpers
 
@@ -118,18 +118,18 @@ defmodule DotcomWeb do
 
   def channel do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
+      use Dotcom.Gettext.Sigils
       use Phoenix.Channel
     end
   end
 
   defp view_helpers do
     quote do
-      use Gettext, backend: DotcomWeb.Gettext
+      use Dotcom.Gettext.Sigils
       use MbtaMetro
 
-      import DotcomWeb.{Components, Components.RouteSymbols, ErrorHelpers}
-      import Phoenix.{HTML, LiveView.Helpers}
+      import DotcomWeb.{Components, Components.RouteSymbols}
+      import Phoenix.{Component, HTML, LiveView.Helpers}
       import PhoenixHTMLHelpers.Form, except: [label: 1]
       import PhoenixHTMLHelpers.{Format, Link, Tag}
 

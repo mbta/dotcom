@@ -29,7 +29,8 @@ defmodule JourneyTest do
           nil
         )
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "On time"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "On time"
     end
 
     test "includes track number if present" do
@@ -42,7 +43,8 @@ defmodule JourneyTest do
       |> Phoenix.HTML.safe_to_string()
       |> Floki.text()
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "All aboard on track 5"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "All aboard on track 5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
@@ -58,7 +60,8 @@ defmodule JourneyTest do
           %PredictedSchedule{schedule: nil, prediction: nil}
         )
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "Delayed 5 minutes"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "Delayed 5 minutes"
     end
 
     test "returns the empty string if the predicted and scheduled times are the same" do
@@ -91,7 +94,8 @@ defmodule JourneyTest do
           }
         )
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "Delayed 10 minutes"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "Delayed 10 minutes"
     end
 
     test "handles nil arrivals" do
@@ -107,7 +111,8 @@ defmodule JourneyTest do
           nil
         )
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "Delayed 5 minutes"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "Delayed 5 minutes"
     end
 
     test "inflects the delay correctly" do
@@ -123,7 +128,8 @@ defmodule JourneyTest do
           nil
         )
 
-      assert result |> Phoenix.HTML.safe_to_string() |> Floki.text() == "Delayed 1 minute"
+      assert result |> Phoenix.HTML.safe_to_string() |> Floki.parse_document!() |> Floki.text() ==
+               "Delayed 1 minute"
     end
   end
 

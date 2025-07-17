@@ -32,13 +32,14 @@ jobs:
 
   sentry:
     needs: [release]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: getsentry/action-release@v3.1.1
+      - uses: getsentry/action-release@v3.2.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: mbtace
@@ -47,7 +48,7 @@ jobs:
           environment: prod
           version: ${{ github.event.release.tag_name }}
 
-      - uses: getsentry/action-release@v3.1.1
+      - uses: getsentry/action-release@v3.2.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: mbtace

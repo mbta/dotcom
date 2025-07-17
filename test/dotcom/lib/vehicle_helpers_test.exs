@@ -2,7 +2,6 @@ defmodule Dotcom.VehicleHelpersTest do
   use ExUnit.Case, async: false
 
   import VehicleHelpers
-  import Mock
   import Mox
 
   @shape %Routes.Shape{id: "9850002", polyline: "polyline"}
@@ -43,18 +42,23 @@ defmodule Dotcom.VehicleHelpersTest do
       @station
     end)
 
+    stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, _ ->
+      trip =
+        Test.Support.Factories.MBTA.Api.build(:trip_item,
+          id: id,
+          attributes: %{
+            "name" => @trip.name,
+            "headsign" => @trip.headsign
+          }
+        )
+
+      %JsonApi{links: %{}, data: [trip]}
+    end)
+
     :ok
   end
 
-  setup_with_mocks([
-    {Schedules.Repo, [:passthrough],
-     [
-       trip: fn
-         "CR-554466-501" -> @trip
-         id -> %Schedules.Trip{id: id}
-       end
-     ]}
-  ]) do
+  setup do
     tooltips = build_tooltip_index(@route, @locations, @predictions)
 
     {:ok, tooltips: tooltips, tooltip_base: tooltips[@station.id]}
@@ -240,23 +244,6 @@ defmodule Dotcom.VehicleHelpersTest do
       tooltips = build_tooltip_index(@route, @locations, predictions)
       tooltip = tooltips["place-sstat"]
       assert tooltip(tooltip) =~ "train 501 has arrived"
-    end
-  end
-
-  describe "get_vehicle_polylines/2" do
-    test "vehicle polyline not in route polylines" do
-      expect(Routes.Repo.Mock, :get_shape, fn _ ->
-        [@shape]
-      end)
-
-      vehicle_polylines = get_vehicle_polylines(@locations, [])
-      assert [<<_::binary>>] = vehicle_polylines
-    end
-
-    test "vehicle polyline in route polylines" do
-      shape = %Routes.Shape{id: "9850002"}
-      vehicle_polylines = get_vehicle_polylines(@locations, [shape])
-      assert vehicle_polylines == []
     end
   end
 end

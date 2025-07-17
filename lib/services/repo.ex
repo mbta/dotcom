@@ -13,13 +13,6 @@ defmodule Services.Repo do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def by_id(id) when is_binary(id) do
-    ServicesApi.get(id)
-    |> handle_response()
-    |> List.first()
-  end
-
   def by_route_id(route_id, params \\ [])
 
   def by_route_id([route_id] = route, params) when is_list(route) do

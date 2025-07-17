@@ -24,6 +24,11 @@ defmodule DotcomWeb.CustomerSupportController do
       initially_expanded: true
     },
     %{
+      header: %{text: "File a Discrimination Complaint", iconSvgText: nil},
+      id: "discrimination_complaint",
+      initially_expanded: true
+    },
+    %{
       header: %{text: "Lost and Found", iconSvgText: nil},
       id: "lost_and_found",
       initially_expanded: true

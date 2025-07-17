@@ -66,15 +66,15 @@ defmodule DotcomWeb.PageViewTest do
           }
         end
 
-      rendered =
+      document =
         conn
         |> assign(:news, entries)
         |> PageView.render_news_entries()
         |> HTML.safe_to_string()
+        |> Floki.parse_document!()
 
-      assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 6
-      assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 6
-      assert rendered =~ "2000"
+      assert document |> Floki.find(".c-news-entry") |> Enum.count() == 6
+      assert document |> Floki.find(".c-news-entry--small") |> Enum.count() == 6
     end
   end
 

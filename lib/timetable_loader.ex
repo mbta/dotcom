@@ -64,6 +64,7 @@ defmodule Dotcom.TimetableLoader do
     end
   end
 
+  defp date_in_weekend?(~D[2025-07-04]), do: true
   defp date_in_weekend?(date), do: Date.day_of_week(date) in [6, 7]
 
   @doc """

@@ -1,7 +1,7 @@
 import hogan from "hogan.js";
 import _ from "lodash";
-import * as Icons from "./icons";
 import { highlightText } from "../ts/helpers/text.ts";
+import * as Icons from "./icons";
 
 /* eslint-disable no-underscore-dangle */
 
@@ -73,17 +73,6 @@ export const TEMPLATES = {
     {{#hasDate}}
     </div>
     {{/hasDate}}
-  `)
-};
-
-export const TEMPLATES_ALT_USE_MY_LOCATION = {
-  ...TEMPLATES,
-  usemylocation: hogan.compile(`
-    <a id="search-bar__my-location" class="c-search-bar__my-location">
-      <i aria-hidden="true" class="fa fa-location-arrow "></i>
-      Use my location to find transit near me
-      <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
-    </a>
   `)
 };
 

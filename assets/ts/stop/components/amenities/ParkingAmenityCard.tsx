@@ -6,7 +6,7 @@ import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
 import Badge from "../../../components/Badge";
-import { alertsForEffect } from "../../../models/alert";
+import { alertsInEffect, alertsForEffect } from "../../../models/alert";
 
 const getPaymentElement = (park: ParkingLot): JSX.Element => {
   const paymentMethods =
@@ -182,9 +182,13 @@ const allParkingLotsClosed = (
   if (parkingLots.length === 0) {
     return false;
   }
-  const parkingClosuresIDs = alertsForEffect(alerts, "parking_closure").flatMap(
-    a => a.informed_entity.facility
-  );
+
+  const filteredAlerts = alertsInEffect(alerts);
+  const parkingClosuresIDs = alertsForEffect(
+    filteredAlerts,
+    "parking_closure"
+  ).flatMap(a => a.informed_entity.facility);
+
   const parkingLotIDs = parkingLots.map(p => p.id);
 
   // if both arrays have the same ids in them then all lots are closed

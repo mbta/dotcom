@@ -11,13 +11,6 @@ defmodule Util.DistanceTest do
     {42.518651, -71.247852}
   ]
 
-  describe "closest/3" do
-    test "given a list of positions, returns a list of the closest items" do
-      assert closest(@stops, @position, 1) == [Enum.at(@stops, 1)]
-      assert closest(@stops, @position, 2) == [Enum.at(@stops, 1), Enum.at(@stops, 0)]
-    end
-  end
-
   describe "sort/2" do
     test "given a list of positions, sorts them all by distance" do
       assert sort(@stops, @position) == [

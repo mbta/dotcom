@@ -49,6 +49,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         plural={@plural}
         prefix={@prefix}
         route_ids={@route_ids}
+        severity={severity(@alerts)}
         status={@status}
         subheading_text={@subheading_text}
         subheading_aria_label={@subheading_aria_label}
@@ -81,7 +82,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     </div>
 
     <.status_label
-      description={"#{@rendered_prefix}#{description(@status, @prefix, @plural)}"}
+      description={"#{@rendered_prefix}#{description(@status, @prefix, @plural)}#{severity_suffix(@status, @severity)}"}
       status={@status}
       subheading_aria_label={@subheading_aria_label}
       subheading_text={@subheading_text}
@@ -101,8 +102,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
+  defp decorations(%{status: :delay, alerts: alerts}) do
+    all_single_tracking? = alerts |> Enum.all?(&(&1.cause == :single_tracking))
+
+    subheading_text = if all_single_tracking?, do: "Due to Single Tracking"
+
+    %{
+      subheading_text: subheading_text
+    }
+  end
+
   defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
-       when status in [:service_change, :shuttle, :suspension] do
+       when status in [:service_change, :shuttle, :single_tracking, :suspension] do
     endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
 
     %{
@@ -123,8 +134,9 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
   # prefix of "Now" should still display as "Delay", rather than
   # "Expect Delay".
-  defp description(:delay, "Now"), do: "Delay"
-  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delay"
+  defp description(:delay, "Now"), do: "Delays"
+  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delays"
+  defp description(:delay, _), do: "Delays"
   defp description(:shuttle, _), do: "Shuttles"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
@@ -161,6 +173,20 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     do: "#{stop_name1}, #{stop_name2} & #{stop_name3}"
 
   defp humanize_stop_names(stop_names), do: "#{Enum.count(stop_names)} Stops"
+
+  defp severity([]), do: nil
+  defp severity(alerts), do: alerts |> Enum.map(& &1.severity) |> Enum.max()
+
+  defp severity_suffix(effect, severity),
+    do:
+      %Alert{effect: effect, severity: severity}
+      |> Alert.human_severity()
+      |> format_human_severity()
+
+  defp format_human_severity(nil), do: ""
+
+  defp format_human_severity(human_severity) when is_binary(human_severity),
+    do: " " <> human_severity
 
   defp top_padding(assigns) do
     ~H"""

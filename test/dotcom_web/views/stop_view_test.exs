@@ -32,12 +32,13 @@ defmodule DotcomWeb.StopViewTest do
         %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}}
       ]
 
-      html =
+      document =
         "_detailed_stop_list.html"
         |> StopView.render(detailed_stops: stops, conn: conn)
         |> HTML.safe_to_string()
+        |> Floki.parse_document!()
 
-      assert [alewife, davis, porter] = Floki.find(html, ".stop-btn")
+      assert [alewife, davis, porter] = Floki.find(document, ".stop-btn")
       assert Floki.text(alewife) =~ "Alewife"
       assert Floki.text(davis) =~ "Davis"
       assert Floki.text(porter) =~ "Porter"
@@ -55,9 +56,10 @@ defmodule DotcomWeb.StopViewTest do
       html =
         "_search_bar.html"
         |> StopView.render(stop_info: stops, conn: conn)
-        |> HTML.safe_to_string()
+        |> HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
-      assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
+      assert html =~ "c-search-bar__autocomplete"
     end
   end
 end

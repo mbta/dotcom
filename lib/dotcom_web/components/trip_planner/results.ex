@@ -205,7 +205,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_group(assigns) do
     ~H"""
     <div
-      class="border border-solid border-gray-lighter p-4"
+      class="border border-solid border-gray-lighter p-4 cursor-pointer"
       phx-click="select_itinerary_group"
       phx-value-index={@index}
       data-test={"results:itinerary_group:#{@index}"}

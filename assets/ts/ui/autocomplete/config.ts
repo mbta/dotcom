@@ -121,6 +121,70 @@ const RETAIL: Partial<AutocompleteOptions<any>> = {
 };
 
 /**
+ * This configuration is used for finding projects from Drupal.
+ */
+const PROJECTS: Partial<AutocompleteOptions<any>> = {
+  ...baseOptions,
+  getSources({ query }): AutocompleteSource<any>[] {
+    if (!query) return [];
+    const projectSource = algoliaSource(query, {
+      drupal: {
+        hitsPerPage: 10,
+        facets: ["projects"],
+        facetFilters: [
+          ["_content_type:project", "_content_type:project_update"]
+        ]
+      }
+    });
+    projectSource.templates.noResults = ({ html }) => {
+      return html`
+        <i
+          class="fa fa-fw fa-circle-exclamation text-firebrick-50 mr-sm"
+          aria-hidden="true"
+        ></i>
+        No projects found matching "${query}".
+      `;
+    };
+    return debounced([projectSource]);
+  },
+  onSubmit({ state }) {
+    window.location.assign(
+      `/search?query=${state.query}&facets=projects&showmore=`
+    );
+  }
+};
+
+/**
+ * This configuration is used for finding stops.
+ */
+const STOPS: Partial<AutocompleteOptions<any>> = {
+  ...baseOptions,
+  getSources({ query }): AutocompleteSource<any>[] {
+    if (!query) return [];
+    const stopsSource = algoliaSource(query, {
+      stops: {
+        hitsPerPage: 10
+      }
+    });
+    stopsSource.templates.noResults = ({ html }) => {
+      return html`
+        <i
+          class="fa fa-fw fa-circle-exclamation text-firebrick-50 mr-sm"
+          aria-hidden="true"
+        ></i>
+        No stops or stations found matching "${query}".
+      `;
+    };
+    return debounced([stopsSource]);
+  },
+  onSubmit({ state }) {
+    window.location.assign(
+      `/search?query=${state.query}&facets=stops%2Cfacet-station%2Cfacet-stop&showmore=`
+    );
+  }
+};
+
+/**
  * This configuration is used for finding Proposed Retail Sales Locations near a
  * user's geolocation or selected location from AWS location service.
  */
@@ -231,7 +295,9 @@ const TRIP_PLANNER = ({
 const ALL: Record<string, (...args: any) => ConfigurationOptions> = {
   "basic-config": () => BASIC,
   "retail-locations": () => RETAIL,
+  projects: () => PROJECTS,
   "proposed-locations": () => PROPOSED_RETAIL,
+  stops: () => STOPS,
   vote: () => VOTE,
   "trip-planner": TRIP_PLANNER
 };

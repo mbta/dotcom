@@ -61,6 +61,19 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.CacheControl, max_age: 86_400)
   end
 
+  # This controller allows us to test out new features locally.
+  if Mix.env() === :dev do
+    pipeline :test do
+      plug(DotcomWeb.Plugs.SetLocale)
+    end
+
+    scope "/", DotcomWeb do
+      pipe_through([:test])
+
+      get("/_test", TestController, :index)
+    end
+  end
+
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)

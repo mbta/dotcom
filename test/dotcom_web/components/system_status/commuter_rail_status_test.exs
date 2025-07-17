@@ -51,7 +51,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              cancellation: 1
+              cancellation: %{count: 1}
             },
             name: Faker.Cat.breed(),
             service_today?: true,
@@ -74,7 +74,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              cancellation: 2
+              cancellation: %{count: 2}
             },
             name: Faker.Cat.breed(),
             service_today?: true,
@@ -96,8 +96,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              cancellation: 1,
-              delay: 2
+              cancellation: %{count: 1},
+              delay: %{count: 2}
             },
             name: Faker.Cat.breed(),
             service_today?: true,
@@ -119,9 +119,9 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              cancellation: 1,
-              delay: 2,
-              shuttle: 1
+              cancellation: %{count: 1},
+              delay: %{count: 2},
+              shuttle: %{count: 1}
             },
             name: Faker.Cat.breed(),
             service_today?: true,
@@ -144,7 +144,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              shuttle: 2
+              shuttle: %{count: 2}
             },
             name: Faker.Cat.breed(),
             service_today?: true,
@@ -166,8 +166,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         commuter_rail_status: %{
           Faker.Cat.breed() => %{
             alert_counts: %{
-              shuttle: 1,
-              station_closure: 2
+              shuttle: %{count: 1},
+              station_closure: %{count: 2}
             },
             name: Faker.Cat.breed(),
             service_today?: true,

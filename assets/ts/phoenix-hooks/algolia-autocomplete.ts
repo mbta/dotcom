@@ -1,4 +1,4 @@
-import { ViewHook } from "phoenix_live_view";
+import { LiveSocket, ViewHook } from "phoenix_live_view";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
 import {
   Item,
@@ -20,46 +20,67 @@ function valuesFromData(data: Partial<Item>): object {
   return { name, stop_id, latitude, longitude };
 }
 
-const AlgoliaAutocomplete: Partial<ViewHook> = {
+const hasConnected = (liveSocket: LiveSocket): boolean => {
+  return liveSocket.getSocket().connectionState() === "open";
+};
+
+const AlgoliaAutocomplete = {
   mounted() {
     if (this.el) {
-      let pushToLiveView: Function | undefined;
-      let initialState: Function | undefined;
-      let key: string | undefined;
-      const isTripPlanner = !!this.el?.querySelector(
-        "[data-config='trip-planner']"
-      );
+      if (
+        this.el.querySelector<HTMLElement>(".c-search-bar__autocomplete")
+          ?.dataset.config === "trip-planner"
+      ) {
+        const key = this.el.id.replace("trip-planner-input-form--", ""); // "from"/"to"
+        const pushToLiveView = (data: Partial<Item>): void => {
+          const values = valuesFromData(data);
 
-      if (isTripPlanner) {
-        key = this.el.id.replace("trip-planner-input-form--", ""); // "from"/"to"
-        pushToLiveView = (data: Partial<Item>): void => {
-          this.pushEvent!("input_form_change", {
-            input_form: {
-              [key!]: valuesFromData(data)
-            }
-          });
+          // @ts-ignore
+          if (hasConnected(this.liveSocket) && this.pushEvent) {
+            this.pushEvent("input_form_change", {
+              input_form: { [key]: values }
+            });
+          }
+
+          // for the disconnected-to-LiveView case, make sure to write
+          // the selected data into the form fields themselves.
+          const inputsEl = this.el?.parentElement;
+          if (inputsEl) {
+            ["latitude", "longitude", "name", "stop_id"].forEach(name => {
+              const input = inputsEl.querySelector<HTMLInputElement>(
+                `input[name*=${name}]`
+              );
+              // @ts-ignore
+              if (input) input.value = values[name];
+            });
+          }
         };
-        initialState = (): string =>
-          this.el
-            ?.parentElement!.querySelector('input[name*="name"]')
+
+        const initialState = (): string =>
+          this.el?.parentElement
+            ?.querySelector('input[name*="name"]')
             ?.getAttribute("value") || "";
-      }
 
-      const autocompleteWidget = setupAlgoliaAutocomplete(
-        this.el,
-        pushToLiveView,
-        initialState
-      );
+        const autocompleteWidget = setupAlgoliaAutocomplete(
+          this.el,
+          pushToLiveView,
+          initialState
+        );
 
-      if (isTripPlanner && key) {
         this.handleEvent!("set-query", values => {
           // @ts-ignore
           const name = values[key]?.name || "";
           autocompleteWidget.setQuery(name);
         });
+      } else {
+        setupAlgoliaAutocomplete(
+          this.el,
+          () => {},
+          () => ""
+        );
       }
     }
   }
-};
+} as Partial<ViewHook>;
 
 export default AlgoliaAutocomplete;

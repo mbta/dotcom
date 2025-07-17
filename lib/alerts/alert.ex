@@ -30,6 +30,7 @@ defmodule Alerts.Alert do
     :escalator_closure,
     :policy_change,
     :schedule_change,
+    :single_tracking,
     :station_closure,
     :station_issue,
     :stop_moved,
@@ -79,6 +80,7 @@ defmodule Alerts.Alert do
           | :policy_change
           | :service_change
           | :shuttle
+          | :single_tracking
           | :suspension
           | :station_closure
           | :stop_closure
@@ -244,6 +246,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:escalator_closure), do: "Escalator Closure"
   defp do_human_effect(:policy_change), do: "Policy Change"
   defp do_human_effect(:summary), do: "Summary"
+  defp do_human_effect(:single_tracking), do: "Single Tracking"
   defp do_human_effect(_), do: "Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"
@@ -266,6 +269,20 @@ defmodule Alerts.Alert do
   end
 
   def human_label(_), do: ""
+
+  def human_severity(%__MODULE__{effect: :delay, severity: severity}),
+    do: do_human_delay_severity(severity)
+
+  def human_severity(%__MODULE__{}), do: nil
+
+  defp do_human_delay_severity(3), do: "up to 10 min"
+  defp do_human_delay_severity(4), do: "up to 15 min"
+  defp do_human_delay_severity(5), do: "up to 20 min"
+  defp do_human_delay_severity(6), do: "up to 25 min"
+  defp do_human_delay_severity(7), do: "up to 30 min"
+  defp do_human_delay_severity(8), do: "of more than 30 min"
+  defp do_human_delay_severity(9), do: "of more than an hour"
+  defp do_human_delay_severity(_), do: nil
 
   @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none

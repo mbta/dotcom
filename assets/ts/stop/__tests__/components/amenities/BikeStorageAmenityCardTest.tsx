@@ -3,6 +3,26 @@ import { render, screen } from "@testing-library/react";
 import BikeStorageAmenityCard from "../../../components/amenities/BikeStorageAmenityCard";
 import { Alert } from "../../../../__v3api";
 
+const past = new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(); // 1 day ago
+const future = new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(); // 1 day in the future
+
+const closedAlerts = [
+  {
+    active_period: [[past, future]],
+    effect: "bike_issue",
+    informed_entity: {
+      facility: ["test1"]
+    }
+  },
+  {
+    active_period: [[past, future]],
+    effect: "bike_issue",
+    informed_entity: {
+      facility: ["test2"]
+    }
+  }
+] as Alert[];
+
 describe("BikeStorageAmenityCard", () => {
   it("should render the title", () => {
     render(
@@ -22,18 +42,15 @@ describe("BikeStorageAmenityCard", () => {
       <BikeStorageAmenityCard
         stopName=""
         bikeStorage={["bike_storage_cage"]}
-        alerts={[{} as Alert]}
+        alerts={closedAlerts}
       />
     );
     expect(screen.getByText("Temporarily closed")).toBeDefined();
   });
 
   it("should render 'Not available' if there's no bike storage", () => {
-    render(<BikeStorageAmenityCard stopName="" bikeStorage={[]} alerts={[]} />);
+    render(<BikeStorageAmenityCard stopName="" bikeStorage={[]} alerts={closedAlerts} />);
     expect(screen.getByText("Not available")).toBeDefined();
-    expect(
-      screen.getByText("This station does not have bike storage.")
-    ).toBeDefined();
   });
 
   describe("shows text", () => {

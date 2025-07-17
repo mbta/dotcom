@@ -268,7 +268,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     alerts
     |> Enum.group_by(& &1.effect)
     |> Enum.map(fn {effect, alerts} ->
-      {effect, Kernel.length(alerts)}
+      {effect, %{count: Kernel.length(alerts), next_active: next_active_time(alerts)}}
     end)
     |> Map.new()
   end
