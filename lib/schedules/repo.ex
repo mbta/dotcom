@@ -101,21 +101,47 @@ defmodule Schedules.Repo do
   end
 
   @impl Behaviour
-  def end_of_rating(all_fn \\ &MBTA.Api.Schedules.all/1) do
-    case rating_dates(all_fn) do
-      {_start_date, end_date} -> end_date
-      :error -> nil
+  def end_of_rating() do
+    Map.get(current_rating(), :end_date)
+  end
+
+  @impl Behaviour
+  def start_of_rating() do
+    Map.get(current_rating(), :start_date)
+  end
+
+  @doc """
+  Returns the current rating as a map.
+  If there are any errors in fetching or processing, the dates are given as `nil`.
+  """
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  def current_rating() do
+    case MBTA.Api.Status.status() do
+      {:error, _} -> %{end_date: nil, start_date: nil}
+      rating -> process_rating(rating)
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def rating_dates(all_fn \\ &MBTA.Api.Schedules.all/1) do
-    with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
-         {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
-         {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
-      {start_date, end_date}
-    else
-      _ -> :error
+  # Process the current rating JSON to return a map with start and end dates.
+  # Defaults to returning `nil` if the date is not present or can't be parsed.
+  defp process_rating(rating) do
+    rating
+    |> Map.get(:data, [%{}])
+    |> List.first()
+    |> Map.get(:attributes, %{})
+    |> Map.get("feed", %{})
+    |> Map.take(["end_date", "start_date"])
+    |> Enum.map(&verify_dates/1)
+    |> Map.new()
+  end
+
+  # Verifies the dates can be parsed.
+  # If they can, the key is returned as an atom along with the parsed date.
+  # If they can't, `nil` is returned so that the field gets dropped.
+  defp verify_dates({k, v}) do
+    case Date.from_iso8601(v) do
+      {:ok, date} -> {String.to_atom(k), date}
+      _ -> nil
     end
   end
 

@@ -11,13 +11,13 @@ defmodule DotcomWeb.Plugs.DateInRating do
   @behaviour Plug
 
   @impl Plug
-  def init([]), do: [dates_fn: &Schedules.Repo.rating_dates/0]
+  def init([]), do: [dates_fn: &Schedules.Repo.current_rating/0]
 
   @impl Plug
   def call(%Conn{assigns: %{date: date}, query_params: %{"date" => _}} = conn, dates_fn: dates_fn) do
     in_rating? =
       case dates_fn.() do
-        {start_date, end_date} ->
+        %{start_date: start_date, end_date: end_date} ->
           Date.compare(start_date, date) != :gt and Date.compare(end_date, date) != :lt
 
         :error ->

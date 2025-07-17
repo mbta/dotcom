@@ -1,7 +1,10 @@
 defmodule Schedules.RepoTest do
   use ExUnit.Case, async: false
   use Timex
+
+  import Mox
   import Schedules.Repo
+
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
   alias Schedules.Schedule
@@ -156,49 +159,29 @@ defmodule Schedules.RepoTest do
     end
   end
 
-  describe "end_of_rating/1" do
-    test "returns the date if it comes back from the API" do
-      error = %JsonApi.Error{
-        code: "no_service",
-        meta: %{
-          "start_date" => "2016-12-01",
-          "end_date" => "2017-01-01"
+  describe "current_rating/0" do
+    test "returns the dates if they come back from the API" do
+      # Setup
+      start_date = Faker.Date.between(~D[2000-01-01], ~D[2000-12-30])
+      end_date = Timex.shift(start_date, days: 1)
+
+      expect(MBTA.Api.Mock, :get_json, fn _ ->
+        %JsonApi{
+          data: [
+            %{
+              attributes: %{
+                "feed" => %{
+                  "start_date" => Date.to_string(start_date),
+                  "end_date" => Date.to_string(end_date)
+                }
+              }
+            }
+          ]
         }
-      }
+      end)
 
-      assert ~D[2017-01-01] = end_of_rating(fn _ -> {:error, [error]} end)
-    end
-
-    test "returns nil if there are problems" do
-      refute end_of_rating(fn _ -> %JsonApi{} end)
-    end
-
-    @tag :external
-    test "returns a date (actual endpoint)" do
-      assert %Date{} = end_of_rating()
-    end
-  end
-
-  describe "rating_dates/1" do
-    test "returns the start/end dates if it comes back from the API" do
-      error = %JsonApi.Error{
-        code: "no_service",
-        meta: %{
-          "start_date" => "2016-12-01",
-          "end_date" => "2017-01-01"
-        }
-      }
-
-      assert {~D[2016-12-01], ~D[2017-01-01]} = rating_dates(fn _ -> {:error, [error]} end)
-    end
-
-    test "returns :error if there are problems" do
-      assert rating_dates(fn _ -> %JsonApi{} end) == :error
-    end
-
-    @tag :external
-    test "returns a date (actual endpoint)" do
-      assert {%Date{}, %Date{}} = rating_dates()
+      # Exercise / Verify
+      assert %{start_date: ^start_date, end_date: ^end_date} = current_rating()
     end
   end
 
