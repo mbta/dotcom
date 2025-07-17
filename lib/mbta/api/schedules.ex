@@ -8,8 +8,4 @@ defmodule MBTA.Api.Schedules do
   def all(params \\ []) do
     @mbta_api.get_json("/schedules/", params)
   end
-
-  def current_rating() do
-    @mbta_api.get_json("/status")
-  end
 end

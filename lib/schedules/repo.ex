@@ -116,7 +116,7 @@ defmodule Schedules.Repo do
   """
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def current_rating() do
-    case MBTA.Api.Schedules.current_rating() do
+    case MBTA.Api.Status.status() do
       {:error, _} -> %{end_date: nil, start_date: nil}
       rating -> process_rating(rating)
     end
