@@ -10,6 +10,22 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
   setup :verify_on_exit!
 
+  setup _ do
+    stub(Schedules.Repo.Mock, :end_of_rating, fn ->
+      Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
+    end)
+
+    stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
+      Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
+    end)
+
+    stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+      Dotcom.Utils.DateTime.now()
+    end)
+
+    :ok
+  end
+
   @valid_params %{
     "from" => %{
       "latitude" => Faker.Address.latitude() |> Float.to_string(),

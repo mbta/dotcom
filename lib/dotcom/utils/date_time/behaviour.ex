@@ -5,6 +5,8 @@ defmodule Dotcom.Utils.DateTime.Behaviour do
 
   @callback now() :: DateTime.t()
 
+  @callback today() :: Date.t()
+
   @callback coerce_ambiguous_date_time(
               DateTime.t()
               | Timex.AmbiguousDateTime.t()
