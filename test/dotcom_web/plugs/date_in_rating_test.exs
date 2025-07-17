@@ -7,12 +7,12 @@ defmodule DotcomWeb.Plugs.DateInRatingTest do
   @end_date ~D[2017-01-01]
 
   defp dates_fn do
-    {@start_date, @end_date}
+    %{start_date: @start_date, end_date: @end_date}
   end
 
   describe "init/1" do
-    test "defaults to Schedules.Repo.rating_dates/0" do
-      assert init([]) == [dates_fn: &Schedules.Repo.rating_dates/0]
+    test "defaults to Schedules.Repo.current_rating/0" do
+      assert init([]) == [dates_fn: &Schedules.Repo.current_rating/0]
     end
   end
 
