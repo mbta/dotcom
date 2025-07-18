@@ -11,6 +11,11 @@ defmodule Alerts.Repo.Behaviour do
   @callback all(DateTime.t()) :: [Alert.t()]
 
   @doc """
+  Return a banner to be displayed on all pages, or nil if no such banner exists.
+  """
+  @callback banner() :: Banner.t() | nil
+
+  @doc """
   Return all alerts for the given route ids.
   """
   @callback by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]

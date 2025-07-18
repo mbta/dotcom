@@ -110,12 +110,16 @@ defmodule DotcomWeb do
       quote do
         use Phoenix.LiveView
 
+        alias Util.Breadcrumb
+
         unquote(view_helpers())
       end
     else
       quote do
         use Phoenix.LiveView
         on_mount DotcomWeb.Hooks.RestoreLocale
+
+        alias Util.Breadcrumb
 
         unquote(view_helpers())
       end
