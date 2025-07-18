@@ -60,24 +60,44 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_panel(
          %{accessible_grouping?: true, results: %{itinerary_group_selection: nil}} = assigns
        ) do
-    {accessible_groups, inaccessible_groups} =
+    %{
+      accessible: accessible_groups,
+      inaccessible: inaccessible_groups,
+      unavailable: unavailable_groups
+    } =
       assigns.results.itinerary_groups
       |> Enum.with_index()
-      |> Enum.split_with(fn {group, _} ->
-        group
-        |> ItineraryGroup.representative_itinerary()
-        |> Itinerary.accessible?()
+      |> Enum.group_by(fn {group, _} ->
+        cond do
+          !group.available? ->
+            :unavailable
+
+          group
+          |> ItineraryGroup.representative_itinerary()
+          |> Itinerary.accessible?() ->
+            :accessible
+
+          true ->
+            :inaccessible
+        end
       end)
+      |> Enum.into(%{accessible: [], inaccessible: [], unavailable: []})
 
     assigns =
       assign(assigns, %{
         accessible_groups: accessible_groups,
         accessible_count: Enum.count(accessible_groups),
         inaccessible_groups: inaccessible_groups,
-        inaccessible_count: Enum.count(inaccessible_groups)
+        inaccessible_count: Enum.count(inaccessible_groups),
+        unavailable_groups: unavailable_groups,
+        unavailable_count: Enum.count(unavailable_groups)
       })
 
     ~H"""
+    <%= if @unavailable_count > 0 do %>
+      <.group_header text={"#{@unavailable_count} Unavailable #{Inflex.inflect("Route", @unavailable_count)}"} />
+      <.itinerary_groups indexed_groups={@unavailable_groups} class="mb-md" show_accessible />
+    <% end %>
     <%= if @accessible_count > 0 do %>
       <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
       <.itinerary_groups indexed_groups={@accessible_groups} show_accessible />
@@ -132,8 +152,9 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     """
   end
 
-  attr(:indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`")
+  attr :indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`"
   attr :show_accessible, :boolean, default: false
+  attr :class, :string, default: ""
 
   defp itinerary_groups(assigns) do
     assigns =
@@ -142,37 +163,75 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       })
 
     ~H"""
-    <div class="flex flex-col gap-4">
-      <div
-        :for={{group, index} <- @summarized_groups}
-        class="border border-solid border-gray-lighter p-4 cursor-pointer"
-        phx-click="select_itinerary_group"
-        phx-value-index={index}
-        data-test={"results:itinerary_group:#{index}"}
-      >
-        <div
-          :if={group.tag}
-          class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
-        >
-          {Phoenix.Naming.humanize(group.tag)}
-        </div>
-        <.itinerary_summary
-          summarized_legs={group.summary}
-          itinerary={group.representative_itinerary}
+    <div class={@class}>
+      <div class="flex flex-col gap-4">
+        <.itinerary_group
+          :for={{group, index} <- @summarized_groups}
+          group={group}
+          index={index}
           show_accessible={@show_accessible}
         />
-        <div class="flex justify-end items-center">
-          <div :if={group.alternatives_text} class="grow text-sm text-grey-dark">
-            {group.alternatives_text}
-          </div>
-          <button
-            class="btn-link font-semibold underline"
-            phx-click="select_itinerary_group"
-            phx-value-index={index}
-          >
-            Details
-          </button>
+      </div>
+    </div>
+    """
+  end
+
+  defp itinerary_group(%{group: %{available?: false}} = assigns) do
+    ~H"""
+    <div
+      class="border border-solid border-gray-lighter"
+      data-test={"results:itinerary_group:#{@index}"}
+    >
+      <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest px-3 py-2 w-full">
+        <.icon name="triangle-exclamation" class="h-4.5 w-4.5" />
+        <span class="leading-none font-medium font-heading text-sm text-black">
+          Temporarily Unavailable
+        </span>
+        <span class="leading-none underline text-sm ml-auto">
+          <a href="/alerts" target="_blank">View Alerts</a>
+        </span>
+      </div>
+      <div class="opacity-50 p-4">
+        <.itinerary_summary
+          summarized_legs={@group.summary}
+          itinerary={@group.representative_itinerary}
+          show_accessible={@show_accessible}
+        />
+      </div>
+    </div>
+    """
+  end
+
+  defp itinerary_group(assigns) do
+    ~H"""
+    <div
+      class="border border-solid border-gray-lighter p-4 cursor-pointer"
+      phx-click="select_itinerary_group"
+      phx-value-index={@index}
+      data-test={"results:itinerary_group:#{@index}"}
+    >
+      <div
+        :if={@group.tag}
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+      >
+        {Phoenix.Naming.humanize(@group.tag)}
+      </div>
+      <.itinerary_summary
+        summarized_legs={@group.summary}
+        itinerary={@group.representative_itinerary}
+        show_accessible={@show_accessible}
+      />
+      <div class="flex justify-end items-center">
+        <div :if={@group.alternatives_text} class="grow text-sm text-grey-dark">
+          {@group.alternatives_text}
         </div>
+        <button
+          class="btn-link font-semibold underline"
+          phx-click="select_itinerary_group"
+          phx-value-index={@index}
+        >
+          Details
+        </button>
       </div>
     </div>
     """
@@ -184,6 +243,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     summarized_group = %{
       accessible?: Itinerary.accessible?(itinerary),
       alternatives_text: ItineraryGroup.alternatives_text(group),
+      available?: group.available?,
       tag: itinerary[:tag],
       representative_itinerary: itinerary,
       summary: group.summary
