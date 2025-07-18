@@ -10,6 +10,15 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare(itinerary) |> is_integer()
     end
 
+    test "returns nil if involving transit agency we don't know fares for" do
+      itinerary =
+        build(:itinerary,
+          legs: build_list(1, :transit_leg, agency: build(:agency, name: Faker.Lorem.word()))
+        )
+
+      assert fare(itinerary) |> is_nil()
+    end
+
     test "gives a free subway transfer after taking the SL1 from the airport" do
       airport_stop = Faker.Util.pick(~w(17091 27092 17093 17094 17095))
 

@@ -76,8 +76,15 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIcons do
     """
   end
 
+  def otp_route_icon(%{route: route} = assigns)
+      when agency_name?(route, "Cape Cod Regional Transit Authority") do
+    mbta_icon(assigns)
+  end
+
   def otp_route_icon(%{route: route} = assigns) when agency_name?(route, "MBTA"),
     do: mbta_icon(assigns)
+
+  def otp_route_icon(assigns), do: fallback_icon(assigns)
 
   attr :class, :string, default: ""
 
