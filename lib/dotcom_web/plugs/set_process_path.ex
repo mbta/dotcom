@@ -1,9 +1,7 @@
 defmodule DotcomWeb.Plugs.SetProcessPath do
-  @moduledoc"""
+  @moduledoc """
   Sets the request path as a process value so we can access it from templates.
   """
-
-  import Plug.Conn
 
   def init(default), do: default
 
