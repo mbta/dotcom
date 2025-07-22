@@ -41,6 +41,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
+    plug(DotcomWeb.Plugs.SetLocale)
 
     if Mix.env() === :dev do
       plug(DotcomWeb.Plugs.SetProcessPath)
@@ -64,19 +65,6 @@ defmodule DotcomWeb.Router do
 
   pipeline :cached_daily do
     plug(DotcomWeb.Plugs.CacheControl, max_age: 86_400)
-  end
-
-  # This controller allows us to test out new features locally.
-  if Mix.env() === :dev do
-    pipeline :test do
-      plug(DotcomWeb.Plugs.SetLocale)
-    end
-
-    scope "/", DotcomWeb do
-      pipe_through([:test])
-
-      get("/_test", TestController, :index)
-    end
   end
 
   scope "/", DotcomWeb do
