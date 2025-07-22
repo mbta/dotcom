@@ -49,6 +49,7 @@ defmodule DotcomWeb do
   def view do
     quote do
       use Dotcom.Components.Precompiler
+      use Dotcom.Gettext.Sigils
 
       use Phoenix.View,
         root: "lib/dotcom_web/templates",

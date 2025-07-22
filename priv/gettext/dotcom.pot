@@ -15,3 +15,18 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "All clear, Captain!"
 msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Latest News"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Skip to main content"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority"
+msgstr ""

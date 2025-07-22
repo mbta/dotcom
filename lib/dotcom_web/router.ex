@@ -44,6 +44,7 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.SetLocale)
 
     if Mix.env() === :dev do
+      plug(DotcomWeb.Plugs.SetLocale)
       plug(DotcomWeb.Plugs.SetProcessPath)
     end
 
