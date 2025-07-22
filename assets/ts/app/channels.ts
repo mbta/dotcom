@@ -1,4 +1,5 @@
-import { Channel, Socket } from "phoenix";
+import { Channel, Socket, SocketConnectOption } from "phoenix";
+import storageOptions from "../../js/storage.js";
 
 declare global {
   interface Window {
@@ -92,7 +93,8 @@ const leaveChannel = (id: string): void => {
 };
 
 const setupChannels = (): void => {
-  window.socket = new Socket("/socket", {});
+  const socketOptions = { ...storageOptions } as Partial<SocketConnectOption>;
+  window.socket = new Socket("/socket", socketOptions);
   window.socket.onClose(event => {
     if (event.type === "close" && !event.wasClean) {
       // eslint-disable-next-line no-console
