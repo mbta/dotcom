@@ -46,6 +46,7 @@ defmodule DotcomWeb.Translations do
     Agent.get(__MODULE__, & &1)
     |> Map.get(route)
     |> Map.keys()
+    |> Enum.uniq()
     |> Enum.sort()
     |> Enum.each(&IO.puts(&1))
 
