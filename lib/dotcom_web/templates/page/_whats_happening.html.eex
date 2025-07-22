@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= if @whats_happening_items do %>
   <% tag = if @promoted do "promoted" else "secondary" end %>
   <div class="m-whats-happening__section m-whats-happening__section--<%= tag %>" id="<%= tag %>">

@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= if @teaser.date do %>
   <div class="c-content-teaser__date u-small-caps">
     <%= display_date(@teaser) %>

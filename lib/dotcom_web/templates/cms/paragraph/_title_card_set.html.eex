@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="l-title-cards">
   <%= for descriptive_link <- @content.descriptive_links do %>
     <%= if descriptive_link.link do %>

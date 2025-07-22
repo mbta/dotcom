@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= link [to: @link_path, class: "c-grid-button__condensed", id: grid_button_id(assigns)] do %>
   <div class="c-grid-button__content">
       <span class="c-grid-button__icon c-grid-button__icon--condensed" aria-hidden="true">

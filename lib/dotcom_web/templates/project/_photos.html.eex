@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="page-section project-photos">
   <h2>Featured Photos</h2>
   <%= DotcomWeb.PartialView.render("_photo_gallery.html", photos: @photos, class: "project-photo") %>

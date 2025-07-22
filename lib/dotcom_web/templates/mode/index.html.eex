@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="container">
   <div class="page-section <%= assigns[:card_class] %>" id="schedules">
     <div class="row">

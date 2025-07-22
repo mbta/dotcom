@@ -1,3 +1,4 @@
+<% track_template() %>
 <%
   right_rail_paragraphs =
     @page.paragraphs

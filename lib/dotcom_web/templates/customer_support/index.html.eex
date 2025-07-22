@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="container">
   <div class="page-section">
     <h1>Customer Support</h1>

@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="m-footer__outer-background">
   <div class="outer-container">
     <div class="all-container">

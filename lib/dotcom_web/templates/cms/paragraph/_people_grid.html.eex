@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="people-grid-paragraph" role="people-grid-paragraph">
   <div class="row">
     <%= if length(@content.people) <= 2 do %>

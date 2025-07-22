@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="callout schedule-empty">
   The interactive timetable for <%= @formatted_date %> is temporarily unavailable due to a service change.
   <div>

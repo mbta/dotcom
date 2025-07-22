@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="callout schedule-empty">
   <%= no_trips_message(@error, @direction, @date) %>
   <%= if @date && @date != Util.service_date() && @direction do %>

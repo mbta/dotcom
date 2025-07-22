@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="l-content-files">
   <%= for file <- @files do %>
     <div class="c-content-file">

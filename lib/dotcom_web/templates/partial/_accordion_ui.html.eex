@@ -1,3 +1,4 @@
+<% track_template() %>
 <% id = if Map.get(assigns, :id), do: "#{Map.get(assigns, :id)}-accordion", else: "accordion" %>
 
 <div class="c-accordion-ui" id="<%= id %>" role="presentation" <%= if @multiselectable do %> aria-multiselectable="true"<% end %>>
