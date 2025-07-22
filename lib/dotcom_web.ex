@@ -84,10 +84,21 @@ defmodule DotcomWeb do
   end
 
   def live_view do
-    quote do
-      use Phoenix.LiveView
+    # Since we're only testing translations right now, don't
+    # enable them in the live prod website yet.
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      quote do
+        use Phoenix.LiveView
 
-      unquote(view_helpers())
+        unquote(view_helpers())
+      end
+    else
+      quote do
+        use Phoenix.LiveView
+        on_mount DotcomWeb.Hooks.RestoreLocale
+
+        unquote(view_helpers())
+      end
     end
   end
 
