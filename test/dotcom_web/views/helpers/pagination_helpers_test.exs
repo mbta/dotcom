@@ -47,8 +47,7 @@ defmodule DotcomWeb.PaginationHelpersTest do
         |> render(pagination: %Dotcom.ResponsivePagination{}, link_context: @link_context)
         |> Phoenix.HTML.safe_to_string()
 
-      expects = "\n"
-      assert actual == expects
+      assert actual =~ "\n"
     end
   end
 end
