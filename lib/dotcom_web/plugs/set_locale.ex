@@ -14,13 +14,19 @@ defmodule DotcomWeb.Plugs.SetLocale do
   If no locale is present, the default locale "en" is used.
   """
   def call(conn, _opts) do
-    conn = fetch_session(conn)
-    locale = get_locale(conn)
-    _ = set_locale(locale)
+    # Since we're only testing this out right now, don't
+    # enable this in the live prod website yet.
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      conn
+    else
+      conn = fetch_session(conn)
+      locale = get_locale(conn)
+      _ = set_locale(locale)
 
-    conn
-    |> put_session("locale", locale)
-    |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
+      conn
+      |> put_session("locale", locale)
+      |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
+    end
   end
 
   # Check params, then session, then cookie, and use the default if none are present or supported.
