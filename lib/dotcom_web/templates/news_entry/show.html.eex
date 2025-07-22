@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="container">
   <div class="c-cms c-cms--no-sidebar">
 

@@ -1,3 +1,4 @@
+<% track_template() %>
 <%
   content = [
     content_tag(:div, class: "c-descriptive-link__text") do [

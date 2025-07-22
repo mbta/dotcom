@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= if @teaser.image && :image in @fields do %>
   <img class="c-content-teaser__image" src="<%= @teaser.image.url %>" alt="<%= @teaser.image.alt %>" />
 <% end %>

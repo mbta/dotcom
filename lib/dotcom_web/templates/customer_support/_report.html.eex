@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= content_tag(:p, "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs.") %>
 
 <%= content_tag(:p, [

@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="container">
   <div class="page-section">
     <%= img_tag @person.profile_image.url, alt: @person.profile_image.alt, class: "hidden-xs-down content-person-sidebar-img" %>

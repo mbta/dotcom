@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/projects.js"}>
   </script>

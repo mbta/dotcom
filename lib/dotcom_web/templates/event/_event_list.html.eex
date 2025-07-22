@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="m-event-listing">
   <nav class="m-event-list__nav--mobile-controls">
     <%= render "_month_select.html",

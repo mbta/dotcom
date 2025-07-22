@@ -1,3 +1,4 @@
+<% track_template() %>
 <script id="js-routes-by-mode" type="text/plain">
   <%= raw Poison.encode!(@all_options_per_mode) %>
 </script>

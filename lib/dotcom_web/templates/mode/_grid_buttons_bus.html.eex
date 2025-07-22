@@ -1,3 +1,4 @@
+<% track_template() %>
 <div>
   <h3 class="m-mode__schedule-section--word">Silver Line</h3>
   <%= render "_grid_buttons.html", Map.put(assigns, :routes, Enum.filter(@routes, bus_filter_atom(:sl))) %>

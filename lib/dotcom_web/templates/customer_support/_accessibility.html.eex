@@ -1,3 +1,4 @@
+<% track_template() %>
 <p>
   To submit an ADA/Accessibility complaint or feedback, please call <%= tel_link "617-222-3200" %> or complete the feedback form on this page. The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received.
 </p>
