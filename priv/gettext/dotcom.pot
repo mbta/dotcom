@@ -46,3 +46,48 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Zone"
 msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "24 hours, 7 days a week"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "711 for TTY callers;  VRS for ASL callers"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Emergency Contacts"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Information & Support"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Main"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Monday thru Friday"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Report a Railroad Crossing Gate Issue"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "To report a problem or emergency with a railroad crossing, call"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Transit Police"
+msgstr ""
