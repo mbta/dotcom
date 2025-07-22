@@ -79,6 +79,24 @@ defmodule DotcomWeb do
       # Include shared imports and aliases for views
       unquote(view_helpers())
 
+      def track_template(%{path_info: path_info}) do
+        if Mix.env() === :dev do
+          {_, trace} = Process.info(self(), :current_stacktrace)
+
+          route =
+            path_info
+            |> Enum.join("/")
+            |> Kernel.then(fn path -> "/" <> path end)
+
+          template =
+            trace
+            |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
+            |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
+
+          :telemetry.execute([:template, :translation], %{}, %{route: route, template: template})
+        end
+      end
+
       @dialyzer :no_match
     end
   end
