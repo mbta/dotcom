@@ -51,4 +51,18 @@ defmodule Dotcom.Locales do
   def locale?(code) do
     locale(code) != nil
   end
+
+  @doc """
+  Set the locale in the backend. Does nothing if given an unsupported locale.
+  """
+  @spec set_locale(String.t()) :: :ok
+  def set_locale(locale) do
+    if locale in locale_codes() do
+      _ = Gettext.put_locale(Dotcom.Gettext, locale)
+      _ = Cldr.put_locale(Dotcom.Cldr, locale)
+      Logger.metadata(locale: locale)
+    else
+      :ok
+    end
+  end
 end

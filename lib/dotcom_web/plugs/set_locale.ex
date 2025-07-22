@@ -5,7 +5,7 @@ defmodule DotcomWeb.Plugs.SetLocale do
 
   import Plug.Conn
 
-  import Dotcom.Locales, only: [default_locale_code: 0, locale?: 1]
+  import Dotcom.Locales, only: [default_locale_code: 0, locale?: 1, set_locale: 1]
 
   def init(default), do: default
 
@@ -14,19 +14,19 @@ defmodule DotcomWeb.Plugs.SetLocale do
   If no locale is present, the default locale "en" is used.
   """
   def call(conn, _opts) do
+    conn = fetch_session(conn)
     locale = get_locale(conn)
+    _ = set_locale(locale)
 
-    _ = Gettext.put_locale(Dotcom.Gettext, locale)
-    _ = Cldr.put_locale(Dotcom.Cldr, locale)
-
-    Logger.metadata(locale: locale)
-
-    put_resp_cookie(conn, "locale", locale, max_age: 365 * 24 * 60 * 60)
+    conn
+    |> put_session("locale", locale)
+    |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
   end
 
-  # Check params, then cookie, and use the default if none are present or supported.
+  # Check params, then session, then cookie, and use the default if none are present or supported.
   defp get_locale(conn) do
-    locale = get_locale_from_params(conn) || get_locale_from_cookie(conn)
+    locale =
+      get_locale_from_params(conn) || get_session(conn, :locale) || get_locale_from_cookie(conn)
 
     if locale?(locale), do: locale, else: default_locale_code()
   end
