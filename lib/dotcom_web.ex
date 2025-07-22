@@ -79,8 +79,9 @@ defmodule DotcomWeb do
       # Include shared imports and aliases for views
       unquote(view_helpers())
 
-      def track_template(%{path_info: path_info}) do
+      def track_template() do
         if Mix.env() === :dev do
+          path_info = Process.get(:path_info, [])
           {_, trace} = Process.info(self(), :current_stacktrace)
 
           route =

@@ -41,6 +41,9 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.DateTime)
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
+    if Mix.env() === :dev do
+      plug(DotcomWeb.Plugs.SetProcessPath)
+    end
     plug(:optional_disable_indexing)
   end
 
