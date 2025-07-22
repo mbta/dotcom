@@ -33,12 +33,8 @@ defmodule DotcomWeb.Translations do
     end)
   end
 
-  def state() do
-    Agent.get(__MODULE__, & &1)
-  end
-
   @doc """
-  Returns all templates rendered for the route.
+  Outputs all templates rendered for the route.
 
   Then, it resets the template list for that route.
   """
