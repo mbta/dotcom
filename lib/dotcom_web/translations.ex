@@ -23,8 +23,8 @@ defmodule DotcomWeb.Translations do
   Handles telemetry events and aggregates them by route.
   """
   def handle_event(_name, _measurements, metadata, _config) do
-    route = metadata.route |> IO.inspect(label: "route")
-    template = metadata.template |> IO.inspect(label: "template")
+    route = metadata.route
+    template = metadata.template
 
     Agent.update(__MODULE__, fn state ->
       Map.update(state, route, %{}, fn template_list ->
