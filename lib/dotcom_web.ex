@@ -80,7 +80,7 @@ defmodule DotcomWeb do
       unquote(view_helpers())
 
       def track_template() do
-        if Mix.env() === :dev do
+        if Application.get_env(:dotcom, :env) === :dev do
           path_info = Process.get(:path_info, [])
           {_, trace} = Process.info(self(), :current_stacktrace)
 
