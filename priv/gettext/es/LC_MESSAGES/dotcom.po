@@ -12,3 +12,37 @@ msgstr "Massachusetts Bay Transportation Authority"
 msgid "Skip to main content"
 msgstr "Pasar al contenido principal"
 
+msgid "Commuter Rail One-Way"
+msgstr "Commuter Rail One-Way"
+# Alternative: Commuter Rail Uno-Way
+# Alternative: Commuter Rail One-Way..
+
+msgid "Local Bus One-Way"
+msgstr "Autobuses locales de un lado"
+# Alternative: Autobús local de un solo medio
+# Alternative: Autobuses locales de un solo paso
+# Alternative: Autobuses locales de un solo medio
+
+msgid "Monthly LinkPass"
+msgstr "Enlace mensual"
+# Alternative: Enlace mensualPas
+# Alternative: Enlace mensualPasa
+# Alternative: Enlace Mensual
+
+msgid "Most popular fares"
+msgstr "Tarifas más populares"
+# Alternative: Las tarifas más populares
+# Alternative: Más populares tarifas
+# Alternative: La mayoría de las tarifas
+
+msgid "Subway One-Way"
+msgstr "Subway One-Way"
+# Alternative: Subway OneWay
+# Alternative: Subway One Way
+# Alternative: # Subway One-Way
+
+msgid "Zone"
+msgstr "Zona"
+# Alternative: Zonas
+# Alternative: Zone
+
