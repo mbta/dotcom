@@ -8,7 +8,7 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
-  import DotcomWeb.Router.Helpers, only: [live_path: 2]
+  import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
 
   alias Dotcom.TripPlan
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm}
@@ -66,11 +66,14 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   def mount(params, _session, socket) do
-    converted_params = AntiCorruptionLayer.convert_old_params(params)
+    # Encode params and set them in the URL while navigating to it.
+    encoded_plan_param =
+      params
+      |> AntiCorruptionLayer.convert_old_params()
+      |> AntiCorruptionLayer.encode()
 
-    new_socket = navigate_state(socket, converted_params)
-
-    {:ok, new_socket}
+    new_path = live_path(socket, __MODULE__, Map.put(params, :plan, encoded_plan_param))
+    {:ok, push_navigate(socket, to: new_path)}
   end
 
   @impl true
@@ -438,13 +441,6 @@ defmodule DotcomWeb.Live.TripPlanner do
   end
 
   defp location_data_from_changeset(_), do: %{}
-  # Encode params and set them in the URL while navigating to it.
-  defp navigate_state(socket, params) do
-    encoded = AntiCorruptionLayer.encode(params)
-    path = live_path(socket, __MODULE__)
-
-    push_navigate(socket, to: "#{path}?plan=#{encoded}")
-  end
 
   # Round the current time to the nearest 5 minutes.
   defp nearest_5_minutes do

@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Live.TripPlannerTest do
   use DotcomWeb.ConnCase, async: true
 
-  import DotcomWeb.Router.Helpers, only: [live_path: 2]
+  import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
   import Mox
   import Phoenix.LiveViewTest
   import OpenTripPlannerClient.Test.Support.Factory
@@ -60,6 +60,21 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       assert MapSet.intersection(new_params, default_params) == default_params
     end
 
+    test "default preserves additional params", %{conn: conn} do
+      # Setup
+      key = Faker.Person.first_name()
+      value = Faker.Food.ingredient()
+      extra_params = Map.new([{key, value}])
+      path = live_path(conn, DotcomWeb.Live.TripPlanner, extra_params)
+
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
+
+      {:ok, %URI{query: query}} = URI.new(url)
+      query_params = URI.decode_query(query)
+      assert Map.get(query_params, key) == value
+    end
+
     test "setting old params redirects to a plan of matching new params", %{conn: conn} do
       # Setup
       query =
@@ -87,6 +102,30 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       # Verify
       assert MapSet.intersection(new_params, valid_params) == valid_params
+    end
+
+    test "using old params also preserves additional params", %{conn: conn} do
+      # Setup
+      key = Faker.Person.first_name()
+      value = Faker.Food.ingredient()
+
+      path =
+        live_path(conn, DotcomWeb.Live.TripPlanner, %{
+          "plan[from]" => Kernel.get_in(@valid_params, ["from", "name"]),
+          "plan[from_latitude]" => Kernel.get_in(@valid_params, ["from", "latitude"]),
+          "plan[from_longitude]" => Kernel.get_in(@valid_params, ["from", "longitude"]),
+          "plan[to]" => Kernel.get_in(@valid_params, ["to", "name"]),
+          "plan[to_latitude]" => Kernel.get_in(@valid_params, ["to", "latitude"]),
+          "plan[to_longitude]" => Kernel.get_in(@valid_params, ["to", "longitude"]),
+          [key] => value
+        })
+
+      # Exercise
+      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
+
+      {:ok, %URI{query: query}} = URI.new(url)
+      query_params = URI.decode_query(query)
+      assert Map.get(query_params, key) == value
     end
   end
 
