@@ -9,12 +9,13 @@ defmodule DotcomWeb.Translations do
   Starts the Agent and attaches to `[:template, :translation]` telemetry events.
   """
   def start_link(initial_value \\ %{}) do
-    :telemetry.attach(
-      "template-translation",
-      [:template, :translation],
-      &__MODULE__.handle_event/4,
-      nil
-    )
+    _ =
+      :telemetry.attach(
+        "template-translation",
+        [:template, :translation],
+        &__MODULE__.handle_event/4,
+        nil
+      )
 
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
