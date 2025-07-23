@@ -14,13 +14,13 @@ defmodule Mix.Tasks.Gettext.Translate do
   import Dotcom.Locales, only: [default_locale_code: 0, locale_codes: 0]
 
   @custom_terminology "priv/gettext/custom.csv"
-    |> File.stream!()
-    |> CSV.decode(headers: true)
-    |> Enum.to_list()
-    |> Enum.filter(fn {result, _} -> result === :ok end)
-    |> Enum.map(fn {:ok, translation} ->
-        {Map.get(translation, "en"), Map.delete(translation, "en")}
-      end)
+                      |> File.stream!()
+                      |> CSV.decode(headers: true)
+                      |> Enum.to_list()
+                      |> Enum.filter(fn {result, _} -> result === :ok end)
+                      |> Enum.map(fn {:ok, translation} ->
+                        {Map.get(translation, "en"), Map.delete(translation, "en")}
+                      end)
 
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
