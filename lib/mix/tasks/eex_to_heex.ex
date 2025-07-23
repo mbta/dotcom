@@ -14,7 +14,7 @@ defmodule Mix.Tasks.EexToHeex do
   %> mix eex_to_heex lib/dotcom_web/templates/foo.html.eex
   """
   def run([path]) do
-    Briefly.start(nil, nil)
+    {:ok, _} = Briefly.start(nil, nil)
 
     old_file_contents = File.read!(path)
 
