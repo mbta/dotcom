@@ -96,6 +96,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.map(fn ref -> String.split(ref, ".") |> List.first() end)
   end
 
+  # Use the Libretranslate service to translate a piece of text for a given locale.
   defp libretranslate_text(text, locale) do
     @url
     |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
@@ -108,7 +109,9 @@ defmodule Mix.Tasks.Gettext.Translate do
   # If we don't, we return nil.
   defp match_custom_term(text, locale) do
     @custom_terminology
-    |> Enum.find({nil, %{}}, fn {term, _} -> term =~ text end)
+    |> Enum.find({nil, %{}}, fn {term, _} ->
+      String.match?(text, Regex.compile!("^#{term}\s|\s#{term}\s|\s#{term}$|^#{term}$"))
+    end)
     |> Kernel.then(fn {_, translation} -> Map.get(translation, locale) end)
   end
 

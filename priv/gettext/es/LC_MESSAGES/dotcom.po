@@ -2,25 +2,13 @@
 
 msgid "All clear, Captain!"
 msgstr "¡Todo despejado, Capitán!"
-# Alternative: ¡Todo despejado, capitán!
-# Alternative: ¡Despejado, Capitán!
-# Alternative: ¡Despejado, capitán!
 
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
-# Alternative: MBTA.com Últimas Noticias
-# Alternative: MBTA Noticias recientes
-# Alternative: MBLC.com Últimas novedades
 
 msgid "Massachusetts Bay Transportation Authority"
-msgstr "Massachusetts Transporte de la bahía Autoridad"
-# Alternative: Massachusetts. Transporte de bahía Authority
-# Alternative: Massach Transporte de Bahía Autoridades
-# Alternative: Texas Transporte en la bahía autoridad
+msgstr "Massachusetts Bay Transportation Authority"
 
 msgid "Skip to main content"
 msgstr "Pasar al contenido principal"
-# Alternative: Skip to main content
-# Alternative: Saltar al contenido principal
-# Alternative: Ir al contenido principal
 
