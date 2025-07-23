@@ -272,7 +272,9 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
-    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
+    live_session :rider,
+      on_mount: [DotcomWeb.Hooks.TripPlannerFeedbackURL],
+      layout: {DotcomWeb.LayoutView, :live} do
       live("/trip-planner", Live.TripPlanner)
     end
   end

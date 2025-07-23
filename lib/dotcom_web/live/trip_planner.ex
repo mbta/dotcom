@@ -107,6 +107,7 @@ defmodule DotcomWeb.Live.TripPlanner do
             class="md:max-w-[25rem] md:sticky md:top-4"
             results={@results}
             accessible_grouping?={@accessible_grouping?}
+            feedback_url={@trip_planner_feedback_url}
           />
           <.live_component
             module={MbtaMetro.Live.Map}

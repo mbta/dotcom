@@ -7,9 +7,15 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   use DotcomWeb, :component
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
+  import DotcomWeb.Router.Helpers, only: [alert_path: 2]
 
   alias OpenTripPlannerClient.ItineraryGroup
   alias OpenTripPlannerClient.Schema.Itinerary
+
+  attr :feedback_url, :string, default: nil
+  attr :results, :any
+  attr :class, :string, default: ""
+  attr :accessible_grouping?, :boolean
 
   def results(assigns) do
     ~H"""
@@ -33,11 +39,19 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         </button>
       </div>
       <div class="w-full">
-        <.itinerary_panel results={@results} accessible_grouping?={@accessible_grouping?} />
+        <.itinerary_panel
+          results={@results}
+          accessible_grouping?={@accessible_grouping?}
+          feedback_url={@feedback_url}
+        />
       </div>
     </section>
     """
   end
+
+  attr :feedback_url, :string, default: nil
+  attr :results, :any
+  attr :accessible_grouping?, :boolean
 
   defp itinerary_panel(%{results: %{loading?: true}} = assigns) do
     ~H"""
@@ -53,7 +67,10 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
          %{accessible_grouping?: false, results: %{itinerary_group_selection: nil}} = assigns
        ) do
     ~H"""
-    <.itinerary_groups indexed_groups={Enum.with_index(@results.itinerary_groups)} />
+    <.itinerary_groups
+      feedback_url={@feedback_url}
+      indexed_groups={Enum.with_index(@results.itinerary_groups)}
+    />
     """
   end
 
@@ -96,7 +113,12 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     ~H"""
     <%= if @unavailable_count > 0 do %>
       <.group_header text={"#{@unavailable_count} Unavailable #{Inflex.inflect("Route", @unavailable_count)}"} />
-      <.itinerary_groups indexed_groups={@unavailable_groups} class="mb-md" show_accessible />
+      <.itinerary_groups
+        indexed_groups={@unavailable_groups}
+        class="mb-md"
+        show_accessible
+        feedback_url={@feedback_url}
+      />
     <% end %>
     <%= if @accessible_count > 0 do %>
       <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
@@ -155,6 +177,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :indexed_groups, :list, required: true, doc: "Indexed list of `%ItineraryGroup{}`"
   attr :show_accessible, :boolean, default: false
   attr :class, :string, default: ""
+  attr :feedback_url, :string, default: nil
 
   defp itinerary_groups(assigns) do
     assigns =
@@ -170,6 +193,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           group={group}
           index={index}
           show_accessible={@show_accessible}
+          feedback_url={@feedback_url}
         />
       </div>
     </div>
@@ -177,27 +201,40 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   end
 
   defp itinerary_group(%{group: %{available?: false}} = assigns) do
+    assigns =
+      assign(assigns, :alerts_href, alert_path(DotcomWeb.Endpoint, :index))
+
     ~H"""
     <div
       class="border border-solid border-gray-lighter"
       data-test={"results:itinerary_group:#{@index}"}
     >
-      <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest px-3 py-2 w-full">
-        <.icon name="triangle-exclamation" class="h-4.5 w-4.5" />
-        <span class="leading-none font-medium font-heading text-sm text-black">
-          Temporarily Unavailable
-        </span>
-        <span class="leading-none underline text-sm ml-auto">
-          <a href="/alerts" target="_blank">View Alerts</a>
-        </span>
-      </div>
-      <div class="opacity-50 p-4">
+      <a href={@alerts_href} class="no-underline text-black block" target="_blank">
+        <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest p-[0.75rem] w-full text-sm">
+          <.icon name="triangle-exclamation" class="h-[1.125rem] w-[1.125rem]" />
+          <span class="font-bold font-heading text-sm text-black">
+            Temporarily Unavailable
+          </span>
+          <span class="grow text-right">
+            <span class="btn-link font-semibold underline hover:text-brand-primary-darker">
+              View Alerts
+            </span>
+          </span>
+        </div>
         <.itinerary_summary
+          class="opacity-70 p-[0.75rem]"
           summarized_legs={@group.summary}
           itinerary={@group.representative_itinerary}
           show_accessible={@show_accessible}
         />
-      </div>
+      </a>
+      <.promo_banner
+        href={@feedback_url}
+        class="flex items-center justify-center gap-xs text-sm p-[0.75rem] font-medium"
+      >
+        Is this helpful? Send us feedback
+        <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3" />
+      </.promo_banner>
     </div>
     """
   end
@@ -205,14 +242,14 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_group(assigns) do
     ~H"""
     <div
-      class="border border-solid border-gray-lighter p-4 cursor-pointer"
+      class="border border-solid border-gray-lighter p-[0.75rem] cursor-pointer"
       phx-click="select_itinerary_group"
       phx-value-index={@index}
       data-test={"results:itinerary_group:#{@index}"}
     >
       <div
         :if={@group.tag}
-        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-4 -mt-4 rounded-br-lg w-min"
+        class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-3 -mt-3 rounded-br-lg w-min"
       >
         {Phoenix.Naming.humanize(@group.tag)}
       </div>
@@ -221,7 +258,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         itinerary={@group.representative_itinerary}
         show_accessible={@show_accessible}
       />
-      <div class="flex justify-end items-center">
+      <div class="flex justify-end items-center mt-[0.75rem]">
         <div :if={@group.alternatives_text} class="grow text-sm text-grey-dark">
           {@group.alternatives_text}
         </div>
