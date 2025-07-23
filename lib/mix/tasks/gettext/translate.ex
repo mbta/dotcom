@@ -102,6 +102,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
     |> Map.get(:body)
     |> Map.get("translatedText")
+    |> String.replace(~s("), ~s('))
   end
 
   # Check the custom terminology to see if we have a match.
@@ -111,7 +112,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   defp match_custom_term(text, locale) do
     @custom_terminology
     |> Enum.find({nil, %{}}, fn {term, _} ->
-      regex = Regex.compile!("^#{term}\s|\s#{term}\s|\s#{term}[^\w\s]|\s#{term}$|^#{term}$")
+      regex = Regex.compile!("(^|\s|[^\w\s])#{term}($|\s|[^\w\s])")
 
       String.match?(text, regex)
     end)
@@ -130,7 +131,8 @@ defmodule Mix.Tasks.Gettext.Translate do
     if custom_term = match_custom_term(text, locale) do
       stripped_text = String.replace(text, custom_term, "+++")
       translated_text = libretranslate_text(stripped_text, locale)
-      replaced_text = String.replace(translated_text, "+++", custom_term)
+
+      String.replace(translated_text, "+++", custom_term)
     else
       libretranslate_text(text, locale)
     end
