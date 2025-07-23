@@ -17,6 +17,8 @@ defmodule DotcomWeb.CMSController do
     ProjectController
   }
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+
   @generic [
     Page.Basic,
     Page.Diversions,
@@ -108,14 +110,14 @@ defmodule DotcomWeb.CMSController do
       Breadcrumb.build(project.title)
     ]
 
-    conn = assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
+    conn = assign(conn, :alerts, @alerts_repo.all(conn.assigns.date_time))
 
     render_generic(conn, project, breadcrumbs)
   end
 
   defp render_page(conn, %Page.ProjectUpdate{} = update) do
     base = ProjectController.get_breadcrumb_base()
-    conn = assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
+    conn = assign(conn, :alerts, @alerts_repo.all(conn.assigns.date_time))
 
     case Repo.get_page(update.project_url) do
       %Page.Project{} = project ->
@@ -143,7 +145,7 @@ defmodule DotcomWeb.CMSController do
     conn
     |> assign(
       :alerts,
-      Alerts.Repo.diversions_by_route_ids(page.related_transit, conn.assigns.date_time)
+      @alerts_repo.planned_service_impacts_by_routes(page.related_transit, conn.assigns.date_time)
     )
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)

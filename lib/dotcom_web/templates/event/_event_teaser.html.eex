@@ -1,3 +1,4 @@
+<% track_template() %>
 <%
   event_start = @event_teaser.date
   event_stop = @event_teaser.date_end

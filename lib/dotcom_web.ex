@@ -49,6 +49,7 @@ defmodule DotcomWeb do
   def view do
     quote do
       use Dotcom.Components.Precompiler
+      use Dotcom.Gettext.Sigils
 
       use Phoenix.View,
         root: "lib/dotcom_web/templates",
@@ -79,15 +80,45 @@ defmodule DotcomWeb do
       # Include shared imports and aliases for views
       unquote(view_helpers())
 
+      def track_template() do
+        if Application.get_env(:dotcom, :env) === :dev do
+          path_info = Process.get(:path_info, [])
+          {_, trace} = Process.info(self(), :current_stacktrace)
+
+          route =
+            path_info
+            |> Enum.join("/")
+            |> Kernel.then(fn path -> "/" <> path end)
+
+          template =
+            trace
+            |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
+            |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
+
+          :telemetry.execute([:template, :translation], %{}, %{route: route, template: template})
+        end
+      end
+
       @dialyzer :no_match
     end
   end
 
   def live_view do
-    quote do
-      use Phoenix.LiveView
+    # Since we're only testing translations right now, don't
+    # enable them in the live prod website yet.
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      quote do
+        use Phoenix.LiveView
 
-      unquote(view_helpers())
+        unquote(view_helpers())
+      end
+    else
+      quote do
+        use Phoenix.LiveView
+        on_mount DotcomWeb.Hooks.RestoreLocale
+
+        unquote(view_helpers())
+      end
     end
   end
 

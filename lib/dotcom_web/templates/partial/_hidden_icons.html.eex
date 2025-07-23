@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="hidden-js hidden-no-js" style="display: none" aria-hidden="true">
   <%=
     for light_rail <- ["Green", "Green-B", "Green-C", "Green-D", "Green-E", "Mattapan"] do

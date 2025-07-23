@@ -1,3 +1,4 @@
+<% track_template() %>
 <select class="c-select m-event-list__select">
   <option disabled selected value="">Jump to</option>
   <%= for month <- 1..12 do %>

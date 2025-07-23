@@ -9,7 +9,10 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   import Phoenix.HTML.Form, only: [input_value: 2]
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
+  alias Dotcom.Utils.ServiceDateTime
   alias MbtaMetro.Live.DatePicker
+
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
 
   @doc """
   If form values are passed in, we merge them with the defaults and submit the form.
@@ -154,10 +157,10 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   defp datepicker_config do
     %{
-      default_date: Timex.now("America/New_York"),
+      default_date: ServiceDateTime.beginning_of_service_day(),
       enable_time: true,
-      max_date: Schedules.Repo.end_of_rating(),
-      min_date: Timex.today("America/New_York")
+      max_date: @schedules_repo.end_of_rating() |> Timex.shift(days: 1),
+      min_date: ServiceDateTime.beginning_of_service_day()
     }
   end
 

@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="error-card">
   <h1 class="error-card-header">Hold On&hellip;</h1>
   <p class="error-card-content">While we're working on the new site, we haven't moved everything over yet.</p>

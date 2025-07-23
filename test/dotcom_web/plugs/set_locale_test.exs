@@ -35,6 +35,17 @@ defmodule DotcomWeb.Plugs.SetLocaleTest do
     assert Gettext.get_locale(Dotcom.Gettext) == locale
   end
 
+  test "a conn with a session locale sets the locale", %{conn: conn} do
+    locale = Locales.locale_codes() |> Enum.random()
+    conn = fetch_session(conn)
+
+    conn
+    |> put_session("locale", locale)
+    |> call(%{})
+
+    assert Gettext.get_locale(Dotcom.Gettext) == locale
+  end
+
   test "a conn with an unsupported locale uses the default locale", %{conn: conn} do
     conn |> Map.put(:cookies, %{"locale" => "zz"}) |> call(%{})
 

@@ -1,3 +1,4 @@
+<% track_template() %>
 <div>
   <span class="event-info-label">Location:</span>
   <%= if @event.location do %>

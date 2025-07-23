@@ -1,3 +1,4 @@
+<% track_template() %>
 <p>
   <strong>Emergency:</strong> <%= tel_link "617-222-1212" %><br>
   <strong>TTY:</strong> <%= tel_link "711" %>

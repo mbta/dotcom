@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="c-cms <%= @sidebar_class %>">
 
   <div class="c-cms__header">

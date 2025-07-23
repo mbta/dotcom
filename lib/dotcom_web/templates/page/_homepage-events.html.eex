@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= unless Enum.empty?(@event_teasers) do %>
 <div class="container page-section m-homepage__events">
   <div class="m-homepage--10-col-sm-only">

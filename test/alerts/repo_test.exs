@@ -63,11 +63,11 @@ defmodule Alerts.RepoTest do
     end
   end
 
-  describe "diversions_by_route_id/2" do
-    test "returns only diversions for the given route_ids" do
+  describe "planned_service_impacts_by_routes/2" do
+    test "returns only planned service impacts for the given route_ids" do
       # Setup
       diversion = Factories.Alerts.Alert.build(:alert, effect: :service_change, severity: 3)
-      non_diversion = Factories.Alerts.Alert.build(:alert, effect: :delay, severity: 1)
+      non_diversion = Factories.Alerts.Alert.build(:alert, effect: :amber_alert, severity: 1)
 
       Store.update([diversion, non_diversion], nil)
 
@@ -79,7 +79,10 @@ defmodule Alerts.RepoTest do
 
       # Exercise
       diversions =
-        Repo.diversions_by_route_ids([diversion_route, non_diversion_route], Timex.now())
+        Repo.planned_service_impacts_by_routes(
+          [diversion_route, non_diversion_route],
+          Timex.now()
+        )
 
       # Verify
       assert [^diversion] = diversions

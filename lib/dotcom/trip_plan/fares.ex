@@ -13,13 +13,21 @@ defmodule Dotcom.TripPlan.Fares do
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
 
-  @spec fare(Itinerary.t()) :: non_neg_integer()
+  @agencies_with_fare_info ["MBTA", "Massport", "Logan Express"]
+
+  @spec fare(Itinerary.t()) :: non_neg_integer() | nil
   def fare(%Itinerary{legs: legs}) do
     transit_legs = Enum.filter(legs, & &1.transit_leg)
 
-    transit_legs
-    |> Stream.with_index()
-    |> Enum.reduce(0, &add_fares(&1, &2, transit_legs))
+    if Enum.any?(transit_legs, fn %Leg{agency: agency} ->
+         agency.name not in @agencies_with_fare_info
+       end) do
+      nil
+    else
+      transit_legs
+      |> Stream.with_index()
+      |> Enum.reduce(0, &add_fares(&1, &2, transit_legs))
+    end
   end
 
   defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)

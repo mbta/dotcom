@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {csrf_meta_tag()}
     <meta name="description" content={meta_description(assigns)} />
-    <meta name="author" content="Massachusetts Bay Transportation Authority" />
+    <meta name="author" content={~t(Massachusetts Bay Transportation Authority)} />
     <meta name="theme-color" content="#165c96" />
     <meta :if={robots_nofollow?(@conn.request_path)} name="robots" content="noindex, nofollow" />
     <title>{title(@conn)}</title>
@@ -35,7 +35,7 @@
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="MBTA.com Latest News"
+      title={~t(MBTA.com Latest News)}
       href="/news/rss.xml"
     />
 
@@ -66,7 +66,7 @@
   </head>
   <%= content_tag(:body, class: Dotcom.BodyTag.class_name(@conn)) do %>
     <div class="body-wrapper" id="body-wrapper">
-      <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
+      <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
       {DotcomWeb.PartialView.render("_hidden_icons.html", conn: @conn)}
       {render("_new_header.html", conn: @conn)}
       <%= if assigns[:banner_template] do %>
