@@ -1,0 +1,155 @@
+<div class="m-footer__outer-background">
+  <div class="outer-container">
+    <div class="all-container">
+      <address class="call-us-container" role="complementary">
+        <div class="container m-footer__links">
+          <div class="m-footer__group-title call-us-header">{~t(Call Us)}</div>
+        </div>
+        <div class="container m-footer__links">
+          {render("_new_nav_contact_numbers.html")}
+        </div>
+      </address>
+      <footer class="m-footer">
+        <div class="container m-footer__links">
+          <nav class="m-footer__group" aria-labelledby="footer-customer">
+            <div id="footer-customer" class="m-footer__group-title">{~t(Customer Support)}</div>
+            {link(~t(Send Us Feedback),
+              to: customer_support_path(@conn, :index),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Lost & Found),
+              to: cms_static_page_path(@conn, "/customer-support/lost-and-found"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Request Public Records),
+              to:
+                "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66",
+              target: "_blank",
+              class: "m-footer__link"
+            )}
+            {link(~t(Language Services),
+              to: cms_static_page_path(@conn, "/language-services"),
+              class: "m-footer__link"
+            )}
+          </nav>
+          <nav class="m-footer__group" aria-labelledby="footer-know-us">
+            <div id="footer-know-us" class="m-footer__group-title">{~t(Get to Know Us)}</div>
+            {link(~t(Leadership),
+              to: cms_static_page_path(@conn, "/leadership"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(History),
+              to: cms_static_page_path(@conn, "/history"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Financials),
+              to: cms_static_page_path(@conn, "/financials"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Public Meetings),
+              to: cms_static_page_path(@conn, "/events"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Press Releases),
+              to: cms_static_page_path(@conn, "/news"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Policies & Civil Rights),
+              to: cms_static_page_path(@conn, "/policies"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Safety), to: cms_static_page_path(@conn, "/safety"))}
+            {link(~t(Performance), to: "/performance-metrics", class: "m-footer__link")}
+          </nav>
+          <nav class="m-footer__group" aria-labelledby="footer-work-with">
+            <div id="footer-work-with" class="m-footer__group-title">{~t(Work With Us)}</div>
+            {link(~t(Careers),
+              to: cms_static_page_path(@conn, "/careers"),
+              data: [scroll: true],
+              class: "m-footer__link"
+            )}
+            {link(~t(Institutional Sales),
+              to: cms_static_page_path(@conn, "/pass-program"),
+              class: "m-footer__link"
+            )}
+            {link(~t(Business Opportunities),
+              to: cms_static_page_path(@conn, "/business"),
+              class: "m-footer__link"
+            )}
+            {link(~t(Innovation Proposals),
+              to: cms_static_page_path(@conn, "/innovation"),
+              class: "m-footer__link"
+            )}
+            {link(~t(Engineering Design Standards),
+              to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines"),
+              class: "m-footer__link"
+            )}
+            {link(~t(Developers),
+              to: cms_static_page_path(@conn, "/developers"),
+              data: [scroll: true],
+              class: "m-footer__last-link"
+            )}
+          </nav>
+        </div>
+        <div class="container">
+          <div class="lower-footer">
+            <%= unless assigns[:exclude_google_translate] do %>
+              {render("_google_translate_plugin.html", conn: @conn)}
+            <% end %>
+            <div class="m-menu__language"></div>
+            <div class="social-icons-container">
+              <a
+                href="https://www.facebook.com/TheMBTA/"
+                target="_blank"
+                aria-label={~t(MBTA facebook)}
+              >
+                <i class="fa-brands fa-facebook fa-xl social-icon"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/thembta/"
+                target="_blank"
+                aria-label={~t(MBTA instagram)}
+              >
+                <i class="fa-brands fa-instagram fa-xl social-icon"></i>
+              </a>
+              <a href="https://www.threads.net/thembta/" target="_blank" aria-label={~t(MBTA threads)}>
+                <i class="fa-brands fa-threads fa-xl social-icon"></i>
+              </a>
+              <a
+                href="https://linkedin.com/company/mbta"
+                target="_blank"
+                aria-label={~t(MBTA linkedin)}
+              >
+                <i class="fa-brands fa-linkedin fa-xl social-icon"></i>
+              </a>
+              <a href="https://www.youtube.com/@thembta" target="_blank" aria-label={~t(MBTA youtube)}>
+                <i class="fa-brands fa-youtube fa-xl social-icon"></i>
+              </a>
+              <a href="https://twitter.com/MBTA" target="_blank" aria-label={~t(MBTA twitter)}>
+                <i class="fa-brands fa-x-twitter fa-xl social-icon"></i>
+              </a>
+              <a href="https://www.tiktok.com/@thembta" target="_blank" aria-label=~t(MBTA tiktok)}>
+                <i class="fa-brands fa-tiktok fa-xl social-icon"></i>
+              </a>
+            </div>
+          </div>
+          <p class="m-footer__copyright">
+            &copy; {~t(Massachusetts Bay Transportation Authority, all rights reserved.)}
+          </p>
+          <div class="m-footer__policy-links u-mt-16">
+            {link(~t(Privacy Policy), to: "/policies/privacy-policy", class: "u-me-16")}
+            {link(~t(Terms of Use), to: "/policies/terms-use")}
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
