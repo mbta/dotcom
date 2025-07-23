@@ -13,6 +13,15 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   import Dotcom.Locales, only: [default_locale_code: 0, locale_codes: 0]
 
+  @custom_terminology "priv/gettext/custom.csv"
+    |> File.stream!()
+    |> CSV.decode(headers: true)
+    |> Enum.to_list()
+    |> Enum.filter(fn {result, _} -> result === :ok end)
+    |> Enum.map(fn {:ok, translation} ->
+        {Map.get(translation, "en"), Map.delete(translation, "en")}
+      end)
+
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
 
@@ -59,7 +68,7 @@ defmodule Mix.Tasks.Gettext.Translate do
       q: text,
       source: default_locale_code(),
       target: locale,
-      alternatives: 3
+      alternatives: 0
     }
   end
 
@@ -87,6 +96,22 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.map(fn ref -> String.split(ref, ".") |> List.first() end)
   end
 
+  defp libretranslate_text(text, locale) do
+    @url
+    |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
+    |> Map.get(:body)
+    |> Map.get("translatedText")
+  end
+
+  # Check the custom terminology to see if we have a match.
+  # If we do, we return the match.
+  # If we don't, we return nil.
+  defp match_custom_term(text, locale) do
+    @custom_terminology
+    |> Enum.find({nil, %{}}, fn {term, _} -> term =~ text end)
+    |> Kernel.then(fn {_, translation} -> Map.get(translation, locale) end)
+  end
+
   # Gets all of the domain lines in a domain and then translates them into the locale.
   defp translate_domain(domain, locale) do
     domain_lines(domain)
@@ -94,12 +119,15 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Map.new()
   end
 
-  # Translates a piece of text to a specific locale via Libretranslate.
+  # Translation can mean matching a custom terminology or translating via Libretranslate.
   defp translate_text(text, locale) do
-    @url
-    |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
-    |> Map.get(:body)
-    |> Map.new(fn {k, v} -> {Recase.to_snake(k), v} end)
+    if custom_term = match_custom_term(text, locale) do
+      stripped_text = String.replace(text, custom_term, "+++")
+      translated_text = libretranslate_text(stripped_text, locale)
+      replaced_text = String.replace(translated_text, "+++", custom_term)
+    else
+      libretranslate_text(text, locale)
+    end
   end
 
   # Writes a translated `.po` file for the domain and locale.
@@ -116,12 +144,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   # Writes a single translation into a single file.
   defp write_translation(file, text, translation) do
     IO.puts(file, "msgid \"#{text}\"")
-    IO.puts(file, "msgstr \"#{Map.get(translation, "translated_text")}\"")
-
-    Map.get(translation, "alternatives")
-    |> Enum.each(fn alternative ->
-      IO.puts(file, "# Alternative: #{alternative}")
-    end)
+    IO.puts(file, "msgstr \"#{translation}\"")
 
     IO.puts(file, "")
   end
