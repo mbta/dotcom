@@ -175,8 +175,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     if custom_term = match_custom_term(text, locale) do
       stripped_text = String.replace(text, custom_term, "+++")
       translated_text = libretranslate_text(stripped_text, locale)
-
-      String.replace(translated_text, "+++", custom_term)
+      replaced_text = String.replace(translated_text, "+++", custom_term)
     else
       libretranslate_text(text, locale)
     end
