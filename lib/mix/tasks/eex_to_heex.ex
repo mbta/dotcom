@@ -28,7 +28,7 @@ defmodule Mix.Tasks.EexToHeex do
       |> String.split(".")
       |> List.delete_at(-1)
       |> Enum.join(".")
-      |> Kernel.then(& "#{directory}/#{&1}.heex")
+      |> Kernel.then(&"#{directory}/#{&1}.heex")
 
     File.write!(new_file_ref, new_file_contents)
     File.rm!(path)
