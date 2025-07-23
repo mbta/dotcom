@@ -82,7 +82,7 @@ msgid "MBTA facebook"
 msgstr "MBTA facebook"
 
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
-msgstr "Massachusetts Transporte de la bahía Autoridad, todos los derechos reservados."
+msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
 
 msgid "Safety"
 msgstr "Seguridad"
