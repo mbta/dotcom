@@ -31,7 +31,7 @@ defmodule Mix.Tasks.EexToHeex do
       |> Kernel.then(& "#{directory}/#{&1}.heex")
 
     File.write!(new_file_ref, new_file_contents)
-    File.rm!(old_file_ref)
+    File.rm!(path)
 
     :ok = Mix.Tasks.Format.run([new_file_ref])
   end
