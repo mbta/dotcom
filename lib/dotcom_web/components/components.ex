@@ -243,4 +243,27 @@ defmodule DotcomWeb.Components do
     </span>
     """
   end
+
+  slot(:inner_block, required: true)
+  attr(:class, :string, default: "")
+  attr(:href, :string, default: nil)
+
+  @doc """
+  An understated informational banner containing a concise description and/or call to action.
+  """
+  def promo_banner(%{href: href} = assigns) when is_nil(href) do
+    ~H"""
+    <div class={"bg-amethyst-90 text-center #{@class}"}>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  def promo_banner(assigns) do
+    ~H"""
+    <a href={@href} class={"block bg-amethyst-90 text-black text-center #{@class}"} target="_blank">
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
 end
