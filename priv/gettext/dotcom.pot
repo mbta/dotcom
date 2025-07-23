@@ -11,11 +11,6 @@
 msgid ""
 msgstr ""
 
-#: lib/dotcom_web/controllers/test_controller.ex:11
-#, elixir-autogen, elixir-format
-msgid "All clear, Captain!"
-msgstr ""
-
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail One-Way"
@@ -48,6 +43,7 @@ msgid "Zone"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:13
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "24 hours, 7 days a week"
 msgstr ""
@@ -58,6 +54,7 @@ msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:12
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:30
 #, elixir-autogen, elixir-format
 msgid "Emergency Contacts"
 msgstr ""
@@ -82,12 +79,214 @@ msgstr ""
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr ""
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:24
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "To report a problem or emergency with a railroad crossing, call"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:15
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:83
+#, elixir-autogen, elixir-format
+msgid "Business Opportunities"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Call Us"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:74
+#, elixir-autogen, elixir-format
+msgid "Careers"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Customer Support"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Developers"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:91
+#, elixir-autogen, elixir-format
+msgid "Engineering Design Standards"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Financials"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Get to Know Us"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "History"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:87
+#, elixir-autogen, elixir-format
+msgid "Innovation Proposals"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:79
+#, elixir-autogen, elixir-format
+msgid "Institutional Sales"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "Language Services"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Leadership"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Lost & Found"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:112
+#, elixir-autogen, elixir-format
+msgid "MBTA facebook"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:119
+#, elixir-autogen, elixir-format
+msgid "MBTA instagram"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:133
+#, elixir-autogen, elixir-format
+msgid "MBTA linkedin"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:126
+#, elixir-autogen, elixir-format
+msgid "MBTA threads"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:150
+#, elixir-autogen, elixir-format
+msgid "MBTA tiktok"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:144
+#, elixir-autogen, elixir-format
+msgid "MBTA twitter"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:140
+#, elixir-autogen, elixir-format
+msgid "MBTA youtube"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Latest News"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:157
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority, all rights reserved."
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Performance"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:64
+#, elixir-autogen, elixir-format
+msgid "Policies & Civil Rights"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:59
+#, elixir-autogen, elixir-format
+msgid "Press Releases"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:160
+#, elixir-autogen, elixir-format
+msgid "Privacy Policy"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "Public Meetings"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Request Public Records"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Safety"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Send Us Feedback"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/root.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Skip to main content"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:161
+#, elixir-autogen, elixir-format
+msgid "Terms of Use"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Work With Us"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "MBTA Home Page"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Main Menu"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:10
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Menu"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Navigation Menu"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Search MBTA.com"
 msgstr ""
