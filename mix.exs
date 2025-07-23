@@ -93,6 +93,7 @@ defmodule DotCom.Mixfile do
       {:dialyxir, "1.4.5", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:ecto, "3.13.2"},
+      {:eextoheex, git: "https://github.com/Multiverse-io/eextoheex", only: :dev},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.42.0"},
