@@ -107,10 +107,13 @@ defmodule Mix.Tasks.Gettext.Translate do
   # Check the custom terminology to see if we have a match.
   # If we do, we return the match.
   # If we don't, we return nil.
+  # The regex should match: "MBTA ", " MBTA ", " MBTA.", " MBTA", and "MBTA"
   defp match_custom_term(text, locale) do
     @custom_terminology
     |> Enum.find({nil, %{}}, fn {term, _} ->
-      String.match?(text, Regex.compile!("^#{term}\s|\s#{term}\s|\s#{term}$|^#{term}$"))
+      regex = Regex.compile!("^#{term}\s|\s#{term}\s|\s#{term}[^\w\s]|\s#{term}$|^#{term}$")
+
+      String.match?(text, regex)
     end)
     |> Kernel.then(fn {_, translation} -> Map.get(translation, locale) end)
   end
