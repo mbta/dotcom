@@ -1,12 +1,14 @@
-<% track_template() %>
 <%= if !Enum.empty?(@news) do %>
   <div class="container page-section m-homepage__news" id="news-and-updates">
     <div class="m-homepage--10-col-sm-only">
       <header class="section-header">
-        <h2>Press Releases</h2>
-        <%= link "See all press releases", to: news_entry_path(@conn, :index), class: "c-call-to-action" %>
+        <h2>{~t(Press Releases)}</h2>
+        {link("See all press releases",
+          to: news_entry_path(@conn, :index),
+          class: "c-call-to-action"
+        )}
       </header>
-      <%= render_news_entries(@conn) %>
+      {render_news_entries(@conn)}
     </div>
   </div>
 <% end %>
