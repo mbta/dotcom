@@ -155,4 +155,28 @@ defmodule DotcomWeb.ComponentsTest do
       assert Floki.text(tooltip) =~ assigns.content
     end
   end
+
+  describe "promo_banner" do
+    test "renders a link tag if given a href" do
+      assigns = %{
+        href: Faker.Internet.url(),
+        content: Faker.Lorem.sentence(4)
+      }
+
+      banner_with_link =
+        rendered_to_string(~H"""
+        <.promo_banner href={assigns.href}>
+          {assigns.content}
+        </.promo_banner>
+        """)
+
+      assert banner_with_link =~ "</a>"
+      assert banner_with_link =~ "<a href=\"#{assigns.href}\""
+      assert banner_with_link =~ assigns.content
+
+      refute rendered_to_string(~H"""
+             <.promo_banner>{assigns.content}</.promo_banner>
+             """) =~ "</a>"
+    end
+  end
 end

@@ -22,6 +22,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   alias OpenTripPlannerClient.Schema.{Itinerary, Route}
 
+  attr :class, :string, default: ""
   attr :itinerary, Itinerary, required: true
   attr :show_accessible, :boolean, default: false
   attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
@@ -41,7 +42,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       |> assign_new(:summarized_legs, fn -> Itinerary.summary(assigns.itinerary) end)
 
     ~H"""
-    <div>
+    <div class={@class}>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
           {Util.kitchen_downcase_time(@itinerary.start)} - {Util.kitchen_downcase_time(@itinerary.end)}
@@ -56,7 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
           <.leg_icon {summary_leg} />
         <% end %>
       </div>
-      <div class="flex flex-wrap gap-1 items-center mb-3 text-sm text-grey-dark">
+      <div class="flex flex-wrap gap-1 items-center text-sm text-grey-dark">
         <div :if={@show_accessible} class="inline-flex items-center gap-0.5">
           <%= if @accessible? do %>
             <.icon type="icon-svg" name="icon-accessible-light" class="h-4.5 mr-0.5" aria-hidden />
