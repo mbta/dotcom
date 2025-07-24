@@ -445,3 +445,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Subway Beginner's Guide"
 msgstr ""
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Featured MBTA Updates and Projects"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "What's Happening at the MBTA"
+msgstr ""

@@ -45,6 +45,9 @@ msgstr "Aparcamiento"
 msgid "History"
 msgstr "Historia"
 
+msgid "What's Happening at the MBTA"
+msgstr "¿Qué pasa en el MBTA"
+
 msgid "Find a Location"
 msgstr "Encontrar un lugar"
 
@@ -98,6 +101,9 @@ msgstr "Ver todas las alertas de servicio"
 
 msgid "Main Menu"
 msgstr "Menú principal"
+
+msgid "Featured MBTA Updates and Projects"
+msgstr "Destacados MBTA Actualizaciones y proyectos"
 
 msgid "Innovation Proposals"
 msgstr "Propuestas de innovación"
