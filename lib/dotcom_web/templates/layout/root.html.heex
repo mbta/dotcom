@@ -66,6 +66,17 @@
   </head>
   <%= content_tag(:body, class: Dotcom.BodyTag.class_name(@conn)) do %>
     <div class="body-wrapper" id="body-wrapper">
+      <%= if !Application.get_env(:dotcom, :is_prod_env?) && Gettext.get_locale(Dotcom.Gettext) != "en" do %>
+        <% completion_percent =  Mix.Tasks.Gettext.Translate.completion_percent() %>
+        <% completion_ratio = Mix.Tasks.Gettext.Translate.completion_ratio() %>
+        <% language = (Dotcom.Gettext |> Gettext.get_locale() |> Dotcom.Locales.locale() |> Map.get(:endonym)) %>
+        <div class="w-full bg-cobalt-80 py-2 text-center text-cobalt-50">
+          <i class="fa fa-globe"></i>
+          You are viewing <em>{Map.get(@conn, :host)}</em> in <strong>{language}</strong>.
+          We have translated {Kernel.elem(completion_ratio, 0)} out of {Kernel.elem(completion_ratio, 1)} templates.
+          We are {completion_percent}% finished.
+        </div>
+      <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
       {DotcomWeb.PartialView.render("_hidden_icons.html", conn: @conn)}
       {render("_new_header.html", conn: @conn)}
