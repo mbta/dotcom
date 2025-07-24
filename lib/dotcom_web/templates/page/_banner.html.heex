@@ -1,6 +1,5 @@
-<% track_template() %>
-<div class="c-banner c-banner--responsive c-banner--<%= @banner.banner_type %> u-linked-card">
-  <div class="c-banner__image c-banner__image--responsive c-banner__image--<%= @banner.banner_type %>" style="background-image: url(<%= @banner.thumb.url %>)">
+<div class={"c-banner c-banner--responsive c-banner--#{ @banner.banner_type } u-linked-card"}>
+  <div class={"c-banner__image c-banner__image--responsive c-banner__image--#{ @banner.banner_type }"} style={"background-image: url(#{ @banner.thumb.url })"}>
     <div class="sr-only">
       <%= @banner.thumb.alt %>
     </div>
