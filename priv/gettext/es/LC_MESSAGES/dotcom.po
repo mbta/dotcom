@@ -27,8 +27,14 @@ msgstr "Para reportar un problema o emergencia con un cruce de ferrocarril, llam
 msgid "Leadership"
 msgstr "Dirección"
 
+msgid "Stations and Parking"
+msgstr "Estaciones y estacionamiento"
+
 msgid "History"
 msgstr "Historia"
+
+msgid "Find a Location"
+msgstr "Encontrar un lugar"
 
 msgid "Transit Police"
 msgstr "Transit Police"
@@ -51,6 +57,9 @@ msgstr "Solicitud de documentos públicos"
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
 
+msgid "Maps"
+msgstr "Mapas"
+
 msgid "Menu"
 msgstr "Menú"
 
@@ -59,6 +68,9 @@ msgstr "MBTA LinkedIn"
 
 msgid "Contact Us"
 msgstr "Contáctenos"
+
+msgid "Upcoming Public Meetings and Events"
+msgstr "Próximos Reuniones y Eventos Públicos"
 
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
@@ -86,6 +98,9 @@ msgstr "Zona"
 
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
+
+msgid "See all public meetings and events"
+msgstr "Ver todas las reuniones y eventos públicos"
 
 msgid "alerts at this time"
 msgstr "alertas en este momento"
