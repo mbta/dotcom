@@ -148,7 +148,7 @@ msgid "Press Releases"
 msgstr "Comunicados de prensa"
 
 msgid "MBTA.com Latest News"
-msgstr "MBTA+.com Últimas noticias"
+msgstr "MBTA.com Últimas noticias"
 
 msgid "Subway One-Way"
 msgstr "Subway One-Way"

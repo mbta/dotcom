@@ -178,13 +178,13 @@ defmodule Mix.Tasks.Gettext.Translate do
         translated_text =
           custom_terms
           |> Enum.reduce(text, fn custom_term, text ->
-            String.replace(text, custom_term, "+++")
+            String.replace(text, custom_term, "#{:erlang.phash2(custom_term)}")
           end)
           |> libretranslate_text(locale)
 
         custom_terms
         |> Enum.reduce(translated_text, fn custom_term, text ->
-          String.replace(text, "+++", custom_term, global: false)
+          String.replace(text, "#{:erlang.phash2(custom_term)}", custom_term)
         end)
     end
   end
