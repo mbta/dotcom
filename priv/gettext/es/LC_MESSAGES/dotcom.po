@@ -57,6 +57,9 @@ msgstr "Menú"
 msgid "MBTA LinkedIn"
 msgstr "MBTA LinkedIn"
 
+msgid "Contact Us"
+msgstr "Contáctenos"
+
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
 
@@ -173,6 +176,9 @@ msgstr "Ejecución"
 
 msgid "Press Releases"
 msgstr "Comunicados de prensa"
+
+msgid "MBTA Transit Police"
+msgstr "MBTA Transit Police"
 
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"

@@ -211,6 +211,7 @@ msgid "Safety"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:16
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:14
 #, elixir-autogen, elixir-format
 msgid "Send Us Feedback"
 msgstr ""
@@ -296,42 +297,52 @@ msgstr ""
 msgid "MBTA Homepage"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:5
+#: lib/dotcom_web/templates/page/_alerts.html.heex:4
 #, elixir-autogen, elixir-format
 msgid "Routes With High Priority Alerts"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:69
+#: lib/dotcom_web/templates/page/_alerts.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "See all service alerts"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:66
+#: lib/dotcom_web/templates/page/_alerts.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "Sign up for alert notifications"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:39
+#: lib/dotcom_web/templates/page/_alerts.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "Station Accessibility"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:49
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:18
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:18
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_alerts.html.heex:49
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "at this time"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Contact Us"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "MBTA Transit Police"
 msgstr ""
