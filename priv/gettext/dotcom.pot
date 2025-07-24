@@ -101,6 +101,7 @@ msgid "Call Us"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:74
+#: lib/dotcom_web/templates/page/_important_links.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Careers"
 msgstr ""
@@ -151,6 +152,7 @@ msgid "Language Services"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:39
+#: lib/dotcom_web/templates/page/_important_links.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Leadership"
 msgstr ""
@@ -176,6 +178,7 @@ msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:70
+#: lib/dotcom_web/templates/page/_important_links.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "Performance"
 msgstr ""
@@ -370,4 +373,34 @@ msgstr ""
 #: lib/dotcom_web/templates/page/_homepage-events.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Upcoming Public Meetings and Events"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Accessibility"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:55
+#, elixir-autogen, elixir-format
+msgid "Business"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Civil Rights"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Important Links"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "Parking"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:47
+#, elixir-autogen, elixir-format
+msgid "Sustainability"
 msgstr ""

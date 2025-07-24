@@ -6,6 +6,9 @@ msgstr "Oportunidades comerciales"
 msgid "Sign up for alert notifications"
 msgstr "Regístrese para notificaciones de alerta"
 
+msgid "Civil Rights"
+msgstr "Civiles"
+
 msgid "Main"
 msgstr "Main"
 
@@ -18,6 +21,9 @@ msgstr "MBTA Threads"
 msgid "Policies & Civil Rights"
 msgstr "Policies ' Civil Rights"
 
+msgid "Accessibility"
+msgstr "Accesibilidad"
+
 msgid "Information & Support"
 msgstr "Información y apoyo"
 
@@ -29,6 +35,9 @@ msgstr "Dirección"
 
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
+
+msgid "Parking"
+msgstr "Aparcamiento"
 
 msgid "History"
 msgstr "Historia"
@@ -108,6 +117,9 @@ msgstr "alertas en este momento"
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
 
+msgid "Sustainability"
+msgstr "Sostenibilidad"
+
 msgid "Safety"
 msgstr "Seguridad"
 
@@ -144,6 +156,9 @@ msgstr "MBTA YouTube"
 msgid "Terms of Use"
 msgstr "Términos de uso"
 
+msgid "Important Links"
+msgstr "Enlaces importantes"
+
 msgid "Monday thru Friday"
 msgstr "Lunes a viernes"
 
@@ -152,6 +167,9 @@ msgstr "Rutas con alertas de alta prioridad"
 
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
+
+msgid "Business"
+msgstr "Negocios"
 
 msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
