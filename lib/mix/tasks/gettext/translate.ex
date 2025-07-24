@@ -134,7 +134,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     if total < 1 do
       0.0
     else
-      (translated / total) * 100 |> Float.round(1)
+      (translated / total * 100) |> Float.round(1)
     end
   end
 

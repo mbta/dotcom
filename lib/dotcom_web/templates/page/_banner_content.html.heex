@@ -1,17 +1,20 @@
 <div class={"#{ banner_content_class(@banner) }"}>
   <div class="c-banner__top">
     <div class="c-banner__category u-small-caps">
-      <%= link_category(@banner.category)%>
+      {link_category(@banner.category)}
     </div>
     <h2 class={"c-banner__title c-banner__title--#{ @banner.banner_type }"}>
-      <%= link @banner.title, to: cms_static_page_path(@conn, @banner.utm_url), class: "u-linked-card__primary-link" %>
+      {link(@banner.title,
+        to: cms_static_page_path(@conn, @banner.utm_url),
+        class: "u-linked-card__primary-link"
+      )}
     </h2>
     <%= if @banner.banner_type == :important do %>
-      <p><%= @banner.blurb %></p>
+      <p>{@banner.blurb}</p>
     <% end %>
   </div>
 
   <div class="c-banner__bottom">
-    <%= banner_cta(@banner) %>
+    {banner_cta(@banner)}
   </div>
 </div>

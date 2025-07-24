@@ -8,7 +8,7 @@
     <%= link to: cms_static_page_path(@conn, "/customer-support"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= fa "comments", class: "c-grid-button__icon" %>
+          {fa("comments", class: "c-grid-button__icon")}
         </span>
         <span class="c-grid-button__name">
           {~t(Send Us Feedback)}
@@ -18,7 +18,7 @@
     <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= fa "shield", class: "c-grid-button__icon" %>
+          {fa("shield", class: "c-grid-button__icon")}
         </span>
         <span class="c-grid-button__name">
           {~t(MBTA Transit Police)}
