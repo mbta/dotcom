@@ -160,41 +160,6 @@ msgstr ""
 msgid "Lost & Found"
 msgstr ""
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex:112
-#, elixir-autogen, elixir-format
-msgid "MBTA facebook"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:119
-#, elixir-autogen, elixir-format
-msgid "MBTA instagram"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:133
-#, elixir-autogen, elixir-format
-msgid "MBTA linkedin"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:126
-#, elixir-autogen, elixir-format
-msgid "MBTA threads"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:150
-#, elixir-autogen, elixir-format
-msgid "MBTA tiktok"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:144
-#, elixir-autogen, elixir-format
-msgid "MBTA twitter"
-msgstr ""
-
-#: lib/dotcom_web/templates/layout/_footer.html.heex:140
-#, elixir-autogen, elixir-format
-msgid "MBTA youtube"
-msgstr ""
-
 #: lib/dotcom_web/templates/layout/root.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "MBTA.com Latest News"
@@ -289,4 +254,39 @@ msgstr ""
 #: lib/dotcom_web/templates/layout/_new_header.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "Search MBTA.com"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:112
+#, elixir-autogen, elixir-format
+msgid "MBTA Facebook"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:119
+#, elixir-autogen, elixir-format
+msgid "MBTA Instagram"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:133
+#, elixir-autogen, elixir-format
+msgid "MBTA LinkedIn"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:126
+#, elixir-autogen, elixir-format
+msgid "MBTA Threads"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:150
+#, elixir-autogen, elixir-format
+msgid "MBTA TikTok"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:144
+#, elixir-autogen, elixir-format
+msgid "MBTA Twitter"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:140
+#, elixir-autogen, elixir-format
+msgid "MBTA YouTube"
 msgstr ""

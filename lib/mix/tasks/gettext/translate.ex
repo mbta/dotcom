@@ -153,14 +153,12 @@ defmodule Mix.Tasks.Gettext.Translate do
   # If we do, we return the match.
   # If we don't, we return nil.
   # The regex should match: "MBTA ", " MBTA ", " MBTA.", " MBTA", and "MBTA"
-  defp match_custom_term(text, locale) do
+  defp match_custom_terms(text, locale) do
     @custom_terminologies
-    |> Enum.find({nil, %{}}, fn {term, _} ->
-      regex = Regex.compile!("(^|\s|[^\w\s])#{term}($|\s|[^\w\s])")
-
-      String.match?(text, regex)
+    |> Enum.filter(fn {term, _} ->
+      String.match?(text, Regex.compile!("(^|\s|[^\w\s])#{term}($|\s|[^\w\s])"))
     end)
-    |> Kernel.then(fn {_, translation} -> Map.get(translation, locale) end)
+    |> Enum.map(fn {_, translation} -> Map.get(translation, locale) end)
   end
 
   # Gets all of the domain lines in a domain and then translates them into the locale.
@@ -172,12 +170,16 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translation can mean matching a custom terminology or translating via Libretranslate.
   defp translate_text(text, locale) do
-    if custom_term = match_custom_term(text, locale) do
-      stripped_text = String.replace(text, custom_term, "+++")
-      translated_text = libretranslate_text(stripped_text, locale)
-      replaced_text = String.replace(translated_text, "+++", custom_term)
-    else
-      libretranslate_text(text, locale)
+    case match_custom_terms(text, locale) do
+      [] -> libretranslate_text(text, locale)
+      custom_terms ->
+        translated_text =
+          custom_terms
+          |> Enum.reduce(text, fn custom_term, text -> String.replace(text, custom_term, "+++") end)
+          |> libretranslate_text(locale)
+
+        custom_terms
+        |> Enum.reduce(translated_text, fn custom_term, text -> String.replace(text, "+++", custom_term, global: false) end)
     end
   end
 

@@ -3,17 +3,14 @@
 msgid "Business Opportunities"
 msgstr "Oportunidades comerciales"
 
-msgid "MBTA linkedin"
-msgstr "MBTA"
-
 msgid "Main"
 msgstr "Main"
 
-msgid "MBTA twitter"
-msgstr "MBTA twitter"
-
 msgid "Developers"
 msgstr "Desarrolladores"
+
+msgid "MBTA Threads"
+msgstr "MBTA Threads"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies ' Civil Rights"
@@ -48,14 +45,14 @@ msgstr "Solicitud de documentos públicos"
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
 
-msgid "MBTA threads"
-msgstr "MBTA hilos"
-
 msgid "Menu"
 msgstr "Menú"
 
-msgid "MBTA youtube"
-msgstr "MBTA # youtube #"
+msgid "MBTA LinkedIn"
+msgstr "MBTA LinkedIn"
+
+msgid "MBTA Instagram"
+msgstr "MBTA Instagram"
 
 msgid "Main Menu"
 msgstr "Menú principal"
@@ -69,17 +66,11 @@ msgstr "Enviarnos comentarios"
 msgid "Public Meetings"
 msgstr "Reuniones públicas"
 
-msgid "MBTA instagram"
-msgstr "MBTA instagram"
-
 msgid "Zone"
 msgstr "Zona"
 
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
-
-msgid "MBTA facebook"
-msgstr "MBTA facebook"
 
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
@@ -90,14 +81,14 @@ msgstr "Seguridad"
 msgid "Financials"
 msgstr "Financieras"
 
+msgid "MBTA TikTok"
+msgstr "MBTA TikTok"
+
 msgid "Language Services"
 msgstr "Servicios de idiomas"
 
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
-
-msgid "MBTA tiktok"
-msgstr "MBTA tiktok"
 
 msgid "Skip to main content"
 msgstr "Pasar al contenido principal"
@@ -110,6 +101,9 @@ msgstr "Llámanos"
 
 msgid "Most popular fares"
 msgstr "Tarifas más populares"
+
+msgid "MBTA YouTube"
+msgstr "MBTA YouTube"
 
 msgid "Terms of Use"
 msgstr "Términos de uso"
@@ -132,6 +126,9 @@ msgstr "Buscar MBTA.com"
 msgid "Lost & Found"
 msgstr "Lost & Found"
 
+msgid "MBTA Facebook"
+msgstr "MBTA Facebook"
+
 msgid "24 hours, 7 days a week"
 msgstr "24 horas, 7 días a la semana"
 
@@ -151,7 +148,7 @@ msgid "Press Releases"
 msgstr "Comunicados de prensa"
 
 msgid "MBTA.com Latest News"
-msgstr "MBTA.com Últimas noticias"
+msgstr "MBTA+.com Últimas noticias"
 
 msgid "Subway One-Way"
 msgstr "Subway One-Way"
@@ -159,9 +156,12 @@ msgstr "Subway One-Way"
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"
 
+msgid "MBTA Twitter"
+msgstr "MBTA Twitter"
+
 msgid "Local Bus One-Way"
 msgstr "Autobuses locales de un lado"
 
 msgid "Monthly LinkPass"
-msgstr "Enlace mensual"
+msgstr "Mensual LinkPass"
 
