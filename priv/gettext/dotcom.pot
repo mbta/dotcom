@@ -420,3 +420,28 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Trip Planner"
 msgstr ""
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Boston Visitor's Guide to The&nbsp;T"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Bus Beginner's Guide"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "MBTA User Guides"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "See all user guides"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Subway Beginner's Guide"
+msgstr ""

@@ -192,6 +192,9 @@ msgstr "Lost & Found"
 msgid "Station Accessibility"
 msgstr "Accesibilidad a la estación"
 
+msgid "Boston Visitor's Guide to The&nbsp;T"
+msgstr "Guía del visitante de Boston para el pacientenbsp"
+
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
 
@@ -210,6 +213,9 @@ msgstr "711 para llamadas TTY; VRS para llamadas ASL"
 msgid "Get to Know Us"
 msgstr "Conozcanos"
 
+msgid "MBTA User Guides"
+msgstr "MBTA Guías de usuario"
+
 msgid "Performance"
 msgstr "Ejecución"
 
@@ -219,6 +225,12 @@ msgstr "Comunicados de prensa"
 msgid "Routes"
 msgstr "Rutas"
 
+msgid "Bus Beginner's Guide"
+msgstr "Bus Beginner's Guide"
+
+msgid "Subway Beginner's Guide"
+msgstr "Guía del principiante"
+
 msgid "MBTA Transit Police"
 msgstr "MBTA Transit Police"
 
@@ -227,6 +239,9 @@ msgstr "MBTA.com Últimas noticias"
 
 msgid "Subway One-Way"
 msgstr "Subway One-Way"
+
+msgid "See all user guides"
+msgstr "Ver todas las guías de usuario"
 
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"
