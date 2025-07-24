@@ -14,6 +14,7 @@ defmodule Mix.Tasks.GetText.Translate.Progress do
     translated_templates =
       all_templates
       |> Enum.filter(&translated?/1)
+
     translated_templates_count = Kernel.length(translated_templates)
 
     {translated_templates_count, all_templates_count}

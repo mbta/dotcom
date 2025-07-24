@@ -14,6 +14,10 @@ defmodule Dotcom.Utils.FileTest do
   end
 
   describe "list_all_files/1" do
+    test "returns an empty list when the directory does not exist" do
+      assert list_all_files("foo/bar/baz") === []
+    end
+
     test "returns an empty list when the directory is empty", %{tmp_dir: tmp_dir} do
       # Setup
       empty_dir = Path.join([tmp_dir, "empty"])
@@ -33,7 +37,7 @@ defmodule Dotcom.Utils.FileTest do
       File.write(file_path, Faker.Company.bullshit())
 
       # Exercise / Verify
-      assert list_all_files(full_dir) == [file_path]
+      assert list_all_files(full_dir) === [file_path]
     end
 
     test "recursively returns all files", %{tmp_dir: tmp_dir} do
@@ -49,7 +53,7 @@ defmodule Dotcom.Utils.FileTest do
       File.write(file_path, Faker.Company.bullshit())
 
       # Exercise / Verify
-      assert list_all_files(full_dir) == [file_path]
+      assert list_all_files(full_dir) === [file_path]
     end
   end
 end

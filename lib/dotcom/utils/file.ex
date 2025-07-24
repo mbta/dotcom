@@ -1,5 +1,5 @@
 defmodule Dotcom.Utils.File do
-  @moduledoc"""
+  @moduledoc """
   A collection of functions for working with files.
   """
 
@@ -13,6 +13,7 @@ defmodule Dotcom.Utils.File do
       case File.ls(reference) do
         {:error, _} ->
           []
+
         {:ok, references} ->
           references
           |> Enum.map(&(reference <> "/" <> &1))
