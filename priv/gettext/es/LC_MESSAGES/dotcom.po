@@ -3,6 +3,9 @@
 msgid "Business Opportunities"
 msgstr "Oportunidades comerciales"
 
+msgid "Sign up for alert notifications"
+msgstr "Regístrese para notificaciones de alerta"
+
 msgid "Main"
 msgstr "Main"
 
@@ -36,6 +39,9 @@ msgstr "Commuter Rail One-Way"
 msgid "Work With Us"
 msgstr "Trabajar con nosotros"
 
+msgid "at this time"
+msgstr "en este momento"
+
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "Informe un problema de la puerta de cruce de ferrocarril"
 
@@ -57,6 +63,9 @@ msgstr "MBTA Instagram"
 msgid "MBTA Homepage"
 msgstr "MBTA Página"
 
+msgid "See all service alerts"
+msgstr "Ver todas las alertas de servicio"
+
 msgid "Main Menu"
 msgstr "Menú principal"
 
@@ -74,6 +83,9 @@ msgstr "Zona"
 
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
+
+msgid "alerts at this time"
+msgstr "alertas en este momento"
 
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
@@ -99,6 +111,9 @@ msgstr "Pasar al contenido principal"
 msgid "Customer Support"
 msgstr "Atención al cliente"
 
+msgid "There are no high priority"
+msgstr "No hay alta prioridad"
+
 msgid "Call Us"
 msgstr "Llámanos"
 
@@ -113,6 +128,9 @@ msgstr "Términos de uso"
 
 msgid "Monday thru Friday"
 msgstr "Lunes a viernes"
+
+msgid "Routes With High Priority Alerts"
+msgstr "Rutas con alertas de alta prioridad"
 
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
@@ -129,8 +147,14 @@ msgstr "Buscar MBTA.com"
 msgid "Lost & Found"
 msgstr "Lost & Found"
 
+msgid "Station Accessibility"
+msgstr "Accesibilidad a la estación"
+
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
+
+msgid "There are no"
+msgstr "No hay"
 
 msgid "24 hours, 7 days a week"
 msgstr "24 horas, 7 días a la semana"

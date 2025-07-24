@@ -295,3 +295,43 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "MBTA Homepage"
 msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Routes With High Priority Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "See all service alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Sign up for alert notifications"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Station Accessibility"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "There are no"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "There are no high priority"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "alerts at this time"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "at this time"
+msgstr ""
