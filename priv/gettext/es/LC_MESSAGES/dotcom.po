@@ -6,6 +6,9 @@ msgstr "Oportunidades comerciales"
 msgid "Sign up for alert notifications"
 msgstr "Regístrese para notificaciones de alerta"
 
+msgid "Boston Visitor's Guide to The T"
+msgstr "Guía del visitante de Boston para el T"
+
 msgid "Civil Rights"
 msgstr "Civiles"
 
@@ -197,9 +200,6 @@ msgstr "Lost & Found"
 
 msgid "Station Accessibility"
 msgstr "Accesibilidad a la estación"
-
-msgid "Boston Visitor's Guide to The&nbsp;T"
-msgstr "Guía del visitante de Boston para el pacientenbsp"
 
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
