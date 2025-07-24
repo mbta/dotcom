@@ -1,3 +1,54 @@
+defmodule Mix.Tasks.GetText.Translate.CustomTerminologies do
+  @moduledoc """
+  A support module for the task that lets us combine custom terminologies.
+  Files are taken in alphabetical order so that if a term exists in two terminologies,
+  the one from the alphabetically first file will be kept.
+  """
+
+  @directory "priv/gettext/terminologies"
+
+  @doc """
+  Get all of the custom terminologies in the project.
+  """
+  def get_terminologies() do
+    list_all_terminologies()
+    |> Enum.map(&get_terminology/1)
+    |> List.flatten()
+    |> Enum.uniq_by(fn {msgid, _} -> msgid end)
+  end
+
+  # Get a particular terminology based on the file reference.
+  defp get_terminology(reference) do
+    reference
+    |> File.stream!()
+    |> CSV.decode(headers: true)
+    |> Enum.to_list()
+    |> Enum.filter(fn {result, _} -> result === :ok end)
+    |> Enum.map(fn {:ok, translation} ->
+      {Map.get(translation, "en"), Map.delete(translation, "en")}
+    end)
+  end
+
+  # List all files in the terminologies directory.
+  defp list_all_files(reference \\ @directory) do
+    if File.dir?(reference) do
+      reference
+      |> File.ls!()
+      |> Enum.map(&(reference <> "/" <> &1))
+      |> Enum.map(&list_all_files/1)
+      |> List.flatten()
+    else
+      reference
+    end
+  end
+
+  # Filter all files in the directory by the `.csv` format.
+  defp list_all_terminologies() do
+    list_all_files()
+    |> Enum.filter(fn ref -> String.match?(ref, ~r/.csv$/) end)
+  end
+end
+
 defmodule Mix.Tasks.Gettext.Translate do
   @moduledoc """
   This mix task translates all lines in every domain `.pot` file for every locale.
@@ -12,16 +63,9 @@ defmodule Mix.Tasks.Gettext.Translate do
   use Mix.Task
 
   import Dotcom.Locales, only: [default_locale_code: 0, locale_codes: 0]
+  import Mix.Tasks.GetText.Translate.CustomTerminologies, only: [get_terminologies: 0]
 
-  @custom_terminology "priv/gettext/custom.csv"
-                      |> File.stream!()
-                      |> CSV.decode(headers: true)
-                      |> Enum.to_list()
-                      |> Enum.filter(fn {result, _} -> result === :ok end)
-                      |> Enum.map(fn {:ok, translation} ->
-                        {Map.get(translation, "en"), Map.delete(translation, "en")}
-                      end)
-
+  @custom_terminologies get_terminologies()
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
 
@@ -110,7 +154,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   # If we don't, we return nil.
   # The regex should match: "MBTA ", " MBTA ", " MBTA.", " MBTA", and "MBTA"
   defp match_custom_term(text, locale) do
-    @custom_terminology
+    @custom_terminologies
     |> Enum.find({nil, %{}}, fn {term, _} ->
       regex = Regex.compile!("(^|\s|[^\w\s])#{term}($|\s|[^\w\s])")
 
