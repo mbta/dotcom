@@ -1,9 +1,48 @@
+defmodule Mix.Tasks.GetText.Translate.Progress do
+  @moduledoc """
+  A support module for tracking progress of our translation efforts.
+  """
+
+  import Dotcom.Utils.File, only: [list_all_files: 1]
+
+  @directory "lib/dotcom_web/templates"
+
+  def completion_ratio() do
+    all_templates = list_all_templates()
+    all_templates_count = Kernel.length(all_templates)
+
+    translated_templates =
+      all_templates
+      |> Enum.filter(&translated?/1)
+
+    translated_templates_count = Kernel.length(translated_templates)
+
+    {translated_templates_count, all_templates_count}
+  end
+
+  defp list_all_templates() do
+    @directory
+    |> list_all_files()
+    |> Enum.filter(fn ref -> String.match?(ref, ~r/eex$/) end)
+  end
+
+  defp translated?(reference) do
+    try do
+      not (File.read!(reference) =~ "<% track_template() %>")
+    rescue
+      _ -> false
+    end
+  end
+end
+
 defmodule Mix.Tasks.GetText.Translate.CustomTerminologies do
   @moduledoc """
   A support module for the task that lets us combine custom terminologies.
   Files are taken in alphabetical order so that if a term exists in two terminologies,
   the one from the alphabetically first file will be kept.
   """
+
+  import Dotcom.Utils.File, only: [list_all_files: 1]
 
   @directory "priv/gettext/terminologies"
 
@@ -29,22 +68,10 @@ defmodule Mix.Tasks.GetText.Translate.CustomTerminologies do
     end)
   end
 
-  # List all files in the terminologies directory.
-  defp list_all_files(reference \\ @directory) do
-    if File.dir?(reference) do
-      reference
-      |> File.ls!()
-      |> Enum.map(&(reference <> "/" <> &1))
-      |> Enum.map(&list_all_files/1)
-      |> List.flatten()
-    else
-      reference
-    end
-  end
-
   # Filter all files in the directory by the `.csv` format.
   defp list_all_terminologies() do
-    list_all_files()
+    @directory
+    |> list_all_files()
     |> Enum.filter(fn ref -> String.match?(ref, ~r/.csv$/) end)
   end
 end
@@ -65,6 +92,9 @@ defmodule Mix.Tasks.Gettext.Translate do
   import Dotcom.Locales, only: [default_locale_code: 0, locale_codes: 0]
   import Mix.Tasks.GetText.Translate.CustomTerminologies, only: [get_terminologies: 0]
 
+  alias Mix.Tasks.GetText.Translate.Progress
+
+  @completion_ratio Progress.completion_ratio()
   @custom_terminologies get_terminologies()
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
@@ -94,6 +124,25 @@ defmodule Mix.Tasks.Gettext.Translate do
     (locale_codes() -- [default_locale_code()]) |> translate()
   end
 
+  @doc """
+  The completion ratio expressed as a percent of completion.
+  """
+  def completion_percent() do
+    translated = Kernel.elem(@completion_ratio, 0)
+    total = Kernel.elem(@completion_ratio, 1)
+
+    if total < 1 do
+      0.0
+    else
+      (translated / total) |> Float.round(0)
+    end
+  end
+
+  @doc """
+  The ratio of translated templates to all templates.
+  """
+  def completion_ratio(), do: @completion_ratio
+
   # Translate the given locales.
   defp translate(locales) when is_list(locales) do
     Enum.each(locales, &translate/1)
@@ -101,6 +150,9 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate a single locale.
   defp translate(locale) when is_binary(locale) do
+    IO.puts("Translating #{Kernel.elem(@completion_ratio, 0)} template files.")
+    IO.puts("We are #{completion_percent()}% done.")
+
     Enum.each(domains(), fn domain ->
       write_domain_translations(domain, locale)
     end)
