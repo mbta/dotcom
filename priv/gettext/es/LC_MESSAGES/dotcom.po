@@ -15,6 +15,9 @@ msgstr "Main"
 msgid "Developers"
 msgstr "Desarrolladores"
 
+msgid "Alerts"
+msgstr "Alertas"
+
 msgid "MBTA Threads"
 msgstr "MBTA Threads"
 
@@ -62,6 +65,9 @@ msgstr "Informe un problema de la puerta de cruce de ferrocarril"
 
 msgid "Request Public Records"
 msgstr "Solicitud de documentos públicos"
+
+msgid "Trip Planner"
+msgstr "Trip Planner"
 
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
@@ -209,6 +215,9 @@ msgstr "Ejecución"
 
 msgid "Press Releases"
 msgstr "Comunicados de prensa"
+
+msgid "Routes"
+msgstr "Rutas"
 
 msgid "MBTA Transit Police"
 msgstr "MBTA Transit Police"
