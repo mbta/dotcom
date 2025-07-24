@@ -7,7 +7,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   use DotcomWeb, :component
 
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
-  import DotcomWeb.Router.Helpers, only: [alert_path: 2]
+  import DotcomWeb.Router.Helpers, only: [alert_path: 3]
 
   alias OpenTripPlannerClient.ItineraryGroup
   alias OpenTripPlannerClient.Schema.Itinerary
@@ -202,7 +202,15 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   defp itinerary_group(%{group: %{available?: false}} = assigns) do
     assigns =
-      assign(assigns, :alerts_href, alert_path(DotcomWeb.Endpoint, :index))
+      assign(
+        assigns,
+        :alerts_href,
+        alert_path(DotcomWeb.Endpoint, :index, %{
+          utm_source: "Trip Planner",
+          utm_medium: "referral",
+          utm_campaign: "Unavailable Trips"
+        })
+      )
 
     ~H"""
     <div
