@@ -131,7 +131,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     translated = Kernel.elem(@completion_ratio, 0)
     total = Kernel.elem(@completion_ratio, 1)
 
-    if total === 0 do
+    if total < 1 do
       0.0
     else
       (translated / total) |> Float.round(0)
