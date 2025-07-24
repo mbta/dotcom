@@ -290,3 +290,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "MBTA YouTube"
 msgstr ""
+
+#: lib/dotcom_web/templates/page/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "MBTA Homepage"
+msgstr ""

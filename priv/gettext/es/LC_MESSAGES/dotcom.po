@@ -54,6 +54,9 @@ msgstr "MBTA LinkedIn"
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
 
+msgid "MBTA Homepage"
+msgstr "MBTA Página"
+
 msgid "Main Menu"
 msgstr "Menú principal"
 
