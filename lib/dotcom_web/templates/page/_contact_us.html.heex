@@ -1,28 +1,27 @@
-<% track_template() %>
 <div class="c-home-grid-section">
   <div class="c-home-grid-section-header">
     <h2>
-      Contact Us
+      {~t(Contact Us)}
     </h2>
   </div>
   <div class="c-home-grid-buttons-container">
     <%= link to: cms_static_page_path(@conn, "/customer-support"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= fa "comments", class: "c-grid-button__icon" %>
+          {fa("comments", class: "c-grid-button__icon")}
         </span>
         <span class="c-grid-button__name">
-          Send Us Feedback
+          {~t(Send Us Feedback)}
         </span>
       </div>
     <% end %>
     <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= fa "shield", class: "c-grid-button__icon" %>
+          {fa("shield", class: "c-grid-button__icon")}
         </span>
         <span class="c-grid-button__name">
-          MBTA Transit Police
+          {~t(MBTA Transit Police)}
         </span>
       </div>
     <% end %>

@@ -1,5 +1,5 @@
 defmodule DotcomWeb.Plugs.SetLocaleTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase, async: false
 
   import DotcomWeb.Plugs.SetLocale
 
@@ -7,6 +7,12 @@ defmodule DotcomWeb.Plugs.SetLocaleTest do
 
   setup %{conn: conn} do
     {:ok, conn: Plug.Test.init_test_session(conn, %{})}
+  end
+
+  # Reset locale after each test
+  setup do
+    on_exit(fn -> Gettext.put_locale(Dotcom.Gettext, "en") end)
+    :ok
   end
 
   test "sets the locale for each supported locale", %{conn: conn} do

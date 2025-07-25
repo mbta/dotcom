@@ -3,17 +3,32 @@
 msgid "Business Opportunities"
 msgstr "Oportunidades comerciales"
 
+msgid "Sign up for alert notifications"
+msgstr "Regístrese para notificaciones de alerta"
+
+msgid "Boston Visitor's Guide to The T"
+msgstr "Guía del visitante de Boston para el T"
+
+msgid "Civil Rights"
+msgstr "Civiles"
+
 msgid "Main"
 msgstr "Main"
 
 msgid "Developers"
 msgstr "Desarrolladores"
 
+msgid "Alerts"
+msgstr "Alertas"
+
 msgid "MBTA Threads"
 msgstr "MBTA Threads"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies ' Civil Rights"
+
+msgid "Accessibility"
+msgstr "Accesibilidad"
 
 msgid "Information & Support"
 msgstr "Información y apoyo"
@@ -24,8 +39,20 @@ msgstr "Para reportar un problema o emergencia con un cruce de ferrocarril, llam
 msgid "Leadership"
 msgstr "Dirección"
 
+msgid "Stations and Parking"
+msgstr "Estaciones y estacionamiento"
+
+msgid "Parking"
+msgstr "Aparcamiento"
+
 msgid "History"
 msgstr "Historia"
+
+msgid "What's Happening at the MBTA"
+msgstr "¿Qué pasa en el MBTA"
+
+msgid "Find a Location"
+msgstr "Encontrar un lugar"
 
 msgid "Transit Police"
 msgstr "Transit Police"
@@ -36,14 +63,23 @@ msgstr "Commuter Rail One-Way"
 msgid "Work With Us"
 msgstr "Trabajar con nosotros"
 
+msgid "at this time"
+msgstr "en este momento"
+
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "Informe un problema de la puerta de cruce de ferrocarril"
 
 msgid "Request Public Records"
 msgstr "Solicitud de documentos públicos"
 
+msgid "Trip Planner"
+msgstr "Trip Planner"
+
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
+
+msgid "Maps"
+msgstr "Mapas"
 
 msgid "Menu"
 msgstr "Menú"
@@ -51,11 +87,26 @@ msgstr "Menú"
 msgid "MBTA LinkedIn"
 msgstr "MBTA LinkedIn"
 
+msgid "Contact Us"
+msgstr "Contáctenos"
+
+msgid "Upcoming Public Meetings and Events"
+msgstr "Próximos Reuniones y Eventos Públicos"
+
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
 
+msgid "MBTA Homepage"
+msgstr "MBTA Página"
+
+msgid "See all service alerts"
+msgstr "Ver todas las alertas de servicio"
+
 msgid "Main Menu"
 msgstr "Menú principal"
+
+msgid "Featured MBTA Updates and Projects"
+msgstr "Destacados MBTA Actualizaciones y proyectos"
 
 msgid "Innovation Proposals"
 msgstr "Propuestas de innovación"
@@ -72,8 +123,17 @@ msgstr "Zona"
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
 
+msgid "See all public meetings and events"
+msgstr "Ver todas las reuniones y eventos públicos"
+
+msgid "alerts at this time"
+msgstr "alertas en este momento"
+
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
+
+msgid "Sustainability"
+msgstr "Sostenibilidad"
 
 msgid "Safety"
 msgstr "Seguridad"
@@ -96,6 +156,9 @@ msgstr "Pasar al contenido principal"
 msgid "Customer Support"
 msgstr "Atención al cliente"
 
+msgid "There are no high priority"
+msgstr "No hay alta prioridad"
+
 msgid "Call Us"
 msgstr "Llámanos"
 
@@ -108,11 +171,20 @@ msgstr "MBTA YouTube"
 msgid "Terms of Use"
 msgstr "Términos de uso"
 
+msgid "Important Links"
+msgstr "Enlaces importantes"
+
 msgid "Monday thru Friday"
 msgstr "Lunes a viernes"
 
+msgid "Routes With High Priority Alerts"
+msgstr "Rutas con alertas de alta prioridad"
+
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
+
+msgid "Business"
+msgstr "Negocios"
 
 msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
@@ -123,11 +195,20 @@ msgstr "Navegación"
 msgid "Search MBTA.com"
 msgstr "Buscar MBTA.com"
 
+msgid "See all press releases"
+msgstr "Ver todos los comunicados de prensa"
+
 msgid "Lost & Found"
 msgstr "Lost & Found"
 
+msgid "Station Accessibility"
+msgstr "Accesibilidad a la estación"
+
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
+
+msgid "There are no"
+msgstr "No hay"
 
 msgid "24 hours, 7 days a week"
 msgstr "24 horas, 7 días a la semana"
@@ -141,17 +222,35 @@ msgstr "711 para llamadas TTY; VRS para llamadas ASL"
 msgid "Get to Know Us"
 msgstr "Conozcanos"
 
+msgid "MBTA User Guides"
+msgstr "MBTA Guías de usuario"
+
 msgid "Performance"
 msgstr "Ejecución"
 
 msgid "Press Releases"
 msgstr "Comunicados de prensa"
 
+msgid "Routes"
+msgstr "Rutas"
+
+msgid "Bus Beginner's Guide"
+msgstr "Bus Beginner's Guide"
+
+msgid "Subway Beginner's Guide"
+msgstr "Guía del principiante"
+
+msgid "MBTA Transit Police"
+msgstr "MBTA Transit Police"
+
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
 
 msgid "Subway One-Way"
 msgstr "Subway One-Way"
+
+msgid "See all user guides"
+msgstr "Ver todas las guías de usuario"
 
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"

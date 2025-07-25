@@ -1,4 +1,3 @@
-<% track_template() %>
 <div class="m-tabbed-nav" role="navigation">
   <div class="nav m-tabbed-nav__items" role="tablist">
     <div class="m-tabbed-nav__item-container">
@@ -14,7 +13,7 @@
         <span aria-hidden="true">
           {svg("icon-map-default.svg")}
         </span>
-        <span href="/schedules" class="m-tabbed-nav__icon-text">Routes</span>
+        <span href="/schedules" class="m-tabbed-nav__icon-text">{~t(Routes)}</span>
       </a>
     </div>
     <div class="m-tabbed-nav__item-container">
@@ -30,7 +29,7 @@
         <span aria-hidden="true">
           {svg("icon-trip-planner-default.svg")}
         </span>
-        <span href="/trip-planner" class="m-tabbed-nav__icon-text">Trip Planner</span>
+        <span href="/trip-planner" class="m-tabbed-nav__icon-text">{~t(Trip Planner)}</span>
       </a>
     </div>
     <div class="m-tabbed-nav__item-container">
@@ -46,7 +45,7 @@
         <span aria-hidden="true">
           {svg("icon-alerts-default.svg")}
         </span>
-        <span href="/alerts" class="m-tabbed-nav__icon-text">Alerts</span>
+        <span href="/alerts" class="m-tabbed-nav__icon-text">{~t(Alerts)}</span>
       </a>
     </div>
   </div>

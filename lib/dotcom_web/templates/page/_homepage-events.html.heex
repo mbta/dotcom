@@ -1,0 +1,26 @@
+<%= unless Enum.empty?(@event_teasers) do %>
+  <div class="container page-section m-homepage__events">
+    <div class="m-homepage--10-col-sm-only">
+      <div class="c-standard-fares__heading">
+        <h2 class="m-homepage__header">{~t(Upcoming Public Meetings and Events)}</h2>
+        <a
+          class="c-call-to-action m-homepage__header-link"
+          href={"#{ event_path(@conn, :index) }"}
+        >
+          {~t(See all public meetings and events)}
+        </a>
+      </div>
+      <ul class="m-homepage__events-container">
+        <%= for event_teaser <- @event_teasers do %>
+          {render(DotcomWeb.EventView, "_event_teaser.html",
+            event_teaser: event_teaser,
+            check_event_ended: true,
+            conn: @conn,
+            month_number: event_teaser.date.month,
+            year: event_teaser.date.year
+          )}
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
