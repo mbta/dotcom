@@ -98,3 +98,61 @@ Alerts.Cache.Store.update(alerts, nil)
 
 now() |> Alerts.Repo.all()
 ```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Commuter Rail Current and Upcoming Service Change Alerts
+
+```elixir
+# Create an informed entity for a commuter rail route
+cr_route_ids = Routes.Repo.by_type(2) |> Enum.map(& &1.id)
+
+current_active_period = {
+  now() |> Timex.shift(hours: -4),
+  now() |> Timex.shift(hours: 8)
+}
+
+future_active_period = {
+  now() |> Timex.shift(hours: 40),
+  now() |> Timex.shift(hours: 98)
+}
+
+current_alert =
+  Alert.build(:alert,
+    active_period: [current_active_period],
+    effect: :service_change,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          route: Faker.Util.pick(cr_route_ids),
+          route_type: 2
+        )
+      ]),
+    priority: :high,
+    severity: 3
+  )
+
+future_alert =
+  Alert.build(:alert,
+    active_period: [future_active_period],
+    effect: :service_change,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          route: Faker.Util.pick(cr_route_ids),
+          route_type: 2
+        )
+      ]),
+    priority: :high,
+    severity: 3
+  )
+
+alerts = [current_alert, future_alert]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
