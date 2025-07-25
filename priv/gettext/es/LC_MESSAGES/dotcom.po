@@ -195,6 +195,9 @@ msgstr "Navegación"
 msgid "Search MBTA.com"
 msgstr "Buscar MBTA.com"
 
+msgid "See all press releases"
+msgstr "Ver todos los comunicados de prensa"
+
 msgid "Lost & Found"
 msgstr "Lost & Found"
 

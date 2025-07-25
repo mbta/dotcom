@@ -455,3 +455,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Boston Visitor's Guide to The T"
 msgstr ""
+
+#: lib/dotcom_web/templates/page/_news_and_updates.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "See all press releases"
+msgstr ""
