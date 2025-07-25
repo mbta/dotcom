@@ -21,9 +21,9 @@ defmodule DotcomWeb.AlertController do
 
   @valid_ids ~w(subway commuter-rail bus ferry access)s
 
-  def index(conn, _params) do
+  def index(conn, params) do
     conn
-    |> redirect(to: alert_path(conn, :show, "subway"))
+    |> redirect(to: alert_path(conn, :show, "subway", params))
     |> halt
   end
 
