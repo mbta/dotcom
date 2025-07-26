@@ -480,3 +480,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
 msgstr ""
+
+#: lib/dotcom_web/live/subway_alerts.ex:126
+#, elixir-autogen, elixir-format
+msgid "Station & Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/live/subway_alerts.ex:123
+#, elixir-autogen, elixir-format
+msgid "There are no other subway alerts at this time."
+msgstr ""

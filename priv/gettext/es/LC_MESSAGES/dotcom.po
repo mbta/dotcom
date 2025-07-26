@@ -21,6 +21,9 @@ msgstr "T-Alerts"
 msgid "Developers"
 msgstr "Desarrolladores"
 
+msgid "Station & Service Alerts"
+msgstr "Estación de servicio Alertas"
+
 msgid "Alerts"
 msgstr "Alertas"
 
@@ -74,6 +77,9 @@ msgstr "en este momento"
 
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "Informe un problema de la puerta de cruce de ferrocarril"
+
+msgid "There are no other subway alerts at this time."
+msgstr "No hay otras alertas del metro en este momento."
 
 msgid "Request Public Records"
 msgstr "Solicitud de documentos públicos"

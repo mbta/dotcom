@@ -120,10 +120,10 @@ defmodule DotcomWeb.Live.SubwayAlerts do
         <section id="station_and_service">
           <.alerts_page_content_layout
             {assigns}
-            empty_message="There are no other subway alerts at this time."
+            empty_message={~t"There are no other subway alerts at this time."}
           >
             <:heading>
-              <h2 class="mt-0">Station & Service Alerts</h2>
+              <h2 class="mt-0">{~t"Station & Service Alerts"}</h2>
             </:heading>
             <:alert_header_icon :let={route_or_stop}>
               <.subway_route_pill route_ids={[route_or_stop.id]} />
