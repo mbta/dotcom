@@ -3,7 +3,7 @@ defmodule Alerts.Repo.Behaviour do
   Behaviour for the Alerts repo.
   """
 
-  alias Alerts.Alert
+  alias Alerts.{Alert, Banner}
 
   @doc """
   Return all alerts applicable to the given datetime.
