@@ -26,6 +26,8 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Alerts.Alert.build_list(20, :alert)
     end)
 
+    stub(Alerts.Repo.Mock, :banner, fn -> nil end)
+
     stub(Alerts.Repo.Mock, :by_route_ids, fn route_ids, _date ->
       Enum.map(route_ids, &Factories.Alerts.Alert.build(:alert_for_route, %{route_id: &1}))
     end)
