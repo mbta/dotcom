@@ -110,6 +110,20 @@ defmodule DotcomWeb do
       quote do
         use Phoenix.LiveView
 
+        import DotcomWeb.Router.Helpers,
+          except: [
+            news_entry_path: 2,
+            news_entry_path: 3,
+            news_entry_path: 4,
+            event_path: 2,
+            event_path: 3,
+            event_path: 4,
+            project_path: 2,
+            project_path: 3,
+            project_update_path: 3,
+            project_update_path: 4
+          ]
+
         alias Util.Breadcrumb
 
         unquote(view_helpers())
@@ -118,6 +132,20 @@ defmodule DotcomWeb do
       quote do
         use Phoenix.LiveView
         on_mount DotcomWeb.Hooks.RestoreLocale
+
+        import DotcomWeb.Router.Helpers,
+          except: [
+            news_entry_path: 2,
+            news_entry_path: 3,
+            news_entry_path: 4,
+            event_path: 2,
+            event_path: 3,
+            event_path: 4,
+            project_path: 2,
+            project_path: 3,
+            project_update_path: 3,
+            project_update_path: 4
+          ]
 
         alias Util.Breadcrumb
 

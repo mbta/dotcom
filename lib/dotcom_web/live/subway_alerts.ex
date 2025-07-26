@@ -10,7 +10,6 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
   import DotcomWeb.Components.TAlerts, only: [t_alerts: 1]
-  import DotcomWeb.Router.Helpers, only: [live_path: 3]
 
   alias Alerts.InformedEntity
   alias Alerts.Match
