@@ -460,3 +460,23 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "See all press releases"
 msgstr ""
+
+#: lib/dotcom_web/components/t_alerts.ex:21
+#, elixir-autogen, elixir-format
+msgid "Create an Account"
+msgstr ""
+
+#: lib/dotcom_web/components/t_alerts.ex:11
+#, elixir-autogen, elixir-format
+msgid "Get T-Alerts"
+msgstr ""
+
+#: lib/dotcom_web/components/t_alerts.ex:27
+#, elixir-autogen, elixir-format
+msgid "Sign in"
+msgstr ""
+
+#: lib/dotcom_web/components/t_alerts.ex:15
+#, elixir-autogen, elixir-format
+msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
+msgstr ""
