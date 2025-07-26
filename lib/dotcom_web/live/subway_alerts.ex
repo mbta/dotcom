@@ -10,6 +10,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
   import DotcomWeb.Components.TAlerts, only: [t_alerts: 1]
+  import DotcomWeb.Router.Helpers, only: [live_path: 3]
 
   alias Alerts.InformedEntity
   alias Alerts.Match
@@ -41,35 +42,13 @@ defmodule DotcomWeb.Live.SubwayAlerts do
      |> assign_alert_groups()}
   end
 
-  def handle_params(%{"alerts_timeframe" => _} = params, uri, socket) do
-    new_query =
-      params
-      |> Map.delete("alerts_timeframe")
-      |> URI.encode_query()
-
-    new_path =
-      uri
-      |> URI.parse()
-      |> set_query(new_query)
-      |> to_path()
-
+  def handle_params(%{"alerts_timeframe" => _} = params, _uri, socket) do
+    new_path = socket |> live_path(__MODULE__, params |> Map.drop(["alerts_timeframe"]))
     {:noreply, socket |> push_patch(to: new_path)}
   end
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
-  end
-
-  defp set_query(uri, new_query) do
-    %URI{uri | query: new_query}
-  end
-
-  defp to_path(%URI{path: path, query: ""}) do
-    path
-  end
-
-  defp to_path(%URI{path: path, query: query}) do
-    "#{path}?#{query}"
   end
 
   defp assign_alert_groups(%{assigns: %{alerts: alerts, routes: routes}} = socket) do
