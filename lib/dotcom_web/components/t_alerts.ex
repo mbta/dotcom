@@ -12,19 +12,19 @@ defmodule DotcomWeb.Components.TAlerts do
       <div class="m-alerts-ad__content">
         <div class="m-alerts-ad__buttons">
           <p>
-            {~t(Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them.)}
+            {~t"Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."}
           </p>
           <a
             href="https://alerts.mbta.com/account/new"
             class="m-alerts-ad__link m-alerts-ad__link--create"
           >
-            {~t(Create an Account)}
+            {~t"Create an Account"}
           </a>
           <a
             href="https://alerts.mbta.com/login/new"
             class="m-alerts-ad__link m-alerts-ad__link--login"
           >
-            {~t(Sign in)}
+            {~t"Sign in"}
           </a>
         </div>
         <div class="m-alerts-ad__image">
