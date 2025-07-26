@@ -6,11 +6,11 @@ defmodule DotcomWeb.Live.SubwayAlerts do
 
   use DotcomWeb, :live_view
 
+  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
-  import DotcomWeb.Components.TAlerts, only: [t_alerts: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
+  import DotcomWeb.Components.TAlerts, only: [t_alerts: 1]
 
-  alias Alerts.Alert
   alias Alerts.InformedEntity
   alias Alerts.Match
   alias Dotcom.Alerts.Subway.Disruptions
@@ -85,7 +85,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   end
 
   defp assign_alerts(%{assigns: %{date_time: date_time}} = socket) do
-    alerts = @alerts_repo.all(date_time) |> Enum.reject(&Dotcom.Alerts.service_impacting_alert?/1)
+    alerts = @alerts_repo.all(date_time) |> Enum.reject(&service_impacting_alert?/1)
 
     socket |> assign(:alerts, alerts)
   end
