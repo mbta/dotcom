@@ -14,6 +14,7 @@ defmodule Dotcom.TripPlan.Alerts do
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, LegTime}
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @irrelevant_effects ~w[bike_issue facility_issue parking_closure parking_issue summary]a
 
   def by_mode_and_stops(alerts, leg) when agency_name?(leg, "MBTA") do
     {route_alerts, stop_alerts} =
@@ -80,7 +81,7 @@ defmodule Dotcom.TripPlan.Alerts do
   #  - parking issue
   defp reject_irrelevant_alert(alert, accessible?) do
     reject_accessibility_alert(alert, accessible?) ||
-      Enum.member?(~w[bike_issue facility_issue parking_closure parking_issue]a, alert.effect)
+      Enum.member?(@irrelevant_effects, alert.effect)
   end
 
   # Reject an alert that is not relevant to a trip plan *unless* we want an accessible trip:
