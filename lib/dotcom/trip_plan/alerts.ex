@@ -130,14 +130,9 @@ defmodule Dotcom.TripPlan.Alerts do
         trip.direction_id
       end
 
-    [
-      %InformedEntity{
-        route_type: route_type,
-        route: route_id,
-        trip: trip_id,
-        direction_id: direction_id
-      }
-    ]
+    [route_type: route_type, route: route_id, trip: trip_id, direction_id: direction_id]
+    |> InformedEntity.from_keywords()
+    |> List.wrap()
   end
 
   defp mode_entities(_) do
