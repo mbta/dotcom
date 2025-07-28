@@ -15,17 +15,11 @@ defmodule Dotcom.TripPlan.Alerts do
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @irrelevant_effects ~w[bike_issue facility_issue parking_closure parking_issue summary]a
+  @stop_effects ~w[dock_closure dock_issue elevator_closure escalator_closure station_closure station_issue stop_moved stop_closure stop_shoveling]a
 
   def by_mode_and_stops(alerts, leg) when agency_name?(leg, "MBTA") do
-    {route_alerts, stop_alerts} =
-      alerts
-      |> Enum.split_with(fn alert ->
-        alert.informed_entity.entities
-        |> Enum.all?(fn
-          %{stop: nil} -> true
-          _ -> false
-        end)
-      end)
+    {stop_alerts, route_alerts} =
+      alerts |> Enum.split_with(&(&1.effect in @stop_effects))
 
     from_stop_id = mbta_id(leg.from.stop)
     to_stop_id = mbta_id(leg.to.stop)
@@ -139,4 +133,6 @@ defmodule Dotcom.TripPlan.Alerts do
   defp mode_entities(_) do
     []
   end
+
+  def stop_effects, do: @stop_effects
 end

@@ -25,21 +25,27 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
       itinerary = build(:itinerary, legs: [leg])
 
+      stop_effects = Dotcom.TripPlan.Alerts.stop_effects()
+      other_effects = Alerts.Alert.all_types() -- stop_effects
+
       route_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
+          effect: Faker.Util.pick(other_effects),
           informed_entity: [%InformedEntity{route: route_id}]
         )
 
       from_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
+          effect: Faker.Util.pick(stop_effects),
           informed_entity: [%InformedEntity{stop: from_stop_id}]
         )
 
       to_alert =
         Alert.new(
           active_period: [valid_active_period(itinerary)],
+          effect: Faker.Util.pick(stop_effects),
           informed_entity: [%InformedEntity{stop: to_stop_id}]
         )
 
