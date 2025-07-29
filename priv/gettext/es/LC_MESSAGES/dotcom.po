@@ -57,6 +57,9 @@ msgstr "Encontrar un lugar"
 msgid "Transit Police"
 msgstr "Transit Police"
 
+msgid "More from"
+msgstr "Más desde"
+
 msgid "Commuter Rail One-Way"
 msgstr "Commuter Rail One-Way"
 

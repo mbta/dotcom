@@ -460,3 +460,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "See all press releases"
 msgstr ""
+
+#: lib/dotcom_web/templates/cms/_sidebar_left.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "More from"
+msgstr ""
