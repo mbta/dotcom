@@ -1,22 +1,21 @@
-<% track_template() %>
 <% label = BannerAlert.human_label(@alert) %>
 <div tabindex="0" class="c-alert-item c-alert-item--system">
   <div class="c-alert-item__icon">
-    <%= @alert |> BannerAlert.icon() |> alert_icon() %>
+    {@alert |> BannerAlert.icon() |> alert_icon()}
   </div>
   <div class="c-alert-item__top">
     <div class="c-alert-item__top-text-container">
       <div class="c-alert-item__effect">
-        <%= "#{BannerAlert.human_effect(@alert)} " %>
-        <%= unless label == "" do
+        {"#{BannerAlert.human_effect(@alert)} "}
+        {unless label == "" do
           content_tag(:span, [label], class: BannerAlert.label_class(@alert))
-        end %>
+        end}
       </div>
       <div class="c-alert-item__content">
-        <%= replace_urls_with_links(BannerAlert.header(@alert)) %>
+        {replace_urls_with_links(BannerAlert.header(@alert))}
         <%= if @alert.url != nil && @alert.url != "" && @alert.url_parsed_out_of_title == false do %>
           <span>&nbsp;</span>
-          <%= replace_urls_with_links(@alert.url) %>
+          {replace_urls_with_links(@alert.url)}
         <% end %>
       </div>
     </div>

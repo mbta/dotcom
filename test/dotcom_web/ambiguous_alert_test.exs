@@ -75,13 +75,15 @@ defmodule DotcomWeb.AmbiguousAlertTest do
 
   describe "time_range/1" do
     test "for Alerts.Alert", %{alert: alert} do
-      time_range_div = time_range(alert) |> Phoenix.HTML.safe_to_string()
+      time_range_div = time_range(alert) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
       assert time_range_div =~ ~s(<div class=\"u-small-caps)
       assert time_range_div =~ ~s(<time datetime=\"2023-04-05T01:09:08Z\">Apr 5 2023 01:09</time>)
     end
 
     test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
-      time_range_div = time_range(historical_alert) |> Phoenix.HTML.safe_to_string()
+      time_range_div =
+        time_range(historical_alert) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
+
       assert time_range_div =~ ~s(<div class=\"u-small-caps)
       assert time_range_div =~ ~s(<time datetime=\"2023-04-05T01:09:08Z\">Apr 5 2023 01:09</time>)
     end
@@ -90,14 +92,22 @@ defmodule DotcomWeb.AmbiguousAlertTest do
   describe "alert_item/2" do
     test "for Alerts.Alert", %{alert: alert} do
       conn = %Plug.Conn{assigns: %{date_time: @start_datetime}}
-      alert_item_html = alert_item(alert, conn) |> Phoenix.HTML.safe_to_string()
+
+      alert_item_html =
+        alert_item(alert, conn) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
+
       assert alert_item_html =~ ~s(class=\"c-alert-item)
       assert alert_item_html =~ ~s(<div class=\"c-alert-item__icon\">)
     end
 
     test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
       conn = %Plug.Conn{assigns: %{date_time: @start_datetime}}
-      alert_item_html = alert_item(historical_alert, conn) |> Phoenix.HTML.safe_to_string()
+
+      alert_item_html =
+        alert_item(historical_alert, conn)
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert alert_item_html =~ ~s(class=\"c-alert-item)
       assert alert_item_html =~ ~s(<div class=\"c-alert-item__icon\">)
     end

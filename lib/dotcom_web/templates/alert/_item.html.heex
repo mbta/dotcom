@@ -1,0 +1,64 @@
+<% label = Alerts.Alert.human_label(@alert) %>
+<% alert_icon_type = Alerts.Alert.icon(@alert) %>
+<% description? = not is_nil(@alert.description) %>
+<% description_class = if description?, do: " js-toggle-alert c-alert-item--expandable", else: "" %>
+<li
+  tabindex="0"
+  class={"c-alert-item c-alert-item--#{@alert.priority}" <> description_class}
+  aria-expanded={description?}
+  role={if description?, do: "button", else: ""}
+>
+  <div class="c-alert-item__icon">
+    {alert_icon(alert_icon_type)}
+  </div>
+  <div class="c-alert-item__top" data-test={"alert_id:#{ @alert.id }"}>
+    <div class="c-alert-item__top-text-container">
+      <div class="c-alert-item__effect">
+        <% affected_stations = Dotcom.Alerts.affected_stations(@alert) %>
+        <%= if Kernel.length(affected_stations) === 1 do %>
+          {affected_stations |> List.first() |> Map.get(:name, "")}
+        <% end %>
+        {"#{effect_name(@alert)} "}
+        {unless label == "" do
+          content_tag(:span, [label], class: alert_label_class(@alert))
+        end}
+      </div>
+      <div class="c-alert-item__content">
+        {replace_urls_with_links(Dotcom.TimetableBlocking.strip(@alert.header))}
+        <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
+          <%= if Dotcom.TimetableBlocking.pdf?(@alert) do %>
+            {link("View PDF Timetable", to: @alert.url)}
+          <% else %>
+            {replace_urls_with_links(@alert.url)}
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <%= if @alert.description do %>
+      <div class="c-alert-item__top-caret-container">
+        {fa("angle-up", class: "c-alert-item__caret--up")}
+        {fa("angle-down", class: "c-alert-item__caret--down")}
+      </div>
+    <% end %>
+  </div>
+  <%= if @alert.description do %>
+    <div class={"c-alert-item__bottom c-alert-item__bottom--#{ @alert.priority }"}>
+      <%= if Map.get(@alert, :image) do %>
+        <a href={"#{ @alert.image }"} target="_blank">
+          <img
+            src={"#{ @alert.image }"}
+            alt={"#{ @alert.image_alternative_text }"}
+            class="u-w-100"
+          />
+        </a>
+      <% end %>
+      <div class="c-alert-item__description">
+        {format_alert_description(@alert.description)}
+
+        <div class="c-alert-item__updated">
+          {alert_updated(@alert, @date_time)}
+        </div>
+      </div>
+    </div>
+  <% end %>
+</li>

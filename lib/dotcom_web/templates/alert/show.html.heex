@@ -1,4 +1,3 @@
-<% track_template() %>
 <.alerts_layout mode={@id}>
   <:sidebar_top :if={@id != :subway}>
     {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
@@ -13,10 +12,10 @@
     <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
     <.alerts_page_content_layout
       {assigns}
-      empty_message={"There are no other #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+      empty_message={~t(There are no other) <>  " #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
     >
       <:heading>
-        <h2 class="mt-8">Station & Service Alerts</h2>
+        <h2 class="mt-8">{~t(Station & Service Alerts)}</h2>
       </:heading>
       <:alert_header_icon>
         <MbtaMetro.Components.SystemIcons.mode_icon mode="commuter-rail" />
@@ -32,10 +31,10 @@
     </section>
     <.alerts_page_content_layout
       {assigns}
-      empty_message={"There are no other #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+      empty_message={~t(There are no other) <> " #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
     >
       <:heading>
-        <h2 class="mt-0">Station & Service Alerts</h2>
+        <h2 class="mt-0">{~t(Station & Service Alerts)}</h2>
       </:heading>
       <:alert_header_icon :let={route_or_stop}>
         <.subway_route_pill route_ids={[route_or_stop.id]} />
@@ -45,10 +44,10 @@
   <:main_section :if={@id != :commuter_rail && @id != :subway}>
     <.alerts_page_content_layout
       {assigns}
-      empty_message={"There are no #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} alerts at this time."}
+      empty_message={~t(There are no) <> " #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
     >
       <:heading>
-        <h2 class="sr-only">All Alerts</h2>
+        <h2 class="sr-only">{~t(All Alerts)}</h2>
       </:heading>
       <:alert_header_icon :let={route_or_stop}>
         <.route_icon :if={show_mode_icon?(route_or_stop)} route={route_or_stop} />
