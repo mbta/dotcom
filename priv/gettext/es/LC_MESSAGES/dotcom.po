@@ -63,11 +63,17 @@ msgstr "Commuter Rail One-Way"
 msgid "Work With Us"
 msgstr "Trabajar con nosotros"
 
+msgid "with"
+msgstr "con"
+
 msgid "at this time"
 msgstr "en este momento"
 
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "Informe un problema de la puerta de cruce de ferrocarril"
+
+msgid "Add"
+msgstr "Añadir"
 
 msgid "Request Public Records"
 msgstr "Solicitud de documentos públicos"
@@ -123,11 +129,17 @@ msgstr "Zona"
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
 
+msgid "Enter an origin location"
+msgstr "Ingrese una ubicación de origen"
+
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
 
 msgid "alerts at this time"
 msgstr "alertas en este momento"
+
+msgid "Get trip suggestions"
+msgstr "Obtener sugerencias de viaje"
 
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
@@ -186,6 +198,9 @@ msgstr "Política de privacidad"
 msgid "Business"
 msgstr "Negocios"
 
+msgid ", cash, or "
+msgstr ", efectivo o"
+
 msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
@@ -194,6 +209,9 @@ msgstr "Navegación"
 
 msgid "Search MBTA.com"
 msgstr "Buscar MBTA.com"
+
+msgid "Enter a destination location"
+msgstr "Introduzca una ubicación de destino"
 
 msgid "See all press releases"
 msgstr "Ver todos los comunicados de prensa"
@@ -216,8 +234,17 @@ msgstr "24 horas, 7 días a la semana"
 msgid "Careers"
 msgstr "Carreras"
 
+msgid "Add event to calendar"
+msgstr "Agregar evento al calendario"
+
+msgid "Ended"
+msgstr "Ended"
+
 msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr "711 para llamadas TTY; VRS para llamadas ASL"
+
+msgid "Plan a trip"
+msgstr "Planifique un viaje"
 
 msgid "Get to Know Us"
 msgstr "Conozcanos"
@@ -227,6 +254,9 @@ msgstr "MBTA Guías de usuario"
 
 msgid "Performance"
 msgstr "Ejecución"
+
+msgid " or "
+msgstr "o"
 
 msgid "Press Releases"
 msgstr "Comunicados de prensa"
