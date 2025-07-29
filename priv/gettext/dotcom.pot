@@ -321,6 +321,7 @@ msgstr ""
 msgid "Station Accessibility"
 msgstr ""
 
+#: lib/dotcom_web/templates/alert/show.html.heex:47
 #: lib/dotcom_web/templates/page/_alerts.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "There are no"
@@ -331,6 +332,9 @@ msgstr ""
 msgid "There are no high priority"
 msgstr ""
 
+#: lib/dotcom_web/templates/alert/show.html.heex:15
+#: lib/dotcom_web/templates/alert/show.html.heex:34
+#: lib/dotcom_web/templates/alert/show.html.heex:47
 #: lib/dotcom_web/templates/page/_alerts.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
@@ -527,4 +531,21 @@ msgstr ""
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:56
 #, elixir-autogen, elixir-format
 msgid "with"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/show.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "All Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/show.html.heex:18
+#: lib/dotcom_web/templates/alert/show.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Station & Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/show.html.heex:15
+#: lib/dotcom_web/templates/alert/show.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "There are no other"
 msgstr ""

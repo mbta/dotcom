@@ -6,6 +6,9 @@ msgstr "Oportunidades comerciales"
 msgid "Sign up for alert notifications"
 msgstr "Regístrese para notificaciones de alerta"
 
+msgid "All Alerts"
+msgstr "Todas las Alertas"
+
 msgid "Boston Visitor's Guide to The T"
 msgstr "Guía del visitante de Boston para el T"
 
@@ -17,6 +20,9 @@ msgstr "Main"
 
 msgid "Developers"
 msgstr "Desarrolladores"
+
+msgid "Station & Service Alerts"
+msgstr "Estación de servicio Alertas"
 
 msgid "Alerts"
 msgstr "Alertas"
@@ -188,6 +194,9 @@ msgstr "Tarifas más populares"
 
 msgid "MBTA YouTube"
 msgstr "MBTA YouTube"
+
+msgid "There are no other"
+msgstr "No hay otro"
 
 msgid "Terms of Use"
 msgstr "Términos de uso"
