@@ -4,7 +4,6 @@ defmodule DotcomWeb.PageViewTest do
   alias CMS.Field.{Image, Link}
   alias CMS.Partial.{Banner, Teaser}
   alias DotcomWeb.PageView
-  alias Phoenix.HTML
   alias Plug.Conn
 
   describe "banners" do
@@ -45,7 +44,12 @@ defmodule DotcomWeb.PageViewTest do
     test "renders shortcut icons" do
       icons = PageView.shortcut_icons()
       assert length(icons) == 5
-      icon = List.first(icons) |> HTML.safe_to_string()
+
+      icon =
+        List.first(icons)
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert icon =~ "<svg"
     end
   end
@@ -70,7 +74,8 @@ defmodule DotcomWeb.PageViewTest do
         conn
         |> assign(:news, entries)
         |> PageView.render_news_entries()
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       assert document |> Floki.find(".c-news-entry") |> Enum.count() == 6
@@ -117,7 +122,10 @@ defmodule DotcomWeb.PageViewTest do
         }
       ]
 
-      rendered = PageView.alerts(alerts) |> HTML.safe_to_string()
+      rendered =
+        PageView.alerts(alerts)
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       # Section Headers
       assert rendered =~ "Routes With High Priority Alerts"

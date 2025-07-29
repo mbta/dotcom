@@ -1,22 +1,25 @@
-<% track_template() %>
 <%= if @teaser.image && :image in @fields do %>
-  <img class="c-content-teaser__image" src="<%= @teaser.image.url %>" alt="<%= @teaser.image.alt %>" />
+  <img
+    class="c-content-teaser__image"
+    src={"#{ @teaser.image.url }"}
+    alt={"#{ @teaser.image.alt }"}
+  />
 <% end %>
 
 <%= if @teaser.topic && :topic in @fields do %>
   <div class="c-content-teaser__topic u-small-caps">
-    <%= teaser_topic(@teaser) %>
+    {teaser_topic(@teaser)}
   </div>
 <% end %>
 
 <%= if @teaser.title && :title in @fields do %>
   <span class="h3 c-content-teaser__title" aria-hidden="true">
-    <%= @teaser.title %>
+    {@teaser.title}
   </span>
 <% end %>
 
 <%= if @teaser.text && :summary in @fields do %>
   <div class="c-content-teaser__text">
-    <%= @teaser.text %>
+    {@teaser.text}
   </div>
 <% end %>
