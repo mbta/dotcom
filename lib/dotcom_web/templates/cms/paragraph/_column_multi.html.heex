@@ -1,26 +1,21 @@
-<% track_template() %>
-<%
-  has_cards? = ColumnMulti.includes?(@content, :fares) ||
-               ColumnMulti.includes?(@content, :links)
-%>
+<% has_cards? =
+  ColumnMulti.includes?(@content, :fares) ||
+    ColumnMulti.includes?(@content, :links) %>
 
 <%= if @content.header do %>
   <div class="c-multi-column__header">
-    <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+    {ContentRewriter.rewrite(@content.header.text, @conn)}
   </div>
 <% end %>
-
 
 <%= if Enum.any?(@content.columns) do %>
   <%= extend_width_if has_cards?, :cards do %>
     <div class="c-multi-column__row row">
       <%= for column <- @content.columns do %>
-        <div class="c-multi-column__column col-sm-6 col-md-<%= grid(@content) %>">
-
+        <div class={"c-multi-column__column col-sm-6 col-md-#{ grid(@content) }"}>
           <%= for paragraph <- column.paragraphs do %>
-            <%= render_paragraph_content(paragraph, @conn) %>
+            {render_paragraph_content(paragraph, @conn)}
           <% end %>
-
         </div>
       <% end %>
     </div>

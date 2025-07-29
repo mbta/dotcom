@@ -1,0 +1,124 @@
+<% fare = fare_from_token(@fare_card.fare_token)
+
+mode =
+  case fare do
+    %Fares.Summary{} -> List.first(fare.modes)
+    _ -> fare.mode
+  end
+
+name =
+  case fare do
+    %Fares.Summary{} -> fare.name
+    _ -> Fares.Format.name(fare)
+  end
+
+duration_fn = fn f -> f |> Map.put(:media, []) |> Fares.Format.duration() end
+
+duration =
+  case fare do
+    %Fares.Summary{} -> []
+    _ -> [" ", content_tag(:span, duration_fn.(fare), class: "c-fare-card__duration")]
+  end
+
+price =
+  case fare do
+    %Fares.Summary{} -> Fares.Summary.price_range(fare)
+    _ -> Fares.Format.price(fare)
+  end
+
+mticket_html = content_tag(:span, "mTicket App", class: "no-wrap")
+
+media =
+  case fare do
+    %Fares.Summary{duration: :weekend} ->
+      [Fares.Format.media(:charlie_ticket), ~t(, cash, or ), mticket_html]
+
+    %Fares.Summary{modes: [:ferry]} ->
+      [mticket_html, ~t( or ), Fares.Format.media(:paper_ferry)]
+
+    %Fares.Summary{} ->
+      [Fares.Format.media(:charlie_ticket), ~t( or ), mticket_html]
+
+    _ ->
+      Fares.Format.media(fare)
+  end
+
+link_class =
+  case @fare_card.link do
+    nil -> "static"
+    _ -> "linked"
+  end
+
+card_classes =
+  ["c-fare-card", "single", CSSHelpers.atom_to_class(mode), link_class]
+  |> Enum.intersperse(" c-fare-card--")
+  |> Enum.join("")
+
+card_classes =
+  case @fare_card.link do
+    nil -> card_classes
+    _ -> "u-linked-card #{card_classes}"
+  end
+
+card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
+
+<%= content_tag :div, class: card_classes do %>
+  <div class="c-fare-card__icon">
+    {mode_icon(mode, :default)}
+  </div>
+
+  <h3 class="c-fare-card__name">
+    <%= if @fare_card.link do %>
+      {link(card_title, to: @fare_card.link.url, class: "u-linked-card__primary-link")}
+    <% else %>
+      {card_title}
+    <% end %>
+  </h3>
+
+  <div class="c-fare-card__fare h2">
+    {price}
+  </div>
+
+  <%= if @fare_card.show_media do %>
+    <p class="c-fare-card__media">
+      {~t(with)} {media}
+    </p>
+  <% end %>
+
+  <%= if @fare_card.note do %>
+    <div class="c-fare-card__note">
+      {render_paragraph_content(@fare_card.note, @conn)}
+    </div>
+  <% end %>
+<% end %>
+
+<%= content_tag :div, class: "grid-container" do %>
+  <div class="c-fares-grid">
+    <div>
+      {mode_icon(mode, :default)}
+    </div>
+    <div>
+      <div class="c-fare-name-link">
+        <%= if @fare_card.link do %>
+          {link(card_title, to: @fare_card.link.url, class: "c-fare-name-link")}
+        <% else %>
+          {card_title}
+        <% end %>
+      </div>
+      <%= if @fare_card.show_media do %>
+        <p class="c-fare-card__media">
+          {~t(with)} {media}
+        </p>
+      <% end %>
+
+      <%= if @fare_card.note do %>
+        <div class="c-fare-card__note">
+          {render_paragraph_content(@fare_card.note, @conn)}
+        </div>
+      <% end %>
+    </div>
+    <div class="c-fares-price">
+      {price}
+    </div>
+  </div>
+<% end %>
