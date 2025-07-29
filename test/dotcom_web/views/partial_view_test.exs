@@ -40,7 +40,8 @@ defmodule DotcomWeb.PartialViewTest do
       rendered =
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "</svg>"
       assert rendered =~ "c-svg__icon-mode-subway"
@@ -51,7 +52,8 @@ defmodule DotcomWeb.PartialViewTest do
       rendered =
         %SvgIconWithCircle{icon: :subway, size: :small}
         |> svg_icon_with_circle()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-svg__icon-mode-subway-small"
     end
@@ -71,7 +73,8 @@ defmodule DotcomWeb.PartialViewTest do
       document =
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       assert Floki.attribute(document, "data-toggle") == ["tooltip"]
@@ -81,7 +84,8 @@ defmodule DotcomWeb.PartialViewTest do
       document =
         %SvgIconWithCircle{icon: :subway, show_tooltip?: false}
         |> svg_icon_with_circle()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       assert document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
@@ -96,9 +100,7 @@ defmodule DotcomWeb.PartialViewTest do
       ]
 
       rendered =
-        teasers
-        |> render_teasers(conn)
-        |> safe_to_string()
+        teasers |> render_teasers(conn) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
 
       assert rendered =~ "c-teaser-list"
       assert rendered =~ "c-content-teaser"
@@ -108,9 +110,7 @@ defmodule DotcomWeb.PartialViewTest do
 
     test "if no teasers are returned, renders empty HTML", %{conn: conn} do
       rendered =
-        []
-        |> render_teasers(conn)
-        |> safe_to_string()
+        [] |> render_teasers(conn) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
 
       assert rendered == ""
     end
@@ -130,9 +130,7 @@ defmodule DotcomWeb.PartialViewTest do
       }
 
       rendered =
-        news
-        |> news_entry()
-        |> safe_to_string()
+        news |> news_entry() |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
 
       assert rendered =~ "title"
       assert rendered =~ "Nov"
@@ -147,7 +145,8 @@ defmodule DotcomWeb.PartialViewTest do
       rendered =
         "/paragraphs/custom-html/projects-index"
         |> PartialView.paragraph(conn)
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<p>The T is evolving every day."
       assert rendered =~ "c-paragraph--custom-html"
@@ -176,7 +175,8 @@ defmodule DotcomWeb.PartialViewTest do
           selected: "b",
           tab_class: "some-tab-class"
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       expected =
         "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"

@@ -1,18 +1,17 @@
-<% track_template() %>
 <%= if @teaser.date do %>
   <div class="c-content-teaser__date u-small-caps">
-    <%= display_date(@teaser) %>
+    {display_date(@teaser)}
   </div>
 <% end %>
 
 <%= if @teaser.title do %>
   <div class="c-content-teaser__title">
-    <%= @teaser.title %>
+    {@teaser.title}
   </div>
 <% end %>
 
 <%= if @teaser.text && :summary in @fields do %>
   <div class="c-content-teaser__text">
-    <%= @teaser.text %>
+    {@teaser.text}
   </div>
 <% end %>
