@@ -1,9 +1,9 @@
-<% track_template() %>
 <%= if @content.header do %>
-  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+  {ContentRewriter.rewrite(@content.header.text, @conn)}
 <% end %>
 
-<%= DotcomWeb.PartialView.render("_accordion_ui.html",
+{DotcomWeb.PartialView.render(
+  "_accordion_ui.html",
   Map.merge(assigns, %{
     multiselectable: false,
     parent_view: DotcomWeb.CMS.ParagraphView,
@@ -11,4 +11,5 @@
     sections: @content.sections |> Enum.map(fn section -> Map.from_struct(section) end),
     sticky: true,
     conn: @conn
-  })) %>
+  })
+)}

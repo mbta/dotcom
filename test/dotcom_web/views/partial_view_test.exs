@@ -147,7 +147,8 @@ defmodule DotcomWeb.PartialViewTest do
       rendered =
         "/paragraphs/custom-html/projects-index"
         |> PartialView.paragraph(conn)
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<p>The T is evolving every day."
       assert rendered =~ "c-paragraph--custom-html"
