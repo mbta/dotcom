@@ -1,6 +1,5 @@
-<% track_template() %>
 <%= if @content.header do %>
-  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+  {ContentRewriter.rewrite(@content.header.text, @conn)}
 <% end %>
 
 <%= if Enum.any?(@content.descriptions) do %>
@@ -9,10 +8,10 @@
       <%= for description <- @content.descriptions do %>
         <div role="listitem" class="dl--item">
           <dt class="dt">
-            <%= ContentRewriter.rewrite(description.term, @conn) %>
+            {ContentRewriter.rewrite(description.term, @conn)}
           </dt>
           <dd class="dd">
-            <%= ContentRewriter.rewrite(description.details, @conn) %>
+            {ContentRewriter.rewrite(description.details, @conn)}
           </dd>
         </div>
       <% end %>

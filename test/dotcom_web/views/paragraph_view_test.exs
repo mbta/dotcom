@@ -125,7 +125,10 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       }
 
       rendered_alone =
-        alone |> render_paragraph(conn) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
+        alone
+        |> render_paragraph(conn)
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_in_mc =
         alone

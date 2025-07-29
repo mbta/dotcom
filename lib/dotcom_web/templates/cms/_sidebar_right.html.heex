@@ -1,0 +1,12 @@
+<% right_rail_paragraphs =
+  @page.paragraphs
+  |> Enum.filter(&Paragraph.right_rail?(&1))
+  ## Strip right-rail flag (any paragraph here is right rail by context).
+  ## This also prevents `u-full-bleed` class from being applied to right rail paragraphs.
+  |> Enum.map(&%{&1 | right_rail: false}) %>
+
+<div class="c-cms__sidebar">
+  <%= for paragraph <- right_rail_paragraphs do %>
+    {DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn)}
+  <% end %>
+</div>

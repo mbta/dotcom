@@ -4,7 +4,6 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
   import DotcomWeb.CMS.PageView
 
   alias CMS.Page.Project
-  alias Phoenix.HTML
   alias Plug.Conn
 
   @conn %Conn{
@@ -20,7 +19,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         @project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute output =~ "project-contact"
     end
@@ -31,7 +31,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "project-contact"
     end
@@ -42,7 +43,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "project-contact"
     end
@@ -53,7 +55,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "project-contact"
     end
@@ -64,7 +67,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute output =~ "contact-element-contact"
     end
@@ -75,7 +79,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute output =~ "contact-element-email"
     end
@@ -86,7 +91,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute output =~ "contact-element-phone"
     end
@@ -97,7 +103,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "contact-element-contact"
     end
@@ -108,7 +115,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "contact-element-email"
     end
@@ -119,7 +127,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(@conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "contact-element-phone"
     end
@@ -145,7 +154,8 @@ defmodule DotcomWeb.CMS.Page.ProjectContactTest do
       output =
         project
         |> render_page_content(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert output =~ "contact-element-email"
       assert output =~ "Related Service Alerts"

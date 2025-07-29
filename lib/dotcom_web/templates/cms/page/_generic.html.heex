@@ -1,0 +1,12 @@
+<div class="page-section">
+  {Dotcom.ContentRewriter.rewrite(@page.body, @conn)}
+
+  {DotcomWeb.AlertView.render("group.html",
+    alerts: Map.get(@conn.assigns, :alerts, []),
+    date_time: Map.get(@conn.assigns, :date_time, Timex.now())
+  )}
+
+  <%= for paragraph <- @page.paragraphs do %>
+    {render_paragraph(paragraph, @conn)}
+  <% end %>
+</div>
