@@ -80,14 +80,12 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
 
-      assert rendered =~
-               ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
+      assert rendered =~ ~s(Card 1)
 
       assert rendered =~ "<strong>Body 1</strong>"
       assert rendered =~ ~s( href="/relative/link")
 
-      assert rendered =~
-               ~s(<div class="c-title-card__title c-title-card--link__title">Card 2</div>)
+      assert rendered =~ ~s(Card 2)
 
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")

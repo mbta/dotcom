@@ -8,7 +8,6 @@ defmodule DotcomWeb.CMS.PageView do
 
   alias CMS.Page
   alias CMS.Partial.Paragraph
-  alias Page.Project
   alias Plug.Conn
 
   @doc "Universal wrapper for CMS page content"
