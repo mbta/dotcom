@@ -1,6 +1,0 @@
-<% track_template() %>
-<p>
-  The paragraph type <strong><%= @content.type %></strong> is an unsupported
-  paragraph. Please contact the dev team to inquire when this paragraph type will
-  receive front-end support.
-</p>

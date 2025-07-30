@@ -609,3 +609,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_person.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "View Bio"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_unknown.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "is an unknown paragraph type"
+msgstr ""

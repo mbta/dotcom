@@ -84,6 +84,9 @@ msgstr "Más desde"
 msgid "Commuter Rail One-Way"
 msgstr "Commuter Rail One-Way"
 
+msgid "is an unknown paragraph type"
+msgstr "es un párrafo desconocido"
+
 msgid "Work With Us"
 msgstr "Trabajar con nosotros"
 
@@ -284,6 +287,9 @@ msgstr "24 horas, 7 días a la semana"
 
 msgid "Careers"
 msgstr "Carreras"
+
+msgid "View Bio"
+msgstr "Ver Bio"
 
 msgid "Add event to calendar"
 msgstr "Agregar evento al calendario"
