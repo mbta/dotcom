@@ -164,7 +164,7 @@ defmodule Mix.Tasks.Gettext.Translate do
       q: text,
       source: default_locale_code(),
       target: locale,
-      alternatives: 0
+      format: "html"
     }
   end
 

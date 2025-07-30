@@ -1,7 +1,6 @@
-<% track_template() %>
 <div class="container error-page">
   <div class="font-small error-pre-title">
-    {@error_code <> " Error \u2022 " <> @error_type}
+    {"#{@error_code} #{~t(Error)} \u2022 #{@error_type}"}
   </div>
   <!-- This error title appears for XS-S screens -->
   <div class="h1 error-title">{@error_title}</div>
@@ -21,11 +20,10 @@
       <.algolia_autocomplete
         id="error-page"
         config_type="basic-config"
-        placeholder="Search the MBTA"
+        placeholder={~t(Search the MBTA)}
       />
       <div class="error-links">
-        Or, go to <a href="/">the MBTA's home page</a>
-        or <a href="/customer-support">report an issue</a>.
+        {~t(Or, go to <a href="/">the MBTA's home page</a> or <a href="/customer-support">report an issue</a>.)}
       </div>
     </div>
   </div>

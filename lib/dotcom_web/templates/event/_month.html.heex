@@ -1,0 +1,51 @@
+<ul class="list-group list-group-flush">
+  <%= if @conn.assigns.date.year == @year and @conn.assigns.date.month == @month_number do %>
+    
+<!-- Previous months button. A JS script sets up a listener for button click -->
+    <div class="m-view-previous-events hidden">
+      <li class="list-group-item">
+        <a
+          tabindex="0"
+          role="button"
+          class="m-previous-events-button"
+          data-group={"#{ render_event_month_slug(@month_number, @year) }"}
+        >
+          {~t(View Previous)} {render_event_month(@month_number, @year)} {~t(Events)}
+          <i class="fa fa-angle-down down" aria-hidden="true"></i>
+        </a>
+      </li>
+      <%= for event_teaser <- @event_teasers do %>
+        {render("_event_teaser.html",
+          event_teaser: event_teaser,
+          check_event_ended: true,
+          conn: @conn,
+          month_number: @month_number,
+          year: @year
+        )}
+      <% end %>
+    </div>
+    
+<!-- Show all events for the month if JS is disabled (instead of the div.m-view-previous-events) -->
+    <noscript>
+      <%= for event_teaser <- @event_teasers do %>
+        {render("_event_teaser.html",
+          event_teaser: event_teaser,
+          check_event_ended: false,
+          conn: @conn,
+          month_number: @month_number,
+          year: @year
+        )}
+      <% end %>
+    </noscript>
+  <% else %>
+    <%= for event_teaser <- @event_teasers do %>
+      {render("_event_teaser.html",
+        event_teaser: event_teaser,
+        check_event_ended: false,
+        conn: @conn,
+        month_number: @month_number,
+        year: @year
+      )}
+    <% end %>
+  <% end %>
+</ul>

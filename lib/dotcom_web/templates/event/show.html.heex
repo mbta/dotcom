@@ -1,46 +1,53 @@
-<% track_template() %>
-<% has_related_files = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
-<% sidebar_class = if has_related_files, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
+<% has_related_files =
+  @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
+<% sidebar_class =
+  if has_related_files, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
 
 <%= if !is_nil(@event.registration_link) or !is_nil(@event.event_agenda) do %>
   <div class="container m-event-details">
     <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
-
       <div class="c-cms__header">
         <div class="c-cms__title">
           <div class="m-event__date-range u-gray">
-            <%= render_event_duration_list_view(@event.start_time, @event.end_time) %>
+            {render_event_duration_list_view(@event.start_time, @event.end_time)}
           </div>
-          <h1 class="c-cms__title-text"><%= @event.title %></h1>
+          <h1 class="c-cms__title-text">{@event.title}</h1>
         </div>
       </div>
 
       <div class="c-cms__content u-mt-3">
         <div class="c-cms__body">
-
-          <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed u-mt-0" %>
+          {render("_meeting_info.html",
+            conn: @conn,
+            event: @event,
+            style: "c-paragraph--right-rail u-full-bleed u-mt-0"
+          )}
 
           <div class="m-event-section">
-            <h2 class="u-mt-0">Event Description</h2>
-            <%= Dotcom.ContentRewriter.rewrite(@event.body, @conn) %>
+            <h2 class="u-mt-0">{~t(Event Description)}</h2>
+            {Dotcom.ContentRewriter.rewrite(@event.body, @conn)}
             <%= for paragraph <- @event.paragraphs do %>
-              <%= DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
+              {DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn)}
             <% end %>
             <%= if has_related_files do %>
-              <h3>Related Files</h3>
+              <h3>{~t(Related Files)}</h3>
               <%= if @event.agenda_file do %>
                 <div>
                   <%= link to: @event.agenda_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
-                    <%= file_description(@event.agenda_file) %>
+                    <span class="content-file-icon">
+                      {fa_icon_for_file_type(@event.agenda_file.type)}
+                    </span>
+                    {file_description(@event.agenda_file)}
                   <% end %>
                 </div>
               <% end %>
               <%= if @event.minutes_file do %>
                 <div>
                   <%= link to: @event.minutes_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
-                    <%= file_description(@event.minutes_file) %>
+                    <span class="content-file-icon">
+                      {fa_icon_for_file_type(@event.minutes_file.type)}
+                    </span>
+                    {file_description(@event.minutes_file)}
                   <% end %>
                 </div>
               <% end %>
@@ -48,8 +55,8 @@
                 <%= for file <- @event.files do %>
                   <div>
                     <%= link to: file.url, target: "_blank" do %>
-                      <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
-                      <%= file_description(file) %>
+                      <span class="content-file-icon">{fa_icon_for_file_type(file.type)}</span>
+                      {file_description(file)}
                     <% end %>
                   </div>
                 <% end %>
@@ -60,66 +67,69 @@
 
           <%= if agenda_visible?(@event.event_agenda, @conn.query_params) do %>
             <section class="m-event__agenda">
-              <h2 class="u-mt-0">Agenda</h2>
-              <%= render "_event_agenda.html", conn: @conn, agenda: @event.event_agenda, is_ended: ended?(@event) %>
+              <h2 class="u-mt-0">{~t(Agenda)}</h2>
+              {render("_event_agenda.html",
+                conn: @conn,
+                agenda: @event.event_agenda,
+                is_ended: ended?(@event)
+              )}
             </section>
           <% end %>
 
           <%= if @event.notes do %>
             <div>
-              <h2>Notes</h2>
-              <%= Dotcom.ContentRewriter.rewrite(@event.notes, @conn) %>
+              <h2>{~t(Notes)}</h2>
+              {Dotcom.ContentRewriter.rewrite(@event.notes, @conn)}
             </div>
           <% end %>
         </div>
 
         <div class="c-cms__sidebar">
-          <%= render "_meeting_info.html", conn: @conn, event: @event, style: nil %>
+          {render("_meeting_info.html", conn: @conn, event: @event, style: nil)}
         </div>
-
       </div>
     </div>
   </div>
-
 <% else %>
-
   <div class="container">
-    <div class="c-cms <%= sidebar_class %>">
-
+    <div class={"c-cms #{ sidebar_class }"}>
       <div class="c-cms__header">
         <div class="c-cms__title">
-          <h1 class="c-cms__title-text"><%= @event.title %></h1>
+          <h1 class="c-cms__title-text">{@event.title}</h1>
         </div>
       </div>
 
       <div class="c-cms__content">
         <div class="c-cms__body">
           <div class="page-section">
-            <h2>Meeting Info</h2>
+            <h2>{~t(Meeting Info)}</h2>
             <div class="event-inline-block">
-              <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
+              <span class="event-info-label">{~t(Date)}:</span> {render_duration(
+                @event.start_time,
+                @event.end_time
+              )}
             </div>
             <div class="event-inline-block">
               <%= link to: event_icalendar_path(@conn, :show, @event) do %>
-                <%= fa "calendar" %> Add to Calendar
+                {fa("calendar")} {~t(Add to Calendar)}
               <% end %>
             </div>
-            <p><%= render "_address.html", event: @event %></p>
-            <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
+            <p>{render("_address.html", event: @event)}</p>
+            <p><span class="event-info-label">{~t(Attendees)}:</span> {@event.who}</p>
           </div>
 
           <div class="page-section">
             <div class="event-hr-row">
-              <h2>Event Description</h2>
-              <%= Dotcom.ContentRewriter.rewrite(@event.body, @conn) %>
+              <h2>{~t(Event Description)}</h2>
+              {Dotcom.ContentRewriter.rewrite(@event.body, @conn)}
             </div>
           </div>
 
           <%= if @event.agenda do %>
             <div class="page-section">
               <div class="event-hr-row">
-                <h2><%= "Agenda" %></h2>
-                <%= Dotcom.ContentRewriter.rewrite(@event.agenda, @conn) %>
+                <h2>{~t(Agenda)}</h2>
+                {Dotcom.ContentRewriter.rewrite(@event.agenda, @conn)}
               </div>
             </div>
           <% end %>
@@ -127,8 +137,8 @@
           <%= if @event.notes do %>
             <div class="page-section">
               <div class="event-hr-row">
-                <h2><%= "Notes" %></h2>
-                <%= Dotcom.ContentRewriter.rewrite(@event.notes, @conn) %>
+                <h2>{~t(Notes)}</h2>
+                {Dotcom.ContentRewriter.rewrite(@event.notes, @conn)}
               </div>
             </div>
           <% end %>
@@ -138,11 +148,13 @@
           <div class="c-cms__sidebar">
             <%= if @event.agenda_file do %>
               <div class="page-section">
-                <h3>Agenda</h3>
+                <h3>{~t(Agenda)}</h3>
                 <div>
                   <%= link to: @event.agenda_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
-                    <%= file_description(@event.agenda_file) %>
+                    <span class="content-file-icon">
+                      {fa_icon_for_file_type(@event.agenda_file.type)}
+                    </span>
+                    {file_description(@event.agenda_file)}
                   <% end %>
                 </div>
                 <hr />
@@ -150,11 +162,13 @@
             <% end %>
             <%= if @event.minutes_file do %>
               <div class="page-section">
-                <h3>Minutes</h3>
+                <h3>{~t(Minutes)}</h3>
                 <div>
                   <%= link to: @event.minutes_file.url, target: "_blank" do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
-                    <%= file_description(@event.minutes_file) %>
+                    <span class="content-file-icon">
+                      {fa_icon_for_file_type(@event.minutes_file.type)}
+                    </span>
+                    {file_description(@event.minutes_file)}
                   <% end %>
                 </div>
                 <hr />
@@ -162,12 +176,12 @@
             <% end %>
             <%= unless Enum.empty?(@event.files) do %>
               <div class="page-section">
-                <h3>Related Files</h3>
+                <h3>{~t(Related Files)}</h3>
                 <%= for file <- @event.files do %>
                   <div>
                     <%= link to: file.url, target: "_blank" do %>
-                      <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
-                      <%= file_description(file) %>
+                      <span class="content-file-icon">{fa_icon_for_file_type(file.type)}</span>
+                      {file_description(file)}
                     <% end %>
                   </div>
                 <% end %>
@@ -178,5 +192,4 @@
       </div>
     </div>
   </div>
-
 <% end %>
