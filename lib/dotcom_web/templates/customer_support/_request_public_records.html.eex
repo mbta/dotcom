@@ -1,8 +1,0 @@
-<% track_template() %>
-<p>Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.</p>
-<p>
-  <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "c-call-to-action" do %>
-    Submit a public records request to the MBTA
-  <% end %>
-</p>
-<p>You can also email <a href="mailto:mbta.rao@mbta.com">mbta.rao@mbta.com</a> with your request.</p>

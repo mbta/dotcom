@@ -1,5 +1,0 @@
-<% track_template() %>
-<p>Receive notifications of MBTA service alerts by email or text.</p>
-<p><a class="c-call-to-action" href="https://alerts.mbta.com" target="_blank">Sign up for T-Alerts</a></p>
-<p><a class="c-call-to-action" href="https://twitter.com/MBTA" target="_blank">Follow @MBTA on Twitter</a></p>
-<p><a class="c-call-to-action" href="https://twitter.com/MBTA_CR" target="_blank">Follow @MBTA_CR on Twitter</a></p>
