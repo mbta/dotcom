@@ -1028,3 +1028,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "with your request."
 msgstr ""
+
+#: lib/dotcom_web/templates/layout/admin.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Admins Only"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/_searchbar.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Search results for"
+msgstr ""

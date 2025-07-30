@@ -75,6 +75,9 @@ msgstr "Dirección"
 msgid "Date"
 msgstr "Fecha"
 
+msgid "Search results for"
+msgstr "Resultados de búsqueda para"
+
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
 
@@ -132,7 +135,7 @@ msgstr "Esta lista no incluye los minoristas actuales MBTA. Para ver las ubicaci
 msgid "Intended Audience"
 msgstr "Audiencia integrada"
 
-msgid "Or, go to <a href=\"
+msgid "Or, go to <a href='/'></a>"
 msgstr "O, vaya a..."
 
 msgid "Commuter Rail One-Way"
@@ -353,6 +356,9 @@ msgstr "Lunes a viernes"
 
 msgid "Contact the Transit Police"
 msgstr "Contactar con la Policía de Tránsito"
+
+msgid "Admins Only"
+msgstr "Admins Only"
 
 msgid "Call Us"
 msgstr "Llámanos"
