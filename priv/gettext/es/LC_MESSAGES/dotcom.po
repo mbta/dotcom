@@ -15,8 +15,14 @@ msgstr "Guía del visitante de Boston para el T"
 msgid "Civil Rights"
 msgstr "Civiles"
 
+msgid "No alerts here."
+msgstr "No hay alertas aquí."
+
 msgid "Main"
 msgstr "Main"
+
+msgid "Get T-Alerts"
+msgstr "T-Alerts"
 
 msgid "Developers"
 msgstr "Desarrolladores"
@@ -32,6 +38,9 @@ msgstr "MBTA Threads"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies ' Civil Rights"
+
+msgid "Sign in"
+msgstr "Iniciar sesión"
 
 msgid "Accessibility"
 msgstr "Accesibilidad"
@@ -62,6 +71,12 @@ msgstr "Encontrar un lugar"
 
 msgid "Transit Police"
 msgstr "Transit Police"
+
+msgid "changes"
+msgstr "cambios"
+
+msgid "Updated on"
+msgstr "Actualizado en"
 
 msgid "More from"
 msgstr "Más desde"
@@ -96,6 +111,9 @@ msgstr "Ventas institucionales"
 msgid "Maps"
 msgstr "Mapas"
 
+msgid "service"
+msgstr "servicio"
+
 msgid "Menu"
 msgstr "Menú"
 
@@ -126,6 +144,9 @@ msgstr "Menú principal"
 msgid "Featured MBTA Updates and Projects"
 msgstr "Destacados MBTA Actualizaciones y proyectos"
 
+msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
+msgstr "Háblenos de sus viajes regulares y reciba alertas de texto o correo electrónico que sean relevantes para usted, a veces cuando los desee."
+
 msgid "Innovation Proposals"
 msgstr "Propuestas de innovación"
 
@@ -137,6 +158,9 @@ msgstr "Reuniones públicas"
 
 msgid "Zone"
 msgstr "Zona"
+
+msgid "Filter by type"
+msgstr "Filtro por tipo"
 
 msgid "MBTA Home Page"
 msgstr "MBTA Página"
@@ -164,6 +188,9 @@ msgstr "Seguridad"
 
 msgid "Bad grouped fare card data"
 msgstr "Datos de tarjeta de tarifa mal agrupado"
+
+msgid "Bus Stop Changes"
+msgstr "Bus Stop Cambios"
 
 msgid "Financials"
 msgstr "Financieras"
@@ -200,6 +227,9 @@ msgstr "No hay otro"
 
 msgid "Terms of Use"
 msgstr "Términos de uso"
+
+msgid "Create an Account"
+msgstr "Crear una cuenta"
 
 msgid "Important Links"
 msgstr "Enlaces importantes"
@@ -245,6 +275,9 @@ msgstr "MBTA Facebook"
 
 msgid "There are no"
 msgstr "No hay"
+
+msgid "Related Service Alerts"
+msgstr "Alertas de servicio relacionadas"
 
 msgid "24 hours, 7 days a week"
 msgstr "24 horas, 7 días a la semana"
@@ -308,6 +341,9 @@ msgstr "MBTA Twitter"
 
 msgid "Local Bus One-Way"
 msgstr "Autobuses locales de un lado"
+
+msgid "change"
+msgstr "cambio"
 
 msgid "Monthly LinkPass"
 msgstr "Mensual LinkPass"

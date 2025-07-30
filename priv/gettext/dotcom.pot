@@ -549,3 +549,63 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "There are no other"
 msgstr ""
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Create an Account"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Get T-Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Sign in"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
+msgstr ""
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Bus Stop Changes"
+msgstr ""
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Filter by type"
+msgstr ""
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "No alerts here."
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Related Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/page/_project_update.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Updated on"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "change"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "changes"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "service"
+msgstr ""
