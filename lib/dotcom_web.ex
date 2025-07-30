@@ -87,14 +87,16 @@ defmodule DotcomWeb do
       unquote(view_helpers())
 
       def track_template() do
-        {_, trace} = Process.info(self(), :current_stacktrace)
+        if Application.get_env(:dotcom, :env) != :test do
+          {_, trace} = Process.info(self(), :current_stacktrace)
 
-        template =
-          trace
-          |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
-          |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
+          template =
+            trace
+            |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
+            |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
 
-        :telemetry.execute([:template, :track], %{}, %{template: template})
+          :telemetry.execute([:template, :track], %{}, %{template: template})
+        end
       end
 
       @dialyzer :no_match
