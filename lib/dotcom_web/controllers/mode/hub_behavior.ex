@@ -1,7 +1,28 @@
 defmodule DotcomWeb.Mode.HubBehavior do
   @moduledoc "Behavior for mode hub pages."
 
-  use DotcomWeb, :controller
+  use Dotcom.Gettext.Sigils
+  use Phoenix.Controller, namespace: DotcomWeb
+
+  import DotcomWeb.ControllerHelpers
+
+  import DotcomWeb.Router.Helpers,
+    except: [
+      news_entry_path: 2,
+      news_entry_path: 3,
+      news_entry_path: 4,
+      event_path: 2,
+      event_path: 3,
+      event_path: 4,
+      project_path: 2,
+      project_path: 3,
+      project_update_path: 3,
+      project_update_path: 4
+    ]
+
+  import Util.AsyncAssign
+
+  alias Util.Breadcrumb
 
   alias CMS.{API, Partial.Teaser, Repo}
   alias Fares.Summary
