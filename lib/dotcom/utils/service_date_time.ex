@@ -19,6 +19,8 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   alias Dotcom.Utils
 
+  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1]
+
   @type named_service_range() ::
           :before_today | :today | :this_week | :next_week | :after_next_week
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
@@ -45,7 +47,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   def service_date(date_time \\ @date_time_module.now()) do
     if date_time.hour < @service_rollover_time.hour do
       Timex.shift(date_time, hours: -@service_rollover_time.hour)
-      |> @date_time_module.coerce_ambiguous_date_time()
+      |> coerce_ambiguous_date_time()
       |> Timex.to_date()
     else
       Timex.to_date(date_time)
@@ -95,7 +97,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
     datetime
     |> end_of_service_day()
     |> Timex.shift(microseconds: 1)
-    |> @date_time_module.coerce_ambiguous_date_time()
+    |> coerce_ambiguous_date_time()
   end
 
   @doc """
@@ -107,7 +109,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> @date_time_module.coerce_ambiguous_date_time()
+    |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour)
   end
 
@@ -120,9 +122,9 @@ defmodule Dotcom.Utils.ServiceDateTime do
     date_time
     |> service_date()
     |> Timex.to_datetime(@timezone)
-    |> @date_time_module.coerce_ambiguous_date_time()
+    |> coerce_ambiguous_date_time()
     |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
-    |> @date_time_module.coerce_ambiguous_date_time()
+    |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour - 1)
   end
 

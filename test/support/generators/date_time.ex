@@ -3,6 +3,8 @@ defmodule Test.Support.Generators.DateTime do
   Factories to help generate/evaluate date_times for testing.
   """
 
+  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1]
+
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @timezone Application.compile_env!(:dotcom, :timezone)
 
@@ -11,9 +13,10 @@ defmodule Test.Support.Generators.DateTime do
     now = @date_time_module.now()
 
     beginning_of_time =
-      Timex.shift(now, years: -10) |> @date_time_module.coerce_ambiguous_date_time()
+      Timex.shift(now, years: -10) |> coerce_ambiguous_date_time()
 
-    end_of_time = Timex.shift(now, years: 10) |> @date_time_module.coerce_ambiguous_date_time()
+    end_of_time =
+      Timex.shift(now, years: 10) |> coerce_ambiguous_date_time()
 
     time_range_date_time_generator({beginning_of_time, end_of_time})
   end
@@ -40,12 +43,12 @@ defmodule Test.Support.Generators.DateTime do
 
   @doc "Generate a random date_time between the beginning and end of the time range."
   def time_range_date_time_generator({start, nil}) do
-    stop = Timex.shift(start, years: 10) |> @date_time_module.coerce_ambiguous_date_time()
+    stop = Timex.shift(start, years: 10) |> coerce_ambiguous_date_time()
     time_range_date_time_generator({start, stop})
   end
 
   def time_range_date_time_generator({nil, stop}) do
-    start = Timex.shift(stop, years: -10) |> @date_time_module.coerce_ambiguous_date_time()
+    start = Timex.shift(stop, years: -10) |> coerce_ambiguous_date_time()
     time_range_date_time_generator({start, stop})
   end
 
@@ -53,7 +56,7 @@ defmodule Test.Support.Generators.DateTime do
     StreamData.repeatedly(fn ->
       Faker.DateTime.between(start, stop)
       |> Timex.to_datetime(@timezone)
-      |> @date_time_module.coerce_ambiguous_date_time()
+      |> coerce_ambiguous_date_time()
     end)
   end
 end

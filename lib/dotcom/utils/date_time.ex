@@ -48,8 +48,12 @@ defmodule Dotcom.Utils.DateTime do
 
   If we are given something tha tis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
-  @impl Behaviour
-  def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
+  @spec coerce_ambiguous_date_time(
+          DateTime.t()
+          | Timex.AmbiguousDateTime.t()
+          | {:error, term()}
+        ) :: DateTime.t()
+  def(coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time)
   def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
   def coerce_ambiguous_date_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do

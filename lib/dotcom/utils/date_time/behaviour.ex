@@ -7,13 +7,6 @@ defmodule Dotcom.Utils.DateTime.Behaviour do
 
   @callback today() :: Date.t()
 
-  @callback coerce_ambiguous_date_time(
-              DateTime.t()
-              | Timex.AmbiguousDateTime.t()
-              | {:error, term()}
-            ) ::
-              DateTime.t()
-
   @callback in_range?(
               Dotcom.Utils.DateTime.date_time_range(),
               DateTime.t()
