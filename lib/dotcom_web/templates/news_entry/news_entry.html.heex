@@ -1,0 +1,10 @@
+<div class="news-entry-hr-row news-entry-hr-col news-entry-item">
+  <p>{format_date(@news_entry.date)}</p>
+  <p>
+    {link(@news_entry.title,
+      to: news_entry_path(@conn, :show, @news_entry),
+      class: "news-entry-title"
+    )}
+  </p>
+  <p>{@news_entry.text}</p>
+</div>

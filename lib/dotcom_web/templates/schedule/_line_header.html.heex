@@ -1,0 +1,10 @@
+<div class={"schedule__header #{ header_class(@route) }"}>
+  <div class="schedule__header-container">
+    <h1 class="schedule__route-name notranslate">{route_header_text(@route)}</h1>
+    {route_header_description(@route)}
+    {flag_stop_badge(@route)}
+    <div class="schedule__header-tabs">
+      {route_header_tabs(@conn)}
+    </div>
+  </div>
+</div>

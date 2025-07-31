@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text">{@news_entry.title}</h1>
+        <h2 class="c-cms__meta">{~t(Posted on)} {format_date(@news_entry.posted_on)}</h2>
+      </div>
+    </div>
+
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <div class="page-section">
+          {Dotcom.ContentRewriter.rewrite(@news_entry.body, @conn)}
+        </div>
+
+        <%= if @news_entry.more_information do %>
+          <div class="page-section">
+            <h2>{~t(More Information)}</h2>
+            {@news_entry.more_information}
+          </div>
+        <% end %>
+
+        <%= if NewsEntry.contact?(@news_entry) do %>
+          <div class="page-section">
+            <div class="callout">
+              <h2 class="h3 callout-heading">{~t(Media Contact Information)}</h2>
+              <p>{~t(For questions or comments about this press release, please contact)}:</p>
+
+              <%= if (contact = @news_entry.media_contact) do %>
+                <div class="contact-element-contact">{contact}</div>
+              <% end %>
+
+              <%= if (email = @news_entry.media_email) do %>
+                <div class="contact-element-email">{link(email, to: "mailto:#{email}")}</div>
+              <% end %>
+
+              <%= if (phone = @news_entry.media_phone) do %>
+                <div class="contact-element-phone">{tel_link(phone)}</div>
+              <% end %>
+
+              <% # This email is hardcoded on purpose; the email can differ from the #{email} value. %>
+              <p class="mt-3 mb-0">
+                {~t(Members of the press can request to join our media list by emailing <a href="mailto:MediaRelations@mbta.com">MediaRelations@mbta.com</a>. We'll send you MBTA press releases and media advisories directly.)}
+              </p>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="page-section">
+          <%= if render_recent_news?(@recent_news) do %>
+            {render("_recent_news.html", conn: @conn, recent_news: @recent_news)}
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="row page-section trip-filters">
+  <div class="date-filter col-xs-12 col-sm-6 col-md-4">
+    <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil) <> "#date-filter",
+             id: "date-filter",
+             class: "filter-button date-picker-toggle",
+             aria: [controls: "date-picker-calendar", expanded: "false"] do %>
+      <div class="filter-text">
+        <div class="inner-label">
+          <span class="sr-only">{~t(Change Date)}:</span>{~t(Schedule for)}:
+        </div>
+        <div>{String.capitalize(pretty_date(@date, "{Mfull} {D}, {YYYY}"))}</div>
+      </div>
+      <div class="filter-icon">
+        {svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false})}
+      </div>
+    <% end %>
+  </div>
+  {render("_direction_select.html",
+    conn: @conn,
+    direction_id: @direction_id,
+    route: @route,
+    show_date_select?: @show_date_select?,
+    column_width: 8
+  )}
+</div>
+<%= if @conn.assigns[:calendar] do %>
+  <% date_picker = render("_date_picker.html", conn: @conn, calendar: @calendar) %>
+  <%= if @show_date_select? do %>
+    <div class="row page-section">{date_picker}</div>
+  <% end %>
+  <div class="row page-section date-picker-container" hidden>{date_picker}</div>
+<% end %>

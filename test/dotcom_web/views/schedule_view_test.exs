@@ -6,7 +6,7 @@ defmodule DotcomWeb.ScheduleViewTest do
   import DotcomWeb.ScheduleView
   import Mox
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
-  import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [html_escape: 1]
   import Test.Support.Factories.Alerts.Alert
 
   alias CMS.Partial.RoutePdf
@@ -57,7 +57,7 @@ defmodule DotcomWeb.ScheduleViewTest do
       result =
         error
         |> no_trips_message(nil, ~D[2017-01-01])
-        |> Enum.map(&safe_to_string/1)
+        |> Enum.map(&Phoenix.HTML.Safe.to_iodata/1)
         |> IO.iodata_to_binary()
 
       assert result =~
@@ -132,14 +132,16 @@ defmodule DotcomWeb.ScheduleViewTest do
       assert [{"div", _, []}] =
                []
                |> route_pdf_link(route, today)
-               |> safe_to_string
+               |> Phoenix.HTML.Safe.to_iodata()
+               |> IO.iodata_to_binary()
                |> Floki.parse_fragment()
                |> elem(1)
 
       assert [{"div", _, []}] =
                nil
                |> route_pdf_link(route, today)
-               |> safe_to_string
+               |> Phoenix.HTML.Safe.to_iodata()
+               |> IO.iodata_to_binary()
                |> Floki.parse_fragment()
                |> elem(1)
     end
@@ -156,7 +158,12 @@ defmodule DotcomWeb.ScheduleViewTest do
       ]
 
       route = %Routes.Route{name: "1", type: 3}
-      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+
+      rendered =
+        route_pdf_link(route_pdfs, route, ~D[2018-01-01])
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert rendered =~ "Current Route 1 schedule and map PDF"
       assert rendered =~ "basic-current-url"
       assert rendered =~ "Current Custom schedule PDF"
@@ -174,7 +181,12 @@ defmodule DotcomWeb.ScheduleViewTest do
       ]
 
       route = %Routes.Route{name: "1", type: 3}
-      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+
+      rendered =
+        route_pdf_link(route_pdfs, route, ~D[2018-01-01])
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert rendered =~ "Route 1 schedule and map PDF"
       assert rendered =~ "Custom schedule PDF"
     end
@@ -182,7 +194,12 @@ defmodule DotcomWeb.ScheduleViewTest do
     test "considers PDFs that start today as current" do
       route_pdfs = [%RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
-      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+
+      rendered =
+        route_pdf_link(route_pdfs, route, ~D[2018-01-01])
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert rendered =~ "Route 1 schedule and map PDF"
     end
   end
@@ -232,7 +249,9 @@ defmodule DotcomWeb.ScheduleViewTest do
           conn: conn
         )
 
-      assert safe_to_string(rendered) =~ "View inbound trips"
+      assert rendered
+             |> Phoenix.HTML.Safe.to_iodata()
+             |> IO.iodata_to_binary() =~ "View inbound trips"
     end
 
     test "Does not show reset link if selected date is service date", %{conn: conn} do
@@ -249,7 +268,9 @@ defmodule DotcomWeb.ScheduleViewTest do
           conn: conn
         )
 
-      refute safe_to_string(rendered) =~ "View inbound trips"
+      refute rendered
+             |> Phoenix.HTML.Safe.to_iodata()
+             |> IO.iodata_to_binary() =~ "View inbound trips"
     end
 
     test "Does not list date if none is given", %{conn: conn} do
@@ -266,8 +287,13 @@ defmodule DotcomWeb.ScheduleViewTest do
           conn: conn
         )
 
-      refute safe_to_string(rendered) =~ "on"
-      assert safe_to_string(rendered) =~ "There are no scheduled inbound"
+      refute rendered
+             |> Phoenix.HTML.Safe.to_iodata()
+             |> IO.iodata_to_binary() =~ "on"
+
+      assert rendered
+             |> Phoenix.HTML.Safe.to_iodata()
+             |> IO.iodata_to_binary() =~ "There are no scheduled inbound"
     end
   end
 
@@ -341,7 +367,8 @@ defmodule DotcomWeb.ScheduleViewTest do
         |> assign(:tab, "alerts")
         |> assign(:tab_params, [])
         |> route_header_tabs()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert tabs =~ "schedule-&amp;-maps-tab"
       assert tabs =~ "timetable-tab"
@@ -355,7 +382,8 @@ defmodule DotcomWeb.ScheduleViewTest do
         |> assign(:tab, "alerts")
         |> assign(:tab_params, [])
         |> route_header_tabs()
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert tabs =~ "schedules-&amp;-maps-tab"
       assert tabs =~ "alerts-tab"
@@ -495,7 +523,11 @@ defmodule DotcomWeb.ScheduleViewTest do
       assert more =~ "#{Enum.count(changes)} Unscheduled Track Changes"
 
       for header <- Enum.map(changes, & &1.header) do
-        header_text = html_escape(header) |> safe_to_string()
+        header_text =
+          html_escape(header)
+          |> Phoenix.HTML.Safe.to_iodata()
+          |> IO.iodata_to_binary()
+
         assert more =~ header_text
       end
     end

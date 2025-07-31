@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1>{@project.title}: {~t(All Updates)}</h1>
+      </div>
+    </div>
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        {for update <- @updates do
+          text_content = [
+            content_tag(:h2, update.title, class: "h3 m-project-updates__title"),
+            content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "h4")
+          ]
+
+          if update.image do
+            link(
+              [
+                content_tag(
+                  :div,
+                  img_tag(
+                    update.image.url,
+                    alt: update.image.alt,
+                    class: "c-content-teaser__image c-content-teaser__image--projects"
+                  ),
+                  class: "m-project-updates__image col-sm-6"
+                ),
+                content_tag(:div, text_content, class: "m-project-updates__content col-sm-6")
+              ],
+              to: update.path,
+              class: "m-project-updates__teaser c-content-teaser row"
+            )
+          else
+            link(
+              [
+                content_tag(:div, text_content, class: "m-project-updates__content col-sm-12")
+              ],
+              to: update.path,
+              class: "m-project-updates__teaser c-content-teaser row"
+            )
+          end
+        end}
+        {if Enum.empty?(@updates) do
+          content_tag(:div, ~t(There are no updates at this time."))
+        end}
+        {DotcomWeb.CMS.ParagraphView.render_paragraph(
+          %DescriptiveLink{
+            parent: "field_paragraphs",
+            title: @project.title,
+            body: content_tag(:p, ~t(Learn more about this project)),
+            link: %Link{url: project_path(@conn, :show, @project)}
+          },
+          @conn
+        )}
+      </div>
+    </div>
+  </div>
+</div>

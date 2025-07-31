@@ -1,4 +1,0 @@
-<% track_template() %>
-<div class="page-section empty-search-page">
-  <div class="col-md-12"></div>
-</div>

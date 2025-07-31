@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="hidden-no-js">
+    <div class="c-search__results-header">
+      <div class="col-md-4 c-search__results-label">
+        <h1 class="c-search__results-title">{~t(Search)}</h1>
+      </div>
+      <div class="c-search col-md-8">
+        {DotcomWeb.PartialView.render(
+          "_search_input.html",
+          Map.merge(assigns, %{
+            placeholder: ~t(Search for routes, places, information, and more),
+            aria_label: ~t(Search MBTA.com),
+            prefix: "global",
+            autocomplete?: false
+          })
+        )}
+        <button id="show-facets" class="btn btn-primary c-search__filter-button">
+          {~t(Filter by type)}
+        </button>
+      </div>
+    </div>
+    <div id="search-facets-container" class="col-md-4 c-search__facets-container">
+      <div id="close-facets-modal" class="c-search__close-modal-button">
+        {~t(CLOSE)}
+      </div>
+      <h2 class="h3 c-search__filter-label">
+        {~t(Filter by type)}
+      </h2>
+      <div id="search-facets"></div>
+    </div>
+    <div class="col-md-8">
+      <div id="algolia-error" class="c-search__error">
+        {~t(There was a problem performing your search; please try again in a few minutes.)}
+      </div>
+    </div>
+    <div id="search-results-container" class="col-md-8"></div>
+  </div>
+
+  <div class="hidden-js">
+    {cond do
+      assigns[:empty_query] ->
+        render("empty_query.html", assigns)
+
+      assigns[:results] && assigns[:results] == [] ->
+        render("no_results.html", assigns)
+
+      assigns[:show_error] ->
+        render("error.html", assigns)
+
+      true ->
+        render("index-nojs.html", assigns)
+    end}
+  </div>
+</div>
