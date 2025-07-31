@@ -260,6 +260,7 @@ msgid "Navigation Menu"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex:42
+#: lib/dotcom_web/templates/search/index.html.heex:12
 #, elixir-autogen, elixir-format
 msgid "Search MBTA.com"
 msgstr ""
@@ -305,6 +306,7 @@ msgid "MBTA Homepage"
 msgstr ""
 
 #: lib/dotcom_web/templates/alert/show.html.heex:47
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr ""
@@ -312,6 +314,7 @@ msgstr ""
 #: lib/dotcom_web/templates/alert/show.html.heex:15
 #: lib/dotcom_web/templates/alert/show.html.heex:34
 #: lib/dotcom_web/templates/alert/show.html.heex:47
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr ""
@@ -331,6 +334,8 @@ msgstr ""
 msgid "Find a Location"
 msgstr ""
 
+#: lib/dotcom_web/templates/mode/hub.html.heex:27
+#: lib/dotcom_web/templates/mode/index.html.heex:34
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex:24
 #, elixir-autogen, elixir-format
 msgid "Maps"
@@ -382,6 +387,7 @@ msgid "Sustainability"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:48
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Alerts"
 msgstr ""
@@ -547,6 +553,9 @@ msgid "Bus Stop Changes"
 msgstr ""
 
 #: lib/dotcom_web/templates/bus_stop_change/index.html.heex:19
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:14
+#: lib/dotcom_web/templates/search/index.html.heex:18
+#: lib/dotcom_web/templates/search/index.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Filter by type"
 msgstr ""
@@ -562,6 +571,8 @@ msgid "Related Service Alerts"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex:2
+#: lib/dotcom_web/templates/project/_featured_project.html.heex:12
+#: lib/dotcom_web/templates/project/update.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Updated on"
 msgstr ""
@@ -753,6 +764,7 @@ msgstr ""
 #: lib/dotcom_web/templates/event/_month_select.html.heex:2
 #: lib/dotcom_web/templates/event/_year_select.html.heex:2
 #: lib/dotcom_web/templates/event/index.html.heex:32
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Jump to"
 msgstr ""
@@ -1037,4 +1049,588 @@ msgstr ""
 #: lib/dotcom_web/templates/layout/_searchbar.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Search results for"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:129
+#, elixir-autogen, elixir-format
+msgid " for real-time track changes."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:17
+#, elixir-autogen, elixir-format
+msgid " may leave ahead of schedule at these stops."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:127
+#, elixir-autogen, elixir-format
+msgid " symbol. Check "
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:22
+#, elixir-autogen, elixir-format
+msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:23
+#, elixir-autogen, elixir-format
+msgid " to stop."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:166
+#, elixir-autogen, elixir-format
+msgid "Accessible"
+msgstr ""
+
+#: lib/dotcom_web/templates/project/updates.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "All Updates"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:122
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Bicycles Allowed?"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:111
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:114
+#, elixir-autogen, elixir-format
+msgid "Bicycles allowed"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:116
+#, elixir-autogen, elixir-format
+msgid "Bicycles not allowed"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:94
+#, elixir-autogen, elixir-format
+msgid "Bikes Allowed"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:160
+#, elixir-autogen, elixir-format
+msgid "Bikes are allowed on all ferry boats"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "CLOSE"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Change Date"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Change Direction of Trip."
+msgstr ""
+
+#: lib/dotcom_web/templates/search/no_results.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Check if your spelling is correct."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Crosstown"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Current seat availability thresholds are:"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Direction of your trip"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Does not stop at"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Earlier"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Early Departure"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:108
+#, elixir-autogen, elixir-format
+msgid "Early Departure Stop"
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/hub.html.heex:33
+#: lib/dotcom_web/templates/mode/index.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Fares"
+msgstr ""
+
+#: lib/dotcom_web/templates/project/_photos.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Featured Photos"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "Few Seats Available"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:101
+#: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Flag Stop"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "For questions or comments about this press release, please contact"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Friday"
+msgstr ""
+
+#: lib/dotcom_web/templates/mticket/notice.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Go to your app store to update your MBTA mTicket."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:29
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:89
+#, elixir-autogen, elixir-format
+msgid "Holidays"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:135
+#, elixir-autogen, elixir-format
+msgid "Icon Key"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:57
+#, elixir-autogen, elixir-format
+msgid "Later"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Learn more about bikes on Commuter Rail"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:84
+#, elixir-autogen, elixir-format
+msgid "Learn more about seat availability trends"
+msgstr ""
+
+#: lib/dotcom_web/templates/project/updates.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "Learn more about this project"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/menu.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Menu"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Many Seats Available"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:178
+#, elixir-autogen, elixir-format
+msgid "May not be accessible"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Media Contact Information"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Members of the press can request to join our media list by emailing <a href=\"mailto:MediaRelations@mbta.com\">MediaRelations@mbta.com</a>. We'll send you MBTA press releases and media advisories directly."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Monday"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "More Information"
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/hub.html.heex:58
+#: lib/dotcom_web/templates/news_entry/index.html.heex:5
+#: lib/dotcom_web/templates/schedule/_cms_teasers.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "News"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex:26
+#: lib/dotcom_web/templates/pagination_helpers/_responsive_pagination.html.heex:15
+#: lib/dotcom_web/templates/pagination_helpers/_responsive_pagination.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Next"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:162
+#, elixir-autogen, elixir-format
+msgid "No parking"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "No upcoming holidays"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:176
+#, elixir-autogen, elixir-format
+msgid "Not accessible"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_pdf_schedules.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "PDF Schedules"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "PDF Upcoming"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:154
+#, elixir-autogen, elixir-format
+msgid "Parking available"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell "
+msgstr ""
+
+#: lib/dotcom_web/templates/search/error.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Please re-submit your search query or try again later."
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Posted on"
+msgstr ""
+
+#: lib/dotcom_web/templates/layout/preview.html.heex:2
+#: lib/dotcom_web/templates/layout/preview.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Preview Version"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex:20
+#: lib/dotcom_web/templates/pagination_helpers/_responsive_pagination.html.heex:6
+#: lib/dotcom_web/templates/pagination_helpers/_responsive_pagination.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Previous"
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/_recent_news.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Recent News on the T"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/no_results.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Remove quotes around phrases to search for each word individually."
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Routes With High Priority Alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Saturday"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Schedule for"
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/hub.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Schedules"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Search"
+msgstr ""
+
+#: lib/dotcom_web/templates/stop/_search_bar.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Search for a stop or station"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Search for routes, places, information, and more"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:116
+#, elixir-autogen, elixir-format
+msgid "Seat Availability"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "See all service alerts"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:183
+#, elixir-autogen, elixir-format
+msgid "Service alert or delay"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Showing 1 result for"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Showing results"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Sign up for alert notifications"
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Silver Line"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "Some Seats Available"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/no_results.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Sorry about that. There are no results matching"
+msgstr ""
+
+#: lib/dotcom_web/templates/mticket/notice.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Sorry, Your App Appears to be Out of Date"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Station Accessibility"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:64
+#, elixir-autogen, elixir-format
+msgid "Sunday"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "The "
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "The interactive timetable for"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "There are no high priority"
+msgstr ""
+
+#: lib/dotcom_web/templates/project/updates.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "There are no updates at this time.\""
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "There was a problem performing your search; please try again in a few minutes."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "Thursday"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:33
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:92
+#, elixir-autogen, elixir-format
+msgid "Today"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:131
+#, elixir-autogen, elixir-format
+msgid "Track Boarding Change"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Track Change"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:82
+#, elixir-autogen, elixir-format
+msgid "Trip"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Tuesday"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:76
+#, elixir-autogen, elixir-format
+msgid "Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Upcoming Holidays"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Update Results"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/no_results.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Use fewer keywords to increase the number of results"
+msgstr ""
+
+#: lib/dotcom_web/templates/mticket/notice.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Use the link below to access"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "View"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:5
+#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "View PDF Timetable"
+msgstr ""
+
+#: lib/dotcom_web/templates/mode/index.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "View fares overview"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:67
+#, elixir-autogen, elixir-format
+msgid "Wednesday"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:24
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:86
+#, elixir-autogen, elixir-format
+msgid "Weekends"
+msgstr ""
+
+#: lib/dotcom_web/templates/partial/_search_input.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures."
+msgstr ""
+
+#: lib/dotcom_web/templates/search/error.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Whoops! An error occurred."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "a crew member"
+msgstr ""
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "at this time"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "for"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "is temporarily unavailable due to a service change."
+msgstr ""
+
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "of"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "the conductor"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex:67
+#, elixir-autogen, elixir-format
+msgid "timetable for"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "trips for today"
 msgstr ""
