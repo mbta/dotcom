@@ -19,7 +19,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   alias Dotcom.Utils
 
-  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1]
+  import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1, in_range?: 2]
 
   @type named_service_range() ::
           :before_today | :today | :this_week | :next_week | :after_next_week
@@ -199,7 +199,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_today?(DateTime.t()) :: boolean
   def service_today?(date_time) do
-    service_range_day() |> @date_time_module.in_range?(date_time)
+    service_range_day() |> in_range?(date_time)
   end
 
   @doc """
@@ -207,7 +207,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_this_week?(DateTime.t()) :: boolean
   def service_this_week?(date_time) do
-    service_range_this_week() |> @date_time_module.in_range?(date_time)
+    service_range_this_week() |> in_range?(date_time)
   end
 
   @doc """
@@ -215,7 +215,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_next_week?(DateTime.t()) :: boolean
   def service_next_week?(date_time) do
-    service_range_next_week() |> @date_time_module.in_range?(date_time)
+    service_range_next_week() |> in_range?(date_time)
   end
 
   @doc """
@@ -223,7 +223,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_after_next_week?(DateTime.t()) :: boolean
   def service_after_next_week?(date_time) do
-    service_range_after_next_week() |> @date_time_module.in_range?(date_time)
+    service_range_after_next_week() |> in_range?((date_time))
   end
 
   @doc """

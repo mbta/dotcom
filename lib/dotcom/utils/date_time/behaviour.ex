@@ -6,9 +6,4 @@ defmodule Dotcom.Utils.DateTime.Behaviour do
   @callback now() :: DateTime.t()
 
   @callback today() :: Date.t()
-
-  @callback in_range?(
-              Dotcom.Utils.DateTime.date_time_range(),
-              DateTime.t()
-            ) :: boolean
 end
