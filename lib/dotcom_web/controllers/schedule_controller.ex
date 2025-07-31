@@ -112,6 +112,10 @@ defmodule DotcomWeb.ScheduleController do
     conn |> redirect(to: schedule_path) |> halt
   end
 
+  def route_redirect(conn, _) do
+    render_404(conn)
+  end
+
   def cape_flyer(conn, _params) do
     redirect(conn, external: "https://capeflyer.com")
   end
