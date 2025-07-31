@@ -60,6 +60,15 @@ defmodule Alerts.InformedEntity do
     {:activities, MapSet.new(enum)}
   end
 
+  defp ensure_value_type({:direction_id, direction}) when is_binary(direction) do
+    with {int, _} <- Integer.parse(direction) do
+      {:direction_id, int}
+    else
+      _ ->
+        {:direction_id, nil}
+    end
+  end
+
   defp ensure_value_type(item) do
     item
   end

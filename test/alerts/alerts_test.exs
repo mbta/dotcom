@@ -49,10 +49,12 @@ defmodule AlertsTest do
 
   describe "get_entity/2" do
     test "can retrieve all InformedEntity types" do
+      entity = Test.Support.Factories.Alerts.InformedEntity.build(:informed_entity)
+      alert = Alert.new(informed_entity: [entity])
+
       for type <- [:route, :route_type, :stop, :trip, :direction_id] do
-        entity = Alerts.InformedEntity.from_keywords([{type, "entity"}])
-        alert = Alert.new(informed_entity: [entity])
-        assert Alert.get_entity(alert, type) == MapSet.new(["entity"])
+        entity_value = Map.get(entity, type)
+        assert Alert.get_entity(alert, type) == MapSet.new([entity_value])
       end
     end
   end

@@ -104,52 +104,50 @@ defmodule DotcomWeb do
   end
 
   def live_view do
-    # Since we're only testing translations right now, don't
-    # enable them in the live prod website yet.
-    if Application.get_env(:dotcom, :is_prod_env?) do
-      quote do
-        use Phoenix.LiveView
+    quote do
+      use Phoenix.LiveView
 
-        import DotcomWeb.Router.Helpers,
-          except: [
-            news_entry_path: 2,
-            news_entry_path: 3,
-            news_entry_path: 4,
-            event_path: 2,
-            event_path: 3,
-            event_path: 4,
-            project_path: 2,
-            project_path: 3,
-            project_update_path: 3,
-            project_update_path: 4
-          ]
+      on_mount DotcomWeb.Hooks.RestoreLocale
 
-        alias Util.Breadcrumb
+      import DotcomWeb.Router.Helpers,
+        except: [
+          news_entry_path: 2,
+          news_entry_path: 3,
+          news_entry_path: 4,
+          event_path: 2,
+          event_path: 3,
+          event_path: 4,
+          project_path: 2,
+          project_path: 3,
+          project_update_path: 3,
+          project_update_path: 4
+        ]
 
-        unquote(view_helpers())
+      alias Util.Breadcrumb
+
+      unquote(view_helpers())
+
+      @doc """
+      Apply the args to the function and assign the result to socket with a constructed key.
+      """
+      def assign_result(socket, function, args \\ []) do
+        key = assign_result_key(function)
+        result = Kernel.apply(function, args)
+
+        Phoenix.Component.assign(socket, key, result)
       end
-    else
-      quote do
-        use Phoenix.LiveView
-        on_mount DotcomWeb.Hooks.RestoreLocale
 
-        import DotcomWeb.Router.Helpers,
-          except: [
-            news_entry_path: 2,
-            news_entry_path: 3,
-            news_entry_path: 4,
-            event_path: 2,
-            event_path: 3,
-            event_path: 4,
-            project_path: 2,
-            project_path: 3,
-            project_update_path: 3,
-            project_update_path: 4
-          ]
-
-        alias Util.Breadcrumb
-
-        unquote(view_helpers())
+      # Construct a key from the called function.
+      defp assign_result_key(function) do
+        function
+        |> Kernel.inspect()
+        |> String.split(".")
+        |> List.last()
+        |> String.split("/")
+        |> List.first()
+        |> String.downcase()
+        |> Recase.to_snake()
+        |> String.to_atom()
       end
     end
   end
