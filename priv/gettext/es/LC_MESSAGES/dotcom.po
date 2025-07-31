@@ -903,8 +903,8 @@ msgstr "Cambiar dirección de viaje."
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"
 
-msgid "There are no updates at this time.\"
-msgstr "No hay actualizaciones en este momento.\"
+msgid "There are no updates at this time."
+msgstr "No hay actualizaciones en este momento."
 
 msgid "The "
 msgstr "El "
