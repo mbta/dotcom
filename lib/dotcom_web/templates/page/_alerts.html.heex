@@ -1,0 +1,72 @@
+<div class="m-homepage__alerts">
+  <div class="m-homepage__alerts-main">
+    <div class="m-homepage__alerts-high-priority">
+      <h2>{~t(Routes With High Priority Alerts)}</h2>
+      <div class="m-homepage__alerts-high-priority-by-mode">
+        <%= for {mode, routes} <- @routes_with_high_priority_alerts_by_mode do %>
+          <% mode_name = Routes.Route.type_name(mode) %>
+          <div class="m-homepage__alerts-mode">
+            <h3>
+              <a href={"#{ alerts_mode_url(mode) }"}>
+                {svg(alerts_mode_icon_name(mode))}
+                <span class="header-text">{mode_name}</span>
+              </a>
+            </h3>
+            <%= if Enum.empty?(routes) do %>
+              <p>
+                {~t(There are no high priority)} {String.downcase(mode_name)} {~t(alerts at this time)}
+              </p>
+            <% else %>
+              <ul class={"m-homepage__alerts-route #{ mode }"}>
+                <%= for route <- routes do %>
+                  <li>
+                    <a href={"#{ alerts_route_url(route) }"} class="u-small-caps">
+                      {alerts_render_route_link_content(mode, route)}
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="m-homepage__alerts-accessibility">
+      <h2>
+        <a href={"#{ alerts_access_url() }"}>
+          {svg("icon-accessibility.svg")}
+          <span class="header-text">{~t(Station Accessibility)}</span>
+        </a>
+      </h2>
+      <div class="m-homepage__alerts-accessibility-by-type">
+        <%= for {type, stops} <- @stops_with_accessibility_alerts_by_issue do %>
+          <% title = Alerts.Accessibility.effect_type_to_group_title(type) %>
+          <div class="m-homepage__alerts-accessibility-issue">
+            <h3>{title}</h3>
+            <%= if Enum.empty?(stops) do %>
+              <p>
+                {~t(There are no)} {String.downcase(title)} {~t(at this time)}
+              </p>
+            <% else %>
+              <ul class="m-homepage__alerts-stops">
+                <%= for stop <- stops do %>
+                  <li><a href={"#{ alerts_stop_url(stop) }"}>{stop.name}</a></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="m-homepage__alerts-footer">
+    <div class="buttons">
+      <a class="btn btn-secondary" href="https://alerts.mbta.com">
+        {~t(Sign up for alert notifications)}
+      </a>
+      <a class="btn btn-primary" href="/alerts">
+        {~t(See all service alerts)}
+      </a>
+    </div>
+  </div>
+</div>

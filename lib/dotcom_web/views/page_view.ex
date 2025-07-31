@@ -82,6 +82,68 @@ defmodule DotcomWeb.PageView do
     )
   end
 
+  @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()
+  defp alerts_mode_url(mode) do
+    path =
+      case mode do
+        :commuter_rail -> "commuter-rail"
+        _ -> mode
+      end
+
+    DotcomWeb.Router.Helpers.alert_url(
+      DotcomWeb.Endpoint,
+      :show,
+      path
+    )
+  end
+
+  @spec alerts_access_url :: String.t()
+  defp alerts_access_url do
+    DotcomWeb.Router.Helpers.alert_url(
+      DotcomWeb.Endpoint,
+      :show,
+      "access"
+    )
+  end
+
+  @spec alerts_render_route_link_content(Routes.Route.gtfs_route_type(), Routes.Route.t()) ::
+          Phoenix.HTML.Safe.t()
+  defp alerts_render_route_link_content(mode, route) do
+    case mode do
+      :subway -> DotcomWeb.ViewHelpers.line_icon(route, :default)
+      :bus -> DotcomWeb.ViewHelpers.bus_icon_pill(route)
+      _ -> route.name
+    end
+  end
+
+  @spec alerts_mode_icon_name(Routes.Route.gtfs_route_desc()) :: String.t()
+  defp alerts_mode_icon_name(mode) do
+    case mode do
+      :subway -> "icon-subway-default.svg"
+      :bus -> "icon-bus-default.svg"
+      :ferry -> "icon-ferry-default.svg"
+      :commuter_rail -> "icon-commuter-rail-default.svg"
+    end
+  end
+
+  @spec alerts_route_url(Routes.Route.t()) :: String.t()
+  defp alerts_route_url(route) do
+    DotcomWeb.Router.Helpers.alerts_url(
+      DotcomWeb.Endpoint,
+      :show,
+      route.id
+    )
+  end
+
+  @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
+  defp alerts_stop_url(stop) do
+    DotcomWeb.Router.Helpers.stop_url(
+      DotcomWeb.Endpoint,
+      :show,
+      stop.id
+    )
+  end
+
   def shortcut_icons do
     [:commuter_rail, :subway, :bus, :ferry, :the_ride]
     |> Enum.map(&shortcut_icon/1)
