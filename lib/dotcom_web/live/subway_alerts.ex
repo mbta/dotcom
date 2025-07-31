@@ -13,6 +13,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   alias Alerts.InformedEntity
   alias Alerts.Match
   alias Dotcom.Alerts.Subway.Disruptions
+  alias Dotcom.SystemStatus
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -30,14 +31,11 @@ defmodule DotcomWeb.Live.SubwayAlerts do
          "Updates on delays, construction, elevator outages, and more."
      )
      |> assign(:breadcrumbs, [Breadcrumb.build("Alerts")])
-     |> assign_now()
-     |> assign_route_type()
-     |> assign_routes()
-     |> assign(:subway_status, Dotcom.SystemStatus.subway_status())
-     |> assign(:disruption_groups, Disruptions.future_disruptions())
-     |> assign_alerts()
+     |> assign(:date_time, @date_time.now())
      |> assign_banner_alert()
-     |> assign_alert_groups()}
+     |> assign_result(&alert_groups/0)
+     |> assign_result(&SystemStatus.subway_status/0)
+     |> assign_result(&Disruptions.future_disruptions/0)}
   end
 
   def handle_params(%{"alerts_timeframe" => _} = params, _uri, socket) do
@@ -49,40 +47,24 @@ defmodule DotcomWeb.Live.SubwayAlerts do
     {:noreply, socket}
   end
 
-  defp assign_alert_groups(%{assigns: %{alerts: alerts, routes: routes}} = socket) do
-    non_banner_alerts = excluding_banner(socket, alerts)
-
-    socket
-    |> assign(
-      :alert_groups,
-      routes
-      |> attach_alert_lists(non_banner_alerts)
-      |> drop_empty_groups()
-    )
-  end
-
-  defp assign_alerts(%{assigns: %{date_time: date_time}} = socket) do
-    alerts = @alerts_repo.all(date_time) |> Enum.reject(&service_impacting_alert?/1)
-
-    socket |> assign(:alerts, alerts)
-  end
-
   defp assign_banner_alert(socket) do
-    foo = @alerts_repo.banner()
-
-    case foo do
+    case @alerts_repo.banner() do
       nil -> socket
       banner -> socket |> assign(:alert_banner, banner)
     end
   end
 
-  defp assign_now(socket), do: socket |> assign(:date_time, @date_time.now())
+  defp alert_groups() do
+    alerts = @alerts_repo.all(@date_time.now()) |> Enum.reject(&service_impacting_alert?/1)
+    non_banner_alerts = excluding_banner(@alerts_repo.banner(), alerts)
 
-  defp assign_route_type(socket), do: socket |> assign(:route_type, [0, 1])
+    [0, 1]
+    |> @routes_repo.by_type()
+    |> with_alert_lists(non_banner_alerts)
+    |> drop_empty_groups()
+  end
 
-  defp assign_routes(socket), do: socket |> assign(:routes, @routes_repo.by_type([0, 1]))
-
-  defp attach_alert_lists(routes, alerts) do
+  defp with_alert_lists(routes, alerts) do
     routes
     |> Enum.map(fn route ->
       entity = %InformedEntity{
@@ -97,11 +79,8 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   defp drop_empty_groups(alert_list_tuples),
     do: alert_list_tuples |> Enum.reject(fn {_group_name, group} -> Enum.empty?(group) end)
 
-  defp excluding_banner(%{assigns: %{alert_banner: alert_banner}}, alerts) do
-    Enum.reject(alerts, &(&1.id == alert_banner.id))
-  end
-
-  defp excluding_banner(_, alerts), do: alerts
+  defp excluding_banner(nil = _banner, alerts), do: alerts
+  defp excluding_banner(banner, alerts), do: alerts |> Enum.reject(&(&1.id == banner.id))
 
   def render(assigns) do
     ~H"""
@@ -114,7 +93,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
           <.alerts_subway_status subway_status={@subway_status} />
         </section>
         <section id="planned" class="mb-lg">
-          <.disruptions disruptions={@disruption_groups} />
+          <.disruptions disruptions={@future_disruptions} />
         </section>
         <section id="station_and_service">
           <.alerts_page_content_layout
