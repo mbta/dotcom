@@ -120,6 +120,33 @@ defmodule DotcomWeb do
         unquote(view_helpers())
       end
     end
+
+    quote do
+      use Phoenix.LiveView
+
+      @doc """
+      Apply the args to the function and assign the result to socket with a constructed key.
+      """
+      def assign_result(socket, function, args \\ []) do
+        key = assign_result_key(function)
+        result = Kernel.apply(function, args)
+
+        Phoenix.Component.assign(socket, key, result)
+      end
+
+      # Construct a key from the called function.
+      defp assign_result_key(function) do
+        function
+        |> Kernel.inspect()
+        |> String.split(".")
+        |> List.last()
+        |> String.split("/")
+        |> List.first()
+        |> String.downcase()
+        |> Recase.to_snake()
+        |> String.to_atom()
+      end
+    end
   end
 
   def live_component do
