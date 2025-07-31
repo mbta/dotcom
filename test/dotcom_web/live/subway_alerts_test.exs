@@ -6,12 +6,12 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
   import Mox
   import Phoenix.LiveViewTest
 
-  alias Test.Support.FactoryHelpers
   alias Alerts.Alert
   alias Dotcom.SystemStatus.Subway
   alias Dotcom.Utils
   alias DotcomWeb.Live.SubwayAlerts
   alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
 
   @no_alerts_message "There are no other subway alerts at this time."
 
