@@ -145,6 +145,7 @@ defmodule DotcomWeb do
         |> List.last()
         |> String.split("/")
         |> List.first()
+        |> String.trim(">")
         |> String.downcase()
         |> Recase.to_snake()
         |> String.to_atom()
