@@ -15,6 +15,10 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(:tab_name)
 
+  # The alert timeframe filter is being phased out of schedule pages
+  # Adjust this as we update more route alert page layouts
+  @route_types_without_timeframes [0, 1, 2]
+
   def show(conn, _) do
     mode =
       conn
@@ -58,13 +62,20 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     |> Route.type_name()
   end
 
-  # The alert timeframe filter is being phased out of schedule pages
-  # Adjust this condition as we update more route alert page layouts
-  defp alerts_by_timeframe(%{assigns: %{route: %Route{id: route_id}}} = conn, _) do
-    if route_id in Dotcom.Routes.subway_route_ids() do
-      conn
-    else
-      Plugs.AlertsByTimeframe.call(conn, [])
-    end
+  defp alerts_by_timeframe(
+         %{
+           assigns: %{route: %Route{type: route_type, id: route_id}},
+           params: %{"alerts_timeframe" => _} = params
+         } =
+           conn,
+         _
+       )
+       when route_type in @route_types_without_timeframes do
+    new_path = conn |> alerts_path(:show, route_id, params |> Map.drop(["alerts_timeframe"]))
+    conn |> redirect(to: new_path)
+  end
+
+  defp alerts_by_timeframe(conn, _) do
+    Plugs.AlertsByTimeframe.call(conn, [])
   end
 end
