@@ -9,7 +9,6 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
-  import DotcomWeb.Components.TAlerts, only: [t_alerts: 1]
 
   alias Alerts.InformedEntity
   alias Alerts.Match
@@ -108,7 +107,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
     ~H"""
     <.alerts_layout mode={:subway}>
       <:sidebar_bottom>
-        <.t_alerts />
+        {DotcomWeb.AlertView.render("_t-alerts.html")}
       </:sidebar_bottom>
       <:main_section>
         <section class="mb-lg">
