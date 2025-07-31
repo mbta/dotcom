@@ -291,7 +291,7 @@ msgstr "Mapas"
 msgid "Proposed Sales Locations"
 msgstr "Puestos de venta propuestos"
 
-msgid "Members of the press can request to join our media list by emailing <a href=\"
+msgid "Members of the press can request to join our media list by emailing <a href=''></a>"
 msgstr "Los miembros de la prensa pueden solicitar unirse a nuestra lista de medios por correo electrónico"
 
 msgid "Early Departure Stop"
