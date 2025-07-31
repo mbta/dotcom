@@ -199,7 +199,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   """
   @spec service_today?(DateTime.t()) :: boolean
   def service_today?(date_time) do
-    service_range_day() |> in_range?(date_time)
+    service_range_day() |> in_range?(date_time)    
   end
 
   @doc """
