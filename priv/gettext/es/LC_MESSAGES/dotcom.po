@@ -16,7 +16,7 @@ msgid "Main"
 msgstr "Main"
 
 msgid "Get T-Alerts"
-msgstr "T-Alerts"
+msgstr "Obtener T-Alerts"
 
 msgid "Developers"
 msgstr "Desarrolladores"
