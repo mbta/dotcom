@@ -104,25 +104,12 @@ defmodule DotcomWeb do
   end
 
   def live_view do
-    # Since we're only testing translations right now, don't
-    # enable them in the live prod website yet.
-    if Application.get_env(:dotcom, :is_prod_env?) do
-      quote do
-        use Phoenix.LiveView
-
-        unquote(view_helpers())
-      end
-    else
-      quote do
-        use Phoenix.LiveView
-        on_mount DotcomWeb.Hooks.RestoreLocale
-
-        unquote(view_helpers())
-      end
-    end
-
     quote do
       use Phoenix.LiveView
+
+      on_mount DotcomWeb.Hooks.RestoreLocale
+
+      unquote(view_helpers())
 
       @doc """
       Apply the args to the function and assign the result to socket with a constructed key.
