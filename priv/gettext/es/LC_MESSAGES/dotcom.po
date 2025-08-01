@@ -21,6 +21,9 @@ msgstr "Los pilotos de MBTA pueden comprar CharlieTickets y recargar y comprar C
 msgid "Friday"
 msgstr "Viernes"
 
+msgid "Home Address"
+msgstr "Home Address"
+
 msgid "Direction of your trip"
 msgstr "Dirección de su viaje"
 
@@ -29,6 +32,12 @@ msgstr "Regístrese para notificaciones de alerta"
 
 msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
 msgstr "Si se han violado sus derechos civiles, puede presentar una queja ante la Oficina de Diversidad y Derechos Civiles MBTA."
+
+msgid "Enter project keywords"
+msgstr "Introduzca palabras clave del proyecto"
+
+msgid "Take the T to Vote"
+msgstr "Tome la T para votar"
 
 msgid " for real-time track changes."
 msgstr " para cambios de pista en tiempo real."
@@ -63,6 +72,9 @@ msgstr "Main"
 msgid "View phone numbers"
 msgstr "Ver números de teléfono"
 
+msgid "MBTA Trip Planner"
+msgstr "MBTA Trip Planner"
+
 msgid "Check if your spelling is correct."
 msgstr "Compruebe si su ortografía es correcta."
 
@@ -96,11 +108,17 @@ msgstr "Policies &quot; Civil Rights"
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
+msgid "search"
+msgstr "búsqueda"
+
 msgid "Accessibility"
 msgstr "Accesibilidad"
 
 msgid "Information & Support"
 msgstr "Información y apoyo"
+
+msgid "Plan your trip"
+msgstr "Planifica tu viaje"
 
 msgid "To report a problem or emergency with a railroad crossing, call"
 msgstr "Para reportar un problema o emergencia con un cruce de ferrocarril, llame"
@@ -110,6 +128,9 @@ msgstr "Cuando los resultados autocompletos están disponibles, utilice flechas 
 
 msgid "Leadership"
 msgstr "Dirección"
+
+msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
+msgstr "Una toma exterior de la entrada de la estación central de cruce. Las banderas estadounidenses bordean la calle, y los rascacielos son visibles en el fondo. Muchos peatones están caminando."
 
 msgid "Date"
 msgstr "Fecha"
@@ -123,11 +144,26 @@ msgstr "Resultados de búsqueda para"
 msgid "Remove quotes around phrases to search for each word individually."
 msgstr "Eliminar las citas alrededor de frases para buscar cada palabra individualmente."
 
+msgid "More Guides"
+msgstr "Más Guías"
+
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
 
+msgid "Or, go to "
+msgstr "O ir a "
+
+msgid "Event summary for "
+msgstr "Resumen del evento "
+
 msgid "trips for today"
 msgstr "viajes para hoy"
+
+msgid "Explore stations by mode"
+msgstr "Explore estaciones por modo"
+
+msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
+msgstr "Nuestros guías de usuario pueden ayudarle a aprender cómo navegar por el sistema, llegar a eventos locales, utilizar características de accesibilidad, y más."
 
 msgid "Use the link below to access"
 msgstr "Utilice el enlace de abajo para acceder"
@@ -144,11 +180,17 @@ msgstr "Mostrando resultados"
 msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
 msgstr "Típicamente más del 33% de los asientos permanecen disponibles y el distanciamiento puede ser posible (~2-3 personas por fila)"
 
+msgid "to plan your trip"
+msgstr "para planificar su viaje"
+
 msgid " to stop."
 msgstr " Parar."
 
 msgid "History"
 msgstr "Historia"
+
+msgid "Enter your registered address"
+msgstr "Introduzca su dirección registrada"
 
 msgid "There was a problem performing your search; please try again in a few minutes."
 msgstr "Hubo un problema en la realización de su búsqueda; por favor intente de nuevo en unos minutos."
@@ -201,9 +243,6 @@ msgstr "Ver tarifas vista"
 msgid "Updated on"
 msgstr "Actualizado en"
 
-msgid "More from"
-msgstr "Más desde"
-
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
 msgstr "Esta lista no incluye los minoristas actuales MBTA. Para ver las ubicaciones minoristas actuales, utilice nuestro"
 
@@ -212,9 +251,6 @@ msgstr "Audiencia integrada"
 
 msgid "Whoops! An error occurred."
 msgstr "¡Vaya! Se produjo un error."
-
-msgid "Or, go to <a href=''></a>"
-msgstr "O, vaya a..."
 
 msgid "Learn more about seat availability trends"
 msgstr "Más información sobre las tendencias de disponibilidad de asientos"
@@ -242,6 +278,9 @@ msgstr "con"
 
 msgid "at this time"
 msgstr "en este momento"
+
+msgid "Schedules and Maps"
+msgstr "Listas y Mapas"
 
 msgid "To submit an ADA/Accessibility complaint or feedback, please call"
 msgstr "Para presentar una reclamación o retroalimentación de ADA/Accesibilidad, por favor llame"
@@ -291,9 +330,6 @@ msgstr "Mapas"
 msgid "Proposed Sales Locations"
 msgstr "Puestos de venta propuestos"
 
-msgid "Members of the press can request to join our media list by emailing <a href=''></a>"
-msgstr "Los miembros de la prensa pueden solicitar unirse a nuestra lista de medios por correo electrónico"
-
 msgid "Early Departure Stop"
 msgstr "Parada de salida temprana"
 
@@ -332,6 +368,9 @@ msgstr "Horarios visitados recientemente"
 
 msgid "Get Involved"
 msgstr "Entrar"
+
+msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
+msgstr "Martes 5 de noviembre es el último día para votar en las elecciones generales de 2024. Utilice la T para llegar a su lugar de votación."
 
 msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
 msgstr "Todas las ubicaciones propuestas están sujetas a la idoneidad del sitio, la autorización y la disponibilidad al por menor."
@@ -432,6 +471,9 @@ msgstr "Cuadros"
 msgid "Receive notifications of MBTA service alerts by email or text."
 msgstr "Recibir notificaciones de MBTA alertas de servicio por correo electrónico o texto."
 
+msgid "We'll send you MBTA press releases and media advisories directly."
+msgstr "Le enviaremos MBTA comunicados de prensa y consejeros de medios directamente."
+
 msgid "Tuesday"
 msgstr "Martes"
 
@@ -452,6 +494,9 @@ msgstr "Próximos vacaciones"
 
 msgid "Learn more about filing a complaint"
 msgstr "Más información sobre la presentación de una queja"
+
+msgid "View all guides"
+msgstr "Ver todas las guías"
 
 msgid "alerts at this time"
 msgstr "alertas en este momento"
@@ -528,6 +573,9 @@ msgstr "Noticias"
 msgid "Minutes"
 msgstr "Minutos"
 
+msgid "Clickable graphic for User Guides"
+msgstr "Gráfico Clickable para Guías de Usuario"
+
 msgid "Skip to main content"
 msgstr "Pasar al contenido principal"
 
@@ -579,6 +627,9 @@ msgstr "Lunes"
 msgid "There are no other"
 msgstr "No hay otro"
 
+msgid "More from "
+msgstr "Más desde "
+
 msgid "Terms of Use"
 msgstr "Términos de uso"
 
@@ -599,6 +650,9 @@ msgstr "Típicamente más del 66% de los asientos están disponibles y el distan
 
 msgid "Flag Stop"
 msgstr "Parada de bandera"
+
+msgid "Stops"
+msgstr "Altos"
 
 msgid "Recent News on the T"
 msgstr "Noticias recientes sobre el T"
@@ -624,8 +678,14 @@ msgstr "Política de privacidad"
 msgid "Business"
 msgstr "Negocios"
 
+msgid "Enter keyword(s)"
+msgstr "Introduzca la palabra clave(s)"
+
 msgid "Learn more about fare prices, pass types, and how to pay your fare on the T."
 msgstr "Más información sobre precios de tarifa, tipos de pase y cómo pagar su tarifa en la T."
+
+msgid "to find your polling place, and then use the"
+msgstr "para encontrar su lugar de votación, y luego utilizar el"
 
 msgid "We want to make sure we're building a retail network that works for you. You can share your feedback using the form below."
 msgstr "Queremos asegurarnos de construir una red minorista que funcione para usted. Puedes compartir tus comentarios usando el siguiente formulario."
@@ -635,6 +695,9 @@ msgstr "No hay eventos"
 
 msgid "Passengers must tell "
 msgstr "Los pasajeros deben decir "
+
+msgid "Find Your Polling Place"
+msgstr "Encontrar su lugar de votación"
 
 msgid ", cash, or "
 msgstr ", efectivo o "
@@ -653,6 +716,12 @@ msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden conseg
 
 msgid "View PDF Timetable"
 msgstr "Ver PDF Calendario"
+
+msgid "report an issue"
+msgstr "informe sobre una cuestión"
+
+msgid "Your Polling Place"
+msgstr "Tu lugar de votación"
 
 msgid "Error"
 msgstr "Error"
@@ -693,6 +762,9 @@ msgstr "Publicado en"
 msgid "See all press releases"
 msgstr "Ver todos los comunicados de prensa"
 
+msgid "Secretary of State's official site"
+msgstr "Sitio oficial del Secretario de Estado"
+
 msgid "or complete the feedback form on this page."
 msgstr "o completar el formulario de comentarios en esta página."
 
@@ -702,11 +774,17 @@ msgstr "Lost &amp; Found"
 msgid "Seat Availability"
 msgstr "Seat Disponibilidad"
 
+msgid "the MBTA's home page"
+msgstr "la página principal de MBTA"
+
 msgid "Many Seats Available"
 msgstr "Muchos asientos disponibles"
 
 msgid "Station Accessibility"
 msgstr "Accesibilidad a la estación"
+
+msgid "Members of the press can request to join our media list by emailing "
+msgstr "Los miembros de la prensa pueden solicitar unirse a nuestra lista de medios por correo electrónico "
 
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
@@ -773,6 +851,9 @@ msgstr "Planifique un viaje"
 
 msgid "Enter a location"
 msgstr "Introduzca un lugar"
+
+msgid "mTicket App"
+msgstr "mTicket App"
 
 msgid "Bikes Allowed"
 msgstr "Bicicletas permitidas"
@@ -873,6 +954,9 @@ msgstr "MBTA Transit Police"
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
 
+msgid "We weren't able to find a polling place for your address. You can also visit the"
+msgstr "No pudimos encontrar un lugar de votación para tu dirección. También puede visitar"
+
 msgid "Subway One-Way"
 msgstr "Subway One-Way"
 
@@ -903,8 +987,8 @@ msgstr "Cambiar dirección de viaje."
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"
 
-msgid "There are no updates at this time."
-msgstr "No hay actualizaciones en este momento."
+msgid "There are no updates at this time.\"
+msgstr "No hay actualizaciones en este momento.\"
 
 msgid "The "
 msgstr "El "
