@@ -90,6 +90,15 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
+      live("/alerts/subway", Live.SubwayAlerts)
+    end
+  end
+
+  scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
     # redirect underscored urls to hyphenated version
@@ -277,6 +286,12 @@ defmodule DotcomWeb.Router do
       layout: {DotcomWeb.LayoutView, :live} do
       live("/trip-planner", Live.TripPlanner)
     end
+  end
+
+  scope "/", DotcomWeb do
+    pipe_through([:browser, :browser_live])
+
+    live "/demo", Live.Demo
   end
 
   scope "/preview", DotcomWeb do

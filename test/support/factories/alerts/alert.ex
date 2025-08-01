@@ -30,6 +30,21 @@ defmodule Test.Support.Factories.Alerts.Alert do
     }
   end
 
+  def alert_for_informed_entity_factory(attrs) do
+    {informed_entity_attrs, attrs} = Map.pop(attrs, :informed_entity)
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(
+        :informed_entity,
+        InformedEntitySet.new([
+          Factories.Alerts.InformedEntity.build(:informed_entity, informed_entity_attrs)
+        ])
+      )
+    )
+  end
+
   def alert_for_route_factory(attrs) do
     {route_id, attrs} = Map.pop(attrs, :route_id)
 

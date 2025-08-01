@@ -6,8 +6,13 @@ defmodule Dotcom.Alerts do
   import Dotcom.Utils.DateTime, only: [in_range?: 2]
 
   alias Alerts.Alert
+  alias Alerts.InformedEntity
+  alias Alerts.Match
+  alias Routes.Route
   alias Stops.Stop
 
+  @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @routes_repo_module Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
@@ -113,6 +118,38 @@ defmodule Dotcom.Alerts do
 
     a_station <= b_station
   end
+
+  @spec subway_alert_groups() :: [{Route.t(), [Alert.t()]}]
+  def subway_alert_groups() do
+    alerts =
+      @alerts_repo_module.all(@date_time_module.now())
+      |> Enum.reject(&service_impacting_alert?/1)
+
+    non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
+
+    [0, 1]
+    |> @routes_repo_module.by_type()
+    |> with_alert_lists(non_banner_alerts)
+    |> drop_empty_groups()
+  end
+
+  defp with_alert_lists(routes, alerts) do
+    routes
+    |> Enum.map(fn route ->
+      entity = %InformedEntity{
+        route_type: route.type,
+        route: route.id
+      }
+
+      {route, Match.match(alerts, entity)}
+    end)
+  end
+
+  defp drop_empty_groups(alert_list_tuples),
+    do: alert_list_tuples |> Enum.reject(fn {_group_name, group} -> Enum.empty?(group) end)
+
+  defp excluding_banner(nil = _banner, alerts), do: alerts
+  defp excluding_banner(banner, alerts), do: alerts |> Enum.reject(&(&1.id == banner.id))
 
   # Does the alert:
   #   1. Have an effect that is in the list of given effects?

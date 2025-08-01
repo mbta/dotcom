@@ -10,7 +10,7 @@ defmodule Test.Support.Factories.Alerts.InformedEntity do
 
   def informed_entity_factory do
     %InformedEntity{
-      activities: InformedEntity.activities() |> Enum.take_random(3),
+      activities: InformedEntity.activities() |> Enum.take_random(3) |> MapSet.new(),
       direction_id: Faker.Util.pick([0, 1]),
       facility: Faker.Lorem.word(),
       route: Faker.Lorem.word(),
