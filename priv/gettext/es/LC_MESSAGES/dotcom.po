@@ -672,6 +672,9 @@ msgstr "Estamos pidiendo al público que ayude a guiar nuestras decisiones mient
 msgid "Learn what happens after you file a complaint"
 msgstr "Aprenda lo que sucede después de presentar una queja"
 
+msgid "There are no updates at this time."
+msgstr "No hay actualizaciones en este momento."
+
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
@@ -986,9 +989,6 @@ msgstr "Cambiar dirección de viaje."
 
 msgid "Massachusetts Bay Transportation Authority"
 msgstr "Massachusetts Bay Transportation Authority"
-
-msgid "There are no updates at this time.\"
-msgstr "No hay actualizaciones en este momento.\"
 
 msgid "The "
 msgstr "El "

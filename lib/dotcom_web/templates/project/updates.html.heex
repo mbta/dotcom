@@ -41,7 +41,7 @@
           end
         end}
         {if Enum.empty?(@updates) do
-          content_tag(:div, ~t(There are no updates at this time."))
+          content_tag(:div, ~t(There are no updates at this time.))
         end}
         {DotcomWeb.CMS.ParagraphView.render_paragraph(
           %DescriptiveLink{

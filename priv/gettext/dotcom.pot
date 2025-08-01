@@ -1468,7 +1468,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/project/updates.html.heex:44
 #, elixir-autogen, elixir-format
-msgid "There are no updates at this time.\""
+msgid "There are no updates at this time."
 msgstr ""
 
 #: lib/dotcom_web/templates/search/index.html.heex:33
