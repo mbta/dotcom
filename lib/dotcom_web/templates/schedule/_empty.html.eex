@@ -1,9 +1,0 @@
-<% track_template() %>
-<div class="callout schedule-empty">
-  <%= no_trips_message(@error, @direction, @date) %>
-  <%= if @date && @date != Util.service_date() && @direction do %>
-    <div>
-      <%= link "View #{String.downcase(@direction)} trips for today", to: update_url(@conn, date: nil) %>
-    </div>
-  <% end %>
-</div>

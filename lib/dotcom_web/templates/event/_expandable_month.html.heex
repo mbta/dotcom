@@ -1,0 +1,30 @@
+<section
+  id={"#{ @month_number }-#{ @year }"}
+  class={"m-event-list__month #{ if @month_number == @month, do: "m-event-list__month--active" }"}
+>
+  <% header_id = "header-#{@month_number}" %>
+  <% panel_id = "panel-#{@month_number}" %>
+
+  <button
+    class="c-expandable-block__link sticky-top"
+    data-target={"##{ panel_id }"}
+    tabIndex="0"
+    id={"#{ header_id }"}
+    aria-expanded={"#{ @initially_expanded }"}
+    aria-controls={"#{ panel_id }"}
+    data-toggle="collapse"
+  >
+    <h2 class="m-event-list__month-header">
+      {render_event_month(@month_number, @year)}
+      <span class="c-expandable-block-caret--black"></span>
+    </h2>
+  </button>
+  <div
+    class={"collapse" <> (if @initially_expanded, do: "in", else: "")}
+    role="region"
+    id={"#{ panel_id }"}
+    aria-labelledby={"#{ header_id }"}
+  >
+    {render("_month.html", assigns)}
+  </div>
+</section>

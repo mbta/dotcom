@@ -3,7 +3,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
 
   import DotcomWeb.CustomerSupportController
   import Mox
-  import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
+  import Phoenix.HTML, only: [html_escape: 1]
 
   setup :verify_on_exit!
 
@@ -471,11 +471,11 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       conn = assign(conn, :view_module, DotcomWeb.CustomerSupportView)
 
       document =
-        safe_to_string(
-          html_escape(
-            DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
-          )
+        html_escape(
+          DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
         )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       anchor = Floki.find(document, ".c-expandable-block__link")
@@ -494,11 +494,11 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       conn = assign(conn, :view_module, DotcomWeb.CustomerSupportView)
 
       rendered =
-        safe_to_string(
-          html_escape(
-            DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
-          )
+        html_escape(
+          DotcomWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
         )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered == ""
     end

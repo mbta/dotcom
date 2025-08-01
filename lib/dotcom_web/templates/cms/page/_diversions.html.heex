@@ -1,0 +1,22 @@
+<div class={"c-cms #{ @sidebar_class }"}>
+  <div class="c-cms__header">
+    <div class="c-cms__title">
+      <h1 class="c-cms__title-text">{@page.title}</h1>
+    </div>
+  </div>
+
+  <div class="c-cms__content">
+    <% # Sidebar Left %>
+    {if @sidebar_left,
+      do: DotcomWeb.CMSView.render("_sidebar_left.html", page: @page, conn: @conn)}
+
+    <% # Main Content %>
+    <div class="c-cms__body">
+      {render_page_content(@page, @conn)}
+    </div>
+
+    <% # Sidebar Right %>
+    {if !@sidebar_left && @sidebar_right,
+      do: DotcomWeb.CMSView.render("_sidebar_right.html", page: @page, conn: @conn)}
+  </div>
+</div>

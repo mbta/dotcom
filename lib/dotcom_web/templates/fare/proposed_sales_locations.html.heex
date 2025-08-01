@@ -1,40 +1,39 @@
-<% track_template() %>
-<% psl_types = ["All Location Types", "Charlie Retailer", "Fare Vending Machine"] %>
+<% psl_types = [~t(All Location Types), ~t(Charlie Retailer), ~t(Fare Vending Machine)] %>
 
 <div class="container m-sales-locations">
   <div class="col-md-8">
     <div class="limited-width">
-      <h1 class="u-mb-2">Proposed Sales Locations</h1>
+      <h1 class="u-mb-2">{~t(Proposed Sales Locations)}</h1>
       <p>
-        We're expanding our network of places where riders can get or load a CharlieCard and purchase passes.
+        {~t(We're expanding our network of places where riders can get or load a CharlieCard and purchase passes.)}
       </p>
       <p>
-        Or, {link("see a map of all proposed sales locations",
+        {~t(Or,)} {link(~t(see a map of all proposed sales locations),
           to:
             "https://massdot.maps.arcgis.com/apps/Viewer/index.html?appid=927f1be32b0243af9d9ff68ec1311ddb",
           target: "_blank"
         )}.
       </p>
       <p>
-        <b>Note</b>: This list does not include current MBTA retailers. To see current retail locations, use our {link(
-          "retail sales location finder",
+        <b>{~t(Note)}</b>: {~t(This list does not include current MBTA retailers. To see current retail locations, use our)} {link(
+          ~t(retail sales location finder),
           to: fare_path(@conn, :show, "retail-sales-locations")
-        )}. All proposed locations are subject to site suitability, permitting, and retail availability.
+        )}. {~t(All proposed locations are subject to site suitability, permitting, and retail availability.)}
       </p>
 
-      <h2 class="u-mb-2">Find Proposed Locations Near You</h2>
+      <h2 class="u-mb-2">{~t(Find Proposed Locations Near You)}</h2>
       <p>
         <.algolia_autocomplete
           id="proposed-sales-locations"
           config_type="proposed-locations"
-          placeholder="Enter a location"
+          placeholder={~t(Enter a location)}
         />
       </p>
     </div>
     <%= if !is_nil(@nearby_proposed_locations) do %>
       <%= if Enum.empty?(@nearby_proposed_locations) do %>
         <p class="error-message">
-          Please enter an address that is within 100 miles of an MBTA service area.
+          {~t(Please enter an address that is within 100 miles of an MBTA service area.)}
         </p>
       <% else %>
         <div class="psl-types-buttons hidden">
@@ -51,11 +50,11 @@
       <% end %>
     <% end %>
     <div class="limited-width">
-      <h2 class="feedback-section">Tell Us What You Think</h2>
+      <h2 class="feedback-section">{~t(Tell Us What You Think)}</h2>
       <p>
-        We want to make sure we’re building a retail network that works for you. You can share your feedback using the form below.
+        {~t(We want to make sure we're building a retail network that works for you. You can share your feedback using the form below.)}
       </p>
-      {link("Let us know",
+      {link(~t(Let us know),
         to: "https://mbta.qualtrics.com/jfe/form/SV_6A1WCh4mKnkM22y",
         target: "_blank",
         class: "c-call-to-action"
@@ -64,22 +63,22 @@
   </div>
   <div class="col-md-4">
     <div class="m-schedule-page__schedule-notes u-mt-2">
-      <h3 class="u-mt-0">Get Involved</h3>
+      <h3 class="u-mt-0">{~t(Get Involved)}</h3>
       <p>
-        We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years.
+        {~t(We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years.)}
       </p>
-      {link("Find out how to get involved",
+      {link(~t(Find out how to get involved),
         to: cms_static_page_path(@conn, "/fares/fare-transformation/get-involved"),
         target: "_blank",
         class: "c-call-to-action"
       )}
     </div>
     <div class="m-schedule-page__schedule-notes u-mt-2">
-      <h3 class="u-mt-0">Suggest a Retailer</h3>
+      <h3 class="u-mt-0">{~t(Suggest a Retailer)}</h3>
       <p>
-        Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf.
+        {~t(Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf.)}
       </p>
-      {link("Fill out the form",
+      {link(~t(Fill out the form),
         to: "https://form.asana.com/?k=WXmGhGmZFkehGfely4967Q&d=15492006741476",
         target: "_blank",
         class: "c-call-to-action"

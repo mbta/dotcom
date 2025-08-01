@@ -5,7 +5,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
 
   alias Dotcom.ScheduleNote
   alias DotcomWeb.{ScheduleView, ViewHelpers}
-  alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.{Group, Route}
   alias Services.Repo, as: ServicesRepo
@@ -47,13 +46,16 @@ defmodule DotcomWeb.ScheduleController.LineController do
         pdfs:
           ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
         teasers:
-          HTML.safe_to_string(
-            ScheduleView.render(
-              "_cms_teasers.html",
-              Map.merge(conn.assigns, %{conn: conn})
-            )
-          ),
-        hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns)),
+          ScheduleView.render(
+            "_cms_teasers.html",
+            Map.merge(conn.assigns, %{conn: conn})
+          )
+          |> Phoenix.HTML.Safe.to_iodata()
+          |> IO.iodata_to_binary(),
+        hours:
+          ScheduleView.render("_hours_of_op.html", conn.assigns)
+          |> Phoenix.HTML.Safe.to_iodata()
+          |> IO.iodata_to_binary(),
         fares:
           Enum.map(ScheduleView.single_trip_fares(conn.assigns.route), fn {title, price} ->
             %{title: title, price: price}

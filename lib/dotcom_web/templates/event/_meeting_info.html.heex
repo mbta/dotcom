@@ -1,0 +1,27 @@
+<div class={"c-paragraph #{ if @style do @style end }"}>
+  <h2>{~t(Meeting Info)}</h2>
+  <div class="u-small-caps font-bold u-mb-05 u-mt-1">{~t(Date and Time)}</div>
+  <% %{date: date, time: time} =
+    get_formatted_date_time_map(
+      @event.start_time,
+      @event.end_time,
+      "{WDfull}, {Mfull} {D}, {YYYY}"
+    ) %>
+  <div>{date}</div>
+  <div>{time}</div>
+  <%= if !has_started?(@event) do %>
+    <%= link to: event_icalendar_path(@conn, :show, @event), class: "add-to-calendar-link" do %>
+      {fa("calendar-plus-o")} {~t(Add to Calendar)}
+    <% end %>
+  <% end %>
+  <div class="u-small-caps font-bold u-mb-05 u-mt-1">{~t(Location)}</div>
+  <%= if @event.location do %>
+    <div>{@event.location}</div>
+    <div>{@event.street_address}</div>
+    <div>{city_and_state(@event)}</div>
+  <% else %>
+    <div>{@event.imported_address}</div>
+  <% end %>
+  <div class="u-small-caps font-bold u-mb-05 u-mt-1">{~t(Intended Audience)}</div>
+  <div>{@event.who}</div>
+</div>

@@ -1,0 +1,8 @@
+<div>
+  <span class="event-info-label">{~t(Location)}:</span>
+  <%= if @event.location do %>
+    {@event.location} • {@event.street_address} • {city_and_state(@event)}
+  <% else %>
+    {@event.imported_address}
+  <% end %>
+</div>

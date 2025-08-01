@@ -1,0 +1,14 @@
+<p>
+  <strong>{~t(Emergency)}:</strong> {tel_link("617-222-1212")}<br />
+  <strong>{~t(TTY)}:</strong> {tel_link("711")}
+</p>
+<p>
+  <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-call-to-action" do %>
+    {~t(Contact the Transit Police)}
+  <% end %>
+</p>
+<p>
+  <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "c-call-to-action" do %>
+    {~t(See Something, Say Something)}
+  <% end %>
+</p>

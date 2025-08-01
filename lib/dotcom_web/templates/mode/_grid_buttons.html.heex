@@ -1,0 +1,28 @@
+<div class="c-grid-buttons">
+  <%= for {route, idx} <- Enum.with_index(@routes) do %>
+    {render("_grid_button.html",
+      conn: @conn,
+      route: route,
+      show_icon?: @show_icons?,
+      link_path: grid_button_path(route, @conn),
+      has_alert?: has_alert?(route, @alerts, @date_time),
+      id_prefix: assigns[:id_prefix],
+      index: idx
+    )}
+  <% end %>
+  <%= if assigns[:sub_routes] do %>
+    <div class="c-grid-button c-grid-buttons__condensed">
+      <%= for {route, idx} <- Enum.with_index(Map.get(assigns, :sub_routes, [])) do %>
+        {render("_grid_button_condensed.html",
+          conn: @conn,
+          route: route,
+          show_icon?: @show_icons?,
+          link_path: grid_button_path(route, @conn),
+          has_alert?: has_alert?(route, @alerts, @date_time),
+          id_prefix: assigns[:id_prefix],
+          index: idx
+        )}
+      <% end %>
+    </div>
+  <% end %>
+</div>

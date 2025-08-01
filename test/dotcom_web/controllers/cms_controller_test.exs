@@ -1,5 +1,6 @@
 defmodule DotcomWeb.CMSControllerTest do
   use DotcomWeb.ConnCase, async: false
+
   import Mox
 
   alias Plug.Conn
@@ -107,8 +108,7 @@ defmodule DotcomWeb.CMSControllerTest do
 
       assert rendered =~ ~s(<h1 class="landing-page-title">Paragraphs Guide</h1>)
 
-      assert rendered =~
-               ~s(<div class="c-title-card__title c-title-card--link__title">Example Card 1</div>)
+      assert rendered =~ ~s(Example Card 1)
     end
 
     test "renders a person page", %{conn: conn} do

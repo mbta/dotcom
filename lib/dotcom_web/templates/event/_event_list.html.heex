@@ -1,0 +1,37 @@
+<div class="m-event-listing">
+  <nav class="m-event-list__nav--mobile-controls">
+    {render("_month_select.html",
+      conn: @conn,
+      month: @month,
+      year: @year
+    )}
+
+    {render("_year_select.html",
+      conn: @conn,
+      month: @month,
+      year: @year
+    )}
+  </nav>
+
+  <%= for {month_number, event_teasers} <- @events do %>
+    <!-- Only expand month if past year OR current year and current-or-future month -->
+    <% initially_expanded =
+      @conn.assigns.date.year != @year or
+        (@conn.assigns.date.year == @year and month_number >= @conn.assigns.date.month) or
+        month_number == @month %>
+    {render(
+      "_expandable_month.html",
+      %{
+        initially_expanded: initially_expanded,
+        month: @month,
+        year: @year,
+        conn: @conn,
+        month_number: month_number,
+        event_teasers: event_teasers
+      }
+    )}
+  <% end %>
+  <%= if Enum.empty?(@events) do %>
+    <p>{~t(No events)}</p>
+  <% end %>
+</div>

@@ -2,7 +2,6 @@ defmodule DotcomWeb.StopListViewTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ScheduleView.StopList
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias CMS.Repo
   alias DotcomWeb.ScheduleView
@@ -56,7 +55,8 @@ defmodule DotcomWeb.StopListViewTest do
           news: news,
           conn: conn
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       [featured_sample | _] = featured
 
@@ -74,7 +74,8 @@ defmodule DotcomWeb.StopListViewTest do
       rendered =
         "_cms_teasers.html"
         |> ScheduleView.render(featured_content: [], news: [], conn: conn)
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert String.trim(rendered) == ""
     end

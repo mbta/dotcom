@@ -1,8 +1,7 @@
-<% track_template() %>
 <% form = to_form(%{}, as: :plan, id: "plan") %>
 <div class="@container/trip-planner-widget c-trip-plan-widget">
   <%= if !assigns[:hide_text] do %>
-    <h2>{if assigns[:title], do: @title, else: "Plan a trip"}</h2>
+    <h2>{if assigns[:title], do: @title, else: ~t(Plan a trip)}</h2>
     <p :if={assigns[:text]}>{@text}</p>
   <% end %>
   <.form
@@ -15,16 +14,16 @@
     <.location_search_box
       name="trip-planner-input-form--from"
       field={f[:from]}
-      placeholder="Enter an origin location"
+      placeholder={~t(Enter an origin location)}
     />
     <.location_search_box
       name="trip-planner-input-form--to"
       field={f[:to]}
-      placeholder="Enter a destination location"
+      placeholder={~t(Enter a destination location)}
     />
     <div class="mb-sm pb-[2px] justify-self-end self-end">
       <.button id="trip-plan__submit" type="submit">
-        {if assigns[:button_text], do: @button_text, else: "Get trip suggestions"}
+        {if assigns[:button_text], do: @button_text, else: ~t(Get trip suggestions)}
       </.button>
     </div>
   </.form>

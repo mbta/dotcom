@@ -1,0 +1,23 @@
+<%!-- For simple checkboxes in forms.
+    For more complex forms, use the Phoenix inputs_for pattern and add the classes:
+    "c-checkbox" to the container div
+    "c-checkbox__input" to the input
+    and "c-checkbox__label" to the label that comes AFTER the input
+
+    Required: form, field, label_text
+    Optional: id, checked, checked_value (default: on), required
+--%>
+<% id = assigns[:id] || "#{Atom.to_string(@form)}_#{Atom.to_string(@field)}"
+checked_value = assigns[:checked_value] || "on" %>
+<div class="c-checkbox">
+  {checkbox(@form, @field,
+    id: id,
+    class: "c-checkbox__input",
+    checked: assigns[:checked],
+    checked_value: checked_value,
+    required: assigns[:required]
+  )}
+  <label id={"#{ [id, "_label"] }"} for={"#{ id }"} class="c-checkbox__label">
+    {@label_text}
+  </label>
+</div>

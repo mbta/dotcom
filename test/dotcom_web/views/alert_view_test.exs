@@ -3,7 +3,7 @@ defmodule DotcomWeb.AlertViewTest do
   use ExUnit.Case, async: true
   use Timex
 
-  import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
+  import Phoenix.HTML, only: [raw: 1]
   import DotcomWeb.AlertView
   alias Alerts.{Alert, Banner, InformedEntity, InformedEntitySet}
   alias Routes.Route
@@ -154,7 +154,11 @@ defmodule DotcomWeb.AlertViewTest do
           route: @route
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       refute text =~ "There are no alerts"
     end
 
@@ -168,7 +172,10 @@ defmodule DotcomWeb.AlertViewTest do
           timeframe: :current
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert text =~ "Service is running as expected on the Name. There are no current alerts."
     end
@@ -182,7 +189,11 @@ defmodule DotcomWeb.AlertViewTest do
           show_empty?: true
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert text =~ "There are no alerts on the Name at this time."
     end
 
@@ -202,7 +213,10 @@ defmodule DotcomWeb.AlertViewTest do
           date_time: DateTime.utc_now()
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute text =~ Dotcom.TimetableBlocking.pdf_available_text()
       assert text =~ ~s["https://www.mbta.com/pdf-timetable"]
@@ -228,7 +242,11 @@ defmodule DotcomWeb.AlertViewTest do
           always_show: [alert]
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       assert text =~ "Blocked timetable."
     end
 
@@ -250,7 +268,11 @@ defmodule DotcomWeb.AlertViewTest do
           always_show: [alert]
         )
 
-      text = safe_to_string(response)
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
       # only one copy of the alert
       assert [_] = Regex.scan(~r/Blocked timetable/, text)
     end
@@ -351,13 +373,24 @@ defmodule DotcomWeb.AlertViewTest do
 
     test "Displays expansion control if alert has description" do
       response = render("_item.html", alert: @alert, date_time: @date_time)
-      assert safe_to_string(response) =~ "c-alert-item__caret--up"
+
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert text =~ "c-alert-item__caret--up"
     end
 
     test "Does not display expansion control if description is nil" do
       response = render("_item.html", alert: %{@alert | description: nil}, date_time: @date_time)
 
-      refute safe_to_string(response) =~ "c-alert-item__caret--up"
+      text =
+        response
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      refute text =~ "c-alert-item__caret--up"
     end
 
     test "Icons and labels are displayed for shuttle today" do
@@ -372,7 +405,8 @@ defmodule DotcomWeb.AlertViewTest do
           },
           date_time: @now
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert response =~ "c-svg__icon-shuttle-default"
     end
@@ -387,7 +421,8 @@ defmodule DotcomWeb.AlertViewTest do
           },
           date_time: @now
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert response =~ "c-svg__icon-alerts-triangle"
     end
@@ -404,7 +439,8 @@ defmodule DotcomWeb.AlertViewTest do
           },
           date_time: @now
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert response =~ "c-svg__icon-snow-default"
       assert response =~ "Snow Route"
@@ -421,8 +457,10 @@ defmodule DotcomWeb.AlertViewTest do
           },
           date_time: @now
         )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
-      assert safe_to_string(response) =~ "c-svg__icon-cancelled-default"
+      assert response =~ "c-svg__icon-cancelled-default"
     end
 
     test "No icon for future cancellation" do
@@ -437,7 +475,8 @@ defmodule DotcomWeb.AlertViewTest do
           },
           date_time: @date_time
         )
-        |> safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute response =~ "c-svg__icon"
       assert response =~ "Cancellation"

@@ -1,0 +1,37 @@
+<% event_start = @event_teaser.date
+event_stop = @event_teaser.date_end
+path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end
+
+event_is_hidden =
+  if @check_event_ended do
+    Date.compare(@conn.assigns.date, @event_teaser.date) == :gt
+  else
+    false
+  end %>
+
+<!-- If date is upcoming, display on init -->
+<!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
+<li
+  class={"list-group-item u-flex-container m-event #{ if event_is_hidden, do: "hidden" }"}
+  data-group={"#{ render_event_month_slug(@month_number, @year) }"}
+>
+  <div class="m-event__date-circle">
+    <div class="font-bold m-event__month">{pretty_date(event_start, "{Mshort}")}</div>
+    <div class="font-bold m-event__day">{pretty_date(event_start, "{D}")}</div>
+  </div>
+  <div class="u-flex-one">
+    <div class="m-event__date-range gray">
+      {render_event_duration_list_view(event_start, event_stop)}
+    </div>
+    <div class="m-event__title">
+      {link(@event_teaser.title, to: path_fn.())}
+    </div>
+  </div>
+  {render("_add_button.html",
+    event_started: has_started?(@event_teaser),
+    event_ended: ended?(@event_teaser),
+    conn: @conn,
+    class: "list-version",
+    path: @event_teaser.path
+  )}
+</li>

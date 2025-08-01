@@ -1,0 +1,19 @@
+<div class="l-title-cards">
+  <%= for descriptive_link <- @content.descriptive_links do %>
+    <%= if descriptive_link.link do %>
+      <%= link to: cms_static_page_path(@conn, descriptive_link.link.url), class: "c-title-card c-title-card--link" do %>
+        <div class="c-title-card__title c-title-card--link__title">
+          {ContentRewriter.rewrite(descriptive_link.title, @conn)}
+        </div>
+        <p>{ContentRewriter.rewrite(descriptive_link.body, @conn)}</p>
+      <% end %>
+    <% else %>
+      <div class="c-title-card">
+        <div class="c-title-card__title">
+          {ContentRewriter.rewrite(descriptive_link.title, @conn)}
+        </div>
+        <p>{ContentRewriter.rewrite(descriptive_link.body, @conn)}</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

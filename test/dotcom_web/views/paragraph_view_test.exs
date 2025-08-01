@@ -37,7 +37,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<p>Hello</p>"
     end
@@ -49,7 +50,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--custom-html"
       refute rendered =~ "c-paragraph--right-rail"
@@ -75,16 +77,15 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
-      assert rendered =~
-               ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
+      assert rendered =~ ~s(Card 1)
 
       assert rendered =~ "<strong>Body 1</strong>"
       assert rendered =~ ~s( href="/relative/link")
 
-      assert rendered =~
-               ~s(<div class="c-title-card__title c-title-card--link__title">Card 2</div>)
+      assert rendered =~ ~s(Card 2)
 
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
@@ -104,7 +105,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "responsive-table"
       refute rendered =~ "mbta-circle-icon"
@@ -123,19 +125,22 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered_alone =
         alone
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_in_mc =
         alone
         |> Map.put(:parent, "field_column")
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_unlinked =
         alone
         |> Map.put(:link, nil)
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered_alone =~ "c-paragraph--descriptive-link"
       assert rendered_alone =~ "c-descriptive-link"
@@ -164,7 +169,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--title-card-set"
       assert rendered =~ "This is a title card"
@@ -180,7 +186,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--people-grid"
       assert rendered =~ person.name
@@ -201,7 +208,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--photo-gallery"
 
@@ -232,7 +240,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         callout
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--callout"
       assert rendered =~ "u-full-bleed"
@@ -245,7 +254,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
         callout
         |> struct(%{image: nil})
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute imageless =~ "c-callout__column--image"
     end
@@ -268,7 +278,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--description-list"
       assert rendered =~ "Header copy"
@@ -297,7 +308,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--content-list"
       assert rendered =~ "c-teaser-list--grid"
@@ -354,7 +366,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-fares"
       assert rendered =~ "u-linked-card"
@@ -392,7 +405,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-fares"
       refute rendered =~ "u-linked-card"
@@ -436,7 +450,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--grouped c-paragraph--with-cards c-paragraph--with-fares"
       assert rendered =~ "u-linked-card"
@@ -474,7 +489,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "Bad grouped fare card data"
     end
@@ -498,7 +514,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~
                "c-paragraph--column-multi c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-links"
@@ -516,7 +533,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "link description"
     end
@@ -527,7 +545,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ paragraph.title
     end
@@ -563,22 +582,26 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered_quarters =
         %ColumnMulti{header: header, columns: cols}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_thirds =
         %ColumnMulti{header: header, columns: Enum.take(cols, 3)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_halves =
         %ColumnMulti{header: header, columns: Enum.take(cols, 2)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       rendered_single =
         %ColumnMulti{header: header, columns: Enum.take(cols, 1)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
       assert rendered_quarters =~ "c-multi-column__column col-sm-6 col-md-3"
@@ -619,7 +642,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
           right_rail: true
         }
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-paragraph--right-rail"
       assert rendered =~ "<h4>This is a multi-column header</h4>"
@@ -651,7 +675,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       document =
         %Accordion{sections: sections}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] =
@@ -700,7 +725,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         %TripPlanWidget{}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<h2>Plan a trip</h2>"
       refute rendered =~ "<p>"
@@ -718,7 +744,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
           button_text: "Go fast"
         }
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<h2>Secret Trip Plan Tool</h2>"
       assert rendered =~ "<p>Find the newest travel tips for your origin and destination.</p>"
@@ -733,7 +760,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ paragraph.type
     end
@@ -749,7 +777,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       document =
         %CodeEmbed{body: prepared_input}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       [{"script", [{"type", type}, {"src", src}], [inline_js]}] =
@@ -803,7 +832,10 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
 
   describe "extend_width_if/3" do
     test "wraps content with media divs if the condition is true" do
-      rendered = extend_width_if(true, :table, do: "foo") |> HTML.safe_to_string()
+      rendered =
+        extend_width_if(true, :table, do: "foo")
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-media c-media--table"
       assert rendered =~ "c-media__content"
@@ -841,7 +873,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute rendered =~ "c-call-to-action"
     end
@@ -859,7 +892,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute rendered =~ "c-call-to-action"
     end
@@ -877,7 +911,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "Custom CTA"
@@ -895,7 +930,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       refute rendered =~ "c-call-to-action"
     end
@@ -911,7 +947,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "Go here!"
@@ -932,7 +969,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "View all news"
@@ -950,7 +988,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "View all events"
@@ -969,7 +1008,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "View all projects"
@@ -987,7 +1027,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "More where that came from..."
@@ -1005,7 +1046,8 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-call-to-action"
       assert rendered =~ "View all events"

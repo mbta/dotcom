@@ -14,7 +14,8 @@ defmodule DotcomWeb.CMS.PageViewTest do
       rendered =
         paragraph
         |> render_page(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "<p>Hello</p>"
     end
@@ -90,7 +91,8 @@ defmodule DotcomWeb.CMS.PageViewTest do
       rendered =
         project
         |> render_page(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "page-section"
       assert rendered =~ "alerts-section"
@@ -113,7 +115,8 @@ defmodule DotcomWeb.CMS.PageViewTest do
       rendered =
         project
         |> render_page(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "page-section"
       assert rendered =~ "alerts-section"
@@ -137,7 +140,8 @@ defmodule DotcomWeb.CMS.PageViewTest do
       rendered =
         project
         |> render_page(conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "page-section"
       assert rendered =~ "alerts-section"

@@ -1,0 +1,6 @@
+{DotcomWeb.PartialView.render_teasers(@featured_content, @conn)}
+
+<%= unless Enum.empty?(@news) do %>
+  {content_tag(:h3, ~t(News), class: "h2")}
+  {DotcomWeb.PartialView.render_teasers(@news, @conn)}
+<% end %>
