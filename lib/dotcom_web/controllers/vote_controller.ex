@@ -53,7 +53,7 @@ defmodule DotcomWeb.VoteController do
     conn
     |> assign(:should_scroll, true)
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Take the T to Vote", cms_static_page_path(conn, "/vote"))
+      Breadcrumb.build(~t"Take the T to Vote", cms_static_page_path(conn, "/vote"))
     ])
     |> render("show.html")
   end
@@ -61,7 +61,7 @@ defmodule DotcomWeb.VoteController do
   def show(conn, _params) do
     conn
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Vote", cms_static_page_path(conn, "/vote"))
+      Breadcrumb.build(~t"Vote", cms_static_page_path(conn, "/vote"))
     ])
     |> render("show.html")
   end
@@ -70,7 +70,7 @@ defmodule DotcomWeb.VoteController do
     conn
     |> assign(
       :meta_description,
-      "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
+      ~t"Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
     )
   end
 
