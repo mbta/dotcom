@@ -173,7 +173,8 @@ defmodule DotcomWeb.CMS.PageView do
         date_time: conn.assigns.date_time,
         page: page
       )
+      |> Phoenix.HTML.Safe.to_iodata()
 
-    inject_alerts_section(rewritten, alerts_section)
+    inject_alerts_section(rewritten, {:safe, alerts_section})
   end
 end
