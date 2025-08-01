@@ -6,18 +6,13 @@ defmodule DotcomWeb.Live.SubwayAlerts do
 
   use DotcomWeb, :live_view
 
-  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
 
-  alias Alerts.InformedEntity
-  alias Alerts.Match
   alias Dotcom.Alerts.Subway.Disruptions
   alias Dotcom.SystemStatus
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @date_time Application.compile_env!(:dotcom, :date_time_module)
 
   embed_templates "layouts/*"
@@ -33,7 +28,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
      |> assign(:breadcrumbs, [Breadcrumb.build("Alerts")])
      |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
-     |> assign_result(&alert_groups/0)
+     |> assign_result(&Dotcom.Alerts.subway_alert_groups/0)
      |> assign_result(&SystemStatus.subway_status/0)
      |> assign_result(&Disruptions.future_disruptions/0)}
   end
@@ -54,34 +49,6 @@ defmodule DotcomWeb.Live.SubwayAlerts do
     end
   end
 
-  defp alert_groups() do
-    alerts = @alerts_repo.all(@date_time.now()) |> Enum.reject(&service_impacting_alert?/1)
-    non_banner_alerts = excluding_banner(@alerts_repo.banner(), alerts)
-
-    [0, 1]
-    |> @routes_repo.by_type()
-    |> with_alert_lists(non_banner_alerts)
-    |> drop_empty_groups()
-  end
-
-  defp with_alert_lists(routes, alerts) do
-    routes
-    |> Enum.map(fn route ->
-      entity = %InformedEntity{
-        route_type: route.type,
-        route: route.id
-      }
-
-      {route, Match.match(alerts, entity)}
-    end)
-  end
-
-  defp drop_empty_groups(alert_list_tuples),
-    do: alert_list_tuples |> Enum.reject(fn {_group_name, group} -> Enum.empty?(group) end)
-
-  defp excluding_banner(nil = _banner, alerts), do: alerts
-  defp excluding_banner(banner, alerts), do: alerts |> Enum.reject(&(&1.id == banner.id))
-
   def render(assigns) do
     ~H"""
     <.alerts_layout mode={:subway}>
@@ -98,7 +65,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
         <section id="station_and_service">
           <.alerts_page_content_layout
             {assigns |> Map.take([:alert_banner])}
-            alert_groups={@alert_groups}
+            alert_groups={@subway_alert_groups}
             date_time={@now}
             empty_message={~t"There are no other subway alerts at this time."}
           >
