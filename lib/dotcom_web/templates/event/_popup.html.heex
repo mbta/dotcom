@@ -6,7 +6,7 @@
 <div
   class={"m-event-overlay #{ @class }"}
   id={"#{ @id }"}
-  aria-label={"Event summary for #{ @event.title }"}
+  aria-label={~t"Event summary for " <> "#{ @event.title }"}
   aria-hidden="true"
 >
   <div role="document">

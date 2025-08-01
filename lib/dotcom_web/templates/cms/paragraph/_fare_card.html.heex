@@ -26,7 +26,7 @@ price =
     _ -> Fares.Format.price(fare)
   end
 
-mticket_html = content_tag(:span, "mTicket App", class: "no-wrap")
+mticket_html = content_tag(:span, ~t"mTicket App", class: "no-wrap")
 
 media =
   case fare do

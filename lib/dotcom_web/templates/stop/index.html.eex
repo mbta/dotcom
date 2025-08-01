@@ -9,7 +9,7 @@
         {mode, stop_path(@conn, :show, mode)}
       end,
       selected_mode: @mode,
-      stacked_label: "Explore stations by mode:"
+      stacked_label: "#{~t(Explore stations by mode)}:"
     } %>
     <%= if !Enum.empty?(@mode_hubs) do %>
       <div class="page-section">

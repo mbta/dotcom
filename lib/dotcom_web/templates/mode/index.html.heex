@@ -6,7 +6,7 @@
         <% route_types =
           Enum.map(@grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end) %>
         <% the_ride = [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")] %>
-        {content_tag(h_level_section, "Schedules and Maps")}
+        {content_tag(h_level_section, ~t"Schedules and Maps")}
         <div class="m-mode__recently-visited">
           {render(DotcomWeb.PartialView, "_recently_visited.html",
             conn: @conn,

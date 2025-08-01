@@ -27,7 +27,7 @@
         {replace_urls_with_links(Dotcom.TimetableBlocking.strip(@alert.header))}
         <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
           <%= if Dotcom.TimetableBlocking.pdf?(@alert) do %>
-            {link("View PDF Timetable", to: @alert.url)}
+            {link(~t"View PDF Timetable", to: @alert.url)}
           <% else %>
             {replace_urls_with_links(@alert.url)}
           <% end %>
