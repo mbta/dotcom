@@ -31,7 +31,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
          "Updates on delays, construction, elevator outages, and more."
      )
      |> assign(:breadcrumbs, [Breadcrumb.build("Alerts")])
-     |> assign(:date_time, @date_time.now())
+     |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
      |> assign_result(&alert_groups/0)
      |> assign_result(&SystemStatus.subway_status/0)
@@ -97,7 +97,9 @@ defmodule DotcomWeb.Live.SubwayAlerts do
         </section>
         <section id="station_and_service">
           <.alerts_page_content_layout
-            {assigns}
+            {assigns |> Map.take([:alert_banner])}
+            alert_groups={@alert_groups}
+            date_time={@now}
             empty_message={~t"There are no other subway alerts at this time."}
           >
             <:heading>
