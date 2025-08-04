@@ -1,0 +1,30 @@
+<div class={"fare-summary-container #{ @class || "fare-summary-container-table-multi-col" }"}>
+  <%= for chunk <- Enum.chunk_every(@summaries, 2, 2, []) do %>
+    <div class="fare-summary-row">
+      <%= for summary <- chunk do %>
+        <%= link to: summary_url(summary), class: "fare-summary-entry #{@link_class}" do %>
+          <div class="fare-summary-title">
+            <span class="fare-summary-name">{summary.name}</span>
+            <span class="fare-summary-mode-icons">
+              <span class="sr-only">{~t(Valid on)}:</span>
+              <%= for mode <- summary.modes do %>
+                <span class="sr-only">{mode_name(mode)}</span>
+                <span class="fares-mode-icon-group" aria-hidden="true">
+                  {svg_icon_with_circle(%SvgIconWithCircle{icon: mode, size: :small})}
+                </span>
+              <% end %>
+            </span>
+          </div>
+          <div class="fare-summary-box">
+            <%= for {title, price} <- summary.fares do %>
+              <div class="fare-summary-fare">
+                <span class="fare-summary-fare-name">{title}</span>
+                <span class="fare-summary-fare-price">{price}</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

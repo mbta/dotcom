@@ -8,7 +8,6 @@ defmodule DotcomWeb.CMS.PageView do
 
   alias CMS.Page
   alias CMS.Partial.Paragraph
-  alias Page.Project
   alias Plug.Conn
 
   @doc "Universal wrapper for CMS page content"
@@ -174,7 +173,8 @@ defmodule DotcomWeb.CMS.PageView do
         date_time: conn.assigns.date_time,
         page: page
       )
+      |> Phoenix.HTML.Safe.to_iodata()
 
-    inject_alerts_section(rewritten, alerts_section)
+    inject_alerts_section(rewritten, {:safe, alerts_section})
   end
 end

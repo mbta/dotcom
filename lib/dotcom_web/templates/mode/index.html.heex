@@ -1,0 +1,63 @@
+<div class="container">
+  <div class={"page-section #{ assigns[:card_class] }"} id="schedules">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
+        <% h_level_section = if @home, do: :h2, else: :h1 %>
+        <% route_types =
+          Enum.map(@grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end) %>
+        <% the_ride = [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")] %>
+        {content_tag(h_level_section, ~t"Schedules and Maps")}
+        <div class="m-mode__recently-visited">
+          {render(DotcomWeb.PartialView, "_recently_visited.html",
+            conn: @conn,
+            routes: Map.get(assigns, :recently_visited, []),
+            alerts: @alerts,
+            date_time: @date_time
+          )}
+        </div>
+        <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
+          <div
+            class={"m-mode__group #{ CSSHelpers.atom_to_class(route_type) }"}
+            id={"#{ route_type }"}
+          >
+            {mode_group_header(route_type, mode_page, @home)}
+            {render("_grid_buttons.html",
+              routes: Keyword.get(@grouped_routes, route_type, [:the_ride]),
+              show_icons?: false,
+              conn: @conn,
+              date_time: @date_time,
+              alerts: @alerts,
+              sub_routes: if(route_type == :subway, do: @green_routes, else: [])
+            )}
+          </div>
+        <% end %>
+        <h2>{~t(Maps)}</h2>
+        {map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry])}
+
+        <h2>{~t(Fares)}</h2>
+
+        {PartialView.paragraph("/paragraphs/multi-column/subway-and-bus-fares", @conn)}
+        {PartialView.paragraph("/paragraphs/multi-column/commuter-rail-and-ferry-fares", @conn)}
+
+        <p>
+          {link(~t(View fares overview),
+            to: cms_static_page_path(@conn, "/fares"),
+            class: "c-call-to-action"
+          )}
+        </p>
+      </div>
+
+      <div class="m-mode-hub__guides-wrapper col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
+        <div class="m-mode-hub__trip-plan-widget">
+          {DotcomWeb.PartialView.render("_trip_planner_widget.html", assigns)}
+        </div>
+        <div class="m-mode-hub__guides">
+          {DotcomWeb.PartialView.render_teasers(@guides, @conn,
+            fields: [:image],
+            list_class: "u-side-scroll"
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

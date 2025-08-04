@@ -1,0 +1,47 @@
+<% autocomplete? = Map.get(assigns, :autocomplete?, true)
+
+aria_attrs =
+  if autocomplete? do
+    [
+      describedby: "search-#{@prefix}__instructions",
+      autocomplete: "list",
+      label: @aria_label
+    ]
+  else
+    []
+  end %>
+<div id={"search-#{ @prefix }__container"} class="c-form__input-container">
+  <label for={"search-#{ @prefix }__input"} class="sr-only">{@aria_label}</label>
+  {PhoenixHTMLHelpers.Form.text_input(
+    Map.get(assigns, :form, :query),
+    Map.get(assigns, :field, :input),
+    id: "search-#{@prefix}__input",
+    class: "c-form__input js-form__input",
+    placeholder: @placeholder,
+    autocomplete: "off",
+    aria: aria_attrs,
+    value: Map.get(assigns, :value, "")
+  )}
+  <i
+    aria-hidden="true"
+    id={"search-#{ @prefix }__loading-indicator"}
+    class="fa fa-cog fa-spin c-search-bar__loading-indicator"
+  >
+  </i>
+  <i id={"search-#{ @prefix }__reset"} class="c-form__reset-icon fa fa-times-circle"></i>
+  <button
+    id={"search-#{ @prefix }__input-go-btn"}
+    class="c-form__submit-btn"
+    aria-label={~t"search"}
+  >
+    <!-- We're phasing out the svg icon with the FA icon, searchbar by searchbar -->
+    {fa("search")}
+    {svg("icon-search-reverse-default.svg")}
+  </button>
+  <%= if autocomplete? do %>
+    <span id={"search-#{ @prefix }__instructions"} style="display: none;">
+      {~t(When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.)}
+    </span>
+    <div id={"search-#{ @prefix }__announcer"} aria-live="polite" class="sr-only"></div>
+  <% end %>
+</div>

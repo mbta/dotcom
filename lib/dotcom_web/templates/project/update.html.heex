@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text">{@update.title}</h1>
+        <h2 class="c-cms__meta">{~t(Updated on)} {format_full_date(@update.posted_on)}</h2>
+      </div>
+    </div>
+
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <div class="page-section">
+          {Dotcom.ContentRewriter.rewrite(@update.body, @conn)}
+        </div>
+        {if(!Enum.empty?(@update.photo_gallery),
+          do: render("_photos.html", photos: @update.photo_gallery)
+        )}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<a
+  class="btn button stop-btn m-detailed-stop"
+  href={"#{ stop_path(@conn, :show, @detailed_stop.stop.id) }"}
+  data-name={"#{ @detailed_stop.stop.name }"}
+>
+  <div class="m-detailed-stop__name js-stop__name notranslate">{@detailed_stop.stop.name}</div>
+  <div class="stop-features-list m-detailed-stop__features">
+    {if assigns[:include_route_icon?], do: stop_feature_icon(@detailed_stop.route_icon, :small)}
+    {feature_icons(@detailed_stop)}
+  </div>
+</a>

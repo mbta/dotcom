@@ -1,0 +1,16 @@
+<figure class="c-media c-media--widget c-media--wide">
+  <div class="c-media__content">
+    <div class="c-photo-gallery clearfix" data-component="photo-gallery">
+      <%= for photo <- @photos do %>
+        <div class="col-xs-12 col-sm-6 col-md-4 photo-item">
+          <div>
+            <%= link to: photo.url do %>
+              {img_tag(photo.url, alt: photo.alt, class: "img-thumbnail")}
+            <% end %>
+          </div>
+          <div>{photo.alt}</div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</figure>

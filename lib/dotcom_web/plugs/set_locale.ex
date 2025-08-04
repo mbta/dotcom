@@ -18,12 +18,14 @@ defmodule DotcomWeb.Plugs.SetLocale do
     # enable this in the live prod website yet.
     if Application.get_env(:dotcom, :is_prod_env?) do
       conn
+      |> assign(:locale, default_locale_code())
     else
       conn = fetch_session(conn)
       locale = get_locale(conn)
       _ = set_locale(locale)
 
       conn
+      |> assign(:locale, locale)
       |> put_session("locale", locale)
       |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
     end

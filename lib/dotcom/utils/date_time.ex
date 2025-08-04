@@ -48,7 +48,11 @@ defmodule Dotcom.Utils.DateTime do
 
   If we are given something tha tis not a DateTime, AmbiguousDateTime, or an error tuple, we log the input and return `now`.
   """
-  @impl Behaviour
+  @spec coerce_ambiguous_date_time(
+          DateTime.t()
+          | Timex.AmbiguousDateTime.t()
+          | {:error, term()}
+        ) :: DateTime.t()
   def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
   def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
@@ -64,7 +68,10 @@ defmodule Dotcom.Utils.DateTime do
   @doc """
   Given a date_time_range and a date_time, returns true if the date_time is within the date_time_range.
   """
-  @impl Behaviour
+  @spec in_range?(
+          Dotcom.Utils.DateTime.date_time_range(),
+          DateTime.t()
+        ) :: boolean
   def in_range?({nil, nil}, _), do: false
 
   def in_range?({nil, %DateTime{} = stop}, %DateTime{} = date_time) do

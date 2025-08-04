@@ -16,7 +16,8 @@ defmodule DotcomWeb.PaginationHelpersTest do
 
   @result "_responsive_pagination.html"
           |> render(pagination: @pagination, link_context: @link_context)
-          |> Phoenix.HTML.safe_to_string()
+          |> Phoenix.HTML.Safe.to_iodata()
+          |> IO.iodata_to_binary()
 
   describe "render/2" do
     test "link built correctly" do
@@ -45,7 +46,8 @@ defmodule DotcomWeb.PaginationHelpersTest do
       actual =
         "_responsive_pagination.html"
         |> render(pagination: %Dotcom.ResponsivePagination{}, link_context: @link_context)
-        |> Phoenix.HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert actual =~ "\n"
     end

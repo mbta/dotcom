@@ -92,10 +92,14 @@ defmodule LocationServiceTest do
       assert {:error, :internal_error} = autocomplete(text, 2)
     end
 
-    test "rejects long text" do
+    test "does nothing with excessively long text" do
       deny(AwsClient.Mock, :search_place_index_for_suggestions, 2)
-      long_text = Faker.Lorem.characters(201..1000)
-      assert {:error, :invalid_arguments} = autocomplete(long_text, 2)
+
+      long_text =
+        Faker.random_between(201, 1000)
+        |> Faker.String.base64()
+
+      assert {:ok, []} = autocomplete(long_text, 2)
     end
   end
 end

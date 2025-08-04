@@ -1,0 +1,5 @@
+<ul class="c-alert-group">
+  <%= for alert <- @alerts do %>
+    {render("_item.html", alert: alert, date_time: @date_time, hide_url: assigns[:hide_urls])}
+  <% end %>
+</ul>

@@ -35,7 +35,8 @@ defmodule DotcomWeb.StopViewTest do
       document =
         "_detailed_stop_list.html"
         |> StopView.render(detailed_stops: stops, conn: conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
       assert [alewife, davis, porter] = Floki.find(document, ".stop-btn")

@@ -15,10 +15,6 @@ defmodule Dotcom.AlertsTest do
   setup :verify_on_exit!
 
   setup do
-    stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
-      Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
-    end)
-
     stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
       Dotcom.Utils.DateTime.now()
     end)

@@ -1,8 +1,0 @@
-<% track_template() %>
-<div class="button-group">
-  <div class="m-detailed-stops">
-    <%= for detailed_stop <- @detailed_stops do %>
-        <%= render "_detailed_stop.html", conn: @conn, detailed_stop: detailed_stop %>
-    <% end %>
-  </div>
-</div>

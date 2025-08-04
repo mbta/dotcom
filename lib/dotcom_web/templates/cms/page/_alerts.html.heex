@@ -1,0 +1,23 @@
+<div class="alerts-section">
+  <% alerts = alerts_for_project(@page, @alerts) %>
+  <%= if !Enum.empty?(alerts) do %>
+    <h2>{~t(Related Service Alerts)}</h2>
+    <details>
+      <summary>
+        <div class="c-service-changes-container">
+          <div class="c-service-changes-content">
+            {length(alerts)}
+          </div>
+          {~t(service)}
+          {if length(alerts) > 1, do: ~t(changes), else: ~t(change)}
+        </div>
+        details
+      </summary>
+      {render(DotcomWeb.AlertView, "group.html",
+        alerts: alerts,
+        date_time: @date_time,
+        hide_urls: true
+      )}
+    </details>
+  <% end %>
+</div>

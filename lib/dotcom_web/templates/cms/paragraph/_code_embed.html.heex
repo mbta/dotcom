@@ -1,0 +1,6 @@
+<%= if @content.header do %>
+  {ContentRewriter.rewrite(@content.header.text, @conn)}
+<% end %>
+
+<% # Output raw CMS source HTML %>
+{@content.body}

@@ -1,0 +1,20 @@
+<%= if @page.featured_image do %>
+  <div class="page-section project-hero-image">
+    <figure class="c-media c-media--image c-media--wide">
+      <div class="c-media__content">
+        {img_tag(@page.featured_image.url,
+          alt: @page.featured_image.alt,
+          class: "c-media__element img-fluid"
+        )}
+      </div>
+    </figure>
+  </div>
+<% end %>
+
+<div class="page-section">
+  {body_with_alerts_section(@conn, @page)}
+
+  <%= for paragraph <- @page.paragraphs do %>
+    {DotcomWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn)}
+  <% end %>
+</div>

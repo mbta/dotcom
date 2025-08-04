@@ -1,4 +1,3 @@
-<% track_template() %>
 <%= if Application.get_env(:dotcom, :dev_server?) do %>
   <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/projects.js"}>
   </script>
@@ -24,8 +23,8 @@
     id="projects-search"
     class="md:max-w-2xl mb-md"
     config_type="projects"
-    placeholder="Enter keyword(s)"
-    aria-label="Enter project keywords"
+    placeholder={~t"Enter keyword(s)"}
+    aria-label={~t"Enter project keywords"}
   />
 </div>
 

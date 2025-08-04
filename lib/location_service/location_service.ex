@@ -28,7 +28,7 @@ defmodule LocationService do
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def autocomplete(text, limit, options \\ @bias_options)
 
-  def autocomplete(text, _, _) when length(text) > 200, do: {:error, :invalid_arguments}
+  def autocomplete(text, _, _) when byte_size(text) > 200, do: {:ok, []}
 
   def autocomplete(text, limit, options) do
     options
