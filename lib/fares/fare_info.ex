@@ -503,7 +503,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price)
       },
@@ -511,7 +511,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price) * 2
       },
@@ -545,7 +545,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_cross_harbor,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(cross_harbor_price)
       },
@@ -553,7 +553,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_cross_harbor,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(cross_harbor_price) * 2
       },
@@ -561,7 +561,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_east_boston,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry],
+        media: [:mticket, :paper_ferry, :contactless_payment],
         reduced: nil,
         cents: dollars_to_cents(east_boston_price)
       },
@@ -569,7 +569,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_east_boston,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry],
+        media: [:mticket, :paper_ferry, :contactless_payment],
         reduced: nil,
         cents: dollars_to_cents(east_boston_price) * 2
       },
@@ -577,7 +577,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_lynn,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(lynn_price)
       },
@@ -585,7 +585,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_lynn,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(lynn_price) * 2
       },
@@ -593,7 +593,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_winthrop,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(winthrop_price)
       },
@@ -601,7 +601,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_winthrop,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(winthrop_price) * 2
       },
@@ -609,7 +609,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_price)
       },
@@ -617,7 +617,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_price) * 2
       },
@@ -625,7 +625,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry_logan,
         duration: :single_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_logan_price)
       },
@@ -633,7 +633,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry_logan,
         duration: :round_trip,
-        media: [:mticket, :paper_ferry, :cash],
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_logan_price) * 2
       },

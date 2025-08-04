@@ -141,6 +141,9 @@ msgstr "Accesibilidad"
 msgid "Information & Support"
 msgstr "Información y apoyo"
 
+msgid ", "
+msgstr ", "
+
 msgid "Plan your trip"
 msgstr "Planifica tu viaje"
 
@@ -932,6 +935,9 @@ msgstr "Alertas de servicio relacionadas"
 
 msgid "24 hours, 7 days a week"
 msgstr "24 horas, 7 días a la semana"
+
+msgid "or "
+msgstr "o "
 
 msgid "Careers"
 msgstr "Carreras"
