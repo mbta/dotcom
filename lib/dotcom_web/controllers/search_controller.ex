@@ -188,13 +188,13 @@ defmodule DotcomWeb.SearchController do
     assign(conn, :link_context, link_context)
   end
 
-  @spec pagination(Conn.t(assigns: %{stats: map})) :: Conn.t()
+  @spec pagination(Conn.t()) :: Conn.t()
   defp pagination(%Conn{assigns: %{stats: stats}} = conn) do
     pagination = build(stats)
     assign(conn, :pagination, pagination)
   end
 
-  @spec assign_facets(Conn.t(), Result.t(content_types: Keyword.t()), [String.t()]) ::
+  @spec assign_facets(Conn.t(), Result.t(), [String.t()]) ::
           Conn.t()
   def assign_facets(conn, %Result{content_types: response_types}, content_types) do
     assign(conn, :facets, Facets.build("content_type", response_types, content_types))
