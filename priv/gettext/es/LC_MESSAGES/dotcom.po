@@ -15,9 +15,6 @@ msgstr "Civiles"
 msgid "Main"
 msgstr "Main"
 
-msgid "Get T-Alerts"
-msgstr "Obtener T-Alerts"
-
 msgid "Developers"
 msgstr "Desarrolladores"
 
@@ -32,9 +29,6 @@ msgstr "MBTA Threads"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies ' Civil Rights"
-
-msgid "Sign in"
-msgstr "Iniciar sesión"
 
 msgid "Accessibility"
 msgstr "Accesibilidad"
@@ -120,9 +114,6 @@ msgstr "Menú principal"
 msgid "Featured MBTA Updates and Projects"
 msgstr "Destacados MBTA Actualizaciones y proyectos"
 
-msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
-msgstr "Háblenos de sus viajes regulares y reciba alertas de texto o correo electrónico que sean relevantes para usted, a veces cuando los desee."
-
 msgid "Innovation Proposals"
 msgstr "Propuestas de innovación"
 
@@ -185,9 +176,6 @@ msgstr "MBTA YouTube"
 
 msgid "Terms of Use"
 msgstr "Términos de uso"
-
-msgid "Create an Account"
-msgstr "Crear una cuenta"
 
 msgid "Important Links"
 msgstr "Enlaces importantes"
