@@ -249,6 +249,7 @@ defmodule Dotcom.AlertsTest do
       service_alerts =
         Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
           effect: Faker.Util.pick(@service_impacting_effects),
+          severity: 3,
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
