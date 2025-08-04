@@ -98,3 +98,14 @@ Alerts.Cache.Store.update(alerts, nil)
 
 now() |> Alerts.Repo.all()
 ```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## No alerts!
+
+```elixir
+# Remove all other alerts and only use the ones you created
+Alerts.Cache.Store.update([], nil)
+
+now() |> Alerts.Repo.all()
+```
