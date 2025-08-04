@@ -855,6 +855,9 @@ msgstr "Planifique un viaje"
 msgid "Enter a location"
 msgstr "Introduzca un lugar"
 
+msgid "and"
+msgstr "y"
+
 msgid "mTicket App"
 msgstr "mTicket App"
 
@@ -1019,4 +1022,7 @@ msgstr "También puede email"
 
 msgid "Holidays"
 msgstr "Vacaciones"
+
+msgid "or"
+msgstr "o"
 

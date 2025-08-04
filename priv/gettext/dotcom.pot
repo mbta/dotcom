@@ -1774,3 +1774,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
 msgstr ""
+
+#: lib/util/and_or.ex:15
+#, elixir-autogen, elixir-format
+msgid "and"
+msgstr ""
+
+#: lib/util/and_or.ex:19
+#, elixir-autogen, elixir-format
+msgid "or"
+msgstr ""
