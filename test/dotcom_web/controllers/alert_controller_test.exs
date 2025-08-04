@@ -26,6 +26,8 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Alerts.Alert.build_list(20, :alert)
     end)
 
+    stub(Alerts.Repo.Mock, :banner, fn -> nil end)
+
     stub(Alerts.Repo.Mock, :by_route_ids, fn route_ids, _date ->
       Enum.map(route_ids, &Factories.Alerts.Alert.build(:alert_for_route, %{route_id: &1}))
     end)
@@ -72,8 +74,8 @@ defmodule DotcomWeb.AlertControllerTest do
   end
 
   describe "show/2" do
-    test "alerts are assigned for all modes", %{conn: conn} do
-      for mode <- [:bus, "commuter-rail", :subway, :ferry] do
+    test "alerts are assigned for all modes served by this controller", %{conn: conn} do
+      for mode <- [:bus, "commuter-rail", :ferry] do
         conn = get(conn, alert_path(conn, :show, mode))
         assert conn.assigns.alerts
       end

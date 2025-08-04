@@ -3,12 +3,17 @@ defmodule Alerts.Repo.Behaviour do
   Behaviour for the Alerts repo.
   """
 
-  alias Alerts.Alert
+  alias Alerts.{Alert, Banner}
 
   @doc """
   Return all alerts applicable to the given datetime.
   """
   @callback all(DateTime.t()) :: [Alert.t()]
+
+  @doc """
+  Return a banner to be displayed on all pages, or nil if no such banner exists.
+  """
+  @callback banner() :: Banner.t() | nil
 
   @doc """
   Return all alerts for the given route ids.
