@@ -136,10 +136,11 @@ defmodule Dotcom.Alerts do
   defp with_alert_lists(routes, alerts) do
     routes
     |> Enum.map(fn route ->
-      entity = %InformedEntity{
-        route_type: route.type,
-        route: route.id
-      }
+      entity =
+        InformedEntity.from_keywords(
+          route_type: route.type,
+          route: route.id
+        )
 
       {route, Match.match(alerts, entity)}
     end)
