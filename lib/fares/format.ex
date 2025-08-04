@@ -2,7 +2,9 @@ defmodule Fares.Format do
   @moduledoc """
   Formatting functions for fare data.
   """
+
   use Dotcom.Gettext.Sigils
+  use Gettext, backend: Dotcom.Gettext
 
   alias Fares.{Fare, Summary}
 
@@ -90,8 +92,8 @@ defmodule Fares.Format do
   def name(:ferry_george), do: ~t"Georges Island"
   def name(:commuter_ferry), do: ~t"Hingham/Hull Ferry"
   def name(:commuter_ferry_logan), do: ~t"Commuter Ferry to Logan Airport"
-  def name({:zone, zone}), do: "Zone #{zone}"
-  def name({:interzone, zone}), do: "Interzone #{zone}"
+  def name({:zone, zone}), do: gettext("Zone %{zone}", zone: zone)
+  def name({:interzone, zone}), do: gettext("Interzone %{zone}", zone: zone)
   def name(:foxboro), do: ~t"Foxboro Special Event"
   # A free fare might be an SL1 trip from airport stops or shuttle bus service
   def name(:free_fare), do: ~t"Free Service"

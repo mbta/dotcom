@@ -480,6 +480,9 @@ msgstr "Uno..."
 msgid "Some Seats Available"
 msgstr "Algunos asientos disponibles"
 
+msgid "Zone %{zone}"
+msgstr "Zona %{zona}"
+
 msgid "contactless payment"
 msgstr "pago sin contacto"
 
@@ -605,6 +608,9 @@ msgstr "Resultados de actualización"
 
 msgid "Featured Photos"
 msgstr "Fotos destacadas"
+
+msgid "Interzone %{zone}"
+msgstr "Interzone %{zone}"
 
 msgid "Safety"
 msgstr "Seguridad"
