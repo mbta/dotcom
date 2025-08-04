@@ -232,7 +232,7 @@ defmodule Dotcom.AlertsTest do
       end)
 
       {^route, alert_group} =
-        subway_alert_groups() |> Enum.find(fn {route, _} -> route == route end)
+        subway_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
 
       assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts)
     end
@@ -260,7 +260,7 @@ defmodule Dotcom.AlertsTest do
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [route] end)
 
       {^route, alert_group} =
-        subway_alert_groups() |> Enum.find(fn {route, _} -> route == route end)
+        subway_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
 
       assert MapSet.new(alert_group) == MapSet.new(non_service_alerts)
     end
