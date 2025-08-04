@@ -22,10 +22,9 @@ defmodule DotcomWeb.Live.SubwayAlerts do
      socket
      |> assign(
        :meta_description,
-       "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. " <>
-         "Updates on delays, construction, elevator outages, and more."
+       ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
      )
-     |> assign(:breadcrumbs, [Breadcrumb.build("Alerts")])
+     |> assign(:breadcrumbs, [Breadcrumb.build(~t"Alerts")])
      |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
      |> assign_result(&Dotcom.Alerts.subway_alert_groups/0)

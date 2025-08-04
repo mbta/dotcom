@@ -192,6 +192,9 @@ msgstr "Política de privacidad"
 msgid "Business"
 msgstr "Negocios"
 
+msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+msgstr "Alertas de servicio en vivo para todos los modos de transporte MBTA, incluyendo metro, autobús, Commuter Rail y ferry. Actualizaciones sobre retrasos, construcción, salidas de ascensor y más."
+
 msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
