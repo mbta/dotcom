@@ -1,0 +1,20 @@
+<%= extend_width :callout do %>
+  <div class="c-callout__row row">
+    <div class="c-callout__column c-callout__column--text col-sm-6">
+      <h2>{@content.title}</h2>
+      {@content.body}
+      {link(@content.link.title,
+        to: cms_static_page_path(@conn, @content.link.url),
+        class: "c-call-to-action"
+      )}
+    </div>
+    <%= if @content.image do %>
+      <div class="c-callout__column c-callout__column--image col-sm-6">
+        <%= link to: cms_static_page_path(@conn, @content.link.url),
+                title: @content.link.title do %>
+          {img_tag(@content.image.url, alt: @content.image.alt, class: "c-callout__image")}
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

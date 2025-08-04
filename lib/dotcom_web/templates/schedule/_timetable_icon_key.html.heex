@@ -1,0 +1,163 @@
+<% mode_name = Routes.Route.vehicle_name(@route) |> String.downcase()
+
+bike = [
+  ~t(Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions.),
+  content_tag(
+    :p,
+    [
+      content_tag(:a, ~t(Learn more about bikes on Commuter Rail),
+        href: "/bikes/bringing-your-bike-the-train",
+        class: "c-call-to-action"
+      )
+    ],
+    class: "u-padding-top"
+  )
+]
+
+early_departure = ~t(The ) <> mode_name <> ~t( may leave ahead of schedule at these stops.)
+
+flag_stop =
+  ~t(Passengers must tell ) <>
+    if(ferry?(@route), do: ~t(a crew member), else: ~t(the conductor)) <>
+    ~t( that they wish to leave. Passengers waiting to board must be visible on the platform for the ) <>
+    mode_name <> ~t( to stop.)
+
+cr_crowding = [
+  ~t(Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days.),
+  content_tag(:p, ~t(Current seat availability thresholds are:), class: "u-padding-top"),
+  content_tag(
+    :div,
+    [
+      content_tag(:span, svg("icon-crowding.svg"),
+        class:
+          "c-svg__icon c-icon__crowding c-icon__crowding--not_crowded c-icon__crowding--commuter-rail"
+      ),
+      content_tag(:p, [
+        content_tag(:strong, ~t(Many Seats Available)),
+        content_tag(
+          :span,
+          ": " <>
+            ~t[Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)]
+        )
+      ])
+    ],
+    class: "m-schedule-icon-key__crowding-row"
+  ),
+  content_tag(
+    :div,
+    [
+      content_tag(:span, svg("icon-crowding.svg"),
+        class:
+          "c-svg__icon c-icon__crowding c-icon__crowding--some_crowding c-icon__crowding--commuter-rail"
+      ),
+      content_tag(:p, [
+        content_tag(:strong, ~t(Some Seats Available)),
+        content_tag(
+          :span,
+          ": " <>
+            ~t[Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)]
+        )
+      ])
+    ],
+    class: "m-schedule-icon-key__crowding-row"
+  ),
+  content_tag(
+    :div,
+    [
+      content_tag(:span, svg("icon-crowding.svg"),
+        class:
+          "c-svg__icon c-icon__crowding c-icon__crowding--crowded c-icon__crowding--commuter-rail"
+      ),
+      content_tag(:p, [
+        content_tag(:strong, ~t(Few Seats Available)),
+        content_tag(
+          :span,
+          ": " <>
+            ~t[Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)]
+        )
+      ])
+    ],
+    class: "m-schedule-icon-key__crowding-row"
+  ),
+  content_tag(
+    :p,
+    content_tag(:a, ~t(Learn more about seat availability trends),
+      href: "/crowding",
+      class: "c-call-to-action"
+    ),
+    class: " u-padding-top"
+  )
+]
+
+bike_key = %{
+  content: bike,
+  title: [safe_to_string(svg("icon-bikes-default.svg")), ~t(Bikes Allowed)],
+  prefix: "bikes-allowed"
+}
+
+core_keys = [
+  %{
+    content: flag_stop,
+    title: [safe_to_string(svg("icon-flag-stop-default.svg")), ~t(Flag Stop)],
+    prefix: "flag-stop"
+  },
+  %{
+    content: early_departure,
+    title: [
+      safe_to_string(svg("icon-early-departure-stop-default.svg")),
+      ~t(Early Departure Stop)
+    ],
+    prefix: "early-departure-stop"
+  }
+]
+
+cr_crowding_key = %{
+  content: cr_crowding,
+  title: [safe_to_string(svg("icon-crowding.svg")), ~t(Seat Availability)],
+  prefix: "crowding"
+}
+
+cr_track_boarding_change_key = %{
+  content: [
+    ~t(At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the ),
+    content_tag(:i, "",
+      class: "notranslate track-change-icon fa fa-shuffle no-margin-right",
+      aria: [hidden: "true"]
+    ),
+    ~t( symbol. Check ),
+    content_tag(:a, "T-Alerts", href: "https://alerts.mbta.com", class: "c-call-to-action"),
+    ~t( for real-time track changes.)
+  ],
+  title: [safe_to_string(fa("shuffle", class: "track-change-icon")), ~t(Track Boarding Change)],
+  prefix: "cr-track-change"
+} %>
+<div class="m-schedule-icon-key-container">
+  <h2 class="m-schedule-icon-key-header">{~t(Icon Key)}</h2>
+  {DotcomWeb.PartialView.render(
+    "_accordion_ui.html",
+    Map.merge(assigns, %{
+      multiselectable: false,
+      sections:
+        cond do
+          # Show crowding is for commuter rail trains so also show the track boarding change
+          @show_crowding ->
+            [cr_crowding_key] ++ [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
+
+          # Commuter rails could also not have crowding info so show commuter rail specific keys
+          commuter_rail?(@route) ->
+            [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
+
+          ferry?(@route) ->
+            core_keys
+
+          true ->
+            [bike_key | core_keys]
+        end
+    })
+  )}
+  <%= if ferry?(@route) do %>
+    <div class="m-schedule-icon-key-suffix">
+      {svg("icon-bikes-default.svg")}<span>{~t(Bikes are allowed on all ferry boats)}</span>
+    </div>
+  <% end %>
+</div>

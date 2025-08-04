@@ -1,0 +1,20 @@
+<%= if @content.header do %>
+  {ContentRewriter.rewrite(@content.header.text, @conn)}
+<% end %>
+
+<%= if Enum.any?(@content.descriptions) do %>
+  <%= extend_width :table do %>
+    <dl class="dl" role="list">
+      <%= for description <- @content.descriptions do %>
+        <div role="listitem" class="dl--item">
+          <dt class="dt">
+            {ContentRewriter.rewrite(description.term, @conn)}
+          </dt>
+          <dd class="dd">
+            {ContentRewriter.rewrite(description.details, @conn)}
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
+<% end %>

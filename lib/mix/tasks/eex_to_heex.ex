@@ -14,7 +14,7 @@ defmodule Mix.Tasks.EexToHeex do
   %> mix eex_to_heex lib/dotcom_web/templates/foo.html.eex
   """
   def run([path]) do
-    {:ok, _} = Briefly.start(nil, nil)
+    {_, _} = Briefly.start(nil, nil)
 
     old_file_contents = File.read!(path)
 
@@ -33,6 +33,6 @@ defmodule Mix.Tasks.EexToHeex do
     File.write!(new_file_ref, new_file_contents)
     File.rm!(path)
 
-    :ok = Mix.Tasks.Format.run([new_file_ref])
+    Mix.Tasks.Format.run([new_file_ref])
   end
 end

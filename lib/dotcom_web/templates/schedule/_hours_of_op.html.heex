@@ -1,0 +1,13 @@
+<%= if (Map.get(assigns, :route).description != :rapid_transit) do %>
+  <% # Rapid transit data is rendered in front-end so render nothing here %>
+  <%= for {period, {direction_0, direction_1}} <- Map.get(assigns, :hours_of_operation, []) do %>
+    <h3 class="hours-period-heading">{schedule_period(period)}</h3>
+    <%= for {direction_id, departure} <- [{1, direction_1}, {0, direction_0}] do %>
+      <p class="hours-directions">
+        {Routes.Route.direction_name(@route, direction_id)}&nbsp;{display_departure_range(
+          departure
+        )}
+      </p>
+    <% end %>
+  <% end %>
+<% end %>

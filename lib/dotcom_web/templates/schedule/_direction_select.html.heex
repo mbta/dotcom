@@ -1,4 +1,3 @@
-<% track_template() %>
 <%= if Routes.Route.direction_destination(@route, @direction_id) do %>
   <% has_opposite_direction? =
     Routes.Route.direction_destination(@route, 1 - @direction_id) != nil %>
@@ -14,8 +13,10 @@
     >
       <div class="filter-button">
         <div class="filter-text">
-          <span :if={has_opposite_direction?} class="sr-only">Change Direction of Trip.</span>
-          <div class="inner-label">Direction of your trip:</div>
+          <span :if={has_opposite_direction?} class="sr-only">
+            {~t(Change Direction of Trip.)}
+          </span>
+          <div class="inner-label">{~t(Direction of your trip)}:</div>
           <div class="notranslate">{direction_with_headsign(@route, @direction_id, [])}</div>
         </div>
         <div :if={has_opposite_direction?} class="filter-icon">

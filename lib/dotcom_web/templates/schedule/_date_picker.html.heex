@@ -1,0 +1,99 @@
+<div class="col-sm-3 hidden-xs-down">
+  <h4>{~t(Upcoming Holidays)}</h4>
+  <ul class="holiday-list">
+    <%= if @calendar.holidays == [] do %>
+      <li class="holiday-list-empty">{~t(No upcoming holidays)}</li>
+    <% else %>
+      <%= for holiday <- @calendar.upcoming_holidays do %>
+        <li>
+          {link(holiday.name,
+            to:
+              update_url(@conn,
+                date: Timex.format!(holiday.date, "{ISOdate}"),
+                date_select: nil,
+                shift: nil
+              )
+          )}
+          <p>{Timex.format!(holiday.date, "%a, %b %e", :strftime)}</p>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  <div>
+    <div class="graph-legend weekend"></div>
+    <span>{~t(Weekends)}</span>
+  </div>
+  <%= if @calendar.holidays != [] do %>
+    <div>
+      <div class="graph-legend holiday"></div>
+      <span>{~t(Holidays)}</span>
+    </div>
+  <% end %>
+  <div class="graph-legend today"></div>
+  <span>{~t(Today)}</span>
+</div>
+<span class="col-sm-9 col-xs-12">
+  <table id="date-picker-calendar" class="table schedule-date-picker" role="region" tabindex="-1">
+    <thead>
+      <tr>
+        <td colspan="7" class="month">
+          <%= if @calendar.previous_month_url do %>
+            <%= link to: @calendar.previous_month_url do %>
+              {fa("chevron-circle-left")}
+            <% end %>
+          <% else %>
+            <span class="disabled">
+              {fa("chevron-circle-left")}
+            </span>
+          <% end %>
+          <span>
+            {Timex.format!(@calendar.active_date, "{Mfull} {YYYY}")}
+          </span>
+          <%= if @calendar.next_month_url do %>
+            <%= link to: @calendar.next_month_url do %>
+              {fa("chevron-circle-right")}
+            <% end %>
+          <% else %>
+            <span class="disabled">
+              {fa("chevron-circle-right")}
+            </span>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <th scope="col" class="schedule-weekend">{~t(Sunday) |> String.slice(0, 3)}</th>
+        <th scope="col">{~t(Monday) |> String.slice(0, 3)}</th>
+        <th scope="col">{~t(Tuesday) |> String.slice(0, 3)}</th>
+        <th scope="col">{~t(Wednesday) |> String.slice(0, 3)}</th>
+        <th scope="col">{~t(Thursday) |> String.slice(0, 3)}</th>
+        <th scope="col">{~t(Friday) |> String.slice(0, 3)}</th>
+        <th scope="col" class="schedule-weekend">{~t(Saturday) |> String.slice(0, 3)}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for week <- BuildCalendar.Calendar.weeks(@calendar) do %>
+        <tr>
+          <%= for day <- week do %>
+            {BuildCalendar.Day.td(day)}
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</span>
+<div class="hidden-sm-up mobile-legend col-xs-12">
+  <div class="graph-legend weekend"></div>
+  <span>{~t(Weekends)}</span>
+  <%= if @calendar.holidays != [] do %>
+    <div class="graph-legend holiday"></div>
+    <span>{~t(Holidays)}</span>
+  <% end %>
+  <div class="graph-legend today"></div>
+  <span>{~t(Today)}</span>
+</div>
+<div class="col-xs-12">
+  {link(~t(Cancel),
+    to: update_schedule_url(@conn, date_select: nil, shift: nil) <> "#date-filter",
+    class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel date-picker-toggle"
+  )}
+</div>

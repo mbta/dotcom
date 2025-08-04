@@ -1,0 +1,11 @@
+<% pdfs =
+  case Map.get(assigns, :route_pdfs, []) do
+    {:error, _} -> []
+    pdfs when is_list(pdfs) -> pdfs
+  end %>
+<%= unless Enum.empty?(pdfs) do %>
+  <div class="pdf-schedules-container" id="pdf-schedules">
+    <h2 class="pdf-schedules-header">{~t(PDF Schedules)}</h2>
+    {route_pdf_link(pdfs, @route, @date)}
+  </div>
+<% end %>

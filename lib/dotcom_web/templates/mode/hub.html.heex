@@ -1,0 +1,70 @@
+<% mode = mode_atom(@mode_name) %>
+<% grid_template = if mode == :bus, do: "_grid_buttons_bus.html", else: "_grid_buttons.html" %>
+<div class="container">
+  <div class="page-section">
+    <div class="row">
+      <div class="mode-hub col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
+        <% # we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
+        <h1>
+          {svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon})} {@mode_name}
+        </h1>
+        <div class="m-mode__recently-visited">
+          {render(DotcomWeb.PartialView, "_recently_visited.html",
+            conn: @conn,
+            routes: @recently_visited,
+            alerts: @alerts,
+            date_time: @date_time
+          )}
+        </div>
+        <h2>{~t(Schedules)}</h2>
+        <% sub_routes = if mode == :subway, do: @green_routes, else: []
+
+        grid_template_assigns =
+          assigns
+          |> Map.put(:show_icons?, false)
+          |> Map.put(:sub_routes, sub_routes) %>
+        {render(grid_template, grid_template_assigns)}
+        <h2>{~t(Maps)}</h2>
+        <%= if mode == :subway || mode == :ferry do %>
+          {map_image(mode)}
+        <% end %>
+        {map_buttons(@maps)}
+
+        <h2>{~t(Fares)}</h2>
+        {mode |> mode_fare_card() |> PartialView.paragraph(@conn)}
+
+        <div class="m-mode__passes">
+          {mode
+          |> DotcomWeb.FareView.fare_passes()
+          |> DotcomWeb.CMS.ParagraphView.render_paragraph(@conn)}
+        </div>
+
+        <p>{DotcomWeb.FareView.fare_overview_link(mode, @conn)}</p>
+      </div>
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
+        <div class="m-mode-hub__trip-plan-widget">
+          {DotcomWeb.PartialView.render("_trip_planner_widget.html", assigns)}
+        </div>
+        <div class="m-mode__guides">
+          {DotcomWeb.PartialView.render_teasers(@guides, @conn, fields: [:image])}
+        </div>
+        <div class="m-mode__projects">
+          {DotcomWeb.PartialView.render_teasers(@projects, @conn,
+            list_class: "c-teaser-list--grid"
+          )}
+        </div>
+        <div class="m-mode__news">
+          <%= unless Enum.empty?(@news) do %>
+            <h3 class="h2">{~t(News)}</h3>
+            {DotcomWeb.PartialView.render_teasers(@news, @conn)}
+          <% end %>
+        </div>
+        <%= if @paragraph do %>
+          <div class="c-cms__sidebar u-mt-1" style="padding: 0">
+            {DotcomWeb.CMS.ParagraphView.render_paragraph(@paragraph, @conn)}
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

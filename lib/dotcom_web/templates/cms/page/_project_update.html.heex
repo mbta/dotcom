@@ -1,0 +1,11 @@
+<div class="page-section">
+  <h2 class="c-cms__meta">{~t(Updated on)} {format_full_date(@page.posted_on)}</h2>
+</div>
+
+<div class="page-section">
+  {Dotcom.ContentRewriter.rewrite(@page.body, @conn)}
+
+  <%= for paragraph <- @page.paragraphs do %>
+    {render_paragraph(paragraph, @conn)}
+  <% end %>
+</div>

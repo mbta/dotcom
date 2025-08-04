@@ -1,9 +1,0 @@
-<% track_template() %>
-<p>
-  Follow the link below to find the number associated with the mode or route where you lost your item.
-</p>
-<p>
-  <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), class: "c-call-to-action" do %>
-    View phone numbers
-  <% end %>
-</p>

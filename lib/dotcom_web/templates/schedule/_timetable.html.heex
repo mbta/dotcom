@@ -1,4 +1,3 @@
-<% track_template() %>
 {DotcomWeb.AlertView.group(
   alerts: @banner_alerts,
   route: @route,
@@ -47,7 +46,7 @@
               class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
               data-scroll="earlier"
             >
-              {fa("angle-left m-timetable__scroll-btn-arrow")} Earlier {Routes.Route.vehicle_name(
+              {fa("angle-left m-timetable__scroll-btn-arrow")} {~t(Earlier)} {Routes.Route.vehicle_name(
                 @route
               ) <> "s"}
             </button>
@@ -55,7 +54,7 @@
               class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
               data-scroll="later"
             >
-              Later {Routes.Route.vehicle_name(@route) <> "s"} {fa(
+              {~t(Later)} {Routes.Route.vehicle_name(@route) <> "s"} {fa(
                 "angle-right m-timetable__scroll-btn-arrow"
               )}
             </button>
@@ -65,7 +64,7 @@
       <div id="timetable" class="m-timetable__table-container" data-sticky-container>
         <table
           class="m-timetable__table"
-          aria-label={"#{@direction_name} timetable for #{@route.name}, #{@formatted_date}"}
+          aria-label={"#{@direction_name} #{~t(timetable for)} #{@route.name}, #{@formatted_date}"}
         >
           <tr class="js-timetable-train-labels">
             <th
@@ -73,14 +72,14 @@
               class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header"
               data-absolute
             >
-              <div class="m-timetable__row-header">Stops</div>
+              <div class="m-timetable__row-header">{~t(Stops)}</div>
             </th>
             <td class="hidden-no-js">
               <div class="m-timetable__row-header"></div>
             </td>
             <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
               <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
-                <span class="sr-only">Trip {schedule.trip.name}</span>
+                <span class="sr-only">{~t(Trip)} {schedule.trip.name}</span>
                 <span aria-hidden="true">{schedule.trip.name}</span>
               <% end %>
             <% end %>
@@ -93,7 +92,7 @@
                 data-absolute
               >
                 <div class="m-timetable__row-header">
-                  <span class="sr-only">Bicycles Allowed?</span>
+                  <span class="sr-only">{~t(Bicycles Allowed?)}</span>
                   {# this icon is set to visibility: hidden by CSS;
                   # it's needed to keep the absolutely positioned
                   # header cell height consistent with the cells
@@ -109,12 +108,12 @@
                   <%= if schedule.trip.bikes_allowed? do %>
                     {content_tag(:span, svg("icon-bikes-default.svg"),
                       data: [toggle: "tooltip"],
-                      title: "Bicycles allowed",
+                      title: ~t(Bicycles allowed),
                       class: "bicycles-allowed-icon"
                     )}
-                    <div class="sr-only">Bicycles allowed</div>
+                    <div class="sr-only">{~t(Bicycles allowed)}</div>
                   <% else %>
-                    <div class="sr-only">Bicycles not allowed</div>
+                    <div class="sr-only">{~t(Bicycles not allowed)}</div>
                   <% end %>
                   <.tooltip
                     :if={!is_nil(schedule.trip.occupancy)}
@@ -152,7 +151,7 @@
                   <% end %>
                   <div class="m-timetable__stop-icons">
                     <%= if length(stop.parking_lots) > 0 do %>
-                      <.tooltip title="Parking available" placement={:top}>
+                      <.tooltip title={~t(Parking available)} placement={:top}>
                         <.icon
                           name="square-parking"
                           class="h-4 w-4 fill-gray-light"
@@ -160,11 +159,11 @@
                         />
                       </.tooltip>
                     <% else %>
-                      <span class="sr-only">No parking</span>
+                      <span class="sr-only">{~t(No parking)}</span>
                     <% end %>
 
                     <%= if Stops.Stop.accessible?(stop) do %>
-                      <.tooltip title="Accessible" placement={:top}>
+                      <.tooltip title={~t(Accessible)} placement={:top}>
                         <.icon
                           type="icon-svg"
                           name="icon-accessible-default"
@@ -174,14 +173,14 @@
                       </.tooltip>
                     <% else %>
                       <%= if Stops.Stop.accessibility_known?(stop) do %>
-                        <span class="sr-only">Not accessible</span>
+                        <span class="sr-only">{~t(Not accessible)}</span>
                       <% else %>
-                        <span class="sr-only">May not be accessible</span>
+                        <span class="sr-only">{~t(May not be accessible)}</span>
                       <% end %>
                     <% end %>
 
                     <%= if Alerts.Stop.match(@alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
-                      <.tooltip title="Service alert or delay" placement={:top}>
+                      <.tooltip title={~t(Service alert or delay)} placement={:top}>
                         <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
                       </.tooltip>
                     <% end %>

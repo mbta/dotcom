@@ -1,0 +1,6 @@
+<div
+  class="alert-announcement__header"
+  onclick={"location.href='#{ @alert_banner.url || alert_path(@conn, :index) }';"}
+>
+  {DotcomWeb.AlertView.render("_banner.html", alert: @alert_banner)}
+</div>

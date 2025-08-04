@@ -1,0 +1,5 @@
+<div class={"c-teaser-list #{ @list_class }"}>
+  <%= for teaser <- @teasers do %>
+    {render("_teaser.html", teaser: teaser, fields: @fields, conn: @conn)}
+  <% end %>
+</div>

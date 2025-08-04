@@ -26,7 +26,8 @@ defmodule DotcomWeb.CMSViewTest do
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ ~s(c-cms--with-sidebar)
       assert rendered =~ ~s(c-cms--sidebar-left)
@@ -47,7 +48,8 @@ defmodule DotcomWeb.CMSViewTest do
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ ~s(c-cms--no-sidebar)
       assert rendered =~ "Fenway Park"
@@ -71,7 +73,8 @@ defmodule DotcomWeb.CMSViewTest do
       rendered =
         "page.html"
         |> render(page: page_with_right_rail, conn: fake_conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ "c-cms--sidebar-right"
       assert rendered =~ "Hello"
@@ -96,7 +99,8 @@ defmodule DotcomWeb.CMSViewTest do
       rendered =
         "page.html"
         |> render(page: diversion, conn: fake_conn)
-        |> HTML.safe_to_string()
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
 
       assert rendered =~ ~s(<h1 class=\"c-cms__title-text\">Diversion Test 2)
       assert rendered =~ "<p><strong>Start date: January 1, 2020</strong></p>"
