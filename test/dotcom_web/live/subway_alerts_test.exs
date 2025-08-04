@@ -21,13 +21,7 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
   setup :verify_on_exit!
 
   setup _ do
-    stub(Dotcom.Utils.DateTime.Mock, :coerce_ambiguous_date_time, fn date_time ->
-      Dotcom.Utils.DateTime.coerce_ambiguous_date_time(date_time)
-    end)
-
-    stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
-      Dotcom.Utils.DateTime.now()
-    end)
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
     stub(Alerts.Repo.Mock, :banner, fn -> nil end)
