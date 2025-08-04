@@ -11,6 +11,7 @@ defmodule Fares.Fare do
           | :charlie_ticket
           | :cash
           | :commuter_ticket
+          | :contactless_payment
           | :mticket
           | :student_card
           | :senior_card
