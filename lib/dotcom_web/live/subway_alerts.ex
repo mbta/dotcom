@@ -10,14 +10,18 @@ defmodule DotcomWeb.Live.SubwayAlerts do
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
 
   alias Dotcom.Alerts.Subway.Disruptions
-  alias Dotcom.SystemStatus
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time Application.compile_env!(:dotcom, :date_time_module)
+  @subway_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[:subway]
 
   embed_templates "layouts/*"
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(Dotcom.PubSub, "system_status:subway")
+    end
+
     {:ok,
      socket
      |> assign(
@@ -28,7 +32,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
      |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
      |> assign_result(&Dotcom.Alerts.subway_alert_groups/0)
-     |> assign_result(&SystemStatus.subway_status/0)
+     |> assign_result(&@subway_status_cache.subway_status/0)
      |> assign_result(&Disruptions.future_disruptions/0)}
   end
 
@@ -39,6 +43,13 @@ defmodule DotcomWeb.Live.SubwayAlerts do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info({:subway_status, status}, socket) do
+    {
+      :noreply,
+      socket |> assign(:subway_status, status)
+    }
   end
 
   defp assign_banner_alert(socket) do
