@@ -16,7 +16,7 @@ msgid "Toll Free"
 msgstr "Toll Gratis"
 
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "Los pilotos de MBTA pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por toda la zona de Greater Boston y Providence."
+msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por todas las zonas de Greater Boston y Providence."
 
 msgid "Friday"
 msgstr "Viernes"
@@ -26,6 +26,9 @@ msgstr "Home Address"
 
 msgid "Direction of your trip"
 msgstr "Dirección de su viaje"
+
+msgid "One-Day Pass"
+msgstr "Paso de un día"
 
 msgid "Sign up for alert notifications"
 msgstr "Regístrese para notificaciones de alerta"
@@ -75,11 +78,20 @@ msgstr "Ver números de teléfono"
 msgid "MBTA Trip Planner"
 msgstr "MBTA Trip Planner"
 
+msgid "Massport Shuttle"
+msgstr "Transporte de Massport"
+
 msgid "Check if your spelling is correct."
 msgstr "Compruebe si su ortografía es correcta."
 
 msgid "Does not stop at"
 msgstr "No se detiene"
+
+msgid "Express Bus"
+msgstr "Express Bus"
+
+msgid "Special Event Ticket"
+msgstr "Entrada especial para eventos"
 
 msgid "Get T-Alerts"
 msgstr "T-Alerts"
@@ -99,8 +111,17 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "Charlestown Ferry"
+msgstr "Charlestown Ferry"
+
 msgid "MBTA Threads"
 msgstr "MBTA Threads"
+
+msgid "Invalid Duration"
+msgstr "Duración inválida"
+
+msgid "Free"
+msgstr "Gratis"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -135,6 +156,9 @@ msgstr "Una toma exterior de la entrada de la estación central de cruce. Las ba
 msgid "Date"
 msgstr "Fecha"
 
+msgid "Monthly Pass"
+msgstr "Pase mensual"
+
 msgid "Bikes are allowed on all ferry boats"
 msgstr "Se admiten bicicletas en todos los barcos de ferry"
 
@@ -146,6 +170,9 @@ msgstr "Eliminar las citas alrededor de frases para buscar cada palabra individu
 
 msgid "More Guides"
 msgstr "Más Guías"
+
+msgid "Monthly Pass on mTicket App"
+msgstr "Pase mensual mTicket App"
 
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
@@ -174,6 +201,9 @@ msgstr "Aparcamiento"
 msgid "We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes."
 msgstr "Tuvimos un problema presentando sus comentarios -- por favor llámenos a la línea principal de abajo, o inténtelo de nuevo en unos minutos."
 
+msgid "East Boston Ferry"
+msgstr "East Boston Ferry"
+
 msgid "Showing results"
 msgstr "Mostrando resultados"
 
@@ -198,11 +228,23 @@ msgstr "Hubo un problema en la realización de su búsqueda; por favor intente d
 msgid "No upcoming holidays"
 msgstr "No próximas vacaciones"
 
+msgid "Commuter Ferry to Logan Airport"
+msgstr "Commuter Ferry al aeropuerto de Logan"
+
 msgid "Go to your app store to update your MBTA mTicket."
 msgstr "Vaya a su tienda de aplicaciones para actualizar su MBTA mTicket."
 
 msgid "List view"
 msgstr "Vista lista"
+
+msgid "Day Pass"
+msgstr "Day Pass"
+
+msgid "CharlieTicket"
+msgstr "CharlieTicket"
+
+msgid "Shuttle"
+msgstr "Shuttle"
 
 msgid "for"
 msgstr "para"
@@ -215,6 +257,9 @@ msgstr "Localizaciones de ventas al por menor"
 
 msgid "Let us know"
 msgstr "Háganos saber"
+
+msgid "Hingham/Hull Ferry"
+msgstr "Hingham/Hull Ferry"
 
 msgid "Tell Us What You Think"
 msgstr "Cuéntanos lo que piensas"
@@ -282,6 +327,9 @@ msgstr "en este momento"
 msgid "Schedules and Maps"
 msgstr "Listas y Mapas"
 
+msgid "Student CharlieCard"
+msgstr "Estudiante CharlieCard"
+
 msgid "To submit an ADA/Accessibility complaint or feedback, please call"
 msgstr "Para presentar una reclamación o retroalimentación de ADA/Accesibilidad, por favor llame"
 
@@ -327,6 +375,9 @@ msgstr "Bicicletas permitidas"
 msgid "Maps"
 msgstr "Mapas"
 
+msgid "Winthrop/Quincy Ferry"
+msgstr "Winthrop/Quincy Ferry"
+
 msgid "Proposed Sales Locations"
 msgstr "Puestos de venta propuestos"
 
@@ -366,11 +417,17 @@ msgstr "Contáctenos"
 msgid "Recently Visited Schedules"
 msgstr "Horarios visitados recientemente"
 
+msgid "Ferry "
+msgstr "Ferry "
+
 msgid "Get Involved"
 msgstr "Entrar"
 
 msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
 msgstr "Martes 5 de noviembre es el último día para votar en las elecciones generales de 2024. Utilice la T para llegar a su lugar de votación."
+
+msgid "Weekend Pass"
+msgstr "Paso de fin de semana"
 
 msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
 msgstr "Todas las ubicaciones propuestas están sujetas a la idoneidad del sitio, la autorización y la disponibilidad al por menor."
@@ -386,6 +443,9 @@ msgstr "Use menos palabras clave para aumentar el número de resultados"
 
 msgid "Find Proposed Locations Near You"
 msgstr "Encontrar lugares propuestos cerca de usted"
+
+msgid "Zones 1A-10"
+msgstr "Zonas 1A-10"
 
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
@@ -411,8 +471,17 @@ msgstr "Nota"
 msgid "Innovation Proposals"
 msgstr "Propuestas de innovación"
 
+msgid "All ferry routes"
+msgstr "Todas las rutas de ferry"
+
+msgid "One-Way"
+msgstr "Uno..."
+
 msgid "Some Seats Available"
 msgstr "Algunos asientos disponibles"
+
+msgid "contactless payment"
+msgstr "pago sin contacto"
 
 msgid "Send Us Feedback"
 msgstr "Enviarnos comentarios"
@@ -422,6 +491,9 @@ msgstr "TTY"
 
 msgid "Add to Calendar"
 msgstr "Add to Calendar"
+
+msgid "CharlieCard"
+msgstr "CharlieCard"
 
 msgid "Public Meetings"
 msgstr "Reuniones públicas"
@@ -434,6 +506,9 @@ msgstr "Descripción del evento"
 
 msgid "is temporarily unavailable due to a service change."
 msgstr "no está disponible temporalmente debido a un cambio de servicio."
+
+msgid "Premium Ride"
+msgstr "Premium Ride"
 
 msgid "Earlier"
 msgstr "Anteriormente"
@@ -486,6 +561,9 @@ msgstr "Ingrese una ubicación de origen"
 msgid "Sorry, Your App Appears to be Out of Date"
 msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
 
+msgid "Cross Harbor Ferry"
+msgstr "Cross Harbor Ferry"
+
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
 
@@ -495,8 +573,14 @@ msgstr "Próximos vacaciones"
 msgid "Learn more about filing a complaint"
 msgstr "Más información sobre la presentación de una queja"
 
+msgid "Round Trip"
+msgstr "Viaje redondo"
+
 msgid "View all guides"
 msgstr "Ver todas las guías"
+
+msgid "Premium Ride Fare"
+msgstr "Premium Ride Fare"
 
 msgid "alerts at this time"
 msgstr "alertas en este momento"
@@ -507,8 +591,14 @@ msgstr "Obtener sugerencias de viaje"
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
 msgstr "Massachusetts Bay Transportation Authority, todos los derechos reservados."
 
+msgid "Lynn Ferry"
+msgstr "Lynn Ferry"
+
 msgid "Sustainability"
 msgstr "Sostenibilidad"
+
+msgid "Monthly Local Bus Pass"
+msgstr "Paso mensual de autobús local"
 
 msgid "Update Results"
 msgstr "Resultados de actualización"
@@ -567,8 +657,14 @@ msgstr "Rellene el formulario"
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
 
+msgid "Senior CharlieCard or TAP ID"
+msgstr "Senior CharlieCard or TAP ID"
+
 msgid "News"
 msgstr "Noticias"
+
+msgid "Invalid Fare"
+msgstr "Fare inválido"
 
 msgid "Minutes"
 msgstr "Minutos"
@@ -696,6 +792,9 @@ msgstr "Queremos asegurarnos de construir una red minorista que funcione para us
 msgid "No events"
 msgstr "No hay eventos"
 
+msgid "1-Day Pass"
+msgstr "Paso de 1 día"
+
 msgid "Passengers must tell "
 msgstr "Los pasajeros deben decir "
 
@@ -715,7 +814,7 @@ msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
-msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden conseguir o cargar un CharlieCard y pases de compra."
+msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
 msgid "View PDF Timetable"
 msgstr "Ver PDF Calendario"
@@ -723,11 +822,17 @@ msgstr "Ver PDF Calendario"
 msgid "report an issue"
 msgstr "informe sobre una cuestión"
 
+msgid "Commuter Rail "
+msgstr "Commuter Rail "
+
 msgid "Your Polling Place"
 msgstr "Tu lugar de votación"
 
 msgid "Error"
 msgstr "Error"
+
+msgid "Georges Island"
+msgstr "Georges Island"
 
 msgid "Media Contact Information"
 msgstr "Medios Información de Contacto"
@@ -761,6 +866,9 @@ msgstr "Encontrar una tienda cerca de usted"
 
 msgid "Posted on"
 msgstr "Publicado en"
+
+msgid "Subway"
+msgstr "Subte"
 
 msgid "See all press releases"
 msgstr "Ver todos los comunicados de prensa"
@@ -813,6 +921,9 @@ msgstr "Ubicación"
 msgid "View Bio"
 msgstr "Ver Bio"
 
+msgid "ADA Ride Fare"
+msgstr "ADA Ride Fare"
+
 msgid "Change Date"
 msgstr "Fecha de cambio"
 
@@ -840,6 +951,9 @@ msgstr "711 para llamadas TTY; VRS para llamadas ASL"
 msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
 msgstr "La disponibilidad de asientos Commuter Rail se actualiza regularmente para reflejar la conducción típica de un viaje basado en datos automatizados y conductores de los últimos 14-30 días."
 
+msgid "reduced fare card"
+msgstr "tarjeta de tarifa reducida"
+
 msgid "Sorry about that. There are no results matching"
 msgstr "Lo siento. No hay resultados que coincidan"
 
@@ -858,6 +972,9 @@ msgstr "Introduzca un lugar"
 msgid "mTicket App"
 msgstr "mTicket App"
 
+msgid "Foxboro Special Event"
+msgstr "Evento especial de Foxboro"
+
 msgid "Bikes Allowed"
 msgstr "Bicicletas permitidas"
 
@@ -873,6 +990,9 @@ msgstr "Hoy"
 msgid "Previous"
 msgstr "Anterior"
 
+msgid "ADA Ride"
+msgstr "ADA Ride"
+
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
 msgstr "Siga el enlace de abajo para encontrar el número asociado con el modo o ruta donde perdió su artículo."
 
@@ -885,11 +1005,17 @@ msgstr "Fines de semana"
 msgid "Get to Know Us"
 msgstr "Conozcanos"
 
+msgid "Free Service"
+msgstr "Servicio gratuito"
+
 msgid "Showing 1 result for"
 msgstr "Mostrando 1 resultado para"
 
 msgid "Events"
 msgstr "Eventos"
+
+msgid "Logan Express"
+msgstr "Logan Express"
 
 msgid "Follow @MBTA_CR on Twitter"
 msgstr "Siga @MBTA_CR el Twitter"
@@ -926,6 +1052,9 @@ msgstr "Comunicados de prensa"
 
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "paper ferry ticket"
+msgstr "billete de ferry"
 
 msgid "PDF Upcoming"
 msgstr "PDF Subiendo"
@@ -1002,6 +1131,9 @@ msgstr "Más información sobre este proyecto"
 msgid "Thursday"
 msgstr "Jueves"
 
+msgid "cash"
+msgstr "efectivo"
+
 msgid " may leave ahead of schedule at these stops."
 msgstr " puede salir antes del horario en estas paradas."
 
@@ -1019,4 +1151,10 @@ msgstr "También puede email"
 
 msgid "Holidays"
 msgstr "Vacaciones"
+
+msgid "Local Bus"
+msgstr "Autobús local"
+
+msgid "7-Day Pass"
+msgstr "Paso de 7 días"
 

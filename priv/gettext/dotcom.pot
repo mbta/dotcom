@@ -22,6 +22,7 @@ msgid "Local Bus One-Way"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
+#: lib/fares/format.ex:108
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
 msgstr ""
@@ -1741,6 +1742,7 @@ msgid "Your Polling Place"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:29
+#: lib/fares/format.ex:35
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr ""
@@ -1773,4 +1775,240 @@ msgstr ""
 #: lib/dotcom_web/templates/vote/show.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
+msgstr ""
+
+#: lib/fares/format.ex:112
+#, elixir-autogen, elixir-format
+msgid "1-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:60
+#: lib/fares/format.ex:111
+#, elixir-autogen, elixir-format
+msgid "7-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:99
+#, elixir-autogen, elixir-format
+msgid "ADA Ride"
+msgstr ""
+
+#: lib/fares/format.ex:113
+#, elixir-autogen, elixir-format
+msgid "ADA Ride Fare"
+msgstr ""
+
+#: lib/fares/format.ex:182
+#, elixir-autogen, elixir-format
+msgid "All ferry routes"
+msgstr ""
+
+#: lib/fares/format.ex:85
+#, elixir-autogen, elixir-format
+msgid "Charlestown Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:31
+#, elixir-autogen, elixir-format
+msgid "CharlieCard"
+msgstr ""
+
+#: lib/fares/format.ex:32
+#: lib/fares/format.ex:33
+#, elixir-autogen, elixir-format
+msgid "CharlieTicket"
+msgstr ""
+
+#: lib/fares/format.ex:92
+#, elixir-autogen, elixir-format
+msgid "Commuter Ferry to Logan Airport"
+msgstr ""
+
+#: lib/fares/format.ex:184
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail "
+msgstr ""
+
+#: lib/fares/format.ex:86
+#, elixir-autogen, elixir-format
+msgid "Cross Harbor Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:56
+#, elixir-autogen, elixir-format
+msgid "Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:87
+#, elixir-autogen, elixir-format
+msgid "East Boston Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:84
+#, elixir-autogen, elixir-format
+msgid "Express Bus"
+msgstr ""
+
+#: lib/fares/format.ex:185
+#, elixir-autogen, elixir-format
+msgid "Ferry "
+msgstr ""
+
+#: lib/fares/format.ex:95
+#, elixir-autogen, elixir-format
+msgid "Foxboro Special Event"
+msgstr ""
+
+#: lib/fares/format.ex:14
+#: lib/fares/format.ex:16
+#, elixir-autogen, elixir-format
+msgid "Free"
+msgstr ""
+
+#: lib/fares/format.ex:97
+#, elixir-autogen, elixir-format
+msgid "Free Service"
+msgstr ""
+
+#: lib/fares/format.ex:90
+#, elixir-autogen, elixir-format
+msgid "Georges Island"
+msgstr ""
+
+#: lib/fares/format.ex:91
+#, elixir-autogen, elixir-format
+msgid "Hingham/Hull Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:76
+#, elixir-autogen, elixir-format
+msgid "Invalid Duration"
+msgstr ""
+
+#: lib/fares/format.ex:101
+#, elixir-autogen, elixir-format
+msgid "Invalid Fare"
+msgstr ""
+
+#: lib/fares/format.ex:83
+#, elixir-autogen, elixir-format
+msgid "Local Bus"
+msgstr ""
+
+#: lib/fares/format.ex:103
+#, elixir-autogen, elixir-format
+msgid "Logan Express"
+msgstr ""
+
+#: lib/fares/format.ex:88
+#, elixir-autogen, elixir-format
+msgid "Lynn Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:102
+#: lib/fares/format.ex:104
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle"
+msgstr ""
+
+#: lib/fares/format.ex:109
+#, elixir-autogen, elixir-format
+msgid "Monthly Local Bus Pass"
+msgstr ""
+
+#: lib/fares/format.ex:71
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass"
+msgstr ""
+
+#: lib/fares/format.ex:69
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass on mTicket App"
+msgstr ""
+
+#: lib/fares/format.ex:52
+#, elixir-autogen, elixir-format
+msgid "One-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:44
+#, elixir-autogen, elixir-format
+msgid "One-Way"
+msgstr ""
+
+#: lib/fares/format.ex:100
+#, elixir-autogen, elixir-format
+msgid "Premium Ride"
+msgstr ""
+
+#: lib/fares/format.ex:114
+#, elixir-autogen, elixir-format
+msgid "Premium Ride Fare"
+msgstr ""
+
+#: lib/fares/format.ex:48
+#, elixir-autogen, elixir-format
+msgid "Round Trip"
+msgstr ""
+
+#: lib/fares/format.ex:37
+#, elixir-autogen, elixir-format
+msgid "Senior CharlieCard or TAP ID"
+msgstr ""
+
+#: lib/fares/format.ex:98
+#: lib/fares/format.ex:107
+#, elixir-autogen, elixir-format
+msgid "Shuttle"
+msgstr ""
+
+#: lib/fares/format.ex:38
+#, elixir-autogen, elixir-format
+msgid "Special Event Ticket"
+msgstr ""
+
+#: lib/fares/format.ex:39
+#, elixir-autogen, elixir-format
+msgid "Student CharlieCard"
+msgstr ""
+
+#: lib/fares/format.ex:82
+#, elixir-autogen, elixir-format
+msgid "Subway"
+msgstr ""
+
+#: lib/fares/format.ex:64
+#: lib/fares/format.ex:110
+#, elixir-autogen, elixir-format
+msgid "Weekend Pass"
+msgstr ""
+
+#: lib/fares/format.ex:89
+#, elixir-autogen, elixir-format
+msgid "Winthrop/Quincy Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:181
+#, elixir-autogen, elixir-format
+msgid "Zones 1A-10"
+msgstr ""
+
+#: lib/fares/format.ex:30
+#, elixir-autogen, elixir-format
+msgid "cash"
+msgstr ""
+
+#: lib/fares/format.ex:34
+#, elixir-autogen, elixir-format
+msgid "contactless payment"
+msgstr ""
+
+#: lib/fares/format.ex:36
+#, elixir-autogen, elixir-format
+msgid "paper ferry ticket"
+msgstr ""
+
+#: lib/fares/format.ex:21
+#, elixir-autogen, elixir-format
+msgid "reduced fare card"
 msgstr ""

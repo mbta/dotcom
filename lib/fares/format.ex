@@ -2,6 +2,8 @@ defmodule Fares.Format do
   @moduledoc """
   Formatting functions for fare data.
   """
+  use Dotcom.Gettext.Sigils
+
   alias Fares.{Fare, Summary}
 
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
@@ -9,14 +11,14 @@ defmodule Fares.Format do
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
   @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
-  def price(%Fare{cents: +0.0}), do: "Free"
+  def price(%Fare{cents: +0.0}), do: ~t"Free"
   def price(%Fare{cents: cents}), do: price(cents)
-  def price(0), do: "Free"
+  def price(0), do: ~t"Free"
   def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t() | [Fare.media()] | Fare.media()) :: iodata
-  def media(%Fare{reduced: :any}), do: "reduced fare card"
+  def media(%Fare{reduced: :any}), do: ~t"reduced fare card"
   def media(%Fare{media: list}), do: media(list)
 
   def media(list) when is_list(list) do
@@ -25,91 +27,91 @@ defmodule Fares.Format do
     |> Util.AndOr.join(:or)
   end
 
-  def media(:cash), do: "cash"
-  def media(:charlie_card), do: "CharlieCard"
-  def media(:charlie_ticket), do: "CharlieTicket"
-  def media(:commuter_ticket), do: "CharlieTicket"
-  def media(:contactless_payment), do: "contactless payment"
-  def media(:mticket), do: "mTicket App"
-  def media(:paper_ferry), do: "paper ferry ticket"
-  def media(:senior_card), do: "Senior CharlieCard or TAP ID"
-  def media(:special_event), do: "Special Event Ticket"
-  def media(:student_card), do: "Student CharlieCard"
+  def media(:cash), do: ~t"cash"
+  def media(:charlie_card), do: ~t"CharlieCard"
+  def media(:charlie_ticket), do: ~t"CharlieTicket"
+  def media(:commuter_ticket), do: ~t"CharlieTicket"
+  def media(:contactless_payment), do: ~t"contactless payment"
+  def media(:mticket), do: ~t"mTicket App"
+  def media(:paper_ferry), do: ~t"paper ferry ticket"
+  def media(:senior_card), do: ~t"Senior CharlieCard or TAP ID"
+  def media(:special_event), do: ~t"Special Event Ticket"
+  def media(:student_card), do: ~t"Student CharlieCard"
 
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t() | Summary.t()) :: String.t()
   def duration(%{duration: :single_trip}) do
-    "One-Way"
+    ~t"One-Way"
   end
 
   def duration(%{duration: :round_trip}) do
-    "Round Trip"
+    ~t"Round Trip"
   end
 
   def duration(%{name: :ferry_inner_harbor, duration: :day}) do
-    "One-Day Pass"
+    ~t"One-Day Pass"
   end
 
   def duration(%{duration: :day}) do
-    "Day Pass"
+    ~t"Day Pass"
   end
 
   def duration(%{duration: :week}) do
-    "7-Day Pass"
+    ~t"7-Day Pass"
   end
 
   def duration(%{duration: :weekend}) do
-    "Weekend Pass"
+    ~t"Weekend Pass"
   end
 
   def duration(%{duration: :month, media: media}) do
     if :mticket in media do
-      "Monthly Pass on mTicket App"
+      ~t"Monthly Pass on mTicket App"
     else
-      "Monthly Pass"
+      ~t"Monthly Pass"
     end
   end
 
   def duration(%{duration: :invalid}) do
-    "Invalid Duration"
+    ~t"Invalid Duration"
   end
 
   @doc "Friendly name for the given Fare"
   @spec name(Fare.t() | Fare.fare_name()) :: String.t()
   def name(%Fare{name: name}), do: name(name)
-  def name(:subway), do: "Subway"
-  def name(:local_bus), do: "Local Bus"
-  def name(:express_bus), do: "Express Bus"
-  def name(:ferry_inner_harbor), do: "Charlestown Ferry"
-  def name(:ferry_cross_harbor), do: "Cross Harbor Ferry"
-  def name(:ferry_east_boston), do: "East Boston Ferry"
-  def name(:ferry_lynn), do: "Lynn Ferry"
-  def name(:ferry_winthrop), do: "Winthrop/Quincy Ferry"
-  def name(:ferry_george), do: "Georges Island"
-  def name(:commuter_ferry), do: "Hingham/Hull Ferry"
-  def name(:commuter_ferry_logan), do: "Commuter Ferry to Logan Airport"
+  def name(:subway), do: ~t"Subway"
+  def name(:local_bus), do: ~t"Local Bus"
+  def name(:express_bus), do: ~t"Express Bus"
+  def name(:ferry_inner_harbor), do: ~t"Charlestown Ferry"
+  def name(:ferry_cross_harbor), do: ~t"Cross Harbor Ferry"
+  def name(:ferry_east_boston), do: ~t"East Boston Ferry"
+  def name(:ferry_lynn), do: ~t"Lynn Ferry"
+  def name(:ferry_winthrop), do: ~t"Winthrop/Quincy Ferry"
+  def name(:ferry_george), do: ~t"Georges Island"
+  def name(:commuter_ferry), do: ~t"Hingham/Hull Ferry"
+  def name(:commuter_ferry_logan), do: ~t"Commuter Ferry to Logan Airport"
   def name({:zone, zone}), do: "Zone #{zone}"
   def name({:interzone, zone}), do: "Interzone #{zone}"
-  def name(:foxboro), do: "Foxboro Special Event"
+  def name(:foxboro), do: ~t"Foxboro Special Event"
   # A free fare might be an SL1 trip from airport stops or shuttle bus service
-  def name(:free_fare), do: "Free Service"
-  def name(:shuttle), do: "Shuttle"
-  def name(:ada_ride), do: "ADA Ride"
-  def name(:premium_ride), do: "Premium Ride"
-  def name(:invalid), do: "Invalid Fare"
-  def name(:massport_shuttle), do: "Massport Shuttle"
-  def name(:logan_express), do: "Logan Express"
-  def name("Massport-" <> _id), do: "Massport Shuttle"
+  def name(:free_fare), do: ~t"Free Service"
+  def name(:shuttle), do: ~t"Shuttle"
+  def name(:ada_ride), do: ~t"ADA Ride"
+  def name(:premium_ride), do: ~t"Premium Ride"
+  def name(:invalid), do: ~t"Invalid Fare"
+  def name(:massport_shuttle), do: ~t"Massport Shuttle"
+  def name(:logan_express), do: ~t"Logan Express"
+  def name("Massport-" <> _id), do: ~t"Massport Shuttle"
 
   @spec full_name(Fare.t() | nil) :: String.t() | iolist
-  def full_name(nil), do: "Shuttle"
-  def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
-  def full_name(%Fare{mode: :bus, duration: :month}), do: "Monthly Local Bus Pass"
-  def full_name(%Fare{mode: :commuter_rail, duration: :weekend}), do: "Weekend Pass"
-  def full_name(%Fare{duration: :week}), do: "7-Day Pass"
-  def full_name(%Fare{duration: :day}), do: "1-Day Pass"
-  def full_name(%Fare{name: :ada_ride}), do: "ADA Ride Fare"
-  def full_name(%Fare{name: :premium_ride}), do: "Premium Ride Fare"
+  def full_name(nil), do: ~t"Shuttle"
+  def full_name(%Fare{mode: :subway, duration: :month}), do: ~t"Monthly LinkPass"
+  def full_name(%Fare{mode: :bus, duration: :month}), do: ~t"Monthly Local Bus Pass"
+  def full_name(%Fare{mode: :commuter_rail, duration: :weekend}), do: ~t"Weekend Pass"
+  def full_name(%Fare{duration: :week}), do: ~t"7-Day Pass"
+  def full_name(%Fare{duration: :day}), do: ~t"1-Day Pass"
+  def full_name(%Fare{name: :ada_ride}), do: ~t"ADA Ride Fare"
+  def full_name(%Fare{name: :premium_ride}), do: ~t"Premium Ride Fare"
 
   def full_name(fare) do
     [name(fare), " ", duration(fare)]
@@ -176,11 +178,11 @@ defmodule Fares.Format do
     }
   end
 
-  defp price_range_label(:commuter_rail), do: "Zones 1A-10"
-  defp price_range_label(:ferry), do: "All ferry routes"
+  defp price_range_label(:commuter_rail), do: ~t"Zones 1A-10"
+  defp price_range_label(:ferry), do: ~t"All ferry routes"
 
-  defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
-  defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
+  defp price_range_summary_name(fare, :commuter_rail), do: ~t"Commuter Rail " <> duration(fare)
+  defp price_range_summary_name(fare, :ferry), do: ~t"Ferry " <> duration(fare)
 
   @spec mode_type_for_fare_class(Routes.Route.gtfs_fare_class()) :: mode_type | :unknown
   def mode_type_for_fare_class(:ferry_fare), do: :ferry
