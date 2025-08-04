@@ -288,12 +288,6 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  scope "/", DotcomWeb do
-    pipe_through([:browser, :browser_live])
-
-    live "/demo", Live.Demo
-  end
-
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
