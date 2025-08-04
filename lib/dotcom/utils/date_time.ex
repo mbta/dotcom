@@ -53,7 +53,7 @@ defmodule Dotcom.Utils.DateTime do
           | Timex.AmbiguousDateTime.t()
           | {:error, term()}
         ) :: DateTime.t()
-  def(coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time)
+  def coerce_ambiguous_date_time(%DateTime{} = date_time), do: date_time
   def coerce_ambiguous_date_time(%Timex.AmbiguousDateTime{after: later}), do: later
 
   def coerce_ambiguous_date_time({:error, {_, @timezone, seconds_from_zeroyear, _}}) do
