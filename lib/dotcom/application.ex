@@ -64,6 +64,7 @@ defmodule Dotcom.Application do
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
+          Dotcom.SystemStatus.SubwayCache,
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 
