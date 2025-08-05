@@ -140,7 +140,6 @@ defmodule DotCom.Mixfile do
       {:polyline, "1.6.0"},
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.5.0"},
-      {:quantum, "3.5.3"},
       {:quixir, "0.9.3", [only: :test]},
       {:recaptcha, "3.1.0"},
       {:recase, "0.8.1"},

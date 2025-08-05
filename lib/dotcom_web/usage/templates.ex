@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Templates do
+defmodule DotcomWeb.Usage.Templates do
   @moduledoc """
   This Agent tracks template usage per route.
   """
@@ -42,15 +42,10 @@ defmodule DotcomWeb.Templates do
 
   @doc """
   Looks at all templates and logs any that haven't been loaded a single time.
-  Then it resets the counts.
   """
-  def log_unused_templates() do
+  def unused_templates() do
     Agent.get(__MODULE__, & &1)
     |> Enum.filter(fn {_, count} -> count === 0 end)
-    |> Enum.each(fn {template, _} ->
-      Logger.warning("#{__MODULE__}.unused_template #{template}")
-    end)
-
-    Agent.update(__MODULE__, fn _ -> @initial_state end)
+    |> Enum.map(fn {template, _} -> template end)
   end
 end
