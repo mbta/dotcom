@@ -1,6 +1,8 @@
 defmodule Dotcom.TripPlan.InputFormTest do
   use ExUnit.Case, async: true
 
+  import Mox
+
   alias Dotcom.TripPlan.InputForm
 
   @from_params %{
@@ -20,6 +22,13 @@ defmodule Dotcom.TripPlan.InputFormTest do
     "modes" => @mode_params,
     "wheelchair" => Faker.Util.pick(["true", "false"])
   }
+
+  setup :verify_on_exit!
+
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    :ok
+  end
 
   test "from & to fields are required" do
     changeset = InputForm.changeset(%{})
@@ -127,22 +136,19 @@ defmodule Dotcom.TripPlan.InputFormTest do
     end
 
     test "requires date to be in the future" do
-      changeset =
-        InputForm.changeset(%{
-          @params
-          | "datetime_type" => "arrive_by",
-            "datetime" => Faker.DateTime.forward(1)
-        })
-
-      assert changeset.valid?
-
+      now = Faker.DateTime.forward(1)
+      form_datetime = DateTime.shift(now, minute: Faker.random_between(-100, -1))
       expected_error = InputForm.error_message(:datetime)
 
+      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        now
+      end)
+
       changeset =
         InputForm.changeset(%{
           @params
-          | "datetime_type" => "arrive_by",
-            "datetime" => Faker.DateTime.backward(1)
+          | "datetime_type" => Faker.Util.pick(["leave_at", "arrive_by"]),
+            "datetime" => form_datetime
         })
 
       refute changeset.valid?

@@ -9,6 +9,8 @@ defmodule Dotcom.TripPlan.InputForm do
 
   import Ecto.Changeset
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   @error_messages %{
     from: "Please select an origin location.",
     from_to_same: "Please select a destination at a different location from the origin.",
@@ -23,7 +25,7 @@ defmodule Dotcom.TripPlan.InputForm do
     embeds_one(:to, __MODULE__.Location)
     embeds_one(:modes, __MODULE__.Modes)
     field(:datetime_type, :string)
-    field(:datetime, :naive_datetime)
+    field(:datetime, :utc_datetime)
     field(:wheelchair, :boolean)
   end
 
@@ -85,7 +87,7 @@ defmodule Dotcom.TripPlan.InputForm do
   defp validate_chosen_datetime(changeset) do
     case get_field(changeset, :datetime_type) do
       "now" ->
-        force_change(changeset, :datetime, Util.now())
+        force_change(changeset, :datetime, @date_time_module.now())
 
       _ ->
         changeset
@@ -94,15 +96,11 @@ defmodule Dotcom.TripPlan.InputForm do
     end
   end
 
-  defp validate_datetime(field, date) do
-    date
-    |> DateTime.from_naive!("America/New_York")
-    |> then(fn datetime ->
-      case Timex.compare(datetime, Util.now(), :minutes) do
-        -1 -> [{field, error_message(:datetime)}]
-        _ -> []
-      end
-    end)
+  defp validate_datetime(field, datetime) do
+    case DateTime.compare(datetime, @date_time_module.now()) do
+      :lt -> [{field, error_message(:datetime)}]
+      _ -> []
+    end
   end
 
   def error_message(key), do: @error_messages[key]
