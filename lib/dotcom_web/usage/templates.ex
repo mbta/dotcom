@@ -12,7 +12,7 @@ defmodule DotcomWeb.Usage.Templates do
   @initial_state "lib/dotcom_web/templates"
                  |> list_all_files()
                  |> Enum.filter(fn ref -> String.match?(ref, ~r/eex$/) end)
-                 |> Enum.reduce(%{}, fn ref, refs -> Map.put(refs, ref, nil) end)
+                 |> Map.new(fn template -> {template, nil} end)
 
   @doc """
   Starts the Agent and attaches to `[:template, :track]` telemetry events.
@@ -30,13 +30,11 @@ defmodule DotcomWeb.Usage.Templates do
   end
 
   @doc """
-  Handles telemetry events and increments each template view.
+  Handles telemetry events and removes the template from the list.
   """
   def handle_event(_name, _measurements, metadata, _config) do
-    template = metadata.template
-
     Agent.update(__MODULE__, fn state ->
-      Map.delete(state, template)
+      Map.delete(state, metadata.template)
     end)
   end
 
@@ -45,6 +43,6 @@ defmodule DotcomWeb.Usage.Templates do
   """
   def unused_templates() do
     Agent.get(__MODULE__, & &1)
-    |> Enum.map(fn {template, _} -> template end)
+    |> Map.keys()
   end
 end
