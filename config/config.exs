@@ -89,7 +89,7 @@ config :sentry,
 
 config :dotcom, Dotcom.Scheduler,
   jobs: [
-    {"@daily", {DotcomWeb.Templates, :log_unused_templates, []}}
+    {"@hourly", {DotcomWeb.Templates, :log_unused_templates, []}}
   ]
 
 import_config "#{config_env()}.exs"
