@@ -22,7 +22,6 @@
   {"lib/dotcom_web/controllers/cms_controller.ex", :pattern_match},
   {"lib/dotcom_web/controllers/cms_controller.ex", :unknown_type},
   {"lib/dotcom_web/controllers/event_controller.ex", :unknown_type},
-  {"lib/dotcom_web/controllers/fare_controller.ex", :unknown_type},
   {"lib/dotcom_web/controllers/map_config_controller.ex", :unknown_type},
   {"lib/dotcom_web/controllers/mode/hub_behavior.ex", :unknown_type},
   {"lib/dotcom_web/controllers/schedule/line/maps.ex", :unknown_type},
