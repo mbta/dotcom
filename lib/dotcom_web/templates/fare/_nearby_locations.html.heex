@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="c-sales-locations__cards">
   <%= for {location, distance} <- @locations do %>
     <% name = Map.get(location, :name)
