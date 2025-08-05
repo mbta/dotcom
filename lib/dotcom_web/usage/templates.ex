@@ -39,10 +39,29 @@ defmodule DotcomWeb.Usage.Templates do
   end
 
   @doc """
+  A count of all templates.
+  """
+  def template_count() do
+    @initial_state
+    |> Map.keys()
+    |> Kernel.length()
+  end
+
+  @doc """
+  A count of all unused templates.
+  """
+  def unused_template_count() do
+    Agent.get(__MODULE__, & &1)
+    |> Map.keys()
+    |> Kernel.length()
+  end
+
+  @doc """
   Looks at all templates and logs any that haven't been loaded a single time.
   """
   def unused_templates() do
     Agent.get(__MODULE__, & &1)
     |> Map.keys()
+    |> Enum.sort()
   end
 end
