@@ -23,7 +23,9 @@ defmodule DotcomWeb.Live.Usage do
   def unused_templates(assigns) do
     ~H"""
     <h6>Unused Templates</h6>
-    <p>{unused_template_count()} of {template_count()} templates have not been used since the last deployment.</p>
+    <p>
+      {unused_template_count()} of {template_count()} templates have not been used since the last deployment.
+    </p>
     <p>The following templates have not been used:</p>
     <ul>
       <li :for={template <- unused_templates()}>
