@@ -1,3 +1,4 @@
+<% track_template() %>
 <%= link [to: @link_path, class: "c-grid-button c-grid-button--#{grid_button_class_modifier(@route)}", id: grid_button_id(assigns)] do %>
   <div class="c-grid-button__content">
     <%= if show_icon?(@route, @show_icon?) do %>
