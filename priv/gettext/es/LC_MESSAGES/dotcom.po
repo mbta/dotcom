@@ -84,6 +84,9 @@ msgstr "No se detiene"
 msgid "Get T-Alerts"
 msgstr "Obtener T-Alerts"
 
+msgid "Vote"
+msgstr "Votación"
+
 msgid "the conductor"
 msgstr "el conductor"
 
@@ -182,6 +185,9 @@ msgstr "Típicamente más del 33% de los asientos permanecen disponibles y el di
 
 msgid "to plan your trip"
 msgstr "para planificar su viaje"
+
+msgid "Projects"
+msgstr "Proyectos"
 
 msgid " to stop."
 msgstr " Parar."
@@ -761,6 +767,9 @@ msgstr "Introduzca una ubicación de destino"
 
 msgid "Track Boarding Change"
 msgstr "Track Boarding Cambio"
+
+msgid "Updates"
+msgstr "Actualizaciones"
 
 msgid "Find a Store Near You"
 msgstr "Encontrar una tienda cerca de usted"

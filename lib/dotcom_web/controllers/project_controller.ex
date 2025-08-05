@@ -10,7 +10,7 @@ defmodule DotcomWeb.ProjectController do
   alias DotcomWeb.ProjectView
   alias Plug.Conn
 
-  @breadcrumb_base "Projects"
+  @breadcrumb_base ~t"Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
   @n_projects_per_page 10
   @n_project_updates_per_page 4
@@ -102,7 +102,7 @@ defmodule DotcomWeb.ProjectController do
         breadcrumbs = [
           Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
           Breadcrumb.build(project.title, project_path(conn, :show, project)),
-          Breadcrumb.build("Updates")
+          Breadcrumb.build(~t"Updates")
         ]
 
         conn
@@ -143,7 +143,7 @@ defmodule DotcomWeb.ProjectController do
           Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
           Breadcrumb.build(project.title, project_path(conn, :show, project)),
           Breadcrumb.build(
-            "Updates",
+            ~t"Updates",
             project_updates_path(conn, :project_updates, Project.alias(project))
           ),
           Breadcrumb.build(update.title)

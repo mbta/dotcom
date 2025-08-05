@@ -178,7 +178,7 @@ defmodule DotcomWeb.SearchController do
 
   @spec breadcrumbs(Conn.t(), Keyword.t()) :: Conn.t()
   defp breadcrumbs(conn, _) do
-    assign(conn, :breadcrumbs, [Breadcrumb.build("Search")])
+    assign(conn, :breadcrumbs, [Breadcrumb.build(~t"Search")])
   end
 
   @spec link_context(Conn.t(), map) :: Conn.t()
