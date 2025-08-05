@@ -87,9 +87,4 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
-config :dotcom, Dotcom.Scheduler,
-  jobs: [
-    {"@hourly", {DotcomWeb.Templates, :log_unused_templates, []}}
-  ]
-
 import_config "#{config_env()}.exs"
