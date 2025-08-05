@@ -1,6 +1,6 @@
 defmodule DotcomWeb.Usage.Templates do
   @moduledoc """
-  This Agent tracks template usage per route.
+  This Agent tracks template usage.
   """
 
   use Agent
