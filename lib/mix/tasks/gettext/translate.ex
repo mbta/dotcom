@@ -72,9 +72,8 @@ defmodule Mix.Tasks.Gettext.Translate do
   # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
   def run(["--locales", locales]) do
-    Application.ensure_started(:telemetry)
-    Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
-
+    _ = Application.ensure_started(:telemetry)
+    _ = Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
     _ = Finch.start_link(name: TranslateFinch)
 
     locales
@@ -87,9 +86,8 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate all non-default locales.
   def run([]) do
-    Application.ensure_started(:telemetry)
-    Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
-
+    _ = Application.ensure_started(:telemetry)
+    _ = Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
     _ = Finch.start_link(name: TranslateFinch)
 
     (locale_codes() -- [default_locale_code()]) |> translate()
