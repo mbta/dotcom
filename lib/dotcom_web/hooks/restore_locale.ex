@@ -10,14 +10,18 @@ defmodule DotcomWeb.Hooks.RestoreLocale do
 
   # Using URL params
   def on_mount(:default, %{"locale" => locale}, _session, socket) do
-    unless Application.get_env(:dotcom, :is_prod_env?) do
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      {:cont, socket}
+    else
       set_and_assign_locale(socket, locale)
     end
   end
 
   # From session
   def on_mount(:default, _params, %{"locale" => locale}, socket) do
-    unless Application.get_env(:dotcom, :is_prod_env?) do
+    if Application.get_env(:dotcom, :is_prod_env?) do
+      {:cont, socket}
+    else
       set_and_assign_locale(socket, locale)
     end
   end
