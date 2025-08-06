@@ -36,14 +36,8 @@ defmodule Dotcom.Application do
             {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
-            {Req.Telemetry, []}
-          ]
-        else
-          []
-        end ++
-        if Application.get_env(:dotcom, :env) === :dev do
-          [
-            {DotcomWeb.Translations, %{}}
+            {Req.Telemetry, []},
+            {DotcomWeb.Usage.Templates, []}
           ]
         else
           []

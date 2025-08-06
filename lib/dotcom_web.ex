@@ -81,21 +81,15 @@ defmodule DotcomWeb do
       unquote(view_helpers())
 
       def track_template() do
-        if Application.get_env(:dotcom, :env) === :dev do
-          path_info = Process.get(:path_info, [])
+        if Application.get_env(:dotcom, :env) != :test do
           {_, trace} = Process.info(self(), :current_stacktrace)
-
-          route =
-            path_info
-            |> Enum.join("/")
-            |> Kernel.then(fn path -> "/" <> path end)
 
           template =
             trace
             |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
             |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
 
-          :telemetry.execute([:template, :translation], %{}, %{route: route, template: template})
+          :telemetry.execute([:template, :track], %{}, %{template: template})
         end
       end
 
@@ -104,20 +98,51 @@ defmodule DotcomWeb do
   end
 
   def live_view do
-    # Since we're only testing translations right now, don't
-    # enable them in the live prod website yet.
-    if Application.get_env(:dotcom, :is_prod_env?) do
-      quote do
-        use Phoenix.LiveView
+    quote do
+      use Phoenix.LiveView
 
-        unquote(view_helpers())
+      on_mount DotcomWeb.Hooks.RestoreLocale
+
+      import DotcomWeb.Router.Helpers,
+        except: [
+          news_entry_path: 2,
+          news_entry_path: 3,
+          news_entry_path: 4,
+          event_path: 2,
+          event_path: 3,
+          event_path: 4,
+          project_path: 2,
+          project_path: 3,
+          project_update_path: 3,
+          project_update_path: 4
+        ]
+
+      alias Util.Breadcrumb
+
+      unquote(view_helpers())
+
+      @doc """
+      Apply the args to the function and assign the result to socket with a constructed key.
+      """
+      def assign_result(socket, function, args \\ []) do
+        key = assign_result_key(function)
+        result = Kernel.apply(function, args)
+
+        Phoenix.Component.assign(socket, key, result)
       end
-    else
-      quote do
-        use Phoenix.LiveView
-        on_mount DotcomWeb.Hooks.RestoreLocale
 
-        unquote(view_helpers())
+      # Construct a key from the called function.
+      defp assign_result_key(function) do
+        function
+        |> Kernel.inspect()
+        |> String.split(".")
+        |> List.last()
+        |> String.split("/")
+        |> List.first()
+        |> String.trim(">")
+        |> String.downcase()
+        |> Recase.to_snake()
+        |> String.to_atom()
       end
     end
   end

@@ -16,7 +16,7 @@ msgid "Toll Free"
 msgstr "Toll Gratis"
 
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por todas las zonas de Greater Boston y Providence."
+msgstr "Los pilotos de MBTA pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por toda la zona de Greater Boston y Providence."
 
 msgid "Friday"
 msgstr "Viernes"
@@ -94,7 +94,10 @@ msgid "Special Event Ticket"
 msgstr "Entrada especial para eventos"
 
 msgid "Get T-Alerts"
-msgstr "T-Alerts"
+msgstr "Obtener T-Alerts"
+
+msgid "Vote"
+msgstr "Votación"
 
 msgid "the conductor"
 msgstr "el conductor"
@@ -172,7 +175,7 @@ msgid "More Guides"
 msgstr "Más Guías"
 
 msgid "Monthly Pass on mTicket App"
-msgstr "Pase mensual mTicket App"
+msgstr "Paso mensual en mTicket App"
 
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
@@ -212,6 +215,9 @@ msgstr "Típicamente más del 33% de los asientos permanecen disponibles y el di
 
 msgid "to plan your trip"
 msgstr "para planificar su viaje"
+
+msgid "Projects"
+msgstr "Proyectos"
 
 msgid " to stop."
 msgstr " Parar."
@@ -350,6 +356,9 @@ msgstr "Las bicicletas se permiten en trenes con el símbolo de bicicleta debajo
 
 msgid "Add"
 msgstr "Añadir"
+
+msgid "There are no other subway alerts at this time."
+msgstr "No hay otras alertas del metro en este momento."
 
 msgid "Request Public Records"
 msgstr "Solicitud de documentos públicos"
@@ -664,7 +673,7 @@ msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
 
 msgid "Senior CharlieCard or TAP ID"
-msgstr "Senior CharlieCard or TAP ID"
+msgstr "Senior CharlieCard o TAP ID"
 
 msgid "News"
 msgstr "Noticias"
@@ -807,6 +816,9 @@ msgstr "Los pasajeros deben decir "
 msgid "Find Your Polling Place"
 msgstr "Encontrar su lugar de votación"
 
+msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+msgstr "Alertas de servicio en vivo para todos los modos de transporte MBTA, incluyendo metro, autobús, Commuter Rail y ferry. Actualizaciones sobre retrasos, construcción, salidas de ascensor y más."
+
 msgid ", cash, or "
 msgstr ", efectivo o "
 
@@ -820,7 +832,7 @@ msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
-msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
+msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden conseguir o cargar un CharlieCard y pases de compra."
 
 msgid "View PDF Timetable"
 msgstr "Ver PDF Calendario"
@@ -866,6 +878,9 @@ msgstr "Introduzca una ubicación de destino"
 
 msgid "Track Boarding Change"
 msgstr "Track Boarding Cambio"
+
+msgid "Updates"
+msgstr "Actualizaciones"
 
 msgid "Find a Store Near You"
 msgstr "Encontrar una tienda cerca de usted"
