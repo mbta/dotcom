@@ -1782,16 +1782,6 @@ msgstr ""
 msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
 msgstr ""
 
-#: lib/util/and_or.ex:15
-#, elixir-autogen, elixir-format
-msgid "and"
-msgstr ""
-
-#: lib/util/and_or.ex:19
-#, elixir-autogen, elixir-format
-msgid "or"
-msgstr ""
-
 #: lib/fares/format.ex:114
 #, elixir-autogen, elixir-format
 msgid "1-Day Pass"
@@ -1895,11 +1885,6 @@ msgstr ""
 msgid "Hingham/Hull Ferry"
 msgstr ""
 
-#: lib/fares/format.ex:96
-#, elixir-autogen, elixir-format
-msgid "Interzone %{zone}"
-msgstr ""
-
 #: lib/fares/format.ex:78
 #, elixir-autogen, elixir-format
 msgid "Invalid Duration"
@@ -1908,11 +1893,6 @@ msgstr ""
 #: lib/fares/format.ex:103
 #, elixir-autogen, elixir-format
 msgid "Invalid Fare"
-msgstr ""
-
-#: lib/dotcom_web/live/subway_alerts.ex:25
-#, elixir-autogen, elixir-format
-msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 msgstr ""
 
 #: lib/fares/format.ex:85
@@ -1971,11 +1951,6 @@ msgstr ""
 msgid "Premium Ride Fare"
 msgstr ""
 
-#: lib/dotcom_web/controllers/project_controller.ex:13
-#, elixir-autogen, elixir-format
-msgid "Projects"
-msgstr ""
-
 #: lib/fares/format.ex:50
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
@@ -2007,22 +1982,6 @@ msgstr ""
 msgid "Subway"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:69
-#, elixir-autogen, elixir-format
-msgid "There are no other subway alerts at this time."
-msgstr ""
-
-#: lib/dotcom_web/controllers/project_controller.ex:105
-#: lib/dotcom_web/controllers/project_controller.ex:146
-#, elixir-autogen, elixir-format
-msgid "Updates"
-msgstr ""
-
-#: lib/dotcom_web/controllers/vote_controller.ex:64
-#, elixir-autogen, elixir-format
-msgid "Vote"
-msgstr ""
-
 #: lib/fares/format.ex:66
 #: lib/fares/format.ex:112
 #, elixir-autogen, elixir-format
@@ -2032,11 +1991,6 @@ msgstr ""
 #: lib/fares/format.ex:91
 #, elixir-autogen, elixir-format
 msgid "Winthrop/Quincy Ferry"
-msgstr ""
-
-#: lib/fares/format.ex:95
-#, elixir-autogen, elixir-format
-msgid "Zone %{zone}"
 msgstr ""
 
 #: lib/fares/format.ex:183
@@ -2062,4 +2016,50 @@ msgstr ""
 #: lib/fares/format.ex:23
 #, elixir-autogen, elixir-format
 msgid "reduced fare card"
+msgstr ""
+
+#: lib/fares/format.ex:96
+#, elixir-autogen, elixir-format
+msgid "Interzone %{zone}"
+msgstr ""
+
+#: lib/fares/format.ex:95
+#, elixir-autogen, elixir-format
+msgid "Zone %{zone}"
+msgstr ""
+
+#: lib/dotcom_web/live/subway_alerts.ex:25
+#, elixir-autogen, elixir-format
+msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+msgstr ""
+
+#: lib/dotcom_web/controllers/project_controller.ex:13
+#, elixir-autogen, elixir-format
+msgid "Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/subway_alerts.ex:69
+#, elixir-autogen, elixir-format
+msgid "There are no other subway alerts at this time."
+msgstr ""
+
+#: lib/dotcom_web/controllers/project_controller.ex:105
+#: lib/dotcom_web/controllers/project_controller.ex:146
+#, elixir-autogen, elixir-format
+msgid "Updates"
+msgstr ""
+
+#: lib/dotcom_web/controllers/vote_controller.ex:64
+#, elixir-autogen, elixir-format
+msgid "Vote"
+msgstr ""
+
+#: lib/util/and_or.ex:15
+#, elixir-autogen, elixir-format
+msgid "and"
+msgstr ""
+
+#: lib/util/and_or.ex:19
+#, elixir-autogen, elixir-format
+msgid "or"
 msgstr ""
