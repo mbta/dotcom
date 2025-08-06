@@ -5,12 +5,18 @@ defmodule Util.AndOr do
 
   """
 
+  use Dotcom.Gettext.Sigils
+
   @spec join([String.t()], :and | :or) :: iolist
   def join([], _), do: ""
   def join([single], _), do: single
 
-  def join(list, and_or) when and_or in [:and, :or] do
-    do_join(list, and_or)
+  def join(list, :and) do
+    do_join(list, ~t"and")
+  end
+
+  def join(list, :or) do
+    do_join(list, ~t"or")
   end
 
   defp do_join([one, two], and_or) do

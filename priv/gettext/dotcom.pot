@@ -2053,3 +2053,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Vote"
 msgstr ""
+
+#: lib/util/and_or.ex:15
+#, elixir-autogen, elixir-format
+msgid "and"
+msgstr ""
+
+#: lib/util/and_or.ex:19
+#, elixir-autogen, elixir-format
+msgid "or"
+msgstr ""
