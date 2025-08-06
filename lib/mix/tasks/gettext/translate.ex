@@ -63,6 +63,7 @@ defmodule Mix.Tasks.Gettext.Translate do
   # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
   def run(["--locales", locales]) do
+    Application.ensure_started(:telemetry)
     Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
 
     _ = Finch.start_link(name: TranslateFinch)
@@ -77,6 +78,7 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate all non-default locales.
   def run([]) do
+    Application.ensure_started(:telemetry)
     Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
 
     _ = Finch.start_link(name: TranslateFinch)
@@ -156,8 +158,19 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Gets all of the domain lines in a domain and then translates them into the locale.
   defp translate_domain(domain, locale) do
-    domain_lines(domain)
-    |> Enum.map(fn text -> {text, translate_text(text, locale)} end)
+    IO.write("\n")
+    IO.puts("Translating #{domain} into #{locale}:")
+    IO.write("\n")
+    lines = domain_lines(domain)
+    lines_count = Kernel.length(lines)
+
+    lines
+    |> Enum.with_index()
+    |> Enum.map(fn {text, index} ->
+      ProgressBar.render(index, lines_count)
+
+      {text, translate_text(text, locale)}
+    end)
     |> Map.new()
   end
 
