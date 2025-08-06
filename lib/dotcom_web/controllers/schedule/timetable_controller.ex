@@ -396,11 +396,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   # correspond to, but some timetable PDFs are laid out differently than that
   # from the default route pattern sort_order. For these cases, we need to
   # manipulate this by adjusting which route pattern is processed first.
-  defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Franklin"} | _] = route_patterns) do
-    route_patterns
-    |> with_prioritized_pattern("Foxboro")
-  end
-
   defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Providence"} | _] = route_patterns) do
     route_patterns
     |> with_prioritized_pattern("Stoughton")
