@@ -11,7 +11,14 @@ defmodule DotcomWeb.Usage.Templates do
 
   @initial_state "lib/dotcom_web/templates"
                  |> list_all_files()
-                 |> Enum.filter(fn ref -> String.match?(ref, ~r/eex$/) end)
+                 |> Enum.filter(fn ref ->
+                   String.match?(ref, ~r/eex$/) &&
+                     try do
+                       File.read!(ref) =~ "<% track_template() %>"
+                     rescue
+                       _ -> false
+                     end
+                 end)
                  |> Map.new(fn template -> {template, nil} end)
 
   @doc """

@@ -71,7 +71,8 @@
           Dotcom.Gettext |> Gettext.get_locale() |> Dotcom.Locales.locale() |> Map.get(:endonym) %>
         <div class="w-full bg-cobalt-80 py-2 text-center text-cobalt-50">
           <i class="fa fa-globe"></i>
-          You are viewing <em>{Map.get(@conn, :host)}</em> in <strong>{language}</strong>.
+          You are viewing <em>{Map.get(@conn, :host)}</em>
+          in <strong>{language}</strong>.
         </div>
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
