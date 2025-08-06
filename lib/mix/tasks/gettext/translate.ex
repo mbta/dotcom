@@ -59,6 +59,15 @@ defmodule Mix.Tasks.Gettext.Translate do
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
 
+  @format [
+    bar: " ",
+    bar_color: [IO.ANSI.white(), IO.ANSI.green_background()],
+    blank: " ",
+    blank_color: IO.ANSI.white_background(),
+    left: ["PROGRESS "],
+    right: []
+  ]
+
   @impl Mix.Task
   # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
@@ -168,7 +177,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     lines
     |> Enum.with_index()
     |> Enum.map(fn {text, index} ->
-      ProgressBar.render(index, lines_count)
+      ProgressBar.render(index, lines_count, @format)
 
       {text, translate_text(text, locale)}
     end)
