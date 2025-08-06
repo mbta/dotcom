@@ -16,7 +16,7 @@ msgid "Toll Free"
 msgstr "Toll Gratis"
 
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "Los pilotos de MBTA pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por toda la zona de Greater Boston y Providence."
+msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por todas las zonas de Greater Boston y Providence."
 
 msgid "Friday"
 msgstr "Viernes"
@@ -175,7 +175,7 @@ msgid "More Guides"
 msgstr "Más Guías"
 
 msgid "Monthly Pass on mTicket App"
-msgstr "Paso mensual en mTicket App"
+msgstr "Pase mensual mTicket App"
 
 msgid "Stations and Parking"
 msgstr "Estaciones y estacionamiento"
@@ -673,7 +673,7 @@ msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
 
 msgid "Senior CharlieCard or TAP ID"
-msgstr "Senior CharlieCard o TAP ID"
+msgstr "Senior CharlieCard or TAP ID"
 
 msgid "News"
 msgstr "Noticias"
@@ -832,7 +832,7 @@ msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
-msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden conseguir o cargar un CharlieCard y pases de compra."
+msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
 msgid "View PDF Timetable"
 msgstr "Ver PDF Calendario"
