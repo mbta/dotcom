@@ -5,6 +5,8 @@ defmodule DotcomWeb.FareController do
   use DotcomWeb, :controller
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
+  alias Plug.Conn
+
   plug(:meta_description)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]

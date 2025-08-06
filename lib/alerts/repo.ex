@@ -13,6 +13,7 @@ defmodule Alerts.Repo do
     Store.all_alerts(now)
   end
 
+  @impl Behaviour
   @spec banner() :: Banner.t() | nil
   def banner do
     Store.banner()
