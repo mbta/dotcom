@@ -146,6 +146,19 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:mticket") == {:ok, "$2.40 – $9.75"}
     end
 
+    test "handles :ferry:contactless_payment" do
+      assert [
+               mode: :ferry,
+               reduced: nil,
+               includes_media: :contactless_payment,
+               duration: :single_trip
+             ]
+             |> Repo.all()
+             |> fare_result(:ferry) == "$2.40 – $9.75"
+
+      assert fare_request("ferry:contactless_payment") == {:ok, "$2.40 – $9.75"}
+    end
+
     test "handles :ferry:month" do
       assert [
                mode: :ferry,
