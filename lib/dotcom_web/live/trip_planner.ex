@@ -154,22 +154,21 @@ defmodule DotcomWeb.Live.TripPlanner do
         "Cannot connect to OpenTripPlanner. Please try again later."
       )
 
-    new_socket = assign(socket, :results, Map.put(@state.results, :error, message))
-
-    {:noreply, new_socket}
+    {:noreply, handle_get_itinerary_groups_error(socket, message)}
   end
 
   @impl true
   # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
-  def handle_async("get_itinerary_groups", {:ok, {:error, errors}}, socket)
-      when is_list(errors) do
-    error =
-      errors
-      |> Enum.map_join(", ", &Map.get(&1, :message))
-
+  def handle_async("get_itinerary_groups", {:ok, {:error, error}}, socket) do
     new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :error, error))
+      if is_list(error) do
+        handle_get_itinerary_groups_error(
+          socket,
+          Enum.map_join(error, ", ", &Map.get(&1, :message))
+        )
+      else
+        handle_get_itinerary_groups_error(socket, error)
+      end
 
     {:noreply, new_socket}
   end
@@ -177,11 +176,12 @@ defmodule DotcomWeb.Live.TripPlanner do
   @impl true
   # Triggered when the async operation fails, we add the error to the results state.
   def handle_async("get_itinerary_groups", {:exit, reason}, socket) do
-    new_socket =
-      socket
-      |> assign(:results, Map.put(@state.results, :error, reason))
+    {:noreply, handle_get_itinerary_groups_error(socket, reason)}
+  end
 
-    {:noreply, new_socket}
+  @impl true
+  def handle_async("get_itinerary_groups", _unknown, socket) do
+    {:noreply, socket}
   end
 
   @impl true
@@ -394,6 +394,15 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   # If the changeset is invalid, we return an empty list of itinerary groups.
   defp get_itinerary_groups(_), do: []
+
+  # When there's an error, stop loading and cancel the call
+  defp handle_get_itinerary_groups_error(socket, error) do
+    results = Map.merge(socket.assigns.results, %{error: error, loading?: false})
+
+    socket
+    |> assign(:results, results)
+    |> cancel_async("get_itinerary_groups")
+  end
 
   # Convert the input form changeset to a list of pins for the map.
   # I.e., add pins for the from and to locations.
