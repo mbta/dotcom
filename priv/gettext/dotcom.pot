@@ -22,6 +22,7 @@ msgid "Local Bus One-Way"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:9
+#: lib/fares/format.ex:110
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
 msgstr ""
@@ -1746,6 +1747,7 @@ msgid "Your Polling Place"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:30
+#: lib/fares/format.ex:37
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr ""
@@ -1780,19 +1782,265 @@ msgstr ""
 msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
 msgstr ""
 
+#: lib/fares/format.ex:114
+#, elixir-autogen, elixir-format
+msgid "1-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:62
+#: lib/fares/format.ex:113
+#, elixir-autogen, elixir-format
+msgid "7-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:101
+#, elixir-autogen, elixir-format
+msgid "ADA Ride"
+msgstr ""
+
+#: lib/fares/format.ex:115
+#, elixir-autogen, elixir-format
+msgid "ADA Ride Fare"
+msgstr ""
+
+#: lib/fares/format.ex:184
+#, elixir-autogen, elixir-format
+msgid "All ferry routes"
+msgstr ""
+
+#: lib/fares/format.ex:87
+#, elixir-autogen, elixir-format
+msgid "Charlestown Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:33
+#, elixir-autogen, elixir-format
+msgid "CharlieCard"
+msgstr ""
+
+#: lib/fares/format.ex:34
+#: lib/fares/format.ex:35
+#, elixir-autogen, elixir-format
+msgid "CharlieTicket"
+msgstr ""
+
+#: lib/fares/format.ex:94
+#, elixir-autogen, elixir-format
+msgid "Commuter Ferry to Logan Airport"
+msgstr ""
+
+#: lib/fares/format.ex:186
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail "
+msgstr ""
+
+#: lib/fares/format.ex:88
+#, elixir-autogen, elixir-format
+msgid "Cross Harbor Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:58
+#, elixir-autogen, elixir-format
+msgid "Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:89
+#, elixir-autogen, elixir-format
+msgid "East Boston Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:86
+#, elixir-autogen, elixir-format
+msgid "Express Bus"
+msgstr ""
+
+#: lib/fares/format.ex:187
+#, elixir-autogen, elixir-format
+msgid "Ferry "
+msgstr ""
+
+#: lib/fares/format.ex:97
+#, elixir-autogen, elixir-format
+msgid "Foxboro Special Event"
+msgstr ""
+
+#: lib/fares/format.ex:16
+#: lib/fares/format.ex:18
+#, elixir-autogen, elixir-format
+msgid "Free"
+msgstr ""
+
+#: lib/fares/format.ex:99
+#, elixir-autogen, elixir-format
+msgid "Free Service"
+msgstr ""
+
+#: lib/fares/format.ex:92
+#, elixir-autogen, elixir-format
+msgid "Georges Island"
+msgstr ""
+
+#: lib/fares/format.ex:93
+#, elixir-autogen, elixir-format
+msgid "Hingham/Hull Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:78
+#, elixir-autogen, elixir-format
+msgid "Invalid Duration"
+msgstr ""
+
+#: lib/fares/format.ex:103
+#, elixir-autogen, elixir-format
+msgid "Invalid Fare"
+msgstr ""
+
+#: lib/fares/format.ex:85
+#, elixir-autogen, elixir-format
+msgid "Local Bus"
+msgstr ""
+
+#: lib/fares/format.ex:105
+#, elixir-autogen, elixir-format
+msgid "Logan Express"
+msgstr ""
+
+#: lib/fares/format.ex:90
+#, elixir-autogen, elixir-format
+msgid "Lynn Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:104
+#: lib/fares/format.ex:106
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle"
+msgstr ""
+
+#: lib/fares/format.ex:111
+#, elixir-autogen, elixir-format
+msgid "Monthly Local Bus Pass"
+msgstr ""
+
+#: lib/fares/format.ex:73
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass"
+msgstr ""
+
+#: lib/fares/format.ex:71
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass on mTicket App"
+msgstr ""
+
+#: lib/fares/format.ex:54
+#, elixir-autogen, elixir-format
+msgid "One-Day Pass"
+msgstr ""
+
+#: lib/fares/format.ex:46
+#, elixir-autogen, elixir-format
+msgid "One-Way"
+msgstr ""
+
+#: lib/fares/format.ex:102
+#, elixir-autogen, elixir-format
+msgid "Premium Ride"
+msgstr ""
+
+#: lib/fares/format.ex:116
+#, elixir-autogen, elixir-format
+msgid "Premium Ride Fare"
+msgstr ""
+
+#: lib/fares/format.ex:50
+#, elixir-autogen, elixir-format
+msgid "Round Trip"
+msgstr ""
+
+#: lib/fares/format.ex:39
+#, elixir-autogen, elixir-format
+msgid "Senior CharlieCard or TAP ID"
+msgstr ""
+
+#: lib/fares/format.ex:100
+#: lib/fares/format.ex:109
+#, elixir-autogen, elixir-format
+msgid "Shuttle"
+msgstr ""
+
+#: lib/fares/format.ex:40
+#, elixir-autogen, elixir-format
+msgid "Special Event Ticket"
+msgstr ""
+
+#: lib/fares/format.ex:41
+#, elixir-autogen, elixir-format
+msgid "Student CharlieCard"
+msgstr ""
+
+#: lib/fares/format.ex:84
+#, elixir-autogen, elixir-format
+msgid "Subway"
+msgstr ""
+
+#: lib/fares/format.ex:66
+#: lib/fares/format.ex:112
+#, elixir-autogen, elixir-format
+msgid "Weekend Pass"
+msgstr ""
+
+#: lib/fares/format.ex:91
+#, elixir-autogen, elixir-format
+msgid "Winthrop/Quincy Ferry"
+msgstr ""
+
+#: lib/fares/format.ex:183
+#, elixir-autogen, elixir-format
+msgid "Zones 1A-10"
+msgstr ""
+
+#: lib/fares/format.ex:32
+#, elixir-autogen, elixir-format
+msgid "cash"
+msgstr ""
+
+#: lib/fares/format.ex:36
+#, elixir-autogen, elixir-format
+msgid "contactless payment"
+msgstr ""
+
+#: lib/fares/format.ex:38
+#, elixir-autogen, elixir-format
+msgid "paper ferry ticket"
+msgstr ""
+
+#: lib/fares/format.ex:23
+#, elixir-autogen, elixir-format
+msgid "reduced fare card"
+msgstr ""
+
+#: lib/fares/format.ex:96
+#, elixir-autogen, elixir-format
+msgid "Interzone %{zone}"
+msgstr ""
+
+#: lib/fares/format.ex:95
+#, elixir-autogen, elixir-format
+msgid "Zone %{zone}"
+msgstr ""
+
 #: lib/dotcom_web/live/subway_alerts.ex:25
 #, elixir-autogen, elixir-format
 msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:69
-#, elixir-autogen, elixir-format
-msgid "There are no other subway alerts at this time."
-msgstr ""
-
 #: lib/dotcom_web/controllers/project_controller.ex:13
 #, elixir-autogen, elixir-format
 msgid "Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/subway_alerts.ex:69
+#, elixir-autogen, elixir-format
+msgid "There are no other subway alerts at this time."
 msgstr ""
 
 #: lib/dotcom_web/controllers/project_controller.ex:105
