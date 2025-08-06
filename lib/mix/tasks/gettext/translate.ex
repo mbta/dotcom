@@ -161,6 +161,7 @@ defmodule Mix.Tasks.Gettext.Translate do
     IO.write("\n")
     IO.puts("Translating #{domain} into #{locale}:")
     IO.write("\n")
+
     lines = domain_lines(domain)
     lines_count = Kernel.length(lines)
 
