@@ -1,4 +1,3 @@
-<% track_template() %>
 <%= if Routes.Route.direction_destination(@route, @direction_id) do %>
   <% has_opposite_direction? =
     Routes.Route.direction_destination(@route, 1 - @direction_id) != nil %>

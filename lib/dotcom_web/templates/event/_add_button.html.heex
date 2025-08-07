@@ -1,4 +1,3 @@
-<% track_template() %>
 <div class={"m-event__status-message #{ @class }"}>
   <%= if not @event_started do %>
     <%= link to: event_icalendar_path(@conn, @path), class: "btn btn-secondary btn-lg m-event__add-button", title: ~t(Add event to calendar) do %>

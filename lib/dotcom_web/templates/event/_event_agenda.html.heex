@@ -1,4 +1,3 @@
-<% track_template() %>
 <%= if Enum.any?(@agenda.topics) do %>
   <ol type="A" class="agenda-topics">
     <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: bookmark, sub_topics: sub_topics, files: files, links: _links} <- @agenda.topics do %>
