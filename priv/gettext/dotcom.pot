@@ -443,8 +443,7 @@ msgstr ""
 msgid "See all press releases"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:38
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:41
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:48
 #: lib/dotcom_web/templates/error/error_layout.html.heex:27
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -500,8 +499,8 @@ msgstr ""
 msgid "Recently Visited Schedules"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:85
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:111
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:92
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:118
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:57
 #, elixir-autogen, elixir-format
 msgid "with"
