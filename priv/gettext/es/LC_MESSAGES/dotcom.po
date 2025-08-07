@@ -216,6 +216,9 @@ msgstr "Mostrando resultados"
 msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
 msgstr "Típicamente más del 33% de los asientos permanecen disponibles y el distanciamiento puede ser posible (~2-3 personas por fila)"
 
+msgid "Media Relations"
+msgstr "Media Relations"
+
 msgid "to plan your trip"
 msgstr "para planificar su viaje"
 

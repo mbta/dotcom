@@ -2066,3 +2066,14 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Media Relations"
 msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:40
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:42
+#, elixir-autogen, elixir-format
+msgid ", "
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "or "
+msgstr ""
