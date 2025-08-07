@@ -223,7 +223,7 @@ msgstr ""
 msgid "Send Us Feedback"
 msgstr ""
 
-#: lib/dotcom_web/templates/layout/root.html.heex:85
+#: lib/dotcom_web/templates/layout/root.html.heex:78
 #, elixir-autogen, elixir-format
 msgid "Skip to main content"
 msgstr ""

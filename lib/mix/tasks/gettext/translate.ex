@@ -1,40 +1,3 @@
-defmodule Mix.Tasks.GetText.Translate.Progress do
-  @moduledoc """
-  A support module for tracking progress of our translation efforts.
-  """
-
-  import Dotcom.Utils.File, only: [list_all_files: 1]
-
-  @directory "lib/dotcom_web/templates"
-
-  def completion_ratio() do
-    all_templates = list_all_templates()
-    all_templates_count = Kernel.length(all_templates)
-
-    translated_templates =
-      all_templates
-      |> Enum.filter(&translated?/1)
-
-    translated_templates_count = Kernel.length(translated_templates)
-
-    {translated_templates_count, all_templates_count}
-  end
-
-  defp list_all_templates() do
-    @directory
-    |> list_all_files()
-    |> Enum.filter(fn ref -> String.match?(ref, ~r/eex$/) end)
-  end
-
-  defp translated?(reference) do
-    try do
-      not (File.read!(reference) =~ "<% track_template() %>")
-    rescue
-      _ -> false
-    end
-  end
-end
-
 defmodule Mix.Tasks.GetText.Translate.CustomTerminologies do
   @moduledoc """
   A support module for the task that lets us combine custom terminologies.
@@ -92,19 +55,25 @@ defmodule Mix.Tasks.Gettext.Translate do
   import Dotcom.Locales, only: [default_locale_code: 0, locale_codes: 0]
   import Mix.Tasks.GetText.Translate.CustomTerminologies, only: [get_terminologies: 0]
 
-  alias Mix.Tasks.GetText.Translate.Progress
-
-  @completion_ratio Progress.completion_ratio()
   @custom_terminologies get_terminologies()
   @directory "priv/gettext"
   @url "http://localhost:9999/translate"
+
+  @format [
+    bar: " ",
+    bar_color: [IO.ANSI.white(), IO.ANSI.green_background()],
+    blank: " ",
+    blank_color: IO.ANSI.white_background(),
+    left: ["PROGRESS "],
+    right: []
+  ]
 
   @impl Mix.Task
   # Translate the `.pot` file(s) into the given locales.
   # E.g., `mix gettext.translate --locales es,fr`
   def run(["--locales", locales]) do
-    :ok = Mix.Tasks.Gettext.Extract.run([])
-
+    _ = Application.ensure_started(:telemetry)
+    _ = Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
     _ = Finch.start_link(name: TranslateFinch)
 
     locales
@@ -117,31 +86,12 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate all non-default locales.
   def run([]) do
-    :ok = Mix.Tasks.Gettext.Extract.run([])
-
+    _ = Application.ensure_started(:telemetry)
+    _ = Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
     _ = Finch.start_link(name: TranslateFinch)
 
     (locale_codes() -- [default_locale_code()]) |> translate()
   end
-
-  @doc """
-  The completion ratio expressed as a percent of completion.
-  """
-  def completion_percent() do
-    translated = Kernel.elem(@completion_ratio, 0)
-    total = Kernel.elem(@completion_ratio, 1)
-
-    if total < 1 do
-      0.0
-    else
-      (translated / total * 100) |> Float.round(1)
-    end
-  end
-
-  @doc """
-  The ratio of translated templates to all templates.
-  """
-  def completion_ratio(), do: @completion_ratio
 
   # Translate the given locales.
   defp translate(locales) when is_list(locales) do
@@ -150,9 +100,6 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translate a single locale.
   defp translate(locale) when is_binary(locale) do
-    IO.puts("Translating #{Kernel.elem(@completion_ratio, 0)} template files.")
-    IO.puts("We are #{completion_percent()}% done.")
-
     Enum.each(domains(), fn domain ->
       write_domain_translations(domain, locale)
     end)
@@ -169,8 +116,11 @@ defmodule Mix.Tasks.Gettext.Translate do
   end
 
   # Gets the content of msgid of a `.pot` file.
+  # Replaces " with ' so that the output doesn't break.
   defp domain_line(line) do
-    Regex.scan(~r/(?<=\")(.*?)(?=\")/, line)
+    text = String.replace(line, ~r/\\\"/, "'")
+
+    Regex.scan(~r/(?<=\")(.*?)(?=\")/, text)
     |> List.flatten()
     |> List.first()
   end
@@ -215,8 +165,20 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Gets all of the domain lines in a domain and then translates them into the locale.
   defp translate_domain(domain, locale) do
-    domain_lines(domain)
-    |> Enum.map(fn text -> {text, translate_text(text, locale)} end)
+    IO.write("\n")
+    IO.puts("Translating #{domain} into #{locale}:")
+    IO.write("\n")
+
+    lines = domain_lines(domain)
+    lines_count = Kernel.length(lines)
+
+    lines
+    |> Enum.with_index()
+    |> Enum.map(fn {text, index} ->
+      ProgressBar.render(index, lines_count, @format)
+
+      {text, translate_text(text, locale)}
+    end)
     |> Map.new()
   end
 
