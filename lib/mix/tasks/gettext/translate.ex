@@ -28,7 +28,7 @@ defmodule Mix.Tasks.GetText.Translate.Progress do
 
   defp translated?(reference) do
     try do
-      not (File.read!(reference) =~ "")
+      not (File.read!(reference) =~ "<% track_template() %>")
     rescue
       _ -> false
     end
