@@ -8,5 +8,6 @@ defmodule Dotcom.Cldr do
     gettext: Dotcom.Gettext,
     json_library: Jason,
     locales: Dotcom.Locales.locale_codes(),
-    otp_app: :dotcom
+    otp_app: :dotcom,
+    providers: [Cldr.Number, Cldr.Calendar, Cldr.DateTime, Cldr.Unit, Cldr.List]
 end
