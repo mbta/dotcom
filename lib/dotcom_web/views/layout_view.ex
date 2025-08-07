@@ -151,7 +151,7 @@ defmodule DotcomWeb.LayoutView do
               {"History", "/history", :internal_link},
               {"Financials", "/financials", :internal_link},
               {"Public Meetings", "/events", :internal_link},
-              {"Press Releases", "/news", :internal_link},
+              {"Media Relations", "/about/media-relations", :internal_link},
               {"MBTA Gift Shop", "https://www.mbtagifts.com", :external_link},
               {"Policies & Civil Rights", "/policies", :internal_link},
               {"Safety", "/safety", :internal_link},
