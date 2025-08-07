@@ -123,7 +123,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", branch: "cbj/otp-planConnection"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.16.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.7.21"},
