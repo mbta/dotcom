@@ -43,12 +43,6 @@ defmodule DotcomWeb do
       import Util.AsyncAssign
 
       alias Util.Breadcrumb
-
-      if Mix.env() != :test do
-        use Dotcom.Usage.Functions
-
-        @decorate_all track()
-      end
     end
   end
 
