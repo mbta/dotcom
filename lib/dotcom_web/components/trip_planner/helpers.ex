@@ -5,7 +5,62 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
 
   use Dotcom.Gettext.Sigils
 
+  alias OpenTripPlannerClient.ItineraryGroup
   alias OpenTripPlannerClient.Schema.{Leg, Step}
+
+  @doc """
+  Formatted list of times arriving or departing.
+  """
+  @spec group_alternatives_text(ItineraryGroup.t()) :: String.t() | nil
+  @spec group_alternatives_text([DateTime.t()], :start | :end) :: String.t() | nil
+  def group_alternatives_text(
+        %ItineraryGroup{representative_index: representative_index, time_key: time_key} =
+          itinerary_group
+      ) do
+    itinerary_group
+    |> ItineraryGroup.all_times()
+    |> List.delete_at(representative_index)
+    |> group_alternatives_text(time_key)
+  end
+
+  @doc """
+  Formatted list of times arriving or departing.
+  """
+  @spec group_alternatives_text([DateTime.t()], :start | :end) :: String.t() | nil
+  def group_alternatives_text([], _), do: nil
+
+  def group_alternatives_text([time], :start),
+    do: ~t"Similar trip departs at " <> formatted_time(time)
+
+  def group_alternatives_text([time], :end),
+    do: ~t"Similar trip arrives at " <> formatted_time(time)
+
+  def group_alternatives_text(times, :start),
+    do: ~t"Similar trips depart at " <> formatted_times(times)
+
+  def group_alternatives_text(times, :end),
+    do: ~t"Similar trips arrive at " <> formatted_times(times)
+
+  @doc """
+  Localized, formatted time.
+
+  ## Examples
+      iex> formatted_time(~T[16:56:05.0])
+      "4:56 pm"
+
+      iex> Dotcom.Cldr.put_locale("es")
+      ...> formatted_time(~T[16:56:05.0])
+      "16:56"
+  """
+  def formatted_time(time) do
+    Cldr.Time.to_string!(time, format: :short, period: :variant)
+  end
+
+  def formatted_times(times) do
+    times
+    |> Enum.map(&formatted_time/1)
+    |> Cldr.List.to_string!(format: :unit_short)
+  end
 
   @doc """
   Generate a friendly description of the walking step or walking leg.
