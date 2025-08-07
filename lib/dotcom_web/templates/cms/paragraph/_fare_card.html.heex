@@ -35,7 +35,14 @@ media =
       [Fares.Format.media(:charlie_ticket), ~t(, cash, or ), mticket_html]
 
     %Fares.Summary{modes: [:ferry]} ->
-      [mticket_html, ~t( or ), Fares.Format.media(:paper_ferry)]
+      [
+        mticket_html,
+        ~t", ",
+        Fares.Format.media(:paper_ferry),
+        ~t", ",
+        ~t"or ",
+        Fares.Format.media(:contactless_payment)
+      ]
 
     %Fares.Summary{} ->
       [Fares.Format.media(:charlie_ticket), ~t( or ), mticket_html]

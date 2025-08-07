@@ -84,6 +84,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     "charlie_card",
     "charlie_ticket",
     "commuter_ticket",
+    "contactless_payment",
     "mticket",
     "paper_ferry",
     "special_event"
