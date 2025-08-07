@@ -34,6 +34,7 @@ defmodule Dotcom.Application do
           [
             {Finch, name: Telemetry.Finch, pools: %{default: [size: 200]}},
             {Dotcom.Telemetry, []},
+            {Dotcom.Cache.Get.Subscriber, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
             {Req.Telemetry, []},

@@ -11,6 +11,26 @@ defmodule DotcomWeb.CacheController do
   @cache Application.compile_env!(:dotcom, :cache)
 
   @doc """
+  Gets all of the values in every node for the given key.
+  """
+  def get_cache_values(conn, %{"path" => path}) do
+    uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
+    key = Enum.join(path, "|")
+
+    GenServer.start_link(Dotcom.Cache.Get.Publisher, uuid, name: uuid)
+
+    GenServer.call(uuid, {:load, key})
+
+    :timer.sleep(1000)
+
+    values = GenServer.call(uuid, :get)
+
+    GenServer.stop(uuid)
+
+    send_resp(conn, 200, inspect(values)) |> halt()
+  end
+
+  @doc """
   Flushes the cache given a key in the path.
   Simply use a / in the path where you would use a | in the key.
   Wildcards are supported.
