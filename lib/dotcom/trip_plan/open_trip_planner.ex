@@ -3,6 +3,8 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   Makes requests to OpenTripPlanner via the OpenTripPlannerClient library.
   """
 
+  require Logger
+
   alias Dotcom.TripPlan.InputForm
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
@@ -16,6 +18,21 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
     input_form
     |> to_params()
     |> @otp_module.plan()
+  rescue
+    error ->
+      _ =
+        Logger.error(
+          "#{Exception.format(:error, error, __STACKTRACE__)} module=#{__MODULE__} input_form=#{inspect(Map.from_struct(input_form))}"
+        )
+
+      message =
+        Application.get_env(
+          :open_trip_planner_client,
+          :fallback_error_message,
+          "Cannot connect to OpenTripPlanner. Please try again later."
+        )
+
+      {:error, message}
   end
 
   def to_params(form) do

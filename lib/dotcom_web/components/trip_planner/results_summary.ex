@@ -67,6 +67,7 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     preamble =
       if Map.get(params, :datetime_type) == "arrive_by", do: "Arriving by ", else: "Leaving at "
 
+    datetime = Util.to_local_time(datetime)
     time_description = Util.kitchen_downcase_time(datetime)
     date_description = Timex.format!(datetime, "{WDfull}, {Mfull} ")
     preamble <> time_description <> " on " <> date_description <> Inflex.ordinalize(datetime.day)
