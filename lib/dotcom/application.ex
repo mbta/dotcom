@@ -37,6 +37,7 @@ defmodule Dotcom.Application do
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
             {Req.Telemetry, []},
+            {DotcomWeb.Usage.Functions, []},
             {DotcomWeb.Usage.Templates, []}
           ]
         else
