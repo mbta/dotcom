@@ -1,3 +1,4 @@
+<% track_template() %>
 <div class="page-section search-page">
   <div class="search-results-facets col-md-3">
     <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
