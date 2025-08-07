@@ -1,4 +1,3 @@
-<% track_template() %>
 <% id = if Map.get(assigns, :id), do: "#{Map.get(assigns, :id)}-accordion", else: "accordion" %>
 <% accordion_classes = if assigns[:sticky], do: " fixedsticky sticky-top", else: "" %>
 <div

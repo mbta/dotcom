@@ -1,4 +1,3 @@
-<% track_template() %>
 <div class={"fare-summary-container #{ @class || "fare-summary-container-table-multi-col" }"}>
   <%= for chunk <- Enum.chunk_every(@summaries, 2, 2, []) do %>
     <div class="fare-summary-row">
