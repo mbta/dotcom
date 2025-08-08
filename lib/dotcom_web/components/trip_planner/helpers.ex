@@ -6,7 +6,80 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   use Dotcom.Gettext.Sigils
 
   alias OpenTripPlannerClient.ItineraryGroup
+  alias OpenTripPlannerClient.{Plan, Plan.RoutingError}
   alias OpenTripPlannerClient.Schema.{Leg, Step}
+
+  @doc """
+  Custom error message based on OpenTripPlanner result.
+  """
+  @spec error_message(Plan.t() | binary()) :: String.t()
+  def error_message(%Plan{
+        search_date_time: search_date_time,
+        routing_errors: [
+          %RoutingError{} = routing_error | _
+        ]
+      }) do
+    routing_error_message(routing_error, search_date_time)
+  end
+
+  def error_message(other), do: other
+
+  @doc """
+  Custom message based on RoutingError codes.
+  """
+  @spec routing_error_message(RoutingError.t()) :: String.t()
+  def routing_error_message(%RoutingError{code: :NO_TRANSIT_CONNECTION}, _) do
+    ~t"No transit connection was found between the origin and destination on this date and time"
+  end
+
+  def routing_error_message(
+        %RoutingError{
+          code: :NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW,
+          input_field: :DATE_TIME
+        },
+        datetime
+      ) do
+    ~t"No transit routes found within 2 hours of " <>
+      formatted_time_on_date(datetime) <> ". " <> ~t"Routes may be available at other times."
+  end
+
+  def routing_error_message(
+        %RoutingError{code: :OUTSIDE_BOUNDS, input_field: input_field},
+        _
+      ) do
+    case input_field do
+      :FROM ->
+        ~t"Origin location is outside of our service area"
+
+      :TO ->
+        ~t"Destination location is outside of our service area"
+
+      _ ->
+        ~t"Origin or destination location is outside of our service area"
+    end
+  end
+
+  def routing_error_message(%RoutingError{code: code, input_field: input_field}, _)
+      when code in [:LOCATION_NOT_FOUND, :NO_STOPS_IN_RANGE] do
+    case input_field do
+      :FROM ->
+        ~t"Origin location is not close enough to any transit stops"
+
+      :TO ->
+        ~t"Destination location is not close enough to any transit stops"
+
+      _ ->
+        ~t"Location is not close enough to any transit stops"
+    end
+  end
+
+  def routing_error_message(_), do: fallback_error_message()
+
+  @doc "Generic error message for trip planning."
+  @spec fallback_error_message :: String.t()
+  def fallback_error_message do
+    ~t"Please try again or send us feedback at mbta.com/customer-support"
+  end
 
   @doc """
   Formatted list of times arriving or departing.
@@ -60,6 +133,26 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
     times
     |> Enum.map(&formatted_time/1)
     |> Cldr.List.to_string!(format: :unit_short)
+  end
+
+  @doc """
+  Localized, formatted date.
+
+  ## Examples
+      iex> formatted_date(~U[2025-08-14 17:41:17.283999Z])
+      "Thursday, August 14th"
+
+      iex> Dotcom.Cldr.put_locale("es")
+      ...> formatted_date(~U[2025-08-14 17:41:17.283999Z])
+      "jueves, agosto 14.º"
+  """
+  def formatted_date(datetime) do
+    datetime
+    |> Cldr.DateTime.to_string!(format: "EEEE, MMMM ddd")
+  end
+
+  def formatted_time_on_date(datetime) do
+    formatted_time(datetime) <> ~t" on " <> formatted_date(datetime)
   end
 
   @doc """
