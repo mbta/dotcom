@@ -97,9 +97,10 @@ defmodule Dotcom.TripPlan.InputForm do
   end
 
   defp validate_datetime(field, datetime) do
-    case DateTime.compare(datetime, @date_time_module.now()) do
-      :lt -> [{field, error_message(:datetime)}]
-      _ -> []
+    if DateTime.diff(datetime, @date_time_module.now(), :minute) < 0 do
+      [{field, error_message(:datetime)}]
+    else
+      []
     end
   end
 
