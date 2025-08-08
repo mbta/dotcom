@@ -73,8 +73,11 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/cache", DotcomWeb do
-    pipe_through([:basic_auth])
+    if Mix.env() != :dev do
+      pipe_through([:basic_auth])
+    end
 
+    get("/*path", CacheController, :get_cache_values)
     delete("/*path", CacheController, :flush_cache_keys)
   end
 
