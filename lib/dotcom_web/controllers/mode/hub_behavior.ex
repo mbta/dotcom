@@ -1,32 +1,15 @@
 defmodule DotcomWeb.Mode.HubBehavior do
-  @moduledoc "Behavior for mode hub pages."
+  @moduledoc "Macro and behaviour for mode hub pages."
 
-  use Dotcom.Gettext.Sigils
   use Phoenix.Controller, namespace: DotcomWeb
 
-  import DotcomWeb.ControllerHelpers
-
-  import DotcomWeb.Router.Helpers,
-    except: [
-      news_entry_path: 2,
-      news_entry_path: 3,
-      news_entry_path: 4,
-      event_path: 2,
-      event_path: 3,
-      event_path: 4,
-      project_path: 2,
-      project_path: 3,
-      project_update_path: 3,
-      project_update_path: 4
-    ]
-
+  import DotcomWeb.ControllerHelpers, only: [green_routes: 0]
+  import DotcomWeb.Router.Helpers, only: [mode_path: 2]
   import Util.AsyncAssign
 
-  alias Util.Breadcrumb
-
   alias CMS.{API, Partial.Teaser, Repo}
-  alias Fares.Summary
   alias Routes.Route
+  alias Util.Breadcrumb
 
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()
@@ -36,15 +19,15 @@ defmodule DotcomWeb.Mode.HubBehavior do
 
   defmacro __using__(opts) do
     quote location: :keep do
-      @behaviour unquote(__MODULE__)
+      @behaviour DotcomWeb.Mode.HubBehavior
       @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-      use DotcomWeb, :controller
-
-      plug(DotcomWeb.Plugs.RecentlyVisited)
-
       def index(conn, params) do
-        unquote(__MODULE__).index(__MODULE__, conn, Map.merge(params, Map.new(unquote(opts))))
+        DotcomWeb.Mode.HubBehavior.index(
+          __MODULE__,
+          conn,
+          Map.merge(params, Map.new(unquote(opts)))
+        )
       end
 
       def routes, do: @routes_repo.by_type(route_type())
@@ -52,6 +35,8 @@ defmodule DotcomWeb.Mode.HubBehavior do
       defoverridable routes: 0
     end
   end
+
+  plug(DotcomWeb.Plugs.RecentlyVisited)
 
   def index(mode_strategy, conn, params) do
     mode_routes = mode_strategy.routes()
