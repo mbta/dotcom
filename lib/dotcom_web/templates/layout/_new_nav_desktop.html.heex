@@ -1,4 +1,3 @@
-<% track_template() %>
 <nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main navigation">
   <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content() do %>
     <a

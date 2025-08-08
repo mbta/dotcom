@@ -1,4 +1,4 @@
-<% track_template() %>
+
 <% header_id = "header-#{@id}" %>
 <% panel_id = "panel-#{@id}" %>
 
