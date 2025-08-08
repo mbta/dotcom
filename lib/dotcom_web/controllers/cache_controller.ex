@@ -1,7 +1,6 @@
 defmodule DotcomWeb.CacheController do
   @moduledoc """
   A controller that allows us to interact with the cache.
-  Currently, we only support deleting keys from the cache.
   """
 
   use DotcomWeb, :controller
@@ -12,6 +11,14 @@ defmodule DotcomWeb.CacheController do
 
   @doc """
   Gets all of the values in every node for the given key.
+
+  We start a one-off GenServer that publishes the key we want a value for.
+  Every Elixir node receives that message and publishes its value.
+  That value could come from the local cache or from the shared Redis.
+  The original publisher collects all of returned values.
+  Because we don't even know the number of Elixir nodes, we have to use a timeout.
+  After one second, we ask the publisher for its list of values.
+  Then, we shut down the publisher.
   """
   def get_cache_values(conn, %{"path" => path}) do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
@@ -19,7 +26,7 @@ defmodule DotcomWeb.CacheController do
 
     GenServer.start_link(Dotcom.Cache.Get.Publisher, uuid, name: uuid)
 
-    GenServer.call(uuid, {:load, key})
+    GenServer.cast(uuid, {:load, key})
 
     :timer.sleep(1000)
 
