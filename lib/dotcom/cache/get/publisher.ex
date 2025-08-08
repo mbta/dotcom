@@ -1,7 +1,5 @@
 defmodule Dotcom.Cache.Get.Publisher do
   @moduledoc """
-  Allows us to get the value of a key across all nodes.
-  Uses publishing and subscribing in Redis.
   """
 
   use GenServer
@@ -12,8 +10,6 @@ defmodule Dotcom.Cache.Get.Publisher do
 
   @impl GenServer
   @doc """
-  Gets the unique id from the Publisher which starts the Subscriber.
-  Starts a Redix.PubSub process and subscribes to the channel given by the Publisher.
   """
   def init(uuid) do
     Application.get_env(:dotcom, :redis_config)
@@ -26,12 +22,13 @@ defmodule Dotcom.Cache.Get.Publisher do
   @impl true
   @doc """
   """
-  def handle_call({:load, key}, _, {uuid, _}) do
+  def handle_cast({:load, key}, {uuid, _}) do
     publish(uuid, key)
 
-    {:reply, [], {uuid, []}}
+    {:noreply, {uuid, []}}
   end
 
+  @impl true
   def handle_call(:get, _, {uuid, values}) do
     {:reply, values, {uuid, values}}
   end
