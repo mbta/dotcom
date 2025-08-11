@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
+import { Alert } from "../../../__v3api";
+import { alertsByStop } from "../../../models/alert";
 import { RouteStop, StopTree } from "../__schedule";
 import StopCard from "./StopCard";
-import { Alert } from "../../../__v3api";
 
 interface Props {
   alerts: Alert[];
@@ -41,7 +42,7 @@ const OtherStopList = ({
       <ul className="list-unstyled p-0 m-0">
         {otherRouteStops.map(stop => (
           <StopCard
-            alerts={alerts}
+            alerts={alertsByStop(alerts, stop.id)}
             key={stop.id}
             noLineDiagram
             onClick={handleStopClick}
