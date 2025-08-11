@@ -18,6 +18,9 @@ msgstr "Toll Gratis"
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
 msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por todas las zonas de Greater Boston y Providence."
 
+msgid "Stations"
+msgstr "Estaciones"
+
 msgid "Friday"
 msgstr "Viernes"
 
@@ -54,6 +57,9 @@ msgstr "Localización de ventas minoristas"
 msgid "Preview Version"
 msgstr "Versión previa"
 
+msgid "Showing major stops."
+msgstr "Mostrando paradas importantes."
+
 msgid "Sign up for T-Alerts"
 msgstr "Regístrate para T-Alerts"
 
@@ -77,6 +83,9 @@ msgstr "Ver números de teléfono"
 
 msgid "MBTA Trip Planner"
 msgstr "MBTA Trip Planner"
+
+msgid "View all"
+msgstr "Ver todo"
 
 msgid "Massport Shuttle"
 msgstr "Transporte de Massport"
@@ -471,6 +480,9 @@ msgstr "MBTA Página"
 msgid "See all service alerts"
 msgstr "Ver todas las alertas de servicio"
 
+msgid "MBTA Stations"
+msgstr "MBTA Estaciones"
+
 msgid "Main Menu"
 msgstr "Menú principal"
 
@@ -525,6 +537,9 @@ msgstr "Descripción del evento"
 msgid "is temporarily unavailable due to a service change."
 msgstr "no está disponible temporalmente debido a un cambio de servicio."
 
+msgid "info"
+msgstr "info"
+
 msgid "Premium Ride"
 msgstr "Premium Ride"
 
@@ -570,6 +585,9 @@ msgstr "Le enviaremos MBTA comunicados de prensa y consejeros de medios directam
 msgid "Tuesday"
 msgstr "Martes"
 
+msgid "Hide"
+msgstr "Oculto"
+
 msgid "Later"
 msgstr "Más tarde"
 
@@ -578,6 +596,12 @@ msgstr "Ingrese una ubicación de origen"
 
 msgid "Sorry, Your App Appears to be Out of Date"
 msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
+
+msgid "Showing all"
+msgstr "Mostrando todo"
+
+msgid "stops"
+msgstr "Paradas"
 
 msgid "Cross Harbor Ferry"
 msgstr "Cross Harbor Ferry"

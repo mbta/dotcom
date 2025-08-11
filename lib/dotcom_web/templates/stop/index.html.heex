@@ -1,0 +1,83 @@
+<% track_template() %>
+<% subway? = @mode == :subway %>
+<% h_level_route = if @mode == :commuter_rail, do: :h3, else: :h2 %>
+<div class="container">
+  <div class="page-section">
+    <h1>{~t(MBTA Stations)}</h1>
+    {render("_search_bar.html")}
+    {mode_tab_list(%ModeTabList{
+      links:
+        for mode <- [:subway, "commuter-rail", :ferry] do
+          {mode, stop_path(@conn, :show, mode)}
+        end,
+      selected_mode: @mode,
+      stacked_label: "#{~t(Explore stations by mode)}:"
+    })}
+    <%= if !Enum.empty?(@mode_hubs) do %>
+      <div class="page-section">
+        <h2>
+          {svg_icon_with_circle(%SvgIconWithCircle{icon: @mode})}
+          <span>
+            {mode_name(@mode)}
+            {~t(Stations)}
+          </span>
+        </h2>
+        {render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)}
+      </div>
+    <% end %>
+    <% types = Routes.Route.types_for_mode(@mode)
+    stops = Enum.filter(@stop_info, fn {route, _} -> Enum.member?(types, route.type) end) %>
+    <%= for {route, detailed_stops} <- stops do %>
+      <div class="page-section stops-for-route">
+        <%= content_tag h_level_route do %>
+          {if subway?,
+            do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})}
+          <span class="notranslate">{route.name}</span>
+        <% end %>
+        <%= if @route_hubs[route.id] do %>
+          {render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)}
+        <% end %>
+        <div toggle-element-collapse={if(subway?, do: "true")} id={"stops-#{route.id}"}>
+          <%= if subway? do %>
+            <h3>{~t(Stations)}</h3>
+          <% end %>
+          {render("_detailed_stop_list.html", conn: @conn, detailed_stops: detailed_stops)}
+          <p>
+            <%= link to: line_path(@conn, :show, route.id), class: "c-call-to-action" do %>
+              {~t(View)} {route.name} {~t(info)}
+            <% end %>
+          </p>
+          <%= if route.id == "Red" do %>
+            <div class="page-section">
+              <% {mattapan_route, mattapan_stops} = @mattapan %>
+              <h3>{mattapan_route.name}</h3>
+              {render("_detailed_stop_list.html", conn: @conn, detailed_stops: mattapan_stops)}
+              <p>
+                <%= link to: line_path(@conn, :show, mattapan_route.id), class: "c-call-to-action" do %>
+                  {~t(View)} {mattapan_route.name} {~t(info)}
+                <% end %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+        <%= if subway? do %>
+          <span class="stops-view-all-btn hidden-md-up hidden-no-js" data-toggle-route={route.id}>
+            {~t(Showing major stops.)}
+            <a data-toggle="collapse" data-toggle-collapse={route.id} href={"#stops-#{route.id}"}>
+              {~t(View all)} {fa("angle-down")}
+            </a>
+          </span>
+          <div
+            class="stops-view-all-btn stops-hide-all-btn hidden-md-up hidden-no-js"
+            data-toggle-route={route.id}
+          >
+            {~t(Showing all)} {route.name} {~t(stops)}.
+            <a data-toggle="collapse" href={"#stops-#{route.id}"} data-toggle-collapse={route.id}>
+              {~t(Hide)} {fa("angle-up")}
+            </a>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
