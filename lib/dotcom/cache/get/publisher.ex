@@ -109,7 +109,7 @@ defmodule Dotcom.Cache.Get.Publisher do
     else
       differing_values =
         reduced_values
-        |> Enum.map_join(&wrap/1, "\n---\n")
+        |> Enum.map_join("\n---\n", &wrap/1)
 
       {:conflict, differing_values}
     end
