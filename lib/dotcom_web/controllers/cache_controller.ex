@@ -96,10 +96,7 @@ defmodule DotcomWeb.CacheController do
 
     def diff(assigns) do
       ~H"""
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
-      />
+       <link href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/atelier-estuary.light.css" rel="stylesheet">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js">
       </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/elixir.min.js">
