@@ -39,7 +39,10 @@ defmodule Dotcom.Cache.Get.Subscriber do
 
     value = Enum.join(key, "|") |> @cache.get()
 
-    publish(sender, value)
+    # If the value is nil we just don't respond.
+    if value do
+      publish(sender, :erlang.term_to_binary(value))
+    end
 
     {:noreply, nil}
   end

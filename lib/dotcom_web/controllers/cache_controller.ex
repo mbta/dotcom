@@ -30,11 +30,13 @@ defmodule DotcomWeb.CacheController do
 
     :timer.sleep(1000)
 
-    values = GenServer.call(uuid, :get)
+    {status, values} = GenServer.call(uuid, :get)
 
     GenServer.stop(uuid)
 
-    send_resp(conn, 200, inspect(values)) |> halt()
+    conn
+    |> send_resp(status, values <> "\n")
+    |> halt()
   end
 
   @doc """
