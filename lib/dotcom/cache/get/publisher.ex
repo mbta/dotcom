@@ -1,3 +1,4 @@
+# credo:disable-for-this-file Credo.Check.Refactor.Nesting
 defmodule Dotcom.Cache.Get.Publisher do
   @moduledoc """
   A GenServer that allows us to inspect values across all cache nodes.
@@ -23,9 +24,10 @@ defmodule Dotcom.Cache.Get.Publisher do
   Start a unique instance and subscribe to a one-off channel.
   """
   def init(uuid) do
-    Application.get_env(:dotcom, :redis_config)
-    |> @redix_pub_sub.start_link()
-    |> subscribe("#{@channel}:#{uuid}")
+    {:ok, _} =
+      Application.get_env(:dotcom, :redis_config)
+      |> @redix_pub_sub.start_link()
+      |> subscribe("#{@channel}:#{uuid}")
 
     {:ok, {uuid, []}}
   end
@@ -107,8 +109,7 @@ defmodule Dotcom.Cache.Get.Publisher do
     else
       differing_values =
         reduced_values
-        |> Enum.map(&wrap/1)
-        |> Enum.join("\n---\n")
+        |> Enum.map_join(&wrap/1, "\n---\n")
 
       {:conflict, differing_values}
     end
@@ -117,10 +118,10 @@ defmodule Dotcom.Cache.Get.Publisher do
   # We check every value against every other value to see if there are any diffs.
   defp reduce_values(values) do
     Enum.reduce(values, {values, []}, fn new_value, {set_values, matched_values} ->
-      unless Enum.all?(set_values, fn set_value -> set_value === new_value end) do
-        {set_values, matched_values ++ [new_value]}
-      else
+      if Enum.all?(set_values, fn set_value -> set_value === new_value end) do
         {set_values, matched_values}
+      else
+        {set_values, matched_values ++ [new_value]}
       end
     end)
   end

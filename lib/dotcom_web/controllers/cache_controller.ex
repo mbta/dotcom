@@ -24,19 +24,25 @@ defmodule DotcomWeb.CacheController do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
     key = Enum.join(path, "|")
 
-    GenServer.start_link(Dotcom.Cache.Get.Publisher, uuid, name: uuid)
+    case GenServer.start_link(Dotcom.Cache.Get.Publisher, uuid, name: uuid) do
+      {:ok, _} ->
+        GenServer.cast(uuid, {:load, key})
 
-    GenServer.cast(uuid, {:load, key})
+        :timer.sleep(1000)
 
-    :timer.sleep(1000)
+        {status, values} = GenServer.call(uuid, :get)
 
-    {status, values} = GenServer.call(uuid, :get)
+        GenServer.stop(uuid)
 
-    GenServer.stop(uuid)
+        conn
+        |> send_resp(status, values <> "\n")
+        |> halt()
 
-    conn
-    |> send_resp(status, values <> "\n")
-    |> halt()
+      {:error, reason} ->
+        conn
+        |> send_resp(500, reason)
+        |> halt()
+    end
   end
 
   @doc """
