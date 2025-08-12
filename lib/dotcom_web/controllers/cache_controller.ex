@@ -7,6 +7,9 @@ defmodule DotcomWeb.CacheController do
 
   require Logger
 
+  plug :accepts, ~w(html)
+  plug :put_view, __MODULE__.View
+
   @cache Application.compile_env!(:dotcom, :cache)
 
   @doc """
@@ -40,8 +43,8 @@ defmodule DotcomWeb.CacheController do
         GenServer.stop(uuid)
 
         conn
-        |> send_resp(status, values <> "\n")
-        |> halt()
+        |> put_status(status)
+        |> render(:diff, %{key: key, status: status, values: values})
 
       {:error, reason} ->
         conn
@@ -82,5 +85,41 @@ defmodule DotcomWeb.CacheController do
     else
       :delete
     end
+  end
+
+  defmodule View do
+    @moduledoc """
+    A view for diffs that includes syntax highlighting.
+    """
+
+    use Phoenix.Component
+
+    def diff(assigns) do
+      ~H"""
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+      />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js">
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/elixir.min.js">
+      </script>
+      <div style="width: 100%; max-width: 100%;">
+        <pre><code  style={"background-color: #{color(@status)}; color: white;"}>{@key}</code></pre>
+        <pre :for={value <- @values} style="white-space: pre-wrap; word-wrap: break-word;">
+          <code class="language-elixir">{value}</code>
+        </pre>
+      </div>
+      <script>
+        hljs.highlightAll();
+      </script>
+      """
+    end
+
+    defp color(:ok), do: "green"
+
+    defp color(:conflict), do: "red"
+
+    defp color(:gone), do: "grey"
   end
 end

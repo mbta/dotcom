@@ -9,7 +9,7 @@ defmodule Dotcom.Cache.Get.PublisherTest do
       {:reply, reply, _} = handle_call(:get, nil, {nil, []})
 
       # VERIFY
-      assert reply === {:gone, ""}
+      assert reply === {:gone, [""]}
     end
   end
 
@@ -22,27 +22,24 @@ defmodule Dotcom.Cache.Get.PublisherTest do
     {:reply, reply, _} = handle_call(:get, nil, {nil, values})
 
     # VERIFY
-    assert reply === {:ok, value}
+    assert reply === {:ok, [value]}
   end
 
   test "when values are different, we get one of each value" do
     # SETUP
-    value = Faker.Color.fancy_name()
+    one = Faker.Color.fancy_name()
+    two = Faker.Color.fancy_name()
 
     values = [
-      value,
-      value,
-      Faker.Color.fancy_name()
+      one,
+      one,
+      two
     ]
 
     # EXERCISE
     {:reply, {:conflict, diff}, _} = handle_call(:get, nil, {nil, values})
 
     # VERIFY
-    assert Regex.scan(~r/---/, diff) |> Kernel.length() === 1
-
-    Enum.each(values, fn value ->
-      assert diff =~ value
-    end)
+    assert Enum.member?(diff, one) && Enum.member?(diff, two)
   end
 end

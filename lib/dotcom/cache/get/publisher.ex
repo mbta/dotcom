@@ -84,12 +84,12 @@ defmodule Dotcom.Cache.Get.Publisher do
 
   # If there are no values (all subscribers were empty) then we indicate that no key was found.
   defp diff([]) do
-    {:gone, ""}
+    {:gone, [""]}
   end
 
   # If there is just one value, we report that value.
   defp diff([value]) do
-    {:ok, wrap(value)}
+    {:ok, [wrap(value)]}
   end
 
   # If there are multiple values, then we try to find the diff of the values.
@@ -102,15 +102,15 @@ defmodule Dotcom.Cache.Get.Publisher do
     if reduced_values === [] do
       representative_value =
         values
-        |> List.first()
-        |> wrap()
+        |> Enum.slice(0, 1)
+        |> Enum.map(&wrap/1)
 
       {:ok, representative_value}
     else
       differing_values =
         reduced_values
         |> Enum.uniq_by(&:erlang.phash2/1)
-        |> Enum.map_join("\n---\n", &wrap/1)
+        |> Enum.map(&wrap/1)
 
       {:conflict, differing_values}
     end
