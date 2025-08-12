@@ -176,46 +176,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec get_route_pdfs(Route.id_t()) :: [RoutePdf.t()]
-  def get_route_pdfs(route_id) do
-    case do_get_route_pdfs(route_id) do
-      {:ok, pdfs} ->
-        pdfs
-
-      error ->
-        _ =
-          Logger.warning(fn ->
-            "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect(error)}"
-          end)
-
-        []
-    end
-  end
-
-  @decorate cacheable(
-              cache: @cache,
-              key: "cms.repo|route-pdfs|#{String.downcase(route_id)}",
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
-  defp do_get_route_pdfs(route_id) do
-    case @cms_api.view("/cms/route-pdfs/#{route_id}", []) do
-      {:ok, []} ->
-        {:ok, []}
-
-      {:ok, [api_data | _]} ->
-        pdfs =
-          api_data
-          |> Map.get("field_pdfs")
-          |> Enum.map(&RoutePdf.from_api/1)
-
-        {:ok, pdfs}
-
-      error ->
-        error
-    end
-  end
-
   # BEGIN PAGE CACHING #
 
   @behaviour Nebulex.Caching.KeyGenerator
