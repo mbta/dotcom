@@ -16,7 +16,7 @@ defmodule Dotcom.Cache.Get.PublisherTest do
   test "when all of the values are the same, one representative value is returned" do
     # SETUP
     value = Faker.Color.fancy_name()
-    values = [1..3] |> Enum.map(fn _ -> value end)
+    values = [value, value, value]
 
     # EXERCISE
     {:reply, reply, _} = handle_call(:get, nil, {nil, values})
@@ -27,10 +27,14 @@ defmodule Dotcom.Cache.Get.PublisherTest do
 
   test "when values are different, we get all different values" do
     # SETUP
-    values = [1..3] |> Enum.map(fn _ -> Faker.Color.fancy_name() end)
+    values = [
+      Faker.Color.fancy_name(),
+      Faker.Color.fancy_name(),
+      Faker.Color.fancy_name()
+    ]
 
     # EXERCISE
-    {:reply, {:ok, diff}, _} = handle_call(:get, nil, {nil, values})
+    {:reply, {:conflict, diff}, _} = handle_call(:get, nil, {nil, values})
 
     # VERIFY
     Enum.each(values, fn value ->
