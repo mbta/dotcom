@@ -73,12 +73,13 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/cache", DotcomWeb do
-    if Mix.env() != :dev do
-      pipe_through([:basic_auth])
-    end
+    pipe_through([:basic_auth])
 
-    get("/*path", CacheController, :get_cache_values)
     delete("/*path", CacheController, :flush_cache_keys)
+  end
+
+  scope "/cache", DotcomWeb do
+    get("/*path", CacheController, :get_cache_values)
   end
 
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
