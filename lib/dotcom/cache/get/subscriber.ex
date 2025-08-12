@@ -25,8 +25,6 @@ defmodule Dotcom.Cache.Get.Subscriber do
     Application.get_env(:dotcom, :redis_config)
     |> @redix_pub_sub.start_link()
     |> subscribe(@channel)
-
-    {:ok, nil}
   end
 
   @impl GenServer
