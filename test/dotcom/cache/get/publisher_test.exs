@@ -25,11 +25,13 @@ defmodule Dotcom.Cache.Get.PublisherTest do
     assert reply === {:ok, value}
   end
 
-  test "when values are different, we get all different values" do
+  test "when values are different, we get one of each value" do
     # SETUP
+    value = Faker.Color.fancy_name()
+
     values = [
-      Faker.Color.fancy_name(),
-      Faker.Color.fancy_name(),
+      value,
+      value,
       Faker.Color.fancy_name()
     ]
 
@@ -37,8 +39,10 @@ defmodule Dotcom.Cache.Get.PublisherTest do
     {:reply, {:conflict, diff}, _} = handle_call(:get, nil, {nil, values})
 
     # VERIFY
+    assert Regex.scan(~r/---/, diff) |> Kernel.length() === 1
+
     Enum.each(values, fn value ->
-      diff =~ value
+      assert diff =~ value
     end)
   end
 end
