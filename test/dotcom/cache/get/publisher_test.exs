@@ -40,6 +40,7 @@ defmodule Dotcom.Cache.Get.PublisherTest do
     {:reply, {:conflict, diff}, _} = handle_call(:get, nil, {nil, values})
 
     # VERIFY
+    assert Kernel.length(diff) === 2
     assert Enum.member?(diff, one) && Enum.member?(diff, two)
   end
 end
