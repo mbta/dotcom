@@ -109,6 +109,7 @@ defmodule Dotcom.Cache.Get.Publisher do
     else
       differing_values =
         reduced_values
+        |> Enum.uniq_by(&:erlang.phash2/1)
         |> Enum.map_join("\n---\n", &wrap/1)
 
       {:conflict, differing_values}

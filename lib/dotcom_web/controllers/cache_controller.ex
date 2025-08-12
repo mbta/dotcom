@@ -19,6 +19,11 @@ defmodule DotcomWeb.CacheController do
   Because we don't even know the number of Elixir nodes, we have to use a timeout.
   After one second, we ask the publisher for its list of values.
   Then, we shut down the publisher.
+
+  Status codes:
+  200 - All values are the same. Returns one representative value.
+  409 - Conflicting values exist. Returns a list of conflicting values.
+  410 - The key wasn't found in any node.
   """
   def get_cache_values(conn, %{"path" => path}) do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
