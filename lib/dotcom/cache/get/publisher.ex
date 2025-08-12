@@ -29,8 +29,10 @@ defmodule Dotcom.Cache.Get.Publisher do
   end
 
   @impl true
+  @doc """
+  """
   def handle_call(:get, _, {uuid, values}) do
-    {:reply, values, {uuid, values}}
+    {:reply, diff(values), {uuid, values}}
   end
 
   @impl GenServer
@@ -45,7 +47,7 @@ defmodule Dotcom.Cache.Get.Publisher do
         {uuid, values}
       ) do
     if channel === "#{@channel}:#{uuid}" do
-      {:noreply, {uuid, values ++ [message]}}
+      {:noreply, {uuid, values ++ [:erlang.binary_to_term(message)]}}
     else
       {:noreply, {uuid, values}}
     end
@@ -62,4 +64,46 @@ defmodule Dotcom.Cache.Get.Publisher do
   defp subscribe({:ok, pubsub}, channel) do
     @redix_pub_sub.subscribe(pubsub, channel, self())
   end
+
+  defp diff([]) do
+    {:gone, ""}
+  end
+
+  defp diff([value]) do
+    {:ok, wrap(value)}
+  end
+
+  defp diff(values) do
+    {_, reduced_values} = reduce_values(values)
+
+    if reduced_values === [] do
+      representative_value =
+        values
+        |> List.first()
+        |> wrap()
+
+      {:ok, representative_value}
+    else
+      differing_values =
+        reduced_values
+        |> Enum.map(&wrap/1)
+        |> Enum.join("\n---\n")
+
+      {:conflict, differing_values}
+    end
+  end
+
+  defp reduce_values(values) do
+    Enum.reduce(values, {values, []}, fn new_value, {set_values, matched_values} ->
+      unless Enum.all?(set_values, fn set_value -> set_value === new_value end) do
+        {set_values, matched_values ++ [new_value]}
+      else
+        {set_values, matched_values}
+      end
+    end)
+  end
+
+  defp wrap(value) when is_binary(value), do: value
+
+  defp wrap(value), do: Kernel.inspect(value)
 end
