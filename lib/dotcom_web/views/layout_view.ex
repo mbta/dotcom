@@ -1,7 +1,10 @@
 defmodule DotcomWeb.LayoutView do
+  @moduledoc false
+
   use DotcomWeb, :view
-  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
+
   import DotcomWeb.SearchHelpers, only: [desktop_form: 2]
+  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
 
   def bold_if_active(DotcomWeb.Endpoint, _, text) do
     raw(text)
@@ -37,148 +40,150 @@ defmodule DotcomWeb.LayoutView do
   def nav_link_content,
     do: [
       %{
-        menu_section: "Transit",
+        menu_section: ~t(Transit),
         link: ~p"/menu#Transit-section",
         sub_menus: [
           %{
-            sub_menu_section: "Modes of Transit",
+            sub_menu_section: ~t(Modes of Transit),
             links: [
-              {"Subway", "/schedules/subway", :internal_link},
-              {"Bus", "/schedules/bus", :internal_link},
-              {"Commuter Rail", "/schedules/commuter-rail", :internal_link},
-              {"Ferry", "/schedules/ferry", :internal_link},
-              {"Paratransit (The RIDE)", "/accessibility/the-ride", :internal_link},
-              {"All Schedules & Maps", "/schedules", :internal_link}
+              {~t(Subway), "/schedules/subway", :internal_link},
+              {~t(Bus), "/schedules/bus", :internal_link},
+              {~t(Commuter Rail), "/schedules/commuter-rail", :internal_link},
+              {~t(Ferry), "/schedules/ferry", :internal_link},
+              {~t[Paratransit (The RIDE)], "/accessibility/the-ride", :internal_link},
+              {~t(All Schedules & Maps), "/schedules", :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Plan Your Journey",
+            sub_menu_section: ~t(Plan Your Journey),
             links: [
-              {"Trip Planner", "/trip-planner", :internal_link},
-              {"Service Alerts", "/alerts", :internal_link},
-              {"Sign Up for Service Alerts", "https://alerts.mbta.com/", :external_link},
-              {"Parking", "/parking", :internal_link},
-              {"Bikes", "/bikes", :internal_link},
-              {"User Guides", "/guides", :internal_link},
-              {"Holidays", "/holidays", :internal_link},
-              {"Accessibility", "/accessibility", :internal_link}
+              {~t(Trip Planner), "/trip-planner", :internal_link},
+              {~t(Service Alerts), "/alerts", :internal_link},
+              {~t(Sign Up for Service Alerts), "https://alerts.mbta.com/", :external_link},
+              {~t(Parking), "/parking", :internal_link},
+              {~t(Bikes), "/bikes", :internal_link},
+              {~t(User Guides), "/guides", :internal_link},
+              {~t(Holidays), "/holidays", :internal_link},
+              {~t(Accessibility), "/accessibility", :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Find a Location",
+            sub_menu_section: ~t(Find a Location),
             links: [
-              {"MBTA Stations", "/stops", :internal_link},
-              {"Destinations", "/destinations", :internal_link},
-              {"Maps", "/maps", :internal_link}
+              {~t(MBTA Stations), "/stops", :internal_link},
+              {~t(Destinations), "/destinations", :internal_link},
+              {~t(Maps), "/maps", :internal_link}
             ]
           }
         ]
       },
       %{
-        menu_section: "Fares",
+        menu_section: ~t(Fares),
         link: ~p"/menu#Fares-section",
         sub_menus: [
           %{
-            sub_menu_section: "Fares Info",
+            sub_menu_section: ~t(Fares Info),
             links: [
-              {"Fares Overview", "/fares", :internal_link},
-              {"Reduced Fares", "/fares/reduced", :internal_link},
-              {"Transfers", "/fares/transfers", :internal_link},
-              {"Fare Transformation", "/fare-transformation", :internal_link}
+              {~t(Fares Overview), "/fares", :internal_link},
+              {~t(Reduced Fares), "/fares/reduced", :internal_link},
+              {~t(Transfers), "/fares/transfers", :internal_link},
+              {~t(Fare Transformation), "/fare-transformation", :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Fares by Mode",
+            sub_menu_section: ~t(Fares by Mode),
             links: [
-              {"Subway Fares", "/fares/subway-fares", :internal_link},
-              {"Bus Fares", "/fares/bus-fares", :internal_link},
-              {"Commuter Rail Fares", "/fares/commuter-rail-fares", :internal_link},
-              {"Ferry Fares", "/fares/ferry-fares", :internal_link}
+              {~t(Subway Fares), "/fares/subway-fares", :internal_link},
+              {~t(Bus Fares), "/fares/bus-fares", :internal_link},
+              {~t(Commuter Rail Fares), "/fares/commuter-rail-fares", :internal_link},
+              {~t(Ferry Fares), "/fares/ferry-fares", :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Pay Your Fare",
+            sub_menu_section: ~t(Pay Your Fare),
             links: [
-              {"Charlie Service Center", "/fares/charliecard-store", :internal_link},
-              {"Sign up for Auto-pay", "https://mycharlie.mbta.com/", :external_link},
-              {"Order Monthly Passes", "https://commerce.mbta.com/", :external_link},
-              {"Get a CharlieCard", "/fares/charliecard#getacharliecard", :internal_link},
-              {"Retail Sales Locations", "/fares/retail-sales-locations", :internal_link}
+              {~t(Charlie Service Center), "/fares/charliecard-store", :internal_link},
+              {~t(Sign up for Auto-pay), "https://mycharlie.mbta.com/", :external_link},
+              {~t(Order Monthly Passes), "https://commerce.mbta.com/", :external_link},
+              {~t(Get a CharlieCard), "/fares/charliecard#getacharliecard", :internal_link},
+              {~t(Retail Sales Locations), "/fares/retail-sales-locations", :internal_link}
             ]
           },
           # special
-          %{sub_menu_section: "Most popular fares"}
+          %{sub_menu_section: ~t(Most popular fares)}
         ]
       },
       %{
-        menu_section: "Contact",
+        menu_section: ~t(Contact),
         link: ~p"/menu#Contact-section",
         sub_menus: [
           %{
-            sub_menu_section: "Customer Support",
+            sub_menu_section: ~t(Customer Support),
             links: [
-              {"Send Us Feedback", "/customer-support", :internal_link},
-              {"View All Contact Numbers", "/customer-support#customer_support", :internal_link},
-              {"Request Public Records",
+              {~t(Send Us Feedback), "/customer-support", :internal_link},
+              {~t(View All Contact Numbers), "/customer-support#customer_support",
+               :internal_link},
+              {~t(Request Public Records),
                "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66",
                :external_link},
-              {"Lost & Found", "/customer-support/lost-and-found", :internal_link},
-              {"Language Services", "/language-services", :internal_link}
+              {~t(Lost & Found), "/customer-support/lost-and-found", :internal_link},
+              {~t(Language Services), "/language-services", :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Transit Police",
+            sub_menu_section: ~t(Transit Police),
             links: [
-              {"MBTA Transit Police", "/transit-police", :internal_link},
-              {"See Something, Say Something", "/transit-police/see-something-say-something",
+              {~t(MBTA Transit Police), "/transit-police", :internal_link},
+              {~t(See Something, Say Something), "/transit-police/see-something-say-something",
                :internal_link}
             ]
           },
           # special
-          %{sub_menu_section: "Emergency Contacts"},
-          %{sub_menu_section: "Contact numbers"}
+          %{sub_menu_section: ~t(Emergency Contacts)},
+          %{sub_menu_section: ~t(Contact numbers)}
         ]
       },
       %{
-        menu_section: "About",
+        menu_section: ~t(About),
         link: ~p"/menu#About-section",
         sub_menus: [
           %{
-            sub_menu_section: "Get to Know Us",
+            sub_menu_section: ~t(Get to Know Us),
             links: [
-              {"Overview", "/mbta-at-a-glance", :internal_link},
-              {"Leadership", "/leadership", :internal_link},
-              {"History", "/history", :internal_link},
-              {"Financials", "/financials", :internal_link},
-              {"Public Meetings", "/events", :internal_link},
-              {"Media Relations", "/about/media-relations", :internal_link},
-              {"MBTA Gift Shop", "https://www.mbtagifts.com", :external_link},
-              {"Policies & Civil Rights", "/policies", :internal_link},
-              {"Safety", "/safety", :internal_link},
-              {"Quality, Compliance & Oversight", "/quality-compliance-oversight", :internal_link}
-            ]
-          },
-          %{
-            sub_menu_section: "Work with Us",
-            links: [
-              {"Careers", "/careers", :internal_link},
-              {"Institutional Sales", "/pass-program", :internal_link},
-              {"Business Opportunities", "/business", :internal_link},
-              {"Innovation Proposals", "/innovation", :internal_link},
-              {"Engineering Design Standards", "/engineering/design-standards-and-guidelines",
+              {~t(Overview), "/mbta-at-a-glance", :internal_link},
+              {~t(Leadership), "/leadership", :internal_link},
+              {~t(History), "/history", :internal_link},
+              {~t(Financials), "/financials", :internal_link},
+              {~t(Public Meetings), "/events", :internal_link},
+              {~t(Media Relations), "/about/media-relations", :internal_link},
+              {~t(MBTA Gift Shop), "https://www.mbtagifts.com", :external_link},
+              {~t(Policies & Civil Rights), "/policies", :internal_link},
+              {~t(Safety), "/safety", :internal_link},
+              {~t(Quality, Compliance & Oversight), "/quality-compliance-oversight",
                :internal_link}
             ]
           },
           %{
-            sub_menu_section: "Our Work",
+            sub_menu_section: ~t(Work with Us),
             links: [
-              {"Sustainability", "/sustainability", :internal_link},
-              {"Capital Transformation", "/projects/capital-transformation-programs",
+              {~t(Careers), "/careers", :internal_link},
+              {~t(Institutional Sales), "/pass-program", :internal_link},
+              {~t(Business Opportunities), "/business", :internal_link},
+              {~t(Innovation Proposals), "/innovation", :internal_link},
+              {~t(Engineering Design Standards), "/engineering/design-standards-and-guidelines",
+               :internal_link}
+            ]
+          },
+          %{
+            sub_menu_section: ~t(Our Work),
+            links: [
+              {~t(Sustainability), "/sustainability", :internal_link},
+              {~t(Capital Transformation), "/projects/capital-transformation-programs",
                :internal_link},
-              {"Commuter Rail Positive Train Control",
+              {~t(Commuter Rail Positive Train Control),
                "/projects/commuter-rail-positive-train-control-ptc", :internal_link},
-              {"Better Bus Project", "/projects/better-bus-project", :internal_link},
-              {"All MBTA Improvement Projects", "/projects", :internal_link}
+              {~t(Better Bus Project), "/projects/better-bus-project", :internal_link},
+              {~t(All MBTA Improvement Projects), "/projects", :internal_link}
             ]
           }
         ]
@@ -222,12 +227,12 @@ defmodule DotcomWeb.LayoutView do
   end
 
   def meta_description(_) do
-    "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+    ~t(Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines.)
   end
 
   def title(%Plug.Conn{} = conn) do
     if Phoenix.Controller.view_template(conn) == "404.html" do
-      "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+      ~t(Page Not Found | MBTA - Massachusetts Bay Transportation Authority)
     else
       title_breadcrumbs(conn)
     end

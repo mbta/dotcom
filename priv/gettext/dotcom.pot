@@ -45,6 +45,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:13
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:31
+#: lib/dotcom_web/views/layout_view.ex:142
 #, elixir-autogen, elixir-format
 msgid "24 hours, 7 days a week"
 msgstr ""
@@ -1977,6 +1978,7 @@ msgstr ""
 msgid "Student CharlieCard"
 msgstr ""
 
+#: lib/dotcom_web/views/layout_view.ex:49
 #: lib/fares/format.ex:84
 #, elixir-autogen, elixir-format
 msgid "Subway"
@@ -2086,6 +2088,7 @@ msgid "Hide"
 msgstr ""
 
 #: lib/dotcom_web/templates/stop/index.html.heex:6
+#: lib/dotcom_web/views/layout_view.ex:73
 #, elixir-autogen, elixir-format
 msgid "MBTA Stations"
 msgstr ""
@@ -2120,4 +2123,219 @@ msgstr ""
 #: lib/dotcom_web/templates/stop/index.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "stops"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:147
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:186
+#, elixir-autogen, elixir-format
+msgid "All MBTA Improvement Projects"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:54
+#, elixir-autogen, elixir-format
+msgid "All Schedules & Maps"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:185
+#, elixir-autogen, elixir-format
+msgid "Better Bus Project"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:64
+#, elixir-autogen, elixir-format
+msgid "Bikes"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:50
+#, elixir-autogen, elixir-format
+msgid "Bus"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:97
+#, elixir-autogen, elixir-format
+msgid "Bus Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:181
+#, elixir-autogen, elixir-format
+msgid "Capital Transformation"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:105
+#, elixir-autogen, elixir-format
+msgid "Charlie Service Center"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:51
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:98
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:183
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Positive Train Control"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:117
+#, elixir-autogen, elixir-format
+msgid "Contact"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:143
+#, elixir-autogen, elixir-format
+msgid "Contact numbers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:74
+#, elixir-autogen, elixir-format
+msgid "Destinations"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:90
+#, elixir-autogen, elixir-format
+msgid "Fare Transformation"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:85
+#, elixir-autogen, elixir-format
+msgid "Fares Info"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:87
+#, elixir-autogen, elixir-format
+msgid "Fares Overview"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:52
+#, elixir-autogen, elixir-format
+msgid "Ferry"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:99
+#, elixir-autogen, elixir-format
+msgid "Ferry Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:108
+#, elixir-autogen, elixir-format
+msgid "Get a CharlieCard"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:159
+#, elixir-autogen, elixir-format
+msgid "MBTA Gift Shop"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:47
+#, elixir-autogen, elixir-format
+msgid "Modes of Transit"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:230
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:107
+#, elixir-autogen, elixir-format
+msgid "Order Monthly Passes"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:178
+#, elixir-autogen, elixir-format
+msgid "Our Work"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:153
+#, elixir-autogen, elixir-format
+msgid "Overview"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:235
+#, elixir-autogen, elixir-format
+msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:53
+#, elixir-autogen, elixir-format
+msgid "Paratransit (The RIDE)"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:58
+#, elixir-autogen, elixir-format
+msgid "Plan Your Journey"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:162
+#, elixir-autogen, elixir-format
+msgid "Quality, Compliance & Oversight"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:88
+#, elixir-autogen, elixir-format
+msgid "Reduced Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:61
+#, elixir-autogen, elixir-format
+msgid "Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:62
+#, elixir-autogen, elixir-format
+msgid "Sign Up for Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:106
+#, elixir-autogen, elixir-format
+msgid "Sign up for Auto-pay"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:96
+#, elixir-autogen, elixir-format
+msgid "Subway Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:89
+#, elixir-autogen, elixir-format
+msgid "Transfers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:43
+#, elixir-autogen, elixir-format
+msgid "Transit"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:65
+#, elixir-autogen, elixir-format
+msgid "User Guides"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:124
+#, elixir-autogen, elixir-format
+msgid "View All Contact Numbers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:167
+#, elixir-autogen, elixir-format
+msgid "Work with Us"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:94
+#, elixir-autogen, elixir-format
+msgid "Fares by Mode"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:103
+#, elixir-autogen, elixir-format
+msgid "Pay Your Fare"
 msgstr ""
