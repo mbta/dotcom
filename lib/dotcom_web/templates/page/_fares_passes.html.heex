@@ -1,9 +1,29 @@
-<div class="page-section">
-  <div class="container">
-    <div class="m-homepage--10-col-sm-only">
-      <div class="m-homepage__fares">
-        {render_paragraph(@homepage_fares, @conn)}
+<div class="c-home-grid-section">
+  <div class="c-home-grid-section-header">
+    <h2>
+      {~t(Fares)}
+    </h2>
+  </div>
+  <div class="c-home-grid-buttons-container">
+    <%= link to: cms_static_page_path(@conn, "/fares"), class: "c-home-grid-button" do %>
+      <div class="c-grid-button__content py-3">
+        <span class="c-grid-button__icon">
+          <.icon type="icon-svg" name="icon-fares-default" class="h-5 w-5" />
+        </span>
+        <span class="c-grid-button__name">
+          {~t(Fares Overview)}
+        </span>
       </div>
-    </div>
+    <% end %>
+    <%= link to: cms_static_page_path(@conn, "/fares/reduced"), class: "c-home-grid-button" do %>
+      <div class="c-grid-button__content py-3">
+        <span class="c-grid-button__icon">
+          <.icon name="credit-card" class="h-4 w-4" />
+        </span>
+        <span class="c-grid-button__name">
+          {~t(Reduced Fares)}
+        </span>
+      </div>
+    <% end %>
   </div>
 </div>
