@@ -1,4 +1,3 @@
-<% track_template() %>
 <%= if (Map.get(assigns, :route).description != :rapid_transit) do %>
   <% # Rapid transit data is rendered in front-end so render nothing here %>
   <%= for {period, {direction_0, direction_1}} <- Map.get(assigns, :hours_of_operation, []) do %>
