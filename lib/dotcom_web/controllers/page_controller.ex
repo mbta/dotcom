@@ -23,7 +23,6 @@ defmodule DotcomWeb.PageController do
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
-    fares = fares(conn.query_params)
 
     conn
     |> assign(
@@ -33,7 +32,6 @@ defmodule DotcomWeb.PageController do
     )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
-    |> async_assign_default(:homepage_fares, fn -> fares end)
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
     |> async_assign_default(
