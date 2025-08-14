@@ -138,6 +138,9 @@ msgstr "Gratis"
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
 
+msgid "Fares Overview"
+msgstr "Fares Overview"
+
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
@@ -938,6 +941,9 @@ msgstr "Seat Disponibilidad"
 
 msgid "the MBTA's home page"
 msgstr "la página principal de MBTA"
+
+msgid "Reduced Fares"
+msgstr "Tarifas reducidas"
 
 msgid "Many Seats Available"
 msgstr "Muchos asientos disponibles"
