@@ -3,6 +3,8 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   use DotcomWeb, :component
 
+  import DotcomWeb.Components.TripPlanner.Helpers, only: [formatted_time_on_date: 1]
+
   attr :changeset, :any, required: true
   attr :class, :string, default: ""
   attr :results, :any, required: true
@@ -52,7 +54,7 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
 
   defp itinerary_group_feedback(assigns) do
     ~H"""
-    <.feedback :if={@itinerary_groups == []} kind={:warning}>No trips found.</.feedback>
+    <.feedback :if={@itinerary_groups == []} kind={:warning}>{~t(No trips found)}.</.feedback>
     """
   end
 
@@ -60,18 +62,21 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
          from: %{changes: %{name: from_name}},
          to: %{changes: %{name: to_name}}
        }) do
-    "Trips from #{from_name} to #{to_name}"
+    gettext("Trips from %{from} to %{to}", from: from_name, to: to_name)
   end
 
   defp submission_summary(_), do: nil
 
   defp time_summary(%{datetime: datetime} = params) do
-    preamble =
-      if Map.get(params, :datetime_type) == "arrive_by", do: "Arriving by ", else: "Leaving at "
+    time_on_date =
+      datetime
+      |> Util.to_local_time()
+      |> formatted_time_on_date()
 
-    datetime = Util.to_local_time(datetime)
-    time_description = Util.kitchen_downcase_time(datetime)
-    date_description = Timex.format!(datetime, "{WDfull}, {Mfull} ")
-    preamble <> time_description <> " on " <> date_description <> Inflex.ordinalize(datetime.day)
+    if Map.get(params, :datetime_type) == "arrive_by" do
+      gettext("Arriving by %{time}", time: time_on_date)
+    else
+      gettext("Leaving at %{time}", time: time_on_date)
+    end
   end
 end
