@@ -18,7 +18,12 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   import Dotcom.TripPlan.Fares, only: [fare: 1]
 
   import DotcomWeb.Components.TripPlanner.Helpers,
-    only: [meters_to_localized_miles: 1, seconds_to_localized_minutes: 1]
+    only: [
+      formatted_time_range: 2,
+      meters_to_localized_miles: 1,
+      minutes_to_localized_minutes: 1,
+      seconds_to_localized_minutes: 1
+    ]
 
   import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1, stacked_route_icon: 1]
 
@@ -53,7 +58,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     <div class={@class}>
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div>
-          {Util.kitchen_downcase_time(@itinerary.start)} - {Util.kitchen_downcase_time(@itinerary.end)}
+          {formatted_time_range(@itinerary.start, @itinerary.end)}
         </div>
         <div>
           {@duration}
@@ -61,7 +66,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       </div>
       <div class="flex flex-wrap gap-1 items-center content-center mb-3">
         <%= for {summary_leg, index} <- Enum.with_index(@summarized_legs) do %>
-          <.icon :if={index > 0} name="angle-right" class="font-black w-2" aria-label="to" />
+          <.icon :if={index > 0} name="angle-right" class="font-black w-2" aria-label={~t"to"} />
           <.leg_icon {summary_leg} />
         <% end %>
       </div>
@@ -69,15 +74,15 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         <div :if={@show_accessible} class="inline-flex items-center gap-0.5">
           <%= if @accessible? do %>
             <.icon type="icon-svg" name="icon-accessible-light" class="h-4.5 mr-0.5" aria-hidden />
-            Accessible
+            {~t(Accessible)}
           <% else %>
             <.icon type="icon-svg" name="icon-not-accessible-light" class="h-4.5 mr-0.5" aria-hidden />
-            Not accessible
+            {~t(Not accessible)}
           <% end %>
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" aria-hidden />
         </div>
         <div class="inline-flex items-center gap-0.5">
-          <.icon name="person-walking" class="h-4 w-4" aria-label="Walking distance" />
+          <.icon name="person-walking" class="h-4 w-4" aria-label={~t("Walking distance")} />
           {@distance}
         </div>
         <div :if={@price != ""} class="inline-flex items-center gap-0.5">
@@ -98,14 +103,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   defp leg_icon(%{routes: [], walk_minutes: _} = assigns) do
     ~H"""
     <span
-      aria-label={"#{@walk_minutes} minute walk"}
+      aria-label={"#{@walk_minutes}" <> ~t" minute walk"}
       class={[
         "flex items-center gap-1 text-sm font-semibold leading-none whitespace-nowrap py-1 px-2 rounded-full border-[1px] border-gray-light",
         @class
       ]}
     >
       <.icon name="person-walking" class="h-4 w-4" aria-hidden="true" />
-      <span aria-hidden="true">{@walk_minutes} min</span>
+      <span aria-hidden="true">{minutes_to_localized_minutes(@walk_minutes)}</span>
     </span>
     """
   end
