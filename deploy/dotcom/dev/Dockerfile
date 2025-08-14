@@ -21,4 +21,4 @@ RUN mix deps.get
 RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
-CMD mix mbta_metro.update_assets && elixir --name $NAME --cookie foobarbaz -S mix phx.server
+CMD mix deps.get && elixir --name $NAME --cookie foobarbaz -S mix phx.server
