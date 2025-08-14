@@ -279,4 +279,9 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
       unit
     end
   end
+
+  def tag_name(:earliest_arrival), do: ~t(Earliest Arrival)
+  def tag_name(:least_walking), do: ~t(Least Walking)
+  def tag_name(:most_direct), do: ~t(Most Direct)
+  def tag_name(:shortest_trip), do: ~t(Shortest Trip)
 end
