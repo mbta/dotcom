@@ -78,10 +78,6 @@ defmodule DotcomWeb.Router do
     delete("/*path", CacheController, :flush_cache_keys)
   end
 
-  scope "/cache", DotcomWeb do
-    get("/*path", CacheController, :get_cache_values)
-  end
-
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
   scope "/", DotcomWeb, host: "t." do
     # no pipe
