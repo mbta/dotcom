@@ -29,6 +29,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:2
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:3
+#: lib/dotcom_web/views/layout_view.ex:113
 #, elixir-autogen, elixir-format
 msgid "Most popular fares"
 msgstr ""
@@ -57,6 +58,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:12
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:30
+#: lib/dotcom_web/views/layout_view.ex:142
 #, elixir-autogen, elixir-format
 msgid "Emergency Contacts"
 msgstr ""
@@ -89,11 +91,13 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:15
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:33
+#: lib/dotcom_web/views/layout_view.ex:134
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:83
+#: lib/dotcom_web/views/layout_view.ex:171
 #, elixir-autogen, elixir-format
 msgid "Business Opportunities"
 msgstr ""
@@ -105,12 +109,14 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:74
 #: lib/dotcom_web/templates/page/_important_links.html.heex:31
+#: lib/dotcom_web/views/layout_view.ex:169
 #, elixir-autogen, elixir-format
 msgid "Careers"
 msgstr ""
 
 #: lib/dotcom_web/templates/customer_support/index.html.heex:3
 #: lib/dotcom_web/templates/layout/_footer.html.heex:15
+#: lib/dotcom_web/views/layout_view.ex:121
 #, elixir-autogen, elixir-format
 msgid "Customer Support"
 msgstr ""
@@ -121,47 +127,56 @@ msgid "Developers"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:91
+#: lib/dotcom_web/views/layout_view.ex:173
 #, elixir-autogen, elixir-format
 msgid "Engineering Design Standards"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:49
+#: lib/dotcom_web/views/layout_view.ex:156
 #, elixir-autogen, elixir-format
 msgid "Financials"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:38
+#: lib/dotcom_web/views/layout_view.ex:151
 #, elixir-autogen, elixir-format
 msgid "Get to Know Us"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:44
+#: lib/dotcom_web/views/layout_view.ex:155
 #, elixir-autogen, elixir-format
 msgid "History"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:87
+#: lib/dotcom_web/views/layout_view.ex:172
 #, elixir-autogen, elixir-format
 msgid "Innovation Proposals"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:79
+#: lib/dotcom_web/views/layout_view.ex:170
 #, elixir-autogen, elixir-format
 msgid "Institutional Sales"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:32
+#: lib/dotcom_web/views/layout_view.ex:130
 #, elixir-autogen, elixir-format
 msgid "Language Services"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:39
 #: lib/dotcom_web/templates/page/_important_links.html.heex:15
+#: lib/dotcom_web/views/layout_view.ex:154
 #, elixir-autogen, elixir-format
 msgid "Leadership"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:21
+#: lib/dotcom_web/views/layout_view.ex:129
 #, elixir-autogen, elixir-format
 msgid "Lost & Found"
 msgstr ""
@@ -188,6 +203,7 @@ msgid "Performance"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:64
+#: lib/dotcom_web/views/layout_view.ex:160
 #, elixir-autogen, elixir-format
 msgid "Policies & Civil Rights"
 msgstr ""
@@ -203,22 +219,26 @@ msgid "Privacy Policy"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:54
+#: lib/dotcom_web/views/layout_view.ex:157
 #, elixir-autogen, elixir-format
 msgid "Public Meetings"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:26
+#: lib/dotcom_web/views/layout_view.ex:126
 #, elixir-autogen, elixir-format
 msgid "Request Public Records"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:69
+#: lib/dotcom_web/views/layout_view.ex:161
 #, elixir-autogen, elixir-format
 msgid "Safety"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:16
 #: lib/dotcom_web/templates/page/_contact_us.html.heex:14
+#: lib/dotcom_web/views/layout_view.ex:123
 #, elixir-autogen, elixir-format
 msgid "Send Us Feedback"
 msgstr ""
@@ -325,11 +345,13 @@ msgid "Contact Us"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_contact_us.html.heex:24
+#: lib/dotcom_web/views/layout_view.ex:136
 #, elixir-autogen, elixir-format
 msgid "MBTA Transit Police"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex:4
+#: lib/dotcom_web/views/layout_view.ex:71
 #, elixir-autogen, elixir-format
 msgid "Find a Location"
 msgstr ""
@@ -337,6 +359,7 @@ msgstr ""
 #: lib/dotcom_web/templates/mode/hub.html.heex:27
 #: lib/dotcom_web/templates/mode/index.html.heex:34
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex:24
+#: lib/dotcom_web/views/layout_view.ex:75
 #, elixir-autogen, elixir-format
 msgid "Maps"
 msgstr ""
@@ -357,6 +380,7 @@ msgid "Upcoming Public Meetings and Events"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex:7
+#: lib/dotcom_web/views/layout_view.ex:67
 #, elixir-autogen, elixir-format
 msgid "Accessibility"
 msgstr ""
@@ -377,11 +401,13 @@ msgid "Important Links"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex:63
+#: lib/dotcom_web/views/layout_view.ex:63
 #, elixir-autogen, elixir-format
 msgid "Parking"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex:47
+#: lib/dotcom_web/views/layout_view.ex:180
 #, elixir-autogen, elixir-format
 msgid "Sustainability"
 msgstr ""
@@ -399,6 +425,7 @@ msgid "Routes"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:32
+#: lib/dotcom_web/views/layout_view.ex:60
 #, elixir-autogen, elixir-format
 msgid "Trip Planner"
 msgstr ""
@@ -891,6 +918,7 @@ msgid "Report suspected fraud, waste, or abuse"
 msgstr ""
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:4
+#: lib/dotcom_web/views/layout_view.ex:109
 #, elixir-autogen, elixir-format
 msgid "Retail Sales Locations"
 msgstr ""
@@ -901,6 +929,7 @@ msgid "Search the MBTA"
 msgstr ""
 
 #: lib/dotcom_web/templates/customer_support/_transit_police.html.heex:12
+#: lib/dotcom_web/views/layout_view.ex:137
 #, elixir-autogen, elixir-format
 msgid "See Something, Say Something"
 msgstr ""
@@ -1179,6 +1208,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/mode/hub.html.heex:33
 #: lib/dotcom_web/templates/mode/index.html.heex:37
+#: lib/dotcom_web/views/layout_view.ex:81
 #, elixir-autogen, elixir-format
 msgid "Fares"
 msgstr ""
@@ -1216,6 +1246,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:29
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:89
+#: lib/dotcom_web/views/layout_view.ex:66
 #, elixir-autogen, elixir-format
 msgid "Holidays"
 msgstr ""
@@ -1977,6 +2008,7 @@ msgstr ""
 msgid "Student CharlieCard"
 msgstr ""
 
+#: lib/dotcom_web/views/layout_view.ex:49
 #: lib/fares/format.ex:84
 #, elixir-autogen, elixir-format
 msgid "Subway"
@@ -2065,6 +2097,7 @@ msgid "or"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:59
+#: lib/dotcom_web/views/layout_view.ex:158
 #, elixir-autogen, elixir-format
 msgid "Media Relations"
 msgstr ""
@@ -2086,6 +2119,7 @@ msgid "Hide"
 msgstr ""
 
 #: lib/dotcom_web/templates/stop/index.html.heex:6
+#: lib/dotcom_web/views/layout_view.ex:73
 #, elixir-autogen, elixir-format
 msgid "MBTA Stations"
 msgstr ""
@@ -2120,4 +2154,219 @@ msgstr ""
 #: lib/dotcom_web/templates/stop/index.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "stops"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:147
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:186
+#, elixir-autogen, elixir-format
+msgid "All MBTA Improvement Projects"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:54
+#, elixir-autogen, elixir-format
+msgid "All Schedules & Maps"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:185
+#, elixir-autogen, elixir-format
+msgid "Better Bus Project"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:64
+#, elixir-autogen, elixir-format
+msgid "Bikes"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:50
+#, elixir-autogen, elixir-format
+msgid "Bus"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:97
+#, elixir-autogen, elixir-format
+msgid "Bus Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:181
+#, elixir-autogen, elixir-format
+msgid "Capital Transformation"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:105
+#, elixir-autogen, elixir-format
+msgid "Charlie Service Center"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:51
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:98
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:183
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Positive Train Control"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:117
+#, elixir-autogen, elixir-format
+msgid "Contact"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:143
+#, elixir-autogen, elixir-format
+msgid "Contact numbers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:74
+#, elixir-autogen, elixir-format
+msgid "Destinations"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:90
+#, elixir-autogen, elixir-format
+msgid "Fare Transformation"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:85
+#, elixir-autogen, elixir-format
+msgid "Fares Info"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:87
+#, elixir-autogen, elixir-format
+msgid "Fares Overview"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:52
+#, elixir-autogen, elixir-format
+msgid "Ferry"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:99
+#, elixir-autogen, elixir-format
+msgid "Ferry Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:108
+#, elixir-autogen, elixir-format
+msgid "Get a CharlieCard"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:159
+#, elixir-autogen, elixir-format
+msgid "MBTA Gift Shop"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:47
+#, elixir-autogen, elixir-format
+msgid "Modes of Transit"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:230
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:107
+#, elixir-autogen, elixir-format
+msgid "Order Monthly Passes"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:178
+#, elixir-autogen, elixir-format
+msgid "Our Work"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:153
+#, elixir-autogen, elixir-format
+msgid "Overview"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:235
+#, elixir-autogen, elixir-format
+msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:53
+#, elixir-autogen, elixir-format
+msgid "Paratransit (The RIDE)"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:58
+#, elixir-autogen, elixir-format
+msgid "Plan Your Journey"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:162
+#, elixir-autogen, elixir-format
+msgid "Quality, Compliance & Oversight"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:88
+#, elixir-autogen, elixir-format
+msgid "Reduced Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:61
+#, elixir-autogen, elixir-format
+msgid "Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:62
+#, elixir-autogen, elixir-format
+msgid "Sign Up for Service Alerts"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:106
+#, elixir-autogen, elixir-format
+msgid "Sign up for Auto-pay"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:96
+#, elixir-autogen, elixir-format
+msgid "Subway Fares"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:89
+#, elixir-autogen, elixir-format
+msgid "Transfers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:43
+#, elixir-autogen, elixir-format
+msgid "Transit"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:65
+#, elixir-autogen, elixir-format
+msgid "User Guides"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:124
+#, elixir-autogen, elixir-format
+msgid "View All Contact Numbers"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:167
+#, elixir-autogen, elixir-format
+msgid "Work with Us"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:94
+#, elixir-autogen, elixir-format
+msgid "Fares by Mode"
+msgstr ""
+
+#: lib/dotcom_web/views/layout_view.ex:103
+#, elixir-autogen, elixir-format
+msgid "Pay Your Fare"
 msgstr ""
