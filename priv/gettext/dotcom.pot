@@ -1409,7 +1409,6 @@ msgid "Schedules"
 msgstr ""
 
 #: lib/dotcom_web/controllers/search_controller.ex:181
-#: lib/dotcom_web/controllers/search_controller.ex:181
 #: lib/dotcom_web/templates/search/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Search"
@@ -1748,13 +1747,11 @@ msgid "Stops"
 msgstr ""
 
 #: lib/dotcom_web/controllers/vote_controller.ex:56
-#: lib/dotcom_web/controllers/vote_controller.ex:56
 #: lib/dotcom_web/templates/vote/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Take the T to Vote"
 msgstr ""
 
-#: lib/dotcom_web/controllers/vote_controller.ex:73
 #: lib/dotcom_web/controllers/vote_controller.ex:73
 #: lib/dotcom_web/templates/vote/show.html.heex:15
 #, elixir-autogen, elixir-format
@@ -2080,14 +2077,11 @@ msgid "There are no other subway alerts at this time."
 msgstr ""
 
 #: lib/dotcom_web/controllers/project_controller.ex:105
-#: lib/dotcom_web/controllers/project_controller.ex:105
-#: lib/dotcom_web/controllers/project_controller.ex:146
 #: lib/dotcom_web/controllers/project_controller.ex:146
 #, elixir-autogen, elixir-format
 msgid "Updates"
 msgstr ""
 
-#: lib/dotcom_web/controllers/vote_controller.ex:64
 #: lib/dotcom_web/controllers/vote_controller.ex:64
 #, elixir-autogen, elixir-format
 msgid "Vote"
