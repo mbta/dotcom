@@ -50,6 +50,13 @@ config :dotcom, tile_server_url: tile_server_url
 
 config :elixir, ansi_enabled: true
 
+config :ex_cldr,
+  default_locale: "en",
+  default_backend: Dotcom.Cldr
+
+config :ex_cldr_units,
+  default_backend: Dotcom.Cldr
+
 config :mbta_metro, custom_icons: ["#{File.cwd!()}/priv/static/icon-svg/*"]
 
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do

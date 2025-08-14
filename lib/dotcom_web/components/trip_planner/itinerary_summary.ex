@@ -10,14 +10,16 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   import Dotcom.TripPlan.Helpers,
     only: [
       agency_name?: 2,
-      itinerary_distance_miles: 1,
-      itinerary_duration_minutes: 1,
       mbta_shuttle?: 1,
       route_line_name: 1,
       route_name: 1
     ]
 
   import Dotcom.TripPlan.Fares, only: [fare: 1]
+
+  import DotcomWeb.Components.TripPlanner.Helpers,
+    only: [meters_to_localized_miles: 1, seconds_to_localized_minutes: 1]
+
   import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1, stacked_route_icon: 1]
 
   alias OpenTripPlannerClient.Schema.{Itinerary, Route}
@@ -35,8 +37,14 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       |> assign(
         :duration,
         assigns.itinerary
-        |> itinerary_duration_minutes()
-        |> Util.format_minutes_duration()
+        |> Map.get(:duration)
+        |> seconds_to_localized_minutes()
+      )
+      |> assign(
+        :distance,
+        assigns.itinerary
+        |> Map.get(:walk_distance)
+        |> meters_to_localized_miles()
       )
       |> assign(:accessible?, Itinerary.accessible?(assigns.itinerary))
       |> assign_new(:summarized_legs, fn -> Itinerary.summary(assigns.itinerary) end)
@@ -70,7 +78,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         </div>
         <div class="inline-flex items-center gap-0.5">
           <.icon name="person-walking" class="h-4 w-4" aria-label="Walking distance" />
-          {itinerary_distance_miles(@itinerary)} mi
+          {@distance}
         </div>
         <div :if={@price != ""} class="inline-flex items-center gap-0.5">
           <.icon name="circle" class="h-0.5 w-0.5 mx-1" aria-hidden />

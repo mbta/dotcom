@@ -8,6 +8,10 @@ defmodule DotcomWeb.Live.TripPlanner do
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.TripPlanner.{InputForm, Results, ResultsSummary}
+
+  import DotcomWeb.Components.TripPlanner.Helpers,
+    only: [fallback_error_message: 0, error_message: 1]
+
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
 
   alias Dotcom.TripPlan
@@ -147,36 +151,19 @@ defmodule DotcomWeb.Live.TripPlanner do
         {:ok, {:error, %Req.TransportError{reason: _reason}}},
         socket
       ) do
-    message =
-      Application.get_env(
-        :open_trip_planner_client,
-        :fallback_error_message,
-        "Cannot connect to OpenTripPlanner. Please try again later."
-      )
-
-    {:noreply, handle_get_itinerary_groups_error(socket, message)}
+    {:noreply, handle_get_itinerary_groups_error(socket, fallback_error_message())}
   end
 
   @impl true
   # Triggered by OTP errors, we combine them into a single error message and add it to the results state.
   def handle_async("get_itinerary_groups", {:ok, {:error, error}}, socket) do
-    new_socket =
-      if is_list(error) do
-        handle_get_itinerary_groups_error(
-          socket,
-          Enum.map_join(error, ", ", &Map.get(&1, :message))
-        )
-      else
-        handle_get_itinerary_groups_error(socket, error)
-      end
-
-    {:noreply, new_socket}
+    {:noreply, handle_get_itinerary_groups_error(socket, error_message(error))}
   end
 
   @impl true
   # Triggered when the async operation fails, we add the error to the results state.
-  def handle_async("get_itinerary_groups", {:exit, reason}, socket) do
-    {:noreply, handle_get_itinerary_groups_error(socket, reason)}
+  def handle_async("get_itinerary_groups", {:exit, _reason}, socket) do
+    {:noreply, handle_get_itinerary_groups_error(socket, fallback_error_message())}
   end
 
   @impl true

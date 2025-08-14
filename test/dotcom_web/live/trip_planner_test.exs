@@ -267,11 +267,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
 
       document = render_async(view)
 
-      assert document =~
-               Application.get_env(
-                 :open_trip_planner_client,
-                 :fallback_error_message
-               )
+      assert document =~ DotcomWeb.Components.TripPlanner.Helpers.fallback_error_message()
     end
 
     test "an OTP error shows up as an error message", %{view: view} do
@@ -279,7 +275,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       error = Faker.Company.bullshit()
 
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
-        {:error, [%{message: error}]}
+        {:error, error}
       end)
 
       # Exercise
@@ -289,7 +285,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       document = render_async(view) |> Floki.parse_document!()
       text = document |> Floki.find("span[data-test='results-summary:error']") |> Floki.text()
 
-      assert text == error
+      assert text =~ error
     end
   end
 

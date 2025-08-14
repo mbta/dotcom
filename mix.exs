@@ -97,6 +97,9 @@ defmodule DotCom.Mixfile do
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.42.0"},
+      {:ex_cldr_dates_times, "2.22.0"},
+      {:ex_cldr_lists, "2.11.1"},
+      {:ex_cldr_units, "3.19.0"},
       {:ex_doc, "0.38.2", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
@@ -123,7 +126,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.16.0"]
+        [github: "mbta/open_trip_planner_client", branch: "cbj/error-atom"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.7.21"},
