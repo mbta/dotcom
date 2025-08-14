@@ -17,6 +17,7 @@ defmodule CMS.Repo do
   alias CMS.Partial.{
     Banner,
     Paragraph,
+    Photo,
     RoutePdf,
     Teaser,
     WhatsHappeningItem
@@ -130,6 +131,27 @@ defmodule CMS.Repo do
   def do_banner do
     case @cms_api.view("/cms/important-notices", []) do
       {:ok, [api_data | _]} -> Banner.from_api(api_data)
+      {:ok, _} -> :empty
+      {:error, _} -> :error
+    end
+  end
+
+  @spec photo() :: Photo.t() | nil
+  def photo do
+    cached_value = do_photo()
+
+    if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              key: "cms.repo|photos",
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
+  def do_photo do
+    case @cms_api.view("/cms/photos", []) do
+      {:ok, [api_data | _]} -> Photo.from_api(api_data)
       {:ok, _} -> :empty
       {:error, _} -> :error
     end
