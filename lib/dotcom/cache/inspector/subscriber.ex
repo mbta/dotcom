@@ -1,4 +1,4 @@
-defmodule Dotcom.Cache.Get.Subscriber do
+defmodule Dotcom.Cache.Inspector.Subscriber do
   @moduledoc """
   Every node runs a subscriber.
 

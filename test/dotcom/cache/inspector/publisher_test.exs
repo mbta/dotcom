@@ -1,7 +1,7 @@
-defmodule Dotcom.Cache.Get.PublisherTest do
+defmodule Dotcom.Cache.Inspector.PublisherTest do
   use ExUnit.Case, async: true
 
-  import Dotcom.Cache.Get.Publisher, only: [handle_call: 3]
+  import Dotcom.Cache.Inspector.Publisher, only: [handle_call: 3]
 
   describe "handle_call/3" do
     test "when no values are returned, we indicate the value is gone" do

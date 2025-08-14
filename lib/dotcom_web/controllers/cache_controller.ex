@@ -32,7 +32,7 @@ defmodule DotcomWeb.CacheController do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
     key = Enum.join(path, "|")
 
-    case GenServer.start_link(Dotcom.Cache.Get.Publisher, uuid, name: uuid) do
+    case GenServer.start_link(Dotcom.Cache.Inspector.Publisher, uuid, name: uuid) do
       {:ok, _} ->
         GenServer.cast(uuid, {:load, key})
 
@@ -97,7 +97,7 @@ defmodule DotcomWeb.CacheController do
     def diff(assigns) do
       ~H"""
       <link
-        href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/atelier-estuary.light.css"
+        href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/color-brewer.css"
         rel="stylesheet"
       />
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js">
@@ -105,7 +105,7 @@ defmodule DotcomWeb.CacheController do
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/elixir.min.js">
       </script>
       <div style="width: 100%; max-width: 100%;">
-        <pre><code  style={"background-color: #{color(@status)}; color: white;"}>{@key}</code></pre>
+        <pre><code  style={"background-color: #{color(@status)}; color: white;"}>{status_string(@status)}: {@key}</code></pre>
         <pre :for={value <- @values} style="white-space: pre-wrap; word-wrap: break-word;">
           <code class="language-elixir">{value}</code>
         </pre>
@@ -121,5 +121,12 @@ defmodule DotcomWeb.CacheController do
     defp color(:conflict), do: "red"
 
     defp color(:gone), do: "grey"
+
+    defp status_string(status) do
+      status
+      |> Atom.to_string()
+      |> Recase.to_title()
+      |> String.upcase()
+    end
   end
 end

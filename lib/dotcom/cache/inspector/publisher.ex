@@ -1,5 +1,5 @@
 # credo:disable-for-this-file Credo.Check.Refactor.Nesting
-defmodule Dotcom.Cache.Get.Publisher do
+defmodule Dotcom.Cache.Inspector.Publisher do
   @moduledoc """
   A GenServer that allows us to inspect values across all cache nodes.
 
