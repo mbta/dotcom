@@ -45,13 +45,14 @@ defmodule CMS.Api do
 
   defp handle_response({:error, reason}), do: {:error, reason}
 
-  defp client(headers \\ []) do
+  def client(headers \\ []) do
     config = Application.get_env(:dotcom, :cms_api)
 
     @req.new(
       base_url: config[:base_url],
       headers: config[:headers] ++ headers,
-      finch: Dotcom.Finch
+      finch: if(is_nil(config[:connect_options]), do: Dotcom.Finch),
+      connect_options: config[:connect_options]
     )
   end
 
