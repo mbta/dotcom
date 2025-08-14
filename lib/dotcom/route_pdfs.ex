@@ -8,8 +8,7 @@ defmodule Dotcom.RoutePdfs do
   @spec fetch_and_choose_pdfs(String.t(), Date.t()) :: [RoutePdf.t()]
   def fetch_and_choose_pdfs(route_id, date) do
     route_id
-    |> Repo.get_route_pdfs()
-    |> Enum.concat(Repo.get_schedule_pdfs(route_id))
+    |> Repo.get_schedule_pdfs()
     |> choose_pdfs(date)
   end
 
