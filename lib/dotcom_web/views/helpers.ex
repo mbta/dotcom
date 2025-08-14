@@ -581,12 +581,13 @@ defmodule DotcomWeb.ViewHelpers do
   @spec static_attributes(String.t()) :: map()
   def static_attributes(path) do
     {static_path, static_integrity} = DotcomWeb.Endpoint.static_lookup(path)
+    static_url = DotcomWeb.Endpoint.static_url() <> static_path
     href_or_src = if(String.starts_with?(path, "/css"), do: :href, else: :src)
 
     %{
       integrity: static_integrity,
       crossorigin: "anonymous"
     }
-    |> Map.put(href_or_src, static_path)
+    |> Map.put(href_or_src, static_url)
   end
 end
