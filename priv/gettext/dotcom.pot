@@ -1409,6 +1409,7 @@ msgid "Schedules"
 msgstr ""
 
 #: lib/dotcom_web/controllers/search_controller.ex:181
+#: lib/dotcom_web/controllers/search_controller.ex:181
 #: lib/dotcom_web/templates/search/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Search"
@@ -1625,6 +1626,7 @@ msgstr ""
 msgid "at this time"
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/helpers.ex:207
 #: lib/dotcom_web/templates/search/index-nojs.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -1746,11 +1748,13 @@ msgid "Stops"
 msgstr ""
 
 #: lib/dotcom_web/controllers/vote_controller.ex:56
+#: lib/dotcom_web/controllers/vote_controller.ex:56
 #: lib/dotcom_web/templates/vote/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Take the T to Vote"
 msgstr ""
 
+#: lib/dotcom_web/controllers/vote_controller.ex:73
 #: lib/dotcom_web/controllers/vote_controller.ex:73
 #: lib/dotcom_web/templates/vote/show.html.heex:15
 #, elixir-autogen, elixir-format
@@ -2076,11 +2080,14 @@ msgid "There are no other subway alerts at this time."
 msgstr ""
 
 #: lib/dotcom_web/controllers/project_controller.ex:105
+#: lib/dotcom_web/controllers/project_controller.ex:105
+#: lib/dotcom_web/controllers/project_controller.ex:146
 #: lib/dotcom_web/controllers/project_controller.ex:146
 #, elixir-autogen, elixir-format
 msgid "Updates"
 msgstr ""
 
+#: lib/dotcom_web/controllers/vote_controller.ex:64
 #: lib/dotcom_web/controllers/vote_controller.ex:64
 #, elixir-autogen, elixir-format
 msgid "Vote"
@@ -2369,4 +2376,181 @@ msgstr ""
 #: lib/dotcom_web/views/layout_view.ex:103
 #, elixir-autogen, elixir-format
 msgid "Pay Your Fare"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:155
+#, elixir-autogen, elixir-format
+msgid " on "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:196
+#, elixir-autogen, elixir-format
+msgid "Continue"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:189
+#, elixir-autogen, elixir-format
+msgid "Depart"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:69
+#, elixir-autogen, elixir-format
+msgid "Destination location is not close enough to any transit stops"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:55
+#, elixir-autogen, elixir-format
+msgid "Destination location is outside of our service area"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:202
+#, elixir-autogen, elixir-format
+msgid "Enter the station"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:197
+#: lib/dotcom_web/components/trip_planner/helpers.ex:198
+#, elixir-autogen, elixir-format
+msgid "Enter the traffic circle"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:203
+#, elixir-autogen, elixir-format
+msgid "Exit the station"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:204
+#, elixir-autogen, elixir-format
+msgid "Follow signs"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:205
+#, elixir-autogen, elixir-format
+msgid "Go"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:192
+#, elixir-autogen, elixir-format
+msgid "Hard left"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:195
+#, elixir-autogen, elixir-format
+msgid "Hard right"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:191
+#, elixir-autogen, elixir-format
+msgid "Left"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:72
+#, elixir-autogen, elixir-format
+msgid "Location is not close enough to any transit stops"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:200
+#: lib/dotcom_web/components/trip_planner/helpers.ex:201
+#, elixir-autogen, elixir-format
+msgid "Make a U-turn"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:32
+#, elixir-autogen, elixir-format
+msgid "No transit connection was found between the origin and destination on this date and time"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:42
+#, elixir-autogen, elixir-format
+msgid "No transit routes found within 2 hours of "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:66
+#, elixir-autogen, elixir-format
+msgid "Origin location is not close enough to any transit stops"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:52
+#, elixir-autogen, elixir-format
+msgid "Origin location is outside of our service area"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:58
+#, elixir-autogen, elixir-format
+msgid "Origin or destination location is outside of our service area"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:81
+#, elixir-autogen, elixir-format
+msgid "Please try again or send us feedback at mbta.com/customer-support"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:194
+#, elixir-autogen, elixir-format
+msgid "Right"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:43
+#, elixir-autogen, elixir-format
+msgid "Routes may be available at other times."
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:109
+#, elixir-autogen, elixir-format
+msgid "Similar trip arrives at "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:106
+#, elixir-autogen, elixir-format
+msgid "Similar trip departs at "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:115
+#, elixir-autogen, elixir-format
+msgid "Similar trips arrive at "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:112
+#, elixir-autogen, elixir-format
+msgid "Similar trips depart at "
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:190
+#, elixir-autogen, elixir-format
+msgid "Slightly left"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:193
+#, elixir-autogen, elixir-format
+msgid "Slightly right"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:199
+#, elixir-autogen, elixir-format
+msgid "Take the elevator"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:176
+#, elixir-autogen, elixir-format
+msgid "Transfer"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/walking_leg.ex:34
+#, elixir-autogen, elixir-format
+msgid "Walk"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:210
+#, elixir-autogen, elixir-format
+msgid "onto"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:208
+#, elixir-autogen, elixir-format
+msgid "through"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:209
+#, elixir-autogen, elixir-format
+msgid "towards"
 msgstr ""
