@@ -189,7 +189,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
-      - run: MIX_ENV=test mix gettext.extract --check-up-to-date
+      - run: MIX_ENV=dev mix gettext.extract --check-up-to-date
 
   js_format_check:
     name: Formatting / JavaScript & TypeScript
