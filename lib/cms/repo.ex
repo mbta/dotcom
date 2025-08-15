@@ -131,7 +131,7 @@ defmodule CMS.Repo do
   def do_banner do
     case @cms_api.view("/cms/important-notices", []) do
       {:ok, [api_data | _]} -> Banner.from_api(api_data)
-      {:ok, _} -> :empty
+      {:ok, _} -> nil
       {:error, _} -> :error
     end
   end
@@ -152,7 +152,7 @@ defmodule CMS.Repo do
   def do_photo do
     case @cms_api.view("/cms/photos", []) do
       {:ok, [api_data | _]} -> Photo.from_api(api_data)
-      {:ok, _} -> :empty
+      {:ok, _} -> nil
       {:error, _} -> :error
     end
   end
