@@ -1,8 +1,8 @@
 defmodule CMS.Partial.Banner do
   @moduledoc """
 
-  Represents the "Banner" content type in the CMS. Banners are
-  displayed at the top of the homepage.
+  Represents the "Banner" aka "important_notice" content type in the CMS.
+  Banners are displayed near the top of the homepage and have text.
 
   """
 

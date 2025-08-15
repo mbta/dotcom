@@ -9,6 +9,7 @@ defmodule DotcomWeb.PageController do
   alias CMS.Partial.{
     Banner,
     Paragraph,
+    Photo,
     Teaser,
     WhatsHappeningItem
   }
@@ -23,6 +24,7 @@ defmodule DotcomWeb.PageController do
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
+    photo = photo()
     fares = fares(conn.query_params)
 
     conn
@@ -33,6 +35,7 @@ defmodule DotcomWeb.PageController do
     )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
+    |> async_assign_default(:photo, fn -> photo end)
     |> async_assign_default(:homepage_fares, fn -> fares end)
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
@@ -72,6 +75,14 @@ defmodule DotcomWeb.PageController do
     case Repo.banner() do
       nil -> nil
       banner -> add_utm_url(banner)
+    end
+  end
+
+  @spec photo :: Photo.t() | nil
+  defp photo do
+    case Repo.photo() do
+      nil -> nil
+      photo -> photo
     end
   end
 
