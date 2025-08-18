@@ -39,4 +39,6 @@ defmodule Stops.Repo.Behaviour do
 
   @callback stop_features(Stop.t()) :: [stop_feature()]
   @callback stop_features(Stop.t(), Keyword.t()) :: [stop_feature()]
+
+  @callback all() :: [Stop.t()]
 end

@@ -120,6 +120,11 @@ defmodule Stops.Repo do
     Api.by_trip(trip_id)
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  def all do
+    Api.all()
+  end
+
   @doc """
   Returns a list of the features associated with the given stop
   """
