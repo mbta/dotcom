@@ -1,0 +1,131 @@
+[
+  {
+    "nid": [
+      {
+        "value": 7544
+      }
+    ],
+    "uuid": [
+      {
+        "value": "dd4e7002-037c-40e2-ab5f-786f8df17ec9"
+      }
+    ],
+    "vid": [
+      {
+        "value": 86687
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "vanity_photo",
+        "target_type": "node_type",
+        "target_uuid": "0164d8e6-ec0b-4f76-9453-4c23024092a6"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": "2025-08-19T19:50:12+00:00",
+        "format": "Y-m-d\\TH:i:sP"
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 340,
+        "target_type": "user",
+        "target_uuid": "7867bad9-cb64-4ba6-859d-26e267196aa9",
+        "url": "/user/340"
+      }
+    ],
+    "title": [
+      {
+        "value": "East Boston Ferry"
+      }
+    ],
+    "created": [
+      {
+        "value": "2025-08-12T12:09:48+00:00",
+        "format": "Y-m-d\\TH:i:sP"
+      }
+    ],
+    "changed": [
+      {
+        "value": "2025-08-19T19:50:12+00:00",
+        "format": "Y-m-d\\TH:i:sP"
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "publish_state": [
+      {
+        "value": "_none"
+      }
+    ],
+    "unpublish_state": [
+      {
+        "value": "_none"
+      }
+    ],
+    "field_vanity_photo": [
+      {
+        "url": "https://live.pantheonsite.io/sites/default/files/styles/vanity_photo/public/photos/2025-08/2025-06-24-jackson-square-crews-prepare-platform.jpg?itok=fhWzrEeu",
+        "alt": ""
+      }
+    ]
+  }
+]

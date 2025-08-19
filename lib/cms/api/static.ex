@@ -21,6 +21,10 @@ defmodule CMS.Api.Static do
     parse_json("cms/banners.json")
   end
 
+  def photos_response do
+    parse_json("cms/photos.json")
+  end
+
   def search_response do
     parse_json("cms/search.json")
   end
@@ -308,6 +312,10 @@ defmodule CMS.Api.Static do
 
   def view("/cms/important-notices", _) do
     {:ok, banners_response()}
+  end
+
+  def view("/cms/photos", _) do
+    {:ok, photos_response()}
   end
 
   def view("/landing_page_with_all_paragraphs", _) do
