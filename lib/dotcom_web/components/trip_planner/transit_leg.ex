@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   use DotcomWeb, :component
 
+  import Alerts.Alert, only: [human_effect: 1]
   import Dotcom.TripPlan.Helpers
   import DotcomWeb.Components.TripPlanner.{Place, RouteIcons}
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -52,6 +53,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
             <summary class="flex items-start cursor-pointer">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
+                aria-hidden="true"
                 name="chevron-down"
                 class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open/stops:rotate-180"
               />
@@ -145,13 +147,23 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp transit_leg_icon(%{route: %Route{mode: :BUS}} = assigns) do
     ~H"""
-    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-stop-default" />
+    <.icon
+      type="icon-svg"
+      aria-label={~t"bus stop"}
+      class="shrink-0 h-5 w-5"
+      name="icon-stop-default"
+    />
     """
   end
 
   defp transit_leg_icon(%{} = assigns) do
     ~H"""
-    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-circle-t-default" />
+    <.icon
+      type="icon-svg"
+      aria-label={~t"station"}
+      class="shrink-0 h-5 w-5"
+      name="icon-circle-t-default"
+    />
     """
   end
 
@@ -159,13 +171,15 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     ~H"""
     <details class="group/alert">
       <summary>
-        <.icon name="triangle-exclamation" class="h-3 w-3" />
+        <.icon aria-label={~t"Alert"} name="triangle-exclamation" class="h-3 w-3" />
         <span class="text-sm">
-          {Phoenix.Naming.humanize(@alert.effect)}
+          {human_effect(@alert)}
         </span>
-        <span class="text-xs btn-link cursor-pointer group-open/alert:hidden">Show Details</span>
+        <span class="text-xs btn-link cursor-pointer group-open/alert:hidden">
+          {~t(Show Details)}
+        </span>
         <span class="text-xs btn-link cursor-pointer hidden group-open/alert:inline">
-          Hide Details
+          {~t(Hide Details)}
         </span>
       </summary>
       <div class="bg-white mt-1 px-5 py-4 text-sm">
@@ -180,6 +194,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       assigns
       |> assign(:stops_count, Enum.count(assigns.leg.intermediate_stops) + 1)
       |> assign(:headsign, headsign(assigns.leg))
+      |> assign(:ride_message, ride_message(assigns.leg))
 
     ~H"""
     <div class="flex items-start gap-sm">
@@ -189,9 +204,9 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       <div class="flex flex-col">
         <span class="font-bold">{@headsign}</span>
         <span class="text-sm">
-          <.ride_message route={@leg.route} trip={@leg.trip} />
+          {@ride_message}
           <span class="font-semibold">
-            {@stops_count} {Inflex.inflect("stop", @stops_count)}
+            {~t(1 stop | %{count} stops | #{@stops_count})p}
           </span>
         </span>
         <.alert :for={alert <- @alerts} alert={alert} />
@@ -205,7 +220,10 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     if agency_name?(route, "MBTA") do
       headsign
     else
-      route_name(route) <> " to #{Recase.to_name(headsign)}"
+      gettext("%{route_name} to %{headsign}",
+        route_name: route_name(route),
+        headsign: Recase.to_name(headsign)
+      )
     end
   end
 
@@ -216,25 +234,23 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp headsign(_), do: nil
 
-  defp ride_message(%{route: route, trip: trip} = assigns) do
-    assigns =
-      assigns
-      |> assign(:route_name, route_name(route))
-      |> assign(:train_number, if(route.mode == :RAIL, do: trip.trip_short_name))
-      |> assign(:vehicle_name, vehicle_name(route))
+  defp ride_message(%Leg{route: route, trip: trip}) do
+    route_name = route_name(route)
+    train_number = if(route.mode == :RAIL, do: trip.trip_short_name)
 
-    ~H"""
-    Ride the {@route_name} {if @train_number, do: "Train #{@train_number}", else: @vehicle_name}
-    """
+    if train_number do
+      gettext("Ride the %{route} Train %{train}", route: route_name, train: train_number)
+    else
+      gettext("Ride the %{route} %{vehicle}",
+        route: route_name,
+        vehicle: vehicle_name(route.mode)
+      )
+    end
   end
 
-  defp vehicle_name(%Route{mode: mode}) when mode in [:TRAM, :SUBWAY], do: "train"
-
-  defp vehicle_name(%Route{mode: mode}) when is_atom(mode) do
-    mode
-    |> Atom.to_string()
-    |> String.downcase()
-  end
+  defp vehicle_name(:FERRY), do: ~t"boat"
+  defp vehicle_name(:BUS), do: ~t"bus"
+  defp vehicle_name(_), do: ~t"train"
 
   defp leg_details(assigns) do
     ~H"""
@@ -243,7 +259,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         :for={stop <- @leg.intermediate_stops}
         class="inline-flex items-center gap-x-2 py-2 relative"
       >
-        <.icon name="circle" class="h-1.5 w-1.5 absolute -left-[1.3125rem] fill-white" />
+        <.icon
+          aria-hidden="true"
+          name="circle"
+          class="h-1.5 w-1.5 absolute -left-[1.3125rem] fill-white"
+        />
         {stop.name}
       </li>
     </ul>

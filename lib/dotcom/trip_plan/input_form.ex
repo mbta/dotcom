@@ -5,19 +5,12 @@ defmodule Dotcom.TripPlan.InputForm do
   At minimum, this requires two locations.
   """
 
+  use Dotcom.Gettext.Sigils
   use TypedEctoSchema
 
   import Ecto.Changeset
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
-
-  @error_messages %{
-    from: "Please select an origin location.",
-    from_to_same: "Please select a destination at a different location from the origin.",
-    modes: "Please select at least one mode of transit.",
-    datetime: "Please specify a date and time in the future or select 'Now'.",
-    to: "Please select a destination location."
-  }
 
   @primary_key false
   typed_embedded_schema do
@@ -104,7 +97,18 @@ defmodule Dotcom.TripPlan.InputForm do
     end
   end
 
-  def error_message(key), do: @error_messages[key]
+  def error_message(:from), do: ~t"Please select an origin location."
+
+  def error_message(:from_to_same),
+    do: ~t"Please select a destination at a different location from the origin."
+
+  def error_message(:modes), do: ~t"Please select at least one mode of transit."
+
+  def error_message(:datetime),
+    do: ~t"Please specify a date and time in the future or select 'Now'."
+
+  def error_message(:to), do: ~t"Please select a destination location."
+  def error_message(_), do: nil
 
   defmodule Location do
     @moduledoc """
@@ -157,6 +161,7 @@ defmodule Dotcom.TripPlan.InputForm do
     functions for rendering in forms.
     """
 
+    use Dotcom.Gettext.Sigils
     use TypedEctoSchema
 
     alias Ecto.Changeset
@@ -190,7 +195,11 @@ defmodule Dotcom.TripPlan.InputForm do
     Translates a mode atom into a short string.
     """
     @spec mode_label(PlanParams.mode_t()) :: String.t()
-    def mode_label(:RAIL), do: "Commuter rail"
+    def mode_label(:RAIL), do: ~t"Commuter Rail"
+    def mode_label(:TRAM), do: ~t"Subway"
+    def mode_label(:SUBWAY), do: ~t"Subway"
+    def mode_label(:BUS), do: ~t"Bus"
+    def mode_label(:FERRY), do: ~t"Ferry"
     def mode_label(mode), do: Phoenix.Naming.humanize(mode)
 
     @spec selected_mode_keys(__MODULE__.t()) :: [PlanParams.mode_t()]
@@ -217,16 +226,16 @@ defmodule Dotcom.TripPlan.InputForm do
       |> selected_modes()
     end
 
-    def selected_modes(%{RAIL: true, SUBWAY: true, BUS: true, FERRY: true}), do: "All modes"
+    def selected_modes(%{RAIL: true, SUBWAY: true, BUS: true, FERRY: true}), do: ~t"All modes"
 
-    def selected_modes(%{}), do: "Walking directions only"
-    def selected_modes([mode]), do: mode_name(mode) <> " Only"
+    def selected_modes(%{}), do: ~t"Walking directions only"
+    def selected_modes([mode]), do: gettext("%{mode_label} Only", mode_label: mode_label(mode))
 
-    def selected_modes([]), do: "Walking directions only"
+    def selected_modes([]), do: ~t"Walking directions only"
 
     def selected_modes(modes) do
       if fields() -- modes == [] do
-        "All modes"
+        ~t"All modes"
       else
         fields()
         |> Enum.filter(&(&1 in modes))
@@ -234,28 +243,16 @@ defmodule Dotcom.TripPlan.InputForm do
       end
     end
 
-    defp summarized_modes([]), do: "No transit modes selected"
+    defp summarized_modes([]), do: ~t"No transit modes selected"
 
     defp summarized_modes([mode1, mode2]) do
-      mode_name(mode1) <> " and " <> mode_name(mode2)
+      gettext("%{mode1} and %{mode2}", mode1: mode_label(mode1), mode2: mode_label(mode2))
     end
 
     defp summarized_modes(modes) do
       modes
-      |> Enum.map(&mode_name/1)
-      |> Enum.intersperse(", ")
-      |> List.insert_at(-2, "and ")
-      |> Enum.join("")
-    end
-
-    defp mode_name(mode) do
-      case mode do
-        :RAIL -> :commuter_rail
-        :SUBWAY -> :subway
-        :BUS -> :bus
-        :FERRY -> :ferry
-      end
-      |> DotcomWeb.ViewHelpers.mode_name()
+      |> Enum.map(&mode_label/1)
+      |> Cldr.List.to_string!()
     end
   end
 end

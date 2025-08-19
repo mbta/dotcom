@@ -116,6 +116,10 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   def group_alternatives_text(times, :end),
     do: gettext("Similar trips arrive at %{times}", times: formatted_times(times))
 
+  def formatted_currency(cents) do
+    Cldr.Number.to_string!(cents, format: :currency, currency: "USD")
+  end
+
   @doc """
   Localized, formatted time.
 
@@ -129,6 +133,21 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   """
   def formatted_time(time) do
     Cldr.Time.to_string!(time, format: :short, period: :variant)
+  end
+
+  @doc """
+  Localized, formatted time range.
+
+  ## Examples
+      iex> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 09:58:47.283999Z])
+      "9:41\u2009–\u20099:58 am"
+
+      iex> Dotcom.Cldr.put_locale("es")
+      ...> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 09:58:47.283999Z])
+      "9:41–9:58"
+  """
+  def formatted_time_range(time1, time2) do
+    Dotcom.Cldr.Time.Interval.to_string!(time1, time2, format: :medium, period: :variant)
   end
 
   def formatted_times(times) do
@@ -272,6 +291,11 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
     |> Cldr.Unit.to_string!(style: :short)
   end
 
+  def minutes_to_localized_minutes(minutes) do
+    Cldr.Unit.new!(:minute, minutes)
+    |> Cldr.Unit.to_string!(style: :short)
+  end
+
   defp at_least(unit, min_value) do
     if Cldr.Unit.zero?(unit) do
       %{unit | value: min_value}
@@ -279,4 +303,9 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
       unit
     end
   end
+
+  def tag_name(:earliest_arrival), do: ~t(Earliest Arrival)
+  def tag_name(:least_walking), do: ~t(Least Walking)
+  def tag_name(:most_direct), do: ~t(Most Direct)
+  def tag_name(:shortest_trip), do: ~t(Shortest Trip)
 end

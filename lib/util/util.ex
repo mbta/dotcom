@@ -162,27 +162,6 @@ defmodule Util do
   end
 
   @doc """
-
-  Provides a user-friendly display of time based on the "kitchen"
-  format, but with am/pm instead of AM/PM.
-
-  ## Examples
-      iex> Util.kitchen_downcase_time(~T[08:30:00])
-      "8:30am"
-
-      iex> Util.kitchen_downcase_time(~T[20:30:00])
-      "8:30pm"
-
-      # Works for DateTime and NaiveDateTime inputs as well
-      iex> Util.kitchen_downcase_time(~N[2018-01-17T20:30:00])
-      "8:30pm"
-  """
-  @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
-  def kitchen_downcase_time(time) do
-    time |> Timex.format!("{kitchen}") |> String.downcase()
-  end
-
-  @doc """
   A very concise representation of time, with period (AM/PM).
 
   ## Examples

@@ -16,7 +16,7 @@ defmodule Fares.Format do
   def price(%Fare{cents: +0.0}), do: ~t"Free"
   def price(%Fare{cents: cents}), do: price(cents)
   def price(0), do: ~t"Free"
-  def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
+  def price(cents), do: (cents / 100) |> Cldr.Number.to_string!(currency: "USD")
 
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t() | [Fare.media()] | Fare.media()) :: iodata
