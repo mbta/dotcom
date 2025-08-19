@@ -354,6 +354,9 @@ msgstr "Audiencia integrada"
 msgid "Whoops! An error occurred."
 msgstr "¡Vaya! Se produjo un error."
 
+msgid "minutes"
+msgstr "minutos"
+
 msgid "Learn more about seat availability trends"
 msgstr "Más información sobre las tendencias de disponibilidad de asientos"
 

@@ -138,7 +138,7 @@ defmodule DotCom.Mixfile do
       {:plug_cowboy, "2.7.4"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
-      {:progress_bar, "3.0.0", only: [:dev, :test]},
+      {:progress_bar, "3.0.0"},
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.5.0"},
       {:quixir, "0.9.3", [only: :test]},
