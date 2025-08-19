@@ -58,6 +58,16 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   @doc """
+  Get all keys in all nodes.
+  """
+  def get_all_keys() do
+    case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
+      {:ok, conn} -> get_keys_from_nodes(conn)
+      {:error, _} -> :error
+    end
+  end
+
+  @doc """
   Delete all entries where the key matches the pattern.
 
   First, we make sure we can get a connection to Redis.
@@ -119,6 +129,15 @@ defmodule Dotcom.Cache.Multilevel do
     end
   end
 
+  defp get_keys_from_nodes(conn) do
+    keys =
+      conn
+      |> stream_keys("*")
+      |> grouped_keys()
+
+    {@redix.stop(conn), keys}
+  end
+
   defp get_nodes(conn) do
     case @redix.command(conn, ["CLUSTER", "SLOTS"]) do
       {:ok, slots} ->
@@ -130,6 +149,34 @@ defmodule Dotcom.Cache.Multilevel do
       {:error, _} ->
         []
     end
+  end
+
+  def group(list) do
+    list
+    |> Enum.group_by(&List.first/1, fn l -> l |> Kernel.tl() |> List.flatten() end)
+    |> Enum.reduce(%{}, fn {k, v}, acc ->
+      if has_no_list?(v) do
+        current = Map.get(acc, k, [])
+        new = List.flatten(v)
+
+        if new === [] do
+          acc
+        else
+          Map.put(acc, k, current ++ new)
+        end
+      else
+        Map.put(acc, k, group(v))
+      end
+    end)
+  end
+
+  defp grouped_keys(stream) do
+    stream
+    |> Enum.to_list()
+    |> List.flatten()
+    |> Enum.map(&String.split(&1, "|"))
+    |> Enum.map(&to_list_list/1)
+    |> group()
   end
 
   defp scan_for_keys(conn, pattern, cursor) do
@@ -144,5 +191,22 @@ defmodule Dotcom.Cache.Multilevel do
       :stop -> nil
       cursor -> scan_for_keys(conn, pattern, cursor)
     end)
+  end
+
+  defp has_no_list?(list) do
+    list
+    |> Enum.filter(&Kernel.is_list/1)
+    |> Enum.map(&Kernel.length/1)
+    |> Enum.reject(&Kernel.<(&1, 2))
+    |> Kernel.length()
+    |> Kernel.<(1)
+  end
+
+  defp to_list_list([last | []]) do
+    last
+  end
+
+  defp to_list_list([first | rest]) do
+    [first, to_list_list(rest)]
   end
 end
