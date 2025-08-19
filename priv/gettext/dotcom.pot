@@ -501,11 +501,13 @@ msgstr ""
 msgid "Ended"
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/input_form.ex:60
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Enter a destination location"
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/input_form.ex:41
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Enter an origin location"
@@ -694,6 +696,7 @@ msgstr ""
 msgid "Emergency"
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/input_form.ex:127
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:29
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:14
 #, elixir-autogen, elixir-format
@@ -1095,6 +1098,7 @@ msgstr ""
 msgid " to stop."
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:77
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex:166
 #, elixir-autogen, elixir-format
 msgid "Accessible"
@@ -1330,6 +1334,7 @@ msgstr ""
 msgid "No upcoming holidays"
 msgstr ""
 
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:80
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex:176
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
@@ -1526,6 +1531,7 @@ msgstr ""
 msgid "Track Boarding Change"
 msgstr ""
 
+#: lib/alerts/alert.ex:227
 #: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:10
 #, elixir-autogen, elixir-format
 msgid "Track Change"
@@ -1626,7 +1632,7 @@ msgstr ""
 msgid "at this time"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:209
+#: lib/dotcom_web/components/trip_planner/helpers.ex:228
 #: lib/dotcom_web/templates/search/index-nojs.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -1996,6 +2002,7 @@ msgstr ""
 msgid "Senior CharlieCard or TAP ID"
 msgstr ""
 
+#: lib/alerts/alert.ex:229
 #: lib/fares/format.ex:100
 #: lib/fares/format.ex:109
 #, elixir-autogen, elixir-format
@@ -2012,6 +2019,8 @@ msgstr ""
 msgid "Student CharlieCard"
 msgstr ""
 
+#: lib/dotcom/trip_plan/input_form.ex:199
+#: lib/dotcom/trip_plan/input_form.ex:200
 #: lib/dotcom_web/views/layout_view.ex:49
 #: lib/fares/format.ex:84
 #, elixir-autogen, elixir-format
@@ -2188,6 +2197,7 @@ msgstr ""
 msgid "Bikes"
 msgstr ""
 
+#: lib/dotcom/trip_plan/input_form.ex:201
 #: lib/dotcom_web/views/layout_view.ex:50
 #, elixir-autogen, elixir-format
 msgid "Bus"
@@ -2208,6 +2218,7 @@ msgstr ""
 msgid "Charlie Service Center"
 msgstr ""
 
+#: lib/dotcom/trip_plan/input_form.ex:198
 #: lib/dotcom_web/views/layout_view.ex:51
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail"
@@ -2253,6 +2264,7 @@ msgstr ""
 msgid "Fares Overview"
 msgstr ""
 
+#: lib/dotcom/trip_plan/input_form.ex:202
 #: lib/dotcom_web/views/layout_view.ex:52
 #, elixir-autogen, elixir-format
 msgid "Ferry"
@@ -2378,12 +2390,12 @@ msgstr ""
 msgid "Pay Your Fare"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:198
+#: lib/dotcom_web/components/trip_planner/helpers.ex:217
 #, elixir-autogen, elixir-format
 msgid "Continue"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:191
+#: lib/dotcom_web/components/trip_planner/helpers.ex:210
 #, elixir-autogen, elixir-format
 msgid "Depart"
 msgstr ""
@@ -2398,43 +2410,43 @@ msgstr ""
 msgid "Destination location is outside of our service area"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:204
+#: lib/dotcom_web/components/trip_planner/helpers.ex:223
 #, elixir-autogen, elixir-format
 msgid "Enter the station"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:199
-#: lib/dotcom_web/components/trip_planner/helpers.ex:200
+#: lib/dotcom_web/components/trip_planner/helpers.ex:218
+#: lib/dotcom_web/components/trip_planner/helpers.ex:219
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:205
+#: lib/dotcom_web/components/trip_planner/helpers.ex:224
 #, elixir-autogen, elixir-format
 msgid "Exit the station"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:206
+#: lib/dotcom_web/components/trip_planner/helpers.ex:225
 #, elixir-autogen, elixir-format
 msgid "Follow signs"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:207
+#: lib/dotcom_web/components/trip_planner/helpers.ex:226
 #, elixir-autogen, elixir-format
 msgid "Go"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:194
+#: lib/dotcom_web/components/trip_planner/helpers.ex:213
 #, elixir-autogen, elixir-format
 msgid "Hard left"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:197
+#: lib/dotcom_web/components/trip_planner/helpers.ex:216
 #, elixir-autogen, elixir-format
 msgid "Hard right"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:193
+#: lib/dotcom_web/components/trip_planner/helpers.ex:212
 #, elixir-autogen, elixir-format
 msgid "Left"
 msgstr ""
@@ -2444,8 +2456,8 @@ msgstr ""
 msgid "Location is not close enough to any transit stops"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:202
-#: lib/dotcom_web/components/trip_planner/helpers.ex:203
+#: lib/dotcom_web/components/trip_planner/helpers.ex:221
+#: lib/dotcom_web/components/trip_planner/helpers.ex:222
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn"
 msgstr ""
@@ -2475,27 +2487,27 @@ msgstr ""
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:196
+#: lib/dotcom_web/components/trip_planner/helpers.ex:215
 #, elixir-autogen, elixir-format
 msgid "Right"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:192
+#: lib/dotcom_web/components/trip_planner/helpers.ex:211
 #, elixir-autogen, elixir-format
 msgid "Slightly left"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:195
+#: lib/dotcom_web/components/trip_planner/helpers.ex:214
 #, elixir-autogen, elixir-format
 msgid "Slightly right"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:201
+#: lib/dotcom_web/components/trip_planner/helpers.ex:220
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:178
+#: lib/dotcom_web/components/trip_planner/helpers.ex:197
 #, elixir-autogen, elixir-format
 msgid "Transfer"
 msgstr ""
@@ -2505,22 +2517,22 @@ msgstr ""
 msgid "Walk"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:212
+#: lib/dotcom_web/components/trip_planner/helpers.ex:231
 #, elixir-autogen, elixir-format
 msgid "onto"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:210
+#: lib/dotcom_web/components/trip_planner/helpers.ex:229
 #, elixir-autogen, elixir-format
 msgid "through"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:211
+#: lib/dotcom_web/components/trip_planner/helpers.ex:230
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex:157
+#: lib/dotcom_web/components/trip_planner/helpers.ex:176
 #, elixir-autogen, elixir-format
 msgid "%{time} on %{date}"
 msgstr ""
@@ -2548,4 +2560,410 @@ msgstr ""
 #: lib/dotcom_web/components/trip_planner/helpers.ex:114
 #, elixir-autogen, elixir-format
 msgid "Similar trips depart at %{times}"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:106
+#, elixir-autogen, elixir-format
+msgid " minute walk"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:85
+#, elixir-autogen, elixir-format
+msgid "\"Walking distance\""
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:249
+#, elixir-autogen, elixir-format
+msgid "%{mode1} and %{mode2}"
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:232
+#, elixir-autogen, elixir-format
+msgid "%{mode_label} Only"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:223
+#, elixir-autogen, elixir-format
+msgid "%{route_name} to %{headsign}"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:130
+#, elixir-autogen, elixir-format
+msgid "1 Accessible Route"
+msgid_plural "%{count} Accessible Routes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:136
+#, elixir-autogen, elixir-format
+msgid "1 Inaccessible Route"
+msgid_plural "%{count} Inaccessible Routes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:119
+#, elixir-autogen, elixir-format
+msgid "1 Unavailable Route"
+msgid_plural "%{count} Unavailable Routes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:209
+#, elixir-autogen, elixir-format
+msgid "1 stop"
+msgid_plural "%{count} stops"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/alerts/alert.ex:241
+#, elixir-autogen, elixir-format
+msgid "Access Issue"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:174
+#, elixir-autogen, elixir-format
+msgid "Alert"
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:229
+#: lib/dotcom/trip_plan/input_form.ex:238
+#, elixir-autogen, elixir-format
+msgid "All modes"
+msgstr ""
+
+#: lib/alerts/alert.ex:223
+#, elixir-autogen, elixir-format
+msgid "Amber Alert"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:67
+#: lib/dotcom_web/components/trip_planner/results.ex:157
+#, elixir-autogen, elixir-format
+msgid "Arrive by"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:77
+#, elixir-autogen, elixir-format
+msgid "Arriving by %{time}"
+msgstr ""
+
+#: lib/alerts/alert.ex:243
+#, elixir-autogen, elixir-format
+msgid "Bike Issue"
+msgstr ""
+
+#: lib/alerts/alert.ex:224
+#, elixir-autogen, elixir-format
+msgid "Cancellation"
+msgstr ""
+
+#: lib/alerts/alert.ex:225
+#, elixir-autogen, elixir-format
+msgid "Delay"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:157
+#, elixir-autogen, elixir-format
+msgid "Depart at"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:287
+#, elixir-autogen, elixir-format
+msgid "Details"
+msgstr ""
+
+#: lib/alerts/alert.ex:228
+#, elixir-autogen, elixir-format
+msgid "Detour"
+msgstr ""
+
+#: lib/alerts/alert.ex:231
+#, elixir-autogen, elixir-format
+msgid "Dock Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:240
+#, elixir-autogen, elixir-format
+msgid "Dock Issue"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:307
+#, elixir-autogen, elixir-format
+msgid "Earliest Arrival"
+msgstr ""
+
+#: lib/alerts/alert.ex:246
+#, elixir-autogen, elixir-format
+msgid "Elevator Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:247
+#, elixir-autogen, elixir-format
+msgid "Escalator Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:234
+#, elixir-autogen, elixir-format
+msgid "Extra Service"
+msgstr ""
+
+#: lib/alerts/alert.ex:242
+#, elixir-autogen, elixir-format
+msgid "Facility Issue"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:132
+#, elixir-autogen, elixir-format
+msgid "From"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:182
+#, elixir-autogen, elixir-format
+msgid "Hide Details"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:252
+#, elixir-autogen, elixir-format
+msgid "Is this helpful? Send us feedback"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:308
+#, elixir-autogen, elixir-format
+msgid "Least Walking"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:67
+#, elixir-autogen, elixir-format
+msgid "Leave at"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:79
+#, elixir-autogen, elixir-format
+msgid "Leaving at %{time}"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:87
+#, elixir-autogen, elixir-format
+msgid "Modes"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:309
+#, elixir-autogen, elixir-format
+msgid "Most Direct"
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:246
+#, elixir-autogen, elixir-format
+msgid "No transit modes selected"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:57
+#, elixir-autogen, elixir-format
+msgid "No trips found"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:67
+#, elixir-autogen, elixir-format
+msgid "Now"
+msgstr ""
+
+#: lib/alerts/alert.ex:245
+#, elixir-autogen, elixir-format
+msgid "Parking Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:244
+#, elixir-autogen, elixir-format
+msgid "Parking Issue"
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:103
+#, elixir-autogen, elixir-format
+msgid "Please select a destination at a different location from the origin."
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:110
+#, elixir-autogen, elixir-format
+msgid "Please select a destination location."
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:100
+#, elixir-autogen, elixir-format
+msgid "Please select an origin location."
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:105
+#, elixir-autogen, elixir-format
+msgid "Please select at least one mode of transit."
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:108
+#, elixir-autogen, elixir-format
+msgid "Please specify a date and time in the future or select 'Now'."
+msgstr ""
+
+#: lib/alerts/alert.ex:248
+#, elixir-autogen, elixir-format
+msgid "Policy Change"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:110
+#, elixir-autogen, elixir-format
+msgid "Prefer accessible routes"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:244
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} %{vehicle}"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:242
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} Train %{train}"
+msgstr ""
+
+#: lib/alerts/alert.ex:235
+#, elixir-autogen, elixir-format
+msgid "Schedule Change"
+msgstr ""
+
+#: lib/alerts/alert.ex:236
+#, elixir-autogen, elixir-format
+msgid "Service Change"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:310
+#, elixir-autogen, elixir-format
+msgid "Shortest Trip"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:179
+#, elixir-autogen, elixir-format
+msgid "Show Details"
+msgstr ""
+
+#: lib/alerts/alert.ex:250
+#, elixir-autogen, elixir-format
+msgid "Single Tracking"
+msgstr ""
+
+#: lib/alerts/alert.ex:237
+#, elixir-autogen, elixir-format
+msgid "Snow Route"
+msgstr ""
+
+#: lib/alerts/alert.ex:238
+#, elixir-autogen, elixir-format
+msgid "Snow Shoveling"
+msgstr ""
+
+#: lib/alerts/alert.ex:232
+#, elixir-autogen, elixir-format
+msgid "Station Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:239
+#, elixir-autogen, elixir-format
+msgid "Station Issue"
+msgstr ""
+
+#: lib/alerts/alert.ex:230
+#, elixir-autogen, elixir-format
+msgid "Stop Closure"
+msgstr ""
+
+#: lib/alerts/alert.ex:233
+#, elixir-autogen, elixir-format
+msgid "Stop Move"
+msgstr ""
+
+#: lib/alerts/alert.ex:249
+#, elixir-autogen, elixir-format
+msgid "Summary"
+msgstr ""
+
+#: lib/alerts/alert.ex:226
+#, elixir-autogen, elixir-format
+msgid "Suspension"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:53
+#, elixir-autogen, elixir-format
+msgid "Swap origin and destination locations"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:233
+#, elixir-autogen, elixir-format
+msgid "Temporarily Unavailable"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:133
+#, elixir-autogen, elixir-format
+msgid "To"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:65
+#, elixir-autogen, elixir-format
+msgid "Trips from %{from} to %{to}"
+msgstr ""
+
+#: lib/alerts/alert.ex:251
+#, elixir-autogen, elixir-format
+msgid "Unknown"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:237
+#, elixir-autogen, elixir-format
+msgid "View Alerts"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:40
+#, elixir-autogen, elixir-format
+msgid "View All Options"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/results.ex:62
+#, elixir-autogen, elixir-format
+msgid "Waiting for results"
+msgstr ""
+
+#: lib/dotcom/trip_plan/input_form.ex:231
+#: lib/dotcom/trip_plan/input_form.ex:234
+#, elixir-autogen, elixir-format
+msgid "Walking directions only"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:63
+#, elixir-autogen, elixir-format
+msgid "When"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:251
+#, elixir-autogen, elixir-format
+msgid "boat"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:252
+#, elixir-autogen, elixir-format
+msgid "bus"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:152
+#, elixir-autogen, elixir-format
+msgid "bus stop"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:163
+#, elixir-autogen, elixir-format
+msgid "station"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:69
+#, elixir-autogen, elixir-format
+msgid "to"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:253
+#, elixir-autogen, elixir-format
+msgid "train"
 msgstr ""
