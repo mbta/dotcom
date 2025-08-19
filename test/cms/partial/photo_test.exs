@@ -15,7 +15,9 @@ defmodule CMS.Partial.PhotoTest do
              image: %Image{url: url, alt: alt}
            } = Photo.from_api(raw)
 
-    assert url =~ "/sites/default/files/styles/vanity_photo/public/photos/2025-08/2025-06-24-jackson-square-crews-prepare-platform.jpg?itok=fhWzrEeu"
+    assert url =~
+             "/sites/default/files/styles/vanity_photo/public/photos/2025-08/2025-06-24-jackson-square-crews-prepare-platform.jpg?itok=fhWzrEeu"
+
     assert alt == ""
   end
 
