@@ -52,6 +52,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
             <summary class="flex items-start cursor-pointer">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
+                aria-hidden="true"
                 name="chevron-down"
                 class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open/stops:rotate-180"
               />
@@ -145,13 +146,23 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp transit_leg_icon(%{route: %Route{mode: :BUS}} = assigns) do
     ~H"""
-    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-stop-default" />
+    <.icon
+      type="icon-svg"
+      aria-label={~t"bus stop"}
+      class="shrink-0 h-5 w-5"
+      name="icon-stop-default"
+    />
     """
   end
 
   defp transit_leg_icon(%{} = assigns) do
     ~H"""
-    <.icon type="icon-svg" class="shrink-0 h-5 w-5" name="icon-circle-t-default" />
+    <.icon
+      type="icon-svg"
+      aria-label={~t"station"}
+      class="shrink-0 h-5 w-5"
+      name="icon-circle-t-default"
+    />
     """
   end
 

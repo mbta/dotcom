@@ -29,12 +29,13 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
         <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
           <summary class="flex w-full gap-x-3.5 py-3 cursor-pointer">
-            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" />
+            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" aria-hidden="true" />
             <div class="flex flex-col text-sm">
               <div class="font-medium">{~t(Walk)}</div>
               <div>{walk_summary(@leg)}</div>
             </div>
             <.icon
+              aria-hidden="true"
               name="chevron-down"
               class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open:rotate-180"
             />
