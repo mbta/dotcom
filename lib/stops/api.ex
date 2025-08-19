@@ -58,8 +58,7 @@ defmodule Stops.Api do
   end
 
   def all do
-    @default_params
-    |> Api.Stops.all()
+    Api.Stops.all("filter[location_type]": "0,1")
     |> parse_v3_multiple()
   end
 

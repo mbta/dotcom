@@ -4,6 +4,8 @@ defmodule DotcomWeb.AlgoliaController do
   """
   use Phoenix.Controller, formats: [:json]
 
+  import Plug.Conn, only: [get_req_header: 2, halt: 1, send_resp: 3]
+
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -11,18 +13,27 @@ defmodule DotcomWeb.AlgoliaController do
   plug :put_view, namespace: DotcomWeb, json: DotcomWeb.AlgoliaJSON
 
   def routes(conn, _) do
-    render(conn, :index, routes: [@routes_repo.green_line() | @routes_repo.all()])
+    routes = [@routes_repo.green_line() | @routes_repo.all()]
+    render(conn, :index, routes: routes)
   end
 
   def stops(conn, _) do
-    render(conn, :index, stops: @stops_repo.all())
+    stops = @stops_repo.all() |> Enum.reject(& &1.child?)
+    render(conn, :index, stops: stops)
   end
 
   # https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/connectors/overview/#allow-algolia-ip-addresses
   @algolia_ip_addresses ["104.196.103.173", "35.234.69.129"]
 
-  defp allow_algolia_ip(%{remote_ip: ip} = conn, _) when ip not in @algolia_ip_addresses,
-    do: Plug.Conn.halt(conn)
+  defp allow_algolia_ip(conn, _) do
+    case get_req_header(conn, "x-forwarded-for") do
+      [ip] when is_binary(ip) and ip in @algolia_ip_addresses ->
+        conn
 
-  defp allow_algolia_ip(conn, _), do: conn
+      _ ->
+        conn
+        |> send_resp(:unauthorized, "Unexpected IP address")
+        |> halt()
+    end
+  end
 end

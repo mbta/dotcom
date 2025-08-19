@@ -120,6 +120,7 @@ defmodule Stops.Repo do
     Api.by_trip(trip_id)
   end
 
+  @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def all do
     Api.all()

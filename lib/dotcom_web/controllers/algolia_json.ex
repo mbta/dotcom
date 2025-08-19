@@ -13,9 +13,12 @@ defmodule DotcomWeb.AlgoliaJSON do
 
   defp to_data_objects(list) do
     list
-    |> Task.async_stream(&to_data_object/1, timeout: :infinity)
-    |> Stream.map(fn {:ok, object} -> object end)
-    |> Enum.to_list()
+    |> Enum.map(
+      &Task.async(fn ->
+        to_data_object(&1)
+      end)
+    )
+    |> Task.await_many(:infinity)
   end
 
   defp to_data_object(data) do

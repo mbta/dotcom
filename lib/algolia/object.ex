@@ -12,7 +12,7 @@ defimpl Algolia.Object, for: Stops.Stop do
   def url(stop), do: Util.site_path(:stop_path, [:show, stop])
 
   def data(stop) do
-    routes_for_stop = @routes_repo.by_stop(stop.id)
+    routes_for_stop = @routes_repo.by_stop(stop.id, include: "")
 
     %{
       _geoloc: %{

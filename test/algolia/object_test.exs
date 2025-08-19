@@ -10,7 +10,7 @@ defmodule Algolia.ObjectTest do
     test "for Stops.Stop" do
       stop = Stop.build(:stop)
 
-      expect(Routes.Repo.Mock, :by_stop, fn stop_id ->
+      expect(Routes.Repo.Mock, :by_stop, fn stop_id, _ ->
         assert stop_id == stop.id
         Route.build_list(5, :route)
       end)
