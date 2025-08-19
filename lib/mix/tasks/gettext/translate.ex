@@ -175,7 +175,9 @@ defmodule Mix.Tasks.Gettext.Translate do
     lines
     |> Enum.with_index()
     |> Enum.map(fn {text, index} ->
-      ProgressBar.render(index, lines_count, @format)
+      if Mix.env() == :dev do
+        ProgressBar.render(index, lines_count, @format)
+      end
 
       {text, translate_text(text, locale)}
     end)

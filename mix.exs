@@ -17,7 +17,9 @@ defmodule DotCom.Mixfile do
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
-        "coveralls.html": :test
+        "coveralls.html": :test,
+        "gettext.extract": :prod,
+        "gettext.translate": :prod
       ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload],
