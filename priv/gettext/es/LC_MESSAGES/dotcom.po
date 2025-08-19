@@ -78,9 +78,6 @@ msgstr "Regístrate para T-Alerts"
 msgid "Boston Visitor's Guide to The T"
 msgstr "Guía del visitante de Boston para el T"
 
-msgid "Similar trip arrives at "
-msgstr "Viaje similar llega a "
-
 msgid "Civil Rights"
 msgstr "Civiles"
 
@@ -113,9 +110,6 @@ msgstr "No se detiene"
 
 msgid "Express Bus"
 msgstr "Express Bus"
-
-msgid " on "
-msgstr " on "
 
 msgid "Special Event Ticket"
 msgstr "Entrada especial para eventos"
@@ -336,6 +330,9 @@ msgstr "Transferencia"
 msgid "Let us know"
 msgstr "Háganos saber"
 
+msgid "Similar trips arrive at %{times}"
+msgstr "Viajes similares llegan al %{times}"
+
 msgid "Hingham/Hull Ferry"
 msgstr "Hingham/Hull Ferry"
 
@@ -465,9 +462,6 @@ msgstr "Mapas"
 msgid "Winthrop/Quincy Ferry"
 msgstr "Winthrop/Quincy Ferry"
 
-msgid "No transit routes found within 2 hours of "
-msgstr "No hay rutas de tránsito encontradas dentro de 2 horas "
-
 msgid "Proposed Sales Locations"
 msgstr "Puestos de venta propuestos"
 
@@ -485,6 +479,9 @@ msgstr "Report suspected fraud, waste, or abuse"
 
 msgid "Service alert or delay"
 msgstr "Alerta o demora del servicio"
+
+msgid "%{time} on %{date}"
+msgstr "%{time} on %{date}"
 
 msgid "Menu"
 msgstr "Menú"
@@ -633,6 +630,9 @@ msgstr "no está disponible temporalmente debido a un cambio de servicio."
 msgid "info"
 msgstr "info"
 
+msgid "No transit routes found within 2 hours of %{time_on_date}. Routes may be available at other times."
+msgstr "No hay rutas de tránsito encontradas dentro de 2 horas de %{time_on_date}. Las rutas pueden estar disponibles en otras ocasiones."
+
 msgid "Premium Ride"
 msgstr "Premium Ride"
 
@@ -774,8 +774,14 @@ msgstr "Coordinador de la participación del cliente en la accesibilidad del sis
 msgid "Thank you for submitting your feedback. Our Customer Support team will review your comments soon."
 msgstr "Gracias por enviar sus comentarios. Nuestro equipo de Atención al Cliente revisará sus comentarios pronto."
 
+msgid "Similar trips depart at %{times}"
+msgstr "Viajes similares salen al %{times}"
+
 msgid "Learn more about MBTA fares"
 msgstr "Más información sobre las tarifas de MBTA"
+
+msgid "Similar trip arrives at %{time}"
+msgstr "Viaje similar llega al %{time}"
 
 msgid "PDF Schedules"
 msgstr "PDF Cuadros"
@@ -1065,9 +1071,6 @@ msgstr "Track Boarding Cambio"
 msgid "Destination location is outside of our service area"
 msgstr "Ubicación del destino está fuera de nuestra zona de servicio"
 
-msgid "Similar trips depart at "
-msgstr "Viajes similares salen en "
-
 msgid "Enter the station"
 msgstr "Entra en la estación"
 
@@ -1142,9 +1145,6 @@ msgstr "24 horas, 7 días a la semana"
 
 msgid "or "
 msgstr "o "
-
-msgid "Similar trips arrive at "
-msgstr "Viajes similares llegan a "
 
 msgid "Service Alerts"
 msgstr "Alertas de servicio"
@@ -1272,8 +1272,8 @@ msgstr "Mostrando 1 resultado para"
 msgid "Events"
 msgstr "Eventos"
 
-msgid "Routes may be available at other times."
-msgstr "Las rutas pueden estar disponibles en otras ocasiones."
+msgid "Similar trip departs at %{time}"
+msgstr "Viaje similar sale al %{time}"
 
 msgid "Logan Express"
 msgstr "Logan Express"
@@ -1367,9 +1367,6 @@ msgstr "MBTA Transit Police"
 
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
-
-msgid "Similar trip departs at "
-msgstr "Salidas de viaje similares en "
 
 msgid "We weren't able to find a polling place for your address. You can also visit the"
 msgstr "No pudimos encontrar un lugar de votación para tu dirección. También puede visitar"

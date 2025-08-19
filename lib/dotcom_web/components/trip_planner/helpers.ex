@@ -39,8 +39,10 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
         },
         datetime
       ) do
-    ~t"No transit routes found within 2 hours of " <>
-      formatted_time_on_date(datetime) <> ". " <> ~t"Routes may be available at other times."
+    gettext(
+      "No transit routes found within 2 hours of %{time_on_date}. Routes may be available at other times.",
+      time_on_date: formatted_time_on_date(datetime)
+    )
   end
 
   def routing_error_message(
@@ -103,16 +105,16 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   def group_alternatives_text([], _), do: nil
 
   def group_alternatives_text([time], :start),
-    do: ~t"Similar trip departs at " <> formatted_time(time)
+    do: gettext("Similar trip departs at %{time}", time: formatted_time(time))
 
   def group_alternatives_text([time], :end),
-    do: ~t"Similar trip arrives at " <> formatted_time(time)
+    do: gettext("Similar trip arrives at %{time}", time: formatted_time(time))
 
   def group_alternatives_text(times, :start),
-    do: ~t"Similar trips depart at " <> formatted_times(times)
+    do: gettext("Similar trips depart at %{times}", times: formatted_times(times))
 
   def group_alternatives_text(times, :end),
-    do: ~t"Similar trips arrive at " <> formatted_times(times)
+    do: gettext("Similar trips arrive at %{times}", times: formatted_times(times))
 
   @doc """
   Localized, formatted time.
@@ -152,7 +154,7 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   end
 
   def formatted_time_on_date(datetime) do
-    formatted_time(datetime) <> ~t" on " <> formatted_date(datetime)
+    gettext("%{time} on %{date}", time: formatted_time(datetime), date: formatted_date(datetime))
   end
 
   @doc """
