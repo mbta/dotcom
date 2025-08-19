@@ -34,17 +34,19 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     """
   end
 
-  defp results_feedback(%{results: %{error: nil}} = assigns) do
+  defp results_feedback(%{results: %{error: error}} = assigns) when not is_nil(error) do
     ~H"""
-    <.itinerary_group_feedback itinerary_groups={@results.itinerary_groups} />
+    <.feedback kind={:error}>
+      <span data-test="results-summary:error">
+        {@results.error}
+      </span>
+    </.feedback>
     """
   end
 
   defp results_feedback(assigns) do
     ~H"""
-    <.feedback kind={:error}>
-      <span data-test="results-summary:error">{@results.error}</span>
-    </.feedback>
+    <.itinerary_group_feedback itinerary_groups={@results.itinerary_groups} />
     """
   end
 

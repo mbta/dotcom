@@ -3,7 +3,7 @@ defmodule Dotcom.TripPlan.Helpers do
   Functions for working with OpenTripPlanner data.
   """
 
-  alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route, Stop, Trip}
+  alias OpenTripPlannerClient.Schema.{Place, Route, Stop, Trip}
 
   @doc """
   For information associated with a MBTA GTFS feed, return the ID
@@ -20,47 +20,6 @@ defmodule Dotcom.TripPlan.Helpers do
   @spec mbta_zone_id(Stop.t()) :: String.t() | nil
   def mbta_zone_id(%Stop{zone_id: "CR-zone-" <> zone_id}), do: zone_id
   def mbta_zone_id(_), do: nil
-
-  @doc """
-  Return an OpenTripPlanner itinerary distance in miles
-  """
-  @spec itinerary_distance_miles(Itinerary.t()) :: float()
-  def itinerary_distance_miles(%Itinerary{walk_distance: meters}) do
-    meters_to_miles(meters)
-  end
-
-  @doc """
-  Return an OpenTripPlanner leg distance in miles
-  """
-  @spec leg_distance_miles(Leg.t()) :: float()
-  def leg_distance_miles(%Leg{distance: meters}) do
-    meters_to_miles(meters)
-  end
-
-  defp meters_to_miles(meters), do: Float.ceil(meters / 1609.34, 1)
-
-  @doc """
-  Return an OpenTripPlanner leg duration in minutes
-  """
-  @spec leg_duration_minutes(Leg.t()) :: non_neg_integer()
-  def leg_duration_minutes(%Leg{duration: seconds}) do
-    seconds_to_minutes(seconds)
-  end
-
-  @doc """
-  Return an OpenTripPlanner itinerary duration in minutes
-  """
-  @spec itinerary_duration_minutes(Itinerary.t()) :: non_neg_integer()
-  def itinerary_duration_minutes(%Itinerary{duration: seconds}) do
-    seconds_to_minutes(seconds)
-  end
-
-  defp seconds_to_minutes(seconds) do
-    seconds
-    |> Timex.Duration.to_minutes(:seconds)
-    |> Kernel.round()
-    |> Kernel.max(1)
-  end
 
   defguard agency_name?(leg_or_route, agency_name)
            when not is_nil(leg_or_route.agency) and leg_or_route.agency.name == agency_name

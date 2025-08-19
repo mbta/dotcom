@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   use DotcomWeb, :component
 
+  import DotcomWeb.Components.TripPlanner.Helpers, only: [group_alternatives_text: 1]
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
   import DotcomWeb.Router.Helpers, only: [alert_path: 3]
 
@@ -287,7 +288,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
     summarized_group = %{
       accessible?: Itinerary.accessible?(itinerary),
-      alternatives_text: ItineraryGroup.alternatives_text(group),
+      alternatives_text: group_alternatives_text(group),
       available?: group.available?,
       tag: itinerary[:tag],
       representative_itinerary: itinerary,
