@@ -4,12 +4,12 @@ defmodule DotcomWeb.AlgoliaController do
   """
   use Phoenix.Controller, formats: [:json]
 
-  import Plug.Conn, only: [get_req_header: 2, halt: 1, send_resp: 3]
+  import Plug.Conn, only: [put_resp_header: 3]
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  plug :allow_algolia_ip
+  plug :cache_control
   plug :put_view, namespace: DotcomWeb, json: DotcomWeb.AlgoliaJSON
 
   def routes(conn, _) do
@@ -22,18 +22,10 @@ defmodule DotcomWeb.AlgoliaController do
     render(conn, :index, stops: stops)
   end
 
-  # https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/connectors/overview/#allow-algolia-ip-addresses
-  @algolia_ip_addresses ["104.196.103.173", "35.234.69.129"]
-
-  defp allow_algolia_ip(conn, _) do
-    case get_req_header(conn, "x-forwarded-for") do
-      [ip] when is_binary(ip) and ip in @algolia_ip_addresses ->
-        conn
-
-      _ ->
-        conn
-        |> send_resp(:unauthorized, "Unexpected IP address")
-        |> halt()
-    end
+  # Let the browser cache & reuse the result
+  # no-cache always revalidates, so will return freshest if available
+  defp cache_control(conn, _) do
+    conn
+    |> put_resp_header("cache-control", "no-cache")
   end
 end
