@@ -9,7 +9,6 @@ defmodule DotcomWeb.PageController do
   alias CMS.Partial.{
     Banner,
     Paragraph,
-    Photo,
     Teaser,
     WhatsHappeningItem
   }
@@ -24,7 +23,7 @@ defmodule DotcomWeb.PageController do
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
-    photo = photo()
+    photo = Repo.photo()
     fares = fares(conn.query_params)
 
     conn
@@ -75,14 +74,6 @@ defmodule DotcomWeb.PageController do
     case Repo.banner() do
       nil -> nil
       banner -> add_utm_url(banner)
-    end
-  end
-
-  @spec photo :: Photo.t() | nil
-  defp photo do
-    case Repo.photo() do
-      nil -> nil
-      photo -> photo
     end
   end
 
