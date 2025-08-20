@@ -17,18 +17,17 @@ defmodule DotcomWeb.CacheController do
   Each key is a link to the get_cache_values page for that key.
   """
   def get_cache_keys(conn, _) do
-    case Dotcom.Cache.Multilevel.get_all_keys() do
-      {:ok, keys} ->
-        conn
-        |> put_status(:ok)
-        |> render(:index, %{keys: keys})
+    try do
+      {:ok, keys} = Dotcom.Cache.Multilevel.get_all_keys()
 
-      result ->
-        Logger.warning("dotcom_web.cache_controller.error error=#{result}")
+      conn
+      |> put_status(:ok)
+      |> render(:index, %{keys: keys})
+    rescue
+      e ->
+        Logger.warning("dotcom_web.cache_controller.error error=redis-#{e.reason}")
 
-        conn
-        |> send_resp(:ok, inspect(result))
-        |> halt()
+        send_resp(conn, 500, "") |> halt()
     end
   end
 
