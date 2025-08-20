@@ -162,7 +162,7 @@ defmodule Dotcom.Cache.Multilevel do
         if new === [] do
           acc
         else
-          Map.put(acc, k, current ++ new)
+          Map.put(acc, k, Enum.sort(current ++ new))
         end
       else
         Map.put(acc, k, group(v))
