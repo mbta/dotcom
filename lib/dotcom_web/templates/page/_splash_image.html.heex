@@ -1,0 +1,12 @@
+<%= if @photo do %>
+  <style>
+    @media
+    (min-width: 544px) {
+      .m-cms-splash-image {
+        background-image: url(<%= @photo.image.url %>);
+      }
+    }
+  </style>
+
+  <div class="m-cms-splash-image h-120 w-full max-sm:hidden -z-10 relative"></div>
+<% end %>

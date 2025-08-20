@@ -1,8 +1,6 @@
 <div class="index">
   <h1 class="sr-only">{~t(MBTA Homepage)}</h1>
-  {if(assigns[:photo],
-    do: render(DotcomWeb.PageView, "_photo.html", conn: @conn, photo: @photo)
-  )}
+  {render("_splash_image.html", conn: @conn, photo: @photo)}
   {render("_tabbed_nav.html", assigns)}
   <div class="container page-section">
     {render("_find_a_location.html", conn: @conn)}
