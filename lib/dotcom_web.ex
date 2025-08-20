@@ -21,7 +21,6 @@ defmodule DotcomWeb do
   def controller do
     quote do
       use Dotcom.Gettext.Sigils
-      use Dotcom.Usage.Functions
       use Phoenix.Controller, namespace: DotcomWeb
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
@@ -44,6 +43,10 @@ defmodule DotcomWeb do
       import Util.AsyncAssign
 
       alias Util.Breadcrumb
+
+      if Mix.env() != :test do
+        use Dotcom.Usage.Functions
+      end
     end
   end
 
