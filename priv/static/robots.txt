@@ -12,6 +12,7 @@ Disallow: /charlie/*
 Disallow: /policies/terms-use-charlie*
 Disallow: /charlieapp
 Disallow: /learnmore-transfer
+Disallow: /cache/
 
 # Prevent Sentry from creating monitors.
 # Source: https://docs.sentry.io/product/uptime-monitoring/automatic-detection/#disabling-automatic-detection
