@@ -139,7 +139,7 @@ defmodule Dotcom.Cache.Multilevel do
       |> stream_keys("*")
       |> grouped_keys()
 
-    :timer.sleep(1)
+    :timer.sleep(1_000)
 
     {@redix.stop(conn), keys}
   end
