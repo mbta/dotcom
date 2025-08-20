@@ -148,7 +148,7 @@ defmodule DotcomWeb.CacheController do
             <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
           </span>
         </div>
-        <div :for={{k, v} <- @keys} style="border-bottom: 1px solid gray;">
+        <div :for={{k, v} <- @keys}>
           <h1 style="padding: 10px; color: white; background: indianred;" id={k}>{k}</h1>
           <.heading :if={is_map(v)} key={[k]} keys={v} />
           <.links :if={is_list(v)} key={[k]} keys={v} />
