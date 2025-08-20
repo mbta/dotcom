@@ -24,6 +24,8 @@ defmodule DotcomWeb.CacheController do
         |> render(:index, %{keys: keys})
 
       result ->
+        Logger.warning("dotcom_web.cache_controller.error error=#{result}")
+
         conn
         |> send_resp(:ok, inspect(result))
         |> halt()
@@ -173,7 +175,7 @@ defmodule DotcomWeb.CacheController do
       links =
         Enum.map(assigns.keys, fn key ->
           {
-            Enum.join(assigns.key ++ [key], "|"),
+            Path.join(assigns.key ++ [key]),
             Path.join(["cache"] ++ assigns.key ++ [key])
           }
         end)
