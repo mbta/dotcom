@@ -7,6 +7,8 @@ defmodule DotcomWeb.CacheController do
 
   require Logger
 
+  import Dotcom.Cache.Multilevel, only: [get_all_keys: 0]
+
   plug :accepts, ~w(html)
   plug :put_view, __MODULE__.View
 
@@ -18,9 +20,7 @@ defmodule DotcomWeb.CacheController do
   """
   def get_cache_keys(conn, _) do
     try do
-      {:ok, keys} = Dotcom.Cache.Multilevel.get_all_keys()
-
-      Logger.info("dotcom_web.cache_controller.ok")
+      {:ok, keys} = get_all_keys()
 
       conn
       |> put_status(:ok)
