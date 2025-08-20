@@ -19,6 +19,8 @@ defmodule Dotcom.Cache.Multilevel do
     adapter: Nebulex.Adapters.Multilevel,
     default_key_generator: Dotcom.Cache.KeyGenerator
 
+  require Logger
+
   import Dotcom.Utils.Enum, only: [group_list: 1]
 
   defmodule Local do
@@ -136,6 +138,8 @@ defmodule Dotcom.Cache.Multilevel do
       conn
       |> stream_keys("*")
       |> grouped_keys()
+
+    :timer.sleep(1)
 
     {@redix.stop(conn), keys}
   end
