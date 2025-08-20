@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.18.4-erlang-27.3.4.2-debian-bullseye-20250811
+FROM hexpm/elixir:1.18.4-erlang-28.0.2-debian-trixie-20250811-slim
 
 RUN apt-get update && apt-get install -y curl git make build-essential inotify-tools
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
@@ -21,4 +21,4 @@ RUN mix deps.get
 RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
-CMD mix deps.get && elixir --name $NAME --cookie foobarbaz -S mix phx.server
+CMD mix deps.get && mix mbta_metro.update_assets && elixir --name $NAME --cookie foobarbaz -S mix phx.server
