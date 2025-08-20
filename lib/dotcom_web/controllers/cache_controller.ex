@@ -143,8 +143,13 @@ defmodule DotcomWeb.CacheController do
     def index(assigns) do
       ~H"""
       <div style="width: 100%; max-width: 100%;">
+        <div style="padding: 10px 10px 15px 10px; background: mediumpurple;">
+          <span :for={{k, v} <- @keys}>
+            <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
+          </span>
+        </div>
         <div :for={{k, v} <- @keys} style="border-bottom: 1px solid gray;">
-          <h1 style="padding: 10px; color: white; background: gray;">{k}</h1>
+          <h1 style="padding: 10px; color: white; background: indianred;" id={k}>{k}</h1>
           <.heading :if={is_map(v)} key={[k]} keys={v} />
           <.links :if={is_list(v)} key={[k]} keys={v} />
         </div>
@@ -178,7 +183,7 @@ defmodule DotcomWeb.CacheController do
       ~H"""
       <ul>
         <li :for={{k, v} <- @links}>
-          <a href={v}>{k}</a>
+          <a href={v} style="color: black;">{k}</a>
         </li>
       </ul>
       """
