@@ -20,12 +20,14 @@ defmodule DotcomWeb.CacheController do
     try do
       {:ok, keys} = Dotcom.Cache.Multilevel.get_all_keys()
 
+      Logger.info("dotcom_web.cache_controller.ok")
+
       conn
       |> put_status(:ok)
       |> render(:index, %{keys: keys})
     rescue
       e ->
-        Logger.warning("dotcom_web.cache_controller.error error=redis-#{e.reason}")
+        Logger.warning("dotcom_web.cache_controller.error error=#{e.reason}")
 
         send_resp(conn, 500, "") |> halt()
     end
