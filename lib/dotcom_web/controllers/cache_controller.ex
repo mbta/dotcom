@@ -19,15 +19,14 @@ defmodule DotcomWeb.CacheController do
   Each key is a link to the get_cache_values page for that key.
   """
   def get_cache_keys(conn, _) do
-    try do
-      {:ok, keys} = get_all_keys()
+    case get_all_keys() do
+      {:ok, keys} ->
+        conn
+        |> put_status(:ok)
+        |> render(:index, %{keys: keys})
 
-      conn
-      |> put_status(:ok)
-      |> render(:index, %{keys: keys})
-    rescue
-      e ->
-        Logger.warning("dotcom_web.cache_controller.error error=#{e.reason}")
+      _ ->
+        Logger.warning("dotcom_web.cache_controller.error")
 
         send_resp(conn, 500, "") |> halt()
     end
@@ -57,7 +56,7 @@ defmodule DotcomWeb.CacheController do
       {:ok, _} ->
         GenServer.cast(uuid, {:load, key})
 
-        :timer.sleep(1000)
+        :timer.sleep(1_000)
 
         {status, values} = GenServer.call(uuid, :get)
 
