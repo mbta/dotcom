@@ -9,7 +9,6 @@ defmodule DotcomWeb.PlacesController do
 
   @location_service Application.compile_env!(:dotcom, :location_service)
 
-  @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str}) do
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
@@ -24,7 +23,6 @@ defmodule DotcomWeb.PlacesController do
     end
   end
 
-  @spec details(Conn.t(), map) :: Conn.t()
   def details(conn, %{"address" => address}) do
     case @location_service.geocode(address) do
       {:ok, results} ->
@@ -35,7 +33,6 @@ defmodule DotcomWeb.PlacesController do
     end
   end
 
-  @spec reverse_geocode(Conn.t(), map) :: Conn.t()
   def reverse_geocode(conn, params) do
     with {:ok, latitude, longitude} <- parse_location(params),
          {:ok, results} <- @location_service.reverse_geocode(latitude, longitude) do
@@ -113,22 +110,6 @@ defmodule DotcomWeb.PlacesController do
     end
   end
 
-  @spec with_coordinates([Address.t()]) :: [
-          %{
-            required(:latitude) => number,
-            required(:longitude) => number,
-            required(:formatted) => String.t(),
-            required(:street_address) => String.t(),
-            required(:municipality) => String.t(),
-            required(:state) => String.t(),
-            required(:highlighted_spans) => [map()] | nil,
-            required(:url) => nil,
-            required(:urls) => %{
-              required(:"retail-sales-locations") => String.t(),
-              required(:"proposed-sales-locations") => String.t()
-            }
-          }
-        ]
   defp with_coordinates(addresses) do
     addresses
     |> Enum.map(fn address ->

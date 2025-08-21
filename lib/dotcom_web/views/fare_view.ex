@@ -19,7 +19,6 @@ defmodule DotcomWeb.FareView do
   @doc """
   Returns the url to view directions to a location on https://maps.google.com.
   """
-  @spec direction_map_url(Position.t(), Position.t()) :: String.t()
   def direction_map_url(origin, destination) do
     origin_lat = Position.latitude(origin)
     origin_lng = Position.longitude(origin)
@@ -41,7 +40,6 @@ defmodule DotcomWeb.FareView do
   end
 
   @doc "Renders a summary of fares into HTML"
-  @spec summarize([Summary.t()], Keyword.t()) :: HTML.safe()
   def summarize(summaries, opts \\ []) do
     render("_summary.html",
       summaries: summaries,
@@ -50,7 +48,6 @@ defmodule DotcomWeb.FareView do
     )
   end
 
-  @spec summary_url(Summary.t()) :: String.t()
   def summary_url(%Summary{url: url}) when not is_nil(url), do: url
 
   def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration})
@@ -69,7 +66,6 @@ defmodule DotcomWeb.FareView do
     do_summary_url(mode)
   end
 
-  @spec do_summary_url(atom, String.t()) :: String.t()
   defp do_summary_url(name, anchor \\ "") do
     name
     |> Atom.to_string()
@@ -79,7 +75,6 @@ defmodule DotcomWeb.FareView do
     end)
   end
 
-  @spec fare_passes(Route.gtfs_route_type()) :: DescriptionList.t()
   def fare_passes(:subway) do
     %DescriptionList{
       descriptions: [
@@ -136,14 +131,11 @@ defmodule DotcomWeb.FareView do
     }
   end
 
-  @spec fare_pass_name(String.t()) :: HTML.safe()
   defp fare_pass_name(name), do: content_tag(:h3, name, class: "c-fare-pass__name")
 
-  @spec fare_pass_price(String.t()) :: HTML.safe()
   defp fare_pass_price(price),
     do: content_tag(:span, price, class: "h2 c-fare-pass__price")
 
-  @spec fare_overview_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
   def fare_overview_link(mode, conn) do
     link(
       "View fares overview",

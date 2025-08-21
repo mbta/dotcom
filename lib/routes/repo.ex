@@ -162,7 +162,6 @@ defmodule Routes.Repo do
   @doc """
   Parses json into a list of routes, or an error if it happened.
   """
-  @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}
   def handle_response({:error, reason}) do
     {:error, reason}
   end
@@ -191,8 +190,6 @@ defmodule Routes.Repo do
     }
   end
 
-  @spec fetch_connecting_routes_via_stop(JsonApi.Item.t()) ::
-          [JsonApi.Item.t()] | JsonApi.Item.t()
   defp fetch_connecting_routes_via_stop(
          %JsonApi.Item{
            relationships: %{

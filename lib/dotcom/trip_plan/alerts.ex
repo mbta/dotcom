@@ -44,7 +44,6 @@ defmodule Dotcom.TripPlan.Alerts do
     }
   end
 
-  @spec from_itinerary(Itinerary.t()) :: [Alerts.Alert.t()]
   def from_itinerary(itinerary) do
     itinerary.start
     |> @alerts_repo.all()
@@ -56,7 +55,6 @@ defmodule Dotcom.TripPlan.Alerts do
   end
 
   @doc "Filters a list of Alerts to those relevant to the Leg"
-  @spec filter_for_leg([Alert.t()], Leg.t()) :: [Alert.t()]
   def filter_for_leg(alerts, leg) when agency_name?(leg, "MBTA") do
     Alerts.Match.match(
       alerts,
@@ -86,7 +84,6 @@ defmodule Dotcom.TripPlan.Alerts do
       (alert.effect == :elevator_closure || alert.effect == :escalator_closure)
   end
 
-  @spec entities(Itinerary.t()) :: [InformedEntity.t()]
   defp entities(itinerary) do
     itinerary.legs
     |> Enum.flat_map(&leg_entities(&1))

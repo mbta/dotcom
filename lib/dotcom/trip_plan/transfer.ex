@@ -33,7 +33,6 @@ defmodule Dotcom.TripPlan.Transfer do
   ]
 
   @doc "Searches a list of legs for evidence of an in-station subway transfer."
-  @spec subway_transfer?([Leg.t()]) :: boolean
   def subway_transfer?([first_leg, next_leg | _])
       when agency_name?(first_leg, "MBTA") and agency_name?(next_leg, "MBTA") do
     same_station?(first_leg.to, next_leg.from) and subway?(first_leg.route) and
@@ -51,7 +50,6 @@ defmodule Dotcom.TripPlan.Transfer do
   - no transfers from bus route to same bus route
   - no transfers from a shuttle to any other mode
   """
-  @spec maybe_transfer?([Leg.t()]) :: boolean
   def maybe_transfer?([first_leg, middle_leg, last_leg])
       when agency_name?(first_leg, "MBTA") and agency_name?(middle_leg, "MBTA") and
              agency_name?(last_leg, "MBTA") do

@@ -10,7 +10,6 @@ defmodule CMS.SearchResult.Page do
           highlights: [String.t()]
         }
 
-  @spec build(map) :: t
   def build(result) do
     %__MODULE__{
       title: result["ts_title"],

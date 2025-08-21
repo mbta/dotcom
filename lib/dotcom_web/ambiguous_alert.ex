@@ -1,20 +1,14 @@
 defprotocol DotcomWeb.AmbiguousAlert do
-  @spec alert_start_date(t) :: DateTime.t() | nil
   def alert_start_date(alert)
 
-  @spec alert_municipality(t) :: String.t() | nil
   def alert_municipality(alert)
 
-  @spec affected_routes(t) :: [String.t()]
   def affected_routes(alert)
 
-  @spec related_stops(t) :: [String.t() | Stops.Stop.t()]
   def related_stops(alert)
 
-  @spec time_range(t) :: Phoenix.HTML.Safe.t()
   def time_range(alert)
 
-  @spec alert_item(t, Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def alert_item(alert, conn)
 end
 
@@ -71,7 +65,6 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
     |> List.first()
   end
 
-  @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
   defp date_tag(%DateTime{} = date) do
     with iso <- DateTime.to_iso8601(date),
          {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do

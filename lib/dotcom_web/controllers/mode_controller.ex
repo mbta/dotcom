@@ -42,14 +42,12 @@ defmodule DotcomWeb.ModeController do
     Map.update!(pred_or_sched, :route, fn route -> Route.to_json_safe(route) end)
   end
 
-  @spec guides :: [Teaser.t()]
   defp guides do
     [type: [:page], topic: "guides", sidebar: 1]
     |> Repo.teasers()
     |> Enum.map(&utm_url/1)
   end
 
-  @spec utm_url(Teaser.t()) :: Teaser.t()
   defp utm_url(%Teaser{} = teaser) do
     url = UrlHelpers.build_utm_url(teaser, source: "all-hub", type: "sidebar")
     %{teaser | path: url}

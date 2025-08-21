@@ -18,7 +18,6 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
           right_rail: boolean
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
@@ -29,21 +28,17 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
   end
 
   @doc "Create a default Paragraph type with optional overrides"
-  @spec new(Keyword.t()) :: __MODULE__.t()
   def new(opts \\ []), do: struct(__MODULE__, opts)
 
-  @spec grouped?(__MODULE__.t()) :: boolean
   def grouped?(%__MODULE__{display_options: "grouped"}), do: true
   def grouped?(_), do: false
 
-  @spec includes?(__MODULE__.t(), atom) :: boolean
   def includes?(%__MODULE__{columns: columns}, type) do
     columns
     |> Enum.flat_map(& &1.paragraphs)
     |> Enum.any?(&matches?(&1, type))
   end
 
-  @spec matches?(__MODULE__.t(), atom) :: boolean
   defp matches?(%FareCard{}, :fares), do: true
   defp matches?(%DescriptiveLink{}, :links), do: true
   defp matches?(_, _), do: false

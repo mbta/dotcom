@@ -5,7 +5,6 @@ defmodule MBTA.Api.Alerts do
 
   @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
-  @spec all() :: JsonApi.t() | {:error, any}
   def all(params \\ []) do
     @mbta_api.get_json("/alerts/", params)
   end

@@ -32,7 +32,6 @@ defmodule CMS.Page.EventAgenda do
           published: boolean
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),

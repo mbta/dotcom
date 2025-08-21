@@ -70,7 +70,6 @@ defmodule RoutePatterns.Repo do
     end
   end
 
-  @spec reorder_mrts(RoutePattern.t(), RoutePattern.t(), String.t()) :: boolean()
   defp reorder_mrts(pattern_one, pattern_two, route_id) do
     not (pattern_one.route_id !== route_id and pattern_one.typicality == pattern_two.typicality)
   end

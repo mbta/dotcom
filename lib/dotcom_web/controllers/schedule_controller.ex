@@ -11,7 +11,6 @@ defmodule DotcomWeb.ScheduleController do
     when action not in [:cape_flyer, :route_redirect, :schedules_for_stop]
   )
 
-  @spec show(Plug.Conn.t(), map) :: Phoenix.HTML.Safe.t()
   def show(%{query_params: %{"tab" => "timetable"} = query_params} = conn, _params) do
     tab_redirect(
       conn,
@@ -51,7 +50,6 @@ defmodule DotcomWeb.ScheduleController do
     |> halt()
   end
 
-  @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def schedules_for_stop(conn, %{"stop_id" => stop_id} = params) do
     date = conn.assigns.date
 
@@ -89,7 +87,6 @@ defmodule DotcomWeb.ScheduleController do
   This is a shortcut to the schedules page used in T-alerts message text,
   it adds GA campaign params before redirecting
   """
-  @spec route_redirect(Plug.Conn.t(), map) :: Plug.Conn.t()
   def route_redirect(
         %{query_params: query_params} = conn,
         %{"path" => [route_id]}

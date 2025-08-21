@@ -3,7 +3,6 @@ defmodule Alerts.URLParsingHelpers do
 
   @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/i
 
-  @spec get_full_url(String.t()) :: String.t() | nil
   def get_full_url(text) do
     with [match | _] <- Regex.run(@url_regex, text) do
       {url, _suffix} = parse_url_and_suffix(match)
@@ -21,7 +20,6 @@ defmodule Alerts.URLParsingHelpers do
     end
   end
 
-  @spec replace_urls_with_links(String.t()) :: Phoenix.HTML.safe()
   def replace_urls_with_links(text) do
     tokens = String.split(text, " ")
 

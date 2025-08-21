@@ -23,7 +23,6 @@ defmodule CMS.Page.Person do
           profile_image: Image.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       id: field_value(data, "nid"),

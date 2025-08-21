@@ -73,7 +73,6 @@ defmodule DotcomWeb.ScheduleController.Line do
     end
   end
 
-  @spec get_updated_format_for_url_params(map) :: map
   defp get_updated_format_for_url_params(query_params) do
     new_params =
       query_params
@@ -85,7 +84,6 @@ defmodule DotcomWeb.ScheduleController.Line do
     new_params
   end
 
-  @spec replace_map_key(map, String.t(), String.t()) :: map
   defp replace_map_key(input, from, to) do
     if Map.has_key?(input, from) do
       input
@@ -96,7 +94,6 @@ defmodule DotcomWeb.ScheduleController.Line do
     end
   end
 
-  @spec update_conn(Conn.t(), Route.t(), direction_id) :: Conn.t()
   defp update_conn(conn, route, direction_id) do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
     variant = schedule_direction["variant"]

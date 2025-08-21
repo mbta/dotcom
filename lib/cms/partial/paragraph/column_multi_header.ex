@@ -11,7 +11,6 @@ defmodule CMS.Partial.Paragraph.ColumnMultiHeader do
           text: HTML.safe()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       text: data |> Helpers.field_value("field_header_text") |> Helpers.handle_html()

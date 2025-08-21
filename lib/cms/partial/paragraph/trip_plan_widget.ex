@@ -20,7 +20,6 @@ defmodule CMS.Partial.Paragraph.TripPlanWidget do
             button_text: "Get trip suggestions",
             right_rail: true
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, _preview_opts \\ []) do
     %__MODULE__{
       title: field_value(data, "field_widget_title"),

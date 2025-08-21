@@ -11,7 +11,6 @@ defmodule Predictions.StreamSupervisor do
 
   @streams :prediction_streams_registry
 
-  @spec start_link(keyword()) :: Supervisor.on_start()
   def start_link(opts), do: DynamicSupervisor.start_link(__MODULE__, opts, name: __MODULE__)
 
   @impl DynamicSupervisor
@@ -19,8 +18,6 @@ defmodule Predictions.StreamSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  @spec ensure_stream_is_started({Store.fetch_keys(), StreamTopic.filter_params()}) ::
-          {:ok, pid()} | :bypassed
   def ensure_stream_is_started(args),
     do: ensure_stream_is_started(args, System.get_env("USE_SERVER_SENT_EVENTS"))
 
@@ -36,7 +33,6 @@ defmodule Predictions.StreamSupervisor do
     end
   end
 
-  @spec lookup(StreamTopic.filter_params()) :: pid() | nil
   defp lookup(filters) do
     case Registry.lookup(@streams, filters) do
       [{stream_pid, _}] -> stream_pid
@@ -44,7 +40,6 @@ defmodule Predictions.StreamSupervisor do
     end
   end
 
-  @spec start_stream({Store.fetch_keys(), StreamTopic.filter_params()}) :: {:ok, pid()}
   defp start_stream({keys, filters}) do
     DynamicSupervisor.start_child(
       __MODULE__,
@@ -60,7 +55,6 @@ defmodule Predictions.StreamSupervisor do
     {:via, Registry, {@streams, filters}}
   end
 
-  @spec stop_stream(String.t()) :: :ok
   def stop_stream(filters) do
     case lookup(filters) do
       pid when is_pid(pid) ->

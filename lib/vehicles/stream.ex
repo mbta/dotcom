@@ -58,14 +58,12 @@ defmodule Vehicles.Stream do
   end
 
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
-  @spec broadcast([Vehicles.Vehicle.t() | String.t()], event_type, broadcast_fn) :: :ok
   defp broadcast(data, type, broadcast_fn) do
     Vehicles.PubSub
     |> broadcast_fn.("vehicles", {type, data})
     |> do_broadcast()
   end
 
-  @spec do_broadcast(:ok | {:error, any}) :: :ok
   defp do_broadcast(:ok) do
     :ok
   end

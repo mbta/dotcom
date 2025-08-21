@@ -24,7 +24,6 @@ defmodule JsonApi do
   defstruct links: %{}, data: []
   @type t :: %JsonApi{links: %{String.t() => String.t()}, data: list(JsonApi.Item.t())}
 
-  @spec empty() :: JsonApi.t()
   def empty do
     %JsonApi{
       links: %{},
@@ -32,7 +31,6 @@ defmodule JsonApi do
     }
   end
 
-  @spec merge(JsonApi.t(), JsonApi.t()) :: JsonApi.t()
   def merge(j1, j2) do
     %JsonApi{
       links: Map.merge(j1.links, j2.links),
@@ -40,7 +38,6 @@ defmodule JsonApi do
     }
   end
 
-  @spec parse(String.t() | map()) :: {:error, any()} | JsonApi.t()
   def parse(body) when is_binary(body) do
     case Jason.decode(body) do
       {:ok, parsed} -> parse(parsed)
@@ -64,7 +61,6 @@ defmodule JsonApi do
     end
   end
 
-  @spec parse_links(term()) :: %{String.t() => String.t()}
   defp parse_links(%{"links" => links}) do
     links
     |> Enum.filter(fn {key, value} -> is_binary(key) && is_binary(value) end)
@@ -75,7 +71,6 @@ defmodule JsonApi do
     %{}
   end
 
-  @spec parse_data(term()) :: {:ok, [JsonApi.Item.t()]} | {:error, any}
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
     included = parse_included(parsed)
     {:ok, Enum.map(data, &parse_data_item(&1, included))}

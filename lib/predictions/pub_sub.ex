@@ -23,7 +23,6 @@ defmodule Predictions.PubSub do
   @behaviour Behaviour
 
   # Client
-  @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
     name = Keyword.get(opts, :name, __MODULE__)
 

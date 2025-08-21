@@ -33,7 +33,6 @@ defmodule Dotcom.ScheduleNote do
           sunday_service: String.t()
         }
 
-  @spec new(Route.t()) :: t | nil
   def new(route) do
     schedule_note(route)
   end

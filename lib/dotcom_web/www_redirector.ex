@@ -26,7 +26,6 @@ defmodule DotcomWeb.WwwRedirector do
   @impl true
   def call(conn, _options), do: site_redirect(DotcomWeb.Endpoint.url(), conn)
 
-  @spec site_redirect(String.t(), Conn.t()) :: Plug.Conn.t()
   def site_redirect(site_url, conn) do
     full_redirect_url = redirect_url(site_url, conn)
 

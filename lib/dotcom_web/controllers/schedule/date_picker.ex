@@ -8,13 +8,11 @@ defmodule DotcomWeb.ScheduleController.DatePicker do
   plug(:assign_date_select)
   plug(:build_calendar)
 
-  @spec assign_date_select(Conn.t(), []) :: Conn.t()
   def assign_date_select(conn, []) do
     assign(conn, :date_select, show_datepicker?(conn))
   end
 
   @doc "If the date selector is open, build the calendar"
-  @spec build_calendar(Conn.t(), []) :: Conn.t()
   def build_calendar(%Conn{assigns: %{date: date}} = conn, []) do
     shift = shift(conn)
     holidays = date |> Timex.shift(months: shift) |> Holiday.Repo.holidays_in_month()
@@ -33,7 +31,6 @@ defmodule DotcomWeb.ScheduleController.DatePicker do
     |> assign(:calendar, calendar)
   end
 
-  @spec show_datepicker?(Conn.t()) :: boolean
   defp show_datepicker?(%Conn{query_params: %{"date_select" => "true"}}), do: true
   defp show_datepicker?(%Conn{}), do: false
 

@@ -15,7 +15,6 @@ defmodule GreenLine do
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
   """
-  @spec stops_on_routes(0 | 1, Date.t() | nil) :: stop_routes_pair
   def stops_on_routes(direction_id, date \\ nil) do
     calculate_stops_on_routes(direction_id, date)
   end
@@ -25,8 +24,6 @@ defmodule GreenLine do
   that a stop is on the branch in question.  Optionally takes a date for which to fetch the
   schedules.
   """
-  @spec calculate_stops_on_routes(0 | 1, Date.t() | nil) ::
-          stop_routes_pair
   def calculate_stops_on_routes(direction_id, date \\ nil) do
     branch_ids()
     |> Task.async_stream(&green_line_stops(&1, direction_id, date))
@@ -47,7 +44,6 @@ defmodule GreenLine do
   Returns whether or not the given stop is a terminus for the line. Assumes the given stop is
   actually on the line.
   """
-  @spec terminus?(Stop.id_t(), branch_name) :: boolean
   def terminus?(stop_id, branch_name) do
     terminus?(stop_id, branch_name, 0) or terminus?(stop_id, branch_name, 1)
   end
@@ -56,13 +52,11 @@ defmodule GreenLine do
   Returns whether or not the stop is a terminus for the line in the given direction. Assumes
   the stop is actually on the line.
   """
-  @spec terminus?(Stop.id_t(), branch_name, 0 | 1) :: boolean
   def terminus?(stop_id, branch_name, direction_id) do
     Map.get(termini_stops(), {branch_name, direction_id}, %{}) |> Map.get(:id) == stop_id
   end
 
   @doc "A naive guess at the destination of a green line train when no trip is available"
-  @spec naive_headsign(branch_name, 0 | 1) :: String.t()
   def naive_headsign(branch_name, direction_id) do
     termini_stops()
     |> Map.get({branch_name, direction_id}, %{})
@@ -72,7 +66,6 @@ defmodule GreenLine do
   @doc """
   Given a stop ID, route ID, and route => stop set map, returns whether the stop is on the route.
   """
-  @spec stop_on_route?(Stop.id_t(), branch_name, stop_routes_pair) :: boolean
   def stop_on_route?(stop_id, branch_name, {_, map}) do
     MapSet.member?(map[branch_name], stop_id)
   end
@@ -80,7 +73,6 @@ defmodule GreenLine do
   @doc """
   Returns stops on the specific branch of the line.
   """
-  @spec route_stops(branch_name, stop_routes_pair) :: MapSet.t()
   def route_stops(route_id, {_, map}) do
     map[route_id]
   end
@@ -88,7 +80,6 @@ defmodule GreenLine do
   @doc """
   All the branch IDs of the Green Line.
   """
-  @spec branch_ids() :: [branch_name]
   def branch_ids do
     ~w(Green-B Green-C Green-D Green-E)s
   end
@@ -96,7 +87,6 @@ defmodule GreenLine do
   @doc """
   The stops on the green line that are on multiple green line branches.
   """
-  @spec shared_stops() :: [Stop.id_t()]
   def shared_stops,
     do: [
       "place-north",
@@ -113,7 +103,6 @@ defmodule GreenLine do
   @doc """
   Returns a list of the shared stops that the branch does NOT reach.
   """
-  @spec excluded_shared_stops(branch_name) :: [Stop.id_t()]
   def excluded_shared_stops("Green-B"),
     do: ["place-north", "place-haecl"]
 
@@ -127,14 +116,12 @@ defmodule GreenLine do
   @doc """
   The stop at which a branch joins the other branches.
   """
-  @spec merge_id(branch_name) :: Stop.id_t()
   def merge_id("Green-E"), do: "place-coecl"
   def merge_id(_), do: "place-kencl"
 
   @doc """
   The first stop that belongs exclusively to each branch.
   """
-  @spec split_id(branch_name) :: Stop.id_t()
   def split_id("Green-B"), do: "place-bland"
   def split_id("Green-C"), do: "place-smary"
   def split_id("Green-D"), do: "place-fenwy"
@@ -145,14 +132,10 @@ defmodule GreenLine do
   where each stop_id key has a value of the Green line routes
   that stops at that Stop
   """
-  @spec routes_for_stops(stop_routes_pair) :: %{Stop.id_t() => [Route.id_t()]}
   def routes_for_stops({_, route_sets}) do
     Enum.reduce(route_sets, Map.new(), &do_routes_for_stops/2)
   end
 
-  @spec do_routes_for_stops({Route.id_t(), MapSet.t()}, %{Stop.id_t() => [Route.id_t()]}) :: %{
-          Stop.id_t() => [Route.id_t()]
-        }
   defp do_routes_for_stops({route_id, stop_set}, map) do
     Enum.reduce(stop_set, map, fn stop_id, acc_map ->
       Map.update(acc_map, stop_id, [route_id], &[route_id | &1])
@@ -161,8 +144,6 @@ defmodule GreenLine do
 
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
-  @spec green_line_stops(Route.id_t(), 0 | 1, Date.t() | nil) ::
-          {Route.id_t(), [Stop.t()]}
   defp green_line_stops(route_id, direction_id, date) do
     opts =
       if is_nil(date) do
@@ -179,7 +160,6 @@ defmodule GreenLine do
     {route_id, stops}
   end
 
-  @spec filter_lines([Stop.t()] | {:error, any}, Route.id_t()) :: [Stop.t()] | {:error, any}
   def filter_lines({:error, _} = error, _) do
     error
   end
@@ -194,7 +174,6 @@ defmodule GreenLine do
   # begins adding stops to the accumulator; it then proceeds down the
   # list of stops until the other terminal is seen, at which point it
   # adds it on and returns the full list.
-  @spec do_filter_lines([Stop.t()], Route.id_t(), boolean, [Stop.t()]) :: [Stop.t()]
   defp do_filter_lines(stops, route_id, in_line?, acc)
 
   defp do_filter_lines([], _route_id, _in_line?, acc) do
@@ -220,10 +199,6 @@ defmodule GreenLine do
   # Returns the current full list of stops on the Green line, along with a
   # map of {route_id => [stop_id]} representing all the stops on the route.
   # The {:ok, _} part of the pattern match is due to using Task.async_stream.
-  @spec merge_green_line_stops(
-          {:ok, {Route.id_t(), [Stop.t()] | {:error, any}}},
-          stop_routes_pair
-        ) :: stop_routes_pair
   defp merge_green_line_stops(_, {{:error, _}, _} = acc) do
     # stops have an error, don't need to do anything else
     acc

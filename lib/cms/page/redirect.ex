@@ -13,7 +13,6 @@ defmodule CMS.Page.Redirect do
           link: Link.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
       link: parse_link(data, "field_redirect_to") || raise("No link specified for redirect.")

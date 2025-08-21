@@ -2,7 +2,6 @@ defmodule Vehicles.Parser do
   @moduledoc false
   alias Vehicles.Vehicle
 
-  @spec parse(JsonApi.Item.t()) :: Vehicle.t()
   def parse(%JsonApi.Item{id: id, attributes: attributes, relationships: relationships}) do
     %Vehicle{
       id: id,
@@ -18,16 +17,13 @@ defmodule Vehicles.Parser do
     }
   end
 
-  @spec status(String.t()) :: Vehicle.status()
   defp status("STOPPED_AT"), do: :stopped
   defp status("INCOMING_AT"), do: :incoming
   defp status("IN_TRANSIT_TO"), do: :in_transit
 
-  @spec optional_id([JsonApi.Item.t()]) :: String.t() | nil
   defp optional_id([]), do: nil
   defp optional_id([%JsonApi.Item{id: id}]), do: id
 
-  @spec crowding(String.t()) :: Vehicle.crowding() | nil
   defp crowding("MANY_SEATS_AVAILABLE"), do: :not_crowded
   defp crowding("FEW_SEATS_AVAILABLE"), do: :some_crowding
   defp crowding("FULL"), do: :crowded

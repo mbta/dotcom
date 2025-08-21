@@ -11,12 +11,10 @@ defmodule MBTA.Api.RoutePatterns do
 
   @type api_response_t() :: JsonApi.t() | {:error, any}
 
-  @spec all(Keyword.t()) :: api_response_t()
   def all(params \\ []) do
     @mbta_api.get_json("/route_patterns/", params)
   end
 
-  @spec get(Route.id_t(), keyword()) :: api_response_t()
   def get(id, params \\ [])
 
   def get(id, params) when is_valid_potential_id(id) do

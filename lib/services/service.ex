@@ -120,7 +120,6 @@ defmodule Services.Service do
     end)
   end
 
-  @spec special_service_dates(Routes.Route.id_t() | [Routes.Route.id_t()]) :: [Date.t()]
   def special_service_dates(route_id_or_ids) do
     # Every 1 response is for a single route
     route_id_or_ids
@@ -158,12 +157,10 @@ defmodule Services.Service do
   defp typicality(6), do: :canonical
   defp typicality(_), do: :unknown
 
-  @spec serves_date?(t(), Date.t()) :: boolean
   def serves_date?(service, date) do
     date in all_valid_dates_for_service(service)
   end
 
-  @spec all_valid_dates_for_service(t()) :: [Date.t()]
   defp all_valid_dates_for_service(%__MODULE__{
          start_date: from,
          end_date: until,
@@ -202,7 +199,6 @@ defmodule Services.Service do
     Enum.uniq(explicitly_added_dates ++ valid_dates)
   end
 
-  @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
   defp parse_listed_dates(date_strings) do
     date_strings
     |> Enum.map(&Timex.parse(&1, "{ISOdate}"))

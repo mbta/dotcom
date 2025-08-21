@@ -14,7 +14,6 @@ defmodule CMS.Partial.Paragraph.FilesGrid do
           title: String.t() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     files =
       data

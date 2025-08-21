@@ -19,7 +19,6 @@ defmodule CMS.Partial.Paragraph.AgendaSubTopic do
           description: HTML.safe()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       title: field_value(data, "field_sub_topic_title"),

@@ -39,7 +39,6 @@ defmodule DotcomWeb.ProjectController do
     |> render("index.html")
   end
 
-  @spec sort_by_date([Teaser.t()]) :: [Teaser.t()]
   defp sort_by_date(teasers) do
     Enum.sort(teasers, fn %{date: d1}, %{date: d2} ->
       {d1.year, d1.month, d1.day} >= {d2.year, d2.month, d2.day}
@@ -135,7 +134,6 @@ defmodule DotcomWeb.ProjectController do
     end
   end
 
-  @spec show_project_update(Conn.t(), ProjectUpdate.t()) :: Conn.t()
   def show_project_update(%Conn{} = conn, %ProjectUpdate{} = update) do
     case Repo.get_page(update.project_url) do
       %Project{} = project ->
@@ -164,14 +162,12 @@ defmodule DotcomWeb.ProjectController do
     end
   end
 
-  @spec simplify_teaser(map()) :: map()
   defp simplify_teaser(teaser) do
     teaser
     |> Map.put(:path, project_path(DotcomWeb.Endpoint, :show, teaser))
     |> Map.take(~w(id text image path title routes date status)a)
   end
 
-  @spec fetch_featured_teasers(String.t() | nil) :: [map()]
   defp fetch_featured_teasers(line_or_mode \\ nil) do
     api_params = [type: [:project], sticky: 1, items_per_page: @n_featured_projects_per_page]
 
@@ -188,7 +184,6 @@ defmodule DotcomWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_teasers(integer, String.t() | nil, integer | nil) :: [map()]
   defp fetch_teasers(offset, line_or_mode \\ nil, n_to_fetch \\ @n_projects_per_page) do
     api_params = [type: [:project], items_per_page: n_to_fetch, offset: offset]
 
@@ -204,7 +199,6 @@ defmodule DotcomWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_update_teasers(integer, String.t() | nil) :: [map()]
   defp fetch_update_teasers(offset, line_or_mode \\ nil) do
     api_params = [
       type: [:project_update],
@@ -224,12 +218,10 @@ defmodule DotcomWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec get_breadcrumb_base :: String.t()
   def get_breadcrumb_base do
     @breadcrumb_base
   end
 
-  @spec translate_filter_params(map() | nil) :: String.t() | nil
   def translate_filter_params(%{"mode" => "subway", "line" => "undefined"}) do
     "subway"
   end

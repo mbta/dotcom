@@ -25,7 +25,6 @@ defmodule VehicleHelpers do
   construct a convenient map that can be used in views / templates to determine if a tooltip is available
   and to fetch all of the required data
   """
-  @spec build_tooltip_index(Route.t(), VehicleLocations.t(), [Prediction.t()]) :: tooltip_index
   def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 
@@ -60,14 +59,10 @@ defmodule VehicleHelpers do
     end)
   end
 
-  @spec prediction_for_stop(VehicleLocations.t(), String.t(), String.t()) :: Prediction.t() | nil
   defp prediction_for_stop(vehicle_predictions, trip_id, stop_id) do
     Map.get(vehicle_predictions, {trip_id, stop_id})
   end
 
-  @spec index_vehicle_predictions([Prediction.t()]) :: %{
-          {String.t(), String.t()} => Prediction.t()
-        }
   defp index_vehicle_predictions(predictions) do
     predictions
     |> Stream.filter(&(&1.trip && &1.stop))
@@ -75,14 +70,12 @@ defmodule VehicleHelpers do
     |> Enum.into(Map.new())
   end
 
-  @spec stop_name(Stops.Stop.t() | nil) :: String.t()
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
 
   @doc """
   Function used to return tooltip text for a VehicleTooltip struct
   """
-  @spec tooltip(VehicleTooltip.t() | nil) :: Phoenix.HTML.Safe.t()
   def tooltip(nil) do
     ""
   end
@@ -99,7 +92,6 @@ defmodule VehicleHelpers do
     build_tooltip(status_text, stop_text)
   end
 
-  @spec prediction_status_text(Prediction.t() | nil) :: iodata
   defp prediction_status_text(%Prediction{status: status, track: track})
        when not is_nil(track) and not is_nil(status) do
     [String.downcase(status), " on track ", track]
@@ -109,7 +101,6 @@ defmodule VehicleHelpers do
     []
   end
 
-  @spec realtime_stop_text(Trip.t() | nil, String.t(), Vehicle.t() | nil, Route.t()) :: iodata
   defp realtime_stop_text(trip, stop_name, %Vehicle{status: status}, route) do
     [
       display_headsign_text(route, trip),
@@ -119,12 +110,10 @@ defmodule VehicleHelpers do
       realtime_status_with_stop(status, stop_name)
   end
 
-  @spec display_headsign_text(Route.t(), Trip.t() | nil) :: iodata
   defp display_headsign_text(_, %{headsign: headsign}), do: [headsign, " "]
   defp display_headsign_text(%{name: name}, _), do: [name, " "]
   defp display_headsign_text(_, _), do: ""
 
-  @spec realtime_status_with_stop(atom, String.t()) :: iodata()
   defp realtime_status_with_stop(_status, "") do
     []
   end
@@ -136,16 +125,13 @@ defmodule VehicleHelpers do
     ]
   end
 
-  @spec realtime_status_text(atom) :: String.t()
   defp realtime_status_text(:incoming), do: " is arriving at "
   defp realtime_status_text(:stopped), do: " has arrived at "
   defp realtime_status_text(:in_transit), do: " is on the way to "
 
-  @spec display_trip_name(Route.t(), Trip.t() | nil) :: iodata
   defp display_trip_name(%{type: 2}, %{name: name}) when is_binary(name), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
-  @spec build_tooltip(iodata, iodata) :: String.t()
   defp build_tooltip([], stop_text), do: "#{stop_text}"
 
   defp build_tooltip(status_text, stop_text) do

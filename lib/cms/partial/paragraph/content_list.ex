@@ -41,7 +41,6 @@ defmodule CMS.Partial.Paragraph.ContentList do
           cta: map()
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     type =
       data
@@ -91,20 +90,16 @@ defmodule CMS.Partial.Paragraph.ContentList do
     }
   end
 
-  @spec field_options([map]) :: [Teaser.display_field()]
   defp field_options(visible_fields) do
     Enum.map(visible_fields, &String.to_existing_atom/1)
   end
 
-  @spec fetch_teasers(t()) :: t()
   def fetch_teasers(%__MODULE__{recipe: opts} = content_list) do
     %{content_list | teasers: Repo.teasers(opts)}
   end
 
   # Some ingredients need to be transformed, merged, or otherwise
   # post-processed in order to be compatible with the CMS endpoint.
-  @spec combine(map) :: Keyword.t()
-  # If no relationship data is found, discard all related data
   defp combine(%{relationship: nil, except: nil} = ingredients) do
     ingredients
     |> Map.drop([:except, :relationship, :host_id, :content_id])
@@ -222,7 +217,6 @@ defmodule CMS.Partial.Paragraph.ContentList do
   end
 
   # Limit amount of teasers when certain types are requested
-  @spec limit_count_by_type(map) :: map
   defp limit_count_by_type(%{type: [type], items_per_page: items} = ingredients)
        when type in [:project_update, :project] and items > 2 do
     Map.put(ingredients, :items_per_page, 2)
@@ -233,7 +227,6 @@ defmodule CMS.Partial.Paragraph.ContentList do
   end
 
   # Convert order value strings to atoms
-  @spec order(text_or_nil) :: order()
   defp order("ASC"), do: :ASC
   defp order("DESC"), do: :DESC
   defp order(_), do: nil

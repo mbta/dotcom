@@ -21,7 +21,6 @@ defmodule DotcomWeb.Plugs.ClearCookies do
     |> Enum.reduce(conn, &expire_cookie/2)
   end
 
-  @spec expire_cookie(String.t(), Plug.Conn.t()) :: Plug.Conn.t()
   defp expire_cookie("ASPSESSION" <> _ = cookie, conn) do
     conn
     |> put_resp_cookie(cookie, "", max_age: 0)

@@ -20,7 +20,6 @@ defmodule DotcomWeb.SearchController do
            required(:route) => MapSet.t(String.t())
          }
 
-  @spec index(Conn.t(), Keyword.t()) :: Conn.t()
   def index(
         conn,
         %{"search" => %{"query" => query} = search_input}
@@ -50,7 +49,6 @@ defmodule DotcomWeb.SearchController do
     |> render("index.html")
   end
 
-  @spec query(Conn.t(), map) :: Conn.t()
   def query(%Conn{} = conn, params) do
     api = %Api{
       host: conn.assigns[:algolia_host],
@@ -92,7 +90,6 @@ defmodule DotcomWeb.SearchController do
     Logger.warning("Received bad response from Algolia: #{inspect(error)}")
   end
 
-  @spec click(Conn.t(), map) :: Conn.t()
   def click(conn, params) do
     response =
       case Analytics.click(params) do
@@ -112,7 +109,6 @@ defmodule DotcomWeb.SearchController do
     json(conn, response)
   end
 
-  @spec render_error(Conn.t()) :: Conn.t()
   defp render_error(conn) do
     conn
     |> assign(:show_error, true)
@@ -121,7 +117,6 @@ defmodule DotcomWeb.SearchController do
 
   @per_page 10
 
-  @spec render_index(Conn.t(), integer, integer, map) :: Conn.t()
   defp render_index(%Conn{assigns: %{results: []}} = conn, _, _, _),
     do: render(conn, "index.html")
 
@@ -133,7 +128,6 @@ defmodule DotcomWeb.SearchController do
     |> render("index.html")
   end
 
-  @spec assign_js(Conn.t()) :: Conn.t()
   defp assign_js(conn) do
     %{stop: stop_ids, route: route_ids} = get_alert_ids(conn.assigns.date_time)
 
@@ -142,7 +136,6 @@ defmodule DotcomWeb.SearchController do
     |> assign(:routes_with_alerts, route_ids)
   end
 
-  @spec get_alert_ids(DateTime.t(), (DateTime.t() -> [Alert.t()])) :: id_map
   def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Repo.all/1) do
     dt
     |> alerts_repo_fn.()
@@ -150,21 +143,18 @@ defmodule DotcomWeb.SearchController do
     |> Enum.reduce(%{stop: MapSet.new(), route: MapSet.new()}, &get_entity_ids/2)
   end
 
-  @spec get_entity_ids(Alert.t(), id_map) :: id_map
   defp get_entity_ids(alert, acc) do
     acc
     |> do_get_entity_ids(alert, :stop)
     |> do_get_entity_ids(alert, :route)
   end
 
-  @spec do_get_entity_ids(id_map, Alert.t(), :stop | :route) :: id_map
   defp do_get_entity_ids(acc, %Alert{} = alert, key) do
     alert
     |> Alert.get_entity(key)
     |> Enum.reduce(acc, &add_id_to_set(&2, key, &1))
   end
 
-  @spec add_id_to_set(id_map, :stop | :route, String.t() | nil) :: id_map
   defp add_id_to_set(acc, _set_name, nil) do
     acc
   end
@@ -173,34 +163,27 @@ defmodule DotcomWeb.SearchController do
     Map.update!(acc, set_name, &MapSet.put(&1, id))
   end
 
-  @spec search_header(Conn.t(), Keyword.t()) :: Conn.t()
   defp search_header(conn, _), do: assign(conn, :search_header?, true)
 
-  @spec breadcrumbs(Conn.t(), Keyword.t()) :: Conn.t()
   defp breadcrumbs(conn, _) do
     assign(conn, :breadcrumbs, [Breadcrumb.build(~t"Search")])
   end
 
-  @spec link_context(Conn.t(), map) :: Conn.t()
   defp link_context(conn, search_input) do
     search_params = search_params(search_input)
     link_context = %{path: search_path(conn, :index), form: "search", params: search_params}
     assign(conn, :link_context, link_context)
   end
 
-  @spec pagination(Conn.t()) :: Conn.t()
   defp pagination(%Conn{assigns: %{stats: stats}} = conn) do
     pagination = build(stats)
     assign(conn, :pagination, pagination)
   end
 
-  @spec assign_facets(Conn.t(), Result.t(), [String.t()]) ::
-          Conn.t()
   def assign_facets(conn, %Result{content_types: response_types}, content_types) do
     assign(conn, :facets, Facets.build("content_type", response_types, content_types))
   end
 
-  @spec stats(Conn.t(), integer, integer) :: Conn.t()
   defp stats(conn, offset, count) do
     stats = %{
       total: count,
@@ -213,7 +196,6 @@ defmodule DotcomWeb.SearchController do
     assign(conn, :stats, stats)
   end
 
-  @spec search_params(map) :: map
   defp search_params(search_input) do
     %{
       "[query]" => Map.get(search_input, "query", ""),
@@ -223,7 +205,6 @@ defmodule DotcomWeb.SearchController do
     |> Map.merge(convert_filter_to_param(search_input, "year"))
   end
 
-  @spec offset(map) :: integer
   defp offset(search_input) do
     input = Map.get(search_input, "offset", "0")
 
@@ -233,14 +214,12 @@ defmodule DotcomWeb.SearchController do
     end
   end
 
-  @spec content_types(map) :: [String.t()]
   defp content_types(search_input) do
     search_input
     |> Map.get("content_type", %{})
     |> Map.keys()
   end
 
-  @spec convert_filter_to_param(map, String.t()) :: map
   defp convert_filter_to_param(search_input, field) do
     search_input
     |> Map.get(field, %{})

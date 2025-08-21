@@ -24,7 +24,6 @@ defmodule Alerts.HistoricalAlert do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  @spec from_alert(Alert.t()) :: t()
   def from_alert(alert) when not is_nil(alert) do
     %__MODULE__{
       id: alert.id,
@@ -35,14 +34,12 @@ defmodule Alerts.HistoricalAlert do
     }
   end
 
-  @spec get_entity_lists(Alert.t(), entity_key) :: [String.t()]
   defp get_entity_lists(alert, key) do
     Alert.get_entity(alert, key)
     |> MapSet.delete(nil)
     |> Enum.map(&get_name(&1, key))
   end
 
-  @spec get_name(String.t(), entity_key) :: String.t()
   defp get_name(id, key) do
     module =
       case key do

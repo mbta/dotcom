@@ -9,7 +9,6 @@ defmodule CMS.Partial.Paragraph.Unknown do
           type: String.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       type: parse_type(data)

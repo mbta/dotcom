@@ -40,24 +40,12 @@ defmodule Schedules.HoursOfOperation do
   does not run on that day.
   """
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  @spec hours_of_operation(
-          Routes.Route.id_t() | [Routes.Route.id_t()],
-          Date.t(),
-          Routes.Route.gtfs_route_desc()
-        ) ::
-          t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
     |> Util.error_default(%__MODULE__{})
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  @spec hours_of_operation_by_stop(
-          Routes.Route.id_t() | [Routes.Route.id_t()],
-          Date.t(),
-          Routes.Route.gtfs_route_desc()
-        ) ::
-          t | {:error, any}
   def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
     |> Util.error_default(%__MODULE__{})
@@ -101,8 +89,6 @@ defmodule Schedules.HoursOfOperation do
   * special_service_2, direction 0,
   * ...
   """
-  @spec api_params([Routes.Route.id_t()], Date.t(), [Date.t()], atom()) ::
-          Keyword.t()
   def api_params(route_ids, today, special_service_dates, description) do
     # This does some fancy math so its week_0, week_1, saturday_0, saturday_1
     # Basically this order defines how we need to parse the data futher on
@@ -130,7 +116,6 @@ defmodule Schedules.HoursOfOperation do
 
   Returns as a list rather than a tuple for easier iteration.
   """
-  @spec week_dates(Date.t(), [Date.t()]) :: [Date.t()]
   def week_dates(today, days_to_avoid) do
     dow = Date.day_of_week(today)
 
@@ -181,9 +166,6 @@ defmodule Schedules.HoursOfOperation do
 
   It expects 6 + (2 * n) responses, in the same order specified in `api_params/4`.
   """
-  @spec parse_responses([{:ok, api_response} | {:exit, any}], atom(), Keyword.t(), Function.t()) ::
-          t | {:error, any}
-        when api_response: JsonApi.t() | {:error, any}
   def parse_responses(
         [
           {:ok, week_response_0},
@@ -303,7 +285,6 @@ defmodule Schedules.HoursOfOperation do
   Used to combine %HoursOfOperation structs for different routes into a
   single struct representing all the routes together.
   """
-  @spec join_hours([t], atom()) :: t
   def join_hours([single], _) do
     single
   end

@@ -6,7 +6,6 @@ defmodule Alerts.Parser do
     @moduledoc """
     This is the module to parse alerts
     """
-    @spec parse(JsonApi.Item.t()) :: Alerts.Alert.t()
     def parse(%JsonApi.Item{type: "alert", id: id, attributes: attributes}) do
       Alerts.Alert.new(
         id: id,
@@ -54,7 +53,6 @@ defmodule Alerts.Parser do
       }
     end
 
-    @spec do_activity(String.t()) :: Alerts.InformedEntity.activity_type()
     defp do_activity("BOARD"), do: :board
     defp do_activity("EXIT"), do: :exit
     defp do_activity("RIDE"), do: :ride
@@ -94,9 +92,6 @@ defmodule Alerts.Parser do
       end
     end
 
-    @spec effect(%{String.t() => String.t()}) :: Alerts.Alert.effect()
-    # Special case to parse an info-level delay-due-to-single-tracking
-    # as having a :single_tracking effect.
     def effect(%{"severity" => 1, "effect" => "DELAY", "cause" => "SINGLE_TRACKING"}),
       do: :single_tracking
 
@@ -115,7 +110,6 @@ defmodule Alerts.Parser do
       end
     end
 
-    @spec do_effect(String.t()) :: Alerts.Alert.effect()
     defp do_effect("AMBER_ALERT"), do: :amber_alert
     defp do_effect("CANCELLATION"), do: :cancellation
     defp do_effect("DELAY"), do: :delay
@@ -147,7 +141,6 @@ defmodule Alerts.Parser do
     defp do_effect("SUMMARY"), do: :summary
     defp do_effect(_), do: :unknown
 
-    @spec cause(String.t() | nil) :: Alerts.Alert.cause()
     def cause(nil), do: :unknown_cause
 
     def cause(cause) when is_binary(cause) do
@@ -157,7 +150,6 @@ defmodule Alerts.Parser do
       |> do_cause()
     end
 
-    @spec do_cause(String.t()) :: Alerts.Alert.cause()
     defp do_cause("TRAFFIC"), do: :traffic
     defp do_cause("TRACK_WORK"), do: :track_work
     defp do_cause("OTHER_CAUSE"), do: :other_cause
@@ -175,7 +167,6 @@ defmodule Alerts.Parser do
     defp do_cause("UNKNOWN_CAUSE"), do: :unknown_cause
     defp do_cause(_), do: :unknown_cause
 
-    @spec severity(String.t() | integer) :: Alerts.Alert.severity()
     def severity(binary) when is_binary(binary) do
       case String.upcase(binary) do
         "INFORMATION" ->
@@ -203,7 +194,6 @@ defmodule Alerts.Parser do
       int
     end
 
-    @spec lifecycle(String.t()) :: Alerts.Alert.lifecycle()
     def lifecycle(binary) do
       case String.upcase(binary) do
         "ONGOING" ->
@@ -231,7 +221,6 @@ defmodule Alerts.Parser do
     """
     alias Alerts.{Banner, InformedEntitySet, Parser.Alert}
 
-    @spec parse(JsonApi.Item.t()) :: [Banner.t()]
     def parse(%JsonApi.Item{
           id: id,
           attributes:

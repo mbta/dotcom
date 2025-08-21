@@ -44,7 +44,6 @@ defmodule Dotcom.Alerts do
   @doc """
   Get a list of stations that are affected by the alert.
   """
-  @spec affected_stations(Alert.t()) :: [Stop.t()]
   def affected_stations(alert) do
     alert
     |> Map.get(:informed_entity, %{stop: nil})
@@ -59,7 +58,6 @@ defmodule Dotcom.Alerts do
   @doc """
   Does the alert match a group of effects/severities?
   """
-  @spec effects_match?(list(), Alert.t()) :: boolean()
   def effects_match?(effects, alert) do
     Enum.any?(effects, &effect_match?(&1, alert))
   end
@@ -68,7 +66,6 @@ defmodule Dotcom.Alerts do
   Does the alert have an effect/severity that is considered service impacting?
   And, was it planned?
   """
-  @spec planned_service_impacting_alert?(Alert.t()) :: boolean()
   def planned_service_impacting_alert?(alert) do
     service_impacting_alert?(alert) && planned_alert?(alert)
   end
@@ -76,7 +73,6 @@ defmodule Dotcom.Alerts do
   @doc """
   Does the alert have an effect/severity that is considered service-impacting?
   """
-  @spec service_impacting_alert?(Alert.t()) :: boolean()
   def service_impacting_alert?(alert) do
     effects_match?(@service_impacting_effects, alert)
   end
@@ -84,7 +80,6 @@ defmodule Dotcom.Alerts do
   @doc """
   Returns a boolean indicating whether or not the alert is in effect right now.
   """
-  @spec in_effect_now?(Alerts.Alert.t()) :: boolean()
   def in_effect_now?(%Alerts.Alert{active_period: active_period}) do
     Enum.any?(active_period, fn {start, stop} ->
       in_range?({start, stop}, @date_time_module.now())
@@ -94,13 +89,11 @@ defmodule Dotcom.Alerts do
   @doc """
   Returns a keyword list of the alert effects that are considered service-impacting and their severity levels.
   """
-  @spec service_impacting_effects() :: [{service_effect_t(), integer()}]
   def service_impacting_effects(), do: @service_impacting_effects
 
   @doc """
   Sort alerts by the start time of the first active period.
   """
-  @spec sort_by_start_time_sorter(Alert.t(), Alert.t()) :: boolean()
   def sort_by_start_time_sorter(a, b) do
     a_start_time = sort_by_start_time_mapper(a)
     b_start_time = sort_by_start_time_mapper(b)
@@ -111,7 +104,6 @@ defmodule Dotcom.Alerts do
   @doc """
   Sort alerts by the list of stations they affect.
   """
-  @spec sort_by_station_sorter(Alert.t(), Alert.t()) :: boolean()
   def sort_by_station_sorter(a, b) do
     a_station = sort_by_station_mapper(a)
     b_station = sort_by_station_mapper(b)
@@ -119,7 +111,6 @@ defmodule Dotcom.Alerts do
     a_station <= b_station
   end
 
-  @spec subway_alert_groups() :: [{Route.t(), [Alert.t()]}]
   def subway_alert_groups() do
     alerts =
       @alerts_repo_module.all(@date_time_module.now())

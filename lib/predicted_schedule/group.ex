@@ -11,15 +11,12 @@ defmodule PredictedSchedule.Group do
   @type prediction_map_t :: %{map_key_t => stop_id_to_prediction_map_t}
 
   @doc "Groups predictions by stop_id and trip and builds a map %{Trip => %{stop_id => Prediction}}."
-  @spec build_prediction_map([Prediction.t()], [schedule_or_pair], Stop.id_t(), Stop.id_t() | nil) ::
-          prediction_map_t
   def build_prediction_map(predictions, schedules, origin_id, destination_id) do
     predictions
     |> Enum.reduce(%{}, &prediction_map_builder/2)
     |> filter_relevant_predictions(schedules, origin_id, destination_id)
   end
 
-  @spec prediction_map_builder(Prediction.t(), prediction_map_t) :: prediction_map_t
   defp prediction_map_builder(prediction, prediction_map) do
     key = prediction.trip || prediction.id
 
@@ -42,12 +39,6 @@ defmodule PredictedSchedule.Group do
   # 2) we have two predictions with the same trip_id, and one of them is for the departure stop and the other
   # for the destination.
 
-  @spec filter_relevant_predictions(
-          prediction_map_t,
-          [Schedule.t() | schedule_pair_t],
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t() | nil
-        ) :: prediction_map_t
   defp filter_relevant_predictions(prediction_map, _schedules, _origin_id, nil),
     do: prediction_map
 
@@ -61,12 +52,6 @@ defmodule PredictedSchedule.Group do
     |> Enum.into(%{})
   end
 
-  @spec prediction_map_entry_relevant?(
-          prediction_map_entry_t,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          MapSet.t()
-        ) :: boolean
   defp prediction_map_entry_relevant?(
          {%Trip{id: trip_id}, stop_id_prediction_map},
          origin_id,
@@ -86,7 +71,6 @@ defmodule PredictedSchedule.Group do
     false
   end
 
-  @spec trip_ids_for_destination([schedule_pair_t] | nil, String.t() | nil) :: MapSet.t()
   defp trip_ids_for_destination(_schedules, nil), do: MapSet.new()
   defp trip_ids_for_destination(nil, _destination_id), do: MapSet.new()
 

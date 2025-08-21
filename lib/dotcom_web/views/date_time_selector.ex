@@ -15,7 +15,6 @@ defmodule DateTimeSelector do
                     int -> Integer.to_string(int)
                   end)
 
-  @spec verify_params(Form.t(), DateTime.t()) :: map
   defp verify_params(form, datetime) do
     datetime_params = form.params["date_time"] || %{}
 
@@ -73,7 +72,6 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t(), map) :: Phoenix.HTML.Safe.t()
   defp custom_date_select(form, %DateTime{} = datetime, options, date_ranges) do
     min_date = Timex.format!(date_ranges.min_date, "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(date_ranges.max_date, "{0M}/{0D}/{YYYY}")
@@ -118,7 +116,6 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_date_select_builder(fun, String.t()) :: Phoenix.HTML.Safe.t()
   defp custom_date_select_builder(field, prefix) do
     content_tag(
       :div,
@@ -135,7 +132,6 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_time_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp custom_time_select(form, datetime, options) do
     current_time = Timex.format!(datetime, "{h12}:{m} {AM}")
     aria_label = "#{current_time}, click or press the enter or space key to edit the time"

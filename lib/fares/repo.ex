@@ -10,8 +10,6 @@ defmodule Fares.Repo do
 
   @fares Fares.FareInfo.fare_info()
 
-  @spec all() :: [Fare.t()]
-  @spec all(Keyword.t()) :: [Fare.t()]
   def all do
     @fares
   end
@@ -27,13 +25,11 @@ defmodule Fares.Repo do
   :includes_media keyword, which will match against a fare whose :media list
   includes that media (possibly among other media types).
   """
-  @spec filter([Fare.t()], Keyword.t()) :: [Fare.t()]
   def filter(fares, opts) do
     fares
     |> filter_all(Map.new(opts))
   end
 
-  @spec filter_all([Fare.t()], %{}) :: [Fare.t()]
   defp filter_all(fares, opts) do
     {media, opts} = Map.pop(opts, :includes_media)
 
@@ -42,7 +38,6 @@ defmodule Fares.Repo do
     end)
   end
 
-  @spec for_fare_class(Routes.Route.gtfs_fare_class(), Keyword.t()) :: [Fare.t()]
   def for_fare_class(fare_class, opts \\ []) do
     opts = Keyword.merge(opts, fare_class_opts(fare_class))
 

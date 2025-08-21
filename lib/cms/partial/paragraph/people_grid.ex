@@ -11,7 +11,6 @@ defmodule CMS.Partial.Paragraph.PeopleGrid do
           people: [Person.t()]
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     people =
       data

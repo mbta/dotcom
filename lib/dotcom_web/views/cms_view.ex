@@ -22,8 +22,6 @@ defmodule DotcomWeb.CMSView do
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."
-  @spec render_duration(NaiveDateTime.t() | DateTime.t(), NaiveDateTime.t() | DateTime.t() | nil) ::
-          String.t()
   def render_duration(start_time, end_time)
 
   def render_duration(start_time, nil) do

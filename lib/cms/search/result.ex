@@ -32,7 +32,6 @@ defmodule CMS.Search.Result do
           results: [result]
         }
 
-  @spec from_api(map) :: t
   def from_api(%{"response" => response, "facet_counts" => %{"facet_fields" => facet_fields}}) do
     %__MODULE__{
       count: response["numFound"],
@@ -41,7 +40,6 @@ defmodule CMS.Search.Result do
     }
   end
 
-  @spec parse_result(map) :: [result]
   defp parse_result(%{"ss_type" => "event"} = result), do: [Event.build(result)]
   defp parse_result(%{"ss_type" => "landing_page"} = result), do: [LandingPage.build(result)]
   defp parse_result(%{"ss_type" => "news_entry"} = result), do: [NewsEntry.build(result)]
@@ -54,14 +52,12 @@ defmodule CMS.Search.Result do
 
   defp parse_result(_), do: []
 
-  @spec parse_content_type(map) :: Keyword.t()
   defp parse_content_type(content_types) do
     content_types
     |> Map.get("content_type", [])
     |> do_parse_content_type(Keyword.new())
   end
 
-  @spec do_parse_content_type([String.t() | integer], Keyword.t()) :: Keyword.t()
   defp do_parse_content_type([], output), do: output
 
   defp do_parse_content_type([first, second | _rest] = input, output) do

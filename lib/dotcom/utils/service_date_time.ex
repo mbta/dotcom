@@ -42,8 +42,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get the service date for the given date_time.
   If the time is before 03:00:00am, we consider it to be the previous day.
   """
-  @spec service_date() :: Date.t()
-  @spec service_date(DateTime.t()) :: Date.t()
   def service_date(date_time \\ @date_time_module.now()) do
     if date_time.hour < @service_rollover_time.hour do
       Timex.shift(date_time, hours: -@service_rollover_time.hour)
@@ -57,7 +55,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   The service range for the given date_time.
   """
-  @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do
     Enum.find(
       [
@@ -80,7 +77,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Converts a service range atom to a title-cased string.
   """
-  @spec service_range_string(named_service_range()) :: String.t()
   def service_range_string(service_range) do
     case service_range do
       :after_next_week -> "Later"
@@ -91,8 +87,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get the beginning of the service day for the day after the given date_time.
   """
-  @spec beginning_of_next_service_day() :: DateTime.t()
-  @spec beginning_of_next_service_day(DateTime.t()) :: DateTime.t()
   def beginning_of_next_service_day(datetime \\ @date_time_module.now()) do
     datetime
     |> end_of_service_day()
@@ -103,8 +97,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get the beginning of the service day for the given date_time.
   """
-  @spec beginning_of_service_day() :: DateTime.t()
-  @spec beginning_of_service_day(DateTime.t()) :: DateTime.t()
   def beginning_of_service_day(date_time \\ @date_time_module.now()) do
     date_time
     |> service_date()
@@ -116,8 +108,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get the end of the service day for the given date_time.
   """
-  @spec end_of_service_day() :: DateTime.t()
-  @spec end_of_service_day(DateTime.t()) :: DateTime.t()
   def end_of_service_day(date_time \\ @date_time_module.now()) do
     date_time
     |> service_date()
@@ -132,8 +122,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get a service range for the day of the given date_time.
   Service days go from 03:00:00am to 02:59:59am the following day.
   """
-  @spec service_range_day() :: Utils.DateTime.date_time_range()
-  @spec service_range_day(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_day(date_time \\ @date_time_module.now()) do
     beginning_of_service_day = beginning_of_service_day(date_time)
     end_of_service_day = end_of_service_day(date_time)
@@ -146,8 +134,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Service weeks go from Monday at 03:00:00am to the following Monday at 02:59:59am.
   If today is the last day in the service week, the range will be the same as the range for today.
   """
-  @spec service_range_this_week() :: Utils.DateTime.date_time_range()
-  @spec service_range_this_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_this_week(date_time \\ @date_time_module.now()) do
     beginning_of_service_day = beginning_of_service_day(date_time)
 
@@ -162,8 +148,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get a service range for the week following the current week of the given date_time.
   """
-  @spec service_range_next_week() :: Utils.DateTime.date_time_range()
-  @spec service_range_next_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_next_week(date_time \\ @date_time_module.now()) do
     {_, end_of_this_week} = service_range_this_week(date_time)
     beginning_of_next_week = Timex.shift(end_of_this_week, microseconds: 1)
@@ -177,8 +161,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Get a service range for all time after the following week of the given date_time.
   """
-  @spec service_range_after_next_week() :: Utils.DateTime.date_time_range()
-  @spec service_range_after_next_week(DateTime.t()) :: Utils.DateTime.date_time_range()
   def service_range_after_next_week(date_time \\ @date_time_module.now()) do
     {_, end_of_next_week} = date_time |> service_range_next_week()
     beginning_of_after_next_week = Timex.shift(end_of_next_week, microseconds: 1)
@@ -189,7 +171,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Is the given date_time before the beginning of service today?
   """
-  @spec service_before_today?(DateTime.t()) :: boolean
   def service_before_today?(date_time) do
     Timex.before?(date_time, beginning_of_service_day())
   end
@@ -197,7 +178,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Does the given date_time fall within today's service range?
   """
-  @spec service_today?(DateTime.t()) :: boolean
   def service_today?(date_time) do
     service_range_day() |> in_range?(date_time)
   end
@@ -205,7 +185,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Does the given date_time fall within the service range of this week?
   """
-  @spec service_this_week?(DateTime.t()) :: boolean
   def service_this_week?(date_time) do
     service_range_this_week() |> in_range?(date_time)
   end
@@ -213,7 +192,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Does the given date_time fall within the service range of next week?
   """
-  @spec service_next_week?(DateTime.t()) :: boolean
   def service_next_week?(date_time) do
     service_range_next_week() |> in_range?(date_time)
   end
@@ -221,7 +199,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @doc """
   Does the given date_time fall within the service range after next week?
   """
-  @spec service_after_next_week?(DateTime.t()) :: boolean
   def service_after_next_week?(date_time) do
     service_range_after_next_week() |> in_range?(date_time)
   end
@@ -230,7 +207,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Returns service ranges between two datetimes, inclusive.
   One datetime can be given, which will return only the service range for the given datetime.
   """
-  @spec service_range_range(DateTime.t() | nil, DateTime.t() | nil) :: [named_service_range()]
   def service_range_range(nil, nil), do: []
   def service_range_range(start, nil) when not is_nil(start), do: [service_range(start)]
   def service_range_range(nil, stop) when not is_nil(stop), do: [service_range(stop)]

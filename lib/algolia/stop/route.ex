@@ -7,7 +7,6 @@ defmodule Algolia.Stop.Route do
           type: [0..4]
         }
 
-  @spec new(atom, [Routes.Route.t()]) :: __MODULE__.t()
   def new(icon, routes) do
     %__MODULE__{
       icon: icon,

@@ -29,7 +29,6 @@ defmodule Predictions.StreamTopic do
           streams: [{clear_keys, filter_params}]
         }
 
-  @spec new(String.t()) :: t() | {:error, term()}
   def new(topic)
 
   def new("stop:" <> stop_id = topic) do
@@ -41,7 +40,6 @@ defmodule Predictions.StreamTopic do
     {:error, :unsupported_topic}
   end
 
-  @spec do_new(Store.fetch_keys(), String.t()) :: t() | {:error, term()}
   defp do_new(fetch_keys, topic) do
     case streams_from_fetch_keys(fetch_keys) do
       [] ->
@@ -56,7 +54,6 @@ defmodule Predictions.StreamTopic do
     end
   end
 
-  @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
   defp streams_from_fetch_keys(stop: stop_id) do
     @route_patterns_repo.by_stop_id(stop_id)
     |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
@@ -74,7 +71,6 @@ defmodule Predictions.StreamTopic do
     |> Enum.map_join("&", fn {filter, value} -> "filter[#{filter}]=#{value}" end)
   end
 
-  @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]
   def registration_keys(%__MODULE__{fetch_keys: fetch_keys, streams: streams}) do
     Enum.map(streams, &{fetch_keys, &1})
   end

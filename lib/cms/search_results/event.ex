@@ -15,7 +15,6 @@ defmodule CMS.SearchResult.Event do
           location: String.t()
         }
 
-  @spec build(map) :: t
   def build(result) do
     %__MODULE__{
       title: result["ts_title"],
@@ -25,14 +24,12 @@ defmodule CMS.SearchResult.Event do
     }
   end
 
-  @spec start_time(String.t()) :: DateTime.t() | nil
   defp start_time(datestring) do
     datestring
     |> String.replace("Z", "")
     |> parse_iso_datetime()
   end
 
-  @spec location(map) :: String.t()
   defp location(%{"ss_field_imported_address" => address}), do: address
 
   defp location(%{

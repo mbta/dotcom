@@ -13,7 +13,6 @@ defmodule CMS.Partial.Paragraph.TitleCardSet do
           descriptive_links: [DescriptiveLink.t()]
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     cards =
       data

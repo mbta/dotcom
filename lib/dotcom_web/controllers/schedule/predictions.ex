@@ -40,8 +40,6 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end
   end
 
-  @spec should_fetch_predictions?(Plug.Conn.t()) :: boolean
-  @doc "We only fetch predictions if we selected an origin and the date is today."
   def should_fetch_predictions?(%{assigns: %{origin: nil}}) do
     false
   end
@@ -50,7 +48,6 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     Date.compare(assigns.date, Util.service_date(assigns.date_time)) == :eq
   end
 
-  @spec predictions(Plug.Conn.t()) :: [Prediction.t()]
   defp predictions(%{
          assigns: %{
            origin: origin,
@@ -90,7 +87,6 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     []
   end
 
-  @spec filter_stop_at_origin([Prediction.t()], Stops.Stop.id_t()) :: [Prediction.t()]
   defp filter_stop_at_origin(predictions, origin_id) do
     predictions
     |> Enum.reject(fn
@@ -100,14 +96,12 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end)
   end
 
-  @spec filter_missing_trip([Prediction.t()]) :: [Prediction.t()]
   defp filter_missing_trip(predictions) do
     Enum.filter(predictions, fn pred ->
       pred.trip != nil || pred.status != nil
     end)
   end
 
-  @spec vehicle_predictions(Plug.Conn.t()) :: [Prediction.t()]
   defp vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}) do
     {trip_ids, stop_ids} =
       vehicle_locations

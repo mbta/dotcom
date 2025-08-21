@@ -114,7 +114,6 @@ defmodule CMS.Partial.Paragraph do
           | TripPlanWidget
           | Unknown
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ [])
 
   def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para, _preview_opts) do
@@ -211,20 +210,16 @@ defmodule CMS.Partial.Paragraph do
     Unknown.from_api(unknown_paragraph_type)
   end
 
-  @spec right_rail?(t) :: boolean
   def right_rail?(%{right_rail: true}), do: true
   def right_rail?(_), do: false
 
-  @spec full_bleed?(t) :: boolean
   def full_bleed?(%Callout{}), do: true
   def full_bleed?(%{right_rail: true}), do: true
   def full_bleed?(_), do: false
 
-  @spec get_types() :: [name]
   def get_types, do: @types
 
   # Pass through the nested paragraph and host ID
-  @spec parse_library_item(map, map) :: t
   defp parse_library_item(data, preview_opts) do
     data
     |> Map.get("field_reusable_paragraph")

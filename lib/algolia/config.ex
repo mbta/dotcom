@@ -12,7 +12,6 @@ defmodule Algolia.Config do
           write: String.t() | nil
         }
 
-  @spec config :: t
   def config do
     :dotcom
     |> Application.get_env(:algolia_config)

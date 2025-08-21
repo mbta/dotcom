@@ -36,7 +36,6 @@ defmodule Dotcom.Stream.Vehicles do
 
   @type vehicle_map :: %{optional(Routes.Route.id_t()) => [Vehicle.t()]}
 
-  @spec send_green_line(vehicle_map, atom, String.t()) :: :ok
   defp send_green_line(by_route, event, topic) do
     Enum.each([0, 1], fn direction_id ->
       GreenLine.branch_ids()
@@ -45,7 +44,6 @@ defmodule Dotcom.Stream.Vehicles do
     end)
   end
 
-  @spec do_send_green_line([Vehicle.t()], 0 | 1, atom, String.t()) :: :ok
   defp do_send_green_line([], _direction_id, _event, _topic) do
     :ok
   end
@@ -54,7 +52,6 @@ defmodule Dotcom.Stream.Vehicles do
     send_vehicles({{"Green", direction_id}, vehicles}, event, topic)
   end
 
-  @spec send_vehicles({{Routes.Route.id_t(), 0 | 1}, [Vehicle.t()]}, atom, String.t()) :: :ok
   defp send_vehicles(
          {
            {<<route_id::binary>>, direction_id},
@@ -75,7 +72,6 @@ defmodule Dotcom.Stream.Vehicles do
     :ok
   end
 
-  @spec broadcast_vehicles(String.t(), atom, any) :: :ok
   defp broadcast_vehicles(topic, event, data) do
     try do
       Endpoint.broadcast(

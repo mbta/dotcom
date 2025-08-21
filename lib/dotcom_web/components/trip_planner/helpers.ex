@@ -12,7 +12,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   @doc """
   Custom error message based on OpenTripPlanner result.
   """
-  @spec error_message(Plan.t() | binary()) :: String.t()
   def error_message(%Plan{
         search_date_time: search_date_time,
         routing_errors: [
@@ -27,7 +26,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   @doc """
   Custom message based on RoutingError codes.
   """
-  @spec routing_error_message(RoutingError.t()) :: String.t()
   def routing_error_message(%RoutingError{code: :NO_TRANSIT_CONNECTION}, _) do
     ~t"No transit connection was found between the origin and destination on this date and time"
   end
@@ -78,7 +76,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   def routing_error_message(_), do: fallback_error_message()
 
   @doc "Generic error message for trip planning."
-  @spec fallback_error_message :: String.t()
   def fallback_error_message do
     ~t"Please try again or send us feedback at mbta.com/customer-support"
   end
@@ -86,8 +83,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   @doc """
   Formatted list of times arriving or departing.
   """
-  @spec group_alternatives_text(ItineraryGroup.t()) :: String.t() | nil
-  @spec group_alternatives_text([DateTime.t()], :start | :end) :: String.t() | nil
   def group_alternatives_text(
         %ItineraryGroup{representative_index: representative_index, time_key: time_key} =
           itinerary_group
@@ -101,7 +96,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
   @doc """
   Formatted list of times arriving or departing.
   """
-  @spec group_alternatives_text([DateTime.t()], :start | :end) :: String.t() | nil
   def group_alternatives_text([], _), do: nil
 
   def group_alternatives_text([time], :start),
@@ -192,7 +186,6 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
       iex> walk_summary(%OpenTripPlannerClient.Schema.Step{street_name: "Rainbow Road"})
       "Go onto Rainbow Road"
   """
-  @spec walk_summary(Step.t() | Leg.t()) :: String.t()
   def walk_summary(%Step{relative_direction: :DEPART, street_name: "Transfer"}),
     do: ~t"Transfer"
 

@@ -18,7 +18,6 @@ defmodule DotcomWeb.SearchView do
 
   defdelegate fa_icon_for_file_type(mime), to: Dotcom.FontAwesomeHelpers
 
-  @spec render_filter_option(PhoenixHTMLHelpers.Form, atom, map) :: Phoenix.HTML.safe()
   def render_filter_option(form, type, option) do
     id = "#{type}_#{option.value}"
     name = "search[#{type}][#{option.value}]"
@@ -41,7 +40,6 @@ defmodule DotcomWeb.SearchView do
     end
   end
 
-  @spec render_toggle_filter() :: [Phoenix.HTML.safe()]
   def render_toggle_filter do
     [
       content_tag(:span, fa("plus-circle"), class: "search-filter-expand"),
@@ -49,7 +47,6 @@ defmodule DotcomWeb.SearchView do
     ]
   end
 
-  @spec search_icon(Result.result()) :: Phoenix.HTML.safe() | String.t()
   defp search_icon(%Event{}), do: fa("calendar")
   defp search_icon(%NewsEntry{}), do: fa("newspaper-o")
   defp search_icon(%Person{}), do: fa("user")
@@ -58,7 +55,6 @@ defmodule DotcomWeb.SearchView do
   defp search_icon(%Link{}), do: fa("file-o")
   defp search_icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
-  @spec fragment(Result.result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
   defp fragment(%NewsEntry{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Person{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Page{highlights: higlights}, conn), do: highlights(higlights, conn)
@@ -71,14 +67,12 @@ defmodule DotcomWeb.SearchView do
 
   defp fragment(_, _conn), do: ""
 
-  @spec highlights([String.t()], Plug.Conn.t()) :: Phoenix.HTML.safe()
   defp highlights(html_strings, conn) do
     html_strings
     |> raw()
     |> rewrite(conn)
   end
 
-  @spec track_search_click(String.t(), String.t()) :: String.t()
   defp track_search_click(url, origin) do
     delimiter =
       case String.contains?(url, "?") do

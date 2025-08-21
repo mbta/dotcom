@@ -5,7 +5,6 @@ defmodule Dotcom.ContentRewriters.Links do
   Adds the target=_blank attribute to links that redirect to
   the old site so they open in a new tab.
   """
-  @spec add_target_to_redirect(Floki.html_tree()) :: Floki.html_tree()
   def add_target_to_redirect({"a", attrs, children} = element) do
     case Floki.attribute(element, "href") do
       ["/redirect/" <> _] ->
@@ -23,7 +22,6 @@ defmodule Dotcom.ContentRewriters.Links do
   Adds the ?preview&vid=latest query parameters to relative URLs
   if the current page is in preview mode.
   """
-  @spec add_preview_params(Floki.html_tree(), Plug.Conn.t()) :: Floki.html_tree()
   def add_preview_params({"a", attrs, children} = element, conn) do
     case Enum.into(attrs, %{}) do
       %{"href" => "/" <> internal_path} = attr_map ->

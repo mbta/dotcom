@@ -241,7 +241,6 @@ defmodule Fares.FareInfo do
   ]
 
   @doc "Load fare info from a CSV file."
-  @spec fare_info() :: [Fare.t()]
   def fare_info do
     @fare_data
     |> Enum.flat_map(&mapper/1)
@@ -249,7 +248,6 @@ defmodule Fares.FareInfo do
     |> split_reduced_fares()
   end
 
-  @spec mapper(map()) :: [Fare.t()]
   def mapper(%{
         mode: :commuter,
         zone: zone,
@@ -781,14 +779,12 @@ defmodule Fares.FareInfo do
   # Student and Senior fare prices are always the same.
   # For every generic reduced fare, add in two discreet
   # fares by media type (senior_card and student_card).
-  @spec split_reduced_fares([Fare.t()]) :: [Fare.t()]
   defp split_reduced_fares(fares) do
     fares
     |> Enum.filter(&match?(%{reduced: :any}, &1))
     |> Enum.reduce(fares, &populate_reduced(&1, &2))
   end
 
-  @spec populate_reduced(Fare.t(), [Fare.t()]) :: [Fare.t()]
   defp populate_reduced(fare, fares) do
     senior = %{fare | media: [:senior_card], reduced: :senior_disabled}
     student = %{fare | media: [:student_card], reduced: :student}
@@ -797,7 +793,6 @@ defmodule Fares.FareInfo do
   end
 
   # Special fare used only for inbound trips from the airport
-  @spec free_fare() :: [Fare.t()]
   defp free_fare do
     [
       %Fare{
@@ -811,7 +806,6 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  @spec georges_island_ferry_fares() :: [Fare.t()]
   def georges_island_ferry_fares do
     base_fare = %Fare{
       mode: :ferry,

@@ -42,7 +42,6 @@ defmodule CMS.Partial.Banner do
           utm_url: String.t() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       blurb: field_value(data, "field_in_blurb") || field_value(data, "title") || "",
@@ -58,19 +57,15 @@ defmodule CMS.Partial.Banner do
     }
   end
 
-  @spec parse_image([map]) :: Image.t() | nil
   defp parse_image([%{} = api_image]), do: Image.from_api(api_image)
   defp parse_image(_), do: nil
 
-  @spec banner_type(String.t() | nil) :: :important | :default
   defp banner_type("important"), do: :important
   defp banner_type(_), do: :default
 
-  @spec text_position(String.t() | nil) :: :left | :right
   defp text_position("right"), do: :right
   defp text_position(_), do: :left
 
-  @spec updated_on(String.t() | nil) :: String.t()
   defp updated_on(date) when is_binary(date) do
     date
     |> Timex.parse("{YYYY}-{M}-{D}")

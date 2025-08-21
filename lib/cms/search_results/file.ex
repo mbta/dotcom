@@ -6,7 +6,6 @@ defmodule CMS.SearchResult.File do
 
   @static_path "/sites/default/files"
 
-  @spec build(map) :: t
   def build(result) do
     %__MODULE__{
       mimetype: result["ss_filemime"],
@@ -15,7 +14,6 @@ defmodule CMS.SearchResult.File do
     }
   end
 
-  @spec link(String.t()) :: String.t()
   defp link(path) do
     path = String.replace(path, "public:/", @static_path)
 

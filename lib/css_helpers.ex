@@ -7,7 +7,6 @@ defmodule CSSHelpers do
   """
 
   @doc "Formats arbitrary strings as CSS-friendly"
-  @spec string_to_class(String.t()) :: String.t()
   def string_to_class(string) do
     string
     |> String.downcase()
@@ -16,7 +15,6 @@ defmodule CSSHelpers do
   end
 
   @doc "Returns a css class: a string with hyphens."
-  @spec atom_to_class([atom()] | atom()) :: String.t()
   def atom_to_class(atom) when is_atom(atom) do
     atom
     |> Atom.to_string()

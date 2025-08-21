@@ -19,7 +19,6 @@ defmodule CMS.Partial.Paragraph.CustomHTML do
           right_rail: boolean
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       body: data |> field_value("field_custom_html_body") |> handle_html,

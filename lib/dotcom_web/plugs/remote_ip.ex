@@ -27,7 +27,6 @@ defmodule DotcomWeb.Plugs.RemoteIp do
     end
   end
 
-  @spec remote_ip(String.t()) :: {:ok, {0..255, 0..255, 0..255, 0..255}} | {:error, :einval}
   defp remote_ip(ips) do
     ips
     |> String.split(",", trim: true)
@@ -37,7 +36,6 @@ defmodule DotcomWeb.Plugs.RemoteIp do
     |> :inet.parse_address()
   end
 
-  @spec format({0..255, 0..255, 0..255, 0..255}) :: String.t()
   def format(ip) do
     "#{elem(ip, 0)}.#{elem(ip, 1)}.#{elem(ip, 2)}.#{elem(ip, 3)}"
   end

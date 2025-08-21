@@ -50,7 +50,6 @@ defmodule CMS.Page.ProjectUpdate do
           redirects: [String.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     {project_id, project_alias} = parse_project(data)
 

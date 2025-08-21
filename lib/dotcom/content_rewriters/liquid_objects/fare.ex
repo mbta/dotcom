@@ -112,7 +112,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   @zone_id ["1A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
-  @spec fare_request(String.t()) :: {:ok, String.t()} | request_error
   def fare_request(string) do
     string
     |> String.split(":", trim: true)
@@ -122,7 +121,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     |> process_results()
   end
 
-  @spec fare_object_request(String.t()) :: Fares.Fare.t() | Summary.t()
   def fare_object_request(string) do
     tokens =
       string
@@ -145,10 +143,8 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     end
   end
 
-  @spec parse_tokens([String.t()]) :: {:ok, [repo_arg]} | request_error
   defp parse_tokens(new), do: parse_tokens(new, [], [])
 
-  @spec parse_tokens([String.t()], [repo_arg], [String.t()]) :: {:ok, [repo_arg]} | request_error
   defp parse_tokens(_, _, [token]) do
     {:error, {:invalid, token}}
   end
@@ -162,7 +158,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     parse_tokens(remaining_strings, valid, invalid)
   end
 
-  @spec parse_token(String.t(), [repo_arg], [String.t()]) :: {[repo_arg], [String.t()]}
   defp parse_token(value, good, bad) when value in @fare_summary do
     {filter_insert(good, mode: value), bad}
   end
@@ -203,7 +198,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     {good, [value | bad]}
   end
 
-  @spec compose_args({:ok, list} | request_error) :: request_tuple | request_error
   defp compose_args({:ok, []}) do
     {:error, {:empty, "no input"}}
   end
@@ -237,8 +231,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     invalid_error
   end
 
-  @spec request_fares(request_tuple | request_error) :: [Summary.t()] | [Fare.t()] | request_error
-  # If the mode indicates a summary will be returned, format the results of get_fares/1 as a summary
   defp request_fares({:ok, {mode, args}}) when mode in @summary_atoms do
     args
     |> get_fares()
@@ -253,7 +245,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     error
   end
 
-  @spec process_results(fares_or_summaries | request_error) :: {:ok, String.t()} | request_error
   defp process_results([]) do
     {:error, {:unmatched, "no results"}}
   end
@@ -278,7 +269,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   # Adds the valid key/val into our arg list, after first
   # converting the value into a proper, known Fare atom.
-  @spec filter_insert([repo_arg], [{fare_key, String.t()}]) :: [repo_arg]
   defp filter_insert(old_args, new_args) do
     Enum.reduce(new_args, old_args, fn {k, v}, args ->
       Keyword.put(args, k, String.to_atom(v))
@@ -287,7 +277,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   # Fill in any missing/required arguments with the default,
   # then call Fares.Repo.all/1 to get matching fares.
-  @spec get_fares([repo_arg]) :: [Fare.t()]
   defp get_fares(args) do
     @default_args
     |> Keyword.merge(args)

@@ -29,7 +29,6 @@ defmodule Alerts.Cache.Store do
   Sets the ETS cache to these set of alerts and optional banner.
   The previous alerts in the cache are all removed.
   """
-  @spec update([Alerts.Alert.t()], Alerts.Banner.t() | nil) :: :ok
   def update(alerts, banner_alert) do
     GenServer.call(__MODULE__, {:update, alerts, banner_alert})
   end
@@ -38,13 +37,11 @@ defmodule Alerts.Cache.Store do
   Retrieves all the alert ids (if any) for the given list of routes.
   The IDs returned here can be passed to alerts/1 to get the alerts themselves.
   """
-  @spec alert_ids_for_routes([String.t()]) :: [String.t()]
   def alert_ids_for_routes(route_ids) do
     keys = Enum.map(route_ids, &{{&1, :_, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
-  @spec alert_ids_for_route_types(Enumerable.t()) :: [String.t()]
   def alert_ids_for_route_types(types) do
     keys = Enum.map(types, &{{:_, &1, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
@@ -64,7 +61,6 @@ defmodule Alerts.Cache.Store do
   Retrieves the alert objects given a list of alert IDs. If an ID
   is passed that doesn't have a current alert, it is ignored.
   """
-  @spec alerts([String.t()], DateTime.t()) :: [Alerts.Alert.t()]
   def alerts(alert_ids, now) do
     :alert_id_to_alert
     |> select_many(alert_ids)
@@ -74,7 +70,6 @@ defmodule Alerts.Cache.Store do
   @doc """
   Retrieves an alert object given an alert ID.
   """
-  @spec alert(String.t()) :: Alerts.Alert.t() | nil
   def alert(alert_id) do
     :alert_id_to_alert
     |> select_many([alert_id])
@@ -84,7 +79,6 @@ defmodule Alerts.Cache.Store do
   @doc """
   Retrieves the full set of current alerts in priority sorted order.
   """
-  @spec all_alerts(DateTime.t()) :: [Alerts.Alert.t()]
   def all_alerts(now) do
     :alert_id_to_alert
     |> :ets.select([{{:_, :"$1"}, [], [:"$1"]}])
@@ -94,7 +88,6 @@ defmodule Alerts.Cache.Store do
   @doc """
   Retrieves the saved Alert Banner if present.
   """
-  @spec banner() :: Alerts.Banner.t() | nil
   def banner do
     case :ets.lookup(:alert_banner, :banner) do
       [{:banner, banner}] -> banner

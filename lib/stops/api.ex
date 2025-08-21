@@ -49,7 +49,6 @@ defmodule Stops.Api do
   ID, we return `{:ok, nil}`. If there's an error fetching data, we return
   that as an `{:error, any}` tuple.
   """
-  @spec by_gtfs_id(String.t()) :: {:ok, Stop.t() | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     gtfs_id
     |> Api.Stops.by_gtfs_id(@default_params)
@@ -63,7 +62,6 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
-  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stop.t()]
   def by_route({route_id, direction_id, opts}) do
     @default_params
     |> Keyword.put(:route, route_id)
@@ -73,7 +71,6 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
-  @spec by_route_type({0..4, Keyword.t()}) :: [Stop.t()]
   def by_route_type({route_type, opts}) do
     @default_params
     |> Keyword.put(:route_type, route_type)
@@ -102,7 +99,6 @@ defmodule Stops.Api do
     end
   end
 
-  @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Stop.t()] | {:error, any}
   defp parse_v3_multiple({:error, _} = error) do
     error
   end
@@ -113,7 +109,6 @@ defmodule Stops.Api do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
-  @spec parent_id(Item.t()) :: Stop.id_t() | nil
   defp parent_id(%Item{relationships: %{"parent_station" => [%Item{id: parent_id}]}}) do
     parent_id
   end
@@ -130,14 +125,11 @@ defmodule Stops.Api do
     []
   end
 
-  @spec child?(Item.t()) :: boolean
   defp child?(%Item{relationships: %{"parent_station" => [%Item{}]}}), do: true
   defp child?(_), do: false
 
-  @spec v3_name(Item.t()) :: String.t()
   defp v3_name(%Item{attributes: %{"name" => name}}), do: name
 
-  @spec extract_v3_response(JsonApi.t()) :: {:ok, Item.t()} | {:error, any}
   defp extract_v3_response(%JsonApi{data: [item | _]}) do
     {:ok, item}
   end
@@ -146,9 +138,6 @@ defmodule Stops.Api do
     error
   end
 
-  @spec parse_v3_response(Item.t() | {:ok, Item.t()} | {:error, any}) ::
-          {:ok, Stop.t() | nil}
-          | {:error, any}
   defp parse_v3_response({:ok, %Item{} = item}), do: parse_v3_response(item)
   defp parse_v3_response({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
   defp parse_v3_response({:error, _} = error), do: error
@@ -222,7 +211,6 @@ defmodule Stops.Api do
 
   defp description(%Item{attributes: %{"description" => description}}), do: description
 
-  @spec v3_accessibility(Item.t()) :: [String.t()]
   defp v3_accessibility(item) do
     {escalators, others} =
       Enum.split_with(item.relationships["facilities"], &(&1.attributes["type"] == "ESCALATOR"))
@@ -245,7 +233,6 @@ defmodule Stops.Api do
     |> MapSet.new()
   end
 
-  @spec bike_storage_type(Item.t()) :: bike_storage_types
   def bike_storage_type(%Item{attributes: %{"properties" => properties}}) do
     properties
     |> Map.new(fn %{"name" => key, "value" => value} -> {key, value} end)
@@ -268,9 +255,6 @@ defmodule Stops.Api do
     :bike_storage_rack
   end
 
-  @spec parse_escalator_direction([Item.t()]) :: [
-          :escalator | :escalator_up | :escalator_down | :escalator_both
-        ]
   defp parse_escalator_direction([]), do: []
 
   defp parse_escalator_direction(escalators) do
@@ -292,14 +276,12 @@ defmodule Stops.Api do
   defp do_escalator(true, true), do: :escalator_both
   defp do_escalator(false, false), do: :escalator
 
-  @spec v3_parking(Item.t()) :: [Stop.ParkingLot.t()]
   defp v3_parking(item) do
     item.relationships["facilities"]
     |> Enum.filter(&(&1.attributes["type"] == "PARKING_AREA"))
     |> Enum.map(&parse_parking_area/1)
   end
 
-  @spec parse_parking_area(Item.t()) :: Stop.ParkingLot.t()
   defp parse_parking_area(parking_area) do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
@@ -310,7 +292,6 @@ defmodule Stops.Api do
     |> to_parking_lot
   end
 
-  @spec to_parking_lot(map) :: Stop.ParkingLot.t()
   defp to_parking_lot(props) do
     %Stop.ParkingLot{
       id: Map.get(props, "id"),
@@ -337,7 +318,6 @@ defmodule Stops.Api do
     end
   end
 
-  @spec pretty_payment(String.t()) :: String.t()
   def pretty_payment("cash"), do: "Cash"
   def pretty_payment("check"), do: "Check"
   def pretty_payment("coin"), do: "Coin"
@@ -349,7 +329,6 @@ defmodule Stops.Api do
   def pretty_payment("tapcard"), do: "Tap Card"
   def pretty_payment(_), do: ""
 
-  @spec merge_accessibility([String.t()], %{String.t() => any}) :: [String.t()]
   defp merge_accessibility(accessibility, stop_attributes)
 
   defp merge_accessibility(accessibility, %{"wheelchair_boarding" => 0}) do
@@ -384,7 +363,6 @@ defmodule Stops.Api do
           | :fare_vending_retailer
           | :other
 
-  @spec facility_atom_from_string(String.t()) :: gtfs_facility_type
   defp facility_atom_from_string("ELEVATOR"), do: :elevator
   defp facility_atom_from_string("ESCALATOR"), do: :escalator
   defp facility_atom_from_string("ESCALATOR_UP"), do: :escalator_up
@@ -415,13 +393,10 @@ defmodule Stops.Api do
     :other
   end
 
-  @spec fare_facilities(Item.t()) :: MapSet.t(fare_facility)
   defp fare_facilities(%Item{relationships: %{"facilities" => facilities}}) do
     Enum.reduce(facilities, MapSet.new(), &add_facility_type/2)
   end
 
-  @spec add_facility_type(Item.t(), MapSet.t(fare_facility)) ::
-          MapSet.t(fare_facility)
   defp add_facility_type(%Item{attributes: %{"type" => type_str}}, acc) do
     type = facility_atom_from_string(type_str)
 
@@ -436,7 +411,6 @@ defmodule Stops.Api do
     acc
   end
 
-  @spec filter_facilities(Item.t(), MapSet.t()) :: [Item.t()]
   defp filter_facilities(%Item{relationships: %{"facilities" => facilities}}, facility_types) do
     Enum.filter(facilities, &filter_facility_types(&1, facility_types))
   end
@@ -445,7 +419,6 @@ defmodule Stops.Api do
     MapSet.member?(facility_types, facility_atom_from_string(type_str))
   end
 
-  @spec zone_number(Item.t()) :: String.t() | nil
   defp zone_number(%Item{relationships: %{"zone" => zone}}) do
     case zone do
       [%Item{:id => id}] -> get_zone_number(id)
@@ -453,7 +426,6 @@ defmodule Stops.Api do
     end
   end
 
-  @spec get_zone_number(String.t() | nil) :: String.t() | nil
   defp get_zone_number(nil), do: nil
 
   defp get_zone_number(zone) do

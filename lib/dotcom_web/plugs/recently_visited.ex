@@ -24,7 +24,6 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
     end
   end
 
-  @spec assign_recently_visited(Conn.t(), String.t()) :: Conn.t()
   defp assign_recently_visited(conn, routes) do
     route_list =
       routes
@@ -36,7 +35,6 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
     Conn.assign(conn, :recently_visited, route_list)
   end
 
-  @spec get_route(String.t()) :: Route.t() | nil
   defp get_route("Green") do
     "Green-B"
     |> @routes_repo.get()
@@ -47,7 +45,6 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
     @routes_repo.get(route)
   end
 
-  @spec parse_route_response({:ok, Route.t() | nil} | {:error, any}, [Route.t()]) :: [Route.t()]
   defp parse_route_response({:ok, %Route{} = route}, acc) do
     [route | acc]
   end

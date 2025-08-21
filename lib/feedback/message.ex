@@ -100,17 +100,14 @@ defmodule Feedback.Message do
           vehicle: String.t() | nil
         }
 
-  @spec service_options() :: [service_option_with_subjects()]
   def service_options do
     @service_options_with_subjects
   end
 
-  @spec valid_service?(service_value()) :: boolean()
   def valid_service?(value) do
     value in Enum.map(service_options(), &elem(&1, 1))
   end
 
-  @spec valid_subject_for_service?(subject_value(), service_value()) :: boolean()
   def valid_subject_for_service?(subject_value, service_value) do
     case service(service_value) do
       nil ->
@@ -121,11 +118,9 @@ defmodule Feedback.Message do
     end
   end
 
-  @spec service(service_value()) :: service_option_with_subjects() | nil
   defp service(value) do
     Enum.find(service_options(), &(elem(&1, 1) == value))
   end
 
-  @spec subjects(service_option_with_subjects()) :: [subject_value()]
   defp subjects(service), do: elem(service, 2)
 end

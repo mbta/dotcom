@@ -13,13 +13,6 @@ defmodule Dotcom.Utils.Time do
   * Supports `nil` values for the start, ending, or both. These are treated as infinitely
   past or future, respectively.
   """
-  @spec between?(
-          Timex.Types.valid_datetime(),
-          Timex.Types.valid_datetime() | nil,
-          Timex.Types.valid_datetime() | nil,
-          Timex.between_options()
-        ) ::
-          boolean()
   def between?(t, start, ending, opts \\ @default_between_opts)
 
   def between?(t, start, ending, opts) do

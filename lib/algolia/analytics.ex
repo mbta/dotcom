@@ -7,7 +7,6 @@ defmodule Algolia.Analytics do
   @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
   @httpoison Application.compile_env!(:dotcom, :httpoison)
 
-  @spec click(%{String.t() => String.t() | integer}) :: :ok | {:error, any}
   def click(%{"position" => <<pos::binary>>} = params) do
     case Integer.parse(pos) do
       {int, ""} when int > 0 ->

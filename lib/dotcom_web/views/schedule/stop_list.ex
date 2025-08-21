@@ -9,7 +9,6 @@ defmodule DotcomWeb.ScheduleView.StopList do
   @doc """
   Formats a Schedules.Departures.t to a human-readable time range.
   """
-  @spec display_departure_range(Schedules.Departures.t()) :: iodata
   def display_departure_range(:no_service) do
     "No Service"
   end
@@ -29,7 +28,6 @@ defmodule DotcomWeb.ScheduleView.StopList do
   @doc """
   Displays a schedule period.
   """
-  @spec schedule_period(atom) :: String.t()
   def schedule_period(:week), do: "Monday to Friday"
 
   def schedule_period(period) do
@@ -38,7 +36,5 @@ defmodule DotcomWeb.ScheduleView.StopList do
     |> String.capitalize()
   end
 
-  @spec display_map_link?(integer) :: boolean
-  # only show for ferry
   def display_map_link?(type), do: type == 4
 end

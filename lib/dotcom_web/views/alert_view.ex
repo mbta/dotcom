@@ -60,7 +60,6 @@ defmodule DotcomWeb.AlertView do
     Enum.uniq_by(alerts, & &1.id)
   end
 
-  @spec no_alerts_message(map, boolean, atom) :: iolist
   def no_alerts_message(route, false, :current) do
     [
       "Service is running as expected",
@@ -78,7 +77,6 @@ defmodule DotcomWeb.AlertView do
     empty_message_for_timeframe(timeframe, location_name(route, stop?))
   end
 
-  @spec location_name(map, boolean) :: iolist
   def location_name(route, true) do
     [" at ", route.name]
   end
@@ -87,7 +85,6 @@ defmodule DotcomWeb.AlertView do
     [" on the ", route.name]
   end
 
-  @spec format_alerts_timeframe(atom | nil) :: String.t() | nil
   def format_alerts_timeframe(:upcoming) do
     "planned"
   end
@@ -104,7 +101,6 @@ defmodule DotcomWeb.AlertView do
     Atom.to_string(timeframe)
   end
 
-  @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist
   def empty_message_for_timeframe(:current, location),
     do: [
       "There are no ",
@@ -130,10 +126,6 @@ defmodule DotcomWeb.AlertView do
       " at this time."
     ]
 
-  @spec filter_by_priority(
-          priority_filter,
-          Alert.t()
-        ) :: boolean
   defp filter_by_priority(:any, _alert), do: true
 
   defp filter_by_priority(priority_filter, %{priority: priority})
@@ -202,12 +194,10 @@ defmodule DotcomWeb.AlertView do
     |> replace_urls_with_links
   end
 
-  @spec replace_urls_with_links(String.t()) :: Phoenix.HTML.safe()
   def replace_urls_with_links(text) do
     URLParsingHelpers.replace_urls_with_links(text)
   end
 
-  @spec group_header_path(Route.t() | Stop.t()) :: String.t()
   def group_header_path(%Route{id: route_id}) do
     schedule_path(DotcomWeb.Endpoint, :show, route_id)
   end
@@ -216,7 +206,6 @@ defmodule DotcomWeb.AlertView do
     stop_path(DotcomWeb.Endpoint, :show, stop_id)
   end
 
-  @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
   def group_header_name(%Route{long_name: long_name, name: name, type: 3}) do
     [
       content_tag(:span, name, class: "text-xl pr-sm"),
@@ -232,12 +221,10 @@ defmodule DotcomWeb.AlertView do
     [name]
   end
 
-  @spec show_mode_icon?(Route.t() | Stop.t()) :: boolean
   defp show_mode_icon?(%Stop{}), do: false
 
   defp show_mode_icon?(%Route{}), do: true
 
-  @spec show_systemwide_alert?(map) :: boolean
   def show_systemwide_alert?(%{
         alert_banner: alert_banner,
         route_type: route_type
@@ -257,15 +244,12 @@ defmodule DotcomWeb.AlertView do
     false
   end
 
-  @spec type_name(atom) :: String.t()
   def type_name(:commuter_rail), do: "Rail"
   def type_name(mode), do: mode_name(mode)
 
-  @spec type_icon(atom) :: Phoenix.HTML.Safe.t()
   def type_icon(:access), do: svg("icon-accessible-default.svg")
   def type_icon(mode), do: mode_icon(mode, :default)
 
-  @spec alert_icon(Alert.icon_type()) :: Phoenix.HTML.Safe.t()
   def alert_icon(:shuttle), do: svg("icon-shuttle-default.svg")
   def alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
   def alert_icon(:snow), do: svg("icon-snow-default.svg")

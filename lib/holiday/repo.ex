@@ -13,7 +13,6 @@ defmodule Holiday.Repo.Helpers do
   [%Holiday{date: ~D[1000-01-02], name: "Name"},
    %Holiday{date: ~D[1001-03-04], name: "Name"}]
   """
-  @spec make_holiday({String.t(), [{1..2, 1..31}]}, non_neg_integer) :: [Holiday.t()]
   def make_holiday({name, list_of_dates}, start_year) do
     list_of_dates
     |> Enum.with_index(start_year)
@@ -33,7 +32,6 @@ defmodule Holiday.Repo.Helpers do
   iex> Holiday.Repo.Helpers.observe_holiday(%Holiday{date: ~D[2018-01-01], name: "Name"})
   [%Holiday{date: ~D[2018-01-01], name: "Name"}]
   """
-  @spec observe_holiday(Holiday.t()) :: [Holiday.t()]
   def observe_holiday(%Holiday{date: date} = holiday) do
     # Sunday
     if Date.day_of_week(date) == 7 do
@@ -79,7 +77,6 @@ defmodule Holiday.Repo do
             |> Map.new(&build_map/1)
 
   @doc "Returns the list of Holidays, sorted by date."
-  @spec all :: [Holiday.t()]
   def all do
     @holidays
     |> Map.values()
@@ -87,7 +84,6 @@ defmodule Holiday.Repo do
   end
 
   @doc "Returns the list of holidays for the given Date."
-  @spec by_date(Date.t()) :: [Holiday.t()]
   def by_date(date) do
     case Map.fetch(@holidays, date) do
       {:ok, holiday} -> [holiday]
@@ -96,7 +92,6 @@ defmodule Holiday.Repo do
   end
 
   @doc "Returns the list of holidays in the given month."
-  @spec holidays_in_month(Date.t()) :: [Holiday.t()]
   def holidays_in_month(date) do
     same_time_frame? = fn tf, d -> Map.fetch!(d, tf) == Map.fetch!(date, tf) end
 
@@ -109,7 +104,6 @@ defmodule Holiday.Repo do
   end
 
   @doc "Returns all holidays after the given date"
-  @spec following(Date.t()) :: [Holiday.t()]
   def following(date) do
     all()
     |> Enum.drop_while(fn day -> Timex.before?(day.date, date) end)

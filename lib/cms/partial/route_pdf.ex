@@ -23,7 +23,6 @@ defmodule CMS.Partial.RoutePdf do
           name: String.t() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       path:
@@ -40,17 +39,14 @@ defmodule CMS.Partial.RoutePdf do
     }
   end
 
-  @spec custom?(t) :: boolean
   def custom?(%__MODULE__{link_text_override: text}) do
     text != nil and text != ""
   end
 
-  @spec started?(t, Date.t()) :: boolean
   def started?(%__MODULE__{date_start: date_start}, date) do
     Date.compare(date_start, date) != :gt
   end
 
-  @spec outdated?(t, Date.t()) :: boolean
   def outdated?(%__MODULE__{date_end: date_end}, date) do
     date_end != nil && Date.compare(date_end, date) == :lt
   end

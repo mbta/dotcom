@@ -23,10 +23,6 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
     json(conn, schedule_data)
   end
 
-  @spec get_schedules(String.t(), Date.t(), String.t(), String.t()) :: %{
-          by_trip: map,
-          trip_order: [String.t()]
-        }
   def get_schedules(route_id, date, direction_id, stop_id) do
     services =
       [route_id]
@@ -149,7 +145,6 @@ defmodule DotcomWeb.ScheduleController.ScheduleApi do
     %{schedules: time_formatted_schedules, duration: duration}
   end
 
-  @spec fares_for_service(map, String.t(), String.t()) :: map
   def fares_for_service(route, origin, destination) do
     %{
       price: route |> OneWay.recommended_fare(origin, destination) |> Format.price(),

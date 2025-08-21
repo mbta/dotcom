@@ -20,7 +20,6 @@ defmodule Leaflet.MapData.Polyline do
 
   @default_opts [color: "#000000", weight: 5, dotted?: false]
 
-  @spec new(RoutePattern.t() | String.t(), Keyword.t()) :: t()
   def new(route_pattern, user_opts \\ [])
 
   def new(%RoutePattern{representative_trip_polyline: polyline, shape_id: id}, user_opts)

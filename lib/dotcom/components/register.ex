@@ -19,7 +19,6 @@ defmodule Dotcom.Components.Register do
   @doc """
     Finds all folders within libdotcom/components, and returns a tuple {:section, [:component...]} for each
   """
-  @spec build_component_list :: [{atom, [atom]}]
   def build_component_list do
     components_folder_path()
     |> File.ls!()
@@ -30,7 +29,6 @@ defmodule Dotcom.Components.Register do
   @doc """
     Finds all folders within a section folder, and returns each folder's name as an atom
   """
-  @spec list_component_names(String.t()) :: [atom]
   def list_component_names(section) do
     # path var needs to be defined here because it's used again in Enum.filter
     path = Path.join(components_folder_path(), section)

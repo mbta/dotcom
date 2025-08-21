@@ -9,13 +9,6 @@ defmodule Fares.Month do
 
   @type fare_fn :: (Keyword.t() -> [Fare.t()])
 
-  @spec recommended_pass(
-          Route.t() | Route.id_t(),
-          Stop.id_t(),
-          Stop.id_t(),
-          fare_fn()
-        ) ::
-          Fare.t() | nil
   def recommended_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def recommended_pass(nil, _, _, _), do: nil
 
@@ -25,13 +18,6 @@ defmodule Fares.Month do
     |> Enum.min_by(& &1.cents, fn -> nil end)
   end
 
-  @spec base_pass(
-          Route.t() | Route.id_t(),
-          Stop.id_t(),
-          Stop.id_t(),
-          fare_fn()
-        ) ::
-          Fare.t() | nil
   def base_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def base_pass(nil, _, _, _), do: nil
 
@@ -41,13 +27,6 @@ defmodule Fares.Month do
     |> Enum.max_by(& &1.cents, fn -> nil end)
   end
 
-  @spec reduced_pass(
-          Route.t(),
-          Stop.id_t(),
-          Stop.id_t(),
-          fare_fn()
-        ) ::
-          Fare.t() | nil
   def reduced_pass(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def reduced_pass(nil, _, _, _), do: nil
 
@@ -57,11 +36,6 @@ defmodule Fares.Month do
     |> List.first()
   end
 
-  @spec get_fares(Route.t(), Stop.id_t(), Stop.id_t(), fare_fn()) :: [Fare.t()]
-  @spec get_fares(Route.t(), Stop.id_t(), Stop.id_t(), fare_fn(), Fare.reduced()) ::
-          [
-            Fare.t()
-          ]
   defp get_fares(route, origin_id, destination_id, fare_fn, reduced \\ nil) do
     route_filters =
       route.type
@@ -73,8 +47,6 @@ defmodule Fares.Month do
     |> fare_fn.()
   end
 
-  @spec name_or_mode_filter(atom(), Route.t(), Stop.id_t(), Stop.id_t()) ::
-          Keyword.t()
   defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id) do
     [mode: :subway]
   end

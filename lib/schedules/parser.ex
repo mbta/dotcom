@@ -21,7 +21,6 @@ defmodule Schedules.Parser do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @spec parse(Item.t()) :: record
   def parse(item) do
     arrival = arrival_time(item)
     departure = departure_time(item)
@@ -134,8 +133,6 @@ defmodule Schedules.Parser do
   @doc """
   Prefer arrival times for subway and bus, and departure times for all other modes.
   """
-  @spec display_time(DateTime.t() | nil, DateTime.t() | nil, Route.id_t() | Route.t() | nil) ::
-          DateTime.t() | nil
   def display_time(arrival_time, departure_time, %Route{id: route_id, type: route_type})
       when Route.subway?(route_type, route_id) or route_type === 3 do
     if(arrival_time, do: arrival_time, else: departure_time)
@@ -183,19 +180,15 @@ defmodule Schedules.Parser do
     pickup_type
   end
 
-  @spec shape_id(any) :: String.t() | nil
   defp shape_id(%{"shape" => [%JsonApi.Item{id: id}]}), do: id
   defp shape_id(_), do: nil
 
-  @spec route_pattern_id(any) :: String.t() | nil
   defp route_pattern_id(%{"route_pattern" => [%JsonApi.Item{id: id}]}), do: id
   defp route_pattern_id(_), do: nil
 
-  @spec bikes_allowed?(map) :: boolean
   defp bikes_allowed?(%{"bikes_allowed" => 1}), do: true
   defp bikes_allowed?(_), do: false
 
-  @spec occupancy(any) :: Schedules.Trip.crowding() | nil
   defp occupancy(%{
          "occupancies" => [%JsonApi.Item{attributes: %{"status" => status}}]
        }) do

@@ -16,7 +16,6 @@ defmodule CMS.Partial.Paragraph.PhotoGallery do
           images: [Image.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),

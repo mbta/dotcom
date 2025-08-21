@@ -25,7 +25,6 @@ defmodule CMS.Helpers do
   - default: most other fields
     - value: mixed type, but most common pattern
   """
-  @spec field_value(map, String.t()) :: any
   def field_value(entity, field) do
     case entity[field] do
       [%{"processed" => value}] -> value
@@ -40,14 +39,12 @@ defmodule CMS.Helpers do
   Handles entity fields that support multiple values.
   Common patterns above apply here.
   """
-  @spec field_values(map, String.t()) :: [map]
   def field_values(entity, field) do
     entity
     |> Map.get(field, [])
     |> Enum.map(&Map.get(&1, "value"))
   end
 
-  @spec handle_html(String.t() | nil) :: HTML.safe()
   def handle_html(html) do
     (html || "")
     |> CustomHTML5Scrubber.html5()
@@ -55,21 +52,18 @@ defmodule CMS.Helpers do
     |> HTML.raw()
   end
 
-  @spec parse_body(map) :: HTML.safe()
   def parse_body(%{} = data) do
     data
     |> field_value("body")
     |> handle_html
   end
 
-  @spec parse_files(map, String.t()) :: [File.t()]
   def parse_files(%{} = data, field) do
     data
     |> Map.get(field, [])
     |> Enum.map(&File.from_api/1)
   end
 
-  @spec parse_page_types(map) :: list(String.t())
   def parse_page_types(%{} = data) do
     data
     |> Map.get("field_page_type", [])
@@ -77,7 +71,6 @@ defmodule CMS.Helpers do
     |> Enum.reject(&Kernel.is_nil/1)
   end
 
-  @spec parse_related_transit(map) :: list(String.t())
   def parse_related_transit(%{} = data) do
     data
     |> Map.get("field_related_transit", [])
@@ -85,17 +78,14 @@ defmodule CMS.Helpers do
     |> Enum.reject(&Kernel.is_nil/1)
   end
 
-  @spec path_alias(map) :: String.t() | nil
   def path_alias(data) do
     data
     |> parse_path_alias()
   end
 
-  @spec parse_path_alias(map) :: String.t() | nil
   def parse_path_alias(%{"path" => [%{"alias" => path_alias}]}), do: path_alias
   def parse_path_alias(_), do: nil
 
-  @spec parse_image(map, String.t()) :: Image.t() | nil
   def parse_image(%{} = data, field) do
     case parse_images(data, field) do
       [image] -> image
@@ -103,14 +93,12 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec parse_images(map, String.t()) :: [Image.t()] | []
   def parse_images(%{} = data, field) do
     data
     |> Map.get(field, [])
     |> Enum.map(&Image.from_api/1)
   end
 
-  @spec parse_iso_datetime(String.t()) :: DateTime.t() | nil
   def parse_iso_datetime(nil) do
     nil
   end
@@ -136,7 +124,6 @@ defmodule CMS.Helpers do
   defp do_parse_iso_datetime({:ok, dt}, :extended), do: dt
   defp do_parse_iso_datetime(_, _), do: nil
 
-  @spec parse_date(map, String.t()) :: Date.t() | nil
   def parse_date(data, field) do
     case data[field] do
       [%{"value" => date}] -> parse_date_string(date, "{YYYY}-{0M}-{0D}")
@@ -144,7 +131,6 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec parse_date_string(String.t(), String.t()) :: Date.t() | nil
   defp parse_date_string(date, format_string) do
     case Timex.parse(date, format_string) do
       {:error, _message} -> nil
@@ -152,7 +138,6 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec parse_link(map, String.t()) :: Link.t() | nil
   def parse_link(%{} = data, field) do
     case data[field] do
       [link] -> Link.from_api(link)
@@ -161,7 +146,6 @@ defmodule CMS.Helpers do
   end
 
   # This is silly and should be combined/refactored with above clause
-  @spec parse_links(map, String.t()) :: [Link.t()] | nil
   def parse_links(%{} = data, field) do
     case data[field] do
       [_ | _] = links -> Enum.map(links, &Link.from_api(&1))
@@ -175,7 +159,6 @@ defmodule CMS.Helpers do
   - page: whether the page is in preview mode (drafts are rendered)
   - paragraphs: whether unpublished paragraphs should render
   """
-  @spec preview_opts(map) :: Keyword.t()
   def preview_opts(query_params \\ %{}) do
     [
       page: Map.has_key?(query_params, "preview"),
@@ -187,7 +170,6 @@ defmodule CMS.Helpers do
   Expects raw JSON data for a CMS object that contains a paragraphs field.
   This field value will always be a list of potential paragraphs.
   """
-  @spec parse_paragraphs(map, Keyword.t(), String.t()) :: [Paragraph.t()]
   def parse_paragraphs(data, preview_opts \\ [], target_field \\ "field_paragraphs") do
     data
     |> Map.get(target_field, [])
@@ -195,7 +177,6 @@ defmodule CMS.Helpers do
     |> Enum.map(&Paragraph.from_api(&1, preview_opts))
   end
 
-  @spec show_paragraph?(map | nil, Keyword.t()) :: boolean
   defp show_paragraph?(field_data, preview_opts)
 
   # Skip broken/missing paragraphs (CMS unable to load and returns NULL)
@@ -231,7 +212,6 @@ defmodule CMS.Helpers do
     value
   end
 
-  @spec rewrite_static_file_links(String.t()) :: String.t()
   defp rewrite_static_file_links(body) do
     if Application.get_env(:dotcom, :is_prod_env?) do
       Regex.replace(~r/"(#{@static_path}[^"]+)"/, body, fn _, path ->
@@ -242,7 +222,6 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec rewrite_url(String.t()) :: String.t()
   def rewrite_url(url) when is_binary(url) do
     uri = URI.parse(url)
 
@@ -260,7 +239,6 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec int_or_string_to_int(integer | String.t() | nil) :: integer | nil
   def int_or_string_to_int(nil), do: nil
   def int_or_string_to_int(num) when is_integer(num), do: num
 
@@ -284,7 +262,6 @@ defmodule CMS.Helpers do
   iex> category(nil)
   ""
   """
-  @spec category(map | nil) :: String.t()
   def category(nil), do: ""
 
   def category(data) do
@@ -294,7 +271,6 @@ defmodule CMS.Helpers do
     |> Map.get("name", "")
   end
 
-  @spec content_type(String.t()) :: API.type() | nil
   for atom <- ~w(
     diversion
     event
@@ -310,8 +286,6 @@ defmodule CMS.Helpers do
   def content_type(_), do: nil
 
   @doc "Returns the text if present, otherwise returns nil"
-  @spec content(String.t()) :: String.t() | nil
-  @spec content(HTML.safe()) :: HTML.safe() | nil
   def content(nil) do
     nil
   end
@@ -333,7 +307,6 @@ defmodule CMS.Helpers do
   Parses the related_transit field for route-specific data. Could
   contain multiple routes. Contains mode, branch, and other info.
   """
-  @spec routes([map()]) :: [API.route_term()]
   def routes(route_data) do
     route_data
     |> Enum.map(&Map.get(&1, "data"))
@@ -343,7 +316,6 @@ defmodule CMS.Helpers do
   # Maps the tagged CMS route term, its group, and its parent mode.
   # For routes and misc. groupings like "local_bus," the CMS will have
   # mapped the appropriate GTFS mode to that tag prior to parsing here.
-  @spec route_metadata(map()) :: API.route_term()
   defp route_metadata(route_data) do
     Map.new(
       id: Map.get(route_data, "gtfs_id"),
@@ -359,7 +331,6 @@ defmodule CMS.Helpers do
   # Some CMS routes are actually custom groups that may not
   # have any single MBTA mode associated with them (mode: nil).
   # There should never be more than one, single mode in the list.
-  @spec route_mode([String.t()] | nil) :: String.t() | nil
   defp route_mode(nil), do: nil
   defp route_mode([mode]), do: mode
 end

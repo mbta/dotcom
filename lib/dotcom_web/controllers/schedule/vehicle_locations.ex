@@ -38,7 +38,6 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     assign(conn, :vehicle_locations, locations)
   end
 
-  @spec active_stop(t, String.t()) :: String.t()
   def active_stop(vehicle_locations, trip_id) do
     vehicle_locations
     |> Map.keys()
@@ -46,12 +45,10 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     |> stop_name_from_tuple()
   end
 
-  @spec stop_name_from_tuple({String.t(), String.t() | nil} | nil) :: String.t()
   defp stop_name_from_tuple(nil), do: ""
   defp stop_name_from_tuple({_trip_id, nil}), do: ""
   defp stop_name_from_tuple({_trip_id, stop_id}), do: stop_name(stop_id)
 
-  @spec stop_name(String.t()) :: String.t()
   defp stop_name(<<stop_id::binary>>) do
     stop = @stops_repo.get_parent(stop_id)
 
@@ -73,7 +70,6 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
 
-  @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
   defp find_all_locations(
          %Plug.Conn{
            assigns: %{route: %Routes.Route{id: "Green"}}
@@ -92,7 +88,6 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   defp find_all_locations(conn, opts), do: find_locations(conn, opts)
 
-  @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
   defp find_locations(
          %Plug.Conn{
            assigns: %{route: route, direction_id: direction_id, date: date}
@@ -110,7 +105,6 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   defp find_locations(_, _), do: %{}
 
-  @spec location_key(Vehicles.Vehicle.t(), Date.t(), any) :: {String.t() | nil, String.t() | nil}
   defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, date, schedule_for_trip_fn)
        when is_function(schedule_for_trip_fn, 2) do
     schedules = vehicle.trip_id |> schedule_for_trip_fn.(date: date) |> parse_schedules_for_trip()
@@ -126,9 +120,6 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     {vehicle.trip_id, vehicle.stop_id}
   end
 
-  @spec parse_schedules_for_trip({:error, any} | [Schedules.Schedule.t()]) :: [
-          Schedules.Schedule.t()
-        ]
   defp parse_schedules_for_trip({:error, reason}) do
     Logger.error("parse_schedules_for_trip: #{inspect(reason)}")
 

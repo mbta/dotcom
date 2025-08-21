@@ -31,7 +31,6 @@ defmodule Leaflet.MapData.Marker do
           vehicle_crowding: Vehicles.Vehicle.crowding()
         }
 
-  @spec new(float, float, Keyword.t()) :: t()
   def new(latitude, longitude, opts \\ []) do
     %__MODULE__{
       icon: Keyword.get(opts, :icon),

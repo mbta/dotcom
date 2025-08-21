@@ -149,7 +149,6 @@ defmodule Dotcom.Components.Icons.SvgIcon do
 
   def get_path(arg), do: arg |> get_icon_atom() |> get_path()
 
-  @spec get_icon_atom(icon_arg) :: atom
   def get_icon_atom(arg) when is_atom(arg), do: arg
   def get_icon_atom("Elevator"), do: :access
   def get_icon_atom("Escalator"), do: :access
@@ -166,7 +165,6 @@ defmodule Dotcom.Components.Icons.SvgIcon do
     |> String.to_atom()
   end
 
-  @spec icon_title(atom) :: String.t()
   def icon_title(:alert), do: "Service alert or delay"
   def icon_title(:parking_lot), do: "Parking"
 

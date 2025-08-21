@@ -13,11 +13,6 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   is the url for the static map, and the second element is the MapData
   struct used to build the dynamic map
   """
-  @spec map_data(
-          Route.t(),
-          [RoutePattern.t()],
-          VehicleHelpers.tooltip_index() | [] | nil
-        ) :: {String.t(), MapData.t()}
   def map_data(%Routes.Route{type: 4}, _, _), do: {MapHelpers.image(:ferry), nil}
 
   def map_data(
@@ -29,11 +24,6 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
     {nil, dynamic_data}
   end
 
-  @spec dynamic_map_data(
-          String.t(),
-          [RoutePattern.t()],
-          VehicleHelpers.tooltip_index() | nil
-        ) :: MapData.t()
   defp dynamic_map_data(
          color,
          route_patterns,
@@ -69,19 +59,16 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
     |> Map.put(:tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
   end
 
-  @spec build_stop_marker(Stop.id_t()) :: Marker.t()
   defp build_stop_marker(id) do
     stop = Repo.get(id)
     # Only build the stop marker if the api returned a value
     if stop, do: do_build_stop_marker(stop)
   end
 
-  @spec do_build_stop_marker(Stop.t()) :: Marker.t()
   defp do_build_stop_marker(%Stop{id: id, latitude: lat, longitude: lng, name: name}) do
     Marker.new(lat, lng, id: id, icon: "stop-circle-bordered-expanded", tooltip_text: name)
   end
 
-  @spec build_vehicle_markers(VehicleHelpers.tooltip_index()) :: [Marker.t()]
   defp build_vehicle_markers(tooltip_index) do
     # the tooltip index uses two different key formats, so
     # the Enum.reject call here is essentially just
@@ -103,7 +90,6 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
     end)
   end
 
-  @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
     route_paths =
       Enum.filter(route_patterns, &(!is_nil(&1.representative_trip_polyline)))

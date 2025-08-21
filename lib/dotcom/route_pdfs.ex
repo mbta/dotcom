@@ -5,14 +5,12 @@ defmodule Dotcom.RoutePdfs do
 
   alias CMS.{Partial.RoutePdf, Repo}
 
-  @spec fetch_and_choose_pdfs(String.t(), Date.t()) :: [RoutePdf.t()]
   def fetch_and_choose_pdfs(route_id, date) do
     route_id
     |> Repo.get_schedule_pdfs()
     |> choose_pdfs(date)
   end
 
-  @spec choose_pdfs([RoutePdf.t()], Date.t()) :: [RoutePdf.t()]
   def choose_pdfs(route_pdfs, date) do
     {current, upcoming} =
       route_pdfs

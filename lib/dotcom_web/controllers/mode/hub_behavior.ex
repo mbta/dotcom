@@ -103,33 +103,28 @@ defmodule DotcomWeb.Mode.HubBehavior do
   def maps(:commuter_rail), do: [:commuter_rail, :commuter_rail_zones]
   def maps(type), do: [type]
 
-  @spec guides(String.t()) :: [Teaser.t()]
   defp guides(mode) do
     Repo.teasers(type: [:page], topic: "guides", sidebar: 1, mode: mode_to_param(mode))
   end
 
-  @spec mode_to_param(String.t()) :: String.t()
   defp mode_to_param(mode) do
     mode
     |> String.downcase()
     |> String.replace(" ", "-")
   end
 
-  @spec teasers(String.t(), [API.type()], integer) :: [Teaser.t()]
   defp teasers(mode, content_type, limit \\ 10) do
     mode
     |> mode_to_param()
     |> do_teasers(content_type, limit)
   end
 
-  @spec do_teasers(String.t(), [API.type()], integer) :: [Teaser.t()]
   defp do_teasers(mode, content_type, limit) do
     [mode: mode, type: content_type, sidebar: 1, items_per_page: limit]
     |> Repo.teasers()
     |> Enum.map(&teaser_url(&1, mode))
   end
 
-  @spec teaser_url(Teaser.t(), String.t()) :: Teaser.t()
   defp teaser_url(%Teaser{} = teaser, mode) do
     url = UrlHelpers.build_utm_url(teaser, source: "hub", term: mode, type: "sidebar")
     %{teaser | path: url}

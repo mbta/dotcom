@@ -6,7 +6,6 @@ defmodule DotcomWeb.ScheduleController.GreenTerminiApi do
 
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
 
-  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, _) do
     direction_destinations =
       GreenLine.branch_ids()

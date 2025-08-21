@@ -28,7 +28,6 @@ defmodule CMS.Partial.Paragraph.DescriptiveLink do
           parent: String.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       body: data |> field_value("field_title_card_body") |> handle_html,
@@ -38,7 +37,6 @@ defmodule CMS.Partial.Paragraph.DescriptiveLink do
     }
   end
 
-  @spec alone?(__MODULE__.t()) :: boolean
   def alone?(%__MODULE__{parent: "field_paragraphs"}), do: true
   def alone?(%__MODULE__{}), do: false
 end

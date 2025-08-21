@@ -63,13 +63,11 @@ defmodule DotcomWeb.AlertController do
     check_cms_or_404(conn)
   end
 
-  @spec show_by_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show_by_stop(conn, %{"stop_id" => stop_id}) do
     alerts = @alerts_repo.by_stop_id(stop_id)
     json(conn, alerts)
   end
 
-  @spec show_by_routes(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show_by_routes(%{query_params: %{"route_ids" => route_ids}} = conn, _) do
     route_id_array = String.split(route_ids, ",")
     alerts = @alerts_repo.by_route_ids(route_id_array, DateTime.utc_now())
@@ -135,7 +133,6 @@ defmodule DotcomWeb.AlertController do
     end
   end
 
-  @spec excluding_banner(map, [Alert.t()]) :: [Alert.t()]
   def excluding_banner(%{assigns: %{alert_banner: alert_banner}}, alerts),
     do: Enum.reject(alerts, &(&1.id == alert_banner.id))
 

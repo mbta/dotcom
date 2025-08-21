@@ -94,7 +94,6 @@ defmodule Routes.Route do
            when route.type == 3 and route.description == :rail_replacement_bus and
                   not is_external?(route)
 
-  @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -110,7 +109,6 @@ defmodule Routes.Route do
   def type_atom("ferry"), do: :ferry
   def type_atom("the_ride"), do: :the_ride
 
-  @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
   def types_for_mode(:commuter_rail), do: [2]
   def types_for_mode(:bus), do: [3]
@@ -126,7 +124,6 @@ defmodule Routes.Route do
   def types_for_mode(:mattapan_line), do: [0]
   def types_for_mode(:silver_line), do: [3]
 
-  @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def icon_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
@@ -147,11 +144,9 @@ defmodule Routes.Route do
 
   def icon_atom(_), do: nil
 
-  @spec path_atom(t) :: gtfs_route_type
   def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"
   def path_atom(%__MODULE__{type: type}), do: type_atom(type)
 
-  @spec type_name(atom) :: String.t()
   def type_name(:the_ride), do: "The RIDE"
 
   for type_atom <- ~w(subway commuter_rail bus ferry
@@ -171,7 +166,6 @@ defmodule Routes.Route do
   @doc """
   Standardizes a route with branches into a generic route. Currently only changes Green Line branches.
   """
-  @spec to_naive(__MODULE__.t()) :: __MODULE__.t()
   def to_naive(%__MODULE__{id: "Green-" <> _, type: 0}) do
     @routes_repo.green_line()
   end
@@ -184,7 +178,6 @@ defmodule Routes.Route do
   A slightly more detailed version of &Route.type_name/1.
   The only difference is that route ids are listed for bus routes, otherwise it just returns &Route.type_name/1.
   """
-  @spec type_summary(subway_lines_type | gtfs_route_type, [t]) :: String.t()
   def type_summary(:bus, [%__MODULE__{} | _] = routes) do
     "Bus: #{bus_route_list(routes)}"
   end
@@ -193,14 +186,12 @@ defmodule Routes.Route do
     type_name(atom)
   end
 
-  @spec bus_route_list([Routes.Route.t()]) :: String.t()
   defp bus_route_list(routes) when is_list(routes) do
     routes
     |> Enum.filter(&(icon_atom(&1) == :bus))
     |> Enum.map_join(", ", & &1.name)
   end
 
-  @spec direction_name(t, 0 | 1) :: String.t()
   def direction_name(%__MODULE__{direction_names: names}, direction_id)
       when direction_id in [0, 1] do
     names
@@ -212,7 +203,6 @@ defmodule Routes.Route do
     Map.get(destinations, direction_id)
   end
 
-  @spec vehicle_name(t) :: String.t()
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
     "Train"
   end
@@ -225,7 +215,6 @@ defmodule Routes.Route do
     "Boat"
   end
 
-  @spec vehicle_atom(0..4) :: atom
   def vehicle_atom(0), do: :trolley
   def vehicle_atom(1), do: :subway
   def vehicle_atom(2), do: :commuter_rail
@@ -233,7 +222,6 @@ defmodule Routes.Route do
   def vehicle_atom(4), do: :ferry
   def vehicle_atom(_), do: :subway
 
-  @spec frequent_route?(t) :: boolean
   def frequent_route?(%__MODULE__{description: :frequent_bus_route}), do: true
   def frequent_route?(%__MODULE__{description: :rapid_transit}), do: true
   def frequent_route?(%__MODULE__{}), do: false
@@ -251,7 +239,6 @@ defmodule Routes.Route do
   @doc """
   Determines if the given route data is hidden
   """
-  @spec hidden?(t()) :: boolean
   def hidden?(%{id: "2427"}), do: true
   def hidden?(%{id: "3233"}), do: true
   def hidden?(%{id: "3738"}), do: true
@@ -268,17 +255,14 @@ defmodule Routes.Route do
   def hidden?(%{id: "Boat-F3"}), do: true
   def hidden?(_), do: false
 
-  @spec rail?(t()) :: boolean
   def rail?(route) do
     type_atom(route) in [:subway, :commuter_rail]
   end
 
-  @spec commuter_rail?(t()) :: boolean
   def commuter_rail?(route) do
     type_atom(route) == :commuter_rail
   end
 
-  @spec to_json_safe(t) :: map
   def to_json_safe(
         %__MODULE__{
           direction_names: direction_names,

@@ -37,14 +37,11 @@ defmodule DotcomWeb.ScheduleView do
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
-  @spec template_for_tab(String.t()) :: String.t()
-  @doc "Returns the template for the selected tab."
   def template_for_tab(tab_name)
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
   def template_for_tab("alerts"), do: "_alerts.html"
 
-  @spec reverse_direction_opts(0 | 1) :: Keyword.t()
   def reverse_direction_opts(direction_id) do
     [
       trip: nil,
@@ -58,11 +55,6 @@ defmodule DotcomWeb.ScheduleView do
   The message to show when there are no trips for the given parameters.
   Expects either an error, two stops, or a direction.
   """
-  @spec no_trips_message(
-          JsonApi.Error.t() | nil,
-          String.t() | nil,
-          Date.t()
-        ) :: iodata
   def no_trips_message(%{code: "no_service"} = error, _, date) do
     [
       content_tag(:div, [
@@ -134,14 +126,12 @@ defmodule DotcomWeb.ScheduleView do
     direction
   end
 
-  @spec route_pdfs([RoutePdf.t()] | nil, Route.t(), Date.t()) :: [map]
   def route_pdfs(route_pdfs, route, today) do
     route_pdfs = route_pdfs || []
     all_current? = Enum.all?(route_pdfs, &RoutePdf.started?(&1, today))
     Enum.map(route_pdfs, &route_pdfs_map(&1, route, today, all_current?))
   end
 
-  @spec route_pdfs_map(RoutePdf.t(), Route.t(), Date.t(), boolean) :: map
   def route_pdfs_map(pdf, route, today, all_current?) do
     %{
       url: pdf.path,
@@ -149,7 +139,6 @@ defmodule DotcomWeb.ScheduleView do
     }
   end
 
-  @spec route_pdf_link([RoutePdf.t()] | nil, Route.t(), Date.t()) :: Safe.t()
   def route_pdf_link(route_pdfs, route, today) do
     route_pdfs = route_pdfs || []
     all_current? = Enum.all?(route_pdfs, &RoutePdf.started?(&1, today))
@@ -165,7 +154,6 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
-  @spec route_pdf_title(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
   def route_pdf_title(pdf, route, today, all_current?) do
     current_or_upcoming_text =
       cond do
@@ -196,7 +184,6 @@ defmodule DotcomWeb.ScheduleView do
     ]
   end
 
-  @spec text_for_route_pdf(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
   defp text_for_route_pdf(pdf, route, today, all_current?) do
     [
       fa("file-pdf-o"),
@@ -205,7 +192,6 @@ defmodule DotcomWeb.ScheduleView do
     ]
   end
 
-  @spec pretty_route_name(Route.t()) :: String.t()
   def pretty_route_name(route) do
     route_prefix = if route.type == 3, do: "Route ", else: ""
 
@@ -219,10 +205,6 @@ defmodule DotcomWeb.ScheduleView do
     route_prefix <> route_name
   end
 
-  @spec fare_params(Stop.t(), Stop.t()) :: %{
-          optional(:origin) => Stop.id_t(),
-          optional(:destination) => Stop.id_t()
-        }
   def fare_params(origin, destination) do
     case {origin, destination} do
       {nil, nil} -> %{}
@@ -232,7 +214,6 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   @doc "Prefix route name with route for bus lines"
-  @spec route_header_text(Route.t()) :: [String.t()] | Safe.t()
   def route_header_text(%Route{type: 3, name: name} = route) do
     if Route.silver_line?(route) do
       if route.id == "746" do
@@ -250,7 +231,6 @@ defmodule DotcomWeb.ScheduleView do
   def route_header_text(%Route{type: 2, name: name}), do: [clean_route_name(name)]
   def route_header_text(%Route{name: name}), do: [name]
 
-  @spec header_class(Route.t()) :: String.t()
   def header_class(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       do_header_class("silver-line")
@@ -265,13 +245,11 @@ defmodule DotcomWeb.ScheduleView do
     |> do_header_class()
   end
 
-  @spec do_header_class(String.t()) :: String.t()
   defp do_header_class(<<modifier::binary>>) do
     "u-bg--" <> modifier
   end
 
   @doc "Route sub text (long names for bus routes)"
-  @spec route_header_description(Route.t()) :: String.t()
   def route_header_description(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       ""
@@ -321,11 +299,9 @@ defmodule DotcomWeb.ScheduleView do
     HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
   end
 
-  @spec alert_count(Conn.t()) :: integer
   defp alert_count(%{assigns: %{all_alerts_count: all_alerts_count}}), do: all_alerts_count
   defp alert_count(_), do: 0
 
-  @spec route_tab_class(Route.t()) :: String.t()
   defp route_tab_class(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       ""
@@ -336,7 +312,6 @@ defmodule DotcomWeb.ScheduleView do
 
   defp route_tab_class(_), do: ""
 
-  @spec route_fare_link(Route.t()) :: String.t()
   def route_fare_link(route) do
     route_type =
       route
@@ -347,10 +322,6 @@ defmodule DotcomWeb.ScheduleView do
     "/fares/" <> route_type <> "-fares"
   end
 
-  @spec single_trip_fares(Route.t()) :: [{String.t(), String.t() | iolist}]
-  @doc """
-  Returns a list of fares for a single trip. If the route is a free fare route, we override the fares with "Free".
-  """
   def single_trip_fares(%Route{fare_class: :free_fare} = route) do
     route
     |> to_fare_summary_atom()
@@ -370,7 +341,6 @@ defmodule DotcomWeb.ScheduleView do
     |> (&(&1.fares || [])).()
   end
 
-  @spec to_fare_summary_atom(Route.t()) :: atom
   def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
@@ -381,7 +351,6 @@ defmodule DotcomWeb.ScheduleView do
 
   def to_fare_summary_atom(route), do: Route.type_atom(route)
 
-  @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do
     {cr, subway} =
       routes
@@ -396,7 +365,6 @@ defmodule DotcomWeb.ScheduleView do
       Enum.find_index(@subway_order, fn x -> x == route_b.id end)
   end
 
-  @spec timetable_note(Conn.t() | map) :: Safe.t() | nil
   def timetable_note(%{route: %Route{id: "CR-Foxboro"}, direction_id: _}) do
     content_tag :div, class: "m-timetable__note" do
       [
@@ -414,12 +382,10 @@ defmodule DotcomWeb.ScheduleView do
     Route.to_json_safe(route)
   end
 
-  @spec station?(Stops.Stop.t()) :: boolean()
   def station?(stop) do
     stop.station?
   end
 
-  @spec flag_stop_badge(Route.t()) :: Safe.t() | nil
   def flag_stop_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
     assigns = %{}
 
@@ -439,7 +405,6 @@ defmodule DotcomWeb.ScheduleView do
     nil
   end
 
-  @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
   def timetable_crowding_description(crowding) do
     seats =
       case crowding do

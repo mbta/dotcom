@@ -2,7 +2,6 @@ defmodule Feedback.Repo do
   @moduledoc "module to send a HEAT ticket with optional attachments"
   require Logger
 
-  @spec send_ticket(Feedback.Message.t()) :: {:ok, any, any} | {:error, any}
   def send_ticket(message) do
     result = Feedback.Mailer.send_heat_ticket(message, message.photos)
 

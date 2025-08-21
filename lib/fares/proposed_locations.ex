@@ -11,7 +11,6 @@ defmodule Fares.ProposedLocations do
 
   @distance_in_miles 100
 
-  @spec by_lat_lon(LocationService.Address.t()) :: [Location.t()] | nil
   def by_lat_lon(%{latitude: lat, longitude: lon}) do
     url =
       "#{@base_url}&where=1%3D1&geometry=#{lon}%2C+#{lat}&geometryType=esriGeometryPoint&distance=#{@distance_in_miles}&units=esriSRUnit_StatuteMile"
@@ -23,7 +22,6 @@ defmodule Fares.ProposedLocations do
     nil
   end
 
-  @spec get_parsed_proposed_locations(String.t()) :: [Location.t()] | nil
   defp get_parsed_proposed_locations(url) do
     case HTTPoison.get(url) do
       {:ok, %{status_code: 200, body: body, headers: _headers}} ->
@@ -42,7 +40,6 @@ defmodule Fares.ProposedLocations do
     end
   end
 
-  @spec parse_proposed_location(map) :: Location.t()
   defp parse_proposed_location(json) do
     attributes = json["attributes"]
     routes = attributes["Routes"]
@@ -67,7 +64,6 @@ defmodule Fares.ProposedLocations do
     }
   end
 
-  @spec get_nearby(Util.Position.t()) :: [{Location.t(), float}]
   def get_nearby(position) do
     nearby_proposed_locations = by_lat_lon(position) || []
     # Return the 10 closest locations, sorted by distance

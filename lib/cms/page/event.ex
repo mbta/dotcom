@@ -79,7 +79,6 @@ defmodule CMS.Page.Event do
           event_agenda: EventAgenda.t() | nil
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     start_time = parse_iso_datetime(field_value(data, "field_start_time"))
     end_time = parse_iso_datetime(field_value(data, "field_end_time"))
@@ -117,12 +116,6 @@ defmodule CMS.Page.Event do
     }
   end
 
-  @spec started_status(
-          NaiveDateTime.t() | DateTime.t() | Date.t(),
-          NaiveDateTime.t() | DateTime.t() | nil
-        ) :: status | nil
-  # Events have DateTime start/ends.  Teasers have NaiveDateTimes OR Dates.
-  # Events will always have a start time, but unsure if teasers will. Handle :nil
   def started_status(nil, _), do: nil
 
   def started_status(%NaiveDateTime{} = start, %NaiveDateTime{} = stop) do
@@ -152,7 +145,6 @@ defmodule CMS.Page.Event do
     )
   end
 
-  @spec parse_optional_html(String.t() | nil) :: HTML.safe() | nil
   defp parse_optional_html(nil), do: nil
   defp parse_optional_html(value), do: handle_html(value)
 end

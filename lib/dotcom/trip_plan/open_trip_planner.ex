@@ -14,8 +14,6 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @doc """
   Requests to OpenTripPlanner's /plan GraphQL endpoint and parses the response..
   """
-  @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
-
   def plan(%InputForm{} = input_form) do
     input_form
     |> to_params()

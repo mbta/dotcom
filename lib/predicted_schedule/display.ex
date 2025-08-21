@@ -9,8 +9,6 @@ defmodule PredictedSchedule.Display do
   a difference over a threshold will show the time.
   """
   @type time_formatter_t :: (DateTime.t() -> [String.t()] | String.t())
-  @spec do_time_difference(DateTime.t(), DateTime.t(), time_formatter_t, integer) ::
-          [String.t()] | String.t()
   def do_time_difference(
         time,
         current_time,

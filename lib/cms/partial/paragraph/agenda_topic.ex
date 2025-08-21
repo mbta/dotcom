@@ -34,7 +34,6 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
           links: [Link.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     %__MODULE__{
       title: field_value(data, "field_topic_title"),

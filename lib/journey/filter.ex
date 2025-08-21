@@ -14,7 +14,6 @@ defmodule Journey.Filter do
   # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
-  @spec filter([Journey.t()], filter_flag_t, DateTime.t() | nil) :: [Journey.t()]
   def filter(journeys, _filter_flag, nil), do: journeys
 
   def filter(journeys, :last_trip_and_upcoming, current_time) do
@@ -26,9 +25,6 @@ defmodule Journey.Filter do
   end
 
   # remove all journeys without predictions (that just have schedule) before the predicted ones
-  @spec remove_departure_schedules_before_predictions([Journey.t()], DateTime.t() | nil) :: [
-          Journey.t()
-        ]
   def remove_departure_schedules_before_predictions(journeys, current_time) do
     max_prediction_time = find_max_departure_prediction_time(journeys)
 
@@ -41,9 +37,6 @@ defmodule Journey.Filter do
 
   # remove all journeys without predictions before `current_time`
   # except for the most recent one
-  @spec remove_departure_schedules_before_last_trip([Journey.t()], DateTime.t() | nil) :: [
-          Journey.t()
-        ]
   def remove_departure_schedules_before_last_trip(journeys, current_time) do
     last_trip_time = find_max_earlier_departure_schedule_time(journeys, current_time)
 
@@ -54,7 +47,6 @@ defmodule Journey.Filter do
     end
   end
 
-  @spec find_max_departure_prediction_time([Journey.t()]) :: DateTime.t() | nil
   def find_max_departure_prediction_time(journeys) do
     journeys
     |> Enum.max_by(&Journey.departure_prediction_time/1, fn -> nil end)
@@ -62,8 +54,6 @@ defmodule Journey.Filter do
   end
 
   # find the maximum scheduled departure before given time
-  @spec find_max_earlier_departure_schedule_time([Journey.t()], DateTime.t()) ::
-          DateTime.t() | nil
   def find_max_earlier_departure_schedule_time(journeys, time) do
     only_past_schedules =
       journeys
@@ -80,7 +70,6 @@ defmodule Journey.Filter do
     end
   end
 
-  @spec remove_departure_schedules_before([Journey.t()], DateTime.t()) :: [Journey.t()]
   def remove_departure_schedules_before(journeys, nil), do: journeys
 
   def remove_departure_schedules_before(journeys, time) do
@@ -99,7 +88,6 @@ defmodule Journey.Filter do
   When given true, limits the amount of journeys to `@trip_limit`
   Otherwise, returns the list as is
   """
-  @spec limit([Journey.t()], boolean) :: [Journey.t()]
   def limit(journeys, false), do: journeys
 
   def limit(journeys, true) do
@@ -109,7 +97,6 @@ defmodule Journey.Filter do
   @doc """
   Determines whether the filtered times are expanded, collapsed, or neither.
   """
-  @spec expansion([Journey.t()], [Journey.t()], boolean) :: :expanded | :collapsed | :none
   def expansion(expanded_times, collapsed_times, keep_all?) do
     cond do
       length(expanded_times) == length(collapsed_times) -> :none

@@ -15,7 +15,6 @@ defmodule Predictions.Store do
 
   @behaviour Behaviour
 
-  @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
@@ -93,7 +92,6 @@ defmodule Predictions.Store do
     {:noreply, table}
   end
 
-  @spec predictions_for_keys(:ets.table(), Behaviour.fetch_keys()) :: [Prediction.t()]
   defp predictions_for_keys(table, opts) do
     match_pattern = {
       Keyword.get(opts, :prediction_id, :_) || :_,

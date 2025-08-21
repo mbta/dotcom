@@ -20,7 +20,6 @@ defmodule DotcomWeb.LayoutView do
     end
   end
 
-  @spec styleguide_main_content_class(map) :: String.t()
   def styleguide_main_content_class(%{all_subpages: _}), do: " col-md-10"
   def styleguide_main_content_class(_), do: ""
 
@@ -215,7 +214,6 @@ defmodule DotcomWeb.LayoutView do
   @doc """
   Evaluates whether we want to show a meta tag to disable search engine crawling
   """
-  @spec robots_nofollow?(String.t()) :: boolean()
   def robots_nofollow?(request_path) when request_path in @hidden_from_search_engines, do: true
 
   def robots_nofollow?(request_path) do

@@ -35,7 +35,6 @@ defmodule CMS.Page.Landing do
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: field_value(data, "nid"),

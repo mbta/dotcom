@@ -29,7 +29,6 @@ defmodule Dotcom.Alerts.Group do
       Checks all effects in the group and returns the first group that contains the effect.
       If the effects list is empty, we know it belongs in "Other".
       """
-      @spec find_group(atom()) :: String.t()
       def find_group(alert) do
         __MODULE__.effect_groups()
         |> Enum.find(&group_match?(&1, alert))
@@ -40,7 +39,6 @@ defmodule Dotcom.Alerts.Group do
       Given a list of alerts, return a map of groups and their associated alerts.
       We merge the empty alerts map with the grouped alerts to ensure all groups are present.
       """
-      @spec group_alerts([Alert.t()]) :: %{String.t() => [Alert.t()]}
       def group_alerts(alerts) do
         grouped_alerts =
           Enum.group_by(alerts, fn alert ->
@@ -54,7 +52,6 @@ defmodule Dotcom.Alerts.Group do
       Given a list of alerts, return a map of groups and their associated alert counts.
       Because this uses `group_alerts/1`, we can be sure that all groups are present.
       """
-      @spec group_counts([Alert.t()]) :: %{String.t() => integer()}
       def group_counts(alerts) do
         alerts
         |> group_alerts()
@@ -73,7 +70,6 @@ defmodule Dotcom.Alerts.Group do
       @doc """
       Sort alerts by station and then by start time.
       """
-      @spec sort_alerts([Alert.t()]) :: [Alert.t()]
       def sort_alerts(alerts) do
         alerts
         |> Enum.sort(&sort_by_station_sorter/2)

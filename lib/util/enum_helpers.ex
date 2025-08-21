@@ -7,7 +7,6 @@ defmodule Util.EnumHelpers do
   iex> with_first_last([1, 2, 3])
   [{1, true}, {2, false}, {3, true}]
   """
-  @spec with_first_last(Enum.t()) :: [{any, boolean}]
   def with_first_last([]) do
     []
   end

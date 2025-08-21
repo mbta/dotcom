@@ -30,7 +30,6 @@ defmodule Alerts.InformedEntitySet do
         }
 
   @doc "Create a new InformedEntitySet from a list of InformedEntitys"
-  @spec new([InformedEntity.t()]) :: t
   def new(%__MODULE__{} = entity_set) do
     entity_set
   end
@@ -41,7 +40,6 @@ defmodule Alerts.InformedEntitySet do
   end
 
   @doc "Returns whether the given entity matches the set"
-  @spec match?(t, InformedEntity.t()) :: boolean
   def match?(%__MODULE__{} = set, %InformedEntity{} = entity) do
     entity
     |> Map.from_struct()

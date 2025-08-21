@@ -43,7 +43,6 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
           required(:data) => %{vehicle: Vehicle.t(), stop_name: String.t()},
           required(:marker) => Marker.t()
         }
-  @spec build_marker(Vehicles.Vehicle.t()) :: data_map
   def build_marker(%Vehicles.Vehicle{} = vehicle) do
     route = @routes_repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
@@ -83,7 +82,6 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
     }
   end
 
-  @spec get_stop_name(String.t() | nil) :: String.t()
   defp get_stop_name(nil) do
     ""
   end

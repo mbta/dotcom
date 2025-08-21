@@ -11,7 +11,6 @@ defmodule Fares.Format do
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
 
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
-  @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
   def price(%Fare{cents: +0.0}), do: ~t"Free"
   def price(%Fare{cents: cents}), do: price(cents)
@@ -19,7 +18,6 @@ defmodule Fares.Format do
   def price(cents), do: (cents / 100) |> Cldr.Number.to_string!(currency: "USD")
 
   @doc "Formats the fare media (card, &c) as a string"
-  @spec media(Fare.t() | [Fare.media()] | Fare.media()) :: iodata
   def media(%Fare{reduced: :any}), do: ~t"reduced fare card"
   def media(%Fare{media: list}), do: media(list)
 
@@ -41,7 +39,6 @@ defmodule Fares.Format do
   def media(:student_card), do: ~t"Student CharlieCard"
 
   @doc "Formats the duration of the Fare"
-  @spec duration(Fare.t() | Summary.t()) :: String.t()
   def duration(%{duration: :single_trip}) do
     ~t"One-Way"
   end
@@ -79,7 +76,6 @@ defmodule Fares.Format do
   end
 
   @doc "Friendly name for the given Fare"
-  @spec name(Fare.t() | Fare.fare_name()) :: String.t()
   def name(%Fare{name: name}), do: name(name)
   def name(:subway), do: ~t"Subway"
   def name(:local_bus), do: ~t"Local Bus"
@@ -105,7 +101,6 @@ defmodule Fares.Format do
   def name(:logan_express), do: ~t"Logan Express"
   def name("Massport-" <> _id), do: ~t"Massport Shuttle"
 
-  @spec full_name(Fare.t() | nil) :: String.t() | iolist
   def full_name(nil), do: ~t"Shuttle"
   def full_name(%Fare{mode: :subway, duration: :month}), do: ~t"Monthly LinkPass"
   def full_name(%Fare{mode: :bus, duration: :month}), do: ~t"Monthly Local Bus Pass"
@@ -119,14 +114,12 @@ defmodule Fares.Format do
     [name(fare), " ", duration(fare)]
   end
 
-  @spec concise_full_name(Fare.t()) :: String.t() | iolist()
   def concise_full_name(%Fare{mode: :commuter_rail} = fare), do: name(fare)
 
   def concise_full_name(%Fare{mode: :bus, name: :express_bus} = fare), do: name(fare)
 
   def concise_full_name(fare), do: full_name(fare)
 
-  @spec summarize([Fare.t()], mode_type | [mode_type], String.t() | nil) :: [Summary.t()]
   def summarize(fares, mode, url \\ nil)
 
   def summarize(fares, :bus_subway, url) do
@@ -169,7 +162,6 @@ defmodule Fares.Format do
     end)
   end
 
-  @spec summarize_one(Fare.t(), Keyword.t()) :: Summary.t()
   def summarize_one(fare, opts \\ []) do
     %Fares.Summary{
       name: Fares.Format.full_name(fare),
@@ -186,7 +178,6 @@ defmodule Fares.Format do
   defp price_range_summary_name(fare, :commuter_rail), do: ~t"Commuter Rail " <> duration(fare)
   defp price_range_summary_name(fare, :ferry), do: ~t"Ferry " <> duration(fare)
 
-  @spec mode_type_for_fare_class(Routes.Route.gtfs_fare_class()) :: mode_type | :unknown
   def mode_type_for_fare_class(:ferry_fare), do: :ferry
   def mode_type_for_fare_class(:commuter_rail_fare), do: :commuter_rail
   def mode_type_for_fare_class(_), do: :bus_subway

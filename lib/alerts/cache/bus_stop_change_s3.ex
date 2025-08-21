@@ -40,7 +40,6 @@ defmodule Alerts.Cache.BusStopChangeS3 do
    our S3 bucket. This function is invoked in Alerts.Cache.Fetcher.handle_info/2
    with two arguments, but we only use the first.
   """
-  @spec copy_alerts_to_s3([Alert.t()], any) :: :ok
   def copy_alerts_to_s3(bus_alerts, _) do
     case Enum.filter(bus_alerts, &(&1.effect in [:stop_closure, :stop_moved])) do
       [] ->
@@ -73,18 +72,6 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @doc """
   Get bus stop change alerts currently stored on S3. Cached per day.
   """
-  @spec get_stored_alerts :: [HistoricalAlert.t()]
-  @decorate cacheable(
-              cache: @cache,
-              key:
-                Dotcom.Cache.KeyGenerator.generate(
-                  __MODULE__,
-                  :get_stored_alerts,
-                  Util.service_date()
-                ),
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   def get_stored_alerts do
     keys =
       case @aws_client.list_objects(@bucket, bucket_prefix()) do
@@ -112,7 +99,6 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     |> Enum.filter(& &1)
   end
 
-  @spec write_alerts([HistoricalAlert.t()]) :: :ok
   defp write_alerts(alerts) do
     alerts
     |> Enum.map(fn alert ->
@@ -134,12 +120,10 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     |> Stream.run()
   end
 
-  @spec compress_alert(HistoricalAlert.t()) :: binary()
   defp compress_alert(alert) do
     :erlang.term_to_binary(alert, [:compressed])
   end
 
-  @spec decompress_alert(binary()) :: HistoricalAlert.t()
   defp decompress_alert(alert) do
     :erlang.binary_to_term(alert)
   end

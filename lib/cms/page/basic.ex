@@ -32,7 +32,6 @@ defmodule CMS.Page.Basic do
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
@@ -44,7 +43,6 @@ defmodule CMS.Page.Basic do
     }
   end
 
-  @spec parse_menu_links(map) :: MenuLinks.t() | nil
   defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]})
        when not is_nil(menu_links_data) do
     MenuLinks.from_api(menu_links_data)

@@ -40,7 +40,6 @@ defmodule DotcomWeb.Plugs.Cookies do
   Sets a unique id cookie if it does not already exist.
   If the user-agent is not Playwright (meaning it is a real user), then the id is added to the Logger metadata.
   """
-  @spec set_id_cookie(Conn.t()) :: Conn.t()
   def set_id_cookie(%{cookies: %{@id_cookie_name => mbta_id}} = conn) do
     conn
     |> maybe_set_metadata(mbta_id)
@@ -62,7 +61,6 @@ defmodule DotcomWeb.Plugs.Cookies do
     conn
   end
 
-  @spec unique_id() :: String.t()
   defp unique_id do
     {node(), System.unique_integer()}
     |> :erlang.phash2()
@@ -75,7 +73,6 @@ defmodule DotcomWeb.Plugs.Cookies do
   Sets a cookie when user visits a schedule page. Cookie lists the 4 most recently visited
   routes, separated by a pipe ("|"), in order of most recently visited.
   """
-  @spec set_route_cookie(Conn.t()) :: Conn.t()
   def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn)
       when route not in @modes do
     conn.cookies
@@ -89,12 +86,10 @@ defmodule DotcomWeb.Plugs.Cookies do
     conn
   end
 
-  @spec do_set_route_cookie(String.t(), Conn.t()) :: Conn.t()
   defp do_set_route_cookie(cookie, conn) do
     Conn.put_resp_cookie(conn, @route_cookie_name, cookie, @route_cookie_options)
   end
 
-  @spec build_route_cookie([String.t()], String.t()) :: String.t()
   defp build_route_cookie([""], route) do
     route
   end

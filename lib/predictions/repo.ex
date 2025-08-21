@@ -57,8 +57,6 @@ defmodule Predictions.Repo do
     end
   end
 
-  @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
   defp filter_predictions(predictions, min_time \\ nil)
 
   defp filter_predictions({:error, error}, _) do
@@ -239,8 +237,6 @@ defmodule Predictions.Repo do
     ]
   end
 
-  @spec discard_if_subway_past_prediction([Predictions.Prediction.t()] | []) ::
-          [Predictions.Prediction.t()] | []
   defp discard_if_subway_past_prediction([]) do
     []
   end

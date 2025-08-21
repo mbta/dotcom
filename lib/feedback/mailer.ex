@@ -8,7 +8,6 @@ defmodule Feedback.Mailer do
 
   @aws_client Application.compile_env(:dotcom, :aws_client)
 
-  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
     ada_complaint = if message.ada_complaint, do: "Yes", else: "No"
@@ -82,7 +81,6 @@ defmodule Feedback.Mailer do
     |> send_email_fn.()
   end
 
-  @spec topic(Message.t()) :: String.t()
   defp topic(%Message{service: "Complaint", subject: "Bus Stop"}), do: "Other"
   defp topic(%Message{service: "Complaint", subject: "CharlieCards & Tickets"}), do: "Other"
   defp topic(%Message{service: "Complaint", subject: "Employee Complaint"}), do: "Other"
@@ -95,7 +93,6 @@ defmodule Feedback.Mailer do
   defp topic(%Message{service: "Inquiry", subject: "Senior ID Cards"}), do: "Other"
   defp topic(_), do: ""
 
-  @spec format_name(String.t() | nil, String.t()) :: String.t()
   defp format_name(nil, default) do
     default
   end

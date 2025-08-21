@@ -16,7 +16,6 @@ defmodule CMS.Partial.MenuLinks do
           links: [Link.t()]
         }
 
-  @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "menu_links"}]} = data) do
     %__MODULE__{
       title: field_value(data, "title"),
@@ -25,7 +24,6 @@ defmodule CMS.Partial.MenuLinks do
     }
   end
 
-  @spec parse_blurb(map) :: HTML.Safe.t()
   defp parse_blurb(data) do
     data
     |> field_value("field_blurb")

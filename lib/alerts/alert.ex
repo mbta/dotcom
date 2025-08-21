@@ -120,7 +120,6 @@ defmodule Alerts.Alert do
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow
 
-  @spec new(Keyword.t()) :: t()
   def new(keywords \\ [])
 
   def new([]) do
@@ -135,7 +134,6 @@ defmodule Alerts.Alert do
     |> ensure_entity_set()
   end
 
-  @spec update(t(), Keyword.t()) :: t()
   def update(%__MODULE__{} = alert, keywords) do
     alert
     |> struct!(keywords)
@@ -171,30 +169,22 @@ defmodule Alerts.Alert do
 
   defp set_direction_id(entity), do: entity
 
-  @spec set_priority(map) :: map
   defp set_priority(%__MODULE__{} = alert) do
     %__MODULE__{alert | priority: Priority.priority(alert)}
   end
 
-  @spec build_struct(Keyword.t()) :: t()
   defp build_struct(keywords), do: struct!(__MODULE__, keywords)
 
-  @spec ensure_entity_set(map) :: t()
   defp ensure_entity_set(alert) do
     %__MODULE__{alert | informed_entity: InformedEntitySet.new(alert.informed_entity)}
   end
 
-  @spec all_types :: [effect]
   def all_types, do: @all_types
 
-  @spec ongoing_effects :: [effect]
   def ongoing_effects, do: @ongoing_effects
 
-  @spec lifecycles :: [lifecycle]
   def lifecycles, do: @lifecycles
 
-  @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) :: Enumerable.t()
-  @doc "Helper function for retrieving InformedEntity values for an alert"
   def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route: set}}, :route), do: set
   def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{stop: set}}, :stop), do: set
 
@@ -214,12 +204,10 @@ defmodule Alerts.Alert do
   end
 
   @doc "Returns a friendly name for the alert's effect"
-  @spec human_effect(t) :: String.t()
   def human_effect(%__MODULE__{effect: effect}) do
     do_human_effect(effect)
   end
 
-  @spec do_human_effect(effect) :: String.t()
   defp do_human_effect(:amber_alert), do: ~t"Amber Alert"
   defp do_human_effect(:cancellation), do: ~t"Cancellation"
   defp do_human_effect(:delay), do: ~t"Delay"
@@ -251,19 +239,16 @@ defmodule Alerts.Alert do
   defp do_human_effect(_), do: ~t"Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"
-  @spec human_lifecycle(t) :: String.t()
   def human_lifecycle(%__MODULE__{lifecycle: lifecycle}) do
     do_human_lifecycle(lifecycle)
   end
 
-  @spec do_human_lifecycle(lifecycle) :: String.t()
   defp do_human_lifecycle(:new), do: "New"
   defp do_human_lifecycle(:upcoming), do: "Upcoming"
   defp do_human_lifecycle(:ongoing_upcoming), do: "Upcoming"
   defp do_human_lifecycle(:ongoing), do: "Ongoing"
   defp do_human_lifecycle(_), do: "Unknown"
 
-  @spec human_label(t) :: String.t()
   def human_label(%{lifecycle: lifecycle})
       when lifecycle not in [:new, :unknown] do
     do_human_lifecycle(lifecycle)
@@ -285,7 +270,6 @@ defmodule Alerts.Alert do
   defp do_human_delay_severity(9), do: "of more than an hour"
   defp do_human_delay_severity(_), do: nil
 
-  @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
   def icon(%{priority: :high, effect: :cancellation}), do: :cancel
@@ -293,7 +277,6 @@ defmodule Alerts.Alert do
   def icon(%{priority: :high, effect: :shuttle}), do: :shuttle
   def icon(_), do: :alert
 
-  @spec high_severity_or_high_priority?(t) :: boolean()
   def high_severity_or_high_priority?(%{priority: :high}), do: true
 
   def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
@@ -301,7 +284,6 @@ defmodule Alerts.Alert do
 
   def high_severity_or_high_priority?(_), do: false
 
-  @spec municipality(t) :: String.t() | nil
   def municipality(alert) do
     alert
     |> get_entity(:stop)
@@ -324,7 +306,6 @@ defimpl Poison.Encoder, for: Alerts.Alert do
     )
   end
 
-  @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
   defp alert_active_period({first, last}) do
     [first, last] |> Enum.map(&format_time(&1))
   end

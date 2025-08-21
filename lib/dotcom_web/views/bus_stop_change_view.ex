@@ -20,7 +20,6 @@ defmodule DotcomWeb.BusStopChangeView do
     |> sort_and_adjust_values(&keyed_by_stop/1)
   end
 
-  @spec keyed_by_stop(alerts_with_keys) :: alerts_by_key
   defp keyed_by_stop(keyed_alerts) do
     keyed_alerts
     |> Enum.flat_map(&alert_with_related_stops/1)
@@ -29,17 +28,12 @@ defmodule DotcomWeb.BusStopChangeView do
     end)
   end
 
-  @spec alert_with_related_stops(AmbiguousAlert.t()) :: alerts_with_keys
   defp alert_with_related_stops(alert) do
     alert
     |> related_stops()
     |> Enum.map(&{&1, alert})
   end
 
-  @spec sort_and_adjust_values(
-          alerts_by_key,
-          ([AmbiguiousAlert.t()] -> [AmbiguiousAlert.t()])
-        ) :: alerts_by_key
   defp sort_and_adjust_values(keyed_alerts_list, alerts_func) do
     keyed_alerts_list
     |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
@@ -51,7 +45,6 @@ defmodule DotcomWeb.BusStopChangeView do
     |> Enum.sort()
   end
 
-  @spec time_filter_buttons(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def time_filter_buttons(conn) do
     selected_timeframe = conn.assigns.alerts_timeframe
 
@@ -75,7 +68,6 @@ defmodule DotcomWeb.BusStopChangeView do
   defp filter_text(:current), do: "Current Changes"
   defp filter_text(:upcoming), do: "Upcoming Changes"
 
-  @spec affected_stop_link(Plug.Conn.t(), Stop.t() | String.t()) :: Phoenix.HTML.Safe.t() | nil
   def affected_stop_link(_conn, stopname) when is_binary(stopname) do
     content_tag(:div, stopname)
   end

@@ -69,7 +69,6 @@ defmodule Dotcom.TransitNearMe do
           crowding: Vehicle.crowding() | nil
         }
 
-  @spec get_direction_map([PredictedSchedule.t()], Keyword.t()) :: [direction_data]
   def get_direction_map(schedules, opts) do
     schedules
     |> Enum.group_by(&PredictedSchedule.direction_id/1)
@@ -78,7 +77,6 @@ defmodule Dotcom.TransitNearMe do
     |> elem(1)
   end
 
-  @spec build_time_map(PredictedSchedule.t(), Keyword.t()) :: predicted_schedule_and_time_data
   def build_time_map(%PredictedSchedule{} = predicted_schedule, opts) do
     now = Keyword.fetch!(opts, :now)
 
@@ -97,9 +95,6 @@ defmodule Dotcom.TransitNearMe do
     }
   end
 
-  @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
-          [String.t()] | String.t()
-
   def format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
     Display.do_time_difference(time, now, &format_time/1, 120)
   end
@@ -116,7 +111,6 @@ defmodule Dotcom.TransitNearMe do
     format_time(time)
   end
 
-  @spec format_time(DateTime.t()) :: [String.t()]
   def format_time(time) do
     [time, am_pm] =
       time
@@ -125,9 +119,6 @@ defmodule Dotcom.TransitNearMe do
 
     [time, " ", am_pm]
   end
-
-  @spec sort_by_time([{DateTime.t() | nil, any}]) ::
-          {DateTime.t() | nil, [any]}
 
   defp sort_by_time([]) do
     {nil, []}
@@ -156,8 +147,6 @@ defmodule Dotcom.TransitNearMe do
           required(:headsigns) => [headsign_data]
         }
 
-  @spec build_direction_map({0 | 1, [PredictedSchedule.t()]}, Keyword.t()) ::
-          {DateTime.t(), direction_data}
   def build_direction_map({direction_id, [ps | _] = schedules}, opts) do
     headsign_fn = Keyword.get(opts, :headsign_fn, &build_headsign_map/2)
     now = Keyword.fetch!(opts, :now)
@@ -191,14 +180,6 @@ defmodule Dotcom.TransitNearMe do
     }
   end
 
-  @spec filter_predicted_schedules(
-          [PredictedSchedule.t()],
-          Routes.Route.t(),
-          Stop.id_t(),
-          DateTime.t()
-        ) :: [
-          PredictedSchedule.t()
-        ]
   def filter_predicted_schedules(predicted_schedules, %Route{}, stop_id, %DateTime{})
       when stop_id in @stops_without_predictions do
     predicted_schedules
@@ -237,10 +218,6 @@ defmodule Dotcom.TransitNearMe do
 
   defp before_service_start?(%Time{} = time), do: Time.compare(time, ~T[03:00:00]) === :lt
 
-  @spec build_headsign_map(
-          {Schedules.Trip.headsign(), [PredictedSchedule.t()]},
-          Keyword.t()
-        ) :: {DateTime.t(), headsign_data}
   defp build_headsign_map({headsign, [ps | _] = schedules}, opts) do
     route = PredictedSchedule.route(ps)
     trip = PredictedSchedule.trip(ps)
@@ -269,9 +246,6 @@ defmodule Dotcom.TransitNearMe do
 
   @type predicted_schedule_and_time_data :: {PredictedSchedule.t(), time_data}
 
-  @spec filter_headsign_schedules([predicted_schedule_and_time_data], Route.t() | nil) :: [
-          predicted_schedule_and_time_data
-        ]
   def filter_headsign_schedules(schedules, %Route{type: 3}) do
     # for bus, remove items with a nil prediction when at least one item has a prediction
     prediction_available? =
@@ -308,7 +282,6 @@ defmodule Dotcom.TransitNearMe do
     nil
   end
 
-  @spec simple_prediction(Prediction.t() | nil, atom, DateTime.t()) :: simple_prediction | nil
   def simple_prediction(nil, _route_type, _now) do
     nil
   end

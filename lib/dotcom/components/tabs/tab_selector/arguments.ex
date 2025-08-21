@@ -33,7 +33,6 @@ defmodule Dotcom.Components.Tabs.TabSelector do
   def selected?(tab_item_name, tab_item_name), do: true
   def selected?(_, _), do: false
 
-  @spec slug(String.t()) :: String.t()
   def slug(title) do
     String.replace(String.downcase(title), " ", "-") <> "-tab"
   end

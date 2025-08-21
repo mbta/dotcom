@@ -24,7 +24,6 @@ defmodule Fares.Summary do
             fares: [],
             url: nil
 
-  @spec price_range(t) :: String.t()
   def price_range(%__MODULE__{fares: [{_label, range} | _]}) do
     case range do
       # Don't output range if equal:

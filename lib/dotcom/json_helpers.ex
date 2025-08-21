@@ -3,7 +3,6 @@ defmodule Dotcom.JsonHelpers do
   Helper functions for converting structs to JSON encodable values.
   """
 
-  @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
   def alert_active_period({first, last}) do
     [first, last] |> Enum.map(&format_time(&1))
   end
@@ -15,7 +14,6 @@ defmodule Dotcom.JsonHelpers do
     end
   end
 
-  @spec update_map_for_encoding(:unknown | map) :: map
   def update_map_for_encoding(:unknown) do
     :unknown
   end

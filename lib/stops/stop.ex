@@ -72,7 +72,6 @@ defmodule Stops.Stop do
   @doc """
   Returns a boolean indicating whether we know the accessibility status of the stop.
   """
-  @spec accessibility_known?(t) :: boolean
   def accessibility_known?(%__MODULE__{accessibility: ["unknown" | _]}), do: false
   def accessibility_known?(%__MODULE__{}), do: true
 
@@ -81,7 +80,6 @@ defmodule Stops.Stop do
 
   A stop can have accessibility features but not be considered accessible.
   """
-  @spec accessible?(t) :: boolean
   def accessible?(%__MODULE__{accessibility: ["accessible" | _]}), do: true
   def accessible?(%__MODULE__{}), do: false
 end
@@ -140,7 +138,6 @@ defmodule Stops.Stop.ParkingLot.Payment do
           monthly_rate: String.t() | nil
         }
 
-  @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       methods: Map.get(props, "payment-form-accepted", []),
@@ -168,7 +165,6 @@ defmodule Stops.Stop.ParkingLot.Payment.MobileApp do
           url: String.t() | nil
         }
 
-  @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       name: Map.get(props, "payment-app"),
@@ -198,7 +194,6 @@ defmodule Stops.Stop.ParkingLot.Capacity do
           type: String.t() | nil
         }
 
-  @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       total: Map.get(props, "capacity"),
@@ -210,12 +205,10 @@ defmodule Stops.Stop.ParkingLot.Capacity do
 
   # GTFS values:
   # "1 for true, 2 for false, or 0 for no information"
-  @spec pretty_parking_type(integer) :: String.t() | nil
   defp pretty_parking_type(0), do: nil
   defp pretty_parking_type(1), do: "Garage"
   defp pretty_parking_type(2), do: "Surface Lot"
 
-  @spec pretty_overnight_msg(String.t() | nil) :: String.t()
   defp pretty_overnight_msg("no"), do: "Not available"
   defp pretty_overnight_msg("yes"), do: "Available"
   defp pretty_overnight_msg("yes-except-snow"), do: "Available, except during snow emergencies"
@@ -247,7 +240,6 @@ defmodule Stops.Stop.ParkingLot.Manager do
           url: String.t() | nil
         }
 
-  @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       name: Map.get(props, "operator"),
@@ -274,7 +266,6 @@ defmodule Stops.Stop.ParkingLot.Utilization do
           typical: integer | nil
         }
 
-  @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       arrive_before: pretty_date(Map.get(props, "weekday-arrive-before")),
@@ -282,7 +273,6 @@ defmodule Stops.Stop.ParkingLot.Utilization do
     }
   end
 
-  @spec pretty_date(String.t()) :: String.t()
   defp pretty_date(date) do
     case Timex.parse(date, "{h24}:{m}:{s}") do
       {:ok, time} ->

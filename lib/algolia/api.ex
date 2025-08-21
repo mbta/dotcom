@@ -26,8 +26,6 @@ defmodule Algolia.Api do
           query_params: map | nil
         }
 
-  @spec action(action, t) ::
-          {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | :bad_config}
   def action(action, opts, config \\ nil)
 
   def action(action, %__MODULE__{} = opts, nil) do
@@ -94,13 +92,11 @@ defmodule Algolia.Api do
   def send_request(url, :get, _body, config, hackney),
     do: @httpoison.get(url, headers(config), hackney: hackney)
 
-  @spec generate_query_param_string(t) :: String.t() | nil
   defp generate_query_param_string(%{query_params: nil}), do: nil
 
   defp generate_query_param_string(%{query_params: query_params}),
     do: URI.encode_query(query_params)
 
-  @spec generate_url(t, Config.t(), String.t() | nil) :: String.t()
   defp generate_url(%__MODULE__{} = opts, %Config{} = config, nil) do
     Path.join([base_url(opts, config), "1", "indexes", opts.index, opts.action])
   end
@@ -123,7 +119,6 @@ defmodule Algolia.Api do
     host
   end
 
-  @spec headers(Config.t()) :: [{String.t(), String.t()}]
   defp headers(%Config{} = config) do
     key = if(config.write, do: config.write, else: config.search)
 

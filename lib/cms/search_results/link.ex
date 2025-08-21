@@ -10,7 +10,6 @@ defmodule CMS.SearchResult.Link do
           description: String.t()
         }
 
-  @spec build(map) :: t
   def build(result) do
     %__MODULE__{
       title: result["ss_field_url_title"],
@@ -19,7 +18,6 @@ defmodule CMS.SearchResult.Link do
     }
   end
 
-  @spec parse_link(String.t()) :: String.t()
   defp parse_link(link) do
     case String.split(link, ":") do
       ["internal", part] -> part

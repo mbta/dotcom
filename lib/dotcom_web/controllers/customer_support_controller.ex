@@ -147,7 +147,6 @@ defmodule DotcomWeb.CustomerSupportController do
     |> render_form(%{errors: ["recaptcha"], comments: comments})
   end
 
-  @spec render_expandable_blocks(Plug.Conn.t(), list) :: [Phoenix.HTML.safe()]
   def render_expandable_blocks(assigns, content_blocks \\ @content_blocks) do
     content_blocks
     |> Enum.map(fn block ->
@@ -171,7 +170,6 @@ defmodule DotcomWeb.CustomerSupportController do
     end)
   end
 
-  @spec do_submit(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp do_submit(%Plug.Conn{assigns: %{ip_address: {:ok, ip}}} = conn, data) do
     rate_limit_interval = Application.get_env(:dotcom, :feedback_rate_limit, 60_000)
 
@@ -195,7 +193,6 @@ defmodule DotcomWeb.CustomerSupportController do
     end
   end
 
-  @spec photo_attachments([Plug.Upload.t()]) :: [%{path: String.t(), filename: String.t()}] | nil
   defp photo_attachments([%Plug.Upload{} | _rest] = photos) do
     attachments =
       Enum.reduce(photos, [], fn %Plug.Upload{path: path, filename: filename}, acc ->
@@ -260,7 +257,6 @@ defmodule DotcomWeb.CustomerSupportController do
     )
   end
 
-  @spec do_validation(map) :: [String.t()]
   defp do_validation(params) do
     validators =
       if params["no_request_response"] == "off" do
@@ -289,11 +285,9 @@ defmodule DotcomWeb.CustomerSupportController do
     Dotcom.Validation.validate(validators, params)
   end
 
-  @spec validate_comments(map) :: :ok | String.t()
   defp validate_comments(%{"comments" => ""}), do: "comments"
   defp validate_comments(_), do: :ok
 
-  @spec validate_service(map) :: :ok | String.t()
   defp validate_service(%{"service" => service}) do
     if Feedback.Message.valid_service?(service) do
       :ok
@@ -304,7 +298,6 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp validate_service(_), do: "service"
 
-  @spec validate_subject(map) :: :ok | String.t()
   defp validate_subject(%{"subject" => subject, "service" => service}) do
     if Feedback.Message.valid_subject_for_service?(subject, service) do
       :ok
@@ -315,12 +308,10 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp validate_subject(_), do: "subject"
 
-  @spec validate_name(map) :: :ok | String.t()
   defp validate_name(%{"first_name" => ""}), do: "first_name"
   defp validate_name(%{"last_name" => ""}), do: "last_name"
   defp validate_name(_), do: :ok
 
-  @spec validate_email(map) :: :ok | String.t()
   defp validate_email(%{"email" => email}) do
     case Regex.run(~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, email) do
       nil -> "email"
@@ -330,11 +321,9 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp validate_email(_), do: "email"
 
-  @spec validate_privacy(map) :: :ok | String.t()
   defp validate_privacy(%{"privacy" => "on"}), do: :ok
   defp validate_privacy(_), do: "privacy"
 
-  @spec validate_vehicle(map) :: :ok | String.t()
   defp validate_vehicle(%{"vehicle" => vehicle_number}) when vehicle_number != "" do
     if Regex.match?(~r/^[0-9]{0,8}$/, vehicle_number),
       do: :ok,
@@ -343,7 +332,6 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp validate_vehicle(_), do: :ok
 
-  @spec validate_photos(map) :: :ok | String.t()
   defp validate_photos(%{"photos" => photos}) when is_list(photos) do
     if Enum.all?(photos, &valid_upload?/1), do: :ok, else: "photos"
   end
@@ -365,7 +353,6 @@ defmodule DotcomWeb.CustomerSupportController do
     :"invalid-input-response"
   ]
 
-  @spec validate_recaptcha(map) :: :ok | String.t()
   defp validate_recaptcha(%{"recaptcha_response" => response}) do
     case Recaptcha.verify(response) do
       {:ok, _} ->
@@ -385,7 +372,6 @@ defmodule DotcomWeb.CustomerSupportController do
     end
   end
 
-  @spec validate_incident_date_time(map) :: DateTime.t()
   defp validate_incident_date_time(incident_date_time) do
     now = Util.now() |> Util.to_local_time() |> DateTime.truncate(:second)
 
@@ -430,7 +416,6 @@ defmodule DotcomWeb.CustomerSupportController do
     })
   end
 
-  @spec get_options_per_mode :: map
   def get_options_per_mode do
     bus_ferry_cr_options =
       for route_type <- 2..4, into: %{} do
@@ -501,13 +486,11 @@ defmodule DotcomWeb.CustomerSupportController do
     )
   end
 
-  @spec assign_datetime_selector_fields(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   defp assign_datetime_selector_fields(conn, _) do
     conn
     |> assign(:support_datetime_selector_fields, @support_datetime_selector_fields)
   end
 
-  @spec assign_all_options_per_mode(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   defp assign_all_options_per_mode(conn, _) do
     assign(conn, :all_options_per_mode, get_options_per_mode())
   end

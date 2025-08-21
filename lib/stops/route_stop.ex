@@ -63,13 +63,6 @@ defmodule Stops.RouteStop do
   generates a list of RouteStops representing all stops on that route.
   If the route has branches, the branched stops appear grouped together in order as part of the list.
   """
-  @spec list_from_route_patterns(
-          [{RoutePattern.t(), [Stop.t()]}],
-          Route.t(),
-          direction_id_t(),
-          boolean
-        ) ::
-          [t()]
   def list_from_route_patterns(
         route_patterns_with_stops,
         route,
@@ -106,11 +99,6 @@ defmodule Stops.RouteStop do
     |> merge_branch_list(reverse_direction_for_ferry(route.id, direction_id))
   end
 
-  @spec list_from_route_pattern(
-          {RoutePattern.t(), [Stop.t()]},
-          Route.t(),
-          boolean()
-        ) :: [t()]
   def list_from_route_pattern(
         route_patterns_with_stops,
         route,
@@ -146,7 +134,6 @@ defmodule Stops.RouteStop do
   def reverse_direction_for_ferry("Boat-F1", direction), do: 1 - direction
   def reverse_direction_for_ferry(_route_id, direction), do: direction
 
-  @spec branch_name(RoutePattern.t(), boolean()) :: String.t()
   defp branch_name(%RoutePattern{route_id: route_id}, true), do: route_id
   defp branch_name(%RoutePattern{name: name}, false), do: name
 
@@ -155,9 +142,6 @@ defmodule Stops.RouteStop do
   generates a list of RouteStops representing all stops on that route.
   If the route has branches, the branched stops appear grouped together in order as part of the list.
   """
-  @spec list_from_shapes([Shape.t()], [Stop.t()], Route.t(), direction_id_t) ::
-          [RouteStop.t()]
-  # Can't build route stops if there are no stops or shapes
   def list_from_shapes([], [], _route, _direction_id), do: []
 
   def list_from_shapes([], [%Stop{} | _] = stops, route, _direction_id) do
@@ -196,8 +180,6 @@ defmodule Stops.RouteStop do
     |> merge_branch_list(direction_id)
   end
 
-  @spec do_list_from_shapes(String.t(), [Stop.id_t()], [Stop.t()], Route.t()) ::
-          [RouteStop.t()]
   defp do_list_from_shapes(shape_name, stop_ids, [%Stop{} | _] = stops, route) do
     stops = Map.new(stops, &{&1.id, &1})
 
@@ -229,7 +211,6 @@ defmodule Stops.RouteStop do
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop(Stop.t(), Route.t(), Keyword.t()) :: RouteStop.t()
   def build_route_stop(%Stop{} = stop, route, opts \\ []) do
     branch = Keyword.get(opts, :branch)
     first? = Keyword.get(opts, :first?) == true
@@ -246,7 +227,6 @@ defmodule Stops.RouteStop do
     }
   end
 
-  @spec fetch_zone(t) :: t
   def fetch_zone(%__MODULE__{zone: {:error, :not_fetched}} = route_stop) do
     case @stops_repo.get(route_stop.id) do
       %Stop{zone: zone} ->
@@ -257,7 +237,6 @@ defmodule Stops.RouteStop do
     end
   end
 
-  @spec fetch_stop_features(t) :: t
   def fetch_stop_features(%__MODULE__{stop_features: {:error, :not_fetched}} = route_stop) do
     features = route_stop_features(route_stop)
     %{route_stop | stop_features: features}
@@ -279,7 +258,6 @@ defmodule Stops.RouteStop do
     %{route_stop | connections: connections}
   end
 
-  @spec route_stop_features(t) :: [Stops.Repo.Behaviour.stop_feature()]
   defp route_stop_features(%__MODULE__{station_info: %Stop{}} = route_stop) do
     @stops_repo.stop_features(route_stop.station_info, connections: route_stop.connections)
   end
@@ -293,7 +271,6 @@ defmodule Stops.RouteStop do
   # a shuttle replaces normal service for the end one branch.
   # In this sort of case we want to stitch the stops for this shuttle onto
   # the existing branch.
-  @spec maybe_stitch_chunks([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp maybe_stitch_chunks(route_stop_groups) do
     route_stop_groups
     |> Enum.reduce([], fn route_stops, acc ->
@@ -312,12 +289,10 @@ defmodule Stops.RouteStop do
   #   -1 if b starts where a ended
   #   1 if a starts where b ended
   #   0 otherwise
-  @spec linked_patterns([RouteStop.t()], [RouteStop.t()]) :: -1 | 0 | 1
   defp linked_patterns(a, b),
     do: do_linked_patterns(first_last_stops(a), first_last_stops(b))
 
   @typep first_last_stop_ids :: {Stop.id_t(), Stop.id_t()}
-  @spec first_last_stops([RouteStop.t()]) :: first_last_stop_ids()
   defp first_last_stops(route_stops) do
     {
       route_stops |> List.first() |> Map.get(:id),
@@ -325,10 +300,6 @@ defmodule Stops.RouteStop do
     }
   end
 
-  @spec do_linked_patterns(
-          first_last_stop_ids(),
-          first_last_stop_ids()
-        ) :: -1 | 0 | 1
   defp do_linked_patterns({first_stop_a, _}, {_, last_stop_b})
        when first_stop_a == last_stop_b,
        do: 1
@@ -339,12 +310,10 @@ defmodule Stops.RouteStop do
 
   defp do_linked_patterns(_, _), do: 0
 
-  @spec stitch([RouteStop.t()], [RouteStop.t()]) :: [RouteStop.t()]
   defp stitch(a, b) do
     if linked_patterns(a, b) == -1, do: do_stitch(a, b), else: do_stitch(b, a)
   end
 
-  @spec do_stitch([RouteStop.t()], [RouteStop.t()]) :: [RouteStop.t()]
   defp do_stitch(first, second) do
     {first_last, first_body} = List.pop_at(first, -1)
 
@@ -353,10 +322,8 @@ defmodule Stops.RouteStop do
       (second |> tl() |> Enum.map(&%RouteStop{&1 | branch: branch(first)}))
   end
 
-  @spec branch([RouteStop.t()]) :: RouteStop.branch_name_t()
   defp branch([%RouteStop{branch: branch} | _]), do: branch
 
-  @spec merge_branch_list([[RouteStop.t()]], direction_id_t, boolean) :: [RouteStop.t()]
   defp merge_branch_list(branches, direction_id, prefer_shorter_trunk \\ false) do
     # Attempt to flatten a collection of RouteStop lists into a single list consisting of a shared
     # "trunk" (where `branch` is set to nil) and two or more "branches" (where it is left alone).
@@ -370,7 +337,6 @@ defmodule Stops.RouteStop do
     |> flip_branches_to_front(direction_id)
   end
 
-  @spec flatten_branches([[RouteStop.t()]], boolean) :: [RouteStop.t()]
   defp flatten_branches(branches, prefer_shorter_trunk) do
     # We build a list of the shared stops between the branches, then unassign
     # the branch for each stop that's in the list of shared stops.
@@ -386,7 +352,6 @@ defmodule Stops.RouteStop do
     |> Enum.reduce(&merge_two_branches(&1, &2, prefer_shorter_trunk))
   end
 
-  @spec unassign_branch_if_shared([RouteStop.t()], MapSet.t()) :: [RouteStop.t()]
   defp unassign_branch_if_shared(stops, shared_stop_ids) do
     for stop <- stops do
       if MapSet.member?(shared_stop_ids, stop.id) do
@@ -397,7 +362,6 @@ defmodule Stops.RouteStop do
     end
   end
 
-  @spec merge_two_branches([RouteStop.t()], [RouteStop.t()], boolean) :: [RouteStop.t()]
   defp merge_two_branches(first, second, prefer_shorter_trunk) do
     {first_branch, first_core} = Enum.split_while(first, & &1.branch)
     {second_branch, second_core} = Enum.split_while(second, & &1.branch)
@@ -412,7 +376,6 @@ defmodule Stops.RouteStop do
     second_branch ++ first_branch ++ core
   end
 
-  @spec flip_branches_to_front([RouteStop.t()], direction_id_t) :: [RouteStop.t()]
   defp flip_branches_to_front(branch, 0), do: Enum.reverse(branch)
   defp flip_branches_to_front(branch, 1), do: branch
 

@@ -5,7 +5,6 @@ defmodule Routes.Parser do
   alias RoutePatterns.RoutePattern
   alias Routes.{Route, Shape}
 
-  @spec parse_route(Item.t()) :: Route.t()
   def parse_route(%Item{id: id, attributes: attributes, relationships: relationships}) do
     %Route{
       id: id,
@@ -31,7 +30,6 @@ defmodule Routes.Parser do
     {parse_route(item), parse_route_patterns(relationships)}
   end
 
-  @spec name(map) :: String.t()
   def name(%{"type" => 3, "short_name" => short_name}) when short_name != "", do: short_name
   def name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   def name(%{"long_name" => long_name}), do: long_name
@@ -42,10 +40,6 @@ defmodule Routes.Parser do
 
   defp parse_route_patterns(_), do: []
 
-  @spec direction_attrs([String.t()], [Item.t()]) :: %{
-          0 => String.t() | nil,
-          1 => String.t() | nil
-        }
   defp direction_attrs([zero, one], route_patterns) do
     %{
       0 => maybe_direction_attr(0, zero, route_patterns),
@@ -60,7 +54,6 @@ defmodule Routes.Parser do
     if direction_id in valid_directions, do: add_direction_suffix(attr), else: nil
   end
 
-  @spec add_direction_suffix(String.t()) :: String.t()
   defp add_direction_suffix("North"), do: "Northbound"
   defp add_direction_suffix("South"), do: "Southbound"
   defp add_direction_suffix("East"), do: "Eastbound"
@@ -68,7 +61,6 @@ defmodule Routes.Parser do
   defp add_direction_suffix(nil), do: ""
   defp add_direction_suffix(name), do: name
 
-  @spec parse_gtfs_desc(String.t()) :: Route.gtfs_route_desc()
   def parse_gtfs_desc(description)
   def parse_gtfs_desc("Airport Shuttle"), do: :airport_shuttle
   def parse_gtfs_desc("Commuter Rail"), do: :commuter_rail
@@ -84,7 +76,6 @@ defmodule Routes.Parser do
   def parse_gtfs_desc("Regional Rail"), do: :regional_rail
   def parse_gtfs_desc(_), do: :unknown
 
-  @spec parse_gtfs_fare_class(String.t()) :: Route.gtfs_fare_class()
   defp parse_gtfs_fare_class(fare_class) when fare_class in ["Inner Express", "Outer Express"],
     do: :express_bus_fare
 
@@ -96,7 +87,6 @@ defmodule Routes.Parser do
   defp parse_gtfs_fare_class("Special"), do: :special_fare
   defp parse_gtfs_fare_class(_), do: :unknown_fare
 
-  @spec parse_shape(Item.t()) :: [Shape.t()]
   def parse_shape(%Item{id: id, attributes: attributes, relationships: relationships}) do
     [
       %Shape{
@@ -110,7 +100,6 @@ defmodule Routes.Parser do
     ]
   end
 
-  @spec stop_ids(%{String.t() => list(JsonApi.Item.t())}) :: [Stops.Stop.id_t()]
   defp stop_ids(%{"stops" => stops}), do: Enum.map(stops, & &1.id)
   defp stop_ids(_), do: []
 end

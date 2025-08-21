@@ -32,7 +32,6 @@ defmodule DotcomWeb.Plugs.AlertsByTimeframe do
     assign(conn, :alerts_timeframe, nil)
   end
 
-  @spec filter_by_timeframe(Conn.t()) :: Conn.t()
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: :current}} = conn) do
     alerts = Enum.filter(conn.assigns.alerts, &Match.any_time_match?(&1, conn.assigns.date_time))
 

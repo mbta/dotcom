@@ -5,8 +5,6 @@ defmodule Predictions.StreamSupervisor.Worker do
   alias Predictions.Store
   alias Predictions.StreamTopic
 
-  @spec start_link({Store.fetch_keys(), StreamTopic.filter_params()}, Tuple.t()) ::
-          Supervisor.on_start()
   def start_link({keys, filters}, name) do
     Supervisor.start_link(__MODULE__, {keys, filters}, name: name)
   end
@@ -39,7 +37,6 @@ defmodule Predictions.StreamSupervisor.Worker do
     )
   end
 
-  @spec sses_opts(String.t()) :: Keyword.t()
   defp sses_opts(filters) do
     path =
       "/predictions?#{filters}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
@@ -53,7 +50,6 @@ defmodule Predictions.StreamSupervisor.Worker do
     sses_opts
   end
 
-  @spec sses_stream_name(String.t()) :: atom()
   defp sses_stream_name(filters),
     do: :"predictions_sses_stream_#{filters}"
 end

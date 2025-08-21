@@ -35,7 +35,6 @@ defmodule DotcomWeb.Plugs.Banner do
     assign_alert_banner(conn, opts.banner_fn.())
   end
 
-  @spec assign_alert_banner(Plug.Conn.t(), Alerts.Banner.t() | nil) :: Plug.Conn.t()
   defp assign_alert_banner(conn, nil) do
     conn
   end

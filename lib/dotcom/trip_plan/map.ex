@@ -17,7 +17,6 @@ defmodule Dotcom.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map(Itinerary.t()) :: t
   def itinerary_map(itinerary) do
     markers =
       itinerary
@@ -80,7 +79,6 @@ defmodule Dotcom.TripPlan.Map do
     }
   end
 
-  @spec build_leg_path(Leg.t()) :: LeafletPolyline.t()
   defp build_leg_path(leg) do
     path_weight = if leg.transit_leg, do: 5, else: 1
 
@@ -89,7 +87,6 @@ defmodule Dotcom.TripPlan.Map do
     |> LeafletPolyline.new(color: route_color(leg.route), weight: path_weight)
   end
 
-  @spec extend_to_endpoints(String.t() | charlist(), Leg.t()) :: String.t()
   defp extend_to_endpoints(polyline, _leg) when not is_binary(polyline), do: ""
 
   defp extend_to_endpoints(polyline, %{from: from, to: to})
@@ -105,7 +102,6 @@ defmodule Dotcom.TripPlan.Map do
 
   defp extend_to_endpoints(_polyline, _leg), do: ""
 
-  @spec markers_for_legs(Itinerary.t()) :: [Marker.t()]
   defp markers_for_legs(%Itinerary{legs: legs}) do
     leg_count = Enum.count(legs)
 
@@ -114,9 +110,6 @@ defmodule Dotcom.TripPlan.Map do
     |> Enum.flat_map(&build_marker_for_leg(&1, leg_count))
   end
 
-  @spec build_marker_for_leg({Leg.t(), non_neg_integer}, non_neg_integer) :: [
-          Marker.t()
-        ]
   defp build_marker_for_leg({leg, idx}, leg_count) do
     leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
 
@@ -135,7 +128,6 @@ defmodule Dotcom.TripPlan.Map do
     end
   end
 
-  @spec build_marker_for_leg_position(Place.t(), map) :: Marker.t()
   defp build_marker_for_leg_position(leg_position, indexes) do
     icon_name = stop_icon_name(indexes)
 
@@ -160,7 +152,6 @@ defmodule Dotcom.TripPlan.Map do
   @doc """
   Simplified name for the icon type; used by javascript to fetch the full SVG.
   """
-  @spec stop_icon_name(index_map) :: String.t()
   def stop_icon_name(%{current: idx, start: idx}), do: "map-pin-a"
   def stop_icon_name(%{current: idx, end: idx}), do: "map-pin-b"
   def stop_icon_name(%{}), do: "dot-mid"
@@ -169,16 +160,13 @@ defmodule Dotcom.TripPlan.Map do
   Atom representing the size to use for the icon.
   Used by javascript to generate the full SVG.
   """
-  @spec stop_icon_size(String.t()) :: map | nil
   def stop_icon_size("map-pin-a"), do: nil
   def stop_icon_size("map-pin-b"), do: nil
   def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
-  @spec tooltip_for_position(Place.t()) :: String.t()
   defp tooltip_for_position(%Place{name: name, stop: nil}), do: name
   defp tooltip_for_position(%Place{stop: %Stop{name: name}}), do: name
 
-  @spec z_index(map) :: 0 | 1
   def z_index(%{current: idx, start: idx}), do: 100
   def z_index(%{current: idx, end: idx}), do: 100
   def z_index(%{}), do: 0

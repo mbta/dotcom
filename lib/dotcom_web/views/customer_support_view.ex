@@ -28,7 +28,6 @@ defmodule DotcomWeb.CustomerSupportView do
     conn.assigns.show_form && !Enum.empty?(conn.assigns[:errors])
   end
 
-  @spec class_for_error(String.t(), [String.t()], String.t(), String.t()) :: String.t()
   def class_for_error(_, [], _, _), do: ""
 
   def class_for_error(value, errors, on_class, off_class) do
@@ -48,14 +47,11 @@ defmodule DotcomWeb.CustomerSupportView do
     )
   end
 
-  @spec subject_map([Message.service_option_with_subjects()]) ::
-          %{Message.service_value() => [Message.subject_value()]}
   def subject_map(service_options) do
     service_options
     |> Enum.into(%{}, fn {_text, value, subjects} -> {value, subjects} end)
   end
 
-  @spec placeholder_text(String.t()) :: String.t()
   def placeholder_text("comments"),
     do:
       "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
@@ -97,7 +93,6 @@ defmodule DotcomWeb.CustomerSupportView do
     end
   end
 
-  @spec get_all_modes :: list
   def get_all_modes do
     # get options for subway, bus, commuter rail and ferry:
     subway_bus_cr_ferry_opts =

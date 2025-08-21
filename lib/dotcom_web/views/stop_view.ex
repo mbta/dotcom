@@ -12,7 +12,6 @@ defmodule DotcomWeb.StopView do
   @doc """
   Returns correct svg Icon for the given feature
   """
-  @spec stop_feature_icon(Stops.Repo.Behaviour.stop_feature(), :small | :default) :: Safe.t()
   def stop_feature_icon(feature, size \\ :default)
 
   def stop_feature_icon(feature, size) when is_atom(size) do
@@ -29,7 +28,6 @@ defmodule DotcomWeb.StopView do
   end
 
   @doc "returns small icons for features in given DetailedStop"
-  @spec feature_icons(DetailedStop.t()) :: Safe.t()
   def feature_icons(%DetailedStop{features: features}) do
     for feature <- features do
       stop_feature_icon(feature, :small)

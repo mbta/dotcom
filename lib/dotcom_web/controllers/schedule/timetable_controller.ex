@@ -180,12 +180,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:header_schedules, [])
   end
 
-  @spec track_changes(
-          %{required({Schedules.Trip.id_t(), Stop.id_t()}) => Schedules.Schedule.t()},
-          [Stop.id_t()]
-        ) :: %{
-          required({Schedules.Trip.id_t(), Stop.id_t()}) => Stop.t() | nil
-        }
   defp track_changes(trip_schedules, canonical_stop_ids) do
     Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
       track_change = track_change_for_schedule(sch, canonical_stop_ids)
@@ -197,13 +191,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     end)
   end
 
-  @spec track_change_for_schedule(
-          Schedules.Schedule.t(),
-          [Stop.id_t()]
-        ) :: Stop.t() | nil
-  @doc """
-  If the scheduled platform stop is not canonical, then return the stop of that track change.
-  """
   def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &@stops_repo.get/1) do
     if has_scheduled_track_change(schedule, canonical_stop_ids) do
       case stop_get_fn.(schedule.platform_stop_id) do
@@ -224,7 +211,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   # Helper function for obtaining schedule data
-  @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
       {:error, _} ->
@@ -242,9 +228,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   order to match the PDF schedules. Each rating, this should be checked
   against the new PDFs to ensure it's kept up to date.
   """
-  @spec trip_messages(Routes.Route.t(), 0 | 1, Date.t()) :: %{
-          {String.t(), String.t()} => String.t()
-        }
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
     trips =
       if Timex.before?(date, @spring_2025_rating_date) do
@@ -360,12 +343,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   station), station busways (which, like platforms, have distinct stop IDs), and
   shuttle stops (which may or may not be associated with a station).
   """
-  @spec build_timetable(Conn.t(), [Schedules.Schedule.t()]) :: %{
-          required(:trip_schedules) => %{
-            required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()
-          },
-          required(:trip_stops) => [Stops.Stop.t()]
-        }
   def build_timetable(conn, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
     inbound? = conn.assigns.direction_id == 1
@@ -482,7 +459,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     end)
   end
 
-  @spec merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
   defp merge_stop_lists(incoming_stops, base_stops, inbound?) do
     if Enum.all?(incoming_stops, &contains_stop?(base_stops, &1)) do
       base_stops
@@ -493,7 +469,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec contains_stop?([Stop.t()], Stop.t()) :: boolean()
   defp contains_stop?(stops, %Stops.Stop{id: id, parent_id: parent_id}) do
     stop_ids =
       stops
@@ -538,7 +513,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
-  @spec do_merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
   defp do_merge_stop_lists(stops, [], _), do: stops
 
   defp do_merge_stop_lists(
@@ -558,8 +532,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec trip_schedule(Schedules.Schedule.t()) ::
-          {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t() | nil}, Schedules.Schedule.t()}
   defp trip_schedule(%Schedules.Schedule{trip: trip, stop: stop} = schedule)
        when not is_nil(trip) and not is_nil(stop) do
     {{trip.id, stop.id}, schedule}

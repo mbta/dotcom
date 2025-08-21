@@ -69,7 +69,6 @@ defmodule CMS.Partial.Teaser do
           status: String.t() | nil
         }
 
-  @spec from_api(map()) :: __MODULE__.t()
   def from_api(
         %{
           "image_uri" => image_path,
@@ -104,8 +103,6 @@ defmodule CMS.Partial.Teaser do
     }
   end
 
-  @spec date(map, String.t()) :: Date.t() | NaiveDateTime.t() | nil
-  # news_entry and project_update types share a common "Posted On" date field (both are required).
   defp date(%{"type" => type, "posted" => date}, _)
        when type in ["news_entry", "project_update"] do
     do_date(date)
@@ -129,7 +126,6 @@ defmodule CMS.Partial.Teaser do
     do_date(date)
   end
 
-  @spec do_date(String.t()) :: Date.t() | nil
   defp do_date(date) do
     case Timex.parse(date, "{YYYY}-{M}-{D}") do
       {:ok, dt} -> NaiveDateTime.to_date(dt)
@@ -138,7 +134,6 @@ defmodule CMS.Partial.Teaser do
   end
 
   # The Event start time includes time and timezone data
-  @spec do_datetime(String.t()) :: NaiveDateTime.t() | nil
   defp do_datetime(date) do
     case NaiveDateTime.from_iso8601(date) do
       {:ok, date_time} -> date_time
@@ -146,13 +141,11 @@ defmodule CMS.Partial.Teaser do
     end
   end
 
-  @spec image(String.t(), String.t()) :: Image.t() | nil
   defp image("", _), do: nil
   defp image(uri, alt), do: struct(Image, url: uri, alt: alt)
 
   # Event location is sent in the form of a pipe-separated string:
   # Ex: "place|address|city|state" (any of the slots may be "").
-  @spec location(map()) :: location() | nil
   defp location(%{"type" => "event", "location" => piped_string}) do
     location =
       piped_string

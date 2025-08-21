@@ -58,7 +58,6 @@ defmodule DotcomWeb.OldSiteRedirectController do
     permanent_redirect(conn, mode_path(conn, :index))
   end
 
-  @spec permanent_redirect(Plug.Conn.t(), String.t()) :: Plug.Conn.t()
   defp permanent_redirect(conn, destination) do
     conn
     |> put_status(:moved_permanently)

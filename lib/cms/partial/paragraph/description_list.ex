@@ -14,7 +14,6 @@ defmodule CMS.Partial.Paragraph.DescriptionList do
           descriptions: [Description.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),

@@ -11,8 +11,6 @@ defmodule Dotcom.SystemStatus.StartTime do
   @doc """
   Gets the next active time of a single alert or group of alerts.
   """
-  @spec next_active_time([Alert.t()] | Alert.t(), DateTime.t()) ::
-          :past | {:current, DateTime.t()} | {:future, DateTime.t()}
   def next_active_time(alerts, time \\ @date_time_module.now())
 
   def next_active_time(alerts, time) when is_list(alerts) do
@@ -32,8 +30,6 @@ defmodule Dotcom.SystemStatus.StartTime do
     next_active_period_active_time(alert.active_period, time)
   end
 
-  @spec next_active_period_active_time([Alert.period_pair()], DateTime.t()) ::
-          :past | {:current, DateTime.t()} | {:future, DateTime.t()}
   def next_active_period_active_time([], _time), do: :past
 
   def next_active_period_active_time(

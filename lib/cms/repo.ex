@@ -33,7 +33,6 @@ defmodule CMS.Repo do
   @cms_api Application.compile_env!(:dotcom, :cms_api_module)
   @ttl :timer.hours(4)
 
-  @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
   def get_page(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} -> Page.from_api(api_data, preview_opts(query_params))
@@ -41,8 +40,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec get_page_with_encoded_id(String.t(), map) ::
-          Page.t() | {:error, API.error()}
   def get_page_with_encoded_id(path, %{"id" => _} = query_params) do
     {id, params} = Map.pop(query_params, "id")
     encoded_id = URI.encode_www_form("?id=#{id}")
@@ -52,7 +49,6 @@ defmodule CMS.Repo do
     |> get_page(params)
   end
 
-  @spec news_entry_by(Keyword.t()) :: NewsEntry.t() | :not_found
   def news_entry_by(opts) do
     case do_news_entry_by(opts) do
       [record | _] -> record
@@ -85,7 +81,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec event(integer) :: Event.t() | :not_found
   def event(id) do
     case events(id: id) do
       [record] -> record
@@ -93,7 +88,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec event_by(Keyword.t()) :: Event.t() | :not_found
   def event_by(opts) do
     case events(opts) do
       [record] -> record
@@ -114,7 +108,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec banner() :: Banner.t() | nil
   def banner do
     cached_value = do_banner()
 
@@ -135,7 +128,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec search(String.t(), integer, [String.t()]) :: any
   def search(query, offset, content_types) do
     params = [q: query, page: offset] ++ Enum.map(content_types, &{:"type[]", &1})
 
@@ -144,7 +136,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec get_schedule_pdfs(Route.id_t()) :: [RoutePdf.t()]
   def get_schedule_pdfs(route_id) do
     case do_get_schedule_pdfs(route_id) do
       {:ok, pdfs} ->
@@ -187,7 +178,6 @@ defmodule CMS.Repo do
     "cms.repo|#{key}"
   end
 
-  @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, API.error()}
   defp view_or_preview(path, %{"preview" => _, "vid" => "latest"} = params) do
     # "preview" value is deprecated. Use empty string or nil to get latest revision.
     view_or_preview(path, Map.put(params, "vid", nil))
@@ -218,7 +208,6 @@ defmodule CMS.Repo do
 
   # END PAGE CACHING #
 
-  @spec handle_revision({:error, any} | {:ok, [map]}) :: {:error, String.t()} | {:ok, map}
   defp handle_revision({:error, err}), do: {:error, err}
 
   defp handle_revision({:ok, []}), do: {:error, :not_found}
@@ -264,7 +253,6 @@ defmodule CMS.Repo do
           optional(:sort_by) => String.t()
         }
 
-  @spec teasers(Keyword.t()) :: [Teaser.t()]
   def teasers(opts \\ []) when is_list(opts) do
     opts
     |> teaser_path()
@@ -272,7 +260,6 @@ defmodule CMS.Repo do
     |> do_teasers(opts)
   end
 
-  @spec teaser_path(Keyword.t()) :: String.t()
   defp teaser_path(opts) do
     path =
       case Enum.into(opts, %{}) do
@@ -288,14 +275,12 @@ defmodule CMS.Repo do
     "/cms/teasers#{path}"
   end
 
-  @spec teaser_params(Keyword.t()) :: teaser_filters
   defp teaser_params(opts) do
     opts
     |> Map.new()
     |> teaser_sort()
   end
 
-  @spec teaser_sort(teaser_filters) :: teaser_filters
   defp teaser_sort(%{sort_by: _, sort_order: _} = params) do
     params
   end
@@ -318,7 +303,6 @@ defmodule CMS.Repo do
     Map.drop(params, [:sort_order, :sort_by])
   end
 
-  @spec do_teasers({:ok, [map]} | {:error, any}, Keyword.t()) :: [Teaser.t()]
   defp do_teasers({:ok, teasers}, _) do
     Enum.map(teasers, &Teaser.from_api/1)
   end
@@ -340,7 +324,6 @@ defmodule CMS.Repo do
   @doc """
   Paragraphs are stand-alone partials from the CMS. Supports redirects.
   """
-  @spec get_paragraph(String.t(), map) :: Paragraph.t() | {:error, any()}
   def get_paragraph(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} ->
@@ -355,7 +338,6 @@ defmodule CMS.Repo do
   end
 
   @doc "Get all the events, paginating through results if needed, and caches the result"
-  @spec events_for_year(Calendar.year()) :: [Teaser.t()]
   def events_for_year(year) do
     do_events_for_range(
       min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
@@ -363,9 +345,6 @@ defmodule CMS.Repo do
     )
   end
 
-  @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [Teaser.t()]) ::
-          [Teaser.t()]
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: 60_000])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50
 

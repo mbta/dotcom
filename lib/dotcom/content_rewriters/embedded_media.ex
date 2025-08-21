@@ -37,7 +37,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
           type: atom()
         }
 
-  @spec parse(Floki.html_tree()) :: t
   def parse({_, attributes, children}) do
     media_element = get_media(children)
 
@@ -64,7 +63,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   process the children normally (ensures images get the img-fluid class, etc). Also,
   wrap the media element in a rebuilt link, if link information is available.
   """
-  @spec build(t) :: Floki.html_tree()
   def build(%__MODULE__{type: type, size: size} = media)
       when size in @valid_sizes and type in @valid_types do
     media_embed =
@@ -113,10 +111,8 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
     parsed
   end
 
-  @spec media_iframe?(String.t()) :: boolean
   def media_iframe?(src), do: String.contains?(src, @iframe_domains)
 
-  @spec iframe(Floki.html_tree()) :: Floki.html_tree()
   def iframe(original) do
     # Avoid conflicts by replacing legacy classes with media-specific class
     iframe =
@@ -137,7 +133,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
     build(proto_media)
   end
 
-  @spec get_media(Floki.html_tree()) :: Floki.html_tree() | nil
   defp get_media(wrapper_children) do
     # Isolate the actual embedded media element. Add BEM class.
     case Floki.find(wrapper_children, ".media-content > *:first-child") do
@@ -147,7 +142,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   end
 
   # Determine if there is a caption and return it. Add BEM class.
-  @spec get_caption(Floki.html_tree()) :: Floki.html_tree() | String.t()
   defp get_caption(wrapper_children) do
     case Floki.find(wrapper_children, "figcaption") do
       [caption | _] -> FlokiHelpers.add_class(caption, ["c-media__caption"])
@@ -156,7 +150,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   end
 
   # Determine if there is a link and capture certain attributes.
-  @spec get_link(Floki.html_tree()) :: list() | nil
   defp get_link(wrapper_children) do
     case Floki.find(wrapper_children, ".media-link") do
       [{_, _, _} = link | _] ->
@@ -172,7 +165,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   end
 
   # Parse wrapper classes for alignment value.
-  @spec get_alignment(list()) :: :left | :right | :none
   defp get_alignment([{"class", wrapper_classes}]) do
     classes = String.split(wrapper_classes)
 
@@ -184,7 +176,6 @@ defmodule Dotcom.ContentRewriters.EmbeddedMedia do
   end
 
   # Parse media element class for size and type.
-  @spec get_attribute(list(), :size | :type) :: atom()
   defp get_attribute(classes, :size) do
     cond do
       "media--view-mode-full" in classes -> :wide

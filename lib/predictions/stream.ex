@@ -51,7 +51,6 @@ defmodule Predictions.Stream do
     {:noreply, [], initial_broadcast(state)}
   end
 
-  @spec handle_by_type({Event.event(), [Event.t()]}, StreamTopic.clear_keys()) :: :ok
   defp handle_by_type({:reset, events}, clear_keys) do
     Store.clear(clear_keys)
     handle_by_type({:add, events}, clear_keys)
@@ -94,14 +93,12 @@ defmodule Predictions.Stream do
   end
 
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
-  @spec broadcast(broadcast_fn) :: :ok
   defp broadcast(broadcast_fn) do
     @predictions_phoenix_pub_sub
     |> broadcast_fn.("predictions", :broadcast)
     |> log_errors()
   end
 
-  @spec log_errors(:ok | {:error, any}) :: :ok
   defp log_errors(:ok), do: :ok
 
   defp log_errors({:error, error}),

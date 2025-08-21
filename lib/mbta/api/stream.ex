@@ -34,7 +34,6 @@ defmodule MBTA.Api.Stream do
           }
   end
 
-  @spec start_link(Keyword.t()) :: {:ok, pid}
   def start_link(opts) do
     name = Keyword.fetch!(opts, :name)
     GenStage.start_link(__MODULE__, opts, name: name)
@@ -46,7 +45,6 @@ defmodule MBTA.Api.Stream do
   Each app's ServerSentEventStage should be started
   inside the application's supervision tree.
   """
-  @spec build_options(Keyword.t()) :: Keyword.t()
   def build_options(opts) do
     with base_url when not is_nil(base_url) <- config(:base_url),
          headers <- config(:headers),
@@ -70,13 +68,11 @@ defmodule MBTA.Api.Stream do
     {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
-  @spec config(atom) :: any
   defp config(key) do
     config = Application.get_env(:dotcom, :mbta_api)
     config[key]
   end
 
-  @spec set_url(Keyword.t(), String.t() | nil) :: Keyword.t()
   defp set_url(opts, base_url) when not is_nil(base_url) do
     path = Keyword.fetch!(opts, :path)
 
@@ -88,7 +84,6 @@ defmodule MBTA.Api.Stream do
     Keyword.put(opts, :url, encoded_url)
   end
 
-  @spec parse_event(SSES.Event.t()) :: Event.t()
   defp parse_event(%SSES.Event{data: data, event: event}) do
     %Event{
       data: JsonApi.parse(data),

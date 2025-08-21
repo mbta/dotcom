@@ -194,7 +194,6 @@ defmodule Dotcom.TripPlan.InputForm do
     @doc """
     Translates a mode atom into a short string.
     """
-    @spec mode_label(PlanParams.mode_t()) :: String.t()
     def mode_label(:RAIL), do: ~t"Commuter Rail"
     def mode_label(:TRAM), do: ~t"Subway"
     def mode_label(:SUBWAY), do: ~t"Subway"
@@ -202,7 +201,6 @@ defmodule Dotcom.TripPlan.InputForm do
     def mode_label(:FERRY), do: ~t"Ferry"
     def mode_label(mode), do: Phoenix.Naming.humanize(mode)
 
-    @spec selected_mode_keys(__MODULE__.t()) :: [PlanParams.mode_t()]
     def selected_mode_keys(%__MODULE__{} = modes) do
       modes
       |> Map.from_struct()
@@ -213,7 +211,6 @@ defmodule Dotcom.TripPlan.InputForm do
     @doc """
     Summarizes the selected mode values into a single short string.
     """
-    @spec selected_modes(Changeset.t() | __MODULE__.t() | [PlanParams.mode_t()]) :: String.t()
     def selected_modes(%Changeset{} = modes_changeset) do
       modes_changeset
       |> Changeset.apply_changes()

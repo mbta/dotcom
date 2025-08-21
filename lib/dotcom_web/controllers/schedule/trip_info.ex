@@ -48,7 +48,6 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
   end
 
   # Returns the selected trip ID based on the conn's query params or journeys.
-  @spec trip_id(Conn.t()) :: String.t() | nil
   defp trip_id(%Conn{query_params: %{"trip" => ""}}) do
     # explicitly selected no trip
     nil
@@ -119,14 +118,12 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.
-  @spec current_trip([Journey.t()], DateTime.t()) :: String.t() | nil
   defp current_trip([%Journey{} | _] = times, now) do
     do_current_trip(times, now)
   end
 
   defp current_trip([], _now), do: nil
 
-  @spec do_current_trip([Journey.t()], DateTime.t()) :: String.t() | nil
   defp do_current_trip(times, now) do
     case Enum.find(times, &after_now?(&1, now)) do
       nil -> nil
@@ -134,7 +131,6 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     end
   end
 
-  @spec after_now?(Journey.t(), DateTime.t()) :: boolean
   defp after_now?(%Journey{departure: departure}, now) do
     # returns true if the Journey has a trip that's departing in the future
     PredictedSchedule.map_optional(departure, [:prediction, :schedule], false, fn x ->
@@ -169,7 +165,6 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     @predictions_repo.all(trip: trip_id)
   end
 
-  @spec show_trips?(DateTime.t(), DateTime.t(), integer, String.t()) :: boolean
   def show_trips?(user_selected_date, current_date_time, route_type, route_id)
       when Route.subway?(route_type, route_id) do
     Date.diff(user_selected_date, current_date_time) == 0

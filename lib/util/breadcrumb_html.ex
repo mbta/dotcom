@@ -3,7 +3,6 @@ defmodule Util.BreadcrumbHTML do
 
   alias PhoenixHTMLHelpers.Link
 
-  @spec breadcrumb_trail(Plug.Conn.t()) :: Phoenix.HTML.safe()
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")
 
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}}) do
@@ -16,7 +15,6 @@ defmodule Util.BreadcrumbHTML do
 
   def breadcrumb_trail(%Plug.Conn{}), do: raw("")
 
-  @spec build_html([Util.Breadcrumb.t()]) :: [String.t()]
   def build_html(breadcrumbs) do
     crumbs = indexed_crumbs_ordered_by_current_to_home(breadcrumbs)
 
@@ -54,7 +52,6 @@ defmodule Util.BreadcrumbHTML do
     index == 1
   end
 
-  @spec title_breadcrumbs(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}})
       when length(breadcrumbs) > 0 do
     do_title_breadcrumbs(breadcrumbs)
@@ -103,7 +100,6 @@ defmodule Util.BreadcrumbHTML do
 
   defp hide_on_mobile_class, do: ~s(focusable-sm-down)
 
-  @spec maybe_add_home_breadcrumb([Util.Breadcrumb.t()]) :: [Util.Breadcrumb.t()]
   def maybe_add_home_breadcrumb(breadcrumbs) do
     if missing_home_breadcrumb?(breadcrumbs) do
       home = %Util.Breadcrumb{url: "/", text: "Home"}

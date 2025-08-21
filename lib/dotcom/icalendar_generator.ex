@@ -8,7 +8,6 @@ defmodule Dotcom.IcalendarGenerator do
 
   alias CMS.Page.Event
 
-  @spec to_ical(Plug.Conn.t(), Event.t()) :: iodata
   def to_ical(%Plug.Conn{} = conn, %Event{} = event) do
     [
       "BEGIN:VCALENDAR\r\n",

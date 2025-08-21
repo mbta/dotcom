@@ -91,7 +91,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # schedules, in which these special services are not generally called
   # out.
 
-  @spec dedup_similar_services([Service.t()]) :: [Service.t()]
   def dedup_similar_services(services) do
     services
     |> Enum.group_by(&{&1.type, &1.typicality})
@@ -113,7 +112,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
     end)
   end
 
-  @spec dedup_identical_services([Service.t()]) :: [Service.t()]
   def dedup_identical_services(services) do
     services
     |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
@@ -124,7 +122,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
     end)
   end
 
-  @spec services(Routes.Route.id_t(), Date.t()) :: [Service.t()]
   def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
     route_id
     |> services_by_route_id_fn.()
@@ -213,7 +210,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
     {3, Date.to_string(service.start_date)}
   end
 
-  @spec simple_stop_map(Conn.t()) :: map
   defp simple_stop_map(conn) do
     current_direction = Integer.to_string(conn.assigns.direction_id)
     opposite_direction = reverse_direction(current_direction)

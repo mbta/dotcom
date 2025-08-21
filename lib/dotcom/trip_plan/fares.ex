@@ -15,7 +15,6 @@ defmodule Dotcom.TripPlan.Fares do
 
   @agencies_with_fare_info ["MBTA", "Massport", "Logan Express"]
 
-  @spec fare(Itinerary.t()) :: non_neg_integer() | nil
   def fare(%Itinerary{legs: legs}) do
     transit_legs = Enum.filter(legs, & &1.transit_leg)
 
@@ -135,7 +134,6 @@ defmodule Dotcom.TripPlan.Fares do
 
   defp fare_filter_for_route(route, _, _), do: [name: mbta_id(route)]
 
-  @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
   defp fare_cents(nil), do: 0
   defp fare_cents(%Fare{cents: cents}), do: cents
 end

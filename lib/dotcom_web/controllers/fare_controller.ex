@@ -38,7 +38,6 @@ defmodule DotcomWeb.FareController do
     find_locations(conn, params, :proposed)
   end
 
-  @spec find_locations(Conn.t(), map, :proposed | :retail) :: Conn.t()
   def find_locations(
         conn,
         %{

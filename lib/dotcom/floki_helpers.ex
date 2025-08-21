@@ -18,7 +18,6 @@ defmodule Dotcom.FlokiHelpers do
 
   The visit_fn must handle a (non-list) Floki.html_tree node and a binary string.
   """
-  @spec traverse(tree_or_binary, visitor) :: tree_or_binary
   def traverse(str, visit_fn) when is_binary(str) do
     visit_fn.(str) || str
   end
@@ -31,7 +30,6 @@ defmodule Dotcom.FlokiHelpers do
     visit_fn.(html) || {element, attrs, traverse(children, visit_fn)}
   end
 
-  @spec add_class(Floki.html_tree(), iodata) :: Floki.html_tree()
   def add_class(html_element, []), do: html_element
 
   def add_class({name, attrs, children}, new_class) do
@@ -47,7 +45,6 @@ defmodule Dotcom.FlokiHelpers do
     {name, attrs, children}
   end
 
-  @spec remove_class(Floki.html_tree(), iodata) :: Floki.html_tree()
   def remove_class({name, attrs, children}, old_class) do
     attrs =
       case Enum.split_with(attrs, &match?({"class", _}, &1)) do
@@ -67,12 +64,10 @@ defmodule Dotcom.FlokiHelpers do
     {name, attrs, children}
   end
 
-  @spec remove_style_attrs(Floki.html_tree()) :: Floki.html_tree()
   def remove_style_attrs({name, attrs, children}) do
     {name, Enum.reject(attrs, &remove_attr?(&1, name)), children}
   end
 
-  @spec remove_attr?({String.t(), String.t()}, String.t()) :: boolean
   defp remove_attr?({"height", _}, _), do: true
   defp remove_attr?({"width", _}, _), do: true
   defp remove_attr?({"style", _}, "iframe"), do: true

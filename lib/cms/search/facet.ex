@@ -14,7 +14,6 @@ defmodule CMS.Search.Facet do
         }
 
   @doc "Builds a facet"
-  @spec build({String.t(), integer}, [String.t()]) :: t
   def build({value, count}, input) do
     %__MODULE__{
       label: facet_label(value),
@@ -24,7 +23,6 @@ defmodule CMS.Search.Facet do
     }
   end
 
-  @spec facet_label(String.t()) :: String.t() | :ignore
   defp facet_label("event"), do: "Event"
   defp facet_label("landing_page"), do: "Main Page"
   defp facet_label("news_entry"), do: "News"

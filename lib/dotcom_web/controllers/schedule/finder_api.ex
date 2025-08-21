@@ -38,7 +38,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
         }
 
   # Leverage the JourneyList module to return a simplified set of trips
-  @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()
   def journeys(conn, %{"stop" => stop_id, "date" => date} = params) do
     {:ok, user_selected_date} = Date.from_iso8601(date)
     {schedules, predictions} = load_from_repos(conn, params)
@@ -68,7 +67,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   # Use alternative JourneyList constructor to only return trips with predictions
-  @spec departures(Plug.Conn.t(), map) :: Plug.Conn.t()
   def departures(conn, %{"stop" => stop_id} = params) do
     now = conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601()
     params = %{"date" => now, "is_current" => "true"} |> Map.merge(params)
@@ -89,8 +87,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     ControllerHelpers.return_invalid_arguments_error(conn)
   end
 
-  @spec get_trip_info(Plug.Conn.t(), Trip.id_t(), Route.t(), String.t(), String.t(), String.t()) ::
-          Plug.Conn.t()
   def get_trip_info(
         conn,
         trip_id,
@@ -147,7 +143,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # which cannot easily be accessed directly. Hence the long pipeline of
   # conn operations leading up to getting the trip_info data in the Finder
   # API.
-  @spec trip(Plug.Conn.t(), map) :: Plug.Conn.t()
   def trip(conn, %{
         "id" => trip_id,
         "route" => route_id,
@@ -174,7 +169,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   # Use internal API to generate list of relevant schedules and predictions
-  @spec load_from_repos(Plug.Conn.t(), map) :: {[Schedule.t()], [Prediction.t()]}
   defp load_from_repos(conn, %{
          "id" => route_id,
          "date" => date,
@@ -232,7 +226,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   # Add detailed prediction data to journeys known to have predictions.
-  @spec enhance_journeys(Journey.t()) :: map
   defp enhance_journeys(%{departure: departure} = journey) do
     now = Timex.now()
 
@@ -271,7 +264,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   defp recent_departure({_, details}, _, _), do: details
 
-  @spec prepare_journeys_for_json(JourneyList.t() | [Journey.t() | enhanced_journey]) :: [map]
   defp prepare_journeys_for_json(%{journeys: journeys}) do
     prepare_journeys_for_json(journeys)
   end
@@ -285,14 +277,12 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     |> Enum.map(&json_safe_journey/1)
   end
 
-  @spec journey_has_valid_departure?(Journey.t()) :: boolean
   defp journey_has_valid_departure?(%{departure: departure}),
     do: !PredictedSchedule.empty?(struct(PredictedSchedule, departure))
 
   defp journey_has_valid_departure?(_), do: true
 
   # Break down structs in order to use Access functions
-  @spec destruct_journey(Journey.t()) :: map
   defp destruct_journey(journey) do
     journey
     |> Map.from_struct()
@@ -302,7 +292,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   # Convert non-binary parameter values into expected formats
-  @spec convert_from_string(react_strings) :: converted_values
   defp convert_from_string(params) do
     {:ok, date} =
       params
@@ -322,7 +311,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # Move a representational %Route{} for this journey up to the top level
   # prior to removing from all child elements (redundant/unused by client)
   # Schedule may be nil, in which case, get the route from Prediction
-  @spec lift_up_route(map) :: map
   defp lift_up_route(%{departure: %{schedule: %{route: route}}} = journey) do
     put_route(journey, route)
   end
@@ -337,7 +325,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   # Check for predictions w/o a schedule (added in predictions)
   # If there's a prediction and a schedule, use the schedule time
-  @spec set_departure_time(Journey.t()) :: Journey.t()
   defp set_departure_time(%{departure: departure} = journey) do
     departure_time =
       case departure do
@@ -363,7 +350,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # - Journeys' nested %Stop{} data is unused by client and contains integer keys
   # - Removes nested %Route{} and %Trip{} data as it is redundant
   # - Drops :arrival key from %Journey{}
-  @spec json_safe_journey(map) :: map
   defp json_safe_journey(%{departure: departure} = journey) do
     clean_schedule_and_prediction =
       departure
@@ -380,7 +366,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   # Removes problematic/unnecessary data from JSON response:
   # - Drops :route from each schedule/prediction (redundant)
   # - :trip is retained since it's needed to calculate fares
-  @spec json_safe_trip_info(TripInfo.t()) :: map
   defp json_safe_trip_info(trip_info) do
     clean_schedules_and_predictions =
       trip_info.times
@@ -485,28 +470,23 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   # Schedule or Prediction may be nil. If not, convert struct to map.
-  @spec maybe_destruct_element(Schedule.t() | Prediction.t() | nil) :: map | nil
   defp maybe_destruct_element(nil), do: nil
   defp maybe_destruct_element(el), do: Map.from_struct(el)
 
   # Schedule may be nil
-  @spec maybe_nil_schedule_stop(map | nil) :: map
   defp maybe_nil_schedule_stop(nil), do: nil
   defp maybe_nil_schedule_stop(schedule), do: Map.put(schedule, :stop, nil)
 
   # A prediction time is nil for the last stop of a trip.
   # Schedule or Prediction itself may be nil however
-  @spec maybe_format_element_time(map | nil) :: map | nil
   defp maybe_format_element_time(nil), do: nil
   defp maybe_format_element_time(%{time: nil} = el), do: el
   defp maybe_format_element_time(%{time: time} = el), do: %{el | time: format_time(time)}
 
   # Prediction may be nil
-  @spec maybe_remove_prediction_stop(map | nil) :: map | nil
   defp maybe_remove_prediction_stop(nil), do: nil
   defp maybe_remove_prediction_stop(p), do: Map.put(p, :stop, nil)
 
-  @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t() | nil
   defp get_route_id("Green", trip_id) do
     with %Schedules.Trip{route_pattern_id: route_pattern_id} when not is_nil(route_pattern_id) <-
            Schedules.Repo.trip(trip_id),

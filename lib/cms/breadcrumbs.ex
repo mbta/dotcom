@@ -5,7 +5,6 @@ defmodule CMS.Breadcrumbs do
 
   alias Util.Breadcrumb
 
-  @spec build(map) :: [Breadcrumb.t()]
   def build(%{"breadcrumbs" => breadcrumbs}) do
     Enum.map(breadcrumbs, fn crumb ->
       Breadcrumb.build(crumb["text"], crumb["uri"])

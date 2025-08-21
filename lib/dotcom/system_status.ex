@@ -16,7 +16,6 @@ defmodule Dotcom.SystemStatus do
   @doc """
   Returns a map indicating the subway status for each of the subway lines.
   """
-  @spec subway_status :: %{Routes.Route.id_t() => SystemStatus.Subway.status_entry_group()}
   def subway_status() do
     subway_route_ids()
     |> @alerts_repo.by_route_ids(@date_time_module.now())

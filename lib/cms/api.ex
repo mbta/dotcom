@@ -76,7 +76,6 @@ defmodule CMS.Api do
     |> do_get_redirect(status)
   end
 
-  @spec do_get_redirect({String.t(), String.t()} | nil, integer) :: {:error, API.error()}
   defp do_get_redirect(nil, _), do: {:error, :invalid_response}
 
   defp do_get_redirect({_key, url}, status) do
@@ -89,7 +88,6 @@ defmodule CMS.Api do
     {:error, {:redirect, status, opts}}
   end
 
-  @spec set_redirect_options(URI.t()) :: Keyword.t()
   defp set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
     [to: uri |> internal_uri() |> parse_redirect_query()]
   end
@@ -104,14 +102,12 @@ defmodule CMS.Api do
     end
   end
 
-  @spec parse_redirect_query(URI.t()) :: String.t()
   defp parse_redirect_query(%URI{} = uri) do
     uri
     |> Map.update!(:query, &update_query/1)
     |> URI.to_string()
   end
 
-  @spec update_query(String.t() | nil) :: String.t()
   defp update_query(query) when query in ["_format=json", nil] do
     nil
   end
@@ -126,7 +122,6 @@ defmodule CMS.Api do
     |> URI.encode_query()
   end
 
-  @spec internal_uri(URI.t()) :: URI.t()
   defp internal_uri(%URI{} = uri) do
     %URI{uri | scheme: nil, authority: nil, host: nil}
   end
@@ -142,7 +137,6 @@ defmodule CMS.Api do
   @type safe_key :: :value | :min | :max | String.t()
   @safe_keys [:value, :min, :max, "latitude", "longitude", "type"]
 
-  @spec stringify_params({param_key, param_value}, param_list) :: param_list
   def stringify_params({key, val}, acc) when is_atom(key) do
     stringify_params({Atom.to_string(key), val}, acc)
   end
@@ -173,7 +167,6 @@ defmodule CMS.Api do
   end
 
   # Convert nested key values to their own keys, if whitelisted
-  @spec list_to_params(String.t(), param_list, nested_param) :: param_list
   defp list_to_params(key, acc, {sub_key, sub_val}) when sub_key in @safe_keys do
     stringify_params({key <> "[#{sub_key}]", sub_val}, acc)
   end

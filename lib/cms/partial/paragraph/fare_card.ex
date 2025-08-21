@@ -20,7 +20,6 @@ defmodule CMS.Partial.Paragraph.FareCard do
           show_media: boolean()
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     with fare_token <- fare_token(data),
          note <- note(data, preview_opts) do

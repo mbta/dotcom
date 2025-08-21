@@ -13,7 +13,6 @@ defmodule DotcomWeb.PageView do
   alias DotcomWeb.PartialView
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
   def get_route(id) do
     case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
       {:ok, route} -> route
@@ -21,25 +20,19 @@ defmodule DotcomWeb.PageView do
     end
   end
 
-  @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
-          {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
   defp sort_routes({mode, routes}) do
     {mode, Enum.sort_by(routes, & &1.sort_order)}
   end
 
-  @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
   defp get_mode_order({:subway, _}), do: 0
   defp get_mode_order({:bus, _}), do: 1
   defp get_mode_order({:commuter_rail, _}), do: 2
   defp get_mode_order({:ferry, _}), do: 3
 
-  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) ::
-          integer()
   defp get_access_issue_order({:elevator_closure, _}), do: 0
   defp get_access_issue_order({:escalator_closure, _}), do: 1
   defp get_access_issue_order({:access_issue, _}), do: 2
 
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
   def alerts(alerts) do
     routes_with_high_priority_alerts_by_mode =
       alerts
@@ -82,7 +75,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()
   defp alerts_mode_url(mode) do
     path =
       case mode do
@@ -97,7 +89,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_access_url :: String.t()
   defp alerts_access_url do
     DotcomWeb.Router.Helpers.alert_url(
       DotcomWeb.Endpoint,
@@ -106,8 +97,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_render_route_link_content(Routes.Route.gtfs_route_type(), Routes.Route.t()) ::
-          Phoenix.HTML.Safe.t()
   defp alerts_render_route_link_content(mode, route) do
     case mode do
       :subway -> DotcomWeb.ViewHelpers.line_icon(route, :default)
@@ -116,7 +105,6 @@ defmodule DotcomWeb.PageView do
     end
   end
 
-  @spec alerts_mode_icon_name(Routes.Route.gtfs_route_desc()) :: String.t()
   defp alerts_mode_icon_name(mode) do
     case mode do
       :subway -> "icon-subway-default.svg"
@@ -126,7 +114,6 @@ defmodule DotcomWeb.PageView do
     end
   end
 
-  @spec alerts_route_url(Routes.Route.t()) :: String.t()
   defp alerts_route_url(route) do
     DotcomWeb.Router.Helpers.alerts_url(
       DotcomWeb.Endpoint,
@@ -135,7 +122,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
   defp alerts_stop_url(stop) do
     DotcomWeb.Router.Helpers.stop_url(
       DotcomWeb.Endpoint,
@@ -149,7 +135,6 @@ defmodule DotcomWeb.PageView do
     |> Enum.map(&shortcut_icon/1)
   end
 
-  @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
   defp shortcut_icon(id) do
     content_tag(
       :a,
@@ -162,7 +147,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec shortcut_link(atom) :: String.t()
   defp shortcut_link(:stations), do: stop_path(DotcomWeb.Endpoint, :index)
 
   defp shortcut_link(:the_ride),
@@ -173,7 +157,6 @@ defmodule DotcomWeb.PageView do
 
   defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
 
-  @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]
   defp shortcut_text(:stations) do
     [
       "Stations",
@@ -212,7 +195,6 @@ defmodule DotcomWeb.PageView do
     content_tag(:span, "|", aria_hidden: "true", class: "schedule-separator")
   end
 
-  @spec render_news_entries(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render_news_entries(conn) do
     content_tag(
       :div,
@@ -226,8 +208,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec do_render_news_entries({[NewsEntry.t()], 0 | 1}) ::
-          Phoenix.HTML.Safe.t()
   defp do_render_news_entries({entries, idx}) when idx in [0, 1] do
     content_tag(
       :div,
@@ -239,7 +219,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec banner_content_class(Banner.t()) :: String.t()
   defp banner_content_class(%Banner{} = banner) do
     Enum.join(
       [
@@ -253,12 +232,10 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec banner_bg_class(Banner.t()) :: [String.t()]
   defp banner_bg_class(%Banner{banner_type: :important}), do: []
   defp banner_bg_class(%Banner{routes: []}), do: ["u-bg--unknown"]
   defp banner_bg_class(%Banner{routes: [route | _]}), do: ["u-bg--" <> cms_route_to_class(route)]
 
-  @spec banner_cta(Banner.t()) :: Phoenix.HTML.Safe.t()
   defp banner_cta(%Banner{banner_type: :important, link: %{title: title}}) do
     content_tag(:span, title, class: "c-banner__cta")
   end

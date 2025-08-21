@@ -18,7 +18,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects do
 
   alias DotcomWeb.PartialView.SvgIconWithCircle
 
-  @spec replace(String.t(), Keyword.t()) :: String.t()
   def replace(content, opts \\ [])
 
   def replace("fa " <> icon, _opts) do
@@ -76,7 +75,6 @@ defmodule Dotcom.ContentRewriters.LiquidObjects do
     |> String.trim()
   end
 
-  @spec mbta_svg_icon(String.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp mbta_svg_icon("commuter-rail", opts),
     do: mbta_svg_icon_sized(:commuter_rail, icon_size(opts))
 
@@ -123,11 +121,9 @@ defmodule Dotcom.ContentRewriters.LiquidObjects do
 
   defp mbta_svg_icon(unknown, _opts), do: raw(~s({{ unknown icon "#{unknown}" }}))
 
-  @spec mbta_svg_icon_sized(atom, atom) :: Phoenix.HTML.Safe.t()
   defp mbta_svg_icon_sized(icon, size),
     do: svg_icon_with_circle(%SvgIconWithCircle{icon: icon, size: size})
 
-  @spec icon_size(Keyword.t()) :: atom
   defp icon_size(opts),
     do: if(Keyword.get(opts, :use_small_icon?, false), do: :small, else: :default)
 

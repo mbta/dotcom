@@ -21,7 +21,6 @@ defmodule Dotcom.BodyTag do
 
   defp javascript_class, do: "no-js"
 
-  @spec mticket_class(Plug.Conn.t()) :: String.t()
   defp mticket_class(%{host: "mticket.mbtace.com"}), do: "mticket"
 
   defp mticket_class(conn) do
@@ -32,7 +31,6 @@ defmodule Dotcom.BodyTag do
     end
   end
 
-  @spec preview_class(Plug.Conn.t()) :: String.t()
   defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _, "nid" => _}}),
     do: "cms-preview"
 

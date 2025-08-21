@@ -13,7 +13,6 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => route_id, "direction_id" => direction_id_str}) do
     direction_id = String.to_integer(direction_id_str)
 

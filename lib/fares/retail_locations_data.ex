@@ -12,22 +12,18 @@ defmodule Fares.RetailLocations.Data do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
 
-  @spec get :: [Location.t()]
   def get do
     [{"type", "FARE_VENDING_RETAILER"}]
     |> Facilities.filter_by()
     |> parse_v3_multiple
   end
 
-  @spec build_r_tree :: :rstar.rtree()
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def build_r_tree do
     get()
     |> Enum.map(&build_point_from_location/1)
     |> Enum.reduce(:rstar.new(2), fn l, t -> :rstar.insert(t, l) end)
   end
 
-  @spec k_nearest_neighbors(:rstar.rtree(), Position.t(), integer) :: [Location.t()]
   def k_nearest_neighbors(tree, location, k) do
     query = build_point_from_location(location)
 
@@ -40,7 +36,6 @@ defmodule Fares.RetailLocations.Data do
     :rstar_geometry.point2d(Position.longitude(location), Position.latitude(location), location)
   end
 
-  @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Location.t()] | {:error, any}
   def parse_v3_multiple({:error, _} = error) do
     error
   end
@@ -68,7 +63,6 @@ defmodule Fares.RetailLocations.Data do
     {:ok, location}
   end
 
-  @spec v3_property(JsonApi.Item.t(), String.t()) :: String.t()
   def v3_property(%JsonApi.Item{} = item, prop) do
     property =
       item.attributes["properties"]
@@ -78,14 +72,12 @@ defmodule Fares.RetailLocations.Data do
     property["value"]
   end
 
-  @spec v3_property_multiple(JsonApi.Item.t(), String.t()) :: [String.t()]
   def v3_property_multiple(%JsonApi.Item{} = item, prop) do
     item.attributes["properties"]
     |> Enum.filter(&(&1["name"] == prop))
     |> Enum.map(& &1["value"])
   end
 
-  @spec pretty_payment(String.t()) :: String.t()
   def pretty_payment("cash"), do: "Cash"
   def pretty_payment("check"), do: "Check"
   def pretty_payment("coin"), do: "Coin"

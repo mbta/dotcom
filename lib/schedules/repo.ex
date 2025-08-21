@@ -32,7 +32,6 @@ defmodule Schedules.Repo do
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
-  @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     opts = Keyword.put_new(opts, :date, Util.service_date())
     no_cache = Keyword.get(opts, :no_cache)
@@ -233,8 +232,6 @@ defmodule Schedules.Repo do
     Integer.to_string(int)
   end
 
-  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
   defp filter_by_min_time({:error, error}, _) do
     {:error, error}
   end
@@ -292,7 +289,6 @@ defmodule Schedules.Repo do
 
   # Fetching predictions will also insert trips into cache using this function
   # and that happens more frequently than fetching schedules due to realtime tracking
-  @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok
   def insert_trips_into_cache(data) do
     # Since we fetched all the trips along with the schedules, we can insert
     # them into the cache directly. That way, they'll be available when we
@@ -308,7 +304,6 @@ defmodule Schedules.Repo do
     end)
   end
 
-  @spec id_and_trip(JsonApi.Item.t()) :: {Schedules.Trip.id_t(), Schedules.Trip.t() | nil}
   defp id_and_trip(%JsonApi.Item{} = item) do
     [%JsonApi.Item{id: trip_id} | _] = item.relationships["trip"]
     trip = Parser.trip(item)

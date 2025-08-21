@@ -39,7 +39,6 @@ defmodule Fares.Fare do
             additional_valid_modes: [],
             price_label: nil
 
-  @spec valid_modes(t() | nil) :: [Route.route_type()]
   def valid_modes(nil), do: []
 
   def valid_modes(%__MODULE__{mode: mode, additional_valid_modes: additional_valid_modes}),

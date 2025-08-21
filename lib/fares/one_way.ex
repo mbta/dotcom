@@ -12,13 +12,6 @@ defmodule Fares.OneWay do
   @default_filters [duration: :single_trip]
   @default_foxboro_filters [duration: :round_trip]
 
-  @spec recommended_fare(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          Fare.t() | nil
   def recommended_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def recommended_fare(nil, _, _, _), do: nil
 
@@ -29,13 +22,6 @@ defmodule Fares.OneWay do
     |> Enum.min_by(& &1.cents, fn -> nil end)
   end
 
-  @spec base_fare(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          Fare.t() | nil
   def base_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def base_fare(nil, _, _, _), do: nil
 
@@ -46,13 +32,6 @@ defmodule Fares.OneWay do
     |> Enum.max_by(& &1.cents, fn -> nil end)
   end
 
-  @spec reduced_fare(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          Fare.t() | nil
   def reduced_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
 
   def reduced_fare(nil, _, _, _), do: nil
@@ -65,13 +44,6 @@ defmodule Fares.OneWay do
     |> List.first()
   end
 
-  @spec get_fares(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          [Fare.t() | nil]
   defp get_fares(route, origin_id, destination_id, fare_fn) do
     route_filters =
       route.type

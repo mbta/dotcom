@@ -5,7 +5,6 @@ defmodule Dotcom.MapHelpers do
   import CMS.Helpers, only: [rewrite_url: 1]
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
-  @spec map_pdf_url(atom) :: String.t()
   def map_pdf_url(:subway) do
     cms_static_page_path(
       DotcomWeb.Endpoint,
@@ -32,7 +31,6 @@ defmodule Dotcom.MapHelpers do
     )
   end
 
-  @spec thumbnail(atom) :: String.t()
   def thumbnail(:subway) do
     rewrite_url("/images/map-thumbnail-subway.jpg")
   end
@@ -53,7 +51,6 @@ defmodule Dotcom.MapHelpers do
     rewrite_url("/images/map-thumbnail-ferry.jpg")
   end
 
-  @spec image(atom) :: String.t()
   def image(:subway) do
     "/subway-map-image"
   end

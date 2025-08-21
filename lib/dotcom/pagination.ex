@@ -1,5 +1,4 @@
 defmodule Dotcom.Pagination do
-  @spec current_page(String.t() | integer, integer) :: integer
   def current_page(nil, default_page) do
     default_page
   end

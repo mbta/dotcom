@@ -2,7 +2,6 @@ defmodule Dotcom.Components.Helpers do
   @doc """
     Takes a string, capitalizes each word between underscores, and removes the underscores
   """
-  @spec alias_name(atom) :: String.t()
   def alias_name(atom) do
     atom
     |> Kernel.to_string()
@@ -14,7 +13,6 @@ defmodule Dotcom.Components.Helpers do
     A helper function to ensure that the correct path is returned no
     matter where this module is called from (i.e. using mix test or iex)
   """
-  @spec components_folder_path :: String.t()
   def components_folder_path do
     File.cwd!()
     |> String.split("/lib/dotcom")
@@ -37,7 +35,6 @@ defmodule Dotcom.Components.Helpers do
   @doc """
     Returns the component's module (i.e. Dotcom.Components.Buttons.ModeButtonList)
   """
-  @spec component_module(atom, atom) :: module
   def component_module(component, section) when is_atom(component) and is_atom(section) do
     Dotcom.Components
     |> Module.concat(alias_name(section))

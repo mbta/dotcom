@@ -17,12 +17,10 @@ defmodule Algolia.Update do
   @doc """
   Updates stops and routes data on Algolia.
   """
-  @spec update(String.t() | nil) :: t
   def update(host \\ nil) do
     Map.new(@indexes, &{&1, update_and_clean_index(&1, host)})
   end
 
-  @spec update_and_clean_index(atom, String.t()) :: :ok | error
   def update_and_clean_index(index_module, base_url) do
     new_objects =
       index_module.all()
@@ -35,7 +33,6 @@ defmodule Algolia.Update do
     end
   end
 
-  @spec clean_index(Enum.t(), atom, String.t()) :: success | error
   defp clean_index(new_objects, index_module, base_url) do
     current_objs = current_objects(base_url, index_module, "")
 
@@ -54,7 +51,6 @@ defmodule Algolia.Update do
     end)
   end
 
-  @spec update_index(Enum.t(), atom, String.t()) :: success | error
   defp update_index(new_objects, index_module, base_url) do
     new_objects
     |> Enum.map(&build_action_map(&1, "addObject"))
@@ -62,14 +58,12 @@ defmodule Algolia.Update do
     |> send_update(base_url, index_module)
   end
 
-  @spec has_routes?(map) :: boolean
   defp has_routes?(data) do
     data
     |> Algolia.Object.data()
     |> do_has_routes?(data)
   end
 
-  @spec do_has_routes?(map, Stops.Stop.t() | Routes.Route.t() | map) :: boolean
   defp do_has_routes?(%{routes: []}, %Stops.Stop{}), do: false
   defp do_has_routes?(_, _), do: true
 
@@ -85,7 +79,6 @@ defmodule Algolia.Update do
     end
   end
 
-  @spec get_current_objects(String.t(), atom, String.t() | nil) :: success | error
   defp get_current_objects(base_url, index_module, cursor) do
     opts = %Api{
       host: base_url,
@@ -98,11 +91,6 @@ defmodule Algolia.Update do
     :get |> Api.action(opts) |> parse_response()
   end
 
-  @spec send_update(
-          {:ok, Poison.Parser.t()} | {:error, :invalid} | {:error, {:invalid, String.t()}},
-          String.t(),
-          atom
-        ) :: success | error
   defp send_update({:ok, request}, base_url, index_module) do
     opts = %Api{
       host: base_url,
@@ -125,8 +113,6 @@ defmodule Algolia.Update do
     Enum.map(json["hits"], fn object -> %{objectID: object["objectID"]} end)
   end
 
-  @spec parse_response({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}) ::
-          success | error
   defp parse_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}), do: {:ok, body}
   defp parse_response({:ok, %HTTPoison.Response{} = response}), do: {:error, response}
   defp parse_response({:error, %HTTPoison.Error{} = error}), do: {:error, error}
@@ -135,7 +121,6 @@ defmodule Algolia.Update do
     Poison.encode(%{requests: data})
   end
 
-  @spec build_action_map(Algolia.Object.t(), String.t()) :: map
   def build_action_map(data, action) do
     %{
       action: action,
@@ -143,7 +128,6 @@ defmodule Algolia.Update do
     }
   end
 
-  @spec to_data_object(Algolia.Object.t()) :: map
   def to_data_object(data) do
     data
     |> Algolia.Object.data()
@@ -156,7 +140,6 @@ defmodule Algolia.Update do
 
   @type rank :: 1 | 2 | 3 | 4 | 5
 
-  @spec set_rank(map, Stops.Stop.t() | Routes.Route.t() | map) :: map
   defp set_rank(%{routes: []} = data, %Stops.Stop{}) do
     :ok = Logger.warning("stop has no routes: #{inspect(data)}")
     do_set_rank(4, data)
@@ -180,12 +163,10 @@ defmodule Algolia.Update do
     do_set_rank(1, data)
   end
 
-  @spec do_set_rank(rank, map) :: map
   defp do_set_rank(rank, %{} = data) when rank in 1..5 do
     Map.put(data, :rank, rank)
   end
 
-  @spec rank_route_by_type(Routes.Route.t() | Routes.Route.type_int()) :: rank
   defp rank_route_by_type(%Routes.Route{} = route) do
     if Routes.Route.silver_line?(route) do
       1

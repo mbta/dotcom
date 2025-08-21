@@ -4,14 +4,12 @@ defmodule UrlHelpers do
   alias DotcomWeb.CmsRouterHelpers
   alias Plug.Conn.Query
 
-  @spec update_url(Plug.Conn.t(), Enum.t()) :: String.t()
   def update_url(conn, query) do
     conn.query_params
     |> update_query(query)
     |> do_update_url(conn)
   end
 
-  @spec do_update_url(map, Plug.Conn.t()) :: String.t()
   defp do_update_url(updated, conn) when updated == %{} do
     conn.request_path
   end
@@ -25,7 +23,6 @@ defmodule UrlHelpers do
 
   If `nil` is passed as a value, that key is removed from the output.
   """
-  @spec update_query(map, Enumerable.t()) :: map
   def update_query(%{} = old_params, new_params) do
     new_params = ensure_string_keys(new_params)
 

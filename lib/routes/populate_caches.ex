@@ -12,7 +12,6 @@ defmodule Routes.PopulateCaches do
   @repeat_after :timer.hours(24)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @spec start_link([]) :: GenServer.on_start()
   def start_link([]) do
     # no cover
     GenServer.start_link(__MODULE__, @routes_repo)

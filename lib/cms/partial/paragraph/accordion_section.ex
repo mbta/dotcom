@@ -27,7 +27,6 @@ defmodule CMS.Partial.Paragraph.AccordionSection do
           content: [Paragraph.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       title: field_value(data, "field_label"),

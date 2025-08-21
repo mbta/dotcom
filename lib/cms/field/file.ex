@@ -14,7 +14,6 @@ defmodule CMS.Field.File do
           type: String.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(%{"description" => description, "url" => url, "mime_type" => type}) do
     %__MODULE__{
       description: description,

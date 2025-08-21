@@ -16,7 +16,6 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
           aria_hidden?: boolean
         }
 
-  @spec svg_icon_with_circle(t()) :: Phoenix.HTML.Safe.t()
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
     |> ViewHelpers.line_icon(args.size)
@@ -79,7 +78,6 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
     |> do_svg_icon_with_circle(args)
   end
 
-  @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t(), __MODULE__.t()) :: Phoenix.HTML.Safe.t()
   defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{
          aria_hidden?: false,
          show_tooltip?: false
@@ -108,15 +106,12 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   defp icon_name(:service_none), do: "service-none"
   defp icon_name(icon), do: Atom.to_string(icon)
 
-  @spec aria_attrs(__MODULE__.t()) :: Keyword.t()
   defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: true]
   defp aria_attrs(%__MODULE__{}), do: []
 
-  @spec data_attrs(__MODULE__.t()) :: Keyword.t()
   defp data_attrs(%__MODULE__{show_tooltip?: true}), do: [toggle: "tooltip"]
   defp data_attrs(%__MODULE__{}), do: []
 
-  @spec title_attr(__MODULE__.t()) :: String.t() | nil
   defp title_attr(%__MODULE__{show_tooltip?: true, icon: icon}), do: title(icon)
   defp title_attr(%__MODULE__{}), do: nil
 

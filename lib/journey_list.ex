@@ -28,7 +28,6 @@ defmodule JourneyList do
   @build_opts [origin_id: nil, destination_id: nil, current_time: nil]
 
   @doc "Returns true if any of the journeys have a prediction"
-  @spec has_predictions?(t) :: boolean
   def has_predictions?(journeys) do
     journeys
     |> Enum.any?(&Journey.has_prediction?/1)
@@ -44,7 +43,6 @@ defmodule JourneyList do
   current_time (optional): Current time, used to determine the first trip to in filtered/sorted list. If nil, all trips will be returned
   keep_all?: Determines if all journeys should be returned, regardless of filter flag
   """
-  @spec build([schedule_or_pair], [Prediction.t()], filter_flag_t, boolean, Keyword.t()) :: t
   def build(schedules, predictions, filter_flag, keep_all?, user_opts) do
     opts = Keyword.merge(@build_opts, user_opts)
 
@@ -63,7 +61,6 @@ defmodule JourneyList do
   Build a JourneyList using only predictions. This will also filter out predictions that are
   missing departure_predictions. Limits to 5 predictions at most.
   """
-  @spec build_predictions_only([Schedule.t()], [Prediction.t()], opt_string, opt_string) :: t
   def build_predictions_only(schedules, predictions, origin_id, destination_id) do
     journey_list =
       schedules
@@ -94,9 +91,6 @@ defmodule JourneyList do
 
   defp missing_prediction_time_unless_recent_departure(_), do: false
 
-  @spec build_journeys([schedule_or_pair], [Prediction.t()], opt_string, opt_string) :: [
-          Journey.t()
-        ]
   defp build_journeys(schedule_pairs, predictions, origin_id, destination_id)
        when is_binary(origin_id) and is_binary(destination_id) do
     predictions = match_schedule_direction(schedule_pairs, predictions)
@@ -129,8 +123,6 @@ defmodule JourneyList do
 
   # Creates a JourneyList object from a list of journeys and the expansion value
   # Both the expanded and collapsed journeys are calculated in order to determine the `expansion` field
-  @spec from_journeys([Journey.t()], Journey.Filter.filter_flag_t(), DateTime.t() | nil, boolean) ::
-          t
   defp from_journeys(expanded_journeys, filter_flag, current_time, keep_all?) do
     collapsed_journeys =
       expanded_journeys
@@ -156,8 +148,6 @@ defmodule JourneyList do
     |> Enum.map(&trip_mapper_fn.(&1, schedule_map, prediction_map))
   end
 
-  @spec build_journey(map_key_t, schedule_pair_map, Group.prediction_map_t(), stop_id, stop_id) ::
-          Journey.t()
   defp build_journey(key, schedule_map, prediction_map, origin_id, dest) do
     departure_prediction = prediction_map[key][origin_id]
     arrival_prediction = prediction_map[key][dest]
@@ -183,8 +173,6 @@ defmodule JourneyList do
     end
   end
 
-  @spec predicted_departures(map_key_t, schedule_map, Group.prediction_map_t(), stop_id) ::
-          Journey.t()
   defp predicted_departures(key, schedule_map, prediction_map, origin_id) do
     departure_schedule = schedule_map[key][origin_id]
     departure_prediction = prediction_map[key][origin_id]
@@ -199,7 +187,6 @@ defmodule JourneyList do
     }
   end
 
-  @spec get_trips(schedule_pair_map, Group.prediction_map_t()) :: [map_key_t]
   defp get_trips(schedule_map, prediction_map) do
     [prediction_map, schedule_map]
     |> Enum.map(&Map.keys/1)
@@ -207,14 +194,11 @@ defmodule JourneyList do
     |> Enum.uniq()
   end
 
-  @spec build_schedule_pair_map({Schedule.t(), Schedule.t()}, schedule_pair_map) ::
-          schedule_pair_map
   defp build_schedule_pair_map({departure, arrival}, schedule_pair_map) do
     key = departure.trip
     Map.put(schedule_pair_map, key, {departure, arrival})
   end
 
-  @spec build_schedule_map(Schedule.t(), schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
     key = schedule.trip
 
@@ -228,7 +212,6 @@ defmodule JourneyList do
     end
   end
 
-  @spec first_trip([Schedule.t() | Prediction.t() | nil]) :: Trip.t() | nil
   defp first_trip(list_with_trips) do
     list_with_valid_trips =
       list_with_trips
@@ -243,7 +226,6 @@ defmodule JourneyList do
     end
   end
 
-  @spec reversed_journey?(Journey.t()) :: boolean
   defp reversed_journey?(journey) do
     case {Journey.departure_time(journey), Journey.arrival_time(journey)} do
       {nil, _} ->
@@ -259,9 +241,6 @@ defmodule JourneyList do
   end
 
   # reject predictions which are going in the wrong direction from the schedule
-  @spec match_schedule_direction([{Schedule.t(), Schedule.t()}], [Prediction.t()]) :: [
-          Prediction.t()
-        ]
   defp match_schedule_direction(schedule_pairs, predictions)
 
   defp match_schedule_direction([], predictions) do

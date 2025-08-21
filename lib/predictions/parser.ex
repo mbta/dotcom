@@ -23,7 +23,6 @@ defmodule Predictions.Parser do
           Vehicles.Vehicle.id_t() | nil
         }
 
-  @spec parse(Item.t()) :: record
   def parse(%Item{} = item) do
     arrival = arrival_time(item)
     departure = departure_time(item)
@@ -47,7 +46,6 @@ defmodule Predictions.Parser do
     }
   end
 
-  @spec departing?(Item.t()) :: boolean()
   def departing?(%Item{attributes: %{"departure_time" => binary}}) when is_binary(binary),
     do: true
 
@@ -56,24 +54,20 @@ defmodule Predictions.Parser do
 
   def departing?(_), do: false
 
-  @spec direction_id(Item.t()) :: 0 | 1
   def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
 
-  @spec departure_time(Item.t()) :: DateTime.t() | nil
   def departure_time(%Item{attributes: %{"departure_time" => departure_time}})
       when not is_nil(departure_time),
       do: parse_time(departure_time)
 
   def departure_time(_), do: nil
 
-  @spec arrival_time(Item.t()) :: DateTime.t() | nil
   def arrival_time(%Item{attributes: %{"arrival_time" => arrival_time}})
       when not is_nil(arrival_time),
       do: parse_time(arrival_time)
 
   def arrival_time(_), do: nil
 
-  @spec schedule_relationship(Item.t()) :: Prediction.schedule_relationship() | nil
   def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "ADDED"}}), do: :added
 
   def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "UNSCHEDULED"}}),
@@ -90,15 +84,12 @@ defmodule Predictions.Parser do
 
   def schedule_relationship(_), do: nil
 
-  @spec status(Item.t()) :: String.t() | nil
   def status(%Item{attributes: %{"status" => status}}), do: status
   def status(_), do: nil
 
-  @spec stop_sequence(Item.t()) :: non_neg_integer()
   def stop_sequence(%Item{attributes: %{"stop_sequence" => stop_sequence}}), do: stop_sequence
   def stop_sequence(_), do: 0
 
-  @spec track(Item.t()) :: String.t() | nil
   def track(%{attributes: %{"track" => track}}), do: track
 
   def track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}),
@@ -116,7 +107,6 @@ defmodule Predictions.Parser do
     end
   end
 
-  @spec upcoming_status?(String.t()) :: boolean
   defp upcoming_status?("Approaching"), do: true
   defp upcoming_status?("Boarding"), do: true
   defp upcoming_status?(status), do: String.ends_with?(status, "away")

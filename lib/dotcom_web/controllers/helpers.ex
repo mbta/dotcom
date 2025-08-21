@@ -62,7 +62,6 @@ defmodule DotcomWeb.ControllerHelpers do
     |> Controller.json(%{error: message})
   end
 
-  @spec filter_routes([{atom, [Route.t()]}], [atom]) :: [{atom, [Route.t()]}]
   def filter_routes(grouped_routes, filter_lines) do
     grouped_routes
     |> Enum.map(fn {mode, lines} ->
@@ -74,24 +73,20 @@ defmodule DotcomWeb.ControllerHelpers do
     end)
   end
 
-  @spec filtered_grouped_routes([atom]) :: [{atom, [Route.t()]}]
   def filtered_grouped_routes(filters) do
     @routes_repo.all()
     |> Group.group()
     |> filter_routes(filters)
   end
 
-  @spec get_grouped_route_ids([{atom, [Route.t()]}]) :: [String.t()]
   def get_grouped_route_ids(grouped_routes) do
     grouped_routes
     |> Enum.flat_map(fn {_mode, routes} -> routes end)
     |> Enum.map(& &1.id)
   end
 
-  @spec green_routes() :: [Route.t()]
   def green_routes, do: Enum.map(GreenLine.branch_ids(), &@routes_repo.get(&1))
 
-  @spec assign_alerts(Conn.t(), Keyword.t()) :: Conn.t()
   def assign_alerts(
         %{
           assigns:
@@ -120,7 +115,6 @@ defmodule DotcomWeb.ControllerHelpers do
   This also returns some (but not all) headers back to the client.
   Headers like ETag and Last-Modified should help with caching.
   """
-  @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
     case CMS.Api.client() |> @req.get(url: url, cache: true) do
       {:ok, %{status: 200, body: body, headers: headers}} when not is_nil(body) ->
@@ -133,14 +127,12 @@ defmodule DotcomWeb.ControllerHelpers do
     end
   end
 
-  @spec check_cms_or_404(Conn.t()) :: Conn.t()
   def check_cms_or_404(conn) do
     conn
     |> Controller.put_view(DotcomWeb.CMSView)
     |> CMSController.page(%{})
   end
 
-  @spec unavailable_after_one_year(Conn.t(), Date.t() | DateTime.t()) :: Conn.t()
   def unavailable_after_one_year(conn, nil) do
     conn
   end
@@ -158,12 +150,10 @@ defmodule DotcomWeb.ControllerHelpers do
     end
   end
 
-  @spec environment_allows_indexing?() :: boolean()
   def environment_allows_indexing? do
     System.get_env("ALLOW_INDEXING") == "true"
   end
 
-  @spec filter_alerts_by_direction([Alert.t()], boolean, String.t() | number | nil) :: [Alert.t()]
   defp filter_alerts_by_direction(alerts, false, _), do: alerts
   defp filter_alerts_by_direction(alerts, true, nil), do: alerts
 
@@ -177,7 +167,6 @@ defmodule DotcomWeb.ControllerHelpers do
     end)
   end
 
-  @spec add_headers_if_valid(Conn.t(), %{optional(binary()) => [binary()]}) :: Conn.t()
   defp add_headers_if_valid(conn, headers) do
     Enum.reduce(headers, conn, fn
       {key, [value]}, conn

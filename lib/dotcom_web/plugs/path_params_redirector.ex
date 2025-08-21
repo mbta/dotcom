@@ -21,12 +21,10 @@ defmodule DotcomWeb.Plugs.PathParamsRedirector do
   @behaviour Plug
 
   @impl Plug
-  @spec init(Keyword.t()) :: Keyword.t()
   def init([to: _] = opts), do: opts
   def init(_opts), do: raise("Missing required to: option in redirect")
 
   @impl Plug
-  @spec call(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   def call(conn, to: to) do
     new_path =
       to

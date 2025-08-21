@@ -7,7 +7,6 @@ defmodule DotcomWeb.Views.Helpers.AlertHelpers do
   def alert_line_show_path(_conn, "Other"), do: "/accessibility"
   def alert_line_show_path(conn, route_id), do: line_path(conn, :show, route_id)
 
-  @spec alert_badge(integer) :: nil | HeaderTabBadge
   def alert_badge(0), do: nil
 
   def alert_badge(count) do
@@ -18,7 +17,6 @@ defmodule DotcomWeb.Views.Helpers.AlertHelpers do
     }
   end
 
-  @spec alert_badge_aria_label(integer) :: String.t()
   defp alert_badge_aria_label(1), do: "1 alert"
   defp alert_badge_aria_label(count), do: "#{count} alerts"
 end

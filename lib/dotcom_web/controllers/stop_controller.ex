@@ -47,7 +47,6 @@ defmodule DotcomWeb.StopController do
     |> render("index.html")
   end
 
-  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => stop_id}) do
     stop =
       stop_id
@@ -77,12 +76,10 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
     json(conn, @stops_repo.get(stop_id))
   end
 
-  @spec grouped_route_patterns(Conn.t(), map) :: Conn.t()
   def grouped_route_patterns(conn, %{"id" => stop_id}) do
     json(conn, route_patterns_by_route_and_headsign(stop_id))
   end
@@ -92,7 +89,6 @@ defmodule DotcomWeb.StopController do
           required(:route_patterns) => [RoutePattern.t()]
         }
   @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => headsign_info}}
-  @spec route_patterns_by_route_and_headsign(Stop.id_t()) :: by_route_and_headsign()
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
     |> @route_patterns_repo.by_stop_id()
@@ -116,7 +112,6 @@ defmodule DotcomWeb.StopController do
   defp with_annotation({headsign, route_patterns}),
     do: {headsign, with_annotation(route_patterns)}
 
-  @spec with_annotation([RoutePattern.t()]) :: headsign_info
   defp with_annotation(headsign_route_patterns) do
     [%RoutePattern{direction_id: direction_id} | _] = headsign_route_patterns
 
@@ -129,8 +124,6 @@ defmodule DotcomWeb.StopController do
     }
   end
 
-  @spec not_serving_today?(RoutePattern.t()) :: boolean()
-  # Canonical route patterns don't serve any date! Just ignore in this case
   defp not_serving_today?(%RoutePattern{typicality: :canonical}), do: false
 
   defp not_serving_today?(%RoutePattern{route_id: route_id})
@@ -184,7 +177,6 @@ defmodule DotcomWeb.StopController do
     Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
-  @spec api(Conn.t(), map) :: Conn.t()
   def api(conn, %{"id" => stop_id}) do
     routes_by_stop = @routes_repo.by_stop(stop_id)
     grouped_routes = grouped_routes(routes_by_stop)
@@ -202,7 +194,6 @@ defmodule DotcomWeb.StopController do
     |> halt
   end
 
-  @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
     |> Task.async_stream(&DetailedStopGroup.from_mode/1)
@@ -211,8 +202,6 @@ defmodule DotcomWeb.StopController do
   end
 
   # Separates mattapan from stop_info list
-  @spec separate_mattapan([DetailedStopGroup.t()]) ::
-          {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
@@ -220,7 +209,6 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
   defp grouped_routes(routes) do
     routes
     |> Enum.sort_by(& &1.sort_order)
@@ -228,9 +216,6 @@ defmodule DotcomWeb.StopController do
     |> Enum.sort_by(&Group.sorter/1)
   end
 
-  @spec routes_map([{Route.gtfs_route_type(), [Route.t()]}], Stop.id_t(), DateTime.t()) :: [
-          routes_map_t
-        ]
   def routes_map(grouped_routes, stop_id, now) do
     Enum.map(grouped_routes, fn {group, routes} ->
       %{
@@ -244,13 +229,9 @@ defmodule DotcomWeb.StopController do
           required(:route) => Route.t(),
           required(:directions) => [TransitNearMe.direction_data()]
         }
-  @spec schedules_for_routes([Route.t()], Stop.id_t(), DateTime.t()) :: [
-          route_with_directions | nil
-        ]
   defp schedules_for_routes(routes, stop_id, now),
     do: Enum.map(routes, &schedules_for_route(&1, stop_id, now))
 
-  @spec schedules_for_route(Route.t(), Stop.id_t(), DateTime.t()) :: route_with_directions | nil
   defp schedules_for_route(%Route{} = route, stop_id, now) do
     directions =
       route.id
@@ -264,7 +245,6 @@ defmodule DotcomWeb.StopController do
     }
   end
 
-  @spec filter_headsigns([TransitNearMe.direction_data()]) :: [TransitNearMe.direction_data()]
   defp filter_headsigns(directions) do
     Enum.map(directions, fn direction ->
       if any_headsign_includes_predictions?(direction) do
@@ -278,13 +258,11 @@ defmodule DotcomWeb.StopController do
     end)
   end
 
-  @spec any_headsign_includes_predictions?(TransitNearMe.direction_data()) :: boolean
   defp any_headsign_includes_predictions?(%{headsigns: headsigns}),
     do: Enum.any?(headsigns, &includes_predictions?/1)
 
   defp any_headsign_includes_predictions?(_direction_with_no_headsigns), do: false
 
-  @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
 
   defp alerts(%{assigns: %{alerts: alerts}} = conn, _opts) do
@@ -312,7 +290,6 @@ defmodule DotcomWeb.StopController do
           required(:group_name) => atom,
           required(:routes) => map
         }
-  @spec json_safe_routes([routes_map_t]) :: [json_safe_routes]
   defp json_safe_routes(routes_map) do
     Enum.map(routes_map, fn group_and_routes ->
       safe_routes = Enum.map(group_and_routes.routes, &json_safe_route_with_directions(&1))
@@ -324,7 +301,6 @@ defmodule DotcomWeb.StopController do
     end)
   end
 
-  @spec json_safe_route_with_directions(route_with_directions) :: map
   defp json_safe_route_with_directions(%{route: route, directions: directions}) do
     %{
       route: Route.to_json_safe(route),
@@ -332,7 +308,6 @@ defmodule DotcomWeb.StopController do
     }
   end
 
-  @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
   def breadcrumbs(%Stop{name: name}, []) do
     breadcrumbs_for_station_type(nil, name)
   end
@@ -360,7 +335,6 @@ defmodule DotcomWeb.StopController do
     [Breadcrumb.build(name)]
   end
 
-  @spec meta_description(Conn.t(), Stop.t(), [Route.t()]) :: Conn.t()
   defp meta_description(conn, stop, routes),
     do:
       assign(
@@ -369,7 +343,6 @@ defmodule DotcomWeb.StopController do
         "Station serving MBTA #{lines(routes)} lines#{location(stop)}."
       )
 
-  @spec lines([Route.t()]) :: iolist
   defp lines(routes) do
     routes
     |> Enum.map(&(&1.type |> Route.type_atom() |> Route.type_name()))
@@ -377,7 +350,6 @@ defmodule DotcomWeb.StopController do
     |> AndOr.join(:and)
   end
 
-  @spec location(Stop.t()) :: String.t()
   defp location(stop) do
     if stop.address && stop.address != "" do
       " at #{stop.address}"

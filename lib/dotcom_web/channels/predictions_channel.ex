@@ -16,7 +16,6 @@ defmodule DotcomWeb.PredictionsChannel do
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
 
   @impl Channel
-  @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:new_predictions, predictions}, socket) do
     :ok = push(socket, "data", %{predictions: filter_new(predictions)})
 
@@ -24,8 +23,6 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   @impl Channel
-  @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
-          {:ok, %{predictions: [Prediction.t()]}, Socket.t()} | {:error, map()}
   def join("predictions:" <> topic, _message, socket) do
     case @predictions_pub_sub.subscribe(topic) do
       {:error, _reason} ->

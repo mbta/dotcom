@@ -8,7 +8,6 @@ defmodule Schedules.Sort do
   @doc """
   Sorts schedules by grouping them into trips and then comparing the first departure.
   """
-  @spec sort_by_first_departure([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_departure(schedules) do
     schedules
     |> Enum.sort_by(& &1.departure_time, &datetime_sorter/2)
@@ -20,7 +19,6 @@ defmodule Schedules.Sort do
   @doc """
   Sorts schedules by comparing the time of the first shared stop.
   """
-  @spec sort_by_first_shared_stop([Schedule.t()]) :: [[Schedule.t()]]
   def sort_by_first_shared_stop(schedules) do
     schedules
     |> Enum.sort_by(& &1.time, &datetime_sorter/2)

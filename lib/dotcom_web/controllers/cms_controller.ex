@@ -37,7 +37,6 @@ defmodule DotcomWeb.CMSController do
     Page.ProjectUpdate
   ]
 
-  @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
 
@@ -46,8 +45,6 @@ defmodule DotcomWeb.CMSController do
     |> handle_page_response(conn)
   end
 
-  @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::
-          Plug.Conn.t()
   defp handle_page_response(%{__struct__: struct} = page, conn)
        when struct in @routed do
     # If these content types reach this point with a 200, something is wrong with their path alias
@@ -101,7 +98,6 @@ defmodule DotcomWeb.CMSController do
     render_500(conn)
   end
 
-  @spec render_page(Conn.t(), Page.t()) :: Conn.t()
   defp render_page(conn, %Page.Project{} = project) do
     base = ProjectController.get_breadcrumb_base()
 
@@ -173,7 +169,6 @@ defmodule DotcomWeb.CMSController do
     redirect(conn, external: link.url)
   end
 
-  @spec render_generic(Conn.t(), Page.t(), [any()]) :: Conn.t()
   defp render_generic(conn, page, breadcrumbs) do
     conn
     |> assign(:breadcrumbs, breadcrumbs)

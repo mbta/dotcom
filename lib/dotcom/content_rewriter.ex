@@ -20,7 +20,6 @@ defmodule Dotcom.ContentRewriter do
 
   If the content cannot be rewritten, we log a warning and return an empty string.
   """
-  @spec rewrite(Phoenix.HTML.safe() | String.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def rewrite({:safe, content}, conn) do
     {:ok, parsed} = Floki.parse_fragment(content)
 
@@ -49,8 +48,6 @@ defmodule Dotcom.ContentRewriter do
   defp render(content) when is_binary(content), do: content
   defp render(content), do: Floki.raw_html(content, encode: false)
 
-  @spec dispatch_rewrites(tree_or_binary, Plug.Conn.t(), Floki.html_tree() | nil) ::
-          tree_or_binary
   defp dispatch_rewrites(element, conn, context \\ nil)
 
   defp dispatch_rewrites({"table", _, _} = element, conn, context) do
@@ -152,7 +149,6 @@ defmodule Dotcom.ContentRewriter do
   end
 
   # Paragraph-like elements include p, ul, and ol
-  @spec decends_from_a_paragraph_like_element?(tree_or_binary) :: boolean
   defp decends_from_a_paragraph_like_element?({el, _attrs, _children})
        when el in ["p", "ul", "ol", "td"],
        do: true

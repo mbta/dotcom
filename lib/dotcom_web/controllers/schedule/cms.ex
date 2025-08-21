@@ -80,7 +80,6 @@ defmodule DotcomWeb.ScheduleController.CMS do
   defp utm_type(:news_entry), do: :news
   defp utm_type(type), do: type
 
-  @spec get_mode_from_route_description(Route.gtfs_route_desc()) :: String.t() | nil
   defp get_mode_from_route_description(description) do
     case description do
       :commuter_rail ->

@@ -78,7 +78,6 @@ defmodule Dotcom.ContentRewriters.ResponsiveTables do
   is a valid HTML5 tag. As such, it seems likely in the future the bug will be fixed
   and the tag may no longer be stripped.
   """
-  @spec rewrite_table(Floki.html_tree()) :: Floki.html_tree()
   def rewrite_table({"table", _attrs, _children} = table_element) do
     caption = table_caption(table_element)
     {thead, tbody} = table_sections(table_element)

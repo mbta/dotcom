@@ -36,13 +36,6 @@ defmodule Fares do
   @doc """
   Calculate the fare between a pair of stops.
   """
-  @spec fare_for_stops(
-          :commuter_rail | :ferry,
-          Stop.id_t(),
-          Stop.id_t()
-        ) ::
-          {:ok, Fares.Fare.fare_name()}
-          | :error
   def fare_for_stops(:commuter_rail, origin_id, destination_id) do
     with origin_zone when not is_nil(origin_zone) <- zone_for_stop(origin_id),
          dest_zone when not is_nil(dest_zone) <- zone_for_stop(destination_id) do
@@ -63,7 +56,6 @@ defmodule Fares do
     end
   end
 
-  @spec calculate_commuter_rail(any, any) :: {:interzone, binary} | {:zone, any}
   def calculate_commuter_rail(start_zone, "1A") do
     {:zone, start_zone}
   end
@@ -79,7 +71,6 @@ defmodule Fares do
     {:interzone, "#{total_zones}"}
   end
 
-  @spec calculate_ferry(String.t(), String.t()) :: ferry_name
   def calculate_ferry(origin, destination)
       when "Boat-George" in [origin, destination] do
     :ferry_george
@@ -124,11 +115,9 @@ defmodule Fares do
     :commuter_ferry
   end
 
-  @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
   def silver_line_rapid_transit?(<<id::binary>>),
     do: id in @silver_line_rapid_transit_set
 
-  @spec silver_line_airport_stop?(Route.id_t(), Stop.id_t() | nil) :: boolean
   def silver_line_airport_stop?(route_id, origin_id)
   def silver_line_airport_stop?(_, nil), do: false
   def silver_line_airport_stop?("741", "17091"), do: true
@@ -138,7 +127,6 @@ defmodule Fares do
   def silver_line_airport_stop?("741", "17095"), do: true
   def silver_line_airport_stop?(<<_route_id::binary>>, <<_origin_id::binary>>), do: false
 
-  @spec express?(Route.id_t()) :: boolean
   def express?(<<id::binary>>), do: id in @express_route_set
 
   def silver_line_rapid_transit, do: @silver_line_rapid_transit
@@ -147,7 +135,6 @@ defmodule Fares do
 
   @type fare_atom :: Route.gtfs_route_type() | :express_bus | :free_service
 
-  @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
   def to_fare_atom(route_or_atom) do
     case route_or_atom do
       %Route{description: :rail_replacement_bus} ->

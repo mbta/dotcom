@@ -7,7 +7,6 @@ defmodule Util.AndOr do
 
   use Dotcom.Gettext.Sigils
 
-  @spec join([String.t()], :and | :or) :: iolist
   def join([], _), do: ""
   def join([single], _), do: single
 

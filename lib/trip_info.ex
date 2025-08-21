@@ -48,7 +48,6 @@ defmodule TripInfo do
   @doc """
   Given a list of times and options, creates a new TripInfo struct or returns an error.
   """
-  @spec from_list(time_list, Keyword.t()) :: TripInfo.t() | {:error, any}
   def from_list(times, opts \\ []) do
     origin_id = time_stop_id(opts[:origin_id], times, :first)
     destination_id = time_stop_id(opts[:destination_id], times, :last)
@@ -69,7 +68,6 @@ defmodule TripInfo do
 
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
   # use a List function to get the stop ID from the times list.
-  @spec time_stop_id(String.t(), time_list, :first | :last) :: String.t() | nil
   defp time_stop_id(stop_id_from_opts, times, list_function)
 
   defp time_stop_id(stop_id, _, _) when is_binary(stop_id) do
@@ -118,7 +116,6 @@ defmodule TripInfo do
   # Filters the list of times to those between origin and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, String.t(), String.t()) :: time_list
   defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
     case Enum.drop_while(times, &(origin_id != PredictedSchedule.stop(&1).id)) do
       [origin | rest] ->
@@ -150,8 +147,6 @@ defmodule TripInfo do
     duration_diff(PredictedSchedule.time(last), PredictedSchedule.time(first))
   end
 
-  @spec duration_diff(DateTime.t() | nil, DateTime.t() | nil) ::
-          Timex.Duration.t() | integer | {:error, term}
   defp duration_diff(nil, _), do: nil
   defp duration_diff(_, nil), do: nil
   defp duration_diff(last, first), do: Timex.diff(last, first, :minutes)

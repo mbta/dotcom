@@ -25,7 +25,6 @@ defmodule Dotcom.Alerts.AffectedStops do
     |> Enum.uniq_by(& &1.id)
   end
 
-  @spec get_all_direction_ids([Alerts.Alert.t()]) :: [0 | 1]
   defp get_all_direction_ids(alerts) do
     alerts
     |> get_all_entities(:direction_id)

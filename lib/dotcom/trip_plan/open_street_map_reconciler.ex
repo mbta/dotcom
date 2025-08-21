@@ -56,8 +56,6 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconciler do
 
   See `reconcile_location/1` for more info.
   """
-  @spec reconcile(InputForm.t()) :: InputForm.t()
-  @spec reconcile(arg) :: arg when arg: var
   def reconcile(%{from: from, to: to} = form) do
     %InputForm{form | from: reconcile_location(from), to: reconcile_location(to)}
   end
@@ -75,8 +73,6 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconciler do
   the State House, and checking whether the lat/long pair is inside
   that polygon.
   """
-  @spec reconcile_location(InputForm.Location.t()) :: InputForm.Location.t()
-  @spec reconcile_location(nil) :: nil
   def reconcile_location(nil), do: nil
 
   def reconcile_location(location) do
@@ -87,11 +83,9 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconciler do
     end
   end
 
-  @spec state_house?(InputForm.Location.t()) :: boolean()
   defp state_house?(%{latitude: latitude, longitude: longitude}) do
     Topo.intersects?(@state_house_geofence, %Geo.Point{coordinates: {longitude, latitude}})
   end
 
-  @spec state_house_location() :: %{latitude: float(), longitude: float()}
   def state_house_location(), do: @state_house_location
 end

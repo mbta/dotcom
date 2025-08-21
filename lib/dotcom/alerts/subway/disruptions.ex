@@ -17,7 +17,6 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
   @doc """
   Disruptions that occur any time after today's service range.
   """
-  @spec future_disruptions() :: %{Utils.ServiceDateTime.named_service_range() => [Alert.t()]}
   def future_disruptions() do
     disruption_groups() |> Map.take([:this_week, :next_week, :after_next_week])
   end
@@ -25,7 +24,6 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
   @doc """
   Disruptions that occur during today's service range.
   """
-  @spec todays_disruptions() :: %{today: [Alert.t()]}
   def todays_disruptions() do
     disruption_groups() |> Map.take([:today])
   end

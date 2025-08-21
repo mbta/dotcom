@@ -13,8 +13,6 @@ defmodule CMS.Search.Facets do
   Returns search performed with and without content_types.
   If no content_types provided, returns base search twice
   """
-  @spec facet_responses(String.t(), integer, [String.t()], Keyword.t()) ::
-          {Result.t(), Result.t()} | :error
   def facet_responses(query, offset, content_types, user_opts \\ []) do
     opts = Keyword.merge(@default_opts, user_opts)
 
@@ -24,8 +22,6 @@ defmodule CMS.Search.Facets do
     end
   end
 
-  @spec perform_search(String.t(), integer, [String.t()], Keyword.t()) ::
-          {content_response, content_response}
   defp perform_search(query, offset, [], opts) do
     result = do_perform_search(query, offset, [], opts[:search_fn])
     {result, result}
@@ -48,8 +44,6 @@ defmodule CMS.Search.Facets do
     {filtered_search_result, base_search_result}
   end
 
-  @spec do_perform_search(String.t(), integer, [String.t()], search_fn) ::
-          {:ok, Result.t()} | :error
   defp do_perform_search(query, offset, content_types, search_fn) do
     case search_fn.(query, offset, content_types) do
       {:ok, _response} = result -> result
@@ -57,7 +51,6 @@ defmodule CMS.Search.Facets do
     end
   end
 
-  @spec build(String.t(), Keyword.t(), [String.t()]) :: map
   def build(type, facet_data, user_selections) do
     facet =
       facet_data

@@ -27,7 +27,6 @@ defmodule DotcomWeb.ModeView do
   def get_route_group(route_type, route_groups), do: route_groups[route_type]
 
   # Remove this once it is no longer being used in the content on any environment -- MSS 20200730
-  @spec fares_note(String) :: Phoenix.HTML.safe() | String.t()
   def fares_note(_mode) do
     ""
   end
@@ -35,19 +34,16 @@ defmodule DotcomWeb.ModeView do
   @doc """
   Builds the header tag for a mode group. Adds a "view all" link for bus.
   """
-  @spec mode_group_header(atom, String.t(), boolean) :: Phoenix.HTML.Safe.t()
   def mode_group_header(mode, href, is_homepage?) do
     is_homepage?
     |> mode_group_header_tag()
     |> content_tag(mode_group_header_content(mode, href), class: "m-mode__header")
   end
 
-  @spec mode_group_header_tag(boolean) :: :h2 | :h3
   defp mode_group_header_tag(is_homepage?)
   defp mode_group_header_tag(true), do: :h3
   defp mode_group_header_tag(false), do: :h2
 
-  @spec mode_group_header_content(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
   defp mode_group_header_content(mode, href) do
     [
       link(
@@ -63,7 +59,6 @@ defmodule DotcomWeb.ModeView do
     ]
   end
 
-  @spec view_all_link(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
   defp view_all_link(:bus, href) do
     [
       link("View all bus routes", to: href, class: "c-call-to-action m-mode__view-all")
@@ -74,7 +69,6 @@ defmodule DotcomWeb.ModeView do
     []
   end
 
-  @spec grid_button_path(atom, Conn.t()) :: String.t()
   def grid_button_path(:the_ride, %Conn{} = conn) do
     cms_static_page_path(conn, "/accessibility/the-ride")
   end
@@ -86,7 +80,6 @@ defmodule DotcomWeb.ModeView do
   @doc """
   Returns the value to add as a modifier for the .c-grid-button class.
   """
-  @spec grid_button_class_modifier(atom | Route.t()) :: String.t()
   def grid_button_class_modifier(:the_ride) do
     "the-ride"
   end
@@ -100,7 +93,6 @@ defmodule DotcomWeb.ModeView do
   The Ride icon is never shown. Subway icons are always rendered.
   Other modes rely on the :show_icon? boolean assign.
   """
-  @spec show_icon?(atom | Route.t(), boolean) :: boolean
   def show_icon?(:the_ride, _) do
     false
   end
@@ -113,7 +105,6 @@ defmodule DotcomWeb.ModeView do
     bool
   end
 
-  @spec grid_button_text(atom | Route.t()) :: String.t()
   def grid_button_text(:the_ride) do
     "MBTA Paratransit Program"
   end
@@ -123,7 +114,6 @@ defmodule DotcomWeb.ModeView do
   end
 
   # Returns true if there is a non-notice alert for the given route on `date`
-  @spec has_alert?(Route.t() | :the_ride, [Alerts.Alert.t()], DateTime.t() | nil) :: boolean
   def has_alert?(:the_ride, _, _) do
     false
   end
@@ -177,7 +167,6 @@ defmodule DotcomWeb.ModeView do
   def map_button_text(:bus), do: "Bus Map"
   def map_button_text(:ferry), do: "Ferry Map"
 
-  @spec grid_button_id(map) :: String.t() | nil
   defp grid_button_id(%{id_prefix: <<prefix::binary>>, index: idx}) do
     prefix <> "--" <> Integer.to_string(idx)
   end
@@ -186,11 +175,9 @@ defmodule DotcomWeb.ModeView do
     nil
   end
 
-  @spec bus_filter_atom(atom) :: (Route.t() -> boolean)
   def bus_filter_atom(:sl), do: &Route.silver_line?/1
   def bus_filter_atom(:ct), do: fn route -> route.name =~ "CT" end
 
-  @spec bus_filter_range(integer, integer) :: (Route.t() -> boolean)
   def bus_filter_range(start, stop) do
     fn route ->
       case Integer.parse(route.name) do
@@ -200,11 +187,9 @@ defmodule DotcomWeb.ModeView do
     end
   end
 
-  @spec in_range?(integer, integer, integer) :: boolean
   defp in_range?(first, last, value) when value >= first and value <= last, do: true
   defp in_range?(_, _, _), do: false
 
-  @spec mode_fare_card(Route.gtfs_route_type()) :: String.t()
   def mode_fare_card(:commuter_rail) do
     "paragraphs/multi-column/commuter-rail-fares"
   end

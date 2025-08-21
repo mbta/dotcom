@@ -11,7 +11,6 @@ defmodule Util.Breadcrumb do
           url: String.t()
         }
 
-  @spec build(String.t() | Phoenix.HTML.safe(), String.t()) :: t
   def build(text, url \\ "")
 
   def build({:safe, text}, url) do

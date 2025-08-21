@@ -137,7 +137,6 @@ defmodule Stops.Repo do
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t(), Keyword.t()) :: [Behaviour.stop_feature()]
   defp route_features(stop_id, opts) do
     icon_fn =
       if Keyword.get(opts, :expand_branches?) do
@@ -153,8 +152,6 @@ defmodule Stops.Repo do
     |> Enum.uniq()
   end
 
-  @spec get_stop_connections([Route.t()] | {:error, :not_fetched} | nil, Stop.id_t()) ::
-          [Route.t()]
   defp get_stop_connections(connections, _stop_id) when is_list(connections) do
     connections
   end
@@ -169,11 +166,9 @@ defmodule Stops.Repo do
   defp branch_feature(%Route{id: "Green-E"}), do: :"Green-E"
   defp branch_feature(route), do: Route.icon_atom(route)
 
-  @spec accessibility_features([String.t()]) :: [:access]
   defp accessibility_features(["accessible" | _]), do: [:access]
   defp accessibility_features(_), do: []
 
-  @spec sort_feature_icons(atom) :: integer
   defp sort_feature_icons(:"Green-B"), do: 0
   defp sort_feature_icons(:"Green-C"), do: 1
   defp sort_feature_icons(:"Green-D"), do: 2

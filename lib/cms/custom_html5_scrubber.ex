@@ -2125,7 +2125,6 @@ defmodule CMS.CustomHTML5Scrubber do
 
   Meta.strip_everything_not_covered()
 
-  @spec html5(String.t()) :: String.t()
   def html5(html) do
     html |> HtmlSanitizeEx.Scrubber.scrub(__MODULE__)
   end

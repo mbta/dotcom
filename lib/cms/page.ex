@@ -35,7 +35,6 @@ defmodule CMS.Page do
   @doc """
   Expects parsed json from drupal CMS. Should be one item (not array of items)
   """
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     data
     |> parse(preview_opts)
@@ -83,7 +82,6 @@ defmodule CMS.Page do
     Basic.from_api(api_data, preview_opts)
   end
 
-  @spec fetch_content_lists(t) :: t
   defp fetch_content_lists(%{paragraphs: paragraphs} = struct) when is_list(paragraphs) do
     paragraphs_with_lists =
       paragraphs
@@ -98,7 +96,6 @@ defmodule CMS.Page do
     struct
   end
 
-  @spec content_list_async(Paragraph.t()) :: (-> Paragraph.t())
   def content_list_async(%ContentList{} = content_list) do
     fn -> ContentList.fetch_teasers(content_list) end
   end

@@ -45,7 +45,6 @@ defmodule CMS.Page.NewsEntry do
           utm_url: String.t() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),

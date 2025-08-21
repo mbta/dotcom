@@ -77,7 +77,6 @@ defmodule DotcomWeb.EventController do
     render_404(conn)
   end
 
-  @spec show_event(Conn.t(), Event.t()) :: Conn.t()
   def show_event(conn, %Event{start_time: start_time} = event) do
     conn
     |> ControllerHelpers.unavailable_after_one_year(start_time)
@@ -86,7 +85,6 @@ defmodule DotcomWeb.EventController do
     |> render("show.html", event: event)
   end
 
-  @spec assign_breadcrumbs(Conn.t(), Event.t()) :: Conn.t()
   defp assign_breadcrumbs(conn, event) do
     conn
     |> assign(:breadcrumbs, [
@@ -95,7 +93,6 @@ defmodule DotcomWeb.EventController do
     ])
   end
 
-  @spec icalendar(Conn.t(), map) :: Conn.t()
   def icalendar(%{request_path: path} = conn, _) do
     path
     |> String.replace("/icalendar", "")
@@ -103,7 +100,6 @@ defmodule DotcomWeb.EventController do
     |> do_icalendar(conn)
   end
 
-  @spec do_icalendar(Page.t() | {:error, API.error()}, Conn.t()) :: Conn.t()
   defp do_icalendar(%Event{} = event, conn) do
     conn
     |> put_resp_content_type("text/calendar")
@@ -121,7 +117,6 @@ defmodule DotcomWeb.EventController do
     render_404(conn)
   end
 
-  @spec filename(String.t()) :: String.t()
   defp filename(title) do
     title
     |> String.downcase()
@@ -130,7 +125,6 @@ defmodule DotcomWeb.EventController do
     |> decode_ampersand_html_entity()
   end
 
-  @spec decode_ampersand_html_entity(String.t()) :: String.t()
   defp decode_ampersand_html_entity(string) do
     String.replace(string, "%26", "&")
   end
@@ -138,7 +132,6 @@ defmodule DotcomWeb.EventController do
   @doc "Returns a list of years with which we can filter events.
   Defaults to the current datetime if no assigns
   "
-  @spec year_options(Plug.Conn.t()) :: Range.t(first: Calendar.year(), last: Calendar.year())
   def year_options(%{assigns: %{date: %{year: year}}}) when is_integer(year) do
     do_year_options(year)
   end
@@ -148,6 +141,5 @@ defmodule DotcomWeb.EventController do
     do_year_options(year)
   end
 
-  @spec do_year_options(Calendar.year()) :: Range.t(first: Calendar.year(), last: Calendar.year())
   defp do_year_options(year), do: Range.new(year - 4, year + 1)
 end

@@ -17,7 +17,6 @@ defmodule DotcomWeb.EventView do
   @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
 
   @doc "Returns a pretty format for the event's city and state"
-  @spec city_and_state(Event.t()) :: String.t() | nil
   def city_and_state(%Event{city: city, state: state}) do
     if city && state do
       "#{city}, #{state}"
@@ -25,14 +24,12 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "Returns a list of years with existing events from conn"
-  @spec years_for_selection(Plug.Conn.t()) :: list
   def years_for_selection(%Plug.Conn{assigns: %{years_for_selection: years_for_selection}}),
     do: years_for_selection
 
   def years_for_selection(_), do: []
 
   @doc "Returns a list of event teasers, grouped/sorted by month"
-  @spec grouped_by_month([Teaser.t()], number) :: [{number, [Teaser.t()]}]
   def grouped_by_month(events, year) do
     events
     |> Enum.filter(&(&1.date.year == year))
@@ -41,7 +38,6 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "Returns a list of event teasers, grouped/sorted by day"
-  @spec grouped_by_day([Teaser.t()], number) :: %{number => Teaser.t()}
   def grouped_by_day(events, month) do
     events
     |> Enum.filter(&(&1.date.month == month))
@@ -49,11 +45,6 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "Given two DateTimes, returns a Date / Time map formatted based on the formatter string"
-  @spec get_formatted_date_time_map(
-          NaiveDateTime.t() | DateTime.t(),
-          NaiveDateTime.t() | DateTime.t() | nil,
-          String.t()
-        ) :: %{date: String.t(), time: String.t()}
   def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_date_format)
 
   def get_formatted_date_time_map(start_time, nil, formatter) do
@@ -68,13 +59,6 @@ defmodule DotcomWeb.EventView do
     |> do_date_time_formatting(maybe_shift_timezone(end_time), formatter)
   end
 
-  @spec do_date_time_formatting(
-          NaiveDateTime.t() | DateTime.t(),
-          NaiveDateTime.t() | DateTime.t() | nil,
-          String.t()
-        ) :: %{date: String.t(), time: String.t()}
-
-  # If the end_time is the same date as the start_time, represent the time as a range
   defp do_date_time_formatting(
          %{year: year, month: month, day: day} = start_time,
          %{year: year, month: month, day: day} = end_time,
@@ -96,10 +80,6 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "Nicely render an event duration for the Event List, given two DateTimes."
-  @spec render_event_duration_list_view(
-          NaiveDateTime.t() | DateTime.t(),
-          NaiveDateTime.t() | DateTime.t() | nil
-        ) :: String.t()
   def render_event_duration_list_view(start_time, nil) do
     calendar = get_formatted_date_time_map(start_time, nil)
     "#{calendar.date} \u2022 #{calendar.time}"
@@ -121,17 +101,14 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "December 2021"
-  @spec render_event_month(number, number) :: String.t()
   def render_event_month(month, year) do
     "#{Timex.month_name(month)} #{year}"
   end
 
-  @spec ended?(Event.t() | Teaser.t()) :: boolean
   def ended?(event) do
     event.started_status === :ended
   end
 
-  @spec has_started?(Event.t() | Teaser.t()) :: boolean
   def has_started?(event) do
     event.started_status !== :not_started
   end
@@ -178,14 +155,12 @@ defmodule DotcomWeb.EventView do
   @doc """
   Only show Agenda if it's published or if preview query param is present.
   """
-  @spec agenda_visible?(EventAgenda.t(), map()) :: boolean()
   def agenda_visible?(event_agenda, params \\ %{})
 
   def agenda_visible?(%{published: true}, _params), do: true
   def agenda_visible?(_event_agenda, %{"preview" => _}), do: true
   def agenda_visible?(_event_agenda, _params), do: false
 
-  @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
   def agenda_title(title, tag_type \\ :h3)
 
   def agenda_title(title, tag_type)
@@ -195,8 +170,6 @@ defmodule DotcomWeb.EventView do
 
   def agenda_title(_, _), do: ""
 
-  @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
-          Phoenix.HTML.Safe.t()
   def agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
     time_tag = maybe_time_duration_tag(bookmark)
 
@@ -239,7 +212,6 @@ defmodule DotcomWeb.EventView do
     end
   end
 
-  @spec has_description?(Phoenix.HTML.Safe.t()) :: boolean()
   defp has_description?({:safe, content}), do: content != ""
   defp has_description?(_), do: false
 end

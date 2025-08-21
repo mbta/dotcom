@@ -19,11 +19,6 @@ defmodule DotcomWeb.CmsRouterHelpers do
   alias DotcomWeb.ViewHelpers
   alias Plug.Conn
 
-  @spec news_entry_path(
-          Conn.t() | nil,
-          atom,
-          Keyword.t() | NewsEntry.t() | Teaser.t() | String.t()
-        ) :: String.t()
   def news_entry_path(conn, verb, opts \\ [])
 
   def news_entry_path(conn, :index, opts) do
@@ -46,12 +41,10 @@ defmodule DotcomWeb.CmsRouterHelpers do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [value]))
   end
 
-  @spec news_entry_path(Conn.t(), atom, String.t(), String.t()) :: String.t()
   def news_entry_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [date, title]))
   end
 
-  @spec event_path(Conn.t(), atom, Keyword.t() | Event.t() | String.t()) :: String.t()
   def event_path(conn, verb, opts \\ [])
 
   def event_path(conn, :index, opts) do
@@ -70,7 +63,6 @@ defmodule DotcomWeb.CmsRouterHelpers do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [value]))
   end
 
-  @spec event_path(Conn.t(), atom, String.t(), String.t()) :: String.t()
   def event_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [date, title]))
   end
@@ -89,11 +81,6 @@ defmodule DotcomWeb.CmsRouterHelpers do
     check_preview(conn, Path.join(["/", route, "icalendar" | path]))
   end
 
-  @spec project_path(
-          Conn.t() | module,
-          atom,
-          Keyword.t() | Project.t() | Teaser.t() | String.t()
-        ) :: String.t()
   def project_path(conn, verb, opts \\ [])
 
   def project_path(conn, :index, opts) do
@@ -116,7 +103,6 @@ defmodule DotcomWeb.CmsRouterHelpers do
     check_preview(conn, "/projects/#{value}")
   end
 
-  @spec project_update_path(Conn.t(), atom, ProjectUpdate.t() | Teaser.t()) :: String.t()
   def project_update_path(
         conn,
         :project_update,
@@ -133,11 +119,9 @@ defmodule DotcomWeb.CmsRouterHelpers do
     check_preview(conn, project_update.path)
   end
 
-  @spec project_update_path(module | Conn.t(), atom, String.t(), String.t()) :: String.t()
   def project_update_path(conn, :project_update, project, update) do
     check_preview(conn, "/projects/#{project}/update/#{update}")
   end
 
-  @spec check_preview(module | Conn.t(), String.t()) :: String.t()
   defp check_preview(conn, path), do: ViewHelpers.cms_static_page_path(conn, path)
 end

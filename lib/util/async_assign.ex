@@ -22,7 +22,6 @@ defmodule Util.AsyncAssign do
   The implementation is based on `Plug.Conn.async_assign/3`:
   https://github.com/elixir-plug/plug/blob/3d48af2b97d58c183a7b8390abc42ac5367b0770/lib/plug/conn.ex#L309
   """
-  @spec async_assign_default(Conn.t(), atom, (-> term), term) :: Conn.t()
   def async_assign_default(%Conn{} = conn, key, async_fn, default \\ nil)
       when is_atom(key) and is_function(async_fn, 0) do
     Conn.assign(conn, key, {Task.async(async_fn), default})
@@ -37,7 +36,6 @@ defmodule Util.AsyncAssign do
   `Plug.Conn.await_assign/3`:
   https://github.com/elixir-plug/plug/blob/3d48af2b97d58c183a7b8390abc42ac5367b0770/lib/plug/conn.ex#L332
   """
-  @spec await_assign_all_default(Conn.t(), atom, timeout) :: Conn.t()
   def await_assign_all_default(%Conn{} = conn, module, timeout \\ 5000)
       when is_atom(module) and is_integer(timeout) do
     async_tasks =

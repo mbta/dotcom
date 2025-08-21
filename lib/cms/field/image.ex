@@ -23,7 +23,6 @@ defmodule CMS.Field.Image do
           caption: HTML.safe() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(%{"alt" => alt, "url" => url} = data) do
     %__MODULE__{
       url: rewrite_url(url),
@@ -32,7 +31,6 @@ defmodule CMS.Field.Image do
     }
   end
 
-  @spec handle_caption(String.t() | nil) :: HTML.safe() | nil
   defp handle_caption(nil), do: nil
   defp handle_caption(caption), do: handle_html(caption)
 end

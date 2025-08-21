@@ -13,8 +13,6 @@ defmodule Util do
   @local_tz "America/New_York"
 
   @doc "The current datetime in the America/New_York timezone."
-  @spec now() :: DateTime.t()
-  @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
     @local_tz
     |> utc_now_fn.()
@@ -23,10 +21,6 @@ defmodule Util do
     # to_local_time(utc_now_fn.())
   end
 
-  @spec time_is_greater_or_equal?(
-          DateTime.t() | NaiveDateTime.t(),
-          DateTime.t() | NaiveDateTime.t()
-        ) :: boolean
   def time_is_greater_or_equal?(time, ref_time) do
     compare_fn =
       case {time, ref_time} do
@@ -44,7 +38,6 @@ defmodule Util do
     end
   end
 
-  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   def parse(date_params) do
     case date_to_string(date_params) do
       <<str::binary>> ->
@@ -67,7 +60,6 @@ defmodule Util do
 
   defp do_parse({:error, _}), do: {:error, :invalid_date}
 
-  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
   defp date_to_string(%{
          "year" => year,
          "month" => month,
@@ -89,7 +81,6 @@ defmodule Util do
     {:error, :invalid_date}
   end
 
-  @spec date_to_naive_date(NaiveDateTime.t() | DateTime.t() | Date.t()) :: NaiveDateTime.t()
   def date_to_naive_date(%Date{} = date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
   def date_to_naive_date(%DateTime{} = date), do: DateTime.to_naive(date)
   def date_to_naive_date(%NaiveDateTime{} = date), do: date
@@ -108,7 +99,6 @@ defmodule Util do
   end
 
   @doc "Converts a NaiveDateTime to a DateTime with the given time zone, handling ambiguities. Defaults to America/New_York if errors"
-  @spec convert_using_timezone(NaiveDateTime.t(), String.t()) :: DateTime.t()
   def convert_using_timezone(time, time_zone) do
     tz =
       if Timex.Timezone.exists?(time_zone) do
@@ -123,8 +113,6 @@ defmodule Util do
   end
 
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
-  @spec to_local_time(DateTime.t() | NaiveDateTime.t() | Timex.AmbiguousDateTime.t()) ::
-          DateTime.t() | {:error, any}
   def to_local_time(%DateTime{zone_abbr: zone} = time)
       when zone in ["EDT", "EST", "-04", "-05"] do
     time
@@ -145,8 +133,6 @@ defmodule Util do
 
   def to_local_time(%Timex.AmbiguousDateTime{} = time), do: handle_ambiguous_time(time)
 
-  @spec handle_ambiguous_time(Timex.AmbiguousDateTime.t() | DateTime.t() | {:error, any}) ::
-          DateTime.t() | {:error, any}
   defp handle_ambiguous_time(%Timex.AmbiguousDateTime{after: aft}) do
     # ambiguous time only happens between midnight and 3am
     # during November daylight saving transition
@@ -182,7 +168,6 @@ defmodule Util do
       iex> Util.narrow_time(~T[00:00:00])
       "12 AM"
   """
-  @spec narrow_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
   def narrow_time(%{minute: 0} = time) do
     Timex.format!(time, "{h12} {AM}")
   end
@@ -202,8 +187,6 @@ defmodule Util do
       iex> Util.error_default({:error, :tuple}, :default)
       :default
   """
-  @spec error_default(value | {:error, any}, value) :: value
-        when value: any
   def error_default(error_or_default, default)
 
   def error_default({:error, _}, default) do
@@ -220,7 +203,6 @@ defmodule Util do
   times after midnight belong to the service of the previous date.
 
   """
-  @spec service_date(DateTime.t() | NaiveDateTime.t()) :: Date.t()
   def service_date(current_time \\ Util.now()) do
     current_time
     |> to_local_time()
@@ -277,7 +259,6 @@ defmodule Util do
       true
 
   """
-  @spec end_of_service(DateTime.t() | NaiveDateTime.t()) :: DateTime.t()
   def end_of_service(current_time \\ Util.now()) do
     current_time
     |> service_date()
@@ -287,7 +268,6 @@ defmodule Util do
   end
 
   @doc "Interleaves two lists. Appends the remaining elements of the longer list"
-  @spec interleave(list, list) :: list
   def interleave([h1 | t1], [h2 | t2]), do: [h1, h2 | interleave(t1, t2)]
   def interleave([], l), do: l
   def interleave(l, []), do: l
@@ -296,7 +276,6 @@ defmodule Util do
   Calls all the functions asynchronously, and returns a list of results.
   If a function times out, its result will be the provided default.
   """
-  @spec async_with_timeout([(-> any)], any, atom, non_neg_integer, non_neg_integer) :: [any]
   def async_with_timeout(functions, default, module, timeout \\ 5000, retries \\ 0)
       when is_list(functions) and is_atom(module) do
     functions
@@ -327,7 +306,6 @@ defmodule Util do
   either the result of the task, or the default if the task times out or exits early.
   """
   @type task_map :: %{optional(Task.t()) => {atom, any}}
-  @spec yield_or_default_many(task_map, atom, non_neg_integer) :: map
   def yield_or_default_many(%{} = task_map, module, timeout \\ 5000) when is_atom(module) do
     task_map
     |> Map.keys()
@@ -335,14 +313,11 @@ defmodule Util do
     |> Map.new(&do_yield_or_default_many(&1, task_map, module))
   end
 
-  @spec do_yield_or_default_many({Task.t(), {:ok, any} | {:exit, term} | nil}, task_map, atom) ::
-          {atom, any}
   defp do_yield_or_default_many({%Task{} = task, result}, task_map, module) do
     {key, default} = Map.get(task_map, task)
     {key, task_result_or_default(result, default, task, module, key)}
   end
 
-  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t(), atom, any) :: any
   defp task_result_or_default({:ok, result}, _default, _task, _module, _key) do
     result
   end
@@ -387,7 +362,6 @@ defmodule Util do
       iex> Util.site_path(:schedule_path, [:show, "test"])
       "/schedules/test"
   """
-  @spec site_path(atom, [any]) :: String.t()
   def site_path(helper_fn, opts) when is_list(opts) do
     apply(@route_helper_module, helper_fn, [@endpoint | opts])
   end
@@ -395,7 +369,6 @@ defmodule Util do
   @doc """
   Fetches config values, handling system env and default values.
   """
-  @spec config(atom, atom, atom) :: any
   def config(app, key, subkey) do
     {:ok, val} =
       app
@@ -405,7 +378,6 @@ defmodule Util do
     do_config(val)
   end
 
-  @spec config(atom, atom) :: any
   def config(app, key) do
     app
     |> Application.get_env(key)
@@ -428,7 +400,6 @@ defmodule Util do
   @doc """
   Logs how long a function call took.
   """
-  @spec log_duration(atom, atom, [any]) :: any
   def log_duration(module, function, args) do
     {time, result} = :timer.tc(module, function, args)
     time = time / :timer.seconds(1)

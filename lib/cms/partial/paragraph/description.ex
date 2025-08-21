@@ -14,7 +14,6 @@ defmodule CMS.Partial.Paragraph.Description do
           details: HTML.safe()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     term =
       data

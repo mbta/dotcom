@@ -54,14 +54,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   and the value includes alerts grouped by effect, the name of the line,
   and whether the line is running service today.
   """
-  @spec commuter_rail_status() :: %{
-          Route.id_t() => %{
-            alert_counts: map(),
-            name: String.t(),
-            service_today?: boolean(),
-            sort_order: integer()
-          }
-        }
   def commuter_rail_status() do
     commuter_rail_routes()
     |> Enum.map(&route_info/1)
@@ -74,7 +66,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   `:no_scheduled_service` if the route is not running today, and the
   service-impacting alerts, grouped by effect, if there are any.
   """
-  @spec commuter_rail_route_status(Route.id_t()) :: route_status_t()
   def commuter_rail_route_status(route_id) do
     if service_today?(route_id) do
       route_id
@@ -90,7 +81,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # cancellations) versus service impacts (everything else). For
   # train impacts, add trip info (first departure time, train number,
   # etc) as well.
-  @spec group_by_impact([Alert.t()]) :: disrupted_status_t()
   defp group_by_impact(alerts) do
     alerts
     |> Enum.group_by(&train_or_service_category/1)
@@ -103,7 +93,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # Returns the category into which an alert should be grouped. Delays
   # and cancellations are each their own category, and other alerts
   # are grouped together as `service_impacts`.
-  @spec train_or_service_category(Alert.t()) :: :delays | :cancellations | :service_impacts
   defp train_or_service_category(%Alert{effect: :delay}), do: :delays
   defp train_or_service_category(%Alert{effect: :cancellation}), do: :cancellations
   defp train_or_service_category(%Alert{}), do: :service_impacts
@@ -111,7 +100,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # Given a list of alerts, uses alert_with_trip_info_list/1 to get
   # the trip_info entries for each alert, and flat_maps them all
   # together.
-  @spec add_trip_info([Alert.t()]) :: [train_impact_t()]
   defp add_trip_info(alerts) when is_list(alerts) do
     alerts
     |> Enum.flat_map(&alert_with_trip_info_list/1)
@@ -148,7 +136,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # alert, based on its informed trips and directions, and then
   # returns a list of entries with the alert paired with each
   # trip_info entry.
-  @spec alert_with_trip_info_list(Alert.t()) :: [train_impact_t()]
   defp alert_with_trip_info_list(%Alert{} = alert) do
     trip_ids =
       alert
@@ -171,10 +158,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   # Uses the given trip_ids and direction_ids to determine the
   # trip_info that should be associated with a given alert.
-  @spec trip_info([Schedules.Trip.id_t()], [0 | 1]) :: [trip_info_t()]
-
-  # If an alert has no trip ID's and precisely one direction ID, then
-  # it applies to all trains going in that direction.
   defp trip_info([] = _trip_ids, [direction_id]) do
     [{:direction, %{direction_id: direction_id}}]
   end
@@ -195,7 +178,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # trip_info entry has info about its first and last stop, its first
   # departure time, its name (train number for commuter-rail trips),
   # and its direction.
-  @spec trip_info_for_trip(Schedules.Trip.id_t()) :: [trip_info_t()]
   defp trip_info_for_trip(trip_id) do
     trip_id
     |> @schedules_repo.schedule_for_trip("filter[stop_sequence]": "first,last")
@@ -237,12 +219,10 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # Given a status struct (with service impacts and train impacts),
   # returns that status struct if it has an disruptions, and :normal
   # if all of its disruption lists are empty.
-  @spec as_status(disrupted_status_t()) :: disrupted_status_t() | :normal
   defp as_status(%{delays: [], cancellations: [], service_impacts: []}), do: :normal
   defp as_status(status), do: status
 
   # Return all service impacting alerts for a given Route ID.
-  @spec commuter_rail_route_alerts(String.t()) :: [Alerts.Alert.t()]
   defp commuter_rail_route_alerts(id) do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
@@ -253,7 +233,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   end
 
   # Returns a list of all commuter rail routes.
-  @spec commuter_rail_routes() :: [Routes.Route.t()]
   defp commuter_rail_routes() do
     @routes_repo.all()
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
@@ -263,7 +242,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # and the value is the number of alerts with that effect.
   # For example, if there are 2 delays and 1 cancellation,
   # the map would be `%{delay: 2, cancellation: 1}`.
-  @spec alert_counts([Alerts.Alert.t()]) :: map()
   defp alert_counts(alerts) do
     alerts
     |> Enum.group_by(& &1.effect)
@@ -275,7 +253,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   # Returns a boolean indicating whether or not the route has a schedule
   # for today. This is used to determine if the route is running service today.
-  @spec service_today?(String.t()) :: boolean()
   defp service_today?(id) do
     [id]
     |> @schedules_condensed_repo.by_route_ids()
@@ -285,14 +262,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   # Returns a tuple with the Route ID and a map containing
   # the alert counts, name of the route, sort order, and whether the route
   # is running service today.
-  @spec route_info(Route.t()) ::
-          {String.t(),
-           %{
-             alert_counts: map(),
-             name: String.t(),
-             service_today?: boolean(),
-             sort_order: integer()
-           }}
   defp route_info(%Route{id: id, name: name, sort_order: sort_order}) do
     alert_counts =
       id

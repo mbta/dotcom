@@ -13,7 +13,6 @@ defmodule Algolia.Query do
     ["routes", "stops", "drupal"] |> Enum.map(&{String.to_atom(&1), &1 <> suffix})
   end
 
-  @spec build(map) :: String.t()
   def build(%{"requests" => queries}) do
     %{"requests" => Enum.map(queries, &build_query/1)}
     |> Poison.encode!()
@@ -34,7 +33,6 @@ defmodule Algolia.Query do
     |> Jason.encode!()
   end
 
-  @spec build_query(map) :: map
   defp build_query(%{"indexName" => index, "params" => params, "query" => query}) do
     %{
       "indexName" => index,
@@ -43,14 +41,12 @@ defmodule Algolia.Query do
     }
   end
 
-  @spec encode_params(map) :: String.t()
   def encode_params(%{} = params) do
     params
     |> Map.put("analytics", Application.get_env(:dotcom, :algolia_track_analytics?, false))
     |> Enum.map_join("&", &encode_param/1)
   end
 
-  @spec encode_param({String.t(), any}) :: String.t()
   def encode_param({key, val}) when is_list(val) do
     val
     |> Poison.encode!()
@@ -62,7 +58,6 @@ defmodule Algolia.Query do
     do_encode_param(val, key)
   end
 
-  @spec do_encode_param(any, String.t()) :: String.t()
   defp do_encode_param(<<val::binary>>, key) do
     [key, "=", val]
     |> IO.iodata_to_binary()
@@ -76,7 +71,6 @@ defmodule Algolia.Query do
 
   @encode_chars [?[, ?], ?:, ?,, ?", ?\s]
 
-  @spec skip_encoding?(String.t()) :: boolean
   defp skip_encoding?(val) when val in @encode_chars, do: false
   defp skip_encoding?(_), do: true
 end

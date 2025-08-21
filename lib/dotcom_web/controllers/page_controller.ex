@@ -59,7 +59,6 @@ defmodule DotcomWeb.PageController do
     |> render("menu.html")
   end
 
-  @spec fares(map) :: Paragraph.t() | nil
   defp fares(query_params) do
     case Repo.get_paragraph("paragraphs/multi-column/homepage-fares", query_params) do
       {:error, _} -> nil
@@ -67,7 +66,6 @@ defmodule DotcomWeb.PageController do
     end
   end
 
-  @spec banner :: Banner.t() | nil
   defp banner do
     case Repo.banner() do
       nil -> nil
@@ -75,21 +73,18 @@ defmodule DotcomWeb.PageController do
     end
   end
 
-  @spec news :: [Teaser.t()]
   defp news do
     [items_per_page: 6, type: [:news_entry]]
     |> Repo.teasers()
     |> Enum.map(&add_utm_url/1)
   end
 
-  @spec whats_happening_items :: whats_happening_set
   defp whats_happening_items do
     Repo.whats_happening()
     |> split_whats_happening()
     |> split_add_utm_url()
   end
 
-  @spec split_whats_happening([WhatsHappeningItem.t()]) :: whats_happening_set
   def split_whats_happening(whats_happening) do
     case whats_happening do
       [_, _, _, _, _ | _] = items ->
@@ -104,7 +99,6 @@ defmodule DotcomWeb.PageController do
     end
   end
 
-  @spec split_add_utm_url(whats_happening_set) :: whats_happening_set
   defp split_add_utm_url({nil, nil}) do
     {nil, nil}
   end
@@ -116,7 +110,6 @@ defmodule DotcomWeb.PageController do
     }
   end
 
-  @spec add_utm_url(content, boolean) :: content
   def add_utm_url(%{} = item, promoted? \\ false) do
     url =
       UrlHelpers.build_utm_url(
@@ -129,17 +122,14 @@ defmodule DotcomWeb.PageController do
     do_add_utm_url(item, url)
   end
 
-  @spec utm_type(content, boolean) :: String.t()
   defp utm_type(%Banner{}, _), do: "banner"
   defp utm_type(%Teaser{type: :news_entry}, _), do: "news"
   defp utm_type(%WhatsHappeningItem{}, true), do: "whats-happening"
   defp utm_type(%WhatsHappeningItem{}, false), do: "whats-happening-secondary"
 
-  @spec utm_term(content) :: String.t()
   defp utm_term(%{routes: [route | _]}), do: cms_route_to_class(route)
   defp utm_term(_), do: "null"
 
-  @spec do_add_utm_url(content, String.t()) :: content
   defp do_add_utm_url(%Teaser{} = item, url), do: %{item | path: url}
   defp do_add_utm_url(item, url), do: %{item | utm_url: url}
 

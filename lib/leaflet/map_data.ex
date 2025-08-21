@@ -32,7 +32,6 @@ defmodule Leaflet.MapData do
           id: String.t()
         }
 
-  @spec new({integer, integer}, integer | nil) :: t
   def new({width, height}, zoom \\ nil) do
     %__MODULE__{
       width: width,
@@ -41,32 +40,26 @@ defmodule Leaflet.MapData do
     }
   end
 
-  @spec add_marker(t, Marker.t()) :: t
   def add_marker(map_data, marker) do
     %{map_data | markers: [marker | map_data.markers]}
   end
 
-  @spec add_stop_marker(t, Marker.t()) :: t
   def add_stop_marker(map_data, marker) do
     %{map_data | stop_markers: [marker | map_data.stop_markers]}
   end
 
-  @spec add_markers(t, [Marker.t()]) :: t
   def add_markers(map_data, markers) do
     Enum.reduce(markers, map_data, &add_marker(&2, &1))
   end
 
-  @spec add_stop_markers(t, [Marker.t()]) :: t
   def add_stop_markers(map_data, markers) do
     Enum.reduce(markers, map_data, &add_stop_marker(&2, &1))
   end
 
-  @spec add_polyline(t, Polyline.t()) :: t
   def add_polyline(map_data, %Polyline{} = polyline) do
     %{map_data | polylines: [polyline | map_data.polylines]}
   end
 
-  @spec add_polylines(t, [Polyline.t()]) :: t
   def add_polylines(map_data, polylines) do
     Enum.reduce(polylines, map_data, &add_polyline(&2, &1))
   end

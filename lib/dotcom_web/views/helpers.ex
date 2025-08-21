@@ -63,7 +63,6 @@ defmodule DotcomWeb.ViewHelpers do
     redirect_path(conn, :show, []) <> path
   end
 
-  @spec mode_icon(atom, :default | :small) :: Phoenix.HTML.Safe.t()
   def mode_icon(:commuter_rail, size) do
     mode_icon(:"commuter-rail", size)
   end
@@ -85,7 +84,6 @@ defmodule DotcomWeb.ViewHelpers do
     svg("icon-silver-line-#{size}.svg")
   end
 
-  @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t()
   def bw_circle_icon(type, size) do
     mode =
       type
@@ -96,14 +94,12 @@ defmodule DotcomWeb.ViewHelpers do
     svg("icon-#{mode}-circle-bw-#{size}.svg")
   end
 
-  @spec route_to_string(integer) :: String.t()
   def route_to_string(type) do
     type
     |> Route.vehicle_atom()
     |> Atom.to_string()
   end
 
-  @spec line_icon(Route.t(), :default | :small) :: Phoenix.HTML.Safe.t()
   def line_icon(%Route{type: type} = route, size) when type in [0, 1] do
     name =
       route
@@ -163,7 +159,6 @@ defmodule DotcomWeb.ViewHelpers do
   but at least earmarks them for easy identification or if we need to change our
   frontend<->CMS linking strategy in the future.
   """
-  @spec cms_static_page_path(module | Plug.Conn.t(), String.t() | iolist()) :: String.t()
   def cms_static_page_path(_conn, path), do: path
 
   def google_tag_manager_id do
@@ -203,7 +198,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "The direction with an optional headsign"
-  @spec direction_with_headsign(Routes.Route.t(), 0 | 1, iodata) :: Phoenix.HTML.Safe.t()
   def direction_with_headsign(route, direction_id, headsign)
 
   def direction_with_headsign(route, direction_id, empty) when empty in ["", []] do
@@ -221,9 +215,6 @@ defmodule DotcomWeb.ViewHelpers do
     ]
   end
 
-  @spec mode_name(0..4 | Routes.Route.route_type() | Routes.Route.subway_lines_type() | :access) ::
-          String.t()
-  @doc "Textual version of a mode ID or type"
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
@@ -251,7 +242,6 @@ defmodule DotcomWeb.ViewHelpers do
     |> Enum.map_join(" ", &String.capitalize/1)
   end
 
-  @spec mode_atom(String.t()) :: atom
   def mode_atom(type_string) do
     type_string
     |> String.downcase()
@@ -260,7 +250,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "Returns a css class: a string with hyphens."
-  @spec route_to_class(Routes.Route.t()) :: String.t()
   def route_to_class(nil), do: ""
 
   def route_to_class(%Routes.Route{external_agency_name: "Logan Express", name: name}) do
@@ -275,7 +264,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "Clean up a GTFS route name for better presentation"
-  @spec clean_route_name(String.t()) :: String.t()
   def clean_route_name(name) do
     name
     |> String.replace_suffix(" Line", "")
@@ -289,7 +277,6 @@ defmodule DotcomWeb.ViewHelpers do
   visually the same, but allows browsers to break the text into multiple lines.
 
   """
-  @spec break_text_at_slash(String.t()) :: String.t()
   def break_text_at_slash(name) do
     name
     |> String.replace("/", "/​")
@@ -308,7 +295,6 @@ defmodule DotcomWeb.ViewHelpers do
     end
   end
 
-  @spec tel_link(String.t() | nil) :: Phoenix.HTML.Safe.t()
   def tel_link(number) do
     pretty_formatted = Dotcom.PhoneNumber.pretty_format(number)
 
@@ -332,13 +318,11 @@ defmodule DotcomWeb.ViewHelpers do
     |> Enum.map_join(" ", &String.capitalize(&1))
   end
 
-  @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
     time
     |> Timex.format!("{h12}:{m} {AM}")
   end
 
-  @spec format_full_date(Date.t()) :: String.t()
   def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
 
   def hidden_query_params(conn, opts \\ []) do
@@ -353,7 +337,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "Specify the mode each type is associated with"
-  @spec fare_group(atom | integer) :: String.t()
   def fare_group(type) when is_integer(type) and type in 0..4 do
     type
     |> Routes.Route.type_atom()
@@ -390,7 +373,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "Link a stop's name to its page."
-  @spec stop_link(Stops.Stop.t() | String.t()) :: Phoenix.HTML.Safe.t()
   def stop_link(%Stops.Stop{} = stop) do
     link(stop.name, to: stop_path(DotcomWeb.Endpoint, :show, stop.id))
   end
@@ -401,13 +383,10 @@ defmodule DotcomWeb.ViewHelpers do
     |> stop_link
   end
 
-  @spec external_link(String.t()) :: String.t()
-  @doc "Adds protocol if one is needed"
   def external_link(<<"http://", _::binary>> = href), do: href
   def external_link(<<"https://", _::binary>> = href), do: href
   def external_link(href), do: "http://" <> href
 
-  @spec round_distance(float) :: String.t()
   def round_distance(nil), do: ""
 
   def round_distance(distance) when distance < 0.1 do
@@ -424,8 +403,6 @@ defmodule DotcomWeb.ViewHelpers do
     |> Kernel.<>(" mi")
   end
 
-  @spec mode_summaries(atom, {atom, String.t()} | nil, String.t() | nil) :: [Fares.Summary.t()]
-  @doc "Return the fare summaries for the given mode"
   def mode_summaries(mode_atom, name \\ nil, url \\ nil)
 
   def mode_summaries(mode, nil, _url) when mode in [:commuter_rail, :ferry] do
@@ -453,7 +430,6 @@ defmodule DotcomWeb.ViewHelpers do
     |> summaries_for_filters(:bus_subway)
   end
 
-  @spec mode_filters(atom, {atom, String.t()} | nil) :: [keyword()]
   defp mode_filters(:ferry, nil) do
     [
       [mode: :ferry, duration: :single_trip, reduced: nil],
@@ -504,7 +480,6 @@ defmodule DotcomWeb.ViewHelpers do
     filters |> Enum.flat_map(&Fares.Repo.all/1)
   end
 
-  @spec summaries_for_filters([keyword()], atom, String.t() | nil) :: [Fares.Summary.t()]
   defp summaries_for_filters(filters, mode, url \\ nil) do
     filters |> get_fares |> Fares.Format.summarize(mode, url)
   end
@@ -512,7 +487,6 @@ defmodule DotcomWeb.ViewHelpers do
   @doc """
   Turns a word or phrase with spaces or underscores into a camelcased string.
   """
-  @spec to_camelcase(String.t()) :: String.t()
   def to_camelcase(phrase) do
     phrase
     |> String.replace("_", " ")
@@ -528,7 +502,6 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc "Turns a struct OR an Elixir.Module.Name into an underscored string"
-  @spec struct_name_to_string(atom() | struct()) :: String.t()
   def struct_name_to_string(struct_name) when is_atom(struct_name) do
     struct_name
     |> struct()
@@ -542,7 +515,6 @@ defmodule DotcomWeb.ViewHelpers do
     |> Macro.underscore()
   end
 
-  @spec fare_from_token(String.t()) :: Fares.Fare.t() | Fares.Summary.t()
   def fare_from_token(token) do
     fare_object_request(token)
   end
@@ -558,7 +530,6 @@ defmodule DotcomWeb.ViewHelpers do
   def route_term(type) when type in [:bus, :ferry], do: "route"
   def route_term(type) when type in [:subway, :commuter_rail], do: "line"
 
-  @spec banner_message(Conn.t(), atom) :: Safe.t() | nil
   def banner_message(conn, key) do
     if Map.has_key?(conn.assigns, key) do
       content_tag :div, class: "callout" do
@@ -578,7 +549,6 @@ defmodule DotcomWeb.ViewHelpers do
   with asset integrity hash, and expected crossorigin attribute (as the 
   website's assets load from the CDN rather than from the application).
   """
-  @spec static_attributes(String.t()) :: map()
   def static_attributes(path) do
     {static_path, static_integrity} = DotcomWeb.Endpoint.static_lookup(path)
     static_url = DotcomWeb.Endpoint.static_url() <> static_path

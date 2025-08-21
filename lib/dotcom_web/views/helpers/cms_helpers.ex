@@ -18,7 +18,6 @@ defmodule DotcomWeb.CMSHelpers do
   "commuter_rail" or "silver_line" to indicate the content item
   is related to all routes on that mode or line.
   """
-  @spec cms_route_to_class(API.route_term()) :: String.t()
   def cms_route_to_class(%{id: "Green"}), do: "green-line"
   def cms_route_to_class(%{id: "silver_line"}), do: "silver-line"
   def cms_route_to_class(%{id: "mattapan"}), do: "red-line"
@@ -41,8 +40,6 @@ defmodule DotcomWeb.CMSHelpers do
   "commuter_rail" or "silver_line" to indicate the content item
   is related to all routes on that mode or line.
   """
-  @spec cms_route_to_svg(API.route_term() | nil) ::
-          Route.gtfs_route_type() | Route.subway_lines_type() | :t_logo
   def cms_route_to_svg(nil), do: :t_logo
   def cms_route_to_svg(%{mode: nil}), do: :t_logo
   def cms_route_to_svg(%{id: "Green"}), do: :green_line
@@ -58,7 +55,6 @@ defmodule DotcomWeb.CMSHelpers do
   Map certain CMS content categories to index pages of that content.
   If no match is found, simply output the original string category.
   """
-  @spec link_category(String.t()) :: String.t() | Phoenix.HTML.safe()
   def link_category("Projects" = text), do: link(text, to: "/projects", title: "View all #{text}")
   def link_category(text), do: text
 end

@@ -8,7 +8,6 @@ defmodule Dotcom.TripPlan.Helpers do
   @doc """
   For information associated with a MBTA GTFS feed, return the ID
   """
-  @spec mbta_id(Place.t() | Route.t() | Stop.t() | Trip.t() | any()) :: String.t() | nil
   def mbta_id(%Place{stop: stop}), do: mbta_id(stop)
   def mbta_id(%{gtfs_id: "mbta-ma-us:" <> id}), do: id
   def mbta_id(%{gtfs_id: "mbta-ma-us-initial:" <> id}), do: id
@@ -17,7 +16,6 @@ defmodule Dotcom.TripPlan.Helpers do
   @doc """
   For an OpenTripPlanner stop, return the MBTA commuter rail zone
   """
-  @spec mbta_zone_id(Stop.t()) :: String.t() | nil
   def mbta_zone_id(%Stop{zone_id: "CR-zone-" <> zone_id}), do: zone_id
   def mbta_zone_id(_), do: nil
 
@@ -28,7 +26,6 @@ defmodule Dotcom.TripPlan.Helpers do
            when agency_name?(route, "MBTA") and route.type == 3 and
                   route.desc == "Rail Replacement Bus"
 
-  @spec route_name(Route.t()) :: String.t() | Route.long_name() | Route.short_name()
   def route_name(%Route{long_name: long_name} = route)
       when agency_name?(route, "Logan Express") do
     long_name
@@ -82,7 +79,6 @@ defmodule Dotcom.TripPlan.Helpers do
     end
   end
 
-  @spec route_color(Route.t()) :: Route.hex_color()
   def route_color(route) when agency_name?(route, "Logan Express") do
     # Logan Express's GTFS route.color doesn't always match its branding, so we specify better colors here
     case route.short_name do

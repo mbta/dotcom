@@ -13,19 +13,14 @@ defmodule DotcomWeb.CMS.TeaserView do
   @all_fields [:image, :title, :date, :topic, :location, :summary]
   @image_required [:project, :project_update]
 
-  @spec transit_tag(Teaser.t()) :: String.t()
   def transit_tag(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
   def transit_tag(%Teaser{routes: []}), do: "unknown"
 
-  @spec transit_svg(Teaser.t()) ::
-          Route.gtfs_route_type() | Route.subway_lines_type() | :t_logo
   def transit_svg(%Teaser{routes: [route | _]}), do: cms_route_to_svg(route)
   def transit_svg(%Teaser{routes: []}), do: cms_route_to_svg(nil)
 
-  @spec teaser_topic(Teaser.t()) :: Phoenix.HTML.safe()
   def teaser_topic(teaser), do: link_category(teaser.topic)
 
-  @spec display_date(Teaser.t()) :: String.t()
   def display_date(%Teaser{type: :event, date: date}) do
     Timex.format!(date, "{Mfull} {D}, {YYYY}, {h12}:{m} {AM}")
   end
@@ -34,7 +29,6 @@ defmodule DotcomWeb.CMS.TeaserView do
     format_full_date(date)
   end
 
-  @spec display_location(Teaser.location(), [atom]) :: String.t()
   def display_location(location, opts \\ [:place, :city, :state]) do
     location
     |> Keyword.take(opts)
@@ -58,7 +52,6 @@ defmodule DotcomWeb.CMS.TeaserView do
   the :type of the very first teaser in the teasers list will be used as
   the :type for all teasers in the list as far as field display goes.
   """
-  @spec handle_fields(CMS.API.type(), [Teaser.display_field()]) :: [Teaser.display_field()]
   def handle_fields(type, [] = _cms_context), do: default_fields(type)
   def handle_fields(type, nil = _non_cms_context), do: default_fields(type)
   def handle_fields(type, fields) when type in @image_required, do: [:image | fields]

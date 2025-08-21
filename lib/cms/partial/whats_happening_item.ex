@@ -28,7 +28,6 @@ defmodule CMS.Partial.WhatsHappeningItem do
           utm_url: String.t() | nil
         }
 
-  @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
       blurb: field_value(data, "field_wh_blurb"),

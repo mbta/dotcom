@@ -19,7 +19,6 @@ defmodule DetailedStopGroup do
   The returned value will contain every route for the given mode
   and each route will contain every stop on that route
   """
-  @spec from_mode(Routes.Route.gtfs_route_type()) :: [DetailedStopGroup.t()]
   def from_mode(:subway) do
     :subway
     |> stops_for_mode()
@@ -33,7 +32,6 @@ defmodule DetailedStopGroup do
     |> from_grouped_stops()
   end
 
-  @spec stops_for_mode(Routes.Route.gtfs_route_type()) :: [grouped_stops]
   defp stops_for_mode(mode) do
     mode
     |> Route.types_for_mode()
@@ -42,16 +40,12 @@ defmodule DetailedStopGroup do
     |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
-  @spec from_grouped_stops([grouped_stops]) :: [
-          DetailedStopGroup.t()
-        ]
   defp from_grouped_stops(grouped_stops) do
     grouped_stops
     |> Task.async_stream(&build_featured_stops(&1))
     |> Enum.map(fn {:ok, featured_stops} -> featured_stops end)
   end
 
-  @spec build_featured_stops(grouped_stops) :: DetailedStopGroup.t()
   defp build_featured_stops({route, stops}) do
     featured_stops =
       stops
@@ -62,7 +56,6 @@ defmodule DetailedStopGroup do
     {route, featured_stops}
   end
 
-  @spec build_featured_stop(Route.t(), Stop.t()) :: DetailedStop.t()
   defp build_featured_stop(route, stop) do
     green_line? = route.id == "Green"
 
@@ -80,7 +73,6 @@ defmodule DetailedStopGroup do
     }
   end
 
-  @spec group_green_line([grouped_stops]) :: [grouped_stops]
   defp group_green_line(grouped_stops) do
     grouped_stops
     |> Enum.chunk_by(&String.contains?(route_id(&1), "Green-"))

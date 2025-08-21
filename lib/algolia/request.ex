@@ -25,7 +25,6 @@ defmodule Algolia.Query.Request do
           params: map(),
           attributesToHighlight: String.t() | [String.t()]
         }
-  @spec new(String.t(), String.t()) :: t()
   def new(index_name, query, params \\ %{}) when index_name in @supported_index_keys do
     algolia_index = Keyword.fetch!(@supported_indexes, String.to_atom(index_name))
 

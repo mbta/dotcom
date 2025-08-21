@@ -30,7 +30,6 @@ defmodule DotcomWeb.ScheduleController.Defaults do
   If there's no headsign for a direction, default to the other direction. Otherwise, default to
   inbound before 2:00pm and outbound afterwards.
   """
-  @spec default_direction_id(Conn.t()) :: 0 | 1
   def default_direction_id(%{assigns: %{route: %{direction_names: %{0 => nil}}}}), do: 1
   def default_direction_id(%{assigns: %{route: %{direction_names: %{1 => nil}}}}), do: 0
 
@@ -48,7 +47,6 @@ defmodule DotcomWeb.ScheduleController.Defaults do
   @doc """
   Assigns the relevant tab parameters if they were passed from user and differ from the defaults
   """
-  @spec assign_tab_params(Conn.t(), []) :: Conn.t()
   def assign_tab_params(conn, _) do
     tab_defaults =
       MapSet.new(%{
@@ -64,11 +62,9 @@ defmodule DotcomWeb.ScheduleController.Defaults do
     assign(conn, :tab_params, MapSet.difference(query_params, tab_defaults))
   end
 
-  @spec default_direction_id_for_hour(0..23) :: 0..1
   defp default_direction_id_for_hour(hour) when hour <= 13, do: 1
   defp default_direction_id_for_hour(_hour), do: 0
 
-  @spec invert_direction_id(0..1) :: 0..1
   defp invert_direction_id(0), do: 1
   defp invert_direction_id(1), do: 0
 

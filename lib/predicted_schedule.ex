@@ -95,9 +95,6 @@ defmodule PredictedSchedule do
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group([Prediction.t()], [Schedule.t()] | [ScheduleCondensed.t()], Keyword.t()) :: [
-          PredictedSchedule.t()
-        ]
   def group(predictions, schedules, opts \\ []) do
     schedule_map = create_map(schedules)
     prediction_map = create_map(predictions)
@@ -117,8 +114,6 @@ defmodule PredictedSchedule do
     Map.new(predictions_or_schedules, &group_transform/1)
   end
 
-  @spec group_transform(Schedule.t() | ScheduleCondensed.t() | Prediction.t()) ::
-          {{String.t(), String.t(), non_neg_integer}, Schedule.t() | Prediction.t()}
   defp group_transform(%{trip: nil} = ps) do
     case ps do
       %Schedule{stop: nil} ->
@@ -151,28 +146,24 @@ defmodule PredictedSchedule do
   @doc """
   Returns the stop for a given PredictedSchedule
   """
-  @spec stop(PredictedSchedule.t()) :: Stops.Stop.t()
   def stop(%PredictedSchedule{schedule: %Schedule{stop: stop}}), do: stop
   def stop(%PredictedSchedule{prediction: %Prediction{stop: stop}}), do: stop
 
   @doc """
   Returns the route for a given PredictedSchedule.
   """
-  @spec route(PredictedSchedule.t()) :: Routes.Route.t()
   def route(%PredictedSchedule{schedule: %Schedule{route: route}}), do: route
   def route(%PredictedSchedule{prediction: %Prediction{route: route}}), do: route
 
   @doc """
   Returns the trip for a given PredictedSchedule.
   """
-  @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
   def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
 
   @doc """
   Returns the direction ID for a given PredictedSchedule
   """
-  @spec direction_id(PredictedSchedule.t()) :: 0 | 1
   def direction_id(%PredictedSchedule{prediction: %Prediction{} = prediction}) do
     prediction.direction_id
   end
@@ -184,14 +175,12 @@ defmodule PredictedSchedule do
   @doc """
   Determines if the given PredictedSchedule has a schedule
   """
-  @spec has_schedule?(PredictedSchedule.t()) :: boolean
   def has_schedule?(%PredictedSchedule{schedule: nil}), do: false
   def has_schedule?(%PredictedSchedule{}), do: true
 
   @doc """
   Determines if the given PredictedSchedule has a prediction
   """
-  @spec has_prediction?(PredictedSchedule.t()) :: boolean
   def has_prediction?(%PredictedSchedule{prediction: nil}), do: false
   def has_prediction?(%PredictedSchedule{}), do: true
 
@@ -199,7 +188,6 @@ defmodule PredictedSchedule do
   Returns a time value for the given PredictedSchedule. Returned value can be either a scheduled time
   or a predicted time. **Predicted Times are preferred**
   """
-  @spec time(PredictedSchedule.t()) :: DateTime.t() | nil
   def time(%PredictedSchedule{prediction: %Prediction{time: time}}) when not is_nil(time) do
     time
   end
@@ -213,7 +201,6 @@ defmodule PredictedSchedule do
     nil
   end
 
-  @spec last_stop?(t) :: boolean
   def last_stop?(%PredictedSchedule{schedule: %Schedule{last_stop?: last_stop?}}) do
     last_stop?
   end
@@ -225,14 +212,12 @@ defmodule PredictedSchedule do
   @doc """
   Retrieves status from predicted schedule if one is available
   """
-  @spec status(PredictedSchedule.t()) :: String.t() | nil
   def status(%PredictedSchedule{prediction: %Prediction{status: status}}), do: status
   def status(_predicted_schedule), do: nil
 
   @doc """
   Determines if the given predicted schedule occurs after the given time
   """
-  @spec upcoming?(PredictedSchedule.t(), DateTime.t()) :: boolean
   def upcoming?(
         %PredictedSchedule{
           schedule: nil,
@@ -257,7 +242,6 @@ defmodule PredictedSchedule do
   and the `departing?` or `status` field on Predictions. Schedules are preferred for
   determining departing? status.
   """
-  @spec departing?(PredictedSchedule.t()) :: boolean
   def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}) do
     prediction.departing?
   end
@@ -269,7 +253,6 @@ defmodule PredictedSchedule do
   @doc """
   Returns true if the PredictedSchedule doesn't have a prediction or schedule.
   """
-  @spec empty?(PredictedSchedule.t()) :: boolean
   def empty?(%__MODULE__{schedule: nil, prediction: nil}), do: true
   def empty?(%__MODULE__{}), do: false
 
@@ -280,12 +263,6 @@ defmodule PredictedSchedule do
   the default value.
 
   """
-  @spec map_optional(
-          PredictedSchedule.t(),
-          [:schedule | :prediction],
-          any,
-          (Schedule.t() | Prediction.t() -> any)
-        ) :: any
   def map_optional(predicted_schedule, ordering, default \\ nil, func)
 
   def map_optional(nil, _ordering, default, _func) do
@@ -310,7 +287,6 @@ defmodule PredictedSchedule do
     end
   end
 
-  @spec schedule_after?(PredictedSchedule.t(), DateTime.t()) :: boolean
   def schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
 
   def schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
@@ -318,16 +294,12 @@ defmodule PredictedSchedule do
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions
-  @spec unique_map_keys(%{key => Schedule.t()}, %{key => Prediction.t()}) :: [key]
-        when key: {String.t(), String.t(), non_neg_integer}
   defp unique_map_keys(schedule_map, prediction_map) do
     schedule_map
     |> Map.merge(prediction_map)
     |> Map.keys()
   end
 
-  @spec sort_predicted_schedules(PredictedSchedule.t()) ::
-          {integer, non_neg_integer, non_neg_integer}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}),
     do: {1, prediction.stop_sequence, to_unix(prediction.time)}
 
@@ -351,7 +323,6 @@ defmodule PredictedSchedule do
   @doc """
   Returns the time difference between a schedule and prediction. If either is nil, returns 0.
   """
-  @spec delay(PredictedSchedule.t() | nil) :: integer
   def delay(nil), do: 0
 
   def delay(%PredictedSchedule{schedule: schedule, prediction: prediction})

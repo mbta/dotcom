@@ -6,7 +6,6 @@ defmodule DotcomWeb.SearchHelpers do
   @form_options [as: :search, method: :get]
   @placeholder "Search by keyword"
 
-  @spec desktop_form(Plug.Conn.t(), map) :: Phoenix.HTML.safe()
   def desktop_form(conn, params) do
     form_for(conn, search_path(conn, :index), @form_options, fn _ ->
       [
@@ -30,7 +29,6 @@ defmodule DotcomWeb.SearchHelpers do
     end)
   end
 
-  @spec get_search_from_query(map) :: String.t()
   defp get_search_from_query(%{"search" => %{"query" => query}}), do: query
   defp get_search_from_query(_), do: ""
 end

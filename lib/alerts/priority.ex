@@ -12,10 +12,8 @@ defmodule Alerts.Priority do
 
   @priority_levels [:high, :low, :system]
 
-  @spec priority_levels() :: [priority_level]
   def priority_levels, do: @priority_levels
 
-  @spec priority(map, DateTime.t()) :: priority_level
   def priority(map, now \\ Dotcom.Utils.DateTime.now())
 
   def priority(%{lifecycle: lifecycle}, _) when lifecycle == :upcoming do
@@ -97,7 +95,6 @@ defmodule Alerts.Priority do
     * now is within a week of start date
     * now is within one week of end date
   """
-  @spec urgent?(map, DateTime.t()) :: boolean
   def urgent?(%{severity: severity}, _) when severity < 7 do
     false
   end
@@ -113,8 +110,6 @@ defmodule Alerts.Priority do
   def urgent?(_, _) do
     false
   end
-
-  @spec urgent_period?({DateTime.t() | nil, DateTime.t() | nil}, DateTime.t()) :: boolean
 
   def urgent_period?({nil, nil}, %DateTime{}) do
     true
@@ -137,7 +132,6 @@ defmodule Alerts.Priority do
     diff <= 6
   end
 
-  @spec outside_date_range?(Date.t(), Alerts.Alert.period_pair()) :: boolean
   defp outside_date_range?(date, {from, until}) do
     from_date = if(from, do: DateTime.to_date(from))
     until_date = if(until, do: DateTime.to_date(until))

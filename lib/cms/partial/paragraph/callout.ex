@@ -26,7 +26,6 @@ defmodule CMS.Partial.Paragraph.Callout do
           link: Link.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(%{"field_content_reference" => [entity]}) do
     %__MODULE__{
       title: field_value(entity, "title"),
@@ -36,7 +35,6 @@ defmodule CMS.Partial.Paragraph.Callout do
     }
   end
 
-  @spec parse_optional_image([map]) :: Image.t() | nil
   defp parse_optional_image([data]), do: Image.from_api(data)
   defp parse_optional_image(_), do: nil
 end

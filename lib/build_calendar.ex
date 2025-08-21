@@ -63,7 +63,6 @@ defmodule BuildCalendar do
               url: nil,
               today?: false
 
-    @spec td(t) :: Phoenix.HTML.Safe.t()
     def td(%Day{month_relation: :previous} = day) do
       content_tag(:td, "", class: class(day))
     end
@@ -104,8 +103,6 @@ defmodule BuildCalendar do
   * shift: an number of months forward or backwards to shift the selected day when building the calendar
   * end_date: a date after which we shouldn't link to future months
   """
-  @spec build(Date.t(), Date.t(), [Holiday.t()], url_fn, Keyword.t()) ::
-          BuildCalendar.Calendar.t()
   def build(selected, today, holidays, url_fn, opts \\ []) do
     holiday_set = MapSet.new(holidays, & &1.date)
     end_date = opts[:end_date]
@@ -122,7 +119,6 @@ defmodule BuildCalendar do
     }
   end
 
-  @spec previous_month_url(Date.t(), Date.t(), integer, url_fn) :: String.t() | nil
   defp previous_month_url(selected, today, shift, url_fn) do
     shifted = Timex.shift(selected, months: shift)
 
@@ -133,7 +129,6 @@ defmodule BuildCalendar do
     end
   end
 
-  @spec next_month_url(Date.t(), Date.t() | nil, integer, url_fn) :: String.t() | nil
   defp next_month_url(_selected, nil, shift, url_fn) do
     url_fn.(shift: shift + 1)
   end
@@ -151,7 +146,6 @@ defmodule BuildCalendar do
     end
   end
 
-  @spec build_days(Date.t(), Date.t(), integer, MapSet.t(), url_fn) :: [BuildCalendar.Day.t()]
   defp build_days(selected, today, shift, holiday_set, url_fn) do
     shifted = Timex.shift(selected, months: shift)
 
@@ -174,7 +168,6 @@ defmodule BuildCalendar do
     end
   end
 
-  @spec first_day(Date.t()) :: Date.t()
   defp first_day(date) do
     date
     |> Timex.beginning_of_month()
@@ -182,7 +175,6 @@ defmodule BuildCalendar do
     |> Timex.beginning_of_week(7)
   end
 
-  @spec last_day(Date.t()) :: Date.t()
   defp last_day(date) do
     # at the last day of the month, add a week, then go the end of the
     # current week.  We use Sunday as the end of the week.
@@ -192,7 +184,6 @@ defmodule BuildCalendar do
     |> Timex.end_of_week(7)
   end
 
-  @spec build_url(url_fn, Date.t(), Date.t()) :: String.t()
   defp build_url(url_fn, today, today) do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end
@@ -201,7 +192,6 @@ defmodule BuildCalendar do
     url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
   end
 
-  @spec month_relation(Date.t(), Date.t(), Date.t()) :: __MODULE__.Day.month_relation()
   defp month_relation(date, last_day_of_previous_month, last_day_of_this_month) do
     cond do
       Date.compare(date, last_day_of_this_month) == :gt ->

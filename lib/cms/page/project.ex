@@ -64,7 +64,6 @@ defmodule CMS.Page.Project do
           redirects: [String.t()]
         }
 
-  @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
@@ -88,12 +87,10 @@ defmodule CMS.Page.Project do
     }
   end
 
-  @spec contact?(t) :: boolean
   def contact?(project) do
     project.contact_information || project.media_email || project.media_phone
   end
 
-  @spec alias(t()) :: String.t() | integer
   def alias(%__MODULE__{path_alias: "/projects/" <> path_alias}), do: path_alias
   def alias(%__MODULE__{id: id}), do: id
 end

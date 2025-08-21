@@ -14,31 +14,26 @@ defmodule Journey do
           trip: Trip.t() | nil
         }
 
-  @spec has_departure_schedule?(__MODULE__.t()) :: boolean
   def has_departure_schedule?(%__MODULE__{departure: departure}),
     do: PredictedSchedule.has_schedule?(departure)
 
   def has_departure_schedule?(%__MODULE__{}), do: false
 
-  @spec has_departure_prediction?(__MODULE__.t()) :: boolean
   def has_departure_prediction?(%__MODULE__{departure: departure}) when not is_nil(departure) do
     PredictedSchedule.has_prediction?(departure)
   end
 
   def has_departure_prediction?(%__MODULE__{}), do: false
 
-  @spec has_arrival_prediction?(__MODULE__.t()) :: boolean
   def has_arrival_prediction?(%__MODULE__{arrival: arrival}) when not is_nil(arrival) do
     PredictedSchedule.has_prediction?(arrival)
   end
 
   def has_arrival_prediction?(%__MODULE__{}), do: false
 
-  @spec has_prediction?(__MODULE__.t()) :: boolean
   def has_prediction?(journey),
     do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
 
-  @spec prediction(__MODULE__.t()) :: Prediction.t() | nil
   def prediction(journey) do
     cond do
       has_departure_prediction?(journey) ->
@@ -52,18 +47,14 @@ defmodule Journey do
     end
   end
 
-  @spec time(t) :: DateTime.t() | nil
   def time(journey), do: departure_time(journey)
 
-  @spec departure_time(__MODULE__.t()) :: DateTime.t() | nil
   def departure_time(%__MODULE__{departure: nil}), do: nil
   def departure_time(%__MODULE__{departure: departure}), do: PredictedSchedule.time(departure)
 
-  @spec arrival_time(__MODULE__.t()) :: DateTime.t() | nil
   def arrival_time(%__MODULE__{arrival: nil}), do: nil
   def arrival_time(%__MODULE__{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
-  @spec departure_prediction_time(__MODULE__.t() | nil) :: DateTime.t() | nil
   def departure_prediction_time(%__MODULE__{
         departure: %PredictedSchedule{prediction: %Prediction{time: time}}
       }),
@@ -72,7 +63,6 @@ defmodule Journey do
   def departure_prediction_time(%__MODULE__{}), do: nil
   def departure_prediction_time(nil), do: nil
 
-  @spec departure_schedule_time(__MODULE__.t() | nil) :: DateTime.t() | nil
   def departure_schedule_time(%__MODULE__{
         departure: %PredictedSchedule{schedule: %Schedule{time: time}}
       }),
@@ -110,7 +100,6 @@ defmodule Journey do
   * If neither have times, compares the status text fields
 
   """
-  @spec before?(t, t) :: boolean
   def before?(left, right) do
     left_departure_time = departure_prediction_time(left) || departure_time(left)
     right_departure_time = departure_prediction_time(right) || departure_time(right)
@@ -207,8 +196,6 @@ defmodule Journey do
   Returns a message containing the maximum delay between scheduled and predicted times for an arrival
   and departure, or the empty string if there's no delay.
   """
-  @spec display_status(PredictedSchedule.t() | nil, PredictedSchedule.t() | nil) ::
-          Phoenix.HTML.Safe.t()
   def display_status(departure, arrival \\ nil)
 
   def display_status(

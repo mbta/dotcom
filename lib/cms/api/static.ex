@@ -500,7 +500,6 @@ defmodule CMS.Api.Static do
   end
 
   # Generates multiple revisions on the fly for a single fixture
-  @spec do_preview(map, integer | String.t() | nil) :: [map]
   defp do_preview(%{"title" => [%{"value" => title}]} = response, vid) do
     vid = Helpers.int_or_string_to_int(vid)
 
@@ -513,7 +512,6 @@ defmodule CMS.Api.Static do
   end
 
   # Performs the CMS-side revision ID filtering
-  @spec cms_revision_filter([map], integer | nil) :: [map]
   defp cms_revision_filter(revisions, vid)
 
   # When no vid is specified, all results are returned

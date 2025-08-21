@@ -52,7 +52,6 @@ defmodule HubStops do
   Returns a list of HubStops for the given mode that are
   found in the given list of DetailedStopGroup's
   """
-  @spec mode_hubs(atom, [DetailedStopGroup.t()]) :: [HubStop.t()]
   def mode_hubs(:commuter_rail, route_stop_pairs) do
     all_mode_stops = Enum.flat_map(route_stop_pairs, fn {_route, stops} -> stops end)
 
@@ -68,12 +67,10 @@ defmodule HubStops do
   Returns a map of %{route_id -> HubStopList} which represents all
   the hubstops for all routes found in the given list of DetailedStopGroup
   """
-  @spec route_hubs([DetailedStopGroup.t()]) :: %{String.t() => [HubStop.t()]}
   def route_hubs(route_stop_pairs) do
     Map.new(route_stop_pairs, &do_from_stop_info/1)
   end
 
-  @spec do_from_stop_info(DetailedStopGroup.t()) :: {String.t(), [HubStop.t()]}
   defp do_from_stop_info({%Route{id: route_id}, detailed_stops})
        when route_id in ["Red", "Blue", "Green", "Orange"] do
     hub_stops =
@@ -87,7 +84,6 @@ defmodule HubStops do
 
   defp do_from_stop_info({%Route{id: route_id}, _}), do: {route_id, []}
 
-  @spec build_hub_stop({String.t(), String.t(), String.t()}, [DetailedStop.t()]) :: HubStop.t()
   defp build_hub_stop({stop_id, path, alt_text}, detailed_stops) do
     %HubStop{
       detailed_stop: Enum.find(detailed_stops, &(&1.stop.id == stop_id)),

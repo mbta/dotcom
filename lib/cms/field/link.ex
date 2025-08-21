@@ -10,7 +10,6 @@ defmodule CMS.Field.Link do
           url: String.t()
         }
 
-  @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
       title: data["title"],
@@ -18,7 +17,6 @@ defmodule CMS.Field.Link do
     }
   end
 
-  @spec parse_uri(map) :: String.t() | nil
   defp parse_uri(data) do
     case data["uri"] do
       "internal:" <> relative_path -> relative_path

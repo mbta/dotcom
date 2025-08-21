@@ -31,13 +31,11 @@ defmodule Dotcom.TimetableLoader do
   @doc """
   Routes supported by `Dotcom.Timetable`, listed by ID.
   """
-  @spec available_route_ids :: [String.t()]
   def available_route_ids, do: @available_route_ids
 
   @doc """
   Retrieves timetable data for a given route, direction, and date. Returns nil if unavailable.
   """
-  @spec from_csv(Routes.Route.id_t(), 0 | 1, Date.t()) :: list() | nil
   def from_csv(route_id, direction_id, date) when route_id in @available_route_ids do
     route_id = maybe_use_weekend_route(route_id, date)
 
@@ -70,7 +68,6 @@ defmodule Dotcom.TimetableLoader do
   @doc """
   Checks the `Dotcom.Timetable` metadata for whether the given date is effective on the given route.
   """
-  @spec in_timetable_date_range?(Routes.Route.id_t(), Date.t()) :: boolean()
   def in_timetable_date_range?(route_id, date) do
     case get_in(@metadata, [route_id, :effective_dates]) do
       {start, ending} ->
