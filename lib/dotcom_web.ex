@@ -21,7 +21,7 @@ defmodule DotcomWeb do
   def controller do
     quote do
       use Dotcom.Gettext.Sigils
-      use Phoenix.Controller, formats: [:html, :json]
+      use Phoenix.Controller, namespace: DotcomWeb
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
 
