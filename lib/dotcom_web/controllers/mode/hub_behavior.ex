@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Mode.HubBehavior do
   @moduledoc "Macro and behaviour for mode hub pages."
 
-  use Phoenix.Controller, namespace: DotcomWeb
+  use Phoenix.Controller, formats: [:html, :json]
 
   import DotcomWeb.ControllerHelpers, only: [green_routes: 0]
   import DotcomWeb.Router.Helpers, only: [mode_path: 2]
