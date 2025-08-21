@@ -1,9 +1,7 @@
 defmodule CMS.Partial.Banner do
   @moduledoc """
-
   Represents the "Banner" aka "important_notice" content type in the CMS.
   Banners are displayed near the top of the homepage and have text.
-
   """
 
   import CMS.Helpers,

@@ -1,9 +1,7 @@
 defmodule CMS.Partial.Photo do
   @moduledoc """
-
   Represents the "Homepage Image" content type in the CMS.
   Photos are displayed at the top of the homepage.
-
   """
 
   alias CMS.Field.Image
