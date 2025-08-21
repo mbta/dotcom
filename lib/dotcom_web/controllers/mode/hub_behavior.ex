@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Mode.HubBehavior do
   @moduledoc "Macro and behaviour for mode hub pages."
 
-  use Phoenix.Controller, namespace: DotcomWeb
+  use Phoenix.Controller, formats: [html: "View"]
 
   import DotcomWeb.ControllerHelpers, only: [green_routes: 0]
   import DotcomWeb.Router.Helpers, only: [mode_path: 2]
@@ -10,6 +10,8 @@ defmodule DotcomWeb.Mode.HubBehavior do
   alias CMS.{API, Partial.Teaser, Repo}
   alias Routes.Route
   alias Util.Breadcrumb
+
+  plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
 
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()

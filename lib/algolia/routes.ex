@@ -13,7 +13,6 @@ defmodule Algolia.Routes do
   @impl Algolia.Index
   def index_name, do: "routes"
 
-  @spec get_stop_names(Routes.Route.t()) :: [String.t()]
   def get_stop_names(route) do
     route.id
     |> Algolia.Stops.by_route()

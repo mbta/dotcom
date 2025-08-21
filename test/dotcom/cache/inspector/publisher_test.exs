@@ -15,7 +15,7 @@ defmodule Dotcom.Cache.Inspector.PublisherTest do
 
   test "when all of the values are the same, one representative value is returned" do
     # SETUP
-    value = Faker.Color.fancy_name()
+    value = "foo"
     values = [value, value, value]
 
     # EXERCISE
@@ -27,8 +27,8 @@ defmodule Dotcom.Cache.Inspector.PublisherTest do
 
   test "when values are different, we get one of each value" do
     # SETUP
-    one = Faker.Color.fancy_name()
-    two = Faker.Color.fancy_name()
+    one = "foo"
+    two = "bar"
 
     values = [
       one,

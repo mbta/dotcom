@@ -21,7 +21,7 @@ defmodule DotcomWeb do
   def controller do
     quote do
       use Dotcom.Gettext.Sigils
-      use Phoenix.Controller, namespace: DotcomWeb
+      use Phoenix.Controller, formats: [html: "View", json: "View"]
 
       import DotcomWeb.{CmsRouterHelpers, ControllerHelpers}
 
@@ -44,10 +44,10 @@ defmodule DotcomWeb do
 
       alias Util.Breadcrumb
 
+      plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
+
       if Mix.env() != :test do
         use Dotcom.Usage.Functions
-
-        @decorate_all track()
       end
     end
   end
