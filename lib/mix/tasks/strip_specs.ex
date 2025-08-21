@@ -1,19 +1,23 @@
 defmodule Mix.Tasks.StripSpecs do
   @moduledoc """
-  Look for @spec tags in all project files and rip them out.
+  Look for `spec` tags in all project files and rip them out.
   """
 
-  @shortdoc "Remove all @spec tags from the project."
+  @shortdoc "Remove all `spec` tags from the project."
 
   use Mix.Task
 
   import Dotcom.Utils.File, only: [list_all_files: 1]
 
-  @regex ~r/@spec[\s\S]*?(?=def)/
+  @directory "lib"
+  @regex ~r/@spec[\s\S]*?(?=def(p|\s))/
 
   @impl Mix.Task
   def run(_) do
-    files = list_all_files("lib")
+    files =
+      @directory
+      |> list_all_files()
+      |> Enum.reject(fn path -> path =~ "lib/mix/" end)
 
     Enum.each(files, &strip_specs/1)
   end
