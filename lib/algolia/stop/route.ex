@@ -1,4 +1,5 @@
 defmodule Algolia.Stop.Route do
+  @derive [Jason.Encoder, Poison.Encoder]
   defstruct [:icon, :display_name, :type]
 
   @type t :: %__MODULE__{

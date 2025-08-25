@@ -42,29 +42,6 @@ defmodule Algolia.ApiTest do
       assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = response
     end
 
-    test "sends a get request to /1/indexes/$INDEX" do
-      index = "foo"
-      response_body = Poison.encode!(%{"hits" => [%{"objectID" => "foo"}]})
-
-      expect(HTTPoison.Mock, :get, fn url, _headers, _opts ->
-        assert url == @url <> "/1/indexes/#{index}"
-
-        {:ok, %HTTPoison.Response{status_code: 200, body: response_body}}
-      end)
-
-      opts = %Algolia.Api{
-        host: @url,
-        index: index,
-        action: "",
-        body: ""
-      }
-
-      response = Algolia.Api.action(:get, opts)
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
-
-      assert body == response_body
-    end
-
     test "does not cache a failed response" do
       expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
         {:error, %HTTPoison.Response{status_code: 400, body: @failure_response}}
@@ -103,7 +80,7 @@ defmodule Algolia.ApiTest do
       params = %{"foo" => "bar"}
       response_body = Poison.encode!(%{"hits" => [%{"objectID" => "foo"}]})
 
-      expect(HTTPoison.Mock, :get, fn url, _headers, _opts ->
+      expect(HTTPoison.Mock, :post, fn url, _body, _headers, _opts ->
         query_params = URI.decode_query(URI.parse(url).query)
         assert query_params == params
 
@@ -118,7 +95,7 @@ defmodule Algolia.ApiTest do
         query_params: params
       }
 
-      response = Algolia.Api.action(:get, opts)
+      response = Algolia.Api.action(:post, opts)
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
 
       assert body == response_body

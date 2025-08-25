@@ -331,6 +331,13 @@ defmodule DotcomWeb.Router do
     get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 
+  scope "/algolia", DotcomWeb do
+    pipe_through([:api])
+
+    get("/stops", AlgoliaController, :stops)
+    get("/routes", AlgoliaController, :routes)
+  end
+
   scope "/places", DotcomWeb do
     pipe_through([:api])
 

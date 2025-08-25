@@ -91,9 +91,6 @@ defmodule Algolia.Api do
   def send_request(url, :post, body, config, hackney),
     do: @httpoison.post(url, body, headers(config), hackney: hackney)
 
-  def send_request(url, :get, _body, config, hackney),
-    do: @httpoison.get(url, headers(config), hackney: hackney)
-
   @spec generate_query_param_string(t) :: String.t() | nil
   defp generate_query_param_string(%{query_params: nil}), do: nil
 

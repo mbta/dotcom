@@ -12,7 +12,7 @@ defimpl Algolia.Object, for: Stops.Stop do
   def url(stop), do: Util.site_path(:stop_path, [:show, stop])
 
   def data(stop) do
-    routes_for_stop = @routes_repo.by_stop(stop.id)
+    routes_for_stop = @routes_repo.by_stop(stop.id, include: "")
 
     %{
       _geoloc: %{
@@ -29,12 +29,14 @@ defimpl Algolia.Object, for: Stops.Stop do
 end
 
 defimpl Algolia.Object, for: Routes.Route do
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   def object_id(route), do: "route-" <> route.id
   def url(route), do: Util.site_path(:schedule_path, [:show, route])
 
   def data(route) do
-    stop_names = Algolia.Routes.get_stop_names(route)
-    headsigns = Algolia.Routes.headsigns(route.id)
+    stop_names = get_stop_names(route)
+    headsigns = route.direction_destinations
 
     %{
       route: route,
@@ -42,4 +44,14 @@ defimpl Algolia.Object, for: Routes.Route do
       headsigns: headsigns
     }
   end
+
+  defp get_stop_names(route) do
+    @stops_repo.by_route(route.id, 0, include: "")
+    |> filter_stations(route.type)
+    |> Enum.map(fn stop -> stop.name end)
+  end
+
+  defp filter_stations(stops, route_type)
+  defp filter_stations(stops, 3), do: Enum.filter(stops, & &1.station?)
+  defp filter_stations(stops, _), do: stops
 end
