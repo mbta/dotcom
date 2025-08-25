@@ -27,8 +27,7 @@ defmodule Dotcom.Cache.Inspector.PublisherTest do
 
   test "when values are different, we get one of each value" do
     # SETUP
-    one = Faker.Color.fancy_name()
-    two = Faker.Color.fancy_name()
+    [one, two] = Faker.Util.sample_uniq(2, fn -> Faker.Color.fancy_name() end)
 
     values = [
       one,
