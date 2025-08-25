@@ -3,8 +3,9 @@ defmodule Dotcom.ScheduleNote do
   Represents text describing the schedule for a subway route
   """
 
-  import PhoenixHTMLHelpers.Tag
-  import PhoenixHTMLHelpers.Link
+  use Dotcom.Gettext.Sigils
+
+  import PhoenixHTMLHelpers.{Link, Tag}
 
   alias DotcomWeb.Router.Helpers
   alias Phoenix.HTML
@@ -40,46 +41,46 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      offpeak_service: "8 \u2013 12 minutes",
-      peak_service: "5 \u2013 8 minutes",
-      saturday_service: "6 \u2013 8 minutes",
-      sunday_service: "6 \u2013 8 minutes"
+      offpeak_service: window(9, 13),
+      peak_service: window(4, 5),
+      saturday_service: window(6, 8),
+      sunday_service: window(6, 8)
     }
   end
 
   def schedule_note(%Route{id: "Mattapan"}) do
     %__MODULE__{
-      offpeak_service: "8 \u2013 12 minutes",
-      peak_service: "6 minutes",
-      saturday_service: "12 \u2013 13 minutes",
-      sunday_service: "12 \u2013 13 minutes"
+      offpeak_service: window(9, 13),
+      peak_service: window(6, 7),
+      saturday_service: window(13),
+      sunday_service: window(12, 13)
     }
   end
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
-      peak_service: "5 \u2013 7 minutes",
-      saturday_service: "8 \u2013 10 minutes",
-      sunday_service: "9 \u2013 11 minutes"
+      peak_service: window(4, 5),
+      saturday_service: window(7, 8),
+      sunday_service: window(8, 10)
     }
   end
 
   def schedule_note(%Route{id: "Blue"}) do
     %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "4 \u2013 5 minutes",
-      saturday_service: "7 \u2013 10 minutes",
-      sunday_service: "7 \u2013 10 minutes"
+      offpeak_service: window(7, 12),
+      peak_service: window(4, 5),
+      saturday_service: window(7, 10),
+      sunday_service: window(7, 10)
     }
   end
 
   def schedule_note(%Route{id: route_id})
       when route_id == "Green" or route_id in @green_line_branch_ids do
     %__MODULE__{
-      offpeak_service: "7 \u2013 12 minutes",
-      peak_service: "6 \u2013 8 minutes",
-      saturday_service: "8 \u2013 15 minutes",
-      sunday_service: "8 \u2013 20 minutes"
+      offpeak_service: window(7, 12),
+      peak_service: window(6, 8),
+      saturday_service: window(8, 15),
+      sunday_service: window(8, 20)
     }
   end
 
@@ -121,5 +122,17 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(_) do
     nil
+  end
+
+  # The window in which we expect a train to arrive/depart.
+  # Only one time is given, so we treat it as an average.
+  defp window(avg) do
+    "#{avg}" <> " " <> ~t"minutes"
+  end
+
+  # The window in which we expect a train to arrive/depart.
+  # Two times are given so it is a true window.
+  defp window(min, max) do
+    "#{min} \u2013 #{max}" <> " " <> ~t"minutes"
   end
 end

@@ -2967,3 +2967,9 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "train"
 msgstr ""
+
+#: lib/dotcom/schedule_note.ex:130
+#: lib/dotcom/schedule_note.ex:136
+#, elixir-autogen, elixir-format
+msgid "minutes"
+msgstr ""
