@@ -19,6 +19,10 @@ defmodule Dotcom.Cache.Multilevel do
     adapter: Nebulex.Adapters.Multilevel,
     default_key_generator: Dotcom.Cache.KeyGenerator
 
+  require Logger
+
+  import Dotcom.Utils.Enum, only: [group_list: 1]
+
   defmodule Local do
     use Nebulex.Cache, otp_app: :dotcom, adapter: Nebulex.Adapters.Local
   end
@@ -55,6 +59,16 @@ defmodule Dotcom.Cache.Multilevel do
   """
   def flush_single_key(key) do
     @cache.delete(key)
+  end
+
+  @doc """
+  Get all keys in all nodes.
+  """
+  def get_all_keys() do
+    case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
+      {:ok, conn} -> get_keys_from_nodes(conn)
+      {:error, _} -> :error
+    end
   end
 
   @doc """
@@ -119,6 +133,17 @@ defmodule Dotcom.Cache.Multilevel do
     end
   end
 
+  defp get_keys_from_nodes(conn) do
+    keys =
+      conn
+      |> stream_keys("*")
+      |> grouped_keys()
+
+    :timer.sleep(1_000)
+
+    {@redix.stop(conn), keys}
+  end
+
   defp get_nodes(conn) do
     case @redix.command(conn, ["CLUSTER", "SLOTS"]) do
       {:ok, slots} ->
@@ -130,6 +155,14 @@ defmodule Dotcom.Cache.Multilevel do
       {:error, _} ->
         []
     end
+  end
+
+  defp grouped_keys(stream) do
+    stream
+    |> Enum.to_list()
+    |> List.flatten()
+    |> Enum.map(&String.split(&1, "|"))
+    |> group_list()
   end
 
   defp scan_for_keys(conn, pattern, cursor) do

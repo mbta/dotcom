@@ -79,6 +79,7 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/cache", DotcomWeb do
+    get("/", CacheController, :get_cache_keys)
     get("/*path", CacheController, :get_cache_values)
   end
 
