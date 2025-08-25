@@ -64,7 +64,8 @@ module.exports = {
       spacing: {
         ...tailwindTheme.spacing,
         "4.5": "1.125rem",
-        "7.5": "1.875rem"
+        "7.5": "1.875rem",
+        "120": "24rem"
       }
     },
     // match screens to Bootstrap's breakpoints for now
@@ -94,7 +95,7 @@ module.exports = {
       "fieldset legend": { fontSize: "initial" }
     })),
     // Add a component for each heading level, .h1 through .h6
-    // Also handles reducing space between adjacent headings, copy directly following 
+    // Also handles reducing space between adjacent headings, copy directly following
     // headlines, and other complex content structures.
     plugin(({ addComponents, theme }) => {
       const breakpointSmDown = `@media (max-width: ${theme("screens.sm")})`;

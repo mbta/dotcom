@@ -3,6 +3,7 @@ defmodule DotcomWeb.PageController do
   use DotcomWeb, :controller
 
   import DotcomWeb.CMSHelpers, only: [cms_route_to_class: 1]
+  import CMS.Repo, only: [photo: 0]
 
   alias CMS.Repo
 
@@ -32,6 +33,7 @@ defmodule DotcomWeb.PageController do
         "service alerts, real-time updates, and general information."
     )
     |> async_assign_default(:news, &news/0, [])
+    |> async_assign_default(:photo, &photo/0)
     |> async_assign_default(:banner, fn -> banner end)
     |> async_assign_default(:homepage_fares, fn -> fares end)
     |> async_assign_default(:promoted_items, fn -> promoted end)

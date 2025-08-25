@@ -2,6 +2,8 @@
   @include make-container();
   @include make-container-max-widths();
   background-color: $brand-primary;
+  border-top-left-radius: $large-border-radius;
+  border-top-right-radius: $large-border-radius;
   display: block;
   margin-top: $space-32;
   padding-left: 0;
@@ -10,12 +12,15 @@
   @include media-breakpoint-down(sm) {
     margin-left: .9375rem;
     margin-right: .9375rem;
-    margin-top: $space-24;
   }
 
   @include media-breakpoint-only(xs) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: 0 0 #0000;
     margin-left: 0;
     margin-right: 0;
+    margin-top: $space-24;
   }
 
   .m-tabbed-nav__items {
