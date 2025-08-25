@@ -1,6 +1,7 @@
 defmodule Dotcom.TripPlan.OpenTripPlannerTest do
   use ExUnit.Case, async: true
 
+  import DotcomWeb.Components.TripPlanner.Helpers, only: [fallback_error_message: 0]
   import Mox
   import Test.Support.Factories.TripPlanner.InputForm
 
@@ -37,6 +38,23 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
       end)
 
       assert {:ok, _} = OpenTripPlanner.plan(input)
+    end
+
+    test "handles and logs raised error" do
+      input = build(:form)
+      raised_error_message = Faker.Company.bullshit()
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        raise raised_error_message
+      end)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert {:error, msg} = OpenTripPlanner.plan(input)
+          assert msg == fallback_error_message()
+        end)
+
+      assert log =~ raised_error_message
     end
   end
 end

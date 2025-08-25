@@ -142,6 +142,14 @@ defmodule Mix.Tasks.Gettext.Translate do
     |> Enum.map(fn ref -> String.split(ref, ".") |> List.first() end)
   end
 
+  # Extract interpolated terms from the text
+  # These follow %{this} format
+  defp interpolated_terms(text) do
+    ~r/%{\w+}/
+    |> Regex.scan(text)
+    |> Enum.flat_map(& &1)
+  end
+
   # Use the Libretranslate service to translate a piece of text for a given locale.
   defp libretranslate_text(text, locale) do
     @url
@@ -184,7 +192,7 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Translation can mean matching a custom terminology or translating via Libretranslate.
   defp translate_text(text, locale) do
-    case match_custom_terms(text, locale) do
+    case match_custom_terms(text, locale) ++ interpolated_terms(text) do
       [] ->
         libretranslate_text(text, locale)
 

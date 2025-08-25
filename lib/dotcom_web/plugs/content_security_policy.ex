@@ -23,7 +23,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         www.googletagmanager.com
       ],
     default_src: ~w['self'],
-    font_src: ~w['self'],
+    font_src: ~w['self' cdn.mbta.com],
     frame_src: ~w[
         'self'
         *.arcgis.com
@@ -59,6 +59,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         'unsafe-eval'
         *.arcgis.com
         *.tableau.com
+        cdn.mbta.com
         connect.facebook.net
         data.mbta.com
         edge.fullstory.com
@@ -73,6 +74,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
     style_src: ~w[
         'self'
         'unsafe-inline'
+        cdn.mbta.com
         www.gstatic.com
       ],
     worker_src: ~w[blob: ;]

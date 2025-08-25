@@ -1,4 +1,3 @@
-version: "3"
 services:
     nginx:
         image: nginx:stable-alpine3.17-slim
@@ -38,7 +37,7 @@ services:
             - PORT=4002
             - REDIS_HOST=10.0.0.11
             - REDIS_PORT=6379
-            - SNAME=dotcom1
+            - NAME=dotcom@10.0.0.2
             - WEBPACK_PORT=8092
         expose:
             - 4002
@@ -49,7 +48,7 @@ services:
             test: curl --fail http://localhost:4002/_health || exit 1
             interval: 10s
             retries: 5
-            start_period: 180s
+            start_period: 45s
             timeout: 10s
         volumes:
             - ../:/app
@@ -75,7 +74,7 @@ services:
             - PORT=4003
             - REDIS_HOST=10.0.0.11
             - REDIS_PORT=6379
-            - SNAME=dotcom2
+            - NAME=dotcom@10.0.0.3
             - WEBPACK_PORT=8093
         expose:
             - 4003
@@ -86,7 +85,7 @@ services:
             test: curl --fail http://localhost:4003/_health || exit 1
             interval: 10s
             retries: 5
-            start_period: 15s
+            start_period: 45s
             timeout: 10s
         volumes:
             - ../:/app
@@ -96,6 +95,32 @@ services:
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.3
+    libretranslate:
+        image: libretranslate/libretranslate
+        environment:
+            - LOAD_ONLY="en,es"
+        ports:
+            - 9999:5000
+        healthcheck:
+            test: curl --fail http://localhost:5000/languages || exit 1
+            interval: 10s
+            retries: 5
+            start_period: 15s
+            timeout: 10s
+        networks:
+            dotcom_network:
+                ipv4_address: 10.0.0.4
+    livebook:
+        image: ghcr.io/livebook-dev/livebook:nightly
+        environment:
+            - LIVEBOOK_DEFAULT_RUNTIME=attached:dotcom@10.0.0.2:foobarbaz
+            - LIVEBOOK_PASSWORD=foobarbazfoobarbaz
+        ports:
+            - 8080:8080
+            - 8081:8081
+        networks:
+            dotcom_network:
+                ipv4_address: 10.0.0.5
     monitor:
         build:
             context: ../
@@ -109,7 +134,7 @@ services:
         command: node /home/runner/integration/monitor/all-health-checks.js
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.4
+                ipv4_address: 10.0.0.6
     redis-cluster-init:
         image: redis:7.2.4
         command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes

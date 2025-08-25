@@ -45,14 +45,24 @@ defmodule CMS.Api do
 
   defp handle_response({:error, reason}), do: {:error, reason}
 
-  defp client(headers \\ []) do
+  def client(headers \\ []) do
     config = Application.get_env(:dotcom, :cms_api)
 
-    @req.new(
-      base_url: config[:base_url],
-      headers: config[:headers] ++ headers,
-      finch: Dotcom.Finch
-    )
+    case config[:connect_options] do
+      nil ->
+        @req.new(
+          base_url: config[:base_url],
+          headers: config[:headers] ++ headers,
+          finch: Dotcom.Finch
+        )
+
+      connect_options ->
+        @req.new(
+          base_url: config[:base_url],
+          headers: config[:headers] ++ headers,
+          connect_options: connect_options
+        )
+    end
   end
 
   # Drupal's Redirect module forces all location header values to be

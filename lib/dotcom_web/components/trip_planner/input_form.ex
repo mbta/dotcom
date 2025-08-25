@@ -38,7 +38,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         <.location_search_box
           name="trip-planner-input-form--from"
           field={f[:from]}
-          placeholder="Enter an origin location"
+          placeholder={~t"Enter an origin location"}
         />
         <div class="-mb-[20px] md:-mt-md md:mb-0 self-end md:self-auto">
           <div class="hidden md:block md:py-sm md:mb-[10px]">
@@ -50,21 +50,21 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             phx-click="swap_direction"
             class="px-xs bg-transparent fill-brand-primary disabled:fill-gray-light hover:fill-black"
           >
-            <span class="sr-only">Swap origin and destination locations</span>
-            <.icon class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
+            <span class="sr-only">{~t(Swap origin and destination locations)}</span>
+            <.icon aria-hidden="true" class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
           </button>
         </div>
         <.location_search_box
           name="trip-planner-input-form--to"
           field={f[:to]}
-          placeholder="Enter a destination location"
+          placeholder={~t"Enter a destination location"}
         />
         <fieldset class="mb-sm">
-          <legend class="text-charcoal-40 m-0 py-sm">When</legend>
+          <legend class="text-charcoal-40 m-0 py-sm">{~t(When)}</legend>
           <.input_group
             form={f}
             field={:datetime_type}
-            options={[{"Now", "now"}, {"Leave at", "leave_at"}, {"Arrive by", "arrive_by"}]}
+            options={[{~t"Now", "now"}, {~t"Leave at", "leave_at"}, {~t"Arrive by", "arrive_by"}]}
             type="radio-button"
             class="w-full mb-xs"
           />
@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
         </fieldset>
         <div class="col-start-3">
           <fieldset class="mb-sm">
-            <legend class="text-charcoal-40 m-0 py-sm">Modes</legend>
+            <legend class="text-charcoal-40 m-0 py-sm">{~t(Modes)}</legend>
             <.accordion variant="multiselect">
               <:heading>
                 {Modes.selected_modes(input_value(f, :modes))}
@@ -107,8 +107,8 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             </.error_container>
           </fieldset>
           <div class="inline-flex items-center gap-sm mb-sm">
-            <.input type="checkbox" field={f[:wheelchair]} label="Prefer accessible routes" />
-            <.icon type="icon-svg" name="icon-accessible-small" class="h-5 w-5" />
+            <.input type="checkbox" field={f[:wheelchair]} label={~t"Prefer accessible routes"} />
+            <.icon type="icon-svg" aria-hidden="true" name="icon-accessible-small" class="h-5 w-5" />
           </div>
         </div>
       </.form>
@@ -124,19 +124,27 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   attr :placeholder, :string,
     doc: "Placeholder text for empty search box",
-    default: "Enter a location"
+    default: ~t"Enter a location"
 
   def location_search_box(assigns) do
+    field_label =
+      case assigns.field.field do
+        :from -> ~t"From"
+        :to -> ~t"To"
+        other -> Phoenix.Naming.humanize(other)
+      end
+
     assigns =
       assigns
       |> assign(%{
         has_error?: used_input?(assigns.field) && length(assigns.field.errors) > 0,
-        location_keys: InputForm.Location.fields()
+        location_keys: InputForm.Location.fields(),
+        field_label: field_label
       })
 
     ~H"""
     <fieldset class={"mb-sm -mt-md #{if(@has_error?, do: "text-danger")}"} id={"#{@name}-wrapper"}>
-      <legend class="text-charcoal-40 m-0 py-sm">{Phoenix.Naming.humanize(@field.field)}</legend>
+      <legend class="text-charcoal-40 m-0 py-sm">{@field_label}</legend>
       <.algolia_autocomplete config_type="trip-planner" placeholder={@placeholder} id={@name}>
         <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
           <input

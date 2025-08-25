@@ -162,27 +162,6 @@ defmodule Util do
   end
 
   @doc """
-
-  Provides a user-friendly display of time based on the "kitchen"
-  format, but with am/pm instead of AM/PM.
-
-  ## Examples
-      iex> Util.kitchen_downcase_time(~T[08:30:00])
-      "8:30am"
-
-      iex> Util.kitchen_downcase_time(~T[20:30:00])
-      "8:30pm"
-
-      # Works for DateTime and NaiveDateTime inputs as well
-      iex> Util.kitchen_downcase_time(~N[2018-01-17T20:30:00])
-      "8:30pm"
-  """
-  @spec kitchen_downcase_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
-  def kitchen_downcase_time(time) do
-    time |> Timex.format!("{kitchen}") |> String.downcase()
-  end
-
-  @doc """
   A very concise representation of time, with period (AM/PM).
 
   ## Examples
@@ -210,30 +189,6 @@ defmodule Util do
 
   def narrow_time(time) do
     Timex.format!(time, "{h12}:{m} {AM}")
-  end
-
-  @doc """
-
-  Formats a number of minutes as a string. If the number of minutes is
-  greater than 60, then split it out into hours and minutes
-
-  ## Examples
-      iex> Util.format_minutes_duration(59)
-      "59 min"
-
-      iex> Util.format_minutes_duration(60)
-      "1 hr"
-
-      iex> Util.format_minutes_duration(61)
-      "1 hr 1 min"
-  """
-  @spec format_minutes_duration(integer) :: String.t()
-  def format_minutes_duration(duration) do
-    case {div(duration, 60), rem(duration, 60)} do
-      {0 = _hours, minutes} -> "#{minutes} min"
-      {hours, 0 = _minutes} -> "#{hours} hr"
-      {hours, minutes} -> "#{hours} hr #{minutes} min"
-    end
   end
 
   @doc """

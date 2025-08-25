@@ -6,6 +6,9 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
   use DotcomWeb, :component
 
+  import DotcomWeb.Components.TripPlanner.Helpers,
+    only: [formatted_time: 1, group_alternatives_text: 1, tag_name: 1]
+
   import DotcomWeb.Components.TripPlanner.{ItineraryDetail, ItinerarySummary}
   import DotcomWeb.Router.Helpers, only: [alert_path: 3]
 
@@ -34,7 +37,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         <button type="button" phx-click="reset_itinerary_group" class="btn-link">
           <span class="flex flex-row items-center">
             <.icon class="fill-brand-primary h-4 mr-2" name="chevron-left" />
-            <span class="font-medium">View All Options</span>
+            <span class="font-medium">{~t(View All Options)}</span>
           </span>
         </button>
       </div>
@@ -56,7 +59,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_panel(%{results: %{loading?: true}} = assigns) do
     ~H"""
     <div class="flex justify-center mt-4">
-      <.spinner aria_label="Waiting for results" />
+      <.spinner aria_label={~t"Waiting for results"} />
     </div>
     """
   end
@@ -112,7 +115,9 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
     ~H"""
     <%= if @unavailable_count > 0 do %>
-      <.group_header text={"#{@unavailable_count} Unavailable #{Inflex.inflect("Route", @unavailable_count)}"} />
+      <.group_header text={
+        ~t(1 Unavailable Route | %{count} Unavailable Routes | #{@unavailable_count})p
+      } />
       <.itinerary_groups
         indexed_groups={@unavailable_groups}
         class="mb-md"
@@ -121,11 +126,15 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       />
     <% end %>
     <%= if @accessible_count > 0 do %>
-      <.group_header text={"#{@accessible_count} Accessible #{Inflex.inflect("Route", @accessible_count)}"} />
+      <.group_header text={
+        ~t(1 Accessible Route | %{count} Accessible Routes | #{@accessible_count})p
+      } />
       <.itinerary_groups indexed_groups={@accessible_groups} show_accessible />
     <% end %>
     <%= if @inaccessible_count > 0 do %>
-      <.group_header text={"#{@inaccessible_count} Inaccessible #{Inflex.inflect("Route", @inaccessible_count)}"} />
+      <.group_header text={
+        ~t(1 Inaccessible Route | %{count} Inaccessible Routes | #{@inaccessible_count})p
+      } />
       <.itinerary_groups indexed_groups={@inaccessible_groups} show_accessible />
     <% end %>
     """
@@ -145,7 +154,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       itinerary: itinerary,
       itinerary_selection: assigns.results.itinerary_selection,
       show_accessible?: assigns.accessible_grouping?,
-      time_label: if(itinerary_group.time_key == :end, do: "Arrive by", else: "Depart at")
+      time_label: if(itinerary_group.time_key == :end, do: ~t"Arrive by", else: ~t"Depart at")
     }
 
     ~H"""
@@ -165,7 +174,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
             phx-value-index={index}
             data-test={"itinerary_detail:#{index}"}
           >
-            {Util.kitchen_downcase_time(time)}
+            {formatted_time(time)}
           </.button>
         </div>
       </div>
@@ -221,11 +230,11 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest p-[0.75rem] w-full text-sm">
           <.icon name="triangle-exclamation" class="h-[1.125rem] w-[1.125rem]" />
           <span class="font-bold font-heading text-sm text-black">
-            Temporarily Unavailable
+            {~t(Temporarily Unavailable)}
           </span>
           <span class="grow text-right">
             <span class="btn-link font-semibold underline hover:text-brand-primary-darker">
-              View Alerts
+              {~t(View Alerts)}
             </span>
           </span>
         </div>
@@ -240,7 +249,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         href={@feedback_url}
         class="flex items-center justify-center gap-xs text-sm p-[0.75rem] font-medium"
       >
-        Is this helpful? Send us feedback
+        {~t(Is this helpful? Send us feedback)}
         <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3" />
       </.promo_banner>
     </div>
@@ -259,7 +268,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         :if={@group.tag}
         class="whitespace-nowrap leading-none font-bold font-heading text-sm uppercase bg-brand-primary-darkest text-white px-3 py-2 mb-3 -ml-3 -mt-3 rounded-br-lg w-min"
       >
-        {Phoenix.Naming.humanize(@group.tag)}
+        {tag_name(@group.tag)}
       </div>
       <.itinerary_summary
         summarized_legs={@group.summary}
@@ -275,7 +284,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           phx-click="select_itinerary_group"
           phx-value-index={@index}
         >
-          Details
+          {~t(Details)}
         </button>
       </div>
     </div>
@@ -287,7 +296,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
 
     summarized_group = %{
       accessible?: Itinerary.accessible?(itinerary),
-      alternatives_text: ItineraryGroup.alternatives_text(group),
+      alternatives_text: group_alternatives_text(group),
       available?: group.available?,
       tag: itinerary[:tag],
       representative_itinerary: itinerary,

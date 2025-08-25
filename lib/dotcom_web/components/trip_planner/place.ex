@@ -5,6 +5,8 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
 
   use DotcomWeb, :component
 
+  import DotcomWeb.Components.TripPlanner.Helpers, only: [formatted_time: 1]
+
   attr :accessible, :boolean, default: false
   attr :name, :string, required: true
   attr :time, :any, required: true
@@ -31,7 +33,9 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
         </strong>
       </.wrap_with_url>
 
-      <time class="ml-auto text-right text-sm text-nowrap">{Util.kitchen_downcase_time(@time)}</time>
+      <time class="ml-auto text-right text-sm text-nowrap">
+        {formatted_time(@time)}
+      </time>
     </div>
     """
   end

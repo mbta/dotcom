@@ -4,13 +4,13 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
   Includes a summary of the walk (time and distance) and a list of steps.
   """
 
-  use Phoenix.Component
+  use DotcomWeb, :component
 
-  import Dotcom.TripPlan.Helpers
+  import DotcomWeb.Components.TripPlanner.Helpers, only: [walk_summary: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import MbtaMetro.Components.List, only: [list: 1]
 
-  alias OpenTripPlannerClient.Schema.{Leg, Step}
+  alias OpenTripPlannerClient.Schema.Leg
 
   @doc """
   Renders a walking leg.
@@ -19,15 +19,6 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
   attr :leg, Leg, required: true
 
   def walking_leg(assigns) do
-    assigns =
-      assign(assigns, %{
-        formatted_duration:
-          assigns.leg
-          |> leg_duration_minutes()
-          |> Util.format_minutes_duration(),
-        miles: assigns.leg |> leg_distance_miles()
-      })
-
     ~H"""
     <div class="px-3">
       <div class="flex items-stretch gap-x-2">
@@ -38,14 +29,13 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
 
         <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
           <summary class="flex w-full gap-x-3.5 py-3 cursor-pointer">
-            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" />
+            <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" aria-hidden="true" />
             <div class="flex flex-col text-sm">
-              <div class="font-medium">Walk</div>
-              <div>
-                {@formatted_duration}, {@miles} mi
-              </div>
+              <div class="font-medium">{~t(Walk)}</div>
+              <div>{walk_summary(@leg)}</div>
             </div>
             <.icon
+              aria-hidden="true"
               name="chevron-down"
               class="ml-auto shrink-0 w-4 h-4 fill-brand-primary group-open:rotate-180"
             />
@@ -53,7 +43,7 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
           <.list class="m-0">
             <:item :for={step <- @leg.steps}>
               <span class="text-sm">
-                {Step.walk_summary(step)}
+                {walk_summary(step)}
               </span>
             </:item>
           </.list>
