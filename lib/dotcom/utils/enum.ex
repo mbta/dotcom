@@ -4,8 +4,13 @@ defmodule Dotcom.Utils.Enum do
   """
 
   @doc """
-  Takes a list of lists like `[["foo", "bar", "baz"]]` and converts it to a grouped map like:
-  `%{"foo" => "bar" => ["baz]}`. The final value in the grouping is always a list.
+  Takes a list of lists and converts it to a grouped map.
+  The final value in the grouping is always a list.
+
+  ## Examples
+
+    iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"], ["foo", "bar", "bop"]])
+    %{"foo" => %{"bar" => ["baz", "bop"]}}
   """
   def group_list(list) do
     list
@@ -14,9 +19,18 @@ defmodule Dotcom.Utils.Enum do
   end
 
   @doc """
-  Converts a list `["foo", "bar", "baz"]` into a list of lists: `["foo", ["bar", ["baz"]]]`.
+  Converts a list into a list of lists.
   This is helpful for converting things like split paths into a hierarchy for grouping.
+
+  ## Examples
+
+    iex> Dotcom.Utils.Enum.list_to_list_of_lists(["foo", "bar", "baz"])
+    ["foo", ["bar", "baz"]]
   """
+  def list_to_list_of_lists(last) when not is_list(last) do
+    last
+  end
+
   def list_to_list_of_lists([last | []]) do
     last
   end
