@@ -107,13 +107,11 @@ const DailyScheduleSubway = ({
   const isTodaySpecialService = todaysSpecialService !== undefined;
   // We only want the regular schedule days if it is a typical service day
   const isTodayFriday = isFriday(todayDate) && !isTodaySpecialService;
-  const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
   const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
+  const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   const hideScheduleFrequency = route.id === "Orange";
-
-console.log(selectedSchedule);
 
   useEffect(() => {
     if (isTodayAWeekday) {
@@ -165,8 +163,6 @@ console.log(selectedSchedule);
         );
       }
     }
-
-    console.log(hours);
 
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);

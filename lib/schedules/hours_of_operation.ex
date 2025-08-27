@@ -78,12 +78,12 @@ defmodule Schedules.HoursOfOperation do
     params = api_params(route_id_list, date, special_service_dates, description)
 
     params
-    |> Task.async_stream(&MBTA.Api.Schedules.all/1, on_timeout: :kill_task)
-    # 3 dates * 2 directions == 6 responses per route
+    |> Task.async_stream(&MBTA.Api.Schedules.all/1, on_timeout: :kill_task, timeout: 60_000)
+    # 4 dates * 2 directions == 8 responses per route
     # 2 directions for each special service day = 2 * n
-    # Every 6 + (2 * n) responses is a single route
+    # Every 8 + (2 * n) responses is a single route
     # Calling Enum here makes the code wait for a response, as it is not an async function.
-    |> Enum.chunk_every(6 + 2 * Kernel.length(special_service_dates))
+    |> Enum.chunk_every(4 + 2 * Kernel.length(special_service_dates), 1, :discard)
     |> Enum.map(&parse_responses(&1, description, params, departure_fn))
     |> join_hours(description)
   end
@@ -91,7 +91,7 @@ defmodule Schedules.HoursOfOperation do
   @doc """
   For a list of route IDs and a date, returns the API queries we'll need to run.
 
-  For a given route, there are 6 + (2 * n) possible queries (n being the number of special service days):
+  For a given route, there are 8 + (2 * n) possible queries (n being the number of special service days):
 
   * weekday, direction 0
   * weekday, direction 1
@@ -253,8 +253,8 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
-  def parse_responses(errors, _, _, _) when is_list(errors) do
-    {:error, :timeout}
+  def parse_responses(extra, _, _, _) when is_list(extra) do
+    %{}
   end
 
   defp special_service_departures({:error, _} = error, _, _, _, _) do
@@ -326,14 +326,13 @@ defmodule Schedules.HoursOfOperation do
 
   Used to combine %HoursOfOperation structs for different routes into a
   single struct representing all the routes together.
+
+  Rapid transit hours don't need to be merged (at least yet)
   """
   @spec join_hours([t], atom()) :: t
-  def join_hours([single], _) do
-    single
-  end
+  def join_hours([single]), do: single
 
-  # Repid transit hours don't need to be merged (at least yet)
-  def join_hours(multiple, :rapid_transit) do
+  def join_hours(multiple, :rapid_transit) when is_list(multiple) do
     multiple
   end
 
@@ -353,6 +352,7 @@ defmodule Schedules.HoursOfOperation do
     def reduce(hours, acc, fun) do
       [
         week: hours.week,
+        friday: hours.friday,
         saturday: hours.saturday,
         sunday: hours.sunday
       ]
@@ -368,6 +368,7 @@ defmodule Schedules.HoursOfOperation do
   defp merge(%__MODULE__{} = first, %__MODULE__{} = second) do
     %__MODULE__{
       week: merge_directions(first.week, second.week),
+      friday: merge_directions(first.friday, second.friday),
       saturday: merge_directions(first.saturday, second.saturday),
       sunday: merge_directions(first.sunday, second.sunday)
     }
