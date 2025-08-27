@@ -1,4 +1,4 @@
-import { isDate, isSaturday, isSunday, parseISO } from "date-fns";
+import { isDate, isFriday, isSaturday, isSunday, parseISO } from "date-fns";
 import { min } from "lodash";
 import React, { ReactElement } from "react";
 import { useDispatch } from "react-redux";
@@ -56,6 +56,9 @@ const getHoursForDate = (
     return [];
   }
 
+  if (isFriday(date)) {
+    return hours.friday;
+  }
   if (isSaturday(date)) {
     return hours.saturday;
   }
