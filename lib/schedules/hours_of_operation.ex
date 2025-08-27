@@ -16,12 +16,14 @@ defmodule Schedules.HoursOfOperation do
   @type departure :: Departures.t() | :no_service
   @type t :: %__MODULE__{
           week: {departure, departure},
+          friday: {departure, departure},
           saturday: {departure, departure},
           sunday: {departure, departure},
           special_service: %{String.t() => {departure, departure}}
         }
   @derive [Poison.Encoder]
   defstruct week: {:no_service, :no_service},
+            friday: {:no_service, :no_service},
             saturday: {:no_service, :no_service},
             sunday: {:no_service, :no_service},
             special_service: %{}
@@ -29,9 +31,10 @@ defmodule Schedules.HoursOfOperation do
   @doc """
   Fetches the hours of operation for a given route.
 
-  The hours of operation are broken into four date ranges:
+  The hours of operation are broken into five date ranges:
 
   * week
+  * friday
   * saturday
   * sunday
   * special service
@@ -92,6 +95,8 @@ defmodule Schedules.HoursOfOperation do
 
   * weekday, direction 0
   * weekday, direction 1
+  * friday, direction 0
+  * friday, direction 1
   * saturday, direction 0,
   * saturday, direction 1,
   * sunday, direction 0,
@@ -135,23 +140,28 @@ defmodule Schedules.HoursOfOperation do
     dow = Date.day_of_week(today)
 
     weekday =
-      if dow in 1..5 do
+      if dow in 1..4 do
         today
       else
         # Monday
         Date.add(today, 8 - dow)
       end
 
+    # Friday
+    friday = Date.add(today, Integer.mod(5 - dow, 7))
+
     # Saturday, not going back in time
     saturday = Date.add(today, Integer.mod(6 - dow, 7))
     sunday = Date.add(today, 7 - dow)
 
     valid_weekday = get_valid_day(weekday, days_to_avoid)
+    valid_friday = get_valid_day(friday, days_to_avoid)
     valid_saturday = get_valid_day(saturday, days_to_avoid)
     valid_sunday = get_valid_day(sunday, days_to_avoid)
 
     [
       valid_weekday,
+      valid_friday,
       valid_saturday,
       valid_sunday
     ]
@@ -188,6 +198,8 @@ defmodule Schedules.HoursOfOperation do
         [
           {:ok, week_response_0},
           {:ok, week_response_1},
+          {:ok, friday_response_0},
+          {:ok, friday_response_1},
           {:ok, saturday_response_0},
           {:ok, saturday_response_1},
           {:ok, sunday_response_0},
@@ -198,12 +210,23 @@ defmodule Schedules.HoursOfOperation do
         params,
         departure_fn
       ) do
-    [_week_0, _week_1, _saturday_0, _saturday_1, _sunday_0, _sunday_1 | special_service_params] =
+    [
+      _week_0,
+      _week_1,
+      _friday_0,
+      _friday_1,
+      _saturday_0,
+      _saturday_1,
+      _sunday_0,
+      _sunday_1 | special_service_params
+    ] =
       params
 
     with {:ok, headsigns} <- get_headsigns(week_response_0, week_response_1, description),
          {:ok, week_0} <- departure(week_response_0, headsigns, description, departure_fn),
          {:ok, week_1} <- departure(week_response_1, headsigns, description, departure_fn),
+         {:ok, friday_0} <- departure(friday_response_0, headsigns, description, departure_fn),
+         {:ok, friday_1} <- departure(friday_response_1, headsigns, description, departure_fn),
          {:ok, saturday_0} <-
            departure(saturday_response_0, headsigns, description, departure_fn),
          {:ok, saturday_1} <-
@@ -220,6 +243,7 @@ defmodule Schedules.HoursOfOperation do
            ) do
       %__MODULE__{
         week: {week_0, week_1},
+        friday: {friday_0, friday_1},
         saturday: {saturday_0, saturday_1},
         sunday: {sunday_0, sunday_1},
         special_service: special_service

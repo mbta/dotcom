@@ -1,6 +1,7 @@
 import {
   compareAsc,
   format,
+  isFriday,
   isSameDay,
   isSaturday,
   isSunday,
@@ -105,15 +106,20 @@ const DailyScheduleSubway = ({
   );
   const isTodaySpecialService = todaysSpecialService !== undefined;
   // We only want the regular schedule days if it is a typical service day
+  const isTodayFriday = isFriday(todayDate) && !isTodaySpecialService;
   const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
   const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   const hideScheduleFrequency = route.id === "Orange";
 
+console.log(selectedSchedule);
+
   useEffect(() => {
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
+    } else if (isTodayFriday) {
+      setSelectedSchedule("friday"); 
     } else if (isTodaySaturday) {
       setSelectedSchedule("saturday");
     } else if (isTodaySunday) {
@@ -126,6 +132,8 @@ const DailyScheduleSubway = ({
   useEffect(() => {
     if (selectedSchedule === "weekday") {
       setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
+    } else if (selectedSchedule === "friday") {
+      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
     } else if (selectedSchedule === "saturday") {
       setScheduleNoteText(scheduleNote ? scheduleNote.saturday_service : "");
     } else if (selectedSchedule === "sunday") {
@@ -137,6 +145,8 @@ const DailyScheduleSubway = ({
     let hours;
     if (selectedSchedule === "weekday") {
       hours = getHoursByStop(stopId, directionId, hoursOfOperation?.week);
+    } else if (selectedSchedule === "friday") {
+      hours = getHoursByStop(stopId, directionId, hoursOfOperation?.friday);
     } else if (selectedSchedule === "saturday") {
       hours = getHoursByStop(stopId, directionId, hoursOfOperation?.saturday);
     } else if (selectedSchedule === "sunday") {
@@ -156,6 +166,8 @@ const DailyScheduleSubway = ({
       }
     }
 
+    console.log(hours);
+
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
   }, [selectedSchedule, hoursOfOperation, stopId, directionId]);
@@ -173,6 +185,9 @@ const DailyScheduleSubway = ({
         >
           <option value="weekday" key="weekday">
             Weekday {isTodayAWeekday ? "(Today)" : ""}
+          </option>
+          <option value="friday" key="friday">
+            Friday {isTodayFriday ? "(Today)" : ""}
           </option>
           <option value="saturday" key="saturday">
             Saturday {isTodaySaturday ? "(Today)" : ""}
