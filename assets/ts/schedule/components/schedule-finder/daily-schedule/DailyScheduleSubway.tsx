@@ -117,7 +117,7 @@ const DailyScheduleSubway = ({
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
     } else if (isTodayFriday) {
-      setSelectedSchedule("friday"); 
+      setSelectedSchedule("friday");
     } else if (isTodaySaturday) {
       setSelectedSchedule("saturday");
     } else if (isTodaySunday) {
@@ -125,7 +125,13 @@ const DailyScheduleSubway = ({
     } else if (todaysSpecialService) {
       setSelectedSchedule(todaysSpecialService.dateString);
     }
-  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday, todaysSpecialService]);
+  }, [
+    isTodayAWeekday,
+    isTodayFriday,
+    isTodaySaturday,
+    isTodaySunday,
+    todaysSpecialService
+  ]);
 
   useEffect(() => {
     if (selectedSchedule === "weekday") {
