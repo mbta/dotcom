@@ -499,7 +499,7 @@ defmodule Schedules.HoursOfOperationTest do
   end
 
   describe "week_dates/2" do
-    test "for a given date, returns the next monday, saturday, and sunday" do
+    test "for a given date, returns the next monday, friday, saturday, and sunday" do
       # Thursday
       date = ~D[2017-10-26]
 
