@@ -146,7 +146,7 @@ defmodule DotcomWeb.CacheController do
       ~H"""
       <div style="width: 100%; max-width: 100%;">
         <div style="padding: 10px 10px 15px 10px; background: mediumpurple;">
-          <span :for={{k, v} <- @keys}>
+          <span :for={{k, _} <- @keys}>
             <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
           </span>
         </div>
