@@ -159,6 +159,7 @@ describe("DailyScheduleSubway", () => {
           ],
           []
         ],
+        friday: [[], []],
         saturday: [[], []],
         sunday: [[], []],
         special_service: {}
@@ -209,6 +210,7 @@ describe("DailyScheduleSubway", () => {
           ],
           []
         ],
+        friday: [[], []],
         sunday: [[], []],
         special_service: {}
       };
@@ -391,6 +393,7 @@ describe("DailyScheduleSubway", () => {
             }
           ]
         ],
+        friday: [[], []],
         saturday: [[], []],
         sunday: [[], []],
         special_service: {}

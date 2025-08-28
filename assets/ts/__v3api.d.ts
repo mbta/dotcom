@@ -371,6 +371,7 @@ export interface SpecialServiceHours {
 
 export interface TransitHoursByStop {
   week: [StopHoursByStop[], StopHoursByStop[]] | [];
+  friday: [StopHoursByStop[], StopHoursByStop[]] | [];
   saturday: [StopHoursByStop[], StopHoursByStop[]] | [];
   sunday: [StopHoursByStop[], StopHoursByStop[]] | [];
   special_service: SpecialServiceHours;
@@ -378,6 +379,7 @@ export interface TransitHoursByStop {
 
 export interface TransitHours {
   week: [StopHours, StopHours] | [];
+  friday: [StopHours, StopHours] | [];
   saturday: [StopHours, StopHours] | [];
   sunday: [StopHours, StopHours] | [];
   special_service: {};
