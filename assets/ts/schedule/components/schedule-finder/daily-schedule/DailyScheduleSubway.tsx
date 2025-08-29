@@ -5,7 +5,6 @@ import {
   isSameDay,
   isSaturday,
   isSunday,
-  isWeekend,
   parse
 } from "date-fns";
 import { find } from "lodash";
@@ -109,7 +108,11 @@ const DailyScheduleSubway = ({
   const isTodayFriday = isFriday(todayDate) && !isTodaySpecialService;
   const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
   const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
-  const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
+  const isTodayAWeekday =
+    !isTodaySpecialService &&
+    !isTodayFriday &&
+    !isTodaySaturday &&
+    !isTodaySunday;
 
   const hideScheduleFrequency = route.id === "Orange";
 
