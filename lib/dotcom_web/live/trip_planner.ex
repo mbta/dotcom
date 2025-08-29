@@ -434,7 +434,6 @@ defmodule DotcomWeb.Live.TripPlanner do
 
   defp join_itinerary_groups_loops(itinerary_groups) do
     itinerary_groups
-    |> Enum.slice(0, 1)
     |> Enum.map(&join_itinerary_group_loops/1)
   end
 
