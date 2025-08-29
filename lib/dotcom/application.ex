@@ -64,9 +64,9 @@ defmodule Dotcom.Application do
           Routes.Supervisor,
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
+          {Dotcom.SystemStatus.SubwayCache, []},
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
-          Dotcom.SystemStatus.SubwayCache,
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 
