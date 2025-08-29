@@ -24,8 +24,6 @@ defmodule LocationService.Address do
             municipality: nil,
             state: nil
 
-  @spec new(map()) :: %__MODULE__{}
-  @spec new(map(), String.t()) :: %__MODULE__{}
   def new(
         %{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}},
         queried_text \\ nil
@@ -43,7 +41,7 @@ defmodule LocationService.Address do
 
   # Because of a [known bug]
   # (https://smashedtoatoms.github.io/address_us/AddressUS.Parser.html#parse_address/1)
-  # in address parsing, try multiple times to parse it... 
+  # in address parsing, try multiple times to parse it...
   # and accept that it might just not work
   @spec parse_label(String.t(), %__MODULE__{}) :: %__MODULE__{}
   defp parse_label("", address), do: address

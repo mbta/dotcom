@@ -2,7 +2,7 @@
 defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase, async: true
 
-  use Phoenix.Controller
+  use Phoenix.Controller, formats: [html: "View"]
 
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
   import Mox

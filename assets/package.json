@@ -32,7 +32,7 @@
     "mobile-detect": "^1.4.5",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "phoenix_live_view": "^1.0.17",
+    "phoenix_live_view": "^1.1.8",
     "places.js": "^1.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
