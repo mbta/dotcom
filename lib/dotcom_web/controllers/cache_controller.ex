@@ -7,10 +7,30 @@ defmodule DotcomWeb.CacheController do
 
   require Logger
 
+  import Dotcom.Cache.Multilevel, only: [get_all_keys: 0]
+
   plug :accepts, ~w(html)
   plug :put_view, __MODULE__.View
 
   @cache Application.compile_env!(:dotcom, :cache)
+
+  @doc """
+  Lists all of the cache keys grouped by key component.
+  Each key is a link to the get_cache_values page for that key.
+  """
+  def get_cache_keys(conn, _) do
+    case get_all_keys() do
+      {:ok, keys} ->
+        conn
+        |> put_status(:ok)
+        |> render(:index, %{keys: keys})
+
+      _ ->
+        Logger.warning("dotcom_web.cache_controller.error")
+
+        send_resp(conn, 500, "") |> halt()
+    end
+  end
 
   @doc """
   Gets all of the values in every node for the given key.
@@ -36,7 +56,7 @@ defmodule DotcomWeb.CacheController do
       {:ok, _} ->
         GenServer.cast(uuid, {:load, key})
 
-        :timer.sleep(1000)
+        :timer.sleep(1_000)
 
         {status, values} = GenServer.call(uuid, :get)
 
@@ -94,6 +114,9 @@ defmodule DotcomWeb.CacheController do
 
     use Phoenix.Component
 
+    @doc """
+    View a diff of cache values.
+    """
     def diff(assigns) do
       ~H"""
       <link
@@ -113,6 +136,58 @@ defmodule DotcomWeb.CacheController do
       <script>
         hljs.highlightAll();
       </script>
+      """
+    end
+
+    @doc """
+    All cache keys grouped by key components and ending in links to individual cache values.
+    """
+    def index(assigns) do
+      ~H"""
+      <div style="width: 100%; max-width: 100%;">
+        <div style="padding: 10px 10px 15px 10px; background: mediumpurple;">
+          <span :for={{k, _} <- @keys}>
+            <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
+          </span>
+        </div>
+        <div :for={{k, v} <- @keys}>
+          <h1 style="padding: 10px; color: white; background: indianred;" id={k}>{k}</h1>
+          <.heading :if={is_map(v)} key={[k]} keys={v} />
+          <.links :if={is_list(v)} key={[k]} keys={v} />
+        </div>
+      </div>
+      """
+    end
+
+    # If the value is a map, we want to render the heading and continue on until we find links.
+    defp heading(assigns) do
+      ~H"""
+      <div :for={{k, v} <- @keys} style={"margin-left: #{length(@key) * 5}px"}>
+        <h2>{k}</h2>
+        <.heading :if={is_map(v)} key={@key ++ [k]} keys={v} />
+        <.links :if={is_list(v)} key={@key ++ [k]} keys={v} />
+      </div>
+      """
+    end
+
+    # If the value is a list, we now render links.
+    defp links(assigns) do
+      links =
+        Enum.map(assigns.keys, fn key ->
+          {
+            Path.join(assigns.key ++ [key]),
+            Path.join(["cache"] ++ assigns.key ++ [key])
+          }
+        end)
+
+      assigns = assign(assigns, links: links)
+
+      ~H"""
+      <ul>
+        <li :for={{k, v} <- @links}>
+          <a href={v} style="color: black;">{k}</a>
+        </li>
+      </ul>
       """
     end
 
