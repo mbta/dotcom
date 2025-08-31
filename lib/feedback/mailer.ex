@@ -14,7 +14,7 @@ defmodule Feedback.Mailer do
     ada_complaint = if message.ada_complaint, do: "Yes", else: "No"
 
     _ =
-      unless message.no_request_response do
+      if !message.no_request_response do
         Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
       end
 

@@ -8,7 +8,7 @@
     <div class="c-alert-item__top-text-container">
       <div class="c-alert-item__effect">
         {"#{BannerAlert.human_effect(@alert)} "}
-        {unless label == "" do
+        {if label != "" do
           content_tag(:span, [label], class: BannerAlert.label_class(@alert))
         end}
       </div>
