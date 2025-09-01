@@ -27,7 +27,7 @@ jobs:
           elixir-version: 1.18.3
       - run: mix deps.get
       - run: mix docs --formatter html
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: ./doc
       - uses: actions/deploy-pages@v4
