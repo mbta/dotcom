@@ -4,7 +4,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
   import Dotcom.TripPlan.Loops
   import OpenTripPlannerClient.Test.Support.Factory
 
-  describe "merge_loop_legs/1" do
+  describe "merge_itinerary_groups_loop_legs/1" do
     test "merges two legs into one" do
       # SETUP
       a = build(:transit_leg)
@@ -13,7 +13,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
       itinerary_groups = build_itinerary_groups(a, b)
 
       # EXERCISE
-      merged_itinerary_groups = merge_loop_legs(itinerary_groups)
+      merged_itinerary_groups = merge_itinerary_groups_loop_legs(itinerary_groups)
 
       # VERIFY
       legs = get_legs(merged_itinerary_groups)
@@ -29,7 +29,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
       itinerary_groups = build_itinerary_groups(a, b)
 
       # EXERCISE
-      merged_itinerary_groups = merge_loop_legs(itinerary_groups)
+      merged_itinerary_groups = merge_itinerary_groups_loop_legs(itinerary_groups)
 
       # VERIFY
       legs = get_legs(merged_itinerary_groups)
@@ -45,7 +45,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
       itinerary_groups = build_itinerary_groups(a, b)
 
       # EXERCISE
-      merged_itinerary_groups = merge_loop_legs(itinerary_groups)
+      merged_itinerary_groups = merge_itinerary_groups_loop_legs(itinerary_groups)
 
       # VERIFY
       legs = get_legs(merged_itinerary_groups)
