@@ -46,7 +46,7 @@ defmodule Dotcom.TripPlan.Loops do
   # Helper function for `merge_leg_loops/1`.
   defp merge_leg_loops_reducer(curr, acc) do
     if curr.interline_with_previous_leg do
-      last = List.last(acc)
+      last = if length(acc) === 0, do: curr, else: List.last(acc)
       all_but_last = if length(acc) === 1, do: [], else: Enum.slice(acc, -1, 1)
 
       all_but_last ++ [merge_legs(last, curr)]
