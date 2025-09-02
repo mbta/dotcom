@@ -5,6 +5,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   require Logger
 
+  import Dotcom.TripPlan.Loops, only: [merge_loop_legs: 1]
   import DotcomWeb.Components.TripPlanner.Helpers, only: [fallback_error_message: 0]
 
   alias Dotcom.TripPlan.{InputForm, Loops}
@@ -17,14 +18,9 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
 
   def plan(%InputForm{} = input_form) do
-    plan =
-      input_form
-      |> to_params()
-      |> @otp_module.plan()
-
-    case plan do
-      {:ok, itinerary_groups} -> {:ok, Loops.merge_loop_legs(itinerary_groups)}
-      _ -> raise "No itinerary groups returned by OTP"
+    case input_form |> to_params() |> @otp_module.plan() do
+      {:ok, itinerary_groups} -> {:ok, merge_loop_legs(itinerary_groups)}
+      error -> error
     end
   rescue
     error ->
