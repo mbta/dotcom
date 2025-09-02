@@ -24,7 +24,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
     case plan do
       {:ok, itinerary_groups} -> {:ok, Loops.merge_loop_legs(itinerary_groups)}
-      _ -> raise "No viable plan"
+      _ -> raise "No itinerary groups returned by OTP"
     end
   rescue
     error ->

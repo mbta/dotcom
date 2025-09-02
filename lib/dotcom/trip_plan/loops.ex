@@ -1,36 +1,45 @@
 defmodule Dotcom.TripPlan.Loops do
   @moduledoc """
-
+  Accommodate loop legs in itineraries.
   """
 
   @doc """
-
+  Merge the loop legs of every itinerary in every itinerary group in a list of itinerary groups.
   """
   def merge_loop_legs(itinerary_groups) do
     itinerary_groups
-    |> Enum.map(&join_itinerary_group_loops/1)
+    |> Enum.map(&merge_itinerary_group_loops/1)
   end
 
-  defp join_itinerary_group_loops(itinerary_group) do
+  # Given a single itinerary group, merge the loop legs in every itinerary in that group.
+  defp merge_itinerary_group_loops(itinerary_group) do
     itinerary_group
-    |> Map.update(:itineraries, [], &join_itineraries_loops/1)
+    |> Map.update(:itineraries, [], &merge_itineraries_loops/1)
   end
 
-  defp join_itineraries_loops(itineraries) do
+  # Given a list of itineraries, merge loop legs in every itinerary.
+  defp merge_itineraries_loops(itineraries) do
     itineraries
-    |> Enum.map(&join_itinerary_loops/1)
+    |> Enum.map(&merge_itinerary_loops/1)
   end
 
-  defp join_itinerary_loops(itinerary) do
+  # Given an itinerary, merge the loop legs.
+  defp merge_itinerary_loops(itinerary) do
     itinerary
-    |> Map.update(:legs, [], &join_leg_loops/1)
+    |> Map.update(:legs, [], &merge_leg_loops/1)
   end
 
-  defp join_leg_loops([]), do: []
+  # Merge the loop legs in a list of legs.
+  # If the list is empty, return an empty list.
+  defp merge_leg_loops([]), do: []
 
-  defp join_leg_loops([first]), do: [first]
+  # If the list only has one element, return the list.
+  defp merge_leg_loops([first]), do: [first]
 
-  defp join_leg_loops(legs) do
+  # If the list has more than one leg, check for `interline_with_previous_leg`.
+  # If true, merge the leg with the previous leg.
+  # If false, do nothing.
+  defp merge_leg_loops(legs) do
     Enum.reduce(legs, [], fn curr, acc ->
       if curr.interline_with_previous_leg do
         last = List.last(acc)
@@ -43,6 +52,9 @@ defmodule Dotcom.TripPlan.Loops do
     end)
   end
 
+  # Merge two legs by predominately keeping the data from the first.
+  # The `from` comes from the first. The `to` comes from the second.
+  # Distance, duration, and stops are combinations of the two legs.
   defp merge_legs(first, second) do
     second
     |> Map.merge(first)
