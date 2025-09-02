@@ -7,7 +7,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   import DotcomWeb.Components.TripPlanner.Helpers, only: [fallback_error_message: 0]
 
-  alias Dotcom.TripPlan.InputForm
+  alias Dotcom.TripPlan.{InputForm, Loops}
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
@@ -17,9 +17,15 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
 
   def plan(%InputForm{} = input_form) do
-    input_form
-    |> to_params()
-    |> @otp_module.plan()
+    plan =
+      input_form
+      |> to_params()
+      |> @otp_module.plan()
+
+    case plan do
+      {:ok, itinerary_groups} -> {:ok, Loops.merge_loop_legs(itinerary_groups)}
+      _ -> raise "No viable plan"
+    end
   rescue
     error ->
       _ =
