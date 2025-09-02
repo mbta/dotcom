@@ -8,7 +8,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   import Dotcom.TripPlan.Loops, only: [merge_loop_legs: 1]
   import DotcomWeb.Components.TripPlanner.Helpers, only: [fallback_error_message: 0]
 
-  alias Dotcom.TripPlan.{InputForm, Loops}
+  alias Dotcom.TripPlan.InputForm
 
   @otp_module Application.compile_env!(:dotcom, :otp_module)
 
