@@ -40,16 +40,19 @@ defmodule Dotcom.TripPlan.Loops do
   # If true, merge the leg with the previous leg.
   # If false, do nothing.
   defp merge_leg_loops(legs) do
-    Enum.reduce(legs, [], fn curr, acc ->
-      if curr.interline_with_previous_leg do
-        last = List.last(acc)
-        all_but_last = if length(acc) === 1, do: [], else: Enum.slice(acc, -1, 1)
+    Enum.reduce(legs, [], &merge_leg_loops_reducer/2)
+  end
 
-        all_but_last ++ [merge_legs(last, curr)]
-      else
-        acc ++ [curr]
-      end
-    end)
+  # Helper function for `merge_leg_loops/1`.
+  defp merge_leg_loops_reducer(curr, acc) do
+    if curr.interline_with_previous_leg do
+      last = List.last(acc)
+      all_but_last = if length(acc) === 1, do: [], else: Enum.slice(acc, -1, 1)
+
+      all_but_last ++ [merge_legs(last, curr)]
+    else
+      acc ++ [curr]
+    end
   end
 
   # Merge two legs by predominately keeping the data from the first.
