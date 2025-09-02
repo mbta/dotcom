@@ -846,6 +846,9 @@ msgstr "Ingrese una ubicación de origen"
 msgid "Sorry, Your App Appears to be Out of Date"
 msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
 
+msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
+msgstr "Página web oficial del MBTA — Planifique un viaje en tránsito público en la región de Gran Boston"
+
 msgid "Showing all"
 msgstr "Mostrando todo"
 
