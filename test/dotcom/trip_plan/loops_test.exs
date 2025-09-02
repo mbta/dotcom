@@ -8,7 +8,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
     test "merges two legs into one" do
       # SETUP
       a = build(:transit_leg)
-      b = build(:transit_leg) |> Map.put(:interline_with_previous_leg, true)
+      b = build(:transit_leg, interline_with_previous_leg: true)
 
       itinerary_groups = build_itinerary_groups(a, b)
 
@@ -24,7 +24,7 @@ defmodule Dotcom.TripPlan.LoopsTest do
     test "does not merge two legs into one" do
       # SETUP
       a = build(:transit_leg)
-      b = build(:transit_leg) |> Map.put(:interline_with_previous_leg, false)
+      b = build(:transit_leg, interline_with_previous_leg: false)
 
       itinerary_groups = build_itinerary_groups(a, b)
 
@@ -39,8 +39,8 @@ defmodule Dotcom.TripPlan.LoopsTest do
 
     test "handles the first leg erroneously being labeled as interlined" do
       # SETUP
-      a = build(:transit_leg) |> Map.put(:interline_with_previous_leg, true)
-      b = build(:transit_leg) |> Map.put(:interline_with_previous_leg, false)
+      a = build(:transit_leg, interline_with_previous_leg: true)
+      b = build(:transit_leg, interline_with_previous_leg: false)
 
       itinerary_groups = build_itinerary_groups(a, b)
 
