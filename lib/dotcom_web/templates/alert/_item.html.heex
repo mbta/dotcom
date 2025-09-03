@@ -19,7 +19,7 @@
           {affected_stations |> List.first() |> Map.get(:name, "")}
         <% end %>
         {"#{effect_name(@alert)} "}
-        {unless label == "" do
+        {if label != "" do
           content_tag(:span, [label], class: alert_label_class(@alert))
         end}
       </div>

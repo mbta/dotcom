@@ -55,7 +55,7 @@ defmodule DotcomWeb.Plugs.Cookies do
   end
 
   defp maybe_set_metadata(conn, mbta_id) do
-    unless Conn.get_req_header(conn, "user-agent") == ["Playwright"] do
+    if Conn.get_req_header(conn, "user-agent") != ["Playwright"] do
       Logger.metadata(mbta_id: mbta_id)
     end
 
