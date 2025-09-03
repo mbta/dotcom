@@ -58,9 +58,9 @@ defmodule DotcomWeb.Live.TripPlanner do
       socket
       |> assign(
         :meta_description,
-        "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
+        ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
       )
-      |> assign(:breadcrumbs, [%Util.Breadcrumb{url: "/trip-planner", text: "Trip Planner"}])
+      |> assign(:breadcrumbs, [%Util.Breadcrumb{url: "/trip-planner", text: ~t"Trip Planner"}])
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> update_datepicker(params_with_datetime)
@@ -98,7 +98,7 @@ defmodule DotcomWeb.Live.TripPlanner do
       )
 
     ~H"""
-    <h1>Trip Planner</h1>
+    <h1>{~t(Trip Planner)}</h1>
     <div>
       <.input_form class="mb-4" changeset={@input_form.changeset} />
       <div>
