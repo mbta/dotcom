@@ -1,12 +1,12 @@
 <% label = Alerts.Alert.human_label(@alert) %>
 <% alert_icon_type = Alerts.Alert.icon(@alert) %>
-<% description? = not is_nil(@alert.description) %>
-<% description_class = if description?, do: " js-toggle-alert c-alert-item--expandable", else: "" %>
+<% content? = not is_nil(@alert.description) || not is_nil(@alert.image) %>
+<% description_class = if content?, do: " js-toggle-alert c-alert-item--expandable", else: "" %>
 <li
   tabindex="0"
   class={"c-alert-item c-alert-item--#{@alert.priority}" <> description_class}
-  aria-expanded={description?}
-  role={if description?, do: "button", else: ""}
+  aria-expanded={content?}
+  role={if content?, do: "button", else: ""}
 >
   <div class="c-alert-item__icon">
     {alert_icon(alert_icon_type)}
@@ -34,14 +34,14 @@
         <% end %>
       </div>
     </div>
-    <%= if @alert.description do %>
+    <%= if @alert.description || @alert.image do %>
       <div class="c-alert-item__top-caret-container">
         {fa("angle-up", class: "c-alert-item__caret--up")}
         {fa("angle-down", class: "c-alert-item__caret--down")}
       </div>
     <% end %>
   </div>
-  <%= if @alert.description do %>
+  <%= if @alert.description || @alert.image do %>
     <div class={"c-alert-item__bottom c-alert-item__bottom--#{ @alert.priority }"}>
       <%= if Map.get(@alert, :image) do %>
         <a href={"#{ @alert.image }"} target="_blank">
