@@ -18,6 +18,7 @@ defmodule Dotcom.TripPlan.Helpers do
   For an OpenTripPlanner stop, return the MBTA commuter rail zone
   """
   @spec mbta_zone_id(Stop.t()) :: String.t() | nil
+  def mbta_zone_id(%Stop{zone_id: "CR-zone-" <> zone_id}), do: zone_id
   def mbta_zone_id(_), do: nil
 
   defguard agency_name?(leg_or_route, agency_name)
