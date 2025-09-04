@@ -538,7 +538,7 @@ msgid "No parking"
 msgstr "No hay aparcamiento"
 
 msgid "Southbound"
-msgstr "Hacia el sur"
+msgstr "Southbound"
 
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
@@ -1021,7 +1021,7 @@ msgid "Minutes"
 msgstr "Minutos"
 
 msgid "Northbound"
-msgstr "Hacia el norte"
+msgstr "Northbound"
 
 msgid "Get a CharlieCard"
 msgstr "Obtener un CharlieCard"
@@ -1051,7 +1051,7 @@ msgid "Fares"
 msgstr "Fares"
 
 msgid "Westbound"
-msgstr "Hacia el oeste"
+msgstr "Westbound"
 
 msgid "Admins Only"
 msgstr "Admins Only"
@@ -1609,7 +1609,7 @@ msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
 
 msgid "Eastbound"
-msgstr "Hacia el este"
+msgstr "Eastbound"
 
 msgid "We weren't able to find a polling place for your address. You can also visit the"
 msgstr "No pudimos encontrar un lugar de votación para tu dirección. También puede visitar"
