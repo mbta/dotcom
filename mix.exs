@@ -129,7 +129,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", branch: "ags/fix-factory"]
+        [github: "mbta/open_trip_planner_client", branch: "main"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.0"},
