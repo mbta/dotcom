@@ -1,6 +1,8 @@
 defmodule Routes.Parser do
   @moduledoc "Functions for parsing generic JSON:API structs into Routes structs."
 
+  use Dotcom.Gettext.Sigils
+
   alias JsonApi.Item
   alias RoutePatterns.RoutePattern
   alias Routes.{Route, Shape}
@@ -61,10 +63,10 @@ defmodule Routes.Parser do
   end
 
   @spec add_direction_suffix(String.t()) :: String.t()
-  defp add_direction_suffix("North"), do: "Northbound"
-  defp add_direction_suffix("South"), do: "Southbound"
-  defp add_direction_suffix("East"), do: "Eastbound"
-  defp add_direction_suffix("West"), do: "Westbound"
+  defp add_direction_suffix("North"), do: ~t"Northbound"
+  defp add_direction_suffix("South"), do: ~t"Southbound"
+  defp add_direction_suffix("East"), do: ~t"Eastbound"
+  defp add_direction_suffix("West"), do: ~t"Westbound"
   defp add_direction_suffix(nil), do: ""
   defp add_direction_suffix(name), do: name
 
