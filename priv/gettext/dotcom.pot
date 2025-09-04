@@ -1752,6 +1752,10 @@ msgstr ""
 msgid "Secretary of State's official site"
 msgstr ""
 
+#: lib/dotcom/alerts/endpoint_stops.ex:109
+#: lib/dotcom/alerts/endpoint_stops.ex:112
+#: lib/dotcom/alerts/endpoint_stops.ex:116
+#: lib/dotcom/alerts/endpoint_stops.ex:117
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex:75
 #, elixir-autogen, elixir-format
 msgid "Stops"
