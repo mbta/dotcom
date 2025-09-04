@@ -135,6 +135,9 @@ msgstr "Entrada especial para eventos"
 msgid "Get T-Alerts"
 msgstr "Obtener T-Alerts"
 
+msgid "Until %{date}"
+msgstr "Hasta %{date}"
+
 msgid "Vote"
 msgstr "Votación"
 
@@ -389,6 +392,9 @@ msgstr "Calendario de vista"
 
 msgid "Retail Sales Locations"
 msgstr "Localizaciones de ventas al por menor"
+
+msgid "There is no planned work information at this time."
+msgstr "No hay información de trabajo prevista en este momento."
 
 msgid "Paratransit (The RIDE)"
 msgstr "Paratransit (The RIDE)"
@@ -1242,6 +1248,9 @@ msgstr "La ubicación de origen está fuera de nuestra zona de servicio"
 msgid "Emergency Contacts"
 msgstr "Contactos de emergencia"
 
+msgid "Planned Work"
+msgstr "Trabajo previsto"
+
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
 msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
@@ -1283,6 +1292,9 @@ msgstr "Navegación"
 
 msgid "Silver Line"
 msgstr "Línea de plata"
+
+msgid "%{date} until further notice"
+msgstr "%{date} hasta nuevo aviso"
 
 msgid "Destination location is not close enough to any transit stops"
 msgstr "Ubicación del destino no está lo suficientemente cerca de cualquier parada de tránsito"

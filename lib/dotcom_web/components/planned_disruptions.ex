@@ -34,9 +34,9 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
     ~H"""
     <.bordered_container>
-      <:heading>Planned Work</:heading>
+      <:heading>{~t"Planned Work"}</:heading>
       <%= if Enum.empty?(@ordered_disruptions) do %>
-        There is no planned work information at this time.
+        {~t"There is no planned work information at this time."}
       <% else %>
         <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
           <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
@@ -99,8 +99,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   defp formatted_date_range({nil, nil}), do: nil
-  defp formatted_date_range({nil, stop}), do: "Until #{format_date(stop)}"
-  defp formatted_date_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_date_range({nil, stop}), do: gettext("Until %{date}", date: format_date(stop))
+
+  defp formatted_date_range({start, nil}),
+    do: gettext("%{date} until further notice", date: format_date(start))
+
   defp formatted_date_range({start, stop}) when start == stop, do: "#{format_date(start)}"
   defp formatted_date_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
@@ -139,7 +142,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     if Timex.after?(service_date_datetime, service_date_today) do
       service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
     else
-      "Today"
+      ~t"Today"
     end
   end
 end
