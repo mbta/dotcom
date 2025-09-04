@@ -4,6 +4,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   optional prefix and a route pill for the given route ID's.
   """
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :component
 
   import DotcomWeb.Components.RouteSymbols, only: [subway_route_pill: 1]
@@ -105,7 +106,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   defp decorations(%{status: :delay, alerts: alerts}) do
     all_single_tracking? = alerts |> Enum.all?(&(&1.cause == :single_tracking))
 
-    subheading_text = if all_single_tracking?, do: "Due to Single Tracking"
+    subheading_text = if all_single_tracking?, do: ~t"Due to Single Tracking"
 
     %{
       subheading_text: subheading_text
@@ -127,17 +128,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   defp description(status, prefix, true), do: description(status, prefix) |> Inflex.pluralize()
   defp description(status, prefix, false), do: description(status, prefix)
 
-  defp description(:normal, _), do: "Normal Service"
-  defp description(:see_alerts, _), do: "See Alerts"
+  defp description(:normal, _), do: ~t"Normal Service"
+  defp description(:see_alerts, _), do: ~t"See Alerts"
 
-  # Special case for delays - when displayed with a future date, say 
+  # Special case for delays - when displayed with a future date, say
   # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
   # prefix of "Now" should still display as "Delay", rather than
   # "Expect Delay".
-  defp description(:delay, "Now"), do: "Delays"
-  defp description(:delay, prefix) when is_binary(prefix), do: "Expect Delays"
-  defp description(:delay, _), do: "Delays"
-  defp description(:shuttle, _), do: "Shuttles"
+  defp description(:delay, "Now"), do: ~t"Delays"
+  defp description(:delay, prefix) when is_binary(prefix), do: ~t"Expect Delays"
+  defp description(:delay, _), do: ~t"Delays"
+  defp description(:shuttle, _), do: ~t"Shuttles"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
@@ -157,7 +158,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   end
 
   defp humanize_endpoint_list_a11y([{first, last}]) do
-    "between #{humanize_endpoint_name(first)} and #{humanize_endpoint_name(last)}"
+    gettext(
+      "between %{first} and %{last}",
+      first: humanize_endpoint_name(first),
+      last: humanize_endpoint_name(last)
+    )
   end
 
   defp humanize_endpoint_list_a11y(_list), do: nil
@@ -172,7 +177,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   defp humanize_stop_names([stop_name1, stop_name2, stop_name3]),
     do: "#{stop_name1}, #{stop_name2} & #{stop_name3}"
 
-  defp humanize_stop_names(stop_names), do: "#{Enum.count(stop_names)} Stops"
+  defp humanize_stop_names(stop_names),
+    do: gettext("%{count} Stops", count: Enum.count(stop_names))
 
   defp severity([]), do: nil
   defp severity(alerts), do: alerts |> Enum.map(& &1.severity) |> Enum.max()
