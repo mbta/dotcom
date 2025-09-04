@@ -87,6 +87,9 @@ msgstr "Regístrate para T-Alerts"
 msgid "Boston Visitor's Guide to The T"
 msgstr "Guía del visitante de Boston para el T"
 
+msgid "Delays"
+msgstr "Delays"
+
 msgid "Civil Rights"
 msgstr "Civiles"
 
@@ -399,6 +402,9 @@ msgstr "Háganos saber"
 msgid "Similar trips arrive at %{times}"
 msgstr "Viajes similares llegan a %{times}"
 
+msgid "between %{first} and %{last}"
+msgstr "entre %{first} y %{last}"
+
 msgid "Leaving at %{time}"
 msgstr "Saliendo al %{time}"
 
@@ -611,6 +617,9 @@ msgstr "Contáctenos"
 
 msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
 msgstr "Page Not Found Silencio MBTA - Massachusetts Bay Transportation Authority"
+
+msgid "Due to Single Tracking"
+msgstr "Debido a un seguimiento único"
 
 msgid "Recently Visited Schedules"
 msgstr "Horarios visitados recientemente"
@@ -837,6 +846,9 @@ msgstr "Camina"
 msgid "We'll send you MBTA press releases and media advisories directly."
 msgstr "Le enviaremos MBTA comunicados de prensa y consejeros de medios directamente."
 
+msgid "See Alerts"
+msgstr "Ver Alertas"
+
 msgid "Tuesday"
 msgstr "Martes"
 
@@ -863,6 +875,9 @@ msgstr "Paradas"
 
 msgid "Cross Harbor Ferry"
 msgstr "Cross Harbor Ferry"
+
+msgid "%{count} Stops"
+msgstr "%{count} Altos"
 
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
@@ -998,6 +1013,9 @@ msgstr "Nuestro trabajo"
 
 msgid "Fill out the form"
 msgstr "Rellene el formulario"
+
+msgid "Normal Service"
+msgstr "Servicio normal"
 
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
@@ -1173,6 +1191,9 @@ msgstr "Más información sobre precios de tarifa, tipos de pase y cómo pagar s
 msgid "Order Monthly Passes"
 msgstr "Pedido Pases mensuales"
 
+msgid "Expect Delays"
+msgstr "Demoras esperadas"
+
 msgid "to find your polling place, and then use the"
 msgstr "para encontrar su lugar de votación, y luego utilizar el"
 
@@ -1304,6 +1325,9 @@ msgstr "Encontrar una tienda cerca de usted"
 
 msgid "Posted on"
 msgstr "Publicado en"
+
+msgid "Shuttles"
+msgstr "Shuttles"
 
 msgid "Subway"
 msgstr "Subte"
