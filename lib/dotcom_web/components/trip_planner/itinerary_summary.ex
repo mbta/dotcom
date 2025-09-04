@@ -52,7 +52,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
         |> meters_to_localized_miles()
       )
       |> assign(:accessible?, Itinerary.accessible?(assigns.itinerary))
-      |> assign_new(:summarized_legs, fn -> Itinerary.summary(assigns.itinerary) end)
+      |> assign(:summarized_legs, Itinerary.summary(assigns.itinerary))
 
     ~H"""
     <div class={@class}>
