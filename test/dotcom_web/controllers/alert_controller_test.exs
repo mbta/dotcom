@@ -51,6 +51,10 @@ defmodule DotcomWeb.AlertControllerTest do
 
     stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
 
+    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subway_status, fn ->
+      Dotcom.SystemStatus.subway_status()
+    end)
+
     :ok
   end
 

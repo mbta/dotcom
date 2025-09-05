@@ -65,7 +65,16 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
-          Alerts.CacheSupervisor,
+          Alerts.CacheSupervisor
+        ] ++
+        if Application.get_env(:dotcom, :env) != :test do
+          [
+            {Dotcom.SystemStatus.SubwayCache, []}
+          ]
+        else
+          []
+        end ++
+        [
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 
