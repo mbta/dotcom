@@ -822,6 +822,9 @@ msgstr "Cuadros"
 msgid "Delay"
 msgstr "Delay"
 
+msgid "Elevator & Escalator"
+msgstr "Ascensor"
+
 msgid "Receive notifications of MBTA service alerts by email or text."
 msgstr "Recibir notificaciones de MBTA alertas de servicio por correo electrónico o texto."
 
@@ -1353,6 +1356,9 @@ msgstr "24 horas, 7 días a la semana"
 msgid "or "
 msgstr "o "
 
+msgid "Service"
+msgstr "Servicio"
+
 msgid "Service Alerts"
 msgstr "Alertas de servicio"
 
@@ -1361,6 +1367,9 @@ msgstr "Carreras"
 
 msgid "Location"
 msgstr "Ubicación"
+
+msgid "Bike"
+msgstr "Bicicleta"
 
 msgid "View Bio"
 msgstr "Ver Bio"
@@ -1652,6 +1661,9 @@ msgstr "Seleccione una ubicación de origen."
 
 msgid " may leave ahead of schedule at these stops."
 msgstr " puede salir antes del horario en estas paradas."
+
+msgid "Other"
+msgstr "Otros"
 
 msgid "Local Bus One-Way"
 msgstr "Autobuses locales de un lado"
