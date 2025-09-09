@@ -3027,3 +3027,44 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Westbound"
 msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:181
+#, elixir-autogen, elixir-format
+msgid "%{count} Stops"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:138
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:140
+#, elixir-autogen, elixir-format
+msgid "Delays"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:109
+#, elixir-autogen, elixir-format
+msgid "Due to Single Tracking"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:139
+#, elixir-autogen, elixir-format
+msgid "Expect Delays"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:131
+#, elixir-autogen, elixir-format
+msgid "Normal Service"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:132
+#, elixir-autogen, elixir-format
+msgid "See Alerts"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:141
+#, elixir-autogen, elixir-format
+msgid "Shuttles"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:161
+#, elixir-autogen, elixir-format
+msgid "between %{first} and %{last}"
+msgstr ""
