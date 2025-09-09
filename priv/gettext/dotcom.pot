@@ -3005,3 +3005,25 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Service"
 msgstr ""
+
+#: lib/routes/parser.ex:68
+#: lib/routes/repo.ex:187
+#, elixir-autogen, elixir-format
+msgid "Eastbound"
+msgstr ""
+
+#: lib/routes/parser.ex:66
+#, elixir-autogen, elixir-format
+msgid "Northbound"
+msgstr ""
+
+#: lib/routes/parser.ex:67
+#, elixir-autogen, elixir-format
+msgid "Southbound"
+msgstr ""
+
+#: lib/routes/parser.ex:69
+#: lib/routes/repo.ex:187
+#, elixir-autogen, elixir-format
+msgid "Westbound"
+msgstr ""
