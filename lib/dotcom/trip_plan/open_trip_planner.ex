@@ -19,7 +19,7 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   def plan(%InputForm{} = input_form) do
     case input_form |> to_params() |> @otp_module.plan() do
-      {:ok, itinerary_groups} -> {:ok, merge_itinerary_groups_loop_legs(itinerary_groups)}
+      {:ok, itinerary_groups} -> {:ok, itinerary_groups}
       error -> error
     end
   rescue
