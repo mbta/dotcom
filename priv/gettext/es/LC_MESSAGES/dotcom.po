@@ -537,6 +537,9 @@ msgstr "Enviar una solicitud de registro público al MBTA"
 msgid "No parking"
 msgstr "No hay aparcamiento"
 
+msgid "Southbound"
+msgstr "Southbound"
+
 msgid "Institutional Sales"
 msgstr "Ventas institucionales"
 
@@ -1017,6 +1020,9 @@ msgstr "'Asociación a distancia '"
 msgid "Minutes"
 msgstr "Minutos"
 
+msgid "Northbound"
+msgstr "Northbound"
+
 msgid "Get a CharlieCard"
 msgstr "Obtener un CharlieCard"
 
@@ -1043,6 +1049,9 @@ msgstr "Contactar con la Policía de Tránsito"
 
 msgid "Fares"
 msgstr "Fares"
+
+msgid "Westbound"
+msgstr "Westbound"
 
 msgid "Admins Only"
 msgstr "Admins Only"
@@ -1598,6 +1607,9 @@ msgstr "MBTA Transit Police"
 
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
+
+msgid "Eastbound"
+msgstr "Eastbound"
 
 msgid "We weren't able to find a polling place for your address. You can also visit the"
 msgstr "No pudimos encontrar un lugar de votación para tu dirección. También puede visitar"

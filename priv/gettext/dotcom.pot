@@ -1752,6 +1752,10 @@ msgstr ""
 msgid "Secretary of State's official site"
 msgstr ""
 
+#: lib/dotcom/alerts/endpoint_stops.ex:107
+#: lib/dotcom/alerts/endpoint_stops.ex:110
+#: lib/dotcom/alerts/endpoint_stops.ex:114
+#: lib/dotcom/alerts/endpoint_stops.ex:115
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex:75
 #, elixir-autogen, elixir-format
 msgid "Stops"
@@ -3000,4 +3004,26 @@ msgstr ""
 #: lib/dotcom/alerts/subway.ex:14
 #, elixir-autogen, elixir-format
 msgid "Service"
+msgstr ""
+
+#: lib/routes/parser.ex:68
+#: lib/routes/repo.ex:187
+#, elixir-autogen, elixir-format
+msgid "Eastbound"
+msgstr ""
+
+#: lib/routes/parser.ex:66
+#, elixir-autogen, elixir-format
+msgid "Northbound"
+msgstr ""
+
+#: lib/routes/parser.ex:67
+#, elixir-autogen, elixir-format
+msgid "Southbound"
+msgstr ""
+
+#: lib/routes/parser.ex:69
+#: lib/routes/repo.ex:187
+#, elixir-autogen, elixir-format
+msgid "Westbound"
 msgstr ""
