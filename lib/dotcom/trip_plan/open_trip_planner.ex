@@ -5,7 +5,6 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
 
   require Logger
 
-  import Dotcom.TripPlan.Loops, only: [merge_itinerary_groups_loop_legs: 1]
   import DotcomWeb.Components.TripPlanner.Helpers, only: [fallback_error_message: 0]
 
   alias Dotcom.TripPlan.InputForm
