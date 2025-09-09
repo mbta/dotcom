@@ -140,7 +140,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     service_date_today = @date_time_module.now() |> service_date()
 
     if Timex.after?(service_date_datetime, service_date_today) do
-      service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
+      service_date_datetime |> Dotcom.Cldr.Date.to_string(format: "eee, MMM d")
     else
       ~t"Today"
     end
