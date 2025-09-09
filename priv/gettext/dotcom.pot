@@ -3069,3 +3069,23 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "between %{first} and %{last}"
 msgstr ""
+
+#: lib/dotcom_web/components/planned_disruptions.ex:106
+#, elixir-autogen, elixir-format
+msgid "%{date} until further notice"
+msgstr ""
+
+#: lib/dotcom_web/components/planned_disruptions.ex:38
+#, elixir-autogen, elixir-format
+msgid "Planned Work"
+msgstr ""
+
+#: lib/dotcom_web/components/planned_disruptions.ex:40
+#, elixir-autogen, elixir-format
+msgid "There is no planned work information at this time."
+msgstr ""
+
+#: lib/dotcom_web/components/planned_disruptions.ex:103
+#, elixir-autogen, elixir-format
+msgid "Until %{date}"
+msgstr ""
