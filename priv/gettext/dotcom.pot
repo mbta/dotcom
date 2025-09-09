@@ -1523,7 +1523,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:145
+#: lib/dotcom_web/components/planned_disruptions.ex:147
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:33
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:92
 #, elixir-autogen, elixir-format

@@ -12,6 +12,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   alias Alerts.Alert
+  alias Dotcom.Cldr.Date
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
@@ -135,14 +136,16 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # Formats the date for display in the heading.
   # If the service date is on or before today, we display "Today".
-  # Otherwise, we display the date like "Mon Jan 1".
+  # Otherwise, we display the date like "Mon, Jan 1".
   defp format_date(service_date_datetime) do
     service_date_today = @date_time_module.now() |> service_date()
 
-    if Timex.after?(service_date_datetime, service_date_today) do
-      service_date_datetime |> Dotcom.Cldr.Date.to_string(format: "eee, MMM d")
+    with true <- Timex.after?(service_date_datetime, service_date_today),
+         {:ok, date_string} <- Date.to_string(service_date_datetime, format: "eee, MMM d") do
+      date_string
     else
-      ~t"Today"
+      false -> ~t"Today"
+      _ -> ""
     end
   end
 end
