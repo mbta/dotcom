@@ -4,7 +4,7 @@ import Config
 
 # Used by several applications to turn off a subset of child processes in the
 # test environment.
-config :dotcom, start_data_processes: config_env() != :test
+config :dotcom, start_data_processes: config_env() == :prod
 
 config :dotcom, Dotcom.BodyTag, mticket_header: "x-mticket"
 

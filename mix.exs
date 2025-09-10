@@ -94,7 +94,7 @@ defmodule DotCom.Mixfile do
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.6", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
-      {:ecto, "3.13.2"},
+      {:ecto_sql, "3.13.2"},
       {:eextoheex, git: "https://github.com/Multiverse-io/eextoheex", only: [:dev, :test]},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
@@ -144,6 +144,7 @@ defmodule DotCom.Mixfile do
       {:plug_cowboy, "2.7.4"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
+      {:postgrex, "0.21.1"},
       {:progress_bar, "3.0.0"},
       # Needed for rstar; workaround for mix local.hex bug
       {:proper, "1.5.0"},

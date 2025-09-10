@@ -44,6 +44,11 @@ defmodule Dotcom.Application do
         else
           []
         end ++
+        if Application.get_env(:dotcom, :env) == :dev do
+          [{Dotcom.Repo, []}]
+        else
+          []
+        end ++
         if Application.get_env(:dotcom, :start_data_processes) do
           [
             Vehicles.Supervisor,

@@ -44,6 +44,19 @@ if config_env() == :dev do
     webpack_path: webpack_path
 end
 
+# Postgres configuration
+config :dotcom, ecto_repos: [Dotcom.Repo]
+
+postgres_host = System.get_env("POSTGRES_HOST", "127.0.0.1")
+postgres_port = System.get_env("POSTGRES_PORT", "5432")
+
+config :dotcom, Dotcom.Repo,
+  database: "postgres",
+  username: "postgres",
+  password: "postgres",
+  hostname: postgres_host,
+  port: postgres_port
+
 # Redis cluster configuration
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
 redis_port_env = System.get_env("REDIS_PORT", "6379")

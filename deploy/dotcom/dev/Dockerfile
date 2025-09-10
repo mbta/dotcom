@@ -21,4 +21,8 @@ RUN mix deps.get
 RUN mix deps.compile
 RUN npm install --prefix assets --omit=optional --audit false --fund false --loglevel verbose --ignore-scripts
 
-CMD mix deps.get && mix mbta_metro.update_assets && elixir --name $NAME --cookie foobarbaz -S mix phx.server
+CMD if [ "$NAME" = "dotcom@10.0.0.2" ]; then \
+        mix deps.get && mix mbta_metro.update_assets && mix ecto.migrate && elixir --name $NAME --cookie foobarbaz -S mix phx.server; \
+    else \
+        mix deps.get && mix mbta_metro.update_assets && elixir --name $NAME --cookie foobarbaz -S mix phx.server; \
+    fi
