@@ -11,7 +11,7 @@ services:
         expose:
             - 4001
         ports:
-            - "4001:4001"
+            - 4001:4001
         healthcheck:
             test: curl --fail http://localhost:4001/_health || exit 1
             interval: 10s
@@ -96,17 +96,19 @@ services:
             dotcom_network:
                 ipv4_address: 10.0.0.3
     libretranslate:
-        image: libretranslate/libretranslate
+        image: libretranslate/libretranslate:latest
         environment:
-            - LOAD_ONLY="en,es"
+            - LT_LOAD_ONLY=en,es
+        expose:
+            - 9999
         ports:
             - 9999:5000
         healthcheck:
-            test: curl --fail http://localhost:5000/languages || exit 1
+            test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
             interval: 10s
-            retries: 5
-            start_period: 15s
-            timeout: 10s
+            timeout: 4s
+            retries: 4
+            start_period: 5s
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.4
