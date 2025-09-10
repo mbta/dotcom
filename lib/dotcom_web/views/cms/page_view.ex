@@ -2,8 +2,11 @@ defmodule DotcomWeb.CMS.PageView do
   @moduledoc """
   Handles rendering of partial content from the CMS.
   """
-  use DotcomWeb, :view
 
+  use DotcomWeb, :view
+  use Nebulex.Caching.Decorators
+
+  import Dotcom.Translator.Behaviour, only: [translate_html: 2]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Page
@@ -13,33 +16,49 @@ defmodule DotcomWeb.CMS.PageView do
   @doc "Universal wrapper for CMS page content"
   @spec render_page(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
   def render_page(%CMS.Page.Diversions{} = page, conn) do
+    locale = conn |> Plug.Conn.get_session() |> Map.get("locale", "en")
+
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
 
-    render(
-      "_diversions.html",
-      page: page,
-      sidebar_left: sidebar_left,
-      sidebar_right: sidebar_right,
-      sidebar_class: sidebar_layout,
-      conn: conn
-    )
+    content =
+      render(
+        "_diversions.html",
+        page: page,
+        sidebar_left: sidebar_left,
+        sidebar_right: sidebar_right,
+        sidebar_class: sidebar_layout,
+        conn: conn
+      )
+      |> Phoenix.HTML.Safe.to_iodata()
+      |> IO.iodata_to_binary()
+      |> translate_html(locale)
+
+    {:safe, content}
   end
 
   def render_page(page, conn) do
+    locale = conn |> Plug.Conn.get_session() |> Map.get("locale", "en")
+
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
 
-    render(
-      "_page.html",
-      page: page,
-      sidebar_left: sidebar_left,
-      sidebar_right: sidebar_right,
-      sidebar_class: sidebar_layout,
-      conn: conn
-    )
+    content =
+      render(
+        "_page.html",
+        page: page,
+        sidebar_left: sidebar_left,
+        sidebar_right: sidebar_right,
+        sidebar_class: sidebar_layout,
+        conn: conn
+      )
+      |> Phoenix.HTML.Safe.to_iodata()
+      |> IO.iodata_to_binary()
+      |> translate_html(locale)
+
+    {:safe, content}
   end
 
   @doc """
