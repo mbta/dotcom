@@ -15,8 +15,7 @@ services:
             - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
             - PORT=4001
-            - POSTGRES_HOST=10.0.0.4
-            - REDIS_HOST=10.0.0.5
+            - REDIS_HOST=10.0.0.4
             - REDIS_PORT=6379
             - REDIS_STANDALONE=true
             - NAME=dotcom@10.0.0.1
@@ -66,22 +65,11 @@ services:
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.3
-    postgres:
-        image: postgres:latest
-        environment:
-            - POSTGRES_DB=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-        ports:
-            - 5432:5432
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.4
     redis:
         image: redis:7.2.4
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.5
+                ipv4_address: 10.0.0.4
 networks:
     dotcom_network:
         driver: bridge

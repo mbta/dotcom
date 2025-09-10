@@ -137,17 +137,6 @@ services:
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.6
-    postgres:
-        image: postgres:latest
-        environment:
-            - POSTGRES_DB=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-        ports:
-            - 5432:5432
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.7
     redis-cluster-init:
         image: redis:7.2.4
         command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes
