@@ -40,7 +40,7 @@ services:
     libretranslate:
         image: libretranslate/libretranslate
         environment:
-            - LOAD_ONLY="en,es"
+            - LT_LOAD_ONLY="en,es"
         ports:
             - 9999:5000
         healthcheck:
