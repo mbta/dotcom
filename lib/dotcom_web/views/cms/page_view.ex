@@ -4,7 +4,8 @@ defmodule DotcomWeb.CMS.PageView do
   """
 
   use DotcomWeb, :view
-  use Nebulex.Caching.Decorators
+
+  require Dotcom.Locales
 
   import Dotcom.Translator.Behaviour, only: [translate_html: 2]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
@@ -16,8 +17,6 @@ defmodule DotcomWeb.CMS.PageView do
   @doc "Universal wrapper for CMS page content"
   @spec render_page(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
   def render_page(%CMS.Page.Diversions{} = page, conn) do
-    locale = conn |> Plug.Conn.get_session() |> Map.get("locale", "en")
-
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
@@ -33,14 +32,12 @@ defmodule DotcomWeb.CMS.PageView do
       )
       |> Phoenix.HTML.Safe.to_iodata()
       |> IO.iodata_to_binary()
-      |> translate_html(locale)
+      |> translate_html(get_locale(conn))
 
     {:safe, content}
   end
 
   def render_page(page, conn) do
-    locale = conn |> Plug.Conn.get_session() |> Map.get("locale", "en")
-
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
@@ -56,7 +53,7 @@ defmodule DotcomWeb.CMS.PageView do
       )
       |> Phoenix.HTML.Safe.to_iodata()
       |> IO.iodata_to_binary()
-      |> translate_html(locale)
+      |> translate_html(get_locale(conn))
 
     {:safe, content}
   end
@@ -99,6 +96,12 @@ defmodule DotcomWeb.CMS.PageView do
   @spec has_right_rail?(Page.t()) :: boolean
   def has_right_rail?(%{paragraphs: paragraphs}) do
     Enum.any?(paragraphs, &right_rail_check(&1))
+  end
+
+  defp get_locale(conn) do
+    conn
+    |> Plug.Conn.get_session()
+    |> Map.get("locale", Dotcom.Locales.default_locale_code())
   end
 
   defp teasers?(%{teasers: teasers}) do

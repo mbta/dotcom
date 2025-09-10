@@ -4,6 +4,8 @@ defmodule Dotcom.Translator.LibreTranslate do
 
   use Nebulex.Caching.Decorators
 
+  import Dotcom.Locales, only: [default_locale_code: 0]
+
   @behaviour Dotcom.Translator.Behaviour
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -43,7 +45,7 @@ defmodule Dotcom.Translator.LibreTranslate do
   defp html_request(html, locale) do
     %{
       q: html,
-      source: "en",
+      source: default_locale_code(),
       target: locale,
       format: "html"
     }
@@ -52,7 +54,7 @@ defmodule Dotcom.Translator.LibreTranslate do
   defp text_request(string, locale) do
     %{
       q: string,
-      source: "en",
+      source: default_locale_code(),
       target: locale,
       format: "text"
     }

@@ -3,6 +3,8 @@ defmodule Dotcom.Cldr do
   Implement [Cldr](https://hexdocs.pm/ex_cldr/readme.html).
   """
 
+  require Dotcom.Locales
+
   use Cldr,
     default_locale: Dotcom.Locales.default_locale_code(),
     gettext: Dotcom.Gettext,

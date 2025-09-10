@@ -21,12 +21,20 @@ defmodule Dotcom.Locales do
   @doc """
   The default locale.
   """
-  def default_locale, do: @default_locale
+  defmacro default_locale do
+    quote do
+      %Locale{code: "en", endonym: "English"}
+    end
+  end
 
   @doc """
   The default locale code.
   """
-  def default_locale_code, do: Map.get(@default_locale, :code)
+  defmacro default_locale_code do
+    quote do
+      "en"
+    end
+  end
 
   @doc """
   All of the locales.
