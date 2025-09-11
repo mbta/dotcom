@@ -34,20 +34,20 @@
         <% end %>
       </div>
     </div>
-    <%= if @alert.description || @alert.image do %>
+    <%= if @alert.description || Alerts.Alert.image(@alert) do %>
       <div class="c-alert-item__top-caret-container">
         {fa("angle-up", class: "c-alert-item__caret--up")}
         {fa("angle-down", class: "c-alert-item__caret--down")}
       </div>
     <% end %>
   </div>
-  <%= if @alert.description || @alert.image do %>
+  <%= if @alert.description || Alerts.Alert.image(@alert) do %>
     <div class={"c-alert-item__bottom c-alert-item__bottom--#{ @alert.priority }"}>
       <%= if Map.get(@alert, :image) do %>
-        <a href={"#{ @alert.image }"} target="_blank">
+        <a href={"#{ Alerts.Alert.image(@alert) }"} target="_blank">
           <img
-            src={"#{ @alert.image }"}
-            alt={"#{ @alert.image_alternative_text }"}
+            src={"#{ Alerts.Alert.image(@alert) }"}
+            alt={"#{ Alerts.Alert.image_alternative_text(@alert) }"}
             class="u-w-100"
           />
         </a>
