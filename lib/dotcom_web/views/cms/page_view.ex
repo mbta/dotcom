@@ -94,10 +94,11 @@ defmodule DotcomWeb.CMS.PageView do
   def sidebar_classes(false, true), do: "c-cms--with-sidebar c-cms--sidebar-right"
   def sidebar_classes(false, false), do: "c-cms--no-sidebar"
 
-  @spec has_right_rail?(Page.t()) :: boolean
   def has_right_rail?(%{paragraphs: paragraphs}) do
     Enum.any?(paragraphs, &right_rail_check(&1))
   end
+
+  def has_right_rail?(_), do: false
 
   defp get_locale(conn) do
     if Map.has_key?(conn, :resp_cookies) do
