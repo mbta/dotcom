@@ -1,4 +1,8 @@
 defmodule Util.BreadcrumbHTML do
+  require Dotcom.Locales
+
+  import Dotcom.Locales, only: [default_locale_code: 0]
+  import Dotcom.Translator.Behaviour, only: [translate_html: 2, translate_text: 2]
   import Phoenix.HTML, only: [raw: 1]
 
   alias PhoenixHTMLHelpers.Link
@@ -6,12 +10,15 @@ defmodule Util.BreadcrumbHTML do
   @spec breadcrumb_trail(Plug.Conn.t()) :: Phoenix.HTML.safe()
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")
 
-  def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}}) do
-    breadcrumbs
-    |> maybe_add_home_breadcrumb()
-    |> build_html()
-    |> Enum.join("")
-    |> raw()
+  def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}} = conn) do
+    {:safe, content} =
+      breadcrumbs
+      |> maybe_add_home_breadcrumb()
+      |> build_html()
+      |> Enum.join("")
+      |> raw()
+
+    {:safe, translate_html(content, get_locale(conn))}
   end
 
   def breadcrumb_trail(%Plug.Conn{}), do: raw("")
@@ -55,9 +62,10 @@ defmodule Util.BreadcrumbHTML do
   end
 
   @spec title_breadcrumbs(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
-  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}})
+  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}} = conn)
       when length(breadcrumbs) > 0 do
     do_title_breadcrumbs(breadcrumbs)
+    |> translate_text(get_locale(conn))
   end
 
   def title_breadcrumbs(%Plug.Conn{}) do
@@ -71,7 +79,7 @@ defmodule Util.BreadcrumbHTML do
     |> Enum.take(-2)
     # put the default title at the end
     |> Enum.reverse(["MBTA"])
-    |> Enum.intersperse(" | ")
+    |> Enum.join(" | ")
   end
 
   defp default_title do
@@ -118,5 +126,16 @@ defmodule Util.BreadcrumbHTML do
   defp missing_home_breadcrumb?(breadcrumbs) do
     first_breadcrumb = List.first(breadcrumbs)
     first_breadcrumb.url != "/"
+  end
+
+  defp get_locale(conn) do
+    if Map.has_key?(conn, :resp_cookies) do
+      conn
+      |> Plug.Conn.get_resp_cookies()
+      |> Map.get("locale", %{})
+      |> Map.get(:value, default_locale_code())
+    else
+      default_locale_code()
+    end
   end
 end

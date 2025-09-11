@@ -104,7 +104,8 @@ defmodule DotcomWeb.CMS.PageView do
     if Map.has_key?(conn, :resp_cookies) do
       conn
       |> Plug.Conn.get_resp_cookies()
-      |> Map.get("locale", default_locale_code())
+      |> Map.get("locale", %{})
+      |> Map.get(:value, default_locale_code())
     else
       default_locale_code()
     end
