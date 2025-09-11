@@ -131,9 +131,13 @@ defmodule DotcomWeb.SearchController do
       showing_to: min(offset * @per_page + @per_page, count)
     }
 
+    Api.action(:post, api) |> do_query(conn)
     assign(conn, :stats, stats)
   end
 
+  defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
+    {:ok, json} = Poison.decode(body)
+    json(conn, json)
   @spec search_params(map) :: map
   defp search_params(search_input) do
     %{
@@ -154,6 +158,8 @@ defmodule DotcomWeb.SearchController do
     end
   end
 
+  defp do_query({:error, :bad_config}, conn) do
+    json(conn, %{error: "bad_config"})
   @spec content_types(map) :: [String.t()]
   defp content_types(search_input) do
     search_input

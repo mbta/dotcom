@@ -26,7 +26,6 @@ defmodule CMS.Repo do
   alias CMS.API
   alias CMS.Page
   alias CMS.Page.{Event, NewsEntry}
-  alias CMS.Search.Result
 
   alias Routes.Route
 
@@ -154,15 +153,6 @@ defmodule CMS.Repo do
       {:ok, [api_data | _]} -> Photo.from_api(api_data)
       {:ok, _} -> :empty
       {:error, _} -> :error
-    end
-  end
-
-  @spec search(String.t(), integer, [String.t()]) :: any
-  def search(query, offset, content_types) do
-    params = [q: query, page: offset] ++ Enum.map(content_types, &{:"type[]", &1})
-
-    with {:ok, api_data} <- @cms_api.view("/cms/search", params) do
-      {:ok, Result.from_api(api_data)}
     end
   end
 
