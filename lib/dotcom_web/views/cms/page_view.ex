@@ -7,6 +7,7 @@ defmodule DotcomWeb.CMS.PageView do
 
   require Dotcom.Locales
 
+  import Dotcom.Locales, only: [default_locale_code: 0]
   import Dotcom.Translator.Behaviour, only: [translate_html: 2]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
@@ -99,9 +100,13 @@ defmodule DotcomWeb.CMS.PageView do
   end
 
   defp get_locale(conn) do
-    conn
-    |> Plug.Conn.get_session()
-    |> Map.get("locale", Dotcom.Locales.default_locale_code())
+    if Map.has_key?(conn, :resp_cookies) do
+      conn
+      |> Plug.Conn.get_resp_cookies()
+      |> Map.get("locale", default_locale_code())
+    else
+      default_locale_code()
+    end
   end
 
   defp teasers?(%{teasers: teasers}) do

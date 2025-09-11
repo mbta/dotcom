@@ -12,6 +12,7 @@ Mox.defmock(Dotcom.Alerts.EndpointStops.Mock, for: Dotcom.Alerts.EndpointStops.B
 Mox.defmock(Dotcom.Redis.Mock, for: Dotcom.Redis.Behaviour)
 Mox.defmock(Dotcom.Redix.Mock, for: Dotcom.Redix.Behaviour)
 Mox.defmock(Dotcom.Redix.PubSub.Mock, for: Dotcom.Redix.PubSub.Behaviour)
+Mox.defmock(Dotcom.Translator.Mock, for: Dotcom.Translator.Behaviour)
 Mox.defmock(Dotcom.Utils.DateTime.Mock, for: Dotcom.Utils.DateTime.Behaviour)
 Mox.defmock(LocationService.Mock, for: LocationService.Behaviour)
 Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)

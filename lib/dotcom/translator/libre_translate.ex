@@ -1,5 +1,6 @@
 defmodule Dotcom.Translator.LibreTranslate do
   @moduledoc """
+  An implementation of `Dotcom.Translate.Behaviour` that uses LibreTranslate.
   """
 
   use Nebulex.Caching.Decorators
@@ -12,11 +13,7 @@ defmodule Dotcom.Translator.LibreTranslate do
   @timeout :timer.minutes(1)
   @ttl :timer.minutes(1)
 
-  @decorate cacheable(
-              cache: @cache,
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def translate_html(html, locale) do
     Req.post!("http://10.0.0.2:5000/translate",
       finch: Translator.Finch,
@@ -27,11 +24,7 @@ defmodule Dotcom.Translator.LibreTranslate do
     |> Map.get("translatedText")
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def translate_text(html, locale) do
     Req.post!("http://10.0.0.2:5000/translate",
       finch: Translator.Finch,

@@ -13,6 +13,14 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
   alias Alerts.Cache.Store
 
+  setup do
+    stub(Dotcom.Translator.Mock, :translate_html, fn _, _ ->
+      "<span>#{Faker.Cat.breed()}</span>"
+    end)
+
+    :ok
+  end
+
   describe "render_404/1" do
     test "renders the 404 bus" do
       rendered =
