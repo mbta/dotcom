@@ -1,7 +1,7 @@
 <% track_template() %>
 <div class="page-section search-page">
   <div class="search-results-facets col-md-3">
-    <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
+    <%= form_for @conn, "/search", [as: :search, method: :get, data: [form: "search-filter"]],
         fn f -> %>
       <input name="search[offset]" type="hidden" value="0" />
       {hidden_input(:search, :query, value: @query)}
