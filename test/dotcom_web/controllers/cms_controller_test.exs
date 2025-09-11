@@ -12,6 +12,10 @@ defmodule DotcomWeb.CMSControllerTest do
       []
     end)
 
+    stub(Dotcom.Translator.Mock, :translate_html, fn html, _ ->
+      html
+    end)
+
     :ok
   end
 

@@ -2,8 +2,13 @@ defmodule DotcomWeb.CMS.PageView do
   @moduledoc """
   Handles rendering of partial content from the CMS.
   """
+
   use DotcomWeb, :view
 
+  require Dotcom.Locales
+
+  import Dotcom.Locales, only: [default_locale_code: 0]
+  import Dotcom.Translator.Behaviour, only: [translate_html: 2]
   import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Page
@@ -17,14 +22,20 @@ defmodule DotcomWeb.CMS.PageView do
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
 
-    render(
-      "_diversions.html",
-      page: page,
-      sidebar_left: sidebar_left,
-      sidebar_right: sidebar_right,
-      sidebar_class: sidebar_layout,
-      conn: conn
-    )
+    content =
+      render(
+        "_diversions.html",
+        page: page,
+        sidebar_left: sidebar_left,
+        sidebar_right: sidebar_right,
+        sidebar_class: sidebar_layout,
+        conn: conn
+      )
+      |> Phoenix.HTML.Safe.to_iodata()
+      |> IO.iodata_to_binary()
+      |> translate_html(get_locale(conn))
+
+    {:safe, content}
   end
 
   def render_page(page, conn) do
@@ -32,14 +43,20 @@ defmodule DotcomWeb.CMS.PageView do
     sidebar_right = has_right_rail?(page)
     sidebar_layout = sidebar_classes(sidebar_left, sidebar_right)
 
-    render(
-      "_page.html",
-      page: page,
-      sidebar_left: sidebar_left,
-      sidebar_right: sidebar_right,
-      sidebar_class: sidebar_layout,
-      conn: conn
-    )
+    content =
+      render(
+        "_page.html",
+        page: page,
+        sidebar_left: sidebar_left,
+        sidebar_right: sidebar_right,
+        sidebar_class: sidebar_layout,
+        conn: conn
+      )
+      |> Phoenix.HTML.Safe.to_iodata()
+      |> IO.iodata_to_binary()
+      |> translate_html(get_locale(conn))
+
+    {:safe, content}
   end
 
   @doc """
@@ -77,9 +94,21 @@ defmodule DotcomWeb.CMS.PageView do
   def sidebar_classes(false, true), do: "c-cms--with-sidebar c-cms--sidebar-right"
   def sidebar_classes(false, false), do: "c-cms--no-sidebar"
 
-  @spec has_right_rail?(Page.t()) :: boolean
   def has_right_rail?(%{paragraphs: paragraphs}) do
     Enum.any?(paragraphs, &right_rail_check(&1))
+  end
+
+  def has_right_rail?(_), do: false
+
+  defp get_locale(conn) do
+    if Map.has_key?(conn, :resp_cookies) do
+      conn
+      |> Plug.Conn.get_resp_cookies()
+      |> Map.get("locale", %{})
+      |> Map.get(:value, default_locale_code())
+    else
+      default_locale_code()
+    end
   end
 
   defp teasers?(%{teasers: teasers}) do

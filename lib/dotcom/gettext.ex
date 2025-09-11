@@ -3,6 +3,8 @@ defmodule Dotcom.Gettext do
   Implement [Gettext](https://hexdocs.pm/gettext/Gettext.html).
   """
 
+  require Dotcom.Locales
+
   use Gettext.Backend,
     default_domain: "dotcom",
     default_locale: Dotcom.Locales.default_locale_code(),

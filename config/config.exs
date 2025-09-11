@@ -94,4 +94,6 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
 
+config :dotcom, :translator, Dotcom.Translator.LibreTranslate
+
 import_config "#{config_env()}.exs"
