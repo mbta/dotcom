@@ -2,7 +2,7 @@ import { uniqueId } from "lodash";
 import React from "react";
 import { SourceTemplates } from "@algolia/autocomplete-js";
 import { PopularItem } from "../__autocomplete";
-import { getFeatureIcons, getPopularIcon } from "../../../../js/algolia-result";
+import { getFeatureIcons, getPopularIcon } from "./helpers_algolia";
 
 const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
   item
