@@ -1,6 +1,6 @@
 <% label = Alerts.Alert.human_label(@alert) %>
 <% alert_icon_type = Alerts.Alert.icon(@alert) %>
-<% content? = not is_nil(@alert.description) || not is_nil(@alert[:image]) %>
+<% content? = not is_nil(@alert.description) || not is_nil(Alerts.Alert.image(@alert)) %>
 <% description_class = if content?, do: " js-toggle-alert c-alert-item--expandable", else: "" %>
 <li
   tabindex="0"
