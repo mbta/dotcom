@@ -37,6 +37,9 @@ defmodule DotcomWeb.Live.TripPlanner do
     }
   }
 
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :trip_planner}
+  on_mount DotcomWeb.Hooks.TripPlannerFeedbackURL
+
   @impl true
   @doc """
   When the live view first loads, there are three possible scenarios:
@@ -60,7 +63,6 @@ defmodule DotcomWeb.Live.TripPlanner do
         :meta_description,
         ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
       )
-      |> assign(:breadcrumbs, [%Util.Breadcrumb{url: "/trip-planner", text: ~t"Trip Planner"}])
       |> assign(@state)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
       |> update_datepicker(params_with_datetime)
