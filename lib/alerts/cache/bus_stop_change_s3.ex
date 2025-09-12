@@ -83,7 +83,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
                   Util.service_date()
                 ),
               on_error: :nothing,
-              opts: [ttl: @ttl]
+              opts: [ttl: :timer.minutes(1)]
             )
   def get_stored_alerts do
     keys =
