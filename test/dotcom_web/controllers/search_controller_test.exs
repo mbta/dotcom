@@ -5,8 +5,6 @@ defmodule DotcomWeb.SearchControllerTest do
 
   setup :verify_on_exit!
 
-  @params %{"search" => %{"query" => "mbta"}}
-
   describe "query" do
     test "sends a POST to Algolia and returns the results", %{conn: conn} do
       index = "drupal"
