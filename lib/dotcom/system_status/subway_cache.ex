@@ -28,7 +28,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
   def init(_opts) do
     Phoenix.PubSub.subscribe(Dotcom.PubSub, "alerts")
 
-    {:ok, SystemStatus.Subway.subway_status([], Dotcom.Utils.DateTime.now())}
+    {:ok, status()}
   end
 
   @impl true
