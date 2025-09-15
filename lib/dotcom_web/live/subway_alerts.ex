@@ -19,7 +19,7 @@ defmodule DotcomWeb.Live.SubwayAlerts do
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, "system_status:subway")
+      @subway_status_cache.subscribe()
     end
 
     {:ok,

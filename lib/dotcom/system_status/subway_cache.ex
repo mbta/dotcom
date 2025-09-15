@@ -11,6 +11,8 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
   @behaviour Behaviour
 
+  @pubsub_topic "system_status:subway"
+
   # Client
 
   def start_link(_) do
@@ -20,6 +22,11 @@ defmodule Dotcom.SystemStatus.SubwayCache do
   @impl Behaviour
   def subway_status() do
     GenServer.call(__MODULE__, :subway_status)
+  end
+
+  @impl Behaviour
+  def subscribe() do
+    Phoenix.PubSub.subscribe(Dotcom.PubSub, @pubsub_topic)
   end
 
   # Server
@@ -43,7 +50,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     if new_status != old_status do
       Phoenix.PubSub.broadcast(
         Dotcom.PubSub,
-        "system_status:subway",
+        @pubsub_topic,
         {:subway_status, new_status}
       )
     end
