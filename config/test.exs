@@ -42,6 +42,7 @@ config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 
 config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
+config :dotcom, :search_service, Dotcom.SearchService.Mock
 
 config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader.Mock
 
