@@ -32,6 +32,8 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
       Dotcom.SystemStatus.subway_status()
     end)
 
+    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subscribe, fn -> :ok end)
+
     :ok
   end
 

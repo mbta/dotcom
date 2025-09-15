@@ -26,7 +26,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
   @impl Behaviour
   def subscribe() do
-    Phoenix.PubSub.subscribe(Dotcom.PubSub, @pubsub_topic)
+    DotcomWeb.Endpoint.subscribe(@pubsub_topic)
   end
 
   # Server
@@ -48,11 +48,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     new_status = status()
 
     if new_status != old_status do
-      Phoenix.PubSub.broadcast(
-        Dotcom.PubSub,
-        @pubsub_topic,
-        {:subway_status, new_status}
-      )
+      DotcomWeb.Endpoint.broadcast(@pubsub_topic, "subway_status_updated", new_status)
     end
 
     {:noreply, new_status}

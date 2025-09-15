@@ -45,11 +45,8 @@ defmodule DotcomWeb.Live.SubwayAlerts do
     {:noreply, socket}
   end
 
-  def handle_info({:subway_status, status}, socket) do
-    {
-      :noreply,
-      socket |> assign(:subway_status, status)
-    }
+  def handle_info(%{event: "subway_status_updated", payload: subway_status}, socket) do
+    {:noreply, socket |> assign(:subway_status, subway_status)}
   end
 
   defp assign_banner_alert(socket) do
