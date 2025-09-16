@@ -1,24 +1,18 @@
 defmodule DotcomWeb.SearchController do
-  @moduledoc false
+  @moduledoc """
+  Supports a combined list of many search types.
+  """
   use DotcomWeb, :controller
-
-  require Logger
 
   import Dotcom.ResponsivePagination, only: [build: 1]
   import DotcomWeb.Router.Helpers, only: [search_path: 2]
 
-  alias Alerts.{Alert, Repo}
-  alias Algolia.{Analytics, Api, Query}
   alias CMS.Search.{Facets, Result}
   alias Plug.Conn
 
   plug(:breadcrumbs)
-  plug(:search_header)
 
-  @typep id_map :: %{
-           required(:stop) => MapSet.t(String.t()),
-           required(:route) => MapSet.t(String.t())
-         }
+  @search_service Application.compile_env!(:dotcom, :search_service)
 
   @spec index(Conn.t(), Keyword.t()) :: Conn.t()
   def index(
@@ -28,7 +22,6 @@ defmodule DotcomWeb.SearchController do
       when query != "" do
     offset = offset(search_input)
     content_types = content_types(search_input)
-    conn = assign_js(conn)
 
     case Facets.facet_responses(query, offset, content_types) do
       :error ->
@@ -45,71 +38,42 @@ defmodule DotcomWeb.SearchController do
 
   def index(conn, _params) do
     conn
-    |> assign_js
     |> assign(:empty_query, true)
     |> render("index.html")
   end
 
   @spec query(Conn.t(), map) :: Conn.t()
-  def query(%Conn{} = conn, params) do
-    api = %Api{
-      host: conn.assigns[:algolia_host],
-      index: "*",
-      action: "queries",
-      body: Query.build(params)
-    }
+  def query(%Conn{} = conn, %{
+        "algoliaIndexesWithParams" => indexes_with_params,
+        "algoliaQuery" => query
+      }) do
+    results =
+      indexes_with_params
+      |> Enum.map(&opts_from_params/1)
+      |> Task.async_stream(&@search_service.query(query, &1))
+      |> Enum.flat_map(fn
+        {:ok, {:ok, hits}} when is_list(hits) ->
+          hits
 
-    Api.action(:post, api) |> do_query(conn)
+        _ ->
+          []
+      end)
+
+    json(conn, %{results: results})
   end
 
-  defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
-    {:ok, json} = Poison.decode(body)
-    json(conn, json)
+  def query(conn, _) do
+    json(conn, %{error: :bad_response})
   end
 
-  defp do_query({:error, :bad_config}, conn) do
-    json(conn, %{error: "bad_config"})
-  end
+  defp opts_from_params(index_with_params) do
+    [{index, opts}] = Map.to_list(index_with_params)
 
-  defp do_query(response, conn) do
-    _ = log_error(response)
-    json(conn, %{error: "bad_response"})
-  end
-
-  def log_error({:ok, %HTTPoison.Response{} = response}) do
-    do_log_error(response.body)
-  end
-
-  def log_error({:error, %HTTPoison.Error{} = response}) do
-    do_log_error(response.reason)
-  end
-
-  def log_error(_) do
-    :ok
-  end
-
-  defp do_log_error(error) do
-    Logger.warning("Received bad response from Algolia: #{inspect(error)}")
-  end
-
-  @spec click(Conn.t(), map) :: Conn.t()
-  def click(conn, params) do
-    response =
-      case Analytics.click(params) do
-        :ok ->
-          %{message: "success"}
-
-        {:error, %HTTPoison.Response{} = response} ->
-          %{message: "bad_response", body: response.body, status_code: response.status_code}
-
-        {:error, %HTTPoison.Error{reason: reason}} ->
-          %{message: "error", reason: reason}
-
-        {:error, %{reason: reason}} ->
-          %{message: "error", reason: reason}
-      end
-
-    json(conn, response)
+    Enum.map(opts, fn {k, v} ->
+      {String.to_atom(k), v}
+    end)
+    |> Keyword.new()
+    |> Keyword.put(:category, index)
   end
 
   @spec render_error(Conn.t()) :: Conn.t()
@@ -132,49 +96,6 @@ defmodule DotcomWeb.SearchController do
     |> pagination()
     |> render("index.html")
   end
-
-  @spec assign_js(Conn.t()) :: Conn.t()
-  defp assign_js(conn) do
-    %{stop: stop_ids, route: route_ids} = get_alert_ids(conn.assigns.date_time)
-
-    conn
-    |> assign(:stops_with_alerts, stop_ids)
-    |> assign(:routes_with_alerts, route_ids)
-  end
-
-  @spec get_alert_ids(DateTime.t(), (DateTime.t() -> [Alert.t()])) :: id_map
-  def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Repo.all/1) do
-    dt
-    |> alerts_repo_fn.()
-    |> Enum.reject(&(&1.priority == :low))
-    |> Enum.reduce(%{stop: MapSet.new(), route: MapSet.new()}, &get_entity_ids/2)
-  end
-
-  @spec get_entity_ids(Alert.t(), id_map) :: id_map
-  defp get_entity_ids(alert, acc) do
-    acc
-    |> do_get_entity_ids(alert, :stop)
-    |> do_get_entity_ids(alert, :route)
-  end
-
-  @spec do_get_entity_ids(id_map, Alert.t(), :stop | :route) :: id_map
-  defp do_get_entity_ids(acc, %Alert{} = alert, key) do
-    alert
-    |> Alert.get_entity(key)
-    |> Enum.reduce(acc, &add_id_to_set(&2, key, &1))
-  end
-
-  @spec add_id_to_set(id_map, :stop | :route, String.t() | nil) :: id_map
-  defp add_id_to_set(acc, _set_name, nil) do
-    acc
-  end
-
-  defp add_id_to_set(acc, set_name, <<id::binary>>) do
-    Map.update!(acc, set_name, &MapSet.put(&1, id))
-  end
-
-  @spec search_header(Conn.t(), Keyword.t()) :: Conn.t()
-  defp search_header(conn, _), do: assign(conn, :search_header?, true)
 
   @spec breadcrumbs(Conn.t(), Keyword.t()) :: Conn.t()
   defp breadcrumbs(conn, _) do

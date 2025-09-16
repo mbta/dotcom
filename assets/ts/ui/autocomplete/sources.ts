@@ -1,5 +1,4 @@
 import { AutocompleteSource } from "@algolia/autocomplete-js";
-import { SearchResponse } from "@algolia/client-search";
 import geolocationPromise from "../../../js/geolocation-promise";
 import { fetchJsonOrThrow } from "../../helpers/fetch-json";
 import { AutocompleteItem, LocationItem, PopularItem } from "./__autocomplete";
@@ -153,7 +152,7 @@ export const popularLocationSource = (
  */
 export const algoliaSource = (
   query: string,
-  indexesWithParams: Record<string, Record<string, unknown>>,
+  indexesWithParams: Record<string, Record<string, unknown>>[],
   withLink: boolean = true
 ): AutocompleteSource<AutocompleteItem> => ({
   sourceId: "algolia",
@@ -172,11 +171,7 @@ export const algoliaSource = (
       })
     })
       .then(res => res.json())
-      .then(({ results }) =>
-        results.flatMap(({ hits, index }: SearchResponse<AutocompleteItem>) =>
-          hits.map(hit => ({ ...hit, index } as AutocompleteItem))
-        )
-      )
+      .then(({ results }) => results)
       .catch(() => []);
   },
   ...(withLink && {
