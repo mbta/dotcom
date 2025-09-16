@@ -118,6 +118,7 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:kino_live_component, "0.0.5"},
       {:lazy_html, "0.1.6", only: [:test]},
+      {:live_isolated_component, "0.10.0", only: [:test]},
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
