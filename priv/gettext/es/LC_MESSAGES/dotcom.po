@@ -117,9 +117,6 @@ msgstr "Transporte de Massport"
 msgid "From"
 msgstr "Desde"
 
-msgid "Check if your spelling is correct."
-msgstr "Compruebe si su ortografía es correcta."
-
 msgid "Does not stop at"
 msgstr "No se detiene"
 
@@ -150,6 +147,9 @@ msgstr "Seleccione una ubicación de destino."
 msgid "the conductor"
 msgstr "el conductor"
 
+msgid "1 result"
+msgstr "1 resultado"
+
 msgid "All Location Types"
 msgstr "Todos los tipos de ubicación"
 
@@ -165,11 +165,17 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "Lines and Routes"
+msgstr "Líneas y Rutas"
+
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
 
 msgid "Arrive by"
 msgstr "Llegada"
+
+msgid "Documents"
+msgstr "Documentos"
 
 msgid "MBTA Threads"
 msgstr "MBTA Threads"
@@ -207,9 +213,6 @@ msgstr "Iniciar sesión"
 msgid "All modes"
 msgstr "Todos los modos"
 
-msgid "search"
-msgstr "búsqueda"
-
 msgid "Accessibility"
 msgstr "Accesibilidad"
 
@@ -224,9 +227,6 @@ msgstr "Planifica tu viaje"
 
 msgid "To report a problem or emergency with a railroad crossing, call"
 msgstr "Para reportar un problema o emergencia con un cruce de ferrocarril, llame"
-
-msgid "When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures."
-msgstr "Cuando los resultados autocompletos están disponibles, utilice flechas arriba y abajo para revisar y entrar para seleccionar. Toque a los usuarios del dispositivo, explore con tacto o con gestos giratorios."
 
 msgid "Enter the traffic circle"
 msgstr "Entra en el círculo de tráfico"
@@ -267,9 +267,6 @@ msgstr "Se admiten bicicletas en todos los barcos de ferry"
 msgid "Search results for"
 msgstr "Resultados de búsqueda para"
 
-msgid "Remove quotes around phrases to search for each word individually."
-msgstr "Eliminar las citas alrededor de frases para buscar cada palabra individualmente."
-
 msgid "More Guides"
 msgstr "Más Guías"
 
@@ -305,9 +302,6 @@ msgstr "Tuvimos un problema presentando sus comentarios -- por favor llámenos a
 
 msgid "East Boston Ferry"
 msgstr "East Boston Ferry"
-
-msgid "Showing results"
-msgstr "Mostrando resultados"
 
 msgid "All Schedules & Maps"
 msgstr "Todos los horarios &gt; Mapas"
@@ -356,9 +350,6 @@ msgstr "Introduzca su dirección registrada"
 
 msgid "Leave at"
 msgstr "Vete."
-
-msgid "There was a problem performing your search; please try again in a few minutes."
-msgstr "Hubo un problema en la realización de su búsqueda; por favor intente de nuevo en unos minutos."
 
 msgid "No upcoming holidays"
 msgstr "No próximas vacaciones"
@@ -461,9 +452,6 @@ msgstr "Esta lista no incluye los minoristas actuales MBTA. Para ver las ubicaci
 
 msgid "Intended Audience"
 msgstr "Audiencia integrada"
-
-msgid "Whoops! An error occurred."
-msgstr "¡Vaya! Se produjo un error."
 
 msgid "minutes"
 msgstr "minutos"
@@ -600,9 +588,6 @@ msgstr "Menú"
 msgid "with your request."
 msgstr "con su solicitud."
 
-msgid "Please re-submit your search query or try again later."
-msgstr "Por favor vuelva a presentar su consulta de búsqueda o inténtelo de nuevo más tarde."
-
 msgid "MBTA LinkedIn"
 msgstr "MBTA LinkedIn"
 
@@ -660,14 +645,8 @@ msgstr "Resumen"
 msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
 msgstr "Todas las ubicaciones propuestas están sujetas a la idoneidad del sitio, la autorización y la disponibilidad al por menor."
 
-msgid "of"
-msgstr "de"
-
 msgid "Upcoming Public Meetings and Events"
 msgstr "Próximos Reuniones y Eventos Públicos"
-
-msgid "Use fewer keywords to increase the number of results"
-msgstr "Use menos palabras clave para aumentar el número de resultados"
 
 msgid "Find Proposed Locations Near You"
 msgstr "Encontrar lugares propuestos cerca de usted"
@@ -801,6 +780,9 @@ msgstr "Vamos."
 msgid "Attendees"
 msgstr "Attende"
 
+msgid "No more results for"
+msgstr "No más resultados para"
+
 msgid "Shortest Trip"
 msgstr "Viaje más corto"
 
@@ -813,8 +795,8 @@ msgstr "Web oficial del MBTA - horarios, mapas e información de tarifas para el
 msgid "Bicycles not allowed"
 msgstr "Bicicletas no permitidas"
 
-msgid "CLOSE"
-msgstr "CLOSE"
+msgid "Close"
+msgstr "Cerca"
 
 msgid "Filter by type"
 msgstr "Filtro por tipo"
@@ -938,9 +920,6 @@ msgstr "Sostenibilidad"
 
 msgid "Monthly Local Bus Pass"
 msgstr "Paso mensual de autobús local"
-
-msgid "Update Results"
-msgstr "Resultados de actualización"
 
 msgid "Schedule Change"
 msgstr "Cuadro Cambio"
@@ -1104,8 +1083,14 @@ msgstr "Válido"
 msgid "Or,"
 msgstr "O,"
 
+msgid "Pages"
+msgstr "Páginas"
+
 msgid "MBTA YouTube"
 msgstr "MBTA YouTube"
+
+msgid "Stations and Stops"
+msgstr "Estaciones y paradas"
 
 msgid "Monday"
 msgstr "Lunes"
@@ -1311,6 +1296,9 @@ msgstr "¿Conoce a un propietario de la tienda local que podría estar interesad
 msgid "Enter a destination location"
 msgstr "Introduzca una ubicación de destino"
 
+msgid "Loading..."
+msgstr "Cargando..."
+
 msgid "Track Boarding Change"
 msgstr "Track Boarding Cambio"
 
@@ -1476,9 +1464,6 @@ msgstr "tarjeta de tarifa reducida"
 msgid "Bike Issue"
 msgstr "Cuestión de la bicicleta"
 
-msgid "Sorry about that. There are no results matching"
-msgstr "Lo siento. No hay resultados que coincidan"
-
 msgid "Icon Key"
 msgstr "Icon Key"
 
@@ -1539,9 +1524,6 @@ msgstr "Conozcanos"
 msgid "Free Service"
 msgstr "Servicio gratuito"
 
-msgid "Showing 1 result for"
-msgstr "Mostrando 1 resultado para"
-
 msgid "Events"
 msgstr "Eventos"
 
@@ -1598,6 +1580,9 @@ msgstr "Tome el ascensor"
 
 msgid "Ferry"
 msgstr "Ferry"
+
+msgid "Submit"
+msgstr "Submit"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -1661,6 +1646,9 @@ msgstr "Subway Fares"
 
 msgid "Track Change"
 msgstr "Cambio de pista"
+
+msgid "Load more"
+msgstr "Carga más"
 
 msgid "View Alerts"
 msgstr "Ver Alertas"
