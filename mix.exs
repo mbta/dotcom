@@ -78,6 +78,7 @@ defmodule DotCom.Mixfile do
     [
       {:absinthe_client, "0.1.1"},
       {:address_us, "0.4.3"},
+      {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.9"},
       {:aws_credentials, "0.3.5", optional: true},
       {:browser, "0.5.5"},
