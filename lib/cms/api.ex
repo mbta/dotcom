@@ -90,11 +90,11 @@ defmodule CMS.Api do
   end
 
   @spec set_redirect_options(URI.t()) :: Keyword.t()
-  defp set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
+  def set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
     [to: uri |> internal_uri() |> parse_redirect_query()]
   end
 
-  defp set_redirect_options(uri) do
+  def set_redirect_options(uri) do
     base_url = Application.get_env(:dotcom, :cms_api)[:base_url]
 
     if String.contains?(base_url, uri.host) do
@@ -116,14 +116,10 @@ defmodule CMS.Api do
     nil
   end
 
-  defp update_query(query) do
+  defp update_query(query) when is_binary(query) do
     # If the redirect path happens to include query params,
     # Drupal will append the request query parameters to the redirect params.
-
-    query
-    |> URI.decode_query()
-    |> Map.delete("_format")
-    |> URI.encode_query()
+    String.replace_suffix(query, "&_format=json", "")
   end
 
   @spec internal_uri(URI.t()) :: URI.t()
