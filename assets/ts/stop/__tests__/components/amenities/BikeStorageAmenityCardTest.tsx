@@ -49,7 +49,13 @@ describe("BikeStorageAmenityCard", () => {
   });
 
   it("should render 'Not available' if there's no bike storage", () => {
-    render(<BikeStorageAmenityCard stopName="" bikeStorage={[]} alerts={closedAlerts} />);
+    render(
+      <BikeStorageAmenityCard
+        stopName=""
+        bikeStorage={[]}
+        alerts={closedAlerts}
+      />
+    );
     expect(screen.getByText("Not available")).toBeDefined();
   });
 
