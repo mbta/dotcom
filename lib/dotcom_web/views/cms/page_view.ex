@@ -3,6 +3,7 @@ defmodule DotcomWeb.CMS.PageView do
   Handles rendering of partial content from the CMS.
   """
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :view
 
   require Dotcom.Locales
@@ -15,8 +16,19 @@ defmodule DotcomWeb.CMS.PageView do
   alias CMS.Partial.Paragraph
   alias Plug.Conn
 
-  @doc "Universal wrapper for CMS page content"
-  @spec render_page(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
+  def render_page(nil, %Conn{request_path: path} = conn) do
+    locale = get_locale(conn)
+
+    content =
+      gettext(
+        "<p style=\"padding: 20px; background: pink;\">I am the <em>%{locale}</em> version of <strong>%{path}</strong> page from the TMS.</p>",
+        locale: locale,
+        path: path
+      )
+
+    {:safe, content}
+  end
+
   def render_page(%CMS.Page.Diversions{} = page, conn) do
     sidebar_left = Map.has_key?(page, :sidebar_menu) && !is_nil(page.sidebar_menu)
     sidebar_right = has_right_rail?(page)

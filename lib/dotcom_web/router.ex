@@ -367,6 +367,12 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
+    get("/fares", CMSController, :translated_page)
+  end
+
+  scope "/", DotcomWeb do
+    pipe_through([:secure, :browser])
+
     get("/*path", CMSController, :page)
   end
 
