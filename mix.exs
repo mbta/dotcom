@@ -111,7 +111,6 @@ defmodule DotCom.Mixfile do
       {:floki, "0.38.0"},
       {:gen_stage, "1.3.2"},
       {:gettext, "0.26.2"},
-      {:hackney, "1.25.0"},
       {:hammer, "7.1.0"},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.3"},
