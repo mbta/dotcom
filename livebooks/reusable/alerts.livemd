@@ -98,3 +98,60 @@ Alerts.Cache.Store.update(alerts, nil)
 
 now() |> Alerts.Repo.all()
 ```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Section
+
+```elixir
+informed_entities = [
+  InformedEntity.build(:informed_entity,
+    activities: MapSet.new([:exit, :ride, :board]),
+    route: "Red",
+    route_type: 1
+  )
+]
+
+# Create a currently active and an upcoming delay alert
+alerts =
+  [
+    Alert.build(:alert,
+      active_period: [
+        {
+          now() |> Timex.shift(hours: -4),
+          now() |> Timex.shift(hours: 8)
+        }
+      ],
+      effect: :delay,
+      severity: 3,
+      informed_entity: Alerts.InformedEntitySet.new(informed_entities)
+    ),
+    Alert.build(:alert,
+      active_period: [
+        {
+          now() |> Timex.shift(hours: 4),
+          now() |> Timex.shift(hours: 8)
+        }
+      ],
+      effect: :delay,
+      severity: 3,
+      informed_entity: Alerts.InformedEntitySet.new(informed_entities)
+    ),
+    Alert.build(:alert,
+      active_period: [
+        {
+          now() |> Timex.shift(days: 4),
+          now() |> Timex.shift(days: 8)
+        }
+      ],
+      effect: :delay,
+      severity: 3,
+      informed_entity: Alerts.InformedEntitySet.new(informed_entities)
+    )
+  ]
+
+# Remove all other alerts and only use the ones you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
