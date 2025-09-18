@@ -33,7 +33,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
   @impl true
   def init(_opts) do
-    DotcomWeb.Endpoint.subscribe("alerts")
+    Alerts.Cache.Store.subscribe()
 
     {:ok, status()}
   end
