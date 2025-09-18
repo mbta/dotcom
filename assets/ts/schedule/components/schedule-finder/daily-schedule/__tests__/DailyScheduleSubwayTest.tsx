@@ -1,17 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
-import {
-  RouteType,
-  ServiceType,
-  ServiceTypicality
-} from "../../../../../__v3api";
+import { ServiceType, ServiceTypicality } from "../../../../../__v3api";
 import { ServiceInSelector } from "../../../__schedule";
 import DailyScheduleSubway from "../DailyScheduleSubway";
 import * as hours from "../../../../../hooks/useHoursOfOperation";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import { render, screen } from "@testing-library/react";
-import * as useStop from "../../../../../hooks/useStop";
-import { FetchStatus } from "../../../../../helpers/use-fetch";
 
 describe("DailyScheduleSubway", () => {
   beforeEach(() => {
@@ -43,49 +37,12 @@ describe("DailyScheduleSubway", () => {
     }
   ];
 
-  const stopMap = {
-    "0": [
-      {
-        id: "1",
-        name: "Stop 1",
-        is_closed: false,
-        zone: null
-      }
-    ],
-    "1": [
-      {
-        id: "2",
-        name: "Stop 2",
-        is_closed: false,
-        zone: null
-      }
-    ]
-  };
-
-  const route = {
-    description: "Route 1",
-    direction_destinations: {
-      0: "Heathrow",
-      1: null
-    },
-    direction_names: {
-      0: null,
-      1: null
-    },
-    id: "1",
-    long_name: "Route 1",
-    name: "Route 1",
-    type: 0 as RouteType,
-    line_id: null
-  };
-
   it("should render", () => {
     const wrapper = mount(
       <DailyScheduleSubway
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
         services={services}
@@ -101,7 +58,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-26T13:45:00-05:00"}
         services={services}
@@ -117,7 +73,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-27T13:45:00-05:00"}
         services={services}
@@ -133,7 +88,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
         services={services}
@@ -170,7 +124,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"543"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
         services={services}
@@ -220,7 +173,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"543"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
         services={services}
@@ -248,7 +200,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
         services={services}
@@ -302,7 +253,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
         services={specialServices}
@@ -357,7 +307,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"1"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today={"2022-12-26T13:45:00-05:00"}
         services={specialServices}
@@ -405,7 +354,6 @@ describe("DailyScheduleSubway", () => {
         directionId={0}
         stopId={"543"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today="2022-11-28T14:14:14-05:00"
         services={services}
@@ -420,7 +368,6 @@ describe("DailyScheduleSubway", () => {
         directionId={1}
         stopId={"543"}
         routeId={"blue"}
-        route={route}
         scheduleNote={null}
         today="2022-11-28T14:14:14-05:00"
         services={services}
