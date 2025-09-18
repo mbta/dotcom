@@ -67,16 +67,16 @@ defmodule Dotcom.Application do
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor
         ] ++
+        [
+          {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
+        ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
             {Dotcom.SystemStatus.SubwayCache, []}
           ]
         else
           []
-        end ++
-        [
-          {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
-        ]
+        end
 
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
 

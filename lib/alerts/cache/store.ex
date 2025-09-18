@@ -32,7 +32,7 @@ defmodule Alerts.Cache.Store do
   @spec update([Alerts.Alert.t()], Alerts.Banner.t() | nil) :: :ok
   def update(alerts, banner_alert) do
     GenServer.call(__MODULE__, {:update, alerts, banner_alert})
-    Phoenix.PubSub.broadcast(Dotcom.PubSub, "alerts", :alerts_updated)
+    DotcomWeb.Endpoint.broadcast("alerts", "alerts_updated", alerts)
   end
 
   @doc """

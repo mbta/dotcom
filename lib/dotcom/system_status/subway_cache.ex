@@ -33,7 +33,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
   @impl true
   def init(_opts) do
-    Phoenix.PubSub.subscribe(Dotcom.PubSub, "alerts")
+    DotcomWeb.Endpoint.subscribe("alerts")
 
     {:ok, status()}
   end
@@ -44,7 +44,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
   end
 
   @impl true
-  def handle_info(:alerts_updated, old_status) do
+  def handle_info(%{event: "alerts_updated"}, old_status) do
     new_status = status()
 
     if new_status != old_status do
@@ -52,6 +52,12 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     end
 
     {:noreply, new_status}
+  end
+
+  def handle_info(params, old_status) do
+    dbg(params)
+
+    {:noreply, old_status}
   end
 
   defp status() do
