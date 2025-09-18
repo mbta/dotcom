@@ -27,19 +27,9 @@ const GreenLineScheduleLinks = ({
 }): ReactElement<HTMLElement> | null => (
   <>
     <ExpandableBlock
-      header={{ text: "Weekday Schedule", iconSvgText: null }}
+      header={{ text: "Schedules", iconSvgText: null }}
       initiallyExpanded={false}
       id="weekday-hours"
-    >
-      <div className="m-schedule-page__sidebar-hours">
-        {getGreenLineScheduleLinks()}
-        {pdfLink(pdfs[0])}
-      </div>
-    </ExpandableBlock>
-    <ExpandableBlock
-      header={{ text: "Weekend Schedule", iconSvgText: null }}
-      initiallyExpanded={false}
-      id="weekend-hours"
     >
       <div className="m-schedule-page__sidebar-hours">
         {getGreenLineScheduleLinks()}
