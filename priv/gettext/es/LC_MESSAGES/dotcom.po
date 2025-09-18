@@ -165,6 +165,9 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "No Scheduled Service"
+msgstr "No hay servicio programado"
+
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
 
@@ -194,6 +197,9 @@ msgstr "Guías de usuario"
 
 msgid "Free"
 msgstr "Gratis"
+
+msgid "to %{destination}"
+msgstr "a %{destination}"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -284,6 +290,9 @@ msgstr "O ir a "
 
 msgid "Event summary for "
 msgstr "Resumen del evento "
+
+msgid "from %{origin}"
+msgstr "de %{origin}"
 
 msgid "trips for today"
 msgstr "viajes para hoy"
@@ -734,6 +743,12 @@ msgstr "Cuando"
 
 msgid "No transit connection was found between the origin and destination on this date and time"
 msgstr "No se encontró conexión de tránsito entre el origen y el destino en esta fecha y hora"
+
+msgid "All Outbound Trains"
+msgstr "All Outbound Trains"
+
+msgid "All Trains"
+msgstr "Todos los trenes"
 
 msgid "Send Us Feedback"
 msgstr "Enviarnos comentarios"
@@ -1244,6 +1259,9 @@ msgstr "Trabajo previsto"
 
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
 msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
+
+msgid "All Inbound Trains"
+msgstr "Todos los trenes entrantes"
 
 msgid "Station Issue"
 msgstr "Cuestión de la estación"

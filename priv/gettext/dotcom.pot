@@ -3075,3 +3075,33 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
 msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:156
+#, elixir-autogen, elixir-format
+msgid "All Inbound Trains"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:150
+#, elixir-autogen, elixir-format
+msgid "All Outbound Trains"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:162
+#, elixir-autogen, elixir-format
+msgid "All Trains"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:40
+#, elixir-autogen, elixir-format
+msgid "No Scheduled Service"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:131
+#, elixir-autogen, elixir-format
+msgid "from %{origin}"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:130
+#, elixir-autogen, elixir-format
+msgid "to %{destination}"
+msgstr ""
