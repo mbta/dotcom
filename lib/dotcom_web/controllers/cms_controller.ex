@@ -38,12 +38,21 @@ defmodule DotcomWeb.CMSController do
   ]
 
   @spec page(Conn.t(), map) :: Conn.t()
-  def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
+  def page(%Conn{request_path: path, query_params: query_params} = conn, _) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
 
     path
     |> Repo.get_page(query_params)
     |> handle_page_response(conn)
+  end
+
+  def translated_page(%Conn{request_path: path, query_params: _} = conn, _) do
+    breadcrumb = path |> String.replace("/", "") |> Recase.to_title() |> Breadcrumb.build()
+
+    conn
+    |> assign(:breadcrumbs, [breadcrumb])
+    |> assign(:page, nil)
+    |> render("page.html")
   end
 
   @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::

@@ -55,3 +55,5 @@ config :dotcom, :secure_pipeline,
 # Credentials that always show widget and pass backend validation:
 config :recaptcha,
   http_client: Recaptcha.Http.MockClient
+
+config :dotcom, :translator, Dotcom.Translator.Mock
