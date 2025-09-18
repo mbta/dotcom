@@ -542,7 +542,7 @@ msgstr ""
 msgid "All Alerts"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:83
+#: lib/dotcom_web/live/subway_alerts.ex:80
 #: lib/dotcom_web/templates/alert/show.html.heex:18
 #: lib/dotcom_web/templates/alert/show.html.heex:37
 #, elixir-autogen, elixir-format
@@ -2082,7 +2082,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:80
+#: lib/dotcom_web/live/subway_alerts.ex:77
 #, elixir-autogen, elixir-format
 msgid "There are no other subway alerts at this time."
 msgstr ""
