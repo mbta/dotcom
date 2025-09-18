@@ -54,12 +54,6 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     {:noreply, new_status}
   end
 
-  def handle_info(params, old_status) do
-    dbg(params)
-
-    {:noreply, old_status}
-  end
-
   defp status() do
     SystemStatus.subway_status()
   end
