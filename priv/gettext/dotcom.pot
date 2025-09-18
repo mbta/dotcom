@@ -1523,7 +1523,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:147
+#: lib/dotcom_web/components/planned_disruptions.ex:148
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:33
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:92
 #, elixir-autogen, elixir-format
@@ -3029,48 +3029,47 @@ msgstr ""
 msgid "Westbound"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:181
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:187
 #, elixir-autogen, elixir-format
 msgid "%{count} Stops"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:138
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:140
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:146
 #, elixir-autogen, elixir-format
 msgid "Delays"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:109
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:119
 #, elixir-autogen, elixir-format
 msgid "Due to Single Tracking"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:139
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:145
 #, elixir-autogen, elixir-format
 msgid "Expect Delays"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:131
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:138
 #, elixir-autogen, elixir-format
 msgid "Normal Service"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:132
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:139
 #, elixir-autogen, elixir-format
 msgid "See Alerts"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:141
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:147
 #, elixir-autogen, elixir-format
 msgid "Shuttles"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:161
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:167
 #, elixir-autogen, elixir-format
 msgid "between %{first} and %{last}"
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:106
+#: lib/dotcom_web/components/planned_disruptions.ex:107
 #, elixir-autogen, elixir-format
 msgid "%{date} until further notice"
 msgstr ""
@@ -3085,7 +3084,7 @@ msgstr ""
 msgid "There is no planned work information at this time."
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:103
+#: lib/dotcom_web/components/planned_disruptions.ex:104
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
 msgstr ""
