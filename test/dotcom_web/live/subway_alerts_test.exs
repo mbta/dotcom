@@ -28,6 +28,12 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
+    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subway_status, fn ->
+      Dotcom.SystemStatus.subway_status()
+    end)
+
+    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subscribe, fn -> :ok end)
+
     :ok
   end
 

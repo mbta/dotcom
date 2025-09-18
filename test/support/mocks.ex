@@ -29,3 +29,6 @@ Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)
 Mox.defmock(Schedules.Repo.Mock, for: Schedules.Repo.Behaviour)
 Mox.defmock(Schedules.RepoCondensed.Mock, for: Schedules.RepoCondensed.Behaviour)
 Mox.defmock(Stops.Repo.Mock, for: Stops.Repo.Behaviour)
+
+# System Status
+Mox.defmock(Dotcom.SystemStatus.SubwayCache.Mock, for: Dotcom.SystemStatus.SubwayCache.Behaviour)
