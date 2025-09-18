@@ -5,6 +5,7 @@ defmodule Dotcom.Alerts do
 
   import Dotcom.Utils.DateTime, only: [in_range?: 2]
 
+  alias Dotcom.SystemStatus
   alias Alerts.Alert
   alias Alerts.InformedEntity
   alias Alerts.Match
@@ -128,6 +129,22 @@ defmodule Dotcom.Alerts do
     non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
 
     [0, 1]
+    |> @routes_repo_module.by_type()
+    |> with_alert_lists(non_banner_alerts)
+    |> drop_empty_groups()
+  end
+
+  @spec commuter_rail_alert_groups() :: [{Route.t(), [Alert.t()]}]
+  def commuter_rail_alert_groups() do
+    now = @date_time_module.now()
+
+    alerts =
+      @alerts_repo_module.all(now)
+      |> Enum.reject(&SystemStatus.status_alert?(&1, now))
+
+    non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
+
+    2
     |> @routes_repo_module.by_type()
     |> with_alert_lists(non_banner_alerts)
     |> drop_empty_groups()
