@@ -18,23 +18,16 @@ defmodule AlgoliaClient do
       {:ok, response} ->
         parse_response(response, index)
 
-      error ->
-        error
+      {:error, error} ->
+        _ = Logger.error("module=#{__MODULE__} error=#{inspect(error)}")
+        {:error, error}
     end
   end
 
   # highlight tags are required for compatibility with Algolia's  autocomplete.js library v1+ for rendering matched text
   defp search_algolia_index(index, query, opts) do
     with {:ok, index} <- choose_index(index) do
-      opts =
-        opts
-        |> Keyword.put_new(:analytics, prod?())
-        |> Keyword.put_new(:clickAnalytics, prod?())
-        |> Keyword.put_new(:hitsPerPage, 5)
-        |> Keyword.put_new(:responseFields, ~w(hits index))
-        |> Keyword.put(:highlightPreTag, "__aa-highlight__")
-        |> Keyword.put(:highlightPostTag, "__/aa-highlight__")
-
+      opts = Keyword.merge(default_opts(), opts)
       Algolia.search(Algolia.new(), index, query, opts)
     end
   end
@@ -49,10 +42,22 @@ defmodule AlgoliaClient do
 
   defp choose_index(_), do: {:error, :invalid_index}
 
+  defp default_opts do
+    [
+      analytics: prod?(),
+      clickAnalytics: prod?(),
+      hitsPerPage: 5,
+      responseFields: ~w(hits index),
+      highlightPreTag: "__aa-highlight__",
+      highlightPostTag: "__/aa-highlight__"
+    ]
+  end
+
   defp prod?, do: Application.get_env(:dotcom, :is_prod_env?)
 
+  # The response doesn't follow the documentation and omits the index name,
+  # so we add it here when that happens. Also add queryID
   defp parse_response(%{status: 200, body: %{"hits" => hits} = body}, index) when is_list(hits) do
-    # The response doesn't follow the documentation and omits the index name, so we add it here when that happens. Also add queryID
     {:ok,
      Enum.map(hits, fn hit ->
        hit
@@ -63,7 +68,7 @@ defmodule AlgoliaClient do
 
   defp parse_response(%{body: %{"message" => message, "status" => status}}, _)
        when status in 400..599 do
-    _ = Logger.error(message)
+    _ = Logger.error("module=#{__MODULE__} error=#{message}")
     {:error, :bad_response}
   end
 
