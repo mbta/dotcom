@@ -225,5 +225,5 @@ secret_key_base = System.get_env("SITE_SECRET_KEY_BASE", default_key_base)
 config :dotcom, DotcomWeb.Endpoint, secret_key_base: secret_key_base
 
 config :algolia,
-  application_id: System.get_env("ALGOLIA_APP_ID"),
-  api_key: System.get_env("ALGOLIA_SEARCH_KEY")
+  application_id: System.get_env("ALGOLIA_APP_ID", ""),
+  api_key: System.get_env("ALGOLIA_SEARCH_KEY", "")
