@@ -9,12 +9,7 @@ import {
 } from "date-fns";
 import { find } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
-import {
-  DirectionId,
-  Route,
-  StopHours,
-  StopHoursByStop
-} from "../../../../__v3api";
+import { DirectionId, StopHours, StopHoursByStop } from "../../../../__v3api";
 import {
   formatToBostonTime,
   stringToDateObject
@@ -74,7 +69,6 @@ const DailyScheduleSubway = ({
   directionId,
   stopId,
   routeId,
-  route,
   services,
   scheduleNote,
   today
@@ -82,7 +76,6 @@ const DailyScheduleSubway = ({
   directionId: DirectionId;
   stopId: string;
   routeId: string;
-  route: Route;
   services: ServiceInSelector[];
   scheduleNote: ScheduleNote | null;
   today: string;
