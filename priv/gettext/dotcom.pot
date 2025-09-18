@@ -3126,3 +3126,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Subway Status"
 msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:21
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Status"
+msgstr ""
