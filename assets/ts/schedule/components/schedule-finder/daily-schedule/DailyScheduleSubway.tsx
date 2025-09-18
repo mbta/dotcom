@@ -114,8 +114,6 @@ const DailyScheduleSubway = ({
     !isTodaySaturday &&
     !isTodaySunday;
 
-  const hideScheduleFrequency = route.id === "Orange";
-
   useEffect(() => {
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
@@ -234,7 +232,7 @@ const DailyScheduleSubway = ({
         </div>
       </div>
 
-      {!hideScheduleFrequency && scheduleNoteText !== "" && (
+      {scheduleNoteText !== "" && (
         <div className="mt-2">
           <div className="bg-brand-primary-lightest-contrast px-2 py-4">
             <h3 className="m-0">Train Frequency</h3>
