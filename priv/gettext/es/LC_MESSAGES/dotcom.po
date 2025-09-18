@@ -33,6 +33,9 @@ msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar Charli
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "Pruebe de nuevo o envíenos comentarios en mbta.com/apoyo al cliente"
 
+msgid "Subway Status"
+msgstr "Estado del subte"
+
 msgid "Stations"
 msgstr "Estaciones"
 
@@ -1032,6 +1035,9 @@ msgstr "Servicio normal"
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
 
+msgid "Cancellations / Delays"
+msgstr "Cancelaciones / Delays"
+
 msgid "Senior CharlieCard or TAP ID"
 msgstr "Senior CharlieCard or TAP ID"
 
@@ -1364,6 +1370,9 @@ msgstr "Sitio oficial del Secretario de Estado"
 
 msgid "or complete the feedback form on this page."
 msgstr "o completar el formulario de comentarios en esta página."
+
+msgid "Cancellations"
+msgstr "Cancelaciones"
 
 msgid "Lost & Found"
 msgstr "Perdido &amp; encontrado"
