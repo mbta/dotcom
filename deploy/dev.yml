@@ -40,7 +40,10 @@ services:
     libretranslate:
         image: libretranslate/libretranslate
         environment:
+            - LT_HOST=10.0.0.2
             - LT_LOAD_ONLY=en,es
+        expose:
+            - 9999
         ports:
             - 9999:5000
         healthcheck:
