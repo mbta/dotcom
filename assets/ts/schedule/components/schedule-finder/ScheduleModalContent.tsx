@@ -91,7 +91,6 @@ const ScheduleModalContent = ({
           stopId={selectedOrigin}
           directionId={selectedDirection}
           routeId={routeId}
-          route={route}
           scheduleNote={scheduleNote}
           today={today}
         />
