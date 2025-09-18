@@ -62,13 +62,13 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       reject_cancellations_and_delays(alert_counts)
 
     combine_alert_counts(other_alert_counts) ++
-      [{:alert, "#{cancellations.count + delays.count} Cancellations / Delays"}]
+      [{:alert, "#{cancellations.count + delays.count}" <> " " <> ~t"Cancellations / Delays"}]
   end
 
   # We have at least one cancellation and no delays.
   defp combine_alert_counts(%{cancellation: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if count == 1, do: "Cancellation", else: "Cancellations"
+    effect_string = if count == 1, do: ~t"Cancellation", else: ~t"Cancellations"
 
     combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
@@ -76,7 +76,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # We have at least one delay and no cancellations.
   defp combine_alert_counts(%{delay: %{count: count}} = alert_counts) do
     other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if count == 1, do: "Delay", else: "Delays"
+    effect_string = if count == 1, do: ~t"Delay", else: ~t"Delays"
 
     combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
   end
@@ -108,7 +108,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         [{effect, "#{count} #{effect_string}"}]
 
       _ ->
-        [{:alert, "#{total_count} Service Alerts"}]
+        [{:alert, "#{total_count}" <> " " <> ~t"Service Alerts"}]
     end
   end
 
@@ -135,7 +135,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   defp rows_for_line(%{status: %{service_today?: false}} = assigns) do
     ~H"""
     <.row
-      label="No Scheduled Service"
+      label={~t"No Scheduled Service"}
       row_name={row_name(@status)}
       status={:no_scheduled_service}
       url={@status.url}
@@ -148,7 +148,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   defp rows_for_line(%{status: %{alert_counts: alert_counts}} = assigns)
        when alert_counts == %{} do
     ~H"""
-    <.row label="Normal Service" row_name={row_name(@status)} status={:normal} url={@status.url} />
+    <.row label={~t"Normal Service"} row_name={row_name(@status)} status={:normal} url={@status.url} />
     """
   end
 
