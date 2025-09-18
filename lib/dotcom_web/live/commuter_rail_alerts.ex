@@ -15,12 +15,14 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
 
   embed_templates "layouts/*"
 
+  @meta_description ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(
        :meta_description,
-       ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+       @meta_description
      )
      |> assign(:breadcrumbs, [Breadcrumb.build(~t"Alerts")])
      |> assign_result(&@date_time.now/0)
