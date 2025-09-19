@@ -234,37 +234,6 @@ defmodule DotcomWeb.AlertControllerTest do
     end
   end
 
-  describe "mTicket detection" do
-    test "mTicket matched", %{conn: conn} do
-      expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        Factories.Routes.Route.build_list(4, :route, %{type: 2})
-      end)
-
-      response =
-        conn
-        |> put_req_header("user-agent", "Java/1.8.0_91")
-        |> get(alert_path(conn, :show, "commuter-rail"))
-        |> html_response(200)
-
-      assert response =~ "mticket-notice"
-      assert response =~ "access alerts:"
-      assert response =~ "/alerts/commuter-rail"
-    end
-
-    test "mTicket not matched", %{conn: conn} do
-      expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        Factories.Routes.Route.build_list(4, :route, %{type: 2})
-      end)
-
-      response =
-        conn
-        |> get(alert_path(conn, :show, "commuter-rail"))
-        |> html_response(200)
-
-      refute response =~ "mticket-notice"
-    end
-  end
-
   describe "excluding_banner/2" do
     setup do
       alerts = [
