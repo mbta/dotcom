@@ -78,6 +78,7 @@ defmodule DotCom.Mixfile do
     [
       {:absinthe_client, "0.1.1"},
       {:address_us, "0.4.3"},
+      {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.9"},
       {:aws_credentials, "0.3.5", optional: true},
       {:browser, "0.5.5"},
@@ -110,7 +111,6 @@ defmodule DotCom.Mixfile do
       {:floki, "0.38.0"},
       {:gen_stage, "1.3.2"},
       {:gettext, "0.26.2"},
-      {:hackney, "1.25.0"},
       {:hammer, "7.1.0"},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.3"},

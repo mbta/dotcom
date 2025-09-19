@@ -20,6 +20,10 @@ export const itemURL = (item: AutocompleteItem): string => {
   // Strip extra forward slashes as they break relative links
   url = url.replace(/\/\//g, "/");
 
+  if (item.queryID) {
+    return `${url}?queryID=${item.queryID}`;
+  }
+
   return url;
 };
 

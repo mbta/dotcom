@@ -1,13 +1,13 @@
 import { waitFor } from "@testing-library/react";
 import { Channel, Socket } from "phoenix";
 import {
-    makeMockChannel,
-    makeMockSocket
+  makeMockChannel,
+  makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import setupChannels, {
-    isVehicleChannel,
-    joinChannel,
-    leaveChannel
+  isVehicleChannel,
+  joinChannel,
+  leaveChannel
 } from "../channels";
 
 const mockOnLoadEventListener = () => {
@@ -132,7 +132,9 @@ describe("setupChannels", () => {
     const consoleMock = jest.spyOn(global.console, "error");
     // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
     channel.trigger("phx_error", "bad data");
-    expect(consoleMock).toHaveBeenCalledWith("error on channel vehicles:Red:0 : bad data");
+    expect(consoleMock).toHaveBeenCalledWith(
+      "error on channel vehicles:Red:0 : bad data"
+    );
 
     consoleMock.mockRestore();
   });

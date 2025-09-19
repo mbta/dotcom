@@ -75,28 +75,26 @@ const BASIC: Partial<AutocompleteOptions<any>> = {
   getSources({ query }): AutocompleteSource<any>[] {
     if (!query) return [];
     return debounced([
-      algoliaSource(query, {
-        routes: {
-          hitsPerPage: 5
-        },
-        stops: {
-          hitsPerPage: 2
-        },
-        drupal: {
-          hitsPerPage: 2,
-          facetFilters: [
-            [
-              "_content_type:page",
-              "_content_type:search_result",
-              "_content_type:diversion",
-              "_content_type:landing_page",
-              "_content_type:person",
-              "_content_type:project",
-              "_content_type:project_update"
+      algoliaSource(query, [
+        { routes: { hitsPerPage: 5 } },
+        { stops: { hitsPerPage: 2 } },
+        {
+          drupal: {
+            hitsPerPage: 2,
+            facetFilters: [
+              [
+                "_content_type:page",
+                "_content_type:search_result",
+                "_content_type:diversion",
+                "_content_type:landing_page",
+                "_content_type:person",
+                "_content_type:project",
+                "_content_type:project_update"
+              ]
             ]
-          ]
+          }
         }
-      })
+      ])
     ]);
   }
 };
@@ -127,15 +125,17 @@ const PROJECTS: Partial<AutocompleteOptions<any>> = {
   ...baseOptions,
   getSources({ query }): AutocompleteSource<any>[] {
     if (!query) return [];
-    const projectSource = algoliaSource(query, {
-      drupal: {
-        hitsPerPage: 10,
-        facets: ["projects"],
-        facetFilters: [
-          ["_content_type:project", "_content_type:project_update"]
-        ]
+    const projectSource = algoliaSource(query, [
+      {
+        drupal: {
+          hitsPerPage: 10,
+          facets: ["projects"],
+          facetFilters: [
+            ["_content_type:project", "_content_type:project_update"]
+          ]
+        }
       }
-    });
+    ]);
     projectSource.templates.noResults = ({ html }) => {
       return html`
         <i
@@ -161,11 +161,7 @@ const STOPS: Partial<AutocompleteOptions<any>> = {
   ...baseOptions,
   getSources({ query }): AutocompleteSource<any>[] {
     if (!query) return [];
-    const stopsSource = algoliaSource(query, {
-      stops: {
-        hitsPerPage: 10
-      }
-    });
+    const stopsSource = algoliaSource(query, [{ stops: { hitsPerPage: 10 } }]);
     stopsSource.templates.noResults = ({ html }) => {
       return html`
         <i
@@ -279,7 +275,7 @@ const TRIP_PLANNER = ({
         ]);
       return debounced([
         {
-          ...algoliaSource(query, { stops: { hitsPerPage: 5 } }, false),
+          ...algoliaSource(query, [{ stops: { hitsPerPage: 5 } }], false),
           onSelect
         },
         { ...locationSource(query, 5), onSelect },

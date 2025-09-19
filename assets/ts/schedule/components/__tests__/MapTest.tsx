@@ -2,8 +2,8 @@ import { mount } from "enzyme";
 import React from "react";
 import { TileLayer } from "react-leaflet";
 import {
-    MapData,
-    MapMarker as Marker
+  MapData,
+  MapMarker as Marker
 } from "../../../leaflet/components/__mapdata";
 import Map, { iconOpts, reducer } from "../Map";
 
