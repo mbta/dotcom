@@ -56,20 +56,24 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
         {DotcomWeb.AlertView.render("_t-alerts.html")}
       </:sidebar_bottom>
       <:main_section>
-        <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
-        <.alerts_page_content_layout
-          {assigns |> Map.take([:alert_banner])}
-          alert_groups={@commuter_rail_alert_groups}
-          date_time={@now}
-          empty_message="There are no other commuter rail alerts at this time."
-        >
-          <:heading>
-            <h2 class="mt-8">Station & Service Alerts</h2>
-          </:heading>
-          <:alert_header_icon>
-            <MbtaMetro.Components.SystemIcons.mode_icon mode="commuter-rail" />
-          </:alert_header_icon>
-        </.alerts_page_content_layout>
+        <section id="current_status">
+          <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
+        </section>
+        <section id="station_and_service">
+          <.alerts_page_content_layout
+            {assigns |> Map.take([:alert_banner])}
+            alert_groups={@commuter_rail_alert_groups}
+            date_time={@now}
+            empty_message={~t"There are no other commuter rail alerts at this time."}
+          >
+            <:heading>
+              <h2 class="mt-8">Station & Service Alerts</h2>
+            </:heading>
+            <:alert_header_icon>
+              <MbtaMetro.Components.SystemIcons.mode_icon mode="commuter-rail" />
+            </:alert_header_icon>
+          </.alerts_page_content_layout>
+        </section>
       </:main_section>
     </.alerts_layout>
     """

@@ -72,7 +72,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   describe "show/2" do
     test "alerts are assigned for all modes served by this controller", %{conn: conn} do
-      for mode <- [:bus, "commuter-rail", :ferry] do
+      for mode <- [:bus, :ferry] do
         conn = get(conn, alert_path(conn, :show, mode))
         assert conn.assigns.alerts
       end
