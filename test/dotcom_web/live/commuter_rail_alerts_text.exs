@@ -43,7 +43,7 @@ defmodule DotcomWeb.Live.CommuterRailAlertsTest do
     :ok
   end
 
-  describe "subway alerts page" do
+  describe "commuter rail alerts page" do
     test "shows a message when there are no alerts", %{conn: conn} do
       {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
 
