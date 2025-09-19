@@ -52,6 +52,7 @@ module.exports = {
     "../lib/dotcom_web/**/*.*ex",
     "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
   ],
+  presets: [require("../../deps/mbta_metro/priv/dist/tailwind-preset")],
   safelist: [
     ...safelist,
     {
