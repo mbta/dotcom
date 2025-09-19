@@ -72,7 +72,7 @@ defmodule DotcomWeb.AlertControllerTest do
 
   describe "show/2" do
     test "alerts are assigned for all modes served by this controller", %{conn: conn} do
-      for mode <- [:bus, "commuter-rail", :ferry] do
+      for mode <- [:bus, :ferry] do
         conn = get(conn, alert_path(conn, :show, mode))
         assert conn.assigns.alerts
       end
@@ -231,37 +231,6 @@ defmodule DotcomWeb.AlertControllerTest do
       ]
 
       assert group_access_alerts(alert) == []
-    end
-  end
-
-  describe "mTicket detection" do
-    test "mTicket matched", %{conn: conn} do
-      expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        Factories.Routes.Route.build_list(4, :route, %{type: 2})
-      end)
-
-      response =
-        conn
-        |> put_req_header("user-agent", "Java/1.8.0_91")
-        |> get(alert_path(conn, :show, "commuter-rail"))
-        |> html_response(200)
-
-      assert response =~ "mticket-notice"
-      assert response =~ "access alerts:"
-      assert response =~ "/alerts/commuter-rail"
-    end
-
-    test "mTicket not matched", %{conn: conn} do
-      expect(Routes.Repo.Mock, :by_type, fn 2 ->
-        Factories.Routes.Route.build_list(4, :route, %{type: 2})
-      end)
-
-      response =
-        conn
-        |> get(alert_path(conn, :show, "commuter-rail"))
-        |> html_response(200)
-
-      refute response =~ "mticket-notice"
     end
   end
 
