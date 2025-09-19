@@ -294,9 +294,6 @@ msgstr "Explore estaciones por modo"
 msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
 msgstr "Nuestros guías de usuario pueden ayudarle a aprender cómo navegar por el sistema, llegar a eventos locales, utilizar características de accesibilidad, y más."
 
-msgid "Use the link below to access"
-msgstr "Utilice el enlace de abajo para acceder"
-
 msgid "Parking"
 msgstr "Aparcamiento"
 
@@ -365,9 +362,6 @@ msgstr "No próximas vacaciones"
 
 msgid "Commuter Ferry to Logan Airport"
 msgstr "Commuter Ferry al aeropuerto de Logan"
-
-msgid "Go to your app store to update your MBTA mTicket."
-msgstr "Vaya a su tienda de aplicaciones para actualizar su MBTA mTicket."
 
 msgid "List view"
 msgstr "Vista lista"
@@ -866,9 +860,6 @@ msgstr "Más tarde"
 
 msgid "Enter an origin location"
 msgstr "Ingrese una ubicación de origen"
-
-msgid "Sorry, Your App Appears to be Out of Date"
-msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
 
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
 msgstr "Sitio web oficial del MBTA — Planear un viaje en tránsito público en la región del Gran Boston"
