@@ -116,10 +116,11 @@ defmodule CMS.Api do
     nil
   end
 
+  @format_re ~r/^_format=json&|&_format=json(&)?/
   defp update_query(query) when is_binary(query) do
-    # If the redirect path happens to include query params,
-    # Drupal will append the request query parameters to the redirect params.
-    String.replace_suffix(query, "&_format=json", "")
+    # If the redirect path happens to include query params, Drupal will add the
+    # request query parameters to the redirect params, in an unspecified order
+    Regex.replace(@format_re, query, "\\1", global: false)
   end
 
   @spec internal_uri(URI.t()) :: URI.t()
