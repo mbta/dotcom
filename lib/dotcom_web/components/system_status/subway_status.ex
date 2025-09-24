@@ -25,7 +25,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           class="px-xs flex items-center gap-2 mb-sm font-heading font-bold text-gray-dark no-underline"
         >
           <.icon type="icon-svg" name="icon-mode-subway-default" class="shrink-0 h-7 w-7" />
-          Subway Status
+          {~t"Subway Status"}
         </a>
       </:heading>
       <div class="border-b-[1px] border-gray-lightest">
@@ -57,7 +57,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     <.bordered_container hide_divider>
       <:heading>
         <div class="mb-sm">
-          Subway Status
+          {~t"Subway Status"}
         </div>
       </:heading>
       <div class="border-b-[1px] border-gray-lightest">
@@ -313,7 +313,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp future?(%{time: {:future, _}}), do: true
   defp future?(_), do: false
 
-  defp prefix(%{time: :current}), do: "Now"
+  defp prefix(%{time: :current}), do: ~t"Now"
   defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
   defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false, future: false}

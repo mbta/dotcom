@@ -33,6 +33,9 @@ msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar Charli
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "Pruebe de nuevo o envíenos comentarios en mbta.com/apoyo al cliente"
 
+msgid "Subway Status"
+msgstr "Estado del subte"
+
 msgid "Stations"
 msgstr "Estaciones"
 
@@ -165,6 +168,9 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "No Scheduled Service"
+msgstr "No hay servicio programado"
+
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
 
@@ -194,6 +200,9 @@ msgstr "Guías de usuario"
 
 msgid "Free"
 msgstr "Gratis"
+
+msgid "to %{destination}"
+msgstr "a %{destination}"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -284,6 +293,9 @@ msgstr "O ir a "
 
 msgid "Event summary for "
 msgstr "Resumen del evento "
+
+msgid "from %{origin}"
+msgstr "de %{origin}"
 
 msgid "trips for today"
 msgstr "viajes para hoy"
@@ -502,7 +514,7 @@ msgid "Student CharlieCard"
 msgstr "Estudiante CharlieCard"
 
 msgid "To submit an ADA/Accessibility complaint or feedback, please call"
-msgstr "Para presentar una queja o retroalimentación de ADA/Accesibilidad, por favor llame"
+msgstr "Para presentar una reclamación o retroalimentación de ADA/Accesibilidad, por favor llame"
 
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "Informe un problema de la puerta de cruce de ferrocarril"
@@ -580,10 +592,10 @@ msgid "Service alert or delay"
 msgstr "Alerta o demora del servicio"
 
 msgid "Depart at"
-msgstr "Salida"
+msgstr "Salida en"
 
 msgid " minute walk"
-msgstr " minuto caminando"
+msgstr " minuto andando"
 
 msgid "%{time} on %{date}"
 msgstr "%{time} el %{date}"
@@ -607,7 +619,7 @@ msgid "Typically fewer than 33% of seats available and distancing is unlikely (~
 msgstr "Típicamente menos del 33% de los asientos disponibles y el distanciamiento es poco probable (~3+ personas por fila)"
 
 msgid "Main Hotline"
-msgstr "Hotline principal"
+msgstr "Línea caliente principal"
 
 msgid "Work with Us"
 msgstr "Trabaja con nosotros"
@@ -619,7 +631,7 @@ msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
 msgstr "Page Not Found Silencio MBTA - Massachusetts Bay Transportation Authority"
 
 msgid "Due to Single Tracking"
-msgstr "Due to Single Tracking"
+msgstr "Debido a un seguimiento único"
 
 msgid "Recently Visited Schedules"
 msgstr "Horarios visitados recientemente"
@@ -703,7 +715,7 @@ msgid "Featured MBTA Updates and Projects"
 msgstr "Destacados MBTA Actualizaciones y proyectos"
 
 msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
-msgstr "Cuéntanos sobre tus viajes regulares y recibe alertas de texto o correo electrónico que son relevantes para ti, a veces cuando los desees."
+msgstr "Háblenos de sus viajes regulares y reciba alertas de texto o correo electrónico que sean relevantes para usted, a veces cuando los desee."
 
 msgid "Note"
 msgstr "Nota"
@@ -734,6 +746,12 @@ msgstr "Cuando"
 
 msgid "No transit connection was found between the origin and destination on this date and time"
 msgstr "No se encontró conexión de tránsito entre el origen y el destino en esta fecha y hora"
+
+msgid "All Outbound Trains"
+msgstr "All Outbound Trains"
+
+msgid "All Trains"
+msgstr "Todos los trenes"
 
 msgid "Send Us Feedback"
 msgstr "Enviarnos comentarios"
@@ -862,7 +880,7 @@ msgid "Enter an origin location"
 msgstr "Ingrese una ubicación de origen"
 
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
-msgstr "Sitio web oficial del MBTA — Planear un viaje en tránsito público en la región del Gran Boston"
+msgstr "Página web oficial del MBTA — Planifique un viaje en tránsito público en la región de Gran Boston"
 
 msgid "Showing all"
 msgstr "Mostrando todo"
@@ -875,6 +893,9 @@ msgstr "Cross Harbor Ferry"
 
 msgid "%{count} Stops"
 msgstr "%{count} Altos"
+
+msgid "Commuter Rail Status"
+msgstr "Commuter Rail Status"
 
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
@@ -949,7 +970,7 @@ msgid "View"
 msgstr "Ver"
 
 msgid "Arriving by %{time}"
-msgstr "Conducción por %{time}"
+msgstr "Conducir por %{time}"
 
 msgid "Origin or destination location is outside of our service area"
 msgstr "La ubicación de origen o destino está fuera de nuestra zona de servicio"
@@ -982,7 +1003,7 @@ msgid "Please enter an address that is within 100 miles of an MBTA service area.
 msgstr "Introduce una dirección que está a menos de 100 millas de un área de servicio MBTA."
 
 msgid "Bad grouped fare card data"
-msgstr "Datos de tarjetas de tarifa agrupadas mal"
+msgstr "Datos de tarjeta de tarifa mal agrupado"
 
 msgid "See Something, Say Something"
 msgstr "Ver algo, decir algo"
@@ -1016,6 +1037,9 @@ msgstr "Servicio normal"
 
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
+
+msgid "Cancellations / Delays"
+msgstr "Cancelaciones / Delays"
 
 msgid "Senior CharlieCard or TAP ID"
 msgstr "Senior CharlieCard or TAP ID"
@@ -1114,7 +1138,7 @@ msgid "Terms of Use"
 msgstr "Términos de uso"
 
 msgid "Create an Account"
-msgstr "Crear una Cuenta"
+msgstr "Crear una cuenta"
 
 msgid "Least Walking"
 msgstr "Al menos caminando"
@@ -1245,6 +1269,9 @@ msgstr "Trabajo previsto"
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
 msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
+msgid "All Inbound Trains"
+msgstr "Todos los trenes entrantes"
+
 msgid "Station Issue"
 msgstr "Cuestión de la estación"
 
@@ -1324,7 +1351,7 @@ msgid "Hard right"
 msgstr "Derecho duro"
 
 msgid "Find a Store Near You"
-msgstr "Encuentra una tienda cerca de ti"
+msgstr "Encontrar una tienda cerca de usted"
 
 msgid "Posted on"
 msgstr "Publicado en"
@@ -1347,8 +1374,11 @@ msgstr "Sitio oficial del Secretario de Estado"
 msgid "or complete the feedback form on this page."
 msgstr "o completar el formulario de comentarios en esta página."
 
+msgid "Cancellations"
+msgstr "Cancelaciones"
+
 msgid "Lost & Found"
-msgstr "Perdido &amp; encontrado"
+msgstr "Lost &amp; Found"
 
 msgid "Seat Availability"
 msgstr "Seat Disponibilidad"
@@ -1450,7 +1480,7 @@ msgid "Accessible"
 msgstr "Accesible"
 
 msgid "711 for TTY callers;  VRS for ASL callers"
-msgstr "711 para las llamadas TTY; VRS para las llamadas ASL"
+msgstr "711 para llamadas TTY; VRS para llamadas ASL"
 
 msgid "Sign up for Auto-pay"
 msgstr "Regístrate para Auto-pago"
@@ -1696,7 +1726,7 @@ msgid "Show Details"
 msgstr "Mostrar detalles"
 
 msgid "Please select an origin location."
-msgstr "Por favor seleccione una ubicación de origen."
+msgstr "Seleccione una ubicación de origen."
 
 msgid " may leave ahead of schedule at these stops."
 msgstr " puede salir antes del horario en estas paradas."
