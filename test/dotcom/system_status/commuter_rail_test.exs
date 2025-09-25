@@ -160,6 +160,37 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
              }
     end
 
+    test "counts a single alert with multiple trips as multiple of that kind" do
+      # SETUP
+      now = Dotcom.Utils.DateTime.now()
+
+      active_period = [
+        {now, Timex.shift(now, hours: 1)}
+      ]
+
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [
+          Factories.Alerts.Alert.build(:alert_for_trips,
+            active_period: active_period,
+            effect: :delay,
+            severity: 3,
+            trip_ids: [trip_id1, trip_id2]
+          )
+        ]
+      end)
+
+      # EXERCISE
+      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+
+      # VERIFY
+      assert result
+             |> Map.values()
+             |> List.first()
+             |> Kernel.get_in([:alert_counts, :delay, :count]) == 2
+    end
+
     test "indicates whether or not the route is running service today" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
@@ -170,7 +201,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
+      expect(Schedules.RepoCondensed.Mock, :by_route_ids, 2, fn _ ->
         [
           %Schedules.ScheduleCondensed{
             time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)

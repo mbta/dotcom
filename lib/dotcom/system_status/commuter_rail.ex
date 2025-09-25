@@ -259,20 +259,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
   end
 
-  # Returns a map where the key is the effect of the alert
-  # and the value is the number of alerts with that effect.
-  # For example, if there are 2 delays and 1 cancellation,
-  # the map would be `%{delay: 2, cancellation: 1}`.
-  @spec alert_counts([Alerts.Alert.t()]) :: map()
-  defp alert_counts(alerts) do
-    alerts
-    |> Enum.group_by(& &1.effect)
-    |> Enum.map(fn {effect, alerts} ->
-      {effect, %{count: Kernel.length(alerts), next_active: next_active_time(alerts)}}
-    end)
-    |> Map.new()
-  end
-
   # Returns a boolean indicating whether or not the route has a schedule
   # for today. This is used to determine if the route is running service today.
   @spec service_today?(String.t()) :: boolean()
@@ -280,6 +266,20 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     [id]
     |> @schedules_condensed_repo.by_route_ids()
     |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
+  end
+
+  # Given a list of impacts - or any map/struct with an alert, returns
+  # the count and next_active time (as a tuple of either :current or
+  # :future, along with the actual start time).
+  @spec impact_summary([%{alert: Alert.t()}]) :: %{
+          count: integer(),
+          next_active: :past | {:current, DateTime.t()} | {:future, DateTime.t()}
+        }
+  defp impact_summary(impact_list) do
+    %{
+      count: impact_list |> Enum.count(),
+      next_active: impact_list |> Enum.map(& &1.alert) |> next_active_time()
+    }
   end
 
   # Returns a tuple with the Route ID and a map containing
@@ -295,9 +295,27 @@ defmodule Dotcom.SystemStatus.CommuterRail do
            }}
   defp route_info(%Route{id: id, name: name, sort_order: sort_order}) do
     alert_counts =
-      id
-      |> commuter_rail_route_alerts()
-      |> alert_counts()
+      case commuter_rail_route_status(id) do
+        %{
+          delays: delays,
+          cancellations: cancellations,
+          service_impacts: service_impacts
+        } ->
+          service_impacts
+          |> Enum.group_by(& &1.alert.effect)
+          |> Map.new(fn {effect, impact_list} ->
+            {effect, impact_summary(impact_list)}
+          end)
+          |> Enum.into(%{
+            cancellation: impact_summary(cancellations),
+            delay: impact_summary(delays)
+          })
+          |> Enum.reject(fn {_effect, impact} -> impact.count == 0 end)
+          |> Map.new()
+
+        _ ->
+          %{}
+      end
 
     service_today? = service_today?(id)
 

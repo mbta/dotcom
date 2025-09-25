@@ -156,3 +156,125 @@ Alerts.Cache.Store.update(alerts, nil)
 
 now() |> Alerts.Repo.all()
 ```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Commuter Rail Multi-Trip Train Alert
+
+```elixir
+# Create an informed entity for a commuter rail route
+route = Routes.Repo.by_type(2) |> Faker.Util.pick()
+
+schedules = Schedules.Repo.by_route_ids([route.id])
+
+trip_ids =
+  Faker.Util.sample_uniq(3, fn -> Faker.Util.pick(schedules) end)
+  |> Enum.map(& &1.trip.id)
+
+informed_entities =
+  trip_ids
+  |> Enum.map(
+    &InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      route: route.id,
+      route_type: 2,
+      trip: &1
+    )
+  )
+
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: -4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    effect: Faker.Util.pick([:delay, :cancellation]),
+    informed_entity: Alerts.InformedEntitySet.new(informed_entities),
+    priority: :high,
+    severity: 3
+  )
+
+# Remove all other alerts and only use the one you created
+Alerts.Cache.Store.update([alert], nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Commuter Rail All Trains or Direction-Specific Alert
+
+```elixir
+# Create an informed entity for a commuter rail route
+route = Routes.Repo.by_type(2) |> Faker.Util.pick()
+
+informed_entities = [
+  InformedEntity.build(:informed_entity,
+    activities: MapSet.new([:exit, :ride, :board]),
+    direction_id: Faker.Util.pick([0, 1, nil]),
+    route: route.id,
+    route_type: 2,
+    trip: nil
+  )
+]
+
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: -4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    effect: Faker.Util.pick([:delay, :cancellation]),
+    informed_entity: Alerts.InformedEntitySet.new(informed_entities),
+    priority: :high,
+    severity: 3
+  )
+
+# Remove all other alerts and only use the one you created
+Alerts.Cache.Store.update([alert], nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Commuter Rail Upcoming Shuttle
+
+```elixir
+# Create an informed entity for a commuter rail route
+route = Routes.Repo.by_type(2) |> Faker.Util.pick()
+
+schedules = Schedules.Repo.by_route_ids([route.id])
+
+informed_entities =
+  [
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      route: route.id,
+      route_type: 2
+    )
+  ]
+
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: 4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    effect: :shuttle,
+    informed_entity: Alerts.InformedEntitySet.new(informed_entities),
+    priority: :high,
+    severity: 3
+  )
+
+# Remove all other alerts and only use the one you created
+Alerts.Cache.Store.update([alert], nil)
+
+now() |> Alerts.Repo.all()
+```
