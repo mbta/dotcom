@@ -50,9 +50,10 @@ module.exports = {
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
-    "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
+    "../deps/mbta_metro/lib/mbta_metro/components/*.ex",
+    "../deps/mbta_metro/lib/mbta_metro/live/*.ex"
   ],
-  presets: [require("../../deps/mbta_metro/priv/dist/tailwind-preset")],
+  presets: [require("../deps/mbta_metro/priv/dist/tailwind-preset")],
   safelist: [
     ...safelist,
     {

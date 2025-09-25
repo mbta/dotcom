@@ -3,7 +3,7 @@ import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/dropdown";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
-import { Hooks } from "../../deps/mbta_metro/priv/dist/metro.js"
+import { Hooks } from "../../deps/mbta_metro/priv/dist/metro";
 import setupChannels from "../ts/app/channels";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
