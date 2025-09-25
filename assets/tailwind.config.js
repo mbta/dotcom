@@ -2,13 +2,8 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin");
-const { content, plugins, safelist } = require("mbta_metro");
-const {
-  theme: { extend: tailwindTheme }
-} = require("mbta_metro/tailwindTheme");
 
 const moreColors = {
-  ...tailwindTheme.colors,
   gray: {
     DEFAULT: "#494f5c",
     dark: "#1c1e23",
@@ -32,10 +27,9 @@ const moreColors = {
   },
   massport: "#104c8f",
   subway: "#494f5c",
-  bus: tailwindTheme.colors["brand-bus"],
-  "mattapan-line": tailwindTheme.colors["red-line"]
+  // bus: tailwindTheme.colors["brand-bus"],
+  // "mattapan-line": tailwindTheme.colors["red-line"]
 };
-tailwindTheme.colors = moreColors;
 
 module.exports = {
   corePlugins: {
@@ -44,7 +38,6 @@ module.exports = {
   blocklist: ["container", "collapse"],
   important: "body",
   content: [
-    ...content,
     "./js/**/*.js",
     "./ts/**/*.ts",
     "./ts/**/*.tsx",
@@ -55,16 +48,13 @@ module.exports = {
   ],
   presets: [require("../deps/mbta_metro/priv/dist/tailwind-preset")],
   safelist: [
-    ...safelist,
     {
       pattern: /(bg|text|border|ring)-(logan-express|blue|green|orange|red|silver|bus|ferry|)./
     }
   ],
   theme: {
     extend: {
-      ...tailwindTheme,
       spacing: {
-        ...tailwindTheme.spacing,
         "4.5": "1.125rem",
         "7.5": "1.875rem",
         "120": "24rem"
@@ -80,7 +70,6 @@ module.exports = {
     }
   },
   plugins: [
-    ...plugins(),
     require("@tailwindcss/container-queries"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
