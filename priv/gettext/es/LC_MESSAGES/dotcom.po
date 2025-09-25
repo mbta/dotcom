@@ -33,6 +33,9 @@ msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar Charli
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "Pruebe de nuevo o envíenos comentarios en mbta.com/apoyo al cliente"
 
+msgid "Subway Status"
+msgstr "Estado del subte"
+
 msgid "Stations"
 msgstr "Estaciones"
 
@@ -165,6 +168,9 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "No Scheduled Service"
+msgstr "No hay servicio programado"
+
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
 
@@ -194,6 +200,9 @@ msgstr "Guías de usuario"
 
 msgid "Free"
 msgstr "Gratis"
+
+msgid "to %{destination}"
+msgstr "a %{destination}"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -285,6 +294,9 @@ msgstr "O ir a "
 msgid "Event summary for "
 msgstr "Resumen del evento "
 
+msgid "from %{origin}"
+msgstr "de %{origin}"
+
 msgid "trips for today"
 msgstr "viajes para hoy"
 
@@ -293,9 +305,6 @@ msgstr "Explore estaciones por modo"
 
 msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
 msgstr "Nuestros guías de usuario pueden ayudarle a aprender cómo navegar por el sistema, llegar a eventos locales, utilizar características de accesibilidad, y más."
-
-msgid "Use the link below to access"
-msgstr "Utilice el enlace de abajo para acceder"
 
 msgid "Parking"
 msgstr "Aparcamiento"
@@ -365,9 +374,6 @@ msgstr "No próximas vacaciones"
 
 msgid "Commuter Ferry to Logan Airport"
 msgstr "Commuter Ferry al aeropuerto de Logan"
-
-msgid "Go to your app store to update your MBTA mTicket."
-msgstr "Vaya a su tienda de aplicaciones para actualizar su MBTA mTicket."
 
 msgid "List view"
 msgstr "Vista lista"
@@ -741,6 +747,12 @@ msgstr "Cuando"
 msgid "No transit connection was found between the origin and destination on this date and time"
 msgstr "No se encontró conexión de tránsito entre el origen y el destino en esta fecha y hora"
 
+msgid "All Outbound Trains"
+msgstr "All Outbound Trains"
+
+msgid "All Trains"
+msgstr "Todos los trenes"
+
 msgid "Send Us Feedback"
 msgstr "Enviarnos comentarios"
 
@@ -867,9 +879,6 @@ msgstr "Más tarde"
 msgid "Enter an origin location"
 msgstr "Ingrese una ubicación de origen"
 
-msgid "Sorry, Your App Appears to be Out of Date"
-msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
-
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
 msgstr "Sitio web oficial del MBTA — Planear un viaje en tránsito público en la región del Gran Boston"
 
@@ -884,6 +893,9 @@ msgstr "Cross Harbor Ferry"
 
 msgid "%{count} Stops"
 msgstr "%{count} Altos"
+
+msgid "Commuter Rail Status"
+msgstr "Commuter Rail Status"
 
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
@@ -1025,6 +1037,9 @@ msgstr "Servicio normal"
 
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
+
+msgid "Cancellations / Delays"
+msgstr "Cancelaciones / Delays"
 
 msgid "Senior CharlieCard or TAP ID"
 msgstr "Senior CharlieCard or TAP ID"
@@ -1254,6 +1269,9 @@ msgstr "Trabajo previsto"
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
 msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
+msgid "All Inbound Trains"
+msgstr "Todos los trenes entrantes"
+
 msgid "Station Issue"
 msgstr "Cuestión de la estación"
 
@@ -1355,6 +1373,9 @@ msgstr "Sitio oficial del Secretario de Estado"
 
 msgid "or complete the feedback form on this page."
 msgstr "o completar el formulario de comentarios en esta página."
+
+msgid "Cancellations"
+msgstr "Cancelaciones"
 
 msgid "Lost & Found"
 msgstr "Perdido &amp; encontrado"

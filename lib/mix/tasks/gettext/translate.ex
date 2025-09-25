@@ -85,7 +85,12 @@ defmodule Mix.Tasks.Gettext.Translate do
   end
 
   # Translate all non-default locales.
-  def run([]) do
+  def run(_) do
+    run()
+  end
+
+  # Translate all non-default locales.
+  def run() do
     _ = Application.ensure_started(:telemetry)
     _ = Mix.Shell.cmd("mix gettext.extract", fn _ -> nil end)
     _ = Finch.start_link(name: TranslateFinch)
@@ -152,7 +157,7 @@ defmodule Mix.Tasks.Gettext.Translate do
 
   # Use the Libretranslate service to translate a piece of text for a given locale.
   defp libretranslate_text(text, locale) do
-    @url
+    Application.get_env(:dotcom, :libre_translate_url, @url)
     |> Req.post!(finch: TranslateFinch, json: build_request(text, locale))
     |> Map.get(:body)
     |> Map.get("translatedText")
