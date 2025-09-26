@@ -387,6 +387,9 @@ msgstr "Tránsito"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
+msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
+msgstr "Queremos saber más sobre cómo utiliza el Rail Commuter para informar sobre la planificación futura"
+
 msgid "Shuttle"
 msgstr "Shuttle"
 
@@ -593,6 +596,9 @@ msgstr "Alerta o demora del servicio"
 
 msgid "Depart at"
 msgstr "Salida"
+
+msgid "Take our survey"
+msgstr "Tome nuestra encuesta"
 
 msgid " minute walk"
 msgstr " minuto caminando"
