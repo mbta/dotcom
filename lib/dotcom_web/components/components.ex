@@ -4,6 +4,7 @@ defmodule DotcomWeb.Components do
   events -- those should utilize LiveView/LiveComponents or some other
   technology.
   """
+  use Dotcom.Gettext.Sigils
   use Phoenix.Component
 
   use Phoenix.VerifiedRoutes,
@@ -261,9 +262,24 @@ defmodule DotcomWeb.Components do
 
   def promo_banner(assigns) do
     ~H"""
-    <a href={@href} class={"block bg-amethyst-90 text-black text-center #{@class}"} target="_blank">
+    <a href={@href} class={"block bg-amethyst-80 text-black text-center #{@class}"} target="_blank">
       {render_slot(@inner_block)}
     </a>
+    """
+  end
+
+  def cr_survey_promo_banner(assigns) do
+    ~H"""
+    <.promo_banner
+      href="https://repdata.decipherinc.com/survey/selfserve/53b/250633?list=4"
+      class="p-md hover:no-underline"
+    >
+      {~t(We want to learn more about how you use the Commuter Rail to inform future planning)}
+      <div class="mt-sm font-bold flex items-center gap-xs justify-center">
+        {~t(Take our survey)}
+        <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3 fill-current" />
+      </div>
+    </.promo_banner>
     """
   end
 end

@@ -3139,3 +3139,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Status"
 msgstr ""
+
+#: lib/dotcom_web/components/components.ex:279
+#, elixir-autogen, elixir-format
+msgid "Take our survey"
+msgstr ""
+
+#: lib/dotcom_web/components/components.ex:277
+#, elixir-autogen, elixir-format
+msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
+msgstr ""
