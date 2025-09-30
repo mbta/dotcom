@@ -44,18 +44,31 @@ defmodule Dotcom.TripPlan.Loops do
   end
 
   # Helper function for `merge_leg_loops/1`.
+  defp merge_loop_legs_reducer(curr, []) do
+    [curr]
+  end
+
   defp merge_loop_legs_reducer(curr, acc) do
-    if curr.interline_with_previous_leg do
-      last = if Enum.empty?(acc), do: curr, else: List.last(acc)
+    {last, all_but_last} = List.pop_at(acc, -1)
 
-      all_but_last =
-        if Kernel.length(acc) <= 1, do: [], else: Enum.slice(acc, 0, Kernel.length(acc) - 1)
-
+    if stay_seated?(last, curr) do
       all_but_last ++ [merge_legs(last, curr)]
     else
       acc ++ [curr]
     end
   end
+
+  # OTP's computation of `interline_with_previous_leg` is too lax, because it
+  # infers more from GTFS trip block_id than is actually relevant at the MBTA.
+  # Hence, we must narrow this check with additional criteria.
+  defp stay_seated?(
+         %{transit_leg: true} = prior_leg,
+         %{interline_with_previous_leg: true} = leg
+       ) do
+    leg.route == prior_leg.route
+  end
+
+  defp stay_seated?(_, _), do: false
 
   # Merge two legs by predominately keeping the data from the first.
   # The `from` comes from the first. The `to` comes from the second.
