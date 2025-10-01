@@ -303,15 +303,9 @@ defmodule Dotcom.SystemStatus.CommuterRail do
         } ->
           service_impacts
           |> Enum.group_by(& &1.alert.effect)
-          |> Map.new(fn {effect, impact_list} ->
-            {effect, impact_summary(impact_list)}
-          end)
-          |> Enum.into(%{
-            cancellation: impact_summary(cancellations),
-            delay: impact_summary(delays)
-          })
-          |> Enum.reject(fn {_effect, impact} -> impact.count == 0 end)
-          |> Map.new()
+          |> Enum.into(%{cancellation: cancellations, delay: delays})
+          |> Enum.reject(fn {_effect, impact_list} -> Enum.empty?(impact_list) end)
+          |> Map.new(fn {effect, impact_list} -> {effect, impact_summary(impact_list)} end)
 
         _ ->
           %{}
