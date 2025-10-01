@@ -291,11 +291,14 @@ defmodule Dotcom.SystemStatus.CommuterRail do
              alert_counts: map(),
              name: String.t(),
              service_today?: boolean(),
-             sort_order: integer()
+             sort_order: integer(),
+             status: route_status_t()
            }}
   defp route_info(%Route{id: id, name: name, sort_order: sort_order}) do
+    status = commuter_rail_route_status(id)
+
     alert_counts =
-      case commuter_rail_route_status(id) do
+      case status do
         %{
           delays: delays,
           cancellations: cancellations,
@@ -318,7 +321,8 @@ defmodule Dotcom.SystemStatus.CommuterRail do
        alert_counts: alert_counts,
        name: name,
        service_today?: service_today?,
-       sort_order: sort_order
+       sort_order: sort_order,
+       status: status
      }}
   end
 end
