@@ -278,3 +278,62 @@ Alerts.Cache.Store.update([alert], nil)
 
 now() |> Alerts.Repo.all()
 ```
+
+## Commuter Rail Delays and Cancellations
+
+```elixir
+# Create an informed entity for a commuter rail route
+route = Routes.Repo.by_type(2) |> Faker.Util.pick()
+
+schedules = Schedules.Repo.by_route_ids([route.id])
+
+[trip_id_1, trip_id_2] =
+  Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(schedules) end)
+  |> Enum.map(& &1.trip.id)
+
+active_period = [
+  {
+    now() |> Timex.shift(hours: -4),
+    now() |> Timex.shift(hours: 8)
+  }
+]
+
+alerts =
+  [
+    Alert.build(:alert,
+      active_period: active_period,
+      effect: :cancellation,
+      informed_entity:
+        Alerts.InformedEntitySet.new([
+          InformedEntity.build(:informed_entity,
+            activities: MapSet.new([:exit, :ride, :board]),
+            route: route.id,
+            route_type: 2,
+            trip: trip_id_1
+          )
+        ]),
+      priority: :high,
+      severity: 3
+    ),
+    Alert.build(:alert,
+      active_period: active_period,
+      effect: :delay,
+      informed_entity:
+        Alerts.InformedEntitySet.new([
+          InformedEntity.build(:informed_entity,
+            activities: MapSet.new([:exit, :ride, :board]),
+            route: route.id,
+            route_type: 2,
+            trip: trip_id_2
+          )
+        ]),
+      priority: :high,
+      severity: 3
+    )
+  ]
+
+# Remove all other alerts and only use the one you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
