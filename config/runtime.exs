@@ -228,3 +228,6 @@ secret_key_base = System.get_env("SITE_SECRET_KEY_BASE", default_key_base)
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint, secret_key_base: secret_key_base
+
+config :dotcom,
+  libre_translate_url: System.get_env("LIBRE_TRANSLATE_URL", "http://127.0.0.1:5000/translate")
