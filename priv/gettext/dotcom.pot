@@ -701,7 +701,7 @@ msgstr ""
 msgid "Emergency"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:127
+#: lib/dotcom_web/components/trip_planner/input_form.ex:128
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:29
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:14
 #, elixir-autogen, elixir-format
@@ -2706,7 +2706,7 @@ msgstr ""
 msgid "Facility Issue"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:132
+#: lib/dotcom_web/components/trip_planner/input_form.ex:133
 #, elixir-autogen, elixir-format
 msgid "From"
 msgstr ""
@@ -2736,7 +2736,7 @@ msgstr ""
 msgid "Leaving at %{time}"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:87
+#: lib/dotcom_web/components/trip_planner/input_form.ex:88
 #, elixir-autogen, elixir-format
 msgid "Modes"
 msgstr ""
@@ -2802,7 +2802,7 @@ msgstr ""
 msgid "Policy Change"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:110
+#: lib/dotcom_web/components/trip_planner/input_form.ex:111
 #, elixir-autogen, elixir-format
 msgid "Prefer accessible routes"
 msgstr ""
@@ -2892,7 +2892,7 @@ msgstr ""
 msgid "Temporarily Unavailable"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:133
+#: lib/dotcom_web/components/trip_planner/input_form.ex:134
 #, elixir-autogen, elixir-format
 msgid "To"
 msgstr ""
