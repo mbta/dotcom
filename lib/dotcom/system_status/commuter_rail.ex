@@ -290,7 +290,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
            %{
              alert_counts: map(),
              name: String.t(),
-             service_today?: boolean(),
              sort_order: integer(),
              status: route_status_t()
            }}
@@ -314,13 +313,10 @@ defmodule Dotcom.SystemStatus.CommuterRail do
           %{}
       end
 
-    service_today? = service_today?(id)
-
     {id,
      %{
        alert_counts: alert_counts,
        name: name,
-       service_today?: service_today?,
        sort_order: sort_order,
        status: status
      }}

@@ -191,7 +191,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
              |> Kernel.get_in([:alert_counts, :delay, :count]) == 2
     end
 
-    test "indicates whether or not the route is running service today" do
+    test "returns :no_scheduled_service as the status if there's no service running" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
 
@@ -201,7 +201,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, 2, fn _ ->
+      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
         [
           %Schedules.ScheduleCondensed{
             time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
@@ -213,7 +213,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      refute result |> Map.values() |> List.first() |> Map.get(:service_today?)
+      assert result |> Map.values() |> List.first() |> Map.get(:status) == :no_scheduled_service
     end
   end
 
