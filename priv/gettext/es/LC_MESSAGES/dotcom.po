@@ -1044,9 +1044,6 @@ msgstr "Servicio normal"
 msgid "Engineering Design Standards"
 msgstr "Normas de diseño de ingeniería"
 
-msgid "Cancellations / Delays"
-msgstr "Cancelaciones / Delays"
-
 msgid "Senior CharlieCard or TAP ID"
 msgstr "Senior CharlieCard or TAP ID"
 

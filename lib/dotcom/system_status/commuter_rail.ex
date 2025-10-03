@@ -54,18 +54,23 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   and the value includes alerts grouped by effect, the name of the line,
   and whether the line is running service today.
   """
-  @spec commuter_rail_status() :: %{
-          Route.id_t() => %{
-            alert_counts: map(),
+  @spec commuter_rail_status() :: [
+          %{
             name: String.t(),
-            service_today?: boolean(),
-            sort_order: integer()
+            route_id: Route.id_t(),
+            status: route_status_t()
           }
-        }
+        ]
   def commuter_rail_status() do
     commuter_rail_routes()
-    |> Enum.map(&route_info/1)
-    |> Map.new()
+    |> Enum.sort_by(& &1.sort_order)
+    |> Enum.map(fn %Route{id: id, name: name} ->
+      %{
+        name: name,
+        route_id: id,
+        status: commuter_rail_route_status(id)
+      }
+    end)
   end
 
   @doc """
@@ -266,59 +271,5 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     [id]
     |> @schedules_condensed_repo.by_route_ids()
     |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
-  end
-
-  # Given a list of impacts - or any map/struct with an alert, returns
-  # the count and next_active time (as a tuple of either :current or
-  # :future, along with the actual start time).
-  @spec impact_summary([%{alert: Alert.t()}]) :: %{
-          count: integer(),
-          next_active: :past | {:current, DateTime.t()} | {:future, DateTime.t()}
-        }
-  defp impact_summary(impact_list) do
-    %{
-      count: impact_list |> Enum.count(),
-      next_active: impact_list |> Enum.map(& &1.alert) |> next_active_time()
-    }
-  end
-
-  # Returns a tuple with the Route ID and a map containing
-  # the alert counts, name of the route, sort order, and whether the route
-  # is running service today.
-  @spec route_info(Route.t()) ::
-          {String.t(),
-           %{
-             alert_counts: map(),
-             name: String.t(),
-             service_today?: boolean(),
-             sort_order: integer()
-           }}
-  defp route_info(%Route{id: id, name: name, sort_order: sort_order}) do
-    alert_counts =
-      case commuter_rail_route_status(id) do
-        %{
-          delays: delays,
-          cancellations: cancellations,
-          service_impacts: service_impacts
-        } ->
-          service_impacts
-          |> Enum.group_by(& &1.alert.effect)
-          |> Enum.into(%{cancellation: cancellations, delay: delays})
-          |> Enum.reject(fn {_effect, impact_list} -> Enum.empty?(impact_list) end)
-          |> Map.new(fn {effect, impact_list} -> {effect, impact_summary(impact_list)} end)
-
-        _ ->
-          %{}
-      end
-
-    service_today? = service_today?(id)
-
-    {id,
-     %{
-       alert_counts: alert_counts,
-       name: name,
-       service_today?: service_today?,
-       sort_order: sort_order
-     }}
   end
 end
