@@ -112,7 +112,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # If there's just one impact, then use `maybe_add_time_prefix` to
   # prepend the time or count
   defp service_impact_label([impact], effect_string) do
-    maybe_add_time_prefix(impact.start_time, effect_string)
+    "#{count_or_time(impact.start_time)} #{effect_string}"
   end
 
   # If there's more than one impact, then the label should be the
@@ -121,14 +121,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     "#{impact_list |> Enum.count()} #{effect_string |> Inflex.pluralize()}"
   end
 
-  # Given a start_time tuple of {:current, _} or {:future, _}, adds
-  # the start time as a prefix to effect_string if the start time is
-  # {:future, _}. Otherwise, adds a prefix of "1 "
-  defp maybe_add_time_prefix({:current, _start_time}, effect_string),
-    do: "1 #{effect_string}"
+  # If there is one alert of the effect, and it is active in the future, give the time.
+  # For all others, just give the count.
+  defp count_or_time({:future, time}), do: "#{Util.narrow_time(time)}:"
 
-  defp maybe_add_time_prefix({:future, start_time}, effect_string),
-    do: "#{Util.narrow_time(start_time)}: #{effect_string}"
+  defp count_or_time({:current, _}), do: "1"
 
   # Attaches a URL to the row.
   defp attach_url(%{route_id: route_id} = row) do
