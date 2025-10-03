@@ -91,20 +91,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       [{effect, impact_list}] ->
         effect_string = Alerts.Alert.human_effect(%Alerts.Alert{effect: effect})
 
-        label =
-          case impact_list do
-            [impact] ->
-              case impact.start_time do
-                {:current, _} -> "1 #{effect_string}"
-                {:future, start_time} -> "#{Util.narrow_time(start_time)}: #{effect_string}"
-              end
-
-            _ ->
-              "#{impact_list |> Enum.count()} #{effect_string |> Inflex.pluralize()}"
-          end
-
         [
-          %{icon_atom: effect, label: label}
+          %{icon_atom: effect, label: service_impact_label(impact_list, effect_string)}
         ]
 
       _ ->
@@ -116,6 +104,31 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
         ]
     end
   end
+
+  # Constructs a label for a service impact row out of the effect
+  # string out of the impact list and the provided effect string
+  defp service_impact_label(impact_list, effect_string)
+
+  # If there's just one impact, then use `maybe_add_time_prefix` to
+  # prepend the time or count
+  defp service_impact_label([impact], effect_string) do
+    maybe_add_time_prefix(impact.start_time, effect_string)
+  end
+
+  # If there's more than one impact, then the label should be the
+  # count along with a pluralized effect string
+  defp service_impact_label(impact_list, effect_string) do
+    "#{impact_list |> Enum.count()} #{effect_string |> Inflex.pluralize()}"
+  end
+
+  # Given a start_time tuple of {:current, _} or {:future, _}, adds
+  # the start time as a prefix to effect_string if the start time is
+  # {:future, _}. Otherwise, adds a prefix of "1 "
+  defp maybe_add_time_prefix({:current, _start_time}, effect_string),
+    do: "1 #{effect_string}"
+
+  defp maybe_add_time_prefix({:future, start_time}, effect_string),
+    do: "#{Util.narrow_time(start_time)}: #{effect_string}"
 
   # Attaches a URL to the row.
   defp attach_url(%{route_id: route_id} = row) do
