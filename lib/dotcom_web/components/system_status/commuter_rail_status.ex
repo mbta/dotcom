@@ -19,13 +19,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     status_for_line =
       assigns
       |> Map.get(:commuter_rail_status)
-      |> Enum.map(fn {id, row} ->
+      |> Enum.map(fn row ->
         row
-        |> Map.put(:id, id)
         |> attach_url()
         |> Map.put(:rows, status_to_rows(row.status))
       end)
-      |> Enum.sort_by(& &1.sort_order)
 
     assigns = assigns |> assign(:status_for_line, status_for_line)
 
@@ -120,9 +118,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   end
 
   # Attaches a URL to the row.
-  defp attach_url(%{id: id} = row) do
+  defp attach_url(%{route_id: route_id} = row) do
     row
-    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
+    |> Map.put(:url, ~p"/schedules/#{route_id}/timetable")
   end
 
   # For cases where we have alerts, we have to show the first alert along with route information

@@ -61,7 +61,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result |> Map.keys() |> List.first() == commuter_rail_id
+      assert result |> List.first() |> Map.get(:route_id) == commuter_rail_id
     end
 
     test "includes service impacts under service_impacts" do
@@ -86,7 +86,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       [%{alert: alert}] =
-        result |> Map.values() |> List.first() |> Kernel.get_in([:status, :service_impacts])
+        result |> List.first() |> Kernel.get_in([:status, :service_impacts])
 
       assert alert == service_alert
     end
@@ -118,7 +118,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       %{delays: [delay], cancellations: [cancellation]} =
-        result |> Map.values() |> List.first() |> Map.get(:status)
+        result |> List.first() |> Map.get(:status)
 
       assert delay.alert == delay_alert
       assert cancellation.alert == cancellation_alert
@@ -152,7 +152,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       service_impacts =
-        result |> Map.values() |> List.first() |> Kernel.get_in([:status, :service_impacts])
+        result |> List.first() |> Kernel.get_in([:status, :service_impacts])
 
       refute service_impacts |> Enum.any?(&(&1.alert.effect == :summary))
     end
@@ -179,10 +179,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result
-             |> Map.values()
-             |> List.first()
-             |> Map.get(:status) == :normal
+      assert result |> List.first() |> Map.get(:status) == :normal
     end
 
     test "duplicates a delay alert if it affects multiple trips" do
@@ -210,11 +207,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result
-             |> Map.values()
-             |> List.first()
-             |> Kernel.get_in([:status, :delays])
-             |> Enum.count() == 2
+      assert result |> List.first() |> Kernel.get_in([:status, :delays]) |> Enum.count() == 2
     end
 
     test "returns :no_scheduled_service as the status if there's no service running" do
@@ -239,7 +232,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result |> Map.values() |> List.first() |> Map.get(:status) == :no_scheduled_service
+      assert result |> List.first() |> Map.get(:status) == :no_scheduled_service
     end
   end
 
