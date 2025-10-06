@@ -117,7 +117,7 @@ else
 end
 
 config :dotcom, :cms_api,
-  base_url: System.get_env("CMS_API_BASE_URL"),
+  base_url: System.get_env("CMS_API_BASE_URL", ""),
   headers: [
     {"Content-Type", "application/json"},
     {"Accept", "application/json"}

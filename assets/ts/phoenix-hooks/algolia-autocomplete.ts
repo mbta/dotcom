@@ -1,4 +1,5 @@
-import { LiveSocket, ViewHook } from "phoenix_live_view";
+import { ViewHook } from "phoenix_live_view";
+import LiveSocket from "phoenix_live_view/assets/js/types/live_socket";
 import setupAlgoliaAutocomplete from "../ui/autocomplete";
 import {
   Item,

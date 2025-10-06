@@ -1,49 +1,28 @@
 services:
-    nginx:
-        image: nginx:stable-alpine3.17-slim
-        depends_on:
-            dotcom-1:
-                condition: service_healthy
-            dotcom-2:
-                condition: service_healthy
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        expose:
-            - 4001
-        ports:
-            - "4001:4001"
-        healthcheck:
-            test: curl --fail http://localhost:4001/_health || exit 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-            timeout: 10s
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.1
-    dotcom-1:
+    dotcom:
         build:
             context: ../
             dockerfile: ./deploy/dotcom/dev/Dockerfile
         env_file:
             - ../.env
         depends_on:
-            redis-cluster-init:
+            redis:
                 condition: service_started
         environment:
             - MIX_ENV=dev
             - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-            - PORT=4002
-            - REDIS_HOST=10.0.0.11
+            - PORT=4001
+            - REDIS_HOST=10.0.0.4
             - REDIS_PORT=6379
-            - NAME=dotcom@10.0.0.2
-            - WEBPACK_PORT=8092
+            - REDIS_STANDALONE=true
+            - NAME=dotcom@10.0.0.1
+            - WEBPACK_PORT=8091
         expose:
-            - 4002
+            - 4001
         ports:
-            - 4002:4002
-            - 8092:8092
+            - 4001:4001
+            - 8091:8091
         healthcheck:
             test: curl --fail http://localhost:4002/_health || exit 1
             interval: 10s
@@ -57,48 +36,14 @@ services:
             - /app/assets/node_modules
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.2
-    dotcom-2:
-        build:
-            context: ../
-            dockerfile: ./deploy/dotcom/dev/Dockerfile
-        depends_on:
-            redis-cluster-init:
-                condition: service_started
-        env_file:
-            - ../.env
-        environment:
-            - MIX_ENV=dev
-            - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-            - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-            - PORT=4003
-            - REDIS_HOST=10.0.0.11
-            - REDIS_PORT=6379
-            - NAME=dotcom@10.0.0.3
-            - WEBPACK_PORT=8093
-        expose:
-            - 4003
-        ports:
-            - 4003:4003
-            - 8093:8093
-        healthcheck:
-            test: curl --fail http://localhost:4003/_health || exit 1
-            interval: 10s
-            retries: 5
-            start_period: 120s
-            timeout: 10s
-        volumes:
-            - ../:/app
-            - /app/_build
-            - /app/deps
-            - /app/assets/node_modules
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.3
+                ipv4_address: 10.0.0.1
     libretranslate:
         image: libretranslate/libretranslate
         environment:
-            - LOAD_ONLY="en,es"
+            - LT_HOST=10.0.0.2
+            - LT_LOAD_ONLY=en,es
+        expose:
+            - 9999
         ports:
             - 9999:5000
         healthcheck:
@@ -109,100 +54,23 @@ services:
             timeout: 10s
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.4
+                ipv4_address: 10.0.0.2
     livebook:
         image: ghcr.io/livebook-dev/livebook:nightly
         environment:
-            - LIVEBOOK_DEFAULT_RUNTIME=attached:dotcom@10.0.0.2:foobarbaz
+            - LIVEBOOK_DEFAULT_RUNTIME=attached:dotcom@10.0.0.1:foobarbaz
             - LIVEBOOK_PASSWORD=foobarbazfoobarbaz
         ports:
-            - 8080:8080
+            - 8888:8080
             - 8081:8081
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.5
-    monitor:
-        build:
-            context: ../
-            dockerfile: ./deploy/monitor/Dockerfile
-        depends_on:
-            - nginx
-        env_file:
-            - ../.env
-        environment:
-            - DOTCOM_URL=http://10.0.0.1:4001
-        command: node /home/runner/integration/monitor/all-health-checks.js
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.6
-    redis-cluster-init:
+                ipv4_address: 10.0.0.3
+    redis:
         image: redis:7.2.4
-        command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes
-        depends_on:
-            redis-1: 
-                condition: service_healthy
-            redis-2: 
-                condition: service_healthy
-            redis-3: 
-                condition: service_healthy
-            redis-4: 
-                condition: service_healthy
-            redis-5: 
-                condition: service_healthy
-            redis-6: 
-                condition: service_healthy
         networks:
             dotcom_network:
-                ipv4_address: 10.0.0.10
-    redis-1: &redis
-        build:
-            context: ../
-            dockerfile: ./deploy/redis/Dockerfile
-        healthcheck:
-            test: [ "CMD", "redis-cli", "PING"]
-            timeout: 10s
-            interval: 3s
-            retries: 10
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.11
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.11
-    redis-2:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.12
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.12
-    redis-3:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.13
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.13
-    redis-4:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.14
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.14
-    redis-5:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.15
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.15
-    redis-6:
-        <<: *redis
-        environment:
-            - CLUSTER_ANNOUNCE_IP=10.0.0.16
-        networks:
-            dotcom_network:
-                ipv4_address: 10.0.0.16
+                ipv4_address: 10.0.0.4
 networks:
     dotcom_network:
         driver: bridge

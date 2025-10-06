@@ -1,6 +1,7 @@
 defmodule Routes.Repo do
   @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
 
+  use Dotcom.Gettext.Sigils
   use Nebulex.Caching.Decorators
 
   require Logger
@@ -183,7 +184,7 @@ defmodule Routes.Repo do
       id: "Green",
       name: "Green Line",
       long_name: "Green Line",
-      direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+      direction_names: %{0 => ~t"Westbound", 1 => ~t"Eastbound"},
       direction_destinations: %{0 => "All branches", 1 => "All branches"},
       type: 0,
       description: :rapid_transit,

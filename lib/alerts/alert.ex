@@ -293,6 +293,14 @@ defmodule Alerts.Alert do
   def icon(%{priority: :high, effect: :shuttle}), do: :shuttle
   def icon(_), do: :alert
 
+  def image(%{image: image}), do: image
+  def image(_), do: nil
+
+  def image_alternative_text(%{image_alternative_text: image_alternative_text}),
+    do: image_alternative_text
+
+  def image_alternative_text(_), do: nil
+
   @spec high_severity_or_high_priority?(t) :: boolean()
   def high_severity_or_high_priority?(%{priority: :high}), do: true
 

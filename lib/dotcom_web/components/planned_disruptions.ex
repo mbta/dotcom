@@ -12,6 +12,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   alias Alerts.Alert
+  alias Dotcom.Cldr.Date
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
@@ -34,9 +35,9 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
     ~H"""
     <.bordered_container>
-      <:heading>Planned Work</:heading>
+      <:heading>{~t"Planned Work"}</:heading>
       <%= if Enum.empty?(@ordered_disruptions) do %>
-        There is no planned work information at this time.
+        {~t"There is no planned work information at this time."}
       <% else %>
         <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
           <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
@@ -90,6 +91,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
     ~H"""
     <.status_row_heading
+      future
       alerts={[@alert]}
       prefix={@time_range_str}
       route_ids={@route_ids}
@@ -99,8 +101,11 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   end
 
   defp formatted_date_range({nil, nil}), do: nil
-  defp formatted_date_range({nil, stop}), do: "Until #{format_date(stop)}"
-  defp formatted_date_range({start, nil}), do: "#{format_date(start)} until further notice"
+  defp formatted_date_range({nil, stop}), do: gettext("Until %{date}", date: format_date(stop))
+
+  defp formatted_date_range({start, nil}),
+    do: gettext("%{date} until further notice", date: format_date(start))
+
   defp formatted_date_range({start, stop}) when start == stop, do: "#{format_date(start)}"
   defp formatted_date_range({start, stop}), do: "#{format_date(start)} – #{format_date(stop)}"
 
@@ -132,14 +137,16 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   # Formats the date for display in the heading.
   # If the service date is on or before today, we display "Today".
-  # Otherwise, we display the date like "Mon Jan 1".
+  # Otherwise, we display the date like "Mon, Jan 1".
   defp format_date(service_date_datetime) do
     service_date_today = @date_time_module.now() |> service_date()
 
-    if Timex.after?(service_date_datetime, service_date_today) do
-      service_date_datetime |> Timex.format!("%a, %b %-d", :strftime)
+    with true <- Timex.after?(service_date_datetime, service_date_today),
+         {:ok, date_string} <- Date.to_string(service_date_datetime, format: "eee, MMM d") do
+      date_string
     else
-      "Today"
+      false -> ~t"Today"
+      _ -> ""
     end
   end
 end

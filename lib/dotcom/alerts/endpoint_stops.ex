@@ -3,6 +3,8 @@ defmodule Dotcom.Alerts.EndpointStops do
   Module for determining endpoint-stop ranges affected by an alert
   """
 
+  use Dotcom.Gettext.Sigils
+
   alias Alerts.Alert
   alias Dotcom.Alerts.EndpointStops.Behaviour
 
@@ -102,13 +104,16 @@ defmodule Dotcom.Alerts.EndpointStops do
         {first_stop, last_stop}
 
       %{first_stops: [first_stop], last_stops: _last_stops} ->
-        {first_stop, "#{direction_names.forward} Stops"}
+        {first_stop, direction_names.forward <> " " <> ~t"Stops"}
 
       %{first_stops: _first_stops, last_stops: [last_stop]} ->
-        {last_stop, "#{direction_names.backward} Stops"}
+        {last_stop, direction_names.backward <> " " <> ~t"Stops"}
 
       %{first_stops: _first_stops, last_stops: _last_stops} ->
-        {"#{direction_names.backward} Stops", "#{direction_names.forward} Stops"}
+        {
+          direction_names.backward <> " " <> ~t"Stops",
+          direction_names.forward <> " " <> ~t"Stops"
+        }
     end
   end
 
