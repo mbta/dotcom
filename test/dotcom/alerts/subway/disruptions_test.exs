@@ -322,6 +322,31 @@ defmodule Dotcom.Alerts.Subway.DisruptionsTest do
              ]
     end
 
+    # This use case is a sign that someone entered something
+    # incorrectly into Alerts UI, since a recurring alert necessarily
+    # should have an end time, but since the UI allows it, we need to
+    # handle it
+    test "does the right thing for recurring `until further notice` alerts" do
+      # Setup
+      {start_1, _} = service_range_day()
+      {start_2, _} = service_range_next_week()
+
+      # A nil end-time indicates that the alert is `until futher notice`
+      alert_indefinite = disruption_alert([{start_1, nil}, {start_2, nil}])
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _route_ids, _now ->
+        [alert_indefinite]
+      end)
+
+      # Exercise
+      disruptions = todays_disruptions()
+
+      # Verify
+      assert disruptions.today |> Enum.map(& &1.id) == [
+               alert_indefinite.id
+             ]
+    end
+
     test "sorts alerts by start time" do
       # Setup
       {start, stop} = service_range_day()
