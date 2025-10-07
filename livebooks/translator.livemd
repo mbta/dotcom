@@ -1,0 +1,285 @@
+# Translation
+
+## Section
+
+```elixir
+defmodule Dotcom.Translator.Behaviour do
+  @moduledoc """
+  A behaviour for handling translations.
+  """
+
+  @callback translate(binary(), String.t()) :: binary()
+end
+```
+
+```elixir
+defmodule Dotcom.Translator.LibreTranslate do
+  @moduledoc """
+  An implementation of `Dotcom.Translate.Behaviour` that uses LibreTranslate.
+  """
+
+  import Dotcom.Locales, only: [default_locale_code: 0]
+
+  @behaviour Dotcom.Translator.Behaviour
+
+  @impl Dotcom.Translator.Behaviour
+  def translate(_, "ht") do
+    "LibreTranslate does not support Haitian Creole translations"
+  end
+
+  def translate(text, locale) do
+    text
+    |> request_body(locale)
+    |> translate_request_body()
+  end
+
+  defp request_body(text, locale) do
+    %{
+      q: text,
+      format: "html",
+      source: default_locale_code(),
+      target: locale
+    }
+  end
+
+  defp process_response({:ok, response}, request_body) do
+    response
+    |> Map.get(:body, %{})
+    |> Map.get("translatedText", Map.get(request_body, :q))
+  end
+
+  defp process_response({:error, exception}, request_body) do
+    IO.inspect(request_body)
+    IO.inspect(exception)
+
+    "ERROR"
+  end
+
+  defp send_request_body(request_body) do
+    Req.post(
+      Application.get_env(:dotcom, :libre_translate_url),
+      finch: Translator.Finch,
+      json: request_body,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp translate_request_body(request_body) do
+    request_body
+    |> send_request_body()
+    |> process_response(request_body)
+  end
+end
+```
+
+```elixir
+defmodule Dotcom.Translator.Claude do
+  @moduledoc """
+  An implementation of `Dotcom.Translate.Behaviour` that uses Claude.
+  """
+
+  use Nebulex.Caching.Decorators
+
+  import Dotcom.Locales, only: [default_locale: 0, locale: 1]
+
+  @behaviour Dotcom.Translator.Behaviour
+
+  @impl Dotcom.Translator.Behaviour
+  def translate(text, locale) do
+    text
+    |> request_body(locale)
+    |> translate_request_body()
+  end
+
+  defp request_body(text, locale) do
+    from = default_locale() |> Map.get(:endonym)
+    to = locale |> locale() |> Map.get(:endonym)
+    preamble = "Translate the following text from #{from} to #{to}:\n"
+    postscript = "\nDo not inlude anything in your response other than the translation"
+    
+    %{
+      "max_tokens" => 1024,
+      "messages" => [%{"role" => "user", "content" => preamble <> text <> postscript}],
+      "model" => "claude-sonnet-4-5",
+    }
+  end
+
+  defp process_response({:ok, response}, _) do
+    response
+    |> Map.get(:body)
+    |> Map.get("content")
+    |> List.first()
+    |> Map.get("text")
+  end
+
+  defp process_response({:error, exception}, request_body) do
+    IO.inspect(request_body)
+    IO.inspect(exception)
+
+    "ERROR"
+  end
+
+  defp send_request_body(request_body) do
+    Req.post(
+      Application.get_env(:dotcom, :claude_url),
+      finch: Translator.Finch,
+      headers: %{
+        "anthropic-version" => "2023-06-01",
+        "x-api-key" => Application.get_env(:dotcom, :claude_api_key)
+      },
+      json: request_body,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp translate_request_body(request_body) do
+    request_body
+    |> send_request_body()
+    |> process_response(request_body)
+  end
+end
+```
+
+```elixir
+defmodule Dotcom.Translator.Smartling do
+  @moduledoc """
+  An implementation of `Dotcom.Translate.Behaviour` that uses Smartling.
+  """
+
+  @behaviour Dotcom.Translator.Behaviour
+
+  @locales %{
+    "en" => "en-US",
+    "es" => "es-LA",
+    "ht" => "ht-HT",
+    "zh" => "zh-CN"
+  }
+  @locale_keys Map.keys(@locales)
+
+  @impl Dotcom.Translator.Behaviour
+  def translate(_, locale) when locale not in @locale_keys do
+    "Our Smartling trial only has a few languages enabled: #{@locale_keys}"
+  end
+
+  def translate(text, locale) do
+    text
+    |> request_body(locale)
+    |> translate_request_body()
+  end
+
+  def authenticate() do
+    authentication_body()
+    |> send_authentication_body()
+    |> process_authentication()
+  end
+  
+  defp authentication_body() do
+    %{
+      "userIdentifier" => Application.get_env(:dotcom, :smartling_user_identifier),
+      "userSecret" => Application.get_env(:dotcom, :smartling_user_secret)
+    }
+  end
+
+  defp request_body(text, locale) do
+    extended_locale = Map.get(@locales, locale, "es-LA")
+
+    %{
+      "sourceLocaleId" => "en-US",
+      "targetLocaleId" => extended_locale,
+      "items" => [
+        %{
+          "key" => "foo",
+          "sourceText" => text
+        }
+      ]
+    }
+  end
+
+  defp process_authentication({:ok, response}) do
+    response
+    |> Map.get(:body)
+    |> Map.get("response")
+    |> Map.get("data")
+    |> Map.get("accessToken")
+  end
+
+  defp process_authentication({:error, exception}) do
+    IO.inspect(exception)
+  end
+
+  defp process_response({:ok, response}, _) do
+    response
+    |> Map.get(:body)
+    |> Map.get("response")
+    |> Map.get("data")
+    |> Map.get("items")
+    |> List.first()
+    |> Map.get("translationText")
+  end
+
+  defp process_response({:error, exception}, request_body) do
+    IO.inspect(request_body)
+    IO.inspect(exception)
+
+    "ERROR"
+  end
+
+  defp send_authentication_body(authentication_body) do
+    Req.post(
+      Application.get_env(:dotcom, :smartling_url) <> "/auth-api/v2/authenticate",
+      finch: Translator.Finch,
+      json: authentication_body,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp send_request_body(request_body) do
+    Req.post(
+      Application.get_env(:dotcom, :smartling_url) <> "/mt-router-api/v2/accounts/5a2c34be/smartling-mt",
+      finch: Translator.Finch,
+      headers: %{
+        "Authorization" => "Bearer " <> Application.get_env(:dotcom, :smartling_access_token),
+      },
+      json: request_body,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp translate_request_body(request_body) do
+    request_body
+    |> send_request_body()
+    |> process_response(request_body)
+  end
+end
+```
+
+```elixir
+_ = Finch.start_link(name: Translator.Finch)
+```
+
+```elixir
+Application.put_env(:dotcom, :claude_api_key, "")
+Application.put_env(:dotcom, :claude_url, "https://api.anthropic.com/v1/messages")
+Application.put_env(:dotcom, :libre_translate_url, "http://10.0.0.2:5000/translate")
+Application.put_env(:dotcom, :smartling_url, "https://api.smartling.com")
+Application.put_env(:dotcom, :smartling_user_identifier, "")
+Application.put_env(:dotcom, :smartling_user_secret, "")
+```
+
+```elixir
+text = "I'm a little teapot, short and stout..."
+```
+
+```elixir
+Dotcom.Translator.LibreTranslate.translate(text, "es")
+```
+
+```elixir
+Dotcom.Translator.Claude.translate(text, "es")
+```
+
+```elixir
+access_token = Dotcom.Translator.Smartling.authenticate()
+Application.put_env(:dotcom, :smartling_access_token, access_token)
+Dotcom.Translator.Smartling.translate(text, "es")
+```

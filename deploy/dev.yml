@@ -63,6 +63,8 @@ services:
         ports:
             - 8888:8080
             - 8081:8081
+        volumes:
+            - ../livebooks:/home/livebook
         networks:
             dotcom_network:
                 ipv4_address: 10.0.0.3
