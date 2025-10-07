@@ -6,20 +6,6 @@ defmodule DotcomWeb.Components.SearchHits do
 
   use DotcomWeb, :component
 
-  attr(:rest, :global)
-  slot(:inner_block, required: true)
-
-  def search_hits_wrapper(assigns) do
-    ~H"""
-    <ul
-      class="border border-gray-bordered-background divide-y divide-gray-bordered-background w-full p-0 m-0 list-none"
-      {@rest}
-    >
-      {render_slot(@inner_block)}
-    </ul>
-    """
-  end
-
   attr :hit, :any, doc: "A single search result"
   attr :rest, :global
 
@@ -32,24 +18,18 @@ defmodule DotcomWeb.Components.SearchHits do
       |> assign(:url, unverified_url(DotcomWeb.Endpoint, url))
 
     ~H"""
-    <li
-      class="p-sm hover:cursor-pointer hover:bg-brand-primary-lightest flex items-center leading-[1.25]"
-      style="min-height: var(--minimum-tap-target-size)"
-      {@rest}
+    <.link
+      href={@url}
+      class="flex items-center gap-sm font-normal text-black hover:no-underline"
     >
-      <.link
-        href={@url}
-        class="flex items-center gap-sm font-normal text-black hover:no-underline"
-      >
-        <.icon
-          type="icon-svg"
-          name={@icon}
-          class="h-4 w-4 shrink-0"
-          aria-hidden="true"
-        />
-        {name(@hit)}
-      </.link>
-    </li>
+      <.icon
+        type="icon-svg"
+        name={@icon}
+        class="h-4 w-4 shrink-0"
+        aria-hidden="true"
+      />
+      {name(@hit)}
+    </.link>
     """
   end
 

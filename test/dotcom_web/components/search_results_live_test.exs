@@ -19,20 +19,15 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
         assert query == assigns[:query]
         assert opts[:category] == assigns[:category]
 
-        {:ok, build_list(5, :hit)}
+        {:ok, build(:result)}
       end)
 
       assert render_component(SearchResultsLive, assigns)
     end
 
-    test "renders message if no results found" do
-      expect(Dotcom.SearchService.Mock, :query, fn _, _ -> {:ok, []} end)
-      assert render_component(SearchResultsLive, create_assigns()) =~ "No more results"
-    end
-
     test "renders more with results" do
       expect(Dotcom.SearchService.Mock, :query, fn _, _ ->
-        {:ok, build_list(5, :hit)}
+        {:ok, build(:result)}
       end)
 
       list_items =
@@ -48,40 +43,42 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
     test "triggers more searching" do
       # fired twice, once on initial mount and second on connect
       expect(Dotcom.SearchService.Mock, :query, 2, fn _, _ ->
-        {:ok, build_list(5, :hit)}
+        {:ok, %{hits: build_list(5, :hit), page: 0, total_pages: 8, total_hits: 40}}
       end)
 
       {:ok, view, _} =
         live_isolated_component(SearchResultsLive, create_assigns())
 
-      assert render_async(view)
+      assert render(view)
 
       # Load more first click
       expect(Dotcom.SearchService.Mock, :query, fn _, opts ->
         assert opts[:page] == 1
-        {:ok, build_list(5, :hit)}
+        {:ok, %{hits: build_list(5, :hit), page: 1, total_pages: 8, total_hits: 40}}
       end)
 
       load_more(view)
-      render_async(view)
+      render(view)
 
       # Load more second click
       expect(Dotcom.SearchService.Mock, :query, fn _, opts ->
         assert opts[:page] == 2
-        {:ok, build_list(5, :hit)}
+        {:ok, %{hits: build_list(5, :hit), page: 2, total_pages: 8, total_hits: 40}}
       end)
 
       load_more(view)
-      render_async(view)
+      render(view)
     end
 
     test "describes no results" do
-      stub(Dotcom.SearchService.Mock, :query, fn _, _ -> {:ok, []} end)
+      stub(Dotcom.SearchService.Mock, :query, fn _, _ ->
+        {:ok, %{hits: [], page: 1, total_pages: 1, total_hits: 0}}
+      end)
 
       {:ok, view, _} =
         live_isolated_component(SearchResultsLive, create_assigns())
 
-      assert render_async(view) =~ "No more results"
+      assert render(view) =~ "0 results"
     end
 
     test "handles errors" do
@@ -90,7 +87,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       {:ok, view, _} =
         live_isolated_component(SearchResultsLive, create_assigns())
 
-      assert render_async(view)
+      assert render(view)
     end
   end
 

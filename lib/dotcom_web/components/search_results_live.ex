@@ -9,16 +9,17 @@ defmodule DotcomWeb.Components.SearchResultsLive do
   alias DotcomWeb.Live.SearchPage
   alias Phoenix.LiveComponent
 
-  @initial_pagination %{loaded_count: 0, page: 0}
   @search_service Application.compile_env!(:dotcom, :search_service)
 
   @impl LiveComponent
   def mount(socket) do
     {:ok,
      socket
-     |> assign(:connected?, connected?(socket))
-     |> assign(@initial_pagination)
-     |> stream_configure(:results, dom_id: & &1["objectID"])}
+     |> assign_new(:page, fn -> 0 end)
+     |> assign_new(:show_results_loader?, fn -> nil end)
+     |> assign_new(:total_count, fn -> nil end)
+     |> stream_configure(:results, dom_id: & &1["objectID"])
+     |> stream(:results, [])}
   end
 
   @impl LiveComponent
@@ -29,12 +30,8 @@ defmodule DotcomWeb.Components.SearchResultsLive do
      |> update_results()}
   end
 
-  @impl LiveComponent
-  def update(%{loaded_count: count}, socket) do
-    {:ok, update(socket, :loaded_count, &(&1 + count))}
-  end
-
   # If the query was updated, remove previous results during async operation
+  @impl LiveComponent
   def update(%{category: _, query: query} = assigns, socket) do
     if socket.assigns[:query] == query do
       {:ok, assign(socket, assigns)}
@@ -42,7 +39,8 @@ defmodule DotcomWeb.Components.SearchResultsLive do
       {:ok,
        socket
        |> assign(assigns)
-       |> assign(@initial_pagination)
+       |> assign(:page, 0)
+       |> assign(:total_count, nil)
        |> update_results(reset: true)}
     end
   end
@@ -50,119 +48,70 @@ defmodule DotcomWeb.Components.SearchResultsLive do
   def update(assigns, socket), do: {:ok, assign(socket, assigns)}
 
   defp update_results(socket, stream_opts \\ []) do
-    category = Map.fetch!(socket.assigns, :category)
-    page = Map.fetch!(socket.assigns, :page)
     query = Map.fetch!(socket.assigns, :query)
-    pid = self()
-    myself = socket.assigns.myself
+    connected? = connected?(socket)
+    search_opts = search_opts(socket.assigns, connected?)
 
-    stream_async(socket, :results, fn ->
-      case @search_service.query(query, category: category, page: page) do
-        {:ok, hits} ->
-          send_update(pid, myself, loaded_count: Enum.count(hits))
-          {:ok, hits, stream_opts}
+    case @search_service.query(query, search_opts) do
+      {:ok, %{hits: hits, page: page, total_pages: total_pages, total_hits: total_hits}} ->
+        socket
+        |> assign(:show_results_loader?, connected? and page + 1 < total_pages)
+        |> assign(:total_count, total_hits)
+        |> stream(:results, hits, stream_opts)
 
-        error ->
-          error
-      end
-    end)
-  end
-
-  @impl LiveComponent
-  def render(%{connected?: true} = assigns) do
-    ~H"""
-    <div>
-      <%= if @results do %>
-        <.async_result :let={_} assign={@results}>
-          <.section_wrapper
-            category={@category}
-            loaded_count={@loaded_count}
-            loading?={@results.loading}
-          >
-            <.search_hits_wrapper
-              :if={@loaded_count > 0}
-              id={@category <> "-results"}
-              phx-update="stream"
-            >
-              <.hit
-                :for={{dom_id, hit} <- @streams.results}
-                :key={dom_id}
-                id={dom_id}
-                hit={hit}
-              />
-            </.search_hits_wrapper>
-            <.link
-              :if={(@results.ok? && Enum.count(@streams.results) > 0) || @results.loading}
-              id={"#{@category}-loader"}
-              class="flex justify-center btn-link py-xs"
-              phx-click="load_more"
-              phx-target={@myself}
-            >
-              <%= if @results.loading do %>
-                {~t(Loading...)}
-              <% else %>
-                {~t(Load more)}
-              <% end %>
-            </.link>
-          </.section_wrapper>
-        </.async_result>
-      <% end %>
-    </div>
-    """
-  end
-
-  # Not connected? Just fetch and return a simple list of results
-  def render(assigns) do
-    with %{category: category, query: query} <- assigns,
-         {:ok, hits} <- @search_service.query(query, category: category) do
-      assigns =
-        assigns
-        |> assign(:hits, hits)
-        |> assign(:loaded_count, Enum.count(hits))
-
-      ~H"""
-      <div>
-        <.section_wrapper category={@category} loaded_count={@loaded_count}>
-          <.search_hits_wrapper :if={@loaded_count > 0}>
-            <.hit :for={hit <- @hits} hit={hit} />
-          </.search_hits_wrapper>
-        </.section_wrapper>
-      </div>
-      """
-    else
       _ ->
-        ~H"""
-        <div></div>
-        """
+        socket
     end
   end
 
-  defp section_wrapper(assigns) do
-    assigns =
+  defp search_opts(assigns, connected?) do
+    search_opts =
       assigns
-      |> assign_new(:loading?, fn -> false end)
-      |> assign_new(:no_results?, fn assigns ->
-        assigns[:loaded_count] == 0 && !assigns[:loading]
-      end)
+      |> Map.take([:category, :page])
+      |> Keyword.new()
 
+    if connected? do
+      search_opts
+    else
+      Keyword.put(search_opts, :hitsPerPage, 25)
+    end
+  end
+
+  @impl LiveComponent
+  def render(assigns) do
     ~H"""
     <section class="mb-lg">
-      <h2
-        :if={!@no_results?}
-        class="font-medium text-lg m-0 bg-gray-bordered-background p-sm flex justify-between"
-      >
+      <h2 class="font-medium text-lg m-0 bg-gray-bordered-background p-sm flex justify-between">
         <span>
           <span class="sr-only">{~t(Search results for)}</span>
           {SearchPage.category_label(@category)}
         </span>
-        <span>{~t(1 result | %{count} results | #{@loaded_count})p}</span>
+        <span :if={@total_count}>{~t(1 result | %{count} results | #{@total_count})p}</span>
       </h2>
-      {render_slot(@inner_block)}
-      <div aria-live="assertive" aria-atomic="true" class="sr-only">
-        <%= if @no_results? do %>
-          {~t(No more results for)} {SearchPage.category_label(@category)}
-        <% end %>
-      </div>
+      <ul
+        class="border border-gray-bordered-background divide-y divide-gray-bordered-background w-full p-0 m-0 list-none"
+        id={@category <> "-results"}
+        phx-update="stream"
+      >
+        <li
+          :for={{dom_id, hit} <- @streams.results}
+          class="p-sm hover:cursor-pointer hover:bg-brand-primary-lightest flex items-center leading-[1.25]"
+          style="min-height: var(--minimum-tap-target-size)"
+          :key={dom_id}
+          id={dom_id}
+        >
+          <.hit hit={hit} />
+        </li>
+      </ul>
+      <.link
+        :if={@show_results_loader?}
+        id={"#{@category}-loader"}
+        class="flex justify-center btn-link py-xs"
+        phx-click="load_more"
+        phx-target={@myself}
+      >
+        {~t(Load more)}
+      </.link>
     </section>
     """
   end

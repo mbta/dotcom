@@ -20,8 +20,8 @@ defmodule DotcomWeb.Live.SearchPageTest do
       query = Faker.App.name()
       search_count = SearchPage.categories() |> Enum.count()
 
-      expect(Dotcom.SearchService.Mock, :query, search_count, fn ^query, _ ->
-        {:ok, build_list(5, :hit)}
+      expect(Dotcom.SearchService.Mock, :query, search_count * 2, fn ^query, _ ->
+        {:ok, build(:result)}
       end)
 
       path = live_path(conn, SearchPage, %{"query" => query})
@@ -30,7 +30,7 @@ defmodule DotcomWeb.Live.SearchPageTest do
 
     test "toggle sections", %{conn: conn} do
       {:ok, view, _} = initial_load_with_query(conn)
-      render_async(view)
+      render(view)
 
       for category <- SearchPage.categories() do
         assert has_element?(view, "section > h2", SearchPage.category_label(category))
@@ -60,7 +60,7 @@ defmodule DotcomWeb.Live.SearchPageTest do
       count = SearchPage.categories() |> Enum.count()
 
       expect(Dotcom.SearchService.Mock, :query, count, fn ^new_query, _ ->
-        {:ok, build_list(5, :hit)}
+        {:ok, build(:result)}
       end)
 
       view
