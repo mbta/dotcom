@@ -47,7 +47,7 @@ defmodule AlgoliaClient do
       analytics: prod?(),
       clickAnalytics: prod?(),
       hitsPerPage: 5,
-      responseFields: ~w(hits index),
+      responseFields: ~w(hits index nbHits nbPages offset page),
       highlightPreTag: "__aa-highlight__",
       highlightPostTag: "__/aa-highlight__"
     ]
@@ -57,13 +57,24 @@ defmodule AlgoliaClient do
 
   # The response doesn't follow the documentation and omits the index name,
   # so we add it here when that happens. Also add queryID
-  defp parse_response(%{status: 200, body: %{"hits" => hits} = body}, index) when is_list(hits) do
-    {:ok,
-     Enum.map(hits, fn hit ->
-       hit
-       |> Map.put("queryID", Map.get(body, "queryID"))
-       |> Map.put("index", Map.get(body, "index", index))
-     end)}
+  defp parse_response(
+         %{
+           status: 200,
+           body:
+             %{"hits" => hits, "nbHits" => num_hits, "nbPages" => num_pages, "page" => page} =
+               body
+         },
+         index
+       )
+       when is_list(hits) do
+    hits =
+      Enum.map(hits, fn hit ->
+        hit
+        |> Map.put("queryID", Map.get(body, "queryID"))
+        |> Map.put("index", Map.get(body, "index", index))
+      end)
+
+    {:ok, %{hits: hits, page: page, total_pages: num_pages, total_hits: num_hits}}
   end
 
   defp parse_response(%{body: %{"message" => message, "status" => status}}, _)

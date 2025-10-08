@@ -12,4 +12,9 @@ defmodule Test.Support.SearchServiceFactory do
       "url" => Faker.Internet.url()
     }
   end
+
+  def result_factory do
+    number = Faker.random_between(1, 50)
+    %{hits: build_list(5, :hit), page: 1, total_pages: div(number, 5), total_hits: number}
+  end
 end

@@ -17,7 +17,7 @@ defmodule Dotcom.SearchServiceTest do
 
           %Tesla.Env{
             status: 200,
-            body: %{"hits" => build_list(3, :hit)}
+            body: %{"hits" => build_list(3, :hit), "nbHits" => 3, "nbPages" => 1, "page" => 1}
           }
       end)
 
@@ -33,7 +33,7 @@ defmodule Dotcom.SearchServiceTest do
 
           %Tesla.Env{
             status: 200,
-            body: %{"hits" => build_list(3, :hit)}
+            body: %{"nbHits" => 3, "nbPages" => 1, "page" => 1, "hits" => build_list(3, :hit)}
           }
       end)
 
@@ -51,7 +51,7 @@ defmodule Dotcom.SearchServiceTest do
 
           %Tesla.Env{
             status: 200,
-            body: %{"hits" => []}
+            body: %{"nbHits" => 0, "nbPages" => 1, "page" => 1, "hits" => []}
           }
       end)
 
