@@ -19,6 +19,7 @@ defmodule DotcomWeb.Components.SearchHits do
       assigns
       |> assign(:url, unverified_url(DotcomWeb.Endpoint, url))
       |> assign(:location, location(assigns.hit))
+      |> assign(:bus_stop_id, bus_stop_id(assigns.hit))
 
     ~H"""
     <.link
@@ -28,6 +29,7 @@ defmodule DotcomWeb.Components.SearchHits do
       <div class="flex items-center gap-sm">
         <.hit_icon hit={@hit} />
         <.hit_highlighted_name hit={@hit} />
+        <span :if={@bus_stop_id} class="text-gray-500 text-sm">#{@bus_stop_id}</span>
         <.hit_time hit={@hit} />
       </div>
       <div :if={@hit["index"] == "stops"} class="flex items-center gap-sm justify-between">
@@ -39,6 +41,9 @@ defmodule DotcomWeb.Components.SearchHits do
     </.link>
     """
   end
+
+  defp bus_stop_id(%{"index" => "stops", "stop" => %{"id" => id, "station?" => false}}), do: id
+  defp bus_stop_id(_), do: nil
 
   defp hit_icon(%{hit: %{"index" => "stops", "stop" => %{"station?" => station}}} = assigns) do
     name =
