@@ -43,9 +43,7 @@ export const getTitleAttribute = (item: Item): string[] => {
     return ["route", "name"];
   }
 
-  // @ts-ignore
-  // eslint-disable-next-line no-underscore-dangle
-  return Object.keys(item._highlightResult);
+  return ["content_title"];
 };
 
 export type UrlType =
