@@ -19,6 +19,8 @@ defmodule Alerts.Cache.Store do
 
   use GenServer
 
+  @pubsub_topic "alerts"
+
   # Client
 
   def start_link(_) do
@@ -32,6 +34,22 @@ defmodule Alerts.Cache.Store do
   @spec update([Alerts.Alert.t()], Alerts.Banner.t() | nil) :: :ok
   def update(alerts, banner_alert) do
     GenServer.call(__MODULE__, {:update, alerts, banner_alert})
+    DotcomWeb.Endpoint.broadcast(@pubsub_topic, "alerts_updated", alerts)
+  end
+
+  @doc """
+  Subscribes the caller to updates whenever alerts data is re-fetched. The calling
+  process will then need to handle messages like so:
+
+  ```
+  def handle_info(%{event: "alerts_updated", payload: alerts}, state) do
+    # Logic goes here
+  end
+  ```
+  """
+  @spec subscribe() :: :ok | {:error, term()}
+  def subscribe() do
+    DotcomWeb.Endpoint.subscribe(@pubsub_topic)
   end
 
   @doc """

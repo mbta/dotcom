@@ -415,7 +415,7 @@ msgid "Sustainability"
 msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts.ex:27
-#: lib/dotcom_web/live/subway_alerts.ex:27
+#: lib/dotcom_web/live/subway_alerts.ex:31
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:48
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex:16
 #, elixir-autogen, elixir-format
@@ -545,7 +545,7 @@ msgstr ""
 msgid "All Alerts"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:72
+#: lib/dotcom_web/live/subway_alerts.ex:80
 #: lib/dotcom_web/templates/alert/show.html.heex:19
 #: lib/dotcom_web/templates/alert/show.html.heex:38
 #, elixir-autogen, elixir-format
@@ -2051,7 +2051,7 @@ msgid "Zone %{zone}"
 msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts.ex:18
-#: lib/dotcom_web/live/subway_alerts.ex:25
+#: lib/dotcom_web/live/subway_alerts.ex:29
 #, elixir-autogen, elixir-format
 msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 msgstr ""
@@ -2061,7 +2061,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:69
+#: lib/dotcom_web/live/subway_alerts.ex:77
 #, elixir-autogen, elixir-format
 msgid "There are no other subway alerts at this time."
 msgstr ""
