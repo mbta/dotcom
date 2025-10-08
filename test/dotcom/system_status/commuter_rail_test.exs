@@ -61,30 +61,89 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result |> Map.keys() |> List.first() == commuter_rail_id
+      assert result |> List.first() |> Map.get(:route_id) == commuter_rail_id
     end
 
-    test "only uses service impacting alerts" do
+    test "includes service impacts under service_impacts" do
       # SETUP
       active_period = [
         {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
       ]
 
-      random_service_impacting_effect =
-        Dotcom.Alerts.service_impacting_effects()
-        |> Enum.random()
-        |> Kernel.elem(0)
+      random_service_impacting_effect = Faker.Util.pick(@service_effects)
+
+      service_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: random_service_impacting_effect,
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [service_alert] end)
+
+      # EXERCISE
+      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+
+      # VERIFY
+      [%{alert: alert}] =
+        result |> List.first() |> Kernel.get_in([:status, :service_impacts])
+
+      assert alert == service_alert
+    end
+
+    test "puts delays and cancellations in separate sections, not in service_impacts" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
+
+      cancellation_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :cancellation,
+          severity: 3
+        )
+
+      delay_alert =
+        Factories.Alerts.Alert.build(:alert,
+          active_period: active_period,
+          effect: :delay,
+          severity: 3
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [cancellation_alert, delay_alert] end)
+
+      # EXERCISE
+      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+
+      # VERIFY
+      %{delays: [delay], cancellations: [cancellation]} =
+        result |> List.first() |> Map.get(:status)
+
+      assert delay.alert == delay_alert
+      assert cancellation.alert == cancellation_alert
+    end
+
+    test "does not include effects that aren't 'service-impacting'" do
+      # SETUP
+      active_period = [
+        {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+      ]
 
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [
-          # Service impacting alert
+          # Service impacting alert - needed because otherwise `service_impacts` won't exist at all
           Factories.Alerts.Alert.build(:alert,
             active_period: active_period,
-            effect: random_service_impacting_effect,
+            effect: Faker.Util.pick(@service_impacting_effects),
             severity: 3
           ),
-          # Non-service impacting alert
-          Factories.Alerts.Alert.build(:alert, effect: :summary)
+          # non-service impacting alert
+          Factories.Alerts.Alert.build(:alert,
+            active_period: active_period,
+            effect: :summary,
+            severity: 3
+          )
         ]
       end)
 
@@ -92,10 +151,10 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result
-             |> Map.values()
-             |> List.first()
-             |> Kernel.get_in([:alert_counts, random_service_impacting_effect, :count]) == 1
+      service_impacts =
+        result |> List.first() |> Kernel.get_in([:status, :service_impacts])
+
+      refute service_impacts |> Enum.any?(&(&1.alert.effect == :summary))
     end
 
     test "only uses alerts that are in effect today" do
@@ -120,47 +179,10 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result
-             |> Map.values()
-             |> List.first()
-             |> Kernel.get_in([:alert_counts, random_service_impacting_effect]) == nil
+      assert result |> List.first() |> Map.get(:status) == :normal
     end
 
-    test "groups alerts into the correct counts" do
-      # SETUP
-      now = Dotcom.Utils.DateTime.now()
-
-      active_period = [
-        {now, Timex.shift(now, hours: 1)}
-      ]
-
-      stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        [
-          Factories.Alerts.Alert.build(:alert,
-            active_period: active_period,
-            effect: :delay,
-            severity: 2
-          ),
-          Factories.Alerts.Alert.build(:alert,
-            active_period: active_period,
-            effect: :delay,
-            severity: 2
-          ),
-          Factories.Alerts.Alert.build(:alert, active_period: active_period, effect: :shuttle)
-        ]
-      end)
-
-      # EXERCISE
-      result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
-
-      # VERIFY
-      assert result |> Map.values() |> List.first() |> Map.get(:alert_counts) == %{
-               delay: %{count: 2, next_active: {:current, now}},
-               shuttle: %{count: 1, next_active: {:current, now}}
-             }
-    end
-
-    test "counts a single alert with multiple trips as multiple of that kind" do
+    test "duplicates a delay alert if it affects multiple trips" do
       # SETUP
       now = Dotcom.Utils.DateTime.now()
 
@@ -185,13 +207,10 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      assert result
-             |> Map.values()
-             |> List.first()
-             |> Kernel.get_in([:alert_counts, :delay, :count]) == 2
+      assert result |> List.first() |> Kernel.get_in([:status, :delays]) |> Enum.count() == 2
     end
 
-    test "indicates whether or not the route is running service today" do
+    test "returns :no_scheduled_service as the status if there's no service running" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
 
@@ -201,7 +220,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, 2, fn _ ->
+      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
         [
           %Schedules.ScheduleCondensed{
             time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
@@ -213,7 +232,7 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       result = Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
 
       # VERIFY
-      refute result |> Map.values() |> List.first() |> Map.get(:service_today?)
+      assert result |> List.first() |> Map.get(:status) == :no_scheduled_service
     end
   end
 
