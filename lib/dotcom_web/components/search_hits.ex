@@ -27,8 +27,8 @@ defmodule DotcomWeb.Components.SearchHits do
     >
       <div class="flex items-center gap-sm">
         <.hit_icon hit={@hit} />
-        <.hit_time hit={@hit} />
         <.hit_highlighted_name hit={@hit} />
+        <.hit_time hit={@hit} />
       </div>
       <div :if={@hit["index"] == "stops"} class="flex items-center gap-sm justify-between">
         <.hit_connections hit={@hit} />
@@ -259,7 +259,9 @@ defmodule DotcomWeb.Components.SearchHits do
   end
 
   defp hit_time(assigns) do
-    time = assigns.hit["_event_start_time"]
+    time =
+      assigns.hit["_event_start_time"] || assigns.hit["_file_created"] ||
+        assigns.hit["_content_posted_on"]
 
     assigns =
       assign(
@@ -274,7 +276,7 @@ defmodule DotcomWeb.Components.SearchHits do
       )
 
     ~H"""
-    <span :if={@formatted_time} class="text-gray-light">{@formatted_time}</span>
+    <span :if={@formatted_time} class="text-gray-light ml-auto text-nowrap">{@formatted_time}</span>
     """
   end
 
