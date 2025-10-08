@@ -68,22 +68,22 @@ defmodule DotcomWeb.Components.SearchHits do
         assigns = assign(assigns, :line, line_name)
 
         ~H"""
-        <SystemIcons.route_icon line={@line} />
+        <SystemIcons.route_icon line={@line} class="shrink-0" />
         """
 
       route["type"] == 2 ->
         ~H"""
-        <SystemIcons.mode_icon mode="commuter-rail" />
+        <SystemIcons.mode_icon mode="commuter-rail" class="shrink-0" />
         """
 
       route["type"] == 4 ->
         ~H"""
-        <SystemIcons.mode_icon mode="ferry" />
+        <SystemIcons.mode_icon mode="ferry" class="shrink-0" />
         """
 
       true ->
         ~H"""
-        <SystemIcons.route_icon name={@hit["route"]["name"]} />
+        <SystemIcons.route_icon name={@hit["route"]["name"]} class="shrink-0" />
         """
     end
   end
@@ -248,12 +248,12 @@ defmodule DotcomWeb.Components.SearchHits do
     case assigns.transit do
       mode when mode in ~w(subway commuter-rail bus ferry) ->
         ~H"""
-        <SystemIcons.mode_icon mode={@transit} size="small" class="w-5 h-5" />
+        <SystemIcons.mode_icon mode={@transit} size="small" class="w-5 h-5 shrink-0" />
         """
 
       _ ->
         ~H"""
-        <SystemIcons.route_icon line={@transit} size="small" />
+        <SystemIcons.route_icon line={@transit} size="small" class="shrink-0" />
         """
     end
   end
@@ -285,9 +285,14 @@ defmodule DotcomWeb.Components.SearchHits do
       assign(assigns, :text, if(highlighted_value, do: replace_highlight(highlighted_value)))
 
     ~H"""
-    <span :if={@text} class="text-black">{raw(@text)}</span>
+    <span :if={@text} class={["text-[initial]", if(file_hit?(@hit), do: "break-all")]}>
+      {raw(@text)}
+    </span>
     """
   end
+
+  defp file_hit?(%{"search_api_datasource" => "entity:file"}), do: true
+  defp file_hit?(_), do: false
 
   defp replace_highlight(text) do
     text
@@ -327,7 +332,7 @@ defmodule DotcomWeb.Components.SearchHits do
 
   defp connecting_route(%{cx: %{"type" => 2}} = assigns) do
     ~H"""
-    <SystemIcons.mode_icon mode="commuter-rail" size="small" class="w-5 h-5" />
+    <SystemIcons.mode_icon mode="commuter-rail" size="small" class="w-5 h-5 shrink-0" />
     <.zone stop={@stop} />
     """
   end
@@ -342,7 +347,7 @@ defmodule DotcomWeb.Components.SearchHits do
 
   defp connecting_route(%{cx: %{"type" => 4}} = assigns) do
     ~H"""
-    <SystemIcons.mode_icon mode="ferry" size="small" class="w-5 h-5" />
+    <SystemIcons.mode_icon mode="ferry" size="small" class="w-5 h-5 shrink-0" />
     """
   end
 
