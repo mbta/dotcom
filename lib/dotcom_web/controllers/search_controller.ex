@@ -16,7 +16,7 @@ defmodule DotcomWeb.SearchController do
       |> Enum.map(&opts_from_params/1)
       |> Task.async_stream(&@search_service.query(query, &1))
       |> Enum.flat_map(fn
-        {:ok, {:ok, hits}} when is_list(hits) ->
+        {:ok, {:ok, %{hits: hits}}} when is_list(hits) ->
           hits
 
         _ ->
