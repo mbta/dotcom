@@ -37,7 +37,7 @@ defmodule DotcomWeb.Components.Alerts.Grouped do
       <div :for={group <- @module.group_order()}>
         <h3 id={anchor(group)}>{group}</h3>
         <%= if Map.get(@grouped_counts, group, 0) == 0 do %>
-          <p>No {String.downcase(group)} alerts</p>
+          <p>{gettext("No %{group} alerts", group: String.downcase(group))}</p>
         <% else %>
           {Phoenix.View.render(DotcomWeb.AlertView, "group.html",
             alerts: @grouped_alerts |> Map.get(group, []) |> @module.sort_alerts(),
