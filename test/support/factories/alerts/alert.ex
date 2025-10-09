@@ -113,6 +113,12 @@ defmodule Test.Support.Factories.Alerts.Alert do
     %{alert | active_period: [{start_time, ServiceDateTime.end_of_service_day(start_time)}]}
   end
 
+  def active_upcoming(alert) do
+    start_time = time_after(Dotcom.Utils.DateTime.now() |> DateTime.shift(day: 7))
+    end_time = time_after(start_time)
+    %{alert | active_period: [{start_time, end_time}]}
+  end
+
   # Returns a random time during the day today before the time provided.
   defp time_before(time) do
     between(Timex.beginning_of_day(time), time)

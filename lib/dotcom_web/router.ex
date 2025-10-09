@@ -100,6 +100,7 @@ defmodule DotcomWeb.Router do
 
     live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
       live("/alerts/subway", Live.SubwayAlerts)
+      live("/alerts/commuter-rail", Live.CommuterRailAlerts)
     end
   end
 

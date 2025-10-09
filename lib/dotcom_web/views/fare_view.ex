@@ -9,8 +9,6 @@ defmodule DotcomWeb.FareView do
     DescriptionList
   }
 
-  alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Fares.Summary
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route
@@ -38,45 +36,6 @@ defmodule DotcomWeb.FareView do
     URI.parse("https://maps.google.com")
     |> URI.append_path(path)
     |> URI.to_string()
-  end
-
-  @doc "Renders a summary of fares into HTML"
-  @spec summarize([Summary.t()], Keyword.t()) :: HTML.safe()
-  def summarize(summaries, opts \\ []) do
-    render("_summary.html",
-      summaries: summaries,
-      class: opts[:class],
-      link_class: Keyword.get(opts, :link_class, "")
-    )
-  end
-
-  @spec summary_url(Summary.t()) :: String.t()
-  def summary_url(%Summary{url: url}) when not is_nil(url), do: url
-
-  def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration})
-      when subway_or_bus in [:subway, :bus] do
-    anchor =
-      cond do
-        duration in ~w(day week)a -> "#7-day"
-        duration in ~w(month)a -> "#monthly"
-        true -> ""
-      end
-
-    do_summary_url(subway_or_bus, anchor)
-  end
-
-  def summary_url(%Summary{modes: [mode | _]}) do
-    do_summary_url(mode)
-  end
-
-  @spec do_summary_url(atom, String.t()) :: String.t()
-  defp do_summary_url(name, anchor \\ "") do
-    name
-    |> Atom.to_string()
-    |> String.replace("_", "-")
-    |> then(fn name ->
-      fare_path(DotcomWeb.Endpoint, :show, name <> "-fares") <> anchor
-    end)
   end
 
   @spec fare_passes(Route.gtfs_route_type()) :: DescriptionList.t()
