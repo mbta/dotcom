@@ -9,12 +9,7 @@ import {
 } from "date-fns";
 import { find } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
-import {
-  DirectionId,
-  Route,
-  StopHours,
-  StopHoursByStop
-} from "../../../../__v3api";
+import { DirectionId, StopHours, StopHoursByStop } from "../../../../__v3api";
 import {
   formatToBostonTime,
   stringToDateObject
@@ -74,7 +69,6 @@ const DailyScheduleSubway = ({
   directionId,
   stopId,
   routeId,
-  route,
   services,
   scheduleNote,
   today
@@ -82,7 +76,6 @@ const DailyScheduleSubway = ({
   directionId: DirectionId;
   stopId: string;
   routeId: string;
-  route: Route;
   services: ServiceInSelector[];
   scheduleNote: ScheduleNote | null;
   today: string;
@@ -113,8 +106,6 @@ const DailyScheduleSubway = ({
     !isTodayFriday &&
     !isTodaySaturday &&
     !isTodaySunday;
-
-  const hideScheduleFrequency = route.id === "Orange";
 
   useEffect(() => {
     if (isTodayAWeekday) {
@@ -234,7 +225,7 @@ const DailyScheduleSubway = ({
         </div>
       </div>
 
-      {!hideScheduleFrequency && scheduleNoteText !== "" && (
+      {scheduleNoteText !== "" && (
         <div className="mt-2">
           <div className="bg-brand-primary-lightest-contrast px-2 py-4">
             <h3 className="m-0">Train Frequency</h3>

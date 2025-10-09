@@ -75,6 +75,15 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
   # after, so active periods of {Mon, Wed} and {Thu, Fri} would be
   # combined into {Mon, Fri}, as would {Mon, Wed} and {Wed, Fri}, but
   # {Mon, Tue} and {Thu, Fri} would be kept separate.
+  defp combine_contiguous_active_periods(active_periods)
+
+  # Short-circuit: If the end time of a given active period is "until
+  # further notice", then the entire active period is contiguous and
+  # "until further notice".
+  defp combine_contiguous_active_periods([{start, nil} | _]), do: [{start, nil}]
+
+  # Otherwise, check whether the first two dates are contiguous and
+  # combine or separate them as appropriate.
   defp combine_contiguous_active_periods([active_period1, active_period2 | rest]) do
     {start1, end1} = active_period1
     {start2, end2} = active_period2

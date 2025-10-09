@@ -45,7 +45,7 @@ jobs:
       deployment-host: ${{ inputs.deployment-env == 'prod' && 'www.mbta.com' || format('{0}.mbtace.com', inputs.deployment-env) }}
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.aws-role-arn }}
           aws-region: us-east-1

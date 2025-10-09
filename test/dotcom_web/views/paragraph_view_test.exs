@@ -23,9 +23,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
     FilesGrid,
     PeopleGrid,
     PhotoGallery,
-    TitleCardSet,
-    TripPlanWidget,
-    Unknown
+    TripPlanWidget
   }
 
   alias Phoenix.HTML
@@ -56,60 +54,6 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       assert rendered =~ "c-paragraph--custom-html"
       refute rendered =~ "c-paragraph--right-rail"
       assert rendered =~ "responsive-table"
-    end
-
-    test "renders a CMS.Partial.Paragraph.TitleCardSet", %{conn: conn} do
-      paragraph = %TitleCardSet{
-        descriptive_links: [
-          %DescriptiveLink{
-            title: "Card 1",
-            body: HTML.raw("<strong>Body 1</strong>"),
-            link: %Link{url: "/relative/link"}
-          },
-          %DescriptiveLink{
-            title: "Card 2",
-            body: HTML.raw("<strong>Body 2</strong>"),
-            link: %Link{url: "https://www.example.com/another/link"}
-          }
-        ]
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> Phoenix.HTML.Safe.to_iodata()
-        |> IO.iodata_to_binary()
-
-      assert rendered =~ ~s(Card 1)
-
-      assert rendered =~ "<strong>Body 1</strong>"
-      assert rendered =~ ~s( href="/relative/link")
-
-      assert rendered =~ ~s(Card 2)
-
-      assert rendered =~ "<strong>Body 2</strong>"
-      assert rendered =~ ~s( href="https://www.example.com/another/link")
-    end
-
-    test "renders a CMS.Partial.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
-      paragraph = %TitleCardSet{
-        descriptive_links: [
-          %DescriptiveLink{
-            title: ~s({{mbta-circle-icon "bus"}}),
-            body: HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
-            link: %Link{url: "/relative/link"}
-          }
-        ]
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> Phoenix.HTML.Safe.to_iodata()
-        |> IO.iodata_to_binary()
-
-      assert rendered =~ "responsive-table"
-      refute rendered =~ "mbta-circle-icon"
     end
 
     test "renders a CMS.Partial.Paragraph.DescriptiveLink (outside a Title Card Set)", %{
@@ -153,27 +97,6 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       refute rendered_in_mc =~ "c-media__element"
 
       assert rendered_unlinked =~ ~s(href="")
-    end
-
-    test "renders a TitleCardSet when it doesn't have a link", %{conn: conn} do
-      paragraph = %TitleCardSet{
-        descriptive_links: [
-          %DescriptiveLink{
-            title: "Title Card",
-            body: HTML.raw("This is a title card"),
-            link: nil
-          }
-        ]
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> Phoenix.HTML.Safe.to_iodata()
-        |> IO.iodata_to_binary()
-
-      assert rendered =~ "c-paragraph--title-card-set"
-      assert rendered =~ "This is a title card"
     end
 
     test "renders a Paragraph.PeopleGrid", %{conn: conn} do
@@ -750,20 +673,6 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       assert rendered =~ "<h2>Secret Trip Plan Tool</h2>"
       assert rendered =~ "<p>Find the newest travel tips for your origin and destination.</p>"
       assert rendered =~ "Go fast"
-    end
-
-    test "renders a Paragraph.Unknown", %{conn: conn} do
-      paragraph = %Unknown{
-        type: "unsupported_paragraph_type"
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> Phoenix.HTML.Safe.to_iodata()
-        |> IO.iodata_to_binary()
-
-      assert rendered =~ paragraph.type
     end
 
     test "renders a CMS.Partial.Paragraph.CodeEmbed and ensures input === output", %{conn: conn} do

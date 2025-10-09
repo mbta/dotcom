@@ -8,7 +8,6 @@ defmodule DotcomWeb.ModeController do
   alias Routes.Route
 
   plug(DotcomWeb.Plugs.RecentlyVisited)
-  plug(DotcomWeb.Plug.Mticket)
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
   defdelegate bus(conn, params), to: Mode.BusController, as: :index

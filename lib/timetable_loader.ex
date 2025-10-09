@@ -1,8 +1,8 @@
 defmodule Dotcom.TimetableLoader do
   @moduledoc """
-  Gets timetable data from CSV files. 
+  Gets timetable data from CSV files.
 
-  The CSVs are expected to be generated from a timetable PDF file, and placed into the 
+  The CSVs are expected to be generated from a timetable PDF file, and placed into the
   `"/priv/timetables/"` directory under the following naming convention:
   `"{route_id}-{direction_id}.csv"`. At minimum, the `route_id` must be included as a key
   in the `Dotcom.Timetable` `@metadata` module attribute, with a value of a map containing
@@ -37,22 +37,24 @@ defmodule Dotcom.TimetableLoader do
   @doc """
   Retrieves timetable data for a given route, direction, and date. Returns nil if unavailable.
   """
-  @spec from_csv(Routes.Route.id_t(), 0 | 1, Date.t()) :: list() | nil
+  @spec from_csv(Routes.Route.id_t(), 0 | 1, Date.t()) :: {:ok, list()} | {:error, term()}
   def from_csv(route_id, direction_id, date) when route_id in @available_route_ids do
     route_id = maybe_use_weekend_route(route_id, date)
 
     if in_timetable_date_range?(route_id, date) do
       case @loader_module.get_csv("#{route_id}-#{direction_id}.csv") do
         data when is_list(data) ->
-          Enum.map(data, &trip_maps_from_row/1)
+          {:ok, Enum.map(data, &trip_maps_from_row/1)}
 
         _ ->
-          nil
+          {:error, :no_data}
       end
+    else
+      {:ok, []}
     end
   end
 
-  def from_csv(_, _, _), do: nil
+  def from_csv(_, _, _), do: {:error, :invalid_route}
 
   defp maybe_use_weekend_route(route_id, date) do
     with true <- date_in_weekend?(date),

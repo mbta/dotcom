@@ -33,6 +33,9 @@ msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar Charli
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "Pruebe de nuevo o envíenos comentarios en mbta.com/apoyo al cliente"
 
+msgid "Subway Status"
+msgstr "Estado del subte"
+
 msgid "Stations"
 msgstr "Estaciones"
 
@@ -165,8 +168,8 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
-msgid "Lines and Routes"
-msgstr "Líneas y Rutas"
+msgid "No Scheduled Service"
+msgstr "No hay servicio programado"
 
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
@@ -200,6 +203,9 @@ msgstr "Guías de usuario"
 
 msgid "Free"
 msgstr "Gratis"
+
+msgid "to %{destination}"
+msgstr "a %{destination}"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -282,6 +288,9 @@ msgstr "O ir a "
 msgid "Event summary for "
 msgstr "Resumen del evento "
 
+msgid "from %{origin}"
+msgstr "de %{origin}"
+
 msgid "trips for today"
 msgstr "viajes para hoy"
 
@@ -290,9 +299,6 @@ msgstr "Explore estaciones por modo"
 
 msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
 msgstr "Nuestros guías de usuario pueden ayudarle a aprender cómo navegar por el sistema, llegar a eventos locales, utilizar características de accesibilidad, y más."
-
-msgid "Use the link below to access"
-msgstr "Utilice el enlace de abajo para acceder"
 
 msgid "Parking"
 msgstr "Aparcamiento"
@@ -357,9 +363,6 @@ msgstr "No próximas vacaciones"
 msgid "Commuter Ferry to Logan Airport"
 msgstr "Commuter Ferry al aeropuerto de Logan"
 
-msgid "Go to your app store to update your MBTA mTicket."
-msgstr "Vaya a su tienda de aplicaciones para actualizar su MBTA mTicket."
-
 msgid "List view"
 msgstr "Vista lista"
 
@@ -371,6 +374,9 @@ msgstr "Tránsito"
 
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
+
+msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
+msgstr "Queremos saber más sobre cómo utiliza el Rail Commuter para informar sobre la planificación futura"
 
 msgid "Shuttle"
 msgstr "Shuttle"
@@ -474,9 +480,6 @@ msgstr "Commuter Rail One-Way"
 msgid "Date and Time"
 msgstr "Fecha y hora"
 
-msgid "is an unknown paragraph type"
-msgstr "es un párrafo desconocido"
-
 msgid "Current seat availability thresholds are:"
 msgstr "Los umbrales actuales de disponibilidad de asientos son:"
 
@@ -575,6 +578,9 @@ msgstr "Alerta o demora del servicio"
 
 msgid "Depart at"
 msgstr "Salida en"
+
+msgid "Take our survey"
+msgstr "Tome nuestra encuesta"
 
 msgid " minute walk"
 msgstr " minuto andando"
@@ -720,6 +726,12 @@ msgstr "Cuando"
 msgid "No transit connection was found between the origin and destination on this date and time"
 msgstr "No se encontró conexión de tránsito entre el origen y el destino en esta fecha y hora"
 
+msgid "All Outbound Trains"
+msgstr "All Outbound Trains"
+
+msgid "All Trains"
+msgstr "Todos los trenes"
+
 msgid "Send Us Feedback"
 msgstr "Enviarnos comentarios"
 
@@ -849,9 +861,6 @@ msgstr "Más tarde"
 msgid "Enter an origin location"
 msgstr "Ingrese una ubicación de origen"
 
-msgid "Sorry, Your App Appears to be Out of Date"
-msgstr "Lo siento, tu apariencia parece estar fuera de la fecha"
-
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
 msgstr "Página web oficial del MBTA — Planifique un viaje en tránsito público en la región de Gran Boston"
 
@@ -866,6 +875,9 @@ msgstr "Cross Harbor Ferry"
 
 msgid "%{count} Stops"
 msgstr "%{count} Altos"
+
+msgid "Commuter Rail Status"
+msgstr "Commuter Rail Status"
 
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
@@ -924,9 +936,6 @@ msgstr "Paso mensual de autobús local"
 msgid "Schedule Change"
 msgstr "Cuadro Cambio"
 
-msgid "Featured Photos"
-msgstr "Fotos destacadas"
-
 msgid "Interzone %{zone}"
 msgstr "Interzone %{zone}"
 
@@ -943,7 +952,7 @@ msgid "Origin or destination location is outside of our service area"
 msgstr "La ubicación de origen o destino está fuera de nuestra zona de servicio"
 
 msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
-msgstr "Coordinador de la participación del cliente en la accesibilidad del sistema &quot; Enlace al cliente para The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
+msgstr "El Coordinador de la Participación del Cliente en la Accesibilidad del Sistema-Wide &quot; Enlace al Cliente para The RIDE se encarga de coordinar las resoluciones de las quejas de ADA/Accesibilidad una vez recibidas."
 
 msgid "Thank you for submitting your feedback. Our Customer Support team will review your comments soon."
 msgstr "Gracias por enviar sus comentarios. Nuestro equipo de Atención al Cliente revisará sus comentarios pronto."
@@ -1076,9 +1085,6 @@ msgstr "barco"
 
 msgid "Crosstown"
 msgstr "Crosstown"
-
-msgid "Valid on"
-msgstr "Válido"
 
 msgid "Or,"
 msgstr "O,"
@@ -1239,6 +1245,9 @@ msgstr "Trabajo previsto"
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
 msgstr "Estamos ampliando nuestra red de lugares donde los jinetes pueden obtener o cargar un CharlieCard y pases de compra."
 
+msgid "All Inbound Trains"
+msgstr "Todos los trenes entrantes"
+
 msgid "Station Issue"
 msgstr "Cuestión de la estación"
 
@@ -1344,6 +1353,9 @@ msgstr "Sitio oficial del Secretario de Estado"
 msgid "or complete the feedback form on this page."
 msgstr "o completar el formulario de comentarios en esta página."
 
+msgid "Cancellations"
+msgstr "Cancelaciones"
+
 msgid "Lost & Found"
 msgstr "Lost &amp; Found"
 
@@ -1391,6 +1403,9 @@ msgstr "o "
 
 msgid "Service"
 msgstr "Servicio"
+
+msgid "There are no other commuter rail alerts at this time."
+msgstr "No hay otras alertas de ferrocarril en este momento."
 
 msgid "Service Alerts"
 msgstr "Alertas de servicio"

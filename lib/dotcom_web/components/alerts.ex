@@ -32,27 +32,25 @@ defmodule DotcomWeb.Components.Alerts do
       data-test={"alert_id:#{@alert.id}"}
     >
       {AlertView.format_alert_description(@header)}
-      <%= if @description do %>
-        <div class="mt-sm">
-          <a :if={@alert.image} href={@alert.image} target="_blank">
-            <img
-              class="w-full mb-4"
-              src={@alert.image}
-              alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
-            />
-          </a>
-          {AlertView.format_alert_description(@description)}
-          <%= if @url do %>
-            <hr class="my-4 border-t-[1px] border-gray-lightest" />
-            <p class="my-0">
-              For more information: {Alerts.URLParsingHelpers.replace_urls_with_links(@url)}
-            </p>
-          <% end %>
-          <div class="c-alert-item__updated">
-            {AlertView.alert_updated(@alert, @now)}
-          </div>
+      <div class="mt-sm">
+        <a :if={@alert.image} href={@alert.image} target="_blank">
+          <img
+            class="w-full mb-4"
+            src={@alert.image}
+            alt={if @alert.image_alternative_text, do: @alert.image_alternative_text, else: ""}
+          />
+        </a>
+        {AlertView.format_alert_description(@description)}
+        <%= if @url do %>
+          <hr class="my-4 border-t-[1px] border-gray-lightest" />
+          <p class="my-0">
+            For more information: {Alerts.URLParsingHelpers.replace_urls_with_links(@url)}
+          </p>
+        <% end %>
+        <div class="c-alert-item__updated">
+          {AlertView.alert_updated(@alert, @now)}
         </div>
-      <% end %>
+      </div>
     </div>
     """
   end

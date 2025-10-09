@@ -40,6 +40,8 @@ config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
 config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 
+config :dotcom, :system_status_cache_modules, subway: Dotcom.SystemStatus.SubwayCache.Mock
+
 config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 config :dotcom, :search_service, Dotcom.SearchService.Mock

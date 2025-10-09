@@ -46,11 +46,11 @@ module.exports = {
   content: [
     ...content,
     "./js/**/*.js",
-    "./ts/**/*.ts",
+    "./ts/**/*.{js,ts}",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
-    "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
+    "../../mbta_metro/lib/mbta_metro/components/**/*.ex"
   ],
   safelist: [
     ...safelist,
@@ -86,14 +86,25 @@ module.exports = {
     //     <div class="phx-click-loading:animate-ping">
     //
     plugin(({ addVariant }) => [
-      addVariant("phx-click-loading", [".phx-click-loading&", ".phx-click-loading &"]),
-      addVariant("phx-submit-loading", [".phx-submit-loading&", ".phx-submit-loading &"]),
-      addVariant("phx-change-loading", [".phx-change-loading&", ".phx-change-loading &"])
+      addVariant("phx-click-loading", [
+        ".phx-click-loading&",
+        ".phx-click-loading &"
+      ]),
+      addVariant("phx-submit-loading", [
+        ".phx-submit-loading&",
+        ".phx-submit-loading &"
+      ]),
+      addVariant("phx-change-loading", [
+        ".phx-change-loading&",
+        ".phx-change-loading &"
+      ])
     ]),
     // Base styling for HTML elements
-    plugin(({ addBase }) => addBase({
-      "fieldset legend": { fontSize: "initial" }
-    })),
+    plugin(({ addBase }) =>
+      addBase({
+        "fieldset legend": { fontSize: "initial" }
+      })
+    ),
     // Add a component for each heading level, .h1 through .h6
     // Also handles reducing space between adjacent headings, copy directly following
     // headlines, and other complex content structures.
@@ -124,7 +135,9 @@ module.exports = {
         "+ div > div > :where(p, ul, ol):first-child": afterHeadingSpace,
         "+ p > img:first-child, + p > a:first-child > img:first-child": afterHeadingSpace,
         "+ .c-media--half + p": { [breakpointSmUp]: afterHeadingSpace },
-        "+ .c-media--half .c-media__content": { [breakpointSmUp]: afterHeadingSpace },
+        "+ .c-media--half .c-media__content": {
+          [breakpointSmUp]: afterHeadingSpace
+        },
         "+ div > div ~ div > :where(p, ul, ol):first-child": {
           [breakpointSmDown]: { marginTop: "0" }
         }
@@ -172,25 +185,27 @@ module.exports = {
             ...baseHeading,
             fontSize: "1rem",
             ...afterHeadingSpaceRules,
-            "+ :where(.h6, h6)": reduceAdjacentHeadingSpace,
+            "+ :where(.h6, h6)": reduceAdjacentHeadingSpace
           },
           ".h6": {
             ...baseHeading,
             fontWeight: theme("fontWeight.medium"),
-            fontSize: "1rem",
-          },
+            fontSize: "1rem"
+          }
         })
-      ]
+      ];
     }),
     // Use the above heading components to style our actual headings by
     // default. No <h2 class="h2"> needed.
-    plugin(({ addBase }) =>  addBase({
-      "h1": { "@apply h1": {} },
-      "h2": { "@apply h2": {} },
-      "h3": { "@apply h3": {} },
-      "h4": { "@apply h4": {} },
-      "h5": { "@apply h5": {} },
-      "h6": { "@apply h6": {} }
-    }))
+    plugin(({ addBase }) =>
+      addBase({
+        h1: { "@apply h1": {} },
+        h2: { "@apply h2": {} },
+        h3: { "@apply h3": {} },
+        h4: { "@apply h4": {} },
+        h5: { "@apply h5": {} },
+        h6: { "@apply h6": {} }
+      })
+    )
   ]
 };

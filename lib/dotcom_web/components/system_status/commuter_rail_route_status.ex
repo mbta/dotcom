@@ -18,7 +18,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   def commuter_rail_route_status(assigns) do
     ~H"""
     <.bordered_container hide_divider>
-      <:heading>Commuter Rail Status</:heading>
+      <:heading>{~t"Commuter Rail Status"}</:heading>
       <div class="border-b-xs border-gray-lightest mt-4">
         <.rows_for_status status={@status} />
       </div>
@@ -29,7 +29,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp rows_for_status(%{status: :normal} = assigns) do
     ~H"""
     <.row>
-      <.status_label status={:normal} description="Normal Service" />
+      <.status_label status={:normal} description={~t"Normal Service"} />
     </.row>
     """
   end
@@ -37,7 +37,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp rows_for_status(%{status: :no_scheduled_service} = assigns) do
     ~H"""
     <.row>
-      <.status_label status={:no_scheduled_service} description="No Scheduled Service" />
+      <.status_label status={:no_scheduled_service} description={~t"No Scheduled Service"} />
     </.row>
     """
   end
@@ -127,8 +127,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp trip_info_heading(%{trip_info: {:trip, trip_info}} = assigns) do
     description =
       case trip_info.direction_id do
-        0 -> "to #{trip_info.last_stop.name}"
-        1 -> "from #{trip_info.first_stop.name}"
+        0 -> gettext("to %{destination}", destination: trip_info.last_stop.name)
+        1 -> gettext("from %{origin}", origin: trip_info.first_stop.name)
       end
 
     assigns =
@@ -140,26 +140,26 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
     ~H"""
     <span class="text-md md:text-lg">{@name}</span>
     <spac class="text-xs md:text-sm">
-      {Timex.format!(@first_departure_time, "{h12}:{m} {AM}")} {@description}
+      {Util.narrow_time(@first_departure_time)} {@description}
     </spac>
     """
   end
 
   defp trip_info_heading(%{trip_info: {:direction, %{direction_id: 0}}} = assigns) do
     ~H"""
-    <span class="text-md md:text-lg">All Outbound Trains</span>
+    <span class="text-md md:text-lg">{~t"All Outbound Trains"}</span>
     """
   end
 
   defp trip_info_heading(%{trip_info: {:direction, %{direction_id: 1}}} = assigns) do
     ~H"""
-    <span class="text-md md:text-lg">All Inbound Trains</span>
+    <span class="text-md md:text-lg">{~t"All Inbound Trains"}</span>
     """
   end
 
   defp trip_info_heading(%{trip_info: :all} = assigns) do
     ~H"""
-    <span class="text-md md:text-lg">All Trains</span>
+    <span class="text-md md:text-lg">{~t"All Trains"}</span>
     """
   end
 end

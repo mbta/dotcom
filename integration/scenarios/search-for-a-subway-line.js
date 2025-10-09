@@ -3,7 +3,9 @@ const { expect } = require("@playwright/test");
 exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/search`);
 
-  await page.locator("input[type='search']").pressSequentially("Orange Line");
+  await page
+    .getByPlaceholder("Search for routes, places, information, and more")
+    .pressSequentially("Orange Line");
   await page.waitForSelector("div#search-page-results");
   await page
     .locator("section ul li a")

@@ -109,29 +109,28 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         %{assigns: %{route: route, blocking_alert: nil, date_in_rating?: true}} = conn
       )
       when route.id in @loop_ferries do
-    timetable_schedules =
-      TimetableLoader.from_csv(route.id, conn.assigns.direction_id, conn.assigns.date)
+    case TimetableLoader.from_csv(route.id, conn.assigns.direction_id, conn.assigns.date) do
+      {:ok, timetable_schedules} ->
+        header_schedules = List.first(timetable_schedules, [])
 
-    if timetable_schedules do
-      header_schedules = List.first(timetable_schedules)
+        header_stops =
+          timetable_schedules
+          |> Enum.map(&List.first/1)
+          |> Enum.with_index(fn trip, index ->
+            {@stops_repo.get(trip.stop_id), index}
+          end)
 
-      header_stops =
-        timetable_schedules
-        |> Enum.map(&List.first/1)
-        |> Enum.with_index(fn trip, index ->
-          {@stops_repo.get(trip.stop_id), index}
-        end)
+        conn
+        |> assign(:use_pdf_schedules?, true)
+        |> assign(:timetable_schedules, timetable_schedules)
+        |> assign(:header_schedules, header_schedules)
+        |> assign(:header_stops, header_stops)
 
-      conn
-      |> assign(:use_pdf_schedules?, true)
-      |> assign(:timetable_schedules, timetable_schedules)
-      |> assign(:header_schedules, header_schedules)
-      |> assign(:header_stops, header_stops)
-    else
-      conn
-      |> assign(:suppress_timetable?, true)
-      |> assign(:timetable_schedules, [])
-      |> assign(:header_schedules, [])
+      {:error, _} ->
+        conn
+        |> assign(:suppress_timetable?, true)
+        |> assign(:timetable_schedules, [])
+        |> assign(:header_schedules, [])
     end
   end
 

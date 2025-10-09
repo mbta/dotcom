@@ -324,15 +324,15 @@ msgstr ""
 msgid "MBTA Homepage"
 msgstr ""
 
-#: lib/dotcom_web/templates/alert/show.html.heex:47
+#: lib/dotcom_web/templates/alert/show.html.heex:48
 #: lib/dotcom_web/templates/page/_alerts.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr ""
 
-#: lib/dotcom_web/templates/alert/show.html.heex:15
-#: lib/dotcom_web/templates/alert/show.html.heex:34
-#: lib/dotcom_web/templates/alert/show.html.heex:47
+#: lib/dotcom_web/templates/alert/show.html.heex:16
+#: lib/dotcom_web/templates/alert/show.html.heex:35
+#: lib/dotcom_web/templates/alert/show.html.heex:48
 #: lib/dotcom_web/templates/page/_alerts.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Find a Location"
 msgstr ""
 
-#: lib/dotcom_web/templates/mode/hub.html.heex:27
+#: lib/dotcom_web/templates/mode/hub.html.heex:28
 #: lib/dotcom_web/templates/mode/index.html.heex:34
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex:24
 #: lib/dotcom_web/views/layout_view.ex:74
@@ -413,7 +413,8 @@ msgstr ""
 msgid "Sustainability"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:27
+#: lib/dotcom_web/live/commuter_rail_alerts.ex:27
+#: lib/dotcom_web/live/subway_alerts.ex:31
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:48
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex:16
 #, elixir-autogen, elixir-format
@@ -538,20 +539,20 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: lib/dotcom_web/templates/alert/show.html.heex:50
+#: lib/dotcom_web/templates/alert/show.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "All Alerts"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:72
-#: lib/dotcom_web/templates/alert/show.html.heex:18
-#: lib/dotcom_web/templates/alert/show.html.heex:37
+#: lib/dotcom_web/live/subway_alerts.ex:80
+#: lib/dotcom_web/templates/alert/show.html.heex:19
+#: lib/dotcom_web/templates/alert/show.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"
 msgstr ""
 
-#: lib/dotcom_web/templates/alert/show.html.heex:15
-#: lib/dotcom_web/templates/alert/show.html.heex:34
+#: lib/dotcom_web/templates/alert/show.html.heex:16
+#: lib/dotcom_web/templates/alert/show.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "There are no other"
 msgstr ""
@@ -599,7 +600,6 @@ msgid "Related Service Alerts"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex:2
-#: lib/dotcom_web/templates/project/_featured_project.html.heex:13
 #: lib/dotcom_web/templates/project/update.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Updated on"
@@ -623,11 +623,6 @@ msgstr ""
 #: lib/dotcom_web/templates/cms/paragraph/_person.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "View Bio"
-msgstr ""
-
-#: lib/dotcom_web/templates/cms/paragraph/_unknown.html.heex:3
-#, elixir-autogen, elixir-format
-msgid "is an unknown paragraph type"
 msgstr ""
 
 #: lib/dotcom_web/templates/event/_meeting_info.html.heex:14
@@ -698,7 +693,7 @@ msgstr ""
 msgid "Emergency"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:127
+#: lib/dotcom_web/components/trip_planner/input_form.ex:128
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:29
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:14
 #, elixir-autogen, elixir-format
@@ -996,11 +991,6 @@ msgstr ""
 msgid "Toll Free"
 msgstr ""
 
-#: lib/dotcom_web/templates/fare/_summary.html.heex:10
-#, elixir-autogen, elixir-format
-msgid "Valid on"
-msgstr ""
-
 #: lib/dotcom_web/templates/event/_month.html.heex:13
 #, elixir-autogen, elixir-format
 msgid "View Previous"
@@ -1203,16 +1193,11 @@ msgstr ""
 msgid "Early Departure Stop"
 msgstr ""
 
-#: lib/dotcom_web/templates/mode/hub.html.heex:33
+#: lib/dotcom_web/templates/mode/hub.html.heex:34
 #: lib/dotcom_web/templates/mode/index.html.heex:37
 #: lib/dotcom_web/views/layout_view.ex:80
 #, elixir-autogen, elixir-format
 msgid "Fares"
-msgstr ""
-
-#: lib/dotcom_web/templates/project/_photos.html.heex:3
-#, elixir-autogen, elixir-format
-msgid "Featured Photos"
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:72
@@ -1234,11 +1219,6 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Friday"
-msgstr ""
-
-#: lib/dotcom_web/templates/mticket/notice.html.heex:16
-#, elixir-autogen, elixir-format
-msgid "Go to your app store to update your MBTA mTicket."
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:29
@@ -1303,8 +1283,7 @@ msgstr ""
 msgid "More Information"
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.ex:89
-#: lib/dotcom_web/templates/mode/hub.html.heex:58
+#: lib/dotcom_web/templates/mode/hub.html.heex:59
 #: lib/dotcom_web/templates/news_entry/index.html.heex:5
 #: lib/dotcom_web/templates/schedule/_cms_teasers.html.heex:4
 #, elixir-autogen, elixir-format
@@ -1392,7 +1371,7 @@ msgstr ""
 msgid "Schedule for"
 msgstr ""
 
-#: lib/dotcom_web/templates/mode/hub.html.heex:19
+#: lib/dotcom_web/templates/mode/hub.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Schedules"
 msgstr ""
@@ -1443,9 +1422,9 @@ msgstr ""
 msgid "Some Seats Available"
 msgstr ""
 
-#: lib/dotcom_web/templates/mticket/notice.html.heex:13
+#: lib/dotcom_web/templates/search/no_results.html.heex:4
 #, elixir-autogen, elixir-format
-msgid "Sorry, Your App Appears to be Out of Date"
+msgid "Sorry about that. There are no results matching"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex:38
@@ -1483,7 +1462,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:147
+#: lib/dotcom_web/components/planned_disruptions.ex:148
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:33
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex:92
 #, elixir-autogen, elixir-format
@@ -1532,9 +1511,14 @@ msgstr ""
 msgid "Upcoming Holidays"
 msgstr ""
 
-#: lib/dotcom_web/templates/mticket/notice.html.heex:14
+#: lib/dotcom_web/templates/search/index-nojs.html.heex:24
 #, elixir-autogen, elixir-format
-msgid "Use the link below to access"
+msgid "Update Results"
+msgstr ""
+
+#: lib/dotcom_web/templates/search/no_results.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Use fewer keywords to increase the number of results"
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_empty.html.heex:5
@@ -2009,7 +1993,8 @@ msgstr ""
 msgid "Zone %{zone}"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:25
+#: lib/dotcom_web/live/commuter_rail_alerts.ex:18
+#: lib/dotcom_web/live/subway_alerts.ex:29
 #, elixir-autogen, elixir-format
 msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 msgstr ""
@@ -2020,7 +2005,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: lib/dotcom_web/live/subway_alerts.ex:69
+#: lib/dotcom_web/live/subway_alerts.ex:77
 #, elixir-autogen, elixir-format
 msgid "There are no other subway alerts at this time."
 msgstr ""
@@ -2269,7 +2254,8 @@ msgstr ""
 msgid "Reduced Fares"
 msgstr ""
 
-#: lib/dotcom_web/views/layout_view.ex:60
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:102
+#: lib/dotcom_web/views/layout_view.ex:61
 #, elixir-autogen, elixir-format
 msgid "Service Alerts"
 msgstr ""
@@ -2587,11 +2573,13 @@ msgid "Bike Issue"
 msgstr ""
 
 #: lib/alerts/alert.ex:224
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:65
 #, elixir-autogen, elixir-format
 msgid "Cancellation"
 msgstr ""
 
 #: lib/alerts/alert.ex:225
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:71
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr ""
@@ -2646,7 +2634,7 @@ msgstr ""
 msgid "Facility Issue"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:132
+#: lib/dotcom_web/components/trip_planner/input_form.ex:133
 #, elixir-autogen, elixir-format
 msgid "From"
 msgstr ""
@@ -2676,7 +2664,7 @@ msgstr ""
 msgid "Leaving at %{time}"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:87
+#: lib/dotcom_web/components/trip_planner/input_form.ex:88
 #, elixir-autogen, elixir-format
 msgid "Modes"
 msgstr ""
@@ -2696,6 +2684,7 @@ msgstr ""
 msgid "No trips found"
 msgstr ""
 
+#: lib/dotcom_web/components/system_status/subway_status.ex:316
 #: lib/dotcom_web/components/trip_planner/input_form.ex:67
 #, elixir-autogen, elixir-format
 msgid "Now"
@@ -2741,7 +2730,7 @@ msgstr ""
 msgid "Policy Change"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:110
+#: lib/dotcom_web/components/trip_planner/input_form.ex:111
 #, elixir-autogen, elixir-format
 msgid "Prefer accessible routes"
 msgstr ""
@@ -2831,7 +2820,7 @@ msgstr ""
 msgid "Temporarily Unavailable"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/input_form.ex:133
+#: lib/dotcom_web/components/trip_planner/input_form.ex:134
 #, elixir-autogen, elixir-format
 msgid "To"
 msgstr ""
@@ -2959,48 +2948,51 @@ msgstr ""
 msgid "Westbound"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:181
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:187
 #, elixir-autogen, elixir-format
 msgid "%{count} Stops"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:138
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:140
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:74
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:80
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:146
 #, elixir-autogen, elixir-format
 msgid "Delays"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:109
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:119
 #, elixir-autogen, elixir-format
 msgid "Due to Single Tracking"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:139
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:145
 #, elixir-autogen, elixir-format
 msgid "Expect Delays"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:131
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:32
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:45
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:138
 #, elixir-autogen, elixir-format
 msgid "Normal Service"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:132
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:139
 #, elixir-autogen, elixir-format
 msgid "See Alerts"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:141
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:147
 #, elixir-autogen, elixir-format
 msgid "Shuttles"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/status_row_heading.ex:161
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:167
 #, elixir-autogen, elixir-format
 msgid "between %{first} and %{last}"
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:106
+#: lib/dotcom_web/components/planned_disruptions.ex:107
 #, elixir-autogen, elixir-format
 msgid "%{date} until further notice"
 msgstr ""
@@ -3015,59 +3007,70 @@ msgstr ""
 msgid "There is no planned work information at this time."
 msgstr ""
 
-#: lib/dotcom_web/components/planned_disruptions.ex:103
+#: lib/dotcom_web/components/planned_disruptions.ex:104
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
 msgstr ""
 
-#: lib/dotcom_web/components/search_results_live.ex:158
+#: lib/dotcom_web/live/commuter_rail_alerts.ex:67
 #, elixir-autogen, elixir-format
-msgid "1 result"
-msgid_plural "%{count} results"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lib/dotcom_web/live/search_page.html.heex:42
-#, elixir-autogen, elixir-format
-msgid "Close"
+msgid "There are no other commuter rail alerts at this time."
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.ex:87
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:156
 #, elixir-autogen, elixir-format
-msgid "Documents"
+msgid "All Inbound Trains"
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.ex:84
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:150
 #, elixir-autogen, elixir-format
-msgid "Lines and Routes"
+msgid "All Outbound Trains"
 msgstr ""
 
-#: lib/dotcom_web/components/search_results_live.ex:104
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:162
 #, elixir-autogen, elixir-format
-msgid "Load more"
+msgid "All Trains"
 msgstr ""
 
-#: lib/dotcom_web/components/search_results_live.ex:102
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:40
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:49
 #, elixir-autogen, elixir-format
-msgid "Loading..."
+msgid "No Scheduled Service"
 msgstr ""
 
-#: lib/dotcom_web/components/search_results_live.ex:163
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:131
 #, elixir-autogen, elixir-format
-msgid "No more results for"
+msgid "from %{origin}"
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.ex:85
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:130
 #, elixir-autogen, elixir-format
-msgid "Pages"
+msgid "to %{destination}"
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.ex:83
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:68
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:80
 #, elixir-autogen, elixir-format
-msgid "Stations and Stops"
+msgid "Cancellations"
 msgstr ""
 
-#: lib/dotcom_web/live/search_page.html.heex:25
+#: lib/dotcom_web/components/system_status/subway_status.ex:28
+#: lib/dotcom_web/components/system_status/subway_status.ex:60
 #, elixir-autogen, elixir-format
-msgid "Submit"
+msgid "Subway Status"
+msgstr ""
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:21
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Status"
+msgstr ""
+
+#: lib/dotcom_web/components/components.ex:279
+#, elixir-autogen, elixir-format
+msgid "Take our survey"
+msgstr ""
+
+#: lib/dotcom_web/components/components.ex:277
+#, elixir-autogen, elixir-format
+msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
 msgstr ""
