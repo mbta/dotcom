@@ -15,12 +15,15 @@ defmodule AlgoliaClientTest do
             body: %{
               "index" => index,
               "hits" => build_list(3, :hit),
+              "nbHits" => 3,
+              "nbPages" => 1,
+              "page" => 1,
               "queryID" => query_id
             }
           }
       end)
 
-      assert {:ok, hits} = random_search()
+      assert {:ok, %{hits: hits}} = random_search()
       assert [%{"index" => ^index, "queryID" => ^query_id} | _] = hits
     end
 

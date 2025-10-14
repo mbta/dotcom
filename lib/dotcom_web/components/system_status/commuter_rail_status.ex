@@ -19,12 +19,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     status_for_line =
       assigns
       |> Map.get(:commuter_rail_status)
-      |> Enum.map(fn {id, row} ->
+      |> Enum.map(fn row ->
         row
-        |> Map.put(:id, id)
         |> attach_url()
+        |> Map.put(:rows, status_to_rows(row.status))
       end)
-      |> Enum.sort_by(& &1.sort_order)
 
     assigns = assigns |> assign(:status_for_line, status_for_line)
 
@@ -42,114 +41,96 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     """
   end
 
-  # Attaches a URL to the row.
-  defp attach_url(%{id: id} = row) do
-    row
-    |> Map.put(:url, ~p"/schedules/#{id}/timetable")
+  defp status_to_rows(:normal) do
+    [%{icon_atom: :normal, label: ~t"Normal Service"}]
   end
 
-  # Returns a list of tuples where the first element is the effect of the alert
-  # and the second element is a string describing the number of alerts.
-  # For example, if there are 2 delays and 1 cancellation,
-  # the list would be `[{:alert, "2 Delays"}, {:alert, "1 Cancellation"}]`.
-  # If there are no alerts, the list will be empty.
-  # We use the `:alert` atom to represent a generic effect.
-  defp combine_alert_counts(alert_counts) when alert_counts == %{}, do: []
-
-  # We have at least one cancellation and one delay.
-  defp combine_alert_counts(%{cancellation: cancellations, delay: delays} = alert_counts) do
-    other_alert_counts =
-      reject_cancellations_and_delays(alert_counts)
-
-    combine_alert_counts(other_alert_counts) ++
-      [{:alert, "#{cancellations.count + delays.count} Cancellations / Delays"}]
+  defp status_to_rows(:no_scheduled_service) do
+    [%{icon_atom: :no_scheduled_service, label: ~t"No Scheduled Service"}]
   end
 
-  # We have at least one cancellation and no delays.
-  defp combine_alert_counts(%{cancellation: %{count: count}} = alert_counts) do
-    other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if count == 1, do: "Cancellation", else: "Cancellations"
-
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
+  defp status_to_rows(%{
+         delays: delays,
+         cancellations: cancellations,
+         service_impacts: service_impacts
+       }) do
+    train_impact_rows(Enum.count(cancellations), Enum.count(delays)) ++
+      service_impact_rows(service_impacts)
   end
 
-  # We have at least one delay and no cancellations.
-  defp combine_alert_counts(%{delay: %{count: count}} = alert_counts) do
-    other_alert_counts = reject_cancellations_and_delays(alert_counts)
-    effect_string = if count == 1, do: "Delay", else: "Delays"
+  defp train_impact_rows(0 = _cancellation_count, 0 = _delay_count),
+    do: []
 
-    combine_alert_counts(other_alert_counts) ++ [{:alert, "#{count} #{effect_string}"}]
-  end
+  defp train_impact_rows(1 = _cancellation_count, 0 = _delay_count),
+    do: [%{icon_atom: :cancellation, label: "1 " <> ~t"Cancellation"}]
 
-  # The default case where we have non-cancellation and non-delay alerts.
-  # If there is one alert, we say "1 ...".
-  # If there are multiple alerts, but of only one type, we say "X ...".
-  # If there are multiple types of alerts, we combine them to just say "X Service Alerts".
-  defp combine_alert_counts(alert_counts) do
-    effect_count = alert_counts |> Map.keys() |> Enum.count()
-    total_count = Enum.reduce(alert_counts, 0, fn {_, %{count: count}}, acc -> acc + count end)
+  defp train_impact_rows(cancellation_count, 0 = _delay_count),
+    do: [%{icon_atom: :cancellation, label: "#{cancellation_count} " <> ~t"Cancellations"}]
 
-    case {effect_count, total_count} do
-      {0, _} ->
-        []
+  defp train_impact_rows(0 = _cancellation_count, 1 = _delay_count),
+    do: [%{icon_atom: :delay, label: "1 " <> ~t"Delay"}]
 
-      {1, 1} ->
-        effect = alert_counts |> Map.keys() |> List.first()
-        effect_string = effect |> Atom.to_string() |> Recase.to_title()
-        count_or_time = alert_counts |> Map.values() |> List.first() |> count_or_time()
+  defp train_impact_rows(0 = _cancellation_count, delay_count),
+    do: [%{icon_atom: :delay, label: "#{delay_count} " <> ~t"Delays"}]
 
-        [{effect, "#{count_or_time} #{effect_string}"}]
+  defp train_impact_rows(cancellation_count, delay_count),
+    do: [
+      %{
+        icon_atom: :delay,
+        label: "#{cancellation_count + delay_count} " <> ~t"Cancellations" <> " / " <> ~t"Delays"
+      }
+    ]
 
-      {1, _} ->
-        effect = alert_counts |> Map.keys() |> List.first()
-        effect_string = effect |> Atom.to_string() |> Recase.to_title() |> Inflex.pluralize()
-        count = alert_counts |> Map.values() |> List.first() |> Map.get(:count, 0)
+  defp service_impact_rows([] = _service_impacts), do: []
 
-        [{effect, "#{count} #{effect_string}"}]
+  defp service_impact_rows(service_impacts) do
+    service_impacts
+    |> Enum.group_by(& &1.alert.effect)
+    |> Enum.to_list()
+    |> case do
+      [{effect, impact_list}] ->
+        effect_string = Alerts.Alert.human_effect(%Alerts.Alert{effect: effect})
+
+        [
+          %{icon_atom: effect, label: service_impact_label(impact_list, effect_string)}
+        ]
 
       _ ->
-        [{:alert, "#{total_count} Service Alerts"}]
+        [
+          %{
+            icon_atom: :alert,
+            label: "#{Enum.count(service_impacts)}" <> " " <> ~t"Service Alerts"
+          }
+        ]
     end
+  end
+
+  # Constructs a label for a service impact row out of the effect
+  # string out of the impact list and the provided effect string
+  defp service_impact_label(impact_list, effect_string)
+
+  # If there's just one impact, then use `maybe_add_time_prefix` to
+  # prepend the time or count
+  defp service_impact_label([impact], effect_string) do
+    "#{count_or_time(impact.start_time)} #{effect_string}"
+  end
+
+  # If there's more than one impact, then the label should be the
+  # count along with a pluralized effect string
+  defp service_impact_label(impact_list, effect_string) do
+    "#{impact_list |> Enum.count()} #{effect_string |> Inflex.pluralize()}"
   end
 
   # If there is one alert of the effect, and it is active in the future, give the time.
   # For all others, just give the count.
-  defp count_or_time(%{count: 1, next_active: {:future, time}}) do
-    "#{Util.narrow_time(time)}:"
-  end
+  defp count_or_time({:future, time}), do: "#{Util.narrow_time(time)}:"
 
-  defp count_or_time(%{count: count}), do: Integer.to_string(count)
+  defp count_or_time({:current, _}), do: "1"
 
-  # Rejects cancellations and delays from the alert counts
-  # so that we can separate cancellations and delays from other alerts.
-  defp reject_cancellations_and_delays(alert_counts) when alert_counts == %{}, do: %{}
-
-  defp reject_cancellations_and_delays(alert_counts) do
-    alert_counts
-    |> Enum.reject(fn {effect, _} -> Enum.member?(~w(cancellation delay)a, effect) end)
-    |> Map.new()
-  end
-
-  # A row that indicates that the service is not running today.
-  # This trumps any other status.
-  defp rows_for_line(%{status: %{service_today?: false}} = assigns) do
-    ~H"""
-    <.row
-      label="No Scheduled Service"
-      row_name={row_name(@status)}
-      status={:no_scheduled_service}
-      url={@status.url}
-    />
-    """
-  end
-
-  # The 'normal' case where there are no alerts.
-  # We show a row indicating "Normal Service".
-  defp rows_for_line(%{status: %{alert_counts: alert_counts}} = assigns)
-       when alert_counts == %{} do
-    ~H"""
-    <.row label="Normal Service" row_name={row_name(@status)} status={:normal} url={@status.url} />
-    """
+  # Attaches a URL to the row.
+  defp attach_url(%{route_id: route_id} = row) do
+    row
+    |> Map.put(:url, ~p"/schedules/#{route_id}/timetable")
   end
 
   # For cases where we have alerts, we have to show the first alert along with route information
@@ -158,17 +139,21 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     ~H"""
     <.row
       :for={
-        {{status, label}, index} <-
-          @status.alert_counts |> combine_alert_counts() |> Enum.with_index()
+        {%{label: label, icon_atom: icon_atom}, index} <-
+          @status.rows |> Enum.with_index()
       }
-      disrupted
+      disrupted={disrupted?(icon_atom)}
       label={label}
       row_name={if index == 0, do: row_name(@status)}
-      status={status}
+      status={icon_atom}
       url={@status.url}
     />
     """
   end
+
+  defp disrupted?(:normal), do: false
+  defp disrupted?(:no_scheduled_service), do: false
+  defp disrupted?(_), do: true
 
   attr :disrupted, :boolean, default: false
   attr :label, :string, required: true

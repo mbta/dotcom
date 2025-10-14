@@ -47,7 +47,7 @@ describe("HoursOfOperation", () => {
     );
 
     const headerButton = screen.getByRole("button", {
-      name: /Weekday Schedule/
+      name: /Schedules/
     });
     await user.click(headerButton);
 

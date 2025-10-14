@@ -65,9 +65,18 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
-          Alerts.CacheSupervisor,
+          Alerts.CacheSupervisor
+        ] ++
+        [
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
-        ]
+        ] ++
+        if Application.get_env(:dotcom, :env) != :test do
+          [
+            {Dotcom.SystemStatus.SubwayCache, []}
+          ]
+        else
+          []
+        end
 
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
 

@@ -16,6 +16,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
 
   attr :alerts, :list, default: []
+  attr :future, :boolean, default: false
   attr :hide_route_pill, :boolean, default: false
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
@@ -46,14 +47,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       <.top_padding hide_route_pill={@hide_route_pill} />
 
       <.heading
+        future={@future}
         hide_route_pill={@hide_route_pill}
         plural={@plural}
         prefix={@prefix}
         route_ids={@route_ids}
         severity={severity(@alerts)}
         status={@status}
-        subheading_text={@subheading_text}
         subheading_aria_label={@subheading_aria_label}
+        subheading_text={@subheading_text}
       />
 
       <.bottom_padding hide_route_pill={@hide_route_pill} />
@@ -75,7 +77,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         prefix -> "#{prefix}: "
       end
 
-    assigns = assigns |> assign(:rendered_prefix, rendered_prefix)
+    description =
+      assigns.status
+      |> description(future: assigns.future)
+      |> Kernel.then(&if assigns.plural, do: &1 |> Inflex.pluralize(), else: &1)
+
+    assigns =
+      assigns
+      |> assign(:rendered_prefix, rendered_prefix)
+      |> assign(:description, description)
 
     ~H"""
     <div class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]} data-route-pill>
@@ -83,7 +93,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     </div>
 
     <.status_label
-      description={"#{@rendered_prefix}#{description(@status, @prefix, @plural)}#{severity_suffix(@status, @severity)}"}
+      description={"#{@rendered_prefix}#{@description}#{severity_suffix(@status, @severity)}"}
       status={@status}
       subheading_aria_label={@subheading_aria_label}
       subheading_text={@subheading_text}
@@ -125,9 +135,6 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp decorations(%{plural: plural}), do: %{plural: plural, subheading_text: nil}
 
-  defp description(status, prefix, true), do: description(status, prefix) |> Inflex.pluralize()
-  defp description(status, prefix, false), do: description(status, prefix)
-
   defp description(:normal, _), do: ~t"Normal Service"
   defp description(:see_alerts, _), do: ~t"See Alerts"
 
@@ -135,9 +142,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
   # prefix of "Now" should still display as "Delay", rather than
   # "Expect Delay".
-  defp description(:delay, "Now"), do: ~t"Delays"
-  defp description(:delay, prefix) when is_binary(prefix), do: ~t"Expect Delays"
-  defp description(:delay, _), do: ~t"Delays"
+  defp description(:delay, future: true), do: ~t"Expect Delays"
+  defp description(:delay, future: false), do: ~t"Delays"
   defp description(:shuttle, _), do: ~t"Shuttles"
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 

@@ -229,20 +229,6 @@ defmodule CMS.ParagraphTest do
       assert parent == "field_paragraphs"
     end
 
-    test "parses title card set" do
-      api_data = api_paragraph("title_card_set")
-
-      assert %TitleCardSet{
-               descriptive_links: [
-                 %DescriptiveLink{} = descriptive_link1,
-                 %DescriptiveLink{}
-               ]
-             } = from_api(api_data)
-
-      assert descriptive_link1.title == "Example Card 1"
-      assert safe_to_string(descriptive_link1.body) =~ "<p>The body of the title card"
-    end
-
     test "parses callout" do
       api_data = api_paragraph("entity_reference")
 

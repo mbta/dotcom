@@ -31,12 +31,12 @@ test("getTitleAttribute indicates name to highlight", () => {
   const contentItemWithHighlightResult = {
     ...testContentItem,
     _highlightResult: {
-      _content_title: { value: "thing" } as HighlightResultOption
+      content_title: { value: "thing" } as HighlightResultOption
     }
   } as Hit<Item>;
 
   expect(getTitleAttribute(contentItemWithHighlightResult)).toEqual([
-    "_content_title"
+    "content_title"
   ]);
 });
 
