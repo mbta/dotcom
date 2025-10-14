@@ -36,7 +36,7 @@ defmodule DotcomWeb.Components.Stops.Header do
           <.parking :if={parking?(assigns)} />
         </div>
         <div :if={all_bus_routes?(assigns) and not @stop.station?} class="text-sm">
-          Stop {@stop.id}
+          {gettext("Stop %{id}", id: @stop.id)}
         </div>
       </div>
     </div>
