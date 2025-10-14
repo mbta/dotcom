@@ -129,8 +129,8 @@ defmodule Test.Support.Factories.MBTA.Api do
         %{
           attributes: %{
             "direction_id" => Faker.Util.pick([0, 1]),
-            "headsign" => "",
-            "name" => ""
+            "headsign" => Faker.App.name(),
+            "name" => Faker.App.name()
           },
           type: "trip"
         },
