@@ -13,7 +13,7 @@
         aria-controls="search-page-results"
         aria-labelledby="search-heading"
         autocomplete="off"
-        class="border-0 shadow-none grow focus:ring-0"
+        class="border-0 shadow-none grow focus:ring-0 w-full max-w-full overflow-hidden"
         name="query"
         placeholder={~t"Search for routes, places, information, and more"}
         phx-debounce="300"
@@ -32,7 +32,7 @@
     </form>
   </div>
   <section>
-    <.button class="block w-full md:hidden my-lg" phx-click={show_filters()}>
+    <.button class="block w-full md:hidden my-md" phx-click={show_filters()}>
       {~t(Filter by type)}
     </.button>
     <fieldset :if={@connected?} id="search-page-filters" class="hidden md:block">

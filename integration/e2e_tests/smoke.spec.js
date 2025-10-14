@@ -164,10 +164,11 @@ test.describe(`${baseURL} passes smoke test`, () => {
     const checkboxLocator = page.locator(
       '#search-page-filters input[type="checkbox"]',
     );
-    for (const el of await checkboxLocator.elementHandles()) {
-      await el.uncheck();
+    for (const el of await checkboxLocator.all()) {
+      await el.dispatchEvent("click");
     }
-    await checkboxLocator.getByLabel("Stations and Stops").click(); // show stops and stations only
+    await page.getByLabel("Stations and Stops").dispatchEvent("click"); // show stops and stations only
+
     await expect(searchResults).toContainText("Charles/MGH");
     await expect(searchResults).not.toContainText("Red Blue Connector");
   });

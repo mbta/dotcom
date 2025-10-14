@@ -260,5 +260,202 @@ defmodule Dotcom.AlertsTest do
 
       assert MapSet.new(alert_group) == MapSet.new(non_service_alerts)
     end
+
+    test "does not include service-impacting alerts even if they're in the future" do
+      route = Factories.Routes.Route.build(:route)
+
+      non_service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+
+      service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@service_impacting_effects),
+          severity: 3,
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_upcoming/1)
+
+      expect(Alerts.Repo.Mock, :all, fn _ ->
+        (service_alerts ++ non_service_alerts) |> Enum.shuffle()
+      end)
+
+      expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [route] end)
+
+      {^route, alert_group} =
+        subway_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
+
+      assert MapSet.new(alert_group) == MapSet.new(non_service_alerts)
+    end
+  end
+
+  describe "commuter_rail_alert_groups/0" do
+    setup do
+      stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
+      stub(Alerts.Repo.Mock, :banner, fn -> nil end)
+      stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
+
+      :ok
+    end
+
+    test "groups alerts under their routes" do
+      [route_1, route_2] = Factories.Routes.Route.build_list(2, :route)
+
+      alerts_1 =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route_1.id, route_type: route_1.type}
+        )
+
+      alerts_2 =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route_2.id, route_type: route_2.type}
+        )
+
+      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Routes.Repo.Mock, :by_type, fn 2 -> [route_1, route_2] end)
+
+      groups = commuter_rail_alert_groups()
+
+      {^route_1, alert_group_1} = groups |> Enum.find(fn {route, _} -> route == route_1 end)
+      assert MapSet.new(alert_group_1) == MapSet.new(alerts_1)
+
+      {^route_2, alert_group_2} = groups |> Enum.find(fn {route, _} -> route == route_2 end)
+      assert MapSet.new(alert_group_2) == MapSet.new(alerts_2)
+    end
+
+    test "does not include alerts of non-commuter-rail types" do
+      [commuter_rail_route, non_commuter_rail_route] =
+        Factories.Routes.Route.build_list(2, :route)
+
+      alerts_1 =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: commuter_rail_route.id, route_type: commuter_rail_route.type}
+        )
+
+      alerts_2 =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{
+            route: non_commuter_rail_route.id,
+            route_type: non_commuter_rail_route.type
+          }
+        )
+
+      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Routes.Repo.Mock, :by_type, fn 2 -> [commuter_rail_route] end)
+
+      refute commuter_rail_alert_groups()
+             |> Enum.any?(fn {route, _} -> route == non_commuter_rail_route end)
+    end
+
+    test "does not include empty alert groups" do
+      [route_with_alerts, route_without_alerts] = Factories.Routes.Route.build_list(2, :route)
+
+      alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route_with_alerts.id, route_type: route_with_alerts.type}
+        )
+
+      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+
+      expect(Routes.Repo.Mock, :by_type, fn 2 ->
+        [route_with_alerts, route_without_alerts]
+      end)
+
+      refute commuter_rail_alert_groups()
+             |> Enum.any?(fn {route, _} -> route == route_without_alerts end)
+    end
+
+    test "does not include an alert if that alert is also the banner alert" do
+      route = Factories.Routes.Route.build(:route)
+
+      [banner_alert | non_banner_alerts] =
+        alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+
+      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+
+      expect(Alerts.Repo.Mock, :banner, fn ->
+        Factories.Alerts.Banner.build(:banner, id: banner_alert.id)
+      end)
+
+      expect(Routes.Repo.Mock, :by_type, fn 2 ->
+        [route]
+      end)
+
+      {^route, alert_group} =
+        commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
+
+      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts)
+    end
+
+    test "does not include currently-active service-impacting alerts" do
+      route = Factories.Routes.Route.build(:route)
+
+      non_service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+
+      service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@service_impacting_effects),
+          severity: 3,
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+
+      expect(Alerts.Repo.Mock, :all, fn _ ->
+        (service_alerts ++ non_service_alerts) |> Enum.shuffle()
+      end)
+
+      expect(Routes.Repo.Mock, :by_type, fn 2 -> [route] end)
+
+      {^route, alert_group} =
+        commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
+
+      assert MapSet.new(alert_group) == MapSet.new(non_service_alerts)
+    end
+
+    test "includes service-impacting alerts if they're in the future" do
+      route = Factories.Routes.Route.build(:route)
+
+      non_service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@non_service_effects),
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+
+      service_alerts =
+        Factories.Alerts.Alert.build_list(5, :alert_for_informed_entity,
+          effect: Faker.Util.pick(@service_impacting_effects),
+          severity: 3,
+          informed_entity: %{route: route.id, route_type: route.type}
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_upcoming/1)
+
+      all_alerts = service_alerts ++ non_service_alerts
+
+      expect(Alerts.Repo.Mock, :all, fn _ ->
+        all_alerts |> Enum.shuffle()
+      end)
+
+      expect(Routes.Repo.Mock, :by_type, fn 2 -> [route] end)
+
+      {^route, alert_group} =
+        commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
+
+      assert MapSet.new(alert_group) == MapSet.new(all_alerts)
+    end
   end
 end

@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.SubwayAlertsTest do
+defmodule DotcomWeb.Live.CommuterRailAlertsTest do
   use DotcomWeb.ConnCase, async: true
 
   import Dotcom.Alerts, only: [service_impacting_effects: 0]
@@ -7,13 +7,13 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
   import Phoenix.LiveViewTest
 
   alias Alerts.Alert
-  alias Dotcom.SystemStatus.Subway
   alias Dotcom.Utils
-  alias DotcomWeb.Live.SubwayAlerts
+  alias DotcomWeb.Live.CommuterRailAlerts
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
 
-  @no_alerts_message "There are no other subway alerts at this time."
+  @no_alerts_message "There are no other commuter rail alerts at this time."
+  @cr_route_type 2
 
   @service_impacting_effects service_impacting_effects() |> Enum.map(fn {effect, _} -> effect end)
   @non_service_effects Alert.all_types() -- @service_impacting_effects
@@ -28,18 +28,24 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
-    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subway_status, fn ->
-      Dotcom.SystemStatus.subway_status()
+    stub(Routes.Repo.Mock, :all, fn ->
+      [Factories.Routes.Route.build(:route, type: @cr_route_type)]
     end)
 
-    stub(Dotcom.SystemStatus.SubwayCache.Mock, :subscribe, fn -> :ok end)
+    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
+      [
+        %Schedules.ScheduleCondensed{
+          time: Dotcom.Utils.DateTime.now()
+        }
+      ]
+    end)
 
     :ok
   end
 
-  describe "subway alerts page" do
+  describe "commuter rail alerts page" do
     test "shows a message when there are no alerts", %{conn: conn} do
-      {:ok, view, _html} = live(conn, live_path(conn, SubwayAlerts))
+      {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
 
       assert render_async(view)
              |> Floki.parse_document!()
@@ -47,9 +53,8 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
              |> Floki.text() =~ @no_alerts_message
     end
 
-    test "shows a route pill and no 'no alerts' message when an alert is present", %{conn: conn} do
-      route_id = Faker.Util.pick(Subway.lines())
-      route_type = Faker.Util.pick([0, 1])
+    test "does not show a 'no alerts' message when an alert is present", %{conn: conn} do
+      route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
 
       stub(Alerts.Repo.Mock, :all, fn date ->
         Factories.Alerts.Alert.build_list(1, :alert, %{
@@ -58,21 +63,16 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
           informed_entity:
             Alerts.InformedEntitySet.new([
               %Alerts.InformedEntity{
-                route_type: route_type,
-                route: route_id
+                route_type: @cr_route_type,
+                route: route.id
               }
             ])
         })
       end)
 
-      stub(Routes.Repo.Mock, :by_type, fn [0, 1] ->
-        Factories.Routes.Route.build_list(1, :route, %{
-          id: route_id,
-          type: route_type
-        })
-      end)
+      stub(Routes.Repo.Mock, :by_type, fn @cr_route_type -> [route] end)
 
-      {:ok, view, _html} = live(conn, live_path(conn, SubwayAlerts))
+      {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
 
       rendered_section =
         render_async(view)
@@ -80,15 +80,10 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
         |> Floki.get_by_id("station_and_service")
 
       refute rendered_section |> Floki.text() =~ @no_alerts_message
-
-      refute rendered_section
-             |> Floki.find("[data-test=\"route_pill:#{route_id}\"]")
-             |> Enum.empty?()
     end
 
     test "does not put service-impacting alerts in the station_and_service section", %{conn: conn} do
-      route_id = Faker.Util.pick(Subway.lines())
-      route_type = Faker.Util.pick([0, 1])
+      route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
 
       stub(Alerts.Repo.Mock, :all, fn date ->
         Factories.Alerts.Alert.build_list(1, :alert, %{
@@ -97,22 +92,17 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
           informed_entity:
             Alerts.InformedEntitySet.new([
               %Alerts.InformedEntity{
-                route_type: route_type,
-                route: route_id
+                route_type: @cr_route_type,
+                route: route.id
               }
             ]),
           severity: 3
         })
       end)
 
-      stub(Routes.Repo.Mock, :by_type, fn [0, 1] ->
-        Factories.Routes.Route.build_list(1, :route, %{
-          id: route_id,
-          type: route_type
-        })
-      end)
+      stub(Routes.Repo.Mock, :by_type, fn @cr_route_type -> [route] end)
 
-      {:ok, view, _html} = live(conn, live_path(conn, SubwayAlerts))
+      {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
 
       assert render_async(view)
              |> Floki.parse_document!()
@@ -120,9 +110,39 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
              |> Floki.text() =~ @no_alerts_message
     end
 
+    test "puts service-impacting alerts in the station_and_service section if they are upcoming",
+         %{conn: conn} do
+      route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
+
+      stub(Alerts.Repo.Mock, :all, fn date ->
+        Factories.Alerts.Alert.build_list(1, :alert, %{
+          active_period: [
+            date |> DateTime.shift(day: 2) |> Utils.ServiceDateTime.service_range_day()
+          ],
+          effect: Faker.Util.pick(@service_impacting_effects),
+          informed_entity:
+            Alerts.InformedEntitySet.new([
+              %Alerts.InformedEntity{
+                route_type: @cr_route_type,
+                route: route.id
+              }
+            ]),
+          severity: 3
+        })
+      end)
+
+      stub(Routes.Repo.Mock, :by_type, fn @cr_route_type -> [route] end)
+
+      {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
+
+      refute render_async(view)
+             |> Floki.parse_document!()
+             |> Floki.get_by_id("station_and_service")
+             |> Floki.text() =~ @no_alerts_message
+    end
+
     test "does not put banner alerts in the station_and_service section", %{conn: conn} do
-      route_id = Faker.Util.pick(Subway.lines())
-      route_type = Faker.Util.pick([0, 1])
+      route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
 
       banner_id = FactoryHelpers.build(:id)
 
@@ -140,21 +160,16 @@ defmodule DotcomWeb.Live.SubwayAlertsTest do
           informed_entity:
             Alerts.InformedEntitySet.new([
               %Alerts.InformedEntity{
-                route_type: route_type,
-                route: route_id
+                route_type: @cr_route_type,
+                route: route.id
               }
             ])
         })
       end)
 
-      stub(Routes.Repo.Mock, :by_type, fn [0, 1] ->
-        Factories.Routes.Route.build_list(1, :route, %{
-          id: route_id,
-          type: route_type
-        })
-      end)
+      stub(Routes.Repo.Mock, :by_type, fn @cr_route_type -> [route] end)
 
-      {:ok, view, _html} = live(conn, live_path(conn, SubwayAlerts))
+      {:ok, view, _html} = live(conn, live_path(conn, CommuterRailAlerts))
 
       assert render_async(view)
              |> Floki.parse_document!()
