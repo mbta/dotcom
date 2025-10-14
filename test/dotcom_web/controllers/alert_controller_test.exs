@@ -29,6 +29,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Enum.map(route_ids, &Factories.Alerts.Alert.build(:alert_for_route, %{route_id: &1}))
     end)
 
+    stub(Alerts.Repo.Mock, :by_route_types, fn _route_types, _date ->
+      []
+    end)
+
     stub(Routes.Repo.Mock, :all, fn ->
       Factories.Routes.Route.build_list(3, :route)
     end)
