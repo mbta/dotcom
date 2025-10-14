@@ -16,8 +16,8 @@ defmodule Test.Support.Factories.Schedules.Schedule do
       route: RouteFactory.build(:route),
       trip: TripFactory.build(:trip),
       stop: StopFactory.build(:stop),
-      arrival_time: random_date_time() |> FactoryHelpers.nullable_item(),
-      departure_time: random_date_time() |> FactoryHelpers.nullable_item(),
+      arrival_time: random_date_time(),
+      departure_time: random_date_time(),
       time: random_date_time() |> FactoryHelpers.nullable_item(),
       stop_headsign: Faker.Address.city() |> FactoryHelpers.nullable_item(),
       platform_stop_id: FactoryHelpers.build(:id)
