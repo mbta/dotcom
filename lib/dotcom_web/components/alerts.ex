@@ -44,7 +44,7 @@ defmodule DotcomWeb.Components.Alerts do
         <%= if @url do %>
           <hr class="my-4 border-t-[1px] border-gray-lightest" />
           <p class="my-0">
-            For more information: {Alerts.URLParsingHelpers.replace_urls_with_links(@url)}
+            {~t"For more information"}: {Alerts.URLParsingHelpers.replace_urls_with_links(@url)}
           </p>
         <% end %>
         <div class="c-alert-item__updated">

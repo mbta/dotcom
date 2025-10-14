@@ -426,6 +426,9 @@ msgstr "¿Qué pasa en el MBTA"
 msgid "Fare Vending Machine"
 msgstr "Fare Vending Machine"
 
+msgid "Stop %{id}"
+msgstr "Stop %{id}"
+
 msgid "Find a Location"
 msgstr "Encontrar un lugar"
 
@@ -860,6 +863,9 @@ msgstr "Más tarde"
 
 msgid "Enter an origin location"
 msgstr "Ingrese una ubicación de origen"
+
+msgid "For more information"
+msgstr "Para más información"
 
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
 msgstr "Página web oficial del MBTA — Planifique un viaje en tránsito público en la región de Gran Boston"
@@ -1539,6 +1545,12 @@ msgstr "Conozcanos"
 msgid "Free Service"
 msgstr "Servicio gratuito"
 
+msgid "Showing 1 result for"
+msgstr "Mostrando 1 resultado para"
+
+msgid "No %{group} alerts"
+msgstr "Alertas No %{group}"
+
 msgid "Events"
 msgstr "Eventos"
 
@@ -1652,6 +1664,9 @@ msgstr "No pudimos encontrar un lugar de votación para tu dirección. También 
 
 msgid "Subway One-Way"
 msgstr "Subway One-Way"
+
+msgid "Systemwide"
+msgstr "En todo el sistema"
 
 msgid "Not accessible"
 msgstr "No es accesible"

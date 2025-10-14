@@ -3,7 +3,7 @@
 <% show_systemwide_alert? = DotcomWeb.AlertView.show_systemwide_alert?(assigns) %>
 
 <div :if={show_systemwide_alert?} class="m-alerts-header">
-  <h3 class="leading-none m-0">Systemwide</h3>
+  <h3 class="leading-none m-0">{~t"Systemwide"}</h3>
   <div class="c-alert-group">
     {DotcomWeb.AlertView.render("_item.html",
       alert: %{Alerts.Repo.by_id(@alert_banner.id) | priority: :system},

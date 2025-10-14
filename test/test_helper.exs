@@ -2,7 +2,6 @@
 System.put_env("USE_SERVER_SENT_EVENTS", "false")
 System.put_env("WARM_CACHES", "false")
 
-Application.ensure_all_started(:dotcom)
 Application.ensure_all_started(:ex_machina)
 Application.ensure_all_started(:mox)
 Application.ensure_all_started(:tzdata)

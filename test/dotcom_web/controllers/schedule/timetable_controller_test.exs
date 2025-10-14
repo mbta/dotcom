@@ -1,6 +1,6 @@
 defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase
   import DotcomWeb.ScheduleController.TimetableController
   import Mox
   alias Dotcom.TimetableBlocking
@@ -57,6 +57,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     %RoutePatterns.RoutePattern{representative_trip_id: "trip-2"}
   ]
 
+  setup :set_mox_global
   setup :verify_on_exit!
 
   setup do
@@ -188,27 +189,24 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
-  describe "trip_messages/3" do
-    setup do
-      # hardcoded date before the rating switchover that'll change the relevant trip numbers
-      # to do... make a better test
-      [date: ~D[2025-03-06]]
+  describe "trip_messages/2" do
+    test "returns proper messages for a CR Franklin train running via Fairmount" do
+      fairmount_trip = Test.Support.Factories.MBTA.Api.build(:trip_item)
+      fairmount_trip_name = fairmount_trip.attributes["name"]
+
+      expect(MBTA.Api.Mock, :get_json, fn "/trips/", args ->
+        assert args[:route] == "CR-Fairmount"
+        %JsonApi{links: %{}, data: [fairmount_trip]}
+      end)
+
+      {:ok, _} = Dotcom.ViaFairmount.start_link([])
+
+      trip_messages = trip_messages(%Routes.Route{id: "CR-Franklin"}, 0)
+      assert Map.get(trip_messages, {fairmount_trip_name}) == "Via Fairmount Line"
     end
 
-    test "returns proper messages for a CR Franklin train running via Fairmount", %{date: date} do
-      assert Enum.member?(
-               %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(0, date)
-               |> Map.keys()
-               |> Enum.map(&elem(&1, 0))
-               |> Enum.uniq()
-               |> Enum.sort(),
-               "735"
-             )
-    end
-
-    test "returns proper messages for others", %{date: date} do
-      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1, date) == %{}
+    test "returns proper messages for others" do
+      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1) == %{}
     end
   end
 
