@@ -4,6 +4,7 @@ defmodule Dotcom.SystemStatus.Subway do
   widget. See `Dotcom.SystemStatus` for more information.
   """
 
+  import Dotcom.Alerts, only: [route_alert?: 2, systemwide_mode_alert?: 2]
   alias Alerts.Alert
 
   @type status_time() :: :current | {:future, DateTime.t()}
@@ -190,9 +191,13 @@ defmodule Dotcom.SystemStatus.Subway do
   # affected by that alert.
   @spec affected_green_line_branch_ids([Alert.t()]) :: [Routes.Route.id_t()]
   defp affected_green_line_branch_ids(alert) do
-    alert.informed_entity.route
-    |> MapSet.intersection(@green_line_branch_id_set)
-    |> Enum.sort()
+    if systemwide_mode_alert?(alert, :subway) do
+      GreenLine.branch_ids()
+    else
+      alert.informed_entity.route
+      |> MapSet.intersection(@green_line_branch_id_set)
+      |> Enum.sort()
+    end
   end
 
   # Given a list of status entry groups, adds an additional "normal
@@ -325,12 +330,8 @@ defmodule Dotcom.SystemStatus.Subway do
   @spec alerts_for_route(Routes.Route.id_t(), [Alert.t()]) :: [Alert.t()]
   defp alerts_for_route(route_id, alerts) do
     alerts
-    |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
-      informed_entity
-      |> Enum.any?(fn
-        %{route: ^route_id} -> true
-        %{} -> false
-      end)
+    |> Enum.filter(fn alert ->
+      route_alert?(alert, route_id) || systemwide_mode_alert?(alert, :subway)
     end)
   end
 
@@ -340,9 +341,9 @@ defmodule Dotcom.SystemStatus.Subway do
   @spec alerts_for_routes([Routes.Route.id_t()], [Alert.t()]) :: [Alert.t()]
   defp alerts_for_routes(route_ids, alerts) do
     alerts
-    |> Enum.filter(fn %Alert{informed_entity: informed_entity} ->
-      informed_entity
-      |> Enum.any?(&(&1.route in route_ids))
+    |> Enum.filter(fn alert ->
+      Enum.any?(route_ids, &route_alert?(alert, &1)) ||
+        systemwide_mode_alert?(alert, :subway)
     end)
   end
 
