@@ -1,8 +1,9 @@
 defmodule DotcomWeb.Mode.BusController do
+  use Dotcom.Gettext.Sigils
+
   use DotcomWeb.Mode.HubBehavior,
     meta_description:
-      "Schedule information for MBTA bus routes in the Greater Boston region, " <>
-        "including real-time updates and arrival predictions."
+      ~t"Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
 
   import DotcomWeb.Router.Helpers, only: [fare_path: 3]
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
@@ -10,12 +11,12 @@ defmodule DotcomWeb.Mode.BusController do
 
   def route_type, do: 3
 
-  def mode_name, do: "Bus"
+  def mode_name, do: ~t"Bus"
 
   def mode_icon, do: :bus
 
   def fare_description do
-    "For Express Bus fares, read the complete #{link_to_bus_fares()} page."
+    gettext("For Express Bus fares, read the complete %{link} page.", link: link_to_bus_fares())
   end
 
   def fares do
@@ -24,7 +25,7 @@ defmodule DotcomWeb.Mode.BusController do
 
   defp link_to_bus_fares do
     path = fare_path(DotcomWeb.Endpoint, :show, "bus-subway")
-    tag = content_tag(:a, "Bus Fares", href: path)
+    tag = content_tag(:a, ~t"Bus Fares", href: path)
 
     safe_to_string(tag)
   end
