@@ -24,7 +24,7 @@ jobs:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - uses: erlef/setup-beam@v1

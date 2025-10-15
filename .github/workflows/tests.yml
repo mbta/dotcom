@@ -23,7 +23,7 @@ jobs:
       scss: ${{ steps.changes.outputs.scss == 'true' }}
       run_all: ${{ steps.set_run_all.outputs.run_all == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: set_run_all
         run: echo "run_all=${{ github.event_name == 'push' || contains(github.head_ref, 'dependabot/') }}" >> $GITHUB_OUTPUT
       - uses: dorny/paths-filter@v3
@@ -46,7 +46,7 @@ jobs:
     name: Build Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: docker build .
 
   eslintts:
@@ -55,7 +55,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:ts
 
@@ -65,7 +65,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:js
 
@@ -75,7 +75,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.scss == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:scss
 
@@ -85,7 +85,7 @@ jobs:
     needs: file_changes
     if: ${{ (needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true') && github.event_name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: git fetch origin main:main
       - run: npm run ci:lint:ex
@@ -94,7 +94,7 @@ jobs:
     name: Build application and assets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - name: Cache _build
         uses: actions/cache@v4
@@ -113,7 +113,7 @@ jobs:
     needs: [file_changes, build_app]
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - uses: actions/cache/restore@v4
         with:
@@ -137,7 +137,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:unit:mocha
 
@@ -147,7 +147,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: TZ="America/New_York" npm run ci:unit:jest
 
@@ -157,7 +157,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: mix dialyzer
 
@@ -167,7 +167,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:types:ts
 
@@ -177,7 +177,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:format:ex
 
@@ -187,7 +187,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: MIX_ENV=prod mix gettext.extract --check-up-to-date
 
@@ -197,6 +197,6 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-all
       - run: npm run ci:format:ts
