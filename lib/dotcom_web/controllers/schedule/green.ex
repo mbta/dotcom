@@ -2,6 +2,8 @@ defmodule DotcomWeb.ScheduleController.Green do
   @moduledoc """
     Alternate controller for Green Line schedules
   """
+
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   import DotcomWeb.ControllerHelpers,
@@ -45,8 +47,7 @@ defmodule DotcomWeb.ScheduleController.Green do
     |> assign(:tab, "line")
     |> assign(
       :meta_description,
-      "MBTA Green Line trolley stations and schedules, including maps, real-time updates, " <>
-        "parking and accessibility information, and connections."
+      ~t"MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
     )
     |> call_plug(DotcomWeb.ScheduleController.Holidays)
     |> call_plug(DotcomWeb.ScheduleController.Line)

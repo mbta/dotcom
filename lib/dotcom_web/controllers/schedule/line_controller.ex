@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.LineController do
   @moduledoc "Handles the page that shows the map and line diagram for a given route."
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias Dotcom.ScheduleNote
@@ -280,23 +281,32 @@ defmodule DotcomWeb.ScheduleController.LineController do
         line_description(route)
 
       _ ->
-        "MBTA #{ScheduleView.route_header_text(route)} stops and schedules, including maps, " <>
-          "parking and accessibility information, and fares."
+        gettext(
+          "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares.",
+          text: ScheduleView.route_header_text(route)
+        )
     end
   end
 
   defp bus_description(route) do
-    "MBTA #{bus_type(route)} route #{route.name} stops and schedules, including maps, real-time updates, " <>
-      "parking and accessibility information, and connections."
+    gettext(
+      "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections.",
+      type: bus_type(route),
+      name: route.name
+    )
   end
 
   defp line_description(route) do
-    "MBTA #{route.name} #{route_type(route)} stations and schedules, including maps, real-time updates, " <>
-      "parking and accessibility information, and connections."
+    gettext(
+      "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections.",
+      name: route.name,
+      type: route_type(route)
+    )
   end
 
-  defp bus_type(route),
-    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
+  defp bus_type(route) do
+    if Route.silver_line?(route), do: "Silver Line", else: ~t"bus"
+  end
 
   defp route_type(route) do
     route
