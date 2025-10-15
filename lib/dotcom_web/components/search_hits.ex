@@ -34,7 +34,7 @@ defmodule DotcomWeb.Components.SearchHits do
       </div>
       <div :if={@hit["index"] == "stops"} class="flex items-center gap-sm justify-between">
         <.hit_connections hit={@hit} />
-        <div :if={@location} class="text-nowrap text-gray-light text-sm">
+        <div :if={@location} class="text-nowrap text-gray text-sm">
           {@location}
         </div>
       </div>
@@ -281,7 +281,7 @@ defmodule DotcomWeb.Components.SearchHits do
       )
 
     ~H"""
-    <span :if={@formatted_time} class="text-gray-light ml-auto text-nowrap">{@formatted_time}</span>
+    <span :if={@formatted_time} class="text-gray ml-auto text-nowrap">{@formatted_time}</span>
     """
   end
 
