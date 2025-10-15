@@ -176,42 +176,6 @@
   color: $black;
 }
 
-.m-homepage__fares {
-  // Gaps should match Important Links on XXL
-  @include media-breakpoint-only(xxl) {
-    .c-multi-column__row {
-      margin-left: -$homepage-gutter;
-      margin-right: -$homepage-gutter;
-    }
-
-    .c-multi-column__column {
-      padding: $homepage-gutter;
-    }
-  }
-
-  // Override multi-column grid math (default is 1 ÷ #columns)
-  @include media-breakpoint-between(sm, lg) {
-    // Allow over-width wrapping of columns
-    .c-multi-column__row {
-      flex-wrap: wrap;
-    }
-
-    // Force two-columns per row
-    .c-multi-column__column {
-      @include make-col-span(6);
-    }
-  }
-}
-
-.m-homepage__fares-link {
-  display: block;
-  margin: auto;
-
-  @include media-breakpoint-up(sm) {
-    max-width: 18rem;
-  }
-}
-
 .m-homepage__alerts {
   display: flex;
   flex-direction: column;

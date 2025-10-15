@@ -168,6 +168,9 @@ msgstr "Estación de servicio Alertas"
 msgid "Alerts"
 msgstr "Alertas"
 
+msgid "Lines and Routes"
+msgstr "Líneas y Rutas"
+
 msgid "No Scheduled Service"
 msgstr "No hay servicio programado"
 
@@ -795,9 +798,6 @@ msgstr "Vamos."
 msgid "Attendees"
 msgstr "Attende"
 
-msgid "No more results for"
-msgstr "No más resultados para"
-
 msgid "Shortest Trip"
 msgstr "Viaje más corto"
 
@@ -1311,9 +1311,6 @@ msgstr "¿Conoce a un propietario de la tienda local que podría estar interesad
 msgid "Enter a destination location"
 msgstr "Introduzca una ubicación de destino"
 
-msgid "Loading..."
-msgstr "Cargando..."
-
 msgid "Track Boarding Change"
 msgstr "Track Boarding Cambio"
 
@@ -1544,9 +1541,6 @@ msgstr "Conozcanos"
 
 msgid "Free Service"
 msgstr "Servicio gratuito"
-
-msgid "Showing 1 result for"
-msgstr "Mostrando 1 resultado para"
 
 msgid "No %{group} alerts"
 msgstr "Alertas No %{group}"
