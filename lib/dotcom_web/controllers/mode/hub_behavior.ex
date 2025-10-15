@@ -70,7 +70,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
     |> async_assign_default(:news, news_fn, [])
     |> async_assign_default(:projects, projects_fn, [])
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
+      Breadcrumb.build(~t"Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
     ])
     |> meta_description(params)
