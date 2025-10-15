@@ -3137,3 +3137,116 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Submit"
 msgstr ""
+
+#: lib/dotcom_web/controllers/mode/commuter.ex:18
+#, elixir-autogen, elixir-format
+msgid "%{link} depend on the distance traveled (zones). Refer to the information below:"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:61
+#, elixir-autogen, elixir-format
+msgid "%{name} Commuter Rail"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:42
+#, elixir-autogen, elixir-format
+msgid "Alerts for MBTA %{description}"
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/ferry.ex:15
+#, elixir-autogen, elixir-format
+msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/bus.ex:19
+#, elixir-autogen, elixir-format
+msgid "For Express Bus fares, read the complete %{link} page."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:300
+#, elixir-autogen, elixir-format
+msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:44
+#, elixir-autogen, elixir-format
+msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:284
+#, elixir-autogen, elixir-format
+msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:292
+#, elixir-autogen, elixir-format
+msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/green.ex:50
+#, elixir-autogen, elixir-format
+msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode_controller.ex:34
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/hub_behavior.ex:73
+#: lib/dotcom_web/controllers/mode_controller.ex:29
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:24
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps"
+msgstr ""
+
+#: lib/dotcom_web/controllers/mode/subway.ex:27
+#, elixir-autogen, elixir-format
+msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:268
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:271
+#, elixir-autogen, elixir-format
+msgid "Via"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:37
+#, elixir-autogen, elixir-format
+msgid "alerts"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:66
+#, elixir-autogen, elixir-format
+msgid "docks"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:67
+#, elixir-autogen, elixir-format
+msgid "stations"
+msgstr ""
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:298
+#, elixir-autogen, elixir-format
+msgid "timetable"
+msgstr ""
