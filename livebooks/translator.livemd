@@ -13,6 +13,92 @@ end
 ```
 
 ```elixir
+defmodule Dotcom.Translator.GlobalLink do
+  @moduledoc """
+  An implementation of `Dotcom.Translate.Behaviour` that uses GlobalLink.
+  """
+
+  @behaviour Dotcom.Translator.Behaviour
+
+  def translate(text, locale) do
+    text
+    |> request_body(locale)
+    |> translate_request_body()
+  end
+
+  def authenticate() do
+    |> process_authentication()
+  end
+  
+  defp authentication_body() do
+    %{
+      "userIdentifier" => Application.get_env(:dotcom, :smartling_user_identifier),
+      "userSecret" => Application.get_env(:dotcom, :smartling_user_secret)
+    }
+  end
+
+  defp request_body(text, locale) do
+
+  end
+
+  defp process_authentication({:ok, response}) do
+    response
+    |> Map.get(:body)
+    |> Map.get("response")
+    |> Map.get("data")
+    |> Map.get("accessToken")
+  end
+
+  defp process_authentication({:error, exception}) do
+    IO.inspect(exception)
+  end
+
+  defp process_response({:ok, response}, _) do
+    response
+    |> Map.get(:body)
+    |> Map.get("response")
+    |> Map.get("data")
+    |> Map.get("items")
+    |> List.first()
+    |> Map.get("translationText")
+  end
+
+  defp process_response({:error, exception}, request_body) do
+    IO.inspect(request_body)
+    IO.inspect(exception)
+
+    "ERROR"
+  end
+
+  defp send_authentication(authentication_body) do
+    Req.post(
+      Application.get_env(:dotcom, :global_link_url) <> "/auth-api/v2/authenticate",
+      finch: Translator.Finch,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp send_request_body(request_body) do
+    Req.post(
+      Application.get_env(:dotcom, :smartling_url) <> "/mt-router-api/v2/accounts/5a2c34be/smartling-mt",
+      finch: Translator.Finch,
+      headers: %{
+        "Authorization" => "Bearer " <> Application.get_env(:dotcom, :smartling_access_token),
+      },
+      json: request_body,
+      receive_timeout: 15_000
+    )
+  end
+
+  defp translate_request_body(request_body) do
+    request_body
+    |> send_request_body()
+    |> process_response(request_body)
+  end
+end
+```
+
+```elixir
 defmodule Dotcom.Translator.LibreTranslate do
   @moduledoc """
   An implementation of `Dotcom.Translate.Behaviour` that uses LibreTranslate.
@@ -260,6 +346,7 @@ _ = Finch.start_link(name: Translator.Finch)
 ```elixir
 Application.put_env(:dotcom, :claude_api_key, "")
 Application.put_env(:dotcom, :claude_url, "https://api.anthropic.com/v1/messages")
+Application.put_env(:dotcom, :global_link_url, "https://www.onelink-edge.com/xapis/TX/97BB-3CE8-1CD2-FE93")
 Application.put_env(:dotcom, :libre_translate_url, "http://10.0.0.2:5000/translate")
 Application.put_env(:dotcom, :smartling_url, "https://api.smartling.com")
 Application.put_env(:dotcom, :smartling_user_identifier, "")
