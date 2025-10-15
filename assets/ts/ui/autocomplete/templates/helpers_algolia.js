@@ -1,86 +1,11 @@
+/* eslint-disable */
 import hogan from "hogan.js";
-import _ from "lodash";
-import { highlightText } from "../ts/helpers/text.ts";
-import * as Icons from "./icons";
-
-/* eslint-disable no-underscore-dangle */
-
-export const SELECTORS = {
-  result: "js-search-result"
-};
-
-export const TEMPLATES = {
-  fontAwesomeIcon: hogan.compile(
-    `<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`
-  ),
-  formattedDate: hogan.compile(
-    `<span class="c-search-result__event-date">{{date}}</span>`
-  ),
-  locations: hogan.compile(`
-    <a id="hit-{{id}}" class="c-search-result__link u-no-underline" href={{hitUrl}}>
-      <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
-    </a>
-  `),
-  usemylocation: hogan.compile(`
-    <a id="search-bar__my-location" class="c-search-bar__my-location">
-      <i aria-hidden="true" class="fa fa-location-arrow "></i>
-      Use my location
-      <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
-    </a>
-  `),
-  threePlusIcons: hogan.compile(`
-    {{#hasDate}}
-    <div class="c-search-result__hit--vertical">
-    {{/hasDate}}
-    {{#id}}
-    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
-    {{/id}}
-    {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
-    {{/id}}
-      <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__feature-icons">
-      {{#hitFeatureIcons}}
-        {{{.}}}
-      {{/hitFeatureIcons}}
-      <br/>
-    </span>
-      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
-    </a>
-    {{#hasDate}}
-    </div>
-    {{/hasDate}}
-  `),
-  default: hogan.compile(`
-    {{#hasDate}}
-    <div class="c-search-result__hit--vertical">
-    {{/hasDate}}
-    {{#id}}
-    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
-    {{/id}}
-    {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
-    {{/id}}
-      <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__feature-icons">
-      {{#hitFeatureIcons}}
-        {{{.}}}
-      {{/hitFeatureIcons}}
-    </span>
-      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
-    </a>
-    {{#hasDate}}
-    </div>
-    {{/hasDate}}
-  `)
-};
 
 function iconsFromGTFSAncestries(ancestries) {
   return ancestries
     .map(anc => anc.toLowerCase())
     .filter(anc => anc !== "subway")
-    .map(anc => Icons.getFeatureIcon(anc));
+    .map(anc => getFeatureIcon(anc));
 }
 
 function iconsFromGTFSAncestry(ancestry) {
@@ -109,15 +34,15 @@ function _subwayRouteIcon(routeId) {
 function iconFromGTFSId(id) {
   const toSubway = _subwayRouteIcon(id);
   if (toSubway) {
-    return Icons.getFeatureIcon(toSubway);
+    return getFeatureIcon(toSubway);
   }
   if (id in ["commuter_rail", "bus", "ferry", "silver_line"]) {
-    return Icons.getFeatureIcon(id);
+    return getFeatureIcon(id);
   }
   if (id.includes("CR-")) {
-    return Icons.getFeatureIcon("commuter_rail");
+    return getFeatureIcon("commuter_rail");
   }
-  return Icons.getFeatureIcon(id);
+  return getFeatureIcon(id);
 }
 
 function iconsFromGTFSIds(id) {
@@ -185,9 +110,9 @@ export function contentIcon(hit) {
 
 function _getStopOrStationIcon(hit) {
   if (hit.stop["station?"]) {
-    return Icons.getFeatureIcon("station");
+    return getFeatureIcon("station");
   }
-  return Icons.getFeatureIcon("stop");
+  return getFeatureIcon("stop");
 }
 
 function _iconFromRoute(route) {
@@ -214,7 +139,7 @@ export function getPopularIcon(icon) {
     case "airplane":
       return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane-departure" });
     default:
-      return Icons.getFeatureIcon(icon);
+      return getFeatureIcon(icon);
   }
 }
 
@@ -226,7 +151,7 @@ export function getIcon(hit, type) {
       return _getStopOrStationIcon(hit);
 
     case "routes":
-      return Icons.getFeatureIcon(_iconFromRoute(hit.route));
+      return getFeatureIcon(_iconFromRoute(hit.route));
 
     case "popular":
       return getPopularIcon(hit.icon);
@@ -266,98 +191,6 @@ function getTransitIcons(hit) {
     return uniqueIcons.join(" ");
   }
   return icons;
-}
-
-function _contentUrl(hit) {
-  if (hit.search_api_datasource === "entity:file") {
-    return `/sites/default/files/${hit._file_uri.replace(/public:\/\//, "")}`;
-  }
-  if (hit._content_type === "search_result") {
-    return hit._search_result_url.replace(/internal:/, "");
-  }
-  return hit._content_url;
-}
-
-export function getUrl(hit, index) {
-  switch (index) {
-    case "stops":
-      return `/stops/${hit.stop.id}`;
-
-    case "routes":
-      return `/schedules/${hit.route.id}`;
-
-    case "popular":
-      return hit.url;
-
-    case "drupal":
-    case "projects":
-    case "pages":
-    case "documents":
-    case "events":
-    case "news":
-      return _contentUrl(hit);
-
-    case "locations":
-      return `transit-near-me?address=${encodeURIComponent(hit.formatted)}`;
-
-    case "usemylocation":
-      return "#";
-
-    default:
-      return "#";
-  }
-}
-
-function getRouteTitle(hit) {
-  const name = hit._highlightResult.route.name.value;
-  switch (hit.route.type) {
-    case 3:
-      return `${name} <span class="c-search-result__long-name">${hit._highlightResult.route.long_name.value}</span>`;
-    default:
-      return name;
-  }
-}
-
-function _contentTitle(hit) {
-  if (hit._content_type === "search_result") {
-    return hit._highlightResult.search_result_title.value;
-  }
-  if (hit.search_api_datasource === "entity:file") {
-    return hit._highlightResult.file_name_raw.value;
-  }
-  return hit._highlightResult.content_title.value;
-}
-
-export function getTitle(hit, type) {
-  switch (type) {
-    case "locations":
-      // eslint-disable-next-line no-case-declarations
-      const { formatted: text, highlighted_spans: spans } = hit;
-
-      return highlightText(text, spans);
-    case "stops":
-      return hit._highlightResult.stop.name.value;
-
-    case "routes":
-      return getRouteTitle(hit);
-
-    case "popular":
-      return hit.name;
-
-    case "drupal":
-    case "projects":
-    case "pages":
-    case "documents":
-    case "events":
-    case "news":
-      return _contentTitle(hit);
-
-    case "usemylocation":
-      return "";
-
-    default:
-      return "";
-  }
 }
 
 function _stopsWithAlerts() {
@@ -416,7 +249,7 @@ function _standardizeFeatureName(feature) {
 
 function _featuresToIcons(features) {
   return features.map(feature =>
-    Icons.getFeatureIcon(_standardizeFeatureName(feature))
+    getFeatureIcon(_standardizeFeatureName(feature))
   );
 }
 
@@ -541,30 +374,19 @@ export function getFeatureIcons(hit, type) {
   }
 }
 
-export function parseResult(hit, index) {
-  return Object.assign(hit, {
-    hitIcon: getIcon(hit, index),
-    hitUrl: getUrl(hit, index),
-    hitTitle: getTitle(hit, index),
-    hasDate:
-      index === "events" ||
-      index === "news" ||
-      index === "pages" ||
-      index === "documents" ||
-      index === "projects" ||
-      null,
-    hitFeatureIcons: getFeatureIcons(hit, index),
-    id: hit.id || null
-  });
+function getFeatureIcon(feature) {
+  const icon = document.getElementById(`icon-feature-${feature}`);
+  if (icon) {
+    return icon.innerHTML;
+  }
+  return "";
 }
 
-export function renderResult(hit, index, templates = TEMPLATES) {
-  const parsedResult = parseResult(hit, index);
-  if (parsedResult.hitFeatureIcons.length > 2) {
-    return TEMPLATES.threePlusIcons.render(parsedResult);
-  }
-  if (templates[index]) {
-    return templates[index].render(parsedResult);
-  }
-  return templates.default.render(parsedResult);
-}
+const TEMPLATES = {
+  fontAwesomeIcon: hogan.compile(
+    `<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`
+  ),
+  formattedDate: hogan.compile(
+    `<span class="c-search-result__event-date">{{date}}</span>`
+  )
+};

@@ -1,0 +1,84 @@
+<div class="grid md:grid-cols-[1fr_3fr] md:gap-lg">
+  <h1 id="search-heading">{~t(Search)} <span class="sr-only">MBTA.com</span></h1>
+  <div class="self-end pb-[.375em]">
+    <form
+      id="search-form-container"
+      class="flex items-center p-xs bg-white rounded-md border-[3px] border-brand-primary focus-within:border-brand-primary-light"
+      role="search"
+      action={~p"/search"}
+      phx-change="find"
+      phx-submit="find"
+    >
+      <input
+        aria-controls="search-page-results"
+        aria-labelledby="search-heading"
+        autocomplete="off"
+        class="border-0 shadow-none grow focus:ring-0 w-full max-w-full overflow-hidden"
+        name="query"
+        placeholder={~t"Search for routes, places, information, and more"}
+        phx-debounce="300"
+        required="true"
+        spellcheck="true"
+        type="search"
+        value={@query}
+      />
+      <.button type="submit" class="p-sm" aria-label={~t"Submit"}>
+        <.icon
+          name="magnifying-glass"
+          class="fa-flip-horizontal h-6 w-6 fill-white"
+          aria-hidden="true"
+        />
+      </.button>
+    </form>
+  </div>
+  <section>
+    <.button class="block w-full md:hidden my-md" phx-click={show_filters()}>
+      {~t(Filter by type)}
+    </.button>
+    <fieldset :if={@connected?} id="search-page-filters" class="hidden md:block">
+      <div class="flex items-center space-between">
+        <legend class="h3 mt-0">{~t(Filter by type)}</legend>
+        <button class="md:hidden shrink-0 btn-link btn-sm" phx-click={hide_filters()}>
+          {~t(Close)}
+        </button>
+      </div>
+      <label
+        :for={category <- @all_categories}
+        class="bg-gray-bordered-background px-md py-sm mb-px flex items-center gap-md"
+        style="min-height: var(--minimum-tap-target-size)"
+        for={Recase.to_kebab(category) <> "-checkbox"}
+      >
+        <.icon
+          type={icon_type(category)}
+          name={icon_name(category)}
+          class="h-4 w-4 shrink-0 fill-brand-primary"
+          aria-hidden="true"
+        />
+        <span class="grow leading-[1.25]">{category_label(category)}</span>
+        <input
+          id={Recase.to_kebab(category) <> "-checkbox"}
+          type="checkbox"
+          name={"category[#{category}]"}
+          form="search-form-container"
+          checked={category in category_keys(@chosen_categories, @all_categories)}
+          class="justify-end rounded w-5 h-5 border border-cobalt-30 bg-white focus:ring-4 ring-offset-0 ring-cobalt-60 checked:bg-cobalt-30"
+        />
+      </label>
+    </fieldset>
+  </section>
+  <div :if={@query != ""} id="search-page-results">
+    <div
+      :for={category <- @all_categories}
+      :if={category in category_keys(@chosen_categories, @all_categories)}
+      class="my-md"
+      :key={category}
+    >
+      <.live_component
+        id={category}
+        module={DotcomWeb.Components.SearchResultsLive}
+        category={category}
+        query={@query}
+      />
+    </div>
+  </div>
+</div>

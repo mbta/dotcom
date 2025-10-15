@@ -224,11 +224,11 @@ describe("popularLocationSource", () => {
 
 describe("algoliaSource", () => {
   test("defines a template", () => {
-    expect(algoliaSource("query", {}).templates.item).toBeTruthy();
+    expect(algoliaSource("query", [{}]).templates.item).toBeTruthy();
   });
   test("defines a getItems function", () => {
     const query = "new project";
-    const indexes = { drupal_test: {} };
+    const indexes = [{ drupal_test: {} }];
     expect(
       algoliaSource(query, indexes).getItems({ query } as OnInputParams<
         AutocompleteItem
@@ -245,10 +245,10 @@ describe("algoliaSource", () => {
   });
   test("has optional getItemUrl", () => {
     expect(
-      algoliaSource("question", { stops: { hitsPerPage: 7 } }, false)
+      algoliaSource("question", [{ stops: { hitsPerPage: 7 } }], false)
     ).not.toContainKey("getItemUrl");
     expect(
-      algoliaSource("question", { stops: { hitsPerPage: 7 } })
+      algoliaSource("question", [{ stops: { hitsPerPage: 7 } }])
     ).toContainKey("getItemUrl");
   });
 });

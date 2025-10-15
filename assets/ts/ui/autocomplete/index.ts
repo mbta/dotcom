@@ -29,6 +29,7 @@ function setupAlgoliaAutocomplete(
     ...config({ pushToLiveView, initialState }),
     container,
     panelContainer,
+    insights: true,
     placeholder: container.dataset.placeholder
   };
   const autocompleteWidget = autocomplete(options);

@@ -137,11 +137,6 @@ config :dotcom, :telemetry_metrics_splunk,
   url: "https://http-inputs-mbta.splunkcloud.com/services/collector"
 
 if config_env() != :test do
-  config :dotcom, :algolia_config,
-    app_id: System.get_env("ALGOLIA_APP_ID"),
-    search: System.get_env("ALGOLIA_SEARCH_KEY"),
-    write: System.get_env("ALGOLIA_WRITE_KEY")
-
   config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL", "test@test.com"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL", "from@test.com"),
@@ -228,3 +223,7 @@ secret_key_base = System.get_env("SITE_SECRET_KEY_BASE", default_key_base)
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint, secret_key_base: secret_key_base
+
+config :algolia,
+  application_id: System.get_env("ALGOLIA_APP_ID", ""),
+  api_key: System.get_env("ALGOLIA_SEARCH_KEY", "")
