@@ -189,7 +189,7 @@ defmodule Dotcom.SystemStatus.Subway do
 
   # Given an alert, returns a sorted list of the green line branches
   # affected by that alert.
-  @spec affected_green_line_branch_ids([Alert.t()]) :: [Routes.Route.id_t()]
+  @spec affected_green_line_branch_ids(Alert.t()) :: [GreenLine.branch_name()]
   defp affected_green_line_branch_ids(alert) do
     if systemwide_mode_alert?(alert, :subway) do
       GreenLine.branch_ids()
