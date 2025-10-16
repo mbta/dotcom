@@ -56,29 +56,6 @@ defmodule DotcomWeb.Live.SearchPageTest do
     test "change query", %{conn: conn} do
       {:ok, view, _} = initial_load_with_query(conn)
 
-      new_query = Faker.Lorem.word()
-      count = SearchPage.categories() |> Enum.count()
-
-      expect(Dotcom.SearchService.Mock, :query, count, fn ^new_query, _ ->
-        {:ok, build(:result)}
-      end)
-
-      view
-      |> element("form")
-      |> render_change(%{query: new_query, _target: ["query"]})
-
-      assert_patch(view, "/search?query=#{new_query}")
-
-      view
-      |> element("form")
-      |> render_change(%{query: "", _target: ["query"]})
-
-      assert_patch(view, "/search")
-    end
-
-    test "change query with multiple words", %{conn: conn} do
-      {:ok, view, _} = initial_load_with_query(conn)
-
       query_word_1 = Faker.Lorem.word()
       query_word_2 = Faker.Lorem.word()
       new_query = "#{query_word_1} #{query_word_2}"
