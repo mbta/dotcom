@@ -28,7 +28,6 @@ defmodule CMS.ParagraphTest do
     FilesGrid,
     PeopleGrid,
     PhotoGallery,
-    TitleCardSet,
     TripPlanWidget,
     Unknown
   }
