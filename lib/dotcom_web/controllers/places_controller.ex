@@ -155,16 +155,19 @@ defmodule DotcomWeb.PlacesController do
           Map.take(map, [:latitude, :longitude])
       end
 
-    vote_params =
-      case map do
-        %{formatted: formatted} ->
-          map
-          |> Map.take([:latitude, :longitude])
-          |> Map.put(:address, formatted)
+    # Temporarily removed because the `/vote` endpoint only works
+    # properly if there's an election in the near future.
 
-        _ ->
-          %{}
-      end
+    # vote_params =
+    #   case map do
+    #     %{formatted: formatted} ->
+    #       map
+    #       |> Map.take([:latitude, :longitude])
+    #       |> Map.put(:address, formatted)
+
+    #     _ ->
+    #       %{}
+    #   end
 
     map
     |> Map.put_new(:urls, %{
@@ -175,8 +178,8 @@ defmodule DotcomWeb.PlacesController do
           DotcomWeb.Endpoint,
           :show_transformation,
           params
-        ),
-      "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
+        )
+      # "vote" => vote_path(DotcomWeb.Endpoint, :show, vote_params)
     })
   end
 
