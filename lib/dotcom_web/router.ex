@@ -271,7 +271,13 @@ defmodule DotcomWeb.Router do
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
-    get("/vote", VoteController, :show)
+
+    # Temporarily removed because the elections API only returns
+    # sensible results when an election is ongoing (in the near
+    # future). So long as that isn't true, we shouldn't have the page
+    # be accessible at all.
+
+    # get("/vote", VoteController, :show)
   end
 
   scope "/", DotcomWeb do
