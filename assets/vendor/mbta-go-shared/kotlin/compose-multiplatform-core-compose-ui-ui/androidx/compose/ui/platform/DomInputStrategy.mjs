@@ -1,0 +1,22 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_ui_platform_DomInputStrategy$stable;
+var androidx_compose_ui_platform_EditState_Default$stable;
+var androidx_compose_ui_platform_EditState_WaitingComposeActivity$stable;
+var androidx_compose_ui_platform_EditState_CompositeDialogue$stable;
+var androidx_compose_ui_platform_EditState_AccentDialogue$stable;
+var androidx_compose_ui_platform_RepeatMode_Unknown$stable;
+var androidx_compose_ui_platform_RepeatMode_Accent$stable;
+var androidx_compose_ui_platform_RepeatMode_Default$stable;
+//region block: init
+androidx_compose_ui_platform_DomInputStrategy$stable = 8;
+androidx_compose_ui_platform_EditState_Default$stable = 0;
+androidx_compose_ui_platform_EditState_WaitingComposeActivity$stable = 0;
+androidx_compose_ui_platform_EditState_CompositeDialogue$stable = 0;
+androidx_compose_ui_platform_EditState_AccentDialogue$stable = 0;
+androidx_compose_ui_platform_RepeatMode_Unknown$stable = 0;
+androidx_compose_ui_platform_RepeatMode_Accent$stable = 0;
+androidx_compose_ui_platform_RepeatMode_Default$stable = 0;
+//endregion
+
+//# sourceMappingURL=DomInputStrategy.mjs.map

@@ -1,0 +1,20 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_v2_ScrollableScrollbarAdapter$stable;
+var androidx_compose_foundation_v2_LazyLineContentAdapter_VisibleLine$stable;
+var androidx_compose_foundation_v2_LazyLineContentAdapter$stable;
+var androidx_compose_foundation_v2_LazyListScrollbarAdapter$stable;
+var androidx_compose_foundation_v2_LazyGridScrollbarAdapter$stable;
+var androidx_compose_foundation_v2_TextFieldScrollbarAdapter$stable;
+var androidx_compose_foundation_v2_SliderAdapter$stable;
+//region block: init
+androidx_compose_foundation_v2_ScrollableScrollbarAdapter$stable = 0;
+androidx_compose_foundation_v2_LazyLineContentAdapter_VisibleLine$stable = 0;
+androidx_compose_foundation_v2_LazyLineContentAdapter$stable = 0;
+androidx_compose_foundation_v2_LazyListScrollbarAdapter$stable = 0;
+androidx_compose_foundation_v2_LazyGridScrollbarAdapter$stable = 0;
+androidx_compose_foundation_v2_TextFieldScrollbarAdapter$stable = 8;
+androidx_compose_foundation_v2_SliderAdapter$stable = 8;
+//endregion
+
+//# sourceMappingURL=Scrollbar.skiko.mjs.map

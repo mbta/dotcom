@@ -1,0 +1,1 @@
+{"version":3,"sources":["js/src/kotlin/coroutines/cancellation/CancellationException.kt"],"sourcesContent":[null],"ignoreList":[],"x_google_ignoreList":[],"names":["message","cause"],"mappings":";;;;;;;;mEAOA,a,EAAA;A;AAMA,C;;;;;;;;;;gBAH8BA,O;4BAA0B,O;;;;gBACjCA,O,EAAkBC,K;4BAA2B,O,EAAS,K;;;;;;;;;;;;;;"}

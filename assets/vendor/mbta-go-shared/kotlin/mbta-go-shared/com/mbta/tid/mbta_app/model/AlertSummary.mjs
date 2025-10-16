@@ -1,0 +1,30 @@
+//region block: pre-declaration
+//endregion
+var com_mbta_tid_mbta_app_model_AlertSummary_Location_DirectionToStop$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Location_SingleStop$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Location_StopToDirection$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Location_SuccessiveStops$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Location$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_EndOfService$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_Tomorrow$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_LaterDate$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_ThisWeek$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_Time$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary_Timeframe$stable;
+var com_mbta_tid_mbta_app_model_AlertSummary$stable;
+//region block: init
+com_mbta_tid_mbta_app_model_AlertSummary_Location_DirectionToStop$stable = 8;
+com_mbta_tid_mbta_app_model_AlertSummary_Location_SingleStop$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary_Location_StopToDirection$stable = 8;
+com_mbta_tid_mbta_app_model_AlertSummary_Location_SuccessiveStops$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary_Location$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_EndOfService$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_Tomorrow$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_LaterDate$stable = 8;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_ThisWeek$stable = 8;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe_Time$stable = 8;
+com_mbta_tid_mbta_app_model_AlertSummary_Timeframe$stable = 0;
+com_mbta_tid_mbta_app_model_AlertSummary$stable = 0;
+//endregion
+
+//# sourceMappingURL=AlertSummary.mjs.map

@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_text_input_internal_selection_TextFieldPreparedSelectionState$stable;
+var androidx_compose_foundation_text_input_internal_selection_TextFieldPreparedSelection$stable;
+//region block: init
+androidx_compose_foundation_text_input_internal_selection_TextFieldPreparedSelectionState$stable = 8;
+androidx_compose_foundation_text_input_internal_selection_TextFieldPreparedSelection$stable = 8;
+//endregion
+
+//# sourceMappingURL=TextPreparedSelection.mjs.map

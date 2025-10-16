@@ -1,0 +1,26 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_ui_text_input_CommitTextCommand$stable;
+var androidx_compose_ui_text_input_SetComposingRegionCommand$stable;
+var androidx_compose_ui_text_input_SetComposingTextCommand$stable;
+var androidx_compose_ui_text_input_DeleteSurroundingTextCommand$stable;
+var androidx_compose_ui_text_input_DeleteSurroundingTextInCodePointsCommand$stable;
+var androidx_compose_ui_text_input_SetSelectionCommand$stable;
+var androidx_compose_ui_text_input_FinishComposingTextCommand$stable;
+var androidx_compose_ui_text_input_BackspaceCommand$stable;
+var androidx_compose_ui_text_input_MoveCursorCommand$stable;
+var androidx_compose_ui_text_input_DeleteAllCommand$stable;
+//region block: init
+androidx_compose_ui_text_input_CommitTextCommand$stable = 0;
+androidx_compose_ui_text_input_SetComposingRegionCommand$stable = 0;
+androidx_compose_ui_text_input_SetComposingTextCommand$stable = 0;
+androidx_compose_ui_text_input_DeleteSurroundingTextCommand$stable = 0;
+androidx_compose_ui_text_input_DeleteSurroundingTextInCodePointsCommand$stable = 0;
+androidx_compose_ui_text_input_SetSelectionCommand$stable = 0;
+androidx_compose_ui_text_input_FinishComposingTextCommand$stable = 0;
+androidx_compose_ui_text_input_BackspaceCommand$stable = 0;
+androidx_compose_ui_text_input_MoveCursorCommand$stable = 0;
+androidx_compose_ui_text_input_DeleteAllCommand$stable = 0;
+//endregion
+
+//# sourceMappingURL=EditCommand.mjs.map

@@ -1,0 +1,8 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_SmallPersistentVector$stable;
+//region block: init
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_SmallPersistentVector$stable = 8;
+//endregion
+
+//# sourceMappingURL=SmallPersistentVector.mjs.map

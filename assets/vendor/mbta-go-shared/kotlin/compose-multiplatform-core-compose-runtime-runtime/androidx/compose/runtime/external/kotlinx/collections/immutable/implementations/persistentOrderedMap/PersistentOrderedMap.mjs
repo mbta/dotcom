@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_persistentOrderedMap_LinkedValue$stable;
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_persistentOrderedMap_PersistentOrderedMap$stable;
+//region block: init
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_persistentOrderedMap_LinkedValue$stable = 8;
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_persistentOrderedMap_PersistentOrderedMap$stable = 8;
+//endregion
+
+//# sourceMappingURL=PersistentOrderedMap.mjs.map

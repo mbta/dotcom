@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_lazy_staggeredgrid_LazyStaggeredGridIntervalContent$stable;
+var androidx_compose_foundation_lazy_staggeredgrid_LazyStaggeredGridInterval$stable;
+//region block: init
+androidx_compose_foundation_lazy_staggeredgrid_LazyStaggeredGridIntervalContent$stable = 8;
+androidx_compose_foundation_lazy_staggeredgrid_LazyStaggeredGridInterval$stable = 0;
+//endregion
+
+//# sourceMappingURL=LazyStaggeredGridIntervalContent.mjs.map

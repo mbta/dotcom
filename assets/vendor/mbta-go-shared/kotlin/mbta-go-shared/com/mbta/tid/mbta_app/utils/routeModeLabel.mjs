@@ -1,0 +1,16 @@
+//region block: pre-declaration
+//endregion
+var com_mbta_tid_mbta_app_utils_RouteModeLabelType_NameOnly$stable;
+var com_mbta_tid_mbta_app_utils_RouteModeLabelType_TypeOnly$stable;
+var com_mbta_tid_mbta_app_utils_RouteModeLabelType_NameAndType$stable;
+var com_mbta_tid_mbta_app_utils_RouteModeLabelType_Empty$stable;
+var com_mbta_tid_mbta_app_utils_RouteModeLabelType$stable;
+//region block: init
+com_mbta_tid_mbta_app_utils_RouteModeLabelType_NameOnly$stable = 0;
+com_mbta_tid_mbta_app_utils_RouteModeLabelType_TypeOnly$stable = 0;
+com_mbta_tid_mbta_app_utils_RouteModeLabelType_NameAndType$stable = 0;
+com_mbta_tid_mbta_app_utils_RouteModeLabelType_Empty$stable = 0;
+com_mbta_tid_mbta_app_utils_RouteModeLabelType$stable = 0;
+//endregion
+
+//# sourceMappingURL=routeModeLabel.mjs.map

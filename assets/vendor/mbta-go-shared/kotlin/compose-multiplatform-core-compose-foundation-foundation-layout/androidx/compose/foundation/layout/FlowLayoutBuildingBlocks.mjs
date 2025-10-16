@@ -1,0 +1,12 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_layout_FlowLayoutBuildingBlocks_WrapInfo$stable;
+var androidx_compose_foundation_layout_FlowLayoutBuildingBlocks_WrapEllipsisInfo$stable;
+var androidx_compose_foundation_layout_FlowLayoutBuildingBlocks$stable;
+//region block: init
+androidx_compose_foundation_layout_FlowLayoutBuildingBlocks_WrapInfo$stable = 0;
+androidx_compose_foundation_layout_FlowLayoutBuildingBlocks_WrapEllipsisInfo$stable = 8;
+androidx_compose_foundation_layout_FlowLayoutBuildingBlocks$stable = 8;
+//endregion
+
+//# sourceMappingURL=FlowLayoutBuildingBlocks.mjs.map

@@ -1,0 +1,12 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_Fixed$stable;
+var androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_Adaptive$stable;
+var androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_FixedSize$stable;
+//region block: init
+androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_Fixed$stable = 0;
+androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_Adaptive$stable = 0;
+androidx_compose_foundation_lazy_staggeredgrid_StaggeredGridCells_FixedSize$stable = 0;
+//endregion
+
+//# sourceMappingURL=LazyStaggeredGridCells.mjs.map

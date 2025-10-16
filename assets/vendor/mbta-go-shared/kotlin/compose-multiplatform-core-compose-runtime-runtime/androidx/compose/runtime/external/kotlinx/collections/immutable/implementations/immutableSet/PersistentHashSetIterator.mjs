@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableSet_PersistentHashSetIterator$stable;
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableSet_TrieNodeIterator$stable;
+//region block: init
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableSet_PersistentHashSetIterator$stable = 8;
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableSet_TrieNodeIterator$stable = 8;
+//endregion
+
+//# sourceMappingURL=PersistentHashSetIterator.mjs.map

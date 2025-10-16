@@ -1,0 +1,24 @@
+//region block: pre-declaration
+//endregion
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_AlertBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_FacilityBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_LineBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_RouteBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_TripBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_ShapeBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_VehicleBuilder$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_Single$stable;
+var com_mbta_tid_mbta_app_model_ObjectCollectionBuilder$stable;
+//region block: init
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_AlertBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_FacilityBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_LineBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_RouteBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_TripBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_ShapeBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_VehicleBuilder$stable = 8;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder_Single$stable = 0;
+com_mbta_tid_mbta_app_model_ObjectCollectionBuilder$stable = 8;
+//endregion
+
+//# sourceMappingURL=ObjectCollectionBuilder.mjs.map

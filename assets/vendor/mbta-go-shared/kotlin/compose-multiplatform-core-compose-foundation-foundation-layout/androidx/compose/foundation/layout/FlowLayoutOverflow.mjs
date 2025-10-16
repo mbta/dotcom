@@ -1,0 +1,18 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_layout_FlowRowOverflow$stable;
+var androidx_compose_foundation_layout_FlowColumnOverflow$stable;
+var androidx_compose_foundation_layout_ContextualFlowRowOverflow$stable;
+var androidx_compose_foundation_layout_ContextualFlowColumnOverflow$stable;
+var androidx_compose_foundation_layout_FlowLayoutOverflow$stable;
+var androidx_compose_foundation_layout_FlowLayoutOverflowState$stable;
+//region block: init
+androidx_compose_foundation_layout_FlowRowOverflow$stable = 0;
+androidx_compose_foundation_layout_FlowColumnOverflow$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowRowOverflow$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowColumnOverflow$stable = 0;
+androidx_compose_foundation_layout_FlowLayoutOverflow$stable = 0;
+androidx_compose_foundation_layout_FlowLayoutOverflowState$stable = 8;
+//endregion
+
+//# sourceMappingURL=FlowLayoutOverflow.mjs.map

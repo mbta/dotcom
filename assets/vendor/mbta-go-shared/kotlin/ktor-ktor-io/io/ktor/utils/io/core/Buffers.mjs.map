@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../../../../../mnt/agent/work/8d547b974a7be21f/ktor-io/common/src/io/ktor/utils/io/core/Buffers.kt"],"sourcesContent":[null],"ignoreList":[],"x_google_ignoreList":[],"names":["readBytes","<this>","count"],"mappings":";;;;;;kBAcAA,CAAWC,a,EAAiBC,KAA5BF,EAAkE;A,2BAAzB,kBAAK,K;EAC1C,OAAO,6BAAc,KAAd,C;AACX,C;;;;;"}

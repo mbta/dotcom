@@ -1,0 +1,16 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_ui_input_pointer_PointerHoverIconModifierElement$stable;
+var androidx_compose_ui_input_pointer_PointerHoverIconModifierNode$stable;
+var androidx_compose_ui_input_pointer_StylusHoverIconModifierElement$stable;
+var androidx_compose_ui_input_pointer_StylusHoverIconModifierNode$stable;
+var androidx_compose_ui_input_pointer_HoverIconModifierNode$stable;
+//region block: init
+androidx_compose_ui_input_pointer_PointerHoverIconModifierElement$stable = 0;
+androidx_compose_ui_input_pointer_PointerHoverIconModifierNode$stable = 8;
+androidx_compose_ui_input_pointer_StylusHoverIconModifierElement$stable = 0;
+androidx_compose_ui_input_pointer_StylusHoverIconModifierNode$stable = 8;
+androidx_compose_ui_input_pointer_HoverIconModifierNode$stable = 8;
+//endregion
+
+//# sourceMappingURL=PointerIcon.mjs.map

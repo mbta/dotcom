@@ -1,0 +1,14 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_text_selection_TextPreparedSelectionState$stable;
+var androidx_compose_foundation_text_selection_BaseTextPreparedSelection$stable;
+var androidx_compose_foundation_text_selection_TextPreparedSelection$stable;
+var androidx_compose_foundation_text_selection_TextFieldPreparedSelection$stable;
+//region block: init
+androidx_compose_foundation_text_selection_TextPreparedSelectionState$stable = 8;
+androidx_compose_foundation_text_selection_BaseTextPreparedSelection$stable = 8;
+androidx_compose_foundation_text_selection_TextPreparedSelection$stable = 8;
+androidx_compose_foundation_text_selection_TextFieldPreparedSelection$stable = 8;
+//endregion
+
+//# sourceMappingURL=TextPreparedSelection.mjs.map

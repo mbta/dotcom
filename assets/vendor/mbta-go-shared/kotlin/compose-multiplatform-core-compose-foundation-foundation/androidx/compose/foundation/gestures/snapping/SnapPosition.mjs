@@ -1,0 +1,12 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_gestures_snapping_SnapPosition_Center$stable;
+var androidx_compose_foundation_gestures_snapping_SnapPosition_Start$stable;
+var androidx_compose_foundation_gestures_snapping_SnapPosition_End$stable;
+//region block: init
+androidx_compose_foundation_gestures_snapping_SnapPosition_Center$stable = 0;
+androidx_compose_foundation_gestures_snapping_SnapPosition_Start$stable = 0;
+androidx_compose_foundation_gestures_snapping_SnapPosition_End$stable = 0;
+//endregion
+
+//# sourceMappingURL=SnapPosition.mjs.map

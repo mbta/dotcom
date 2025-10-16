@@ -1,0 +1,34 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_animation_core_AnimationConstants$stable;
+var androidx_compose_animation_core_TweenSpec$stable;
+var androidx_compose_animation_core_SpringSpec$stable;
+var androidx_compose_animation_core_ArcAnimationSpec$stable;
+var androidx_compose_animation_core_RepeatableSpec$stable;
+var androidx_compose_animation_core_InfiniteRepeatableSpec$stable;
+var androidx_compose_animation_core_SnapSpec$stable;
+var androidx_compose_animation_core_KeyframesSpecBaseConfig$stable;
+var androidx_compose_animation_core_KeyframeBaseEntity$stable;
+var androidx_compose_animation_core_KeyframesSpec_KeyframesSpecConfig$stable;
+var androidx_compose_animation_core_KeyframesSpec_KeyframeEntity$stable;
+var androidx_compose_animation_core_KeyframesSpec$stable;
+var androidx_compose_animation_core_KeyframesWithSplineSpec_KeyframesWithSplineSpecConfig$stable;
+var androidx_compose_animation_core_KeyframesWithSplineSpec$stable;
+//region block: init
+androidx_compose_animation_core_AnimationConstants$stable = 0;
+androidx_compose_animation_core_TweenSpec$stable = 0;
+androidx_compose_animation_core_SpringSpec$stable = 0;
+androidx_compose_animation_core_ArcAnimationSpec$stable = 0;
+androidx_compose_animation_core_RepeatableSpec$stable = 0;
+androidx_compose_animation_core_InfiniteRepeatableSpec$stable = 8;
+androidx_compose_animation_core_SnapSpec$stable = 0;
+androidx_compose_animation_core_KeyframesSpecBaseConfig$stable = 8;
+androidx_compose_animation_core_KeyframeBaseEntity$stable = 8;
+androidx_compose_animation_core_KeyframesSpec_KeyframesSpecConfig$stable = 8;
+androidx_compose_animation_core_KeyframesSpec_KeyframeEntity$stable = 8;
+androidx_compose_animation_core_KeyframesSpec$stable = 0;
+androidx_compose_animation_core_KeyframesWithSplineSpec_KeyframesWithSplineSpecConfig$stable = 8;
+androidx_compose_animation_core_KeyframesWithSplineSpec$stable = 0;
+//endregion
+
+//# sourceMappingURL=AnimationSpec.mjs.map

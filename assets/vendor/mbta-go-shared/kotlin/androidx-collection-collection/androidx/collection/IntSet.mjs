@@ -1,0 +1,616 @@
+import {
+  get_EmptyGroup3quv3ubythwh0 as get_EmptyGroup,
+  normalizeCapacity3ebzihg7o4adm as normalizeCapacity,
+  loadedCapacity2ixp8rhrflbpr as loadedCapacity,
+  unloadedCapacity3djxu9qdm2sj6 as unloadedCapacity,
+  nextCapacity2etcq869vd6gg as nextCapacity,
+} from './ScatterMap.mjs';
+import { toLongw1zpgk99d84b as toLong } from '../../../kotlin-kotlin-stdlib/kotlin/js/numberConversion.mjs';
+import { Long2qws0ah9gnpki as Long } from '../../../kotlin-kotlin-stdlib/kotlin/Primitives.mjs';
+import { countTrailingZeroBits1k55x07cygoff as countTrailingZeroBits } from '../../../kotlin-kotlin-stdlib/kotlin/NumbersJs.mjs';
+import { StringBuildermazzzhj6kkai as StringBuilder } from '../../../kotlin-kotlin-stdlib/kotlin/text/StringBuilderJs.mjs';
+import { Unit_instance1fbcbse1fwigr as Unit_instance } from '../../../kotlin-kotlin-stdlib/kotlin/Unit.mjs';
+import { VOID3gxj6tk5isa35 as VOID } from '../../../kotlin-kotlin-stdlib/kotlin/js/void.mjs';
+import { initMetadataForClassbxx6q50dy2s7 as initMetadataForClass } from '../../../kotlin-kotlin-stdlib/kotlin/js/metadataUtils.mjs';
+import { longArray288a0fctlmjmj as longArray } from '../../../kotlin-kotlin-stdlib/kotlin/js/arrays.mjs';
+import { fillzcylmep0vxyi as fill } from '../../../kotlin-kotlin-stdlib/kotlin/collections/_ArraysJs.mjs';
+import { throwIllegalArgumentExceptiondtiudu44q2g3 as throwIllegalArgumentException } from './internal/RuntimeHelpers.mjs';
+import {
+  _ULong___init__impl__c78o9k1p6qzv0dh0bvg as _ULong___init__impl__c78o9k,
+  _ULong___get_data__impl__fggpzb2qlkrfp9zs48z as _ULong___get_data__impl__fggpzb,
+} from '../../../kotlin-kotlin-stdlib/kotlin/ULong.mjs';
+import { ulongCompare29yg6v52hxi4l as ulongCompare } from '../../../kotlin-kotlin-stdlib/kotlin/UnsignedJs.mjs';
+import { get_lastIndex1y2f6o9u8hnf7 as get_lastIndex } from '../../../kotlin-kotlin-stdlib/kotlin/collections/_Arrays.mjs';
+//region block: imports
+var imul = Math.imul;
+//endregion
+//region block: pre-declaration
+//endregion
+var EmptyIntSet;
+function get_EmptyIntArray() {
+  _init_properties_IntSet_kt__km4dgt();
+  return EmptyIntArray;
+}
+var EmptyIntArray;
+var IntSetClass;
+function IntSet() {
+  if (IntSetClass === VOID) {
+    class $ {
+      constructor() {
+        this.s6c_1 = get_EmptyGroup();
+        this.t6c_1 = get_EmptyIntArray();
+        this.u6c_1 = 0;
+        this.v6c_1 = 0;
+      }
+      p6b() {
+        return this.u6c_1;
+      }
+      hs(element) {
+        var tmp$ret$9;
+        $l$block: {
+          // Inline function 'androidx.collection.IntSet.findElementIndex' call
+          // Inline function 'androidx.collection.hash' call
+          var hash = imul(element, -862048943);
+          var hash_0 = hash ^ hash << 16;
+          // Inline function 'androidx.collection.h2' call
+          var hash2 = hash_0 & 127;
+          var probeMask = this.u6c_1;
+          // Inline function 'androidx.collection.h1' call
+          var probeOffset = (hash_0 >>> 7 | 0) & probeMask;
+          var probeIndex = 0;
+          $l$loop_0: while (true) {
+            var tmp0 = this.s6c_1;
+            // Inline function 'androidx.collection.group' call
+            var offset = probeOffset;
+            var i = offset >> 3;
+            var b = (offset & 7) << 3;
+            var g = tmp0[i].r4(b).t4(tmp0[i + 1 | 0].p4(64 - b | 0).s4(toLong(b).m4().q4(63)));
+            // Inline function 'androidx.collection.match' call
+            // Inline function 'kotlin.Long.times' call
+            var tmp$ret$4 = (new (Long())(16843009, 16843009)).h4(toLong(hash2));
+            var x = g.u4(tmp$ret$4);
+            var m = x.g4(new (Long())(16843009, 16843009)).s4(x.n4()).s4(new (Long())(-2139062144, -2139062144));
+            $l$loop: while (true) {
+              // Inline function 'androidx.collection.hasNext' call
+              if (!!m.equals(new (Long())(0, 0))) {
+                break $l$loop;
+              }
+              var tmp = probeOffset;
+              // Inline function 'androidx.collection.get' call
+              // Inline function 'androidx.collection.lowestBitSet' call
+              var this_0 = m;
+              var index = (tmp + (countTrailingZeroBits(this_0) >> 3) | 0) & probeMask;
+              if (this.t6c_1[index] === element) {
+                tmp$ret$9 = index;
+                break $l$block;
+              }
+              // Inline function 'androidx.collection.next' call
+              var this_1 = m;
+              m = this_1.s4(this_1.g4(new (Long())(1, 0)));
+            }
+            // Inline function 'androidx.collection.maskEmpty' call
+            if (!g.s4(g.n4().p4(6)).s4(new (Long())(-2139062144, -2139062144)).equals(new (Long())(0, 0))) {
+              break $l$loop_0;
+            }
+            probeIndex = probeIndex + 8 | 0;
+            probeOffset = (probeOffset + probeIndex | 0) & probeMask;
+          }
+          tmp$ret$9 = -1;
+        }
+        return tmp$ret$9 >= 0;
+      }
+      y6a(separator, prefix, postfix, limit, truncated) {
+        // Inline function 'kotlin.text.buildString' call
+        // Inline function 'kotlin.apply' call
+        var this_0 = StringBuilder().f();
+        $l$block: {
+          this_0.v(prefix);
+          var index = 0;
+          // Inline function 'androidx.collection.IntSet.forEach' call
+          // Inline function 'kotlin.contracts.contract' call
+          var k = this.t6c_1;
+          $l$block_0: {
+            // Inline function 'androidx.collection.IntSet.forEachIndex' call
+            // Inline function 'kotlin.contracts.contract' call
+            var m = this.s6c_1;
+            var lastIndex = m.length - 2 | 0;
+            var inductionVariable = 0;
+            if (inductionVariable <= lastIndex)
+              do {
+                var i = inductionVariable;
+                inductionVariable = inductionVariable + 1 | 0;
+                var slot = m[i];
+                // Inline function 'androidx.collection.maskEmptyOrDeleted' call
+                var this_1 = slot;
+                if (!this_1.s4(this_1.n4().p4(7)).s4(new (Long())(-2139062144, -2139062144)).equals(new (Long())(-2139062144, -2139062144))) {
+                  var bitCount = 8 - (~(i - lastIndex | 0) >>> 31 | 0) | 0;
+                  var inductionVariable_0 = 0;
+                  if (inductionVariable_0 < bitCount)
+                    do {
+                      var j = inductionVariable_0;
+                      inductionVariable_0 = inductionVariable_0 + 1 | 0;
+                      // Inline function 'androidx.collection.isFull' call
+                      if (slot.s4(new (Long())(255, 0)).d2(new (Long())(128, 0)) < 0) {
+                        var index_0 = (i << 3) + j | 0;
+                        var element = k[index_0];
+                        if (index === limit) {
+                          this_0.v(truncated);
+                          break $l$block;
+                        }
+                        if (!(index === 0)) {
+                          this_0.v(separator);
+                        }
+                        this_0.ej(element);
+                        index = index + 1 | 0;
+                      }
+                      slot = slot.q4(8);
+                    }
+                     while (inductionVariable_0 < bitCount);
+                  if (!(bitCount === 8)) {
+                    break $l$block_0;
+                  }
+                }
+              }
+               while (!(i === lastIndex));
+          }
+          this_0.v(postfix);
+        }
+        return this_0.toString();
+      }
+      w6c(separator, prefix, postfix, limit, truncated, $super) {
+        separator = separator === VOID ? ', ' : separator;
+        prefix = prefix === VOID ? '' : prefix;
+        postfix = postfix === VOID ? '' : postfix;
+        limit = limit === VOID ? -1 : limit;
+        truncated = truncated === VOID ? '...' : truncated;
+        return $super === VOID ? this.y6a(separator, prefix, postfix, limit, truncated) : $super.y6a.call(this, separator, prefix, postfix, limit, truncated);
+      }
+      hashCode() {
+        var hash = 0;
+        // Inline function 'androidx.collection.IntSet.forEach' call
+        // Inline function 'kotlin.contracts.contract' call
+        var k = this.t6c_1;
+        $l$block: {
+          // Inline function 'androidx.collection.IntSet.forEachIndex' call
+          // Inline function 'kotlin.contracts.contract' call
+          var m = this.s6c_1;
+          var lastIndex = m.length - 2 | 0;
+          var inductionVariable = 0;
+          if (inductionVariable <= lastIndex)
+            do {
+              var i = inductionVariable;
+              inductionVariable = inductionVariable + 1 | 0;
+              var slot = m[i];
+              // Inline function 'androidx.collection.maskEmptyOrDeleted' call
+              var this_0 = slot;
+              if (!this_0.s4(this_0.n4().p4(7)).s4(new (Long())(-2139062144, -2139062144)).equals(new (Long())(-2139062144, -2139062144))) {
+                var bitCount = 8 - (~(i - lastIndex | 0) >>> 31 | 0) | 0;
+                var inductionVariable_0 = 0;
+                if (inductionVariable_0 < bitCount)
+                  do {
+                    var j = inductionVariable_0;
+                    inductionVariable_0 = inductionVariable_0 + 1 | 0;
+                    // Inline function 'androidx.collection.isFull' call
+                    if (slot.s4(new (Long())(255, 0)).d2(new (Long())(128, 0)) < 0) {
+                      var index = (i << 3) + j | 0;
+                      hash = hash + k[index] | 0;
+                    }
+                    slot = slot.q4(8);
+                  }
+                   while (inductionVariable_0 < bitCount);
+                if (!(bitCount === 8)) {
+                  break $l$block;
+                }
+              }
+            }
+             while (!(i === lastIndex));
+        }
+        return hash;
+      }
+      equals(other) {
+        if (other === this) {
+          return true;
+        }
+        if (!(other instanceof IntSet())) {
+          return false;
+        }
+        if (!(other.v6c_1 === this.v6c_1)) {
+          return false;
+        }
+        // Inline function 'androidx.collection.IntSet.forEach' call
+        // Inline function 'kotlin.contracts.contract' call
+        var k = this.t6c_1;
+        $l$block: {
+          // Inline function 'androidx.collection.IntSet.forEachIndex' call
+          // Inline function 'kotlin.contracts.contract' call
+          var m = this.s6c_1;
+          var lastIndex = m.length - 2 | 0;
+          var inductionVariable = 0;
+          if (inductionVariable <= lastIndex)
+            do {
+              var i = inductionVariable;
+              inductionVariable = inductionVariable + 1 | 0;
+              var slot = m[i];
+              // Inline function 'androidx.collection.maskEmptyOrDeleted' call
+              var this_0 = slot;
+              if (!this_0.s4(this_0.n4().p4(7)).s4(new (Long())(-2139062144, -2139062144)).equals(new (Long())(-2139062144, -2139062144))) {
+                var bitCount = 8 - (~(i - lastIndex | 0) >>> 31 | 0) | 0;
+                var inductionVariable_0 = 0;
+                if (inductionVariable_0 < bitCount)
+                  do {
+                    var j = inductionVariable_0;
+                    inductionVariable_0 = inductionVariable_0 + 1 | 0;
+                    // Inline function 'androidx.collection.isFull' call
+                    if (slot.s4(new (Long())(255, 0)).d2(new (Long())(128, 0)) < 0) {
+                      var index = (i << 3) + j | 0;
+                      var element = k[index];
+                      if (!other.hs(element)) {
+                        return false;
+                      }
+                    }
+                    slot = slot.q4(8);
+                  }
+                   while (inductionVariable_0 < bitCount);
+                if (!(bitCount === 8)) {
+                  break $l$block;
+                }
+              }
+            }
+             while (!(i === lastIndex));
+        }
+        return true;
+      }
+      toString() {
+        return this.w6c(VOID, '[', ']');
+      }
+    }
+    initMetadataForClass($, 'IntSet');
+    IntSetClass = $;
+  }
+  return IntSetClass;
+}
+function initializeStorage($this, initialCapacity) {
+  var tmp;
+  if (initialCapacity > 0) {
+    // Inline function 'kotlin.comparisons.maxOf' call
+    var b = normalizeCapacity(initialCapacity);
+    tmp = Math.max(7, b);
+  } else {
+    tmp = 0;
+  }
+  var newCapacity = tmp;
+  $this.u6c_1 = newCapacity;
+  initializeMetadata($this, newCapacity);
+  $this.t6c_1 = new Int32Array(newCapacity);
+}
+function initializeMetadata($this, capacity) {
+  var tmp = $this;
+  var tmp_0;
+  if (capacity === 0) {
+    tmp_0 = get_EmptyGroup();
+  } else {
+    var size = ((((capacity + 1 | 0) + 7 | 0) + 7 | 0) & -8) >> 3;
+    // Inline function 'kotlin.apply' call
+    var this_0 = longArray(size);
+    fill(this_0, new (Long())(-2139062144, -2139062144));
+    tmp_0 = this_0;
+  }
+  tmp.s6c_1 = tmp_0;
+  var tmp0 = $this.s6c_1;
+  // Inline function 'androidx.collection.writeRawMetadata' call
+  var value = new (Long())(255, 0);
+  var i = capacity >> 3;
+  var b = (capacity & 7) << 3;
+  tmp0[i] = tmp0[i].s4((new (Long())(255, 0)).p4(b).n4()).t4(value.p4(b));
+  initializeGrowth($this);
+}
+function initializeGrowth($this) {
+  $this.b6d_1 = loadedCapacity($this.p6b()) - $this.v6c_1 | 0;
+}
+function findAbsoluteInsertIndex($this, element) {
+  // Inline function 'androidx.collection.hash' call
+  var hash = imul(element, -862048943);
+  var hash_0 = hash ^ hash << 16;
+  // Inline function 'androidx.collection.h1' call
+  var hash1 = hash_0 >>> 7 | 0;
+  // Inline function 'androidx.collection.h2' call
+  var hash2 = hash_0 & 127;
+  var probeMask = $this.u6c_1;
+  var probeOffset = hash1 & probeMask;
+  var probeIndex = 0;
+  $l$loop_0: while (true) {
+    var tmp0 = $this.s6c_1;
+    // Inline function 'androidx.collection.group' call
+    var offset = probeOffset;
+    var i = offset >> 3;
+    var b = (offset & 7) << 3;
+    var g = tmp0[i].r4(b).t4(tmp0[i + 1 | 0].p4(64 - b | 0).s4(toLong(b).m4().q4(63)));
+    // Inline function 'androidx.collection.match' call
+    // Inline function 'kotlin.Long.times' call
+    var tmp$ret$4 = (new (Long())(16843009, 16843009)).h4(toLong(hash2));
+    var x = g.u4(tmp$ret$4);
+    var m = x.g4(new (Long())(16843009, 16843009)).s4(x.n4()).s4(new (Long())(-2139062144, -2139062144));
+    $l$loop: while (true) {
+      // Inline function 'androidx.collection.hasNext' call
+      if (!!m.equals(new (Long())(0, 0))) {
+        break $l$loop;
+      }
+      var tmp = probeOffset;
+      // Inline function 'androidx.collection.get' call
+      // Inline function 'androidx.collection.lowestBitSet' call
+      var this_0 = m;
+      var index = (tmp + (countTrailingZeroBits(this_0) >> 3) | 0) & probeMask;
+      if ($this.t6c_1[index] === element) {
+        return index;
+      }
+      // Inline function 'androidx.collection.next' call
+      var this_1 = m;
+      m = this_1.s4(this_1.g4(new (Long())(1, 0)));
+    }
+    // Inline function 'androidx.collection.maskEmpty' call
+    if (!g.s4(g.n4().p4(6)).s4(new (Long())(-2139062144, -2139062144)).equals(new (Long())(0, 0))) {
+      break $l$loop_0;
+    }
+    probeIndex = probeIndex + 8 | 0;
+    probeOffset = (probeOffset + probeIndex | 0) & probeMask;
+  }
+  var index_0 = findFirstAvailableSlot($this, hash1);
+  var tmp_0;
+  if ($this.b6d_1 === 0) {
+    // Inline function 'androidx.collection.isDeleted' call
+    // Inline function 'androidx.collection.readRawMetadata' call
+    var offset_0 = index_0;
+    tmp_0 = !$this.s6c_1[offset_0 >> 3].q4((offset_0 & 7) << 3).s4(new (Long())(255, 0)).equals(new (Long())(254, 0));
+  } else {
+    tmp_0 = false;
+  }
+  if (tmp_0) {
+    $this.q6b();
+    index_0 = findFirstAvailableSlot($this, hash1);
+  }
+  $this.v6c_1 = $this.v6c_1 + 1 | 0;
+  var tmp_1 = $this;
+  var tmp_2 = $this.b6d_1;
+  var tmp_3;
+  // Inline function 'androidx.collection.isEmpty' call
+  // Inline function 'androidx.collection.readRawMetadata' call
+  var offset_1 = index_0;
+  if ($this.s6c_1[offset_1 >> 3].q4((offset_1 & 7) << 3).s4(new (Long())(255, 0)).equals(new (Long())(128, 0))) {
+    tmp_3 = 1;
+  } else {
+    tmp_3 = 0;
+  }
+  tmp_1.b6d_1 = tmp_2 - tmp_3 | 0;
+  var tmp0_0 = $this.s6c_1;
+  var tmp2 = $this.u6c_1;
+  var tmp4 = index_0;
+  // Inline function 'androidx.collection.writeMetadata' call
+  // Inline function 'androidx.collection.writeRawMetadata' call
+  var value = toLong(hash2);
+  var i_0 = tmp4 >> 3;
+  var b_0 = (tmp4 & 7) << 3;
+  tmp0_0[i_0] = tmp0_0[i_0].s4((new (Long())(255, 0)).p4(b_0).n4()).t4(value.p4(b_0));
+  var cloneIndex = ((tmp4 - 7 | 0) & tmp2) + (7 & tmp2) | 0;
+  tmp0_0[cloneIndex >> 3] = tmp0_0[tmp4 >> 3];
+  return index_0;
+}
+function findFirstAvailableSlot($this, hash1) {
+  var probeMask = $this.u6c_1;
+  var probeOffset = hash1 & probeMask;
+  var probeIndex = 0;
+  while (true) {
+    var tmp0 = $this.s6c_1;
+    // Inline function 'androidx.collection.group' call
+    var offset = probeOffset;
+    var i = offset >> 3;
+    var b = (offset & 7) << 3;
+    var g = tmp0[i].r4(b).t4(tmp0[i + 1 | 0].p4(64 - b | 0).s4(toLong(b).m4().q4(63)));
+    // Inline function 'androidx.collection.maskEmptyOrDeleted' call
+    var m = g.s4(g.n4().p4(7)).s4(new (Long())(-2139062144, -2139062144));
+    if (!m.equals(new (Long())(0, 0))) {
+      var tmp = probeOffset;
+      // Inline function 'androidx.collection.lowestBitSet' call
+      return (tmp + (countTrailingZeroBits(m) >> 3) | 0) & probeMask;
+    }
+    probeIndex = probeIndex + 8 | 0;
+    probeOffset = (probeOffset + probeIndex | 0) & probeMask;
+  }
+}
+var MutableIntSetClass;
+function MutableIntSet() {
+  if (MutableIntSetClass === VOID) {
+    class $ extends IntSet() {
+      constructor(initialCapacity) {
+        initialCapacity = initialCapacity === VOID ? 6 : initialCapacity;
+        super();
+        this.b6d_1 = 0;
+        // Inline function 'androidx.collection.internal.requirePrecondition' call
+        // Inline function 'kotlin.contracts.contract' call
+        if (!(initialCapacity >= 0)) {
+          var tmp$ret$1 = 'Capacity must be a positive value.';
+          throwIllegalArgumentException(tmp$ret$1);
+        }
+        initializeStorage(this, unloadedCapacity(initialCapacity));
+      }
+      c6c(element) {
+        var oldSize = this.v6c_1;
+        var index = findAbsoluteInsertIndex(this, element);
+        this.t6c_1[index] = element;
+        return !(this.v6c_1 === oldSize);
+      }
+      q6b() {
+        var tmp;
+        if (this.u6c_1 > 8) {
+          // Inline function 'kotlin.toULong' call
+          var this_0 = this.v6c_1;
+          var tmp0 = _ULong___init__impl__c78o9k(toLong(this_0));
+          // Inline function 'kotlin.ULong.times' call
+          var other = _ULong___init__impl__c78o9k(new (Long())(32, 0));
+          var tmp0_0 = _ULong___init__impl__c78o9k(_ULong___get_data__impl__fggpzb(tmp0).h4(_ULong___get_data__impl__fggpzb(other)));
+          // Inline function 'kotlin.toULong' call
+          var this_1 = this.u6c_1;
+          var tmp0_1 = _ULong___init__impl__c78o9k(toLong(this_1));
+          // Inline function 'kotlin.ULong.times' call
+          var other_0 = _ULong___init__impl__c78o9k(new (Long())(25, 0));
+          // Inline function 'kotlin.ULong.compareTo' call
+          var other_1 = _ULong___init__impl__c78o9k(_ULong___get_data__impl__fggpzb(tmp0_1).h4(_ULong___get_data__impl__fggpzb(other_0)));
+          tmp = ulongCompare(_ULong___get_data__impl__fggpzb(tmp0_0), _ULong___get_data__impl__fggpzb(other_1)) <= 0;
+        } else {
+          tmp = false;
+        }
+        if (tmp) {
+          this.s6b();
+        } else {
+          this.r6b(nextCapacity(this.u6c_1));
+        }
+      }
+      s6b() {
+        var metadata = this.s6c_1;
+        var capacity = this.u6c_1;
+        var elements = this.t6c_1;
+        // Inline function 'androidx.collection.convertMetadataForCleanup' call
+        var end = (capacity + 7 | 0) >> 3;
+        var inductionVariable = 0;
+        if (inductionVariable < end)
+          do {
+            var i = inductionVariable;
+            inductionVariable = inductionVariable + 1 | 0;
+            var maskedGroup = metadata[i].s4(new (Long())(-2139062144, -2139062144));
+            metadata[i] = maskedGroup.n4().f4(maskedGroup.r4(7)).s4(new (Long())(-16843010, -16843010));
+          }
+           while (inductionVariable < end);
+        var lastIndex = get_lastIndex(metadata);
+        metadata[lastIndex - 1 | 0] = (new (Long())(0, -16777216)).t4(metadata[lastIndex - 1 | 0].s4(new (Long())(-1, 16777215)));
+        metadata[lastIndex] = metadata[0];
+        var index = 0;
+        $l$loop_1: while (!(index === capacity)) {
+          // Inline function 'androidx.collection.readRawMetadata' call
+          var offset = index;
+          var m = metadata[offset >> 3].q4((offset & 7) << 3).s4(new (Long())(255, 0));
+          if (m.equals(new (Long())(128, 0))) {
+            index = index + 1 | 0;
+            continue $l$loop_1;
+          }
+          if (!m.equals(new (Long())(254, 0))) {
+            index = index + 1 | 0;
+            continue $l$loop_1;
+          }
+          // Inline function 'androidx.collection.hash' call
+          var k = elements[index];
+          var hash = imul(k, -862048943);
+          var hash_0 = hash ^ hash << 16;
+          // Inline function 'androidx.collection.h1' call
+          var hash1 = hash_0 >>> 7 | 0;
+          var targetIndex = findFirstAvailableSlot(this, hash1);
+          var probeOffset = hash1 & capacity;
+          var newProbeIndex = ((targetIndex - probeOffset | 0) & capacity) / 8 | 0;
+          var oldProbeIndex = ((index - probeOffset | 0) & capacity) / 8 | 0;
+          if (newProbeIndex === oldProbeIndex) {
+            // Inline function 'androidx.collection.h2' call
+            var hash2 = hash_0 & 127;
+            var tmp2 = index;
+            // Inline function 'androidx.collection.writeRawMetadata' call
+            var value = toLong(hash2);
+            var i_0 = tmp2 >> 3;
+            var b = (tmp2 & 7) << 3;
+            metadata[i_0] = metadata[i_0].s4((new (Long())(255, 0)).p4(b).n4()).t4(value.p4(b));
+            metadata[get_lastIndex(metadata)] = (new (Long())(0, -2147483648)).t4(metadata[0].s4(new (Long())(-1, 16777215)));
+            index = index + 1 | 0;
+            continue $l$loop_1;
+          }
+          // Inline function 'androidx.collection.readRawMetadata' call
+          m = metadata[targetIndex >> 3].q4((targetIndex & 7) << 3).s4(new (Long())(255, 0));
+          if (m.equals(new (Long())(128, 0))) {
+            // Inline function 'androidx.collection.h2' call
+            var hash2_0 = hash_0 & 127;
+            // Inline function 'androidx.collection.writeRawMetadata' call
+            var value_0 = toLong(hash2_0);
+            var i_1 = targetIndex >> 3;
+            var b_0 = (targetIndex & 7) << 3;
+            metadata[i_1] = metadata[i_1].s4((new (Long())(255, 0)).p4(b_0).n4()).t4(value_0.p4(b_0));
+            var tmp2_0 = index;
+            // Inline function 'androidx.collection.writeRawMetadata' call
+            var value_1 = new (Long())(128, 0);
+            var i_2 = tmp2_0 >> 3;
+            var b_1 = (tmp2_0 & 7) << 3;
+            metadata[i_2] = metadata[i_2].s4((new (Long())(255, 0)).p4(b_1).n4()).t4(value_1.p4(b_1));
+            elements[targetIndex] = elements[index];
+            elements[index] = 0;
+          } else {
+            // Inline function 'androidx.collection.h2' call
+            var hash2_1 = hash_0 & 127;
+            // Inline function 'androidx.collection.writeRawMetadata' call
+            var value_2 = toLong(hash2_1);
+            var i_3 = targetIndex >> 3;
+            var b_2 = (targetIndex & 7) << 3;
+            metadata[i_3] = metadata[i_3].s4((new (Long())(255, 0)).p4(b_2).n4()).t4(value_2.p4(b_2));
+            var oldElement = elements[targetIndex];
+            elements[targetIndex] = elements[index];
+            elements[index] = oldElement;
+            index = index - 1 | 0;
+          }
+          metadata[get_lastIndex(metadata)] = (new (Long())(0, -2147483648)).t4(metadata[0].s4(new (Long())(-1, 16777215)));
+          index = index + 1 | 0;
+        }
+        initializeGrowth(this);
+      }
+      r6b(newCapacity) {
+        var previousMetadata = this.s6c_1;
+        var previousElements = this.t6c_1;
+        var previousCapacity = this.u6c_1;
+        initializeStorage(this, newCapacity);
+        var newMetadata = this.s6c_1;
+        var newElements = this.t6c_1;
+        var capacity = this.u6c_1;
+        var inductionVariable = 0;
+        if (inductionVariable < previousCapacity)
+          do {
+            var i = inductionVariable;
+            inductionVariable = inductionVariable + 1 | 0;
+            // Inline function 'androidx.collection.isFull' call
+            // Inline function 'androidx.collection.readRawMetadata' call
+            if (previousMetadata[i >> 3].q4((i & 7) << 3).s4(new (Long())(255, 0)).d2(new (Long())(128, 0)) < 0) {
+              var previousElement = previousElements[i];
+              // Inline function 'androidx.collection.hash' call
+              var hash = imul(previousElement, -862048943);
+              var hash_0 = hash ^ hash << 16;
+              // Inline function 'androidx.collection.h1' call
+              var tmp$ret$3 = hash_0 >>> 7 | 0;
+              var index = findFirstAvailableSlot(this, tmp$ret$3);
+              // Inline function 'androidx.collection.h2' call
+              var tmp$ret$4 = hash_0 & 127;
+              // Inline function 'androidx.collection.writeMetadata' call
+              // Inline function 'androidx.collection.writeRawMetadata' call
+              var value = toLong(tmp$ret$4);
+              var i_0 = index >> 3;
+              var b = (index & 7) << 3;
+              newMetadata[i_0] = newMetadata[i_0].s4((new (Long())(255, 0)).p4(b).n4()).t4(value.p4(b));
+              var cloneIndex = ((index - 7 | 0) & capacity) + (7 & capacity) | 0;
+              newMetadata[cloneIndex >> 3] = newMetadata[index >> 3];
+              newElements[index] = previousElement;
+            }
+          }
+           while (inductionVariable < previousCapacity);
+      }
+    }
+    initMetadataForClass($, 'MutableIntSet', MutableIntSet);
+    MutableIntSetClass = $;
+  }
+  return MutableIntSetClass;
+}
+var properties_initialized_IntSet_kt_za7tcl;
+function _init_properties_IntSet_kt__km4dgt() {
+  if (!properties_initialized_IntSet_kt_za7tcl) {
+    properties_initialized_IntSet_kt_za7tcl = true;
+    EmptyIntSet = new (MutableIntSet())(0);
+    EmptyIntArray = new Int32Array(0);
+  }
+}
+//region block: exports
+export {
+  get_EmptyIntArray as get_EmptyIntArray32jbyjriwi88s,
+  MutableIntSet as MutableIntSet2xxoin46kauql,
+};
+//endregion
+
+//# sourceMappingURL=IntSet.mjs.map

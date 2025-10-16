@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_text_modifiers_TextAnnotatedStringNode_TextSubstitutionValue$stable;
+var androidx_compose_foundation_text_modifiers_TextAnnotatedStringNode$stable;
+//region block: init
+androidx_compose_foundation_text_modifiers_TextAnnotatedStringNode_TextSubstitutionValue$stable = 8;
+androidx_compose_foundation_text_modifiers_TextAnnotatedStringNode$stable = 8;
+//endregion
+
+//# sourceMappingURL=TextAnnotatedStringNode.mjs.map

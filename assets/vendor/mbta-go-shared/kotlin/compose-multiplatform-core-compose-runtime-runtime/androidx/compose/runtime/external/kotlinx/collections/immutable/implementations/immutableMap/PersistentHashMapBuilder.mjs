@@ -1,0 +1,8 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableMap_PersistentHashMapBuilder$stable;
+//region block: init
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableMap_PersistentHashMapBuilder$stable = 8;
+//endregion
+
+//# sourceMappingURL=PersistentHashMapBuilder.mjs.map

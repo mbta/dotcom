@@ -1,0 +1,10 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_AbstractListIterator$stable;
+var androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_SingleElementListIterator$stable;
+//region block: init
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_AbstractListIterator$stable = 8;
+androidx_compose_runtime_external_kotlinx_collections_immutable_implementations_immutableList_SingleElementListIterator$stable = 8;
+//endregion
+
+//# sourceMappingURL=AbstractListIterator.mjs.map

@@ -1,0 +1,18 @@
+//region block: pre-declaration
+//endregion
+var androidx_compose_foundation_layout_ContextualFlowRowScopeImpl$stable;
+var androidx_compose_foundation_layout_ContextualFlowColumnScopeImpl$stable;
+var androidx_compose_foundation_layout_ContextualFlowRowOverflowScopeImpl$stable;
+var androidx_compose_foundation_layout_ContextualFlowColumnOverflowScopeImpl$stable;
+var androidx_compose_foundation_layout_ContextualFlowItemIterator$stable;
+var androidx_compose_foundation_layout_FlowLineInfo$stable;
+//region block: init
+androidx_compose_foundation_layout_ContextualFlowRowScopeImpl$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowColumnScopeImpl$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowRowOverflowScopeImpl$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowColumnOverflowScopeImpl$stable = 0;
+androidx_compose_foundation_layout_ContextualFlowItemIterator$stable = 8;
+androidx_compose_foundation_layout_FlowLineInfo$stable = 8;
+//endregion
+
+//# sourceMappingURL=ContextualFlowLayout.mjs.map

@@ -1,0 +1,16 @@
+//region block: pre-declaration
+//endregion
+var com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_FinishingAnotherTrip$stable;
+var com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_NoVehicle$stable;
+var com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_Scheduled$stable;
+var com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_VehicleOnTrip$stable;
+var com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec$stable;
+//region block: init
+com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_FinishingAnotherTrip$stable = 0;
+com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_NoVehicle$stable = 0;
+com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_Scheduled$stable = 8;
+com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec_VehicleOnTrip$stable = 8;
+com_mbta_tid_mbta_app_model_stopDetailsPage_TripHeaderSpec$stable = 0;
+//endregion
+
+//# sourceMappingURL=TripHeaderSpec.mjs.map
