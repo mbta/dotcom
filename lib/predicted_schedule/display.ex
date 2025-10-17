@@ -32,9 +32,9 @@ defmodule PredictedSchedule.Display do
 
   defp format_time_difference(diff, _, _, _) do
     diff
-    |> Cldr.Unit.new(:minute)
+    |> Cldr.Unit.new!(:minute)
     |> Cldr.Unit.localize()
-    |> Cldr.Unit.to_string()
+    |> Cldr.Unit.to_string!(style: :short)
     |> Kernel.then(fn translation -> [translation] end)
   end
 end

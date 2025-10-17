@@ -20,7 +20,7 @@ defmodule Predictions.StreamSupervisorTest do
 
   setup do
     Application.put_env(:dotcom, :mbta_api,
-      base_url: Faker.Internet.url(),
+      base_url: "http://internet.com",
       headers: [
         {"x-api-key", "bar"}
       ]
