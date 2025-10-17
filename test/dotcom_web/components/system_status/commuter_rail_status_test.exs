@@ -10,6 +10,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
   import Phoenix.LiveViewTest
   import Test.Support.Generators.DateTime, only: [random_time_range_date_time: 1]
 
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
@@ -103,8 +105,10 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
     test "shows multiple cancellations" do
       # SETUP
+      cancellation_count = Faker.random_between(2, 10)
+
       expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
-        Factories.Alerts.Alert.build_list(2, :alert,
+        Factories.Alerts.Alert.build_list(cancellation_count, :alert,
           effect: :cancellation,
           severity: 3
         )
@@ -117,7 +121,102 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       html = render_component(&alerts_commuter_rail_status/1, assigns)
 
       # VERIFY
-      assert html =~ "2 Cancellations"
+      assert html =~ "#{cancellation_count} Cancellations"
+    end
+
+    test "shows 'Inbound/Outbound Trains Cancelled' if there's an alert that applies to a whole direction" do
+      # SETUP
+      direction_id = FactoryHelpers.build(:direction_id)
+
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :cancellation,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              severity: 3,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "3 Cancellations"
+      assert html =~ "#{direction_name(direction_id)} Trains Cancelled"
+    end
+
+    test "shows 'All Trains Cancelled' if there are alerts affecting each direction" do
+      # SETUP
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :cancellation,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              severity: 3,
+              informed_entity: InformedEntitySet.new([%InformedEntity{direction_id: 1}])
+            ),
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              severity: 3,
+              informed_entity: InformedEntitySet.new([%InformedEntity{direction_id: 0}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "4 Cancellations"
+      assert html =~ "All Trains Cancelled"
+    end
+
+    test "shows 'All Trains Cancelled' if there's an alert that doesn't specify a trip or direction" do
+      # SETUP
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :cancellation,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              severity: 3,
+              informed_entity: InformedEntitySet.new([%InformedEntity{}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "3 Cancellations"
+      assert html =~ "All Trains Cancelled"
     end
 
     test "shows a single delay" do
@@ -159,6 +258,38 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
       # VERIFY
       assert html =~ "2 Delays"
+    end
+
+    test "shows 'Delays' with no count if there's an alert that applies to an undefined number of trains" do
+      # SETUP
+      direction_id = Faker.Util.pick([0, 1, nil])
+
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :delay,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :delay,
+              severity: 3,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "3 Delays"
+      assert html =~ "Delays"
     end
 
     test "shows multiple cancellations even if they originate from the same alert" do
@@ -212,6 +343,71 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "3 Cancellations / Delays"
     end
 
+    test "shows 'See Alerts' with no count if there are definite cancellations and indefinite delays" do
+      # SETUP
+      direction_id = Faker.Util.pick([0, 1, nil])
+
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :cancellation,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :delay,
+              severity: 3,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "Delays"
+      refute html =~ "Cancellations"
+      assert html =~ "See Alerts"
+    end
+
+    test "shows cancellation information if there are indefinite cancellations even with delays" do
+      # SETUP
+      direction_id = FactoryHelpers.build(:direction_id)
+
+      alerts =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :delay,
+          severity: 3
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              severity: 3,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        alerts |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      refute html =~ "See Alerts"
+      assert html =~ "#{direction_name(direction_id)} Trains Cancelled"
+    end
+
     test "shows service alerts and cancellations/delays in separate rows" do
       # SETUP
       cancellations =
@@ -246,6 +442,46 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "3 Cancellations / Delays"
       assert html =~ "1 Shuttle"
       refute html =~ "1 Shuttles"
+    end
+
+    test "does not show service alerts if `See Alerts` is present" do
+      # SETUP
+      direction_id = Faker.Util.pick([0, 1, nil])
+
+      cancellations =
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :cancellation,
+          severity: 3
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+
+      delays =
+        [
+          Factories.Alerts.Alert.build(:alert,
+            effect: :delay,
+            severity: 3,
+            informed_entity: InformedEntitySet.new([%InformedEntity{direction_id: direction_id}])
+          )
+          |> Factories.Alerts.Alert.active_now()
+        ]
+
+      shuttles =
+        Factories.Alerts.Alert.build_list(1, :alert,
+          effect: :shuttle,
+          severity: 3
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> cancellations ++ delays ++ shuttles end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "See Alerts"
+      refute html =~ "1 Shuttle"
     end
 
     test "does not show a row for 0 cancellations or delays" do
@@ -337,4 +573,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "3 Service Alerts"
     end
   end
+
+  defp direction_name(0), do: "Outbound"
+  defp direction_name(1), do: "Inbound"
 end
