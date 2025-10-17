@@ -1,4 +1,8 @@
 defmodule Util.BreadcrumbHTML do
+  @moduledoc false
+
+  use Dotcom.Gettext.Sigils
+
   import Phoenix.HTML, only: [raw: 1]
 
   alias PhoenixHTMLHelpers.Link
@@ -67,15 +71,15 @@ defmodule Util.BreadcrumbHTML do
   def do_title_breadcrumbs(breadcrumbs) do
     breadcrumbs
     |> Enum.map(fn breadcrumb -> breadcrumb.text end)
-    |> Enum.drop_while(fn b -> b == "Home" end)
+    |> Enum.drop_while(fn b -> b == ~t"Home" end)
     |> Enum.take(-2)
     # put the default title at the end
-    |> Enum.reverse(["MBTA"])
+    |> Enum.reverse([~t"MBTA"])
     |> Enum.intersperse(" | ")
   end
 
   defp default_title do
-    "MBTA - Massachusetts Bay Transportation Authority"
+    ~t"MBTA - Massachusetts Bay Transportation Authority"
   end
 
   defp generate_html(breadcrumb, options) do
@@ -106,7 +110,8 @@ defmodule Util.BreadcrumbHTML do
   @spec maybe_add_home_breadcrumb([Util.Breadcrumb.t()]) :: [Util.Breadcrumb.t()]
   def maybe_add_home_breadcrumb(breadcrumbs) do
     if missing_home_breadcrumb?(breadcrumbs) do
-      home = %Util.Breadcrumb{url: "/", text: "Home"}
+      home = %Util.Breadcrumb{url: "/", text: ~t"Home"}
+
       [home | breadcrumbs]
     else
       breadcrumbs
