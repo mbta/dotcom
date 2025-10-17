@@ -189,7 +189,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
-  describe "trip_messages/2" do
+  describe "trip_messages/3" do
     test "returns proper messages for a CR Franklin train running via Fairmount" do
       fairmount_trip = Test.Support.Factories.MBTA.Api.build(:trip_item)
       fairmount_trip_name = fairmount_trip.attributes["name"]
@@ -201,12 +201,12 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
       {:ok, _} = Dotcom.ViaFairmount.start_link([])
 
-      trip_messages = trip_messages(%Routes.Route{id: "CR-Franklin"}, 0)
+      trip_messages = trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, [fairmount_trip.id])
       assert Map.get(trip_messages, {fairmount_trip_name}) == "Via Fairmount Line"
     end
 
     test "returns proper messages for others" do
-      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1) == %{}
+      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1, []) == %{}
     end
   end
 

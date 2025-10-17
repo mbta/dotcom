@@ -144,6 +144,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
 
     %{
       trip_schedules: trip_schedules,
@@ -169,7 +170,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
-    |> assign(:trip_messages, trip_messages(route, direction_id))
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
   end
 
   def assign_trip_schedules(conn) do
@@ -239,17 +240,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   We use this for Commuter Rail trips which travel via atypical routes, in
   order to match the PDF schedules.
   """
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{
+  @spec trip_messages(Routes.Route.t(), 0 | 1, [Schedules.Trip.id_t()]) :: %{
           {String.t(), String.t()} => String.t()
         }
-  def trip_messages(%Routes.Route{id: route_id}, direction)
+  def trip_messages(%Routes.Route{id: route_id}, direction, trip_ids)
       when route_id in ~w(CR-Franklin CR-Providence) do
-    Dotcom.ViaFairmount.trip_names()
+    Dotcom.ViaFairmount.trip_names(trip_ids)
     |> Enum.flat_map(&franklin_via_fairmount(&1, direction))
     |> Enum.into(%{})
   end
 
-  def trip_messages(_, _) do
+  def trip_messages(_, _, _) do
     %{}
   end
 
