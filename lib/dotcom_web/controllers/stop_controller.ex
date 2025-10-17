@@ -3,6 +3,7 @@ defmodule DotcomWeb.StopController do
   Page for display of information about in individual stop or station.
   """
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias Alerts.Repo, as: AlertsRepo
@@ -42,7 +43,7 @@ defmodule DotcomWeb.StopController do
     |> assign(:stop_info, stop_info)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
-    |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
+    |> assign(:breadcrumbs, [Breadcrumb.build(~t"Stations")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end
@@ -351,7 +352,7 @@ defmodule DotcomWeb.StopController do
   defp breadcrumbs_for_station_type(breadcrumb_tab, name)
        when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
     [
-      Breadcrumb.build("Stations", stop_path(DotcomWeb.Endpoint, :show, breadcrumb_tab)),
+      Breadcrumb.build(~t"Stations", stop_path(DotcomWeb.Endpoint, :show, breadcrumb_tab)),
       Breadcrumb.build(name)
     ]
   end
@@ -366,7 +367,11 @@ defmodule DotcomWeb.StopController do
       assign(
         conn,
         :meta_description,
-        "Station serving MBTA #{lines(routes)} lines#{location(stop)}."
+        gettext(
+          "Station serving MBTA %{lines} lines%{location}.",
+          lines: lines(routes),
+          location: location(stop)
+        )
       )
 
   @spec lines([Route.t()]) :: iolist
@@ -380,7 +385,7 @@ defmodule DotcomWeb.StopController do
   @spec location(Stop.t()) :: String.t()
   defp location(stop) do
     if stop.address && stop.address != "" do
-      " at #{stop.address}"
+      gettext(" at %{address}", address: stop.address)
     else
       ""
     end
