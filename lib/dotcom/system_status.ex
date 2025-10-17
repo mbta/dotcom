@@ -20,6 +20,7 @@ defmodule Dotcom.SystemStatus do
   def subway_status() do
     subway_route_ids()
     |> @alerts_repo.by_route_ids(@date_time_module.now())
+    |> Kernel.++(@alerts_repo.by_route_types([0, 1], @date_time_module.now()))
     |> Enum.filter(&status_alert?(&1, @date_time_module.now()))
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
   end
