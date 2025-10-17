@@ -1,0 +1,100 @@
+<section class="flex gap-lg my-lg items-center justify-center">
+  <div class="bg-gray-darker text-white">
+    <button class="btn btn-primary btn-sm" popovertarget="route-choice">Switch route</button>
+    <div id="route-choice" popover>
+      <div class="grid grid-cols-6  max-h-[70vh] max-w-[90vw] overflow-scroll z-[1000] shadow-slate-800 shadow-2xl">
+        <%= for route <- @all_routes do %>
+          <%= if route.type == 3 and not String.contains?(route.name, "SL") do %>
+            <.link
+              patch={~p"/preview/schedules/#{route.id}/0"}
+              style={"background-color: ##{route.color}; color: black;"}
+              class={[
+                "p-sm border border-xs text-sm font-bold text-center break-words leading-none",
+                if(route.id == @route_id, do: "!bg-brand-primary")
+              ]}
+            >
+              {route.name}
+            </.link>
+          <% else %>
+            <.link
+              patch={~p"/preview/schedules/#{route.id}/0"}
+              style={"background-color: ##{route.color}; color: white;"}
+              class={[
+                "p-sm border border-xs text-sm font-bold text-center break-words leading-none",
+                if(route.id == @route_id, do: "!bg-brand-primary")
+              ]}
+            >
+              {route.name}
+            </.link>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div>
+    <.link class="block" patch={~p"/preview/schedules/#{@route_id}/0"}>Direction 0</.link>
+    <.link class="block" patch={~p"/preview/schedules/#{@route_id}/1"}>Direction 1</.link>
+  </div>
+
+  <.async_result :let={route_stops} assign={@route_stops}>
+    <:loading>Loading stops...</:loading>
+    <:failed :let={_failure}>There was an error loading stops for this route</:failed>
+
+    <div>
+      <button class="btn btn-secondary btn-sm" popovertarget="stop-choice">Select stop</button>
+      <div id="stop-choice" popover>
+        <div class="grid grid-cols-6  max-h-[70vh] max-w-[90vw] overflow-scroll z-[1000] shadow-slate-800 shadow-2xl">
+          <.link
+            :for={stop <- route_stops}
+            patch={~p"/preview/schedules/#{@route_id}/#{@direction_id}?stop=#{stop.id}"}
+            class={[
+              "p-sm border border-xs text-sm font-bold text-center break-words leading-none",
+              if(stop.id == @stop_id, do: "bg-brand-primary text-white")
+            ]}
+          >
+            {stop.name}
+          </.link>
+        </div>
+      </div>
+    </div>
+  </.async_result>
+</section>
+
+<section class="p-md">
+  <h1 class="sr-only">Schedule Finder</h1>
+  <ScheduleFinder.route_banner route_id={@route_id} direction_id={@direction_id} />
+  <ScheduleFinder.stop_banner :if={@stop_id} stop_id={@stop_id} />
+  <ScheduleFinder.alerts route_id={@route_id} direction_id={@direction_id} stop_id={@stop_id} />
+
+  <%= if @stop_id do %>
+    <h2>Upcoming Departures</h2>
+    <div
+      id="upcoming-departures"
+      phx-hook="FSDHook"
+      data-route={@route_id}
+      data-direction={@direction_id}
+      data-stop={@stop_id}
+      data-backend-url={@mobile_app_backend_url}
+    />
+
+    <div
+      id="departures"
+      phx-update="stream"
+      class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px]"
+    >
+      <div id="departures-empty-state" class="hidden only:block p-sm">
+        Departures will load here eventually.
+      </div>
+      <div :for={{dom_id, departure} <- @streams.departures} id={dom_id} class="p-sm">
+        <ScheduleFinder.upcoming_departure departure={departure} />
+      </div>
+    </div>
+  <% end %>
+
+  <ScheduleFinder.daily_schedule
+    :if={@stop_id}
+    route_id={@route_id}
+    direction_id={@direction_id}
+    stop_id={@stop_id}
+  />
+</section>

@@ -17,6 +17,7 @@ config :dotcom, :httpoison, HTTPoison
 config :dotcom, :location_service, LocationService
 
 config :dotcom, :mbta_api_module, MBTA.Api
+config :dotcom, :mobile_app_backend_host, "mobile-app-backend-dev-orange.mbtace.com"
 
 config :dotcom, :otp_module, OpenTripPlannerClient
 

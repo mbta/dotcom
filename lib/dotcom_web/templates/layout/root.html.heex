@@ -97,9 +97,6 @@
       </div>
       {render(__MODULE__, "_footer.html", conn: @conn)}
     </div>
-    <!-- prod only: This react script is inexplicably needed to get the app.js code to execute. -->
-    <script defer {static_attributes("/js/react.js")}>
-    </script>
     <%= if google_tag_manager_id() do %>
       <!-- Google Tag Manager (noscript) -->
       <noscript>

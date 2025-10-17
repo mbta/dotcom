@@ -3,6 +3,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   Defines the content security policy, accomodating the wide variety
   of embedded scripts and inserted content across the website.
   """
+  @mobile_app_backend_host Application.compile_env(:dotcom, :mobile_app_backend_host)
   # Map tiles, hosted either on the CDN or in S3
   @tile_server_url Application.compile_env(:dotcom, :tile_server_url)
 
@@ -21,6 +22,9 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         www.google.com
         www.google-analytics.com
         www.googletagmanager.com
+        #{@mobile_app_backend_host}
+        ws://#{@mobile_app_backend_host}
+        wss://#{@mobile_app_backend_host}
       ],
     default_src: ~w['self'],
     font_src: ~w['self' cdn.mbta.com],
