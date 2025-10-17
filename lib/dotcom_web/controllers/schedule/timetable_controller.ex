@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.TimetableController do
   @moduledoc "Handles the Timetable tab for commuter rail routes."
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   require Logger
@@ -39,13 +40,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     {:ok, formatted_date} = Timex.format(conn.assigns.date, "{Mfull} {D}, {YYYY}")
 
+    meta_description =
+      gettext(
+        "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections.",
+        route_name: route_name_for_description(conn.assigns.route),
+        station_name: station_type_name(conn.assigns.route)
+      )
+
     conn
-    |> assign(
-      :meta_description,
-      "MBTA #{route_name_for_description(conn.assigns.route)} #{station_type_name(conn.assigns.route)} and " <>
-        "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
-        "and connections."
-    )
+    |> assign(:meta_description, meta_description)
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
     |> assign_cr_status()
@@ -54,11 +57,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> render("show.html", [])
   end
 
-  defp route_name_for_description(%Route{type: 2} = route), do: "#{route.name} Commuter Rail"
+  defp route_name_for_description(%Route{type: 2} = route) do
+    gettext("%{name} Commuter Rail", name: route.name)
+  end
+
   defp route_name_for_description(route), do: route.name
 
-  defp station_type_name(%Route{type: 4}), do: "docks"
-  defp station_type_name(_route), do: "stations"
+  defp station_type_name(%Route{type: 4}), do: ~t"docks"
+  defp station_type_name(_route), do: ~t"stations"
 
   defp assign_cr_status(%{assigns: %{route: route}} = conn) do
     cr_status =
@@ -260,10 +266,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     [
       List.duplicate(train, length(stops)),
       stops,
-      ["Via", "Fairmount", "Line", "-"]
+      [~t"Via", "Fairmount", "Line", "-"]
     ]
     |> make_via_list()
-    |> Enum.concat([{{train}, "Via Fairmount Line"}])
+    |> Enum.concat([{{train}, ~t"Via" <> " " <> "Fairmount Line"}])
   end
 
   # As of Spring 2025, weekend train numbers are 4-digits leading with 5
@@ -290,7 +296,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
-  defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
+  defp tab_name(conn, _), do: assign(conn, :tab, ~t"timetable")
 
   @doc """
   Organize the route's schedules for timetable format, where schedules are laid

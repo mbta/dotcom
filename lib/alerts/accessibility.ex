@@ -10,6 +10,7 @@ defmodule Alerts.Accessibility do
   @spec accessibility?(Alert.t()) :: boolean()
   def accessibility?(%Alert{effect: effect}), do: effect in effect_types()
 
+  # TODO we'll probably have to do a pattern match with the plurals
   @spec effect_type_to_group_title(effect_type()) :: String.t()
   def effect_type_to_group_title(effect), do: Alert.human_effect(%Alert{effect: effect}) <> "s"
 end
