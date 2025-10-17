@@ -1,4 +1,7 @@
 defmodule DotcomWeb.NewsEntryController do
+  @moduledoc false
+
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias CMS.Page.NewsEntry
@@ -86,12 +89,12 @@ defmodule DotcomWeb.NewsEntryController do
   end
 
   defp index_breadcrumbs do
-    [Breadcrumb.build("News")]
+    [Breadcrumb.build(~t"News")]
   end
 
   defp show_breadcrumbs(conn, news_entry) do
     [
-      Breadcrumb.build("News", news_entry_path(conn, :index)),
+      Breadcrumb.build(~t"News", news_entry_path(conn, :index)),
       Breadcrumb.build(news_entry.title)
     ]
   end
