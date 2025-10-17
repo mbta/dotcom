@@ -3,6 +3,8 @@ defmodule CMS.Breadcrumbs do
   Maps CMS breadcrumbs to a breadcrumb struct.
   """
 
+  use Dotcom.Gettext.Sigils
+
   alias Util.Breadcrumb
 
   @spec build(map) :: [Breadcrumb.t()]
@@ -14,7 +16,7 @@ defmodule CMS.Breadcrumbs do
 
   def build(%{"title" => [%{"value" => title}]}) do
     [
-      Breadcrumb.build("Home", "/"),
+      Breadcrumb.build(~t"Home", "/"),
       Breadcrumb.build(title)
     ]
   end

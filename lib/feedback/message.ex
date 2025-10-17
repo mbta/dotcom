@@ -3,6 +3,8 @@ defmodule Feedback.Message do
   Information for a customer support message.
   """
 
+  use Dotcom.Gettext.Sigils
+
   # The integration with HEAT only accepts certain values for the message type
   # and subject. Only "Complaint", "Suggestion", "Inquiry" and "Commendation"
   # are supported service options, and each has a list of allowed subjects.
@@ -12,54 +14,54 @@ defmodule Feedback.Message do
   @type subject_value :: String.t()
   @type service_option_with_subjects :: {service_name(), service_value(), [subject_value()]}
   @service_options_with_subjects [
-    {"Complaint", "Complaint",
+    {~t"Complaint", "Complaint",
      [
-       "Bus Stop",
-       "CharlieCards & Tickets",
-       "Employee Complaint",
-       "Fare Evasion",
-       "Maintenance Complaint",
-       "Mobile Ticketing",
-       "Parking",
-       "Service Complaint",
-       "TAlerts/Countdowns/Apps",
-       "Other"
+       ~t"Bus Stop",
+       ~t"CharlieCards & Tickets",
+       ~t"Employee Complaint",
+       ~t"Fare Evasion",
+       ~t"Maintenance Complaint",
+       ~t"Mobile Ticketing",
+       ~t"Parking",
+       ~t"Service Complaint",
+       ~t"TAlerts/Countdowns/Apps",
+       ~t"Other"
      ]},
-    {"Comment", "Suggestion",
+    {~t"Comment", "Suggestion",
      [
-       "Bus Stop",
-       "CharlieCards & Tickets",
-       "Fare Policy",
-       "Maintenance",
-       "MBTA Projects/Programs",
-       "Parking",
-       "Schedules",
-       "Service Inquiry",
-       "Website",
-       "Other"
+       ~t"Bus Stop",
+       ~t"CharlieCards & Tickets",
+       ~t"Fare Policy",
+       ~t"Maintenance",
+       ~t"MBTA Projects/Programs",
+       ~t"Parking",
+       ~t"Schedules",
+       ~t"Service Inquiry",
+       ~t"Website",
+       ~t"Other"
      ]},
-    {"Question", "Inquiry",
+    {~t"Question", "Inquiry",
      [
-       "CharlieCards & Tickets",
-       "Disability ID Cards",
-       "Fare Policy",
-       "Maintenance",
-       "Mobile Ticketing",
-       "Parking",
-       "Schedules",
-       "Senior ID Cards",
-       "Service Inquiry",
-       "Trip Planner",
-       "Website",
-       "Other"
+       ~t"CharlieCards & Tickets",
+       ~t"Disability ID Cards",
+       ~t"Fare Policy",
+       ~t"Maintenance",
+       ~t"Mobile Ticketing",
+       ~t"Parking",
+       ~t"Schedules",
+       ~t"Senior ID Cards",
+       ~t"Service Inquiry",
+       ~t"Trip Planner",
+       ~t"Website",
+       ~t"Other"
      ]},
-    {"Compliment", "Commendation",
+    {~t"Compliment", "Commendation",
      [
-       "Employee",
-       "Maintenance",
-       "MBTA Projects/Programs",
-       "Service",
-       "Other"
+       ~t"Employee",
+       ~t"Maintenance",
+       ~t"MBTA Projects/Programs",
+       ~t"Service",
+       ~t"Other"
      ]}
   ]
 
