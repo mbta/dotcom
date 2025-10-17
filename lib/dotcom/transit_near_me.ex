@@ -3,6 +3,8 @@ defmodule Dotcom.TransitNearMe do
   Struct and helper functions for gathering data to use on TransitNearMe.
   """
 
+  use Dotcom.Gettext.Sigils
+
   require Logger
 
   alias DotcomWeb.ViewHelpers
@@ -104,13 +106,13 @@ defmodule Dotcom.TransitNearMe do
     Display.do_time_difference(time, now, &format_time/1, 120)
   end
 
-  def format_prediction_time(_, _, :subway, _), do: ["arriving"]
+  def format_prediction_time(_, _, :subway, _), do: [~t"arriving"]
 
   def format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
     Display.do_time_difference(time, now, &format_time/1, 120)
   end
 
-  def format_prediction_time(_, _, :bus, _), do: ["arriving"]
+  def format_prediction_time(_, _, :bus, _), do: [~t"arriving"]
 
   def format_prediction_time(%DateTime{} = time, _now, _, _) do
     format_time(time)

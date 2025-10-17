@@ -3,6 +3,8 @@ defmodule VehicleHelpers do
   Various functions for working on lists of vehicle to show on a map, or render tooltips.
   """
 
+  use Dotcom.Gettext.Sigils
+
   import Routes.Route, only: [vehicle_name: 1]
 
   alias DotcomWeb.ScheduleController.VehicleLocations
@@ -102,7 +104,7 @@ defmodule VehicleHelpers do
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
   defp prediction_status_text(%Prediction{status: status, track: track})
        when not is_nil(track) and not is_nil(status) do
-    [String.downcase(status), " on track ", track]
+    [String.downcase(status), ~t" on track ", track]
   end
 
   defp prediction_status_text(_) do
@@ -137,9 +139,9 @@ defmodule VehicleHelpers do
   end
 
   @spec realtime_status_text(atom) :: String.t()
-  defp realtime_status_text(:incoming), do: " is arriving at "
-  defp realtime_status_text(:stopped), do: " has arrived at "
-  defp realtime_status_text(:in_transit), do: " is on the way to "
+  defp realtime_status_text(:incoming), do: ~t" is arriving at "
+  defp realtime_status_text(:stopped), do: ~t" has arrived at "
+  defp realtime_status_text(:in_transit), do: ~t" is on the way to "
 
   @spec display_trip_name(Route.t(), Trip.t() | nil) :: iodata
   defp display_trip_name(%{type: 2}, %{name: name}) when is_binary(name), do: [" ", name]
@@ -148,11 +150,12 @@ defmodule VehicleHelpers do
   @spec build_tooltip(iodata, iodata) :: String.t()
   defp build_tooltip([], stop_text), do: "#{stop_text}"
 
+  # TODO we'll have to figure out how to handle translations here.
   defp build_tooltip(status_text, stop_text) do
     # Sometimes the prediction status is "Departed" and the vehicle status is
     # :stopped. We rewrite this tooltip to make a bit more sense
-    if Enum.member?(status_text, "departed") and Enum.member?(stop_text, " has arrived at ") do
-      adjusted_stop_text = "#{stop_text}" |> String.replace("arrived at", "has left")
+    if Enum.member?(status_text, ~t"departed") and Enum.member?(stop_text, ~t" has arrived at ") do
+      adjusted_stop_text = "#{stop_text}" |> String.replace(~t"arrived at", ~t"has left")
 
       "#{adjusted_stop_text}, #{status_text}"
     else
