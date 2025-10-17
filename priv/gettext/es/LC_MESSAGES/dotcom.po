@@ -210,11 +210,17 @@ msgstr "estación"
 msgid "Make a U-turn"
 msgstr "Haz un giro U"
 
+msgid "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
+msgstr "Contactar con el MBTA Equipo de atención al cliente y ver números de contacto adicionales para la Policía de Tránsito, perdidos y encontrados, y accesibilidad."
+
 msgid "Invalid Duration"
 msgstr "Duración inválida"
 
 msgid "No transit modes selected"
 msgstr "No se seleccionan modos de tránsito"
+
+msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
+msgstr "Ver información de tarifas comunes para el autobús MBTA, metro, Commuter Rail, ferry y The RIDE. Encuentre los servicios en línea CharlieCard y conozca los programas de pedidos a granel."
 
 msgid "User Guides"
 msgstr "Guías de usuario"
@@ -381,6 +387,9 @@ msgstr "Vete."
 msgid "No upcoming holidays"
 msgstr "No próximas vacaciones"
 
+msgid "Station serving MBTA %{lines} lines%{location}."
+msgstr "Estación de servicio MBTA %{lines} líneas%{location}."
+
 msgid "Commuter Ferry to Logan Airport"
 msgstr "Commuter Ferry al aeropuerto de Logan"
 
@@ -449,6 +458,9 @@ msgstr "Cuéntanos lo que piensas"
 
 msgid "What's Happening at the MBTA"
 msgstr "¿Qué pasa en el MBTA"
+
+msgid "Lost and Found"
+msgstr "Perdido y encontrado"
 
 msgid "Fare Vending Machine"
 msgstr "Fare Vending Machine"
@@ -548,6 +560,9 @@ msgstr "Cerrar diálogo"
 
 msgid "More Information"
 msgstr "Más información"
+
+msgid "People"
+msgstr "Personas"
 
 msgid "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions."
 msgstr "Las bicicletas se permiten en trenes con el símbolo de bicicleta debajo del número de tren, sujeto a restricciones."
@@ -650,6 +665,9 @@ msgstr "Contáctenos"
 
 msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
 msgstr "Page Not Found Silencio MBTA - Massachusetts Bay Transportation Authority"
+
+msgid " at %{address}"
+msgstr " en %{address}"
 
 msgid "Due to Single Tracking"
 msgstr "Debido a un seguimiento único"
@@ -852,6 +870,9 @@ msgstr "Bicicletas no permitidas"
 msgid "Close"
 msgstr "Cerca"
 
+msgid "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
+msgstr "Transporte público en la región de Gran Boston. Rutas, horarios, planificador de viajes, tarifas, alertas de servicio, actualizaciones en tiempo real y información general."
+
 msgid "Filter by type"
 msgstr "Filtro por tipo"
 
@@ -878,6 +899,9 @@ msgstr "Delay"
 
 msgid "Elevator & Escalator"
 msgstr "Ascensor"
+
+msgid "File a Discrimination Complaint"
+msgstr "File a Discrimination Complaint"
 
 msgid "Receive notifications of MBTA service alerts by email or text."
 msgstr "Recibir notificaciones de MBTA alertas de servicio por correo electrónico o texto."
@@ -986,6 +1010,9 @@ msgstr "Paso mensual de autobús local"
 
 msgid "Schedule Change"
 msgstr "Cuadro Cambio"
+
+msgid "Get Service Updates"
+msgstr "Obtener actualizaciones de servicio"
 
 msgid "Interzone %{zone}"
 msgstr "Interzone %{zone}"
@@ -1383,6 +1410,9 @@ msgstr "Entra en la estación"
 msgid "Updates"
 msgstr "Actualizaciones"
 
+msgid "Write to Us"
+msgstr "Escríbenos"
+
 msgid "Please select at least one mode of transit."
 msgstr "Por favor seleccione al menos un modo de tránsito."
 
@@ -1457,6 +1487,9 @@ msgstr "Miércoles"
 
 msgid "There are no"
 msgstr "No hay"
+
+msgid "ADA/Accessibility Complaints"
+msgstr "ADA/Accesibilidad Denuncias"
 
 msgid "Related Service Alerts"
 msgstr "Alertas de servicio relacionadas"
@@ -1649,6 +1682,9 @@ msgstr "Transferencias"
 
 msgid "Follow @MBTA on Twitter"
 msgstr "Siga @MBTA en Twitter"
+
+msgid "Report Fraud, Waste, or Abuse"
+msgstr "Informe Fraude, Desechos o Abuso"
 
 msgid "Performance"
 msgstr "Ejecución"
