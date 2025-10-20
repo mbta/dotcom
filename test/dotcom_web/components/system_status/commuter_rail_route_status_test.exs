@@ -5,6 +5,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailRouteStatusTest do
   import Mox
   import Phoenix.LiveViewTest
 
+  alias Alerts.InformedEntity
+  alias Alerts.InformedEntitySet
   alias DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus
   alias Test.Support.Factories
 
@@ -120,6 +122,68 @@ defmodule DotcomWeb.SystemStatus.CommuterRailRouteStatusTest do
                "#{cancellation_count} Cancellations",
                "#{delay_count} Delays"
              ]
+    end
+
+    test "shows the status row header as `Cancellations` if any alerts affect a whole direction or the whole line" do
+      # SETUP
+      route_id = Faker.Color.fancy_name()
+      direction_id = Faker.Util.pick([0, 1, nil])
+
+      cancellations =
+        Factories.Alerts.Alert.build_list(Faker.random_between(2, 10), :alert_for_trip,
+          effect: :cancellation,
+          severity: 3,
+          trip_id: Faker.Lorem.word()
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :cancellation,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}]),
+              severity: 3
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        cancellations
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+        |> Enum.shuffle()
+      end)
+
+      # EXERCISE / VERIFY
+
+      assert status_row_headers_for_route(route_id) == ["Cancellations"]
+    end
+
+    test "shows the status row header as `Delays` if any alerts affect a whole direction or the whole line" do
+      # SETUP
+      route_id = Faker.Color.fancy_name()
+      direction_id = Faker.Util.pick([0, 1, nil])
+
+      delays =
+        Factories.Alerts.Alert.build_list(Faker.random_between(2, 10), :alert_for_trip,
+          effect: :delay,
+          severity: 3,
+          trip_id: Faker.Lorem.word()
+        ) ++
+          [
+            Factories.Alerts.Alert.build(:alert,
+              effect: :delay,
+              informed_entity:
+                InformedEntitySet.new([%InformedEntity{direction_id: direction_id}]),
+              severity: 3
+            )
+          ]
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        delays
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+        |> Enum.shuffle()
+      end)
+
+      # EXERCISE / VERIFY
+
+      assert status_row_headers_for_route(route_id) == ["Delays"]
     end
   end
 
