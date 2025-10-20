@@ -3006,17 +3006,17 @@ msgstr ""
 msgid "There are no other commuter rail alerts at this time."
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:156
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:167
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:150
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:161
 #, elixir-autogen, elixir-format
 msgid "All Outbound Trains"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:162
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:173
 #, elixir-autogen, elixir-format
 msgid "All Trains"
 msgstr ""
@@ -3027,12 +3027,12 @@ msgstr ""
 msgid "No Scheduled Service"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:131
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:142
 #, elixir-autogen, elixir-format
 msgid "from %{origin}"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:130
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:141
 #, elixir-autogen, elixir-format
 msgid "to %{destination}"
 msgstr ""
