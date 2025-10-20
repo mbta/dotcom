@@ -20,6 +20,10 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
   @meta_description ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      @commuter_rail_status_cache.subscribe()
+    end
+
     {:ok,
      socket
      |> assign(
@@ -40,6 +44,10 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info(%{event: "commuter_rail_status_updated", payload: commuter_rail_status}, socket) do
+    {:noreply, socket |> assign(:commuter_rail_status, commuter_rail_status)}
   end
 
   defp assign_banner_alert(socket) do
