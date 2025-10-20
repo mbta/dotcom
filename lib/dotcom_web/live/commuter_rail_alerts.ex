@@ -10,7 +10,9 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
     only: [alerts_commuter_rail_status: 1]
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
-
+  @commuter_rail_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[
+                                :commuter_rail
+                              ]
   @date_time Application.compile_env!(:dotcom, :date_time_module)
 
   embed_templates "layouts/*"
@@ -28,7 +30,7 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
      |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
      |> assign_result(&Dotcom.Alerts.commuter_rail_alert_groups/0)
-     |> assign_result(&Dotcom.SystemStatus.CommuterRail.commuter_rail_status/0)}
+     |> assign_result(&@commuter_rail_status_cache.commuter_rail_status/0)}
   end
 
   def handle_params(%{"alerts_timeframe" => _} = params, _uri, socket) do

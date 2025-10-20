@@ -44,10 +44,10 @@ defmodule Dotcom.SystemStatus.CommuterRail do
            service_impacts: [Alert.t()]
          }
 
-  @typep route_status_t() ::
-           :normal
-           | :no_scheduled_service
-           | disrupted_status_t()
+  @type route_status_t() ::
+          :normal
+          | :no_scheduled_service
+          | disrupted_status_t()
 
   @doc """
   Returns a map where the key is the Route ID of a commuter rail line
