@@ -2243,7 +2243,7 @@ msgstr ""
 msgid "Reduced Fares"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:102
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:178
 #: lib/dotcom_web/views/layout_view.ex:60
 #, elixir-autogen, elixir-format
 msgid "Service Alerts"
@@ -2562,13 +2562,13 @@ msgid "Bike Issue"
 msgstr ""
 
 #: lib/alerts/alert.ex:224
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:65
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:125
 #, elixir-autogen, elixir-format
 msgid "Cancellation"
 msgstr ""
 
 #: lib/alerts/alert.ex:225
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:71
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:131
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr ""
@@ -2942,8 +2942,9 @@ msgstr ""
 msgid "%{count} Stops"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:74
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:80
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:134
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:137
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:142
 #: lib/dotcom_web/components/system_status/status_row_heading.ex:146
 #, elixir-autogen, elixir-format
 msgid "Delays"
@@ -2960,12 +2961,13 @@ msgid "Expect Delays"
 msgstr ""
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:32
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:45
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:49
 #: lib/dotcom_web/components/system_status/status_row_heading.ex:138
 #, elixir-autogen, elixir-format
 msgid "Normal Service"
 msgstr ""
 
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:155
 #: lib/dotcom_web/components/system_status/status_row_heading.ex:139
 #, elixir-autogen, elixir-format
 msgid "See Alerts"
@@ -3022,7 +3024,7 @@ msgid "All Trains"
 msgstr ""
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:40
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:49
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:53
 #, elixir-autogen, elixir-format
 msgid "No Scheduled Service"
 msgstr ""
@@ -3037,8 +3039,8 @@ msgstr ""
 msgid "to %{destination}"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:68
-#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:80
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:128
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:142
 #, elixir-autogen, elixir-format
 msgid "Cancellations"
 msgstr ""
