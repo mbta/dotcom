@@ -11,6 +11,8 @@ defmodule Dotcom.SystemStatus.CommuterRailCache do
 
   @behaviour Behaviour
 
+  @pubsub_topic "system_status:commuter_rail"
+
   # Client
 
   def start_link(_) do
@@ -20,6 +22,11 @@ defmodule Dotcom.SystemStatus.CommuterRailCache do
   @impl Behaviour
   def commuter_rail_status() do
     GenServer.call(__MODULE__, :commuter_rail_status)
+  end
+
+  @impl Behaviour
+  def subscribe() do
+    DotcomWeb.Endpoint.subscribe(@pubsub_topic)
   end
 
   # Server
@@ -37,8 +44,12 @@ defmodule Dotcom.SystemStatus.CommuterRailCache do
   end
 
   @impl true
-  def handle_info(%{event: "alerts_updated"}, _old_status) do
+  def handle_info(%{event: "alerts_updated"}, old_status) do
     new_status = CommuterRail.commuter_rail_status()
+
+    if new_status != old_status do
+      DotcomWeb.Endpoint.broadcast(@pubsub_topic, "commuter_rail_status_updated", new_status)
+    end
 
     {:noreply, new_status}
   end
