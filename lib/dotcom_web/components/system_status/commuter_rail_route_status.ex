@@ -114,7 +114,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   defp description(effect, impacts) do
     human_effect = Alert.human_effect(%Alert{effect: effect})
 
-    if Enum.all?(impacts, &is_trip?/1) do
+    if Enum.all?(impacts, &trip?/1) do
       count = Enum.count(impacts)
       "#{count} #{Inflex.inflect(human_effect, count)}"
     else
@@ -122,8 +122,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
     end
   end
 
-  defp is_trip?(%{trip_info: {:trip, _}}), do: true
-  defp is_trip?(_), do: false
+  defp trip?(%{trip_info: {:trip, _}}), do: true
+  defp trip?(_), do: false
 
   slot :inner_block
 
