@@ -150,7 +150,7 @@ defmodule VehicleHelpers do
   @spec build_tooltip(iodata, iodata) :: String.t()
   defp build_tooltip([], stop_text), do: "#{stop_text}"
 
-  # TODO we'll have to figure out how to handle translations here.
+  # EXTRA TRANSLATION WORK
   defp build_tooltip(status_text, stop_text) do
     # Sometimes the prediction status is "Departed" and the vehicle status is
     # :stopped. We rewrite this tooltip to make a bit more sense
