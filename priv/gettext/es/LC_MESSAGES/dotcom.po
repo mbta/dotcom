@@ -31,13 +31,13 @@ msgid "Toll Free"
 msgstr "Toll Gratis"
 
 msgid "Blue Line subway platform inside State Street"
-msgstr "Blue Line plataforma de metro dentro de State Street"
+msgstr "Plataforma de metro Blue Line dentro de State Street"
 
 msgid "1 stop"
 msgstr "1 parada"
 
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase CharlieCards for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail, y ferry en minoristas en todas las zonas de Greater Boston y Providence."
+msgstr "MBTA ciclistas pueden comprar CharlieTickets y recargar y comprar CharlieCards para el autobús, metro, Commuter Rail y ferry en minoristas por todas las zonas de Greater Boston y Providence."
 
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "Pruebe de nuevo o envíenos comentarios en mbta.com/apoyo al cliente"
@@ -133,7 +133,7 @@ msgid "View all"
 msgstr "Ver todo"
 
 msgid "Massport Shuttle"
-msgstr "Massport Shuttle"
+msgstr "Transporte de Massport"
 
 msgid "From"
 msgstr "Desde"
@@ -151,7 +151,7 @@ msgid " on "
 msgstr " on "
 
 msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr "Información del horario MBTA Commuter Rail líneas en la región del Gran Boston, incluyendo actualizaciones en tiempo real y predicciones de llegada."
+msgstr "Información del calendario para MBTA Líneas Commuter Rail en la región de Gran Boston, incluyendo actualizaciones en tiempo real y predicciones de llegada."
 
 msgid "up to 25 min"
 msgstr "hasta 25 min"
@@ -316,7 +316,7 @@ msgid "MBTA %{text} stops and schedules, including maps, parking and accessibili
 msgstr "MBTA %{text} paradas y horarios, incluyendo mapas, información de estacionamiento y accesibilidad, y tarifas."
 
 msgid "Massport Shuttle %{route_number}"
-msgstr "Massport Shuttle %{route_number}"
+msgstr "Transporte en masa %{route_number}"
 
 msgid "Trips from %{from} to %{to}"
 msgstr "Viajes de %{from} a %{to}"
@@ -415,7 +415,7 @@ msgid "History"
 msgstr "Historia"
 
 msgid "Entrance to Orange and Red Lines outside Downtown Crossing"
-msgstr "Entrada a Orange y Red Lines fuera de Centro Cruzando"
+msgstr "Entrada a Líneas Naranjas y Rojas fuera del Centro Cruzando"
 
 msgid "Stop Closure"
 msgstr "Stop Closure"
@@ -460,7 +460,7 @@ msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
 msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
-msgstr "Queremos saber más sobre cómo utiliza el Commuter Rail para informar sobre la planificación futura"
+msgstr "Queremos saber más sobre cómo utiliza el Rail Commuter para informar sobre la planificación futura"
 
 msgid " on track "
 msgstr " en pista "
@@ -595,7 +595,7 @@ msgid "Left"
 msgstr "Izquierda"
 
 msgid "Commuter Rail One-Way"
-msgstr "Commuter Rail Uno..."
+msgstr "Commuter Rail One-Way"
 
 msgid "Date and Time"
 msgstr "Fecha y hora"
@@ -754,7 +754,7 @@ msgid "Typically fewer than 33% of seats available and distancing is unlikely (~
 msgstr "Típicamente menos del 33% de los asientos disponibles y el distanciamiento es poco probable (~3+ personas por fila)"
 
 msgid "Entrance to Green and Red Lines outside Park Street"
-msgstr "Entrada a Green y Red Lines fuera de Park Street"
+msgstr "Entrada a Líneas Verdes y Rojas fuera de Park Street"
 
 msgid "Main Hotline"
 msgstr "Línea caliente principal"
@@ -796,7 +796,7 @@ msgid "Exterior of Wonderland station"
 msgstr "Exterior de la estación de Wonderland"
 
 msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr "MBTA Green Line estaciones de tranvía y horarios, incluyendo mapas, actualizaciones en tiempo real, información de estacionamiento y accesibilidad, y conexiones."
+msgstr "MBTA Verde Estaciones de tranvía y horarios, incluyendo mapas, actualizaciones en tiempo real, información de estacionamiento y accesibilidad, y conexiones."
 
 msgid "Fares by Mode"
 msgstr "Fares por Modo"
@@ -823,7 +823,7 @@ msgid "All proposed locations are subject to site suitability, permitting, and r
 msgstr "Todas las ubicaciones propuestas están sujetas a la idoneidad del sitio, la autorización y la disponibilidad al por menor."
 
 msgid "Blue Line train departing Airport station"
-msgstr "Blue Line tren salida Estación de aeropuertos"
+msgstr "Línea Azul tren salida estación Aeropuerto"
 
 msgid "Upcoming Public Meetings and Events"
 msgstr "Próximos Reuniones y Eventos Públicos"
@@ -913,7 +913,7 @@ msgid "All Outbound Trains"
 msgstr "All Outbound Trains"
 
 msgid "Entrance to Blue and Green Lines outside Government Center"
-msgstr "Entrada a Azul y Green Line fuera del Centro de Gobierno"
+msgstr "Entrada a Líneas Azules y Verdes fuera del Centro de Gobierno"
 
 msgid "All Trains"
 msgstr "Todos los trenes"
@@ -973,7 +973,7 @@ msgid "Premium Ride"
 msgstr "Premium Ride"
 
 msgid "EZ Pass"
-msgstr "EZ Pass"
+msgstr "EZ Paso"
 
 msgid "Earlier"
 msgstr "Anteriormente"
@@ -1090,7 +1090,7 @@ msgid "%{count} Stops"
 msgstr "%{count} Altos"
 
 msgid "Commuter Rail Status"
-msgstr "Commuter Rail Situación"
+msgstr "Commuter Rail Status"
 
 msgid "See all public meetings and events"
 msgstr "Ver todas las reuniones y eventos públicos"
@@ -1234,7 +1234,7 @@ msgid "Language Services"
 msgstr "Servicios de idiomas"
 
 msgid "Smart Card"
-msgstr "Smart Card"
+msgstr "Tarjeta inteligente"
 
 msgid "Our Work"
 msgstr "Nuestro trabajo"
@@ -1432,7 +1432,7 @@ msgid "Learn what happens after you file a complaint"
 msgstr "Aprenda lo que sucede después de presentar una queja"
 
 msgid "Commuter Rail Positive Train Control"
-msgstr "Commuter Rail Control de tren positivo"
+msgstr "Control de Tren Positivo Commuter Rail"
 
 msgid "There are no updates at this time."
 msgstr "No hay actualizaciones en este momento."
@@ -1477,7 +1477,7 @@ msgid "1-Day Pass"
 msgstr "Paso de 1 día"
 
 msgid "People walking towards Green Line train inside North Station"
-msgstr "Personas caminando hacia Green Line tren dentro de la estación norte"
+msgstr "Personas caminando hacia Tren de línea verde dentro de la estación norte"
 
 msgid "Passengers must tell "
 msgstr "Los pasajeros deben decir "
@@ -1561,7 +1561,7 @@ msgid "Navigation Menu"
 msgstr "Navegación"
 
 msgid "Silver Line"
-msgstr "Silver Line"
+msgstr "Línea de plata"
 
 msgid "%{date} until further notice"
 msgstr "%{date} hasta nuevo aviso"
@@ -1774,7 +1774,7 @@ msgid "Sign up for Auto-pay"
 msgstr "Regístrate para Auto-pago"
 
 msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
-msgstr "Commuter Rail la disponibilidad de asientos se actualiza regularmente para reflejar la conducción típica de un viaje basado en datos automatizados y conductores de los últimos 14-30 días."
+msgstr "La disponibilidad de asientos Commuter Rail se actualiza regularmente para reflejar la conducción típica de un viaje basado en datos automatizados y conductores de los últimos 14-30 días."
 
 msgid "Home"
 msgstr "Inicio"
@@ -1933,7 +1933,7 @@ msgid "Get Directions"
 msgstr "Obtener direcciones"
 
 msgid "Green Line %{branch} Branch"
-msgstr "Green Line %{branch} Subdivisión"
+msgstr "Línea verde %{branch} Subdivisión"
 
 msgid "Press Releases"
 msgstr "Comunicados de prensa"
