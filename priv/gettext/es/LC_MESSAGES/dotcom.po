@@ -976,7 +976,7 @@ msgid "Premium Ride"
 msgstr "Premium Ride"
 
 msgid "EZ Pass"
-msgstr "EZ Paso"
+msgstr "EZ Pass"
 
 msgid "Earlier"
 msgstr "Anteriormente"
@@ -1240,7 +1240,7 @@ msgid "Language Services"
 msgstr "Servicios de idiomas"
 
 msgid "Smart Card"
-msgstr "Tarjeta inteligente"
+msgstr "Smart Card"
 
 msgid "Our Work"
 msgstr "Nuestro trabajo"
