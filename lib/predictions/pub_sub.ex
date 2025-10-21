@@ -40,7 +40,8 @@ defmodule Predictions.PubSub do
       %StreamTopic{} = stream_topic ->
         :ok = StreamTopic.start_streams(stream_topic)
 
-        {registry_key, predictions} = GenServer.call(__MODULE__, {:subscribe, stream_topic})
+        {registry_key, predictions} =
+          GenServer.call(__MODULE__, {:subscribe, stream_topic}, 10_000)
 
         for key <- StreamTopic.registration_keys(stream_topic) do
           Registry.register(@subscribers, registry_key, key)
