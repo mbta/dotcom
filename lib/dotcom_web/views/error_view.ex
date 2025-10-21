@@ -6,11 +6,11 @@ defmodule DotcomWeb.ErrorView do
       __MODULE__,
       "error_layout.html",
       Map.merge(assigns, %{
-        error_code: "404",
-        error_type: "Page not found",
-        error_title: "Sorry! We missed your stop.",
-        error_description: "This page is no longer in service.",
-        error_instructions: "Try searching for what you're looking for below."
+        error_code: ~t"404",
+        error_type: ~t"Page not found",
+        error_title: ~t"Sorry! We missed your stop.",
+        error_description: ~t"This page is no longer in service.",
+        error_instructions: ~t"Try searching for what you're looking for below."
       })
     )
   end
@@ -20,11 +20,11 @@ defmodule DotcomWeb.ErrorView do
       __MODULE__,
       "error_layout.html",
       Map.merge(assigns, %{
-        error_code: "500",
-        error_type: "Server issue",
-        error_title: "Oh no! We're experiencing delays.",
-        error_description: "Something went wrong on our end.",
-        error_instructions: "Try searching for what you're looking for below."
+        error_code: ~t"500",
+        error_type: ~t"Server issue",
+        error_title: ~t"Oh no! We're experiencing delays.",
+        error_description: ~t"Something went wrong on our end.",
+        error_instructions: ~t"Try searching for what you're looking for below."
       })
     )
   end
