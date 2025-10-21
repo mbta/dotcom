@@ -3256,8 +3256,8 @@ msgstr ""
 msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
 msgstr ""
 
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:268
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:271
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:269
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:272
 #, elixir-autogen, elixir-format
 msgid "Via"
 msgstr ""
@@ -3277,7 +3277,7 @@ msgstr ""
 msgid "stations"
 msgstr ""
 
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:298
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:299
 #, elixir-autogen, elixir-format
 msgid "timetable"
 msgstr ""
