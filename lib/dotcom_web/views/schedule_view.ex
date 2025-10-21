@@ -117,7 +117,7 @@ defmodule DotcomWeb.ScheduleView do
     |> Timex.format!("{Mfull} {D}, {YYYY}")
   end
 
-  # TODO: Figure out this mess.
+  # EXTRA TRANSLATION WORK
   for direction <- ["Outbound", "Inbound", "West", "East", "North", "South"] do
     defp downcase_direction(unquote(direction)), do: unquote(String.downcase(direction))
   end
