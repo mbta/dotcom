@@ -50,6 +50,28 @@ defmodule Predictions.PubSub do
     end
   end
 
+  @impl Behaviour
+  def unsubscribe() do
+    caller_pid = self()
+    Registry.unregister(@subscribers, __MODULE__)
+    # Here we can check if there are other subscribers for the associated key.
+    # If there are no other subscribers remaining, we stop the associated
+    # predictions data stream.
+    :ets.lookup(@callers_table, caller_pid)
+    |> Enum.each(fn {_, filter_name} ->
+      other_pids_for_filter =
+        :ets.select(@callers_table, [
+          {{:"$1", filter_name}, [{:"=/=", :"$1", caller_pid}], [:"$1"]}
+        ])
+
+      if other_pids_for_filter == [] do
+        StreamSupervisor.stop_stream(filter_name)
+      end
+    end)
+
+    :ets.delete(@callers_table, caller_pid)
+  end
+
   # Server
 
   @impl GenServer
@@ -68,27 +90,6 @@ defmodule Predictions.PubSub do
       ])
 
     {:ok, %{}}
-  end
-
-  @impl GenServer
-  def handle_cast({:closed_channel, caller_pid}, state) do
-    # Here we can check if there are other subscribers for the associated key.
-    # If there are no other subscribers remaining, we stop the associated
-    # predictions data stream.
-    :ets.lookup(@callers_table, caller_pid)
-    |> Enum.each(fn {_, filter_name} ->
-      other_pids_for_filter =
-        :ets.select(@callers_table, [
-          {{:"$1", filter_name}, [{:"=/=", :"$1", caller_pid}], [:"$1"]}
-        ])
-
-      if other_pids_for_filter == [] do
-        StreamSupervisor.stop_stream(filter_name)
-      end
-    end)
-
-    :ets.delete(@callers_table, caller_pid)
-    {:noreply, state, :hibernate}
   end
 
   @impl GenServer
