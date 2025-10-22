@@ -8,7 +8,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   import DotcomWeb.Components, only: [bordered_container: 1]
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
+  alias Dotcom.SystemStatus.CommuterRail
+
   attr :commuter_rail_status, :map
+
+  @typep impact_count_t() :: {:trips, integer()} | {:direction, 0 | 1} | :all
 
   @doc """
   Shows the status of the commuter rail system as a table of rows where each row represents a line.
@@ -54,32 +58,104 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
          cancellations: cancellations,
          service_impacts: service_impacts
        }) do
-    train_impact_rows(Enum.count(cancellations), Enum.count(delays)) ++
-      service_impact_rows(service_impacts)
+    cancellation_count = cancellations |> Enum.map(& &1.trip_info) |> count_train_impacts()
+    delay_count = delays |> Enum.map(& &1.trip_info) |> count_train_impacts()
+
+    case train_impact_rows(cancellation_count, delay_count) do
+      {:suppress_service_impacts, train_impact_rows} ->
+        train_impact_rows
+
+      train_impact_rows ->
+        train_impact_rows ++ service_impact_rows(service_impacts)
+    end
   end
 
-  defp train_impact_rows(0 = _cancellation_count, 0 = _delay_count),
+  # This function exists to aggregate train impacts and roll them up
+  # as a generalized "count" of how many trains are impacted. If each
+  # entry is a single trip, then this will count the number of
+  # entries, returning {:trips, <count>}, but if any entries affect
+  # the whole line, or a whole direction of the line, then we return
+  # the affected direction or :all.
+  @spec count_train_impacts([CommuterRail.trip_info_t()]) :: impact_count_t()
+  defp count_train_impacts(impact_list)
+
+  defp count_train_impacts([]), do: {:trips, 0}
+
+  defp count_train_impacts([{:trip, _} | rest]) do
+    case count_train_impacts(rest) do
+      {:trips, n} -> {:trips, n + 1}
+    end
+  end
+
+  defp count_train_impacts([
+         {:direction, %{direction_id: direction_id_1}},
+         {:direction, %{direction_id: direction_id_2}} | _rest
+       ])
+       when direction_id_1 != direction_id_2 do
+    :all
+  end
+
+  defp count_train_impacts([{:direction, %{direction_id: direction_id}} | _rest]) do
+    {:direction, direction_id}
+  end
+
+  defp count_train_impacts([:all | _rest]) do
+    :all
+  end
+
+  @typep impact_row_t() :: %{icon_atom: atom(), label: String.t()}
+
+  # This function converts the counts of delay and cancellation
+  # impacts into an array of row data-blobs that can be drawn on the
+  # screen (all we need in this context is the icon and the label.
+  # The counts provided are the generalized counts returned by
+  # `count_train_impacts/1`. The list of train impact rows is either
+  # returned as a plain list, or as a tuple of
+  # {:suppress_service_impacts, <list>} - when the train impact row
+  # says "See Alerts", then including additional service alerts like
+  # shuttles would be redundant.
+  @spec train_impact_rows(impact_count_t(), impact_count_t()) ::
+          [impact_row_t()] | {:suppress_service_impacts, [impact_row_t()]}
+  defp train_impact_rows(cancellation_count, delay_count)
+
+  defp train_impact_rows({:trips, 0} = _cancellation_count, {:trips, 0} = _delay_count),
     do: []
 
-  defp train_impact_rows(1 = _cancellation_count, 0 = _delay_count),
-    do: [%{icon_atom: :cancellation, label: "1 " <> ~t"Cancellation"}]
+  defp train_impact_rows({:trips, 1} = _cancellation_count, {:trips, 0} = _delay_count),
+    do: cancellation_row("1 " <> ~t"Cancellation")
 
-  defp train_impact_rows(cancellation_count, 0 = _delay_count),
-    do: [%{icon_atom: :cancellation, label: "#{cancellation_count} " <> ~t"Cancellations"}]
+  defp train_impact_rows({:trips, cancellation_count}, {:trips, 0} = _delay_count),
+    do: cancellation_row("#{cancellation_count} " <> ~t"Cancellations")
 
-  defp train_impact_rows(0 = _cancellation_count, 1 = _delay_count),
-    do: [%{icon_atom: :delay, label: "1 " <> ~t"Delay"}]
+  defp train_impact_rows({:trips, 0} = _cancellation_count, {:trips, 1} = _delay_count),
+    do: delay_row("1 " <> ~t"Delay")
 
-  defp train_impact_rows(0 = _cancellation_count, delay_count),
-    do: [%{icon_atom: :delay, label: "#{delay_count} " <> ~t"Delays"}]
+  defp train_impact_rows({:trips, 0} = _cancellation_count, {:trips, delay_count}),
+    do: delay_row("#{delay_count} " <> ~t"Delays")
 
-  defp train_impact_rows(cancellation_count, delay_count),
-    do: [
-      %{
-        icon_atom: :delay,
-        label: "#{cancellation_count + delay_count} " <> ~t"Cancellations" <> " / " <> ~t"Delays"
-      }
-    ]
+  defp train_impact_rows({:trips, 0} = _cancellation_count, _delay_count),
+    do: delay_row(~t"Delays")
+
+  defp train_impact_rows({:trips, cancellation_count}, {:trips, delay_count}),
+    do:
+      delay_row(
+        "#{cancellation_count + delay_count} " <> ~t"Cancellations" <> " / " <> ~t"Delays"
+      )
+
+  defp train_impact_rows({:direction, 0} = _cancellation_count, _delay_count),
+    do: cancellation_row(~t"Outbound Trains Cancelled")
+
+  defp train_impact_rows({:direction, 1} = _cancellation_count, _delay_count),
+    do: cancellation_row(~t"Inbound Trains Cancelled")
+
+  defp train_impact_rows(:all = _cancellation_count, _delay_count),
+    do: cancellation_row(~t"All Trains Cancelled")
+
+  defp train_impact_rows(_cancellation_count, _delay_count),
+    do: {:suppress_service_impacts, delay_row(~t"See Alerts")}
+
+  defp cancellation_row(label), do: [%{icon_atom: :cancellation, label: label}]
+  defp delay_row(label), do: [%{icon_atom: :delay, label: label}]
 
   defp service_impact_rows([] = _service_impacts), do: []
 

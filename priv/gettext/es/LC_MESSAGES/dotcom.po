@@ -669,6 +669,9 @@ msgstr "Zonas 1A-10"
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
 
+msgid "Inbound Trains Cancelled"
+msgstr "Trenes de entrada cancelados"
+
 msgid "Snow Route"
 msgstr "Ruta de la nieve"
 
@@ -911,6 +914,9 @@ msgstr "Viaje redondo"
 
 msgid "View all guides"
 msgstr "Ver todas las guías"
+
+msgid "Outbound Trains Cancelled"
+msgstr "Trenes de salida cancelados"
 
 msgid "Premium Ride Fare"
 msgstr "Premium Ride Fare"
@@ -1445,6 +1451,9 @@ msgstr "Agregar evento al calendario"
 
 msgid "Saturday"
 msgstr "Sábado"
+
+msgid "All Trains Cancelled"
+msgstr "Todos los trenes cancelados"
 
 msgid "Ended"
 msgstr "Ended"
