@@ -111,43 +111,18 @@ defmodule Predictions.PubSubTest do
   describe "handle_info/2" do
     test "broadcasts to registered subscribers", context do
       # Setup
-      pid = Process.whereis(PubSub)
+      pid = self()
 
-      state = %{
-        callers_by_pid: :ets.new(:callers_by_pid, [:bag]),
-        last_dispatched: :ets.new(:last_dispatched, [:set])
-      }
-
-      topic = StreamTopic.new(context.channel)
-      keys = StreamTopic.registration_keys(topic)
-      Registry.register(:prediction_subscriptions_registry, pid, List.first(keys))
-
+      # Exercise
+      %{topic: topic_name} = StreamTopic.new(context.channel)
+      _ = PubSub.subscribe(topic_name)
       :erlang.trace(pid, true, [:receive])
 
       # Exercise
-      PubSub.handle_info(:broadcast, state)
+      PubSub.handle_info(:broadcast, %{})
 
       # Verify
-      assert_receive {:trace, ^pid, :receive, {:dispatch, _, _, {:reply, [], :foo}}}, 1000
-    end
-
-    test "dispatches to pids", context do
-      # Setup
-      pid = Process.whereis(PubSub)
-
-      state = %{
-        last_dispatched: :ets.new(:last_dispatched, [:set])
-      }
-
-      topic = StreamTopic.new(context.channel)
-      keys = StreamTopic.registration_keys(topic)
-      Registry.register(:prediction_subscriptions_registry, pid, List.first(keys))
-
-      # Exercise
-      PubSub.handle_info({:dispatch, [self()], keys, []}, state)
-
-      # Verify
-      assert_receive {:new_predictions, {:reply, [], :foo}}, 1000
+      assert_receive {:new_predictions, _}
     end
 
     test "broadcasts on a timer" do
