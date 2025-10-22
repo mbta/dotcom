@@ -55,6 +55,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Dotcom.SystemStatus.subway_status()
     end)
 
+    stub(Dotcom.SystemStatus.CommuterRailCache.Mock, :commuter_rail_status, fn ->
+      Dotcom.SystemStatus.CommuterRail.commuter_rail_status()
+    end)
+
     :ok
   end
 

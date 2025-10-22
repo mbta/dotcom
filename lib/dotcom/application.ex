@@ -73,6 +73,7 @@ defmodule Dotcom.Application do
         if Application.get_env(:dotcom, :env) != :test do
           [
             Dotcom.ViaFairmount,
+            {Dotcom.SystemStatus.CommuterRailCache, []},
             {Dotcom.SystemStatus.SubwayCache, []}
           ]
         else
