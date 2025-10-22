@@ -85,25 +85,22 @@ defmodule Predictions.PubSubTest do
     end
   end
 
-  describe "handle_cast/2" do
+  describe "unsubscribe/0" do
     test "removes a subscriber", context do
       # Setup
-      ets_table = :ets.new(:callers_by_pid, [:bag])
-      pid = Process.whereis(PubSub)
-      state = %{callers_by_pid: ets_table}
+      pid = self()
 
       # Exercise
-      topic = StreamTopic.new(context.channel)
+      %{topic: topic_name} = StreamTopic.new(context.channel)
+      _ = PubSub.subscribe(topic_name)
 
-      PubSub.handle_call({:subscribe, topic}, {pid, nil}, state)
+      assert :ets.lookup(:callers_by_pid, pid) != []
+      assert Registry.count(:prediction_subscriptions_registry) == 1
 
-      assert :ets.lookup(ets_table, pid) != []
-
-      PubSub.handle_cast({:closed_channel, pid}, state)
+      _ = PubSub.unsubscribe()
 
       # Verify
-      assert :ets.lookup(ets_table, pid) == []
-
+      assert :ets.lookup(:callers_by_pid, pid) == []
       assert Registry.count(:prediction_subscriptions_registry) == 0
     end
   end
