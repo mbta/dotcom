@@ -39,7 +39,7 @@ defmodule Predictions.Store do
   # Server
   @impl GenServer
   def init(_) do
-    table = :ets.new(__MODULE__, [:public])
+    table = :ets.new(__MODULE__, [:public, {:write_concurrency, true}, {:read_concurrency, true}])
     periodic_delete()
     {:ok, table}
   end
