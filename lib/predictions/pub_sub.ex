@@ -16,6 +16,7 @@ defmodule Predictions.PubSub do
   @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, [:predictions_phoenix_pub_sub])
   @predictions_store Application.compile_env!(:dotcom, [:predictions_store])
   @subscribers :prediction_subscriptions_registry
+  @callers_table :callers_by_pid
 
   @type registry_value :: {Store.fetch_keys(), binary()}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
@@ -25,29 +26,24 @@ defmodule Predictions.PubSub do
   # Client
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
-    name = Keyword.get(opts, :name, __MODULE__)
-
-    GenServer.start_link(
-      __MODULE__,
-      opts,
-      name: name
-    )
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
   @impl Behaviour
   def subscribe(topic) do
-    case StreamTopic.new(topic) do
-      %StreamTopic{} = stream_topic ->
-        :ok = StreamTopic.start_streams(stream_topic)
+    caller_pid = self()
 
-        {registry_key, predictions} =
-          GenServer.call(__MODULE__, {:subscribe, stream_topic}, 10_000)
+    case StreamTopic.new(topic) do
+      %StreamTopic{fetch_keys: fetch_keys} = stream_topic ->
+        :ok = StreamTopic.start_streams(stream_topic)
+        new_callers = Enum.map(stream_topic.streams, &{caller_pid, elem(&1, 1)})
+        :ets.insert(@callers_table, new_callers)
 
         for key <- StreamTopic.registration_keys(stream_topic) do
-          Registry.register(@subscribers, registry_key, key)
+          Registry.register(@subscribers, __MODULE__, key)
         end
 
-        predictions
+        @predictions_store.fetch(fetch_keys)
 
       {:error, _} = error ->
         error
@@ -62,30 +58,16 @@ defmodule Predictions.PubSub do
 
     broadcast_timer(50)
 
-    callers = :ets.new(:callers_by_pid, [:bag])
-    dispatched = :ets.new(:last_dispatched, [:set])
+    _ =
+      :ets.new(@callers_table, [
+        :bag,
+        :public,
+        :named_table,
+        write_concurrency: true,
+        read_concurrency: true
+      ])
 
-    {:ok,
-     %{
-       callers_by_pid: callers,
-       last_dispatched: dispatched
-     }}
-  end
-
-  @impl GenServer
-  def handle_call(
-        {:subscribe,
-         %StreamTopic{
-           fetch_keys: fetch_keys,
-           streams: streams
-         }},
-        {from_pid, _ref},
-        state
-      ) do
-    filter_names = Enum.map(streams, &elem(&1, 1))
-    :ets.insert(state.callers_by_pid, Enum.map(filter_names, &{from_pid, &1}))
-    registry_key = self()
-    {:reply, {registry_key, @predictions_store.fetch(fetch_keys)}, state, :hibernate}
+    {:ok, %{}}
   end
 
   @impl GenServer
@@ -93,10 +75,10 @@ defmodule Predictions.PubSub do
     # Here we can check if there are other subscribers for the associated key.
     # If there are no other subscribers remaining, we stop the associated
     # predictions data stream.
-    :ets.lookup(state.callers_by_pid, caller_pid)
+    :ets.lookup(@callers_table, caller_pid)
     |> Enum.each(fn {_, filter_name} ->
       other_pids_for_filter =
-        :ets.select(state.callers_by_pid, [
+        :ets.select(@callers_table, [
           {{:"$1", filter_name}, [{:"=/=", :"$1", caller_pid}], [:"$1"]}
         ])
 
@@ -105,25 +87,27 @@ defmodule Predictions.PubSub do
       end
     end)
 
-    :ets.delete(state.callers_by_pid, caller_pid)
+    :ets.delete(@callers_table, caller_pid)
     {:noreply, state, :hibernate}
   end
 
   @impl GenServer
   def handle_info(:broadcast, state) do
-    registry_key = self()
+    :ok =
+      Registry.dispatch(@subscribers, __MODULE__, fn entries ->
+        entries
+        |> Enum.group_by(
+          fn {_, {fetch_keys, _}} -> fetch_keys end,
+          fn {pid, {_, _}} -> pid end
+        )
+        |> Enum.each(fn {fetch_keys, pids} ->
+          new_predictions = @predictions_store.fetch(fetch_keys)
 
-    Registry.dispatch(@subscribers, registry_key, fn entries ->
-      Enum.group_by(
-        entries,
-        fn {_, {fetch_keys, _}} -> fetch_keys end,
-        fn {pid, {_, _}} -> pid end
-      )
-      |> Enum.each(fn {fetch_keys, pids} ->
-        new_predictions = @predictions_store.fetch(fetch_keys)
-        send(self(), {:dispatch, Enum.uniq(pids), fetch_keys, new_predictions})
+          pids
+          |> Enum.uniq()
+          |> Enum.each(&send(&1, {:new_predictions, new_predictions}))
+        end)
       end)
-    end)
 
     {:noreply, state, :hibernate}
   end
@@ -131,18 +115,6 @@ defmodule Predictions.PubSub do
   def handle_info(:timed_broadcast, state) do
     send(self(), :broadcast)
     broadcast_timer()
-    {:noreply, state, :hibernate}
-  end
-
-  def handle_info(
-        {:dispatch, pids, fetch_keys, predictions},
-        state
-      ) do
-    if :ets.lookup(state.last_dispatched, fetch_keys) != predictions do
-      Enum.each(pids, &send(&1, {:new_predictions, predictions}))
-      :ets.insert(state.last_dispatched, {fetch_keys, predictions})
-    end
-
     {:noreply, state, :hibernate}
   end
 
