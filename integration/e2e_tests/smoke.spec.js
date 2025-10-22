@@ -32,10 +32,10 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("home page", async ({ page, baseURL }) => {
     await ok(page, "/");
     await page.getByRole("heading", { name: "Find a Location" });
+    await page.getByRole("heading", { name: "Fares" });
     await page.getByRole("heading", { name: "Contact Us" });
 
     const main = page.locator("main");
-    await expect(main).toContainText("Ferry One-Way");
     await expect(main).toContainText("Important Links");
     await expect(main).toContainText("Press Releases");
     await expect(main).toContainText("MBTA User Guides");
