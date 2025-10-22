@@ -143,13 +143,13 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
       )
 
   defp train_impact_rows({:direction, 0} = _cancellation_count, _delay_count),
-    do: cancellation_row("Outbound Trains Cancelled")
+    do: cancellation_row(~t"Outbound Trains Cancelled")
 
   defp train_impact_rows({:direction, 1} = _cancellation_count, _delay_count),
-    do: cancellation_row("Inbound Trains Cancelled")
+    do: cancellation_row(~t"Inbound Trains Cancelled")
 
   defp train_impact_rows(:all = _cancellation_count, _delay_count),
-    do: cancellation_row("All Trains Cancelled")
+    do: cancellation_row(~t"All Trains Cancelled")
 
   defp train_impact_rows(_cancellation_count, _delay_count),
     do: {:suppress_service_impacts, delay_row(~t"See Alerts")}
