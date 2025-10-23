@@ -544,19 +544,13 @@ defmodule DotcomWeb.ViewHelpers do
     fare_object_request(token)
   end
 
-  def pretty_date(date, format \\ "{Mshort} {D}") do
+  def pretty_date(date, style \\ :short_date) do
     if date == Util.service_date() do
       ~t"today"
     else
-      # `format` historically was a Timex pattern string; map some common
-      # patterns to atoms. If a caller still passes a string we try to
-      # match the known patterns, otherwise raise to force callers to
-      # migrate to atoms.
-      case format do
-        "{Mshort} {D}" -> Dotcom.Utils.Time.format!(date, :short_date)
-        "{Mshort} {D}" <> _ -> Dotcom.Utils.Time.format!(date, :short_date)
-        _ -> raise "Dotcom.Utils.Time: please pass a style atom instead of pattern string"
-      end
+      # Require callers to pass a known style atom. Let Dotcom.Utils.Time
+      # raise for unknown styles so migration is explicit.
+      Dotcom.Utils.Time.format!(date, style)
     end
   end
 
