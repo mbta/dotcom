@@ -71,7 +71,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   def no_alerts_message(route, false, :upcoming) do
-    empty_message_for_timeframe(:upcoming, [" for the ", route.name])
+    empty_message_for_timeframe(:upcoming, [~t" for the ", route.name])
   end
 
   def no_alerts_message(route, stop?, timeframe) do
