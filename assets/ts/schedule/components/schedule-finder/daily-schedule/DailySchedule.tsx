@@ -44,10 +44,32 @@ export const fetchJourneys = (
   window.fetch(
     `/schedules/finder_api/journeys?id=${
       routeId === "627" ? "627,76,62" : routeId
-    }&date=${
-      selectedService.end_date
-    }&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
+    }&date=${getRepresentativeDate(
+      selectedService
+    )}&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
   );
+
+export const getRepresentativeDate = (service: Service) => {
+  if (service.id === "FallWeekday") {
+    /*
+     * This is a quick-fix hack in order to ensure that the
+     * "representative date" that we use to query the API for the
+     * FallWeekday service/schedule is not a Friday. Some routes have
+     * different schedules on Fridays versus other days, but since the
+     * previous behaviour was to use the service's end-date as its
+     * representative date, that resulted in a bug where when a rider
+     * tried to view a M-Th weekday schedule, it would show Friday
+     * trips instead.
+     *
+     * The root cause is that we're using services to represent
+     * schedules, despite those being slightly different things. This
+     * hack is in place only until we address the root problem.
+     */
+    return "2025-12-11";
+  } else {
+    return service.end_date;
+  }
+};
 
 // Takes grouped holiday records with the same schedule and flattens them into their own
 // Service entry
