@@ -22,7 +22,7 @@ defmodule DateTimeSelector do
     if Util.parse(datetime_params) == {:error, :invalid_date} do
       [hour, am_pm_value] =
         datetime
-        |> Timex.format!("{h12} {AM}")
+    |> Dotcom.Utils.Time.format!(:time_12h)
         |> String.split(" ")
 
       %{
@@ -40,7 +40,7 @@ defmodule DateTimeSelector do
 
   def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Util.now()) do
     time_options = [
-      hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
+  hour: [options: 1..12, selected: Dotcom.Utils.Time.format!(datetime, :h12)],
       minute: [selected: datetime.minute]
     ]
 
@@ -75,9 +75,9 @@ defmodule DateTimeSelector do
 
   @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t(), map) :: Phoenix.HTML.Safe.t()
   defp custom_date_select(form, %DateTime{} = datetime, options, date_ranges) do
-    min_date = Timex.format!(date_ranges.min_date, "{0M}/{0D}/{YYYY}")
-    max_date = Timex.format!(date_ranges.max_date, "{0M}/{0D}/{YYYY}")
-    current_date = Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")
+  min_date = Dotcom.Utils.Time.format!(date_ranges.min_date, :mm_dd_yyyy)
+  max_date = Dotcom.Utils.Time.format!(date_ranges.max_date, :mm_dd_yyyy)
+  current_date = Dotcom.Utils.Time.format!(datetime, :weekday_full_date)
     aria_label = "#{current_date}, click or press the enter or space key to edit the date"
 
     prefix = form.id
@@ -137,7 +137,7 @@ defmodule DateTimeSelector do
 
   @spec custom_time_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp custom_time_select(form, datetime, options) do
-    current_time = Timex.format!(datetime, "{h12}:{m} {AM}")
+  current_time = Dotcom.Utils.Time.format!(datetime, :time_12h_with_minutes)
     aria_label = "#{current_time}, click or press the enter or space key to edit the time"
 
     prefix = form.id
@@ -180,7 +180,7 @@ defmodule DateTimeSelector do
           :date_time,
           :am_pm,
           [AM: "AM", PM: "PM"],
-          selected: Timex.format!(datetime, "{AM}"),
+          selected: Dotcom.Utils.Time.format!(datetime, :time_12h),
           name: "#{prefix}[date_time][am_pm]",
           id: "#{prefix}_date_time_am_pm",
           class: "c-select plan-date-time-am-pm"
