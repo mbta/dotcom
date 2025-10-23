@@ -199,28 +199,28 @@ defmodule DotcomWeb.CMS.ParagraphView do
   @spec default_list_cta([API.type()], String.t()) :: Link.t()
   defp default_list_cta([:project_update], current_path) do
     %Link{
-      title: "View all project updates",
+      title: ~t"View all project updates",
       url: "#{current_path}/updates"
     }
   end
 
   defp default_list_cta([:event], _current_path) do
     %Link{
-      title: "View all events",
+      title: ~t"View all events",
       url: "/events"
     }
   end
 
   defp default_list_cta([:news_entry], _current_path) do
     %Link{
-      title: "View all news",
+      title: ~t"View all news",
       url: "/news"
     }
   end
 
   defp default_list_cta([:project], _current_path) do
     %Link{
-      title: "View all projects",
+      title: ~t"View all projects",
       url: "/projects"
     }
   end
