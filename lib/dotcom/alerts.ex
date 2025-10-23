@@ -211,4 +211,38 @@ defmodule Dotcom.Alerts do
   end
 
   defp stations_key(_), do: "ZZZ"
+
+  # Systemwide alerts can be made to apply to an entire mode.
+  # These special alerts can be identified by the absence of a specified route.
+  def systemwide_mode_alert?(%Alert{informed_entity: informed_entity}, mode) do
+    matched_entity? = fn entity ->
+      case mode do
+        :subway ->
+          entity.route_type in [0, 1]
+
+        :commuter_rail ->
+          entity.route_type == 2
+
+        :bus ->
+          entity.route_type == 3
+
+        :ferry ->
+          entity.route_type == 4
+
+        _ ->
+          false
+      end
+    end
+
+    informed_entity.entities
+    |> Enum.filter(&(is_nil(&1.route) && !is_nil(&1.route_type)))
+    |> Enum.find(&matched_entity?.(&1)) != nil
+  end
+
+  def route_alert?(%Alert{informed_entity: informed_entity}, route_id) do
+    Enum.any?(informed_entity, fn
+      %{route: ^route_id} -> true
+      %{} -> false
+    end)
+  end
 end
