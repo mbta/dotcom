@@ -80,7 +80,7 @@ defmodule CMS.Partial.Banner do
   end
 
   defp do_updated_on({:ok, date}) do
-    case Timex.format(date, "{Mfull} {D}, {YYYY}") do
+  case Dotcom.Utils.Time.format(date, :full_date) do
       {:ok, formatted} -> formatted
       {:error, _} -> ""
     end

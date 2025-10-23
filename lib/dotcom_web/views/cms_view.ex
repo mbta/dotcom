@@ -72,10 +72,10 @@ defmodule DotcomWeb.CMSView do
   end
 
   def format_time(%{minute: 0} = time) do
-    Timex.format!(time, "{h12} {AM}")
+  Dotcom.Utils.Time.format!(time, :time_12h)
   end
 
   def format_time(time) do
-    Timex.format!(time, "{h12}:{m} {AM}")
+  Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
   end
 end

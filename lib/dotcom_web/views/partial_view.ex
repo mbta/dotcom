@@ -102,12 +102,12 @@ defmodule DotcomWeb.PartialView do
       [
         content_tag(
           :span,
-          Timex.format!(date, "{Mshort}"),
+          Dotcom.Utils.Time.format!(date, :mshort),
           class: "c-news-entry__month c-news-entry__month--#{size}"
         ),
         content_tag(
           :span,
-          Timex.format!(date, "{0D}"),
+          Dotcom.Utils.Time.format!(date, :zero_d),
           class: "c-news-entry__day--#{size}"
         )
       ],
