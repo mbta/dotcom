@@ -90,9 +90,6 @@ msgstr "Introduzca palabras clave del proyecto"
 msgid "Take the T to Vote"
 msgstr "Tome la T para votar"
 
-msgid "500"
-msgstr "500"
-
 msgid "View all bus routes"
 msgstr "Ver todas las rutas de autobús"
 
@@ -1443,6 +1440,9 @@ msgstr "Pasar al contenido principal"
 msgid "Customer Support"
 msgstr "Atención al cliente"
 
+msgid " schedule and map"
+msgstr " itinerario y mapa"
+
 msgid "Monday - Friday"
 msgstr "Lunes a viernes"
 
@@ -1517,6 +1517,9 @@ msgstr "%{min} – %{max} minutos"
 
 msgid "There are no other"
 msgstr "No hay otro"
+
+msgid " for the "
+msgstr " para el "
 
 msgid "More from "
 msgstr "Más desde "
@@ -2066,6 +2069,9 @@ msgstr "ID de discapacidad Tarjetas"
 
 msgid "No %{group} alerts"
 msgstr "Alertas No %{group}"
+
+msgid "Unscheduled Track"
+msgstr "Tema no programado"
 
 msgid "Events"
 msgstr "Eventos"
