@@ -9,12 +9,12 @@
           {link(holiday.name,
             to:
               update_url(@conn,
-                date: Timex.format!(holiday.date, "{ISOdate}"),
+                date: Dotcom.Utils.Time.format!(holiday.date, :iso),
                 date_select: nil,
                 shift: nil
               )
           )}
-          <p>{Timex.format!(holiday.date, "%a, %b %e", :strftime)}</p>
+          <p>{Dotcom.Utils.Time.format!(holiday.date, :strftime_abbrev)}</p>
         </li>
       <% end %>
     <% end %>
@@ -47,7 +47,7 @@
             </span>
           <% end %>
           <span>
-            {Timex.format!(@calendar.active_date, "{Mfull} {YYYY}")}
+            {Dotcom.Utils.Time.format!(@calendar.active_date, :mfull_year)}
           </span>
           <%= if @calendar.next_month_url do %>
             <%= link to: @calendar.next_month_url do %>

@@ -335,11 +335,11 @@ defmodule DotcomWeb.ViewHelpers do
   @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
     time
-    |> Timex.format!("{h12}:{m} {AM}")
+    |> Dotcom.Utils.Time.format!(:time_12h_with_minutes)
   end
 
   @spec format_full_date(Date.t()) :: String.t()
-  def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
+  def format_full_date(date), do: Dotcom.Utils.Time.format!(date, :full_date)
 
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
@@ -547,11 +547,13 @@ defmodule DotcomWeb.ViewHelpers do
     fare_object_request(token)
   end
 
-  def pretty_date(date, format \\ "{Mshort} {D}") do
+  def pretty_date(date, style \\ :short_date) do
     if date == Util.service_date() do
       ~t"today"
     else
-      Timex.format!(date, format)
+      # Require callers to pass a known style atom. Let Dotcom.Utils.Time
+      # raise for unknown styles so migration is explicit.
+      Dotcom.Utils.Time.format!(date, style)
     end
   end
 

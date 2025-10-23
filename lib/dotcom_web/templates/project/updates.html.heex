@@ -10,7 +10,7 @@
         {for update <- @updates do
           text_content = [
             content_tag(:h2, update.title, class: "h3 m-project-updates__title"),
-            content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "h4")
+            content_tag(:p, Dotcom.Utils.Time.format!(update.date, :full_date), class: "h4")
           ]
 
           if update.image do
