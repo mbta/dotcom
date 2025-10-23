@@ -72,10 +72,10 @@ defmodule DotcomWeb.CMSView do
   end
 
   def format_time(%{minute: 0} = time) do
-  Dotcom.Utils.Time.format!(time, :time_12h)
+    Dotcom.Utils.Time.format!(time, :time_12h)
   end
 
   def format_time(time) do
-  Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
+    Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
   end
 end
