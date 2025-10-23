@@ -3802,3 +3802,23 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "up to 30 min"
 msgstr ""
+
+#: lib/dotcom_web/views/alert_view.ex:74
+#, elixir-autogen, elixir-format
+msgid " for the "
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex:173
+#, elixir-autogen, elixir-format
+msgid " schedule"
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex:174
+#, elixir-autogen, elixir-format
+msgid " schedule and map"
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex:468
+#, elixir-autogen, elixir-format
+msgid "Unscheduled Track"
+msgstr ""
