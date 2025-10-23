@@ -1,6 +1,7 @@
 defmodule DotcomWeb.CustomerSupportController do
   @moduledoc "Handles the customer support page and form submissions."
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   require Logger
@@ -14,52 +15,52 @@ defmodule DotcomWeb.CustomerSupportController do
 
   @content_blocks [
     %{
-      header: %{text: "Call Us", iconSvgText: nil},
+      header: %{text: ~t"Call Us", iconSvgText: nil},
       id: "call_us",
       initially_expanded: true
     },
     %{
-      header: %{text: "ADA/Accessibility Complaints", iconSvgText: nil},
+      header: %{text: ~t"ADA/Accessibility Complaints", iconSvgText: nil},
       id: "accessibility",
       initially_expanded: true
     },
     %{
-      header: %{text: "File a Discrimination Complaint", iconSvgText: nil},
+      header: %{text: ~t"File a Discrimination Complaint", iconSvgText: nil},
       id: "discrimination_complaint",
       initially_expanded: true
     },
     %{
-      header: %{text: "Lost and Found", iconSvgText: nil},
+      header: %{text: ~t"Lost and Found", iconSvgText: nil},
       id: "lost_and_found",
       initially_expanded: true
     },
     %{
-      header: %{text: "Get Service Updates", iconSvgText: nil},
+      header: %{text: ~t"Get Service Updates", iconSvgText: nil},
       id: "service_updates",
       initially_expanded: true
     },
     %{
-      header: %{text: "Transit Police", iconSvgText: nil},
+      header: %{text: ~t"Transit Police", iconSvgText: nil},
       id: "transit_police",
       initially_expanded: false
     },
     %{
-      header: %{text: "Request Public Records", iconSvgText: nil},
+      header: %{text: ~t"Request Public Records", iconSvgText: nil},
       id: "request_public_records",
       initially_expanded: false
     },
     %{
-      header: %{text: "Write to Us", iconSvgText: nil},
+      header: %{text: ~t"Write to Us", iconSvgText: nil},
       id: "write_to_us",
       initially_expanded: false
     },
     %{
-      header: %{text: "Report Fraud, Waste, or Abuse", iconSvgText: nil},
+      header: %{text: ~t"Report Fraud, Waste, or Abuse", iconSvgText: nil},
       id: "report",
       initially_expanded: false
     },
     %{
-      header: %{text: "Report a Railroad Crossing Gate Issue", iconSvgText: nil},
+      header: %{text: ~t"Report a Railroad Crossing Gate Issue", iconSvgText: nil},
       id: "rail_road",
       initially_expanded: false
     }
@@ -103,7 +104,7 @@ defmodule DotcomWeb.CustomerSupportController do
     render(
       conn,
       "index.html",
-      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      breadcrumbs: [Breadcrumb.build(~t"Customer Support")],
       show_form: false
     )
   end
@@ -230,7 +231,7 @@ defmodule DotcomWeb.CustomerSupportController do
     render(
       conn,
       "index.html",
-      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      breadcrumbs: [Breadcrumb.build(~t"Customer Support")],
       errors: errors,
       show_form: true,
       comments: comments
@@ -243,7 +244,7 @@ defmodule DotcomWeb.CustomerSupportController do
     render(
       conn,
       "index.html",
-      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      breadcrumbs: [Breadcrumb.build(~t"Customer Support")],
       errors: errors,
       show_form: true
     )
@@ -253,7 +254,7 @@ defmodule DotcomWeb.CustomerSupportController do
     render(
       conn,
       "index.html",
-      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      breadcrumbs: [Breadcrumb.build(~t"Customer Support")],
       errors: [],
       show_form: true,
       comments: comments
@@ -496,8 +497,7 @@ defmodule DotcomWeb.CustomerSupportController do
     conn
     |> assign(
       :meta_description,
-      "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, " <>
-        "lost and found, and accessibility."
+      ~t"Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
     )
   end
 

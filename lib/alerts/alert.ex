@@ -210,7 +210,7 @@ defmodule Alerts.Alert do
       do: set
 
   def access_alert_types do
-    [elevator_closure: "Elevator", escalator_closure: "Escalator", access_issue: "Other"]
+    [elevator_closure: ~t"Elevator", escalator_closure: ~t"Escalator", access_issue: ~t"Other"]
   end
 
   @doc "Returns a friendly name for the alert's effect"
@@ -257,11 +257,11 @@ defmodule Alerts.Alert do
   end
 
   @spec do_human_lifecycle(lifecycle) :: String.t()
-  defp do_human_lifecycle(:new), do: "New"
-  defp do_human_lifecycle(:upcoming), do: "Upcoming"
-  defp do_human_lifecycle(:ongoing_upcoming), do: "Upcoming"
-  defp do_human_lifecycle(:ongoing), do: "Ongoing"
-  defp do_human_lifecycle(_), do: "Unknown"
+  defp do_human_lifecycle(:new), do: ~t"New"
+  defp do_human_lifecycle(:upcoming), do: ~t"Upcoming"
+  defp do_human_lifecycle(:ongoing_upcoming), do: ~t"Upcoming"
+  defp do_human_lifecycle(:ongoing), do: ~t"Ongoing"
+  defp do_human_lifecycle(_), do: ~t"Unknown"
 
   @spec human_label(t) :: String.t()
   def human_label(%{lifecycle: lifecycle})
@@ -276,13 +276,13 @@ defmodule Alerts.Alert do
 
   def human_severity(%__MODULE__{}), do: nil
 
-  defp do_human_delay_severity(3), do: "up to 10 min"
-  defp do_human_delay_severity(4), do: "up to 15 min"
-  defp do_human_delay_severity(5), do: "up to 20 min"
-  defp do_human_delay_severity(6), do: "up to 25 min"
-  defp do_human_delay_severity(7), do: "up to 30 min"
-  defp do_human_delay_severity(8), do: "of more than 30 min"
-  defp do_human_delay_severity(9), do: "of more than an hour"
+  defp do_human_delay_severity(3), do: ~t"up to 10 min"
+  defp do_human_delay_severity(4), do: ~t"up to 15 min"
+  defp do_human_delay_severity(5), do: ~t"up to 20 min"
+  defp do_human_delay_severity(6), do: ~t"up to 25 min"
+  defp do_human_delay_severity(7), do: ~t"up to 30 min"
+  defp do_human_delay_severity(8), do: ~t"of more than 30 min"
+  defp do_human_delay_severity(9), do: ~t"of more than an hour"
   defp do_human_delay_severity(_), do: nil
 
   @spec icon(t) :: icon_type
