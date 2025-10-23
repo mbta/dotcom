@@ -96,7 +96,7 @@ defmodule Util do
 
   def convert_to_iso_format(date) do
     date
-  |> Dotcom.Utils.Time.format!(:iso_date)
+    |> Dotcom.Utils.Time.format!(:iso_date)
   end
 
   @doc "Gives the date for tomorrow based on the provided date"
@@ -184,11 +184,11 @@ defmodule Util do
   """
   @spec narrow_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
   def narrow_time(%{minute: 0} = time) do
-  Dotcom.Utils.Time.format!(time, :time_12h)
+    Dotcom.Utils.Time.format!(time, :time_12h)
   end
 
   def narrow_time(time) do
-  Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
+    Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
   end
 
   @doc """

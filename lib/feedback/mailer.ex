@@ -125,7 +125,7 @@ defmodule Feedback.Mailer do
   def formatted_utc_timestamp(date) do
     date
     |> Timex.Timezone.convert("Etc/UTC")
-  |> Dotcom.Utils.Time.format!(:mm_dd_yyyy_time)
+    |> Dotcom.Utils.Time.format!(:mm_dd_yyyy_time)
   end
 
   defp ticket_number(%Message{
