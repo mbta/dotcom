@@ -4,6 +4,7 @@
   border: solid $border-width $brand-primary-dark;
   border-radius: $border-radius;
   overflow: hidden;
+  padding: .5rem .75rem;
   padding-right: $base-spacing * 2;
   text-overflow: ellipsis;
   white-space: nowrap;
