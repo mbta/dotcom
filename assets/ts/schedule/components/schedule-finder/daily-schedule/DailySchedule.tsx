@@ -33,23 +33,7 @@ interface Props {
 }
 
 // Exported solely for testing
-export const fetchJourneys = (
-  routeId: string,
-  selectedOrigin: string,
-  selectedService: Service,
-  selectedDirection: DirectionId,
-  isCurrent: boolean
-): (() => Promise<Response>) => () =>
-  window.fetch &&
-  window.fetch(
-    `/schedules/finder_api/journeys?id=${
-      routeId === "627" ? "627,76,62" : routeId
-    }&date=${getRepresentativeDate(
-      selectedService
-    )}&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
-  );
-
-export const getRepresentativeDate = (service: Service) => {
+export const getRepresentativeDate = (service: Service): string => {
   if (service.id === "FallWeekday") {
     /*
      * This is a quick-fix hack in order to ensure that the
@@ -66,10 +50,27 @@ export const getRepresentativeDate = (service: Service) => {
      * hack is in place only until we address the root problem.
      */
     return "2025-12-11";
-  } else {
-    return service.end_date;
   }
+
+  return service.end_date;
 };
+
+// Exported solely for testing
+export const fetchJourneys = (
+  routeId: string,
+  selectedOrigin: string,
+  selectedService: Service,
+  selectedDirection: DirectionId,
+  isCurrent: boolean
+): (() => Promise<Response>) => () =>
+  window.fetch &&
+  window.fetch(
+    `/schedules/finder_api/journeys?id=${
+      routeId === "627" ? "627,76,62" : routeId
+    }&date=${getRepresentativeDate(
+      selectedService
+    )}&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
+  );
 
 // Takes grouped holiday records with the same schedule and flattens them into their own
 // Service entry
