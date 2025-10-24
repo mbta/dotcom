@@ -123,7 +123,7 @@ defmodule DotcomWeb.Live.TripPlanner do
               "h-64 md:h-[32rem] w-full",
               @results.itinerary_group_selection == nil && "hidden md:block",
               @results.itinerary_group_selection != nil && "block"
-            ]}
+            ] |> Enum.join(" ")}
             config={@map.config}
             lines={@map.lines}
             pins={@map.pins}
