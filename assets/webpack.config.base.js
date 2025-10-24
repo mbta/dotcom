@@ -186,6 +186,10 @@ module.exports = {
   ],
 
   resolve: {
+    alias: {
+      // Metro's Flatpickr import briefly, optionally references jQuery without importing it, which breaks Webpack unless we add this line
+      jquery: path.resolve(__dirname, "./node_modules/jquery")
+    },
     symlinks: false,
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   }
