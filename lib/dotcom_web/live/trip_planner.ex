@@ -118,12 +118,15 @@ defmodule DotcomWeb.Live.TripPlanner do
           <.live_component
             module={MbtaMetro.Live.Map}
             id="trip-planner-map"
-            class={[
-              "md:sticky md:top-4",
-              "h-64 md:h-[32rem] w-full",
-              @results.itinerary_group_selection == nil && "hidden md:block",
-              @results.itinerary_group_selection != nil && "block"
-            ] |> Enum.join(" ")}
+            class={
+              [
+                "md:sticky md:top-4",
+                "h-64 md:h-[32rem] w-full",
+                @results.itinerary_group_selection == nil && "hidden md:block",
+                @results.itinerary_group_selection != nil && "block"
+              ]
+              |> Enum.join(" ")
+            }
             config={@map.config}
             lines={@map.lines}
             pins={@map.pins}
