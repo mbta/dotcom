@@ -63,7 +63,7 @@ defmodule DotcomWeb.AlertView do
   @spec no_alerts_message(map, boolean, atom) :: iolist
   def no_alerts_message(route, false, :current) do
     [
-      ~t"Service is running as expected",
+      "Service is running as expected",
       location_name(route, false),
       ". ",
       empty_message_for_timeframe(:current, "")
@@ -71,7 +71,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   def no_alerts_message(route, false, :upcoming) do
-    empty_message_for_timeframe(:upcoming, [~t" for the ", route.name])
+    empty_message_for_timeframe(:upcoming, [" for the ", route.name])
   end
 
   def no_alerts_message(route, stop?, timeframe) do
@@ -80,16 +80,16 @@ defmodule DotcomWeb.AlertView do
 
   @spec location_name(map, boolean) :: iolist
   def location_name(route, true) do
-    [~t" at ", route.name]
+    [" at ", route.name]
   end
 
   def location_name(route, false) do
-    [~t" on the ", route.name]
+    [" on the ", route.name]
   end
 
   @spec format_alerts_timeframe(atom | nil) :: String.t() | nil
   def format_alerts_timeframe(:upcoming) do
-    ~t"planned"
+    "planned"
   end
 
   def format_alerts_timeframe(:all_timeframes) do
@@ -106,18 +106,28 @@ defmodule DotcomWeb.AlertView do
 
   @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist
   def empty_message_for_timeframe(:current, location),
-    do: [~t"There are no ", format_alerts_timeframe(:current), ~t" alerts", location, ~t"."]
+    do: [
+      "There are no ",
+      format_alerts_timeframe(:current),
+      " alerts",
+      location,
+      "."
+    ]
 
   def empty_message_for_timeframe(nil, location),
-    do: [~t"There are no alerts", location, ~t" at this time."]
+    do: [
+      "There are no alerts",
+      location,
+      " at this time."
+    ]
 
   def empty_message_for_timeframe(timeframe, location),
     do: [
-      ~t"There are no ",
+      "There are no ",
       format_alerts_timeframe(timeframe),
-      ~t" alerts",
+      " alerts",
       location,
-      ~t" at this time."
+      " at this time."
     ]
 
   @spec filter_by_priority(
@@ -168,14 +178,14 @@ defmodule DotcomWeb.AlertView do
   def alert_updated(updated_at, relative_to) do
     date =
       if Timex.equal?(relative_to, updated_at) do
-        ~t"Today at"
+        "Today at"
       else
         Timex.format!(updated_at, "{M}/{D}/{YYYY}")
       end
 
     time = Timex.format!(updated_at, "{h12}:{m} {AM} {Zabbr}") |> String.trim()
 
-    [~t"Updated: ", date, 32, time]
+    ["Updated: ", date, 32, time]
   end
 
   def format_alert_description(text) do
@@ -248,7 +258,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   @spec type_name(atom) :: String.t()
-  def type_name(:commuter_rail), do: ~t"Rail"
+  def type_name(:commuter_rail), do: "Rail"
   def type_name(mode), do: mode_name(mode)
 
   @spec type_icon(atom) :: Phoenix.HTML.Safe.t()

@@ -226,12 +226,12 @@ defmodule DotcomWeb.LayoutView do
   end
 
   def meta_description(_) do
-    ~t"Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+    ~t(Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines.)
   end
 
   def title(%Plug.Conn{} = conn) do
     if Phoenix.Controller.view_template(conn) == "404.html" do
-      ~t"Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+      ~t(Page Not Found | MBTA - Massachusetts Bay Transportation Authority)
     else
       title_breadcrumbs(conn)
     end

@@ -71,9 +71,9 @@ defmodule DotcomWeb.BusStopChangeView do
     )
   end
 
-  defp filter_text(nil), do: ~t"Past Changes"
-  defp filter_text(:current), do: ~t"Current Changes"
-  defp filter_text(:upcoming), do: ~t"Upcoming Changes"
+  defp filter_text(nil), do: "Past Changes"
+  defp filter_text(:current), do: "Current Changes"
+  defp filter_text(:upcoming), do: "Upcoming Changes"
 
   @spec affected_stop_link(Plug.Conn.t(), Stop.t() | String.t()) :: Phoenix.HTML.Safe.t() | nil
   def affected_stop_link(_conn, stopname) when is_binary(stopname) do

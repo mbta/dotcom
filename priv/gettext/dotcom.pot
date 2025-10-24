@@ -22,7 +22,6 @@ msgid "Local Bus One-Way"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
-#: lib/dotcom_web/views/fare_view.ex:51
 #: lib/fares/format.ex:110
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
@@ -432,7 +431,6 @@ msgstr ""
 #: lib/dotcom_web/live/subway_alerts.ex:31
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:48
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex:16
-#: lib/dotcom_web/views/schedule_view.ex:294
 #, elixir-autogen, elixir-format
 msgid "Alerts"
 msgstr ""
@@ -557,7 +555,6 @@ msgid "with"
 msgstr ""
 
 #: lib/dotcom_web/templates/alert/show.html.heex:51
-#: lib/dotcom_web/views/partial_view.ex:191
 #, elixir-autogen, elixir-format
 msgid "All Alerts"
 msgstr ""
@@ -603,7 +600,6 @@ msgstr ""
 #: lib/dotcom_web/live/search_page.html.heex:36
 #: lib/dotcom_web/live/search_page.html.heex:40
 #: lib/dotcom_web/templates/bus_stop_change/index.html.heex:19
-#: lib/dotcom_web/views/partial_view.ex:154
 #, elixir-autogen, elixir-format
 msgid "Filter by type"
 msgstr ""
@@ -1213,7 +1209,6 @@ msgid "Early Departure"
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:108
-#: lib/dotcom_web/views/schedule/timetable.ex:46
 #, elixir-autogen, elixir-format
 msgid "Early Departure Stop"
 msgstr ""
@@ -1234,7 +1229,6 @@ msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:101
 #: lib/dotcom_web/templates/schedule/_timetable_schedule.html.heex:18
-#: lib/dotcom_web/views/schedule/timetable.ex:50
 #, elixir-autogen, elixir-format
 msgid "Flag Stop"
 msgstr ""
@@ -1550,7 +1544,6 @@ msgid "View PDF Timetable"
 msgstr ""
 
 #: lib/dotcom_web/templates/mode/index.html.heex:43
-#: lib/dotcom_web/views/fare_view.ex:109
 #, elixir-autogen, elixir-format
 msgid "View fares overview"
 msgstr ""
@@ -1763,8 +1756,6 @@ msgstr ""
 msgid "1-Day Pass"
 msgstr ""
 
-#: lib/dotcom_web/views/fare_view.ex:47
-#: lib/dotcom_web/views/fare_view.ex:70
 #: lib/fares/format.ex:62
 #: lib/fares/format.ex:113
 #, elixir-autogen, elixir-format
@@ -1842,14 +1833,12 @@ msgstr ""
 msgid "Foxboro Special Event"
 msgstr ""
 
-#: lib/dotcom_web/views/schedule_view.ex:354
 #: lib/fares/format.ex:16
 #: lib/fares/format.ex:18
 #, elixir-autogen, elixir-format
 msgid "Free"
 msgstr ""
 
-#: lib/dotcom_web/views/helpers.ex:244
 #: lib/fares/format.ex:99
 #, elixir-autogen, elixir-format
 msgid "Free Service"
@@ -1881,7 +1870,6 @@ msgid "Local Bus"
 msgstr ""
 
 #: lib/dotcom_web/components/route_symbols.ex:245
-#: lib/dotcom_web/views/helpers.ex:233
 #: lib/fares/format.ex:105
 #, elixir-autogen, elixir-format
 msgid "Logan Express"
@@ -1892,15 +1880,12 @@ msgstr ""
 msgid "Lynn Ferry"
 msgstr ""
 
-#: lib/dotcom_web/views/helpers.ex:236
-#: lib/dotcom_web/views/helpers.ex:238
 #: lib/fares/format.ex:104
 #: lib/fares/format.ex:106
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle"
 msgstr ""
 
-#: lib/dotcom_web/views/fare_view.ex:66
 #: lib/fares/format.ex:111
 #, elixir-autogen, elixir-format
 msgid "Monthly Local Bus Pass"
@@ -1967,9 +1952,7 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex:200
 #: lib/dotcom_web/controllers/mode/subway.ex:22
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:31
-#: lib/dotcom_web/views/helpers.ex:227
 #: lib/dotcom_web/views/layout_view.ex:48
-#: lib/dotcom_web/views/page_view.ex:193
 #: lib/fares/format.ex:84
 #, elixir-autogen, elixir-format
 msgid "Subway"
@@ -2104,7 +2087,6 @@ msgstr ""
 #: lib/dotcom_web/controllers/stop_controller.ex:355
 #: lib/dotcom_web/templates/stop/index.html.heex:22
 #: lib/dotcom_web/templates/stop/index.html.heex:42
-#: lib/dotcom_web/views/page_view.ex:178
 #, elixir-autogen, elixir-format
 msgid "Stations"
 msgstr ""
@@ -2153,7 +2135,6 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex:201
 #: lib/dotcom_web/controllers/mode/bus.ex:14
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:39
-#: lib/dotcom_web/views/helpers.ex:229
 #: lib/dotcom_web/views/layout_view.ex:49
 #, elixir-autogen, elixir-format
 msgid "Bus"
@@ -2179,9 +2160,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex:243
 #: lib/dotcom_web/controllers/mode/commuter.ex:13
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:35
-#: lib/dotcom_web/views/helpers.ex:228
 #: lib/dotcom_web/views/layout_view.ex:50
-#: lib/dotcom_web/views/page_view.ex:188
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail"
 msgstr ""
@@ -2233,7 +2212,6 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex:244
 #: lib/dotcom_web/controllers/mode/ferry.ex:10
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:43
-#: lib/dotcom_web/views/helpers.ex:230
 #: lib/dotcom_web/views/layout_view.ex:51
 #, elixir-autogen, elixir-format
 msgid "Ferry"
@@ -2936,7 +2914,6 @@ msgid "station"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:69
-#: lib/dotcom_web/views/helpers.ex:218
 #, elixir-autogen, elixir-format
 msgid "to"
 msgstr ""
@@ -3270,7 +3247,6 @@ msgstr ""
 #: lib/dotcom_web/controllers/mode/hub_behavior.ex:73
 #: lib/dotcom_web/controllers/mode_controller.ex:29
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:24
-#: lib/dotcom_web/views/schedule_view.ex:310
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
 msgstr ""
@@ -3481,8 +3457,6 @@ msgid "Massport Shuttle %{route_number}"
 msgstr ""
 
 #: lib/dotcom_web/components/route_symbols.ex:250
-#: lib/dotcom_web/views/helpers.ex:242
-#: lib/dotcom_web/views/helpers.ex:243
 #, elixir-autogen, elixir-format
 msgid "Mattapan Trolley"
 msgstr ""
@@ -3766,7 +3740,6 @@ msgstr ""
 
 #: lib/alerts/alert.ex:261
 #: lib/alerts/alert.ex:262
-#: lib/dotcom_web/views/schedule_view.ex:167
 #, elixir-autogen, elixir-format
 msgid "Upcoming"
 msgstr ""
@@ -3810,465 +3783,4 @@ msgstr ""
 #: lib/alerts/alert.ex:283
 #, elixir-autogen, elixir-format
 msgid "up to 30 min"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:74
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:173
-#, elixir-autogen, elixir-format
-msgid " schedule"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:174
-#, elixir-autogen, elixir-format
-msgid " schedule and map"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:468
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr ""
-
-#: lib/dotcom_web/views/page_view.ex:179
-#, elixir-autogen, elixir-format
-msgid " & Stops"
-msgstr ""
-
-#: lib/dotcom_web/views/page_view.ex:194
-#, elixir-autogen, elixir-format
-msgid " Lines"
-msgstr ""
-
-#: lib/dotcom_web/views/page_view.ex:201
-#, elixir-autogen, elixir-format
-msgid " Routes"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:398
-#, elixir-autogen, elixir-format
-msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:109
-#: lib/dotcom_web/views/alert_view.ex:118
-#, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:83
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:112
-#: lib/dotcom_web/views/alert_view.ex:120
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:87
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr ""
-
-#: lib/dotcom_web/views/helpers/alert_helpers.ex:28
-#, elixir-autogen, elixir-format
-msgid "%{count} alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/cms_view.ex:57
-#, elixir-autogen, elixir-format
-msgid "%{date} at %{start_time} - %{end_time}"
-msgstr ""
-
-#: lib/dotcom_web/views/cms_view.ex:50
-#, elixir-autogen, elixir-format
-msgid "%{date} at %{time}"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:70
-#, elixir-autogen, elixir-format
-msgid "%{date} is outside of our current schedule."
-msgstr ""
-
-#: lib/dotcom_web/views/cms_view.ex:65
-#, elixir-autogen, elixir-format
-msgid "%{sdate} %{stime} - %{edate} %{etime}"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:109
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr ""
-
-#: lib/dotcom_web/views/helpers/alert_helpers.ex:27
-#, elixir-autogen, elixir-format
-msgid "1 alert"
-msgstr ""
-
-#: lib/dotcom_web/views/helpers.ex:240
-#, elixir-autogen, elixir-format
-msgid "Access"
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:46
-#, elixir-autogen, elixir-format
-msgid "All fields with an asterisk* are required."
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:177
-#, elixir-autogen, elixir-format
-msgid "Bus Map"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:274
-#, elixir-autogen, elixir-format
-msgid "Bus Route"
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:175
-#, elixir-autogen, elixir-format
-msgid "Commuter Rail Map"
-msgstr ""
-
-#: lib/dotcom_web/views/fare_view.ex:81
-#, elixir-autogen, elixir-format
-msgid "Commuter Rail Monthly Pass"
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:174
-#, elixir-autogen, elixir-format
-msgid "Commuter Rail Zones Map"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:166
-#, elixir-autogen, elixir-format
-msgid "Current"
-msgstr ""
-
-#: lib/dotcom_web/views/partial_view.ex:192
-#, elixir-autogen, elixir-format
-msgid "Current Alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/bus_stop_change_view.ex:75
-#, elixir-autogen, elixir-format
-msgid "Current Changes"
-msgstr ""
-
-#: lib/dotcom_web/views/fare_view.ex:62
-#, elixir-autogen, elixir-format
-msgid "Express Bus One-Way"
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:178
-#, elixir-autogen, elixir-format
-msgid "Ferry Map"
-msgstr ""
-
-#: lib/dotcom_web/views/fare_view.ex:92
-#, elixir-autogen, elixir-format
-msgid "Ferry Monthly Pass"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:425
-#, elixir-autogen, elixir-format
-msgid "Flag the bus in any safe place along the route"
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:61
-#, elixir-autogen, elixir-format
-msgid "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:74
-#, elixir-autogen, elixir-format
-msgid "If you'd like us to give you a call, please give us the best number where we can reach you."
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:22
-#: lib/dotcom_web/views/mode_view.ex:118
-#, elixir-autogen, elixir-format
-msgid "MBTA Paratransit Program"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule/stop_list.ex:34
-#, elixir-autogen, elixir-format
-msgid "Monday to Friday"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule/stop_list.ex:15
-#: lib/dotcom_web/views/schedule/stop_list.ex:19
-#, elixir-autogen, elixir-format
-msgid "No Service"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:397
-#, elixir-autogen, elixir-format
-msgid "Note:"
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:25
-#, elixir-autogen, elixir-format
-msgid "Oh no! We're experiencing delays."
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:10
-#, elixir-autogen, elixir-format
-msgid "Page not found"
-msgstr ""
-
-#: lib/dotcom_web/views/bus_stop_change_view.ex:74
-#, elixir-autogen, elixir-format
-msgid "Past Changes"
-msgstr ""
-
-#: lib/dotcom_web/views/partial_view.ex:193
-#, elixir-autogen, elixir-format
-msgid "Planned Service Alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:127
-#, elixir-autogen, elixir-format
-msgid "Please enter a comment to continue."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:133
-#, elixir-autogen, elixir-format
-msgid "Please enter a valid email."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:131
-#, elixir-autogen, elixir-format
-msgid "Please enter a valid vehicle number with numeric characters only."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:134
-#, elixir-autogen, elixir-format
-msgid "Please enter your first name to continue."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:135
-#, elixir-autogen, elixir-format
-msgid "Please enter your last name to continue."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:126
-#, elixir-autogen, elixir-format
-msgid "Please select the type of concern."
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:251
-#, elixir-autogen, elixir-format
-msgid "Rail"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:305
-#, elixir-autogen, elixir-format
-msgid "Schedule & Maps"
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:114
-#, elixir-autogen, elixir-format
-msgid "Select"
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:24
-#, elixir-autogen, elixir-format
-msgid "Server issue"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:66
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:26
-#, elixir-autogen, elixir-format
-msgid "Something went wrong on our end."
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:11
-#, elixir-autogen, elixir-format
-msgid "Sorry! We missed your stop."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:143
-#, elixir-autogen, elixir-format
-msgid "Sorry. Something went wrong. Please try again."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:128
-#, elixir-autogen, elixir-format
-msgid "Sorry. We had trouble uploading your image. Please try again."
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:176
-#, elixir-autogen, elixir-format
-msgid "Subway Map"
-msgstr ""
-
-#: lib/dotcom_web/views/page_view.ex:184
-#, elixir-autogen, elixir-format
-msgid "The RIDE"
-msgstr ""
-
-#: lib/dotcom_web/views/helpers.ex:241
-#, elixir-autogen, elixir-format
-msgid "The Ride"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:109
-#: lib/dotcom_web/views/alert_view.ex:116
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:112
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:84
-#, elixir-autogen, elixir-format
-msgid "There are no scheduled %{direction} trips on %{date}."
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:91
-#, elixir-autogen, elixir-format
-msgid "There are no scheduled %{direction} trips."
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:102
-#, elixir-autogen, elixir-format
-msgid "There are no scheduled trips on %{date}."
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:105
-#, elixir-autogen, elixir-format
-msgid "There are no scheduled trips."
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:12
-#, elixir-autogen, elixir-format
-msgid "This page is no longer in service."
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:446
-#, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:304
-#, elixir-autogen, elixir-format
-msgid "Timetable"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:171
-#, elixir-autogen, elixir-format
-msgid "Today at"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule/timetable.ex:59
-#, elixir-autogen, elixir-format
-msgid "Train scheduled to board from %{platform} at %{station}"
-msgstr ""
-
-#: lib/dotcom_web/views/error_view.ex:13
-#: lib/dotcom_web/views/error_view.ex:27
-#, elixir-autogen, elixir-format
-msgid "Try searching for what you're looking for below."
-msgstr ""
-
-#: lib/dotcom_web/views/bus_stop_change_view.ex:76
-#, elixir-autogen, elixir-format
-msgid "Upcoming Changes"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:178
-#, elixir-autogen, elixir-format
-msgid "Updated: "
-msgstr ""
-
-#: lib/dotcom_web/views/mode_view.ex:69
-#, elixir-autogen, elixir-format
-msgid "View all bus routes"
-msgstr ""
-
-#: lib/dotcom_web/views/paragraph_view.ex:209
-#, elixir-autogen, elixir-format
-msgid "View all events"
-msgstr ""
-
-#: lib/dotcom_web/views/paragraph_view.ex:216
-#, elixir-autogen, elixir-format
-msgid "View all news"
-msgstr ""
-
-#: lib/dotcom_web/views/paragraph_view.ex:202
-#, elixir-autogen, elixir-format
-msgid "View all project updates"
-msgstr ""
-
-#: lib/dotcom_web/views/paragraph_view.ex:223
-#, elixir-autogen, elixir-format
-msgid "View all projects"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:74
-#, elixir-autogen, elixir-format
-msgid "We can only provide trip data for the %{rating} schedule, valid until %{end_date}."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:44
-#, elixir-autogen, elixir-format
-msgid "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:138
-#, elixir-autogen, elixir-format
-msgid "You must agree to our Privacy Policy before submitting your feedback."
-msgstr ""
-
-#: lib/dotcom_web/views/customer_support_view.ex:141
-#, elixir-autogen, elixir-format
-msgid "You must complete the reCAPTCHA before submitting your feedback."
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:441
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr ""
-
-#: lib/dotcom_web/views/helpers.ex:559
-#, elixir-autogen, elixir-format
-msgid "line"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:439
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex:92
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr ""
-
-#: lib/dotcom_web/views/helpers.ex:558
-#, elixir-autogen, elixir-format
-msgid "route"
-msgstr ""
-
-#: lib/dotcom_web/views/schedule_view.ex:440
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr ""
-
-#: lib/dotcom_web/views/helpers.ex:552
-#, elixir-autogen, elixir-format
-msgid "today"
 msgstr ""

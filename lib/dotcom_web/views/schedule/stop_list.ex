@@ -3,7 +3,6 @@ defmodule DotcomWeb.ScheduleView.StopList do
   Functions likely associated with an earlier version of the schedules page,
   which manage to still be invoked in other pages.
   """
-  use Dotcom.Gettext.Sigils
 
   alias DotcomWeb.ViewHelpers
 
@@ -12,11 +11,11 @@ defmodule DotcomWeb.ScheduleView.StopList do
   """
   @spec display_departure_range(Schedules.Departures.t()) :: iodata
   def display_departure_range(:no_service) do
-    ~t"No Service"
+    "No Service"
   end
 
   def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
-    ~t"No Service"
+    "No Service"
   end
 
   def display_departure_range(%Schedules.Departures{} = departures) do
@@ -31,7 +30,7 @@ defmodule DotcomWeb.ScheduleView.StopList do
   Displays a schedule period.
   """
   @spec schedule_period(atom) :: String.t()
-  def schedule_period(:week), do: ~t"Monday to Friday"
+  def schedule_period(:week), do: "Monday to Friday"
 
   def schedule_period(period) do
     period

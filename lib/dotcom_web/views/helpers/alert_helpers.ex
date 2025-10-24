@@ -1,10 +1,5 @@
 defmodule DotcomWeb.Views.Helpers.AlertHelpers do
-  @moduledoc false
-
-  use Dotcom.Gettext.Sigils
-
   import DotcomWeb.Router.Helpers, only: [line_path: 3]
-
   alias DotcomWeb.PartialView.HeaderTabBadge
 
   def alert_line_show_path(_conn, "Elevator"), do: "/accessibility"
@@ -24,6 +19,6 @@ defmodule DotcomWeb.Views.Helpers.AlertHelpers do
   end
 
   @spec alert_badge_aria_label(integer) :: String.t()
-  defp alert_badge_aria_label(1), do: ~t"1 alert"
-  defp alert_badge_aria_label(count), do: gettext("%{count} alerts", count: count)
+  defp alert_badge_aria_label(1), do: "1 alert"
+  defp alert_badge_aria_label(count), do: "#{count} alerts"
 end

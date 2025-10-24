@@ -1,9 +1,9 @@
 defmodule DotcomWeb.ViewHelpers do
   @moduledoc """
-  Helper functions used across DotcomWeb views.
-  """
 
-  use Dotcom.Gettext.Sigils
+  Helper functions used across DotcomWeb views.
+
+  """
 
   import Dotcom.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
   import DotcomWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
@@ -215,7 +215,7 @@ defmodule DotcomWeb.ViewHelpers do
       Route.direction_name(route, direction_id),
       " ",
       fa("arrow-right"),
-      content_tag(:span, ~t"to", class: "sr-only"),
+      content_tag(:span, "to", class: "sr-only"),
       " ",
       headsign
     ]
@@ -224,24 +224,24 @@ defmodule DotcomWeb.ViewHelpers do
   @spec mode_name(0..4 | Routes.Route.route_type() | Routes.Route.subway_lines_type() | :access) ::
           String.t()
   @doc "Textual version of a mode ID or type"
-  def mode_name(type) when type in [0, 1, :subway], do: ~t"Subway"
-  def mode_name(type) when type in [2, :commuter_rail], do: ~t"Commuter Rail"
-  def mode_name(type) when type in [3, :bus], do: ~t"Bus"
-  def mode_name(type) when type in [4, :ferry], do: ~t"Ferry"
+  def mode_name(type) when type in [0, 1, :subway], do: "Subway"
+  def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
+  def mode_name(type) when type in [3, :bus], do: "Bus"
+  def mode_name(type) when type in [4, :ferry], do: "Ferry"
 
   def mode_name(type) when type in ["2274", "909", :logan_express, "Logan Express"],
-    do: ~t"Logan Express"
+    do: "Logan Express"
 
   def mode_name(type) when type in ["2272", "983", :massport_shuttle],
-    do: ~t"Massport Shuttle"
+    do: "Massport Shuttle"
 
-  def mode_name("Massport" <> _route), do: ~t"Massport Shuttle"
+  def mode_name("Massport" <> _route), do: "Massport Shuttle"
 
-  def mode_name(:access), do: ~t"Access"
-  def mode_name(:the_ride), do: ~t"The Ride"
-  def mode_name(:mattapan_trolley), do: ~t"Mattapan Trolley"
-  def mode_name(:mattapan_line), do: ~t"Mattapan Trolley"
-  def mode_name(:free_fare), do: ~t"Free Service"
+  def mode_name(:access), do: "Access"
+  def mode_name(:the_ride), do: "The Ride"
+  def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
+  def mode_name(:mattapan_line), do: "Mattapan Trolley"
+  def mode_name(:free_fare), do: "Free Service"
 
   def mode_name(mode_atom)
       when mode_atom in @subway_lines do
@@ -549,14 +549,14 @@ defmodule DotcomWeb.ViewHelpers do
 
   def pretty_date(date, format \\ "{Mshort} {D}") do
     if date == Util.service_date() do
-      ~t"today"
+      "today"
     else
       Timex.format!(date, format)
     end
   end
 
-  def route_term(type) when type in [:bus, :ferry], do: ~t"route"
-  def route_term(type) when type in [:subway, :commuter_rail], do: ~t"line"
+  def route_term(type) when type in [:bus, :ferry], do: "route"
+  def route_term(type) when type in [:subway, :commuter_rail], do: "line"
 
   @spec banner_message(Conn.t(), atom) :: Safe.t() | nil
   def banner_message(conn, key) do
@@ -573,9 +573,9 @@ defmodule DotcomWeb.ViewHelpers do
   end
 
   @doc """
-  Intended for usage with static assets, as these are compatible with the
-  Phoenix.Endpoint.static_lookup/1 method. Outputs the static URL, attribute
-  with asset integrity hash, and expected crossorigin attribute (as the
+  Intended for usage with static assets, as these are compatible with the 
+  Phoenix.Endpoint.static_lookup/1 method. Outputs the static URL, attribute 
+  with asset integrity hash, and expected crossorigin attribute (as the 
   website's assets load from the CDN rather than from the application).
   """
   @spec static_attributes(String.t()) :: map()

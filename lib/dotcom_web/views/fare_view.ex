@@ -2,7 +2,6 @@ defmodule DotcomWeb.FareView do
   @moduledoc """
   View for the Fares section of the website.
   """
-
   use DotcomWeb, :view
 
   alias CMS.Partial.Paragraph.{
@@ -44,11 +43,11 @@ defmodule DotcomWeb.FareView do
     %DescriptionList{
       descriptions: [
         %Description{
-          term: fare_pass_name(~t"7-Day Pass"),
+          term: fare_pass_name("7-Day Pass"),
           details: fare_pass_price("{{fare:subway:week}}")
         },
         %Description{
-          term: fare_pass_name(~t"Monthly LinkPass"),
+          term: fare_pass_name("Monthly LinkPass"),
           details: fare_pass_price("{{fare:subway:month}}")
         }
       ]
@@ -59,15 +58,15 @@ defmodule DotcomWeb.FareView do
     %DescriptionList{
       descriptions: [
         %Description{
-          term: fare_pass_name(~t"Express Bus One-Way"),
+          term: fare_pass_name("Express Bus One-Way"),
           details: fare_pass_price("{{fare:express_bus:charlie_card}}")
         },
         %Description{
-          term: fare_pass_name(~t"Monthly Local Bus Pass"),
+          term: fare_pass_name("Monthly Local Bus Pass"),
           details: fare_pass_price("{{fare:local_bus:month}}")
         },
         %Description{
-          term: fare_pass_name(~t"7-Day Pass"),
+          term: fare_pass_name("7-Day Pass"),
           details: fare_pass_price("{{fare:subway:week}}")
         }
       ]
@@ -78,7 +77,7 @@ defmodule DotcomWeb.FareView do
     %DescriptionList{
       descriptions: [
         %Description{
-          term: fare_pass_name(~t"Commuter Rail Monthly Pass"),
+          term: fare_pass_name("Commuter Rail Monthly Pass"),
           details: fare_pass_price("{{fare:commuter_rail:month:commuter_ticket}}")
         }
       ]
@@ -89,7 +88,7 @@ defmodule DotcomWeb.FareView do
     %DescriptionList{
       descriptions: [
         %Description{
-          term: fare_pass_name(~t"Ferry Monthly Pass"),
+          term: fare_pass_name("Ferry Monthly Pass"),
           details: fare_pass_price("{{fare:ferry:month:charlie_ticket}}")
         }
       ]
@@ -106,7 +105,7 @@ defmodule DotcomWeb.FareView do
   @spec fare_overview_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
   def fare_overview_link(mode, conn) do
     link(
-      ~t"View fares overview",
+      "View fares overview",
       to:
         cms_static_page_path(
           conn,

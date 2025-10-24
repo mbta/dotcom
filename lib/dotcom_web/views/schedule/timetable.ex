@@ -3,8 +3,6 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   Functions for showing timetable content.
   """
 
-  use Dotcom.Gettext.Sigils
-
   alias Routes.Route
   alias Schedules.Schedule
   alias Stops.Stop
@@ -43,11 +41,11 @@ defmodule DotcomWeb.ScheduleView.Timetable do
 
   @spec stop_type(Schedule.t()) :: nil | Phoenix.HTML.Safe.t()
   def stop_type(%Schedule{early_departure?: true}) do
-    ~t"Early Departure Stop"
+    "Early Departure Stop"
   end
 
   def stop_type(%Schedule{flag?: true}) do
-    ~t"Flag Stop"
+    "Flag Stop"
   end
 
   def stop_type(_) do
@@ -56,10 +54,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
 
   @spec track_change_description(String.t(), String.t() | nil) :: String.t() | nil
   def track_change_description(station_name, track_change_stop) do
-    gettext("Train scheduled to board from %{platform} at %{station}",
-      platform: track_change_stop.platform_name,
-      station: station_name
-    )
+    "Train scheduled to board from #{track_change_stop.platform_name} at #{station_name}"
   end
 
   @spec stop_row_class(integer) :: String.t()
