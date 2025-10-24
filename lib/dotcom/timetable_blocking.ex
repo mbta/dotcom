@@ -2,14 +2,11 @@ defmodule Dotcom.TimetableBlocking do
   @moduledoc """
   Support for blocking the timetable in the presence of special alert text.
   """
-
-  use Dotcom.Gettext.Sigils
-
   alias Alerts.Alert
   alias Routes.Route
 
-  def pdf_available_text, do: ~t"View PDF Timetable on the MBTA website."
-  def no_pdf_text, do: ~t"Schedule will be available soon on the MBTA website."
+  def pdf_available_text, do: "View PDF Timetable on the MBTA website."
+  def no_pdf_text, do: "Schedule will be available soon on the MBTA website."
 
   @doc """
   Strips the timetable blocking text from an alert header (if present)

@@ -1,7 +1,6 @@
 defmodule DotcomWeb.AlertController do
   @moduledoc false
 
-  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   import Dotcom.Alerts, only: [in_effect_now?: 1, service_impacting_alert?: 1]
@@ -88,13 +87,14 @@ defmodule DotcomWeb.AlertController do
     conn
     |> assign(
       :meta_description,
-      ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+      "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. " <>
+        "Updates on delays, construction, elevator outages, and more."
     )
     |> render(
       "show.html",
       id: id_to_atom(id),
       alert_groups: route_alerts |> Enum.reject(&match?({_, []}, &1)),
-      breadcrumbs: [Breadcrumb.build(~t"Alerts")]
+      breadcrumbs: [Breadcrumb.build("Alerts")]
     )
   end
 

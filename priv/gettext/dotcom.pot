@@ -78,7 +78,6 @@ msgstr ""
 msgid "Monday thru Friday"
 msgstr ""
 
-#: lib/dotcom_web/controllers/customer_support_controller.ex:63
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Report a Railroad Crossing Gate Issue"
@@ -90,7 +89,6 @@ msgstr ""
 msgid "To report a problem or emergency with a railroad crossing, call"
 msgstr ""
 
-#: lib/dotcom_web/controllers/customer_support_controller.ex:43
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:15
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:33
 #: lib/dotcom_web/views/layout_view.ex:133
@@ -104,7 +102,6 @@ msgstr ""
 msgid "Business Opportunities"
 msgstr ""
 
-#: lib/dotcom_web/controllers/customer_support_controller.ex:18
 #: lib/dotcom_web/templates/layout/_footer.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Call Us"
@@ -117,10 +114,6 @@ msgstr ""
 msgid "Careers"
 msgstr ""
 
-#: lib/dotcom_web/controllers/customer_support_controller.ex:107
-#: lib/dotcom_web/controllers/customer_support_controller.ex:234
-#: lib/dotcom_web/controllers/customer_support_controller.ex:247
-#: lib/dotcom_web/controllers/customer_support_controller.ex:257
 #: lib/dotcom_web/templates/customer_support/index.html.heex:3
 #: lib/dotcom_web/templates/layout/_footer.html.heex:15
 #: lib/dotcom_web/views/layout_view.ex:120
@@ -231,7 +224,6 @@ msgstr ""
 msgid "Public Meetings"
 msgstr ""
 
-#: lib/dotcom_web/controllers/customer_support_controller.ex:48
 #: lib/dotcom_web/templates/layout/_footer.html.heex:26
 #: lib/dotcom_web/views/layout_view.ex:125
 #, elixir-autogen, elixir-format
@@ -412,9 +404,6 @@ msgstr ""
 #: lib/dotcom_web/components/transit_icons.ex:25
 #: lib/dotcom_web/templates/page/_important_links.html.heex:63
 #: lib/dotcom_web/views/layout_view.ex:62
-#: lib/feedback/message.ex:25
-#: lib/feedback/message.ex:37
-#: lib/feedback/message.ex:50
 #, elixir-autogen, elixir-format
 msgid "Parking"
 msgstr ""
@@ -426,7 +415,6 @@ msgid "Sustainability"
 msgstr ""
 
 #: lib/dotcom_web/components/layouts/alerts_layout.html.heex:3
-#: lib/dotcom_web/controllers/alert_controller.ex:97
 #: lib/dotcom_web/live/commuter_rail_alerts.ex:27
 #: lib/dotcom_web/live/subway_alerts.ex:31
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:48
@@ -444,7 +432,6 @@ msgstr ""
 #: lib/dotcom_web/live/trip_planner.ex:103
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:32
 #: lib/dotcom_web/views/layout_view.ex:59
-#: lib/feedback/message.ex:54
 #, elixir-autogen, elixir-format
 msgid "Trip Planner"
 msgstr ""
@@ -726,8 +713,6 @@ msgstr ""
 msgid "Event Description"
 msgstr ""
 
-#: lib/dotcom_web/controllers/event_controller.ex:28
-#: lib/dotcom_web/controllers/event_controller.ex:94
 #: lib/dotcom_web/live/search_page.ex:88
 #: lib/dotcom_web/templates/event/_month.html.heex:13
 #: lib/dotcom_web/templates/event/index.html.heex:3
@@ -914,7 +899,6 @@ msgstr ""
 msgid "Please enter an address that is within 100 miles of an MBTA service area."
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:119
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Proposed Sales Locations"
@@ -936,7 +920,6 @@ msgstr ""
 msgid "Report suspected fraud, waste, or abuse"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:128
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:4
 #: lib/dotcom_web/views/layout_view.ex:108
 #, elixir-autogen, elixir-format
@@ -1213,7 +1196,6 @@ msgstr ""
 msgid "Early Departure Stop"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:127
 #: lib/dotcom_web/templates/mode/hub.html.heex:34
 #: lib/dotcom_web/templates/mode/index.html.heex:37
 #: lib/dotcom_web/templates/page/_fares_passes.html.heex:4
@@ -1305,8 +1287,6 @@ msgstr ""
 msgid "More Information"
 msgstr ""
 
-#: lib/dotcom_web/controllers/news_entry_controller.ex:92
-#: lib/dotcom_web/controllers/news_entry_controller.ex:97
 #: lib/dotcom_web/live/search_page.ex:89
 #: lib/dotcom_web/templates/mode/hub.html.heex:59
 #: lib/dotcom_web/templates/news_entry/index.html.heex:5
@@ -1393,8 +1373,6 @@ msgid "Schedule for"
 msgstr ""
 
 #: lib/dotcom_web/templates/mode/hub.html.heex:20
-#: lib/feedback/message.ex:38
-#: lib/feedback/message.ex:51
 #, elixir-autogen, elixir-format
 msgid "Schedules"
 msgstr ""
@@ -1869,7 +1847,6 @@ msgstr ""
 msgid "Local Bus"
 msgstr ""
 
-#: lib/dotcom_web/components/route_symbols.ex:245
 #: lib/fares/format.ex:105
 #, elixir-autogen, elixir-format
 msgid "Logan Express"
@@ -1950,8 +1927,6 @@ msgstr ""
 
 #: lib/dotcom/trip_plan/input_form.ex:199
 #: lib/dotcom/trip_plan/input_form.ex:200
-#: lib/dotcom_web/controllers/mode/subway.ex:22
-#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:31
 #: lib/dotcom_web/views/layout_view.ex:48
 #: lib/fares/format.ex:84
 #, elixir-autogen, elixir-format
@@ -2005,7 +1980,6 @@ msgstr ""
 msgid "Zone %{zone}"
 msgstr ""
 
-#: lib/dotcom_web/controllers/alert_controller.ex:91
 #: lib/dotcom_web/live/commuter_rail_alerts.ex:18
 #: lib/dotcom_web/live/subway_alerts.ex:29
 #, elixir-autogen, elixir-format
@@ -2023,7 +1997,6 @@ msgstr ""
 msgid "There are no other subway alerts at this time."
 msgstr ""
 
-#: lib/dotcom_web/controllers/cms_controller.ex:129
 #: lib/dotcom_web/controllers/project_controller.ex:105
 #: lib/dotcom_web/controllers/project_controller.ex:146
 #, elixir-autogen, elixir-format
@@ -2035,12 +2008,12 @@ msgstr ""
 msgid "Vote"
 msgstr ""
 
-#: lib/util/and_or.ex:13
+#: lib/util/and_or.ex:15
 #, elixir-autogen, elixir-format
 msgid "and"
 msgstr ""
 
-#: lib/util/and_or.ex:17
+#: lib/util/and_or.ex:19
 #, elixir-autogen, elixir-format
 msgid "or"
 msgstr ""
@@ -2083,8 +2056,6 @@ msgstr ""
 msgid "Showing major stops."
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:46
-#: lib/dotcom_web/controllers/stop_controller.ex:355
 #: lib/dotcom_web/templates/stop/index.html.heex:22
 #: lib/dotcom_web/templates/stop/index.html.heex:42
 #, elixir-autogen, elixir-format
@@ -2133,14 +2104,11 @@ msgid "Bikes"
 msgstr ""
 
 #: lib/dotcom/trip_plan/input_form.ex:201
-#: lib/dotcom_web/controllers/mode/bus.ex:14
-#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:39
 #: lib/dotcom_web/views/layout_view.ex:49
 #, elixir-autogen, elixir-format
 msgid "Bus"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/bus.ex:28
 #: lib/dotcom_web/views/layout_view.ex:96
 #, elixir-autogen, elixir-format
 msgid "Bus Fares"
@@ -2157,15 +2125,11 @@ msgid "Charlie Service Center"
 msgstr ""
 
 #: lib/dotcom/trip_plan/input_form.ex:198
-#: lib/dotcom_web/components/route_symbols.ex:243
-#: lib/dotcom_web/controllers/mode/commuter.ex:13
-#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:35
 #: lib/dotcom_web/views/layout_view.ex:50
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/commuter.ex:31
 #: lib/dotcom_web/views/layout_view.ex:97
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
@@ -2191,7 +2155,6 @@ msgstr ""
 msgid "Destinations"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:116
 #: lib/dotcom_web/views/layout_view.ex:89
 #, elixir-autogen, elixir-format
 msgid "Fare Transformation"
@@ -2209,9 +2172,6 @@ msgid "Fares Overview"
 msgstr ""
 
 #: lib/dotcom/trip_plan/input_form.ex:202
-#: lib/dotcom_web/components/route_symbols.ex:244
-#: lib/dotcom_web/controllers/mode/ferry.ex:10
-#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:43
 #: lib/dotcom_web/views/layout_view.ex:51
 #, elixir-autogen, elixir-format
 msgid "Ferry"
@@ -2860,7 +2820,6 @@ msgid "Trips from %{from} to %{to}"
 msgstr ""
 
 #: lib/alerts/alert.ex:251
-#: lib/alerts/alert.ex:264
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr ""
@@ -2897,8 +2856,6 @@ msgid "boat"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex:252
-#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:61
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:308
 #, elixir-autogen, elixir-format
 msgid "bus"
 msgstr ""
@@ -2923,6 +2880,12 @@ msgstr ""
 msgid "train"
 msgstr ""
 
+#: lib/dotcom/schedule_note.ex:130
+#: lib/dotcom/schedule_note.ex:136
+#, elixir-autogen, elixir-format
+msgid "minutes"
+msgstr ""
+
 #: lib/dotcom_web/live/trip_planner.ex:64
 #, elixir-autogen, elixir-format
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
@@ -2940,20 +2903,14 @@ msgstr ""
 msgid "Elevator & Escalator"
 msgstr ""
 
-#: lib/alerts/alert.ex:213
 #: lib/dotcom/alerts/commuter_rail.ex:19
 #: lib/dotcom/alerts/subway.ex:18
-#: lib/feedback/message.ex:28
-#: lib/feedback/message.ex:41
-#: lib/feedback/message.ex:56
-#: lib/feedback/message.ex:64
 #, elixir-autogen, elixir-format
 msgid "Other"
 msgstr ""
 
 #: lib/dotcom/alerts/commuter_rail.ex:14
 #: lib/dotcom/alerts/subway.ex:14
-#: lib/feedback/message.ex:63
 #, elixir-autogen, elixir-format
 msgid "Service"
 msgstr ""
@@ -3167,620 +3124,4 @@ msgstr ""
 #: lib/dotcom_web/live/search_page.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "Submit"
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/commuter.ex:18
-#, elixir-autogen, elixir-format
-msgid "%{link} depend on the distance traveled (zones). Refer to the information below:"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:61
-#, elixir-autogen, elixir-format
-msgid "%{name} Commuter Rail"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:42
-#, elixir-autogen, elixir-format
-msgid "Alerts for MBTA %{description}"
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/ferry.ex:15
-#, elixir-autogen, elixir-format
-msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/bus.ex:19
-#, elixir-autogen, elixir-format
-msgid "For Express Bus fares, read the complete %{link} page."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:300
-#, elixir-autogen, elixir-format
-msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:44
-#, elixir-autogen, elixir-format
-msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:284
-#, elixir-autogen, elixir-format
-msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:292
-#, elixir-autogen, elixir-format
-msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/green.ex:50
-#, elixir-autogen, elixir-format
-msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
-#, elixir-autogen, elixir-format
-msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
-#, elixir-autogen, elixir-format
-msgid "Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
-#, elixir-autogen, elixir-format
-msgid "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/hub_behavior.ex:6
-#, elixir-autogen, elixir-format
-msgid "Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode_controller.ex:34
-#, elixir-autogen, elixir-format
-msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/hub_behavior.ex:73
-#: lib/dotcom_web/controllers/mode_controller.ex:29
-#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:24
-#, elixir-autogen, elixir-format
-msgid "Schedules & Maps"
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/subway.ex:27
-#, elixir-autogen, elixir-format
-msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:269
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:272
-#, elixir-autogen, elixir-format
-msgid "Via"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:37
-#, elixir-autogen, elixir-format
-msgid "alerts"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:66
-#, elixir-autogen, elixir-format
-msgid "docks"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:67
-#, elixir-autogen, elixir-format
-msgid "stations"
-msgstr ""
-
-#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:299
-#, elixir-autogen, elixir-format
-msgid "timetable"
-msgstr ""
-
-#: lib/dotcom_web/controllers/stop_controller.ex:388
-#, elixir-autogen, elixir-format
-msgid " at %{address}"
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:23
-#, elixir-autogen, elixir-format
-msgid "ADA/Accessibility Complaints"
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:500
-#, elixir-autogen, elixir-format
-msgid "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:28
-#, elixir-autogen, elixir-format
-msgid "File a Discrimination Complaint"
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:38
-#, elixir-autogen, elixir-format
-msgid "Get Service Updates"
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:33
-#, elixir-autogen, elixir-format
-msgid "Lost and Found"
-msgstr ""
-
-#: lib/dotcom_web/controllers/cms_controller.ex:169
-#, elixir-autogen, elixir-format
-msgid "People"
-msgstr ""
-
-#: lib/dotcom_web/controllers/page_controller.ex:32
-#, elixir-autogen, elixir-format
-msgid "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:58
-#, elixir-autogen, elixir-format
-msgid "Report Fraud, Waste, or Abuse"
-msgstr ""
-
-#: lib/dotcom_web/controllers/stop_controller.ex:370
-#, elixir-autogen, elixir-format
-msgid "Station serving MBTA %{lines} lines%{location}."
-msgstr ""
-
-#: lib/dotcom_web/controllers/fare_controller.ex:202
-#, elixir-autogen, elixir-format
-msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
-msgstr ""
-
-#: lib/dotcom_web/controllers/customer_support_controller.ex:53
-#, elixir-autogen, elixir-format
-msgid "Write to Us"
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:100
-#, elixir-autogen, elixir-format
-msgid " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
-msgstr ""
-
-#: lib/vehicle_helpers.ex:143
-#: lib/vehicle_helpers.ex:157
-#, elixir-autogen, elixir-format
-msgid " has arrived at "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:142
-#, elixir-autogen, elixir-format
-msgid " is arriving at "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:144
-#, elixir-autogen, elixir-format
-msgid " is on the way to "
-msgstr ""
-
-#: lib/journey.ex:233
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:107
-#, elixir-autogen, elixir-format
-msgid " on track "
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:130
-#, elixir-autogen, elixir-format
-msgid "%{avg} minutes"
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:136
-#, elixir-autogen, elixir-format
-msgid "%{min} – %{max} minutes"
-msgstr ""
-
-#: lib/hub_stops.ex:41
-#, elixir-autogen, elixir-format
-msgid "Blue Line subway platform inside State Street"
-msgstr ""
-
-#: lib/hub_stops.ex:43
-#, elixir-autogen, elixir-format
-msgid "Blue Line train departing Airport station"
-msgstr ""
-
-#: lib/journey.ex:251
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr ""
-
-#: lib/hub_stops.ex:31
-#, elixir-autogen, elixir-format
-msgid "Entrance to Blue and Green Lines outside Government Center"
-msgstr ""
-
-#: lib/hub_stops.ex:21
-#: lib/hub_stops.ex:29
-#, elixir-autogen, elixir-format
-msgid "Entrance to Green and Red Lines outside Park Street"
-msgstr ""
-
-#: lib/hub_stops.ex:23
-#, elixir-autogen, elixir-format
-msgid "Entrance to Orange and Red Lines outside Downtown Crossing"
-msgstr ""
-
-#: lib/hub_stops.ex:37
-#, elixir-autogen, elixir-format
-msgid "Entrance to Ruggles station"
-msgstr ""
-
-#: lib/hub_stops.ex:12
-#: lib/hub_stops.ex:19
-#, elixir-autogen, elixir-format
-msgid "Entrances to Red Line and Commuter Rail outside South Station"
-msgstr ""
-
-#: lib/hub_stops.ex:42
-#, elixir-autogen, elixir-format
-msgid "Exterior of Wonderland station"
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:109
-#, elixir-autogen, elixir-format
-msgid "For regular weekday service to Foxboro please visit: "
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:112
-#, elixir-autogen, elixir-format
-msgid "Franklin Line"
-msgstr ""
-
-#: lib/dotcom_web/components/route_symbols.ex:248
-#, elixir-autogen, elixir-format
-msgid "Green Line %{branch} Branch"
-msgstr ""
-
-#: lib/hub_stops.ex:15
-#: lib/hub_stops.ex:36
-#, elixir-autogen, elixir-format
-msgid "Lobby inside Back Bay station"
-msgstr ""
-
-#: lib/dotcom_web/components/route_symbols.ex:256
-#, elixir-autogen, elixir-format
-msgid "Massport Shuttle %{route_number}"
-msgstr ""
-
-#: lib/dotcom_web/components/route_symbols.ex:250
-#, elixir-autogen, elixir-format
-msgid "Mattapan Trolley"
-msgstr ""
-
-#: lib/hub_stops.ex:35
-#, elixir-autogen, elixir-format
-msgid "People waiting as orange line train arrives inside North Station"
-msgstr ""
-
-#: lib/hub_stops.ex:14
-#, elixir-autogen, elixir-format
-msgid "People walking by train departure board inside North Station"
-msgstr ""
-
-#: lib/hub_stops.ex:27
-#, elixir-autogen, elixir-format
-msgid "People walking towards Green Line train inside North Station"
-msgstr ""
-
-#: lib/dotcom_web/components/route_symbols.ex:265
-#, elixir-autogen, elixir-format
-msgid "Route %{name}"
-msgstr ""
-
-#: lib/dotcom/timetable_blocking.ex:12
-#, elixir-autogen, elixir-format
-msgid "Schedule will be available soon on the MBTA website."
-msgstr ""
-
-#: lib/dotcom/schedule_note.ex:98
-#, elixir-autogen, elixir-format
-msgid "The Foxboro Special Events line is only for occasional service."
-msgstr ""
-
-#: lib/dotcom/timetable_blocking.ex:11
-#, elixir-autogen, elixir-format
-msgid "View PDF Timetable on the MBTA website."
-msgstr ""
-
-#: lib/vehicle_helpers.ex:158
-#, elixir-autogen, elixir-format
-msgid "arrived at"
-msgstr ""
-
-#: lib/dotcom/transit_near_me.ex:109
-#: lib/dotcom/transit_near_me.ex:115
-#, elixir-autogen, elixir-format
-msgid "arriving"
-msgstr ""
-
-#: lib/vehicle_helpers.ex:157
-#, elixir-autogen, elixir-format
-msgid "departed"
-msgstr ""
-
-#: lib/vehicle_helpers.ex:158
-#, elixir-autogen, elixir-format
-msgid "has left"
-msgstr ""
-
-#: lib/journey.ex:234
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr ""
-
-#: lib/fares/fare_info.ex:827
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr ""
-
-#: lib/feedback/message.ex:19
-#: lib/feedback/message.ex:32
-#, elixir-autogen, elixir-format
-msgid "Bus Stop"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:91
-#, elixir-autogen, elixir-format
-msgid "Cash"
-msgstr ""
-
-#: lib/feedback/message.ex:20
-#: lib/feedback/message.ex:33
-#: lib/feedback/message.ex:45
-#, elixir-autogen, elixir-format
-msgid "CharlieCards & Tickets"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:92
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr ""
-
-#: lib/fares/fare_info.ex:828
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr ""
-
-#: lib/fares/fare_info.ex:829
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:93
-#, elixir-autogen, elixir-format
-msgid "Coin"
-msgstr ""
-
-#: lib/feedback/message.ex:30
-#, elixir-autogen, elixir-format
-msgid "Comment"
-msgstr ""
-
-#: lib/feedback/message.ex:17
-#, elixir-autogen, elixir-format
-msgid "Complaint"
-msgstr ""
-
-#: lib/feedback/message.ex:58
-#, elixir-autogen, elixir-format
-msgid "Compliment"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:94
-#, elixir-autogen, elixir-format
-msgid "Credit/Debit Card"
-msgstr ""
-
-#: lib/feedback/message.ex:46
-#, elixir-autogen, elixir-format
-msgid "Disability ID Cards"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:95
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
-msgstr ""
-
-#: lib/alerts/alert.ex:213
-#, elixir-autogen, elixir-format
-msgid "Elevator"
-msgstr ""
-
-#: lib/feedback/message.ex:60
-#, elixir-autogen, elixir-format
-msgid "Employee"
-msgstr ""
-
-#: lib/feedback/message.ex:21
-#, elixir-autogen, elixir-format
-msgid "Employee Complaint"
-msgstr ""
-
-#: lib/alerts/alert.ex:213
-#, elixir-autogen, elixir-format
-msgid "Escalator"
-msgstr ""
-
-#: lib/fares/fare_info.ex:833
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr ""
-
-#: lib/feedback/message.ex:22
-#, elixir-autogen, elixir-format
-msgid "Fare Evasion"
-msgstr ""
-
-#: lib/feedback/message.ex:34
-#: lib/feedback/message.ex:47
-#, elixir-autogen, elixir-format
-msgid "Fare Policy"
-msgstr ""
-
-#: lib/cms/breadcrumbs.ex:19
-#: lib/util/breadcrumb_html.ex:74
-#: lib/util/breadcrumb_html.ex:113
-#, elixir-autogen, elixir-format
-msgid "Home"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:96
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr ""
-
-#: lib/util/breadcrumb_html.ex:77
-#, elixir-autogen, elixir-format
-msgid "MBTA"
-msgstr ""
-
-#: lib/util/breadcrumb_html.ex:82
-#, elixir-autogen, elixir-format
-msgid "MBTA - Massachusetts Bay Transportation Authority"
-msgstr ""
-
-#: lib/feedback/message.ex:36
-#: lib/feedback/message.ex:62
-#, elixir-autogen, elixir-format
-msgid "MBTA Projects/Programs"
-msgstr ""
-
-#: lib/feedback/message.ex:35
-#: lib/feedback/message.ex:48
-#: lib/feedback/message.ex:61
-#, elixir-autogen, elixir-format
-msgid "Maintenance"
-msgstr ""
-
-#: lib/feedback/message.ex:23
-#, elixir-autogen, elixir-format
-msgid "Maintenance Complaint"
-msgstr ""
-
-#: lib/fares/fare_info.ex:851
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:97
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
-msgstr ""
-
-#: lib/feedback/message.ex:24
-#: lib/feedback/message.ex:49
-#, elixir-autogen, elixir-format
-msgid "Mobile Ticketing"
-msgstr ""
-
-#: lib/alerts/alert.ex:260
-#, elixir-autogen, elixir-format
-msgid "New"
-msgstr ""
-
-#: lib/alerts/alert.ex:263
-#, elixir-autogen, elixir-format
-msgid "Ongoing"
-msgstr ""
-
-#: lib/feedback/message.ex:43
-#, elixir-autogen, elixir-format
-msgid "Question"
-msgstr ""
-
-#: lib/feedback/message.ex:52
-#, elixir-autogen, elixir-format
-msgid "Senior ID Cards"
-msgstr ""
-
-#: lib/fares/fare_info.ex:845
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr ""
-
-#: lib/feedback/message.ex:26
-#, elixir-autogen, elixir-format
-msgid "Service Complaint"
-msgstr ""
-
-#: lib/feedback/message.ex:39
-#: lib/feedback/message.ex:53
-#, elixir-autogen, elixir-format
-msgid "Service Inquiry"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex:98
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
-msgstr ""
-
-#: lib/fares/fare_info.ex:839
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr ""
-
-#: lib/feedback/message.ex:27
-#, elixir-autogen, elixir-format
-msgid "TAlerts/Countdowns/Apps"
-msgstr ""
-
-#: lib/alerts/alert.ex:261
-#: lib/alerts/alert.ex:262
-#, elixir-autogen, elixir-format
-msgid "Upcoming"
-msgstr ""
-
-#: lib/feedback/message.ex:40
-#: lib/feedback/message.ex:55
-#, elixir-autogen, elixir-format
-msgid "Website"
-msgstr ""
-
-#: lib/alerts/alert.ex:284
-#, elixir-autogen, elixir-format
-msgid "of more than 30 min"
-msgstr ""
-
-#: lib/alerts/alert.ex:285
-#, elixir-autogen, elixir-format
-msgid "of more than an hour"
-msgstr ""
-
-#: lib/alerts/alert.ex:279
-#, elixir-autogen, elixir-format
-msgid "up to 10 min"
-msgstr ""
-
-#: lib/alerts/alert.ex:280
-#, elixir-autogen, elixir-format
-msgid "up to 15 min"
-msgstr ""
-
-#: lib/alerts/alert.ex:281
-#, elixir-autogen, elixir-format
-msgid "up to 20 min"
-msgstr ""
-
-#: lib/alerts/alert.ex:282
-#, elixir-autogen, elixir-format
-msgid "up to 25 min"
-msgstr ""
-
-#: lib/alerts/alert.ex:283
-#, elixir-autogen, elixir-format
-msgid "up to 30 min"
 msgstr ""

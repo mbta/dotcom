@@ -1,7 +1,6 @@
 defmodule DotcomWeb.EventController do
   @moduledoc "Handles fetching event data for event views"
 
-  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias CMS.{API, Page, Repo}
@@ -25,7 +24,7 @@ defmodule DotcomWeb.EventController do
   defp render_events_hub_page(conn, is_calendar_view_mode) do
     conn
     |> assign(:calendar_view, is_calendar_view_mode)
-    |> assign(:breadcrumbs, [Breadcrumb.build(~t"Events")])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)
   end
@@ -91,7 +90,7 @@ defmodule DotcomWeb.EventController do
   defp assign_breadcrumbs(conn, event) do
     conn
     |> assign(:breadcrumbs, [
-      Breadcrumb.build(~t"Events", event_path(conn, :index)),
+      Breadcrumb.build("Events", event_path(conn, :index)),
       Breadcrumb.build(event.title)
     ])
   end

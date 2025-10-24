@@ -3,7 +3,6 @@ defmodule DotcomWeb.CMSController do
   Handles rendering of CMS content based on content type.
   """
 
-  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   require Logger
@@ -126,7 +125,7 @@ defmodule DotcomWeb.CMSController do
           Breadcrumb.build(base, project_path(conn, :index, [])),
           Breadcrumb.build(project.title, project_path(conn, :show, project)),
           Breadcrumb.build(
-            ~t"Updates",
+            "Updates",
             project_updates_path(conn, :project_updates, Project.alias(project))
           ),
           Breadcrumb.build(update.title)
@@ -166,7 +165,7 @@ defmodule DotcomWeb.CMSController do
 
   defp render_page(conn, %Page.Person{} = person) do
     conn
-    |> assign(:breadcrumbs, [Breadcrumb.build(~t"People"), Breadcrumb.build(person.name)])
+    |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
     |> render("person.html", person: person)
   end
 

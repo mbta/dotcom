@@ -25,7 +25,7 @@ defmodule PredictedSchedule.DisplayTest do
           fn _time -> "format time" end
         )
 
-      assert actual == ["2 min"]
+      assert actual == ["2", " ", "min"]
     end
   end
 end

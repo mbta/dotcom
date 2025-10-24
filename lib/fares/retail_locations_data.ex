@@ -3,8 +3,6 @@ defmodule Fares.RetailLocations.Data do
     Parses json from the existing data file and returns it.
   """
 
-  use Dotcom.Gettext.Sigils
-
   use Nebulex.Caching.Decorators
 
   alias Fares.RetailLocations.Location
@@ -88,12 +86,12 @@ defmodule Fares.RetailLocations.Data do
   end
 
   @spec pretty_payment(String.t()) :: String.t()
-  def pretty_payment("cash"), do: ~t"Cash"
-  def pretty_payment("check"), do: ~t"Check"
-  def pretty_payment("coin"), do: ~t"Coin"
-  def pretty_payment("credit-debit-card"), do: ~t"Credit/Debit Card"
-  def pretty_payment("e-zpass"), do: ~t"EZ Pass"
-  def pretty_payment("invoice"), do: ~t"Invoice"
-  def pretty_payment("mobile-app"), do: ~t"Mobile App"
-  def pretty_payment("smartcard"), do: ~t"Smart Card"
+  def pretty_payment("cash"), do: "Cash"
+  def pretty_payment("check"), do: "Check"
+  def pretty_payment("coin"), do: "Coin"
+  def pretty_payment("credit-debit-card"), do: "Credit/Debit Card"
+  def pretty_payment("e-zpass"), do: "EZ Pass"
+  def pretty_payment("invoice"), do: "Invoice"
+  def pretty_payment("mobile-app"), do: "Mobile App"
+  def pretty_payment("smartcard"), do: "Smart Card"
 end

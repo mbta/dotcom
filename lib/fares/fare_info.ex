@@ -3,8 +3,6 @@ defmodule Fares.FareInfo do
   Retrieve saved fare data from the file system and map to structs.
   """
 
-  use Dotcom.Gettext.Sigils
-
   alias Fares.Fare
 
   @fare_data [
@@ -824,31 +822,26 @@ defmodule Fares.FareInfo do
     }
 
     [
-      %{base_fare | cents: dollars_to_cents("19.95"), price_label: ~t"Adult"},
-      %{base_fare | cents: dollars_to_cents("12.95"), price_label: ~t"Child"},
-      %{base_fare | cents: dollars_to_cents("0.0"), price_label: ~t"Child under 3"},
+      %{base_fare | cents: dollars_to_cents("19.95"), price_label: "Adult"},
+      %{base_fare | cents: dollars_to_cents("12.95"), price_label: "Child"},
+      %{base_fare | cents: dollars_to_cents("0.0"), price_label: "Child under 3"},
       %{
         base_fare
         | cents: dollars_to_cents("49.00"),
-          price_label: ~t"Family 4-pack (2 adults, 2 children)"
+          price_label: "Family 4-pack (2 adults, 2 children)"
       },
+      %{base_fare | reduced: :student, cents: dollars_to_cents("14.95"), price_label: "Student"},
       %{
         base_fare
-        | reduced: :student,
+        | reduced: :senior_disabled,
           cents: dollars_to_cents("14.95"),
-          price_label: ~t"Student"
+          price_label: "Seniors"
       },
       %{
         base_fare
         | reduced: :senior_disabled,
           cents: dollars_to_cents("14.95"),
-          price_label: ~t"Seniors"
-      },
-      %{
-        base_fare
-        | reduced: :senior_disabled,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Military"
+          price_label: "Military"
       }
     ]
   end

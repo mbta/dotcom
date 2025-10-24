@@ -3,7 +3,6 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   Used in the alerts tab on schedule pages.
   """
 
-  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias DotcomWeb.{Plugs, ScheduleView}
@@ -34,15 +33,12 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     |> render("show.html", [])
   end
 
-  defp tab_name(conn, _), do: assign(conn, :tab, ~t"alerts")
+  defp tab_name(conn, _), do: assign(conn, :tab, "alerts")
 
   defp alerts(conn, _), do: assign_alerts(conn, filter_by_direction?: false)
 
   def route_description(route) do
-    gettext(
-      "Alerts for MBTA %{description}",
-      description: do_route_description(Route.type_atom(route), route)
-    )
+    "Alerts for MBTA #{do_route_description(Route.type_atom(route), route)}"
   end
 
   defp do_route_description(:bus, %{id: route_number} = route) do
@@ -57,9 +53,8 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     ScheduleView.route_header_text(route)
   end
 
-  defp bus_type(route) do
-    if Route.silver_line?(route), do: "Silver Line", else: ~t"bus"
-  end
+  defp bus_type(route),
+    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
 
   defp route_type(route) do
     route

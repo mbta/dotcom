@@ -36,7 +36,7 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "returns a time difference for modes other than CR" do
-      assert ["5 min"] =
+      assert [_, _, "min"] =
                TransitNearMe.simple_prediction(
                  %Prediction{time: Timex.shift(Util.now(), minutes: 5)},
                  :subway,

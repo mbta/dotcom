@@ -95,9 +95,9 @@ defmodule Dotcom.ScheduleNote do
               [
                 content_tag(
                   :strong,
-                  ~t"The Foxboro Special Events line is only for occasional service."
+                  "The Foxboro Special Events line is only for occasional service."
                 ),
-                ~t" It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
+                " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
               ],
               class: "m-schedule-page__service-note-time"
             ),
@@ -106,10 +106,10 @@ defmodule Dotcom.ScheduleNote do
               [
                 content_tag(
                   :strong,
-                  ~t"For regular weekday service to Foxboro please visit: "
+                  "For regular weekday service to Foxboro please visit: "
                 ),
                 link(
-                  ~t"Franklin Line",
+                  "Franklin Line",
                   to: Helpers.timetable_path(DotcomWeb.Endpoint, :show, "CR-Franklin")
                 )
               ],
@@ -127,12 +127,12 @@ defmodule Dotcom.ScheduleNote do
   # The window in which we expect a train to arrive/depart.
   # Only one time is given, so we treat it as an average.
   defp window(avg) do
-    gettext("%{avg} minutes", avg: avg)
+    "#{avg}" <> " " <> ~t"minutes"
   end
 
   # The window in which we expect a train to arrive/depart.
   # Two times are given so it is a true window.
   defp window(min, max) do
-    gettext("%{min} \u2013 %{max} minutes", min: min, max: max)
+    "#{min} \u2013 #{max}" <> " " <> ~t"minutes"
   end
 end

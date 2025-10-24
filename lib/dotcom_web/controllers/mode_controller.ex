@@ -1,7 +1,6 @@
 defmodule DotcomWeb.ModeController do
   @moduledoc false
 
-  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}
@@ -26,12 +25,13 @@ defmodule DotcomWeb.ModeController do
     |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end, [])
     |> async_assign_default(:green_routes, fn -> green_routes() end)
     |> async_assign_default(:grouped_routes, fn -> filtered_grouped_routes([:bus]) end)
-    |> assign(:breadcrumbs, [Breadcrumb.build(~t"Schedules & Maps")])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:home, false)
     |> assign(:guides, guides())
     |> assign(
       :meta_description,
-      ~t"Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
+      "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, " <>
+        "including real-time updates and arrival predictions."
     )
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")

@@ -1,7 +1,6 @@
 defmodule DotcomWeb.Mode.HubBehavior do
   @moduledoc "Macro and behaviour for mode hub pages."
 
-  use Dotcom.Gettext.Sigils
   use Phoenix.Controller, formats: [html: "View"]
 
   import DotcomWeb.ControllerHelpers, only: [green_routes: 0]
@@ -16,7 +15,6 @@ defmodule DotcomWeb.Mode.HubBehavior do
 
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()
-  @callback mode_icon() :: atom()
   @callback fares() :: [Summary.t()]
   @callback fare_description() :: String.t() | iodata
   @callback route_type() :: 0..4
@@ -65,12 +63,12 @@ defmodule DotcomWeb.Mode.HubBehavior do
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:maps, mode_strategy.mode_icon() |> maps())
-    |> assign(:paragraph, mode_strategy.mode_icon() |> extra_paragraph())
+    |> assign(:paragraph, mode_strategy.mode_name() |> extra_paragraph())
     |> async_assign_default(:guides, guides_fn, [])
     |> async_assign_default(:news, news_fn, [])
     |> async_assign_default(:projects, projects_fn, [])
     |> assign(:breadcrumbs, [
-      Breadcrumb.build(~t"Schedules & Maps", mode_path(conn, :index)),
+      Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
     ])
     |> meta_description(params)
@@ -139,7 +137,7 @@ defmodule DotcomWeb.Mode.HubBehavior do
     %{teaser | path: url}
   end
 
-  defp extra_paragraph(:bus) do
+  defp extra_paragraph("Bus") do
     case Repo.get_paragraph("paragraphs/custom-html/bus-stop-changes-right-rail") do
       {:error, _} -> nil
       result -> result

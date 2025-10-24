@@ -2,9 +2,6 @@ defmodule Journey do
   @moduledoc """
   Represents a schedule at a stop (origin or destination) or a pair of stops (origin and destination)
   """
-
-  use Dotcom.Gettext.Sigils
-
   alias PhoenixHTMLHelpers.Tag
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
@@ -230,8 +227,8 @@ defmodule Journey do
           :span,
           [
             status,
-            ~t" on ",
-            Tag.content_tag(:span, [~t"track ", track], class: "no-wrap")
+            " on ",
+            Tag.content_tag(:span, ["track ", track], class: "no-wrap")
           ]
         )
     end
@@ -240,19 +237,12 @@ defmodule Journey do
   def display_status(departure, arrival) do
     case Enum.max([PredictedSchedule.delay(departure), PredictedSchedule.delay(arrival)]) do
       delay when delay > 0 ->
-        minutes =
-          delay
-          |> Cldr.Unit.new!(:minute)
-          |> Cldr.Unit.localize()
-          |> Cldr.Unit.to_string!()
-
-        Tag.content_tag(
-          :span,
-          gettext(
-            "Delayed %{minutes}",
-            minutes: minutes
-          )
-        )
+        Tag.content_tag(:span, [
+          "Delayed ",
+          Integer.to_string(delay),
+          " ",
+          Inflex.inflect("minute", delay)
+        ])
 
       _ ->
         ""

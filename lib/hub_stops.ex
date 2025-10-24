@@ -3,44 +3,42 @@ defmodule HubStops do
   Represents a list of Hub Stops
   """
 
-  use Dotcom.Gettext.Sigils
-
   alias Routes.Route
 
   @commuter_hubs [
     {"place-sstat", "/images/stops/south_station",
-     ~t"Entrances to Red Line and Commuter Rail outside South Station"},
+     "Entrances to Red Line and Commuter Rail outside South Station"},
     {"place-north", "/images/stops/north_station_commuter",
-     ~t"People walking by train departure board inside North Station"},
-    {"place-bbsta", "/images/stops/back_bay", ~t"Lobby inside Back Bay station"}
+     "People walking by train departure board inside North Station"},
+    {"place-bbsta", "/images/stops/back_bay", "Lobby inside Back Bay station"}
   ]
   @red_line_hubs [
     {"place-sstat", "/images/stops/south_station",
-     ~t"Entrances to Red Line and Commuter Rail outside South Station"},
+     "Entrances to Red Line and Commuter Rail outside South Station"},
     {"place-pktrm", "/images/stops/park_street",
-     ~t"Entrance to Green and Red Lines outside Park Street"},
+     "Entrance to Green and Red Lines outside Park Street"},
     {"place-dwnxg", "/images/stops/downtown_crossing",
-     ~t"Entrance to Orange and Red Lines outside Downtown Crossing"}
+     "Entrance to Orange and Red Lines outside Downtown Crossing"}
   ]
   @green_line_hubs [
     {"place-north", "/images/stops/north_station_green",
-     ~t"People walking towards Green Line train inside North Station"},
+     "People walking towards Green Line train inside North Station"},
     {"place-pktrm", "/images/stops/park_street",
-     ~t"Entrance to Green and Red Lines outside Park Street"},
+     "Entrance to Green and Red Lines outside Park Street"},
     {"place-gover", "/images/stops/government_center",
-     ~t"Entrance to Blue and Green Lines outside Government Center"}
+     "Entrance to Blue and Green Lines outside Government Center"}
   ]
   @orange_line_hubs [
     {"place-north", "/images/stops/north_station",
-     ~t"People waiting as orange line train arrives inside North Station"},
-    {"place-bbsta", "/images/stops/back_bay", ~t"Lobby inside Back Bay station"},
-    {"place-rugg", "/images/stops/ruggles", ~t"Entrance to Ruggles station"}
+     "People waiting as orange line train arrives inside North Station"},
+    {"place-bbsta", "/images/stops/back_bay", "Lobby inside Back Bay station"},
+    {"place-rugg", "/images/stops/ruggles", "Entrance to Ruggles station"}
   ]
   @blue_line_hubs [
     {"place-state", "/images/stops/state_street",
-     ~t"Blue Line subway platform inside State Street"},
-    {"place-wondl", "/images/stops/wonderland", ~t"Exterior of Wonderland station"},
-    {"place-aport", "/images/stops/airport", ~t"Blue Line train departing Airport station"}
+     "Blue Line subway platform inside State Street"},
+    {"place-wondl", "/images/stops/wonderland", "Exterior of Wonderland station"},
+    {"place-aport", "/images/stops/airport", "Blue Line train departing Airport station"}
   ]
 
   @hub_map %{
