@@ -3,7 +3,7 @@
   <div class="self-end pb-[.375em]">
     <form
       id="search-form-container"
-      class="flex items-center p-xs bg-white rounded-md border-[3px] border-brand-primary focus-within:border-brand-primary-light"
+      class="flex items-center p-xs bg-white rounded-md border-md border-brand-primary has-[:focus]:ring-4 has-[:focus]:ring-cobalt-60"
       role="search"
       action={~p"/search"}
       phx-change="find"
@@ -13,7 +13,7 @@
         aria-controls="search-page-results"
         aria-labelledby="search-heading"
         autocomplete="off"
-        class="border-0 shadow-none grow focus:ring-0 w-full max-w-full overflow-hidden"
+        class="w-full max-w-full overflow-hidden px-md focus:outline-none"
         name="query"
         placeholder={~t"Search for routes, places, information, and more"}
         phx-debounce="300"
@@ -61,7 +61,7 @@
           name={"category[#{category}]"}
           form="search-form-container"
           checked={category in category_keys(@chosen_categories, @all_categories)}
-          class="justify-end rounded w-5 h-5 border border-cobalt-30 bg-white focus:ring-4 ring-offset-0 ring-cobalt-60 checked:bg-cobalt-30"
+          class="mbta-input shrink-0"
         />
       </label>
     </fieldset>

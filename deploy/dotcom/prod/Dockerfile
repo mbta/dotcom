@@ -27,7 +27,7 @@ RUN mix deps.get --only prod
 # NODE SETUP
 RUN npm install --prefix assets --package-lock-only
 RUN npm ci --prefix assets --ignore-scripts
-RUN npm install --prefix assets -S -install-links ./deps/mbta_metro/priv/
+RUN npm install --prefix assets
 
 # COMPILE NODE ASSETS
 RUN npm run --prefix assets webpack:build -- --env SENTRY_DSN=$SENTRY_DSN

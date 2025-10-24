@@ -103,7 +103,7 @@ jobs:
             _build
             priv
           key: ci-application-cache-${{ github.sha }}
-      - run: npm install --prefix assets -S -install-links deps/mbta_metro/priv/
+      - run: npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
 
