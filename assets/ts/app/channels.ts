@@ -41,12 +41,20 @@ const joinChannel = <T>(
 
   if (!["joined", "joining"].includes(channel.state)) {
     channel
-      .join()
+      .join(10000)
       .receive("error", ({ reason }) => {
         /* eslint-disable no-console */
         console.error(`failed to join ${channelId}`, reason);
         const errorEvent = new CustomEvent<{ error: string }>(channelId, {
           detail: { error: reason }
+        });
+        document.dispatchEvent(errorEvent);
+      })
+      .receive("timeout", response => {
+        /* eslint-disable no-console */
+        console.error(`failed to join ${channelId}`, response);
+        const errorEvent = new CustomEvent<{ error: string }>(channelId, {
+          detail: { error: "timeout" }
         });
         document.dispatchEvent(errorEvent);
       })

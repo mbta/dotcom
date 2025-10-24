@@ -85,25 +85,22 @@ defmodule Predictions.PubSubTest do
     end
   end
 
-  describe "handle_cast/2" do
+  describe "unsubscribe/0" do
     test "removes a subscriber", context do
       # Setup
-      ets_table = :ets.new(:callers_by_pid, [:bag])
-      pid = Process.whereis(PubSub)
-      state = %{callers_by_pid: ets_table}
+      pid = self()
 
       # Exercise
-      topic = StreamTopic.new(context.channel)
+      %{topic: topic_name} = StreamTopic.new(context.channel)
+      _ = PubSub.subscribe(topic_name)
 
-      PubSub.handle_call({:subscribe, topic}, {pid, nil}, state)
+      assert :ets.lookup(:callers_by_pid, pid) != []
+      assert Registry.count(:prediction_subscriptions_registry) == 1
 
-      assert :ets.lookup(ets_table, pid) != []
-
-      PubSub.handle_cast({:closed_channel, pid}, state)
+      _ = PubSub.unsubscribe()
 
       # Verify
-      assert :ets.lookup(ets_table, pid) == []
-
+      assert :ets.lookup(:callers_by_pid, pid) == []
       assert Registry.count(:prediction_subscriptions_registry) == 0
     end
   end
@@ -111,43 +108,18 @@ defmodule Predictions.PubSubTest do
   describe "handle_info/2" do
     test "broadcasts to registered subscribers", context do
       # Setup
-      pid = Process.whereis(PubSub)
+      pid = self()
 
-      state = %{
-        callers_by_pid: :ets.new(:callers_by_pid, [:bag]),
-        last_dispatched: :ets.new(:last_dispatched, [:set])
-      }
-
-      topic = StreamTopic.new(context.channel)
-      keys = StreamTopic.registration_keys(topic)
-      Registry.register(:prediction_subscriptions_registry, pid, List.first(keys))
-
+      # Exercise
+      %{topic: topic_name} = StreamTopic.new(context.channel)
+      _ = PubSub.subscribe(topic_name)
       :erlang.trace(pid, true, [:receive])
 
       # Exercise
-      PubSub.handle_info(:broadcast, state)
+      PubSub.handle_info(:broadcast, %{})
 
       # Verify
-      assert_receive {:trace, ^pid, :receive, {:dispatch, _, _, {:reply, [], :foo}}}, 1000
-    end
-
-    test "dispatches to pids", context do
-      # Setup
-      pid = Process.whereis(PubSub)
-
-      state = %{
-        last_dispatched: :ets.new(:last_dispatched, [:set])
-      }
-
-      topic = StreamTopic.new(context.channel)
-      keys = StreamTopic.registration_keys(topic)
-      Registry.register(:prediction_subscriptions_registry, pid, List.first(keys))
-
-      # Exercise
-      PubSub.handle_info({:dispatch, [self()], keys, []}, state)
-
-      # Verify
-      assert_receive {:new_predictions, {:reply, [], :foo}}, 1000
+      assert_receive {:new_predictions, _}
     end
 
     test "broadcasts on a timer" do

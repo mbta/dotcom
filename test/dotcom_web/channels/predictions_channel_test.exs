@@ -138,7 +138,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
   end
 
   describe "terminate/2" do
-    test "casts a closed channel message", context do
+    test "unsubscribes to predictions", context do
       # Setup
       predictions = Prediction.build_list(3, :canonical_prediction)
 
@@ -149,6 +149,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
       {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
 
       # Exercise / Verify
+      expect(@predictions_pub_sub, :unsubscribe, fn -> :ok end)
       assert :ok = PredictionsChannel.terminate(nil, socket)
     end
   end
