@@ -42,7 +42,13 @@ defmodule DotcomWeb.Components.SearchHits do
     """
   end
 
-  defp bus_stop_id(%{"index" => "stops", "stop" => %{"id" => id, "station?" => false}}), do: id
+  defp bus_stop_id(%{
+         "index" => "stops",
+         "stop" => %{"id" => id, "ferry?" => false, "station?" => false}
+       }) do
+    id
+  end
+
   defp bus_stop_id(_), do: nil
 
   defp hit_icon(%{hit: %{"index" => "stops", "stop" => %{"station?" => station}}} = assigns) do
