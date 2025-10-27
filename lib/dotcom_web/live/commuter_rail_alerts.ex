@@ -10,7 +10,9 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
     only: [alerts_commuter_rail_status: 1]
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
-
+  @commuter_rail_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[
+                                :commuter_rail
+                              ]
   @date_time Application.compile_env!(:dotcom, :date_time_module)
 
   embed_templates "layouts/*"
@@ -18,6 +20,10 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
   @meta_description ~t"Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      @commuter_rail_status_cache.subscribe()
+    end
+
     {:ok,
      socket
      |> assign(
@@ -28,7 +34,7 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
      |> assign_result(&@date_time.now/0)
      |> assign_banner_alert()
      |> assign_result(&Dotcom.Alerts.commuter_rail_alert_groups/0)
-     |> assign_result(&Dotcom.SystemStatus.CommuterRail.commuter_rail_status/0)}
+     |> assign_result(&@commuter_rail_status_cache.commuter_rail_status/0)}
   end
 
   def handle_params(%{"alerts_timeframe" => _} = params, _uri, socket) do
@@ -38,6 +44,10 @@ defmodule DotcomWeb.Live.CommuterRailAlerts do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info(%{event: "commuter_rail_status_updated", payload: commuter_rail_status}, socket) do
+    {:noreply, socket |> assign(:commuter_rail_status, commuter_rail_status)}
   end
 
   defp assign_banner_alert(socket) do

@@ -33,3 +33,7 @@ Mox.defmock(Stops.Repo.Mock, for: Stops.Repo.Behaviour)
 
 # System Status
 Mox.defmock(Dotcom.SystemStatus.SubwayCache.Mock, for: Dotcom.SystemStatus.SubwayCache.Behaviour)
+
+Mox.defmock(Dotcom.SystemStatus.CommuterRailCache.Mock,
+  for: Dotcom.SystemStatus.CommuterRailCache.Behaviour
+)
