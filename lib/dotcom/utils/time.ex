@@ -29,44 +29,6 @@ defmodule Dotcom.Utils.Time do
   end
 
   @doc """
-  Unified formatter that accepts a style atom and returns a tuple.
-
-  - Returns `{:ok, string}` on success or `{:error, exception}` if the
-    underlying Timex formatter raises.
-
-  - The function accepts a predefined set of style atoms. Supported
-    styles (atoms) and their meanings:
-
-      * `:full_date` — e.g. "July 4, 2020" (Timex "{Mfull} {D}, {YYYY}")
-      * `:short_date` — e.g. "Jul 4, 2020" (Timex "{Mshort} {D}, {YYYY}")
-      * `:full_datetime` — full date plus 12-hour time (Timex
-        "{Mfull} {D}, {YYYY}, {h12}:{m} {AM}")
-      * `:time_12h` — hour with AM/PM (Timex "{h12} {AM}")
-      * `:time_12h_with_minutes` — hour:minute with AM/PM (Timex
-        "{h12}:{m} {AM}")
-      * `:time_24h` — 24-hour time (Timex "{h24}:{m}")
-      * `:iso` — ISO extended datetime (Timex "{ISO:Extended}")
-      * `:mm_dd_yyyy` — numeric date (Timex "{0M}/{0D}/{YYYY}")
-      * `:mm_dd_yyyy_time` — numeric date + 24-hour time
-        (Timex "{0M}/{0D}/{YYYY} {h24}:{m}")
-      * `:weekday_full_date` — weekday + full date (Timex
-        "{WDfull}, {Mfull} {D}, {YYYY}")
-      * `:strftime_day` — equivalent to `Timex.format!(dt, "%-d", :strftime)`
-      * `:strftime_abbrev` — equivalent to
-        `Timex.format!(dt, "%a, %b %e", :strftime)`
-      * `:mfull_year`, `:mshort`, `:zero_d`, `:yyyy_m_d_h24_m` — other
-        project-specific patterns used in templates and JSON helpers.
-
-  - This function intentionally accepts only atoms (a small, known
-    vocabulary). Use `format!/2` when you want exceptions to propagate.
-
-  Examples
-
-      iex> Dotcom.Utils.Time.format(~D[2020-07-04], :full_date)
-      {:ok, "July 4, 2020"}
-
-      iex> Dotcom.Utils.Time.format(~D[2020-07-04], :unknown)
-      {:error, %RuntimeError{...}}
   """
   @spec format(Timex.Types.valid_datetime(), any()) :: {:ok, String.t()} | {:error, any()}
   def format(datetime, style \\ :full_date) do
@@ -78,19 +40,6 @@ defmodule Dotcom.Utils.Time do
   end
 
   @doc """
-  Like `format/2` but raises on error and returns the formatted string.
-
-  - Accepts the same style atoms listed in `format/2`.
-  - Uses the project's central mapping of atoms → Timex patterns so
-    call sites don't embed format strings.
-
-  Examples
-
-      iex> Dotcom.Utils.Time.format!(~D[2020-07-04], :full_date)
-      "July 4, 2020"
-
-      iex> Dotcom.Utils.Time.format!(~D[2020-07-04], :unknown)
-      ** (RuntimeError) Dotcom.Utils.Time.format!/2 error: unknown_format_style :unknown
   """
   @spec format!(Timex.Types.valid_datetime(), atom()) :: String.t()
   def format!(datetime, style \\ :full_date)
@@ -191,19 +140,9 @@ defmodule Dotcom.Utils.Time do
     Timex.format!(datetime, "{WDfull}, {Mfull} {D}")
   end
 
-  # Example (2000-01-01 00:00 UTC): "00:00 AM"
-  def format!(datetime, :h24_with_am) do
-    Timex.format!(datetime, "{h24}:{m} {AM}")
-  end
-
-  # Example (2000-01-01 00:00 UTC): "2000-01-01"
-  def format!(datetime, :yyyy_dash_0m_0d) do
-    Timex.format!(datetime, "{YYYY}-{0M}-{0D}")
-  end
-
   # Example (2000-01-01 00:00 UTC): "2000-01-01"
   def format!(datetime, :iso_date) do
-    Timex.format!(datetime, "{ISOdate}")
+    Timex.format!(datetime, "{YYYY}-{0M}-{0D}")
   end
 
   # Example (2000-01-01 00:00 UTC): "20000101T000000Z"
