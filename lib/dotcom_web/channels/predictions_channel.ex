@@ -40,8 +40,8 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   @impl Channel
-  def terminate(_, socket) do
-    GenServer.cast(@predictions_pub_sub, {:closed_channel, socket.channel_pid})
+  def terminate(_, _) do
+    @predictions_pub_sub.unsubscribe()
   end
 
   defp filter_new(predictions) do
