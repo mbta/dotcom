@@ -1,5 +1,7 @@
 defmodule DotcomWeb.PageController do
   @moduledoc false
+
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   import DotcomWeb.CMSHelpers, only: [cms_route_to_class: 1]
@@ -27,8 +29,7 @@ defmodule DotcomWeb.PageController do
     conn
     |> assign(
       :meta_description,
-      "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, " <>
-        "service alerts, real-time updates, and general information."
+      ~t"Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
     )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:photo, &photo/0)
