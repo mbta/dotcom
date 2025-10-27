@@ -3688,3 +3688,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "up to 30 min"
 msgstr ""
+
+#: lib/dotcom_web/controllers/mode/commuter.ex:20
+#, elixir-autogen, elixir-format
+msgid " depend on the distance traveled (zones). Refer to the information below:"
+msgstr ""

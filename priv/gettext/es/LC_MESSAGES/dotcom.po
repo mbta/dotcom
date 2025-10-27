@@ -177,9 +177,6 @@ msgstr "MBTA %{name} %{type} estaciones y horarios, incluyendo mapas, actualizac
 msgid "train"
 msgstr "tren"
 
-msgid "%{link} depend on the distance traveled (zones). Refer to the information below:"
-msgstr "%{link} dependen de la distancia viajada (zonas). Consulte la información siguiente:"
-
 msgid "Please select a destination location."
 msgstr "Seleccione una ubicación de destino."
 
@@ -491,6 +488,9 @@ msgstr "Transferencia"
 
 msgid "Let us know"
 msgstr "Háganos saber"
+
+msgid " depend on the distance traveled (zones). Refer to the information below:"
+msgstr " depende de la distancia viajada (zonas). Consulte la información siguiente:"
 
 msgid "Similar trips arrive at %{times}"
 msgstr "Viajes similares llegan a %{times}"
