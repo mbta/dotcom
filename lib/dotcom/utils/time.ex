@@ -29,6 +29,7 @@ defmodule Dotcom.Utils.Time do
   end
 
   @doc """
+  Wraps calls to `format!/2`.
   """
   @spec format(Timex.Types.valid_datetime(), atom()) :: {:ok, String.t()} | {:error, any()}
   def format(datetime, style) do
@@ -40,48 +41,147 @@ defmodule Dotcom.Utils.Time do
   end
 
   @doc """
+  Formats the given datetime according to a predefined style.
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :datetime_full)
+  "January 1, 2000, 11:59 PM"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :datetime_short)
+  "Jan 1 2000 23:59"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :iso)
+  "2000-01-01T23:59:00+00:00"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :yyyy_m_d_hour24_m)
+  "2000-1-1 23:59"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy_time)
+  "01/01/2000 23:59"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :ical_timestamp)
+  "20000101T235900Z"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :weekday_date_full)
+  "Saturday, January 1, 2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :weekday_date_short)
+  "Sat, Jan 1, 2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :date_full)
+  "January 1, 2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :date_short)
+  "Jan 1, 2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :iso_date)
+  "2000-01-01"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy)
+  "01/01/2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :m_d_yyyy)
+  "1/1/2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes_tz)
+  "11:59 PM UTC"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes)
+  "11:59 PM"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :hour_12)
+  "11 PM"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :hour_24_minutes)
+  "23:59"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :weekday_month_day)
+  "Saturday, January 1"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :weekday_month_day_short)
+  "Sat, Jan 1"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :month_day_short)
+  "Jan 1"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :month_year)
+  "January 2000"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :month_short)
+  "Jan"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :day_of_month_zero)
+  "01"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :day_of_month)
+  "1"
+
+  iex> t = ~U[2000-01-01 23:59:00Z]
+  iex> Dotcom.Utils.Time.format!(t, :hour)
+  "11"
   """
   @spec format!(Timex.Types.valid_datetime(), atom()) :: String.t()
   def format!(datetime, style)
 
   # DATETIMES #
 
-  # Example (2000-01-01 23:59 UTC): "January 1, 2000, 11:59 PM"
+  # January 1, 2000, 11:59 PM
   def format!(datetime, :datetime_full) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMMM d, y, h:mm a")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Jan 1 2000 23:59"
+  # Jan 1 2000 23:59
   def format!(datetime, :datetime_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMM d y HH:mm")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "2000-01-01T23:59:00Z"
+  # 2000-01-01T23:59:00Z
   def format!(datetime, :iso) do
-    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: :iso8601)
-
-    string
+    Timex.format!(datetime, "{ISO:Extended}")
   end
 
-  # Example (2000-01-01 23:59 UTC): "2000-1-1 23:59"
+  # 2000-1-1 23:59
   def format!(datetime, :yyyy_m_d_hour24_m) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "y-M-d HH:mm")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "01/01/2000 23:59"
+  # 01/01/2000 23:59
   def format!(datetime, :mm_dd_yyyy_time) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MM/dd/y HH:mm")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "20000101T235900Z"
+  # 20000101T235900Z
   def format!(datetime, :ical_timestamp) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "yyyyMMdd'T'HHmmss'Z'")
 
@@ -90,49 +190,47 @@ defmodule Dotcom.Utils.Time do
 
   # DATES #
 
-  # Example (2000-01-01 23:59 UTC): "Saturday, January 1, 2000"
+  # Saturday, January 1, 2000
   def format!(datetime, :weekday_date_full) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEEE, MMMM d, y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Sat, Jan 1, 2000"
+  # Sat, Jan 1, 2000
   def format!(datetime, :weekday_date_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEE, MMM d, y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "January 1, 2000"
+  # January 1, 2000
   def format!(datetime, :date_full) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMMM d, y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Jan 1, 2000"
+  # Jan 1, 2000
   def format!(datetime, :date_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMM d, y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "2000-01-01"
+  # 2000-01-01
   def format!(datetime, :iso_date) do
-    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "y-MM-dd")
-
-    string
+    Timex.format!(datetime, "{YYYY}-{0M}-{0D}")
   end
 
-  # Example (2000-01-01 23:59 UTC): "01/01/2000"
+  # 01/01/2000
   def format!(datetime, :mm_dd_yyyy) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MM/dd/y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "1/1/2000"
+  # 1/1/2000
   def format!(datetime, :m_d_yyyy) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "M/d/y")
 
@@ -141,28 +239,28 @@ defmodule Dotcom.Utils.Time do
 
   # TIMES #
 
-  # Example (2000-01-01 23:59 UTC): "11:59 PM UTC"
+  # 11:59 PM UTC
   def format!(datetime, :hour_12_minutes_tz) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm a z")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "11:59 PM"
+  # 11:59 PM
   def format!(datetime, :hour_12_minutes) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm a")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "11 PM"
+  # 11 PM
   def format!(datetime, :hour_12) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h a")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "23:59"
+  # 23:59
   def format!(datetime, :hour_24_minutes) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "HH:mm")
 
@@ -171,56 +269,56 @@ defmodule Dotcom.Utils.Time do
 
   # DATETIME PIECES #
 
-  # Example (2000-01-01 23:59 UTC): "Saturday, January 1"
+  # Saturday, January 1
   def format!(datetime, :weekday_month_day) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEEE, MMMM d")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Sat, Jan 1"
+  # Sat, Jan 1
   def format!(datetime, :weekday_month_day_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEE, MMM d")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Jan 1"
+  # Jan 1
   def format!(datetime, :month_day_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMM d")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "January 2000"
+  # January 2000
   def format!(datetime, :month_year) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMMM y")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "Jan"
+  # Jan
   def format!(datetime, :month_short) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMM")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "01"
+  # 01
   def format!(datetime, :day_of_month_zero) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "dd")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "1"
+  # 1
   def format!(datetime, :day_of_month) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "d")
 
     string
   end
 
-  # Example (2000-01-01 23:59 UTC): "11"
+  # 11
   def format!(datetime, :hour) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h")
 
