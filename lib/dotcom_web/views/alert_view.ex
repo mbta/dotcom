@@ -169,7 +169,7 @@ defmodule DotcomWeb.AlertView do
         Dotcom.Utils.Time.format!(updated_at, :m_d_yyyy)
       end
 
-    time = Dotcom.Utils.Time.format!(updated_at, :hour_12_minutes_tz) |> String.trim()
+    time = Dotcom.Utils.Time.format!(updated_at, :hour_12_minutes) |> String.trim()
 
     [~t"Updated: ", date, 32, time]
   end
