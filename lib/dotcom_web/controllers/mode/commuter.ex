@@ -15,10 +15,10 @@ defmodule DotcomWeb.Mode.CommuterRailController do
   def mode_icon, do: :commuter_rail
 
   def fare_description do
-    gettext(
-      "%{link} depend on the distance traveled (zones). Refer to the information below:",
-      link: link_to_zone_fares()
-    )
+    [
+      link_to_zone_fares(),
+      ~t" depend on the distance traveled (zones). Refer to the information below:"
+    ]
   end
 
   def fares do
