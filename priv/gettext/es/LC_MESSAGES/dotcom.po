@@ -690,9 +690,6 @@ msgstr "The Foxboro Special La línea de eventos es sólo para el servicio ocasi
 msgid "There are no alerts"
 msgstr "No hay alertas"
 
-msgid "with"
-msgstr "con"
-
 msgid "Escalator"
 msgstr "Escalador"
 
@@ -836,9 +833,6 @@ msgstr "%{time} el %{date}"
 
 msgid "Menu"
 msgstr "Menú"
-
-msgid "with your request."
-msgstr "con su solicitud."
 
 msgid "Current Alerts"
 msgstr "Alertas actuales"
