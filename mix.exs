@@ -101,7 +101,7 @@ defmodule DotCom.Mixfile do
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.43.2"},
-      {:ex_cldr_dates_times, "2.24.0"},
+      {:ex_cldr_dates_times, "2.24.2"},
       {:ex_cldr_lists, "2.11.1"},
       {:ex_cldr_units, "3.19.1"},
       {:ex_doc, "0.38.4", only: :dev},
