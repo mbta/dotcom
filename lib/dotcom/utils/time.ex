@@ -52,7 +52,7 @@ defmodule Dotcom.Utils.Time do
   end
 
   # Example (2000-01-01 00:00 UTC): "Jan 1 2000 00:00"
-  def format!(datetime, :mshort_d_y_h24_m) do
+  def format!(datetime, :month_short_d_y_h24_m) do
     Timex.format!(datetime, "{Mshort} {D} {YYYY} {h24}:{m}")
   end
 
@@ -81,6 +81,11 @@ defmodule Dotcom.Utils.Time do
   # Example (2000-01-01 00:00 UTC): "Saturday, January 1, 2000"
   def format!(datetime, :weekday_date_full) do
     Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")
+  end
+
+  # Example (2000-01-01 00:00 UTC): "Sat, Jan 1, 2000"
+  def format!(datetime, :weekday_date_short) do
+    Timex.format!(datetime, "{WDshort}, {Mshort} {D}, {YYYY}")
   end
 
   # Example (2000-01-01 00:00 UTC): "January 1, 2000"
@@ -139,7 +144,12 @@ defmodule Dotcom.Utils.Time do
 
   # Example (2000-01-01 00:00 UTC): "Sat, Jan 1"
   def format!(datetime, :weekday_month_day_short) do
-    Timex.format!(datetime, "%a, %b %e", :strftime)
+    Timex.format!(datetime, "%a, %b %-d", :strftime)
+  end
+
+  # Example (2000-01-01 00:00 UTC): "Jan 1"
+  def format!(datetime, :month_day_short) do
+    Timex.format!(datetime, "%b %-d", :strftime)
   end
 
   # Example (2000-01-01 00:00 UTC): "January 2000"
@@ -163,7 +173,7 @@ defmodule Dotcom.Utils.Time do
   end
 
   # Example (2000-01-01 00:00 UTC): "12"
-  def format!(datetime, :hour_12) do
+  def format!(datetime, :hour) do
     Timex.format!(datetime, "{h12}")
   end
 

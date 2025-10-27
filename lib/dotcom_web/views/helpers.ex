@@ -544,7 +544,7 @@ defmodule DotcomWeb.ViewHelpers do
     fare_object_request(token)
   end
 
-  def pretty_date(date, style \\ :short_date) do
+  def pretty_date(date, style \\ :month_day_short) do
     if date == Util.service_date() do
       ~t"today"
     else

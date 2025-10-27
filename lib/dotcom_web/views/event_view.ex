@@ -14,7 +14,7 @@ defmodule DotcomWeb.EventView do
   alias CMS.Partial.Teaser
 
   @type event_status :: :not_started | :started | :ended
-  @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
+  @default_date_format :weekday_date_short
 
   @doc "Returns a pretty format for the event's city and state"
   @spec city_and_state(Event.t()) :: String.t() | nil
@@ -52,7 +52,7 @@ defmodule DotcomWeb.EventView do
   @spec get_formatted_date_time_map(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil,
-          String.t()
+          atom()
         ) :: %{date: String.t(), time: String.t()}
   def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_date_format)
 
