@@ -23,60 +23,51 @@ defmodule Predictions.Store do
   @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"
   @impl Behaviour
   def clear(keys) do
-    GenServer.cast(__MODULE__, {:remove, Enum.map(fetch(keys), & &1.id)})
+    keys
+    |> predictions_for_keys()
+    |> Enum.map(& &1.id)
+    |> Enum.each(&:ets.delete(__MODULE__, &1))
   end
 
   @impl Behaviour
   def fetch(keys) do
-    GenServer.call(__MODULE__, {:fetch, keys})
+    predictions_for_keys(keys)
   end
 
   @impl Behaviour
+  def update({:remove, prediction_ids}) do
+    Enum.each(prediction_ids, &:ets.delete(__MODULE__, &1))
+  end
+
   def update({event, predictions}) do
-    GenServer.cast(__MODULE__, {event, predictions})
+    if event in [:add, :update] and length(predictions) > 0 do
+      :ets.insert(__MODULE__, Enum.map(predictions, &to_record/1))
+    end
+
+    :ok
   end
 
   # Server
   @impl GenServer
   def init(_) do
-    table = :ets.new(__MODULE__, [:public, {:write_concurrency, true}, {:read_concurrency, true}])
+    _ =
+      :ets.new(__MODULE__, [
+        :public,
+        :named_table,
+        {:write_concurrency, true},
+        {:read_concurrency, true}
+      ])
+
     periodic_delete()
-    {:ok, table}
+    {:ok, %{}}
   end
 
   @impl GenServer
-  def handle_cast({_, []}, table), do: {:noreply, table}
-
-  def handle_cast({event, predictions}, table) when event in [:add, :update] do
-    :ets.insert(table, Enum.map(predictions, &to_record/1))
-
-    {:noreply, table}
-  end
-
-  def handle_cast({:remove, prediction_ids}, table) do
-    Logger.info("Remove predictions event: #{inspect(prediction_ids)}")
-
-    for id <- prediction_ids do
-      :ets.delete(table, id)
-    end
-
-    {:noreply, table}
-  end
-
-  def handle_cast(_, table), do: {:noreply, table}
-
-  @impl GenServer
-  def handle_call({:fetch, keys}, _from, table) do
-    predictions = predictions_for_keys(table, keys)
-    {:reply, predictions, table}
-  end
-
-  @impl GenServer
-  def handle_info(:periodic_delete, table) do
+  def handle_info(:periodic_delete, state) do
     now = Util.now() |> DateTime.to_unix()
 
     # delete predictions with a time earlier than a minute ago
-    :ets.select_delete(table, [
+    :ets.select_delete(__MODULE__, [
       {{
          :_,
          :"$1",
@@ -90,11 +81,11 @@ defmodule Predictions.Store do
     ])
 
     periodic_delete()
-    {:noreply, table}
+    {:noreply, state}
   end
 
-  @spec predictions_for_keys(:ets.table(), Behaviour.fetch_keys()) :: [Prediction.t()]
-  defp predictions_for_keys(table, opts) do
+  @spec predictions_for_keys(Behaviour.fetch_keys()) :: [Prediction.t()]
+  defp predictions_for_keys(opts) do
     match_pattern = {
       Keyword.get(opts, :prediction_id, :_) || :_,
       :_,
@@ -106,7 +97,7 @@ defmodule Predictions.Store do
       :"$1"
     }
 
-    :ets.select(table, [{match_pattern, [], [:"$1"]}])
+    :ets.select(__MODULE__, [{match_pattern, [], [:"$1"]}])
   end
 
   defp to_record(
