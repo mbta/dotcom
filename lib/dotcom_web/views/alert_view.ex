@@ -166,10 +166,10 @@ defmodule DotcomWeb.AlertView do
       if Timex.equal?(relative_to, updated_at) do
         ~t"Today at"
       else
-        Dotcom.Utils.Time.format!(updated_at, :m_d_y)
+        Dotcom.Utils.Time.format!(updated_at, :m_d_yyyy)
       end
 
-    time = Dotcom.Utils.Time.format!(updated_at, :time_12h_with_zone) |> String.trim()
+    time = Dotcom.Utils.Time.format!(updated_at, :hour_12_minutes_tz) |> String.trim()
 
     [~t"Updated: ", date, 32, time]
   end

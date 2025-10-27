@@ -286,7 +286,7 @@ defmodule Stops.Stop.ParkingLot.Utilization do
   defp pretty_date(date) do
     case Timex.parse(date, "{h24}:{m}:{s}") do
       {:ok, time} ->
-        case Dotcom.Utils.Time.format(time, :time_12h_with_minutes) do
+        case Dotcom.Utils.Time.format(time, :hour_12_minutes) do
           {:ok, out} -> out
         end
 

@@ -184,11 +184,11 @@ defmodule Util do
   """
   @spec narrow_time(DateTime.t() | NaiveDateTime.t() | Time.t()) :: String.t()
   def narrow_time(%{minute: 0} = time) do
-    Dotcom.Utils.Time.format!(time, :time_12h)
+    Dotcom.Utils.Time.format!(time, :hour_12)
   end
 
   def narrow_time(time) do
-    Dotcom.Utils.Time.format!(time, :time_12h_with_minutes)
+    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 
   @doc """

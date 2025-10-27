@@ -19,7 +19,7 @@
           <td class="m-event-calendar__day">
             <%= if day_in_month? do %>
               <div class="m-event-calendar__day-label">
-                {Dotcom.Utils.Time.format!(day, :strftime_day)}
+                {Dotcom.Utils.Time.format!(day, :day_of_month)}
               </div>
               <% todays_events = Map.get(events_by_day, day.day) %>
               <%= if todays_events != nil do %>

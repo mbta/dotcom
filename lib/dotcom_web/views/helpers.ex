@@ -332,11 +332,11 @@ defmodule DotcomWeb.ViewHelpers do
   @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
     time
-    |> Dotcom.Utils.Time.format!(:time_12h_with_minutes)
+    |> Dotcom.Utils.Time.format!(:hour_12_minutes)
   end
 
   @spec format_full_date(Date.t()) :: String.t()
-  def format_full_date(date), do: Dotcom.Utils.Time.format!(date, :full_date)
+  def format_full_date(date), do: Dotcom.Utils.Time.format!(date, :date_full)
 
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])

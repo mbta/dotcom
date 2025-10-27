@@ -31,7 +31,7 @@ defmodule Dotcom.Utils.Time do
   @doc """
   """
   @spec format(Timex.Types.valid_datetime(), atom()) :: {:ok, String.t()} | {:error, any()}
-  def format(datetime, styl) do
+  def format(datetime, style) do
     try do
       {:ok, format!(datetime, style)}
     rescue
@@ -61,6 +61,11 @@ defmodule Dotcom.Utils.Time do
     Timex.format!(datetime, "{ISO:Extended}")
   end
 
+  # Example (2000-01-01 00:00 UTC): "2000-1-1 00:00"
+  def format!(datetime, :yyyy_m_d_hour24_m) do
+    Timex.format!(datetime, "{YYYY}-{M}-{D} {h24}:{m}")
+  end
+
   # Example (2000-01-01 00:00 UTC): "01/01/2000 00:00"
   def format!(datetime, :mm_dd_yyyy_time) do
     Timex.format!(datetime, "{0M}/{0D}/{YYYY} {h24}:{m}")
@@ -69,11 +74,6 @@ defmodule Dotcom.Utils.Time do
   # Example (2000-01-01 00:00 UTC): "20000101T000000Z"
   def format!(datetime, :ical_timestamp) do
     Timex.format!(datetime, "{YYYY}{0M}{0D}T{h24}{m}{s}Z")
-  end
-
-  # Example (2000-01-01 00:00 UTC): "2000-1-1 00:00"
-  def format!(datetime, :yyyy_m_d_hour24_m) do
-    Timex.format!(datetime, "{YYYY}-{M}-{D} {h24}:{m}")
   end
 
   # DATES #

@@ -8,7 +8,7 @@
         <div class="inner-label">
           <span class="sr-only">{~t(Change Date)}:</span>{~t(Schedule for)}:
         </div>
-  <div>{String.capitalize(pretty_date(@date, :weekday_full_date))}</div>
+  <div>{String.capitalize(pretty_date(@date, :weekday_date_full))}</div>
       </div>
       <div class="filter-icon">
         {svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false})}

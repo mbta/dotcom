@@ -123,7 +123,7 @@ defmodule DotcomWeb.ScheduleController do
   defp format_time(nil), do: "nil"
 
   defp format_time(time) do
-    case Dotcom.Utils.Time.format(time, :time_24h) do
+    case Dotcom.Utils.Time.format(time, :hour_24_minutes) do
       {:ok, time} -> time
       {:error, err} -> err
     end
