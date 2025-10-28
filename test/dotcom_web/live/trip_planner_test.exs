@@ -149,7 +149,17 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert Floki.get_by_id(document, "mbta-metro-pin-0")
+      assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-metro-map-pin")
+
+      assert Enum.find(attrs, fn attr ->
+               attr ==
+                 {"data-coordinates",
+                  "[#{get_in(params, ["from", "longitude"])},#{get_in(params, ["from", "latitude"])}]"}
+             end)
+
+      assert Enum.find(content, fn node ->
+               match?({"text", _, ["A"]}, node)
+             end)
     end
 
     test "setting 'to' places a pin on the map", %{view: view} do
@@ -162,7 +172,17 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert Floki.get_by_id(document, "mbta-metro-pin-1")
+      assert [_from_marker, {"svg", attrs, content}] = Floki.find(document, ".mbta-metro-map-pin")
+
+      assert Enum.find(attrs, fn attr ->
+               attr ==
+                 {"data-coordinates",
+                  "[#{get_in(params, ["to", "longitude"])},#{get_in(params, ["to", "latitude"])}]"}
+             end)
+
+      assert Enum.find(content, fn node ->
+               match?({"text", _, ["B"]}, node)
+             end)
     end
 
     test "swapping from/to swaps pins on the map", %{view: view} do
@@ -180,8 +200,9 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       document = render(view) |> Floki.parse_document!()
 
       pins =
-        Enum.map(["mbta-metro-pin-0", "mbta-metro-pin-1"], fn id ->
-          Floki.get_by_id(document, id)
+        Floki.find(document, ".mbta-metro-map-pin")
+        |> Enum.map(fn element ->
+          element
           |> Floki.attribute("data-coordinates")
           |> List.first()
           |> parse_coordinates()

@@ -48,7 +48,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             type="button"
             disabled={disable_swap?(f)}
             phx-click="swap_direction"
-            class="px-xs bg-transparent fill-brand-primary disabled:fill-gray-light hover:fill-black"
+            class="px-xs bg-charcoal-90 fill-brand-primary disabled:fill-gray-light hover:fill-black"
           >
             <span class="sr-only">{~t(Swap origin and destination locations)}</span>
             <.icon aria-hidden="true" class="h-6 w-6 rotate-90 md:rotate-0" name="right-left" />
@@ -59,30 +59,29 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           field={f[:to]}
           placeholder={~t"Enter a destination location"}
         />
-        <fieldset class="mb-sm">
-          <legend class="text-charcoal-40 m-0 py-sm">{~t(When)}</legend>
+        <div class="mb-sm">
           <.input_group
             form={f}
             field={:datetime_type}
-            options={[{~t"Now", "now"}, {~t"Leave at", "leave_at"}, {~t"Arrive by", "arrive_by"}]}
-            type="radio-button"
-            class="w-full mb-xs"
-          />
-          <.error_container :for={{msg, _} <- f[:datetime_type].errors}>
-            {msg}
-          </.error_container>
+            type="radio"
+            label={~t(When)}
+            class="mb-xs"
+            as_buttons
+          >
+            <:input value="now">{~t"Now"}</:input>
+            <:input value="leave_at">{~t"Leave at"}</:input>
+            <:input value="arrive_by">{~t"Arrive by"}</:input>
+          </.input_group>
           <.live_component
             :if={show_datepicker?(f)}
             module={DatePicker}
             config={datepicker_config()}
             locale={Gettext.get_locale(Dotcom.Gettext)}
             field={f[:datetime]}
-            id={:datepicker}
+            label={nil}
+            id="date-picker"
           />
-          <.error_container :for={{msg, _} <- f[:datetime].errors}>
-            {msg}
-          </.error_container>
-        </fieldset>
+        </div>
         <div class="col-start-3">
           <fieldset class="mb-sm">
             <legend class="text-charcoal-40 m-0 py-sm">{~t(Modes)}</legend>
@@ -97,8 +96,9 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
                       :for={subfield <- Modes.fields()}
                       type="checkbox"
                       field={f[subfield]}
-                      label={Modes.mode_label(subfield)}
-                    />
+                    >
+                      {Modes.mode_label(subfield)}
+                    </.input>
                   </.inputs_for>
                 </div>
               </:content>
@@ -108,8 +108,10 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             </.error_container>
           </fieldset>
           <div class="inline-flex items-center gap-sm mb-sm">
-            <.input type="checkbox" field={f[:wheelchair]} label={~t"Prefer accessible routes"} />
-            <.icon type="icon-svg" aria-hidden="true" name="icon-accessible-small" class="h-5 w-5" />
+            <.input type="checkbox" field={f[:wheelchair]}>
+              {~t"Prefer accessible routes"}
+              <.icon type="icon-svg" aria-hidden="true" name="icon-accessible-small" class="size-5" />
+            </.input>
           </div>
         </div>
       </.form>

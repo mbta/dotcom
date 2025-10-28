@@ -22,7 +22,7 @@ defmodule DotCom.Mixfile do
         "gettext.translate": :prod
       ],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload],
+        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
         flags: [:unmatched_returns]
       ],
       deps: deps(),
@@ -67,7 +67,8 @@ defmodule DotCom.Mixfile do
       # the module to invoke when the application is started
       mod: {Dotcom.Application, []},
       # a list of OTP applications your application depends on which are not included in :deps
-      extra_applications: extra_apps
+      extra_applications: extra_apps,
+      included_applications: [:mbta_metro]
     ]
   end
 
@@ -122,7 +123,7 @@ defmodule DotCom.Mixfile do
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "0.3.3"},
+      {:mbta_metro, "1.0.0", runtime: false},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},

@@ -105,12 +105,6 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
     Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
 
 
-1. Update the MBTA Metro assets. From the root of this repo:
-    ```
-    mix mbta_metro.update_assets
-    ```
-
-
 1. Set up required environment variables:
     ```
     cp .env.template .env
