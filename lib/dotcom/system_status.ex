@@ -18,9 +18,7 @@ defmodule Dotcom.SystemStatus do
   """
   @spec subway_status :: %{Routes.Route.id_t() => SystemStatus.Subway.status_entry_group()}
   def subway_status() do
-    subway_route_ids()
-    |> @alerts_repo.by_route_ids(@date_time_module.now())
-    |> Kernel.++(@alerts_repo.by_route_types([0, 1], @date_time_module.now()))
+    @alerts_repo.by_route_types([0, 1], @date_time_module.now())
     |> Enum.filter(&status_alert?(&1, @date_time_module.now()))
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
   end
