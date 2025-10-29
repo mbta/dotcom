@@ -27,6 +27,9 @@ msgstr "Mapa de autobuses"
 msgid "Trip"
 msgstr "Viaje"
 
+msgid "Bus Other"
+msgstr "Buses"
+
 msgid "Contact"
 msgstr "Contacto"
 

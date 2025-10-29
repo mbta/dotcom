@@ -105,10 +105,10 @@ defmodule DotcomWeb.CustomerSupportView do
         mode_name = DotcomWeb.ViewHelpers.mode_name(mode)
 
         case mode do
-          1 -> [key: mode_name, value: "Subway"]
-          2 -> [key: mode_name, value: "Commuter Rail"]
-          3 -> [key: mode_name, value: "Bus Other"]
-          4 -> [key: mode_name, value: "Ferry"]
+          1 -> [key: mode_name, value: ~t"Subway"]
+          2 -> [key: mode_name, value: ~t"Commuter Rail"]
+          3 -> [key: mode_name, value: ~t"Bus Other"]
+          4 -> [key: mode_name, value: ~t"Ferry"]
         end
       end)
       |> List.insert_at(0, key: ~t"Select", value: " ")
