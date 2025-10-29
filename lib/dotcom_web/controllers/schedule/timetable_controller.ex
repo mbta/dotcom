@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.TimetableController do
   @moduledoc "Handles the Timetable tab for commuter rail routes."
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   require Logger
@@ -39,13 +40,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     {:ok, formatted_date} = Timex.format(conn.assigns.date, "{Mfull} {D}, {YYYY}")
 
+    meta_description =
+      gettext(
+        "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections.",
+        route_name: route_name_for_description(conn.assigns.route),
+        station_name: station_type_name(conn.assigns.route)
+      )
+
     conn
-    |> assign(
-      :meta_description,
-      "MBTA #{route_name_for_description(conn.assigns.route)} #{station_type_name(conn.assigns.route)} and " <>
-        "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
-        "and connections."
-    )
+    |> assign(:meta_description, meta_description)
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
     |> assign_cr_status()
@@ -54,11 +57,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> render("show.html", [])
   end
 
-  defp route_name_for_description(%Route{type: 2} = route), do: "#{route.name} Commuter Rail"
+  defp route_name_for_description(%Route{type: 2} = route) do
+    gettext("%{name} Commuter Rail", name: route.name)
+  end
+
   defp route_name_for_description(route), do: route.name
 
-  defp station_type_name(%Route{type: 4}), do: "docks"
-  defp station_type_name(_route), do: "stations"
+  defp station_type_name(%Route{type: 4}), do: ~t"docks"
+  defp station_type_name(_route), do: ~t"stations"
 
   defp assign_cr_status(%{assigns: %{route: route}} = conn) do
     cr_status =
@@ -144,6 +150,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
 
     %{
       trip_schedules: trip_schedules,
@@ -169,7 +176,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
-    |> assign(:trip_messages, trip_messages(route, direction_id))
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
   end
 
   def assign_trip_schedules(conn) do
@@ -239,17 +246,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   We use this for Commuter Rail trips which travel via atypical routes, in
   order to match the PDF schedules.
   """
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{
+  @spec trip_messages(Routes.Route.t(), 0 | 1, [Schedules.Trip.id_t()]) :: %{
           {String.t(), String.t()} => String.t()
         }
-  def trip_messages(%Routes.Route{id: route_id}, direction)
+  def trip_messages(%Routes.Route{id: route_id}, direction, trip_ids)
       when route_id in ~w(CR-Franklin CR-Providence) do
-    Dotcom.ViaFairmount.trip_names()
+    Dotcom.ViaFairmount.trip_names(trip_ids)
     |> Enum.flat_map(&franklin_via_fairmount(&1, direction))
     |> Enum.into(%{})
   end
 
-  def trip_messages(_, _) do
+  def trip_messages(_, _, _) do
     %{}
   end
 
@@ -259,10 +266,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     [
       List.duplicate(train, length(stops)),
       stops,
-      ["Via", "Fairmount", "Line", "-"]
+      [~t"Via", "Fairmount", "Line", "-"]
     ]
     |> make_via_list()
-    |> Enum.concat([{{train}, "Via Fairmount Line"}])
+    |> Enum.concat([{{train}, ~t"Via" <> " " <> "Fairmount Line"}])
   end
 
   # As of Spring 2025, weekend train numbers are 4-digits leading with 5
@@ -289,7 +296,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
-  defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
+  defp tab_name(conn, _), do: assign(conn, :tab, ~t"timetable")
 
   @doc """
   Organize the route's schedules for timetable format, where schedules are laid

@@ -15,7 +15,8 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.keyboard.press("Enter");
 
   // The A location pin.
-  await page.waitForSelector("#mbta-metro-pin-0");
+  const fromPin = page.locator("svg.mbta-metro-map-pin").filter({ hasText: "A" });
+  await fromPin.waitFor("visible");
 
   await page.locator("#trip-planner-input-form--to input[type='search']").pressSequentially("South Station");
   await page.waitForSelector(
@@ -25,7 +26,8 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.keyboard.press("Enter");
 
   // The B location pin.
-  await page.waitForSelector("#mbta-metro-pin-1");
+  const toPin = page.locator("svg.mbta-metro-map-pin").filter({ hasText: "B" });
+  await toPin.waitFor("visible");
 
   await expect
     .poll(async () =>

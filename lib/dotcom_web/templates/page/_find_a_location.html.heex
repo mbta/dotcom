@@ -1,4 +1,4 @@
-<div class="c-home-grid-section grid-first-section">
+<div class="c-home-grid-section">
   <div class="c-home-grid-section-header">
     <h2>
       {~t(Find a Location)}
@@ -6,7 +6,7 @@
   </div>
   <div class="c-home-grid-buttons-container">
     <%= link to: cms_static_page_path(@conn, "/stops"), class: "c-home-grid-button" do %>
-      <div class="c-grid-button__content">
+      <div class="c-grid-button__content py-3">
         <span class="c-grid-button__icon" aria-hidden="true">
           {svg("stations-parking.svg")}
         </span>
@@ -16,7 +16,7 @@
       </div>
     <% end %>
     <%= link to: cms_static_page_path(@conn, "/maps"), class: "c-home-grid-button" do %>
-      <div class="c-grid-button__content">
+      <div class="c-grid-button__content py-3">
         <span class="c-grid-button__icon" aria-hidden="true">
           {fa("map-location-dot", class: "c-grid-button__icon")}
         </span>

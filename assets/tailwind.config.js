@@ -2,13 +2,12 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin");
-const { content, plugins, safelist } = require("mbta_metro");
-const {
-  theme: { extend: tailwindTheme }
-} = require("mbta_metro/tailwindTheme");
+const tokens = require("../deps/mbta_metro/priv/dist/tokens");
+
+const { colors: mbtaColors, ...mbtaTheme } = tokens;
 
 const moreColors = {
-  ...tailwindTheme.colors,
+  ...mbtaColors,
   gray: {
     DEFAULT: "#494f5c",
     dark: "#1c1e23",
@@ -32,10 +31,9 @@ const moreColors = {
   },
   massport: "#104c8f",
   subway: "#494f5c",
-  bus: tailwindTheme.colors["brand-bus"],
-  "mattapan-line": tailwindTheme.colors["red-line"]
+  bus: mbtaColors["brand-bus"],
+  "mattapan-line": mbtaColors["red-line"]
 };
-tailwindTheme.colors = moreColors;
 
 module.exports = {
   corePlugins: {
@@ -44,25 +42,25 @@ module.exports = {
   blocklist: ["container", "collapse"],
   important: "body",
   content: [
-    ...content,
     "./js/**/*.js",
-    "./ts/**/*.ts",
+    "./ts/**/*.{js,ts}",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
     "../lib/dotcom_web/**/*.*ex",
-    "../../mbta_metro/lib/mbta_metro/components/**/*.ex",
+    "../deps/mbta_metro/lib/mbta_metro/components/*.ex",
+    "../deps/mbta_metro/lib/mbta_metro/live/*.ex"
   ],
   safelist: [
-    ...safelist,
     {
       pattern: /(bg|text|border|ring)-(logan-express|blue|green|orange|red|silver|bus|ferry|)./
     }
   ],
   theme: {
+    colors: moreColors,
     extend: {
-      ...tailwindTheme,
+      ...mbtaTheme,
       spacing: {
-        ...tailwindTheme.spacing,
+        ...mbtaTheme.spacing,
         "4.5": "1.125rem",
         "7.5": "1.875rem",
         "120": "24rem"
@@ -78,7 +76,6 @@ module.exports = {
     }
   },
   plugins: [
-    ...plugins(),
     require("@tailwindcss/container-queries"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
@@ -86,14 +83,25 @@ module.exports = {
     //     <div class="phx-click-loading:animate-ping">
     //
     plugin(({ addVariant }) => [
-      addVariant("phx-click-loading", [".phx-click-loading&", ".phx-click-loading &"]),
-      addVariant("phx-submit-loading", [".phx-submit-loading&", ".phx-submit-loading &"]),
-      addVariant("phx-change-loading", [".phx-change-loading&", ".phx-change-loading &"])
+      addVariant("phx-click-loading", [
+        ".phx-click-loading&",
+        ".phx-click-loading &"
+      ]),
+      addVariant("phx-submit-loading", [
+        ".phx-submit-loading&",
+        ".phx-submit-loading &"
+      ]),
+      addVariant("phx-change-loading", [
+        ".phx-change-loading&",
+        ".phx-change-loading &"
+      ])
     ]),
     // Base styling for HTML elements
-    plugin(({ addBase }) => addBase({
-      "fieldset legend": { fontSize: "initial" }
-    })),
+    plugin(({ addBase }) =>
+      addBase({
+        "fieldset legend": { fontSize: "initial" }
+      })
+    ),
     // Add a component for each heading level, .h1 through .h6
     // Also handles reducing space between adjacent headings, copy directly following
     // headlines, and other complex content structures.
@@ -124,7 +132,9 @@ module.exports = {
         "+ div > div > :where(p, ul, ol):first-child": afterHeadingSpace,
         "+ p > img:first-child, + p > a:first-child > img:first-child": afterHeadingSpace,
         "+ .c-media--half + p": { [breakpointSmUp]: afterHeadingSpace },
-        "+ .c-media--half .c-media__content": { [breakpointSmUp]: afterHeadingSpace },
+        "+ .c-media--half .c-media__content": {
+          [breakpointSmUp]: afterHeadingSpace
+        },
         "+ div > div ~ div > :where(p, ul, ol):first-child": {
           [breakpointSmDown]: { marginTop: "0" }
         }
@@ -172,25 +182,27 @@ module.exports = {
             ...baseHeading,
             fontSize: "1rem",
             ...afterHeadingSpaceRules,
-            "+ :where(.h6, h6)": reduceAdjacentHeadingSpace,
+            "+ :where(.h6, h6)": reduceAdjacentHeadingSpace
           },
           ".h6": {
             ...baseHeading,
             fontWeight: theme("fontWeight.medium"),
-            fontSize: "1rem",
-          },
+            fontSize: "1rem"
+          }
         })
-      ]
+      ];
     }),
     // Use the above heading components to style our actual headings by
     // default. No <h2 class="h2"> needed.
-    plugin(({ addBase }) =>  addBase({
-      "h1": { "@apply h1": {} },
-      "h2": { "@apply h2": {} },
-      "h3": { "@apply h3": {} },
-      "h4": { "@apply h4": {} },
-      "h5": { "@apply h5": {} },
-      "h6": { "@apply h6": {} }
-    }))
+    plugin(({ addBase }) =>
+      addBase({
+        h1: { "@apply h1": {} },
+        h2: { "@apply h2": {} },
+        h3: { "@apply h3": {} },
+        h4: { "@apply h4": {} },
+        h5: { "@apply h5": {} },
+        h6: { "@apply h6": {} }
+      })
+    )
   ]
 };

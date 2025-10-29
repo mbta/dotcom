@@ -22,7 +22,7 @@ defmodule DotCom.Mixfile do
         "gettext.translate": :prod
       ],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload],
+        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
         flags: [:unmatched_returns]
       ],
       deps: deps(),
@@ -67,7 +67,8 @@ defmodule DotCom.Mixfile do
       # the module to invoke when the application is started
       mod: {Dotcom.Application, []},
       # a list of OTP applications your application depends on which are not included in :deps
-      extra_applications: extra_apps
+      extra_applications: extra_apps,
+      included_applications: [:mbta_metro]
     ]
   end
 
@@ -78,6 +79,7 @@ defmodule DotCom.Mixfile do
     [
       {:absinthe_client, "0.1.1"},
       {:address_us, "0.4.3"},
+      {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.9"},
       {:aws_credentials, "0.3.5", optional: true},
       {:browser, "0.5.5"},
@@ -106,11 +108,10 @@ defmodule DotCom.Mixfile do
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       {:excoveralls, "0.18.5", only: :test},
-      {:faker, "0.19.0-alpha.1", only: [:dev, :test]},
+      {:faker, "0.19.0-alpha.1"},
       {:floki, "0.38.0"},
       {:gen_stage, "1.3.2"},
       {:gettext, "1.0.0", override: true},
-      {:hackney, "1.25.0"},
       {:hammer, "7.1.0"},
       {:html_sanitize_ex, "1.4.3"},
       {:httpoison, "2.2.3"},
@@ -118,10 +119,11 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:kino_live_component, "0.0.5"},
       {:lazy_html, "0.1.8", only: [:test]},
+      {:live_isolated_component, "0.10.0", only: [:test]},
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "0.3.3"},
+      {:mbta_metro, "1.0.0", runtime: false},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},

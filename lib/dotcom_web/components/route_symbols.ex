@@ -2,7 +2,9 @@ defmodule DotcomWeb.Components.RouteSymbols do
   @moduledoc """
   Reusable components for displaying route information
   """
+
   use CVA.Component
+  use Dotcom.Gettext.Sigils
   use Phoenix.Component
 
   import MbtaMetro.Components.Icon
@@ -238,17 +240,20 @@ defmodule DotcomWeb.Components.RouteSymbols do
   end
 
   # Given a route, return a machine-readable label.
-  defp route_label(%Route{type: 2}), do: "Commuter Rail"
-  defp route_label(%Route{type: 4}), do: "Ferry"
-  defp route_label(%Route{external_agency_name: "Logan Express"}), do: "Logan Express"
-  defp route_label(%Route{id: "Green-" <> branch}), do: "Green Line #{branch} Branch"
-  defp route_label(%Route{id: "Mattapan"}), do: "Mattapan Trolley"
+  defp route_label(%Route{type: 2}), do: ~t"Commuter Rail"
+  defp route_label(%Route{type: 4}), do: ~t"Ferry"
+  defp route_label(%Route{external_agency_name: "Logan Express"}), do: ~t"Logan Express"
+
+  defp route_label(%Route{id: "Green-" <> branch}),
+    do: gettext("Green Line %{branch} Branch", branch: branch)
+
+  defp route_label(%Route{id: "Mattapan"}), do: ~t"Mattapan Trolley"
 
   defp route_label(%Route{
          external_agency_name: "Massport",
          name: <<route_number::binary-size(2), _::binary>>
        }),
-       do: "Massport Shuttle #{route_number}"
+       do: gettext("Massport Shuttle %{route_number}", route_number: route_number)
 
   # Silver Line and Buses.
   defp route_label(%Route{name: name} = route)
@@ -257,7 +262,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
     if Routes.Route.silver_line?(route) do
       name
     else
-      "Route #{name}"
+      gettext("Route %{name}", name: name)
     end
   end
 

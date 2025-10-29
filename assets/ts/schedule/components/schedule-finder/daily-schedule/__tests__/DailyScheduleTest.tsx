@@ -398,6 +398,56 @@ describe("fetchJourneys", () => {
   });
 });
 
+describe("getRepresentativeDate", () => {
+  it("returns the service end date", () => {
+    const service: Service = {
+      added_dates: [],
+      added_dates_notes: {},
+      description: "",
+      end_date: "2025-12-12",
+      id: "test-service",
+      removed_dates: [],
+      removed_dates_notes: {},
+      start_date: "2025-10-14",
+      type: "weekday",
+      typicality: "typical_service",
+      valid_days: [5],
+      name: "Test Service",
+      rating_start_date: null,
+      rating_end_date: null,
+      rating_description: ""
+    };
+
+    expect(dailyScheduleModule.getRepresentativeDate(service)).toEqual(
+      "2025-12-12"
+    );
+  });
+
+  it("returns a specific non-Friday date for the FallWeekday service", () => {
+    const service: Service = {
+      added_dates: [],
+      added_dates_notes: {},
+      description: "",
+      end_date: "2025-12-12",
+      id: "FallWeekday",
+      removed_dates: [],
+      removed_dates_notes: {},
+      start_date: "2025-10-14",
+      type: "weekday",
+      typicality: "typical_service",
+      valid_days: [4, 5],
+      name: "Test Service",
+      rating_start_date: null,
+      rating_end_date: null,
+      rating_description: ""
+    };
+
+    expect(dailyScheduleModule.getRepresentativeDate(service)).toEqual(
+      "2025-12-11"
+    );
+  });
+});
+
 describe("parseResults", () => {
   it("passes the results through", () => {
     const response = [

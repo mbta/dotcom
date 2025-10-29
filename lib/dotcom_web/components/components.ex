@@ -267,19 +267,4 @@ defmodule DotcomWeb.Components do
     </a>
     """
   end
-
-  def cr_survey_promo_banner(assigns) do
-    ~H"""
-    <.promo_banner
-      href="https://repdata.decipherinc.com/survey/selfserve/53b/250633?list=4"
-      class="p-md hover:no-underline"
-    >
-      {~t(We want to learn more about how you use the Commuter Rail to inform future planning)}
-      <div class="mt-sm font-bold flex items-center gap-xs justify-center">
-        {~t(Take our survey)}
-        <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3 fill-current" />
-      </div>
-    </.promo_banner>
-    """
-  end
 end

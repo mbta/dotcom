@@ -267,11 +267,15 @@ defmodule DotcomWeb.Router do
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
     resources("/fares", FareController, only: [:show])
-    get("/search", SearchController, :index)
     post("/search/query", SearchController, :query)
-    post("/search/click", SearchController, :click)
     get("/bus-stop-changes", BusStopChangeController, :show)
-    get("/vote", VoteController, :show)
+
+    # Temporarily removed because the elections API only returns
+    # sensible results when an election is ongoing (in the near
+    # future). So long as that isn't true, we shouldn't have the page
+    # be accessible at all.
+
+    # get("/vote", VoteController, :show)
   end
 
   scope "/", DotcomWeb do
@@ -294,6 +298,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
+      live("/search", Live.SearchPage)
       live("/trip-planner", Live.TripPlanner)
     end
   end

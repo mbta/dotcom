@@ -89,6 +89,20 @@ defmodule Dotcom.AlertsTest do
       # Verify
       assert [earlier_alert, later_alert] == sorted_alerts
     end
+
+    test "works with an empty active period" do
+      # Setup
+      alert = Factories.Alerts.Alert.build(:alert, active_period: [])
+      other_alert = Factories.Alerts.Alert.build(:alert)
+
+      alerts = [alert, other_alert]
+
+      # Exercise
+      sorted_alerts = Enum.sort(alerts, &sort_by_start_time_sorter/2)
+
+      # Verify
+      assert [other_alert, alert] == sorted_alerts
+    end
   end
 
   describe "sort_by_station_sorter/2" do

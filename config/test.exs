@@ -44,6 +44,7 @@ config :dotcom, :system_status_cache_modules, subway: Dotcom.SystemStatus.Subway
 
 config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
+config :dotcom, :search_service, Dotcom.SearchService.Mock
 
 config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader.Mock
 
@@ -57,3 +58,5 @@ config :dotcom, :secure_pipeline,
 # Credentials that always show widget and pass backend validation:
 config :recaptcha,
   http_client: Recaptcha.Http.MockClient
+
+config :tesla, adapter: Tesla.Mock

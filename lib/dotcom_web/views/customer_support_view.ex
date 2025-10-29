@@ -41,9 +41,9 @@ defmodule DotcomWeb.CustomerSupportView do
       [
         content_tag(
           :p,
-          "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
+          ~t"You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
         ),
-        content_tag(:p, "All fields with an asterisk* are required.")
+        content_tag(:p, ~t"All fields with an asterisk* are required.")
       ]
     )
   end
@@ -58,7 +58,7 @@ defmodule DotcomWeb.CustomerSupportView do
   @spec placeholder_text(String.t()) :: String.t()
   def placeholder_text("comments"),
     do:
-      "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
+      ~t"If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
 
   def placeholder_text("first_name"), do: "Jane"
   def placeholder_text("last_name"), do: "Smith"
@@ -71,7 +71,7 @@ defmodule DotcomWeb.CustomerSupportView do
     do:
       content_tag(
         :p,
-        "If you'd like us to give you a call, please give us the best number where we can reach you.",
+        ~t"If you'd like us to give you a call, please give us the best number where we can reach you.",
         id: "phoneHelp",
         class: "help-text"
       )
@@ -107,10 +107,11 @@ defmodule DotcomWeb.CustomerSupportView do
         if mode == 3 do
           [key: mode_name, value: "Bus Other"]
         else
+          # EXTRA TRANSLATION WORK
           [key: mode_name, value: mode_name]
         end
       end)
-      |> List.insert_at(0, key: "Select", value: " ")
+      |> List.insert_at(0, key: ~t"Select", value: " ")
 
     # append The RIDE:
     the_ride = Route.type_name(:the_ride)
@@ -122,22 +123,22 @@ defmodule DotcomWeb.CustomerSupportView do
     )
   end
 
-  defp error_msg("service"), do: "Please select the type of concern."
-  defp error_msg("comments"), do: "Please enter a comment to continue."
-  defp error_msg("upload"), do: "Sorry. We had trouble uploading your image. Please try again."
+  defp error_msg("service"), do: ~t"Please select the type of concern."
+  defp error_msg("comments"), do: ~t"Please enter a comment to continue."
+  defp error_msg("upload"), do: ~t"Sorry. We had trouble uploading your image. Please try again."
 
   defp error_msg("vehicle"),
-    do: "Please enter a valid vehicle number with numeric characters only."
+    do: ~t"Please enter a valid vehicle number with numeric characters only."
 
-  defp error_msg("email"), do: "Please enter a valid email."
-  defp error_msg("first_name"), do: "Please enter your first name to continue."
-  defp error_msg("last_name"), do: "Please enter your last name to continue."
+  defp error_msg("email"), do: ~t"Please enter a valid email."
+  defp error_msg("first_name"), do: ~t"Please enter your first name to continue."
+  defp error_msg("last_name"), do: ~t"Please enter your last name to continue."
 
   defp error_msg("privacy"),
-    do: "You must agree to our Privacy Policy before submitting your feedback."
+    do: ~t"You must agree to our Privacy Policy before submitting your feedback."
 
   defp error_msg("recaptcha"),
-    do: "You must complete the reCAPTCHA before submitting your feedback."
+    do: ~t"You must complete the reCAPTCHA before submitting your feedback."
 
-  defp error_msg(_), do: "Sorry. Something went wrong. Please try again."
+  defp error_msg(_), do: ~t"Sorry. Something went wrong. Please try again."
 end

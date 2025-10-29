@@ -4,9 +4,6 @@ defmodule DotcomWeb.FareViewTest do
 
   import DotcomWeb.FareView
 
-  alias DotcomWeb.Router.Helpers
-  alias Fares.Summary
-
   @location_1 %{lat: 42.354199, lng: -71.07399}
   @location_2 %{lat: 42.34735, lng: -71.075727}
 

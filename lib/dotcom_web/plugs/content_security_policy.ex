@@ -70,6 +70,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         translate.google.com/translate_a/element.js
         translate-pa.googleapis.com
         www.instagram.com
+        https://cdn.jsdelivr.net/
       ],
     style_src: ~w[
         'self'

@@ -6,7 +6,7 @@
  *
  * More testing done on critical user journeys, in the Playwright end-to-end
  * testing scenarios.
- * 
+ *
  * HOST=dev.mbtace.com npx playwright test smoke
  */
 const { describe, expect, test } = require("@playwright/test");
@@ -15,7 +15,14 @@ const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
 
-test.use({ baseURL, headless: true, screenshot: { mode: "only-on-failure", fullPage: true }, video: "off", trace: "off", bypassCSP: false });
+test.use({
+  baseURL,
+  headless: true,
+  screenshot: { mode: "only-on-failure", fullPage: true },
+  video: "off",
+  trace: "off",
+  bypassCSP: false,
+});
 
 test.describe(`${baseURL} passes smoke test`, () => {
   /**
@@ -25,14 +32,14 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("home page", async ({ page, baseURL }) => {
     await ok(page, "/");
     await page.getByRole("heading", { name: "Find a Location" });
+    await page.getByRole("heading", { name: "Fares" });
     await page.getByRole("heading", { name: "Contact Us" });
 
     const main = page.locator("main");
-    await expect(main).toContainText("Ferry One-Way");
     await expect(main).toContainText("Important Links");
     await expect(main).toContainText("Press Releases");
     await expect(main).toContainText("MBTA User Guides");
-    await hasPositiveCount(page, ".user-guides .guide")
+    await hasPositiveCount(page, ".user-guides .guide");
     await hasPositiveCount(page, "a.m-homepage__news-item");
     const promoted = page.locator("#whats-happening-promoted > div");
     await expect(promoted).toHaveCount(2);
@@ -54,8 +61,8 @@ test.describe(`${baseURL} passes smoke test`, () => {
     const resultSelector = ".c-search-bar__autocomplete-results .aa-List li";
     await ok(page, "/fares/retail-sales-locations");
     await page
-      .getByPlaceholder('Enter a location')
-      .pressSequentially('Boston Common');
+      .getByPlaceholder("Enter a location")
+      .pressSequentially("Boston Common");
     await hasPositiveCount(page, resultSelector);
     await page.locator(resultSelector).first().click();
     await expect(page).toHaveURL(new RegExp("address=Boston\\+Common"));
@@ -82,7 +89,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("news page, selected news entry", async ({ page }) => {
     await ok(page, "/news");
-    await page.locator("main").getByRole('link').first().click();
+    await page.locator("main").getByRole("link").first().click();
   });
 
   test("stops & stations page, selected station", async ({ page }) => {
@@ -96,10 +103,12 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("schedules & maps page (all links)", async ({ page, request }) => {
     await ok(page, "/schedules");
     const links = await page.$$("main a:visible[href]");
-    await Promise.all(links.map(async link => {
-      const href = await link.getAttribute("href");
-      return request.get(href);
-    }));
+    await Promise.all(
+      links.map(async (link) => {
+        const href = await link.getAttribute("href");
+        return request.get(href);
+      }),
+    );
   });
 
   const schedule_sections = [
@@ -109,7 +118,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     ["Green", "line"],
     ["Green-E", "line"],
     ["Red", "line"],
-    ["1", "line"]
+    ["1", "line"],
   ];
   describe("selected schedules", async () => {
     for (let [route, tab] of schedule_sections) {
@@ -128,8 +137,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
         } else {
           await page.locator(".m-timetable");
         }
-      })
-
+      });
     }
   });
 
@@ -145,14 +153,22 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("search page", async ({ page }) => {
     await ok(page, "/search");
     await page
-      .getByPlaceholder('Search for routes, places, information, and more')
-      .pressSequentially('Charles');
+      .getByPlaceholder("Search for routes, places, information, and more")
+      .pressSequentially("Charles");
     await expect(page).toHaveURL(/query=Charles/);
-    const searchResults = page.locator("#search-results-container")
-    await hasPositiveCount(searchResults, ".c-search-result__hit-name")
-    await expect(searchResults).toContainText("Charles/MGH")
-    await expect(searchResults).toContainText("Red Blue Connector")
-    await page.locator("#facet-label-stops").click(); // show stops and stations only
+    const searchResults = page.locator("#search-page-results");
+    await hasPositiveCount(searchResults, "li a");
+    await expect(searchResults).toContainText("Charles/MGH");
+    await expect(searchResults).toContainText("Red Blue Connector");
+
+    const checkboxLocator = page.locator(
+      '#search-page-filters input[type="checkbox"]',
+    );
+    for (const el of await checkboxLocator.all()) {
+      await el.dispatchEvent("click");
+    }
+    await page.getByLabel("Stations and Stops").dispatchEvent("click"); // show stops and stations only
+
     await expect(searchResults).toContainText("Charles/MGH");
     await expect(searchResults).not.toContainText("Red Blue Connector");
   });
@@ -177,8 +193,6 @@ async function ok(page, path) {
 
 async function hasPositiveCount(page, selector) {
   await expect
-    .poll(async () =>
-      page.locator(selector).count(),
-    )
+    .poll(async () => page.locator(selector).count())
     .toBeGreaterThan(0);
 }

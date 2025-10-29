@@ -1,4 +1,9 @@
-// MbtaMetro, including Tailwind.
+@import "../../deps/mbta_metro/priv/dist/metro.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // Since Dotcom doesn't use Tailwind's Preflight, but some components require
 // it, we can include some of Preflight's styles here.
 *,
@@ -10,14 +15,6 @@
   box-sizing: border-box; /* 1 */
   --tw-content: '' !important;
 }
-
-// MBTA Metro components can support light or dark mode, and includes CSS
-// variable definitions for both. However, Dotcom itself does not support dark
-// mode, so we only include the light mode variables here.
-// @import "../../deps/mbta_metro/priv/static/assets/variables.light.css" (prefers-color-scheme: light);
-// @import "../../deps/mbta_metro/priv/static/assets/variables.dark.css" (prefers-color-scheme: dark);
-@import "../../deps/mbta_metro/priv/static/assets/variables.light.css";
-@import '../../deps/mbta_metro/priv/static/assets/default.css';
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +73,6 @@
 @import 'pagination';
 @import 'trip-plan';
 @import 'people-grid';
-@import 'search'; // partially refactored
 @import 'project';
 @import 'google-translate';
 
@@ -100,7 +96,6 @@
 @import 'location-card';
 @import 'descriptive-link';
 @import 'accordion-ui';
-@import 'search-bar';
 @import 'header-tabs';
 @import 'facets';
 @import 'photo-gallery';

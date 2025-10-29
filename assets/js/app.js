@@ -3,7 +3,7 @@ import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/dropdown";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
-import { Hooks } from "mbta_metro";
+import { Hooks } from "../../deps/mbta_metro/priv/dist/metro";
 import setupChannels from "../ts/app/channels";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
@@ -12,7 +12,6 @@ import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";
 import { onload as alertItemLoad } from "./alert-item";
-import * as globalSearch from "./algolia-global-search";
 import collapse from "./collapse";
 import datePicker from "./date-picker";
 import eventPageSetup from "./event-page-setup";
@@ -20,13 +19,11 @@ import fixedsticky from "./fixedsticky";
 import fullstory from "./fullstory";
 import googleAnalytics from "./google-analytics";
 import googleTranslate from "./google-translate";
-import inputFocus from "./input-focus";
 import juxtapose from "./juxtapose";
 import modal from "./modal";
 import photoGallery from "./photo-gallery";
 import pslPageSetup from "./psl-page-setup.js";
 import scrollTo from "./scroll-to";
-import search from "./search";
 import stickyTooltip from "./sticky-tooltip";
 import submitOnEvents from "./submit-on-events";
 import supportForm from "./support-form";
@@ -60,9 +57,9 @@ let liveSocket = new LiveSocket("/live", Socket, {
       By default the open/closed state of a <details> element will not
       be preserved across LiveView rerenders. This creates some surprising
       behavior in the mode selector on the trip planner, where each time you
-      change your selected mode, the accordion closes.  
+      change your selected mode, the accordion closes.
       This code forces the `<details>` tag (what the accordion uses under the
-      hood) to remember its open/closed state to avoid that bug. 
+      hood) to remember its open/closed state to avoid that bug.
       */
       if (from.tagName == "DETAILS") {
         const openState = from.getAttribute("open");
@@ -125,7 +122,6 @@ alertItemLoad();
 modal();
 supportForm();
 fixedsticky();
-inputFocus();
 googleTranslate();
 translateAnalytics();
 scrollTo();
@@ -135,10 +131,8 @@ timetableStyle();
 timetableStick();
 datePicker();
 toggleBtn();
-search(window.$, breakpoints);
 photoGallery();
 stickyTooltip();
-globalSearch.init();
 TimeControls.init();
 fullstory();
 setupChannels();

@@ -2,11 +2,6 @@
 import { SourceTemplates, VNode } from "@algolia/autocomplete-js";
 import { get, uniqueId } from "lodash";
 import React from "react";
-import {
-  contentIcon,
-  getFeatureIcons,
-  getIcon
-} from "../../../../js/algolia-result";
 import { AutocompleteItem } from "../__autocomplete";
 import {
   getTitleAttribute,
@@ -15,10 +10,11 @@ import {
   isStopItem
 } from "../helpers";
 import { itemURL } from "./helpers";
+import { contentIcon, getFeatureIcons, getIcon } from "./helpers_algolia";
 
 // parse this from a stop's address until we can get it as a stop field
 const stateAbbr = (address: string): string =>
-  (address.split(",").pop() || "").substring(1, 3);
+  (address.match(new RegExp(/,\s(MA|NH|RI)\s?/)) || []).pop() || "MA";
 
 export function LinkForItem(props: {
   item: AutocompleteItem;
