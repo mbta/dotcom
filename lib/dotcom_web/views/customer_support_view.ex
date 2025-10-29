@@ -105,9 +105,9 @@ defmodule DotcomWeb.CustomerSupportView do
         mode_name = DotcomWeb.ViewHelpers.mode_name(mode)
 
         case mode do
-          3 -> [key: mode_name, value: "Bus Other"]
           1 -> [key: mode_name, value: "Subway"]
-          2 -> [key: mode_name, value: "Commuter Rail"] 
+          2 -> [key: mode_name, value: "Commuter Rail"]
+          3 -> [key: mode_name, value: "Bus Other"]
           4 -> [key: mode_name, value: "Ferry"]
         end
       end)

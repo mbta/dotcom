@@ -117,12 +117,13 @@ defmodule DotcomWeb.ScheduleView do
     |> Timex.format!("{Mfull} {D}, {YYYY}")
   end
 
-  defp downcase_direction("Outbound"), do: ~t"outbound"
   defp downcase_direction("Inbound"), do: ~t"inbound"
-  defp downcase_direction("West"), do: ~t"west"
+  defp downcase_direction("Outbound"), do: ~t"outbound"
+
   defp downcase_direction("East"), do: ~t"east"
   defp downcase_direction("North"), do: ~t"north"
   defp downcase_direction("South"), do: ~t"south"
+  defp downcase_direction("West"), do: ~t"west"
 
   defp downcase_direction(direction) do
     # keep it the same if it's not one of our expected ones
@@ -456,7 +457,7 @@ defmodule DotcomWeb.ScheduleView do
 
   def track_changes(assigns) do
     assigns = assign(assigns, :count, Enum.count(assigns.track_changes))
-    
+
     # Create the proper plural form for "Change"/"Changes"
     change_text = if assigns.count == 1, do: ~t"Change", else: ~t"Changes"
     assigns = assign(assigns, :change_text, change_text)

@@ -238,15 +238,15 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name("Massport" <> _route), do: ~t"Massport Shuttle"
 
   def mode_name(:access), do: ~t"Access"
-  def mode_name(:the_ride), do: ~t"The Ride"
+  def mode_name(:blue_line), do: ~t"Blue Line"
+  def mode_name(:free_fare), do: ~t"Free Service"
+  def mode_name(:green_line), do: ~t"Green Line"
   def mode_name(:mattapan_trolley), do: ~t"Mattapan Trolley"
   def mode_name(:mattapan_line), do: ~t"Mattapan Trolley"
-  def mode_name(:free_fare), do: ~t"Free Service"
-  def mode_name(:red_line), do: ~t"Red Line"
-  def mode_name(:blue_line), do: ~t"Blue Line"
   def mode_name(:orange_line), do: ~t"Orange Line"
-  def mode_name(:green_line), do: ~t"Green Line"
+  def mode_name(:red_line), do: ~t"Red Line"
   def mode_name(:silver_line), do: ~t"Silver Line"
+  def mode_name(:the_ride), do: ~t"The Ride"
 
   @spec mode_atom(String.t()) :: atom
   def mode_atom(type_string) do
