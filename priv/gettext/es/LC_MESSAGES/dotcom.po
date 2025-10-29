@@ -528,9 +528,6 @@ msgstr "Tránsito"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
-msgid "We want to learn more about how you use the Commuter Rail to inform future planning"
-msgstr "Queremos saber más sobre cómo utiliza el Commuter Rail para informar sobre la planificación futura"
-
 msgid " on track "
 msgstr " en pista "
 
@@ -690,6 +687,9 @@ msgstr "The Foxboro Special La línea de eventos es sólo para el servicio ocasi
 msgid "There are no alerts"
 msgstr "No hay alertas"
 
+msgid "with"
+msgstr "con"
+
 msgid "Escalator"
 msgstr "Escalador"
 
@@ -819,9 +819,6 @@ msgstr "Nuevo"
 msgid "Depart at"
 msgstr "Salida en"
 
-msgid "Take our survey"
-msgstr "Tome nuestra encuesta"
-
 msgid " minute walk"
 msgstr " minuto andando"
 
@@ -833,6 +830,9 @@ msgstr "%{time} el %{date}"
 
 msgid "Menu"
 msgstr "Menú"
+
+msgid "with your request."
+msgstr "con su solicitud."
 
 msgid "Current Alerts"
 msgstr "Alertas actuales"
