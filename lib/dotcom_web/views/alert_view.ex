@@ -92,16 +92,12 @@ defmodule DotcomWeb.AlertView do
     ~t"planned"
   end
 
-  def format_alerts_timeframe(:all_timeframes) do
-    ""
+  def format_alerts_timeframe(:current) do
+    ~t"current"
   end
 
-  def format_alerts_timeframe(nil) do
+  def format_alerts_timeframe(_) do
     ""
-  end
-
-  def format_alerts_timeframe(timeframe) when is_atom(timeframe) do
-    Atom.to_string(timeframe)
   end
 
   @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist

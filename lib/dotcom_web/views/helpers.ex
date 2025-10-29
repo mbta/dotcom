@@ -242,14 +242,11 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name(:mattapan_trolley), do: ~t"Mattapan Trolley"
   def mode_name(:mattapan_line), do: ~t"Mattapan Trolley"
   def mode_name(:free_fare), do: ~t"Free Service"
-
-  def mode_name(mode_atom)
-      when mode_atom in @subway_lines do
-    mode_atom
-    |> Atom.to_string()
-    |> String.split("_")
-    |> Enum.map_join(" ", &String.capitalize/1)
-  end
+  def mode_name(:red_line), do: ~t"Red Line"
+  def mode_name(:blue_line), do: ~t"Blue Line"
+  def mode_name(:orange_line), do: ~t"Orange Line"
+  def mode_name(:green_line), do: ~t"Green Line"
+  def mode_name(:silver_line), do: ~t"Silver Line"
 
   @spec mode_atom(String.t()) :: atom
   def mode_atom(type_string) do

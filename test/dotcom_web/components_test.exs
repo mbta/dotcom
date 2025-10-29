@@ -47,7 +47,7 @@ defmodule DotcomWeb.ComponentsTest do
 
     test "uses custom aria-label" do
       placeholder = Faker.App.name()
-      label = Faker.Beer.brand()
+      label = Faker.App.name()
 
       html =
         render_component(&algolia_autocomplete/1, %{

@@ -104,11 +104,11 @@ defmodule DotcomWeb.CustomerSupportView do
       Enum.map(1..4, fn mode ->
         mode_name = DotcomWeb.ViewHelpers.mode_name(mode)
 
-        if mode == 3 do
-          [key: mode_name, value: "Bus Other"]
-        else
-          # EXTRA TRANSLATION WORK
-          [key: mode_name, value: mode_name]
+        case mode do
+          3 -> [key: mode_name, value: "Bus Other"]
+          1 -> [key: mode_name, value: "Subway"]
+          2 -> [key: mode_name, value: "Commuter Rail"] 
+          4 -> [key: mode_name, value: "Ferry"]
         end
       end)
       |> List.insert_at(0, key: ~t"Select", value: " ")

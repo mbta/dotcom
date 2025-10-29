@@ -13,6 +13,7 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Before today and after next week are open intervals. Today is included in this week.
   """
 
+  use Dotcom.Gettext.Sigils
   use Timex
 
   require Logger
@@ -83,8 +84,11 @@ defmodule Dotcom.Utils.ServiceDateTime do
   @spec service_range_string(named_service_range()) :: String.t()
   def service_range_string(service_range) do
     case service_range do
-      :after_next_week -> "Later"
-      _ -> service_range |> Atom.to_string() |> Recase.to_title()
+      :before_today -> ~t"Before Today"
+      :today -> ~t"Today"
+      :this_week -> ~t"This Week"
+      :next_week -> ~t"Next Week"
+      :after_next_week -> ~t"Later"
     end
   end
 

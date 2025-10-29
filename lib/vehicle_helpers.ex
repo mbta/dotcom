@@ -150,16 +150,15 @@ defmodule VehicleHelpers do
   @spec build_tooltip(iodata, iodata) :: String.t()
   defp build_tooltip([], stop_text), do: "#{stop_text}"
 
-  # EXTRA TRANSLATION WORK
   defp build_tooltip(status_text, stop_text) do
     # Sometimes the prediction status is "Departed" and the vehicle status is
     # :stopped. We rewrite this tooltip to make a bit more sense
     if Enum.member?(status_text, ~t"departed") and Enum.member?(stop_text, ~t" has arrived at ") do
       adjusted_stop_text = "#{stop_text}" |> String.replace(~t"arrived at", ~t"has left")
 
-      "#{adjusted_stop_text}, #{status_text}"
+      ~t"{{stop}}, {{status}}" |> String.replace("{{stop}}", "#{adjusted_stop_text}") |> String.replace("{{status}}", "#{status_text}")
     else
-      "#{stop_text}, #{status_text}"
+      ~t"{{stop}}, {{status}}" |> String.replace("{{stop}}", "#{stop_text}") |> String.replace("{{status}}", "#{status_text}")
     end
   end
 end

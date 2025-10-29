@@ -117,10 +117,12 @@ defmodule DotcomWeb.ScheduleView do
     |> Timex.format!("{Mfull} {D}, {YYYY}")
   end
 
-  # EXTRA TRANSLATION WORK
-  for direction <- ["Outbound", "Inbound", "West", "East", "North", "South"] do
-    defp downcase_direction(unquote(direction)), do: unquote(String.downcase(direction))
-  end
+  defp downcase_direction("Outbound"), do: ~t"outbound"
+  defp downcase_direction("Inbound"), do: ~t"inbound"
+  defp downcase_direction("West"), do: ~t"west"
+  defp downcase_direction("East"), do: ~t"east"
+  defp downcase_direction("North"), do: ~t"north"
+  defp downcase_direction("South"), do: ~t"south"
 
   defp downcase_direction(direction) do
     # keep it the same if it's not one of our expected ones
@@ -452,9 +454,12 @@ defmodule DotcomWeb.ScheduleView do
 
   attr :track_changes, :list, required: true
 
-  # EXTRA TRANSLATION WORK
   def track_changes(assigns) do
     assigns = assign(assigns, :count, Enum.count(assigns.track_changes))
+    
+    # Create the proper plural form for "Change"/"Changes"
+    change_text = if assigns.count == 1, do: ~t"Change", else: ~t"Changes"
+    assigns = assign(assigns, :change_text, change_text)
 
     ~H"""
     <.unstyled_accordion
@@ -465,7 +470,7 @@ defmodule DotcomWeb.ScheduleView do
       <:heading>
         <div class="flex items-center gap-sm">
           <.icon name="shuffle" class="h-4 w-4" aria-hidden="true" />
-          <span>{@count} {~t"Unscheduled Track"} {Inflex.inflect("Change", @count)}</span>
+          <span>{@count} {~t"Unscheduled Track"} {@change_text}</span>
         </div>
       </:heading>
       <:content>
