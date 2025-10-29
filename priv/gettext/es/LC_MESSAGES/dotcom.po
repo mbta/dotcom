@@ -543,6 +543,9 @@ msgstr "CharlieTicket"
 msgid " on track "
 msgstr " en pista "
 
+msgid " on track "
+msgstr " en pista "
+
 msgid "Shuttle"
 msgstr "Shuttle"
 
@@ -614,6 +617,9 @@ msgstr "Personas caminando por tren de salida hacia la estación norte"
 
 msgid "Fare Vending Machine"
 msgstr "Fare Vending Machine"
+
+msgid " has arrived at "
+msgstr " ha llegado a "
 
 msgid "People waiting as orange line train arrives inside North Station"
 msgstr "La gente que espera como tren de línea naranja llega dentro de la estación norte"
@@ -822,6 +828,9 @@ msgstr "Entrada a la estación Ruggles"
 msgid "Commuter Rail Zones Map"
 msgstr "Commuter Rail Mapa de Zonas"
 
+msgid "departed"
+msgstr "difunto"
+
 msgid "Service alert or delay"
 msgstr "Alerta o demora del servicio"
 
@@ -851,6 +860,9 @@ msgstr "Alertas actuales"
 
 msgid "MBTA LinkedIn"
 msgstr "MBTA LinkedIn"
+
+msgid " is arriving at "
+msgstr " está llegando a "
 
 msgid "bus"
 msgstr "bus"
@@ -1842,6 +1854,9 @@ msgstr "¿Conoce a un propietario de la tienda local que podría estar interesad
 msgid "Enter a destination location"
 msgstr "Introduzca una ubicación de destino"
 
+msgid "arrived at"
+msgstr "llegados"
+
 msgid "Track Boarding Change"
 msgstr "Track Boarding Cambio"
 
@@ -2085,6 +2100,9 @@ msgstr "Cuestiones de acceso"
 msgid "Service Inquiry"
 msgstr "Investigación del Servicio"
 
+msgid "has left"
+msgstr "se ha ido"
+
 msgid "Icon Key"
 msgstr "Icon Key"
 
@@ -2285,6 +2303,9 @@ msgstr "MBTA Transit Police"
 
 msgid "MBTA.com Latest News"
 msgstr "MBTA.com Últimas noticias"
+
+msgid " is on the way to "
+msgstr " está en camino "
 
 msgid "Eastbound"
 msgstr "Eastbound"

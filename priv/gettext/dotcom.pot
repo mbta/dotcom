@@ -201,6 +201,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:39
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:41
+#: lib/vehicle_helpers.ex:166
 #, elixir-autogen, elixir-format
 msgid ", "
 msgstr ""
@@ -4330,4 +4331,40 @@ msgstr ""
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "with your request."
+msgstr ""
+
+#: lib/vehicle_helpers.ex:143
+#, elixir-autogen, elixir-format
+msgid " has arrived at "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:142
+#, elixir-autogen, elixir-format
+msgid " is arriving at "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:144
+#, elixir-autogen, elixir-format
+msgid " is on the way to "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:107
+#, elixir-autogen, elixir-format
+msgid " on track "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:159
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "arrived at"
+msgstr ""
+
+#: lib/vehicle_helpers.ex:159
+#, elixir-autogen, elixir-format
+msgid "departed"
+msgstr ""
+
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "has left"
 msgstr ""
