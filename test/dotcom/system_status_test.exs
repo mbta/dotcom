@@ -18,18 +18,12 @@ defmodule Dotcom.SystemStatusTest do
     test "requests alerts for all subway lines @ today datetime" do
       today = Test.Support.Generators.DateTime.random_date_time()
 
-      expect(Dotcom.Utils.DateTime.Mock, :now, 3, fn ->
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
         today
       end)
 
-      expect(Alerts.Repo.Mock, :by_route_ids, fn route_ids, datetime ->
-        assert Enum.sort(route_ids) == Dotcom.Routes.subway_route_ids() |> Enum.sort()
-        assert datetime == today
-
-        []
-      end)
-
-      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _date ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], date ->
+        assert date == today
         []
       end)
 
@@ -45,10 +39,6 @@ defmodule Dotcom.SystemStatusTest do
       expired_alert = disruption_alert({day_start, earlier_end}, route_id_with_alerts)
 
       expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _date ->
-        []
-      end)
-
-      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         [currently_active_alert, expired_alert]
       end)
 

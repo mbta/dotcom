@@ -6,7 +6,6 @@ defmodule Dotcom.SystemStatus do
   """
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
-  import Dotcom.Routes, only: [subway_route_ids: 0]
 
   alias Dotcom.SystemStatus
 
