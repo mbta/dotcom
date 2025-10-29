@@ -543,9 +543,6 @@ msgstr "CharlieTicket"
 msgid " on track "
 msgstr " en pista "
 
-msgid " on track "
-msgstr " en pista "
-
 msgid "Shuttle"
 msgstr "Shuttle"
 
@@ -839,6 +836,9 @@ msgstr "Nuevo"
 
 msgid "Depart at"
 msgstr "Salida en"
+
+msgid "Green Line"
+msgstr "Green Line"
 
 msgid " minute walk"
 msgstr " minuto andando"

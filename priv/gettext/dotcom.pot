@@ -73,6 +73,21 @@ msgstr ""
 msgid " for the "
 msgstr ""
 
+#: lib/vehicle_helpers.ex:143
+#, elixir-autogen, elixir-format
+msgid " has arrived at "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:142
+#, elixir-autogen, elixir-format
+msgid " is arriving at "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:144
+#, elixir-autogen, elixir-format
+msgid " is on the way to "
+msgstr ""
+
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:17
 #, elixir-autogen, elixir-format
 msgid " may leave ahead of schedule at these stops."
@@ -91,6 +106,11 @@ msgstr ""
 #: lib/dotcom_web/views/alert_view.ex:87
 #, elixir-autogen, elixir-format
 msgid " on the "
+msgstr ""
+
+#: lib/vehicle_helpers.ex:107
+#, elixir-autogen, elixir-format
+msgid " on track "
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:47
@@ -541,6 +561,11 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:160
 #, elixir-autogen, elixir-format
 msgid "Bikes are allowed on all ferry boats"
+msgstr ""
+
+#: lib/dotcom_web/views/helpers.ex:241
+#, elixir-autogen, elixir-format
+msgid "Blue Line"
 msgstr ""
 
 #: lib/hub_stops.ex:41
@@ -4005,6 +4030,12 @@ msgstr ""
 msgid "and"
 msgstr ""
 
+#: lib/vehicle_helpers.ex:159
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "arrived at"
+msgstr ""
+
 #: lib/dotcom/transit_near_me.ex:109
 #: lib/dotcom/transit_near_me.ex:115
 #, elixir-autogen, elixir-format
@@ -4063,6 +4094,11 @@ msgstr ""
 msgid "current"
 msgstr ""
 
+#: lib/vehicle_helpers.ex:159
+#, elixir-autogen, elixir-format
+msgid "departed"
+msgstr ""
+
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex:66
 #, elixir-autogen, elixir-format
 msgid "docks"
@@ -4086,6 +4122,11 @@ msgstr ""
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:142
 #, elixir-autogen, elixir-format
 msgid "from %{origin}"
+msgstr ""
+
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "has left"
 msgstr ""
 
 #: lib/dotcom_web/views/schedule_view.ex:120
@@ -4321,6 +4362,11 @@ msgstr ""
 msgid "up to 30 min"
 msgstr ""
 
+#: lib/dotcom_web/views/schedule_view.ex:126
+#, elixir-autogen, elixir-format
+msgid "west"
+msgstr ""
+
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:91
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:117
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:56
@@ -4331,40 +4377,4 @@ msgstr ""
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "with your request."
-msgstr ""
-
-#: lib/vehicle_helpers.ex:143
-#, elixir-autogen, elixir-format
-msgid " has arrived at "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:142
-#, elixir-autogen, elixir-format
-msgid " is arriving at "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:144
-#, elixir-autogen, elixir-format
-msgid " is on the way to "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:107
-#, elixir-autogen, elixir-format
-msgid " on track "
-msgstr ""
-
-#: lib/vehicle_helpers.ex:159
-#: lib/vehicle_helpers.ex:160
-#, elixir-autogen, elixir-format
-msgid "arrived at"
-msgstr ""
-
-#: lib/vehicle_helpers.ex:159
-#, elixir-autogen, elixir-format
-msgid "departed"
-msgstr ""
-
-#: lib/vehicle_helpers.ex:160
-#, elixir-autogen, elixir-format
-msgid "has left"
 msgstr ""
