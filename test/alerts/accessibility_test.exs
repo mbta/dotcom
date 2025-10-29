@@ -19,7 +19,7 @@ defmodule Alerts.AccessibilityTest do
 
   describe "effect_type_to_group_title/1" do
     test "if human_effect return corresponding string" do
-      assert Alerts.Accessibility.effect_type_to_group_title(:snow_route) == "Snow Routes"
+      assert Alerts.Accessibility.effect_type_to_group_title(:access_issue) == "Access Issues"
     end
   end
 end

@@ -27,11 +27,17 @@ msgstr "Mapa de autobuses"
 msgid "Trip"
 msgstr "Viaje"
 
+msgid "Bus Other"
+msgstr "Buses"
+
 msgid "Contact"
 msgstr "Contacto"
 
 msgid "May not be accessible"
 msgstr "Puede no ser accesible"
+
+msgid "Red Line"
+msgstr "Red Line"
 
 msgid "Sunday"
 msgstr "Domingo"
@@ -120,6 +126,9 @@ msgstr "Cierre de ascensor"
 msgid "Sign up for T-Alerts"
 msgstr "Regístrate para T-Alerts"
 
+msgid "Orange Line"
+msgstr "Orange Line"
+
 msgid "Boston Visitor's Guide to The T"
 msgstr "Guía del visitante de Boston para el T"
 
@@ -143,6 +152,9 @@ msgstr "Main"
 
 msgid "View phone numbers"
 msgstr "Ver números de teléfono"
+
+msgid "outbound"
+msgstr "fuera"
 
 msgid "MBTA Trip Planner"
 msgstr "MBTA Trip Planner"
@@ -281,6 +293,9 @@ msgstr "Gratis"
 
 msgid "to %{destination}"
 msgstr "a %{destination}"
+
+msgid "Before Today"
+msgstr "Antes"
 
 msgid "Policies & Civil Rights"
 msgstr "Policies &quot; Civil Rights"
@@ -669,11 +684,17 @@ msgstr "Izquierda"
 msgid "Commuter Rail One-Way"
 msgstr "Commuter Rail Uno..."
 
+msgid "Escalator Closures"
+msgstr "Ropas de escaleras"
+
 msgid "Date and Time"
 msgstr "Fecha y hora"
 
 msgid "Student"
 msgstr "Estudiante"
+
+msgid "Blue Line"
+msgstr "Blue Line"
 
 msgid "Current seat availability thresholds are:"
 msgstr "Los umbrales actuales de disponibilidad de asientos son:"
@@ -819,6 +840,9 @@ msgstr "Nuevo"
 msgid "Depart at"
 msgstr "Salida en"
 
+msgid "Green Line"
+msgstr "Green Line"
+
 msgid " minute walk"
 msgstr " minuto andando"
 
@@ -881,6 +905,9 @@ msgstr "Horarios visitados recientemente"
 
 msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
 msgstr "MBTA %{route_name} %{station_name} y horarios, incluyendo horarios, mapas, tarifas, actualizaciones en tiempo real, información de estacionamiento y accesibilidad, y conexiones."
+
+msgid "east"
+msgstr "Este"
 
 msgid "Location is not close enough to any transit stops"
 msgstr "La ubicación no es lo suficientemente cerca de cualquier parada de tránsito"
@@ -956,6 +983,9 @@ msgstr "Ruta de la nieve"
 
 msgid "There are no scheduled trips on %{date}."
 msgstr "No hay viajes programados el %{date}."
+
+msgid "west"
+msgstr "oeste"
 
 msgid "MBTA Homepage"
 msgstr "MBTA Página"
@@ -1059,6 +1089,9 @@ msgstr "MBTA Proyectos/Programas"
 msgid "Sorry. Something went wrong. Please try again."
 msgstr "Lo siento. Algo salió mal. Por favor, inténtalo de nuevo."
 
+msgid "Change"
+msgstr "Cambio"
+
 msgid "1 Inaccessible Route"
 msgstr "1 ruta inaccesible"
 
@@ -1082,6 +1115,9 @@ msgstr "Policy Change"
 
 msgid "Oh no! We're experiencing delays."
 msgstr "¡Oh no! Estamos experimentando retrasos."
+
+msgid "Next Week"
+msgstr "Semana próxima"
 
 msgid "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs."
 msgstr "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs."
@@ -1136,6 +1172,9 @@ msgstr "Zona"
 
 msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
 msgstr "Web oficial del MBTA - horarios, mapas e información de tarifas para el sistema de transporte público de Greater Boston, incluyendo metro, tren de cercanías, rutas de autobús y líneas de barco."
+
+msgid "This Week"
+msgstr "Esta semana"
 
 msgid "Bicycles not allowed"
 msgstr "Bicicletas no permitidas"
@@ -1509,6 +1548,9 @@ msgstr "calendario para"
 msgid "%{date} at %{start_time} - %{end_time}"
 msgstr "%{date} a %{start_time} - %{end_time}"
 
+msgid "inbound"
+msgstr "inbound"
+
 msgid "There are no high priority"
 msgstr "No hay alta prioridad"
 
@@ -1629,6 +1671,9 @@ msgstr "Lunes a viernes"
 msgid "Routes With High Priority Alerts"
 msgstr "Rutas con alertas de alta prioridad"
 
+msgid "Elevator Closures"
+msgstr "Cierre de ascensor"
+
 msgid "Please enter a valid vehicle number with numeric characters only."
 msgstr "Introduzca un número de vehículo válido con caracteres numéricos solamente."
 
@@ -1652,6 +1697,9 @@ msgstr "Política de privacidad"
 
 msgid "Business"
 msgstr "Negocios"
+
+msgid "Changes"
+msgstr "Cambios"
 
 msgid "towards"
 msgstr "hacia"
@@ -1688,6 +1736,9 @@ msgstr "No hay eventos"
 
 msgid "1-Day Pass"
 msgstr "Paso de 1 día"
+
+msgid "north"
+msgstr "norte"
 
 msgid "People walking towards Green Line train inside North Station"
 msgstr "Personas caminando hacia Green Line tren dentro de la estación norte"
@@ -1941,6 +1992,9 @@ msgstr "No hay otras alertas de ferrocarril en este momento."
 msgid "Service Alerts"
 msgstr "Alertas de servicio"
 
+msgid "south"
+msgstr "sur"
+
 msgid "Careers"
 msgstr "Carreras"
 
@@ -2042,6 +2096,9 @@ msgstr "Cuestión de la bicicleta"
 
 msgid "CharlieCards & Tickets"
 msgstr "CharlieCards &amp; Tickets"
+
+msgid "Access Issues"
+msgstr "Cuestiones de acceso"
 
 msgid "Service Inquiry"
 msgstr "Investigación del Servicio"
@@ -2159,6 +2216,9 @@ msgstr "Siga @MBTA en Twitter"
 
 msgid "Report Fraud, Waste, or Abuse"
 msgstr "Informe Fraude, Desechos o Abuso"
+
+msgid "current"
+msgstr "corriente"
 
 msgid "View PDF Timetable on the MBTA website."
 msgstr "Ver PDF Horario en el sitio web MBTA."
