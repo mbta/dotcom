@@ -71,7 +71,7 @@ defmodule DotcomWeb.EventView do
   @spec do_date_time_formatting(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil,
-          String.t()
+          atom()
         ) :: %{date: String.t(), time: String.t()}
 
   # If the end_time is the same date as the start_time, represent the time as a range
