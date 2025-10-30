@@ -21,6 +21,7 @@ defmodule Test.Support.Factories.Predictions.Prediction do
         Faker.Util.pick([:added, :unscheduled, :cancelled, :skipped, :no_data])
         |> FactoryHelpers.nullable_item(),
       stop: Stop.build(:stop),
+      status: Faker.App.name() |> FactoryHelpers.nullable_item(),
       time: Faker.DateTime.forward(1),
       track: Faker.Util.digit() |> FactoryHelpers.nullable_item(),
       trip: Trip.build(:trip) |> FactoryHelpers.nullable_item(),

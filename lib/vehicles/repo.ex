@@ -8,6 +8,10 @@ defmodule Vehicles.Repo do
   use GenServer
   alias Vehicles.Vehicle
 
+  def get(vehicle_id) do
+    :ets.select(__MODULE__, [{{vehicle_id, :_, :_, :_, :"$1"}, [], [:"$1"]}])
+  end
+
   @spec route(String.t(), Keyword.t()) :: [Vehicle.t()]
   def route(route_id, opts \\ []) do
     direction_id =

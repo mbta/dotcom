@@ -201,17 +201,37 @@ defmodule PredictedSchedule do
   """
   @spec time(PredictedSchedule.t()) :: DateTime.t() | nil
   def time(%PredictedSchedule{prediction: %Prediction{time: time}}) when not is_nil(time) do
-    time
+    time |> DateTime.shift_zone!("America/New_York")
   end
 
   def time(%PredictedSchedule{schedule: %Schedule{time: time}}) do
-    time
+    time |> DateTime.shift_zone!("America/New_York")
   end
 
   def time(%PredictedSchedule{}) do
     # this falls through when there's no predicted time and no scheduled time
     nil
   end
+
+  @spec headsign(t) :: String.t() | nil
+  def headsign(%PredictedSchedule{schedule: %Schedule{stop_headsign: headsign}})
+      when not is_nil(headsign) do
+    headsign
+  end
+
+  def headsign(%PredictedSchedule{prediction: %Prediction{trip: %Trip{headsign: headsign}}}) when not is_nil(headsign) do
+    headsign
+  end
+
+  def headsign(%PredictedSchedule{schedule: %Schedule{trip: %Trip{headsign: headsign}}}) when not is_nil(headsign) do
+    headsign
+  end
+
+  def headsign(%PredictedSchedule{schedule: %Schedule{route: %Routes.Route{direction_destinations: destinations}, trip: %Trip{direction_id: direction_id}}}) do
+    Map.get(destinations, direction_id)
+  end
+
+  def headsign(_), do: nil
 
   @spec last_stop?(t) :: boolean
   def last_stop?(%PredictedSchedule{schedule: %Schedule{last_stop?: last_stop?}}) do
@@ -328,10 +348,10 @@ defmodule PredictedSchedule do
 
   @spec sort_predicted_schedules(PredictedSchedule.t()) ::
           {integer, non_neg_integer, non_neg_integer}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}),
+  def sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}),
     do: {1, prediction.stop_sequence, to_unix(prediction.time)}
 
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}),
+  def sort_predicted_schedules(%PredictedSchedule{schedule: schedule}),
     do: {2, schedule.stop_sequence, to_unix(schedule.time)}
 
   defp to_unix(%DateTime{} = time) do
@@ -371,5 +391,21 @@ defmodule PredictedSchedule do
       _ ->
         0
     end
+  end
+
+  def id(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
+    if(prediction, do: prediction.id, else: "schedule-#{trip(ps).id}-#{schedule.platform_stop_id}")
+  end
+
+  def crowding(%PredictedSchedule{prediction: %Prediction{vehicle_id: vehicle_id}}) when not is_nil(vehicle_id) do
+    case Vehicles.Repo.get(vehicle_id) do
+      nil -> nil
+      [vehicle] ->
+        vehicle.crowding
+    end
+  end
+
+  def crowding(%PredictedSchedule{}) do
+    false
   end
 end

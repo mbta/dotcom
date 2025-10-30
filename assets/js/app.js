@@ -51,6 +51,7 @@ import storageOptions from "./storage.js";
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: { ...Hooks, ...DotcomHooks },
+  viewLogger: (view, kind, msg, obj) => console.log(`${view.id} ${kind}: ${msg} - `, obj),
   dom: {
     onBeforeElUpdated(from, to) {
       /*

@@ -44,7 +44,7 @@ defmodule DotcomWeb.PredictionsChannel do
     @predictions_pub_sub.unsubscribe()
   end
 
-  defp filter_new(predictions) do
+  def filter_new(predictions) do
     predictions
     |> Enum.reject(fn prediction ->
       no_trip?(prediction) ||

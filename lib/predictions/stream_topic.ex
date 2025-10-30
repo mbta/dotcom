@@ -37,6 +37,11 @@ defmodule Predictions.StreamTopic do
     |> do_new(topic)
   end
 
+  # def new("route:" <> route_id = topic) do
+  #   [route: route_id]
+  #   |> do_new(topic)
+  # end
+
   def new(_) do
     {:error, :unsupported_topic}
   end
@@ -61,6 +66,11 @@ defmodule Predictions.StreamTopic do
     @route_patterns_repo.by_stop_id(stop_id)
     |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
   end
+
+  # defp streams_from_fetch_keys(route: route_id) do
+  #   @route_patterns_repo.by_route_id(route_id)
+  #   |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
+  # end
 
   defp to_keys(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
     [route: route_id, direction: direction_id]

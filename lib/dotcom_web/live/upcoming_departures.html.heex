@@ -1,0 +1,43 @@
+<h2>Upcoming Departures</h2>
+<div
+  phx-update="stream"
+  id="upcoming-departures"
+  class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px]"
+>
+<div id="empty">
+  <div class="p-md bg-gray-lighter">
+  <%!-- TODO actually detect if service is running, first --%>
+  Service is running, but predicted departure times aren’t available right now
+  </div>
+  <%!-- TODO truncated list from <ScheduleFinder.daily_schedule> UNLESS we're a subway lol --%>
+</div>
+<div
+  :for={{dom_id, ps} <- @streams.upcoming_departures}
+  id={dom_id}
+>
+  <.accordion variant="multiselect">
+    <:heading>
+      <div>{PredictedSchedule.headsign(ps)}</div>
+      <div>
+        <div class="inline-flex items-center gap-xs tabular-nums">
+          <.icon
+            :if={PredictedSchedule.has_prediction?(ps)}
+            name="wifi"
+            aria-label="Live"
+            class="w-5 h-5 fill-brand-primary -rotate-45"
+          />
+          <span :if={PredictedSchedule.has_prediction?(ps) && PredictedSchedule.has_schedule?(ps) && ps.prediction.schedule_relationship in [:skipped, :cancelled]} class="strikethrough">
+            {ps.schedule.time |> ScheduleFinder.format_time()}
+          </span>
+          {PredictedSchedule.time(ps) |> ScheduleFinder.countdown()}
+          <ScheduleFinder.crowding_icon crowding={PredictedSchedule.crowding(ps)} :if={PredictedSchedule.crowding(ps)} />
+        </div>
+        <div :if={PredictedSchedule.status(ps)}>{PredictedSchedule.status(ps)}</div>
+      </div>
+    </:heading>
+    <:content>
+   { PredictedSchedule.trip(ps) |> inspect()}
+    </:content>
+  </.accordion>
+</div>
+</div>
