@@ -112,7 +112,7 @@ defmodule Dotcom.IcalendarGenerator do
   defp convert_to_ical_format(datetime) do
     datetime
     |> Timex.to_datetime("Etc/UTC")
-    |> Timex.format!("{YYYY}{0M}{0D}T{h24}{m}{s}Z")
+    |> Dotcom.Utils.Time.format!(:ical_timestamp)
   end
 
   defp fold_line(line) when is_binary(line) do

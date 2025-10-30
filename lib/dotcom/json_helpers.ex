@@ -9,7 +9,7 @@ defmodule Dotcom.JsonHelpers do
   end
 
   defp format_time(t) do
-    case Timex.format(t, "{YYYY}-{M}-{D} {h24}:{m}") do
+    case Dotcom.Utils.Time.format(t, :yyyy_m_d_hour24_m) do
       {:ok, formatted_time} -> formatted_time
       _ -> nil
     end

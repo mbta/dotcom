@@ -38,7 +38,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     direction_id = conn.assigns[:direction_id]
     direction_name = conn.assigns.route.direction_names[direction_id]
 
-    {:ok, formatted_date} = Timex.format(conn.assigns.date, "{Mfull} {D}, {YYYY}")
+    formatted_date = Dotcom.Utils.Time.format!(conn.assigns.date, :date_full)
 
     meta_description =
       gettext(

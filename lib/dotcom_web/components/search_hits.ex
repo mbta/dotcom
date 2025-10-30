@@ -282,7 +282,7 @@ defmodule DotcomWeb.Components.SearchHits do
           do:
             time
             |> DateTime.from_unix!()
-            |> Timex.format!("{Mshort} {D}, {YYYY}")
+            |> Dotcom.Utils.Time.format!(:date_short)
         )
       )
 

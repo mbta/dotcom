@@ -122,7 +122,7 @@ defmodule Dotcom.TransitNearMe do
   def format_time(time) do
     [time, am_pm] =
       time
-      |> Timex.format!("{h12}:{m} {AM}")
+      |> Dotcom.Utils.Time.format!(:hour_12_minutes)
       |> String.split(" ")
 
     [time, " ", am_pm]

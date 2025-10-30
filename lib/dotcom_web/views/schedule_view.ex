@@ -114,7 +114,7 @@ defmodule DotcomWeb.ScheduleView do
   defp rating_end_date(%{meta: %{"end_date" => end_date}}) do
     end_date
     |> Timex.parse!("{ISOdate}")
-    |> Timex.format!("{Mfull} {D}, {YYYY}")
+    |> Dotcom.Utils.Time.format!(:date_full)
   end
 
   defp downcase_direction("Inbound"), do: ~t"inbound"

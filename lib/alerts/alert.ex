@@ -338,7 +338,7 @@ defimpl Poison.Encoder, for: Alerts.Alert do
   end
 
   defp format_time(t) do
-    case Timex.format(t, "{ISO:Extended}") do
+    case Dotcom.Utils.Time.format(t, :iso) do
       {:ok, formatted_time} -> formatted_time
       _ -> nil
     end

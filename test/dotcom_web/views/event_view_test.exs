@@ -114,7 +114,7 @@ defmodule DotcomWeb.EventViewTest do
 
     test "calendar version: no end time, only renders start time" do
       actual =
-        get_formatted_date_time_map(~N[2016-11-15T10:00:00], nil, "{WDfull}, {Mfull} {D}, {YYYY}")
+        get_formatted_date_time_map(~N[2016-11-15T10:00:00], nil, :weekday_date_full)
 
       expected_date = "Tuesday, November 15, 2016"
       expected_time = "10 AM"
@@ -127,7 +127,7 @@ defmodule DotcomWeb.EventViewTest do
         get_formatted_date_time_map(
           ~N[2016-11-14T12:00:00],
           ~N[2016-11-14T14:30:00],
-          "{WDfull}, {Mfull} {D}, {YYYY}"
+          :weekday_date_full
         )
 
       expected_date = "Monday, November 14, 2016"
@@ -141,7 +141,7 @@ defmodule DotcomWeb.EventViewTest do
         get_formatted_date_time_map(
           ~N[2016-11-14T12:00:00],
           ~N[2016-12-01T14:30:00],
-          "{WDfull}, {Mfull} {D}, {YYYY}"
+          :weekday_date_full
         )
 
       expected_date = "Monday, November 14, 2016"
