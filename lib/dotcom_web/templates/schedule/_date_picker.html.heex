@@ -9,7 +9,7 @@
           {link(holiday.name,
             to:
               update_url(@conn,
-                date: Dotcom.Utils.Time.format!(holiday.date, :iso),
+                date: Dotcom.Utils.Time.format!(holiday.date, :iso_date),
                 date_select: nil,
                 shift: nil
               )
