@@ -17,13 +17,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
 
   import Dotcom.TripPlan.Fares, only: [fare: 1]
 
+  import Dotcom.Utils.Diff,
+    only: [minutes_to_localized_minutes: 1, seconds_to_localized_minutes: 1]
+
   import DotcomWeb.Components.TripPlanner.Helpers,
-    only: [
-      formatted_time_range: 2,
-      meters_to_localized_miles: 1,
-      minutes_to_localized_minutes: 1,
-      seconds_to_localized_minutes: 1
-    ]
+    only: [formatted_time_range: 2, meters_to_localized_miles: 1]
 
   import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1, stacked_route_icon: 1]
 
