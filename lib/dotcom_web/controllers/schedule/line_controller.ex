@@ -97,8 +97,26 @@ defmodule DotcomWeb.ScheduleController.LineController do
     services
     |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
-      Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
+      service_group
+      |> drop_extra_weekday_schedule_if_friday_present()
+      |> then(fn services ->
+        Enum.reject(services, &service_completely_overlapped?(&1, services))
+      end)
     end)
+  end
+
+  # If there's a Friday service and two overlapping weekday schedules, we want to show the Monday-Thursday one rather than the Monday-Friday one.
+  defp drop_extra_weekday_schedule_if_friday_present(services) do
+    if Enum.find(services, &Service.friday_typical_service?/1) do
+      # These are typical weekday services. Drop the extra weekday service
+      if Enum.find(services, &Service.monday_to_thursday_typical_service?/1) do
+        Enum.reject(services, &(&1.valid_days == [1, 2, 3, 4, 5]))
+      else
+        services
+      end
+    else
+      services
+    end
   end
 
   defp service_completely_overlapped?(service, services) do
