@@ -107,13 +107,9 @@ defmodule DotcomWeb.ScheduleController.LineController do
 
   # If there's a Friday service and two overlapping weekday schedules, we want to show the Monday-Thursday one rather than the Monday-Friday one.
   defp drop_extra_weekday_schedule_if_friday_present(services) do
-    if Enum.find(services, &Service.friday_typical_service?/1) do
-      # These are typical weekday services. Drop the extra weekday service
-      if Enum.find(services, &Service.monday_to_thursday_typical_service?/1) do
-        Enum.reject(services, &(&1.valid_days == [1, 2, 3, 4, 5]))
-      else
-        services
-      end
+    if Enum.find(services, &Service.friday_typical_service?/1) &&
+         Enum.find(services, &Service.monday_to_thursday_typical_service?/1) do
+      Enum.reject(services, &(&1.valid_days == [1, 2, 3, 4, 5]))
     else
       services
     end
