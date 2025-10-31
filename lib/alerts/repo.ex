@@ -49,6 +49,7 @@ defmodule Alerts.Repo do
     end)
   end
 
+  @impl Behaviour
   @spec by_route_types(Enumerable.t(), DateTime.t()) :: [Alert.t()]
   def by_route_types(types, now) do
     types

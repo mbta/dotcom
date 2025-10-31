@@ -472,4 +472,23 @@ defmodule Dotcom.AlertsTest do
       assert MapSet.new(alert_group) == MapSet.new(all_alerts)
     end
   end
+
+  test "systemwide_mode_alert?/2" do
+    mode = Faker.Util.pick(~w(subway commuter_rail bus ferry)a)
+    route_type = Routes.Route.types_for_mode(mode) |> Faker.Util.pick()
+
+    alert_with_route =
+      Factories.Alerts.Alert.build(:alert_for_informed_entity,
+        informed_entity: %{route_type: route_type}
+      )
+
+    refute systemwide_mode_alert?(alert_with_route, mode)
+
+    alert_without_route =
+      Factories.Alerts.Alert.build(:alert_for_informed_entity,
+        informed_entity: %{route: nil, route_type: route_type}
+      )
+
+    assert systemwide_mode_alert?(alert_without_route, mode)
+  end
 end
