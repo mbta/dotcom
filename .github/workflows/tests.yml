@@ -126,7 +126,7 @@ jobs:
       - run: npm run ci:unit:exunit
       - name: Upload coverage artifact
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Elixir test coverage report
           path: cover/
