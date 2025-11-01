@@ -1881,7 +1881,7 @@ msgstr ""
 msgid "MBTA"
 msgstr ""
 
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:300
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:314
 #, elixir-autogen, elixir-format
 msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
 msgstr ""
@@ -1891,12 +1891,12 @@ msgstr ""
 msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
 msgstr ""
 
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:284
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:298
 #, elixir-autogen, elixir-format
 msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
 msgstr ""
 
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:292
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:306
 #, elixir-autogen, elixir-format
 msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
 msgstr ""
@@ -4062,7 +4062,7 @@ msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex:252
 #: lib/dotcom_web/controllers/schedule/alerts_controller.ex:61
-#: lib/dotcom_web/controllers/schedule/line_controller.ex:308
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:322
 #, elixir-autogen, elixir-format
 msgid "bus"
 msgstr ""
