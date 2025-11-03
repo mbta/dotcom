@@ -18,6 +18,8 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
 
     stub(AwsClient.Mock, :send_raw_email, &Feedback.Test.send_email/1)
 
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
     {:ok, conn: conn}
   end
 

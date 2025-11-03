@@ -74,7 +74,7 @@ defmodule DateTimeSelector do
     )
   end
 
-  @spec custom_date_select(Form.t(), DateTime.t(), map) :: Phoenix.HTML.Safe.t()
+  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp custom_date_select(form, %DateTime{} = datetime, options) do
     now = @date_time_module.now()
     min_date = now |> DateTime.shift(year: -1) |> Dotcom.Utils.Time.format!(:mm_dd_yyyy)
