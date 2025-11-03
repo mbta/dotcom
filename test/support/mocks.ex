@@ -24,6 +24,7 @@ Mox.defmock(Dotcom.TimetableLoader.Mock, for: Dotcom.TimetableLoader.Behaviour)
 
 # Repos
 Mox.defmock(Alerts.Repo.Mock, for: Alerts.Repo.Behaviour)
+Mox.defmock(Facilities.Repo.Mock, for: Facilities.Repo.Behaviour)
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)
 Mox.defmock(Routes.Repo.Mock, for: Routes.Repo.Behaviour)
 Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)
