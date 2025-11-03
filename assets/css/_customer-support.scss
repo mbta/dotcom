@@ -238,10 +238,6 @@ body {
   @include expandable-block-caret($color: $brand-primary);
 }
 
-#support-date {
-  width: 55%;
-}
-
 #support_vehicle {
   margin-right: $base-spacing-sm;
 }
