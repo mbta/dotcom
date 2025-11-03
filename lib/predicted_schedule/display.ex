@@ -26,8 +26,9 @@ defmodule PredictedSchedule.Display do
        when diff > estimate_threshold_mins or diff < 0,
        do: not_soon_formatter_fn.(time)
 
-  defp format_time_difference(0, _, _, _), do: ["1", " ", "min"]
-
-  defp format_time_difference(diff, _, _, _),
-    do: [Integer.to_string(diff), " ", "min"]
+  defp format_time_difference(diff, _, _, _) do
+    diff
+    |> Dotcom.Utils.Diff.minutes_to_localized_minutes()
+    |> List.wrap()
+  end
 end

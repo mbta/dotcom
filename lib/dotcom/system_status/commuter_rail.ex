@@ -20,17 +20,17 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @schedules_repo @repos_module[:schedules]
   @schedules_condensed_repo @repos_module[:schedules_condensed]
 
-  @typep trip_info_t() ::
-           {:trip,
-            %{
-              direction_id: 0 | 1,
-              first_departure_time: DateTime.t(),
-              first_stop: Stops.Stop.t(),
-              last_stop: Stops.Stop.t(),
-              name: String.t()
-            }}
-           | {:direction, %{direction_id: 0 | 1}}
-           | :all
+  @type trip_info_t() ::
+          {:trip,
+           %{
+             direction_id: 0 | 1,
+             first_departure_time: DateTime.t(),
+             first_stop: Stops.Stop.t(),
+             last_stop: Stops.Stop.t(),
+             name: String.t()
+           }}
+          | {:direction, %{direction_id: 0 | 1}}
+          | :all
 
   @typep train_impact_t() ::
            %{

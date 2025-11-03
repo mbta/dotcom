@@ -5,6 +5,8 @@ defmodule Dotcom.Utils.TimeTest do
   import Dotcom.Utils.Time
   import Test.Support.Generators.DateTime
 
+  doctest Dotcom.Utils.Time
+
   setup _ do
     Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 

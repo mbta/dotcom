@@ -27,7 +27,7 @@ defmodule DotcomWeb.AlertViewTest do
 
   describe "alert_updated/1" do
     test "returns the relative offset based on our timezone" do
-      now = ~N[2016-10-05T00:02:03]
+      now = ~U[2016-10-05T00:02:03Z]
       date = ~D[2016-10-05]
       alert = %Alert{updated_at: now}
 
@@ -37,7 +37,7 @@ defmodule DotcomWeb.AlertViewTest do
     end
 
     test "alerts from further in the past use a date" do
-      now = ~N[2016-10-05T00:02:03]
+      now = ~U[2016-10-05T00:02:03Z]
       date = ~D[2016-10-06]
 
       alert = %Alert{updated_at: now}
@@ -364,11 +364,11 @@ defmodule DotcomWeb.AlertViewTest do
   describe "_item.html" do
     @alert %Alert{
       effect: :access_issue,
-      updated_at: ~D[2017-03-01],
+      updated_at: ~U[2017-03-01T01:01:00Z],
       header: "Alert Header",
       description: "description"
     }
-    @date_time ~N[2017-03-01T07:29:00]
+    @date_time ~U[2017-03-01T07:29:00Z]
     @active_period [{Timex.shift(@now, days: -8), Timex.shift(@now, days: 8)}]
 
     test "Displays expansion control if alert has description" do

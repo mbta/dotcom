@@ -3,6 +3,8 @@ defmodule VehicleHelpers do
   Various functions for working on lists of vehicle to show on a map, or render tooltips.
   """
 
+  use Dotcom.Gettext.Sigils
+
   import Routes.Route, only: [vehicle_name: 1]
 
   alias DotcomWeb.ScheduleController.VehicleLocations
@@ -102,7 +104,7 @@ defmodule VehicleHelpers do
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
   defp prediction_status_text(%Prediction{status: status, track: track})
        when not is_nil(track) and not is_nil(status) do
-    [String.downcase(status), " on track ", track]
+    [String.downcase(status), ~t" on track ", track]
   end
 
   defp prediction_status_text(_) do
@@ -137,26 +139,30 @@ defmodule VehicleHelpers do
   end
 
   @spec realtime_status_text(atom) :: String.t()
-  defp realtime_status_text(:incoming), do: " is arriving at "
-  defp realtime_status_text(:stopped), do: " has arrived at "
-  defp realtime_status_text(:in_transit), do: " is on the way to "
+  defp realtime_status_text(:incoming), do: ~t" is arriving at "
+  defp realtime_status_text(:stopped), do: ~t" has arrived at "
+  defp realtime_status_text(:in_transit), do: ~t" is on the way to "
 
   @spec display_trip_name(Route.t(), Trip.t() | nil) :: iodata
   defp display_trip_name(%{type: 2}, %{name: name}) when is_binary(name), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
   @spec build_tooltip(iodata, iodata) :: String.t()
-  defp build_tooltip([], stop_text), do: "#{stop_text}"
+  defp build_tooltip([], stop_text), do: to_string(stop_text)
 
   defp build_tooltip(status_text, stop_text) do
-    # Sometimes the prediction status is "Departed" and the vehicle status is
-    # :stopped. We rewrite this tooltip to make a bit more sense
-    if Enum.member?(status_text, "departed") and Enum.member?(stop_text, " has arrived at ") do
-      adjusted_stop_text = "#{stop_text}" |> String.replace("arrived at", "has left")
+    status_str = to_string(status_text)
+    stop_str = to_string(stop_text)
 
-      "#{adjusted_stop_text}, #{status_text}"
-    else
-      "#{stop_text}, #{status_text}"
-    end
+    # Handle the special case where prediction is "departed" but vehicle status shows "arrived"
+    final_stop_str =
+      if String.contains?(status_str, ~t"departed") and String.contains?(stop_str, ~t"arrived at") do
+        String.replace(stop_str, ~t"arrived at", ~t"has left")
+      else
+        stop_str
+      end
+
+    # Use proper translation for comma separator
+    final_stop_str <> ~t", " <> status_str
   end
 end

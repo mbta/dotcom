@@ -210,4 +210,20 @@ defmodule Services.Service do
     |> Enum.map(&elem(&1, 1))
     |> Enum.map(&Timex.to_date/1)
   end
+
+  def monday_to_thursday_typical_service?(service) do
+    service.valid_days == [1, 2, 3, 4] && typical_weekday_service?(service)
+  end
+
+  def friday_typical_service?(service) do
+    service.valid_days == [5] && typical_weekday_service?(service)
+  end
+
+  def typical_weekday_service?(%__MODULE__{
+        type: :weekday,
+        typicality: :typical_service
+      }),
+      do: true
+
+  def typical_weekday_service?(_), do: false
 end

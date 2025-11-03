@@ -19,7 +19,7 @@ defmodule DotcomWeb.ModeView do
 
   def get_route_group(:the_ride, _) do
     [
-      {"MBTA Paratransit Program",
+      {~t"MBTA Paratransit Program",
        cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")}
     ]
   end
@@ -66,7 +66,7 @@ defmodule DotcomWeb.ModeView do
   @spec view_all_link(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
   defp view_all_link(:bus, href) do
     [
-      link("View all bus routes", to: href, class: "c-call-to-action m-mode__view-all")
+      link(~t"View all bus routes", to: href, class: "c-call-to-action m-mode__view-all")
     ]
   end
 
@@ -115,7 +115,7 @@ defmodule DotcomWeb.ModeView do
 
   @spec grid_button_text(atom | Route.t()) :: String.t()
   def grid_button_text(:the_ride) do
-    "MBTA Paratransit Program"
+    ~t"MBTA Paratransit Program"
   end
 
   def grid_button_text(%Route{name: name}) do
@@ -171,11 +171,11 @@ defmodule DotcomWeb.ModeView do
     ])
   end
 
-  def map_button_text(:commuter_rail_zones), do: "Commuter Rail Zones Map"
-  def map_button_text(:commuter_rail), do: "Commuter Rail Map"
-  def map_button_text(:subway), do: "Subway Map"
-  def map_button_text(:bus), do: "Bus Map"
-  def map_button_text(:ferry), do: "Ferry Map"
+  def map_button_text(:commuter_rail_zones), do: ~t"Commuter Rail Zones Map"
+  def map_button_text(:commuter_rail), do: ~t"Commuter Rail Map"
+  def map_button_text(:subway), do: ~t"Subway Map"
+  def map_button_text(:bus), do: ~t"Bus Map"
+  def map_button_text(:ferry), do: ~t"Ferry Map"
 
   @spec grid_button_id(map) :: String.t() | nil
   defp grid_button_id(%{id_prefix: <<prefix::binary>>, index: idx}) do

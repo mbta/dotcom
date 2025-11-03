@@ -175,30 +175,30 @@ defmodule DotcomWeb.PageView do
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]
   defp shortcut_text(:stations) do
     [
-      "Stations",
-      content_tag(:span, " & Stops", class: "hidden-md-down")
+      ~t"Stations",
+      content_tag(:span, ~t" & Stops", class: "hidden-md-down")
     ]
   end
 
   defp shortcut_text(:the_ride) do
-    content_tag(:span, "The RIDE")
+    content_tag(:span, ~t"The RIDE")
   end
 
   defp shortcut_text(:commuter_rail) do
-    content_tag(:span, "Commuter Rail")
+    content_tag(:span, ~t"Commuter Rail")
   end
 
   defp shortcut_text(:subway) do
     [
-      "Subway",
-      content_tag(:span, " Lines", class: "hidden-md-down")
+      ~t"Subway",
+      content_tag(:span, ~t" Lines", class: "hidden-md-down")
     ]
   end
 
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, " Routes", class: "hidden-md-down")
+      content_tag(:span, ~t" Routes", class: "hidden-md-down")
     ]
   end
 

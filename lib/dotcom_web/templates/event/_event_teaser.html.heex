@@ -16,8 +16,8 @@ event_is_hidden =
   data-group={"#{ render_event_month_slug(@month_number, @year) }"}
 >
   <div class="m-event__date-circle">
-    <div class="font-bold m-event__month">{pretty_date(event_start, "{Mshort}")}</div>
-    <div class="font-bold m-event__day">{pretty_date(event_start, "{D}")}</div>
+    <div class="font-bold m-event__month">{pretty_date(event_start, :month_short)}</div>
+    <div class="font-bold m-event__day">{pretty_date(event_start, :day_of_month_zero)}</div>
   </div>
   <div class="u-flex-one">
     <div class="m-event__date-range gray">

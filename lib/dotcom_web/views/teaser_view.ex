@@ -27,7 +27,7 @@ defmodule DotcomWeb.CMS.TeaserView do
 
   @spec display_date(Teaser.t()) :: String.t()
   def display_date(%Teaser{type: :event, date: date}) do
-    Timex.format!(date, "{Mfull} {D}, {YYYY}, {h12}:{m} {AM}")
+    Dotcom.Utils.Time.format!(date, :datetime_full)
   end
 
   def display_date(%Teaser{date: date}) do

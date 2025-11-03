@@ -346,7 +346,7 @@ defmodule DotcomWeb.ViewHelpersTest do
 
     test "it applies custom formatting if provided" do
       date = ~D[2017-01-01]
-      assert pretty_date(date, "{Mfull} {D}, {YYYY}") == "January 1, 2017"
+      assert pretty_date(date, :date_full) == "January 1, 2017"
     end
   end
 

@@ -2,7 +2,10 @@ defmodule DotcomWeb.FareController do
   @moduledoc """
   Controller for the Fares section of the website.
   """
+
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
+
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   alias Plug.Conn
@@ -110,10 +113,10 @@ defmodule DotcomWeb.FareController do
     conn
     |> assign(:breadcrumbs, [
       Breadcrumb.build(
-        "Fare Transformation",
+        ~t"Fare Transformation",
         cms_static_page_path(conn, "/fare-transformation")
       ),
-      Breadcrumb.build("Proposed Sales Locations")
+      Breadcrumb.build(~t"Proposed Sales Locations")
     ])
     |> render("proposed_sales_locations.html", opts)
   end
@@ -121,8 +124,8 @@ defmodule DotcomWeb.FareController do
   defp do_render_with_locations(conn, opts, :retail) do
     conn
     |> assign(:breadcrumbs, [
-      Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
-      Breadcrumb.build("Retail Sales Locations")
+      Breadcrumb.build(~t"Fares", cms_static_page_path(conn, "/fares")),
+      Breadcrumb.build(~t"Retail Sales Locations")
     ])
     |> render("retail_sales_locations.html", opts)
   end
@@ -196,8 +199,7 @@ defmodule DotcomWeb.FareController do
     conn
     |> assign(
       :meta_description,
-      "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. " <>
-        "Find online CharlieCard services and learn about bulk ordering programs."
+      ~t"View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
     )
   end
 end

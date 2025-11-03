@@ -102,12 +102,12 @@ defmodule DotcomWeb.PartialView do
       [
         content_tag(
           :span,
-          Timex.format!(date, "{Mshort}"),
+          Dotcom.Utils.Time.format!(date, :month_short),
           class: "c-news-entry__month c-news-entry__month--#{size}"
         ),
         content_tag(
           :span,
-          Timex.format!(date, "{0D}"),
+          Dotcom.Utils.Time.format!(date, :day_of_month_zero),
           class: "c-news-entry__day--#{size}"
         )
       ],
@@ -151,7 +151,7 @@ defmodule DotcomWeb.PartialView do
   @spec alert_time_filters(atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
   def alert_time_filters(current_timeframe, path_opts) do
     [
-      content_tag(:h3, "Filter by type"),
+      content_tag(:h3, ~t"Filter by type"),
       content_tag(
         :div,
         Enum.map([nil, :current, :upcoming], &time_filter(&1, current_timeframe, path_opts)),
@@ -188,9 +188,9 @@ defmodule DotcomWeb.PartialView do
   defp get_item_value(route_or_mode), do: route_or_mode.id
 
   @spec time_filter_text(atom) :: String.t()
-  defp time_filter_text(nil), do: "All Alerts"
-  defp time_filter_text(:current), do: "Current Alerts"
-  defp time_filter_text(:upcoming), do: "Planned Service Alerts"
+  defp time_filter_text(nil), do: ~t"All Alerts"
+  defp time_filter_text(:current), do: ~t"Current Alerts"
+  defp time_filter_text(:upcoming), do: ~t"Planned Service Alerts"
 
   @spec time_filter_params(Keyword.t(), atom) :: Keyword.t()
   defp time_filter_params(params, nil), do: params

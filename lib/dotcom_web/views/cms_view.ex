@@ -47,25 +47,35 @@ defmodule DotcomWeb.CMSView do
   end
 
   defp do_render_duration(start_time, nil) do
-    "#{format_date(start_time)} at #{format_time(start_time)}"
+    gettext("%{date} at %{time}", date: format_date(start_time), time: format_time(start_time))
   end
 
   defp do_render_duration(
          %{year: year, month: month, day: day} = start_time,
          %{year: year, month: month, day: day} = end_time
        ) do
-    "#{format_date(start_time)} at #{format_time(start_time)} - #{format_time(end_time)}"
+    gettext("%{date} at %{start_time} - %{end_time}",
+      date: format_date(start_time),
+      start_time: format_time(start_time),
+      end_time: format_time(end_time)
+    )
   end
 
   defp do_render_duration(start_time, end_time) do
-    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{format_time(end_time)}"
+    gettext(
+      "%{sdate} %{stime} - %{edate} %{etime}",
+      sdate: format_date(start_time),
+      stime: format_time(start_time),
+      edate: format_date(end_time),
+      etime: format_time(end_time)
+    )
   end
 
   def format_time(%{minute: 0} = time) do
-    Timex.format!(time, "{h12} {AM}")
+    Dotcom.Utils.Time.format!(time, :hour_12)
   end
 
   def format_time(time) do
-    Timex.format!(time, "{h12}:{m} {AM}")
+    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 end

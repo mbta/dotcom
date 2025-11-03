@@ -16,6 +16,7 @@ defmodule Predictions.StoreTest do
   describe "fetch/1" do
     test "fetches for key or keys" do
       trip1_predictions = fetch(trip: "t1")
+      assert length(trip1_predictions) > 0
       assert Enum.all?(trip1_predictions, &(&1.trip.id == "t1"))
 
       other_predictions =

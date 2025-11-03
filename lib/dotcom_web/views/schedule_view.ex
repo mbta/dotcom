@@ -65,36 +65,32 @@ defmodule DotcomWeb.ScheduleView do
         ) :: iodata
   def no_trips_message(%{code: "no_service"} = error, _, date) do
     [
-      content_tag(:div, [
-        format_full_date(date),
-        " is outside of our current schedule."
-      ]),
-      content_tag(:div, [
-        "We can only provide trip data for the ",
-        rating_name(error),
-        " schedule, valid until ",
-        rating_end_date(error),
-        "."
-      ])
+      content_tag(
+        :div,
+        gettext("%{date} is outside of our current schedule.", date: format_full_date(date))
+      ),
+      content_tag(
+        :div,
+        gettext(
+          "We can only provide trip data for the %{rating} schedule, valid until %{end_date}.",
+          rating: rating_name(error),
+          end_date: rating_end_date(error)
+        )
+      )
     ]
   end
 
   def no_trips_message(_, direction, date) when not is_nil(direction) and not is_nil(date) do
-    [
-      "There are no scheduled ",
-      downcase_direction(direction),
-      " trips on ",
-      format_full_date(date),
-      "."
-    ]
+    gettext("There are no scheduled %{direction} trips on %{date}.",
+      direction: downcase_direction(direction),
+      date: format_full_date(date)
+    )
   end
 
   def no_trips_message(_, direction, nil) when not is_nil(direction) do
-    [
-      "There are no scheduled ",
-      downcase_direction(direction),
-      " trips."
-    ]
+    gettext("There are no scheduled %{direction} trips.",
+      direction: downcase_direction(direction)
+    )
   end
 
   def no_trips_message(
@@ -103,14 +99,10 @@ defmodule DotcomWeb.ScheduleView do
         date
       )
       when not is_nil(date) do
-    [
-      "There are no scheduled trips on ",
-      format_full_date(date),
-      "."
-    ]
+    gettext("There are no scheduled trips on %{date}.", date: format_full_date(date))
   end
 
-  def no_trips_message(_, _, _), do: "There are no scheduled trips."
+  def no_trips_message(_, _, _), do: ~t"There are no scheduled trips."
 
   defp rating_name(%{meta: %{"version" => version}}) do
     version
@@ -122,12 +114,16 @@ defmodule DotcomWeb.ScheduleView do
   defp rating_end_date(%{meta: %{"end_date" => end_date}}) do
     end_date
     |> Timex.parse!("{ISOdate}")
-    |> Timex.format!("{Mfull} {D}, {YYYY}")
+    |> Dotcom.Utils.Time.format!(:date_full)
   end
 
-  for direction <- ["Outbound", "Inbound", "West", "East", "North", "South"] do
-    defp downcase_direction(unquote(direction)), do: unquote(String.downcase(direction))
-  end
+  defp downcase_direction("Inbound"), do: ~t"inbound"
+  defp downcase_direction("Outbound"), do: ~t"outbound"
+
+  defp downcase_direction("East"), do: ~t"east"
+  defp downcase_direction("North"), do: ~t"north"
+  defp downcase_direction("South"), do: ~t"south"
+  defp downcase_direction("West"), do: ~t"west"
 
   defp downcase_direction(direction) do
     # keep it the same if it's not one of our expected ones
@@ -170,15 +166,15 @@ defmodule DotcomWeb.ScheduleView do
     current_or_upcoming_text =
       cond do
         all_current? -> ""
-        RoutePdf.started?(pdf, today) -> "Current "
-        true -> "Upcoming "
+        RoutePdf.started?(pdf, today) -> ~t"Current" <> " "
+        true -> ~t"Upcoming" <> " "
       end
 
     pdf_name =
       cond do
         RoutePdf.custom?(pdf) -> pdf.link_text_override
-        Route.commuter_rail?(route) -> [pretty_route_name(route), " schedule"]
-        true -> [pretty_route_name(route), " schedule and map"]
+        Route.commuter_rail?(route) -> [pretty_route_name(route), ~t" schedule"]
+        true -> [pretty_route_name(route), ~t" schedule and map"]
       end
 
     effective_date_text =
@@ -278,7 +274,7 @@ defmodule DotcomWeb.ScheduleView do
     else
       content_tag :h2, class: "schedule__description notranslate" do
         if route.long_name == "" do
-          "Bus Route"
+          ~t"Bus Route"
         else
           route.long_name
         end
@@ -298,7 +294,7 @@ defmodule DotcomWeb.ScheduleView do
     tabs = [
       %HeaderTab{
         id: "alerts",
-        name: "Alerts",
+        name: ~t"Alerts",
         href: alerts_link,
         badge: conn |> alert_count() |> alert_badge()
       }
@@ -308,13 +304,13 @@ defmodule DotcomWeb.ScheduleView do
       case route.type do
         n when n in [2, 4] ->
           [
-            %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
-            %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link} | tabs
+            %HeaderTab{id: "timetable", name: ~t"Timetable", href: timetable_link},
+            %HeaderTab{id: "line", name: ~t"Schedule & Maps", href: info_link} | tabs
           ]
 
         _ ->
           [
-            %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
+            %HeaderTab{id: "line", name: ~t"Schedules & Maps", href: info_link} | tabs
           ]
       end
 
@@ -358,7 +354,7 @@ defmodule DotcomWeb.ScheduleView do
     |> Enum.find(fn summary -> summary.duration == :single_trip end)
     |> (&(&1.fares || [])).()
     |> Enum.map(fn fare ->
-      {elem(fare, 0), "Free"}
+      {elem(fare, 0), ~t"Free"}
     end)
   end
 
@@ -401,8 +397,8 @@ defmodule DotcomWeb.ScheduleView do
     content_tag :div, class: "m-timetable__note" do
       [
         content_tag(:p, [
-          content_tag(:strong, "Note:"),
-          " Trains depart from Foxboro 30 minutes after conclusion of events"
+          content_tag(:strong, ~t"Note:"),
+          ~t" Trains depart from Foxboro 30 minutes after conclusion of events"
         ])
       ]
     end
@@ -429,7 +425,7 @@ defmodule DotcomWeb.ScheduleView do
         <.icon class="h-3.5 w-3.5" name="flag" />
       </div>
       <span class="text-sm font-bold text-black my-[0.094rem]">
-        Flag the bus in any safe place along the route
+        {~t"Flag the bus in any safe place along the route"}
       </span>
     </div>
     """
@@ -443,14 +439,17 @@ defmodule DotcomWeb.ScheduleView do
   def timetable_crowding_description(crowding) do
     seats =
       case crowding do
-        :not_crowded -> "many"
-        :some_crowding -> "some"
-        :crowded -> "few"
+        :not_crowded -> ~t"many"
+        :some_crowding -> ~t"some"
+        :crowded -> ~t"few"
         _ -> nil
       end
 
     if seats do
-      ~s(This train typically has<br /><strong>#{seats} seats available</strong>)
+      gettext(
+        "This train typically has<br /><strong>%{seats} seats available</strong>",
+        seats: seats
+      )
     end
   end
 
@@ -458,6 +457,10 @@ defmodule DotcomWeb.ScheduleView do
 
   def track_changes(assigns) do
     assigns = assign(assigns, :count, Enum.count(assigns.track_changes))
+
+    # Create the proper plural form for "Change"/"Changes"
+    change_text = if assigns.count == 1, do: ~t"Change", else: ~t"Changes"
+    assigns = assign(assigns, :change_text, change_text)
 
     ~H"""
     <.unstyled_accordion
@@ -468,7 +471,7 @@ defmodule DotcomWeb.ScheduleView do
       <:heading>
         <div class="flex items-center gap-sm">
           <.icon name="shuffle" class="h-4 w-4" aria-hidden="true" />
-          <span>{@count} Unscheduled Track {Inflex.inflect("Change", @count)}</span>
+          <span>{@count} {~t"Unscheduled Track"} {@change_text}</span>
         </div>
       </:heading>
       <:content>

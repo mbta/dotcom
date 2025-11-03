@@ -103,10 +103,7 @@ defmodule Dotcom.Alerts do
   """
   @spec sort_by_start_time_sorter(Alert.t(), Alert.t()) :: boolean()
   def sort_by_start_time_sorter(a, b) do
-    a_start_time = sort_by_start_time_mapper(a)
-    b_start_time = sort_by_start_time_mapper(b)
-
-    Timex.compare(a_start_time, b_start_time) < 1
+    sort_by_start_time_mapper(a) <= sort_by_start_time_mapper(b)
   end
 
   @doc """
@@ -186,11 +183,17 @@ defmodule Dotcom.Alerts do
 
   # Take an alert and return the start time of the first active period.
   # Return nil if there is no active period.
+  defp sort_by_start_time_mapper(%{active_period: []}), do: nil
+  defp sort_by_start_time_mapper(%{active_period: nil}), do: nil
+
   defp sort_by_start_time_mapper(alert) do
-    alert
-    |> Map.get(:active_period, [{nil, nil}])
-    |> List.first()
-    |> Kernel.elem(0)
+    time =
+      alert
+      |> Map.get(:active_period, [{nil, nil}])
+      |> List.first()
+      |> Kernel.elem(0)
+
+    if time, do: DateTime.to_unix(time)
   end
 
   # Take an alert and return a unique key for the stations it affects.

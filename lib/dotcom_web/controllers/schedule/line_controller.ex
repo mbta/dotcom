@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.LineController do
   @moduledoc "Handles the page that shows the map and line diagram for a given route."
 
+  use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
   alias Dotcom.ScheduleNote
@@ -96,8 +97,22 @@ defmodule DotcomWeb.ScheduleController.LineController do
     services
     |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
-      Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
+      service_group
+      |> drop_extra_weekday_schedule_if_friday_present()
+      |> then(fn services ->
+        Enum.reject(services, &service_completely_overlapped?(&1, services))
+      end)
     end)
+  end
+
+  # If there's a Friday service and two overlapping weekday schedules, we want to show the Monday-Thursday one rather than the Monday-Friday one.
+  defp drop_extra_weekday_schedule_if_friday_present(services) do
+    if Enum.find(services, &Service.friday_typical_service?/1) &&
+         Enum.find(services, &Service.monday_to_thursday_typical_service?/1) do
+      Enum.reject(services, &(&1.valid_days == [1, 2, 3, 4, 5]))
+    else
+      services
+    end
   end
 
   defp service_completely_overlapped?(service, services) do
@@ -280,23 +295,32 @@ defmodule DotcomWeb.ScheduleController.LineController do
         line_description(route)
 
       _ ->
-        "MBTA #{ScheduleView.route_header_text(route)} stops and schedules, including maps, " <>
-          "parking and accessibility information, and fares."
+        gettext(
+          "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares.",
+          text: ScheduleView.route_header_text(route)
+        )
     end
   end
 
   defp bus_description(route) do
-    "MBTA #{bus_type(route)} route #{route.name} stops and schedules, including maps, real-time updates, " <>
-      "parking and accessibility information, and connections."
+    gettext(
+      "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections.",
+      type: bus_type(route),
+      name: route.name
+    )
   end
 
   defp line_description(route) do
-    "MBTA #{route.name} #{route_type(route)} stations and schedules, including maps, real-time updates, " <>
-      "parking and accessibility information, and connections."
+    gettext(
+      "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections.",
+      name: route.name,
+      type: route_type(route)
+    )
   end
 
-  defp bus_type(route),
-    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
+  defp bus_type(route) do
+    if Route.silver_line?(route), do: "Silver Line", else: ~t"bus"
+  end
 
   defp route_type(route) do
     route
