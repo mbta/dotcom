@@ -10,6 +10,25 @@ defmodule Test.Support.Factories.MBTA.Api do
     %Item{id: Faker.Internet.slug()}
   end
 
+  def facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => Faker.Util.pick(~w(
+          fare_vending_retailer
+          fare_vending_machine
+          fare_media_assistant
+          fare_media_assistance_facility
+          ticket_window
+        )a),
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
   @doc """
   MBTA V3 API route patterns return a subset of canonical, direction_id, name,
   sort_order, time_desc, and typicality attributes, with representative_trip and
@@ -61,24 +80,7 @@ defmodule Test.Support.Factories.MBTA.Api do
           },
           relationships: %{
             "child_stops" => [],
-            "facilities" => [
-              build(:item, %{
-                attributes: %{
-                  "id" => "",
-                  "latitude" => Faker.Address.latitude(),
-                  "longitude" => Faker.Address.longitude(),
-                  "long_name" => "",
-                  "properties" => "",
-                  "type" => Faker.Util.pick(~w(
-                      fare_vending_retailer
-                      fare_vending_machine
-                      fare_media_assistant
-                      fare_media_assistance_facility
-                      ticket_window
-                    )a)
-                }
-              })
-            ],
+            "facilities" => [build(:facility_item)],
             "parent_station" => [],
             "zone" => []
           },
