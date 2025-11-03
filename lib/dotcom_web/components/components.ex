@@ -12,6 +12,7 @@ defmodule DotcomWeb.Components do
     router: DotcomWeb.Router
 
   import MbtaMetro.Components.Badge, only: [badge: 1]
+  import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
   embed_templates "layouts/*"
@@ -265,6 +266,40 @@ defmodule DotcomWeb.Components do
     <a href={@href} class={"block bg-amethyst-80 text-black text-center #{@class}"} target="_blank">
       {render_slot(@inner_block)}
     </a>
+    """
+  end
+
+  slot(:inner_block, required: true, doc: "The modal contents")
+  attr(:modal_id, :string, required: true, doc: "A unique identifier for the modal")
+  slot(:modal_heading, doc: "A heading to show at top of the modal")
+  attr :open, :boolean, default: false, doc: "Initialize as open yes/no?"
+
+  @doc """
+  If in a LiveView, use MbtaMetro's modal component instead.
+
+  Otherwise, use this. Can display this modal using a `<button>` element with the `data-dialog-modal` attribute set to this modal's ID.
+
+  ```
+  <button data-dialog-modal="test">Show modal</button>
+  <.dialog_modal modal_id="test">
+    <:modal_heading>Modal heading</:modal_heading>
+    This is a modal
+  </.dialog_modal>
+  ```
+  """
+  def dialog_modal(assigns) do
+    ~H"""
+    <dialog id={@modal_id} class="mbta-modal c-modal" closedby="any" open={@open}>
+      <form method="dialog" class="flex justify-between gap-md items-center">
+        <div :if={@modal_heading} class="h4 m-0">
+          {render_slot(@modal_heading)}
+        </div>
+        <div>
+          <.button autofocus size="small">{~t"Close"}</.button>
+        </div>
+      </form>
+      {render_slot(@inner_block)}
+    </dialog>
     """
   end
 end
