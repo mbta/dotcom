@@ -37,7 +37,9 @@ config :dotcom, :repo_modules,
   schedules_condensed: Schedules.RepoCondensed,
   stops: Stops.Repo
 
-config :dotcom, :system_status_cache_modules, subway: Dotcom.SystemStatus.SubwayCache
+config :dotcom, :system_status_cache_modules,
+  commuter_rail: Dotcom.SystemStatus.CommuterRailCache,
+  subway: Dotcom.SystemStatus.SubwayCache
 
 config :dotcom, :req_module, Req
 
