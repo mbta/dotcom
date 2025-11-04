@@ -18,6 +18,8 @@ defmodule DotcomWeb.Live.TripPlanner do
   alias Dotcom.TripPlan.{AntiCorruptionLayer, InputForm}
   alias OpenTripPlannerClient.ItineraryGroup
 
+  @description ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
+
   @state %{
     input_form: %{
       changeset: %Ecto.Changeset{}
@@ -44,31 +46,20 @@ defmodule DotcomWeb.Live.TripPlanner do
   @doc """
   When the live view first loads, there are three possible scenarios:
 
-  1. There are no query params. We go to step (2) and use the default params.
+  1. There are no query params. We use the default params.
   2. There are query params representing the old structure of the trip planner form. We convert these, encode them, and redirect to (3).
   3. The new `?plan=ENCODED` query param is present. We decode it and mount the form with the decoded values.
   """
+  def mount(params, _session, socket) when map_size(params) == 0 do
+    changeset = AntiCorruptionLayer.default_params() |> InputForm.changeset()
+
+    render_changeset(changeset, socket)
+  end
+
   def mount(%{"plan" => plan}, _session, socket) when is_binary(plan) do
     changeset = plan |> AntiCorruptionLayer.decode() |> InputForm.changeset()
 
-    %{params: params} = changeset
-
-    params_with_datetime =
-      params
-      |> add_datetime_if_needed(params)
-
-    new_socket =
-      socket
-      |> assign(
-        :meta_description,
-        ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
-      )
-      |> assign(@state)
-      |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
-      |> update_datepicker(params_with_datetime)
-      |> submit_changeset(changeset)
-
-    {:ok, new_socket}
+    render_changeset(changeset, socket)
   end
 
   def mount(params, _session, socket) do
@@ -79,7 +70,27 @@ defmodule DotcomWeb.Live.TripPlanner do
       |> AntiCorruptionLayer.encode()
 
     new_path = live_path(socket, __MODULE__, Map.put(params, :plan, encoded_plan_param))
+
     {:ok, push_navigate(socket, to: new_path)}
+  end
+
+  # Renders the form changeset with the given socket.
+  defp render_changeset(changeset, socket) do
+    %{params: params} = changeset
+
+    params_with_datetime =
+      params
+      |> add_datetime_if_needed(params)
+
+    new_socket =
+      socket
+      |> assign(:meta_description, @description)
+      |> assign(@state)
+      |> assign(:input_form, Map.put(@state.input_form, :changeset, changeset))
+      |> update_datepicker(params_with_datetime)
+      |> submit_changeset(changeset)
+
+    {:ok, new_socket}
   end
 
   @impl true
