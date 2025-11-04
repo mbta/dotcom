@@ -758,6 +758,7 @@ msgstr ""
 msgid "Clickable graphic for User Guides"
 msgstr ""
 
+#: lib/dotcom_web/components/components.ex:298
 #: lib/dotcom_web/live/search_page.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "Close"

@@ -8,4 +8,16 @@ export default function($) {
   document.addEventListener("DOMContentLoaded", closeModals, {
     passive: true
   });
+
+  // Open <dialog id="x"> from a <button data-dialog-modal="x">
+  window.addEventListener("load", () => {
+    document.querySelectorAll("[data-dialog-modal]").forEach(el => {
+      const modalId = el.dataset.dialogModal;
+      if (modalId) {
+        el.addEventListener("click", () => {
+          document.getElementById(modalId).showModal();
+        });
+      }
+    });
+  });
 }
