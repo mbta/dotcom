@@ -38,24 +38,6 @@ defmodule DotcomWeb.Live.TripPlannerTest do
   }
 
   describe "mount" do
-    test "setting no params redirects to a plan of defaults", %{conn: conn} do
-      # Setup
-      path = live_path(conn, DotcomWeb.Live.TripPlanner)
-
-      # Exercise
-      {:error, {:live_redirect, %{to: url}}} = live(conn, path)
-
-      new_params =
-        url
-        |> decode_params()
-        |> MapSet.new()
-
-      default_params = AntiCorruptionLayer.default_params() |> MapSet.new()
-
-      # Verify
-      assert MapSet.intersection(new_params, default_params) == default_params
-    end
-
     test "default preserves additional params", %{conn: conn} do
       # Setup
       key = Faker.Person.first_name()
@@ -131,10 +113,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         %JsonApi{}
       end)
 
-      {:error, {:live_redirect, %{to: url}}} =
-        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
-
-      {:ok, view, _} = live(conn, url)
+      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
 
       %{view: view}
     end
@@ -301,10 +280,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         []
       end)
 
-      {:error, {:live_redirect, %{to: url}}} =
-        live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
-
-      {:ok, view, _} = live(conn, url)
+      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
 
       %{view: view}
     end
