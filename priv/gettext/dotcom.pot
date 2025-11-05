@@ -204,7 +204,7 @@ msgstr ""
 msgid "%{name} Commuter Rail"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:223
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:225
 #, elixir-autogen, elixir-format
 msgid "%{route_name} to %{headsign}"
 msgstr ""
@@ -269,7 +269,7 @@ msgid_plural "%{count} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:209
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:211
 #, elixir-autogen, elixir-format
 msgid "1 stop"
 msgid_plural "%{count} stops"
@@ -382,7 +382,7 @@ msgstr ""
 msgid "Agenda"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:174
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:176
 #, elixir-autogen, elixir-format
 msgid "Alert"
 msgstr ""
@@ -1595,7 +1595,7 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:182
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:184
 #, elixir-autogen, elixir-format
 msgid "Hide Details"
 msgstr ""
@@ -2800,12 +2800,12 @@ msgstr ""
 msgid "Retail Sales Locations"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:244
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:246
 #, elixir-autogen, elixir-format
 msgid "Ride the %{route} %{vehicle}"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:242
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:244
 #, elixir-autogen, elixir-format
 msgid "Ride the %{route} Train %{train}"
 msgstr ""
@@ -3060,7 +3060,7 @@ msgstr ""
 msgid "Shortest Trip"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:179
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:181
 #, elixir-autogen, elixir-format
 msgid "Show Details"
 msgstr ""
@@ -4056,19 +4056,19 @@ msgstr ""
 msgid "between %{first} and %{last}"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:251
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:253
 #, elixir-autogen, elixir-format
 msgid "boat"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:252
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:254
 #: lib/dotcom_web/controllers/schedule/alerts_controller.ex:61
 #: lib/dotcom_web/controllers/schedule/line_controller.ex:322
 #, elixir-autogen, elixir-format
 msgid "bus"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:152
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:154
 #, elixir-autogen, elixir-format
 msgid "bus stop"
 msgstr ""
@@ -4255,7 +4255,7 @@ msgstr ""
 msgid "south"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:163
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:165
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr ""
@@ -4331,7 +4331,7 @@ msgstr ""
 msgid "track "
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/transit_leg.ex:253
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:255
 #, elixir-autogen, elixir-format
 msgid "train"
 msgstr ""
