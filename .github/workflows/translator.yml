@@ -1,0 +1,54 @@
+name: Translation Workflow
+
+on:
+  push:
+    branches: [main, ags/translation-action]
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    
+    services:
+      libretranslate:
+        image: libretranslate/libretranslate:latest
+        ports:
+          - 9999:5000
+        options: >-
+          --health-cmd "curl -f http://localhost:5000/languages || exit 1"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+        env:
+          LT_LOAD_ONLY: "en,es"
+          
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+    
+      - name: Setup
+        uses: ./.github/actions/setup-all
+        
+      - name: Wait for LibreTranslate to be ready
+        run: |
+          echo "Waiting for LibreTranslate service to be ready..."
+          timeout 300 bash -c 'until curl -f http://localhost:9999/languages; do echo "Waiting..."; sleep 5; done'
+          echo "LibreTranslate is ready!"
+          
+      - name: Test LibreTranslate connection
+        run: |
+          echo "Testing LibreTranslate API..."
+          curl -X GET http://localhost:9999/languages
+
+      - name: Run translation tasks
+        run: mix getext.translate
+
+      - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add priv/gettext
+          git commit -m "AUTOMATED TRANSLATIONS" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }}
