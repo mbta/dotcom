@@ -16,6 +16,8 @@ env:
 jobs:
   file_changes:
     runs-on: ubuntu-latest
+    # Skip this workflow if the commit message contains "AUTOMATED TRANSLATIONS"
+    if: ${{ !contains(github.event.head_commit.message, 'AUTOMATED TRANSLATIONS') }}
     outputs:
       ts: ${{ steps.changes.outputs.ts == 'true' }}
       js: ${{ steps.changes.outputs.js == 'true' }}
