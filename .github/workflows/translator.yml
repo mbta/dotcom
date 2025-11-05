@@ -15,9 +15,10 @@ jobs:
           - 9999:9999
         options: >-
           --health-cmd "curl -f http://localhost:9999/languages || exit 1"
-          --health-interval 30s
-          --health-timeout 10s
-          --health-retries 5
+          --health-interval 60s
+          --health-timeout 30s
+          --health-retries 10
+          --health-start-period 180s
         env:
           LT_LOAD_ONLY: "en,es"
           LT_PORT: 9999
@@ -32,7 +33,8 @@ jobs:
       - name: Wait for LibreTranslate to be ready
         run: |
           echo "Waiting for LibreTranslate service to be ready..."
-          timeout 300 bash -c 'until curl -f http://localhost:9999/languages; do echo "Waiting..."; sleep 5; done'
+          echo "This may take several minutes as language models are downloaded..."
+          timeout 600 bash -c 'until curl -f http://localhost:9999/languages; do echo "Still waiting... (LibreTranslate is downloading language models)"; sleep 10; done'
           echo "LibreTranslate is ready!"
           
       - name: Test LibreTranslate connection
