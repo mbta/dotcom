@@ -8,6 +8,7 @@ defmodule DotcomWeb.StopController do
 
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
+  alias Dotcom.Alerts.StartTime
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
@@ -17,6 +18,7 @@ defmodule DotcomWeb.StopController do
   alias Stops.Stop
   alias Util.AndOr
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -64,18 +66,75 @@ defmodule DotcomWeb.StopController do
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
         accessible? = accessible?(stop)
 
+        route_ids = routes_by_stop |> Enum.map(& &1.id)
+
+        all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
+
+        all_routewide_alerts =
+          @alerts_repo.by_route_ids(route_ids, conn.assigns.date_time)
+          |> Enum.filter(&routewide?/1)
+
+        all_alerts = all_alerts_for_stop ++ all_routewide_alerts
+        banner_alerts = all_alerts |> Enum.filter(&banner_alert?(&1, conn.assigns.date_time))
+
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
           stop: stop,
           routes_by_stop: routes_by_stop,
+          banner_alerts: banner_alerts,
           accessible?: accessible?
         })
       end
     else
       check_cms_or_404(conn)
     end
+  end
+
+  defp routewide?(alert) do
+    alert.informed_entity |> Enum.any?(&(!&1.stop && !&1.trip))
+  end
+
+  defp banner_alert?(alert, now) do
+    (banner_alert_effect?(alert) && in_next_7_days?(alert, now) && !global_banner_alert?(alert)) ||
+      active_banner_alert?(alert)
+  end
+
+  defp banner_alert_effect?(alert) do
+    alert.effect in [
+      :dock_closure,
+      :dock_issue,
+      :service_change,
+      :shuttle,
+      :station_closure,
+      :station_issue,
+      :stop_closure,
+      :stop_moved,
+      :stop_shoveling,
+      :suspension
+    ]
+  end
+
+  defp in_next_7_days?(alert, now) do
+    seven_days_from_now = now |> DateTime.shift(day: 7)
+
+    case StartTime.next_active_time(alert) do
+      {:current, _} -> true
+      {:future, start_time} -> start_time |> Date.before?(seven_days_from_now)
+      _ -> false
+    end
+  end
+
+  defp global_banner_alert?(alert) do
+    alert.banner != nil
+  end
+
+  defp active_banner_alert?(alert) do
+    alert.effect in [
+      :access_issue,
+      :elevator_closure
+    ]
   end
 
   @spec get(Conn.t(), map) :: Conn.t()
