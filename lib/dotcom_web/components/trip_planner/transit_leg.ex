@@ -111,7 +111,9 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   end
 
   defp leg_line_class(route) when agency_name?(route, "Logan Express") do
-    "bg-logan-express-#{route_name(route) |> String.downcase() |> Recase.to_kebab()}"
+    route = route_name(route) |> String.split(" ") |> Enum.map(&String.first/1) |> Enum.join()
+
+    "bg-logan-express-#{route}"
   end
 
   defp leg_line_class(%Route{short_name: name} = route) when mbta_shuttle?(route) do
