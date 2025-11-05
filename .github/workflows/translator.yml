@@ -2,7 +2,7 @@ name: Translation Workflow
 
 on:
   push:
-    branches: [main, ags/translation-action]
+    branches: [main]
 
 jobs:
   translate:
