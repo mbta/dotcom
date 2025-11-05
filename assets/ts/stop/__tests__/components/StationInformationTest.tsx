@@ -22,11 +22,13 @@ const busStop = customStop({
 const facilities = [
   {
     id: "esc1",
-    attributes: { short_name: "Escalator 1", type: "ESCALATOR" }
+    short_name: "Escalator 1",
+    type: "escalator"
   } as Facility,
   {
     id: "elv100",
-    attributes: { short_name: "Elevator 100", type: "ELEVATOR" }
+    short_name: "Elevator 100",
+    type: "elevator"
   } as Facility
 ];
 

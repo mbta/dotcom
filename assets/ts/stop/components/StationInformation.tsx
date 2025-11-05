@@ -24,12 +24,8 @@ const StationInformation = ({
 }): ReactElement<HTMLElement> => {
   const isStation = isStopAStation(stop);
   const isFerry = isStopAFerryStop(stop);
-  const elevators = facilities.filter(
-    ({ attributes }) => attributes.type === "ELEVATOR"
-  );
-  const escalators = facilities.filter(
-    ({ attributes }) => attributes.type === "ESCALATOR"
-  );
+  const elevators = facilities.filter(f => f.type === "elevator");
+  const escalators = facilities.filter(f => f.type === "escalator");
   const showBikeInfo = isStation || stop.bike_storage.length > 0;
   const showParkingInfo = isStation || stop.parking_lots.length > 0;
 

@@ -8,19 +8,15 @@ import { render, screen } from "@testing-library/react";
 
 const facility1: Facility = {
   id: "703",
-  attributes: {
-    type: "ESCALATOR",
-    short_name: "Davis Escalator",
-    long_name: "Escalator to the street at Davis Square"
-  }
+  type: "escalator",
+  short_name: "Davis Escalator",
+  long_name: "Escalator to the street at Davis Square"
 };
 const facility2: Facility = {
   id: "707",
-  attributes: {
-    type: "ELEVATOR",
-    short_name: "Davis Elevator",
-    long_name: "Elevator to the street at Davis Square"
-  }
+  type: "elevator",
+  short_name: "Davis Elevator",
+  long_name: "Elevator to the street at Davis Square"
 };
 const alert1: Alert = {
   severity: 7,

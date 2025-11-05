@@ -385,13 +385,9 @@ export interface TransitHours {
   special_service: {};
 }
 
-export interface FacilityAttributes {
+export interface Facility {
   long_name: string;
   short_name: string;
-  type: string;
-}
-
-export interface Facility {
-  attributes: FacilityAttributes;
+  type: AccessibilityType | BikeStorageType | FareFacilityType;
   id: string;
 }

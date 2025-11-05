@@ -6,19 +6,15 @@ import { Facility } from "../../__v3api";
 describe("AccessAmenitiesModal", () => {
   let elevatorFacility: Facility = {
     id: "ele-123",
-    attributes: {
-      long_name: "Davis elevator in lobby",
-      short_name: "Davis elevator",
-      type: "ELEVATOR"
-    }
+    long_name: "Davis elevator in lobby",
+    short_name: "Davis elevator",
+    type: "elevator"
   };
   let escalatorFacility: Facility = {
     id: "esc-426",
-    attributes: {
-      long_name: "Bowdin escalator to street",
-      short_name: "Bowdin escalator",
-      type: "ESCALATOR"
-    }
+    long_name: "Bowdin escalator to street",
+    short_name: "Bowdin escalator",
+    type: "escalator"
   };
 
   it("should render", () => {

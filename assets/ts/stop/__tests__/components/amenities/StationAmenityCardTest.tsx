@@ -5,11 +5,9 @@ import { Facility, Alert, InformedEntity } from "../../../../__v3api";
 
 const facility1: Facility = {
   id: "703",
-  attributes: {
-    type: "ESCALATOR",
-    short_name: "Davis Escalator",
-    long_name: "Escalator to the street at Davis Square"
-  }
+  type: "escalator",
+  short_name: "Davis Escalator",
+  long_name: "Escalator to the street at Davis Square"
 };
 const alert1: Alert = {
   severity: 7,
