@@ -12,14 +12,15 @@ jobs:
       libretranslate:
         image: libretranslate/libretranslate:latest
         ports:
-          - 9999:5000
+          - 9999:9999
         options: >-
-          --health-cmd "curl -f http://localhost:5000/languages || exit 1"
+          --health-cmd "curl -f http://localhost:9999/languages || exit 1"
           --health-interval 30s
           --health-timeout 10s
           --health-retries 5
         env:
           LT_LOAD_ONLY: "en,es"
+          LT_PORT: 9999
           
     steps:
       - name: Checkout code
