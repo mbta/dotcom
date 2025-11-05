@@ -10,18 +10,13 @@ jobs:
     
     services:
       libretranslate:
-        image: libretranslate/libretranslate:latest
+        image: libretranslate/libretranslate:v1.3.11
         ports:
-          - 9999:9999
-        options: >-
-          --health-cmd "curl -f http://localhost:9999/languages || exit 1"
-          --health-interval 60s
-          --health-timeout 30s
-          --health-retries 10
-          --health-start-period 180s
+          - 9999:5000
         env:
           LT_LOAD_ONLY: "en,es"
-          LT_PORT: 9999
+          LT_DISABLE_FILES_TRANSLATION: "true"
+          LT_DISABLE_WEB_UI: "true"
           
     steps:
       - name: Checkout code
@@ -30,12 +25,38 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-all
         
+      - name: Debug container status
+        run: |
+          echo "=== Docker container status ==="
+          docker ps -a
+          echo "=== LibreTranslate container logs ==="
+          docker logs $(docker ps -q --filter "ancestor=libretranslate/libretranslate:v1.3.11") || echo "No logs available"
+          
       - name: Wait for LibreTranslate to be ready
         run: |
           echo "Waiting for LibreTranslate service to be ready..."
           echo "This may take several minutes as language models are downloaded..."
-          timeout 600 bash -c 'until curl -f http://localhost:9999/languages; do echo "Still waiting... (LibreTranslate is downloading language models)"; sleep 10; done'
-          echo "LibreTranslate is ready!"
+          
+          # Wait up to 10 minutes with better logging
+          for i in {1..60}; do
+            echo "Attempt $i/60: Checking if LibreTranslate is ready..."
+            
+            if curl -s -f http://localhost:9999/languages > /dev/null 2>&1; then
+              echo "✅ LibreTranslate is ready!"
+              curl -s http://localhost:9999/languages | jq . || curl -s http://localhost:9999/languages
+              break
+            fi
+            
+            if [ $i -eq 60 ]; then
+              echo "❌ LibreTranslate failed to start after 10 minutes"
+              echo "=== Final container logs ==="
+              docker logs $(docker ps -q --filter "ancestor=libretranslate/libretranslate:v1.3.11") || echo "No logs available"
+              exit 1
+            fi
+            
+            echo "Still waiting... (attempt $i/60)"
+            sleep 10
+          done
           
       - name: Test LibreTranslate connection
         run: |
