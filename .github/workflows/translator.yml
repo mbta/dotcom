@@ -1,0 +1,55 @@
+name: Translation Workflow
+
+on:
+  push:
+    branches: [main, ags/translation-action]
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # Skip this workflow if the commit message contains "AUTOMATED TRANSLATIONS"
+    if: ${{ !contains(github.event.head_commit.message, 'AUTOMATED TRANSLATIONS') }}
+    
+    services:
+      libretranslate:
+        image: libretranslate/libretranslate:v1.3.11
+        ports:
+          - 9999:5000
+        env:
+          LT_DISABLE_FILES_TRANSLATION: "true"
+          LT_DISABLE_WEB_UI: "true"
+          LT_LOAD_ONLY: "en,es"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+    
+      - name: Setup
+        uses: ./.github/actions/setup-all
+        
+      - name: Wait for LibreTranslate to be ready
+        run: |
+          for i in {1..60}; do
+            if curl -s -f http://localhost:9999/languages > /dev/null 2>&1; then
+              break
+            fi
+            if [ $i -eq 60 ]; then
+              echo "LibreTranslate failed to start"
+              exit 1
+            fi
+            sleep 10
+          done
+          
+      - name: Run translation tasks
+        run: mix gettext.translate
+
+      - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add priv/gettext
+          git commit -m "AUTOMATED TRANSLATIONS" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }}
