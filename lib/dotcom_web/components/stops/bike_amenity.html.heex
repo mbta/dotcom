@@ -1,0 +1,55 @@
+<.base_amenity amenity={@amenity} id={"bike-amenity-#{@stop.id}"} open={@open}>
+  <:card_title>
+    <div class="flex items-center gap-sm">
+      <.icon
+        aria-hidden="true"
+        type="icon-svg"
+        name="icon-bike"
+        class="size-6 fill-current"
+      />
+      {~t"Bike Storage"} (TODO badge)
+    </div>
+  </:card_title>
+  <:card_content>
+    <%= if Enum.count(@alerts) > 0 do %>
+      {~t"Learn more about bike storage at this station."}
+    <% else %>
+      TODO availability summary
+    <% end %>
+  </:card_content>
+  <:modal_heading>
+    {gettext("Bike Storage at %{name}", name: @stop.name)}
+  </:modal_heading>
+  <:modal_content>
+    {DotcomWeb.AlertView.render("group.html",
+      alerts: @alerts,
+      date_time: Dotcom.Utils.DateTime.now()
+    )}
+    <h3>Facility Information</h3>
+    <img
+      :if={:bike_storage_cage in @stop.bike_storage}
+      class="img-fluid my-md"
+      src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
+      alt="MBTA Pedal and Park bike storage"
+      style="max-height: 250px;"
+    />
+    <ul>
+      <li :if={:bike_storage_cage in @stop.bike_storage}>
+        Free Pedal and Park secured parking (requires
+        <a href="/fares/charliecard-and-charlieticket-online-services">CharlieCard</a>
+        registration in advance)
+      </li>
+      <li :if={:bike_storage_rack_covered in @stop.bike_storage}>Covered bike racks</li>
+      <li :if={:bike_storage_rack in @stop.bike_storage}>Outdoor bike racks</li>
+    </ul>
+    <.amenity_link
+      :if={:bike_storage_cage in @stop.bike_storage}
+      href="https://bc.mbta.com/riding_the_t/bikes/register/Default.asp"
+      text={~t"Register your CharlieCard for bike parking"}
+    />
+    <.amenity_link
+      href={~p"/bikes/bike-parking"}
+      text={~t"Learn more about bike parking at the T"}
+    />
+  </:modal_content>
+</.base_amenity>

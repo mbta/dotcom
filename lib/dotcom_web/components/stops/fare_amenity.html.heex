@@ -1,0 +1,75 @@
+<.base_amenity
+  always_enabled?={true}
+  amenity={@amenity}
+  id={"fare-amenity-#{@stop.id}"}
+  open={@open}
+>
+  <:card_title>
+    <div class="flex items-center gap-sm">
+      <.icon
+        aria-hidden="true"
+        type="icon-svg"
+        name="icon-fares-default"
+        class="size-6 fill-current"
+      />
+      {~t"Fare Options"} (TODO badge)
+    </div>
+  </:card_title>
+  <:card_content>
+    {if(@stop.has_fare_machine?,
+      do: ~t"Purchase fares at fare vending machines.",
+      else: ~t"Purchase fares at nearby retail sales locations."
+    )}
+  </:card_content>
+  <:modal_heading>
+    {gettext("Fare Options at %{name}", name: @stop.name)}
+  </:modal_heading>
+  <:modal_content>
+    <h2>Fare Types</h2>
+    <div class="amenity-table">
+      <.table id={"fare-#{@stop.id}"} rows={@fares}>
+        <:col :let={{name, _}} label={~t"Trip Type"}>{name}</:col>
+        <:col :let={{_, price}} label={~t"Cost"}>{price}</:col>
+      </.table>
+    </div>
+    <%= if @stop.has_fare_machine? do %>
+      <h2 class="h3 mb-sm">Fare Vending Machines</h2>
+      <img
+        class="img-fluid my-sm"
+        src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
+        alt="MBTA fare vending machines"
+        style="max-height: 250px;"
+      />
+      <p class="m-0">At fare vending machines, you can:</p>
+      <ul>
+        <li>Purchase a CharlieCard or reload an existing one</li>
+        <li>Purchase CharlieTickets</li>
+      </ul>
+      <p class="m-0">You can pay for your fare with:</p>
+      <ul>
+        <li>Apple Pay</li>
+        <li>Google Pay</li>
+        <li>Samsung Pay</li>
+        <li>Credit/debit cards</li>
+        <li>EBT card</li>
+        <li>Cash</li>
+      </ul>
+    <% else %>
+      <h2 class="h3 mb-sm">Fare Retail Locations</h2>
+      <p class="mt-0">
+        This stop does not have fare vending machines, but you can purchase fares at a
+        <a href={
+          ~p"/fares/retail-sales-locations?#{[location: Map.take(@stop, [:latitude, :longitude, :address])]}"
+        }>
+          nearby retail location
+        </a>
+        or pay with cash on any bus.
+      </p>
+    <% end %>
+    <.amenity_link href={~p"/fares"} text={~t"Learn more about fares"} />
+    <.amenity_link
+      href={~p"/fares/reduced"}
+      text={~t"Learn more about reduced fares and eligibility"}
+    />
+  </:modal_content>
+</.base_amenity>

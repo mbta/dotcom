@@ -367,3 +367,27 @@
     font-size: 1.125rem;
   }
 }
+
+.station-amenities {
+  .mbta-modal {
+    min-width: 55%;
+  }
+  .mbta-table {
+    border: solid .063rem $gray-lightest;
+    margin-bottom: 1rem;
+    table-layout: auto;
+    width: 100%;
+
+    thead tr {
+      background: $brand-primary-darkest;
+      border-bottom: none;
+      color: $white;
+      height: 3.75rem;
+    }
+
+    td {
+      font-size: var(--font-size-sm);
+      padding: var(--spacing-md);
+    }
+  }
+}

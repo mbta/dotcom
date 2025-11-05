@@ -1,0 +1,38 @@
+<.base_amenity amenity={@amenity} id={"escalator-amenity-#{@stop.id}"} open={@open}>
+  <:card_title>
+    <div class="flex items-center gap-sm">
+      <.icon
+        aria-hidden="true"
+        type="icon-svg"
+        name="icon-escalator"
+        class="size-6 fill-current"
+      />
+      {~t"Escalators"} (TODO badge)
+    </div>
+  </:card_title>
+  <:card_content>
+    {if(is_nil(@amenity) || @amenity.facilities == [],
+      do: ~t"No escalators",
+      else: ~t"View available escalators"
+    )}
+  </:card_content>
+  <:modal_heading>
+    {gettext("Escalators at %{name}", name: @stop.name)}
+  </:modal_heading>
+  <:modal_content :if={@amenity}>
+    {DotcomWeb.AlertView.render("group.html",
+      alerts: @alerts,
+      date_time: Dotcom.Utils.DateTime.now()
+    )}
+    <div class="amenity-table">
+      <.facility_table
+        id={"escalator-facilities-#{@stop.id}"}
+        label={~t"Escalator"}
+        facilities={@amenity.facilities}
+        alert_fn={&StopView.facility_in_alerts?(&1.id, @alerts)}
+      />
+    </div>
+    <.amenity_link href={~p"/accessibility/trip-planning"} text={~t"Plan an accessible trip"} />
+    <.amenity_link href={~p"/customer-support"} text={~t"Report an escalator issue"} />
+  </:modal_content>
+</.base_amenity>

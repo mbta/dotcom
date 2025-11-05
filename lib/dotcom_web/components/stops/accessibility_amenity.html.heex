@@ -1,0 +1,115 @@
+<.base_amenity
+  always_enabled?={@accessible?}
+  amenity={@amenity}
+  id={"access-amenity-#{@stop.id}"}
+  open={@open}
+>
+  <:card_title>
+    <div class="flex items-center gap-sm">
+      <.icon
+        aria-hidden="true"
+        type="icon-svg"
+        name="icon-accessible-default"
+        class="size-6 fill-current"
+      />
+      {~t"Accessibility"} (TODO badge)
+    </div>
+  </:card_title>
+  <:card_content>
+    <%= if @accessible? do %>
+      {gettext("Learn more about the accessibility features at this %{place}.",
+        place: StopView.station_or_stop(@stop)
+      )}
+    <% else %>
+      {gettext("This %{place} is not accessible.", place: StopView.station_or_stop(@stop))}
+    <% end %>
+  </:card_content>
+  <:modal_heading>
+    {gettext("Accessibility at %{name}", name: @stop.name)}
+  </:modal_heading>
+  <:modal_content :if={@accessible?}>
+    <p :if={@stop.ferry?}>
+      Most, but not all, MBTA docks are accessible to riders with disabilities.
+      Based on the tide level and the type of vessel used for travel, you may
+      encounter significant slopes and narrow walkways, even at accessible
+      docks. At all docks, wait until a crew member tells you it is safe to
+      proceed.
+    </p>
+
+    <%= if @stop.station? do %>
+      <h2 class="h3">Station Features</h2>
+      <% additional_features =
+        Enum.reject(@stop.accessibility, &(&1 == "accessible")) |> IO.inspect() %>
+      <%= if Enum.count(additional_features) > 0 do %>
+        <ul>
+          <li :for={feature <- additional_features}>
+            {%{
+              "tty_phone" => "TTY Phone",
+              "escalator_both" => "Escalator (up and down)",
+              "escalator_up" => "Escalator (up only)",
+              "escalator_down" => "Escalator (down only)",
+              "ramp" => "Long ramp",
+              "fully_elevated_platform" =>
+                "Full high level platform to provide level boarding to every car in a train set",
+              "elevated_subplatform" =>
+                "Mini high level platform to provide level boarding to certain cars in a train set",
+              "elevator" => "Elevator",
+              "portable_boarding_lift" => "Portable boarding lift"
+            }
+            |> Map.get(feature)}
+          </li>
+        </ul>
+      <% else %>
+        <p>
+          There are no additional accessibility features, but buses are always
+          accessible to board.
+        </p>
+      <% end %>
+    <% end %>
+
+    <%= if !@stop.station? && !@stop.ferry? do %>
+      <h2 class="h3">Bus Features</h2>
+      <ul>
+        <li>Buses that can be lowered for easier boarding and exiting</li>
+        <li>Onboard ramps at the front door of each bus</li>
+        <li>2 areas where wheeled mobility devices can be secured</li>
+        <li>
+          Digital displays and automated announcements that share key route and
+          stop info
+        </li>
+      </ul>
+    <% end %>
+    <.amenity_link
+      href={~p"/customer-support"}
+      text={~t"Report an accessibility issue"}
+    />
+    <.amenity_link
+      :if={@stop.ferry?}
+      href={~p"/accessibility/ferry-guide"}
+      text={~t"Learn more about ferry accessibility"}
+    />
+    <.amenity_link
+      :if={@stop.station?}
+      href={~p"/accessibility"}
+      text={~t"Learn more about accessibility on the T"}
+    />
+    <.amenity_link
+      :if={!@stop.station? && !@stop.ferry?}
+      href={~p"/accessibility/bus-guide"}
+      text={~t"Learn more about bus accessibility"}
+    />
+    <h2 class="h3">Accessibility Resources</h2>
+    <ul>
+      <li>
+        <a href={~p"/accessibility/trip-planning"}>
+          Plan an accessible trip
+        </a>
+      </li>
+      <li>
+        <a href={~p"/accessibility/mbta-mobility-center"}>
+          Visit the Mobility Center
+        </a>
+      </li>
+    </ul>
+  </:modal_content>
+</.base_amenity>

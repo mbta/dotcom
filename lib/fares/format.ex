@@ -190,4 +190,40 @@ defmodule Fares.Format do
   def mode_type_for_fare_class(:ferry_fare), do: :ferry
   def mode_type_for_fare_class(:commuter_rail_fare), do: :commuter_rail
   def mode_type_for_fare_class(_), do: :bus_subway
+
+  # Use the route mode to determine the display fare. e.g. instead of the 23 bus
+  # showing the free fare, show the bus fare
+  @display_fare_classes [
+    :local_bus_fare,
+    :express_bus_fare,
+    :rapid_transit_fare,
+    :commuter_rail_fare,
+    :ferry_fare
+  ]
+  def display_fare_class(%Routes.Route{id: id, fare_class: fare_class} = route)
+      when fare_class not in @display_fare_classes do
+    if Fares.express?(id) do
+      :express_bus_fare
+    else
+      case Routes.Route.type_atom(route) do
+        :subway ->
+          :rapid_transit_fare
+
+        :bus ->
+          :local_bus_fare
+
+        :commuter_rail ->
+          :commuter_rail_fare
+
+        :ferry ->
+          :ferry_fare
+
+        # probably a shuttle??
+        _ ->
+          :local_bus_fare
+      end
+    end
+  end
+
+  def display_fare_class(%Routes.Route{fare_class: fare_class}), do: fare_class
 end
