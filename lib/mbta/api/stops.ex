@@ -8,7 +8,7 @@ defmodule MBTA.Api.Stops do
   @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   def all(params \\ []) do
-    @mbta_api.get_json("/stops/", params)
+    @mbta_api.get_json("/stops/", params ++ [include: "child_stops"])
   end
 
   def by_gtfs_id(gtfs_id, params \\ [])
