@@ -8,6 +8,7 @@ defmodule DateTimeSelector do
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Phoenix.{HTML.Form}
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @minute_options 0..55
                   |> Enum.filter(&(Integer.mod(&1, 5) == 0))
                   |> Enum.map(fn
@@ -38,7 +39,7 @@ defmodule DateTimeSelector do
     end
   end
 
-  def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Util.now()) do
+  def custom_date_time_select(form, %DateTime{} = datetime \\ Util.now()) do
     time_options = [
       hour: [options: 1..12, selected: Dotcom.Utils.Time.format!(datetime, :hour_12)],
       minute: [selected: datetime.minute]
@@ -67,16 +68,17 @@ defmodule DateTimeSelector do
       :div,
       [
         custom_time_select(form, datetime, time_options),
-        custom_date_select(form, datetime, date_options, date_ranges)
+        custom_date_select(form, datetime, date_options)
       ],
       class: "form-group plan-date-time"
     )
   end
 
-  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t(), map) :: Phoenix.HTML.Safe.t()
-  defp custom_date_select(form, %DateTime{} = datetime, options, date_ranges) do
-    min_date = Dotcom.Utils.Time.format!(date_ranges.min_date, :mm_dd_yyyy)
-    max_date = Dotcom.Utils.Time.format!(date_ranges.max_date, :mm_dd_yyyy)
+  @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  defp custom_date_select(form, %DateTime{} = datetime, options) do
+    now = @date_time_module.now()
+    min_date = now |> DateTime.shift(year: -1) |> Dotcom.Utils.Time.format!(:mm_dd_yyyy)
+    max_date = now |> Dotcom.Utils.Time.format!(:mm_dd_yyyy)
     current_date = Dotcom.Utils.Time.format!(datetime, :weekday_date_full)
     aria_label = "#{current_date}, click or press the enter or space key to edit the date"
 
@@ -90,11 +92,11 @@ defmodule DateTimeSelector do
           content_tag(
             :div,
             svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false}),
-            class: "m-trip-plan__calendar-input-icon",
+            class: "hidden-no-js",
             aria_hidden: "true"
           ),
           id: "#{prefix}-date-label",
-          class: "m-trip-plan__calendar-input-label",
+          class: "absolute right-4 top-2",
           for: "#{prefix}-date-input",
           name: "Date",
           aria_label: aria_label
@@ -103,7 +105,7 @@ defmodule DateTimeSelector do
           :input,
           [],
           type: "text",
-          class: "plan-date-input",
+          class: "mbta-input w-full hidden-no-js",
           id: "#{prefix}-date-input",
           data: ["min-date": min_date, "max-date": max_date]
         ),
@@ -113,7 +115,7 @@ defmodule DateTimeSelector do
           Keyword.put(options, :builder, &custom_date_select_builder(&1, prefix))
         )
       ],
-      class: "plan-date",
+      class: "plan-date mt-sm relative w-full max-w-[35ch]",
       id: "#{prefix}-date"
     )
   end
@@ -124,13 +126,13 @@ defmodule DateTimeSelector do
       :div,
       [
         content_tag(:label, "Month", for: "#{prefix}_date_time_month", class: "sr-only"),
-        field.(:month, class: "c-select"),
+        field.(:month, class: "mbta-input"),
         content_tag(:label, "Day", for: "#{prefix}_date_time_day", class: "sr-only"),
-        field.(:day, class: "c-select"),
+        field.(:day, class: "mbta-input"),
         content_tag(:label, "Year", for: "#{prefix}_date_time_year", class: "sr-only"),
-        field.(:year, class: "c-select")
+        field.(:year, class: "mbta-input")
       ],
-      class: "plan-date-select hidden-js",
+      class: "plan-date-select flex gap-sm hidden-js",
       id: "#{prefix}-date-select"
     )
   end
@@ -149,7 +151,7 @@ defmodule DateTimeSelector do
           :label,
           [],
           id: "#{prefix}-time-label",
-          class: "m-trip-plan__time-input-label",
+          class: "sr-only mt-sm",
           for: "#{prefix}-time-input",
           name: "Time",
           aria_label: aria_label,
@@ -171,9 +173,9 @@ defmodule DateTimeSelector do
       :div,
       [
         content_tag(:label, "Hour", for: "#{prefix}_date_time_hour", class: "sr-only"),
-        field.(:hour, class: "c-select"),
+        field.(:hour, class: "mbta-input"),
         content_tag(:label, "Minute", for: "#{prefix}_date_time_minute", class: "sr-only"),
-        field.(:minute, class: "c-select", options: @minute_options),
+        field.(:minute, class: "mbta-input", options: @minute_options),
         " ",
         content_tag(:label, "AM or PM", for: "#{prefix}_date_time_am_pm", class: "sr-only"),
         select(
@@ -183,10 +185,10 @@ defmodule DateTimeSelector do
           selected: Dotcom.Utils.Time.format!(datetime, :hour_12),
           name: "#{prefix}[date_time][am_pm]",
           id: "#{prefix}_date_time_am_pm",
-          class: "c-select plan-date-time-am-pm"
+          class: "mbta-input plan-date-time-am-pm"
         )
       ],
-      class: "plan-time-select",
+      class: "plan-time-select flex gap-sm",
       id: "#{prefix}-time-select"
     )
   end
