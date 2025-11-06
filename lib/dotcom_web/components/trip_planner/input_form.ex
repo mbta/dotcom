@@ -13,6 +13,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   alias MbtaMetro.Live.DatePicker
 
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
   If form values are passed in, we merge them with the defaults and submit the form.
@@ -167,10 +168,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   end
 
   defp datepicker_config do
+    end_of_rating_day =
+      @schedules_repo.end_of_rating() |> Timex.to_datetime(@timezone) |> Timex.end_of_day()
+
     %{
       default_date: ServiceDateTime.beginning_of_service_day(),
       enable_time: true,
-      max_date: @schedules_repo.end_of_rating() |> Timex.shift(days: 1),
+      max_date: end_of_rating_day,
       min_date: ServiceDateTime.beginning_of_service_day()
     }
   end
