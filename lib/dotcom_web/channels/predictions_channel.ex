@@ -11,15 +11,16 @@ defmodule DotcomWeb.PredictionsChannel do
 
   alias Routes.Route
   alias Phoenix.{Channel, Socket}
-  alias Predictions.Prediction
+  alias Predictions.{Prediction, StreamSupervisor, StreamTopic}
 
-  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
+  @broadcast_interval_ms Application.compile_env!(:dotcom, [:predictions_broadcast_interval_ms])
+  @predictions_store Application.compile_env!(:dotcom, [:predictions_store])
 
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
-  def handle_info({:new_predictions, predictions}, socket) do
-    :ok = push(socket, "data", %{predictions: filter_new(predictions)})
-
+  def handle_info({:new_predictions, fetch_keys}, socket) do
+    Process.send_after(self(), {:new_predictions, fetch_keys}, @broadcast_interval_ms)
+    :ok = push(socket, "data", %{predictions: new_predictions(fetch_keys)})
     {:noreply, socket}
   end
 
@@ -27,25 +28,31 @@ defmodule DotcomWeb.PredictionsChannel do
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
           {:ok, %{predictions: [Prediction.t()]}, Socket.t()} | {:error, map()}
   def join("predictions:" <> topic, _message, socket) do
-    case @predictions_pub_sub.subscribe(topic) do
-      {:error, _reason} ->
+    subscriber = self()
+
+    case StreamTopic.new(topic) do
+      {:error, reason} ->
         {:error,
          %{
-           message: "Cannot subscribe to predictions for #{topic}."
+           message: "Cannot subscribe to predictions for #{topic}: #{inspect(reason)}"
          }}
 
-      predictions ->
-        {:ok, %{predictions: filter_new(predictions)}, socket}
+      %StreamTopic{fetch_keys: fetch_keys, streams: streams} ->
+        for stream <- streams do
+          StreamSupervisor.ensure_stream_is_started(stream, subscriber)
+        end
+
+        Process.send_after(subscriber, {:new_predictions, fetch_keys}, @broadcast_interval_ms)
+        {:ok, %{predictions: new_predictions(fetch_keys)}, socket}
     end
   end
 
   @impl Channel
-  def terminate(_, _) do
-    @predictions_pub_sub.unsubscribe()
-  end
+  def terminate(_, socket), do: StreamSupervisor.remove_subscriber(socket.channel_pid)
 
-  defp filter_new(predictions) do
-    predictions
+  defp new_predictions(fetch_keys) do
+    fetch_keys
+    |> @predictions_store.fetch()
     |> Enum.reject(fn prediction ->
       no_trip?(prediction) ||
         missing_departure_time?(prediction) ||

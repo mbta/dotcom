@@ -7,8 +7,6 @@ defmodule DotcomWeb.PredictionsChannelTest do
   alias DotcomWeb.{PredictionsChannel, UserSocket}
   alias Test.Support.Factories.{Predictions.Prediction, Routes.Route, Schedules.Trip}
 
-  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
-
   setup :set_mox_global
   setup :verify_on_exit!
 
@@ -18,6 +16,12 @@ defmodule DotcomWeb.PredictionsChannelTest do
 
     stub(MBTA.Api.Mock, :get_json, fn _, _ ->
       []
+    end)
+
+    stub(RoutePatterns.Repo.Mock, :by_stop_id, fn stop_id ->
+      Test.Support.Factories.RoutePatterns.RoutePattern.build_list(4, :route_pattern,
+        stop_ids: [stop_id]
+      )
     end)
 
     # Ensure no streams are running so that we can test stream creation
@@ -37,7 +41,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
         canonical_prediction
         |> Map.put(:schedule_relationship, :skipped)
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, fn _ ->
         [canonical_prediction, filtered_prediction]
       end)
 
@@ -57,7 +61,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
         canonical_prediction
         |> Map.put(:departure_time, nil)
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, fn _ ->
         [canonical_prediction, filtered_prediction]
       end)
 
@@ -81,7 +85,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
           trip: Trip.build(:trip)
         )
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, fn _ ->
         [canonical_prediction, not_filtered_cancelled_prediction]
       end)
 
@@ -99,7 +103,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Setup
       predictions = Prediction.build_list(3, :canonical_prediction)
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, 3, fn _ ->
         predictions
       end)
 
@@ -121,7 +125,7 @@ defmodule DotcomWeb.PredictionsChannelTest do
         [past, future]
         |> Enum.map(&Prediction.build(:canonical_prediction, %{departure_time: &1}))
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, 3, fn _ ->
         predictions
       end)
 
@@ -142,14 +146,14 @@ defmodule DotcomWeb.PredictionsChannelTest do
       # Setup
       predictions = Prediction.build_list(3, :canonical_prediction)
 
-      expect(@predictions_pub_sub, :subscribe, fn _ ->
+      expect(Predictions.Store.Mock, :fetch, 2, fn _ ->
         predictions
       end)
 
       {:ok, _, socket} = subscribe_and_join(context.socket, PredictionsChannel, context.channel)
 
       # Exercise / Verify
-      expect(@predictions_pub_sub, :unsubscribe, fn -> :ok end)
+      # expect(@predictions_pub_sub, :unsubscribe, fn -> :ok end)
       assert :ok = PredictionsChannel.terminate(nil, socket)
     end
   end

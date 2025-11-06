@@ -62,7 +62,9 @@ defmodule Dotcom.Application do
         end ++
         [
           Routes.Supervisor,
-          Predictions.Supervisor,
+          {Registry, keys: :unique, name: :prediction_streams_registry},
+          Predictions.Store,
+          Predictions.StreamSupervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor

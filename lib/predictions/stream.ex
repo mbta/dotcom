@@ -8,10 +8,7 @@ defmodule Predictions.Stream do
   require Logger
 
   alias MBTA.Api.Stream.Event
-  alias Phoenix.PubSub
   alias Predictions.{Repo, Store, StreamParser, StreamTopic}
-
-  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
 
   @type event_type :: :reset | :add | :update | :remove
 
@@ -29,13 +26,8 @@ defmodule Predictions.Stream do
   def init(opts) do
     producer_consumer = Keyword.fetch!(opts, :subscribe_to)
 
-    initial_state =
-      Map.new()
-      |> Map.put_new(:broadcast_fn, Keyword.get(opts, :broadcast_fn, &PubSub.broadcast/3))
-      |> Map.put_new(:started?, false)
-      |> Map.put_new(:clear_keys, Keyword.fetch!(opts, :clear_keys))
-
-    {:consumer, initial_state, subscribe_to: [producer_consumer]}
+    {:consumer, %{clear_keys: Keyword.fetch!(opts, :clear_keys)},
+     subscribe_to: [producer_consumer]}
   end
 
   @impl GenStage
@@ -48,7 +40,7 @@ defmodule Predictions.Stream do
     |> Enum.group_by(& &1.event)
     |> Enum.each(&handle_by_type(&1, state.clear_keys))
 
-    {:noreply, [], initial_broadcast(state)}
+    {:noreply, [], state}
   end
 
   @spec handle_by_type({Event.event(), [Event.t()]}, StreamTopic.clear_keys()) :: :ok
@@ -74,14 +66,6 @@ defmodule Predictions.Stream do
     Store.update({event_type, batch})
   end
 
-  # Broadcast when the first event for this stream is received
-  def initial_broadcast(%{started?: false} = state) do
-    broadcast(state.broadcast_fn)
-    %{state | started?: true}
-  end
-
-  def initial_broadcast(state), do: state
-
   defp to_predictions(%JsonApi{data: data}) do
     data
     |> Enum.filter(&(&1.type == "prediction" && Repo.has_trip?(&1)))
@@ -91,14 +75,6 @@ defmodule Predictions.Stream do
   defp to_predictions({:error, _} = error) do
     _ = log_errors(error)
     []
-  end
-
-  @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
-  @spec broadcast(broadcast_fn) :: :ok
-  defp broadcast(broadcast_fn) do
-    @predictions_phoenix_pub_sub
-    |> broadcast_fn.("predictions", :broadcast)
-    |> log_errors()
   end
 
   @spec log_errors(:ok | {:error, any}) :: :ok

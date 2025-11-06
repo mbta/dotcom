@@ -4,8 +4,6 @@ defmodule Predictions.StreamTest do
   alias JsonApi.Item
   alias Predictions.Stream
 
-  @predictions_phoenix_pub_sub Application.compile_env!(:dotcom, :predictions_phoenix_pub_sub)
-
   @predictions_data %JsonApi{
     data: [
       %Item{
@@ -65,18 +63,9 @@ defmodule Predictions.StreamTest do
           %MBTA.Api.Stream.Event{event: :reset, data: @predictions_data}
         ])
 
-      test_pid = self()
-
-      broadcast_fn = fn @predictions_phoenix_pub_sub, "predictions", :broadcast ->
-        send(test_pid, :broadcast)
-
-        :ok
-      end
-
       {:ok, stream_pid} =
         Stream.start_link(
           name: :start_link_test,
-          broadcast_fn: broadcast_fn,
           subscribe_to: mock_api,
           clear_keys: [route: "route_id", direction: 0]
         )
@@ -85,8 +74,6 @@ defmodule Predictions.StreamTest do
 
       assert_receive {:trace, ^stream_pid, :receive,
                       {:"$gen_consumer", _, [%MBTA.Api.Stream.Event{} | _]}}
-
-      assert_receive :broadcast, 5000
     end
   end
 
@@ -112,7 +99,6 @@ defmodule Predictions.StreamTest do
           assert {:ok, _} =
                    Stream.start_link(
                      name: :error_logging_api_test,
-                     broadcast_fn: fn _, _, _ -> :ok end,
                      subscribe_to: mock_api,
                      clear_keys: []
                    )
@@ -125,22 +111,17 @@ defmodule Predictions.StreamTest do
       assert log =~ "bad_stream_result"
     end
 
-    test "can log broadcast errors" do
+    test "can log errors" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %MBTA.Api.Stream.Event{event: :remove, data: @predictions_data}
+          %MBTA.Api.Stream.Event{event: :unknown, data: :bad}
         ])
-
-      broadcast_fn = fn @predictions_phoenix_pub_sub, "predictions", _ ->
-        {:error, "something went wrong"}
-      end
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
           assert {:ok, _} =
                    Stream.start_link(
                      name: :error_logging_test,
-                     broadcast_fn: broadcast_fn,
                      subscribe_to: mock_api,
                      clear_keys: []
                    )

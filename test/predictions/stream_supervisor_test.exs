@@ -52,32 +52,34 @@ defmodule Predictions.StreamSupervisorTest do
     end
   end
 
-  describe "ensure_stream_is_started/1" do
+  describe "ensure_stream_is_started/2" do
     test "starts a stream if not already started" do
       filter_key =
         {[route: "Purple", direction: 1], "filter[route]=Purple&filter[direction_id]=1"}
 
-      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
+      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(filter_key, self())
     end
 
     test "returns existing stream from registry" do
       filter_key = {[route: "Pink", direction: 0], "filter[route]=Pink&filter[direction_id]=0"}
-      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
-      assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
+      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(filter_key, self())
+      assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(filter_key, self())
     end
   end
 
-  describe "stop_stream/1" do
-    test "closes a stream by registered key" do
+  describe "remove_subscriber/1" do
+    test "closes a stream by associated pid" do
       filter_key = {[route: "Teal", direction: 1], "filter[route]=Teal&filter[direction_id]=1"}
-      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
-      assert Process.alive?(pid)
+      pid = self()
+      {:ok, stream_pid} = StreamSupervisor.ensure_stream_is_started(filter_key, pid)
 
-      assert [{_, ^pid, :supervisor, [Predictions.StreamSupervisor.Worker]}] =
+      assert Process.alive?(stream_pid)
+
+      assert [{_, ^stream_pid, :supervisor, [Predictions.StreamSupervisor.Worker]}] =
                DynamicSupervisor.which_children(Predictions.StreamSupervisor)
 
-      :ok = StreamSupervisor.stop_stream(elem(filter_key, 1))
-      refute Process.alive?(pid)
+      :ok = StreamSupervisor.remove_subscriber(pid)
+      refute Process.alive?(stream_pid)
       assert [] = DynamicSupervisor.which_children(Predictions.StreamSupervisor)
     end
   end

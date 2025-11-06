@@ -15,7 +15,7 @@ defmodule Predictions.StreamTopic do
   route and direction.
   """
 
-  alias Predictions.{Store, StreamSupervisor}
+  alias Predictions.Store
 
   defstruct [:topic, :fetch_keys, :streams]
 
@@ -77,9 +77,5 @@ defmodule Predictions.StreamTopic do
   @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]
   def registration_keys(%__MODULE__{fetch_keys: fetch_keys, streams: streams}) do
     Enum.map(streams, &{fetch_keys, &1})
-  end
-
-  def start_streams(%__MODULE__{streams: streams}) do
-    Enum.each(streams, &StreamSupervisor.ensure_stream_is_started/1)
   end
 end
