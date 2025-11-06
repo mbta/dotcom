@@ -11,9 +11,8 @@ How to use this TimeControls module on the frontend to create date and time sele
 </script>
 These field names are created by the Elixir module DateTimeSelector in your form.
 
-- Then, use DateTimeSelector.custom_date_time_select passing the form and a date range, i.e.:
-<% date_ranges = %{min_date: ..., max_date: ...} %>
-<%= DateTimeSelector.custom_date_time_select(form, date_ranges) %>
+- Then, use DateTimeSelector.custom_date_time_select passing the form, i.e.:
+<%= DateTimeSelector.custom_date_time_select(form) %>
 */
 
 export class TimeControls {
