@@ -58,7 +58,7 @@ defmodule Stops.Api do
   end
 
   def all do
-    Api.Stops.all("filter[location_type]": "0,1")
+    Api.Stops.all("filter[location_type]": "0,1", include: "child_stops")
     |> parse_v3_multiple()
   end
 
