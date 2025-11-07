@@ -6,8 +6,8 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   """
 
   import Dotcom.Alerts, only: [service_impacting_alert?: 1]
+  import Dotcom.Alerts.StartTime, only: [next_active_time: 1]
   import Dotcom.SystemStatus, only: [active_now_or_later_on_day?: 2]
-  import Dotcom.SystemStatus.StartTime, only: [next_active_time: 1]
 
   alias Alerts.Alert
   alias Routes.Route

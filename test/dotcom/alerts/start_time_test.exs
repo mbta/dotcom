@@ -1,8 +1,8 @@
-defmodule Dotcom.SystemStatus.StartTimeTest do
+defmodule Dotcom.Alerts.StartTimeTest do
   alias Test.Support.Factories
   use ExUnit.Case, async: true
 
-  import Dotcom.SystemStatus.StartTime, only: [next_active_time: 2]
+  import Dotcom.Alerts.StartTime, only: [next_active_time: 2]
 
   alias Factories.Alerts.Alert
 
