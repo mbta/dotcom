@@ -37,9 +37,7 @@ defmodule Dotcom.Application do
             {Dotcom.Cache.Inspector.Subscriber, []},
             {Dotcom.Cache.Telemetry, []},
             {DotcomWeb.Telemetry, []},
-            {Req.Telemetry, []},
-            {DotcomWeb.Usage.Functions, []},
-            {DotcomWeb.Usage.Templates, []}
+            {Req.Telemetry, []}
           ]
         else
           []
