@@ -1,4 +1,4 @@
-defmodule Dotcom.SystemStatus.StartTime do
+defmodule Dotcom.Alerts.StartTime do
   @moduledoc """
   A little utility module for determining the next time alert becomes
   active. See `next_active_time/2` for more info.
