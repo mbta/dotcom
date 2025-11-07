@@ -1,12 +1,21 @@
 <.base_amenity amenity={@amenity} id={"parking-amenity-#{@stop.id}"} open={@open}>
   <:card_title>
-    <div class="flex items-center gap-sm">
-      <.icon aria-hidden="true" name="square-parking" class="size-6 fill-current" />
-      {~t"Parking"} (TODO badge)
-    </div>
+    <.amenity_icon type={:parking} />
+    {~t"Parking"}
+    <%= if is_nil(@amenity) do %>
+      <.amenity_badge>{~t"Not available"}</.amenity_badge>
+    <% else %>
+      <%= if Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) do %>
+        <.amenity_badge health={0.0}>{~t"Temporarily closed"}</.amenity_badge>
+      <% end %>
+    <% end %>
   </:card_title>
   <:card_content>
-    TODO summary
+    <%= if @stop.parking_lots == [] do %>
+      {~t"This station does not have parking."}
+    <% else %>
+      {~t"View parking rates, facility information, and more."}
+    <% end %>
   </:card_content>
   <:modal_heading>
     {gettext("Parking at %{name}", name: @stop.name)}
@@ -14,59 +23,61 @@
   <:modal_content>
     {DotcomWeb.AlertView.render("group.html",
       alerts: @alerts,
-      date_time: Dotcom.Utils.DateTime.now()
+      date_time: @date_time
     )}
-    <div :for={parking_lot <- @stop.parking_lots}>
-      <h3>{parking_lot.name}</h3>
-      <h4>Parking Rates</h4>
+    <div :for={lot <- @stop.parking_lots}>
+      <h2 class="text-xl mb-4">{lot.name}</h2>
+      <h3>{~t"Parking Rates"}</h3>
       <ul>
-        <li :if={get_in(parking_lot.payment.daily_rate)}>
-          <strong>Daily:</strong> {parking_lot.payment.daily_rate}
+        <li :if={get_in(lot.payment.daily_rate)}>
+          <strong>{~t"Daily"}:</strong> {lot.payment.daily_rate}
         </li>
-        <li :if={get_in(parking_lot.payment.monthly_rate)}>
-          <strong>Monthly:</strong> {parking_lot.payment.monthly_rate}
+        <li :if={get_in(lot.payment.monthly_rate)}>
+          <strong>{~t"Monthly"}:</strong> {lot.payment.monthly_rate}
         </li>
-        <li :if={get_in(parking_lot.capacity.overnight)}>
-          <strong>Overnight:</strong> {parking_lot.capacity.overnight}
+        <li :if={get_in(lot.capacity.overnight)}>
+          <strong>{~t"Overnight"}:</strong> {lot.capacity.overnight}
         </li>
       </ul>
-      <%= if get_in(parking_lot.payment.methods) do %>
-        <h4>Payment Methods</h4>
+      <%= if get_in(lot.payment.methods) do %>
+        <h3>{~t"Payment Methods"}</h3>
         <ul>
-          <li :if={
-            "Mobile App" in parking_lot.payment.methods && get_in(parking_lot.payment.mobile_app)
-          }>
-            Use
-            <a href={parking_lot.payment.mobile_app.url}>{parking_lot.payment.mobile_app.name}</a>
-            (location {parking_lot.payment.mobile_app.id})
+          <li :if={"Mobile App" in lot.payment.methods && get_in(lot.payment.mobile_app)}>
+            {~t"Use"}
+            <a href={lot.payment.mobile_app.url}>{lot.payment.mobile_app.name}</a>
+            ({~t"location"} {lot.payment.mobile_app.id})
           </li>
-          <li :if={"Credit/Debit Card" in parking_lot.payment.methods}>Credit/Debit Card</li>
-          <li :if={"Cash" in parking_lot.payment.methods}>Cash</li>
-          <li :if={"Invoice" in parking_lot.payment.methods}>
-            Get an invoice in the mail for a $1 fee
+          <li :if={"Credit/Debit Card" in lot.payment.methods}>
+            {~t"Credit/Debit Card"}
+          </li>
+          <li :if={"Cash" in lot.payment.methods}>{~t"Cash"}</li>
+          <li :if={"Invoice" in lot.payment.methods}>
+            {~t"Get an invoice in the mail for a $1 fee"}
           </li>
         </ul>
       <% end %>
-      <%= if parking_lot.capacity do %>
-        <h4>Facility Information</h4>
+      <%= if lot.capacity do %>
+        <h3>{~t"Facility Information"}</h3>
         <ul>
-          <li :if={parking_lot.capacity.total}>
-            {parking_lot.capacity.total} total parking spots
+          <li :if={lot.capacity.total}>
+            {lot.capacity.total} {~t"total parking spots"}
           </li>
-          <li :if={parking_lot.capacity.accessible}>
-            {parking_lot.capacity.accessible} accessible spots
+          <li :if={lot.capacity.accessible}>
+            {lot.capacity.accessible} {~t"accessible spots"}
           </li>
-          <%= if parking_lot.manager do %>
-            <li :if={parking_lot.manager.name}>
-              Managed by {parking_lot.manager.name}
+          <%= if lot.manager do %>
+            <li :if={lot.manager.name}>
+              {~t"Managed by"} {lot.manager.name}
               <ul>
-                <li :if={parking_lot.manager.url}>
-                  Visit
-                  <a href={parking_lot.manager.url}>{parking_lot.manager.contact} website</a>
+                <li :if={lot.manager.url}>
+                  {~t"Visit"}
+                  <a href={lot.manager.url}>
+                    {lot.manager.contact} {~t"website"}
+                  </a>
                 </li>
-                <li :if={parking_lot.manager.phone}>
-                  Call
-                  <a href={"tel:#{parking_lot.manager.phone}"}>{parking_lot.manager.phone}</a>
+                <li :if={lot.manager.phone}>
+                  {~t"Call"}
+                  <a href={"tel:#{lot.manager.phone}"}>{lot.manager.phone}</a>
                 </li>
               </ul>
             </li>
@@ -74,7 +85,7 @@
         </ul>
       <% end %>
       <.amenity_link
-        href={StopView.google_maps_url(parking_lot, @is_ios?)}
+        href={StopView.google_maps_url(lot, @is_ios?)}
         text={~t"Get directions to this parking facility"}
       />
     </div>

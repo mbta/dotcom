@@ -1,20 +1,29 @@
 <.base_amenity amenity={@amenity} id={"bike-amenity-#{@stop.id}"} open={@open}>
   <:card_title>
-    <div class="flex items-center gap-sm">
-      <.icon
-        aria-hidden="true"
-        type="icon-svg"
-        name="icon-bike"
-        class="size-6 fill-current"
-      />
-      {~t"Bike Storage"} (TODO badge)
-    </div>
+    <.amenity_icon type={:bike} />
+    {~t"Bike Storage"}
+    <%= if is_nil(@amenity) do %>
+      <.amenity_badge>{~t"Not available"}</.amenity_badge>
+    <% else %>
+      <%= if Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) do %>
+        <.amenity_badge health={0.0}>{~t"Temporarily closed"}</.amenity_badge>
+      <% end %>
+    <% end %>
   </:card_title>
   <:card_content>
-    <%= if Enum.count(@alerts) > 0 do %>
+    <%= if @amenity && Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) do %>
       {~t"Learn more about bike storage at this station."}
     <% else %>
-      TODO availability summary
+      <%= cond do %>
+        <% :bike_storage_cage in @stop.bike_storage -> %>
+          {~t"Secured parking is available but requires Charlie Card registration in advance."}
+        <% :bike_storage_rack_covered in @stop.bike_storage -> %>
+          {~t"Covered bike racks are available"}
+        <% :bike_storage_rack in @stop.bike_storage -> %>
+          {~t"Outdoor bike racks are available"}
+        <% true -> %>
+          {~t"This station does not have bike storage."}
+      <% end %>
     <% end %>
   </:card_content>
   <:modal_heading>
@@ -23,24 +32,22 @@
   <:modal_content>
     {DotcomWeb.AlertView.render("group.html",
       alerts: @alerts,
-      date_time: Dotcom.Utils.DateTime.now()
+      date_time: @date_time
     )}
-    <h3>Facility Information</h3>
-    <img
+    <h2 class="text-xl mb-4">{~t"Facility Information"}</h2>
+    <.amenity_image
       :if={:bike_storage_cage in @stop.bike_storage}
-      class="img-fluid my-md"
       src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
-      alt="MBTA Pedal and Park bike storage"
-      style="max-height: 250px;"
+      alt={~t"MBTA Pedal and Park bike storage"}
     />
     <ul>
       <li :if={:bike_storage_cage in @stop.bike_storage}>
-        Free Pedal and Park secured parking (requires
-        <a href="/fares/charliecard-and-charlieticket-online-services">CharlieCard</a>
-        registration in advance)
+        {~t"Free Pedal and Park secured parking"} ({~t"requires"}
+        <a href={~p"/fares/charliecard-and-charlieticket-online-services"}> CharlieCard</a>
+        {~t"registration in advance"})
       </li>
-      <li :if={:bike_storage_rack_covered in @stop.bike_storage}>Covered bike racks</li>
-      <li :if={:bike_storage_rack in @stop.bike_storage}>Outdoor bike racks</li>
+      <li :if={:bike_storage_rack_covered in @stop.bike_storage}>{~t"Covered bike racks"}</li>
+      <li :if={:bike_storage_rack in @stop.bike_storage}>{~t"Outdoor bike racks"}</li>
     </ul>
     <.amenity_link
       :if={:bike_storage_cage in @stop.bike_storage}

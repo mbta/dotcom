@@ -344,7 +344,22 @@
   .c-descriptive-link__title,
   .c-descriptive-link__badge {
     font-family: $font-family-sans-serif;
-    white-space: nowrap;
+  }
+
+  .c-descriptive-link__badge {
+    @apply bg-gray-lightest;
+  }
+
+  [disabled].c-descriptive-link .c-descriptive-link__badge {
+    @apply bg-gray-lighter;
+  }
+
+  .c-descriptive-link__badge.good {
+    @apply bg-emerald-90;
+  }
+
+  .c-descriptive-link__badge.bad {
+    @apply bg-firebrick-90;
   }
 
   .c-descriptive-link__text {
@@ -370,8 +385,10 @@
 
 .station-amenities {
   .mbta-modal {
-    min-width: 55%;
+    max-width: unset;
+    top: 100%;
   }
+
   .mbta-table {
     border: solid .063rem $gray-lightest;
     margin-bottom: 1rem;

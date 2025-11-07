@@ -10,11 +10,10 @@
   </div>
 </div>
 
-<div :if={false}>
+<div>
   <div
     id="react-stop-root"
     data-mbta-stop-id={"#{@stop.id}"}
-    data-mbta-accessible={"#{@accessible?}"}
   >
   </div>
 </div>
@@ -37,6 +36,7 @@
       open={@amenity_param == :parking}
       amenity={@parking_amenity}
       alerts={alerts_for_amenity(@parking_amenity, @alerts)}
+      date_time={@date_time}
       is_ios?={Browser.ios?(@conn)}
     />
     <.bike_amenity
@@ -45,6 +45,7 @@
       open={@amenity_param == :bike}
       amenity={@bike_amenity}
       alerts={alerts_for_amenity(@bike_amenity, @alerts)}
+      date_time={@date_time}
     />
     <%= if @stop.station? do %>
       <h3 class="hidden-md-up">Getting around the station</h3>
@@ -53,12 +54,14 @@
         open={@amenity_param == :elevator}
         amenity={@elevator_amenity}
         alerts={alerts_for_amenity(@elevator_amenity, @alerts)}
+        date_time={@date_time}
       />
       <.escalator_amenity
         stop={@stop}
         open={@amenity_param == :escalator}
         amenity={@escalator_amenity}
         alerts={alerts_for_amenity(@escalator_amenity, @alerts)}
+        date_time={@date_time}
       />
     <% end %>
     <.accessibility_amenity

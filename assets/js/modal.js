@@ -14,9 +14,14 @@ export default function($) {
     document.querySelectorAll("[data-dialog-modal]").forEach(el => {
       const modalId = el.dataset.dialogModal;
       if (modalId) {
+        const modal = document.getElementById(modalId);
         el.addEventListener("click", () => {
-          document.getElementById(modalId).showModal();
+          modal.showModal();
         });
+
+        if (modal.dataset.open != null) {
+          modal.showModal();
+        }
       }
     });
   });

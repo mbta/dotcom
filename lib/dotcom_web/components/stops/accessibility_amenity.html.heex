@@ -5,15 +5,9 @@
   open={@open}
 >
   <:card_title>
-    <div class="flex items-center gap-sm">
-      <.icon
-        aria-hidden="true"
-        type="icon-svg"
-        name="icon-accessible-default"
-        class="size-6 fill-current"
-      />
-      {~t"Accessibility"} (TODO badge)
-    </div>
+    <.amenity_icon type={:accessibility} />
+    {~t"Accessibility"}
+    <.amenity_badge :if={!@accessible?}>{~t"Not accessible"}</.amenity_badge>
   </:card_title>
   <:card_content>
     <%= if @accessible? do %>
@@ -29,53 +23,46 @@
   </:modal_heading>
   <:modal_content :if={@accessible?}>
     <p :if={@stop.ferry?}>
-      Most, but not all, MBTA docks are accessible to riders with disabilities.
-      Based on the tide level and the type of vessel used for travel, you may
-      encounter significant slopes and narrow walkways, even at accessible
-      docks. At all docks, wait until a crew member tells you it is safe to
-      proceed.
+      {~t"Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."}
     </p>
-
     <%= if @stop.station? do %>
-      <h2 class="h3">Station Features</h2>
+      <h2 class="text-xl mb-4">{~t"Station Features"}</h2>
       <% additional_features =
-        Enum.reject(@stop.accessibility, &(&1 == "accessible")) |> IO.inspect() %>
+        Enum.reject(@stop.accessibility, &(&1 == "accessible")) %>
       <%= if Enum.count(additional_features) > 0 do %>
         <ul>
           <li :for={feature <- additional_features}>
             {%{
-              "tty_phone" => "TTY Phone",
-              "escalator_both" => "Escalator (up and down)",
-              "escalator_up" => "Escalator (up only)",
-              "escalator_down" => "Escalator (down only)",
-              "ramp" => "Long ramp",
+              "tty_phone" => ~t"TTY Phone",
+              "escalator_both" => ~t"Escalator (up and down)",
+              "escalator_up" => ~t"Escalator (up only)",
+              "escalator_down" => ~t"Escalator (down only)",
+              "ramp" => ~t"Long ramp",
               "fully_elevated_platform" =>
-                "Full high level platform to provide level boarding to every car in a train set",
+                ~t"Full high level platform to provide level boarding to every car in a train set",
               "elevated_subplatform" =>
-                "Mini high level platform to provide level boarding to certain cars in a train set",
-              "elevator" => "Elevator",
-              "portable_boarding_lift" => "Portable boarding lift"
+                ~t"Mini high level platform to provide level boarding to certain cars in a train set",
+              "elevator" => ~t"Elevator",
+              "portable_boarding_lift" => ~t"Portable boarding lift"
             }
             |> Map.get(feature)}
           </li>
         </ul>
       <% else %>
         <p>
-          There are no additional accessibility features, but buses are always
-          accessible to board.
+          {~t"There are no additional accessibility features, but buses are always accessible to board."}
         </p>
       <% end %>
     <% end %>
 
     <%= if !@stop.station? && !@stop.ferry? do %>
-      <h2 class="h3">Bus Features</h2>
+      <h2 class="text-xl mb-4">{~t"Bus Features"}</h2>
       <ul>
-        <li>Buses that can be lowered for easier boarding and exiting</li>
-        <li>Onboard ramps at the front door of each bus</li>
-        <li>2 areas where wheeled mobility devices can be secured</li>
+        <li>{~t"Buses that can be lowered for easier boarding and exiting"}</li>
+        <li>{~t"Onboard ramps at the front door of each bus"}</li>
+        <li>{~t"2 areas where wheeled mobility devices can be secured"}</li>
         <li>
-          Digital displays and automated announcements that share key route and
-          stop info
+          {~t"Digital displays and automated announcements that share key route and stop info"}
         </li>
       </ul>
     <% end %>
@@ -98,16 +85,16 @@
       href={~p"/accessibility/bus-guide"}
       text={~t"Learn more about bus accessibility"}
     />
-    <h2 class="h3">Accessibility Resources</h2>
+    <h2 class="text-xl mb-4">{~t"Accessibility Resources"}</h2>
     <ul>
       <li>
         <a href={~p"/accessibility/trip-planning"}>
-          Plan an accessible trip
+          {~t"Plan an accessible trip"}
         </a>
       </li>
       <li>
         <a href={~p"/accessibility/mbta-mobility-center"}>
-          Visit the Mobility Center
+          {~t"Visit the Mobility Center"}
         </a>
       </li>
     </ul>

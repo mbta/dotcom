@@ -1,125 +1,52 @@
 defmodule DotcomWeb.Components.Stops do
   @moduledoc """
-
+  Functions for rendering information about a stop or station.
   """
 
   use DotcomWeb, :component
 
-  # alias Alerts.Alert
-  alias Dotcom.StopAmenity
   alias DotcomWeb.StopView
-  alias Stops.Stop
 
   embed_templates "stops/*"
 
-  attr :amenity, StopAmenity
-  attr :alerts, :list, doc: "One or more alerts", default: []
-  attr :stop, Stop, required: true
-  attr :title, :string, required: true
-  attr :type, :atom, required: true, doc: "Amenity type"
-  attr :open, :boolean, default: false
-  attr :fares, :list, default: []
-  slot :inner_block
-
-  def amenity_card(assigns) do
-    assigns =
-      assign(assigns, :modal_id, "modal-#{assigns.stop.id}-#{assigns.title}")
-      |> assign(:now, Dotcom.Utils.DateTime.now())
-      |> assign(:disabled, is_nil(assigns.amenity))
-
-    ~H"""
-    <.descriptive_link data-dialog-modal={@modal_id} disabled={@disabled}>
-      <:title>
-        <div class="flex items-center gap-sm">
-          <.card_icon type={@type} />
-          {@title}
-          <.amenity_badge :if={@disabled}>
-            {if(@type == :accessibility, do: ~t"Not accessible", else: ~t"Not available")}
-          </.amenity_badge>
-          <.card_badge :if={!@disabled} type={@type} stop={@stop} />
-        </div>
-      </:title>
-      <div class="hidden-sm-down mt-sm">{card_description(@type, @stop)}</div>
-    </.descriptive_link>
-    <.dialog_modal modal_id={@modal_id} open={@open}>
-      <:modal_heading>
-        {gettext("%{amenity} at %{name}", amenity: @title, name: @stop.name)}
-      </:modal_heading>
-      {DotcomWeb.AlertView.render("group.html", alerts: @alerts, date_time: @now)}
-
-      <.modal_content type={@type} amenity={@amenity} stop={@stop} fares={@fares} />
-    </.dialog_modal>
-    """
-  end
-
-  attr :bg_class, :string, default: "bg-gray-lighter"
+  attr :health, :float
   slot :inner_block, required: true
 
   defp amenity_badge(assigns) do
+    assigns = assign(assigns, :bg_class, amenity_badge_bg(assigns))
+
     ~H"""
-    <.badge variant="pill" class={"#{@bg_class} c-descriptive-link__badge text-sm font-bold"}>
+    <.badge
+      variant="pill"
+      class={"#{@bg_class} c-descriptive-link__badge text-sm text-black font-bold"}
+    >
       {render_slot(@inner_block)}
     </.badge>
     """
   end
 
-  attr :stop, Stop, required: true
-  attr :type, :atom, required: true
+  defp amenity_badge_bg(%{health: health}) when health == 0, do: "bad"
+  defp amenity_badge_bg(%{health: health}) when health == 1, do: "good"
+  defp amenity_badge_bg(_), do: ""
 
-  defp card_badge(%{type: :fare} = assigns) do
-    ~H""
-  end
-
-  defp card_badge(assigns) do
+  defp amenity_image(assigns) do
     ~H"""
-    <.amenity_badge bg_class="bg-gray-light">
-      Not
-    </.amenity_badge>
+    <img
+      class="img-fluid my-md"
+      src={@src}
+      alt={@alt}
+      style="max-height: 250px;"
+    />
     """
   end
 
-  defp card_description(:accessibility, stop) do
-    if length(stop.accessibility) || DotcomWeb.StopController.accessible?(stop) do
-      gettext("Learn more about the accessibility features at this %{place}.",
-        place: StopView.station_or_stop(stop)
-      )
-    else
-      gettext("This %{place} is not accessible.", place: StopView.station_or_stop(stop))
-    end
-  end
-
-  defp card_description(:parking, stop) do
-    if stop.parking_lots === [] do
-      ~t"This station does not have parking."
-    else
-      # TODO account for if parking lots are closed (via alerts)
-      ~t"View daily rates and facility information."
-    end
-  end
-
-  defp card_description(:bike, stop) do
-    if stop.bike_storage === [] do
-      ~t"This station does not have bike storage."
-    else
-      # TODO account for if bike lots are closed (via alerts)
-      # TODO adjust message based on pedal vs covered vs outdoor
-      ~t"Secured parking is available but requires Charlie Card registration in advance."
-    end
-  end
-
-  defp card_description(type, stop) do
-    type
-    |> Atom.to_string()
-    |> then(&"View available #{&1}.")
-  end
-
-  defp card_icon(%{type: :parking} = assigns) do
+  defp amenity_icon(%{type: :parking} = assigns) do
     ~H"""
-    <.icon aria-hidden="true" name="square-parking" class="size-6 fill-current" />
+    <.icon aria-hidden name="square-parking" class="size-6 fill-current shrink-0" />
     """
   end
 
-  defp card_icon(%{type: type} = assigns) do
+  defp amenity_icon(%{type: type} = assigns) do
     assigns =
       assign_new(assigns, :icon_name, fn ->
         case type do
@@ -132,20 +59,7 @@ defmodule DotcomWeb.Components.Stops do
       end)
 
     ~H"""
-    <.icon aria-hidden="true" type="icon-svg" name={@icon_name} class="size-6 fill-current" />
-    """
-  end
-
-  attr :fares, :list, required: true
-  attr :label, :string
-  attr :id, :string
-
-  def fare_table(assigns) do
-    ~H"""
-    <.table id={@id} rows={@fares}>
-      <:col :let={{name, _}} label={@label}>{name}</:col>
-      <:col :let={{_, price}} label="Cost">{price}</:col>
-    </.table>
+    <.icon aria-hidden type="icon-svg" name={@icon_name} class="size-6 fill-current shrink-0" />
     """
   end
 
@@ -158,58 +72,27 @@ defmodule DotcomWeb.Components.Stops do
     ~H"""
     <.table id={@id} rows={@facilities}>
       <:col :let={facility} label={@label}>{facility.long_name}</:col>
-      <:col :let={facility} label="Status">
-        <%= if @alert_fn.(facility) do %>
-          <div class="flex gap-sm items-center whitespace-nowrap">
+      <:col :let={facility} label={~t"Status"}>
+        <div class="flex gap-sm items-center whitespace-nowrap">
+          <%= if @alert_fn.(facility) do %>
             <.icon name="ban" class="size-3 fill-brand-danger" aria-hidden />{~t"Out of Order"}
-          </div>
-          <p :if={alternative(facility.properties)}>
-            {alternative(facility.properties)}
-          </p>
-        <% else %>
-          <div class="flex gap-sm items-center whitespace-nowrap">
+          <% else %>
             <.icon name="circle" class="size-3 fill-brand-success" aria-hidden />
             {~t"Working"}
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </:col>
     </.table>
     """
   end
 
-  defp alternative(properties) do
-    with %{"value" => alternative_text} <-
-           Enum.find(properties, &(Map.get(&1, "name") == "alternative-service-text")) do
-      alternative_text
-    end
-  end
-
-  attr :amenity, StopAmenity
-  attr :stop, Stop
-  attr :type, :atom
-  attr :fares, :list
-
-  defp modal_content(%{amenity: nil} = assigns) do
-    ~H"""
-    <span>{@type} Content</span>
-    <p>There is no thing</p>
-    """
-  end
-
-  defp modal_content(assigns) do
-    ~H"""
-    <span>{@amenity.type} Content</span>
-    <p>Some extra content just for this</p>
-    """
-  end
-
   attr :is_ios?, :boolean
-  attr :stop, Stop, required: true
+  attr :stop, Stops.Stop, required: true
 
   @doc """
   Link will open Google Maps or Apple Maps on phones.
   """
-  def external_map_link(%{stop: %Stop{}} = assigns) do
+  def external_map_link(assigns) do
     ~H"""
     <a
       href={StopView.google_maps_url(@stop, @is_ios?)}
@@ -217,8 +100,12 @@ defmodule DotcomWeb.Components.Stops do
       rel="noreferrer"
       class="c-call-to-action notranslate"
     >
-      {StopView.stop_address(@stop)}
-      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+      {StopView.address(@stop)}
+      <.icon
+        name="arrow-up-right-from-square"
+        class="size-4 fill-current ml-[2px] -mb-[2px]"
+        aria-hidden
+      />
     </a>
     """
   end
@@ -252,7 +139,9 @@ defmodule DotcomWeb.Components.Stops do
     ~H"""
     <.descriptive_link data-dialog-modal={@id} disabled={@disabled}>
       <:title>
-        {render_slot(@card_title)}
+        <div class="flex items-center gap-sm flex-wrap">
+          {render_slot(@card_title)}
+        </div>
       </:title>
       <div class="hidden-sm-down mt-sm">
         {render_slot(@card_content)}

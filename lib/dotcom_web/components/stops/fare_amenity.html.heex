@@ -5,15 +5,7 @@
   open={@open}
 >
   <:card_title>
-    <div class="flex items-center gap-sm">
-      <.icon
-        aria-hidden="true"
-        type="icon-svg"
-        name="icon-fares-default"
-        class="size-6 fill-current"
-      />
-      {~t"Fare Options"} (TODO badge)
-    </div>
+    <.amenity_icon type={:fare} /> {~t"Fare Options"}
   </:card_title>
   <:card_content>
     {if(@stop.has_fare_machine?,
@@ -25,7 +17,7 @@
     {gettext("Fare Options at %{name}", name: @stop.name)}
   </:modal_heading>
   <:modal_content>
-    <h2>Fare Types</h2>
+    <h2 class="text-xl mb-4">{~t"Fare Types"}</h2>
     <div class="amenity-table">
       <.table id={"fare-#{@stop.id}"} rows={@fares}>
         <:col :let={{name, _}} label={~t"Trip Type"}>{name}</:col>
@@ -33,37 +25,35 @@
       </.table>
     </div>
     <%= if @stop.has_fare_machine? do %>
-      <h2 class="h3 mb-sm">Fare Vending Machines</h2>
-      <img
-        class="img-fluid my-sm"
+      <h2 class="text-xl mb-4">{~t"Fare Vending Machines"}</h2>
+      <.amenity_image
         src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
-        alt="MBTA fare vending machines"
-        style="max-height: 250px;"
+        alt={~t"MBTA fare vending machines"}
       />
-      <p class="m-0">At fare vending machines, you can:</p>
+      <p class="m-0">{~t"At fare vending machines, you can"}:</p>
       <ul>
-        <li>Purchase a CharlieCard or reload an existing one</li>
-        <li>Purchase CharlieTickets</li>
+        <li>{~t"Purchase a CharlieCard or reload an existing one"}</li>
+        <li>{~t"Purchase CharlieTickets"}</li>
       </ul>
-      <p class="m-0">You can pay for your fare with:</p>
+      <p class="m-0">{~t"You can pay for your fare with"}:</p>
       <ul>
-        <li>Apple Pay</li>
-        <li>Google Pay</li>
-        <li>Samsung Pay</li>
-        <li>Credit/debit cards</li>
-        <li>EBT card</li>
-        <li>Cash</li>
+        <li>{~t"Apple Pay"}</li>
+        <li>{~t"Google Pay"}</li>
+        <li>{~t"Samsung Pay"}</li>
+        <li>{~t"Credit/debit cards"}</li>
+        <li>{~t"EBT card"}</li>
+        <li>{~t"Cash"}</li>
       </ul>
     <% else %>
-      <h2 class="h3 mb-sm">Fare Retail Locations</h2>
+      <h2 class="text-xl mb-4">{~t"Fare Retail Locations"}</h2>
       <p class="mt-0">
-        This stop does not have fare vending machines, but you can purchase fares at a
+        {~t"This stop does not have fare vending machines, but you can purchase fares at a"}
         <a href={
           ~p"/fares/retail-sales-locations?#{[location: Map.take(@stop, [:latitude, :longitude, :address])]}"
         }>
-          nearby retail location
+          {~t"nearby retail location"}
         </a>
-        or pay with cash on any bus.
+        {~t"or pay with cash on any bus"}.
       </p>
     <% end %>
     <.amenity_link href={~p"/fares"} text={~t"Learn more about fares"} />

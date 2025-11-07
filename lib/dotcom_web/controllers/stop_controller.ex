@@ -85,8 +85,7 @@ defmodule DotcomWeb.StopController do
           elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
           escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
           accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
-          fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
-          alerts: conn.assigns.alerts
+          fare_amenity: Enum.find(amenities, &(&1.type == :fare))
         })
       end
     else

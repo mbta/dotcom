@@ -12,8 +12,7 @@ defmodule DotcomWeb.StopView do
   alias Phoenix.HTML.Safe
   alias Routes.Route
   alias Stops.Stop
-
-  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+  alias Util.Position
 
   @doc """
   Returns correct svg Icon for the given feature
@@ -48,10 +47,10 @@ defmodule DotcomWeb.StopView do
   end
 
   @doc """
-  A URL to show the stop's location in Google Maps. If on iOS, will open in the Google Maps app.
+  A URL to show a place's location in Google Maps. If on iOS, will open in the Google Maps app.
   """
   @spec google_maps_url(Stop.t() | Stop.ParkingLot.t(), boolean()) :: String.t()
-  def google_maps_url(stop, is_ios?) do
+  def google_maps_url(place, is_ios?) do
     host =
       if(is_ios?,
         do: "maps://www.google.com/maps/search/?",
@@ -59,8 +58,8 @@ defmodule DotcomWeb.StopView do
       )
 
     query =
-      map_query_params(stop)
-      |> Map.put_new_lazy("q", fn -> URI.encode(stop.name) end)
+      map_query_params(place)
+      |> Map.put_new_lazy("q", fn -> URI.encode(place.name) end)
       |> Map.put("api", "1")
       |> URI.encode_query()
 
@@ -69,45 +68,31 @@ defmodule DotcomWeb.StopView do
 
   # google searches lat long via the `query` param
   # apple searches lat long via the `q` param
-  defp map_query_params(%{place_id: nil, name: nil} = stop) do
-    %{"query" => lat_lon(stop), "q" => lat_lon(stop)}
+  defp map_query_params(%{place_id: nil, name: nil} = place) do
+    %{"query" => lat_lon(place), "q" => lat_lon(place)}
   end
 
   # Apple uses a combination of `q` and `sll` to pin locations
   # Google uses a combination of the `query` and `query_place_id` to pin locations
-  defp map_query_params(%{place_id: place_id} = stop) when not is_nil(place_id) do
-    %{"query" => lat_lon(stop), "sll" => lat_lon(stop), "query_place_id" => place_id}
+  defp map_query_params(%{place_id: place_id} = place) when not is_nil(place_id) do
+    %{"query" => lat_lon(place), "sll" => lat_lon(place), "query_place_id" => place_id}
   end
 
-  defp map_query_params(stop) do
-    %{"query" => lat_lon(stop), "sll" => lat_lon(stop)}
+  defp map_query_params(place) do
+    %{"query" => lat_lon(place), "sll" => lat_lon(place)}
   end
 
-  defp lat_lon(%{latitude: lat, longitude: lon}) do
-    "#{lat},#{lon}"
+  defp lat_lon(place) do
+    "#{place.latitude},#{place.longitude}"
   end
 
-  @doc """
-  Bus stops in GTFS generally have no address, so display other fields.
-  """
-  @spec stop_address(Stop.t()) :: String.t() | nil
-  def stop_address(%Stop{address: address}) when is_binary(address), do: address
+  def address(%Stop{address: address}) when is_binary(address), do: address
 
-  def stop_address(%Stop{municipality: municipality, name: name})
+  def address(%Stop{municipality: municipality, name: name})
       when not is_nil(municipality) and not is_nil(name) do
     "#{name}, #{municipality}"
   end
 
-  def stop_address(%Stop{municipality: municipality, name: nil}), do: municipality
-
-  def stop_address(%Stop{municipality: nil, name: name}), do: name
-
-  @doc """
-  Checks if the alerts affect the given facility now.
-  """
-  def facility_in_alerts?(facility_id, alerts) do
-    alerts
-    |> Enum.filter(&Alerts.Match.any_time_match?(&1, @date_time_module.now()))
-    |> Enum.any?(&(facility_id in &1.informed_entity.facility))
-  end
+  def address(%Stop{municipality: municipality, name: nil}), do: municipality
+  def address(%Stop{municipality: nil, name: name}), do: name
 end
