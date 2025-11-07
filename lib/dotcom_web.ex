@@ -45,10 +45,6 @@ defmodule DotcomWeb do
       alias Util.Breadcrumb
 
       plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
-
-      if Mix.env() != :test do
-        use Dotcom.Usage.Functions
-      end
     end
   end
 
