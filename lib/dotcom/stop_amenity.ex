@@ -82,6 +82,13 @@ defmodule Dotcom.StopAmenity do
   defp amenity_for_facility_type(_), do: nil
 
   @doc """
+  Checks if the alerts affect the given amenity now.
+  """
+  def affected_by_alerts?(%__MODULE__{facilities: facilities}, alerts) do
+    Enum.any?(facilities, &Facility.affected_by_alerts?(&1, alerts))
+  end
+
+  @doc """
   Counts number of facilities not impacted by current alerts.
   """
   def num_working_facilities(%__MODULE__{facilities: facilities}, alerts) do
