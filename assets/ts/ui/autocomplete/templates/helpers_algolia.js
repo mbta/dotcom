@@ -90,7 +90,7 @@ export function contentIcon(hit) {
 
   if (hit.search_api_datasource === "entity:file") {
     icon = _fileIcon(hit);
-  } else if (hit._content_url === "/worldcup") {
+  } else if (hit._content_url === "/projects/red-blue-connector") {
     return worldCupIcon();
   } else {
     const iconMapper = {
@@ -397,6 +397,6 @@ const TEMPLATES = {
     `<span class="c-search-result__event-date">{{date}}</span>`
   ),
   worldCupIcon: hogan.compile(
-    `<img src="/icon-svg/football.svg" class="c-search-result__content-icon" />`
+    `<img src="/icon-svg/football.svg" class="c-search-result__content-icon worldcup" />`
   )
 };
