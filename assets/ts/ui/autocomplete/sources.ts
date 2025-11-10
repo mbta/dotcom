@@ -154,41 +154,45 @@ export const algoliaSource = (
   query: string,
   indexesWithParams: Record<string, Record<string, unknown>>[],
   withLink: boolean = true
-): AutocompleteSource<AutocompleteItem> => ({
-  sourceId: "algolia",
-  templates: {
-    item: withLink ? templateWithLink(AlgoliaItemTemplate) : AlgoliaItemTemplate
-  },
-  getItems() {
-    return fetch("/search/query", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        algoliaQuery: query,
-        algoliaIndexesWithParams: indexesWithParams
+): AutocompleteSource<AutocompleteItem> =>
+  ({
+    sourceId: "algolia",
+    templates: {
+      item: withLink
+        ? templateWithLink(AlgoliaItemTemplate)
+        : AlgoliaItemTemplate
+    },
+    getItems() {
+      return fetch("/search/query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          algoliaQuery: query,
+          algoliaIndexesWithParams: indexesWithParams
+        })
       })
+        .then(res => res.json())
+        .then(({ results }) => {
+          // Find World Cup content and move it to the front
+          const worldCupIndex = results.findIndex(
+            (item: AutocompleteItem) =>
+              (item as any)._content_url === "/projects/red-blue-connector" // eslint-disable-line
+          );
+
+          if (worldCupIndex > 0) {
+            // Remove World Cup item from its current position
+            const worldCupItem = results.splice(worldCupIndex, 1)[0];
+            // Add it to the front
+            results.unshift(worldCupItem);
+          }
+
+          return results;
+        })
+        .catch(() => []);
+    },
+    ...(withLink && {
+      getItemUrl: ({ item }) => itemURL(item)
     })
-      .then(res => res.json())
-      .then(({ results }) => {
-        // Find World Cup content and move it to the front
-        const worldCupIndex = results.findIndex((item: AutocompleteItem) => 
-          (item as any)._content_url === "/projects/red-blue-connector"
-        );
-        
-        if (worldCupIndex > 0) {
-          // Remove World Cup item from its current position
-          const worldCupItem = results.splice(worldCupIndex, 1)[0];
-          // Add it to the front
-          results.unshift(worldCupItem);
-        }
-        
-        return results;
-      })
-      .catch(() => []);
-  },
-  ...(withLink && {
-    getItemUrl: ({ item }) => itemURL(item)
-  })
-} as AutocompleteSource<AutocompleteItem>);
+  } as AutocompleteSource<AutocompleteItem>);
