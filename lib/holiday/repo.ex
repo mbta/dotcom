@@ -5,6 +5,8 @@ defmodule Holiday.Repo.Helpers do
 
   """
 
+  use Dotcom.Gettext.Sigils
+
   @doc """
 
   Generates a list of Holidays from the shorthand.
@@ -37,7 +39,7 @@ defmodule Holiday.Repo.Helpers do
   def observe_holiday(%Holiday{date: date} = holiday) do
     # Sunday
     if Date.day_of_week(date) == 7 do
-      [holiday, %{holiday | date: Date.add(date, 1), name: "#{holiday.name} (Observed)"}]
+      [holiday, %{holiday | date: Date.add(date, 1), name: "#{holiday.name} (#{~t"Observed"})"}]
     else
       [holiday]
     end
@@ -57,22 +59,23 @@ end
 
 defmodule Holiday.Repo do
   import Holiday.Repo.Helpers
+  use Dotcom.Gettext.Sigils
   # from https://www.sec.state.ma.us/divisions/cis/holiday-info.htm
-  @start_year 2023
+  @start_year 2025
   @holidays [
               # { name, [{month, day}, {month, day}, ...]},
-              {"New Year’s Day", [{1, 1}, {1, 1}, {1, 1}]},
-              {"Martin Luther King, Jr. Day", [{1, 16}, {1, 15}, {1, 20}]},
-              {"Washington’s Birthday", [{2, 20}, {2, 19}, {2, 17}]},
-              {"Patriots’ Day", [{4, 17}, {4, 15}, {4, 21}]},
-              {"Memorial Day", [{5, 29}, {5, 27}, {5, 26}]},
-              {"Juneteenth Independence Day", [{6, 19}, {6, 19}, {6, 19}]},
-              {"Independence Day", [{7, 4}, {7, 4}, {7, 4}]},
-              {"Labor Day", [{9, 4}, {9, 2}, {9, 1}]},
-              {"Columbus Day", [{10, 9}, {10, 14}, {10, 13}]},
-              {"Veterans Day", [{11, 11}, {11, 11}, {11, 11}]},
-              {"Thanksgiving Day", [{11, 23}, {11, 28}, {11, 27}]},
-              {"Christmas Day", [{12, 25}, {12, 25}, {12, 25}]}
+              {~t"New Year’s Day", [{1, 1}, {1, 1}, {1, 1}]},
+              {~t"Martin Luther King, Jr. Day", [{1, 20}, {1, 19}, {1, 18}]},
+              {~t"Washington’s Birthday", [{2, 17}, {2, 16}, {2, 15}]},
+              {~t"Patriots’ Day", [{4, 21}, {4, 20}, {4, 19}]},
+              {~t"Memorial Day", [{5, 26}, {5, 25}, {5, 31}]},
+              {~t"Juneteenth Independence Day", [{6, 19}, {6, 19}, {6, 19}]},
+              {~t"Independence Day", [{7, 4}, {7, 4}, {7, 4}]},
+              {~t"Labor Day", [{9, 1}, {9, 7}, {9, 6}]},
+              {~t"Columbus Day", [{10, 13}, {10, 12}, {10, 11}]},
+              {~t"Veterans Day", [{11, 11}, {11, 11}, {11, 11}]},
+              {~t"Thanksgiving Day", [{11, 27}, {11, 26}, {11, 25}]},
+              {~t"Christmas Day", [{12, 25}, {12, 25}, {12, 25}]}
             ]
             |> Enum.flat_map(&make_holiday(&1, @start_year))
             |> Enum.flat_map(&observe_holiday/1)
