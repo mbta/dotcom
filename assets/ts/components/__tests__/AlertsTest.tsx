@@ -4,7 +4,6 @@ import renderer from "react-test-renderer";
 import Alerts, { alertLabel, iconForAlert, humanLifecycle } from "../Alerts";
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 import { Alert, InformedEntitySet } from "../../__v3api";
-import { isAmenityAlert } from "../../models/alert";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 /* eslint-disable camelcase */
@@ -207,26 +206,5 @@ describe("iconForAlert", () => {
     expect(JSON.stringify(renderer.create(icon!).toJSON())).toMatch(
       "alerts-triangle"
     );
-  });
-});
-
-describe("isAmenityAlert", () => {
-  it("returns true only when an alert is an amenity", () => {
-    expect(isAmenityAlert({ ...highAlert, effect: "suspension", severity: 4 }))
-      .toBeFalsy;
-    expect(
-      isAmenityAlert({ ...highAlert, effect: "parking_issue", severity: 4 })
-    ).toBeTruthy;
-    expect(
-      isAmenityAlert({ ...highAlert, effect: "elevator_closure", severity: 4 })
-    ).toBeTruthy;
-    expect(
-      isAmenityAlert({ ...highAlert, effect: "escalator_closure", severity: 4 })
-    ).toBeTruthy;
-    expect(
-      isAmenityAlert({ ...highAlert, effect: "parking_closure", severity: 4 })
-    ).toBeTruthy;
-    expect(isAmenityAlert({ ...highAlert, effect: "bike_issue", severity: 4 }))
-      .toBeTruthy;
   });
 });

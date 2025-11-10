@@ -19,8 +19,6 @@ import {
   alertsByDirectionId,
   alertsAffectingBothDirections,
   hasCurrentFacilityAlert,
-  alertsByActivity,
-  alertsByFacility,
   isSuppressiveAlert
 } from "../alert";
 import { add } from "date-fns";
@@ -208,17 +206,6 @@ describe("alertsByStop", () => {
     const alertsForStop = alertsByStop(alerts, "place-sstat");
     expect(alertsForStop).toEqual([alert_two, alert_three]);
   });
-});
-
-test("alertsByActivity finds alerts for a certain activity", () => {
-  const alertWithMatch = {
-    ...alert1,
-    informed_entity: {
-      activities: ["bringing_bike"] as Activity[]
-    } as InformedEntitySet
-  };
-  const alerts = [alert1, alert2, alertWithMatch, alert3, alert4];
-  expect(alertsByActivity(alerts, "bringing_bike")).toEqual([alertWithMatch]);
 });
 
 describe("uniqueByEffect", () => {
@@ -422,34 +409,6 @@ describe("hasCurrentFacilityAlert", () => {
       } as InformedEntitySet
     };
     expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(false);
-  });
-});
-
-describe("alertsByFacility", () => {
-  test("it should return alerts associated with facility", () => {
-    const alert1 = {
-      id: "1234",
-      informed_entity: {
-        facility: ["ele-125"]
-      } as InformedEntitySet
-    };
-    const alerts = [
-      alert1,
-      {
-        id: "4321",
-        informed_entity: {
-          facility: ["ele-234", "ele-123"]
-        } as InformedEntitySet
-      }
-    ] as Alert[];
-
-    const facilities = [
-      {
-        id: "ele-125"
-      } as Facility
-    ] as Facility[];
-
-    expect(alertsByFacility(facilities, alerts)).toEqual([alert1]);
   });
 });
 
