@@ -84,6 +84,14 @@ defmodule Stops.Stop do
   @spec accessible?(t) :: boolean
   def accessible?(%__MODULE__{accessibility: ["accessible" | _]}), do: true
   def accessible?(%__MODULE__{}), do: false
+
+  @spec has_parking?(t) :: boolean
+  def has_parking?(%__MODULE__{parking_lots: parking}),
+    do: Enum.count(parking) > 0
+
+  @spec has_bike_storage?(t) :: boolean
+  def has_bike_storage?(%__MODULE__{bike_storage: bike_storage}),
+    do: Enum.count(bike_storage) > 0
 end
 
 defmodule Stops.Stop.ParkingLot do

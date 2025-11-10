@@ -44,6 +44,11 @@
   @include media-breakpoint-down(md) {  width: 2.280rem; }
   @include media-breakpoint-only(lg) {  width: 3.281rem; }
   @include media-breakpoint-only(xxl) { width: 3.837rem; }
+
+  // if inside a disabled button, don't show caret
+  button[disabled] > & {
+    display: none;
+  }
 }
 
 .c-descriptive-link__caret {

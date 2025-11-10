@@ -17,6 +17,7 @@ defmodule DotcomWeb.StopController do
   alias Stops.Stop
   alias Util.AndOr
 
+  @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -27,6 +28,7 @@ defmodule DotcomWeb.StopController do
         }
 
   plug(:alerts)
+  plug(DotcomWeb.Plugs.DateTime)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
@@ -49,7 +51,7 @@ defmodule DotcomWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop_id}) do
+  def show(conn, %{"id" => stop_id} = params) do
     stop =
       stop_id
       |> URI.decode_www_form()
@@ -65,20 +67,58 @@ defmodule DotcomWeb.StopController do
         one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
         accessible? = accessible?(stop)
 
+        amenities =
+          @facilities_repo.get_for_stop(stop_id)
+          |> Dotcom.StopAmenity.from_stop_facilities(stop.name)
+
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
           stop: stop,
+          amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
           one_way_fares: one_way_fares,
           routes_by_stop: routes_by_stop,
-          accessible?: accessible?
+          accessible?: accessible?,
+          parking_amenity: Enum.find(amenities, &(&1.type == :parking)),
+          bike_amenity: Enum.find(amenities, &(&1.type == :bike)),
+          elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
+          escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
+          accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
+          fare_amenity: Enum.find(amenities, &(&1.type == :fare))
         })
       end
     else
       check_cms_or_404(conn)
     end
   end
+
+  # defp one_way_fares(routes) do
+  #   routes
+  #   |> Enum.map(&Fares.Format.display_fare_class/1)
+  #   |> Enum.uniq()
+  #   # Sort in same order as @display_fare_classes
+  #   |> Enum.sort_by(&Enum.find_index(Fares.Format.display_fare_classes(), fn fc -> fc == &1 end))
+  #   |> Enum.flat_map(fn fare_class ->
+  #     fare_class
+  #     |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
+  #     |> Fares.Format.summarize(Fares.Format.mode_type_for_fare_class(fare_class))
+  #     |> Enum.map(fn summary ->
+  #       name =
+  #         if is_binary(summary.name) do
+  #           summary.name
+  #         else
+  #           Enum.join(summary.name)
+  #         end
+
+  #       # capitalize lowercases every word after the first word in `name`.  This fixes the one edge case for Commuter Rail
+  #       changed_name =
+  #         name |> String.capitalize() |> String.replace("Commuter rail", "Commuter Rail")
+
+  #       {changed_name, Fares.Summary.price_range(summary)}
+  #     end)
+  #   end)
+  # end
 
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
@@ -394,7 +434,7 @@ defmodule DotcomWeb.StopController do
   end
 
   # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
-  defp accessible?(stop) do
+  def accessible?(stop) do
     routes = @routes_repo.by_stop(stop.id)
 
     Enum.member?(stop.accessibility, "accessible") ||

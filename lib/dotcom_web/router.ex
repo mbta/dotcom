@@ -317,7 +317,6 @@ defmodule DotcomWeb.Router do
 
     get("/alerts", AlertController, :show_by_routes)
     get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
-    get("/stop/:stop_id/facilities", FacilitiesController, :get_facilities)
   end
 
   scope "/api", DotcomWeb do

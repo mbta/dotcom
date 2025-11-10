@@ -14,8 +14,69 @@
   <div
     id="react-stop-root"
     data-mbta-stop-id={"#{@stop.id}"}
-    data-mbta-accessible={"#{@accessible?}"}
   >
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="capitalize">
+    {gettext("%{place} Information", place: station_or_stop(@stop))}
+  </h2>
+  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
+  <div class="my-lg grid grid-cols-1 md:gap-md md:grid-cols-2 lg:grid-cols-3 station-amenities">
+    <h3
+      :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
+      class="hidden-md-up"
+    >
+      {~t"Bringing your car or bike"}
+    </h3>
+    <.parking_amenity
+      :if={@stop.station? || Stop.has_parking?(@stop)}
+      stop={@stop}
+      open={@amenity_param == :parking}
+      amenity={@parking_amenity}
+      alerts={alerts_for_amenity(@parking_amenity, @alerts)}
+      date_time={@date_time}
+      is_ios?={Browser.ios?(@conn)}
+    />
+    <.bike_amenity
+      :if={@stop.station? || Stop.has_bike_storage?(@stop)}
+      stop={@stop}
+      open={@amenity_param == :bike}
+      amenity={@bike_amenity}
+      alerts={alerts_for_amenity(@bike_amenity, @alerts)}
+      date_time={@date_time}
+    />
+    <%= if @stop.station? do %>
+      <h3 class="hidden-md-up">Getting around the station</h3>
+      <.elevator_amenity
+        stop={@stop}
+        open={@amenity_param == :elevator}
+        amenity={@elevator_amenity}
+        alerts={alerts_for_amenity(@elevator_amenity, @alerts)}
+        date_time={@date_time}
+      />
+      <.escalator_amenity
+        stop={@stop}
+        open={@amenity_param == :escalator}
+        amenity={@escalator_amenity}
+        alerts={alerts_for_amenity(@escalator_amenity, @alerts)}
+        date_time={@date_time}
+      />
+    <% end %>
+    <.accessibility_amenity
+      stop={@stop}
+      open={@amenity_param == :accessibility}
+      amenity={@accessibility_amenity}
+      accessible?={@accessible?}
+    />
+    <h3 :if={@stop.station?} class="hidden-md-up">Purchasing Fares</h3>
+    <.fare_amenity
+      stop={@stop}
+      open={@amenity_param == :fare}
+      amenity={@fare_amenity}
+      fares={@one_way_fares}
+    />
   </div>
 </div>
 

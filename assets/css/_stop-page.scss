@@ -344,7 +344,22 @@
   .c-descriptive-link__title,
   .c-descriptive-link__badge {
     font-family: $font-family-sans-serif;
-    white-space: nowrap;
+  }
+
+  .c-descriptive-link__badge {
+    @apply bg-gray-lightest;
+  }
+
+  [disabled].c-descriptive-link .c-descriptive-link__badge {
+    @apply bg-gray-lighter;
+  }
+
+  .c-descriptive-link__badge.good {
+    @apply bg-emerald-90;
+  }
+
+  .c-descriptive-link__badge.bad {
+    @apply bg-firebrick-90;
   }
 
   .c-descriptive-link__text {
@@ -365,5 +380,32 @@
   font-size: 1.438rem;
   @include media-breakpoint-down(sm) {
     font-size: 1.125rem;
+  }
+}
+
+.station-amenities {
+  .mbta-modal {
+    /* TODO port to Metro */
+    box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+    width: clamp(100vw, 40rem, 55%);
+  }
+
+  .mbta-table {
+    border: solid .063rem $gray-lightest;
+    margin-bottom: 1rem;
+    table-layout: auto;
+    width: 100%;
+
+    thead tr {
+      background: $brand-primary-darkest;
+      border-bottom: none;
+      color: $white;
+      height: 3.75rem;
+    }
+
+    td {
+      font-size: var(--font-size-sm);
+      padding: var(--spacing-md);
+    }
   }
 }
