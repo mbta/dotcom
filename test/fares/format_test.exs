@@ -1,7 +1,9 @@
 defmodule Fares.FormatTest do
   use ExUnit.Case, async: true
+  use ExUnitProperties
 
   import Fares.Format
+  import Test.Support.Factories.Routes.Route
 
   alias Fares.{Fare, Summary}
 
@@ -274,6 +276,38 @@ defmodule Fares.FormatTest do
       }
 
       assert summarized == expected
+    end
+  end
+
+  describe "display_fare_class/1" do
+    property "always outputs one of the five desired classes" do
+      other_classes = [:free_fare, :special_fare, :unknown_fare]
+
+      check all(
+              route <-
+                StreamData.repeatedly(fn ->
+                  build(:route, fare_class: Faker.Util.pick(other_classes))
+                end)
+            ) do
+        class = display_fare_class(route)
+        refute class in other_classes
+        assert class in display_fare_classes()
+      end
+    end
+  end
+
+  describe "one_way_ranges/1" do
+    property "lists the names and one-way price ranges of each relevant fare for a list of routes" do
+      check all(
+              routes <-
+                StreamData.repeatedly(fn ->
+                  build_list(10, :route)
+                end)
+            ) do
+        [{name, price_range} | _] = one_way_ranges(routes)
+        assert name =~ "one-way"
+        assert String.split(price_range, " – ") |> Enum.all?(&String.starts_with?(&1, "$"))
+      end
     end
   end
 end

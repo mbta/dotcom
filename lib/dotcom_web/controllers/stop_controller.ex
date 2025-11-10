@@ -62,6 +62,7 @@ defmodule DotcomWeb.StopController do
         |> halt()
       else
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
         accessible? = accessible?(stop)
 
         conn
@@ -69,6 +70,7 @@ defmodule DotcomWeb.StopController do
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
           stop: stop,
+          one_way_fares: one_way_fares,
           routes_by_stop: routes_by_stop,
           accessible?: accessible?
         })
