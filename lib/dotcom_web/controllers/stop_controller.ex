@@ -63,7 +63,13 @@ defmodule DotcomWeb.StopController do
         |> redirect(to: stop_path(conn, :show, @stops_repo.get_parent(stop)))
         |> halt()
       else
-        routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        route_directions =
+          @route_patterns_repo.by_stop_id(stop_id)
+          |> Enum.map(&Map.take(&1, [:direction_id, :route_id, :time_desc]))
+          |> Enum.uniq()
+          |> Enum.group_by(&@routes_repo.get(&1.route_id))
+
+        routes_by_stop = Map.keys(route_directions)
         one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
         accessible? = accessible?(stop)
 
@@ -78,7 +84,8 @@ defmodule DotcomWeb.StopController do
           stop: stop,
           amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
           one_way_fares: one_way_fares,
-          routes_by_stop: routes_by_stop,
+          routes_by_stop: Map.keys(route_directions),
+          route_directions: route_directions,
           accessible?: accessible?,
           parking_amenity: Enum.find(amenities, &(&1.type == :parking)),
           bike_amenity: Enum.find(amenities, &(&1.type == :bike)),

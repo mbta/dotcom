@@ -2,6 +2,7 @@ import AlgoliaAutocomplete from "./algolia-autocomplete";
 import ScrollIntoView from "./scroll-into-view";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
+import Predictions from "./predictions";
 
 /**
  * Configurations for usage with [Phoenix LiveView's
@@ -15,7 +16,8 @@ const Hooks = {
   AlgoliaAutocomplete,
   ScrollIntoView,
   TripPlannerForm,
-  TripPlannerMap
+  TripPlannerMap,
+  Predictions
 };
 
 export default Hooks;

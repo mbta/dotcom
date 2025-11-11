@@ -37,8 +37,17 @@ defmodule Predictions.StreamTopic do
     |> do_new(topic)
   end
 
-  def new(_) do
-    {:error, :unsupported_topic}
+  def new(topic) do
+    case String.split(topic, ":") do
+      [route, direction, stop] when direction in ["0", "1"] ->
+        {d, _} = Integer.parse(direction)
+
+        [route: route, direction: d, stop: stop]
+        |> do_new(topic)
+
+      other ->
+        {:error, :unsupported_topic}
+    end
   end
 
   @spec do_new(Store.fetch_keys(), String.t()) :: t() | {:error, term()}
@@ -57,9 +66,21 @@ defmodule Predictions.StreamTopic do
   end
 
   @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
-  defp streams_from_fetch_keys(stop: stop_id) do
-    @route_patterns_repo.by_stop_id(stop_id)
-    |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
+  defp streams_from_fetch_keys(keys) do
+    route = Keyword.get(keys, :route)
+    direction = Keyword.get(keys, :direction)
+
+    if route && not is_nil(direction) do
+      [
+        {Keyword.take(keys, [:route, :direction]),
+         "filter[route]=#{route}&filter[direction_id]=#{direction}"}
+      ]
+    else
+      keys
+      |> Keyword.get(:stop)
+      |> @route_patterns_repo.by_stop_id()
+      |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
+    end
   end
 
   defp to_keys(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do

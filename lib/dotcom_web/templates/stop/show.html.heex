@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div>
+<div :if={false}>
   <div
     id="react-stop-root"
     data-mbta-stop-id={"#{@stop.id}"}
@@ -18,7 +18,63 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container mt-lg">
+  <div class="stop-routes-and-map">
+    <div class="stop-routes">
+      <div class="routes">
+        <div class="mb-sm">
+          <.mode_filters size="small" />
+        </div>
+        <ul class="stop-departures list-unstyled">
+          <li :for={{route, directions} <- @route_directions} class="departure-card">
+            <a
+              class="departure-card__route bg-black text-white notranslate"
+              href={~p"/schedules/#{route.id}"}
+            >
+              <MbtaMetro.Components.SystemIcons.mode_icon
+                mode="subway"
+                class="size-5 fill-green-line"
+              />
+              {route.name}
+            </a>
+            <div class="divide-gray-bordered-background divide-y-[1px]">
+              <div
+                :for={%{direction_id: direction_id, time_desc: time_desc} <- directions}
+                class="flex items-center px-3 py-sm gap-md"
+              >
+                <div class="grow">
+                  <div class="font-heading">
+                    <div class="text-sm flex justify-between">
+                      {Map.get(route.direction_names, direction_id)} {~t(towards)} {Map.get(route.direction_destinations, direction_id)}
+                      <em :if={time_desc}>{time_desc}</em>
+                    </div>
+                  </div>
+                  <div
+                    id={"predictions-#{route.id}-#{direction_id}"}
+                    phx-hook="Predictions"
+                    data-route={route.id}
+                    data-direction={direction_id}
+                    data-stop={@stop.id}
+                  ></div>
+                </div>
+
+                <div>
+                  <.icon name="angle-right" class="w-2" aria-hidden />
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="stop-map hidden-sm-down">
+      <div class="bg-gray text-white w-full h-full">
+        Map will go here
+        <%!-- {live_render(@conn, DotcomWeb.Live.Map, session: %{"routes" => Enum.map(@routes_by_stop, & &1.id)})} --%>
+        <%!-- {live_render(@conn, DotcomWeb.Live.Map)} --%>
+      </div>
+    </div>
+  </div>
   <h2 class="capitalize">
     {gettext("%{place} Information", place: station_or_stop(@stop))}
   </h2>

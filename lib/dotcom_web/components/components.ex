@@ -14,6 +14,7 @@ defmodule DotcomWeb.Components do
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
+  import MbtaMetro.Components.SystemIcons, only: [mode_icon: 1]
 
   embed_templates "layouts/*"
 
@@ -337,6 +338,41 @@ defmodule DotcomWeb.Components do
         <i class="fa fa-angle-right notranslate c-descriptive-link__caret" aria-hidden="true"></i>
       </div>
     </button>
+    """
+  end
+
+  def mode_filters(assigns) do
+    assigns = assign_new(assigns, :size, fn -> :default end)
+
+    ~H"""
+    <div class="grid grid-cols-2 gap-sm md:flex">
+      <.button
+        variant="secondary"
+        size={@size}
+        class="col-span-2 justify-center"
+        phx-value-mode=""
+        phx-click="filter"
+      >
+        {~t"All"}
+      </.button>
+      <.button
+        :for={
+          {value, name} <- [
+            {"subway", ~t"Subway"},
+            {"bus", ~t"Bus"},
+            {"commuter-rail", ~t"Rail"},
+            {"ferry", ~t"Ferry"}
+          ]
+        }
+        size={@size}
+        variant="secondary"
+        class="justify-center"
+        phx-value-mode={value}
+        phx-click="filter"
+      >
+        <.mode_icon mode={value} class="shrink-0" /> {name}
+      </.button>
+    </div>
     """
   end
 end

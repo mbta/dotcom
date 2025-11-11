@@ -4,6 +4,7 @@ defmodule DotcomWeb.PredictionsChannel do
   """
 
   use DotcomWeb, :channel
+  use Dotcom.Gettext.Sigils
 
   require Routes.Route
 
@@ -14,6 +15,7 @@ defmodule DotcomWeb.PredictionsChannel do
   alias Predictions.Prediction
 
   @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
@@ -52,6 +54,33 @@ defmodule DotcomWeb.PredictionsChannel do
         skipped_or_cancelled_subway?(prediction) ||
         departure_exists_in_past?(prediction)
     end)
+    |> sort_and_format()
+  end
+
+  defp sort_and_format(predictions) do
+    predictions
+    |> Enum.sort_by(& &1.time, {:asc, DateTime})
+    |> Enum.take(2)
+    |> Enum.map(fn p ->
+      %{
+        headsign: p.trip.headsign,
+        time: relative_time(p.time)
+      }
+    end)
+  end
+
+  defp relative_time(t) do
+    t = DateTime.shift_zone!(t, @timezone)
+    n = Dotcom.Utils.DateTime.now()
+    case Cldr.DateTime.Interval.greatest_difference(t, n) do
+      {:error, :no_practical_difference} ->
+        ~t"Now"
+      {:ok, :m} ->
+        seconds = DateTime.diff(t, n, :second)
+        Dotcom.Utils.Diff.seconds_to_localized_minutes(seconds)
+      _ ->
+        Dotcom.Utils.Time.format!(t, :hour_12_minutes)
+    end
   end
 
   defp no_trip?(prediction), do: is_nil(prediction.trip)
