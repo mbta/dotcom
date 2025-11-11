@@ -69,7 +69,7 @@ defmodule DotcomWeb.StopController do
 
         amenities =
           @facilities_repo.get_for_stop(stop_id)
-          |> Dotcom.StopAmenity.from_stop_facilities(stop.name)
+          |> Dotcom.StopAmenity.from_stop_facilities()
 
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
@@ -92,33 +92,6 @@ defmodule DotcomWeb.StopController do
       check_cms_or_404(conn)
     end
   end
-
-  # defp one_way_fares(routes) do
-  #   routes
-  #   |> Enum.map(&Fares.Format.display_fare_class/1)
-  #   |> Enum.uniq()
-  #   # Sort in same order as @display_fare_classes
-  #   |> Enum.sort_by(&Enum.find_index(Fares.Format.display_fare_classes(), fn fc -> fc == &1 end))
-  #   |> Enum.flat_map(fn fare_class ->
-  #     fare_class
-  #     |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
-  #     |> Fares.Format.summarize(Fares.Format.mode_type_for_fare_class(fare_class))
-  #     |> Enum.map(fn summary ->
-  #       name =
-  #         if is_binary(summary.name) do
-  #           summary.name
-  #         else
-  #           Enum.join(summary.name)
-  #         end
-
-  #       # capitalize lowercases every word after the first word in `name`.  This fixes the one edge case for Commuter Rail
-  #       changed_name =
-  #         name |> String.capitalize() |> String.replace("Commuter rail", "Commuter Rail")
-
-  #       {changed_name, Fares.Summary.price_range(summary)}
-  #     end)
-  #   end)
-  # end
 
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
