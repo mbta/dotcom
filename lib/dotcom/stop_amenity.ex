@@ -24,23 +24,16 @@ defmodule Dotcom.StopAmenity do
 
   @doc """
   Derive a list of amenities from a list of facilities, where many facilities
-  may be associated with a single amenity. Additionally, trim the name of the
-  facility to avoid repetition, e.g. "Braintree elevator 123 (Platform to
-  lobby)" is simplified to "123 (Platform to lobby)"
+  may be associated with a single amenity.
   """
-  def from_stop_facilities(facilities, stop_name) do
+  def from_stop_facilities(facilities) do
     facilities
     |> Enum.group_by(&amenity_for_facility_type(&1.type))
     |> Enum.map(fn {amenity_type, facilities} ->
       if amenity_type do
-        stop_facility_name = stop_name <> " " <> String.capitalize("#{amenity_type}")
-
         %__MODULE__{
           type: amenity_type,
-          facilities:
-            Enum.map(facilities, fn facility ->
-              Map.update!(facility, :long_name, &String.trim_leading(&1, stop_facility_name))
-            end)
+          facilities: facilities
         }
       end
     end)

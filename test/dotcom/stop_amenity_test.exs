@@ -81,25 +81,5 @@ defmodule Dotcom.StopAmenityTest do
       facilities = Factories.Facilities.Facility.build_list(10, :facility)
       assert [%Dotcom.StopAmenity{} | _] = from_stop_facilities(facilities, "")
     end
-
-    test "simplifies certain facility names" do
-      facility_type = Faker.Util.pick([:elevator, :escalator])
-      stop_name = Faker.Food.spice()
-
-      facilities =
-        Factories.Facilities.Facility.build_list(10, :facility,
-          type: facility_type,
-          long_name: fn ->
-            # e.g. "StopName Elevator blah blah blah"
-            amenity = String.capitalize("#{facility_type}")
-            "#{stop_name} #{amenity} #{Faker.App.name()}"
-          end
-        )
-
-      assert [%Dotcom.StopAmenity{facilities: amenity_facilities} | _] =
-               from_stop_facilities(facilities, stop_name)
-
-      refute Enum.any?(amenity_facilities, &String.starts_with?(&1.long_name, stop_name))
-    end
   end
 end

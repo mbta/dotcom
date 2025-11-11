@@ -70,8 +70,8 @@ defmodule DotcomWeb.Components.Stops do
 
   def facility_table(assigns) do
     ~H"""
-    <.table id={@id} rows={@facilities}>
-      <:col :let={facility} label={@label}>{facility.long_name}</:col>
+    <.table id={@id} rows={Enum.sort_by(@facilities, & &1.id)}>
+      <:col :let={facility} label={@label}>{facility.id} {facility.short_name}</:col>
       <:col :let={facility} label={~t"Status"}>
         <div class="flex gap-sm items-center whitespace-nowrap">
           <%= if @alert_fn.(facility) do %>
