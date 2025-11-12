@@ -12,6 +12,8 @@ defmodule Dotcom.Utils.Enum do
     iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"], ["foo", "bar", "bop"]])
     %{"foo" => %{"bar" => ["baz", "bop"]}}
   """
+  def group_list([]), do: %{}
+
   def group_list(list) do
     list
     |> Enum.map(&list_to_list_of_lists/1)
