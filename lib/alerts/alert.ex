@@ -322,6 +322,11 @@ defmodule Alerts.Alert do
       end
     end)
   end
+
+  @spec routewide?(t()) :: boolean
+  def routewide?(alert) do
+    alert.informed_entity |> Enum.any?(&(!&1.stop && !&1.trip))
+  end
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do

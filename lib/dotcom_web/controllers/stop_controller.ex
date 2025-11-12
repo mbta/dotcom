@@ -6,7 +6,7 @@ defmodule DotcomWeb.StopController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
-  import Alerts.Alert, only: [global_banner_alert?: 1]
+  import Alerts.Alert, only: [global_banner_alert?: 1, routewide?: 1]
   import Dotcom.Alerts.StartTime, only: [active?: 2, active_in_next_n_days?: 3]
 
   alias Alerts.Repo, as: AlertsRepo
@@ -92,10 +92,6 @@ defmodule DotcomWeb.StopController do
     else
       check_cms_or_404(conn)
     end
-  end
-
-  defp routewide?(alert) do
-    alert.informed_entity |> Enum.any?(&(!&1.stop && !&1.trip))
   end
 
   defp banner_alert?(alert, now) do
