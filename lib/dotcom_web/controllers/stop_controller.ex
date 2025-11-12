@@ -121,7 +121,7 @@ defmodule DotcomWeb.StopController do
 
     case StartTime.next_active_time(alert) do
       {:current, _} -> true
-      {:future, start_time} -> start_time |> Date.before?(seven_days_from_now)
+      {:future, start_time} -> start_time |> DateTime.before?(seven_days_from_now)
       _ -> false
     end
   end
