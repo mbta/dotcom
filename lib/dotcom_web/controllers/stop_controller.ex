@@ -68,16 +68,8 @@ defmodule DotcomWeb.StopController do
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
         accessible? = accessible?(stop)
 
-        route_ids = routes_by_stop |> Enum.map(& &1.id)
-
-        all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
-
-        all_routewide_alerts =
-          @alerts_repo.by_route_ids(route_ids, conn.assigns.date_time)
-          |> Enum.filter(&routewide?/1)
-
-        all_alerts = all_alerts_for_stop ++ all_routewide_alerts
-        banner_alerts = all_alerts |> Enum.filter(&banner_alert?(&1, conn.assigns.date_time))
+        banner_alerts =
+          banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
 
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
@@ -92,6 +84,17 @@ defmodule DotcomWeb.StopController do
     else
       check_cms_or_404(conn)
     end
+  end
+
+  defp banner_alerts(stop_id, route_ids, date_time) do
+    all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
+
+    all_routewide_alerts =
+      @alerts_repo.by_route_ids(route_ids, date_time)
+      |> Enum.filter(&routewide?/1)
+
+    (all_alerts_for_stop ++ all_routewide_alerts)
+    |> Enum.filter(&banner_alert?(&1, date_time))
   end
 
   defp banner_alert?(alert, now) do
