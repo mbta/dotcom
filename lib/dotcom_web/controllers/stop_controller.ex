@@ -7,10 +7,10 @@ defmodule DotcomWeb.StopController do
   use DotcomWeb, :controller
 
   import Alerts.Alert, only: [global_banner_alert?: 1]
+  import Dotcom.Alerts.StartTime, only: [active?: 2, active_in_next_n_days?: 3]
 
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
-  alias Dotcom.Alerts.StartTime
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
@@ -99,8 +99,9 @@ defmodule DotcomWeb.StopController do
   end
 
   defp banner_alert?(alert, now) do
-    (banner_alert_effect?(alert) && in_next_7_days?(alert, now) && !global_banner_alert?(alert)) ||
-      active_banner_alert?(alert)
+    (banner_alert_effect?(alert) && active_in_next_n_days?(alert, 7, now) &&
+       !global_banner_alert?(alert)) ||
+      active_banner_alert?(alert, now)
   end
 
   defp banner_alert_effect?(alert) do
@@ -118,21 +119,8 @@ defmodule DotcomWeb.StopController do
     ]
   end
 
-  defp in_next_7_days?(alert, now) do
-    seven_days_from_now = now |> DateTime.shift(day: 7)
-
-    case StartTime.next_active_time(alert) do
-      {:current, _} -> true
-      {:future, start_time} -> start_time |> DateTime.before?(seven_days_from_now)
-      _ -> false
-    end
-  end
-
-  defp active_banner_alert?(alert) do
-    case StartTime.next_active_time(alert) do
-      {:current, _} -> active_banner_alert_effect?(alert)
-      _ -> false
-    end
+  defp active_banner_alert?(alert, now) do
+    active_banner_alert_effect?(alert) && active?(alert, now)
   end
 
   defp active_banner_alert_effect?(alert) do
