@@ -8,6 +8,8 @@ defmodule Dotcom.Utils.Enum do
   The final value in the grouping is always a list.
 
   ## Examples
+    iex> Dotcom.Utils.Enum.group_list([])
+    %{}
 
     iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"], ["foo", "bar", "bop"]])
     %{"foo" => %{"bar" => ["baz", "bop"]}}
