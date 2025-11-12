@@ -546,7 +546,7 @@ defmodule DotcomWeb.ViewHelpers do
 
   def pretty_date(date, style \\ :month_day_short) do
     if date == Util.service_date() do
-      ~t"today"
+      ~t"Today"
     else
       # Require callers to pass a known style atom. Let Dotcom.Utils.Time
       # raise for unknown styles so migration is explicit.
