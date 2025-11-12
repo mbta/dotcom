@@ -336,7 +336,6 @@ defmodule DotcomWeb.StopControllerTest do
       assert conn.assigns.banner_alerts == [alert]
     end
 
-    @tag :skip
     test "does not include future :access_issue or :elevator_closure alerts", %{conn: conn} do
       # Setup
       stop_id = FactoryHelpers.build(:id)

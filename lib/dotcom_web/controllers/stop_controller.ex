@@ -131,6 +131,13 @@ defmodule DotcomWeb.StopController do
   end
 
   defp active_banner_alert?(alert) do
+    case StartTime.next_active_time(alert) do
+      {:current, _} -> active_banner_alert_effect?(alert)
+      _ -> false
+    end
+  end
+
+  defp active_banner_alert_effect?(alert) do
     alert.effect in [
       :access_issue,
       :elevator_closure
