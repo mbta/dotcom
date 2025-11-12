@@ -44,6 +44,8 @@ defmodule Dotcom.Utils.Enum do
   # Then, reduce the tail of the list.
   # If the is a list of lists, recurse.
   # Otherwise, we are at the end and we can process the tail.
+  defp group([]), do: %{}
+
   defp group(list) do
     list
     |> Enum.group_by(&List.first/1, fn l -> l |> Kernel.tl() |> List.flatten() end)
