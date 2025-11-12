@@ -6,6 +6,8 @@ defmodule DotcomWeb.StopController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import Alerts.Alert, only: [global_banner_alert?: 1]
+
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
   alias Dotcom.Alerts.StartTime
@@ -124,10 +126,6 @@ defmodule DotcomWeb.StopController do
       {:future, start_time} -> start_time |> DateTime.before?(seven_days_from_now)
       _ -> false
     end
-  end
-
-  defp global_banner_alert?(alert) do
-    alert.banner != nil
   end
 
   defp active_banner_alert?(alert) do
