@@ -366,7 +366,7 @@ defmodule DotcomWeb.StopControllerTest do
       alert =
         Factories.Alerts.Alert.build(:alert,
           banner: Faker.Lorem.Shakespeare.king_richard_iii(),
-          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+          effect: Faker.Util.pick(@banner_alert_effects)
         )
         |> Factories.Alerts.Alert.active_now()
 

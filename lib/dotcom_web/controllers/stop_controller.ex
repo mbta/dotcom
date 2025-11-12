@@ -95,9 +95,9 @@ defmodule DotcomWeb.StopController do
   end
 
   defp banner_alert?(alert, now) do
-    (banner_alert_effect?(alert) && active_in_next_n_days?(alert, 7, now) &&
-       !global_banner_alert?(alert)) ||
-      active_banner_alert?(alert, now)
+    !global_banner_alert?(alert) &&
+      ((banner_alert_effect?(alert) && active_in_next_n_days?(alert, 7, now)) ||
+         active_banner_alert?(alert, now))
   end
 
   defp banner_alert_effect?(alert) do
