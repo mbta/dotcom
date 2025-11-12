@@ -96,11 +96,14 @@ defmodule DotcomWeb.StopController do
 
   defp banner_alert?(alert, now) do
     !global_banner_alert?(alert) &&
-      ((banner_alert_effect?(alert) && active_in_next_n_days?(alert, 7, now)) ||
-         active_banner_alert?(alert, now))
+      (banner_alert_active_or_future?(alert, now) || banner_alert_active_only?(alert, now))
   end
 
-  defp banner_alert_effect?(alert) do
+  defp banner_alert_active_or_future?(alert, now) do
+    banner_alert_active_or_future_effect?(alert) && active_in_next_n_days?(alert, 7, now)
+  end
+
+  defp banner_alert_active_or_future_effect?(alert) do
     alert.effect in [
       :dock_closure,
       :dock_issue,
@@ -115,11 +118,11 @@ defmodule DotcomWeb.StopController do
     ]
   end
 
-  defp active_banner_alert?(alert, now) do
-    active_banner_alert_effect?(alert) && active?(alert, now)
+  defp banner_alert_active_only?(alert, now) do
+    banner_alert_active_only_effect?(alert) && active?(alert, now)
   end
 
-  defp active_banner_alert_effect?(alert) do
+  defp banner_alert_active_only_effect?(alert) do
     alert.effect in [
       :access_issue,
       :elevator_closure
