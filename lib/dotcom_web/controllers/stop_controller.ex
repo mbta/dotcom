@@ -65,8 +65,13 @@ defmodule DotcomWeb.StopController do
       else
         route_directions =
           @route_patterns_repo.by_stop_id(stop_id)
+          |> Stream.reject(&ends_at?(&1, stop_id))
+          |> Stream.reject(&exclusively_drop_offs?(&1, stop_id))
+          |> Enum.reject(fn rp ->
+            String.starts_with?(rp.id, "Shuttle") && not_serving_today?(rp)
+          end)
           |> Enum.map(&Map.take(&1, [:direction_id, :route_id, :time_desc]))
-          |> Enum.uniq()
+          |> Enum.uniq_by(&Map.take(&1, [:direction_id, :route_id]))
           |> Enum.group_by(&@routes_repo.get(&1.route_id))
 
         routes_by_stop = Map.keys(route_directions)

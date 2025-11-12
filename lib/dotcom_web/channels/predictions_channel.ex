@@ -49,13 +49,16 @@ defmodule DotcomWeb.PredictionsChannel do
   defp filter_new(predictions) do
     predictions
     |> Enum.reject(fn prediction ->
-      no_trip?(prediction) ||
+      is_nil(prediction.time) ||
+        no_trip?(prediction) ||
         missing_departure_time?(prediction) ||
         skipped_or_cancelled_subway?(prediction) ||
         departure_exists_in_past?(prediction)
     end)
     |> sort_and_format()
   end
+
+  defp sort_and_format([]), do: []
 
   defp sort_and_format(predictions) do
     predictions
@@ -72,12 +75,15 @@ defmodule DotcomWeb.PredictionsChannel do
   defp relative_time(t) do
     t = DateTime.shift_zone!(t, @timezone)
     n = Dotcom.Utils.DateTime.now()
+
     case Cldr.DateTime.Interval.greatest_difference(t, n) do
       {:error, :no_practical_difference} ->
         ~t"Now"
+
       {:ok, :m} ->
         seconds = DateTime.diff(t, n, :second)
         Dotcom.Utils.Diff.seconds_to_localized_minutes(seconds)
+
       _ ->
         Dotcom.Utils.Time.format!(t, :hour_12_minutes)
     end

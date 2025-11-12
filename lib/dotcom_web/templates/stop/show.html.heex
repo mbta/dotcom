@@ -28,23 +28,25 @@
         <ul class="stop-departures list-unstyled">
           <li :for={{route, directions} <- @route_directions} class="departure-card">
             <a
-              class="departure-card__route bg-black text-white notranslate"
+              class="departure-card__route notranslate"
+              style={"background-color: ##{route.color}; color: #{if(route.type === 3, do: "black", else: "white")}"}
               href={~p"/schedules/#{route.id}"}
             >
               <MbtaMetro.Components.SystemIcons.mode_icon
-                mode="subway"
-                class="size-5 fill-green-line"
+                mode={Routes.Route.type_atom(route)}
+                class="size-5"
               />
               {route.name}
             </a>
             <div class="divide-gray-bordered-background divide-y-[1px]">
-              <div
+              <a
                 :for={%{direction_id: direction_id, time_desc: time_desc} <- directions}
-                class="flex items-center px-3 py-sm gap-md"
+                class="flex items-center px-3 py-sm gap-md text-current cursor-pointer hover:bg-cobalt-90 active:no-underline hover:no-underline"
+                href={~p"/schedules/#{route.id}/line?#{%{schedule_finder: %{direction_id: direction_id, origin: @stop.id}}}"}
               >
                 <div class="grow">
                   <div class="font-heading">
-                    <div class="text-sm flex justify-between">
+                    <div class="text-sm flex justify-between font-normal">
                       {Map.get(route.direction_names, direction_id)} {~t(towards)} {Map.get(route.direction_destinations, direction_id)}
                       <em :if={time_desc}>{time_desc}</em>
                     </div>
@@ -56,12 +58,9 @@
                     data-direction={direction_id}
                     data-stop={@stop.id}
                   ></div>
+                  <div class="text-xs justify-self-end">See all departures <.icon name="angle-right" class="size-2" aria-hidden /></div>
                 </div>
-
-                <div>
-                  <.icon name="angle-right" class="w-2" aria-hidden />
-                </div>
-              </div>
+              </a>
             </div>
           </li>
         </ul>
