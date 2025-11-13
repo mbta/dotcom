@@ -12,22 +12,22 @@ defmodule Holiday.RepoTest do
   end
 
   describe "by_date/1" do
-    test "returns Christmas Day on 2023-12-25" do
-      date = ~D[2023-12-25]
+    test "returns Christmas Day on 2025-12-25" do
+      date = ~D[2025-12-25]
       assert Holiday.Repo.by_date(date) == [%Holiday{date: date, name: "Christmas Day"}]
     end
 
-    test "returns nothing for 2024-11-01" do
-      date = ~D[2024-11-01]
+    test "returns nothing for 2025-11-01" do
+      date = ~D[2025-11-01]
       assert Holiday.Repo.by_date(date) == []
     end
   end
 
   describe "holidays_in_month/1" do
     test "returns all holidays in the given month" do
-      for date <- [~D[2023-12-01], ~D[2023-12-25], ~D[2023-12-31]] do
+      for date <- [~D[2025-12-01], ~D[2025-12-25], ~D[2025-12-31]] do
         assert Holiday.Repo.holidays_in_month(date) == [
-                 %Holiday{date: ~D[2023-12-25], name: "Christmas Day"}
+                 %Holiday{date: ~D[2025-12-25], name: "Christmas Day"}
                ]
       end
     end
@@ -35,7 +35,7 @@ defmodule Holiday.RepoTest do
 
   describe "following/2" do
     test "returns the holidays in the set after the date" do
-      date = ~D[2023-01-10]
+      date = ~D[2026-01-10]
 
       assert date
              |> Holiday.Repo.following()
