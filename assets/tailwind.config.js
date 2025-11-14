@@ -8,6 +8,8 @@ const { colors: mbtaColors, ...mbtaTheme } = tokens;
 
 const moreColors = {
   ...mbtaColors,
+  current: "currentColor",
+  transparent: "transparent",
   gray: {
     DEFAULT: "#494f5c",
     dark: "#1c1e23",
@@ -19,9 +21,12 @@ const moreColors = {
   "brand-primary": {
     DEFAULT: "#165c96",
     darkest: "#0b2f4c",
+    light: "#5da9e8",
     lightest: "#cee0f4",
     "lightest-contrast": "#e2ecf9"
   },
+  "brand-danger": "#b3000f",
+  "brand-success": "#145a06",
   "logan-express": {
     BB: "#f16823",
     BT: "#0066cc",

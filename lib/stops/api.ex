@@ -383,6 +383,26 @@ defmodule Stops.Api do
           | :fare_vending_retailer
           | :other
 
+  def gtfs_facility_types do
+    [
+      :elevator,
+      :escalator,
+      :ramp,
+      :elevated_subplatform,
+      :fully_elevated_platform,
+      :portable_boarding_lift,
+      :bridge_plate,
+      :parking_area,
+      :pick_drop,
+      :taxi_stand,
+      :bike_storage,
+      :tty_phone,
+      :electric_car_chargers,
+      :fare_vending_retailer,
+      :other
+    ]
+  end
+
   @spec facility_atom_from_string(String.t()) :: gtfs_facility_type
   def facility_atom_from_string("ELEVATOR"), do: :elevator
   def facility_atom_from_string("ESCALATOR"), do: :escalator

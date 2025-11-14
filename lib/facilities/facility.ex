@@ -3,6 +3,8 @@ defmodule Facilities.Facility do
   A single amenity for a stop or station such as elevators, escalators, parking lots, and bike storage.
   """
 
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   defstruct [:id, :type, :short_name, :long_name, :latitude, :longitude, :properties]
 
   @type id_t :: String.t()
@@ -33,5 +35,14 @@ defmodule Facilities.Facility do
       longitude: item.attributes["longitude"],
       properties: item.attributes["properties"]
     }
+  end
+
+  @doc """
+  Returns true if any of the given alerts impacts the given facility
+  """
+  def affected_by_alerts?(%__MODULE__{id: facility_id}, alerts) do
+    alerts
+    |> Enum.filter(&Alerts.Match.any_time_match?(&1, @date_time_module.now()))
+    |> Enum.any?(&(facility_id in &1.informed_entity.facility))
   end
 end

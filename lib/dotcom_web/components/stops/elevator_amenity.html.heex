@@ -1,0 +1,40 @@
+<.base_amenity amenity={@amenity} id={"elevator-amenity-#{@stop.id}"} open={@open}>
+  <:card_title>
+    <.amenity_icon type={:elevator} />
+    {~t"Elevators"}
+    <%= if is_nil(@amenity) do %>
+      <.amenity_badge>{~t"Not available"}</.amenity_badge>
+    <% else %>
+      <% x = Enum.count(@amenity.facilities)
+      y = Dotcom.StopAmenity.num_working_facilities(@amenity, @alerts) %>
+      <.amenity_badge health={y / x}>
+        {gettext("%{y} of %{x} working", y: y, x: x)}
+      </.amenity_badge>
+    <% end %>
+  </:card_title>
+  <:card_content>
+    {if(is_nil(@amenity) || @amenity.facilities == [],
+      do: ~t"This station does not have elevators.",
+      else: ~t"View available elevators."
+    )}
+  </:card_content>
+  <:modal_heading>
+    {gettext("Elevators at %{name}", name: @stop.name)}
+  </:modal_heading>
+  <:modal_content :if={@amenity}>
+    {DotcomWeb.AlertView.render("group.html",
+      alerts: @alerts,
+      date_time: @date_time
+    )}
+    <div class="amenity-table">
+      <.facility_table
+        id={"elevator-facilities-#{@stop.id}"}
+        label={~t"Elevator"}
+        facilities={@amenity.facilities}
+        alert_fn={&Facilities.Facility.affected_by_alerts?(&1, @alerts)}
+      />
+    </div>
+    <.amenity_link href={~p"/accessibility/trip-planning"} text={~t"Plan an accessible trip"} />
+    <.amenity_link href={~p"/customer-support"} text={~t"Report an elevator issue"} />
+  </:modal_content>
+</.base_amenity>

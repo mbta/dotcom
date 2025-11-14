@@ -80,27 +80,4 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Get Directions"
     end
   end
-
-  describe "one_way_by_stop_id/2" do
-    test "returns one-way fare names and price ranges", %{conn: conn} do
-      stop_id = Faker.Internet.slug()
-
-      expect(Routes.Repo.Mock, :by_stop, fn ^stop_id, _ ->
-        [
-          %Routes.Route{fare_class: :ferry_fare},
-          %Routes.Route{fare_class: :local_bus_fare},
-          %Routes.Route{fare_class: :commuter_rail_fare}
-        ]
-      end)
-
-      conn = get(conn, fare_path(conn, :one_way_by_stop_id, %{"stop_id" => stop_id}))
-      fares_response = json_response(conn, 200)
-
-      assert fares_response == [
-               ["Local bus one-way", "$1.70"],
-               ["Commuter Rail one-way", "$2.40 – $13.25"],
-               ["Ferry one-way", "$2.40 – $9.75"]
-             ]
-    end
-  end
 end

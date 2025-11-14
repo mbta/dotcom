@@ -47,7 +47,7 @@ msgstr ""
 msgid " at "
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:388
+#: lib/dotcom_web/controllers/stop_controller.ex:430
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr ""
@@ -276,7 +276,7 @@ msgid_plural "%{count} stops"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/fares/format.ex:114
+#: lib/fares/format.ex:115
 #, elixir-autogen, elixir-format
 msgid "1-Day Pass"
 msgstr ""
@@ -289,8 +289,8 @@ msgstr ""
 
 #: lib/dotcom_web/views/fare_view.ex:47
 #: lib/dotcom_web/views/fare_view.ex:70
-#: lib/fares/format.ex:62
-#: lib/fares/format.ex:113
+#: lib/fares/format.ex:63
+#: lib/fares/format.ex:114
 #, elixir-autogen, elixir-format
 msgid "7-Day Pass"
 msgstr ""
@@ -301,12 +301,12 @@ msgstr ""
 msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr ""
 
-#: lib/fares/format.ex:101
+#: lib/fares/format.ex:102
 #, elixir-autogen, elixir-format
 msgid "ADA Ride"
 msgstr ""
 
-#: lib/fares/format.ex:115
+#: lib/fares/format.ex:116
 #, elixir-autogen, elixir-format
 msgid "ADA Ride Fare"
 msgstr ""
@@ -336,6 +336,7 @@ msgstr ""
 msgid "Access Issues"
 msgstr ""
 
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:9
 #: lib/dotcom_web/templates/page/_important_links.html.heex:7
 #: lib/dotcom_web/views/layout_view.ex:66
 #, elixir-autogen, elixir-format
@@ -449,7 +450,7 @@ msgstr ""
 msgid "All Updates"
 msgstr ""
 
-#: lib/fares/format.ex:184
+#: lib/fares/format.ex:185
 #, elixir-autogen, elixir-format
 msgid "All ferry routes"
 msgstr ""
@@ -675,6 +676,8 @@ msgstr ""
 msgid "Careers"
 msgstr ""
 
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:45
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:53
 #: lib/fares/retail_locations_data.ex:91
 #, elixir-autogen, elixir-format
 msgid "Cash"
@@ -700,7 +703,7 @@ msgstr ""
 msgid "Changes"
 msgstr ""
 
-#: lib/fares/format.ex:87
+#: lib/fares/format.ex:88
 #, elixir-autogen, elixir-format
 msgid "Charlestown Ferry"
 msgstr ""
@@ -715,7 +718,7 @@ msgstr ""
 msgid "Charlie Service Center"
 msgstr ""
 
-#: lib/fares/format.ex:33
+#: lib/fares/format.ex:34
 #, elixir-autogen, elixir-format
 msgid "CharlieCard"
 msgstr ""
@@ -727,8 +730,8 @@ msgstr ""
 msgid "CharlieCards & Tickets"
 msgstr ""
 
-#: lib/fares/format.ex:34
 #: lib/fares/format.ex:35
+#: lib/fares/format.ex:36
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr ""
@@ -779,7 +782,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: lib/fares/format.ex:94
+#: lib/fares/format.ex:95
 #, elixir-autogen, elixir-format
 msgid "Commuter Ferry to Logan Airport"
 msgstr ""
@@ -796,7 +799,7 @@ msgstr ""
 msgid "Commuter Rail"
 msgstr ""
 
-#: lib/fares/format.ex:186
+#: lib/fares/format.ex:187
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail "
 msgstr ""
@@ -887,12 +890,13 @@ msgstr ""
 msgid "Create an Account"
 msgstr ""
 
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:51
 #: lib/fares/retail_locations_data.ex:94
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr ""
 
-#: lib/fares/format.ex:88
+#: lib/fares/format.ex:89
 #, elixir-autogen, elixir-format
 msgid "Cross Harbor Ferry"
 msgstr ""
@@ -943,7 +947,7 @@ msgstr ""
 msgid "Date and Time"
 msgstr ""
 
-#: lib/fares/format.ex:58
+#: lib/fares/format.ex:59
 #, elixir-autogen, elixir-format
 msgid "Day Pass"
 msgstr ""
@@ -1068,7 +1072,7 @@ msgstr ""
 msgid "Early Departure Stop"
 msgstr ""
 
-#: lib/fares/format.ex:89
+#: lib/fares/format.ex:90
 #, elixir-autogen, elixir-format
 msgid "East Boston Ferry"
 msgstr ""
@@ -1080,6 +1084,8 @@ msgid "Eastbound"
 msgstr ""
 
 #: lib/alerts/alert.ex:213
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:45
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Elevator"
 msgstr ""
@@ -1216,6 +1222,7 @@ msgid "Error"
 msgstr ""
 
 #: lib/alerts/alert.ex:213
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Escalator"
 msgstr ""
@@ -1265,7 +1272,7 @@ msgstr ""
 msgid "Explore stations by mode"
 msgstr ""
 
-#: lib/fares/format.ex:86
+#: lib/fares/format.ex:87
 #, elixir-autogen, elixir-format
 msgid "Express Bus"
 msgstr ""
@@ -1306,7 +1313,7 @@ msgstr ""
 msgid "Fare Policy"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:116
+#: lib/dotcom_web/controllers/fare_controller.ex:106
 #: lib/dotcom_web/views/layout_view.ex:89
 #, elixir-autogen, elixir-format
 msgid "Fare Transformation"
@@ -1317,7 +1324,7 @@ msgstr ""
 msgid "Fare Vending Machine"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:127
+#: lib/dotcom_web/controllers/fare_controller.ex:117
 #: lib/dotcom_web/templates/mode/hub.html.heex:33
 #: lib/dotcom_web/templates/mode/index.html.heex:37
 #: lib/dotcom_web/templates/page/_fares_passes.html.heex:4
@@ -1363,7 +1370,7 @@ msgstr ""
 msgid "Ferry"
 msgstr ""
 
-#: lib/fares/format.ex:187
+#: lib/fares/format.ex:188
 #, elixir-autogen, elixir-format
 msgid "Ferry "
 msgstr ""
@@ -1491,7 +1498,7 @@ msgstr ""
 msgid "For regular weekday service to Foxboro please visit: "
 msgstr ""
 
-#: lib/fares/format.ex:97
+#: lib/fares/format.ex:98
 #, elixir-autogen, elixir-format
 msgid "Foxboro Special Event"
 msgstr ""
@@ -1502,14 +1509,14 @@ msgid "Franklin Line"
 msgstr ""
 
 #: lib/dotcom_web/views/schedule_view.ex:357
-#: lib/fares/format.ex:16
-#: lib/fares/format.ex:18
+#: lib/fares/format.ex:17
+#: lib/fares/format.ex:19
 #, elixir-autogen, elixir-format
 msgid "Free"
 msgstr ""
 
 #: lib/dotcom_web/views/helpers.ex:242
-#: lib/fares/format.ex:99
+#: lib/fares/format.ex:100
 #, elixir-autogen, elixir-format
 msgid "Free Service"
 msgstr ""
@@ -1524,7 +1531,7 @@ msgstr ""
 msgid "From"
 msgstr ""
 
-#: lib/fares/format.ex:92
+#: lib/fares/format.ex:93
 #, elixir-autogen, elixir-format
 msgid "Georges Island"
 msgstr ""
@@ -1600,7 +1607,7 @@ msgstr ""
 msgid "Hide Details"
 msgstr ""
 
-#: lib/fares/format.ex:93
+#: lib/fares/format.ex:94
 #, elixir-autogen, elixir-format
 msgid "Hingham/Hull Ferry"
 msgstr ""
@@ -1687,17 +1694,17 @@ msgstr ""
 msgid "Intended Audience"
 msgstr ""
 
-#: lib/fares/format.ex:96
+#: lib/fares/format.ex:97
 #, elixir-autogen, elixir-format
 msgid "Interzone %{zone}"
 msgstr ""
 
-#: lib/fares/format.ex:78
+#: lib/fares/format.ex:79
 #, elixir-autogen, elixir-format
 msgid "Invalid Duration"
 msgstr ""
 
-#: lib/fares/format.ex:103
+#: lib/fares/format.ex:104
 #, elixir-autogen, elixir-format
 msgid "Invalid Fare"
 msgstr ""
@@ -1833,7 +1840,7 @@ msgstr ""
 msgid "Lobby inside Back Bay station"
 msgstr ""
 
-#: lib/fares/format.ex:85
+#: lib/fares/format.ex:86
 #, elixir-autogen, elixir-format
 msgid "Local Bus"
 msgstr ""
@@ -1856,7 +1863,7 @@ msgstr ""
 
 #: lib/dotcom_web/components/route_symbols.ex:245
 #: lib/dotcom_web/views/helpers.ex:233
-#: lib/fares/format.ex:105
+#: lib/fares/format.ex:106
 #, elixir-autogen, elixir-format
 msgid "Logan Express"
 msgstr ""
@@ -1872,7 +1879,7 @@ msgstr ""
 msgid "Lost and Found"
 msgstr ""
 
-#: lib/fares/format.ex:90
+#: lib/fares/format.ex:91
 #, elixir-autogen, elixir-format
 msgid "Lynn Ferry"
 msgstr ""
@@ -2074,8 +2081,8 @@ msgstr ""
 
 #: lib/dotcom_web/views/helpers.ex:236
 #: lib/dotcom_web/views/helpers.ex:238
-#: lib/fares/format.ex:104
-#: lib/fares/format.ex:106
+#: lib/fares/format.ex:105
+#: lib/fares/format.ex:107
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle"
 msgstr ""
@@ -2183,23 +2190,23 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
 #: lib/dotcom_web/views/fare_view.ex:51
-#: lib/fares/format.ex:110
+#: lib/fares/format.ex:111
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
 msgstr ""
 
 #: lib/dotcom_web/views/fare_view.ex:66
-#: lib/fares/format.ex:111
+#: lib/fares/format.ex:112
 #, elixir-autogen, elixir-format
 msgid "Monthly Local Bus Pass"
 msgstr ""
 
-#: lib/fares/format.ex:73
+#: lib/fares/format.ex:74
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass"
 msgstr ""
 
-#: lib/fares/format.ex:71
+#: lib/fares/format.ex:72
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass on mTicket App"
 msgstr ""
@@ -2330,6 +2337,7 @@ msgstr ""
 msgid "Northbound"
 msgstr ""
 
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:10
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:78
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex:176
 #, elixir-autogen, elixir-format
@@ -2373,12 +2381,12 @@ msgstr ""
 msgid "Oh no! We're experiencing delays."
 msgstr ""
 
-#: lib/fares/format.ex:54
+#: lib/fares/format.ex:55
 #, elixir-autogen, elixir-format
 msgid "One-Day Pass"
 msgstr ""
 
-#: lib/fares/format.ex:46
+#: lib/fares/format.ex:47
 #, elixir-autogen, elixir-format
 msgid "One-Way"
 msgstr ""
@@ -2486,6 +2494,7 @@ msgstr ""
 
 #: lib/dotcom/alerts/commuter_rail.ex:18
 #: lib/dotcom/alerts/subway.ex:17
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:4
 #: lib/dotcom_web/components/transit_icons.ex:25
 #: lib/dotcom_web/templates/page/_important_links.html.heex:63
 #: lib/dotcom_web/views/layout_view.ex:62
@@ -2664,12 +2673,12 @@ msgstr ""
 msgid "Prefer accessible routes"
 msgstr ""
 
-#: lib/fares/format.ex:102
+#: lib/fares/format.ex:103
 #, elixir-autogen, elixir-format
 msgid "Premium Ride"
 msgstr ""
 
-#: lib/fares/format.ex:116
+#: lib/fares/format.ex:117
 #, elixir-autogen, elixir-format
 msgid "Premium Ride Fare"
 msgstr ""
@@ -2701,7 +2710,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:119
+#: lib/dotcom_web/controllers/fare_controller.ex:109
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Proposed Sales Locations"
@@ -2793,7 +2802,7 @@ msgstr ""
 msgid "Request Public Records"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:128
+#: lib/dotcom_web/controllers/fare_controller.ex:118
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:4
 #: lib/dotcom_web/views/layout_view.ex:108
 #, elixir-autogen, elixir-format
@@ -2815,7 +2824,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: lib/fares/format.ex:50
+#: lib/fares/format.ex:51
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
 msgstr ""
@@ -2996,7 +3005,7 @@ msgstr ""
 msgid "Send Us Feedback"
 msgstr ""
 
-#: lib/fares/format.ex:39
+#: lib/fares/format.ex:40
 #, elixir-autogen, elixir-format
 msgid "Senior CharlieCard or TAP ID"
 msgstr ""
@@ -3076,8 +3085,8 @@ msgid "Showing major stops."
 msgstr ""
 
 #: lib/alerts/alert.ex:229
-#: lib/fares/format.ex:100
-#: lib/fares/format.ex:109
+#: lib/fares/format.ex:101
+#: lib/fares/format.ex:110
 #, elixir-autogen, elixir-format
 msgid "Shuttle"
 msgstr ""
@@ -3203,7 +3212,7 @@ msgstr ""
 msgid "Southbound"
 msgstr ""
 
-#: lib/fares/format.ex:40
+#: lib/fares/format.ex:41
 #, elixir-autogen, elixir-format
 msgid "Special Event Ticket"
 msgstr ""
@@ -3230,13 +3239,13 @@ msgstr ""
 msgid "Station Issue"
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:370
+#: lib/dotcom_web/controllers/stop_controller.ex:412
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:46
-#: lib/dotcom_web/controllers/stop_controller.ex:355
+#: lib/dotcom_web/controllers/stop_controller.ex:48
+#: lib/dotcom_web/controllers/stop_controller.ex:397
 #: lib/dotcom_web/templates/stop/index.html.heex:22
 #: lib/dotcom_web/templates/stop/index.html.heex:42
 #: lib/dotcom_web/views/page_view.ex:178
@@ -3283,7 +3292,7 @@ msgstr ""
 msgid "Student"
 msgstr ""
 
-#: lib/fares/format.ex:41
+#: lib/fares/format.ex:42
 #, elixir-autogen, elixir-format
 msgid "Student CharlieCard"
 msgstr ""
@@ -3306,7 +3315,7 @@ msgstr ""
 #: lib/dotcom_web/views/helpers.ex:227
 #: lib/dotcom_web/views/layout_view.ex:48
 #: lib/dotcom_web/views/page_view.ex:193
-#: lib/fares/format.ex:84
+#: lib/fares/format.ex:85
 #, elixir-autogen, elixir-format
 msgid "Subway"
 msgstr ""
@@ -3829,7 +3838,7 @@ msgstr ""
 msgid "View all projects"
 msgstr ""
 
-#: lib/dotcom_web/controllers/fare_controller.ex:202
+#: lib/dotcom_web/controllers/fare_controller.ex:127
 #, elixir-autogen, elixir-format
 msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
 msgstr ""
@@ -3922,8 +3931,8 @@ msgstr ""
 msgid "Wednesday"
 msgstr ""
 
-#: lib/fares/format.ex:66
-#: lib/fares/format.ex:112
+#: lib/fares/format.ex:67
+#: lib/fares/format.ex:113
 #, elixir-autogen, elixir-format
 msgid "Weekend Pass"
 msgstr ""
@@ -3950,7 +3959,7 @@ msgstr ""
 msgid "When"
 msgstr ""
 
-#: lib/fares/format.ex:91
+#: lib/fares/format.ex:92
 #, elixir-autogen, elixir-format
 msgid "Winthrop/Quincy Ferry"
 msgstr ""
@@ -4001,12 +4010,12 @@ msgid "Zone"
 msgstr ""
 
 #: lib/dotcom_web/components/transit_icons.ex:36
-#: lib/fares/format.ex:95
+#: lib/fares/format.ex:96
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
 msgstr ""
 
-#: lib/fares/format.ex:183
+#: lib/fares/format.ex:184
 #, elixir-autogen, elixir-format
 msgid "Zones 1A-10"
 msgstr ""
@@ -4073,7 +4082,7 @@ msgstr ""
 msgid "bus stop"
 msgstr ""
 
-#: lib/fares/format.ex:32
+#: lib/fares/format.ex:33
 #, elixir-autogen, elixir-format
 msgid "cash"
 msgstr ""
@@ -4088,7 +4097,7 @@ msgstr ""
 msgid "changes"
 msgstr ""
 
-#: lib/fares/format.ex:36
+#: lib/fares/format.ex:37
 #, elixir-autogen, elixir-format
 msgid "contactless payment"
 msgstr ""
@@ -4155,7 +4164,7 @@ msgid "line"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:29
-#: lib/fares/format.ex:37
+#: lib/fares/format.ex:38
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr ""
@@ -4205,7 +4214,7 @@ msgstr ""
 msgid "outbound"
 msgstr ""
 
-#: lib/fares/format.ex:38
+#: lib/fares/format.ex:39
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr ""
@@ -4215,7 +4224,7 @@ msgstr ""
 msgid "planned"
 msgstr ""
 
-#: lib/fares/format.ex:23
+#: lib/fares/format.ex:24
 #, elixir-autogen, elixir-format
 msgid "reduced fare card"
 msgstr ""
@@ -4256,6 +4265,7 @@ msgid "south"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex:165
+#: lib/dotcom_web/views/stop_view.ex:45
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr ""
@@ -4386,4 +4396,537 @@ msgstr ""
 #: lib/dotcom_web/views/customer_support_view.ex:110
 #, elixir-autogen, elixir-format
 msgid "Bus Other"
+msgstr ""
+
+#: lib/dotcom_web/templates/stop/show.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "%{place} Information"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:11
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "%{y} of %{x} working"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "2 areas where wheeled mobility devices can be secured"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:88
+#, elixir-autogen, elixir-format
+msgid "Accessibility Resources"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Accessibility at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Apple Pay"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "At fare vending machines, you can"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Bike Storage"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Bike Storage at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/templates/stop/show.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "Bringing your car or bike"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:59
+#, elixir-autogen, elixir-format
+msgid "Bus Features"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:61
+#, elixir-autogen, elixir-format
+msgid "Buses that can be lowered for easier boarding and exiting"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:79
+#, elixir-autogen, elixir-format
+msgid "Call"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Cost"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks are available"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Credit/debit cards"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Daily"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Digital displays and automated announcements that share key route and stop info"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "EBT card"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Elevators"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Elevators at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Escalator (down only)"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Escalator (up and down)"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Escalator (up only)"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Escalators"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Escalators at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:37
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:60
+#, elixir-autogen, elixir-format
+msgid "Facility Information"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Fare Options"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Fare Options at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "Fare Retail Locations"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Fare Types"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Fare Vending Machines"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:45
+#, elixir-autogen, elixir-format
+msgid "Free Pedal and Park secured parking"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Full high level platform to provide level boarding to every car in a train set"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:55
+#, elixir-autogen, elixir-format
+msgid "Get an invoice in the mail for a $1 fee"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:89
+#, elixir-autogen, elixir-format
+msgid "Get directions to this parking facility"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "Google Pay"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:81
+#, elixir-autogen, elixir-format
+msgid "Learn more about accessibility on the T"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:59
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike parking at the T"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike storage at this station."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:86
+#, elixir-autogen, elixir-format
+msgid "Learn more about bus accessibility"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:59
+#, elixir-autogen, elixir-format
+msgid "Learn more about fares"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:76
+#, elixir-autogen, elixir-format
+msgid "Learn more about ferry accessibility"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:93
+#, elixir-autogen, elixir-format
+msgid "Learn more about parking at the T"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares and eligibility"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Learn more about the accessibility features at this %{place}."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Long ramp"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "MBTA Pedal and Park bike storage"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "MBTA fare vending machines"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Managed by"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "Mini high level platform to provide level boarding to certain cars in a train set"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Monthly"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Not available"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "Onboard ramps at the front door of each bus"
+msgstr ""
+
+#: lib/dotcom_web/components/stops.ex:78
+#, elixir-autogen, elixir-format
+msgid "Out of Order"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks are available"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Overnight"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Parking Rates"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Parking at %{name}"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Payment Methods"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:92
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:37
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Plan an accessible trip"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Portable boarding lift"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Purchase CharlieTickets"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:35
+#, elixir-autogen, elixir-format
+msgid "Purchase a CharlieCard or reload an existing one"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at fare vending machines."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at nearby retail sales locations."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:55
+#, elixir-autogen, elixir-format
+msgid "Register your CharlieCard for bike parking"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:71
+#, elixir-autogen, elixir-format
+msgid "Report an accessibility issue"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Report an elevator issue"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Report an escalator issue"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Samsung Pay"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Secured parking is available but requires Charlie Card registration in advance."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Station Features"
+msgstr ""
+
+#: lib/dotcom_web/components/stops.ex:75
+#, elixir-autogen, elixir-format
+msgid "Status"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "TTY Phone"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:9
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Temporarily closed"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:53
+#, elixir-autogen, elixir-format
+msgid "There are no additional accessibility features, but buses are always accessible to board."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "This %{place} is not accessible."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "This station does not have bike storage."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "This station does not have elevators."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "This station does not have escalators."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "This station does not have parking."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "This stop does not have fare vending machines, but you can purchase fares at a"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Trip Type"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Use"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "View available elevators."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "View available escalators."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:92
+#, elixir-autogen, elixir-format
+msgid "View more payment information"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "View parking rates, facility information, and more."
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Visit"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:97
+#, elixir-autogen, elixir-format
+msgid "Visit the Mobility Center"
+msgstr ""
+
+#: lib/dotcom_web/components/stops.ex:81
+#, elixir-autogen, elixir-format
+msgid "Working"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "You can pay for your fare with"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "accessible spots"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "location"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "nearby retail location"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "or pay with cash on any bus"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:47
+#, elixir-autogen, elixir-format
+msgid "registration in advance"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:45
+#, elixir-autogen, elixir-format
+msgid "requires"
+msgstr ""
+
+#: lib/dotcom_web/views/stop_view.ex:45
+#, elixir-autogen, elixir-format
+msgid "stop"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "total parking spots"
+msgstr ""
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:75
+#, elixir-autogen, elixir-format
+msgid "website"
 msgstr ""
