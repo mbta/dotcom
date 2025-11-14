@@ -46,7 +46,6 @@ RUN apk add curl
 RUN apk add libssl3
 
 COPY --from=builder /home/_build /home/_build
-COPY --from=builder /tmp/.functions /tmp/.functions
 
 # RUN
 EXPOSE 4000
