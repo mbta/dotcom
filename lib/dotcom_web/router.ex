@@ -307,8 +307,9 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
-    live_session :system_status, layout: {DotcomWeb.LayoutView, :preview} do
+    live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/system-status", Live.SystemStatus
+      live "/schedules/:route_id/:direction_id", Live.ScheduleFinder
     end
   end
 

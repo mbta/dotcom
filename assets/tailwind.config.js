@@ -8,6 +8,8 @@ const { colors: mbtaColors, ...mbtaTheme } = tokens;
 
 const moreColors = {
   ...mbtaColors,
+  current: "currentColor",
+  transparent: "transparent",
   gray: {
     DEFAULT: "#494f5c",
     dark: "#1c1e23",
