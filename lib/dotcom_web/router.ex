@@ -282,6 +282,7 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
+    live_dashboard("/dashboard")
   end
 
   if Mix.env() == :dev do
