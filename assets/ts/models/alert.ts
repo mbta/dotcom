@@ -241,10 +241,6 @@ export const hasAnActiveDiversion = (
   alerts: Alert[]
 ): boolean => alertsByStop(alerts, stopId).some(isActiveDiversion);
 
-export const isGlobalBannerAlert = (alert: Alert): boolean => {
-  return alert.banner != null;
-};
-
 export const hasCurrentFacilityAlert = (
   facilityId: string,
   alerts: Alert[]

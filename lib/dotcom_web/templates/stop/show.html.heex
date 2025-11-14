@@ -10,6 +10,16 @@
   </div>
 </div>
 
+<div class="container">
+  <div class="page-section">
+    {DotcomWeb.AlertView.render(
+      "group.html",
+      alerts: @banner_alerts,
+      date_time: @date_time
+    )}
+  </div>
+</div>
+
 <div>
   <div
     id="react-stop-root"
