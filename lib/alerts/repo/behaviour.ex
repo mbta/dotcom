@@ -21,6 +21,11 @@ defmodule Alerts.Repo.Behaviour do
   @callback by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
 
   @doc """
+  Return all alerts for the given route types.
+  """
+  @callback by_route_types([String.t()], DateTime.t()) :: [Alert.t()]
+
+  @doc """
   Return all alerts for the given stop id.
   """
   @callback by_stop_id(String.t()) :: [Alert.t()]
