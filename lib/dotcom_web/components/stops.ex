@@ -50,7 +50,7 @@ defmodule DotcomWeb.Components.Stops do
     assigns =
       assign_new(assigns, :icon_name, fn ->
         case type do
-          :accessibility -> "icon-accessible-default"
+          :accessibility -> "icon-accessible-small"
           :bike -> "icon-bike"
           :elevator -> "icon-elevator"
           :escalator -> "icon-escalator"
