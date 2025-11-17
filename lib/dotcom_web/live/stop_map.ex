@@ -35,8 +35,6 @@ defmodule DotcomWeb.Live.StopMap do
     ~H"""
     <h1>Hello we are your map pin icon</h1>
 
-    <.icon name="icon-map-station-marker" type="icon-svg" class="size-10" />
-
     <.live_component
       module={MbtaMetro.Live.Map}
       id="stop-page-map"
