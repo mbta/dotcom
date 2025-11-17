@@ -79,7 +79,7 @@ defmodule Dotcom.StopAmenityTest do
   describe "from_stop_facilities/2" do
     test "creates amenities from a list of facilities" do
       facilities = Factories.Facilities.Facility.build_list(10, :facility)
-      assert [%Dotcom.StopAmenity{} | _] = from_stop_facilities(facilities, "")
+      assert [%Dotcom.StopAmenity{} | _] = from_stop_facilities(facilities)
     end
   end
 end
