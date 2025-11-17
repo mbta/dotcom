@@ -23,7 +23,7 @@
     {gettext("%{place} Information", place: station_or_stop(@stop))}
   </h2>
   <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
-  <div class="my-lg grid grid-cols-1 md:gap-md md:grid-cols-2 lg:grid-cols-3 station-amenities">
+  <div class="mt-lg station-amenities">
     <h3
       :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
       class="hidden-md-up"
