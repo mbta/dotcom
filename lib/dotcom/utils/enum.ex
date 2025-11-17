@@ -11,6 +11,12 @@ defmodule Dotcom.Utils.Enum do
     iex> Dotcom.Utils.Enum.group_list([])
     %{}
 
+    iex> Dotcom.Utils.Enum.group_list([["foo"]])
+    %{"foo" => []}
+
+    iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"]])
+    %{"foo" => %{"bar" => ["baz"]}}
+
     iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"], ["foo", "bar", "bop"]])
     %{"foo" => %{"bar" => ["baz", "bop"]}}
   """
@@ -50,7 +56,11 @@ defmodule Dotcom.Utils.Enum do
   # Otherwise, we are at the end and we can process the tail.
   defp group([]), do: %{}
 
-  defp group(list) do
+  defp group([element]) when is_binary(element) do
+    Map.put(%{}, element, [])
+  end
+
+  defp group(list) when is_list(list) do
     list
     |> Enum.group_by(&List.first/1, fn l -> l |> Kernel.tl() |> List.flatten() end)
     |> Enum.reduce(%{}, fn {k, v}, acc ->
