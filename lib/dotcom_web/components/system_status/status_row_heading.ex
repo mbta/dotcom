@@ -79,8 +79,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
     description =
       assigns.status
-      |> description(future: assigns.future)
-      |> Kernel.then(&if assigns.plural, do: &1 |> Inflex.pluralize(), else: &1)
+      |> description(%{future: assigns.future, plural: assigns.plural})
 
     assigns =
       assigns
@@ -142,9 +141,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
   # prefix of "Now" should still display as "Delay", rather than
   # "Expect Delay".
-  defp description(:delay, future: true), do: ~t"Expect Delays"
-  defp description(:delay, future: false), do: ~t"Delays"
+  defp description(:delay, %{future: true}), do: ~t"Expect Delays"
+  defp description(:delay, %{future: false}), do: ~t"Delays"
   defp description(:shuttle, _), do: ~t"Shuttles"
+  defp description(:station_closure, %{plural: false}), do: ~t"Stop Skipped"
+  defp description(:station_closure, %{plural: true}), do: ~t"Stops Skipped"
+
+  defp description(status, %{plural: true} = args),
+    do: Inflex.pluralize(description(status, args |> Map.put(:plural, false)))
+
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])

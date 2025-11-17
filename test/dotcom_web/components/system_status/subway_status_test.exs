@@ -475,7 +475,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       status_rows_for_alerts([alert])
     end
 
-    test "shows 'Station Closure' singular if a single station is closed" do
+    test "shows 'Stop Skipped' singular if a single station is closed" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
@@ -497,10 +497,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route(affected_line)
              |> Enum.map(&status_label_text_for_row/1) ==
-               ["Station Closure"]
+               ["Stop Skipped"]
     end
 
-    test "shows 'Station Closures' plural if multiple stations are closed" do
+    test "shows 'Stops Skipped' plural if multiple stations are closed" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
@@ -522,7 +522,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route(affected_line)
              |> Enum.map(&status_label_text_for_row/1) ==
-               ["Station Closures"]
+               ["Stops Skipped"]
     end
 
     test "shows a subheading for a shuttle or suspension with endpoints" do
@@ -1059,7 +1059,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
         singular_effect =
           if(effect == :station_closure,
-            do: "Station Closure",
+            do: "Stop Skipped",
             else: effect |> Atom.to_string() |> Recase.to_title()
           )
 
@@ -1169,7 +1169,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   defp status_label_text_for_effect(:delay), do: "Delays"
   defp status_label_text_for_effect(:shuttle), do: "Shuttles"
-  defp status_label_text_for_effect(:station_closure), do: "Station Closure"
+  defp status_label_text_for_effect(:station_closure), do: "Stop Skipped"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
 
   defp human_delay_severity(severity) do
