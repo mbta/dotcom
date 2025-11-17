@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.Playground do
+defmodule DotcomWeb.Live.StopMap do
   use DotcomWeb, :live_view
 
   @map_config Application.compile_env(:mbta_metro, :map)
