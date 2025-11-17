@@ -62,7 +62,7 @@ defmodule DotcomWeb.Live.StopMap do
       }
     />
 
-    <div class="flex flex-wrap gap-2">
+    <div class="flex flex-wrap gap-2 mt-4">
       <button
         :for={stop <- @all_stops}
         class={[
