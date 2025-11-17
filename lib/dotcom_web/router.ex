@@ -310,6 +310,10 @@ defmodule DotcomWeb.Router do
     live_session :system_status, layout: {DotcomWeb.LayoutView, :preview} do
       live "/system-status", Live.SystemStatus
     end
+
+    live_session :playground, layout: {DotcomWeb.LayoutView, :preview} do
+      live "/playground", Live.Playground
+    end
   end
 
   scope "/api", DotcomWeb do
