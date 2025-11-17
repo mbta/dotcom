@@ -144,12 +144,6 @@
 }
 
 .station-amenities {
-  .mbta-modal {
-    /* TODO port to Metro */
-    box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
-    width: clamp(100vw, 40rem, 55%);
-  }
-
   .mbta-table {
     border: solid .063rem $gray-lightest;
     margin-bottom: 1rem;
