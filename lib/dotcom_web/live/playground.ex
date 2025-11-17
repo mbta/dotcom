@@ -7,18 +7,30 @@ defmodule DotcomWeb.Live.Playground do
     {
       :ok,
       socket
-      |> assign(:stop_id, "place-sstat")
+      |> assign(:stop_id, "place-boyls")
       |> assign(:map_config, @map_config)
     }
   end
 
   def render(assigns) do
-    all_stops = Stops.Repo.by_route_type(0) ++ Stops.Repo.by_route_type(1)
+    all_stops =
+      (Stops.Repo.by_route_type(0) ++ Stops.Repo.by_route_type(1))
+      |> Enum.uniq_by(& &1.id)
+      |> Enum.sort_by(& &1.name)
+
+    stop = Stops.Repo.get(assigns.stop_id)
+
+    child_stops = stop.child_ids |> Enum.map(&Stops.Repo.get/1)
+
+    child_stops_by_type = child_stops |> Enum.group_by(& &1.type)
+    entrances = child_stops_by_type |> Map.get(:entrance, [])
 
     assigns =
       assigns
-      |> assign(:stop, Stops.Repo.get(assigns.stop_id))
-      |> assign(:all_stops, all_stops |> Enum.uniq_by(& &1.id) |> Enum.sort_by(& &1.name))
+      |> assign(:stop, stop)
+      |> assign(:all_stops, all_stops)
+      |> assign(:child_stops, child_stops)
+      |> assign(:entrances, entrances)
 
     ~H"""
     <h1>Hello we are your map pin icon</h1>
@@ -30,15 +42,26 @@ defmodule DotcomWeb.Live.Playground do
       id="stop-page-map"
       class="h-[32rem] w-full"
       config={@map_config}
-      icons={[
-        %{
-          anchor: "bottom",
-          class: "size-12 cursor-pointer",
-          coordinates: [@stop.longitude, @stop.latitude],
-          name: "icon-map-station-marker",
-          type: "icon-svg"
-        }
-      ]}
+      icons={
+        (@entrances
+         |> Enum.map(
+           &%{
+             class: "size-5 cursor-pointer",
+             coordinates: [&1.longitude, &1.latitude],
+             name: "door-open",
+             type: "solid"
+           }
+         )) ++
+          [
+            %{
+              anchor: "bottom",
+              class: "size-12 cursor-pointer",
+              coordinates: [@stop.longitude, @stop.latitude],
+              name: "icon-map-station-marker",
+              type: "icon-svg"
+            }
+          ]
+      }
     />
 
     <div class="flex flex-wrap gap-2">
