@@ -1,8 +1,14 @@
 defmodule DotcomWeb.Live.ScheduleFinder do
+  @moduledoc """
+  The primary view for looking up schedules, predictions, and relevant alerts
+  for a given route/direction/stop.
+  """
+
   use DotcomWeb, :live_view
 
   import DotcomWeb.Components.ScheduleFinder
 
+  alias DotcomWeb.Components.Prototype
   alias Phoenix.LiveView
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -15,6 +21,18 @@ defmodule DotcomWeb.Live.ScheduleFinder do
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)}
+  end
+
+  @impl LiveView
+  def render(assigns) do
+    ~H"""
+    <Prototype.route_stop_picker
+      selected_route={@route}
+      selected_direction_id={@direction_id}
+    />
+    <.route_banner route={@route} direction_id={@direction_id} />
+    <.stop_banner stop={@stop} />
+    """
   end
 
   @impl Phoenix.LiveView
