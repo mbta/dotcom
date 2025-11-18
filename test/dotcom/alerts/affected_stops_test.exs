@@ -183,6 +183,30 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
     end
   end
 
+  describe "affected_stops/1" do
+    test "sources route ID's from the alert's informed entities" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+      stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
+      end)
+
+      informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id, route: route_id})
+      alert = Alert.new(informed_entity: informed_entities)
+
+      # Exercise
+      affected_stops = AffectedStops.affected_stops([alert])
+
+      # Verify
+      assert affected_stops |> MapSet.new() ==
+               stops |> Enum.map(&%{direction: :all, stop: &1}) |> MapSet.new()
+    end
+  end
+
   defp build_random_size_stop_list(), do: Stop.build_list(Faker.random_between(0, 10), :stop)
 
   defp build_random_size_id_list() do

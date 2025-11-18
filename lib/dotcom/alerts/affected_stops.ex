@@ -12,6 +12,13 @@ defmodule Dotcom.Alerts.AffectedStops do
   @behaviour Behaviour
 
   @impl Behaviour
+  def affected_stops(alerts) do
+    route_ids = alerts |> get_all_entities(:route) |> Enum.to_list()
+
+    affected_stops(alerts, route_ids)
+  end
+
+  @impl Behaviour
   def affected_stops(alerts, route_ids) do
     stop_ids = alerts |> get_all_entities(:stop)
 

@@ -20,5 +20,6 @@ defmodule Dotcom.Alerts.AffectedStops.Behaviour do
   will default to just using direction ID 0.
   """
 
+  @callback affected_stops([Alerts.Alert.t()]) :: [affected_stop_t()]
   @callback affected_stops([Alerts.Alert.t()], [Routes.Route.id_t()]) :: [affected_stop_t()]
 end
