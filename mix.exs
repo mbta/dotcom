@@ -123,9 +123,7 @@ defmodule DotCom.Mixfile do
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro,
-       [github: "mbta/mbta_metro", branch: "cbj/better-colorful-mode-icons", runtime: false]},
-      # {:mbta_metro, "1.1.0", runtime: false},
+      {:mbta_metro, "1.1.1", runtime: false},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
@@ -136,7 +134,7 @@ defmodule DotCom.Mixfile do
         [github: "mbta/open_trip_planner_client", tag: "v0.17.1"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.1"},
+      {:phoenix, "1.8.1", override: true},
       {:phoenix_ecto, "4.6.5"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.7"},
