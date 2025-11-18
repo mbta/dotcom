@@ -35,6 +35,7 @@ export const iconForAlert = ({
   if (priority === "system")
     return renderSVG("c-svg__icon-alerts-triangle", alertIcon);
   switch (effect) {
+    case "station_closure":
     case "suspension":
     case "cancellation":
       return renderSVG("c-svg__icon-cancelled-default", cancelIcon);

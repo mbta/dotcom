@@ -291,6 +291,7 @@ defmodule Alerts.Alert do
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
   def icon(%{priority: :high, effect: :cancellation}), do: :cancel
+  def icon(%{priority: :high, effect: :station_closure}), do: :cancel
   def icon(%{priority: :high, effect: :snow_route}), do: :snow
   def icon(%{priority: :high, effect: :shuttle}), do: :shuttle
   def icon(_), do: :alert

@@ -463,6 +463,23 @@ defmodule DotcomWeb.AlertViewTest do
       assert response =~ "c-svg__icon-cancelled-default"
     end
 
+    test "Icons and labels are displayed for station_closure" do
+      response =
+        render(
+          "_item.html",
+          alert: %Alert{
+            effect: :station_closure,
+            active_period: @active_period,
+            priority: :high
+          },
+          date_time: @now
+        )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert response =~ "c-svg__icon-cancelled-default"
+    end
+
     test "No icon for future cancellation" do
       response =
         "_item.html"
