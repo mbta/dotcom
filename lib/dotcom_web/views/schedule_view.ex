@@ -467,6 +467,7 @@ defmodule DotcomWeb.ScheduleView do
       :if={@count > 0}
       class="rounded-lg border border-[1px] border-gray-lighter"
       summary_class="bg-gray-lightest rounded-lg group-open:rounded-b-none p-3 font-bold flex justify-between"
+      phx-mounted={JS.ignore_attributes("open")}
     >
       <:heading>
         <div class="flex items-center gap-sm">

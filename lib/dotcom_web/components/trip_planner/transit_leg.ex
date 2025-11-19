@@ -49,7 +49,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
             <.leg_details leg={@leg} />
           </div>
         <% else %>
-          <details class="w-full py-5 group/stops">
+          <details class="w-full py-5 group/stops" phx-mounted={JS.ignore_attributes("open")}>
             <summary class="flex items-start cursor-pointer">
               <.leg_summary leg={@leg} alerts={@alerts.route} />
               <.icon
@@ -171,7 +171,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
 
   defp alert(assigns) do
     ~H"""
-    <details class="group/alert">
+    <details class="group/alert" phx-mounted={JS.ignore_attributes("open")}>
       <summary>
         <.icon aria-label={~t"Alert"} name="triangle-exclamation" class="h-3 w-3" />
         <span class="text-sm">

@@ -27,7 +27,10 @@ defmodule DotcomWeb.Components.TripPlanner.WalkingLeg do
           <div class={["w-0.5 flex-grow bg-black"]}></div>
         </div>
 
-        <details class="border-y border-x-0 border-gray-lightest my-3 w-full group">
+        <details
+          class="border-y border-x-0 border-gray-lightest my-3 w-full group"
+          phx-mounted={JS.ignore_attributes("open")}
+        >
           <summary class="flex w-full gap-x-3.5 py-3 cursor-pointer">
             <.icon name="person-walking" class="shrink-0 w-4 h-6 fill-black" aria-hidden="true" />
             <div class="flex flex-col text-sm">

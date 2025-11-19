@@ -63,6 +63,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
     <.unstyled_accordion
       summary_class="flex items-center border-t-xs border-gray-lightest hover:bg-brand-primary-lightest cursor-pointer group/row py-3 pl-1"
       chevron_class="fill-gray-dark px-2 flex items-center"
+      phx-mounted={JS.ignore_attributes("open")}
     >
       <:heading>
         <div class="grow">
@@ -101,6 +102,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
           |> Enum.join(" ")
         }
         chevron_class="fill-gray-dark px-2 flex items-center"
+        phx-mounted={JS.ignore_attributes("open")}
       >
         <:heading>
           <span class="grow"><.trip_info_heading trip_info={impact.trip_info} /></span>

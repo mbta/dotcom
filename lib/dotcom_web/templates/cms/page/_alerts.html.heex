@@ -2,7 +2,7 @@
   <% alerts = alerts_for_project(@page, @alerts) %>
   <%= if !Enum.empty?(alerts) do %>
     <h2>{~t(Related Service Alerts)}</h2>
-    <details>
+    <details phx-mounted={JS.ignore_attributes("open")}>
       <summary>
         <div class="c-service-changes-container">
           <div class="c-service-changes-content">

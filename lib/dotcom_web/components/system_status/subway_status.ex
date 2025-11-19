@@ -77,6 +77,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       style={if(@row.style.hide_route_pill, do: "--tw-divide-opacity: 0")}
       summary_class="hover:bg-brand-primary-lightest cursor-pointer group/row flex items-center grow"
       chevron_class="fill-gray-dark px-2 border-t-[1px] border-gray-lightest self-stretch flex items-center"
+      phx-mounted={JS.ignore_attributes("open")}
     >
       <:heading>
         <.heading row={@row} />
