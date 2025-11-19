@@ -216,7 +216,6 @@ defmodule DotcomWeb.Router do
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)
-    get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/line_api", ScheduleController.LineApi, :show)
 
