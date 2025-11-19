@@ -17,7 +17,11 @@ defmodule DotcomWeb.Components.Prototype do
       |> assign(:all_routes, @routes_repo.all())
       |> assign_new(:stops, fn ->
         if not is_nil(route) and not is_nil(direction) do
-          @stops_repo.by_route(route.id, direction)
+          if route.id == "Green" do
+            GreenLine.branch_ids() |> @stops_repo.by_routes(direction)
+          else
+            @stops_repo.by_route(route.id, direction)
+          end
         end
       end)
 
