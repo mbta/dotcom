@@ -522,36 +522,8 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   defp get_route_id(route_id, _trip_id), do: route_id
 
-  def format_time(time) do
-    hour =
-      cond do
-        time.hour == 0 -> 12
-        time.hour > 12 -> time.hour - 12
-        true -> time.hour
-      end
-
-    hour_string =
-      if hour < 10 do
-        "0#{hour}"
-      else
-        Integer.to_string(hour)
-      end
-
-    minute_string =
-      if time.minute < 10 do
-        "0#{time.minute}"
-      else
-        Integer.to_string(time.minute)
-      end
-
-    meridian_string =
-      if time.hour < 12 do
-        "AM"
-      else
-        "PM"
-      end
-
-    "#{hour_string}:#{minute_string} #{meridian_string}"
+  defp format_time(time) do
+    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 
   @spec fares_for_service(map, String.t(), String.t()) :: map
