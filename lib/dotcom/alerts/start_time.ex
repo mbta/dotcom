@@ -52,6 +52,23 @@ defmodule Dotcom.Alerts.StartTime do
     end
   end
 
+  def active_in_next_n_days?(alert, n, time \\ @date_time_module.now()) do
+    n_days_later = time |> DateTime.shift(day: n)
+
+    case next_active_time(alert, time) do
+      {:current, _} -> true
+      {:future, start_time} -> start_time |> DateTime.before?(n_days_later)
+      _ -> false
+    end
+  end
+
+  def active?(alert, time \\ @date_time_module.now()) do
+    case next_active_time(alert, time) do
+      {:current, _} -> true
+      _ -> false
+    end
+  end
+
   # A little utility for checking whether an active period has already
   # ended. If the end_time given is nil, then it's treated as the end
   # of time, which means the active period has not ended.
