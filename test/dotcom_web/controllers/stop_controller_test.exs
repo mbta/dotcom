@@ -157,6 +157,11 @@ defmodule DotcomWeb.StopControllerTest do
     setup _ do
       stub(Alerts.Repo.Mock, :by_route_ids, fn _stop_id, _datetime -> [] end)
       stub(Alerts.Repo.Mock, :by_stop_id, fn _stop_id -> [] end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", _}] ->
+        %JsonApi{links: %{}, data: []}
+      end)
+
       stub(Routes.Repo.Mock, :by_stop, fn _stop_id -> [] end)
       stub(Routes.Repo.Mock, :by_stop, fn _stop_id, _opts -> [] end)
       stub(Stops.Repo.Mock, :get, fn id -> Factories.Stops.Stop.build(:stop, id: id) end)
