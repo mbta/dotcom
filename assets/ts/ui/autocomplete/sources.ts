@@ -178,7 +178,7 @@ export const algoliaSource = (
           // Find World Cup content and move it to the front
           const worldCupIndex = results.findIndex(
             (item: AutocompleteItem) =>
-              (item as any)._content_url === "/projects/red-blue-connector" // eslint-disable-line
+              (item as any)._content_url === "/guides/world-cup-guide" // eslint-disable-line
           );
 
           if (worldCupIndex > 0) {
