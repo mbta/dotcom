@@ -74,6 +74,7 @@ defmodule DotcomWeb.StopController do
         amenities =
           @facilities_repo.get_for_stop(stop_id)
           |> Dotcom.StopAmenity.from_stop_facilities()
+
         banner_alerts =
           banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
 
@@ -90,7 +91,7 @@ defmodule DotcomWeb.StopController do
           elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
           escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
           accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
-          fare_amenity: Enum.find(amenities, &(&1.type == :fare))
+          fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
           banner_alerts: banner_alerts,
           accessible?: accessible?
         })
