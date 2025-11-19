@@ -406,9 +406,6 @@ defmodule Stops.Api do
   @spec facility_atom_from_string(String.t()) :: gtfs_facility_type
   def facility_atom_from_string("ELEVATOR"), do: :elevator
   def facility_atom_from_string("ESCALATOR"), do: :escalator
-  def facility_atom_from_string("ESCALATOR_UP"), do: :escalator_up
-  def facility_atom_from_string("ESCALATOR_DOWN"), do: :escalator_down
-  def facility_atom_from_string("ESCALATOR_BOTH"), do: :escalator_both
   def facility_atom_from_string("RAMP"), do: :ramp
   def facility_atom_from_string("ELEVATED_SUBPLATFORM"), do: :elevated_subplatform
   def facility_atom_from_string("FULLY_ELEVATED_PLATFORM"), do: :fully_elevated_platform
@@ -418,7 +415,6 @@ defmodule Stops.Api do
   def facility_atom_from_string("PICK_DROP"), do: :pick_drop
   def facility_atom_from_string("TAXI_STAND"), do: :taxi_stand
   def facility_atom_from_string("BIKE_STORAGE"), do: :bike_storage
-  def facility_atom_from_string("TTY_PHONE"), do: :tty_phone
   def facility_atom_from_string("ELECTRIC_CAR_CHARGERS"), do: :electric_car_chargers
   def facility_atom_from_string("FARE_VENDING_RETAILER"), do: :fare_vending_retailer
   def facility_atom_from_string("FARE_VENDING_MACHINE"), do: :fare_vending_machine

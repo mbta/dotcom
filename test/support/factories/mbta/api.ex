@@ -14,12 +14,114 @@ defmodule Test.Support.Factories.MBTA.Api do
     build(:item, %{
       attributes: %{
         "type" => Faker.Util.pick(~w(
-          fare_vending_retailer
-          fare_vending_machine
-          fare_media_assistant
-          fare_media_assistance_facility
-          ticket_window
-        )a),
+          BIKE_STORAGE
+          BRIDGE_PLATE
+          ELECTRIC_CAR_CHARGERS
+          ELEVATED_SUBPLATFORM
+          ELEVATOR
+          ESCALATOR
+          FARE_MEDIA_ASSISTANCE_FACILITY
+          FARE_MEDIA_ASSISTANT
+          FARE_VENDING_MACHINE
+          FARE_VENDING_RETAILER
+          FULLY_ELEVATED_PLATFORM
+          OTHER
+          PARKING_AREA
+          PICK_DROP
+          PORTABLE_BOARDING_LIFT
+          RAMP
+          TAXI_STAND
+          TICKET_WINDOW
+        )),
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def bike_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => "BIKE_STORAGE",
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def parking_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => "PARKING_AREA",
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def elevator_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => "ELEVATOR",
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def escalator_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => "ESCALATOR",
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def fare_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => Faker.Util.pick(~w(
+          FARE_MEDIA_ASSISTANCE_FACILITY
+          FARE_MEDIA_ASSISTANT
+          FARE_VENDING_MACHINE
+          FARE_VENDING_RETAILER
+          TICKET_WINDOW
+        )),
+        "short_name" => Faker.App.name(),
+        "long_name" => Faker.App.name(),
+        "latitude" => Faker.Address.latitude(),
+        "longitude" => Faker.Address.longitude(),
+        "properties" => []
+      }
+    })
+  end
+
+  def accessibility_facility_item_factory do
+    build(:item, %{
+      attributes: %{
+        "type" => Faker.Util.pick(~w(
+          ELEVATED_SUBPLATFORM
+          FULLY_ELEVATED_PLATFORM
+          PORTABLE_BOARDING_LIFT
+          RAMP
+        )),
         "short_name" => Faker.App.name(),
         "long_name" => Faker.App.name(),
         "latitude" => Faker.Address.latitude(),

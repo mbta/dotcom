@@ -57,8 +57,7 @@ defmodule Dotcom.StopAmenity do
               :fully_elevated_platform,
               :elevated_subplatform,
               :elevator,
-              :escalator,
-              :tty_phone
+              :escalator
             ],
        do: :accessibility
 
