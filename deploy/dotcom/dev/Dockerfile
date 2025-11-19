@@ -12,8 +12,6 @@ COPY package.json .
 COPY assets/package.json ./assets/package.json
 COPY assets/package-lock.json ./assets/package-lock.json
 
-RUN touch /tmp/.functions
-
 RUN mix local.hex --force
 RUN mix local.rebar --force
 

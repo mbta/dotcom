@@ -213,6 +213,8 @@ defmodule Alerts.Alert do
     [elevator_closure: ~t"Elevator", escalator_closure: ~t"Escalator", access_issue: ~t"Other"]
   end
 
+  def global_banner_alert?(%__MODULE__{banner: banner}), do: banner != nil
+
   @doc "Returns a friendly name for the alert's effect"
   @spec human_effect(t) :: String.t()
   def human_effect(%__MODULE__{effect: effect}) do
@@ -319,6 +321,11 @@ defmodule Alerts.Alert do
         stop.municipality
       end
     end)
+  end
+
+  @spec routewide?(t()) :: boolean
+  def routewide?(alert) do
+    alert.informed_entity |> Enum.any?(&(!&1.stop && !&1.trip))
   end
 end
 

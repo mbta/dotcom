@@ -45,10 +45,6 @@ defmodule DotcomWeb do
       alias Util.Breadcrumb
 
       plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
-
-      if Mix.env() != :test do
-        use Dotcom.Usage.Functions
-      end
     end
   end
 
@@ -85,19 +81,6 @@ defmodule DotcomWeb do
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
-
-      def track_template() do
-        if Application.get_env(:dotcom, :env) != :test do
-          {_, trace} = Process.info(self(), :current_stacktrace)
-
-          template =
-            trace
-            |> Enum.map(fn {_, _, _, [file: file, line: _]} -> "#{file}" end)
-            |> Enum.find(&Regex.match?(~r/.html(.eex|.heex)/, &1))
-
-          :telemetry.execute([:template, :track], %{}, %{template: template})
-        end
-      end
 
       @dialyzer :no_match
     end

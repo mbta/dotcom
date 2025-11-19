@@ -199,6 +199,14 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # - if all else fails, use the first candidate (already sorted by :start_date)
   defp get_default_service(current_services, _all_services) do
     service_date = current_services |> List.first() |> Map.get(:service_date)
+    # Current services are current to the rating -- they might start later in
+    # the rating! So first, narrow the "current" service to those which are
+    # actually active on the service date.
+    current_services =
+      Enum.filter(current_services, fn service ->
+        Dotcom.Utils.Time.between?(service_date, service.start_date, service.end_date)
+      end)
+
     day_number = Timex.weekday(service_date)
 
     # Fallback #2: First service

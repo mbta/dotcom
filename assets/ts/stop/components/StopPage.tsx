@@ -4,14 +4,9 @@ import { useLoaderData } from "react-router-dom";
 import { useStop } from "../../hooks/useStop";
 import { useRoutes } from "../../hooks/useRoute";
 import Loading from "../../components/Loading";
-import Alerts from "../../components/Alerts";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import {
-  isGlobalBannerAlert,
-  routeWideAlerts,
-  isInNextXDays
-} from "../../models/alert";
+import { routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
@@ -25,30 +20,6 @@ const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
     "stop_moved",
     "suspension"
   ].includes(effect);
-
-const isBannerAlertEffect = ({ effect }: Alert): boolean =>
-  [
-    "dock_closure",
-    "dock_issue",
-    "service_change",
-    "shuttle",
-    "station_closure",
-    "station_issue",
-    "stop_closure",
-    "stop_moved",
-    "stop_shoveling",
-    "suspension"
-  ].includes(effect);
-
-const isActiveBannerAlert = (alert: Alert): boolean =>
-  ["access_issue", "elevator_closure"].includes(alert.effect) &&
-  isInNextXDays(alert, 0);
-
-const isBannerAlert = (alert: Alert): boolean =>
-  (isBannerAlertEffect(alert) &&
-    isInNextXDays(alert, 7) &&
-    !isGlobalBannerAlert(alert)) ||
-  isActiveBannerAlert(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
@@ -92,13 +63,11 @@ const StopPage = ({
   const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
   const departuresAndMapAlerts = allAlerts.filter(isDeparturesAndMapAlert);
-  const bannerAlerts = allAlerts.filter(isBannerAlert);
 
   return (
     <article>
       {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
-        <Alerts alerts={bannerAlerts} />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
