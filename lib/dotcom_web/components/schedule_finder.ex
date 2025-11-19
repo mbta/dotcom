@@ -32,8 +32,11 @@ defmodule DotcomWeb.Components.ScheduleFinder do
         <div class="flex items-center gap-xs">
           <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
           <span>
-            {@route.direction_names[@direction_id]} {~t"towards"}
-            <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+            {@route.direction_names[@direction_id]}
+            <%= if @route.id != "Green" do %>
+              {~t"towards"}
+              <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+            <% end %>
           </span>
         </div>
       </.link>
