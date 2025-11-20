@@ -21,12 +21,7 @@
         # You can give explicit globs or simply directories.
         # In the latter case `**/*.{ex,exs}` will be used.
         #
-        excluded: [
-          ~r"/_build/",
-          ~r"/deps/",
-          ~r"/node_modules/",
-          ~r"/lib/dotcom_web/components/prototype.ex"
-        ]
+        excluded: [~r"/_build/", ~r"/deps/", ~r"/node_modules/"]
       },
       #
       # Load and configure plugins here:
