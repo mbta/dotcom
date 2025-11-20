@@ -123,6 +123,7 @@ defmodule DotcomWeb.StopController do
 
   defp banner_alert_active_or_future_effect?(alert) do
     alert.effect in [
+      :detour,
       :dock_closure,
       :dock_issue,
       :service_change,
