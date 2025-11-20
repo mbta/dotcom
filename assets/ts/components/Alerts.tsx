@@ -82,11 +82,16 @@ export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
   );
 };
 
-export const effectNameForAlert = (alert: AlertType): string =>
-  alert.effect
+export const effectNameForAlert = (alert: AlertType): string => {
+  if (alert.effect == "station_closure") {
+    return "Skipped";
+  }
+
+  return alert.effect
     .split("_")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+};
 
 const caretIcon = (
   noDescription: boolean,
