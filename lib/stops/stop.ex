@@ -84,6 +84,14 @@ defmodule Stops.Stop do
   @spec accessible?(t) :: boolean
   def accessible?(%__MODULE__{accessibility: ["accessible" | _]}), do: true
   def accessible?(%__MODULE__{}), do: false
+
+  @spec has_parking?(t) :: boolean
+  def has_parking?(%__MODULE__{parking_lots: parking}),
+    do: Enum.count(parking) > 0
+
+  @spec has_bike_storage?(t) :: boolean
+  def has_bike_storage?(%__MODULE__{bike_storage: bike_storage}),
+    do: Enum.count(bike_storage) > 0
 end
 
 defmodule Stops.Stop.ParkingLot do
@@ -210,10 +218,10 @@ defmodule Stops.Stop.ParkingLot.Capacity do
 
   # GTFS values:
   # "1 for true, 2 for false, or 0 for no information"
-  @spec pretty_parking_type(integer) :: String.t() | nil
-  defp pretty_parking_type(0), do: nil
+  @spec pretty_parking_type(integer | nil) :: String.t() | nil
   defp pretty_parking_type(1), do: "Garage"
   defp pretty_parking_type(2), do: "Surface Lot"
+  defp pretty_parking_type(_), do: nil
 
   @spec pretty_overnight_msg(String.t() | nil) :: String.t()
   defp pretty_overnight_msg("no"), do: "Not available"

@@ -1,7 +1,7 @@
 import { isValid, parseISO, add } from "date-fns";
 import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
-import { Activity, Alert, Facility, TimePeriodPairs } from "../__v3api";
+import { Alert, TimePeriodPairs } from "../__v3api";
 
 const activePeriodToDates = (
   activePeriod: TimePeriodPairs
@@ -38,24 +38,6 @@ export const alertsInEffect = (alerts: Alert[]): Alert[] =>
     });
   });
 
-export const alertsForEffects = (alerts: Alert[], effects: string[]): Alert[] =>
-  alerts.filter(a => effects.includes(a.effect));
-
-export const alertsForEffect = (alerts: Alert[], effect: string): Alert[] =>
-  alertsForEffects(alerts, [effect]);
-
-export const filterParkingAlerts = (alerts: Alert[]): Alert[] =>
-  alertsForEffects(alerts, ["parking_closure", "parking_issue"]);
-
-export const isAmenityAlert = ({ effect }: Alert): boolean =>
-  [
-    "elevator_closure",
-    "escalator_closure",
-    "parking_closure",
-    "parking_issue",
-    "bike_issue"
-  ].includes(effect);
-
 export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
   return alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>
@@ -77,15 +59,6 @@ export const alertsForStopAndRoute = (
   const stopAlerts = alertsByStop(alerts, stopId);
   return alertsForRoute(stopAlerts, routeId);
 };
-
-export const alertsByActivity = (
-  alerts: Alert[],
-  activity: Activity
-): Alert[] =>
-  alerts.filter(
-    ({ informed_entity: { activities } }: Alert): boolean =>
-      activities && activities.includes(activity)
-  );
 
 const hasEffect = (alerts: Alert[], effect: string): boolean =>
   some(alerts, alert => alert.effect === effect);
@@ -248,19 +221,6 @@ export const hasCurrentFacilityAlert = (
   return alerts.filter(isCurrentLifecycle).some(alert => {
     if (alert.informed_entity?.facility) {
       return alert.informed_entity.facility.includes(facilityId);
-    }
-    return false;
-  });
-};
-
-export const alertsByFacility = (
-  facilities: Facility[],
-  alerts: Alert[]
-): Alert[] => {
-  const facilityIds = facilities.map(facility => facility.id);
-  return alerts.filter(({ informed_entity: { facility } }: Alert): boolean => {
-    if (facility) {
-      return facility.some(facilityId => facilityIds.includes(facilityId));
     }
     return false;
   });

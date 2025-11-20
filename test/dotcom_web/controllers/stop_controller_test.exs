@@ -157,6 +157,11 @@ defmodule DotcomWeb.StopControllerTest do
     setup _ do
       stub(Alerts.Repo.Mock, :by_route_ids, fn _stop_id, _datetime -> [] end)
       stub(Alerts.Repo.Mock, :by_stop_id, fn _stop_id -> [] end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", _}] ->
+        %JsonApi{links: %{}, data: []}
+      end)
+
       stub(Routes.Repo.Mock, :by_stop, fn _stop_id -> [] end)
       stub(Routes.Repo.Mock, :by_stop, fn _stop_id, _opts -> [] end)
       stub(Stops.Repo.Mock, :get, fn id -> Factories.Stops.Stop.build(:stop, id: id) end)
@@ -377,6 +382,48 @@ defmodule DotcomWeb.StopControllerTest do
 
       # Verify
       assert conn.assigns.banner_alerts == []
+    end
+
+    test "fetches related facilities", %{conn: conn} do
+      cases = [
+        {:elevator, :elevator_amenity, :elevator_facility_item},
+        {:escalator, :escalator_amenity, :escalator_facility_item},
+        {:parking, :parking_amenity, :parking_facility_item},
+        {:accessibility, :accessibility_amenity, :accessibility_facility_item},
+        {:fare, :fare_amenity, :fare_facility_item},
+        {:bike, :bike_amenity, :bike_facility_item}
+      ]
+
+      for {amenity_type, assign_name, factory} <- cases do
+        # Setup
+        stop_id = FactoryHelpers.build(:id)
+        facility_data = Factories.MBTA.Api.build_list(10, factory)
+
+        expect(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", ^stop_id}] ->
+          %JsonApi{links: %{}, data: facility_data}
+        end)
+
+        # Exercise
+        conn = conn |> get(stop_path(conn, :show, stop_id))
+
+        # Verify
+        assert %Dotcom.StopAmenity{type: ^amenity_type, facilities: facilities} =
+                 conn.assigns[assign_name]
+
+        assert Enum.map(facilities, & &1.id) == Enum.map(facility_data, & &1.id)
+      end
+    end
+
+    test "sets amenity_param", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      amenity = :anything
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id, %{"amenity" => "#{amenity}"}))
+
+      # Verify
+      assert conn.assigns.amenity_param == amenity
     end
   end
 

@@ -21,6 +21,7 @@ defmodule DotcomWeb.StopController do
   alias Util.AndOr
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -31,6 +32,7 @@ defmodule DotcomWeb.StopController do
         }
 
   plug(:alerts)
+  plug(DotcomWeb.Plugs.DateTime)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
@@ -53,7 +55,7 @@ defmodule DotcomWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop_id}) do
+  def show(conn, %{"id" => stop_id} = params) do
     stop =
       stop_id
       |> URI.decode_www_form()
@@ -66,7 +68,12 @@ defmodule DotcomWeb.StopController do
         |> halt()
       else
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
         accessible? = accessible?(stop)
+
+        amenities =
+          @facilities_repo.get_for_stop(stop_id)
+          |> Dotcom.StopAmenity.from_stop_facilities()
 
         banner_alerts =
           banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
@@ -76,7 +83,15 @@ defmodule DotcomWeb.StopController do
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
           stop: stop,
+          amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
+          one_way_fares: one_way_fares,
           routes_by_stop: routes_by_stop,
+          parking_amenity: Enum.find(amenities, &(&1.type == :parking)),
+          bike_amenity: Enum.find(amenities, &(&1.type == :bike)),
+          elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
+          escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
+          accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
+          fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
           banner_alerts: banner_alerts,
           accessible?: accessible?
         })
@@ -446,7 +461,7 @@ defmodule DotcomWeb.StopController do
   end
 
   # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
-  defp accessible?(stop) do
+  def accessible?(stop) do
     routes = @routes_repo.by_stop(stop.id)
 
     Enum.member?(stop.accessibility, "accessible") ||

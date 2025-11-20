@@ -318,7 +318,6 @@ defmodule DotcomWeb.Router do
 
     get("/alerts", AlertController, :show_by_routes)
     get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
-    get("/stop/:stop_id/facilities", FacilitiesController, :get_facilities)
   end
 
   scope "/api", DotcomWeb do
@@ -334,7 +333,6 @@ defmodule DotcomWeb.Router do
     get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
     get("/routes/:route_ids", RouteController, :get_by_route_ids)
-    get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 
   scope "/algolia", DotcomWeb do

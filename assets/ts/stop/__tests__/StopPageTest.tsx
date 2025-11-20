@@ -41,10 +41,6 @@ describe("StopPage", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: [] });
 
-    jest
-      .spyOn(useStop, "useFacilitiesByStop")
-      .mockReturnValue({ status: FetchStatus.Data, data: [] });
-
     jest.spyOn(useStop, "useStop").mockReturnValue({
       status: FetchStatus.Data,
       data: customStop({

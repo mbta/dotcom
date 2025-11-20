@@ -1,13 +1,12 @@
 import React, { ReactElement, useState } from "react";
 import { concat } from "lodash";
 import { useLoaderData } from "react-router-dom";
-import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
-import StationInformation from "./StationInformation";
+import { useStop } from "../../hooks/useStop";
 import { useRoutes } from "../../hooks/useRoute";
 import Loading from "../../components/Loading";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import { routeWideAlerts, isAmenityAlert } from "../../models/alert";
+import { routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
@@ -42,20 +41,11 @@ const StopPage = ({
   const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
   const routesResult = useRoutes(Object.keys(groupedRoutePatterns || []));
   const alertsForStopResult = useAlertsByStop(stopId);
-  const facilities = useFacilitiesByStop(stopId);
   const routes = routesResult.data || [];
   const alertsForRoutesResult = useAlertsByRoute(routes.map(r => r.id));
 
-  if (
-    [stopResult.status, routesResult.status, facilities.status].includes(
-      FetchStatus.Error
-    )
-  ) {
-    const errorMessage = [
-      stopResult.errorData,
-      routesResult.errorData,
-      facilities.errorData
-    ]
+  if ([stopResult.status, routesResult.status].includes(FetchStatus.Error)) {
+    const errorMessage = [stopResult.errorData, routesResult.errorData]
       .filter(error => error !== undefined)
       .join(" ");
     throw new Error(errorMessage);
@@ -65,15 +55,13 @@ const StopPage = ({
   if (
     !stopResult.data ||
     !alertsForRoutesResult.data ||
-    !alertsForStopResult.data ||
-    !facilities.data
+    !alertsForStopResult.data
   ) {
     return <Loading />;
   }
 
   const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
-  const amenityAlerts = allAlerts.filter(isAmenityAlert);
   const departuresAndMapAlerts = allAlerts.filter(isDeparturesAndMapAlert);
 
   return (
@@ -86,13 +74,6 @@ const StopPage = ({
           alerts={departuresAndMapAlerts}
           setPredictionError={setPredictionError}
         />
-        <footer>
-          <StationInformation
-            stop={stopResult.data}
-            facilities={facilities.data}
-            alerts={amenityAlerts}
-          />
-        </footer>
       </div>
     </article>
   );
