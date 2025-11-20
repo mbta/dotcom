@@ -202,7 +202,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     do: humanize_stop_and_direction_name(affected_stop)
 
   defp humanize_stop_and_direction_names([_, _] = affected_stops),
-    do: affected_stops |> Enum.map(&humanize_stop_and_direction_name/1) |> Enum.join(", ")
+    do: affected_stops |> Enum.map_join(", ", &humanize_stop_and_direction_name/1)
 
   defp humanize_stop_and_direction_names(affected_stops),
     do: gettext("%{count} Stops", count: Enum.count(affected_stops))

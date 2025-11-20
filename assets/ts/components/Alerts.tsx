@@ -83,7 +83,7 @@ export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
 };
 
 export const effectNameForAlert = (alert: AlertType): string => {
-  if (alert.effect == "station_closure") {
+  if (alert.effect === "station_closure") {
     return "Skipped";
   }
 
