@@ -7,6 +7,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   use DotcomWeb, :live_view
 
   import CSSHelpers
+  import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
+  import Dotcom.Utils.Time, only: [format!: 2]
 
   alias DotcomWeb.Components.Prototype
   alias MbtaMetro.Components.SystemIcons
@@ -23,7 +25,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
-     |> assign_new(:stop, fn -> nil end)}
+     |> assign_new(:stop, fn -> nil end)
+     |> assign_new(:date, fn -> nil end)}
   end
 
   @impl LiveView
@@ -46,6 +49,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign(:route, @routes_repo.get(route))
      |> assign(:direction_id, direction_id)
+     |> assign(:date, Map.get(params, "date", today()))
      |> assign_stop(params)}
   end
 
@@ -53,6 +57,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     stop_id = Map.get(params, "stop")
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
   end
+
+  defp today, do: service_date() |> format!(:iso_date)
 
   # Schedule Finder components =================================================
 
