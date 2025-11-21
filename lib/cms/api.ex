@@ -53,14 +53,16 @@ defmodule CMS.Api do
         @req.new(
           base_url: config[:base_url],
           headers: config[:headers] ++ headers,
-          finch: Dotcom.Finch
+          finch: Dotcom.Finch,
+          cache: true
         )
 
       connect_options ->
         @req.new(
           base_url: config[:base_url],
           headers: config[:headers] ++ headers,
-          connect_options: connect_options
+          connect_options: connect_options,
+          cache: true
         )
     end
   end

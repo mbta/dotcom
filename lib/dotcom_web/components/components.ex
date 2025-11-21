@@ -289,7 +289,7 @@ defmodule DotcomWeb.Components do
   """
   def dialog_modal(assigns) do
     ~H"""
-    <dialog id={@modal_id} class="mbta-modal" closedby="any" data-open={@open}>
+    <dialog id={@modal_id} class="mbta-modal min-w-[40%] min-h-[50%]" closedby="any" data-open={@open}>
       <form method="dialog" class="flex justify-between gap-md items-center">
         <h1 :if={@modal_heading} class="h4 m-0">
           {render_slot(@modal_heading)}

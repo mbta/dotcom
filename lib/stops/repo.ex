@@ -80,7 +80,13 @@ defmodule Stops.Repo do
 
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def by_route(route_id, direction_id, opts \\ []) do
+  def by_route(route_id, direction_id, opts \\ [])
+
+  def by_route("Green", direction_id, opts) do
+    by_routes(GreenLine.branch_ids(), direction_id, opts)
+  end
+
+  def by_route(route_id, direction_id, opts) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
