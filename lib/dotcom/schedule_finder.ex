@@ -188,7 +188,7 @@ defmodule Dotcom.ScheduleFinder do
   In the case of the Red and Green lines, scheduled departures might include multiple destinations, e.g. trains to Ashmont _and_ trains to Braintree, and/or multiple routes, as in the case of the distinct Green Line "branches".
   """
   @spec subway_groups([DailyDeparture.t()], 0 | 1, Stop.id_t()) :: [
-          {Route.t(), String.t(), [DailyDeparture.t()]}
+          {Route.t(), String.t(), [DateTime.t()]}
         ]
   def subway_groups(departures, direction_id, stop_id) do
     departures
@@ -207,11 +207,11 @@ defmodule Dotcom.ScheduleFinder do
         true -> "Ashmont/Braintree"
       end
 
-    {route, destination, departures}
+    {route, destination, Enum.map(departures, & &1.time)}
   end
 
   defp departures_with_destination({route, departures}, direction_id, _) do
-    {route, Route.direction_destination(route, direction_id), departures}
+    {route, Route.direction_destination(route, direction_id), Enum.map(departures, & &1.time)}
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @schedule_ttl])

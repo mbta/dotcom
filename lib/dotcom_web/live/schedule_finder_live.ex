@@ -57,11 +57,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </.error_container>
       </:failed>
       <%= if departures do %>
-        <.first_last
-          times={Enum.map(departures, & &1.time)}
-          vehicle_name={@vehicle_name}
-        />
-        <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
+        <%= if @route.type in [0, 1] do %>
+          <div
+            :for={{route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)}
+            class="mt-lg mb-md"
+          >
+            <.subway_destination route={route} destination={destination} />
+            <.first_last times={times} vehicle_name={@vehicle_name} />
+            <.subway_headways times={times} />
+          </div>
+        <% else %>
+          <.first_last
+            times={Enum.map(departures, & &1.time)}
+            vehicle_name={@vehicle_name}
+          />
+          <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
+        <% end %>
       <% end %>
     </.async_result>
     """
@@ -345,5 +356,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.formatted_time time={@arrival.time} />
     </div>
     """
+  end
+
+  attr :destination, :string, required: true
+  attr :route, Route, required: true
+
+  defp subway_destination(assigns) do
+    ~H"""
+    <div class="flex gap-sm text-lg font-bold font-heading mb-3">
+      <RouteComponents.route_icon route={@route} />
+      {gettext("to %{destination}", destination: @destination)}
+    </div>
+    """
+  end
+
+  attr :times, :list, required: true
+
+  defp subway_headways(assigns) do
+    ~H"""
+    <div class="bg-cobalt-90 p-3 mt-sm">
+      {headway_range(@times)}
+    </div>
+    """
+  end
+
+  # TODO just use hardcoded times
+  defp headway_range(times) do
+    {min, max} =
+      times
+      |> Stream.chunk_every(2)
+      |> Stream.filter(&(length(&1) == 2))
+      |> Stream.map(fn [t1, t2] -> DateTime.diff(t2, t1, :minute) end)
+      |> Enum.min_max(fn -> {nil, nil} end)
+
+    gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
   end
 end
