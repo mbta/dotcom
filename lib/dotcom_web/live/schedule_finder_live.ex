@@ -4,7 +4,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   for a given route/direction/stop.
   """
 
-  use DotcomWeb, :component
   use DotcomWeb, :live_view
 
   import CSSHelpers
@@ -13,6 +12,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.LiveView
   alias Routes.Route
+  alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -60,6 +60,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :direction_id, :string, required: true
 
   def route_banner(assigns) do
+    mode = assigns.route |> Route.type_atom() |> atom_to_class()
+    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
+
+    assigns =
+      assign(assigns, %{
+        line_name: line_name,
+        mode: mode
+      })
+
     ~H"""
     <div class={[route_to_class(@route), "font-heading p-md"]}>
       <.link
@@ -67,7 +76,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         patch={~p"/schedules/#{@route}"}
       >
         <div class="flex items-center gap-xs font-bold">
-          <.route_banner_icon route={@route} class="shrink-0 -ml-xs" />
+          <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 -ml-xs" />
           <span class="grow notranslate">{@route.name}</span>
           <.icon
             name="arrow-up-right-from-square"
@@ -90,25 +99,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  attr :route, Routes.Route, required: true
-  attr :rest, :global
-
-  def route_banner_icon(assigns) do
-    mode = assigns.route |> Route.type_atom() |> atom_to_class()
-    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
-
-    assigns =
-      assign(assigns, %{
-        line_name: line_name,
-        mode: mode
-      })
-
-    ~H"""
-    <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} {@rest} />
-    """
-  end
-
-  attr :stop, Stops.Stop
+  attr :stop, Stop
 
   def stop_banner(assigns) do
     ~H"""
@@ -119,11 +110,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     >
       <.icon
         type="icon-svg"
+        aria-hidden
         name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
         class="size-5 fill-current"
       />
-      <span class="grow font-bold font-heading">{@stop.name}</span>
-      <.icon name="arrow-up-right-from-square" class="size-4 fill-current" />
+      <span class="notranslate grow font-bold font-heading">{@stop.name}</span>
+      <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
     </.link>
     """
   end
