@@ -79,8 +79,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
     description =
       assigns.status
-      |> description(future: assigns.future)
-      |> Kernel.then(&if assigns.plural, do: &1 |> Inflex.pluralize(), else: &1)
+      |> description(%{future: assigns.future, plural: assigns.plural})
 
     assigns =
       assigns
@@ -106,10 +105,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
     %{
       plural: affected_stops |> Enum.count() > 1,
-      subheading_text:
-        affected_stops
-        |> Enum.map(& &1.name)
-        |> humanize_stop_names()
+      subheading_text: affected_stops |> humanize_affected_stops()
     }
   end
 
@@ -142,9 +138,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   # "Expect Delay" (or Expect Delays) rather than simply "Delay". A
   # prefix of "Now" should still display as "Delay", rather than
   # "Expect Delay".
-  defp description(:delay, future: true), do: ~t"Expect Delays"
-  defp description(:delay, future: false), do: ~t"Delays"
+  defp description(:delay, %{future: true}), do: ~t"Expect Delays"
+  defp description(:delay, %{future: false}), do: ~t"Delays"
   defp description(:shuttle, _), do: ~t"Shuttles"
+  defp description(:station_closure, %{plural: false}), do: ~t"Stop Skipped"
+  defp description(:station_closure, %{plural: true}), do: ~t"Stops Skipped"
+
+  defp description(status, %{plural: true} = args),
+    do: Inflex.pluralize(description(status, args |> Map.put(:plural, false)))
+
   defp description(status, _), do: Alert.human_effect(%Alert{effect: status})
 
   defp humanize_endpoint_list([{%Stops.Stop{id: id1} = stop, %Stops.Stop{id: id2}}])
@@ -176,6 +178,16 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   defp humanize_endpoint_name(%Stops.Stop{name: name}), do: name
   defp humanize_endpoint_name(label) when is_binary(label), do: label
 
+  defp humanize_affected_stops(affected_stops) do
+    if affected_stops |> Enum.all?(&(&1.direction == :all)) do
+      affected_stops
+      |> Enum.map(& &1.stop.name)
+      |> humanize_stop_names()
+    else
+      affected_stops |> humanize_stop_and_direction_names()
+    end
+  end
+
   defp humanize_stop_names([]), do: nil
   defp humanize_stop_names([stop_name]), do: stop_name
   defp humanize_stop_names([stop_name1, stop_name2]), do: "#{stop_name1} & #{stop_name2}"
@@ -185,6 +197,21 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp humanize_stop_names(stop_names),
     do: gettext("%{count} Stops", count: Enum.count(stop_names))
+
+  defp humanize_stop_and_direction_names([affected_stop]),
+    do: humanize_stop_and_direction_name(affected_stop)
+
+  defp humanize_stop_and_direction_names([_, _] = affected_stops),
+    do: affected_stops |> Enum.map_join(", ", &humanize_stop_and_direction_name/1)
+
+  defp humanize_stop_and_direction_names(affected_stops),
+    do: gettext("%{count} Stops", count: Enum.count(affected_stops))
+
+  defp humanize_stop_and_direction_name(%{stop: stop, direction: direction}),
+    do: "#{stop.name} (#{humanize_direction_name(direction)})"
+
+  defp humanize_direction_name({:direction, direction_name}), do: direction_name
+  defp humanize_direction_name(:all), do: ~t"Both Directions"
 
   defp severity([]), do: nil
   defp severity(alerts), do: alerts |> Enum.map(& &1.severity) |> Enum.max()

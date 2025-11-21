@@ -5,9 +5,15 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
 
   alias Alerts.{Alert, InformedEntity}
   alias Dotcom.Alerts.AffectedStops
-  alias Test.Support.{Factories.Stops.Stop, FactoryHelpers}
+  alias Test.Support.{Factories.Routes.Route, Factories.Stops.Stop, FactoryHelpers}
 
   setup :verify_on_exit!
+
+  setup do
+    Routes.Repo.Mock |> stub(:get, fn _ -> Route.build(:route) end)
+
+    :ok
+  end
 
   describe "affected_stops/2" do
     test "returns an empty list if there are no informed-entity stops" do
@@ -15,7 +21,7 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       route_id = FactoryHelpers.build(:id)
 
       Stops.Repo.Mock
-      |> expect(:by_route, fn ^route_id, 0 ->
+      |> stub(:by_route, fn ^route_id, _direction_id ->
         build_random_size_non_empty_stop_list()
       end)
 
@@ -35,8 +41,11 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
 
       Stops.Repo.Mock
       |> stub(:by_route, fn
-        ^route_id, 0 -> build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
-        _, 0 -> build_random_size_stop_list()
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
+
+        _, _direction_id ->
+          build_random_size_stop_list()
       end)
 
       informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id})
@@ -48,22 +57,38 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       affected_stops = AffectedStops.affected_stops([alert], queried_route_ids)
 
       # Verify
-      assert affected_stops == stops
+      assert affected_stops |> MapSet.new() ==
+               stops |> Enum.map(&%{direction: :all, stop: &1}) |> MapSet.new()
     end
 
     test "uses the direction in the alert if present" do
       # Setup
+      direction_id = Faker.Util.pick([0, 1])
       route_id = FactoryHelpers.build(:id)
       stops = build_random_size_non_empty_stop_list()
 
       Stops.Repo.Mock
       |> stub(:by_route, fn
-        ^route_id, 1 -> build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
-        _, 1 -> build_random_size_stop_list()
+        ^route_id, ^direction_id ->
+          build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
+
+        _, ^direction_id ->
+          build_random_size_stop_list()
+      end)
+
+      direction_name = Faker.Cat.breed()
+
+      Routes.Repo.Mock
+      |> stub(:get, fn _ ->
+        Route.build(:route, direction_names: %{direction_id => direction_name})
       end)
 
       informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id})
-      alert = Alert.new(informed_entity: informed_entities ++ [%InformedEntity{direction_id: 1}])
+
+      alert =
+        Alert.new(
+          informed_entity: informed_entities ++ [%InformedEntity{direction_id: direction_id}]
+        )
 
       # Exercise
       queried_route_ids = build_random_size_id_list() ++ [route_id] ++ build_random_size_id_list()
@@ -71,7 +96,10 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       affected_stops = AffectedStops.affected_stops([alert], queried_route_ids)
 
       # Verify
-      assert affected_stops == stops
+      assert affected_stops |> MapSet.new() ==
+               stops
+               |> Enum.map(&%{direction: {:direction, direction_name}, stop: &1})
+               |> MapSet.new()
     end
 
     test "dedupes stops that are part of multiple routes given" do
@@ -86,15 +114,15 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
 
       Stops.Repo.Mock
       |> stub(:by_route, fn
-        ^route_id1, 0 ->
+        ^route_id1, _direction_id ->
           build_random_size_stop_list() ++
             stops1 ++ overlap_stops ++ build_random_size_stop_list()
 
-        ^route_id2, 0 ->
+        ^route_id2, _direction_id ->
           build_random_size_stop_list() ++
             stops2 ++ overlap_stops ++ build_random_size_stop_list()
 
-        _, 0 ->
+        _, _direction_id ->
           build_random_size_stop_list()
       end)
 
@@ -126,12 +154,12 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       overlap_stops = build_random_size_non_empty_stop_list()
 
       Stops.Repo.Mock
-      |> expect(:by_route, fn
-        ^route_id, 0 ->
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
           build_random_size_stop_list() ++
             stops1 ++ stops2 ++ overlap_stops ++ build_random_size_stop_list()
 
-        _, 0 ->
+        _, _direction_id ->
           build_random_size_stop_list()
       end)
 
@@ -152,6 +180,30 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       # Verify
       total_stops_count = (stops1 ++ stops2 ++ overlap_stops) |> Enum.count()
       assert affected_stops_count == total_stops_count
+    end
+  end
+
+  describe "affected_stops/1" do
+    test "sources route ID's from the alert's informed entities" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+      stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ stops ++ build_random_size_stop_list()
+      end)
+
+      informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id, route: route_id})
+      alert = Alert.new(informed_entity: informed_entities)
+
+      # Exercise
+      affected_stops = AffectedStops.affected_stops([alert])
+
+      # Verify
+      assert affected_stops |> MapSet.new() ==
+               stops |> Enum.map(&%{direction: :all, stop: &1}) |> MapSet.new()
     end
   end
 

@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
   import DotcomWeb.Components.TripPlanner.{Place, RouteIcons}
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
+  alias Alerts.Alert
   alias Dotcom.TripPlan.Alerts
   alias OpenTripPlannerClient.Schema.{Leg, LegTime, Route, Trip}
 
@@ -175,7 +176,7 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
       <summary>
         <.icon aria-label={~t"Alert"} name="triangle-exclamation" class="h-3 w-3" />
         <span class="text-sm">
-          {human_effect(@alert)}
+          {alert_header(@alert)}
         </span>
         <span class="text-xs btn-link cursor-pointer group-open/alert:hidden">
           {~t(Show Details)}
@@ -190,6 +191,9 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
     </details>
     """
   end
+
+  defp alert_header(%Alert{effect: :station_closure}), do: ~t"Skipped"
+  defp alert_header(alert), do: human_effect(alert)
 
   defp leg_summary(assigns) do
     assigns =
