@@ -42,6 +42,8 @@ defmodule Routes.Repo do
   end
 
   @impl Routes.Repo.Behaviour
+  def get("Green"), do: green_line()
+
   def get(id) when is_binary(id) do
     opts = @default_opts
 
