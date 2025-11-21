@@ -32,6 +32,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def render(assigns) do
+    assigns =
+      assigns
+      |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
+
     ~H"""
     <Prototype.route_stop_picker
       selected_route={@route}
@@ -50,7 +54,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </.error_container>
       </:failed>
       <%= if departures do %>
-        {Enum.count(departures)} departures
+        <.first_last
+          times={Enum.map(departures, & &1.time)}
+          vehicle_name={@vehicle_name}
+        />
       <% end %>
     </.async_result>
     """
@@ -162,6 +169,50 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <span class="notranslate grow font-bold font-heading">{@stop.name}</span>
       <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
     </.link>
+    """
+  end
+
+  attr :times, :list, required: true
+  attr :vehicle_name, :string, required: true
+
+  defp first_last(%{times: [first | _] = times} = assigns) do
+    assigns =
+      assigns
+      |> assign(:first, first)
+      |> assign(:last, List.last(times))
+
+    ~H"""
+    <div class="bg-cobalt-90 p-3 flex justify-between">
+      <div :if={@first}>
+        {gettext("First %{vehicle}", vehicle: @vehicle_name)}:
+        <strong>
+          <.formatted_time time={@first} />
+        </strong>
+      </div>
+      <div :if={@last}>
+        {gettext("Last %{vehicle}", vehicle: @vehicle_name)}:
+        <strong>
+          <.formatted_time time={@last} />
+          <sup :if={next_day?(@first, @last)}>+1</sup>
+        </strong>
+      </div>
+    </div>
+    """
+  end
+
+  defp first_last(assigns), do: ~H""
+
+  defp next_day?(%DateTime{day: first}, %DateTime{day: second}) do
+    second > first
+  end
+
+  defp next_day?(_, _), do: false
+
+  defp formatted_time(assigns) do
+    ~H"""
+    <time datetime={@time} class="tabular-nums whitespace-nowrap">
+      {format!(@time, :hour_12_minutes)}
+    </time>
     """
   end
 end
