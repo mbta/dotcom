@@ -59,7 +59,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
 
-  def route_banner(assigns) do
+  defp route_banner(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
     line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
 
@@ -101,7 +101,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :stop, Stop
 
-  def stop_banner(assigns) do
+  defp stop_banner(assigns) do
     ~H"""
     <.link
       :if={@stop}
