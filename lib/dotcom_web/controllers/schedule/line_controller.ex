@@ -164,7 +164,10 @@ defmodule DotcomWeb.ScheduleController.LineController do
       |> get_default_service(services)
 
     if is_map(current_service) do
-      Enum.map(services, &Map.put(&1, :default_service?, &1.id === Map.get(current_service, :id, "")))
+      Enum.map(
+        services,
+        &Map.put(&1, :default_service?, &1.id === Map.get(current_service, :id, ""))
+      )
     else
       services
     end
