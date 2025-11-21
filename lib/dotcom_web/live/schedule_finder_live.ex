@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.ScheduleFinder do
+defmodule DotcomWeb.ScheduleFinderLive do
   @moduledoc """
   The primary view for looking up schedules, predictions, and relevant alerts
   for a given route/direction/stop.
