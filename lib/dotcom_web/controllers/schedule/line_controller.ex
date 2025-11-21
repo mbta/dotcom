@@ -158,13 +158,16 @@ defmodule DotcomWeb.ScheduleController.LineController do
   defp tag_default_service([]), do: []
 
   defp tag_default_service(services) do
-    current_service_id =
+    current_service =
       services
       |> Enum.filter(&current_service?/1)
       |> get_default_service(services)
-      |> Map.get(:id, "")
 
-    Enum.map(services, &Map.put(&1, :default_service?, &1.id === current_service_id))
+    if is_map(current_service) do
+      Enum.map(services, &Map.put(&1, :default_service?, &1.id === Map.get(current_service, :id, "")))
+    else
+      services
+    end
   end
 
   # Find candidates that could be valid for today:
