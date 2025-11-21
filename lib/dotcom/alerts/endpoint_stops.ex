@@ -44,7 +44,7 @@ defmodule Dotcom.Alerts.EndpointStops do
     direction_names =
       route_ids
       |> List.first()
-      |> get_route()
+      |> @routes_repo.get()
       |> Kernel.then(& &1.direction_names)
       |> to_forward_backward_direction_map(affected_direction_id)
 
@@ -56,12 +56,6 @@ defmodule Dotcom.Alerts.EndpointStops do
       |> to_endpoints(direction_names)
     end
   end
-
-  # Retrieves the route given, with a special case to return the Green
-  # Line "Route" if asked for "Green".
-  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
-  defp get_route("Green"), do: @routes_repo.green_line()
-  defp get_route(route_id), do: @routes_repo.get(route_id)
 
   # Converts a route's %{0 => _, 1 => _} direction map into an
   # orientation-aware %{forward: _, backward: _} direction map, based

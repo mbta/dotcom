@@ -27,7 +27,7 @@ defmodule Dotcom.Alerts.AffectedStops do
     direction_names =
       route_ids
       |> List.first()
-      |> get_route()
+      |> @routes_repo.get()
       |> Kernel.then(& &1.direction_names)
 
     route_ids
@@ -40,12 +40,6 @@ defmodule Dotcom.Alerts.AffectedStops do
     |> Enum.group_by(& &1.stop.id)
     |> Enum.map(fn {_stop_id, affected_stops} -> affected_stops |> combine_directions() end)
   end
-
-  # Retrieves the route given, with a special case to return the Green
-  # Line "Route" if asked for "Green".
-  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
-  defp get_route("Green"), do: @routes_repo.green_line()
-  defp get_route(route_id), do: @routes_repo.get(route_id)
 
   defp combine_directions(affected_stops) do
     affected_stops
