@@ -130,7 +130,7 @@ defmodule Dotcom.ScheduleFinder do
         {:ok,
          data
          |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-         |> Stream.map(&to_arrival/1)}
+         |> Enum.map(&to_arrival/1)}
 
       error ->
         error

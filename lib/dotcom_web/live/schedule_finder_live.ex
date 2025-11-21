@@ -11,6 +11,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
+  alias Dotcom.ScheduleFinder.FutureArrival
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
@@ -28,6 +29,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
+     |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:date, fn -> nil end)}
   end
 
@@ -59,13 +61,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
           times={Enum.map(departures, & &1.time)}
           vehicle_name={@vehicle_name}
         />
-        <.departures_table departures={departures} route={@route} />
+        <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
       <% end %>
     </.async_result>
     """
   end
 
-  @impl Phoenix.LiveView
+  @impl LiveView
   def handle_params(%{"direction_id" => direction, "route_id" => route} = params, _uri, socket) do
     {direction_id, _} = Integer.parse(direction)
 
@@ -76,6 +78,43 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:date, Map.get(params, "date", today()))
      |> assign_stop(params)
      |> assign_departures()}
+  end
+
+  @impl LiveView
+  def handle_event(
+        "open_trip",
+        %{"schedule_id" => schedule_id, "stop_sequence" => stop_sequence, "trip" => trip_id},
+        socket
+      ) do
+    date = socket.assigns.date
+    loaded_trips = socket.assigns.loaded_trips
+
+    if Map.get(loaded_trips, schedule_id) do
+      {:noreply, socket}
+    else
+      socket =
+        update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
+
+      GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event(_, _, socket), do: {:noreply, socket}
+
+  @impl Phoenix.LiveView
+  def handle_cast({:get_next, {schedule_id, args}}, socket) do
+    {:noreply,
+     socket
+     |> update(:loaded_trips, fn loaded_trips ->
+       result =
+         case Kernel.apply(Dotcom.ScheduleFinder, :next_arrivals, args) do
+           {:ok, arrivals} -> AsyncResult.ok(arrivals)
+           error -> AsyncResult.failed(error, :reason)
+         end
+
+       Map.put(loaded_trips, schedule_id, result)
+     end)}
   end
 
   defp assign_stop(socket, params) do
@@ -96,15 +135,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
         socket,
         :departures,
         fn ->
-          case daily_departures(route_id, direction_id, stop.id, date) do
-            {:ok, departures} -> {:ok, %{departures: departures}}
-            error -> error
-          end
+          get_departures(route_id, direction_id, stop.id, date)
         end,
         reset: true
       )
     else
       assign(socket, :departures, AsyncResult.ok([]))
+    end
+  end
+
+  defp get_departures(route_id, direction_id, stop_id, date) do
+    case daily_departures(route_id, direction_id, stop_id, date) do
+      {:ok, departures} -> {:ok, %{departures: departures}}
+      error -> error
     end
   end
 
@@ -220,14 +263,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :route, Route, required: true
   attr :departures, :list, required: true
+  attr :loaded_trips, :map, required: true
 
-  def departures_table(assigns) do
+  defp departures_table(assigns) do
     ~H"""
     <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
       <.unstyled_accordion
         :for={departure <- @departures}
         id={departure.schedule_id}
         summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest p-sm"
+        phx-hook="SFTripRow"
+        data-trip={departure.trip_id}
+        data-stop_sequence={departure.stop_sequence}
       >
         <:heading>
           <div class="flex items-center gap-sm w-full">
@@ -241,8 +288,61 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
           <.formatted_time time={departure.time} />
         </:heading>
-        <:content></:content>
+        <:content>
+          <div class="divide-y-[1px] divide-gray-lightest border-t border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+            <.async_result
+              :let={arrivals}
+              assign={Map.get(@loaded_trips, departure.schedule_id, AsyncResult.loading())}
+            >
+              <:loading>
+                <div class="p-lg text-gray">Loading arrivals...</div>
+              </:loading>
+              <:failed :let={fail}>
+                <.error_container title={inspect(fail)}>
+                  {~t"There was a problem loading arrivals"}
+                </.error_container>
+              </:failed>
+              <.arrival_row
+                :for={arrival <- arrivals}
+                :if={arrivals}
+                route={@route}
+                arrival={arrival}
+              />
+            </.async_result>
+          </div>
+        </:content>
       </.unstyled_accordion>
+    </div>
+    """
+  end
+
+  attr :arrival, FutureArrival, required: true
+  attr :route, Route, required: true
+
+  defp arrival_row(assigns) do
+    ~H"""
+    <div class="px-[1.75rem] py-sm gap-md flex justify-between items-center">
+      <div
+        class="w-2 z-10 flex flex-col self-stretch"
+        style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
+      >
+        <div class={"#{route_to_class(@route)} grow top"} />
+        <div class={"#{route_to_class(@route)} grow bottom"} />
+      </div>
+      <.icon
+        id={:erlang.phash2(@arrival)}
+        class={"size-[.75rem] #{route_to_class(@route)} rounded-full ring-2 z-20"}
+        name="circle"
+        style="margin-left: calc(-1.75rem + 2px);"
+        phx-hook="SFRouteRingColor"
+      />
+      <div class="notranslate grow">
+        <div>{@arrival.stop_name}</div>
+        <div :if={@arrival.platform_name} class="text-sm">
+          {@arrival.platform_name}
+        </div>
+      </div>
+      <.formatted_time time={@arrival.time} />
     </div>
     """
   end
