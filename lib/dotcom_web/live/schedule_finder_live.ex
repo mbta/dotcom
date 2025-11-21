@@ -7,12 +7,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
   use DotcomWeb, :live_view
 
   import CSSHelpers
+  import Dotcom.ScheduleFinder
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
   alias DotcomWeb.Components.Prototype
   alias MbtaMetro.Components.SystemIcons
-  alias Phoenix.LiveView
+  alias Phoenix.{LiveView, LiveView.AsyncResult}
   alias Routes.Route
   alias Stops.Stop
 
@@ -38,6 +39,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
+    <h2 class="flex justify-between">
+      {~t(Daily Schedules)}<mark>{@date}</mark>
+    </h2>
+    <.async_result :let={departures} :if={@stop} assign={@departures}>
+      <:loading>Loading daily schedules...</:loading>
+      <:failed :let={fail}>
+        <.error_container title={inspect(fail)}>
+          {~t"There was a problem loading schedules"}
+        </.error_container>
+      </:failed>
+      <%= if departures do %>
+        {Enum.count(departures)} departures
+      <% end %>
+    </.async_result>
     """
   end
 
@@ -50,7 +65,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:route, @routes_repo.get(route))
      |> assign(:direction_id, direction_id)
      |> assign(:date, Map.get(params, "date", today()))
-     |> assign_stop(params)}
+     |> assign_stop(params)
+     |> assign_departures()}
   end
 
   defp assign_stop(socket, params) do
@@ -59,6 +75,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp today, do: service_date() |> format!(:iso_date)
+
+  defp assign_departures(socket) do
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
+    date = socket.assigns.date
+    stop = socket.assigns.stop
+
+    if stop do
+      assign_async(
+        socket,
+        :departures,
+        fn ->
+          case daily_departures(route_id, direction_id, stop.id, date) do
+            {:ok, departures} -> {:ok, %{departures: departures}}
+            error -> error
+          end
+        end,
+        reset: true
+      )
+    else
+      assign(socket, :departures, AsyncResult.ok([]))
+    end
+  end
 
   # Schedule Finder components =================================================
 
