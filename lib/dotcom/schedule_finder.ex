@@ -50,7 +50,7 @@ defmodule Dotcom.ScheduleFinder do
   Get scheduled departures for a given route/direction/stop/date.
   """
   @spec daily_departures(Route.id_t(), 0 | 1, Stop.id_t(), String.t()) ::
-          [DailyDeparture.t()] | {:error, term()}
+          {:ok, [DailyDeparture.t()]} | {:error, term()}
   def daily_departures(route_id, direction_id, stop_id, date) do
     # Maybe add filter[stop_sequence] to help looped routes
     params = [
@@ -66,9 +66,10 @@ defmodule Dotcom.ScheduleFinder do
 
     case get_schedules(params) do
       {:ok, data} ->
-        data
-        |> Stream.reject(&no_pick_up?/1)
-        |> Stream.map(&to_departure/1)
+        {:ok,
+         data
+         |> Stream.reject(&no_pick_up?/1)
+         |> Stream.map(&to_departure/1)}
 
       {:error, error} ->
         {:error, inspect(error)}
@@ -113,7 +114,7 @@ defmodule Dotcom.ScheduleFinder do
   Get scheduled arrivals for one trip on a date, starting at a given stop_sequence.
   """
   @spec next_arrivals(Trip.id_t(), non_neg_integer(), String.t()) ::
-          [FutureArrival.t()] | {:error, term()}
+          {:ok, [FutureArrival.t()]} | {:error, term()}
   def next_arrivals(trip_id, min_stop_sequence, date) do
     # Maybe add filter[stop_sequence] to help looped routes
     params = [
@@ -126,9 +127,10 @@ defmodule Dotcom.ScheduleFinder do
 
     case get_schedules(params) do
       {:ok, data} ->
-        data
-        |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-        |> Stream.map(&to_arrival/1)
+        {:ok,
+         data
+         |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
+         |> Stream.map(&to_arrival/1)}
 
       error ->
         error
