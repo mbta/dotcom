@@ -14,6 +14,7 @@ defmodule DotcomWeb.StopControllerTest do
   setup :verify_on_exit!
 
   @banner_alert_effects_active_or_future [
+    :detour,
     :dock_closure,
     :dock_issue,
     :service_change,
