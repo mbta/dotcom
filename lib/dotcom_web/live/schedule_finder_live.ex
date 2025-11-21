@@ -12,6 +12,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Time, only: [format!: 2]
 
   alias DotcomWeb.Components.Prototype
+  alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.{LiveView, LiveView.AsyncResult}
   alias Routes.Route
@@ -58,6 +59,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           times={Enum.map(departures, & &1.time)}
           vehicle_name={@vehicle_name}
         />
+        <.departures_table departures={departures} route={@route} />
       <% end %>
     </.async_result>
     """
@@ -213,6 +215,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <time datetime={@time} class="tabular-nums whitespace-nowrap">
       {format!(@time, :hour_12_minutes)}
     </time>
+    """
+  end
+
+  attr :route, Route, required: true
+  attr :departures, :list, required: true
+
+  def departures_table(assigns) do
+    ~H"""
+    <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
+      <.unstyled_accordion
+        :for={departure <- @departures}
+        id={departure.schedule_id}
+        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest p-sm"
+      >
+        <:heading>
+          <div class="flex items-center gap-sm w-full">
+            <RouteComponents.route_icon route={@route} />
+            <div>
+              {departure.headsign}
+              <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
+                {~t(Train)} {departure.trip_name}
+              </div>
+            </div>
+          </div>
+          <.formatted_time time={departure.time} />
+        </:heading>
+        <:content></:content>
+      </.unstyled_accordion>
+    </div>
     """
   end
 end
