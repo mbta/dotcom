@@ -46,9 +46,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
-    <h2 class="flex justify-between">
-      {~t(Daily Schedules)}<mark>{@date}</mark>
-    </h2>
+    <div class="flex items-start justify-between py-lg">
+      <h2 class="m-0">{~t(Daily Schedules)}</h2>
+      <inclusive-dates
+        phx-update="ignore"
+        phx-hook="SFDatePicker"
+        id="sf-datepicker"
+        start-date={@date}
+      >
+      </inclusive-dates>
+    </div>
+    <mark>{@date}</mark>
     <.async_result :let={departures} :if={@stop} assign={@departures}>
       <:loading>Loading daily schedules...</:loading>
       <:failed :let={fail}>
@@ -56,7 +64,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           {~t"There was a problem loading schedules"}
         </.error_container>
       </:failed>
-      <%= if departures do %>
+      <%= if departures && Enum.count(departures) > 0 do %>
         <%= if @route.type in [0, 1] do %>
           <div
             :for={{route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)}
@@ -73,6 +81,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
           />
           <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
         <% end %>
+      <% else %>
+        <div class="p-lg bg-cobalt-90 text-lg">
+          No scheduled departures this day.
+        </div>
       <% end %>
     </.async_result>
     """
@@ -109,6 +121,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
       GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
       {:noreply, socket}
     end
+  end
+
+  def handle_event("set_date", %{"date" => date}, socket) do
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
+    params = Map.take(socket.assigns, [:stop]) |> Map.put(:date, date)
+
+    {:noreply,
+     push_patch(socket, to: ~p"/preview/schedules/#{route_id}/#{direction_id}?#{params}")}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
