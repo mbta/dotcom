@@ -380,7 +380,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  # TODO just use hardcoded times
+  # later: just use hardcoded times
   defp headway_range(times) do
     {min, max} =
       times
