@@ -69,7 +69,7 @@ defmodule Dotcom.ScheduleFinder do
         {:ok,
          data
          |> Stream.reject(&no_pick_up?/1)
-         |> Stream.map(&to_departure/1)}
+         |> Enum.map(&to_departure/1)}
 
       {:error, error} ->
         {:error, inspect(error)}
