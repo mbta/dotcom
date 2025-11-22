@@ -8,10 +8,20 @@ defmodule Dotcom.Utils.Enum do
   The final value in the grouping is always a list.
 
   ## Examples
+    iex> Dotcom.Utils.Enum.group_list([])
+    %{}
+
+    iex> Dotcom.Utils.Enum.group_list([["foo"]])
+    %{"foo" => []}
+
+    iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"]])
+    %{"foo" => %{"bar" => ["baz"]}}
 
     iex> Dotcom.Utils.Enum.group_list([["foo", "bar", "baz"], ["foo", "bar", "bop"]])
     %{"foo" => %{"bar" => ["baz", "bop"]}}
   """
+  def group_list([]), do: %{}
+
   def group_list(list) do
     list
     |> Enum.map(&list_to_list_of_lists/1)
@@ -44,7 +54,13 @@ defmodule Dotcom.Utils.Enum do
   # Then, reduce the tail of the list.
   # If the is a list of lists, recurse.
   # Otherwise, we are at the end and we can process the tail.
-  defp group(list) do
+  defp group([]), do: %{}
+
+  defp group([element]) when is_binary(element) do
+    Map.put(%{}, element, [])
+  end
+
+  defp group(list) when is_list(list) do
     list
     |> Enum.group_by(&List.first/1, fn l -> l |> Kernel.tl() |> List.flatten() end)
     |> Enum.reduce(%{}, fn {k, v}, acc ->
