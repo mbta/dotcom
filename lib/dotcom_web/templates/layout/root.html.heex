@@ -39,6 +39,15 @@
       href="/news/rss.xml"
     />
 
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/inclusive-dates/dist/esm/inclusive-dates.js"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/inclusive-dates/dist/themes/light.css"
+    />
+
     <%= if Application.get_env(:sentry, :js_dsn) do %>
       <script nonce={@conn.assigns[:csp_nonce]}>
         window.sentry = {

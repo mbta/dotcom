@@ -178,7 +178,8 @@ defmodule Test.Support.Factories.MBTA.Api do
             "sort_order" => 0,
             "time_desc" => nil,
             "typicality" => 1,
-            "wheelchair_boarding" => ""
+            "wheelchair_boarding" => "",
+            "vehicle_type" => Faker.Util.pick([0, 1, 2, 3, 4])
           },
           relationships: %{
             "child_stops" => [],
@@ -315,6 +316,25 @@ defmodule Test.Support.Factories.MBTA.Api do
             "polyline" => Faker.Lorem.characters()
           },
           type: "shape"
+        },
+        attrs
+      )
+    )
+  end
+
+  def schedule_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "arrival_time" => formatted_datetime(),
+            "departure_time" => formatted_datetime(),
+            "pickup_type" => "",
+            "stop_headsign" => "",
+            "stop_sequence" => 90
+          },
+          type: "schedule"
         },
         attrs
       )
