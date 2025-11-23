@@ -36,7 +36,8 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo,
   schedules: Schedules.Repo,
   schedules_condensed: Schedules.RepoCondensed,
-  stops: Stops.Repo
+  stops: Stops.Repo,
+  vehicles: Vehicles.Repo
 
 config :dotcom, :system_status_cache_modules,
   commuter_rail: Dotcom.SystemStatus.CommuterRailCache,
