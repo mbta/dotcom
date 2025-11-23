@@ -23,7 +23,7 @@ defmodule Test.Support.Factories.Predictions.Prediction do
       stop: Stop.build(:stop),
       time: Faker.DateTime.forward(1),
       track: Faker.Util.digit() |> FactoryHelpers.nullable_item(),
-      trip: Trip.build(:trip) |> FactoryHelpers.nullable_item(),
+      trip: Trip.build(:trip),
       vehicle_id: FactoryHelpers.build(:nullable_id)
     }
   end
