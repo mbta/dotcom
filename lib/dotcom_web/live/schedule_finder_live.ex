@@ -11,19 +11,43 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias DotcomWeb.Components.Prototype
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.LiveView
+  alias Predictions.Prediction
   alias Routes.Route
   alias Stops.Stop
+  alias Vehicles.Vehicle
 
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
+
+  defmodule UpcomingDepartureRow do
+    defstruct [
+      :vehicle_status,
+      :predicted_time,
+      :seconds_until_arrival,
+      :trip_id,
+      :headsign,
+      :vehicle_stop_id,
+      :prediction_stop_id,
+      :vehicle,
+      :prediction
+    ]
+  end
 
   @impl LiveView
   def mount(_params, _session, socket) do
+    schedule_refresh()
+
     {:ok,
      socket
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
-     |> assign_new(:stop, fn -> nil end)}
+     |> assign_new(:stop, fn -> nil end)
+     |> assign_new(:predictions, fn -> [] end)
+     |> assign_new(:vehicles, fn -> [] end)
+     |> assign_new(:now, fn -> @date_time.now() end)}
   end
 
   @impl LiveView
@@ -35,6 +59,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
+
+    <.upcoming_departures_table predictions={@predictions} now={@now} vehicles={@vehicles} />
     """
   end
 
@@ -46,12 +72,48 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign(:route, @routes_repo.get(route))
      |> assign(:direction_id, direction_id)
-     |> assign_stop(params)}
+     |> assign_stop(params)
+     |> assign_predictions()}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_info(:refresh, socket) do
+    schedule_refresh()
+
+    {:noreply,
+     socket
+     |> assign(:now, @date_time.now())
+     |> assign_predictions()}
+  end
+
+  defp schedule_refresh() do
+    # Refresh every second
+    Process.send_after(self(), :refresh, 1000)
   end
 
   defp assign_stop(socket, params) do
     stop_id = Map.get(params, "stop")
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
+  end
+
+  defp assign_predictions(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
+    prediction_opts = [
+      route: socket.assigns.route.id,
+      direction_id: socket.assigns.direction_id
+    ]
+
+    # predictions = @predictions_repo.all(prediction_opts)
+
+    predictions = @predictions_repo.all(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id))
+
+    vehicles =
+      @vehicles_repo.route(socket.assigns.route.id, direction_id: socket.assigns.direction_id)
+
+    socket |> assign(:predictions, predictions) |> assign(:vehicles, vehicles)
+  end
+
+  defp assign_predictions(socket) do
+    socket |> assign(:predictions, []) |> assign(:vehicles, [])
   end
 
   # Schedule Finder components =================================================
@@ -118,5 +180,90 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
     </.link>
     """
+  end
+
+  attr :predictions, :any
+  attr :now, DateTime
+  attr :vehicles, :any
+
+  defp upcoming_departures_table(assigns) do
+    now = assigns.now
+
+    rows =
+      assigns.predictions
+      |> Enum.map(fn prediction ->
+        vehicle = prediction |> vehicle()
+        predicted_time = prediction.arrival_time
+
+        %UpcomingDepartureRow{
+          # vehicle: vehicle,
+          # prediction: prediction,
+          trip_id: prediction.trip.id,
+          headsign: prediction.trip.headsign,
+          predicted_time: predicted_time,
+          seconds_until_arrival: DateTime.diff(predicted_time, now, :second),
+          vehicle_status: vehicle |> vehicle_status(),
+          vehicle_stop_id: vehicle |> vehicle_stop_id(),
+          prediction_stop_id: prediction.platform_stop_id
+        }
+      end)
+
+    assigns = assigns |> assign(:rows, rows)
+
+    ~H"""
+    <.unstyled_accordion :for={row <- @rows} summary_class="flex items-center">
+      <:heading>
+        <div class="w-full">
+          {row.headsign} - {arrival_time_display(row)} - {row.trip_id}
+        </div>
+      </:heading>
+      <:content>
+        <pre>{inspect row, pretty: true}</pre>
+      </:content>
+    </.unstyled_accordion>
+
+    <h1>Vehicles</h1>
+
+    <.unstyled_accordion :for={vehicle <- @vehicles} summary_class="flex items-center">
+      <:heading>
+        <div class="w-full">
+          Vehicle {vehicle.id} running trip {vehicle.trip_id}
+        </div>
+      </:heading>
+      <:content>
+        <pre>{inspect vehicle, pretty: true}</pre>
+      </:content>
+    </.unstyled_accordion>
+    """
+  end
+
+  # defp arrival_time_display(%Prediction{} = prediction, now) do
+  #   case DateTime.diff(prediction.arrival_time, now, :second) do
+  #     sec when sec > 60 -> "#{div(sec, 60)} min"
+  #     sec when sec > 30 -> "Approaching"
+  #     sec when sec > 0 -> "Arriving"
+  #   end
+  # end
+
+  defp arrival_time_display(%UpcomingDepartureRow{seconds_until_arrival: seconds_until_arrival})
+       when seconds_until_arrival > 60,
+       do: "#{div(seconds_until_arrival, 60)} min"
+
+  defp arrival_time_display(%UpcomingDepartureRow{seconds_until_arrival: seconds_until_arrival})
+       when seconds_until_arrival > 30,
+       do: "Approaching"
+
+  defp arrival_time_display(%UpcomingDepartureRow{seconds_until_arrival: seconds_until_arrival})
+       when seconds_until_arrival > 0,
+       do: "Arriving"
+
+  defp vehicle_status(%Vehicle{status: status}), do: status
+  defp vehicle_status(_), do: "?"
+
+  defp vehicle_stop_id(%Vehicle{stop_id: stop_id}), do: stop_id
+  defp vehicle_stop_id(_), do: "?"
+
+  defp vehicle(%Prediction{trip: %{id: trip_id}}) do
+    @vehicles_repo.trip(trip_id)
   end
 end
