@@ -60,6 +60,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
 
+    <h1>Upcoming Departures</h1>
     <.upcoming_departures_table predictions={@predictions} now={@now} vehicles={@vehicles} />
     """
   end
@@ -101,8 +102,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       route: socket.assigns.route.id,
       direction_id: socket.assigns.direction_id
     ]
-
-    # predictions = @predictions_repo.all(prediction_opts)
 
     predictions = @predictions_repo.all(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id))
 
@@ -256,6 +255,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDepartureRow{seconds_until_arrival: seconds_until_arrival})
        when seconds_until_arrival > 0,
        do: "Arriving"
+
+  defp arrival_time_display(%UpcomingDepartureRow{seconds_until_arrival: seconds_until_arrival})
+       when seconds_until_arrival > 0,
+       do: "??Past Due??"
 
   defp vehicle_status(%Vehicle{status: status}), do: status
   defp vehicle_status(_), do: "?"
