@@ -242,6 +242,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: "Boarding"
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
     do: "#{-seconds} Seconds Past Due"

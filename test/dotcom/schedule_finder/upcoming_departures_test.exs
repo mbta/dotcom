@@ -9,6 +9,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
   setup :verify_on_exit!
 
   setup do
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
     stub(Vehicles.Repo.Mock, :trip, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
 
     :ok
@@ -123,6 +124,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Verify
       assert departures |> Enum.map(& &1.arrival_status) == [
                :arriving
+             ]
+    end
+
+    test "shows arrival_status as :boarding if there is a vehicle at a platform in the station and departure_time is within 90 seconds" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+      stop_id = FactoryHelpers.build(:id)
+      stop = Factories.Stops.Stop.build(:stop, id: stop_id)
+      platform_id = FactoryHelpers.build(:id, parent_id: stop_id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      seconds_until_departure = Faker.random_between(1, 90)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: now |> DateTime.shift(second: -30),
+            departure_time: departure_time,
+            stop: stop,
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id ->
+        Factories.Vehicles.Vehicle.build(:vehicle, stop_id: platform_id)
+      end)
+
+      expect(Stops.Repo.Mock, :get_parent, fn ^platform_id -> stop end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               :boarding
              ]
     end
 
