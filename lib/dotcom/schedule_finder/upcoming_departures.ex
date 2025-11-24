@@ -9,8 +9,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defmodule UpcomingDeparture do
     defstruct [
       :vehicle_status,
-      :predicted_time,
-      :seconds_until_arrival,
+      :arrival_status,
+      :seconds,
       :trip_id,
       :headsign,
       :vehicle_stop_id,
@@ -41,18 +41,25 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     vehicle = prediction |> vehicle()
     predicted_time = prediction.arrival_time
 
+    seconds = DateTime.diff(predicted_time, now, :second)
+
     %UpcomingDeparture{
       # vehicle: vehicle,
       # prediction: prediction,
       trip_id: prediction.trip.id,
       headsign: prediction.trip.headsign,
-      predicted_time: predicted_time,
-      seconds_until_arrival: DateTime.diff(predicted_time, now, :second),
+      arrival_status: arrival_status(seconds),
+      seconds: seconds,
       vehicle_status: vehicle |> vehicle_status(),
       vehicle_stop_id: vehicle |> vehicle_stop_id(),
       prediction_stop_id: prediction.platform_stop_id
     }
   end
+
+  defp arrival_status(seconds) when seconds > 60, do: {:minutes, div(seconds, 60)}
+  defp arrival_status(seconds) when seconds > 30, do: :approaching
+  defp arrival_status(seconds) when seconds > 0, do: :arriving
+  defp arrival_status(seconds), do: {:past_due, seconds}
 
   def vehicle(%Prediction{trip: %{id: trip_id}}) do
     @vehicles_repo.trip(trip_id)

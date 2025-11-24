@@ -214,19 +214,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp arrival_time_display(%UpcomingDeparture{seconds_until_arrival: seconds_until_arrival})
-       when seconds_until_arrival > 60,
-       do: "#{div(seconds_until_arrival, 60)} min"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:minutes, minutes}}),
+    do: "#{minutes} min"
 
-  defp arrival_time_display(%UpcomingDeparture{seconds_until_arrival: seconds_until_arrival})
-       when seconds_until_arrival > 30,
-       do: "Approaching"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
 
-  defp arrival_time_display(%UpcomingDeparture{seconds_until_arrival: seconds_until_arrival})
-       when seconds_until_arrival > 0,
-       do: "Arriving"
-
-  defp arrival_time_display(%UpcomingDeparture{seconds_until_arrival: seconds_until_arrival})
-       when seconds_until_arrival > 0,
-       do: "??Past Due??"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
+    do: "#{-seconds} Seconds Past Due"
 end
