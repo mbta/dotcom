@@ -55,6 +55,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       arrival_status:
         arrival_status(%{
           arrival_seconds: arrival_seconds,
+          departure_seconds: departure_seconds,
           stop_id_matches?: vehicle_stop_id == stop_id
         }),
       arrival_seconds: arrival_seconds,
@@ -65,16 +66,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     }
   end
 
-  defp arrival_status(%{arrival_seconds: seconds}) when seconds > 60,
-    do: {:minutes, div(seconds, 60)}
+  defp arrival_status(%{
+         arrival_seconds: arrival_seconds,
+         departure_seconds: departure_seconds,
+         stop_id_matches?: true
+       })
+       when arrival_seconds <= 0 and departure_seconds <= 90,
+       do: :boarding
 
-  defp arrival_status(%{arrival_seconds: seconds}) when seconds > 30, do: :approaching
-  defp arrival_status(%{arrival_seconds: seconds}) when seconds > 0, do: :arriving
+  defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 30, do: :arriving
+  defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 60, do: :approaching
 
-  defp arrival_status(%{arrival_seconds: seconds, stop_id_matches?: true}) when seconds <= 0,
-    do: :boarding
-
-  defp arrival_status(%{arrival_seconds: seconds}), do: {:past_due, seconds}
+  defp arrival_status(%{arrival_seconds: seconds}), do: {:minutes, div(seconds, 60)}
 
   def vehicle(%Prediction{trip: %{id: trip_id}}) do
     @vehicles_repo.trip(trip_id)
