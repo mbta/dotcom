@@ -247,7 +247,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       </a>
       <.promo_banner
         href={@feedback_url}
-        class="bg-amethyst-90 text-black flex items-center justify-center gap-xs text-sm p-[0.75rem] font-medium"
+        class="bg-amethyst-80 text-black flex items-center justify-center gap-xs text-sm p-[0.75rem] font-medium"
       >
         {~t(Is this helpful? Send us feedback)}
         <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3" />
