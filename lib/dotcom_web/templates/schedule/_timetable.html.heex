@@ -1,3 +1,14 @@
+<.promo_banner
+  :if={commuter_rail?(@route) && mobile?(@conn)}
+  href="https://www.mbta.com/app-store?pt=117998862&ct=dotcom-cr-banner&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dcr-banner"
+  class="mb-5 p-3 leading-none flex gap-2 items-center bg-cobalt-90 border-xs border-cobalt-70 rounded-lg"
+>
+  <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" />
+  <div class="leading-none">
+    Download <strong>MBTA Go</strong> to track your train &#8594;
+  </div>
+</.promo_banner>
+
 {DotcomWeb.AlertView.group(
   alerts: @banner_alerts,
   route: @route,

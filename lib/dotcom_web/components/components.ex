@@ -255,7 +255,7 @@ defmodule DotcomWeb.Components do
   """
   def promo_banner(%{href: href} = assigns) when is_nil(href) do
     ~H"""
-    <div class={"bg-amethyst-90 text-center #{@class}"}>
+    <div class={@class}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -263,7 +263,7 @@ defmodule DotcomWeb.Components do
 
   def promo_banner(assigns) do
     ~H"""
-    <a href={@href} class={"block bg-amethyst-80 text-black text-center #{@class}"} target="_blank">
+    <a href={@href} class={"block text-black #{@class}"} target="_blank">
       {render_slot(@inner_block)}
     </a>
     """

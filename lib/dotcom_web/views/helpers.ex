@@ -305,6 +305,13 @@ defmodule DotcomWeb.ViewHelpers do
     end
   end
 
+  def mobile?(conn) do
+    user_agent = user_agent(conn)
+
+    String.match?(user_agent, ~r/Android/) ||
+      String.match?(user_agent, ~r/iPhone/)
+  end
+
   @spec tel_link(String.t() | nil) :: Phoenix.HTML.Safe.t()
   def tel_link(number) do
     pretty_formatted = Dotcom.PhoneNumber.pretty_format(number)
