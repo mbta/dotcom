@@ -17,9 +17,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :headsign,
       :vehicle_stop_id,
       :prediction_stop_id,
+      :other_stops,
       :vehicle,
       :prediction
     ]
+
+    defmodule OtherStop do
+      defstruct [
+        :stop_id,
+        :stop_name,
+        :time
+      ]
+    end
   end
 
   def upcoming_departures(%{
@@ -28,18 +37,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         route_id: route_id,
         stop_id: stop_id
       }) do
-    [
-      route: route_id,
-      direction_id: direction_id
-    ]
-    |> @predictions_repo.all()
+    all_predictions =
+      [
+        route: route_id,
+        direction_id: direction_id
+      ]
+      |> @predictions_repo.all()
+
+    predictions_by_trip_id =
+      all_predictions
+      |> Enum.group_by(& &1.trip.id)
+
+    all_predictions
     |> Enum.filter(&(&1.stop.id == stop_id))
     |> Enum.map(fn prediction ->
-      prediction |> to_upcoming_departure(%{now: now, stop_id: stop_id})
+      prediction
+      |> to_upcoming_departure(%{
+        now: now,
+        stop_id: stop_id,
+        predictions_by_trip_id: predictions_by_trip_id
+      })
     end)
   end
 
-  def to_upcoming_departure(prediction, %{now: now, stop_id: stop_id}) do
+  def to_upcoming_departure(prediction, %{
+        now: now,
+        stop_id: stop_id,
+        predictions_by_trip_id: predictions_by_trip_id
+      }) do
     vehicle = prediction |> vehicle()
 
     arrival_seconds = DateTime.diff(prediction.arrival_time, now, :second)
@@ -62,8 +87,21 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       departure_seconds: departure_seconds,
       vehicle_status: vehicle |> vehicle_status(),
       vehicle_stop_id: vehicle_stop_id,
-      prediction_stop_id: prediction.platform_stop_id
+      prediction_stop_id: prediction.platform_stop_id,
+      other_stops: other_stops(predictions_by_trip_id |> Map.get(prediction.trip.id))
     }
+  end
+
+  defp other_stops(predictions) do
+    predictions
+    |> Enum.map(
+      &%UpcomingDeparture.OtherStop{
+        stop_id: &1.stop.id,
+        stop_name: &1.stop.name,
+        time: &1.arrival_time
+      }
+    )
+    |> Enum.sort_by(& &1.time)
   end
 
   defp arrival_status(%{

@@ -173,6 +173,80 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "shows other departure-stops for the same trip" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+
+      stop_ids =
+        Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      [stop_before, stop, stop_after] =
+        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time_offsets =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
+
+      [arrival_time_before, arrival_time, arrival_time_after] =
+        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: stop,
+            trip: trip
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time_after,
+            stop: stop_after,
+            trip: trip
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time_before,
+            stop: stop_before,
+            trip: trip
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      other_stops = departure.other_stops
+
+      assert other_stops |> Enum.map(& &1.stop_name) == [
+               stop_before.name,
+               stop.name,
+               stop_after.name
+             ]
+
+      assert other_stops |> Enum.map(& &1.stop_id) == [
+               stop_before.id,
+               stop.id,
+               stop_after.id
+             ]
+
+      assert other_stops |> Enum.map(& &1.stop_id) == [
+               stop_before.id,
+               stop.id,
+               stop_after.id
+             ]
+    end
+
     test "does not include upcoming departures for other stops" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
