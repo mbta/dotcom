@@ -11,6 +11,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
+  alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.LiveView
   alias Routes.Route
@@ -49,6 +50,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.upcoming_departures_table
       now={@now}
       predictions={@predictions}
+      route={@route}
       vehicles={@vehicles}
       upcoming_departures={@upcoming_departures}
     />
@@ -191,25 +193,38 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :now, DateTime
   attr :predictions, :any
+  attr :route, Route
   attr :vehicles, :any
   attr :upcoming_departures, :list
 
   defp upcoming_departures_table(assigns) do
     ~H"""
     <h1>Upcoming Departures</h1>
-    <.unstyled_accordion
-      :for={upcoming_departure <- @upcoming_departures}
-      summary_class="flex items-center"
-    >
-      <:heading>
-        <div class="w-full">
-          {upcoming_departure.headsign} - {arrival_time_display(upcoming_departure)} - {upcoming_departure.trip_id}
-        </div>
-      </:heading>
-      <:content>
-        <pre>{inspect upcoming_departure, pretty: true}</pre>
-      </:content>
-    </.unstyled_accordion>
+    <div class="border-b-xs border-charcoal-80">
+      <.unstyled_accordion
+        :for={upcoming_departure <- @upcoming_departures}
+        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2"
+      >
+        <:heading>
+          <div class="w-full flex gap-2">
+            <RouteComponents.route_icon route={@route} />
+            <div>{upcoming_departure.headsign}</div>
+            <div class="ml-auto">{arrival_time_display(upcoming_departure)}</div>
+          </div>
+        </:heading>
+        <:content>
+          <div
+            :for={other_stop <- upcoming_departure.other_stops}
+            class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center"
+          >
+            <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026]"}>
+            </div>
+            <div>{other_stop.stop_name}</div>
+            <div class="ml-auto">{Timex.format!(other_stop.time, "{h12}:{m} {AM}")}</div>
+          </div>
+        </:content>
+      </.unstyled_accordion>
+    </div>
 
     <h1>Vehicles</h1>
     <.unstyled_accordion :for={vehicle <- @vehicles} summary_class="flex items-center">
