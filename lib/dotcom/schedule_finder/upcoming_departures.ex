@@ -98,11 +98,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       &%UpcomingDeparture.OtherStop{
         stop_id: &1.stop.id,
         stop_name: &1.stop.name,
-        time: &1.arrival_time
+        time: prediction_time(&1)
       }
     )
     |> Enum.sort_by(& &1.time)
   end
+
+  defp prediction_time(%Prediction{arrival_time: nil, departure_time: time}), do: time
+  defp prediction_time(%Prediction{arrival_time: time}), do: time
 
   defp arrival_status(%{
          arrival_seconds: arrival_seconds,
