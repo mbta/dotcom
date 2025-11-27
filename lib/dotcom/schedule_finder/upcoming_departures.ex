@@ -109,8 +109,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          arrival_seconds: arrival_seconds,
-         departure_seconds: departure_seconds,
-         stop_id_matches?: true
+         departure_seconds: departure_seconds
        })
        when arrival_seconds <= 0 and departure_seconds <= 90,
        do: :boarding
