@@ -48,6 +48,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.stop_banner stop={@stop} />
 
     <.upcoming_departures_table
+      :if={@stop}
       now={@now}
       predictions={@predictions}
       route={@route}
