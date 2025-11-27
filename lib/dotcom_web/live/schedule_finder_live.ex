@@ -211,7 +211,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       >
         <:heading>
           <div class="w-full flex gap-2">
-            <RouteComponents.route_icon route={@route} />
+            <RouteComponents.route_icon size="small" route={@route} />
             <div>{upcoming_departure.headsign}</div>
             <div class="ml-auto font-bold">
               <.icon type="icon-svg" name="icon-realtime-tracking" />

@@ -8,7 +8,7 @@ defmodule DotcomWeb.RouteComponents do
   alias MbtaMetro.Components.SystemIcons
   alias Routes.Route
 
-  attr :rest, :global
+  attr :rest, :global, include: ["size"]
   attr :route, Route, required: true
 
   def route_icon(%{route: %Route{type: 2}} = assigns) do
