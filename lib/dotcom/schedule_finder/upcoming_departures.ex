@@ -83,8 +83,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           departure_seconds: departure_seconds,
           stop_id_matches?: vehicle_stop_id == stop_id
         }),
-      arrival_seconds: arrival_seconds,
-      departure_seconds: departure_seconds,
       vehicle_status: vehicle |> vehicle_status(),
       vehicle_stop_id: vehicle_stop_id,
       prediction_stop_id: prediction.platform_stop_id,
