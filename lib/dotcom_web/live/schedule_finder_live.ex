@@ -201,6 +201,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :upcoming_departures, :list
 
   defp upcoming_departures_table(assigns) do
+    mode = assigns.route |> Route.type_atom() |> atom_to_class()
+    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
+
+    assigns =
+      assign(assigns, %{
+        line_name: line_name,
+        mode: mode
+      })
+
     ~H"""
     <h1>Upcoming Departures</h1>
     <div class="border-b-xs border-charcoal-80">
@@ -220,12 +229,24 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:heading>
         <:content>
-          <.other_stop
-            :for={other_stop <- upcoming_departure.trip_details.stops_before}
-            other_stop={other_stop}
-            route={@route}
-            stop_id={@stop_id}
-          />
+          <div class="p-2 border-xs border-charcoal-80 border-b-0">
+            <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0" />
+          </div>
+          <details class="group/details">
+            <summary class="cursor-pointer flex gap-2 p-2 border-xs border-charcoal-80 border-b-0">
+              <div class="size-6"></div>
+              <div>{Enum.count(upcoming_departure.trip_details.stops_before)} Stops Away</div>
+              <div class="shrink-0">
+                <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
+              </div>
+            </summary>
+            <.other_stop
+              :for={other_stop <- upcoming_departure.trip_details.stops_before}
+              other_stop={other_stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+          </details>
           <.other_stop
             other_stop={upcoming_departure.trip_details.stop}
             route={@route}
