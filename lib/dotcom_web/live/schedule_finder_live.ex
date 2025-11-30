@@ -229,8 +229,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:heading>
         <:content>
-          <div class="p-2 border-xs border-charcoal-80 border-b-0">
-            <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0" />
+          <div class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2">
+            <SystemIcons.mode_icon
+              aria-hidden
+              line={@line_name}
+              mode={@mode}
+              class="shrink-0"
+            />
+            <div>{trip_details_header_text(upcoming_departure)}</div>
           </div>
           <details class="group/details">
             <summary class="cursor-pointer flex gap-2 p-2 border-xs border-charcoal-80 border-b-0">
@@ -291,7 +297,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp other_stop(assigns) do
     ~H"""
     <div class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-      <div class="size-6 flex items-center justify-center">
+      <div class="size-6 shrink-0 flex items-center justify-center">
         <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026]"} />
       </div>
       <div class={@stop_id == @other_stop.stop_id && "font-bold"}>{@other_stop.stop_name}</div>
@@ -311,4 +317,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
     do: "#{-seconds} Seconds Past Due"
+
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:minutes, minutes}}),
+    do: "Arriving in #{minutes} min"
+
+  defp trip_details_header_text(upcoming_departure),
+    do: "Now #{arrival_time_display(upcoming_departure)}"
 end
