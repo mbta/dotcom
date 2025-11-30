@@ -2,6 +2,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   alias Predictions.Prediction
 
   alias Vehicles.Vehicle
+  alias __MODULE__.UpcomingDeparture.OtherStop
+  alias __MODULE__.UpcomingDeparture.TripDetails
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -17,10 +19,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :headsign,
       :vehicle_stop_id,
       :prediction_stop_id,
-      :other_stops,
+      :trip_details,
       :vehicle,
       :prediction
     ]
+
+    defmodule TripDetails do
+      defstruct [
+        :stops_before,
+        :stop,
+        :stops_after
+      ]
+    end
 
     defmodule OtherStop do
       defstruct [
@@ -72,6 +82,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     vehicle_stop_id = vehicle |> vehicle_stop_id()
 
+    other_stops = other_stops(predictions_by_trip_id |> Map.get(prediction.trip.id))
+
+    {stops_before, [stop | stops_after]} =
+      other_stops |> Enum.split_while(&(&1.stop_id != stop_id))
+
     %UpcomingDeparture{
       # vehicle: vehicle,
       # prediction: prediction,
@@ -86,14 +101,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       vehicle_status: vehicle |> vehicle_status(),
       vehicle_stop_id: vehicle_stop_id,
       prediction_stop_id: prediction.platform_stop_id,
-      other_stops: other_stops(predictions_by_trip_id |> Map.get(prediction.trip.id))
+      trip_details: %TripDetails{
+        stops_before: stops_before,
+        stop: stop,
+        stops_after: stops_after
+      }
     }
   end
 
   defp other_stops(predictions) do
     predictions
     |> Enum.map(
-      &%UpcomingDeparture.OtherStop{
+      &%OtherStop{
         stop_id: &1.stop.id,
         stop_name: &1.stop.name,
         time: prediction_time(&1)

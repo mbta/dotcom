@@ -220,18 +220,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:heading>
         <:content>
-          <div
-            :for={other_stop <- upcoming_departure.other_stops}
-            class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center"
-          >
-            <div class="size-6 flex items-center justify-center">
-              <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026]"} />
-            </div>
-            <div class={@stop_id == other_stop.stop_id && "font-bold"}>{other_stop.stop_name}</div>
-            <div class={["ml-auto", @stop_id == other_stop.stop_id && "font-bold"]}>
-              {Timex.format!(other_stop.time, "{h12}:{m} {AM}")}
-            </div>
-          </div>
+          <.other_stop
+            :for={other_stop <- upcoming_departure.trip_details.stops_before}
+            other_stop={other_stop}
+            route={@route}
+            stop_id={@stop_id}
+          />
+          <.other_stop
+            other_stop={upcoming_departure.trip_details.stop}
+            route={@route}
+            stop_id={@stop_id}
+          />
+          <.other_stop
+            :for={other_stop <- upcoming_departure.trip_details.stops_after}
+            other_stop={other_stop}
+            route={@route}
+            stop_id={@stop_id}
+          />
         </:content>
       </.unstyled_accordion>
     </div>
@@ -259,6 +264,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <pre>{inspect prediction, pretty: true}</pre>
       </:content>
     </.unstyled_accordion>
+    """
+  end
+
+  defp other_stop(assigns) do
+    ~H"""
+    <div class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
+      <div class="size-6 flex items-center justify-center">
+        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026]"} />
+      </div>
+      <div class={@stop_id == @other_stop.stop_id && "font-bold"}>{@other_stop.stop_name}</div>
+      <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
+        {Timex.format!(@other_stop.time, "{h12}:{m} {AM}")}
+      </div>
+    </div>
     """
   end
 

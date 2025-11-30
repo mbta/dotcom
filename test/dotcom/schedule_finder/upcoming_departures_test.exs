@@ -173,7 +173,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows other departure-stops for the same trip" do
+    test "shows trip details" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -226,24 +226,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      other_stops = departure.other_stops
+      trip_details = departure.trip_details
 
-      assert other_stops |> Enum.map(& &1.stop_name) == [
-               stop_before.name,
-               stop.name,
-               stop_after.name
+      assert trip_details.stops_before
+             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
+               %{stop_id: stop_before.id, stop_name: stop_before.name, time: arrival_time_before}
              ]
 
-      assert other_stops |> Enum.map(& &1.stop_id) == [
-               stop_before.id,
-               stop.id,
-               stop_after.id
-             ]
+      assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
+               %{stop_id: stop.id, stop_name: stop.name, time: arrival_time}
 
-      assert other_stops |> Enum.map(& &1.time) == [
-               arrival_time_before,
-               arrival_time,
-               arrival_time_after
+      assert trip_details.stops_after
+             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
+               %{stop_id: stop_after.id, stop_name: stop_after.name, time: arrival_time_after}
              ]
     end
 
@@ -301,12 +296,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      other_stops = departure.other_stops
+      trip_details = departure.trip_details
 
-      assert other_stops |> Enum.map(& &1.time) == [
-               departure_time_before,
-               arrival_time,
-               arrival_time_after
+      assert trip_details.stops_before |> Enum.map(& &1.time) == [
+               departure_time_before
              ]
     end
 
