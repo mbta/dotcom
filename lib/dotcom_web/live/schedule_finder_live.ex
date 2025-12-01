@@ -18,10 +18,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Stops.Stop
 
   @date_time Application.compile_env!(:dotcom, :date_time_module)
-  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -32,7 +30,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
-     |> assign_new(:vehicles, fn -> [] end)
      |> assign_new(:upcoming_departures, fn -> [] end)
      |> assign_new(:now, fn -> @date_time.now() end)}
   end
@@ -50,10 +47,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.upcoming_departures_table
       :if={@stop}
       now={@now}
-      predictions={@predictions}
       route={@route}
       stop_id={@stop.id}
-      vehicles={@vehicles}
       upcoming_departures={@upcoming_departures}
     />
     """
@@ -98,18 +93,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     socket
     |> assign(
-      :vehicles,
-      @vehicles_repo.route(socket.assigns.route.id, direction_id: socket.assigns.direction_id)
-    )
-    |> assign(
-      :predictions,
-      @predictions_repo.all(
-        route: socket.assigns.route.id,
-        direction_id: socket.assigns.direction_id
-      )
-      |> Enum.filter(&(&1.stop.id == stop_id))
-    )
-    |> assign(
       :upcoming_departures,
       UpcomingDepartures.upcoming_departures(%{
         direction_id: direction_id,
@@ -121,10 +104,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_upcoming_departures(socket) do
-    socket
-    |> assign(:vehicles, [])
-    |> assign(:predictions, [])
-    |> assign(:upcoming_departures, [])
+    socket |> assign(:upcoming_departures, [])
   end
 
   # Schedule Finder components =================================================
@@ -194,10 +174,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   attr :now, DateTime
-  attr :predictions, :any
   attr :route, Route
   attr :stop_id, :string
-  attr :vehicles, :any
   attr :upcoming_departures, :list
 
   defp upcoming_departures_table(assigns) do
@@ -273,57 +251,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:content>
       </.unstyled_accordion>
-    </div>
-
-    <h1>Vehicles</h1>
-    <.unstyled_accordion :for={vehicle <- @vehicles} summary_class="flex items-center">
-      <:heading>
-        <div class="w-full">
-          Vehicle {vehicle.id} running trip {vehicle.trip_id}
-        </div>
-      </:heading>
-      <:content>
-        <pre>{inspect vehicle, pretty: true}</pre>
-      </:content>
-    </.unstyled_accordion>
-
-    <h1>Predictions</h1>
-    <.unstyled_accordion :for={prediction <- @predictions} summary_class="flex items-center">
-      <:heading>
-        <div class="w-full">
-          Prediction ({prediction.trip.id}) - {prediction.arrival_time}
-        </div>
-      </:heading>
-      <:content>
-        <pre>{inspect prediction, pretty: true}</pre>
-      </:content>
-    </.unstyled_accordion>
-
-    <h1>Frontend funs</h1>
-    <div class="relative flex flex-col items-center h-48 my-8 border border-charcoal-80 rounded-md">
-      
-    <!-- Vertical Line (sits on top of border cleanly) -->
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 h-full w-px bg-orange-line z-20 pointer-events-none">
-      </div>
-      
-    <!-- Center Circle -->
-      <div class="relative mt-auto mb-auto bg-white border border-charcoal-80 rounded-full w-12 h-12 flex items-center justify-center z-30">
-        <span class="text-gray-600 text-xl">★</span>
-      </div>
-    </div>
-
-    <h1>Frontend Take 2</h1>
-    <div class="relative flex flex-col items-center h-48 my-8 border border-charcoal-80 rounded-md">
-      
-    <!-- Vertical Line (extends past border; sits visually on top) -->
-      <div class="absolute top-[-1px] bottom-[-1px] left-1/2 -translate-x-1/2 w-px bg-orange-line z-20 pointer-events-none">
-      </div>
-      
-    <!-- Center Circle -->
-      <div class="relative mt-auto mb-auto bg-white border border-charcoal-80 rounded-full 
-              w-12 h-12 flex items-center justify-center z-30">
-        <span class="text-charcoal-80 text-xl">★</span>
-      </div>
     </div>
     """
   end
