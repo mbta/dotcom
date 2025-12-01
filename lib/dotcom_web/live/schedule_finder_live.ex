@@ -216,7 +216,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
         id={"upcoming-departure-#{upcoming_departure.trip_id}"}
-        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2"
+        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2 group-open:bg-charcoal-80"
       >
         <:heading>
           <div class="w-full flex gap-2">
