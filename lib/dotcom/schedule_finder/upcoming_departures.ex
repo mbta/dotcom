@@ -21,17 +21,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     """
 
     defstruct [
-      :vehicle_status,
       :arrival_status,
-      :arrival_seconds,
-      :departure_seconds,
-      :trip_id,
       :headsign,
-      :vehicle_stop_id,
-      :prediction_stop_id,
       :trip_details,
-      :vehicle,
-      :prediction
+      :trip_id
     ]
 
     defmodule TripDetails do
@@ -107,24 +100,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       other_stops |> Enum.split_while(&(&1.stop_id != stop_id))
 
     %UpcomingDeparture{
-      # vehicle: vehicle,
-      # prediction: prediction,
-      trip_id: prediction.trip.id,
-      headsign: prediction.trip.headsign,
       arrival_status:
         arrival_status(%{
           arrival_seconds: arrival_seconds,
           departure_seconds: departure_seconds,
           stop_id_matches?: vehicle_stop_id == stop_id
         }),
-      vehicle_status: vehicle |> vehicle_status(),
-      vehicle_stop_id: vehicle_stop_id,
-      prediction_stop_id: prediction.platform_stop_id,
-      trip_details: %TripDetails{
-        stops_before: stops_before,
-        stop: stop,
-        stops_after: stops_after
-      }
+      headsign: prediction.trip.headsign,
+      trip_details: %TripDetails{stops_before: stops_before, stop: stop, stops_after: stops_after},
+      trip_id: prediction.trip.id
     }
   end
 
