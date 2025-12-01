@@ -1,15 +1,25 @@
 defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
-  alias Predictions.Prediction
+  @moduledoc """
+  This represents realtime data for upcoming departures, including trip details.
 
+  This is built out of prediction data, combined with data from stops and vehicles
+  in order to present a single model containing everything needed to convey rider
+  info about an upcoming departure.
+  """
+
+  alias Predictions.Prediction
   alias Vehicles.Vehicle
-  alias __MODULE__.UpcomingDeparture.OtherStop
-  alias __MODULE__.UpcomingDeparture.TripDetails
+  alias __MODULE__.UpcomingDeparture.{OtherStop, TripDetails}
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   defmodule UpcomingDeparture do
+    @moduledoc """
+    A struct representing an upcoming departure.
+    """
+
     defstruct [
       :vehicle_status,
       :arrival_status,
@@ -25,6 +35,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     ]
 
     defmodule TripDetails do
+      @moduledoc """
+      A struct representing trip details, including a list of stops visited before and after
+      the stop specified, along with arrival times (or departure times when relevant).
+      """
+
       defstruct [
         :stops_before,
         :stop,
@@ -33,6 +48,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
 
     defmodule OtherStop do
+      @moduledoc """
+      A simple struct representing the stops visited and arrival times as part of a `TripDetails`.
+      """
+
       defstruct [
         :stop_id,
         :stop_name,
