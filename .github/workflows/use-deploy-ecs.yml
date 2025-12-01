@@ -52,7 +52,7 @@ jobs:
       - run: |
           echo "inputs: ${{ toJson(inputs) }}"
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         if: ${{ inputs.deployment-env != '' }}
 
       - name: Docker metadata
@@ -111,7 +111,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.48.0-jammy
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -140,7 +140,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.48.0-jammy
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
