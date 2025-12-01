@@ -229,19 +229,24 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:heading>
         <:content>
-          <div class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2">
-            <SystemIcons.mode_icon
-              aria-hidden
-              line={@line_name}
-              mode={@mode}
-              class="shrink-0"
-            />
-            <div>{trip_details_header_text(upcoming_departure)}</div>
+          <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
+            <div class="relative flex items-center self-stretch">
+              <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+
+              <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 z-20" />
+            </div>
+
+            <div class="py-2">{trip_details_header_text(upcoming_departure)}</div>
           </div>
           <details class="group/details">
-            <summary class="cursor-pointer flex gap-2 p-2 border-xs border-charcoal-80 border-b-0">
-              <div class="size-6"></div>
-              <div>{Enum.count(upcoming_departure.trip_details.stops_before)} Stops Away</div>
+            <summary class="cursor-pointer flex gap-2 items-center px-2 border-xs border-charcoal-80 border-b-0">
+              <div class="relative self-stretch w-6 shrink-0">
+                <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+                <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+              </div>
+              <div class="py-2">
+                {Enum.count(upcoming_departure.trip_details.stops_before)} Stops Away
+              </div>
               <div class="shrink-0">
                 <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
               </div>
@@ -253,17 +258,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
               stop_id={@stop_id}
             />
           </details>
-          <.other_stop
-            other_stop={upcoming_departure.trip_details.stop}
-            route={@route}
-            stop_id={@stop_id}
-          />
-          <.other_stop
-            :for={other_stop <- upcoming_departure.trip_details.stops_after}
-            other_stop={other_stop}
-            route={@route}
-            stop_id={@stop_id}
-          />
+          <div class="[&>*:last-child_.bottom-route-line]:invisible">
+            <.other_stop
+              other_stop={upcoming_departure.trip_details.stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+            <.other_stop
+              :for={other_stop <- upcoming_departure.trip_details.stops_after}
+              other_stop={other_stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+          </div>
         </:content>
       </.unstyled_accordion>
     </div>
@@ -291,16 +298,47 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <pre>{inspect prediction, pretty: true}</pre>
       </:content>
     </.unstyled_accordion>
+
+    <h1>Frontend funs</h1>
+    <div class="relative flex flex-col items-center h-48 my-8 border border-charcoal-80 rounded-md">
+      
+    <!-- Vertical Line (sits on top of border cleanly) -->
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 h-full w-px bg-orange-line z-20 pointer-events-none">
+      </div>
+      
+    <!-- Center Circle -->
+      <div class="relative mt-auto mb-auto bg-white border border-charcoal-80 rounded-full w-12 h-12 flex items-center justify-center z-30">
+        <span class="text-gray-600 text-xl">★</span>
+      </div>
+    </div>
+
+    <h1>Frontend Take 2</h1>
+    <div class="relative flex flex-col items-center h-48 my-8 border border-charcoal-80 rounded-md">
+      
+    <!-- Vertical Line (extends past border; sits visually on top) -->
+      <div class="absolute top-[-1px] bottom-[-1px] left-1/2 -translate-x-1/2 w-px bg-orange-line z-20 pointer-events-none">
+      </div>
+      
+    <!-- Center Circle -->
+      <div class="relative mt-auto mb-auto bg-white border border-charcoal-80 rounded-full 
+              w-12 h-12 flex items-center justify-center z-30">
+        <span class="text-charcoal-80 text-xl">★</span>
+      </div>
+    </div>
     """
   end
 
   defp other_stop(assigns) do
     ~H"""
-    <div class="p-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-      <div class="size-6 shrink-0 flex items-center justify-center">
-        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026]"} />
+    <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
+      <div class="self-stretch relative w-6 shrink-0 flex items-center justify-center">
+        <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 top-route-line"} />
+        <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 bottom-route-line"} />
+        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026] z-20"} />
       </div>
-      <div class={@stop_id == @other_stop.stop_id && "font-bold"}>{@other_stop.stop_name}</div>
+      <div class={["py-2", @stop_id == @other_stop.stop_id && "font-bold"]}>
+        {@other_stop.stop_name}
+      </div>
       <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {Timex.format!(@other_stop.time, "{h12}:{m} {AM}")}
       </div>
