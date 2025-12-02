@@ -1,22 +1,5 @@
 import { ViewHook } from "phoenix_live_view";
 
-export const SFDatePicker: Partial<ViewHook> = {
-  mounted() {
-    if (this.el) {
-      this.el.addEventListener("selectDate", event => {
-        /*
-         * Send the newly selected date to Dotcom.ScheduleFinderLive
-         */
-        if (this.pushEvent) {
-          this.pushEvent("set_date", {
-            date: (<CustomEvent>event).detail
-          });
-        }
-      });
-    }
-  }
-};
-
 export const SFRouteRingColor: Partial<ViewHook> = {
   mounted() {
     if (this.el) {

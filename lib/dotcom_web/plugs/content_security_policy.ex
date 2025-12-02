@@ -21,7 +21,6 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         www.google.com
         www.google-analytics.com
         www.googletagmanager.com
-        https://cdn.jsdelivr.net/
       ],
     default_src: ~w['self'],
     font_src: ~w['self' cdn.mbta.com],
@@ -78,7 +77,6 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         'unsafe-inline'
         cdn.mbta.com
         www.gstatic.com
-        https://cdn.jsdelivr.net/
       ],
     worker_src: ~w[blob: ;]
   }
