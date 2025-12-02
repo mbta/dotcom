@@ -27,7 +27,10 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> cache_fetch()
-    |> filter_predictions(Keyword.get(opts, :min_time))
+    |> filter_predictions(
+      Keyword.get(opts, :min_time),
+      Keyword.get(opts, :include_terminals, false)
+    )
     |> load_from_other_repos
   end
 
@@ -59,15 +62,21 @@ defmodule Predictions.Repo do
 
   @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
           [Parser.record()] | {:error, any}
-  defp filter_predictions(predictions, min_time \\ nil)
+  defp filter_predictions(predictions, min_time \\ nil, include_terminals \\ false)
 
-  defp filter_predictions({:error, error}, _) do
+  defp filter_predictions({:error, error}, _, _) do
     {:error, error}
   end
 
-  defp filter_predictions(predictions, min_time) do
+  defp filter_predictions(predictions, min_time, _include_terminals = false) do
     Enum.filter(predictions, fn prediction ->
       has_departure_time?(prediction) && after_min_time?(prediction, min_time)
+    end)
+  end
+
+  defp filter_predictions(predictions, min_time, _include_terminals = true) do
+    Enum.filter(predictions, fn prediction ->
+      after_min_time?(prediction, min_time)
     end)
   end
 
@@ -248,7 +257,7 @@ defmodule Predictions.Repo do
   defp discard_if_subway_past_prediction([prediction]) do
     # For subway, drop predictions if the predicted time is earlier than the current time:
     prediction_in_the_past =
-      if prediction.time == nil do
+      if prediction.time == nil || prediction.departure_time == nil do
         false
       else
         !Util.time_is_greater_or_equal?(
