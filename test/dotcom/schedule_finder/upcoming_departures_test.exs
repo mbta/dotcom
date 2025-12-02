@@ -137,6 +137,38 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "does not show an upcoming_departure if departure_time is nil" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            departure_time: nil,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures == []
+    end
+
     test "shows arrival_status as :approaching if it's between 30 and 60 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
