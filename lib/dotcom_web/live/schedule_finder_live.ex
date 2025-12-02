@@ -543,7 +543,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {@other_stop.stop_name}
       </div>
       <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
-        {Timex.format!(@other_stop.time, "{h12}:{m} {AM}")}
+        {format!(@other_stop.time, :hour_12_minutes)}
       </div>
     </div>
     """
