@@ -89,8 +89,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       }) do
     vehicle = prediction |> vehicle()
 
-    arrival_seconds = DateTime.diff(prediction.arrival_time, now, :second)
-    departure_seconds = DateTime.diff(prediction.departure_time, now, :second)
+    arrival_seconds = seconds_between(prediction.arrival_time, now)
+    departure_seconds = seconds_between(prediction.departure_time, now)
 
     vehicle_stop_id = vehicle |> vehicle_stop_id()
 
@@ -112,6 +112,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     }
   end
 
+  defp seconds_between(nil = _prediction_time, _now), do: nil
+  defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
+
   defp other_stops(predictions) do
     predictions
     |> Enum.map(
@@ -128,6 +131,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp prediction_time(%Prediction{arrival_time: time}), do: time
 
   defp arrival_status(%{
+         arrival_seconds: nil,
+         departure_seconds: seconds
+       }),
+       do: {:departure_minutes, div(seconds, 60)}
+
+  defp arrival_status(%{
          arrival_seconds: arrival_seconds,
          departure_seconds: departure_seconds
        })
@@ -137,7 +146,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 30, do: :arriving
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 60, do: :approaching
 
-  defp arrival_status(%{arrival_seconds: seconds}), do: {:minutes, div(seconds, 60)}
+  defp arrival_status(%{arrival_seconds: seconds}), do: {:arrival_minutes, div(seconds, 60)}
 
   def vehicle(%Prediction{trip: %{id: trip_id}}) do
     @vehicles_repo.trip(trip_id)

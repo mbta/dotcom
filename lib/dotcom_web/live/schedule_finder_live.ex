@@ -273,7 +273,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:minutes, minutes}}),
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
+    do: "#{minutes} min"
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
     do: "#{minutes} min"
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
@@ -283,8 +286,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
     do: "#{-seconds} Seconds Past Due"
 
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:minutes, minutes}}),
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
     do: "Arriving in #{minutes} min"
+
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
+    do: "Departing in #{minutes} min"
 
   defp trip_details_header_text(upcoming_departure),
     do: "Now #{arrival_time_display(upcoming_departure)}"

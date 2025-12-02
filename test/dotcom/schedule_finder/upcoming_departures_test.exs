@@ -49,7 +49,45 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.map(& &1.arrival_status) == [
-               {:minutes, minutes_until_arrival}
+               {:arrival_minutes, minutes_until_arrival}
+             ]
+    end
+
+    test "uses departure_time if arrival_time is nil" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      minutes_until_departure = Faker.random_between(2, 59)
+      departure_time = now |> DateTime.shift(minute: minutes_until_departure)
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               {:departure_minutes, minutes_until_departure}
              ]
     end
 
