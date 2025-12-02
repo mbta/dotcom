@@ -485,7 +485,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
             <div class="py-2">{trip_details_header_text(upcoming_departure)}</div>
           </div>
-          <details class="group/details">
+          <details
+            :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
+            class="group/details"
+          >
             <summary class="cursor-pointer flex gap-2 items-center px-2 border-xs border-charcoal-80 border-b-0">
               <div class="relative self-stretch w-6 shrink-0">
                 <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
