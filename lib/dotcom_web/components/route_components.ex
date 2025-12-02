@@ -65,7 +65,7 @@ defmodule DotcomWeb.RouteComponents do
   """
   def lined_list(assigns) do
     ~H"""
-    <div class="divide-y-[1px] divide-gray-lightest border-t border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+    <div class="divide-y-[1px] divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
       <div :for={item <- @list_items} class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
         <div
           class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
