@@ -289,7 +289,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       >
         <:heading>
           <div class="flex items-center gap-sm w-full">
-            <RouteComponents.route_icon route={@route} />
+            <RouteComponents.route_icon route={@route} size="small" />
             <div>
               {departure.headsign}
               <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
@@ -332,20 +332,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp arrival_row(assigns) do
     ~H"""
-    <div class="px-[1.75rem] py-sm gap-md flex justify-between items-center">
+    <div class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
       <div
-        class="w-2 z-10 flex flex-col self-stretch"
+        class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
         style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
       >
         <div class={"#{route_to_class(@route)} grow top"} />
         <div class={"#{route_to_class(@route)} grow bottom"} />
       </div>
-      <.icon
-        id={:erlang.phash2(@arrival)}
-        class={"size-[.75rem] #{route_to_class(@route)} rounded-full ring-2 z-20"}
-        name="circle"
+      <div
+        class={"#{route_to_class(@route)} size-3.5 shrink-0 rounded-full border-xs border-[#00000026] z-20"}
         style="margin-left: calc(-1.75rem + 2px);"
-        phx-hook="SFRouteRingColor"
       />
       <div class="notranslate grow">
         <div>{@arrival.stop_name}</div>

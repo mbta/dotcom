@@ -1,17 +1,5 @@
+/* eslint-disable import/prefer-default-export */
 import { ViewHook } from "phoenix_live_view";
-
-export const SFRouteRingColor: Partial<ViewHook> = {
-  mounted() {
-    if (this.el) {
-      const computedStyle = window.getComputedStyle(this.el);
-      const baseColor = computedStyle.backgroundColor;
-      this.el.style.setProperty(
-        "--tw-ring-color",
-        `color-mix(in oklab, ${baseColor}, black 20%)`
-      );
-    }
-  }
-};
 
 export const SFTripRow: Partial<ViewHook> = {
   mounted() {
