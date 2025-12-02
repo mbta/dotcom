@@ -547,10 +547,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "#{minutes} min"
+    do: "#{minutes_string(minutes)}"
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "#{minutes} min"
+    do: "#{minutes_string(minutes)}"
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
@@ -560,11 +560,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
     do: "#{-seconds} Seconds Past Due"
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "Arriving in #{minutes} min"
+    do: "Arriving in #{minutes_string(minutes)}"
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "Departing in #{minutes} min"
+    do: "Departing in #{minutes_string(minutes)}"
 
   defp trip_details_header_text(upcoming_departure),
     do: "Now #{arrival_time_display(upcoming_departure)}"
+
+  defp minutes_string(minutes) when minutes >= 60,
+    do: minutes_and_hours_string(div(minutes, 60), rem(minutes, 60))
+
+  defp minutes_string(minutes), do: "#{minutes} min"
+
+  defp minutes_and_hours_string(hours, 0 = _minutes), do: "#{hours} hr"
+  defp minutes_and_hours_string(hours, minutes), do: "#{hours} hr #{minutes} min"
 end
