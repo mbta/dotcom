@@ -54,6 +54,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
 
+    <h2>{~t"Upcoming Departures"}</h2>
     <.upcoming_departures_table
       :if={@stop}
       now={@now}
@@ -458,7 +459,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <h1>Upcoming Departures</h1>
     <div class="border-b-xs border-charcoal-80">
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
