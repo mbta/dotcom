@@ -223,7 +223,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
               </div>
               <div class="py-2">
-                {Enum.count(upcoming_departure.trip_details.stops_before)} Stops Away
+                {ngettext(
+                  "1 Stop Away",
+                  "%{count} Stops Away",
+                  Enum.count(upcoming_departure.trip_details.stops_before)
+                )}
               </div>
               <div class="shrink-0">
                 <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
