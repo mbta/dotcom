@@ -142,12 +142,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          arrival_seconds: nil,
          departure_seconds: seconds
        }),
-       do: {:departure_minutes, div(seconds, 60)}
+       do: {:departure_seconds, seconds}
 
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 30, do: :arriving
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 60, do: :approaching
 
-  defp arrival_status(%{arrival_seconds: seconds}), do: {:arrival_minutes, div(seconds, 60)}
+  defp arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
 
   def vehicle(%Prediction{trip: %{id: trip_id}}) do
     @vehicles_repo.trip(trip_id)

@@ -25,8 +25,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
-      minutes_until_arrival = Faker.random_between(2, 59)
-      arrival_time = now |> DateTime.shift(minute: minutes_until_arrival)
+      seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
+      arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
       expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
         [
@@ -49,7 +49,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.map(& &1.arrival_status) == [
-               {:arrival_minutes, minutes_until_arrival}
+               {:arrival_seconds, seconds_until_arrival}
              ]
     end
 
@@ -108,8 +108,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
-      minutes_until_departure = Faker.random_between(2, 59)
-      departure_time = now |> DateTime.shift(minute: minutes_until_departure)
+      seconds_until_departure = Faker.random_between(2 * 60, 59 * 60)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
       expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
         [
@@ -133,7 +133,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.map(& &1.arrival_status) == [
-               {:departure_minutes, minutes_until_departure}
+               {:departure_seconds, seconds_until_departure}
              ]
     end
 

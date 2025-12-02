@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import Dotcom.ScheduleFinder
+  import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
@@ -549,33 +550,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "#{minutes_string(minutes)}"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
+    do: "#{seconds_to_localized_minutes(seconds)}"
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "#{minutes_string(minutes)}"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
+    do: "#{seconds_to_localized_minutes(seconds)}"
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: "Boarding"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
     do: "#{-seconds} Seconds Past Due"
 
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "Arriving in #{minutes_string(minutes)}"
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
+    do: "Arriving in #{seconds_to_localized_minutes(seconds)}"
 
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "Departing in #{minutes_string(minutes)}"
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
+    do: "Departing in #{seconds_to_localized_minutes(seconds)}"
 
   defp trip_details_header_text(upcoming_departure),
     do: "Now #{arrival_time_display(upcoming_departure)}"
-
-  defp minutes_string(minutes) when minutes >= 60,
-    do: minutes_and_hours_string(div(minutes, 60), rem(minutes, 60))
-
-  defp minutes_string(minutes), do: "#{minutes} min"
-
-  defp minutes_and_hours_string(hours, 0 = _minutes), do: "#{hours} hr"
-  defp minutes_and_hours_string(hours, minutes), do: "#{hours} hr #{minutes} min"
 end
