@@ -4,7 +4,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   for a given route/direction/stop.
   """
 
-  alias Dotcom.ScheduleFinder.UpcomingDepartures
   use DotcomWeb, :live_view
 
   import CSSHelpers
@@ -13,6 +12,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Time, only: [format!: 2]
 
   alias Dotcom.ScheduleFinder.FutureArrival
+  alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
