@@ -72,8 +72,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> Enum.group_by(& &1.trip.id)
 
     all_predictions
-    |> Enum.filter(& &1.departure_time)
-    |> Enum.filter(&(&1.stop.id == stop_id))
+    |> Enum.filter(&(&1.stop.id == stop_id && &1.departure_time != nil))
     |> Enum.map(fn prediction ->
       prediction
       |> to_upcoming_departure(%{
