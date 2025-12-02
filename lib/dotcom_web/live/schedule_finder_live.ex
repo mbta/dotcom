@@ -60,7 +60,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       now={@now}
       route={@route}
       stop_id={@stop.id}
-      upcoming_departures={@upcoming_departures}
+      upcoming_departures={@upcoming_departures |> Enum.take(5)}
     />
 
     <h2 class="flex justify-between">
