@@ -53,6 +53,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "sorts upcoming departures by arrival time" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+      stop_id = FactoryHelpers.build(:id)
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+      direction_id = Faker.Util.pick([0, 1])
+
+      minutes_until_arrival =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end)
+
+      [arrival_time1, arrival_time2] =
+        minutes_until_arrival |> Enum.map(&(now |> DateTime.shift(minute: &1)))
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time2,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id2)
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time1,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id1)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.trip_id) == [
+               trip_id1,
+               trip_id2
+             ]
+    end
+
     test "uses departure_time if arrival_time is nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()

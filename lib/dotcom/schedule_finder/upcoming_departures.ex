@@ -65,6 +65,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         direction_id: direction_id
       ]
       |> @predictions_repo.all()
+      |> Enum.sort_by(&prediction_time/1, DateTime)
 
     predictions_by_trip_id =
       all_predictions
