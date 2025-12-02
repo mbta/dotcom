@@ -5,6 +5,8 @@ defmodule DotcomWeb.RouteComponents do
   """
   use DotcomWeb, :component
 
+  import CSSHelpers
+
   alias MbtaMetro.Components.SystemIcons
   alias Routes.Route
 
@@ -50,5 +52,35 @@ defmodule DotcomWeb.RouteComponents do
       "Orange" -> "orange-line"
       _ -> nil
     end
+  end
+
+  attr :route, Route, required: true
+  attr :list_items, :list, default: []
+  slot :list_item, doc: "Content for each item"
+
+  @doc """
+  Creates a bordered list featuring a styled route diagram-esque line running
+  along the left side, with a large dot aligned with each list item. The line
+  color is informed by the given `%Route{}`.
+  """
+  def lined_list(assigns) do
+    ~H"""
+    <div class="divide-y-[1px] divide-gray-lightest border-t border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+      <div :for={item <- @list_items} class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
+        <div
+          class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
+          style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
+        >
+          <div class={"#{route_to_class(@route)} grow top"} />
+          <div class={"#{route_to_class(@route)} grow bottom"} />
+        </div>
+        <div
+          class={"#{route_to_class(@route)} size-3.5 shrink-0 rounded-full border-xs border-[#00000026] z-20"}
+          style="margin-left: calc(-1.75rem + 2px);"
+        />
+        {render_slot(@list_item, item)}
+      </div>
+    </div>
+    """
   end
 end
