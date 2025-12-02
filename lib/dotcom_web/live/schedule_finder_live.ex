@@ -102,23 +102,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign(:route, @routes_repo.get(route))
      |> assign(:direction_id, direction_id)
+     |> assign(:date, Map.get(params, "date", today()))
      |> assign_stop(params)
+     |> assign_departures()
      |> assign_upcoming_departures()}
-  end
-
-  @impl Phoenix.LiveView
-  def handle_info(:refresh, socket) do
-    schedule_refresh()
-
-    {:noreply,
-     socket
-     |> assign(:now, @date_time.now())
-     |> assign_upcoming_departures()}
-  end
-
-  defp schedule_refresh() do
-    # Refresh every second
-    Process.send_after(self(), :refresh, 1000)
   end
 
   @impl LiveView
@@ -156,6 +143,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
        Map.put(loaded_trips, schedule_id, result)
      end)}
+  end
+
+  @impl LiveView
+  def handle_info(:refresh, socket) do
+    schedule_refresh()
+
+    {:noreply,
+     socket
+     |> assign(:now, @date_time.now())
+     |> assign_upcoming_departures()}
+  end
+
+  defp schedule_refresh() do
+    # Refresh every second
+    Process.send_after(self(), :refresh, 1000)
   end
 
   defp assign_stop(socket, params) do
@@ -279,92 +281,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  attr :now, DateTime
-  attr :route, Route
-  attr :stop_id, :string
-  attr :upcoming_departures, :list
-
-  defp upcoming_departures_table(assigns) do
-    mode = assigns.route |> Route.type_atom() |> atom_to_class()
-    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
-
-    assigns =
-      assign(assigns, %{
-        line_name: line_name,
-        mode: mode
-      })
-
-    ~H"""
-    <h1>Upcoming Departures</h1>
-    <div class="border-b-xs border-charcoal-80">
-      <.unstyled_accordion
-        :for={upcoming_departure <- @upcoming_departures}
-        id={"upcoming-departure-#{upcoming_departure.trip_id}"}
-        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2 group-open:bg-charcoal-80 hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
-      >
-        <:heading>
-          <div class="w-full flex gap-2">
-            <RouteComponents.route_icon size="small" route={@route} />
-            <div>{upcoming_departure.headsign}</div>
-            <div class="ml-auto font-bold">
-              <.icon type="icon-svg" name="icon-realtime-tracking" />
-              {arrival_time_display(upcoming_departure)}
-            </div>
-          </div>
-        </:heading>
-        <:content>
-          <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-            <div class="relative flex items-center self-stretch">
-              <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
-
-              <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 z-20" />
-            </div>
-
-            <div class="py-2">{trip_details_header_text(upcoming_departure)}</div>
-          </div>
-          <details class="group/details">
-            <summary class="cursor-pointer flex gap-2 items-center px-2 border-xs border-charcoal-80 border-b-0">
-              <div class="relative self-stretch w-6 shrink-0">
-                <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
-                <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
-              </div>
-              <div class="py-2">
-                {ngettext(
-                  "1 Stop Away",
-                  "%{count} Stops Away",
-                  Enum.count(upcoming_departure.trip_details.stops_before)
-                )}
-              </div>
-              <div class="shrink-0">
-                <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
-              </div>
-            </summary>
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_before}
-              other_stop={other_stop}
-              route={@route}
-              stop_id={@stop_id}
-            />
-          </details>
-          <div class="[&>*:last-child_.bottom-route-line]:invisible">
-            <.other_stop
-              other_stop={upcoming_departure.trip_details.stop}
-              route={@route}
-              stop_id={@stop_id}
-            />
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_after}
-              other_stop={other_stop}
-              route={@route}
-              stop_id={@stop_id}
-            />
-          </div>
-        </:content>
-      </.unstyled_accordion>
-    </div>
-    """
-  end
-
   attr :times, :list, required: true
   attr :vehicle_name, :string, required: true
 
@@ -464,24 +380,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp other_stop(assigns) do
-    ~H"""
-    <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-      <div class="self-stretch relative w-6 shrink-0 flex items-center justify-center">
-        <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 top-route-line"} />
-        <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 bottom-route-line"} />
-        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026] z-20"} />
-      </div>
-      <div class={["py-2", @stop_id == @other_stop.stop_id && "font-bold"]}>
-        {@other_stop.stop_name}
-      </div>
-      <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
-        {Timex.format!(@other_stop.time, "{h12}:{m} {AM}")}
-      </div>
-    </div>
-    """
-  end
-
   attr :arrival, FutureArrival, required: true
   attr :route, Route, required: true
 
@@ -509,28 +407,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
-
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "#{minutes} min"
-
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "#{minutes} min"
-
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: "Boarding"
-
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
-    do: "#{-seconds} Seconds Past Due"
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
-    do: "Arriving in #{minutes} min"
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
-    do: "Departing in #{minutes} min"
-
-  defp trip_details_header_text(upcoming_departure),
-    do: "Now #{arrival_time_display(upcoming_departure)}"
 
   attr :destination, :string, required: true
   attr :route, Route, required: true
@@ -565,4 +441,130 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
   end
+
+  attr :now, DateTime
+  attr :route, Route
+  attr :stop_id, :string
+  attr :upcoming_departures, :list
+
+  defp upcoming_departures_table(assigns) do
+    mode = assigns.route |> Route.type_atom() |> atom_to_class()
+    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
+
+    assigns =
+      assign(assigns, %{
+        line_name: line_name,
+        mode: mode
+      })
+
+    ~H"""
+    <h1>Upcoming Departures</h1>
+    <div class="border-b-xs border-charcoal-80">
+      <.unstyled_accordion
+        :for={upcoming_departure <- @upcoming_departures}
+        id={"upcoming-departure-#{upcoming_departure.trip_id}"}
+        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2 group-open:bg-charcoal-80 hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
+      >
+        <:heading>
+          <div class="w-full flex gap-2">
+            <RouteComponents.route_icon size="small" route={@route} />
+            <div>{upcoming_departure.headsign}</div>
+            <div class="ml-auto font-bold">
+              <.icon type="icon-svg" name="icon-realtime-tracking" />
+              {arrival_time_display(upcoming_departure)}
+            </div>
+          </div>
+        </:heading>
+        <:content>
+          <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
+            <div class="relative flex items-center self-stretch">
+              <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+
+              <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 z-20" />
+            </div>
+
+            <div class="py-2">{trip_details_header_text(upcoming_departure)}</div>
+          </div>
+          <details class="group/details">
+            <summary class="cursor-pointer flex gap-2 items-center px-2 border-xs border-charcoal-80 border-b-0">
+              <div class="relative self-stretch w-6 shrink-0">
+                <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+                <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+              </div>
+              <div class="py-2">
+                {ngettext(
+                  "1 Stop Away",
+                  "%{count} Stops Away",
+                  Enum.count(upcoming_departure.trip_details.stops_before)
+                )}
+              </div>
+              <div class="shrink-0">
+                <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
+              </div>
+            </summary>
+            <.other_stop
+              :for={other_stop <- upcoming_departure.trip_details.stops_before}
+              other_stop={other_stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+          </details>
+          <div class="[&>*:last-child_.bottom-route-line]:invisible">
+            <.other_stop
+              other_stop={upcoming_departure.trip_details.stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+            <.other_stop
+              :for={other_stop <- upcoming_departure.trip_details.stops_after}
+              other_stop={other_stop}
+              route={@route}
+              stop_id={@stop_id}
+            />
+          </div>
+        </:content>
+      </.unstyled_accordion>
+    </div>
+    """
+  end
+
+  defp other_stop(assigns) do
+    ~H"""
+    <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
+      <div class="self-stretch relative w-6 shrink-0 flex items-center justify-center">
+        <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 top-route-line"} />
+        <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 bottom-route-line"} />
+        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026] z-20"} />
+      </div>
+      <div class={["py-2", @stop_id == @other_stop.stop_id && "font-bold"]}>
+        {@other_stop.stop_name}
+      </div>
+      <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
+        {Timex.format!(@other_stop.time, "{h12}:{m} {AM}")}
+      </div>
+    </div>
+    """
+  end
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
+    do: "#{minutes} min"
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
+    do: "#{minutes} min"
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: "Approaching"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: "Arriving"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: "Boarding"
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
+    do: "#{-seconds} Seconds Past Due"
+
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_minutes, minutes}}),
+    do: "Arriving in #{minutes} min"
+
+  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_minutes, minutes}}),
+    do: "Departing in #{minutes} min"
+
+  defp trip_details_header_text(upcoming_departure),
+    do: "Now #{arrival_time_display(upcoming_departure)}"
 end
