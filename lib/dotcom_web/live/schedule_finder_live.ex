@@ -551,24 +551,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
-    do: "#{seconds_to_localized_minutes(seconds)}"
+    do: seconds_to_localized_minutes(seconds)
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
-    do: "#{seconds_to_localized_minutes(seconds)}"
+    do: seconds_to_localized_minutes(seconds)
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:past_due, seconds}}),
-    do: "#{-seconds} Seconds Past Due"
-
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
-    do: "Arriving in #{seconds_to_localized_minutes(seconds)}"
+    do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
-    do: "Departing in #{seconds_to_localized_minutes(seconds)}"
+    do: gettext("Departing in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
 
   defp trip_details_header_text(upcoming_departure),
-    do: "Now #{arrival_time_display(upcoming_departure)}"
+    do: gettext("Now %{message}", message: arrival_time_display(upcoming_departure))
 end
