@@ -211,6 +211,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "shows arrival_status as :boarding for nil arrival_times as well" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route_id = FactoryHelpers.build(:id)
+      stop_id = FactoryHelpers.build(:id)
+      stop = Factories.Stops.Stop.build(:stop, id: stop_id)
+      platform_id = FactoryHelpers.build(:id, parent_id: stop_id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      seconds_until_departure = Faker.random_between(1, 90)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: departure_time,
+            stop: stop,
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id ->
+        Factories.Vehicles.Vehicle.build(:vehicle, stop_id: platform_id)
+      end)
+
+      expect(Stops.Repo.Mock, :get_parent, fn ^platform_id -> stop end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route_id: route_id,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               :boarding
+             ]
+    end
+
     test "shows trip details" do
       # Setup
       now = Dotcom.Utils.DateTime.now()

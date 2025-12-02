@@ -131,17 +131,17 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp prediction_time(%Prediction{arrival_time: time}), do: time
 
   defp arrival_status(%{
+         arrival_seconds: arrival_seconds,
+         departure_seconds: departure_seconds
+       })
+       when (arrival_seconds <= 0 or arrival_seconds == nil) and departure_seconds <= 90,
+       do: :boarding
+
+  defp arrival_status(%{
          arrival_seconds: nil,
          departure_seconds: seconds
        }),
        do: {:departure_minutes, div(seconds, 60)}
-
-  defp arrival_status(%{
-         arrival_seconds: arrival_seconds,
-         departure_seconds: departure_seconds
-       })
-       when arrival_seconds <= 0 and departure_seconds <= 90,
-       do: :boarding
 
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 30, do: :arriving
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 60, do: :approaching
