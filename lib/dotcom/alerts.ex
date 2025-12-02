@@ -25,20 +25,28 @@ defmodule Dotcom.Alerts do
   @type service_effect_t() ::
           :cancellation
           | :delay
+          | :detour
+          | :dock_closure
           | :service_change
           | :shuttle
           | :single_tracking
-          | :suspension
+          | :snow_route
           | :station_closure
+          | :stop_closure
+          | :suspension
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
     cancellation: 1,
     delay: 2,
+    detour: 1,
+    dock_closure: 1,
     service_change: 3,
     shuttle: 1,
     single_tracking: 1,
+    snow_route: 1,
     station_closure: 1,
+    stop_closure: 1,
     suspension: 1
   ]
 
