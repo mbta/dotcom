@@ -1,6 +1,5 @@
 import AlgoliaAutocomplete from "./algolia-autocomplete";
 import ScrollIntoView from "./scroll-into-view";
-import { SFTripRow } from "./schedule-finder";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
 
@@ -15,7 +14,6 @@ import TripPlannerMap from "./trip-planner-map";
 const Hooks = {
   AlgoliaAutocomplete,
   ScrollIntoView,
-  SFTripRow,
   TripPlannerForm,
   TripPlannerMap
 };
