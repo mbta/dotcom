@@ -8,12 +8,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   """
 
   alias Predictions.Prediction
-  alias Vehicles.Vehicle
   alias __MODULE__.UpcomingDeparture.{OtherStop, TripDetails}
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -88,12 +85,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id,
         predictions_by_trip_id: predictions_by_trip_id
       }) do
-    vehicle = prediction |> vehicle()
-
     arrival_seconds = seconds_between(prediction.arrival_time, now)
     departure_seconds = seconds_between(prediction.departure_time, now)
-
-    vehicle_stop_id = vehicle |> vehicle_stop_id()
 
     other_stops = other_stops(predictions_by_trip_id |> Map.get(prediction.trip.id))
 
@@ -104,8 +97,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       arrival_status:
         arrival_status(%{
           arrival_seconds: arrival_seconds,
-          departure_seconds: departure_seconds,
-          stop_id_matches?: vehicle_stop_id == stop_id
+          departure_seconds: departure_seconds
         }),
       headsign: prediction.trip.headsign,
       trip_details: %TripDetails{stops_before: stops_before, stop: stop, stops_after: stops_after},
@@ -148,16 +140,4 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp arrival_status(%{arrival_seconds: seconds}) when seconds <= 60, do: :approaching
 
   defp arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
-
-  def vehicle(%Prediction{trip: %{id: trip_id}}) do
-    @vehicles_repo.trip(trip_id)
-  end
-
-  def vehicle_status(%Vehicle{status: status}), do: status
-  def vehicle_status(_), do: nil
-
-  def vehicle_stop_id(%Vehicle{stop_id: stop_id}),
-    do: stop_id |> @stops_repo.get_parent() |> Kernel.then(& &1.id)
-
-  def vehicle_stop_id(_), do: nil
 end

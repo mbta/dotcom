@@ -250,7 +250,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       route_id = FactoryHelpers.build(:id)
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
-      platform_id = FactoryHelpers.build(:id, parent_id: stop_id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
@@ -267,12 +266,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           )
         ]
       end)
-
-      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_id: platform_id)
-      end)
-
-      expect(Stops.Repo.Mock, :get_parent, fn ^platform_id -> stop end)
 
       # Exercise
       departures =
@@ -296,7 +289,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       route_id = FactoryHelpers.build(:id)
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
-      platform_id = FactoryHelpers.build(:id, parent_id: stop_id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
@@ -313,12 +305,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           )
         ]
       end)
-
-      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_id: platform_id)
-      end)
-
-      expect(Stops.Repo.Mock, :get_parent, fn ^platform_id -> stop end)
 
       # Exercise
       departures =
