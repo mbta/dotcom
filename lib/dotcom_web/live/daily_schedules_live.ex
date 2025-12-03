@@ -149,6 +149,13 @@ defmodule DotcomWeb.DailySchedulesLive do
 
               <div class="font-bold">End Date</div>
               <div class="p-1 border-xs rounded">{svc.end_date}</div>
+
+              <div class="font-bold">Valid Days</div>
+              <div class="flex flex-wrap gap-1">
+                <div :for={day <- svc.valid_days} class="p-1 border-xs rounded">
+                  {pretty_day_of_week(day)}
+                </div>
+              </div>
             </div>
 
             <div class="font-bold">Added Dates</div>
