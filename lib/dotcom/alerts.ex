@@ -256,4 +256,11 @@ defmodule Dotcom.Alerts do
       %{} -> false
     end)
   end
+
+  def route_type_alert?(%Alert{informed_entity: informed_entity}, route_type) do
+    Enum.any?(informed_entity, fn
+      %{route_type: ^route_type} -> true
+      %{} -> false
+    end)
+  end
 end
