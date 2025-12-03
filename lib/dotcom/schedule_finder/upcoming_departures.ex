@@ -105,7 +105,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     }
   end
 
-  defp seconds_between(nil = _prediction_time, _now), do: nil
+  defp seconds_between(nil, _now), do: nil
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
 
   defp other_stops(predictions) do
