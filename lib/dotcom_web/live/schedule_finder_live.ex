@@ -19,8 +19,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Routes.Route
   alias Stops.Stop
 
+  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -29,6 +31,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
+     |> assign_new(:predictions, fn -> nil end)
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:date, fn -> nil end)}
   end
@@ -46,6 +49,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
+    <h2>Streamed Predictions</h2>
+    <div :for={p <- @predictions} :if={@predictions} class="flex justify-between">
+      <span>{p.trip.headsign}</span>
+      <strong>
+        <.formatted_time time={p.time} />
+      </strong>
+    </div>
     <h2 class="flex justify-between">
       {~t(Daily Schedules)}<mark>{@date}</mark>
     </h2>
@@ -88,6 +98,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:direction_id, direction_id)
      |> assign(:date, Map.get(params, "date", today()))
      |> assign_stop(params)
+     |> subscribe_to_predictions(socket.assigns.stop)
      |> assign_departures()}
   end
 
@@ -112,6 +123,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
+
+  @impl LiveView
+  def handle_info({:new_predictions, predictions}, socket) do
+    {:noreply, assign_predictions(socket, predictions)}
+  end
+
+  def handle_info(_, socket), do: {:noreply, socket}
 
   @impl Phoenix.LiveView
   def handle_cast({:get_next, {schedule_id, args}}, socket) do
@@ -160,6 +178,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
       {:ok, departures} -> {:ok, %{departures: departures}}
       error -> error
     end
+  end
+
+  defp subscribe_to_predictions(socket, old_stop) do
+    stop = socket.assigns.stop
+
+    if stop && stop.id && stop != old_stop do
+      # unsub from whatever prior stop..
+      @predictions_pub_sub.unsubscribe()
+      topic = "stop:#{stop.id}"
+
+      case @predictions_pub_sub.subscribe(topic) do
+        {:error, _} ->
+          assign(socket, :predictions, nil)
+
+        predictions ->
+          assign_predictions(socket, predictions)
+      end
+    else
+      socket
+    end
+  end
+
+  defp assign_predictions(socket, predictions) do
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
+    # add stop_sequence to this filtering, probably
+
+    predictions
+    |> DotcomWeb.PredictionsChannel.filter_new()
+    |> Enum.filter(&(&1.route.id == route_id && &1.direction_id == direction_id))
+    |> Enum.sort_by(& &1.time, DateTime)
+    |> Enum.take(5)
+    |> then(&assign(socket, :predictions, &1))
   end
 
   # Schedule Finder components =================================================
@@ -265,11 +316,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp next_day?(_, _), do: false
 
   defp formatted_time(assigns) do
+    assigns = assign(assigns, :time, ensure_timezone(assigns.time))
+
     ~H"""
     <time datetime={@time} class="tabular-nums whitespace-nowrap">
       {format!(@time, :hour_12_minutes)}
     </time>
     """
+  end
+
+  defp ensure_timezone(time) do
+    DateTime.shift_zone!(time, @timezone)
   end
 
   attr :route, Route, required: true
