@@ -5,6 +5,9 @@ defmodule Dotcom.ScheduleFinder do
 
   use Nebulex.Caching.Decorators
 
+  import Dotcom.Alerts
+
+  alias Alerts.{Alert, InformedEntity, InformedEntitySet, Match}
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
   alias JsonApi.Item
   alias Routes.Route
@@ -12,6 +15,8 @@ defmodule Dotcom.ScheduleFinder do
   alias Stops.Stop
 
   @cache Application.compile_env!(:dotcom, :cache)
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @timezone Application.compile_env!(:dotcom, :timezone)
   @schedule_ttl :timer.hours(24)
@@ -45,6 +50,51 @@ defmodule Dotcom.ScheduleFinder do
             time: DateTime.t()
           }
   end
+
+  @doc """
+  Service-impacting currently active alerts at a stop/route/direction. This also
+  includes track changes, and excludes commuter rail trip cancellations and
+  delays.
+  """
+  @spec current_alerts(Route.t(), 0 | 1, Stop.id_t()) :: [Alert.t()]
+  def current_alerts(route, direction_id, stop_id) do
+    stop_alerts = @alerts_repo.by_stop_id(stop_id)
+
+    route_alerts =
+      @alerts_repo.by_route_id_and_type(route.id, route.type, @date_time_module.now())
+
+    relevant_entity =
+      InformedEntity.from_keywords(
+        route_type: route.type,
+        route: route.id,
+        stop: stop_id
+      )
+
+    (route_alerts ++ stop_alerts)
+    |> Enum.uniq()
+    |> Enum.reject(&opposite_direction?(&1, direction_id))
+    |> Match.match([relevant_entity], @date_time_module.now())
+    |> Enum.filter(&(&1.effect == :track_change || service_impacting_alert?(&1)))
+    |> Enum.reject(&cr_trip_cancellation_or_delay?/1)
+  end
+
+  defp opposite_direction?(alert, direction_id) do
+    other_direction = (direction_id - 1) |> Kernel.abs()
+    Alert.get_entity(alert, :direction_id) == MapSet.new([other_direction])
+  end
+
+  # These particular alerts _should_ show in the Upcoming Deparures list for the associated trips
+  defp cr_trip_cancellation_or_delay?(%Alert{effect: effect} = alert)
+       when effect in ~w(delay cancellation)a do
+    commuter_rail? = Dotcom.Alerts.route_type_alert?(alert, 2)
+
+    no_trip? =
+      alert.informed_entity |> InformedEntitySet.match?(InformedEntity.from_keywords(trip: nil))
+
+    commuter_rail? and not no_trip?
+  end
+
+  defp cr_trip_cancellation_or_delay?(_), do: false
 
   @doc """
   Get scheduled departures for a given route/direction/stop/date.
