@@ -30,7 +30,8 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo.Mock,
   schedules: Schedules.Repo.Mock,
   schedules_condensed: Schedules.RepoCondensed.Mock,
-  stops: Stops.Repo.Mock
+  stops: Stops.Repo.Mock,
+  vehicles: Vehicles.Repo.Mock
 
 config :dotcom, :predictions_phoenix_pub_sub, Predictions.Phoenix.PubSub.Mock
 config :dotcom, :predictions_pub_sub, Predictions.PubSub.Mock

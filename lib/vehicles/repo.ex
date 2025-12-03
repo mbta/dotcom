@@ -7,8 +7,11 @@ defmodule Vehicles.Repo do
 
   use GenServer
   alias Vehicles.Vehicle
+  alias Vehicles.Repo.Behaviour
 
-  @spec route(String.t(), Keyword.t()) :: [Vehicle.t()]
+  @behaviour Behaviour
+
+  @impl Behaviour
   def route(route_id, opts \\ []) do
     direction_id =
       case Keyword.fetch(opts, :direction_id) do
@@ -21,7 +24,7 @@ defmodule Vehicles.Repo do
     |> :ets.select([{{:_, route_id, direction_id, :_, :"$1"}, [], [:"$1"]}])
   end
 
-  @spec trip(String.t()) :: Vehicle.t() | nil
+  @impl Behaviour
   def trip(trip_id, opts \\ []) do
     opts
     |> Keyword.get(:name, __MODULE__)
@@ -43,7 +46,7 @@ defmodule Vehicles.Repo do
     end
   end
 
-  @spec all(keyword(String.t())) :: [Vehicle.t()]
+  @impl Behaviour
   def all(opts \\ []) do
     opts
     |> Keyword.get(:name, __MODULE__)

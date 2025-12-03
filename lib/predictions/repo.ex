@@ -252,7 +252,7 @@ defmodule Predictions.Repo do
         false
       else
         !Util.time_is_greater_or_equal?(
-          Util.to_local_time(prediction.time),
+          Util.to_local_time(prediction.departure_time),
           Util.to_local_time(Util.now())
         )
       end
