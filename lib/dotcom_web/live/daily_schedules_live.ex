@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.DailySchedules do
+defmodule DotcomWeb.DailySchedulesLive do
   @moduledoc """
   A simple basic-auth gated page to explore what kinds of daily schedules are actually available for the routes we serve.
   """

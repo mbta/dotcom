@@ -309,7 +309,7 @@ defmodule DotcomWeb.Router do
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/system-status", Live.SystemStatus
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
-      live "/daily-schedules", Live.DailySchedules
+      live "/daily-schedules", DailySchedulesLive
     end
   end
 
