@@ -230,7 +230,7 @@ defmodule Dotcom.ScheduleFinder do
   # have _one_ so we don't really need to show a platform name there either.
   defp simplify("Commuter Rail", 2), do: nil
 
-  defp simplify(name, 2) do
+  defp simplify(name, 2) when is_binary(name) do
     if not String.contains?(name, "All Trains") do
       name
     end
