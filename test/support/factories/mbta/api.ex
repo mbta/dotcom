@@ -332,7 +332,7 @@ defmodule Test.Support.Factories.MBTA.Api do
             "departure_time" => formatted_datetime(),
             "pickup_type" => "",
             "stop_headsign" => "",
-            "stop_sequence" => 90
+            "stop_sequence" => 100_000_000
           },
           type: "schedule"
         },
