@@ -59,7 +59,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     all_predictions =
       [
         route: route_id,
-        direction_id: direction_id
+        direction_id: direction_id,
+        include_terminals: true
       ]
       |> @predictions_repo.all()
       |> Enum.sort_by(&prediction_time/1, DateTime)
