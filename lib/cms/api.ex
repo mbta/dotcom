@@ -54,7 +54,8 @@ defmodule CMS.Api do
           base_url: config[:base_url],
           headers: config[:headers] ++ headers,
           finch: Dotcom.Finch,
-          cache: true
+          cache: true,
+          cache_dir: System.tmp_dir()
         )
 
       connect_options ->
@@ -62,7 +63,8 @@ defmodule CMS.Api do
           base_url: config[:base_url],
           headers: config[:headers] ++ headers,
           connect_options: connect_options,
-          cache: true
+          cache: true,
+          cache_dir: System.tmp_dir()
         )
     end
   end

@@ -27,6 +27,7 @@ defmodule MBTA.Api do
       headers: config[:headers],
       finch: Dotcom.Finch,
       cache: true,
+      cache_dir: System.tmp_dir(),
       compress_body: true
     )
   end
