@@ -25,10 +25,7 @@ defmodule MBTA.Api do
     @req.new(
       base_url: config[:base_url],
       headers: config[:headers],
-      finch: Dotcom.Finch,
-      cache: true,
-      cache_dir: System.tmp_dir(),
-      compress_body: true
+      finch: Dotcom.Finch
     )
   end
 end
