@@ -190,7 +190,7 @@ defmodule Dotcom.ScheduleFinderTest do
   defp arrival_attributes do
     %{
       relationships: %{
-        "stop" => [build(:stop_item, attributes: %{"platform_name" => Faker.Cat.breed()})]
+        "stop" => [build(:stop_item)]
       }
     }
   end
