@@ -73,6 +73,11 @@ defmodule DotcomWeb.ScheduleController.LineController do
         route_stop_lists: conn.assigns.route_stop_lists,
         alerts: conn.assigns.alerts,
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
+        service_today?:
+          Dotcom.ServicePatterns.has_service?(
+            date: conn.assigns.date,
+            route: conn.assigns.route.id
+          ),
         variant: conn.assigns.variant
       }
     )
