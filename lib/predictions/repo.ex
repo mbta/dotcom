@@ -27,10 +27,7 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> cache_fetch()
-    |> filter_predictions(
-      Keyword.get(opts, :min_time),
-      Keyword.get(opts, :include_terminals, false)
-    )
+    |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
     |> load_from_other_repos
   end
 
@@ -60,23 +57,21 @@ defmodule Predictions.Repo do
     end
   end
 
-  @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
+  @spec filter_predictions([Parser.record()] | {:error, any}, Keyword.t()) ::
           [Parser.record()] | {:error, any}
-  defp filter_predictions(predictions, min_time \\ nil, include_terminals \\ false)
+  defp filter_predictions(predictions, opts \\ [])
 
-  defp filter_predictions({:error, error}, _, _) do
+  defp filter_predictions({:error, error}, _) do
     {:error, error}
   end
 
-  defp filter_predictions(predictions, min_time, _include_terminals = false) do
-    Enum.filter(predictions, fn prediction ->
-      has_departure_time?(prediction) && after_min_time?(prediction, min_time)
-    end)
-  end
+  defp filter_predictions(predictions, opts) do
+    min_time = opts |> Keyword.get(:min_time)
+    include_terminals = opts |> Keyword.get(:include_terminals)
 
-  defp filter_predictions(predictions, min_time, _include_terminals = true) do
     Enum.filter(predictions, fn prediction ->
-      after_min_time?(prediction, min_time)
+      (include_terminals || has_departure_time?(prediction)) &&
+        after_min_time?(prediction, min_time)
     end)
   end
 
