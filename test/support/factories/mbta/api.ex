@@ -323,6 +323,8 @@ defmodule Test.Support.Factories.MBTA.Api do
   end
 
   def schedule_item_factory(attrs) do
+    {stop_sequence, attrs} = attrs |> Map.pop(:stop_sequence)
+
     build(
       :item,
       Map.merge(
@@ -332,7 +334,7 @@ defmodule Test.Support.Factories.MBTA.Api do
             "departure_time" => formatted_datetime(),
             "pickup_type" => "",
             "stop_headsign" => "",
-            "stop_sequence" => 90
+            "stop_sequence" => stop_sequence || 90
           },
           type: "schedule"
         },
