@@ -17,6 +17,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
   @service_effects @service_impacting_effects -- [:cancellation, :delay]
 
   setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
@@ -27,12 +29,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
+    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
+      %JsonApi{data: Factories.MBTA.Api.build_list(1, :schedule_item)}
     end)
 
     stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
@@ -220,12 +218,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
+        %JsonApi{data: []}
       end)
 
       # EXERCISE
@@ -256,12 +250,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
+        %JsonApi{data: []}
       end)
 
       # EXERCISE

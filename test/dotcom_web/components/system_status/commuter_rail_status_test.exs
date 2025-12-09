@@ -27,12 +27,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
+    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
+      %JsonApi{data: Factories.MBTA.Api.build_list(1, :schedule_item)}
     end)
 
     stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
@@ -53,12 +49,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, 2, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
+        %JsonApi{data: []}
       end)
 
       assigns = %{commuter_rail_status: commuter_rail_status()}
