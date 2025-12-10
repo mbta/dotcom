@@ -63,17 +63,22 @@ defmodule Dotcom.ScheduleFinder do
     route_alerts =
       @alerts_repo.by_route_id_and_type(route.id, route.type, @date_time_module.now())
 
-    relevant_entity =
-      InformedEntity.from_keywords(
-        route_type: route.type,
-        route: route.id,
-        stop: stop_id
-      )
+    relevant_entities =
+      [
+        [route_type: route.type],
+        [route: route.id],
+        [stop: stop_id]
+      ]
+      |> Enum.map(&InformedEntity.from_keywords/1)
 
     (route_alerts ++ stop_alerts)
     |> Enum.uniq()
     |> Enum.reject(&opposite_direction?(&1, direction_id))
-    |> Match.match([relevant_entity], @date_time_module.now())
+    |> Match.match(relevant_entities, @date_time_module.now())
+    |> Enum.reject(
+      &(only_affects_other_entities?(&1, stop_id, :stop) ||
+          only_affects_other_entities?(&1, route.id, :route))
+    )
     |> Enum.filter(&(&1.effect == :track_change || service_impacting_alert?(&1)))
     |> Enum.reject(&cr_trip_cancellation_or_delay?/1)
   end
@@ -95,6 +100,12 @@ defmodule Dotcom.ScheduleFinder do
   end
 
   defp cr_trip_cancellation_or_delay?(_), do: false
+
+  # Avoid showing alerts that only impact other entities of this type
+  defp only_affects_other_entities?(alert, entity_id, entity_type) do
+    entity = Alert.get_entity(alert, entity_type)
+    MapSet.size(entity) > 0 && entity_id not in entity
+  end
 
   @doc """
   Get scheduled departures for a given route/direction/stop/date.
@@ -230,7 +241,7 @@ defmodule Dotcom.ScheduleFinder do
   # have _one_ so we don't really need to show a platform name there either.
   defp simplify("Commuter Rail", 2), do: nil
 
-  defp simplify(name, 2) when is_binary(name) do
+  defp simplify(name, 2) do
     if not String.contains?(name, "All Trains") do
       name
     end
