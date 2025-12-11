@@ -1,0 +1,34 @@
+# Service --> Daily Schedules
+
+## Services to Daily Schedules
+
+```elixir
+services = Services.Repo.by_route_id("39")
+
+services
+|> Enum.flat_map(fn svc ->
+  svc
+  |> Services.Service.all_valid_dates_for_service()
+  |> Enum.map(&{&1, svc})
+end)
+|> Enum.group_by(fn {date, _svc} -> date end)
+|> Enum.map(fn {date, list} ->
+  {date, list |> Enum.map(fn {_date, svc} -> svc end) |> Enum.sort_by(& &1.id)}
+end)
+|> Enum.sort_by(fn {date, _svc_list} -> date end, &Date.before?/2)
+|> Enum.group_by(fn {_date, svc_list} -> svc_list end)
+|> Enum.each(fn {svc_list, date_tuples} ->
+  dates =
+    date_tuples
+    |> Enum.map(fn {date, _svc_list} -> date end)
+    |> Enum.map(&"#{&1}")
+    |> Enum.join(", ")
+
+  IO.puts(svc_list |> Enum.map(& &1.id) |> Enum.join(", "))
+  IO.puts("  #{svc_list |> Enum.map(& &1.name) |> Enum.join(", ")}")
+  IO.puts("  #{svc_list |> Enum.map(& &1.type) |> Enum.join(", ")}")
+  IO.puts("  #{svc_list |> Enum.map(& &1.typicality) |> Enum.join(", ")}")
+  IO.puts("  #{dates}")
+  IO.puts("")
+end)
+```
