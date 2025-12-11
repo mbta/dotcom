@@ -168,8 +168,14 @@ defmodule Dotcom.ScheduleFinder do
     }
   end
 
+  # If a platform name is nil, then it's nil no matter the mode. (This
+  # way, clauses below don't have to worry about nil-checking
+  # `platform_name`.)
+  defp simplify(nil, _), do: nil
+
   # Don't show platform names for subway. We might make exceptions later (JFK?)
   defp simplify(_, vehicle_type) when vehicle_type in [0, 1], do: nil
+
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
   defp simplify("Commuter Rail", 2), do: nil

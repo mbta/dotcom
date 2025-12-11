@@ -43,105 +43,111 @@ defmodule Dotcom.Utils.Time do
   @doc """
   Formats the given datetime according to a predefined style.
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :datetime_full)
-  "January 1, 2000, 11:59 PM"
+  ## Examples
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :datetime_short)
-  "Jan 1 2000 23:59"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :datetime_full)
+      "January 1, 2000, 11:59 PM"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :iso)
-  "2000-01-01T23:59:00+00:00"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :datetime_short)
+      "Jan 1 2000 23:59"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :yyyy_m_d_hour24_m)
-  "2000-1-1 23:59"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :iso)
+      "2000-01-01T23:59:00+00:00"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy_time)
-  "01/01/2000 23:59"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :yyyy_m_d_hour24_m)
+      "2000-1-1 23:59"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :ical_timestamp)
-  "20000101T235900Z"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy_time)
+      "01/01/2000 23:59"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :weekday_date_full)
-  "Saturday, January 1, 2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :ical_timestamp)
+      "20000101T235900Z"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :weekday_date_short)
-  "Sat, Jan 1, 2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :weekday_date_full)
+      "Saturday, January 1, 2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :date_full)
-  "January 1, 2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :weekday_date_short)
+      "Sat, Jan 1, 2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :date_short)
-  "Jan 1, 2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :date_full)
+      "January 1, 2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :iso_date)
-  "2000-01-01"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :date_short)
+      "Jan 1, 2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy)
-  "01/01/2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :iso_date)
+      "2000-01-01"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :m_d_yyyy)
-  "1/1/2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :mm_dd_yyyy)
+      "01/01/2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes_tz)
-  "11:59 PM UTC"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :m_d_yyyy)
+      "1/1/2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes)
-  "11:59 PM"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes_tz)
+      "11:59 PM UTC"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :hour_12)
-  "11 PM"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes)
+      "11:59 PM"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :hour_24_minutes)
-  "23:59"
+      iex> t = ~U[2000-01-01 23:00:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour_12_minutes)
+      "11:00 PM"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :weekday_month_day)
-  "Saturday, January 1"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour_12)
+      "11 PM"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :weekday_month_day_short)
-  "Sat, Jan 1"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour_24_minutes)
+      "23:59"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :month_day_short)
-  "Jan 1"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :weekday_month_day)
+      "Saturday, January 1"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :month_year)
-  "January 2000"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :weekday_month_day_short)
+      "Sat, Jan 1"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :month_short)
-  "Jan"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :month_day_short)
+      "Jan 1"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :day_of_month_zero)
-  "01"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :month_year)
+      "January 2000"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :day_of_month)
-  "1"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :month_short)
+      "Jan"
 
-  iex> t = ~U[2000-01-01 23:59:00Z]
-  iex> Dotcom.Utils.Time.format!(t, :hour)
-  "11"
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :day_of_month_zero)
+      "01"
+
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :day_of_month)
+      "1"
+
+      iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :hour)
+      "11"
   """
   @spec format!(Timex.Types.valid_datetime(), atom()) :: String.t()
   def format!(datetime, style)

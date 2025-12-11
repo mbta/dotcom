@@ -171,6 +171,65 @@ defmodule Predictions.RepoTest do
       assert Kernel.length(predictions) == 1
     end
 
+    test "keeps predictions with no departure if `include_terminals: true` is given" do
+      stop_id = Faker.Pizza.topping()
+
+      expect(Stops.Repo.Mock, :get_parent, 2, fn id ->
+        assert id == stop_id
+        %Stop{}
+      end)
+
+      five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
+
+      five_minutes_in_future_string =
+        Timex.format!(five_minutes_in_future, "{ISO:Extended:Z}")
+
+      # Set as constant to take advantage of caching (less calls to get_json)
+      route_id = Faker.Pizza.cheese()
+
+      prediction_json = fn %{departure_time: departure_time, arrival_time: arrival_time} ->
+        %JsonApi.Item{
+          attributes: %{
+            "departure_time" => departure_time,
+            "arrival_time" => arrival_time,
+            "direction_id" => Faker.random_between(0, 1)
+          },
+          relationships: %{
+            "route" => [
+              %{
+                id: route_id
+              }
+            ],
+            "trip" => [],
+            "vehicle" => [],
+            "stop" => [
+              %{id: stop_id}
+            ]
+          }
+        }
+      end
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", _ ->
+        %JsonApi{
+          data: [
+            prediction_json.(%{departure_time: nil, arrival_time: five_minutes_in_future_string}),
+            prediction_json.(%{
+              departure_time: five_minutes_in_future_string,
+              arrival_time: five_minutes_in_future_string
+            })
+          ]
+        }
+      end)
+
+      expect(Routes.Repo.Mock, :get, 4, fn id ->
+        Factories.Routes.Route.build(:route, %{id: id})
+      end)
+
+      predictions = Repo.all(route: route_id, include_terminals: true)
+
+      assert Kernel.length(predictions) == 2
+    end
+
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         {:error, %HTTPoison.Error{reason: :econnrefused}}

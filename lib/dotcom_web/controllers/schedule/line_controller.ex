@@ -95,7 +95,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   @spec dedup_similar_services([Service.t()]) :: [Service.t()]
   def dedup_similar_services(services) do
     services
-    |> Enum.group_by(&{&1.type, &1.typicality})
+    |> Enum.group_by(&{&1.type, &1.typicality, &1.rating_description})
     |> Enum.flat_map(fn {_, service_group} ->
       service_group
       |> drop_extra_weekday_schedule_if_friday_present()
