@@ -355,57 +355,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.formatted_time time={departure.time} />
         </:heading>
         <:content>
-          <div class="divide-y-[1px] divide-gray-lightest border-t border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
-            <.async_result
-              :let={arrivals}
-              assign={Map.get(@loaded_trips, departure.schedule_id, AsyncResult.loading())}
-            >
-              <:loading>
-                <div class="p-lg text-gray">Loading arrivals...</div>
-              </:loading>
-              <:failed :let={fail}>
-                <.error_container title={inspect(fail)}>
-                  {~t"There was a problem loading arrivals"}
-                </.error_container>
-              </:failed>
-              <.arrival_row
-                :for={arrival <- arrivals}
-                :if={arrivals}
-                route={@route}
-                arrival={arrival}
-              />
-            </.async_result>
-          </div>
+          <.async_result
+            :let={arrivals}
+            assign={Map.get(@loaded_trips, departure.schedule_id, AsyncResult.loading())}
+          >
+            <:loading>
+              <div class="p-lg text-gray">{~t"Loading arrivals..."}</div>
+            </:loading>
+            <:failed :let={fail}>
+              <.error_container title={inspect(fail)}>
+                {~t"There was a problem loading arrivals"}
+              </.error_container>
+            </:failed>
+            <RouteComponents.lined_list :if={arrivals} route={@route} list_items={arrivals}>
+              <:list_item :let={arrival}>
+                <div class="notranslate grow">
+                  <div>{arrival.stop_name}</div>
+                  <div :if={arrival.platform_name} class="text-sm">
+                    {arrival.platform_name}
+                  </div>
+                </div>
+                <.formatted_time time={arrival.time} />
+              </:list_item>
+            </RouteComponents.lined_list>
+          </.async_result>
         </:content>
       </.unstyled_accordion>
-    </div>
-    """
-  end
-
-  attr :arrival, FutureArrival, required: true
-  attr :route, Route, required: true
-
-  defp arrival_row(assigns) do
-    ~H"""
-    <div class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
-      <div
-        class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
-        style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
-      >
-        <div class={"#{route_to_class(@route)} grow top"} />
-        <div class={"#{route_to_class(@route)} grow bottom"} />
-      </div>
-      <div
-        class={"#{route_to_class(@route)} size-3.5 shrink-0 rounded-full border-xs border-[#00000026] z-20"}
-        style="margin-left: calc(-1.75rem + 2px);"
-      />
-      <div class="notranslate grow">
-        <div>{@arrival.stop_name}</div>
-        <div :if={@arrival.platform_name} class="text-sm">
-          {@arrival.platform_name}
-        </div>
-      </div>
-      <.formatted_time time={@arrival.time} />
     </div>
     """
   end
