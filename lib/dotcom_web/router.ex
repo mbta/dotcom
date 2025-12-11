@@ -307,6 +307,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
+      live "/", PreviewLive
       live "/system-status", Live.SystemStatus
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
     end
