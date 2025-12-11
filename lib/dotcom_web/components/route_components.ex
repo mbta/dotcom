@@ -68,7 +68,7 @@ defmodule DotcomWeb.RouteComponents do
     <div class="divide-y-[1px] divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
       <div :for={item <- @list_items} class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
         <div
-          class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
+          class="w-1 z-10 shrink-0 flex flex-col self-stretch"
           style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
         >
           <div class={"#{route_to_class(@route)} grow top"} />
@@ -76,7 +76,7 @@ defmodule DotcomWeb.RouteComponents do
         </div>
         <div
           class={"#{route_to_class(@route)} size-3.5 shrink-0 rounded-full border-xs border-[#00000026] z-20"}
-          style="margin-left: calc(-1.75rem + 2px);"
+          style="margin-left: calc(-1.75rem + 3px);"
         />
         {render_slot(@list_item, item)}
       </div>
