@@ -41,6 +41,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Routes.Route.build_list(2, :route, %{type: route_type})
     end)
 
+    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _route_ids ->
+      []
+    end)
+
     stub(Stops.Repo.Mock, :get, fn id ->
       Factories.Stops.Stop.build(:stop, %{id: id})
     end)
@@ -63,11 +67,6 @@ defmodule DotcomWeb.AlertControllerTest do
   end
 
   test "renders commuter rail", %{conn: conn} do
-    # status widget checks scheduled service
-    expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _params ->
-      %JsonApi{data: Factories.MBTA.Api.build_list(1, :schedule_item)}
-    end)
-
     expect(Routes.Repo.Mock, :by_type, fn 2 ->
       Factories.Routes.Route.build_list(2, :route, %{type: 2})
     end)

@@ -18,6 +18,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @alerts_repo @repos_module[:alerts]
   @routes_repo @repos_module[:routes]
   @schedules_repo @repos_module[:schedules]
+  @schedules_condensed_repo @repos_module[:schedules_condensed]
 
   @type trip_info_t() ::
           {:trip,
@@ -265,9 +266,10 @@ defmodule Dotcom.SystemStatus.CommuterRail do
 
   # Returns a boolean indicating whether or not the route has a schedule
   # for today. This is used to determine if the route is running service today.
-  @spec service_today?(Routes.Route.id_t()) :: boolean()
-  defp service_today?(route_id) do
-    today = Dotcom.Utils.ServiceDateTime.service_date()
-    Dotcom.ServicePatterns.has_service?(route: route_id, date: today) == true
+  @spec service_today?(String.t()) :: boolean()
+  defp service_today?(id) do
+    [id]
+    |> @schedules_condensed_repo.by_route_ids()
+    |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
   end
 end
