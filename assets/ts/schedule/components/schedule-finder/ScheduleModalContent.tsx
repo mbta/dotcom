@@ -2,8 +2,7 @@ import React, { ReactElement } from "react";
 import { Dispatch } from "redux";
 import { DirectionId, Route } from "../../../__v3api";
 import { routeToModeName } from "../../../helpers/css";
-import formattedDate, { stringToDateObject } from "../../../helpers/date";
-import { isInAddedDates, isInCurrentService } from "../../../helpers/service";
+import formattedDate from "../../../helpers/date";
 import useMobileAppBanner from "../../../hooks/useMobileAppBanner";
 import { isSubwayRoute } from "../../../models/route";
 import {
@@ -30,6 +29,7 @@ interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
   scheduleNote: ScheduleNote | null;
+  hasServiceToday: boolean;
 }
 
 const ScheduleModalContent = ({
@@ -43,18 +43,12 @@ const ScheduleModalContent = ({
   stops,
   routePatternsByDirection,
   today,
-  scheduleNote
+  scheduleNote,
+  hasServiceToday
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
-
-  const serviceToday = services.some(
-    service =>
-      isInCurrentService(service, stringToDateObject(today)) ||
-      isInAddedDates(service, stringToDateObject(today))
-  );
-
   const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
-    serviceToday ? (
+    hasServiceToday ? (
       <UpcomingDepartures
         routeId={routeId}
         selectedOrigin={selectedOrigin}

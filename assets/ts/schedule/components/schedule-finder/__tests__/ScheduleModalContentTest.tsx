@@ -114,6 +114,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{}}
           today={today}
           scheduleNote={null}
+          hasServiceToday={true}
         />
       );
     });
@@ -139,6 +140,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{}}
           today={today}
           scheduleNote={null}
+          hasServiceToday={true}
         />
       );
     });
@@ -164,6 +166,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{ 0: [] }}
           today={"2019-07-09"}
           scheduleNote={null}
+          hasServiceToday={true}
         />
       );
     });
@@ -195,6 +198,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{}}
           today={"2018-09-16"}
           scheduleNote={null}
+          hasServiceToday={false}
         />
       );
     });
@@ -236,6 +240,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{}}
           today={"2018-09-16"}
           scheduleNote={null}
+          hasServiceToday={true}
         />
       );
     });
@@ -276,6 +281,7 @@ it.each`
           routePatternsByDirection={{}}
           today={testToday}
           scheduleNote={null}
+          hasServiceToday={isMatch}
         />
       );
     });

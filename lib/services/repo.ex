@@ -10,9 +10,11 @@ defmodule Services.Repo do
   alias MBTA.Api.Services, as: ServicesApi
   alias Services.Service
 
+  @behaviour Services.Repo.Behaviour
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
+  @impl Services.Repo.Behaviour
   def by_route_id(route_id, params \\ [])
 
   def by_route_id([route_id] = route, params) when is_list(route) do

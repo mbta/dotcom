@@ -36,6 +36,7 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo,
   schedules: Schedules.Repo,
   schedules_condensed: Schedules.RepoCondensed,
+  services: Services.Repo,
   stops: Stops.Repo,
   vehicles: Vehicles.Repo
 

@@ -24,7 +24,7 @@ Array [
         <select
           aria-controls="daily-schedule"
           className="c-select-custom text-center font-bold"
-          defaultValue="BUS319-P-Sa-02"
+          defaultValue="BUS319-O-Wdy-02"
           onChange={[Function]}
         >
           <optgroup
@@ -43,10 +43,10 @@ Array [
               Storm (reduced service)
             </option>
             <option
-              aria-label="Current Schedules (Test, ends Oct 25) Weekday schedule, Test"
+              aria-label="Current Schedules (Test, ends Oct 25) Weekday schedule, Test (Starting July 2, 2019)"
               value="BUS319-O-Wdy-02"
             >
-              Weekday schedule, Test
+              Weekday schedule, Test (Starting July 2, 2019)
             </option>
             <option
               aria-label="Current Schedules (Test, ends Oct 25) Weekday schedule, Test"
@@ -55,10 +55,10 @@ Array [
               Weekday schedule, Test
             </option>
             <option
-              aria-label="Current Schedules (Test, ends Oct 25) Saturday schedule, Test (Starting July 6, 2019)"
+              aria-label="Current Schedules (Test, ends Oct 25) Saturday schedule, Test"
               value="BUS319-P-Sa-02"
             >
-              Saturday schedule, Test (Starting July 6, 2019)
+              Saturday schedule, Test
             </option>
             <option
               aria-label="Current Schedules (Test, ends Oct 25) Sunday schedule, Test"
@@ -98,7 +98,7 @@ Array [
       className="sr-only"
     >
       Showing times for 
-      Saturday schedule
+      Weekday schedule
     </span>
     <div
       className="schedule-finder__first-last-trip"

@@ -110,6 +110,7 @@ const getDirectionAndMap = (
     today,
     schedule_note: scheduleNote,
     route_stop_lists: routeStopLists,
+    "service_today?": hasServiceToday,
     stop_tree: stopTree,
     alerts,
     variant: busVariantId
@@ -127,6 +128,7 @@ const getDirectionAndMap = (
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
+        hasServiceToday={hasServiceToday}
         directionId={directionId}
         changeDirection={changeDirection}
         changeOrigin={changeOrigin}
@@ -179,6 +181,7 @@ const getScheduleFinder = (
     services,
     route_patterns: routePatternsByDirection,
     today,
+    "service_today?": hasServiceToday,
     schedule_note: scheduleNote
   } = schedulePageData;
   return (
@@ -194,6 +197,7 @@ const getScheduleFinder = (
       changeOrigin={changeOrigin}
       closeModal={closeModal}
       scheduleNote={scheduleNote}
+      hasServiceToday={hasServiceToday}
     />
   );
 };
@@ -214,6 +218,7 @@ const ScheduleNote = ({
     schedule_note: scheduleNote,
     route_patterns: routePatternsByDirection,
     today,
+    "service_today?": hasServiceToday,
     services,
     stops
   } = schedulePageData;
@@ -240,6 +245,7 @@ const ScheduleNote = ({
           services={services}
           stops={stops}
           today={today}
+          hasServiceToday={hasServiceToday}
           updateURL={updateURL}
           scheduleNote={scheduleNote}
         />

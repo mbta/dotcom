@@ -30,6 +30,7 @@ Mox.defmock(Routes.Repo.Mock, for: Routes.Repo.Behaviour)
 Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)
 Mox.defmock(Schedules.Repo.Mock, for: Schedules.Repo.Behaviour)
 Mox.defmock(Schedules.RepoCondensed.Mock, for: Schedules.RepoCondensed.Behaviour)
+Mox.defmock(Services.Repo.Mock, for: Services.Repo.Behaviour)
 Mox.defmock(Stops.Repo.Mock, for: Stops.Repo.Behaviour)
 Mox.defmock(Vehicles.Repo.Mock, for: Vehicles.Repo.Behaviour)
 

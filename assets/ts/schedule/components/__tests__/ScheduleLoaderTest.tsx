@@ -257,6 +257,7 @@ describe("schedule-loader", () => {
       schedule_note: null,
       services: [],
       today: "",
+      "service_today?": true,
       variant: null
     } as SchedulePageData;
 
@@ -296,6 +297,7 @@ describe("schedule-loader", () => {
       today: "2019-12-05",
       stop_tree: stopTreeData,
       alerts: [],
+      "service_today?": true,
       variant: null
     } as SchedulePageData;
 

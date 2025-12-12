@@ -27,6 +27,7 @@ interface Props {
   changeOrigin: (origin: SelectedOrigin, dispatch: Dispatch) => void;
   closeModal: (dispatch: Dispatch) => void;
   scheduleNote: ScheduleNote | null;
+  hasServiceToday: boolean;
 }
 
 const ScheduleFinder = ({
@@ -40,7 +41,8 @@ const ScheduleFinder = ({
   changeDirection,
   changeOrigin,
   closeModal,
-  scheduleNote
+  scheduleNote,
+  hasServiceToday
 }: Props): ReactElement<HTMLElement> => {
   const dispatch = useDispatch();
   const { modalOpen, selectedOrigin } = useSelector(
@@ -109,6 +111,7 @@ const ScheduleFinder = ({
           services={services}
           stops={stops}
           today={today}
+          hasServiceToday={hasServiceToday}
           updateURL={updateURL}
           scheduleNote={scheduleNote}
         />
