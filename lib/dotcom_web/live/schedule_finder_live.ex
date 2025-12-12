@@ -533,6 +533,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
     do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
