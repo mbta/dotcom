@@ -310,6 +310,7 @@ defmodule DotcomWeb.Router do
       live "/", PreviewLive
       live "/system-status", Live.SystemStatus
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
+      live "/stop-map", Live.StopMap
     end
   end
 

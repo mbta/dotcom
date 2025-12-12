@@ -18,6 +18,12 @@ defmodule DotcomWeb.PreviewLive do
     },
     %{
       arguments: [],
+      icon_name: "icon-stop-default",
+      module: DotcomWeb.Live.StopMap,
+      title: "Stop Page Map"
+    },
+    %{
+      arguments: [],
       icon_name: "icon-alerts-triangle",
       module: DotcomWeb.Live.SystemStatus,
       title: "Subway Status"
