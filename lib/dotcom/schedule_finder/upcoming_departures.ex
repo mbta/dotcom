@@ -63,6 +63,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         include_terminals: true
       ]
       |> @predictions_repo.all()
+      |> reject_timeless_predictions()
       |> Enum.sort_by(&prediction_time/1, DateTime)
 
     predictions_by_trip_id =
@@ -78,6 +79,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id,
         predictions_by_trip_id: predictions_by_trip_id
       })
+    end)
+  end
+
+  defp reject_timeless_predictions(predictions) do
+    predictions
+    |> Enum.reject(fn
+      %Prediction{arrival_time: nil, departure_time: nil} -> true
+      _ -> false
     end)
   end
 
