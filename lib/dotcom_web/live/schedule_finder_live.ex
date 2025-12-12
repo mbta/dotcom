@@ -168,7 +168,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}, now: now}} = socket) do
-    route_id = socket.assigns.route.id
+    route = socket.assigns.route
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
@@ -178,7 +178,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       UpcomingDepartures.upcoming_departures(%{
         direction_id: direction_id,
         now: now,
-        route_id: route_id,
+        route: route,
         stop_id: stop_id
       })
     )

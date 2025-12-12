@@ -53,12 +53,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   def upcoming_departures(%{
         direction_id: direction_id,
         now: now,
-        route_id: route_id,
+        route: route,
         stop_id: stop_id
       }) do
     all_predictions =
       [
-        route: route_id,
+        route: route.id,
         direction_id: direction_id,
         include_terminals: true
       ]

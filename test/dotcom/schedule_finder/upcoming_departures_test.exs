@@ -20,7 +20,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -47,7 +48,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -61,7 +62,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
       direction_id = Faker.Util.pick([0, 1])
@@ -96,7 +98,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -111,7 +113,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -139,7 +142,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -153,7 +156,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -177,7 +181,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -189,7 +193,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -216,7 +221,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -230,7 +235,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -257,7 +263,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -271,7 +277,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
       trip_id = FactoryHelpers.build(:id)
@@ -300,7 +307,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -314,7 +321,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
       trip_id = FactoryHelpers.build(:id)
@@ -343,7 +351,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
@@ -357,7 +365,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
 
       stop_ids =
         Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
@@ -404,7 +413,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop.id
         })
 
@@ -430,7 +439,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
 
       stop_ids =
         Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
@@ -478,7 +488,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop.id
         })
 
@@ -495,7 +505,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route_id = FactoryHelpers.build(:id)
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
       [stop_id, other_stop_id] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -522,7 +533,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: direction_id,
           now: now,
-          route_id: route_id,
+          route: route,
           stop_id: stop_id
         })
 
