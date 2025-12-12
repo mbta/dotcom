@@ -12,7 +12,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
-  alias Dotcom.ScheduleFinder.FutureArrival
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
@@ -168,7 +167,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}, now: now}} = socket) do
-    route_id = socket.assigns.route.id
+    route = socket.assigns.route
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
@@ -178,7 +177,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       UpcomingDepartures.upcoming_departures(%{
         direction_id: direction_id,
         now: now,
-        route_id: route_id,
+        route: route,
         stop_id: stop_id
       })
     )
@@ -534,6 +533,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
     do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
