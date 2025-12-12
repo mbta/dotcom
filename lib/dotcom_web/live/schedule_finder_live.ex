@@ -12,7 +12,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
-  alias Dotcom.ScheduleFinder.FutureArrival
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
