@@ -7,6 +7,7 @@ defmodule Fares.Format do
   use Gettext, backend: Dotcom.Gettext
 
   alias Fares.{Fare, Summary}
+  alias Routes.Route
 
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
 
@@ -190,4 +191,72 @@ defmodule Fares.Format do
   def mode_type_for_fare_class(:ferry_fare), do: :ferry
   def mode_type_for_fare_class(:commuter_rail_fare), do: :commuter_rail
   def mode_type_for_fare_class(_), do: :bus_subway
+
+  # Use the route mode to determine the display fare. e.g. instead of the 23 bus
+  # showing the free fare, show the bus fare
+  @display_fare_classes [
+    :local_bus_fare,
+    :express_bus_fare,
+    :rapid_transit_fare,
+    :commuter_rail_fare,
+    :ferry_fare
+  ]
+
+  def display_fare_classes, do: @display_fare_classes
+
+  @spec display_fare_class(Route.t()) :: Route.gtfs_fare_class()
+  def display_fare_class(%Route{id: id, fare_class: fare_class} = route)
+      when fare_class not in @display_fare_classes do
+    if Fares.express?(id) do
+      :express_bus_fare
+    else
+      case Route.type_atom(route) do
+        :subway ->
+          :rapid_transit_fare
+
+        :bus ->
+          :local_bus_fare
+
+        :commuter_rail ->
+          :commuter_rail_fare
+
+        :ferry ->
+          :ferry_fare
+
+        # probably a shuttle??
+        _ ->
+          :local_bus_fare
+      end
+    end
+  end
+
+  def display_fare_class(%Route{fare_class: fare_class}), do: fare_class
+
+  @spec one_way_ranges([Route.t()]) :: [{String.t(), String.t()}]
+  def one_way_ranges(routes) do
+    routes
+    |> Enum.map(&display_fare_class/1)
+    |> Enum.uniq()
+    # Sort in same order as @display_fare_classes
+    |> Enum.sort_by(&Enum.find_index(@display_fare_classes, fn fc -> fc == &1 end))
+    |> Enum.flat_map(fn fare_class ->
+      fare_class
+      |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
+      |> summarize(mode_type_for_fare_class(fare_class))
+      |> Enum.map(fn summary ->
+        name =
+          if is_binary(summary.name) do
+            summary.name
+          else
+            Enum.join(summary.name)
+          end
+
+        # capitalize lowercases every word after the first word in `name`.  This fixes the one edge case for Commuter Rail
+        changed_name =
+          name |> String.capitalize() |> String.replace("Commuter rail", "Commuter Rail")
+
+        {changed_name, Fares.Summary.price_range(summary)}
+      end)
+    end)
+  end
 end

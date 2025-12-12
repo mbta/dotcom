@@ -216,7 +216,6 @@ defmodule DotcomWeb.Router do
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)
-    get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/line_api", ScheduleController.LineApi, :show)
 
@@ -308,7 +307,9 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
+      live "/", PreviewLive
       live "/system-status", Live.SystemStatus
+      live "/schedules/:route_id/:direction_id", ScheduleFinderLive
       live "/stop-map", Live.StopMap
     end
   end
@@ -318,7 +319,6 @@ defmodule DotcomWeb.Router do
 
     get("/alerts", AlertController, :show_by_routes)
     get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
-    get("/stop/:stop_id/facilities", FacilitiesController, :get_facilities)
   end
 
   scope "/api", DotcomWeb do
@@ -334,7 +334,6 @@ defmodule DotcomWeb.Router do
     get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
     get("/routes/:route_ids", RouteController, :get_by_route_ids)
-    get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 
   scope "/algolia", DotcomWeb do

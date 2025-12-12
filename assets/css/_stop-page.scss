@@ -1,45 +1,3 @@
-.m-stop-page__header {
-  background: $gray-bordered-background;
-  border-bottom: 0;
-  display: grid;
-  height: $base-spacing * 14;
-
-  // required to prevent h2 margin-top from creating space between
-  // header and breadcrumbs
-  // https://stackoverflow.com/questions/13573653
-  overflow: auto;
-
-  @include media-breakpoint-down(sm) {
-    height: $base-spacing * 11;
-  }
-}
-
-.m-stop-page__header-container {
-  @include make-container-max-widths();
-  align-self: end;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-
-  @include media-breakpoint-down(sm) {
-    padding-left: calc(#{$grid-gutter-width} / 2);
-    padding-right: calc(#{$grid-gutter-width} / 2);
-  }
-
-  .m-stop-page__name {
-    margin-bottom: calc(#{$base-spacing} / 2);
-    margin-top: $base-spacing-sm;
-  }
-}
-
-.m-stop-page__header-features {
-  align-items: center;
-  display: flex;
-  height: $base-spacing * 2;
-  margin-bottom: $base-spacing;
-  margin-top: calc(#{$base-spacing} / 2);
-}
-
 .m-stop-page__header-feature,
 .m-stop-page__access-icon {
   align-items: center;
@@ -100,202 +58,11 @@
   }
 }
 
-.m-stop-page__info-container .m-stop-page__info {
-  @include make-container-max-widths();
-  margin: 0 auto;
-  padding: ($base-spacing * 2) 0;
-  width: 100%;
-
-  @include media-breakpoint-down(sm) {
-    padding: ($base-spacing * 1.5) calc($grid-gutter-width / 2);
-  }
-
-  h2 {
-    margin-top: 0;
-  }
-  :last-child {
-    margin-bottom: 0; // remove spacing from station information <p>
-  }
-
-  .page-section {
-    margin-top: 0; // remove spacing left behind by unpopulated <Alerts />
-  }
-
-  .c-alert-group li:last-child {
-    padding-bottom: 1rem; // add space at bottom of populated <Alerts />
-  }
-}
-
-.m-stop-page__sidebar-pills {
-  @include media-breakpoint-down(md) {
-    display: none;
-  }
-}
-
-.m-stop-page__name--upcase {
-  text-transform: uppercase;
-}
-
-.m-stop-page__location-block {
-  background: $white;
-  border: 1px solid $gray-lightest;
-  display: flex;
-  margin-top: -$base-spacing * 3;
-  padding: $base-spacing;
-  position: relative;
-  z-index: $z-index-above-leaflet;
-
-  @include media-breakpoint-down(md) {
-    flex-direction: column;
-  }
-
-  .m-route-pills,
-  .m-external-connections {
-    @include media-breakpoint-up(lg) {
-      display: none;
-    }
-  }
-
-  h3,
-  .h3 {
-    margin-top: 0;
-  }
-}
-
-.m-stop-page__location {
-  flex: 1 1 auto;
-  padding-right: $base-spacing;
-}
-
-.m-stop-page__location-links {
-  flex: 0 0 auto;
-}
-
-.m-stop-page__location-link {
-  display: block;
-  margin-bottom: calc(#{$base-spacing} / 2);
-}
-
-.m-stop-page__street-view-icon {
-  margin-right: calc(#{$base-spacing} / 2);
-}
-
-.m-stop-page__hero-map-container {
-  flex: 1 1 auto;
-  height: $base-spacing * 25;
-}
-
-.m-stop-page__departures {
-  background-color: $gray-lightest;
-  padding: .75 * $base-spacing;
-  position: relative;
-
-  @include media-breakpoint-only(xs) {
-
-    .m-tnm-sidebar__filter-header {
-      display: block;
-    }
-
-    .c-mode-filter__filter-btn-group:last-of-type {
-      margin: 0;
-    }
-
-    .m-tnm-sidebar__filter-btn {
-      margin: calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
-      margin-left: 0;
-    }
-  }
-
-  .m-tnm-sidebar__filter-header {
-    display: inline;
-
-    @include media-breakpoint-only(xs) {
-      display: block;
-    }
-  }
-}
-
-.m-stop-page__no-departures {
-  padding: calc(#{$base-spacing} / 2);
-}
-
-.m-stop-page__departures-alert {
-  @include icon-size-inline(1em);
-
-  color: inherit;
-  display: block;
-  font-weight: bold;
-  padding: calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
-  text-decoration: none;
-
-  [class*='c-svg__icon'] {
-    margin-right: calc(#{$base-spacing} / 2);
-  }
-}
-
-.m-stop-page__departures-route {
-  background: $white;
-  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
-
-  .m-tnm-sidebar__filter-bar + & {
-    margin-top: calc(#{$base-spacing} / 2);
-  }
-
-  & + & {
-    margin-top: calc(#{$base-spacing} / 2);
-  }
-}
-
-.m-stop-page__sidebar-list {
-  list-style: none; // Remove default bullets
-}
-
-.m-stop-page__sidebar-list-item::before {
-  color: $brand-primary-light;
-  content: '\2022';  // \2022 is unicode for a bullet
-  display: inline-block;
-  font-size: $base-spacing * 1.25;
-  font-weight: bold;
-  margin-left: -$base-spacing;
-  text-transform: capitalize;
-  width: $base-spacing;
-}
-
-.m-stop-page__pedal-and-park {
-  padding-left: $base-spacing;
-}
-
 .m-route-pills {
   .u-bg--bus,
   .u-bg--silver-line {
     border-radius: calc(#{$base-spacing} / 4);
   }
-}
-
-.m-stop-page__sidebar-header {
-  margin-top: 0;
-}
-
-.m-stop-page__retail-locations {
-  background: auto;
-  margin-bottom: 0;
-  margin-top: $base-spacing;
-  padding: 0;
-}
-
-.m-stop-page__retail-location {
-  box-shadow: 0 2px 4px 0 $drop-shadow-color;
-  margin: $base-spacing calc(#{$base-spacing} / 4);
-  padding: calc(#{$base-spacing} / 2);
-}
-
-.m-stop-page__retail-location-name {
-  font-weight: bold;
-}
-
-.m-stop-page__transfers {
-  background-color: $gray-bordered-background;
-  padding: $base-spacing * .75;
 }
 
 .station-amenities {
@@ -344,7 +111,22 @@
   .c-descriptive-link__title,
   .c-descriptive-link__badge {
     font-family: $font-family-sans-serif;
-    white-space: nowrap;
+  }
+
+  .c-descriptive-link__badge {
+    @apply bg-gray-lightest;
+  }
+
+  [disabled].c-descriptive-link .c-descriptive-link__badge {
+    @apply bg-gray-lighter;
+  }
+
+  .c-descriptive-link__badge.good {
+    @apply bg-emerald-90;
+  }
+
+  .c-descriptive-link__badge.bad {
+    @apply bg-firebrick-90;
   }
 
   .c-descriptive-link__text {
@@ -361,9 +143,23 @@
   }
 }
 
-.stop-page__header--fontsize {
-  font-size: 1.438rem;
-  @include media-breakpoint-down(sm) {
-    font-size: 1.125rem;
+.station-amenities {
+  .mbta-table {
+    border: solid .063rem $gray-lightest;
+    margin-bottom: 1rem;
+    table-layout: auto;
+    width: 100%;
+
+    thead tr {
+      background: $brand-primary-darkest;
+      border-bottom: none;
+      color: $white;
+      height: 3.75rem;
+    }
+
+    td {
+      font-size: var(--font-size-sm);
+      padding: var(--spacing-md);
+    }
   }
 }

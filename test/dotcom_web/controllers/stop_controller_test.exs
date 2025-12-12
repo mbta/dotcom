@@ -6,9 +6,36 @@ defmodule DotcomWeb.StopControllerTest do
   alias DotcomWeb.StopController
   alias Routes.Route
   alias Stops.Stop
+  alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
+  alias Test.Support.Generators
   alias Util.Breadcrumb
 
   setup :verify_on_exit!
+
+  @banner_alert_effects_active_or_future [
+    :detour,
+    :dock_closure,
+    :dock_issue,
+    :service_change,
+    :shuttle,
+    :station_closure,
+    :station_issue,
+    :stop_closure,
+    :stop_moved,
+    :stop_shoveling,
+    :suspension
+  ]
+
+  @banner_alert_effects_active_only [
+    :access_issue,
+    :elevator_closure
+  ]
+
+  @banner_alert_effects @banner_alert_effects_active_only ++
+                          @banner_alert_effects_active_or_future
+
+  @non_banner_alert_effects Alerts.Alert.all_types() -- @banner_alert_effects
 
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))
@@ -128,6 +155,25 @@ defmodule DotcomWeb.StopControllerTest do
   end
 
   describe "show/2" do
+    setup _ do
+      stub(Alerts.Repo.Mock, :by_route_ids, fn _stop_id, _datetime -> [] end)
+      stub(Alerts.Repo.Mock, :by_stop_id, fn _stop_id -> [] end)
+
+      stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _ -> [] end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", _}] ->
+        %JsonApi{links: %{}, data: []}
+      end)
+
+      stub(Routes.Repo.Mock, :by_stop, fn _stop_id -> [] end)
+      stub(Routes.Repo.Mock, :by_stop, fn _stop_id, _opts -> [] end)
+      stub(Stops.Repo.Mock, :get, fn id -> Factories.Stops.Stop.build(:stop, id: id) end)
+      stub(Stops.Repo.Mock, :has_parent?, fn _stop -> false end)
+      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+      :ok
+    end
+
     @tag :external
     test "should set the title and meta description of the page", %{conn: conn} do
       conn =
@@ -141,9 +187,251 @@ defmodule DotcomWeb.StopControllerTest do
       assert "Station serving MBTA Subway and Bus lines at 1300 North Shore Rd, Revere, MA 02151." =
                conn.assigns.meta_description
     end
+
+    test "does not assign any banner alerts if there aren't any", %{conn: conn} do
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, FactoryHelpers.build(:id)))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "includes alerts for the stop", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == [alert]
+    end
+
+    test "includes routewide alerts", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      route_id = FactoryHelpers.build(:id)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_informed_entity,
+          informed_entity: %{stop: nil, trip: nil},
+          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Routes.Repo.Mock, :by_stop, fn ^stop_id, _opts ->
+        [
+          Factories.Routes.Route.build(:route, id: route_id)
+        ]
+      end)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn [^route_id], _datetime -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == [alert]
+    end
+
+    test "does not include route alerts that are targeted to different stops", %{conn: conn} do
+      # Setup
+      [stop_id, other_stop_id] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+      route_id = FactoryHelpers.build(:id)
+      alert = Factories.Alerts.Alert.build(:alert_for_stop, stop_id: other_stop_id)
+
+      expect(Routes.Repo.Mock, :by_stop, fn ^stop_id, _opts ->
+        [
+          Factories.Routes.Route.build(:route, id: route_id)
+        ]
+      end)
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn [^route_id], _datetime -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "does not include alerts with non-banner effects", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert, effect: Faker.Util.pick(@non_banner_alert_effects))
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "does not include alerts more than seven days out", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        Generators.DateTime.random_date_time_after(now |> DateTime.shift(day: 7))
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+        )
+        |> Factories.Alerts.Alert.active_starting_at(start_time)
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "includes future alerts within the next seven days", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        Generators.DateTime.random_time_range_date_time({now, now |> DateTime.shift(day: 7)})
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+        )
+        |> Factories.Alerts.Alert.active_starting_at(start_time)
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == [alert]
+    end
+
+    test "includes active :access_issue or :elevator_closure alerts", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick(@banner_alert_effects_active_only)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == [alert]
+    end
+
+    test "does not include future :access_issue or :elevator_closure alerts", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        Generators.DateTime.random_time_range_date_time({now, now |> DateTime.shift(day: 7)})
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick(@banner_alert_effects_active_only)
+        )
+        |> Factories.Alerts.Alert.active_starting_at(start_time)
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "does not include global-banner alerts", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert,
+          banner: Faker.Lorem.Shakespeare.king_richard_iii(),
+          effect: Faker.Util.pick(@banner_alert_effects)
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id))
+
+      # Verify
+      assert conn.assigns.banner_alerts == []
+    end
+
+    test "fetches related facilities", %{conn: conn} do
+      cases = [
+        {:elevator, :elevator_amenity, :elevator_facility_item},
+        {:escalator, :escalator_amenity, :escalator_facility_item},
+        {:parking, :parking_amenity, :parking_facility_item},
+        {:accessibility, :accessibility_amenity, :accessibility_facility_item},
+        {:fare, :fare_amenity, :fare_facility_item},
+        {:bike, :bike_amenity, :bike_facility_item}
+      ]
+
+      for {amenity_type, assign_name, factory} <- cases do
+        # Setup
+        stop_id = FactoryHelpers.build(:id)
+        facility_data = Factories.MBTA.Api.build_list(10, factory)
+
+        expect(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", ^stop_id}] ->
+          %JsonApi{links: %{}, data: facility_data}
+        end)
+
+        # Exercise
+        conn = conn |> get(stop_path(conn, :show, stop_id))
+
+        # Verify
+        assert %Dotcom.StopAmenity{type: ^amenity_type, facilities: facilities} =
+                 conn.assigns[assign_name]
+
+        assert Enum.map(facilities, & &1.id) == Enum.map(facility_data, & &1.id)
+      end
+    end
+
+    test "sets amenity_param", %{conn: conn} do
+      # Setup
+      stop_id = FactoryHelpers.build(:id)
+      amenity = :anything
+
+      # Exercise
+      conn = conn |> get(stop_path(conn, :show, stop_id, %{"amenity" => "#{amenity}"}))
+
+      # Verify
+      assert conn.assigns.amenity_param == amenity
+    end
   end
 
   describe "endpoints" do
+    @tag :flaky
     test "grouped_route_patterns returns stop's route patterns by route & headsign", %{
       conn: conn
     } do

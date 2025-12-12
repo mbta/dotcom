@@ -255,7 +255,7 @@ defmodule DotcomWeb.Components do
   """
   def promo_banner(%{href: href} = assigns) when is_nil(href) do
     ~H"""
-    <div class={"bg-amethyst-90 text-center #{@class}"}>
+    <div class={@class}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -263,7 +263,7 @@ defmodule DotcomWeb.Components do
 
   def promo_banner(assigns) do
     ~H"""
-    <a href={@href} class={"block bg-amethyst-80 text-black text-center #{@class}"} target="_blank">
+    <a href={@href} class={"block text-black #{@class}"} target="_blank">
       {render_slot(@inner_block)}
     </a>
     """
@@ -289,17 +289,54 @@ defmodule DotcomWeb.Components do
   """
   def dialog_modal(assigns) do
     ~H"""
-    <dialog id={@modal_id} class="mbta-modal c-modal" closedby="any" open={@open}>
+    <dialog id={@modal_id} class="mbta-modal min-w-[40%] min-h-[50%]" closedby="any" data-open={@open}>
       <form method="dialog" class="flex justify-between gap-md items-center">
-        <div :if={@modal_heading} class="h4 m-0">
+        <h1 :if={@modal_heading} class="h4 m-0">
           {render_slot(@modal_heading)}
-        </div>
+        </h1>
         <div>
           <.button autofocus size="small">{~t"Close"}</.button>
         </div>
       </form>
       {render_slot(@inner_block)}
     </dialog>
+    """
+  end
+
+  slot(:inner_block, required: true, doc: "Content displayed within the link")
+  slot(:title, required: true)
+  attr(:href, :string, doc: "Optional link to navigate to")
+  attr(:rest, :global, include: ~w(disabled))
+
+  @doc """
+  A stylish link or button with a prominent right caret, containing content.
+  As a button, can open additional content via a modal.
+  """
+  def descriptive_link(%{href: _} = assigns) do
+    ~H"""
+    <a href={@href} class="c-descriptive-link">
+      <div class="c-descriptive-link__text">
+        <div class="c-descriptive-link__title">{render_slot(@title)}</div>
+        {render_slot(@inner_block)}
+      </div>
+      <div class="c-descriptive-link__caret-wrapper">
+        <i class="fa fa-angle-right notranslate c-descriptive-link__caret" aria-hidden="true"></i>
+      </div>
+    </a>
+    """
+  end
+
+  def descriptive_link(assigns) do
+    ~H"""
+    <button type="button" class="c-descriptive-link" {@rest}>
+      <div class="c-descriptive-link__text">
+        <div class="c-descriptive-link__title mb-0">{render_slot(@title)}</div>
+        {render_slot(@inner_block)}
+      </div>
+      <div class="c-descriptive-link__caret-wrapper">
+        <i class="fa fa-angle-right notranslate c-descriptive-link__caret" aria-hidden="true"></i>
+      </div>
+    </button>
     """
   end
 end

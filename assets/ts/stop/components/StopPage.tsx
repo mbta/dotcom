@@ -1,19 +1,12 @@
 import React, { ReactElement, useState } from "react";
 import { concat } from "lodash";
 import { useLoaderData } from "react-router-dom";
-import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
-import StationInformation from "./StationInformation";
+import { useStop } from "../../hooks/useStop";
 import { useRoutes } from "../../hooks/useRoute";
 import Loading from "../../components/Loading";
-import Alerts from "../../components/Alerts";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import {
-  isGlobalBannerAlert,
-  routeWideAlerts,
-  isInNextXDays,
-  isAmenityAlert
-} from "../../models/alert";
+import { routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
@@ -27,30 +20,6 @@ const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
     "stop_moved",
     "suspension"
   ].includes(effect);
-
-const isBannerAlertEffect = ({ effect }: Alert): boolean =>
-  [
-    "dock_closure",
-    "dock_issue",
-    "service_change",
-    "shuttle",
-    "station_closure",
-    "station_issue",
-    "stop_closure",
-    "stop_moved",
-    "stop_shoveling",
-    "suspension"
-  ].includes(effect);
-
-const isActiveBannerAlert = (alert: Alert): boolean =>
-  ["access_issue", "elevator_closure"].includes(alert.effect) &&
-  isInNextXDays(alert, 0);
-
-const isBannerAlert = (alert: Alert): boolean =>
-  (isBannerAlertEffect(alert) &&
-    isInNextXDays(alert, 7) &&
-    !isGlobalBannerAlert(alert)) ||
-  isActiveBannerAlert(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
@@ -72,20 +41,11 @@ const StopPage = ({
   const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
   const routesResult = useRoutes(Object.keys(groupedRoutePatterns || []));
   const alertsForStopResult = useAlertsByStop(stopId);
-  const facilities = useFacilitiesByStop(stopId);
   const routes = routesResult.data || [];
   const alertsForRoutesResult = useAlertsByRoute(routes.map(r => r.id));
 
-  if (
-    [stopResult.status, routesResult.status, facilities.status].includes(
-      FetchStatus.Error
-    )
-  ) {
-    const errorMessage = [
-      stopResult.errorData,
-      routesResult.errorData,
-      facilities.errorData
-    ]
+  if ([stopResult.status, routesResult.status].includes(FetchStatus.Error)) {
+    const errorMessage = [stopResult.errorData, routesResult.errorData]
       .filter(error => error !== undefined)
       .join(" ");
     throw new Error(errorMessage);
@@ -95,36 +55,25 @@ const StopPage = ({
   if (
     !stopResult.data ||
     !alertsForRoutesResult.data ||
-    !alertsForStopResult.data ||
-    !facilities.data
+    !alertsForStopResult.data
   ) {
     return <Loading />;
   }
 
   const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
-  const amenityAlerts = allAlerts.filter(isAmenityAlert);
   const departuresAndMapAlerts = allAlerts.filter(isDeparturesAndMapAlert);
-  const bannerAlerts = allAlerts.filter(isBannerAlert);
 
   return (
     <article>
       {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
-        <Alerts alerts={bannerAlerts} />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
           alerts={departuresAndMapAlerts}
           setPredictionError={setPredictionError}
         />
-        <footer>
-          <StationInformation
-            stop={stopResult.data}
-            facilities={facilities.data}
-            alerts={amenityAlerts}
-          />
-        </footer>
       </div>
     </article>
   );

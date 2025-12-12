@@ -95,7 +95,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   @spec dedup_similar_services([Service.t()]) :: [Service.t()]
   def dedup_similar_services(services) do
     services
-    |> Enum.group_by(&{&1.type, &1.typicality})
+    |> Enum.group_by(&{&1.type, &1.typicality, &1.rating_description})
     |> Enum.flat_map(fn {_, service_group} ->
       service_group
       |> drop_extra_weekday_schedule_if_friday_present()
@@ -158,13 +158,19 @@ defmodule DotcomWeb.ScheduleController.LineController do
   defp tag_default_service([]), do: []
 
   defp tag_default_service(services) do
-    current_service_id =
+    current_service =
       services
       |> Enum.filter(&current_service?/1)
       |> get_default_service(services)
-      |> Map.get(:id, "")
 
-    Enum.map(services, &Map.put(&1, :default_service?, &1.id === current_service_id))
+    if is_map(current_service) do
+      Enum.map(
+        services,
+        &Map.put(&1, :default_service?, &1.id === Map.get(current_service, :id, ""))
+      )
+    else
+      services
+    end
   end
 
   # Find candidates that could be valid for today:

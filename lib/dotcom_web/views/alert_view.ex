@@ -18,6 +18,8 @@ defmodule DotcomWeb.AlertView do
   alias Routes.Route
   alias Stops.Stop
 
+  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+
   @type priority_filter :: :any | Alerts.Priority.priority_level()
 
   @doc """
@@ -257,4 +259,29 @@ defmodule DotcomWeb.AlertView do
   def alert_icon(:snow), do: svg("icon-snow-default.svg")
   def alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
   def alert_icon(:none), do: ""
+
+  def header(%Alert{effect: :station_closure} = alert) do
+    affected_stops = @affected_stops.affected_stops([alert])
+
+    case affected_stops do
+      [%{stop: stop, direction: :all}] ->
+        "#{stop.name} Skipped"
+
+      [%{stop: stop, direction: {:direction, direction_name}}] ->
+        "#{stop.name} Skipped (#{direction_name})"
+
+      _ ->
+        "Stops Skipped"
+    end
+  end
+
+  def header(alert) do
+    affected_stations = Dotcom.Alerts.affected_stations(alert)
+
+    if Kernel.length(affected_stations) === 1 do
+      "#{affected_stations |> List.first() |> Map.get(:name, "")} #{effect_name(alert)}"
+    else
+      effect_name(alert)
+    end
+  end
 end

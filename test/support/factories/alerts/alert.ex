@@ -13,7 +13,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
     %Alert{
       id: :rand.uniform(999) |> Integer.to_string(),
       active_period: [{Faker.DateTime.forward(1), Faker.DateTime.forward(2)}],
-      banner: Faker.Lorem.Shakespeare.king_richard_iii(),
+      banner: nil,
       cause: Faker.Lorem.Shakespeare.king_richard_iii(),
       created_at: Timex.now(),
       description: Faker.Lorem.Shakespeare.king_richard_iii(),
@@ -70,6 +70,21 @@ defmodule Test.Support.Factories.Alerts.Alert do
       :alert,
       attrs
       |> Map.put(:informed_entity, InformedEntitySet.new(entities))
+    )
+  end
+
+  def alert_for_stop_factory(attrs) do
+    {stop_id, attrs} = Map.pop(attrs, :stop_id)
+
+    build(
+      :alert,
+      attrs
+      |> Map.put(
+        :informed_entity,
+        InformedEntitySet.new([
+          Factories.Alerts.InformedEntity.build(:informed_entity, stop: stop_id)
+        ])
+      )
     )
   end
 

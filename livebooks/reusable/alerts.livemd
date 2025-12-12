@@ -112,6 +112,209 @@ now() |> Alerts.Repo.all()
 
 <!-- livebook:{"branch_parent_index":1} -->
 
+## Symphony Closure - Eastbound
+
+```elixir
+# Informed entity set for Eastbound platform
+informed_entity_set =
+  Alerts.InformedEntitySet.new([
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Green-E",
+      route_type: 0,
+      stop: "place-symcl",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Green-E",
+      route_type: 0,
+      stop: "70242",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Green",
+      route_type: 0,
+      stop: "place-symcl",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Green",
+      route_type: 0,
+      stop: "70242",
+      trip: nil
+    )
+  ])
+
+# Create a currently active alert
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: -4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    header:
+      "Eastbound trains will not stop at Symphony in order to prank the engineers who work on displaying these alerts",
+    effect: :station_closure,
+    informed_entity: informed_entity_set,
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  )
+
+alerts = [alert]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Symphony Closure - Both Directions
+
+```elixir
+# Informed entity set for all of Symphony
+informed_entity_set =
+  Alerts.InformedEntitySet.new([
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: nil,
+      route: "Green-E",
+      route_type: 0,
+      stop: "place-symcl",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: nil,
+      route: "Green-E",
+      route_type: 0,
+      stop: "70241",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: nil,
+      route: "Green-E",
+      route_type: 0,
+      stop: "70242",
+      trip: nil
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: nil,
+      route: "Green",
+      route_type: 0,
+      stop: "place-symcl",
+      trip: nil
+    )
+  ])
+
+# Create a currently active alert
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: -4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    header:
+      "All trains will bypass Symphony in order to prank the engineers who work on displaying these alerts",
+    effect: :station_closure,
+    informed_entity: informed_entity_set,
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  )
+
+alerts = [alert]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Two Red Line Stations Skipped
+
+```elixir
+# Informed entity set for Northbound platform
+informed_entity_set =
+  Alerts.InformedEntitySet.new([
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Red",
+      route_type: 1,
+      stop: "70076"
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Red",
+      route_type: 1,
+      stop: "70078"
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Red",
+      route_type: 1,
+      stop: "place-dwnxg"
+    ),
+    InformedEntity.build(:informed_entity,
+      activities: MapSet.new([:exit, :ride, :board]),
+      direction_id: 1,
+      route: "Red",
+      route_type: 1,
+      stop: "place-pktrm"
+    )
+  ])
+
+# Create a currently active alert
+alert =
+  Alert.build(:alert,
+    active_period: [
+      {
+        now() |> Timex.shift(hours: -4),
+        now() |> Timex.shift(hours: 8)
+      }
+    ],
+    header:
+      "Downtown Crossing and Park Street will be bypassed in the Alewife-bound direction, just for fun.",
+    effect: :station_closure,
+    informed_entity: informed_entity_set,
+    lifecycle: :new,
+    priority: :high,
+    severity: 7,
+    banner: nil
+  )
+
+alerts = [alert]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
 ## Commuter Rail Current and Upcoming Service Change Alerts
 
 ```elixir

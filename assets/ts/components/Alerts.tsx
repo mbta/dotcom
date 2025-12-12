@@ -35,6 +35,9 @@ export const iconForAlert = ({
   if (priority === "system")
     return renderSVG("c-svg__icon-alerts-triangle", alertIcon);
   switch (effect) {
+    case "station_closure":
+    case "stop_closure":
+    case "dock_closure":
     case "suspension":
     case "cancellation":
       return renderSVG("c-svg__icon-cancelled-default", cancelIcon);
@@ -79,11 +82,16 @@ export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
   );
 };
 
-export const effectNameForAlert = (alert: AlertType): string =>
-  alert.effect
+export const effectNameForAlert = (alert: AlertType): string => {
+  if (alert.effect === "station_closure") {
+    return "Skipped";
+  }
+
+  return alert.effect
     .split("_")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+};
 
 const caretIcon = (
   noDescription: boolean,

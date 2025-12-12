@@ -364,7 +364,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         |> Factories.Alerts.Alert.active_now()
 
       stop = Factories.Stops.Stop.build(:stop)
-      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [stop] end)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        [%{stop: stop, direction: :all}]
+      end)
 
       # Exercise
       rows = status_rows_for_alerts([alert])
@@ -388,7 +391,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         |> Factories.Alerts.Alert.active_now()
 
       stops = Factories.Stops.Stop.build_list(2, :stop)
-      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        stops |> Enum.map(&%{stop: &1, direction: :all})
+      end)
 
       # Exercise
       rows = status_rows_for_alerts([alert])
@@ -415,7 +421,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       stops = Factories.Stops.Stop.build_list(3, :stop)
 
-      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        stops |> Enum.map(&%{stop: &1, direction: :all})
+      end)
 
       # Exercise
       rows = status_rows_for_alerts([alert])
@@ -443,7 +451,131 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       count = Faker.random_between(4, 10)
       stops = Factories.Stops.Stop.build_list(count, :stop)
 
-      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> stops end)
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        stops |> Enum.map(&%{stop: &1, direction: :all})
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{count} Stops"]
+    end
+
+    test "shows a subheading for a single stop closure with a direction" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      stop = Factories.Stops.Stop.build(:stop)
+
+      direction_name = Faker.Cat.breed()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        [%{stop: stop, direction: {:direction, direction_name}}]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop.name} (#{direction_name})"]
+    end
+
+    test "shows a subheading for two stop closures with directions" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      [stop1, stop2] = Factories.Stops.Stop.build_list(2, :stop)
+
+      direction_name1 = Faker.Cat.breed()
+      direction_name2 = Faker.Cat.breed()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        [
+          %{stop: stop1, direction: {:direction, direction_name1}},
+          %{stop: stop2, direction: {:direction, direction_name2}}
+        ]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop1.name} (#{direction_name1}), #{stop2.name} (#{direction_name2})"]
+    end
+
+    test "shows '(Both Directions)' when there is a uni-directional bypass and a bi-directional bypass" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      [stop1, stop2] = Factories.Stops.Stop.build_list(2, :stop)
+
+      direction_name = Faker.Cat.breed()
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        [
+          %{stop: stop1, direction: {:direction, direction_name}},
+          %{stop: stop2, direction: :all}
+        ]
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts([alert])
+
+      # Verify
+      assert rows
+             |> for_route(affected_line)
+             |> Enum.map(&status_subheading_for_row/1) ==
+               ["#{stop1.name} (#{direction_name}), #{stop2.name} (Both Directions)"]
+    end
+
+    test "does not show individual stop names when there are three or more bypasses with directions" do
+      # Setup
+      affected_line = Faker.Util.pick(@lines_without_branches)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          route_id: affected_line,
+          effect: :station_closure
+        )
+        |> Factories.Alerts.Alert.active_now()
+
+      count = Faker.random_between(3, 10)
+      stops = Factories.Stops.Stop.build_list(count, :stop)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
+        stops |> Enum.map(&%{stop: &1, direction: {:direction, Faker.Cat.breed()}})
+      end)
 
       # Exercise
       rows = status_rows_for_alerts([alert])
@@ -475,7 +607,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       status_rows_for_alerts([alert])
     end
 
-    test "shows 'Station Closure' singular if a single station is closed" do
+    test "shows 'Stop Skipped' singular if a single station is closed" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
@@ -487,7 +619,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         |> Factories.Alerts.Alert.active_now()
 
       expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
-        [Factories.Stops.Stop.build(:stop)]
+        [%{stop: Factories.Stops.Stop.build(:stop), direction: :all}]
       end)
 
       # Exercise
@@ -497,10 +629,10 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route(affected_line)
              |> Enum.map(&status_label_text_for_row/1) ==
-               ["Station Closure"]
+               ["Stop Skipped"]
     end
 
-    test "shows 'Station Closures' plural if multiple stations are closed" do
+    test "shows 'Stops Skipped' plural if multiple stations are closed" do
       # Setup
       affected_line = Faker.Util.pick(@lines_without_branches)
 
@@ -513,6 +645,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ ->
         Factories.Stops.Stop.build_list(Faker.random_between(2, 10), :stop)
+        |> Enum.map(&%{stop: &1, direction: :all})
       end)
 
       # Exercise
@@ -522,7 +655,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route(affected_line)
              |> Enum.map(&status_label_text_for_row/1) ==
-               ["Station Closures"]
+               ["Stops Skipped"]
     end
 
     test "shows a subheading for a shuttle or suspension with endpoints" do
@@ -1059,7 +1192,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
         singular_effect =
           if(effect == :station_closure,
-            do: "Station Closure",
+            do: "Stop Skipped",
             else: effect |> Atom.to_string() |> Recase.to_title()
           )
 
@@ -1169,7 +1302,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
   defp status_label_text_for_effect(:delay), do: "Delays"
   defp status_label_text_for_effect(:shuttle), do: "Shuttles"
-  defp status_label_text_for_effect(:station_closure), do: "Station Closure"
+  defp status_label_text_for_effect(:station_closure), do: "Stop Skipped"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
 
   defp human_delay_severity(severity) do

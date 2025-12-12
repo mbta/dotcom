@@ -10,12 +10,13 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   require Logger
 
-  import DotcomWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 3]
+  import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.ScheduleController.TripInfo, as: Trips
   alias DotcomWeb.ScheduleController.VehicleLocations, as: Vehicles
+  alias Fares.{Format, OneWay}
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
@@ -520,4 +521,43 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   defp get_route_id(route_id, _trip_id), do: route_id
+
+  defp format_time(time) do
+    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
+  end
+
+  @spec fares_for_service(map, String.t(), String.t()) :: map
+  def fares_for_service(route, origin, destination) do
+    %{
+      price: route |> OneWay.recommended_fare(origin, destination) |> Format.price(),
+      fare_link:
+        fare_link(
+          Route.type_atom(route.type),
+          origin,
+          destination
+        )
+    }
+  end
+
+  def fare_link(:bus, _origin, _destination) do
+    cms_static_page_path(DotcomWeb.Endpoint, "/fares/bus-fares")
+  end
+
+  def fare_link(:subway, _origin, _destination) do
+    cms_static_page_path(DotcomWeb.Endpoint, "/fares/subway-fares")
+  end
+
+  def fare_link(:commuter_rail, origin, destination) do
+    fare_path(DotcomWeb.Endpoint, :show, :commuter_rail, %{
+      origin: origin,
+      destination: destination
+    })
+  end
+
+  def fare_link(:ferry, origin, destination) do
+    fare_path(DotcomWeb.Endpoint, :show, :ferry, %{
+      origin: origin,
+      destination: destination
+    })
+  end
 end

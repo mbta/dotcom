@@ -6,6 +6,9 @@ defmodule DotcomWeb.StopController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import Alerts.Alert, only: [global_banner_alert?: 1, routewide?: 1]
+  import Dotcom.Alerts.StartTime, only: [active?: 2, active_in_next_n_days?: 3]
+
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
   alias Dotcom.TransitNearMe
@@ -17,6 +20,8 @@ defmodule DotcomWeb.StopController do
   alias Stops.Stop
   alias Util.AndOr
 
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -27,6 +32,7 @@ defmodule DotcomWeb.StopController do
         }
 
   plug(:alerts)
+  plug(DotcomWeb.Plugs.DateTime)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
@@ -49,7 +55,7 @@ defmodule DotcomWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop_id}) do
+  def show(conn, %{"id" => stop_id} = params) do
     stop =
       stop_id
       |> URI.decode_www_form()
@@ -62,20 +68,84 @@ defmodule DotcomWeb.StopController do
         |> halt()
       else
         routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+        one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
         accessible? = accessible?(stop)
+
+        amenities =
+          @facilities_repo.get_for_stop(stop_id)
+          |> Dotcom.StopAmenity.from_stop_facilities()
+
+        banner_alerts =
+          banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
 
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> render("show.html", %{
           stop: stop,
+          amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
+          one_way_fares: one_way_fares,
           routes_by_stop: routes_by_stop,
+          parking_amenity: Enum.find(amenities, &(&1.type == :parking)),
+          bike_amenity: Enum.find(amenities, &(&1.type == :bike)),
+          elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
+          escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
+          accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
+          fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
+          banner_alerts: banner_alerts,
           accessible?: accessible?
         })
       end
     else
       check_cms_or_404(conn)
     end
+  end
+
+  defp banner_alerts(stop_id, route_ids, date_time) do
+    all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
+
+    all_routewide_alerts =
+      @alerts_repo.by_route_ids(route_ids, date_time)
+      |> Enum.filter(&routewide?/1)
+
+    (all_alerts_for_stop ++ all_routewide_alerts)
+    |> Enum.filter(&banner_alert?(&1, date_time))
+  end
+
+  defp banner_alert?(alert, now) do
+    !global_banner_alert?(alert) &&
+      (banner_alert_active_or_future?(alert, now) || banner_alert_active_only?(alert, now))
+  end
+
+  defp banner_alert_active_or_future?(alert, now) do
+    banner_alert_active_or_future_effect?(alert) && active_in_next_n_days?(alert, 7, now)
+  end
+
+  defp banner_alert_active_or_future_effect?(alert) do
+    alert.effect in [
+      :detour,
+      :dock_closure,
+      :dock_issue,
+      :service_change,
+      :shuttle,
+      :station_closure,
+      :station_issue,
+      :stop_closure,
+      :stop_moved,
+      :stop_shoveling,
+      :suspension
+    ]
+  end
+
+  defp banner_alert_active_only?(alert, now) do
+    banner_alert_active_only_effect?(alert) && active?(alert, now)
+  end
+
+  defp banner_alert_active_only_effect?(alert) do
+    alert.effect in [
+      :access_issue,
+      :elevator_closure
+    ]
   end
 
   @spec get(Conn.t(), map) :: Conn.t()
@@ -392,7 +462,7 @@ defmodule DotcomWeb.StopController do
   end
 
   # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
-  defp accessible?(stop) do
+  def accessible?(stop) do
     routes = @routes_repo.by_stop(stop.id)
 
     Enum.member?(stop.accessibility, "accessible") ||

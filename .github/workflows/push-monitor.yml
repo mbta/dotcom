@@ -35,7 +35,7 @@ jobs:
       changed: ${{ steps.changes.outputs.monitor == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -53,7 +53,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Build, tag, and push image to Amazon ECR
         id: ecr
         uses: mbta/actions/build-push-ecr@v2

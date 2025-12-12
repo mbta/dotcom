@@ -3,11 +3,14 @@ defmodule DotcomWeb.AlertViewTest do
   use ExUnit.Case, async: true
   use Timex
 
-  import Phoenix.HTML, only: [raw: 1]
   import DotcomWeb.AlertView
+  import Mox
+  import Phoenix.HTML, only: [raw: 1]
+
   alias Alerts.{Alert, Banner, InformedEntity, InformedEntitySet}
   alias Routes.Route
   alias Stops.Stop
+  alias Test.Support.Factories
 
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
@@ -461,6 +464,79 @@ defmodule DotcomWeb.AlertViewTest do
         |> IO.iodata_to_binary()
 
       assert response =~ "c-svg__icon-cancelled-default"
+    end
+
+    test "Icons and '<stop_name> Skipped' labels are displayed for station closures" do
+      stop = Factories.Stops.Stop.build(:stop)
+
+      stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _ ->
+        [%{stop: stop, direction: :all}]
+      end)
+
+      response =
+        render(
+          "_item.html",
+          alert: %Alert{
+            effect: :station_closure,
+            active_period: @active_period,
+            priority: :high
+          },
+          date_time: @now
+        )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert response =~ "c-svg__icon-cancelled-default"
+      assert response =~ "#{stop.name} Skipped"
+    end
+
+    test "Icons and '<stop_name> Skipped (<direction>)' labels are displayed for directional station closures" do
+      stop = Factories.Stops.Stop.build(:stop)
+      direction_name = Faker.Cat.breed()
+
+      stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _ ->
+        [%{stop: stop, direction: {:direction, direction_name}}]
+      end)
+
+      response =
+        render(
+          "_item.html",
+          alert: %Alert{
+            effect: :station_closure,
+            active_period: @active_period,
+            priority: :high
+          },
+          date_time: @now
+        )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert response =~ "c-svg__icon-cancelled-default"
+      assert response =~ "#{stop.name} Skipped (#{direction_name})"
+    end
+
+    test "Icons and 'Stops Skipped' labels are displayed for station closures affecting multiple stops" do
+      stops = Factories.Stops.Stop.build_list(2, :stop)
+
+      stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _ ->
+        stops |> Enum.map(&[%{stop: &1, direction: :all}])
+      end)
+
+      response =
+        render(
+          "_item.html",
+          alert: %Alert{
+            effect: :station_closure,
+            active_period: @active_period,
+            priority: :high
+          },
+          date_time: @now
+        )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert response =~ "c-svg__icon-cancelled-default"
+      assert response =~ "Stops Skipped"
     end
 
     test "No icon for future cancellation" do
