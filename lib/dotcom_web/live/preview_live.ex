@@ -1,4 +1,8 @@
 defmodule DotcomWeb.PreviewLive do
+  @moduledoc """
+  A page that we can visit that links to the other preview pages that currently exist.
+  """
+
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Router.Helpers
