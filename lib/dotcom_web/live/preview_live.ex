@@ -15,12 +15,6 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,
       title: "Schedule Finder 2.0"
-    },
-    %{
-      arguments: [],
-      icon_name: "icon-alerts-triangle",
-      module: DotcomWeb.Live.SystemStatus,
-      title: "Subway Status"
     }
   ]
 
