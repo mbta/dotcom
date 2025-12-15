@@ -491,4 +491,25 @@ defmodule Dotcom.AlertsTest do
 
     assert systemwide_mode_alert?(alert_without_route, mode)
   end
+
+  test "current_stop_and_route_alerts/2" do
+    current_alert = Factories.Alerts.Alert.build(:alert) |> Factories.Alerts.Alert.active_now()
+
+    upcoming_alert =
+      Factories.Alerts.Alert.build(:alert) |> Factories.Alerts.Alert.active_upcoming()
+
+    route = Factories.Routes.Route.build(:route)
+    stop = Factories.Stops.Stop.build(:stop)
+
+    Alerts.Repo.Mock
+    |> expect(:by_route_id_and_type_and_stop, fn route_id, route_type, stop_id, _ ->
+      assert route_id == route.id
+      assert route_type == route.type
+      assert stop_id == stop.id
+
+      [current_alert, upcoming_alert]
+    end)
+
+    assert [^current_alert] = current_stop_and_route_alerts(stop, route)
+  end
 end

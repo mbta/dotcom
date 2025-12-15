@@ -263,4 +263,17 @@ defmodule Dotcom.Alerts do
       %{} -> false
     end)
   end
+
+  @doc """
+  Get active alerts for a stop/route pair.
+  """
+  def current_stop_and_route_alerts(stop, route) do
+    route.id
+    |> @alerts_repo_module.by_route_id_and_type_and_stop(
+      route.type,
+      stop.id,
+      @date_time_module.now()
+    )
+    |> Enum.filter(&in_effect_now?/1)
+  end
 end
