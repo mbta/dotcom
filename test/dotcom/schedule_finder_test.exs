@@ -168,7 +168,7 @@ defmodule Dotcom.ScheduleFinderTest do
   describe "current_alerts/2" do
     setup do
       Alerts.Repo.Mock
-      |> stub(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [] end)
+      |> stub(:by_route_id_and_type, fn _, _, _ -> [] end)
 
       :ok
     end
@@ -189,10 +189,9 @@ defmodule Dotcom.ScheduleFinderTest do
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn route_id, route_type, stop_id, _ ->
+      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
         assert route.id == route_id
         assert route.type == route_type
-        assert stop.id == stop_id
         [alert]
       end)
 
@@ -214,7 +213,7 @@ defmodule Dotcom.ScheduleFinderTest do
         |> Test.Support.Factories.Alerts.Alert.active_upcoming()
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [upcoming_alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [upcoming_alert] end)
 
       assert current_alerts(stop, route) == []
     end
@@ -236,7 +235,7 @@ defmodule Dotcom.ScheduleFinderTest do
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
 
       assert current_alerts(stop, route) == []
 
@@ -244,7 +243,7 @@ defmodule Dotcom.ScheduleFinderTest do
       impacting_alert = %{alert | effect: effect, severity: severity}
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [impacting_alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [impacting_alert] end)
 
       assert [^impacting_alert] = current_alerts(stop, route)
     end
@@ -264,14 +263,14 @@ defmodule Dotcom.ScheduleFinderTest do
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
 
       assert current_alerts(stop, route) == []
 
       track_change_alert = %{alert | effect: :track_change}
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [track_change_alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [track_change_alert] end)
 
       assert [^track_change_alert] = current_alerts(stop, route)
     end
@@ -298,7 +297,7 @@ defmodule Dotcom.ScheduleFinderTest do
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
 
       assert current_alerts(stop, route) == []
     end
@@ -325,7 +324,7 @@ defmodule Dotcom.ScheduleFinderTest do
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
 
       assert current_alerts(stop, route) == []
     end

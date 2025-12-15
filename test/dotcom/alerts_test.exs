@@ -492,24 +492,76 @@ defmodule Dotcom.AlertsTest do
     assert systemwide_mode_alert?(alert_without_route, mode)
   end
 
-  test "current_stop_and_route_alerts/2" do
-    current_alert = Factories.Alerts.Alert.build(:alert) |> Factories.Alerts.Alert.active_now()
+  describe "current_stop_and_route_alerts/2" do
+    test "only returns active alerts" do
+      route = Factories.Routes.Route.build(:route)
+      stop = Factories.Stops.Stop.build(:stop)
+      effect = Faker.Util.pick(@service_impacting_effects)
 
-    upcoming_alert =
-      Factories.Alerts.Alert.build(:alert) |> Factories.Alerts.Alert.active_upcoming()
+      current_alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_now()
 
-    route = Factories.Routes.Route.build(:route)
-    stop = Factories.Stops.Stop.build(:stop)
+      upcoming_alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_upcoming()
 
-    Alerts.Repo.Mock
-    |> expect(:by_route_id_and_type_and_stop, fn route_id, route_type, stop_id, _ ->
-      assert route_id == route.id
-      assert route_type == route.type
-      assert stop_id == stop.id
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
+        assert route_id == route.id
+        assert route_type == route.type
+        [current_alert, upcoming_alert]
+      end)
 
-      [current_alert, upcoming_alert]
-    end)
+      assert [^current_alert] = current_stop_and_route_alerts(stop, route)
+    end
 
-    assert [^current_alert] = current_stop_and_route_alerts(stop, route)
+    test "non-service-impacting: omits alerts for other stops" do
+      route = Factories.Routes.Route.build(:route)
+      [stop, other_stop] = Factories.Stops.Stop.build_list(2, :stop)
+      effect = :unknown
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_now()
+
+      other_alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: other_stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_now()
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
+        assert route_id == route.id
+        assert route_type == route.type
+
+        [alert, other_alert]
+      end)
+
+      assert [^alert] = current_stop_and_route_alerts(stop, route)
+    end
+
+    test "service impacting: keeps alerts for other stops" do
+      route = Factories.Routes.Route.build(:route)
+      [stop, other_stop] = Factories.Stops.Stop.build_list(2, :stop)
+      effect = Faker.Util.pick(@service_impacting_effects)
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_now()
+
+      other_alert =
+        Factories.Alerts.Alert.build(:alert_for_stop, stop_id: other_stop.id, effect: effect)
+        |> Factories.Alerts.Alert.active_now()
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
+        assert route_id == route.id
+        assert route_type == route.type
+
+        [alert, other_alert]
+      end)
+
+      assert [^alert, ^other_alert] = current_stop_and_route_alerts(stop, route)
+    end
   end
 end
