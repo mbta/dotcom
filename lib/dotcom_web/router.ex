@@ -303,6 +303,7 @@ defmodule DotcomWeb.Router do
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
+      live "/lined-list-demo", LinedListDemoLive
       live "/system-status", Live.SystemStatus
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
     end

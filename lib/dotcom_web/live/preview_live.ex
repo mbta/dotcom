@@ -11,6 +11,13 @@ defmodule DotcomWeb.PreviewLive do
 
   @pages [
     %{
+      arguments: [],
+      icon_name: "list",
+      icon_type: "solid",
+      module: DotcomWeb.LinedListDemoLive,
+      title: "Lined List Demo Page"
+    },
+    %{
       arguments: ["Red", "0"],
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,

@@ -366,8 +366,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 {~t"There was a problem loading arrivals"}
               </.error_container>
             </:failed>
-            <RouteComponents.lined_list :if={arrivals} route={@route} list_items={arrivals}>
-              <:list_item :let={arrival}>
+            <RouteComponents.lined_list :if={arrivals}>
+              <RouteComponents.lined_list_item :for={arrival <- arrivals} route={@route}>
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
                   <div :if={arrival.platform_name} class="text-sm">
@@ -375,7 +375,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   </div>
                 </div>
                 <.formatted_time time={arrival.time} />
-              </:list_item>
+              </RouteComponents.lined_list_item>
             </RouteComponents.lined_list>
           </.async_result>
         </:content>
