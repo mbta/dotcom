@@ -12,7 +12,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
 
-  alias Dotcom.ScheduleFinder.FutureArrival
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
@@ -168,7 +167,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}, now: now}} = socket) do
-    route_id = socket.assigns.route.id
+    route = socket.assigns.route
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
@@ -178,7 +177,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       UpcomingDepartures.upcoming_departures(%{
         direction_id: direction_id,
         now: now,
-        route_id: route_id,
+        route: route,
         stop_id: stop_id
       })
     )
@@ -236,7 +235,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class={[route_to_class(@route), "font-heading p-md"]}>
       <.link
         class="text-current flex flex-col gap-sm hover:no-underline active:no-underline focus:text-current hover:text-current"
-        patch={~p"/schedules/#{@route}"}
+        patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
       >
         <div class="flex items-center gap-xs font-bold">
           <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 -ml-xs" />
@@ -355,57 +354,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.formatted_time time={departure.time} />
         </:heading>
         <:content>
-          <div class="divide-y-[1px] divide-gray-lightest border-t border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
-            <.async_result
-              :let={arrivals}
-              assign={Map.get(@loaded_trips, departure.schedule_id, AsyncResult.loading())}
-            >
-              <:loading>
-                <div class="p-lg text-gray">Loading arrivals...</div>
-              </:loading>
-              <:failed :let={fail}>
-                <.error_container title={inspect(fail)}>
-                  {~t"There was a problem loading arrivals"}
-                </.error_container>
-              </:failed>
-              <.arrival_row
-                :for={arrival <- arrivals}
-                :if={arrivals}
-                route={@route}
-                arrival={arrival}
-              />
-            </.async_result>
-          </div>
+          <.async_result
+            :let={arrivals}
+            assign={Map.get(@loaded_trips, departure.schedule_id, AsyncResult.loading())}
+          >
+            <:loading>
+              <div class="p-lg text-gray">{~t"Loading arrivals..."}</div>
+            </:loading>
+            <:failed :let={fail}>
+              <.error_container title={inspect(fail)}>
+                {~t"There was a problem loading arrivals"}
+              </.error_container>
+            </:failed>
+            <RouteComponents.lined_list :if={arrivals} route={@route} list_items={arrivals}>
+              <:list_item :let={arrival}>
+                <div class="notranslate grow">
+                  <div>{arrival.stop_name}</div>
+                  <div :if={arrival.platform_name} class="text-sm">
+                    {arrival.platform_name}
+                  </div>
+                </div>
+                <.formatted_time time={arrival.time} />
+              </:list_item>
+            </RouteComponents.lined_list>
+          </.async_result>
         </:content>
       </.unstyled_accordion>
-    </div>
-    """
-  end
-
-  attr :arrival, FutureArrival, required: true
-  attr :route, Route, required: true
-
-  defp arrival_row(assigns) do
-    ~H"""
-    <div class="pr-7 pl-5 py-sm gap-md flex justify-between items-center">
-      <div
-        class="w-[6px] z-10 shrink-0 flex flex-col self-stretch"
-        style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
-      >
-        <div class={"#{route_to_class(@route)} grow top"} />
-        <div class={"#{route_to_class(@route)} grow bottom"} />
-      </div>
-      <div
-        class={"#{route_to_class(@route)} size-3.5 shrink-0 rounded-full border-xs border-[#00000026] z-20"}
-        style="margin-left: calc(-1.75rem + 2px);"
-      />
-      <div class="notranslate grow">
-        <div>{@arrival.stop_name}</div>
-        <div :if={@arrival.platform_name} class="text-sm">
-          {@arrival.platform_name}
-        </div>
-      </div>
-      <.formatted_time time={@arrival.time} />
     </div>
     """
   end
@@ -559,6 +533,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
     do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))

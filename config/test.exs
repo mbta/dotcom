@@ -30,6 +30,7 @@ config :dotcom, :repo_modules,
   routes: Routes.Repo.Mock,
   schedules: Schedules.Repo.Mock,
   schedules_condensed: Schedules.RepoCondensed.Mock,
+  services: Services.Repo.Mock,
   stops: Stops.Repo.Mock,
   vehicles: Vehicles.Repo.Mock
 

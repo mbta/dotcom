@@ -41,10 +41,9 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      offpeak_service: window(9, 13),
-      peak_service: window(4, 5),
-      saturday_service: window(6, 8),
-      sunday_service: window(6, 8)
+      peak_service: "#{window(4, 5)} within trunk, every #{window(8, 14)} on branches",
+      saturday_service: "#{window(6, 8)} within trunk, every #{window(12, 13)} on branches",
+      sunday_service: "#{window(6, 8)} within trunk, every #{window(12, 13)} on branches"
     }
   end
 

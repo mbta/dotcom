@@ -103,17 +103,28 @@ defmodule Dotcom.ScheduleFinderTest do
 
     test "returns arrivals" do
       trip_id = FactoryHelpers.build(:id)
-      stop_sequence = Faker.random_between(1, 100) |> to_string()
+
+      [stop_sequence_for_stop, stop_sequence_for_arrivals] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(1, 100) end) |> Enum.sort()
+
       date = Faker.Util.format("%4d-%2d-%2d")
 
       expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
         assert Keyword.get(opts, :include) == "stop"
         assert Keyword.get(opts, :"filter[trip]") == trip_id
         assert Keyword.get(opts, :"filter[date]") == date
-        %JsonApi{data: build_list(4, :schedule_item, arrival_attributes())}
+
+        %JsonApi{
+          data:
+            build_list(
+              4,
+              :schedule_item,
+              arrival_attributes() |> Map.put(:stop_sequence, stop_sequence_for_arrivals)
+            )
+        }
       end)
 
-      assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence, date)
+      assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop |> to_string(), date)
       assert %FutureArrival{} = List.first(arrivals)
     end
   end
