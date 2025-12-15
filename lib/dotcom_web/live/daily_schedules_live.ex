@@ -5,10 +5,10 @@ defmodule DotcomWeb.DailySchedulesLive do
 
   use DotcomWeb, :live_view
 
-  alias Phoenix.{LiveView, LiveView.JS}
+  alias Phoenix.LiveView
 
   @impl LiveView
-  def mount(params, _session, socket) do
+  def mount(_params, _session, socket) do
     {
       :ok,
       socket
