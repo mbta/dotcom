@@ -41,15 +41,4 @@ defmodule Alerts.Repo.Behaviour do
   Sort them so that earlier alerts are displayed first.
   """
   @callback planned_service_impacts_by_routes([String.t()], DateTime.t()) :: [Alert.t()]
-
-  @doc """
-  Get alerts applicable to a stop and a route, include alerts for the route's type.
-  """
-  @callback by_route_id_and_type_and_stop(
-              Routes.Route.id_t(),
-              0..4,
-              Stops.Stop.id_t(),
-              DateTime.t()
-            ) ::
-              [Alert.t()]
 end
