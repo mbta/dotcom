@@ -11,6 +11,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
+  import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
@@ -366,8 +367,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 {~t"There was a problem loading arrivals"}
               </.error_container>
             </:failed>
-            <RouteComponents.lined_list :if={arrivals}>
-              <RouteComponents.lined_list_item :for={arrival <- arrivals} route={@route}>
+            <.lined_list :if={arrivals}>
+              <.lined_list_item :for={arrival <- arrivals} route={@route}>
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
                   <div :if={arrival.platform_name} class="text-sm">
@@ -375,8 +376,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   </div>
                 </div>
                 <.formatted_time time={arrival.time} />
-              </RouteComponents.lined_list_item>
-            </RouteComponents.lined_list>
+              </.lined_list_item>
+            </.lined_list>
           </.async_result>
         </:content>
       </.unstyled_accordion>
