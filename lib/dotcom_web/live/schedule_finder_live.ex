@@ -7,6 +7,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   use DotcomWeb, :live_view
 
   import CSSHelpers
+  import DotcomWeb.Components.Alerts
   import Dotcom.ScheduleFinder
   import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
@@ -56,10 +57,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
-    <div class="my-8">
-      {DotcomWeb.AlertView.render("group.html", alerts: @alerts, date_time: @now)}
+    <div class="my-md">
+      <.alert_group alerts={@alerts} />
     </div>
-
     <h2>{~t"Upcoming Departures"}</h2>
     <.upcoming_departures_table
       :if={@stop}
