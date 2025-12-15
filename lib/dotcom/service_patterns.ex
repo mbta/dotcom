@@ -22,7 +22,7 @@ defmodule Dotcom.ServicePatterns do
   defp has_service?(opts, date) do
     opts
     |> Keyword.fetch!(:route)
-    |> @services_repo.by_route_id(date: Date.to_iso8601(date))
+    |> @services_repo.by_route_id()
     |> Enum.any?(&Services.Service.serves_date?(&1, date))
   end
 end
