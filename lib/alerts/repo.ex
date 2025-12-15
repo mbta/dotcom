@@ -79,4 +79,16 @@ defmodule Alerts.Repo do
     |> Store.all_alerts()
     |> Enum.filter(&(&1.priority == priority))
   end
+
+  @impl Behaviour
+  @spec by_route_id_and_type_and_stop(Routes.Route.id_t(), 0..4, Stops.Stop.id_t(), DateTime.t()) ::
+          [Alert.t()]
+  def by_route_id_and_type_and_stop(route_id, route_type, stop_id, now) do
+    route_alert_ids = Store.alert_ids_for_route_id_and_type(route_id, route_type)
+    stop_alert_ids = Store.alert_ids_for_stop_id(stop_id)
+
+    (route_alert_ids ++ stop_alert_ids)
+    |> Enum.uniq()
+    |> Store.alerts(now)
+  end
 end
