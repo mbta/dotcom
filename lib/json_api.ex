@@ -10,7 +10,7 @@ defmodule JsonApi.Item do
 end
 
 defmodule JsonApi.Error do
-  defstruct [:code, :source, :detail, :meta]
+  defexception [:code, :source, :detail, :meta]
 
   @type t :: %__MODULE__{
           code: String.t() | nil,
@@ -18,6 +18,8 @@ defmodule JsonApi.Error do
           detail: String.t() | nil,
           meta: %{String.t() => any}
         }
+
+  def message(%__MODULE__{detail: detail}), do: detail
 end
 
 defmodule JsonApi do

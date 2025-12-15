@@ -286,7 +286,8 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
-          variant: null
+          variant: null,
+          "service_today?": true
         }}
       />
     );
@@ -317,6 +318,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -348,6 +350,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -389,6 +392,7 @@ describe("SchedulePage", () => {
             stop_tree: stopTreeData,
             route_stop_lists: [testRouteStopList],
             alerts: [],
+            "service_today?": true,
             variant: null
           }}
         />,
@@ -438,6 +442,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -469,6 +474,7 @@ describe("SchedulePage", () => {
             stop_tree: stopTreeData,
             route_stop_lists: [testRouteStopList],
             alerts: [],
+            "service_today?": true,
             variant: null
           }}
         />,
@@ -514,6 +520,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -550,6 +557,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />,
@@ -598,6 +606,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -656,6 +665,7 @@ describe("SchedulePage", () => {
             stop_tree: stopTreeData,
             route_stop_lists: [testRouteStopList],
             alerts: [],
+            "service_today?": true,
             variant: null
           }}
         />,
@@ -703,6 +713,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -747,6 +758,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />,
@@ -794,6 +806,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -837,6 +850,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />
@@ -874,6 +888,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />,
@@ -917,6 +932,7 @@ describe("SchedulePage", () => {
           stop_tree: stopTreeData,
           route_stop_lists: [testRouteStopList],
           alerts: [],
+          "service_today?": true,
           variant: null
         }}
       />,
