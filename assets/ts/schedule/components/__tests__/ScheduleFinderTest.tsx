@@ -190,6 +190,7 @@ describe("ScheduleFinder", () => {
         changeOrigin={() => {}}
         closeModal={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {
@@ -214,6 +215,7 @@ describe("ScheduleFinder", () => {
         changeOrigin={() => {}}
         closeModal={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {
@@ -272,6 +274,7 @@ describe("ScheduleFinder", () => {
         changeOrigin={() => {}}
         closeModal={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {

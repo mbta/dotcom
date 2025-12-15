@@ -47,6 +47,7 @@ export interface SchedulePageData {
   route_stop_lists: RouteStop[][];
   alerts: Alert[];
   today: string;
+  "service_today?": boolean;
   variant: string | null;
 }
 
