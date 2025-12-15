@@ -1,4 +1,9 @@
 defmodule DotcomWeb.Live.StopMap do
+  @moduledoc """
+  A page with a map showing where a stop is. This could eventually be
+  promoted into the full stop page.
+  """
+
   use DotcomWeb, :live_view
 
   @map_config Application.compile_env(:mbta_metro, :map)
