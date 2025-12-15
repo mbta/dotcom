@@ -198,8 +198,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
     route = socket.assigns.route
-    direction_id = socket.assigns.direction_id
-    assign(socket, :alerts, current_alerts(route, direction_id, stop.id))
+    assign(socket, :alerts, current_alerts(stop, route))
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])

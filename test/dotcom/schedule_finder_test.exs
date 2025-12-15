@@ -165,11 +165,10 @@ defmodule Dotcom.ScheduleFinderTest do
     end
   end
 
-  describe "current_alerts/3" do
+  describe "current_alerts/2" do
     setup do
       Alerts.Repo.Mock
-      |> stub(:by_stop_id, fn _ -> [] end)
-      |> stub(:by_route_id_and_type, fn _, _, _ -> [] end)
+      |> stub(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [] end)
 
       :ok
     end
@@ -178,123 +177,53 @@ defmodule Dotcom.ScheduleFinderTest do
       route =
         Test.Support.Factories.Routes.Route.build(:route, type: Faker.Util.pick([0, 1, 3, 4]))
 
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
         alert(%{
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id
+            stop: stop.id
           }
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_stop_id, fn ^stop_id -> [] end)
-      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
+      |> expect(:by_route_id_and_type_and_stop, fn route_id, route_type, stop_id, _ ->
         assert route.id == route_id
         assert route.type == route_type
+        assert stop.id == stop_id
         [alert]
       end)
 
-      assert [^alert] = current_alerts(route, direction_id, stop_id)
-    end
-
-    test "omits alert for different stop" do
-      route = Test.Support.Factories.Routes.Route.build(:route)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
-      other_stop_id = FactoryHelpers.build(:id)
-
-      alert =
-        alert(%{
-          informed_entity: %{
-            route: route.id,
-            route_type: route.type,
-            direction_id: direction_id,
-            stop: other_stop_id
-          }
-        })
-
-      Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
-
-      assert current_alerts(route, direction_id, stop_id) == []
-    end
-
-    test "omits alert for different direction" do
-      route = Test.Support.Factories.Routes.Route.build(:route)
-      direction_id = FactoryHelpers.build(:direction_id)
-      other_direction_id = if(direction_id == 0, do: 1, else: 0)
-      stop_id = FactoryHelpers.build(:id)
-
-      alert =
-        alert(%{
-          informed_entity: %{
-            route: route.id,
-            route_type: route.type,
-            direction_id: other_direction_id,
-            stop: stop_id
-          }
-        })
-
-      Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
-
-      assert current_alerts(route, direction_id, stop_id) == []
-    end
-
-    test "omits alert for different route" do
-      [route, other_route] = Test.Support.Factories.Routes.Route.build_list(2, :route)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
-
-      alert =
-        alert(%{
-          informed_entity: %{
-            route: other_route.id,
-            route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id
-          }
-        })
-
-      Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
-
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert [^alert] = current_alerts(stop, route)
     end
 
     test "omits alerts which aren't currently active" do
       route = Test.Support.Factories.Routes.Route.build(:route)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
-      alert =
+      upcoming_alert =
         alert(%{
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id
+            stop: stop.id
           }
         })
         |> Test.Support.Factories.Alerts.Alert.active_upcoming()
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [upcoming_alert] end)
 
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert current_alerts(stop, route) == []
     end
 
     test "omits non-service impacting alerts" do
       route =
         Test.Support.Factories.Routes.Route.build(:route, type: Faker.Util.pick([0, 1, 3, 4]))
 
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
         alert(%{
@@ -302,29 +231,27 @@ defmodule Dotcom.ScheduleFinderTest do
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id
+            stop: stop.id
           }
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
 
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert current_alerts(stop, route) == []
 
       {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
       impacting_alert = %{alert | effect: effect, severity: severity}
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [impacting_alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [impacting_alert] end)
 
-      assert [^impacting_alert] = current_alerts(route, direction_id, stop_id)
+      assert [^impacting_alert] = current_alerts(stop, route)
     end
 
     test "returns track change alerts" do
       route = Test.Support.Factories.Routes.Route.build(:route)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
         alert(%{
@@ -332,28 +259,26 @@ defmodule Dotcom.ScheduleFinderTest do
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id
+            stop: stop.id
           }
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
 
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert current_alerts(stop, route) == []
 
       track_change_alert = %{alert | effect: :track_change}
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [track_change_alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [track_change_alert] end)
 
-      assert [^track_change_alert] = current_alerts(route, direction_id, stop_id)
+      assert [^track_change_alert] = current_alerts(stop, route)
     end
 
     test "omits CR trip cancellations" do
       route = Test.Support.Factories.Routes.Route.build(:route, type: 2)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
       trip_id = FactoryHelpers.build(:id)
 
       {effect, severity} =
@@ -367,22 +292,20 @@ defmodule Dotcom.ScheduleFinderTest do
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id,
+            stop: stop.id,
             trip: trip_id
           }
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
 
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert current_alerts(stop, route) == []
     end
 
     test "omits CR trip delays" do
       route = Test.Support.Factories.Routes.Route.build(:route, type: 2)
-      direction_id = FactoryHelpers.build(:direction_id)
-      stop_id = FactoryHelpers.build(:id)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
       trip_id = FactoryHelpers.build(:id)
 
       {effect, severity} =
@@ -396,16 +319,15 @@ defmodule Dotcom.ScheduleFinderTest do
           informed_entity: %{
             route: route.id,
             route_type: route.type,
-            direction_id: direction_id,
-            stop: stop_id,
+            stop: stop.id,
             trip: trip_id
           }
         })
 
       Alerts.Repo.Mock
-      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+      |> expect(:by_route_id_and_type_and_stop, fn _, _, _, _ -> [alert] end)
 
-      assert current_alerts(route, direction_id, stop_id) == []
+      assert current_alerts(stop, route) == []
     end
   end
 

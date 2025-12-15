@@ -7,7 +7,7 @@ defmodule Dotcom.ScheduleFinder do
 
   import Dotcom.Alerts
 
-  alias Alerts.{Alert, InformedEntity, InformedEntitySet, Match}
+  alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
   alias JsonApi.Item
   alias Routes.Route
@@ -15,8 +15,6 @@ defmodule Dotcom.ScheduleFinder do
   alias Stops.Stop
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
-  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @timezone Application.compile_env!(:dotcom, :timezone)
   @schedule_ttl :timer.hours(24)
@@ -52,40 +50,16 @@ defmodule Dotcom.ScheduleFinder do
   end
 
   @doc """
-  Service-impacting currently active alerts at a stop/route/direction. This also
+  Service-impacting currently active alerts at a stop/route. This also
   includes track changes, and excludes commuter rail trip cancellations and
   delays.
   """
-  @spec current_alerts(Route.t(), 0 | 1, Stop.id_t()) :: [Alert.t()]
-  def current_alerts(route, direction_id, stop_id) do
-    stop_alerts = @alerts_repo.by_stop_id(stop_id)
-
-    route_alerts =
-      @alerts_repo.by_route_id_and_type(route.id, route.type, @date_time_module.now())
-
-    relevant_entities =
-      [
-        [route_type: route.type],
-        [route: route.id],
-        [stop: stop_id]
-      ]
-      |> Enum.map(&InformedEntity.from_keywords/1)
-
-    (route_alerts ++ stop_alerts)
-    |> Enum.uniq()
-    |> Enum.reject(&opposite_direction?(&1, direction_id))
-    |> Match.match(relevant_entities, @date_time_module.now())
-    |> Enum.reject(
-      &(only_affects_other_entities?(&1, stop_id, :stop) ||
-          only_affects_other_entities?(&1, route.id, :route))
-    )
+  @spec current_alerts(Stop.t(), Route.t()) :: [Alert.t()]
+  def current_alerts(stop, route) do
+    stop
+    |> current_stop_and_route_alerts(route)
     |> Enum.filter(&(&1.effect == :track_change || service_impacting_alert?(&1)))
     |> Enum.reject(&cr_trip_cancellation_or_delay?/1)
-  end
-
-  defp opposite_direction?(alert, direction_id) do
-    other_direction = (direction_id - 1) |> Kernel.abs()
-    Alert.get_entity(alert, :direction_id) == MapSet.new([other_direction])
   end
 
   # These particular alerts _should_ show in the Upcoming Deparures list for the associated trips
@@ -100,12 +74,6 @@ defmodule Dotcom.ScheduleFinder do
   end
 
   defp cr_trip_cancellation_or_delay?(_), do: false
-
-  # Avoid showing alerts that only impact other entities of this type
-  defp only_affects_other_entities?(alert, entity_id, entity_type) do
-    entity = Alert.get_entity(alert, entity_type)
-    MapSet.size(entity) > 0 && entity_id not in entity
-  end
 
   @doc """
   Get scheduled departures for a given route/direction/stop/date.
