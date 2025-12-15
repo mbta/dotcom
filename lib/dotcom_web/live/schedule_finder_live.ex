@@ -435,11 +435,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class="border-b-xs border-charcoal-80">
+    <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
         id={"upcoming-departure-#{upcoming_departure.trip_id}"}
-        summary_class="flex items-center border-xs border-charcoal-80 border-b-0 py-3 px-2 gap-2 group-open:bg-charcoal-80 hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
+        summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
           <div class="w-full flex gap-2">
@@ -452,43 +452,37 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </div>
         </:heading>
         <:content>
-          <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-            <div class="relative flex items-center self-stretch">
-              <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
+          <.lined_list>
+            <.lined_list_item route={@route} variant="mode">
+              <div class="grow">{trip_details_header_text(upcoming_departure)}</div>
+            </.lined_list_item>
+            <details
+              :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
+              class="group/details"
+            >
+              <summary class="cursor-pointer">
+                <.lined_list_item route={@route} variant="none">
+                  <div class="grow">
+                    {ngettext(
+                      "1 Stop Away",
+                      "%{count} Stops Away",
+                      Enum.count(upcoming_departure.trip_details.stops_before)
+                    )}
+                  </div>
+                  <div class="shrink-0">
+                    <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
+                  </div>
+                </.lined_list_item>
+              </summary>
+              <.other_stop
+                :for={other_stop <- upcoming_departure.trip_details.stops_before}
+                class="border-t-xs border-gray-lightest"
+                other_stop={other_stop}
+                route={@route}
+                stop_id={@stop_id}
+              />
+            </details>
 
-              <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 z-20" />
-            </div>
-
-            <div class="py-2">{trip_details_header_text(upcoming_departure)}</div>
-          </div>
-          <details
-            :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
-            class="group/details"
-          >
-            <summary class="cursor-pointer flex gap-2 items-center px-2 border-xs border-charcoal-80 border-b-0">
-              <div class="relative self-stretch w-6 shrink-0">
-                <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
-                <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-3/4"} />
-              </div>
-              <div class="py-2">
-                {ngettext(
-                  "1 Stop Away",
-                  "%{count} Stops Away",
-                  Enum.count(upcoming_departure.trip_details.stops_before)
-                )}
-              </div>
-              <div class="shrink-0">
-                <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
-              </div>
-            </summary>
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_before}
-              other_stop={other_stop}
-              route={@route}
-              stop_id={@stop_id}
-            />
-          </details>
-          <div class="[&>*:last-child_.bottom-route-line]:invisible">
             <.other_stop
               other_stop={upcoming_departure.trip_details.stop}
               route={@route}
@@ -500,28 +494,28 @@ defmodule DotcomWeb.ScheduleFinderLive do
               route={@route}
               stop_id={@stop_id}
             />
-          </div>
+          </.lined_list>
         </:content>
       </.unstyled_accordion>
     </div>
     """
   end
 
+  attr :class, :string, default: ""
+  attr :route, Route, required: true
+  attr :stop_id, :string, required: true
+  attr :other_stop, :any, required: true
+
   defp other_stop(assigns) do
     ~H"""
-    <div class="px-2 border-xs border-charcoal-80 border-b-0 flex gap-2 items-center">
-      <div class="self-stretch relative w-6 shrink-0 flex items-center justify-center">
-        <div class={"#{route_to_class(@route)} absolute -top-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 top-route-line"} />
-        <div class={"#{route_to_class(@route)} absolute -bottom-[0.0625rem] left-1/2 -translate-x-1/2 w-1 z-10 h-1/2 bottom-route-line"} />
-        <div class={"#{route_to_class(@route)} size-3.5 rounded-full border-xs border-[#00000026] z-20"} />
-      </div>
-      <div class={["py-2", @stop_id == @other_stop.stop_id && "font-bold"]}>
+    <.lined_list_item route={@route} class={@class}>
+      <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {@other_stop.stop_name}
       </div>
       <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {format!(@other_stop.time, :hour_12_minutes)}
       </div>
-    </div>
+    </.lined_list_item>
     """
   end
 
