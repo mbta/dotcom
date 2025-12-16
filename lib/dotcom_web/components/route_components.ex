@@ -71,7 +71,14 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :route, Route, required: true
   attr :class, :string, default: ""
-  attr :variant, :string, default: "default", values: ["default", "mode", "none"]
+
+  attr :variant, :string,
+    default: "default",
+    values: ["default", "mode", "none"],
+    doc:
+      "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
+        "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
+
   slot :inner_block, doc: "Content for each item"
 
   def lined_list_item(assigns) do
