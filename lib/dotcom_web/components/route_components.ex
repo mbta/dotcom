@@ -85,7 +85,7 @@ defmodule DotcomWeb.RouteComponents do
     ~H"""
     <div class={"p-sm gap-sm flex justify-between items-center #{@class}"}>
       <div
-        class="w-6 shrink-0 self-stretch flex justify-center relative outline-xs outline-red"
+        class="w-6 shrink-0 self-stretch flex justify-center relative"
         style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
       >
         <div class="w-1 z-10 shrink-0 flex flex-col self-stretch">
