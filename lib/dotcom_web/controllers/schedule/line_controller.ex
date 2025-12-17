@@ -73,6 +73,11 @@ defmodule DotcomWeb.ScheduleController.LineController do
         route_stop_lists: conn.assigns.route_stop_lists,
         alerts: conn.assigns.alerts,
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
+        service_today?:
+          Dotcom.ServicePatterns.has_service?(
+            date: conn.assigns.date,
+            route: conn.assigns.route.id
+          ),
         variant: conn.assigns.variant
       }
     )
@@ -143,12 +148,12 @@ defmodule DotcomWeb.ScheduleController.LineController do
   def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
     route_id
     |> services_by_route_id_fn.()
-    |> dedup_identical_services()
-    |> dedup_similar_services()
     |> Enum.reject(fn service ->
-      service.typicality == :canonical ||
+      service.typicality == :canonical || service.description =~ "(no school)" ||
         Date.compare(service.end_date, service_date) == :lt
     end)
+    |> dedup_identical_services()
+    |> dedup_similar_services()
     |> Enum.sort_by(&sort_services_by_date/1)
     |> Enum.map(&Map.put(&1, :service_date, service_date))
     |> tag_default_service()
@@ -190,9 +195,15 @@ defmodule DotcomWeb.ScheduleController.LineController do
       end
 
     added_in? = Enum.member?(service.added_dates, service_date_string)
-    removed? = Enum.member?(service.removed_dates, service_date_string)
 
-    (in_current_rating? || added_in?) && !removed?
+    # removed dates with notes generally describe holidays. removed dates
+    # *without* notes are likely served by (no school) services, and we still
+    # wish to consider the service "current" despite hiding (no school) services
+    # from the frontend.
+    removed_date_with_note? =
+      Map.get(service.removed_dates_notes, service_date_string) |> is_binary()
+
+    (in_current_rating? || added_in?) && !removed_date_with_note?
   end
 
   # Prevent page crash when there are services, but none are valid for today.
@@ -205,14 +216,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # - if all else fails, use the first candidate (already sorted by :start_date)
   defp get_default_service(current_services, _all_services) do
     service_date = current_services |> List.first() |> Map.get(:service_date)
-    # Current services are current to the rating -- they might start later in
-    # the rating! So first, narrow the "current" service to those which are
-    # actually active on the service date.
-    current_services =
-      Enum.filter(current_services, fn service ->
-        Dotcom.Utils.Time.between?(service_date, service.start_date, service.end_date)
-      end)
-
     day_number = Timex.weekday(service_date)
 
     # Fallback #2: First service

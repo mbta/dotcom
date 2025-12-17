@@ -29,6 +29,7 @@ interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   handleOriginSelectClick: (dispatch: Dispatch) => void;
   scheduleNote: ScheduleNote | null;
+  hasServiceToday: boolean;
 }
 
 const ScheduleFinderModal = ({
@@ -43,7 +44,8 @@ const ScheduleFinderModal = ({
   today,
   updateURL,
   handleOriginSelectClick,
-  scheduleNote
+  scheduleNote,
+  hasServiceToday
 }: Props): ReactElement => {
   const { selectedOrigin: initialOrigin, modalMode: initialMode } = useSelector(
     (state: StoreProps) => state
@@ -95,6 +97,7 @@ const ScheduleFinderModal = ({
       handleChangeDirection={handleChangeDirection}
       handleChangeOrigin={handleChangeOrigin}
       handleOriginSelectClick={handleOriginSelectClick}
+      hasServiceToday={hasServiceToday}
       route={route}
       routePatternsByDirection={routePatternsByDirection}
       selectedDirection={initialDirection}

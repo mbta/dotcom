@@ -85,6 +85,9 @@ defmodule Test.Support.Factories.Routes.Route do
     merge_attributes(route, attrs)
   end
 
+  def subway_route_factory(attrs),
+    do: build(:route, attrs |> Map.put(:type, Faker.Util.pick([0, 1])))
+
   defp fare_class(%{fare_class: fare_class}, _), do: fare_class
   defp fare_class(%{description: :rail_replacement_bus}, _), do: :free_fare
 

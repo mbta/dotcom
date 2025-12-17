@@ -6,9 +6,14 @@ defmodule Predictions.Repo do
   require Logger
   require Routes.Route
 
+  use Nebulex.Caching.Decorators
+
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.seconds(1)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -27,15 +32,7 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> cache_fetch()
-    |> filter_predictions(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
-  end
-
-  def all_no_cache(opts) when is_list(opts) and opts != [] do
-    opts
-    |> add_all_optional_params()
-    |> fetch()
-    |> filter_predictions()
+    |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
     |> load_from_other_repos
   end
 
@@ -57,17 +54,21 @@ defmodule Predictions.Repo do
     end
   end
 
-  @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
+  @spec filter_predictions([Parser.record()] | {:error, any}, Keyword.t()) ::
           [Parser.record()] | {:error, any}
-  defp filter_predictions(predictions, min_time \\ nil)
+  defp filter_predictions(predictions, opts)
 
   defp filter_predictions({:error, error}, _) do
     {:error, error}
   end
 
-  defp filter_predictions(predictions, min_time) do
+  defp filter_predictions(predictions, opts) do
+    min_time = opts |> Keyword.get(:min_time)
+    include_terminals = opts |> Keyword.get(:include_terminals)
+
     Enum.filter(predictions, fn prediction ->
-      has_departure_time?(prediction) && after_min_time?(prediction, min_time)
+      (include_terminals || has_departure_time?(prediction)) &&
+        after_min_time?(prediction, min_time)
     end)
   end
 
@@ -84,6 +85,12 @@ defmodule Predictions.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              match: fn lst -> is_list(lst) && lst != [] end,
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cache_fetch(opts) do
     fetch(opts)
   end
@@ -248,7 +255,7 @@ defmodule Predictions.Repo do
   defp discard_if_subway_past_prediction([prediction]) do
     # For subway, drop predictions if the predicted time is earlier than the current time:
     prediction_in_the_past =
-      if prediction.time == nil do
+      if prediction.time == nil || prediction.departure_time == nil do
         false
       else
         !Util.time_is_greater_or_equal?(

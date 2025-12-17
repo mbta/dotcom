@@ -180,7 +180,7 @@ defmodule Dotcom.ScheduleFinderTest do
       stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
-        alert(%{
+        active_alert(%{
           informed_entity: %{
             route: route.id,
             route_type: route.type,
@@ -203,7 +203,7 @@ defmodule Dotcom.ScheduleFinderTest do
       stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       upcoming_alert =
-        alert(%{
+        active_alert(%{
           informed_entity: %{
             route: route.id,
             route_type: route.type,
@@ -225,7 +225,7 @@ defmodule Dotcom.ScheduleFinderTest do
       stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
-        alert(%{
+        active_alert(%{
           effect: :nothing,
           informed_entity: %{
             route: route.id,
@@ -253,7 +253,7 @@ defmodule Dotcom.ScheduleFinderTest do
       stop = Test.Support.Factories.Stops.Stop.build(:stop)
 
       alert =
-        alert(%{
+        active_alert(%{
           effect: :nothing,
           informed_entity: %{
             route: route.id,
@@ -275,6 +275,27 @@ defmodule Dotcom.ScheduleFinderTest do
       assert [^track_change_alert] = current_alerts(stop, route)
     end
 
+    test "omits track change alert at other stop" do
+      route = Test.Support.Factories.Routes.Route.build(:route)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+      other_stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert =
+        active_alert(%{
+          effect: :track_change,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: other_stop.id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+    end
+
     test "omits CR trip cancellations" do
       route = Test.Support.Factories.Routes.Route.build(:route, type: 2)
       stop = Test.Support.Factories.Stops.Stop.build(:stop)
@@ -285,7 +306,7 @@ defmodule Dotcom.ScheduleFinderTest do
         |> Enum.find(fn {e, _} -> e == :cancellation end)
 
       alert =
-        alert(%{
+        active_alert(%{
           effect: effect,
           severity: severity,
           informed_entity: %{
@@ -312,7 +333,7 @@ defmodule Dotcom.ScheduleFinderTest do
         |> Enum.find(fn {e, _} -> e == :delay end)
 
       alert =
-        alert(%{
+        active_alert(%{
           effect: effect,
           severity: severity,
           informed_entity: %{
@@ -330,7 +351,7 @@ defmodule Dotcom.ScheduleFinderTest do
     end
   end
 
-  defp alert(attrs) do
+  defp active_alert(attrs) do
     {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
 
     attrs =

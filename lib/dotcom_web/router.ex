@@ -184,11 +184,6 @@ defmodule DotcomWeb.Router do
     get("/menu", PageController, :menu)
 
     get("/app-store", AppStoreController, :redirect_mbta_go)
-    get("/appfeedback", MbtaGoFeedbackController, :ios)
-    get("/appfeedback-ht", MbtaGoFeedbackController, :ios_ht)
-    get("/androidappfeedback", MbtaGoFeedbackController, :android)
-    get("/androidappfeedback-ht", MbtaGoFeedbackController, :android_ht)
-
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
@@ -307,7 +302,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
-      live "/system-status", Live.SystemStatus
+      live "/", PreviewLive
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
     end
   end

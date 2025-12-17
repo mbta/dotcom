@@ -169,6 +169,7 @@ describe("ScheduleFinderModal", () => {
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {
@@ -262,6 +263,7 @@ describe("ScheduleFinderModal", () => {
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {
@@ -310,6 +312,7 @@ describe("ScheduleFinderModal", () => {
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
+        hasServiceToday={true}
       />,
       {
         preloadedState: {

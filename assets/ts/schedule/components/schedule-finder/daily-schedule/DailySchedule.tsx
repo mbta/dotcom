@@ -164,7 +164,7 @@ export const DailySchedule = ({
     isCurrentValidService(service, todayDate)
   );
   const todayService =
-    currentServices.find(service => !!service["default_service?"]) ||
+    services.find(service => !!service["default_service?"]) ||
     currentServices[0];
   const todayServiceId = todayService?.id || "";
   const defaultSelectedService = todayService || sortedServices[0];
