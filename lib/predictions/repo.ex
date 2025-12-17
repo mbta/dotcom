@@ -6,9 +6,14 @@ defmodule Predictions.Repo do
   require Logger
   require Routes.Route
 
+  use Nebulex.Caching.Decorators
+
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.seconds(1)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -80,6 +85,12 @@ defmodule Predictions.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              match: fn lst -> is_list(lst) && lst != [] end,
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cache_fetch(opts) do
     fetch(opts)
   end
