@@ -37,6 +37,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> [] end)
      |> assign_new(:now, fn -> @date_time.now() end)
+     |> assign_new(:alerts, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:date, fn -> nil end)}
   end
@@ -46,6 +47,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns =
       assigns
       |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
+      |> assign(:now, @date_time.now())
 
     ~H"""
     <Prototype.route_stop_picker
@@ -54,6 +56,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
+    <div class="my-8">
+      {DotcomWeb.AlertView.render("group.html", alerts: @alerts, date_time: @now)}
+    </div>
 
     <h2>{~t"Upcoming Departures"}</h2>
     <.upcoming_departures_table
@@ -106,6 +111,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:direction_id, direction_id)
      |> assign(:date, Map.get(params, "date", today()))
      |> assign_stop(params)
+     |> assign_alerts()
      |> assign_departures()
      |> assign_upcoming_departures()}
   end
@@ -189,6 +195,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp today, do: service_date() |> format!(:iso_date)
+
+  defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
+    route = socket.assigns.route
+    assign(socket, :alerts, current_alerts(stop, route))
+  end
+
+  defp assign_alerts(socket), do: assign(socket, :alerts, [])
 
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id

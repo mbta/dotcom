@@ -9,6 +9,7 @@ defmodule Dotcom.ScheduleFinderTest do
   alias Test.Support.FactoryHelpers
 
   setup do
+    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
@@ -162,6 +163,204 @@ defmodule Dotcom.ScheduleFinderTest do
       refute route.direction_destinations[direction_id] == destination
       assert destination == "Braintree"
     end
+  end
+
+  describe "current_alerts/2" do
+    setup do
+      Alerts.Repo.Mock
+      |> stub(:by_route_id_and_type, fn _, _, _ -> [] end)
+
+      :ok
+    end
+
+    test "requests alerts for stop & route" do
+      route =
+        Test.Support.Factories.Routes.Route.build(:route, type: Faker.Util.pick([0, 1, 3, 4]))
+
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert =
+        active_alert(%{
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn route_id, route_type, _ ->
+        assert route.id == route_id
+        assert route.type == route_type
+        [alert]
+      end)
+
+      assert [^alert] = current_alerts(stop, route)
+    end
+
+    test "omits alerts which aren't currently active" do
+      route = Test.Support.Factories.Routes.Route.build(:route)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      upcoming_alert =
+        active_alert(%{
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id
+          }
+        })
+        |> Test.Support.Factories.Alerts.Alert.active_upcoming()
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [upcoming_alert] end)
+
+      assert current_alerts(stop, route) == []
+    end
+
+    test "omits non-service impacting alerts" do
+      route =
+        Test.Support.Factories.Routes.Route.build(:route, type: Faker.Util.pick([0, 1, 3, 4]))
+
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert =
+        active_alert(%{
+          effect: :nothing,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+
+      {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
+      impacting_alert = %{alert | effect: effect, severity: severity}
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [impacting_alert] end)
+
+      assert [^impacting_alert] = current_alerts(stop, route)
+    end
+
+    test "returns track change alerts" do
+      route = Test.Support.Factories.Routes.Route.build(:route)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert =
+        active_alert(%{
+          effect: :nothing,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+
+      track_change_alert = %{alert | effect: :track_change}
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [track_change_alert] end)
+
+      assert [^track_change_alert] = current_alerts(stop, route)
+    end
+
+    test "omits track change alert at other stop" do
+      route = Test.Support.Factories.Routes.Route.build(:route)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+      other_stop = Test.Support.Factories.Stops.Stop.build(:stop)
+
+      alert =
+        active_alert(%{
+          effect: :track_change,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: other_stop.id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+    end
+
+    test "omits CR trip cancellations" do
+      route = Test.Support.Factories.Routes.Route.build(:route, type: 2)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+      trip_id = FactoryHelpers.build(:id)
+
+      {effect, severity} =
+        Dotcom.Alerts.service_impacting_effects()
+        |> Enum.find(fn {e, _} -> e == :cancellation end)
+
+      alert =
+        active_alert(%{
+          effect: effect,
+          severity: severity,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id,
+            trip: trip_id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+    end
+
+    test "omits CR trip delays" do
+      route = Test.Support.Factories.Routes.Route.build(:route, type: 2)
+      stop = Test.Support.Factories.Stops.Stop.build(:stop)
+      trip_id = FactoryHelpers.build(:id)
+
+      {effect, severity} =
+        Dotcom.Alerts.service_impacting_effects()
+        |> Enum.find(fn {e, _} -> e == :delay end)
+
+      alert =
+        active_alert(%{
+          effect: effect,
+          severity: severity,
+          informed_entity: %{
+            route: route.id,
+            route_type: route.type,
+            stop: stop.id,
+            trip: trip_id
+          }
+        })
+
+      Alerts.Repo.Mock
+      |> expect(:by_route_id_and_type, fn _, _, _ -> [alert] end)
+
+      assert current_alerts(stop, route) == []
+    end
+  end
+
+  defp active_alert(attrs) do
+    {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
+
+    attrs =
+      %{effect: effect, severity: severity}
+      |> Map.merge(attrs)
+      |> Map.put_new(:informed_entity, %{})
+
+    Test.Support.Factories.Alerts.Alert.build(:alert_for_informed_entity, attrs)
+    |> Test.Support.Factories.Alerts.Alert.active_now()
   end
 
   defp departures do
