@@ -67,10 +67,11 @@ defmodule Dotcom.ScheduleFinder do
        when effect in ~w(delay cancellation)a do
     commuter_rail? = Dotcom.Alerts.route_type_alert?(alert, 2)
 
-    no_trip? =
-      alert.informed_entity |> InformedEntitySet.match?(InformedEntity.from_keywords(trip: nil))
+    specific_trip? =
+      !(alert.informed_entity
+        |> InformedEntitySet.match?(InformedEntity.from_keywords(trip: nil)))
 
-    commuter_rail? and not no_trip?
+    commuter_rail? and specific_trip?
   end
 
   defp cr_trip_cancellation_or_delay?(_), do: false
