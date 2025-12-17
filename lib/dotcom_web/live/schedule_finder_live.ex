@@ -582,8 +582,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp end_of_service(departures) do
     departures
-    |> Stream.map(& &1.time)
-    |> Enum.max()
+    |> List.last()
+    |> Kernel.then(& &1.time)
     |> format!(:hour_12_minutes)
   end
 end
