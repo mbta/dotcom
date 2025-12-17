@@ -62,6 +62,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
     />
+    <.async_result :let={departures} :if={@stop} assign={@departures}>
+      <:loading></:loading>
+      <:failed :let={fail}>
+        <.error_container title={inspect(fail)}>
+          {~t"There was a problem loading schedules"}
+        </.error_container>
+      </:failed>
+      <.remaining_service route_type={@route.type} end_of_service={end_of_service(departures)} />
+    </.async_result>
 
     <h2 class="flex justify-between">
       {~t(Daily Schedules)}<mark>{@date}</mark>
@@ -543,4 +552,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp trip_details_header_text(upcoming_departure),
     do: gettext("Now %{message}", message: arrival_time_display(upcoming_departure))
+
+  defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
+    ~H"""
+    <div class="flex justify-center bg-gray-lightest w-full py-3">
+      <span class="font-medium text-sm">Service Continues Until {@end_of_service}</span>
+    </div>
+    """
+  end
+
+  defp remaining_service(assigns) do
+    ~H"""
+    <details class="group">
+      <summary class="flex bg-gray-lightest w-full py-3 cursor-pointer">
+        <span class="px-2 font-medium text-sm">More trips later today</span>
+        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline group-open:hidden">
+          Show
+        </span>
+        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline hidden group-open:block">
+          Hide
+        </span>
+      </summary>
+      <div class="flex gap-2 px-2 py-3 border-gray-lightest border-xs">
+        <.icon type="solid" name="person-digging" class="size-6" />
+        <span>This part's not quite ready yet!</span>
+      </div>
+    </details>
+    """
+  end
+
+  defp end_of_service(departures) do
+    departures
+    |> Stream.map(& &1.time)
+    |> Enum.max()
+    |> format!(:hour_12_minutes)
+  end
 end
