@@ -7,9 +7,4 @@ defmodule Predictions.Repo.Behaviour do
   Return predictions for given params
   """
   @callback all(Keyword.t()) :: [Predictions.Prediction.t()] | []
-
-  @doc """
-  Return predictions for give prarams ignoring the cache
-  """
-  @callback all_no_cache(Keyword.t()) :: [Predictions.Prediction.t()] | []
 end

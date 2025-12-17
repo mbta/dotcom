@@ -31,14 +31,6 @@ defmodule Predictions.Repo do
     |> load_from_other_repos
   end
 
-  def all_no_cache(opts) when is_list(opts) and opts != [] do
-    opts
-    |> add_all_optional_params()
-    |> fetch()
-    |> filter_predictions()
-    |> load_from_other_repos
-  end
-
   defp add_all_optional_params(opts) do
     @default_params
     |> add_optional_param(opts, :route)
@@ -59,7 +51,7 @@ defmodule Predictions.Repo do
 
   @spec filter_predictions([Parser.record()] | {:error, any}, Keyword.t()) ::
           [Parser.record()] | {:error, any}
-  defp filter_predictions(predictions, opts \\ [])
+  defp filter_predictions(predictions, opts)
 
   defp filter_predictions({:error, error}, _) do
     {:error, error}
