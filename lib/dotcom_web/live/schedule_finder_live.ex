@@ -62,15 +62,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
     />
-    <.async_result :let={departures} :if={@stop} assign={@departures}>
-      <:loading></:loading>
-      <:failed :let={fail}>
-        <.error_container title={inspect(fail)}>
-          {~t"There was a problem loading schedules"}
-        </.error_container>
-      </:failed>
-      <.remaining_service route_type={@route.type} end_of_service={end_of_service(departures)} />
-    </.async_result>
+
+    <.remaining_service
+      :if={departures = @departures.ok? && @departures.result}
+      route_type={@route.type}
+      end_of_service={end_of_service(departures)}
+    />
 
     <h2 class="flex justify-between">
       {~t(Daily Schedules)}<mark>{@date}</mark>
@@ -580,6 +577,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </details>
     """
   end
+
+  defp end_of_service([]), do: nil
 
   defp end_of_service(departures) do
     departures
