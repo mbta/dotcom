@@ -15,6 +15,8 @@ defmodule Dotcom.ScheduleFinder do
   alias Stops.Stop
 
   @cache Application.compile_env!(:dotcom, :cache)
+  @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @timezone Application.compile_env!(:dotcom, :timezone)
   @schedule_ttl :timer.hours(24)
@@ -50,17 +52,25 @@ defmodule Dotcom.ScheduleFinder do
   end
 
   @doc """
-  Service-impacting currently active alerts at a stop/route. This also
-  includes track changes, and excludes commuter rail trip cancellations and
-  delays.
+  Service-impacting currently active alerts for a route, including track changes
+  at the indicated stop. Excludes commuter rail trip cancellations and delays.
   """
   @spec current_alerts(Stop.t(), Route.t()) :: [Alert.t()]
   def current_alerts(stop, route) do
-    stop
-    |> current_stop_and_route_alerts(route)
-    |> Enum.filter(&(&1.effect == :track_change || service_impacting_alert?(&1)))
-    |> Enum.reject(&cr_trip_cancellation_or_delay?/1)
+    route.id
+    |> @alerts_repo_module.by_route_id_and_type(route.type, @date_time_module.now())
+    |> Enum.filter(
+      &(in_effect_now?(&1) && (&1.effect == :track_change || service_impacting_alert?(&1)))
+    )
+    |> Enum.reject(&(track_change_other_stop?(&1, stop.id) || cr_trip_cancellation_or_delay?(&1)))
   end
+
+  defp track_change_other_stop?(%Alert{effect: :track_change} = alert, stop_id) do
+    affected_stops = Alert.get_entity(alert, :stop)
+    MapSet.size(affected_stops) > 0 && stop_id not in affected_stops
+  end
+
+  defp track_change_other_stop?(_, _), do: false
 
   # These particular alerts _should_ show in the Upcoming Deparures list for the associated trips
   defp cr_trip_cancellation_or_delay?(%Alert{effect: effect} = alert)

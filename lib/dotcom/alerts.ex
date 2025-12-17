@@ -15,7 +15,6 @@ defmodule Dotcom.Alerts do
   @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo_module Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @type diversion_effect_t() ::
@@ -262,26 +261,5 @@ defmodule Dotcom.Alerts do
       %{route_type: ^route_type} -> true
       %{} -> false
     end)
-  end
-
-  @doc """
-  Get active alerts for a stop/route pair. Prioritizes getting route alerts,
-  then removing alerts which apply to other stops. Service-impacting alerts are
-  always returned, even when they apply to other stops.
-  """
-  def current_stop_and_route_alerts(stop, route) do
-    route.id
-    |> @alerts_repo_module.by_route_id_and_type(route.type, @date_time_module.now())
-    |> Enum.filter(&in_effect_now?/1)
-    |> Enum.reject(&other_stops_sans_service_impacting?(&1, stop.id))
-  end
-
-  defp other_stops_sans_service_impacting?(alert, stop_id) do
-    if service_impacting_alert?(alert) do
-      false
-    else
-      affected_stops = Alert.get_entity(alert, :stop)
-      MapSet.size(affected_stops) > 0 && stop_id not in affected_stops
-    end
   end
 end
