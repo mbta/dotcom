@@ -164,13 +164,13 @@ defmodule Services.Service do
   end
 
   @spec all_valid_dates_for_service(t()) :: [Date.t()]
-  defp all_valid_dates_for_service(%__MODULE__{
-         start_date: from,
-         end_date: until,
-         added_dates: added_dates,
-         removed_dates: removed_dates,
-         valid_days: valid_days
-       }) do
+  def all_valid_dates_for_service(%__MODULE__{
+        start_date: from,
+        end_date: until,
+        added_dates: added_dates,
+        removed_dates: removed_dates,
+        valid_days: valid_days
+      }) do
     # fallback to today if either start or end date are nil
     from = from || Timex.today()
     until = until || Timex.today()
