@@ -7,6 +7,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   use DotcomWeb, :live_view
 
   import CSSHelpers
+  import DotcomWeb.Components.Alerts
   import Dotcom.ScheduleFinder
   import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
@@ -56,54 +57,55 @@ defmodule DotcomWeb.ScheduleFinderLive do
     />
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
-    <div class="my-8">
-      {DotcomWeb.AlertView.render("group.html", alerts: @alerts, date_time: @now)}
+    <div class="px-3 py-xl flex flex-col gap-y-xl">
+      <.alert_banner alerts={@alerts} />
+      <section>
+        <h2 class="mt-0 b-md">{~t"Upcoming Departures"}</h2>
+        <.upcoming_departures_table
+          :if={@stop}
+          now={@now}
+          route={@route}
+          stop_id={@stop.id}
+          upcoming_departures={@upcoming_departures |> Enum.take(5)}
+        />
+        <.remaining_service
+          :if={departures = @departures.ok? && @departures.result}
+          route_type={@route.type}
+          end_of_service={end_of_service(departures)}
+        />
+      </section>
+      <section>
+        <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+        <.async_result :let={departures} :if={@stop} assign={@departures}>
+          <:loading>Loading daily schedules...</:loading>
+          <:failed :let={fail}>
+            <.error_container title={inspect(fail)}>
+              {~t"There was a problem loading schedules"}
+            </.error_container>
+          </:failed>
+          <%= if departures do %>
+            <%= if @route.type in [0, 1] do %>
+              <div
+                :for={
+                  {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                }
+                class="mt-lg mb-md"
+              >
+                <.subway_destination route={route} destination={destination} />
+                <.first_last times={times} vehicle_name={@vehicle_name} />
+                <.subway_headways times={times} />
+              </div>
+            <% else %>
+              <.first_last
+                times={Enum.map(departures, & &1.time)}
+                vehicle_name={@vehicle_name}
+              />
+              <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
+            <% end %>
+          <% end %>
+        </.async_result>
+      </section>
     </div>
-
-    <h2>{~t"Upcoming Departures"}</h2>
-    <.upcoming_departures_table
-      :if={@stop}
-      now={@now}
-      route={@route}
-      stop_id={@stop.id}
-      upcoming_departures={@upcoming_departures |> Enum.take(5)}
-    />
-
-    <.remaining_service
-      :if={departures = @departures.ok? && @departures.result}
-      route_type={@route.type}
-      end_of_service={end_of_service(departures)}
-    />
-
-    <h2 class="flex justify-between">
-      {~t(Daily Schedules)}<mark>{@date}</mark>
-    </h2>
-    <.async_result :let={departures} :if={@stop} assign={@departures}>
-      <:loading>Loading daily schedules...</:loading>
-      <:failed :let={fail}>
-        <.error_container title={inspect(fail)}>
-          {~t"There was a problem loading schedules"}
-        </.error_container>
-      </:failed>
-      <%= if departures do %>
-        <%= if @route.type in [0, 1] do %>
-          <div
-            :for={{route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)}
-            class="mt-lg mb-md"
-          >
-            <.subway_destination route={route} destination={destination} />
-            <.first_last times={times} vehicle_name={@vehicle_name} />
-            <.subway_headways times={times} />
-          </div>
-        <% else %>
-          <.first_last
-            times={Enum.map(departures, & &1.time)}
-            vehicle_name={@vehicle_name}
-          />
-          <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
-        <% end %>
-      <% end %>
-    </.async_result>
     """
   end
 
@@ -237,6 +239,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   # Schedule Finder components =================================================
+
+  attr :alerts, :list, required: true
+
+  defp alert_banner(assigns) do
+    ~H"""
+    <.alert_status_group alerts={@alerts} />
+    """
+  end
 
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
