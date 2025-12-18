@@ -3,7 +3,11 @@ defmodule Schedules.Repo.Behaviour do
   Behavior for an API client for fetching trip and schedule data
   """
 
+  alias Routes.Route
   alias Schedules.{Schedule, Trip}
+
+  @callback by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
+  @callback by_route_ids([Route.id_t()]) :: [Schedule.t()] | {:error, any}
 
   @callback schedule_for_trip(Trip.id_t(), Keyword.t()) :: [Schedule.t()]
   @callback schedule_for_trip(Trip.id_t()) :: [Schedule.t()]
