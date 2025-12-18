@@ -15,6 +15,12 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,
       title: "Schedule Finder 2.0"
+    },
+    %{
+      arguments: [],
+      icon_name: "icon-stop-default",
+      module: DotcomWeb.Live.StopMap,
+      title: "Stop Page Map"
     }
   ]
 
