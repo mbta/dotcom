@@ -53,7 +53,11 @@ defmodule PredictedSchedule do
       end
 
     predicted_schedules =
-      [route: route_id, direction_id: direction_id]
+      [
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: opts |> Keyword.get(:include_terminals, false)
+      ]
       |> @predictions_repo.all()
       |> Enum.filter(&(&1.stop.id == stop_id))
       |> PredictedSchedule.group(schedules, sort_fn: sort_fn)

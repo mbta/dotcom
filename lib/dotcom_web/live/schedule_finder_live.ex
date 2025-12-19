@@ -535,6 +535,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :stop_id, :string, required: true
   attr :other_stop, :any, required: true
 
+  # TODO: Remove before merging (ideally before PR'ing even)
+  defp other_stop(%{other_stop: nil} = assigns) do
+    ~H"""
+    <.lined_list_item route={@route} class={@class}>
+      <div class="grow">Nope</div>
+      <div class="ml-auto">???</div>
+    </.lined_list_item>
+    """
+  end
+
   defp other_stop(assigns) do
     ~H"""
     <.lined_list_item route={@route} class={@class}>
@@ -558,6 +568,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
   defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
+
+  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:scheduled, time}}),
+    do: format!(time, :hour_12_minutes)
 
   defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
     do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))

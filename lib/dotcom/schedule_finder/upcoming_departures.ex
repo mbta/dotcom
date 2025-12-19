@@ -9,6 +9,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   alias Predictions.Prediction
   alias Routes.Route
+  alias Schedules.Schedule
   alias __MODULE__.UpcomingDeparture.{OtherStop, TripDetails}
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
@@ -57,7 +58,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         route: route,
         stop_id: stop_id
       }) do
-    all_predictions =
+    predictions_by_trip_id =
       [
         route: route.id,
         direction_id: direction_id,
@@ -66,22 +67,25 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> @predictions_repo.all()
       |> reject_timeless_predictions()
       |> Enum.sort_by(&prediction_time/1, DateTime)
-
-    predictions_by_trip_id =
-      all_predictions
       |> Enum.group_by(& &1.trip.id)
 
     route_type = Route.type_atom(route)
 
-    all_predictions
-    |> Enum.filter(&(&1.stop.id == stop_id && &1.departure_time != nil))
-    |> Enum.map(fn prediction ->
-      prediction
-      |> to_upcoming_departure(%{
+    PredictedSchedule.get(route.id, stop_id,
+      direction_id: direction_id,
+      now: now,
+      include_terminals: true
+    )
+    |> reject_timeless_predictions()
+    |> Enum.filter(&(departure_time(&1) != nil))
+    |> Enum.sort_by(&prediction_time/1, DateTime)
+    |> Enum.map(fn predicted_schedule ->
+      to_upcoming_departure(%{
         now: now,
-        stop_id: stop_id,
+        predicted_schedule: predicted_schedule,
+        predictions_by_trip_id: predictions_by_trip_id,
         route_type: route_type,
-        predictions_by_trip_id: predictions_by_trip_id
+        stop_id: stop_id
       })
     end)
   end
@@ -94,35 +98,48 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end)
   end
 
-  def to_upcoming_departure(prediction, %{
+  def to_upcoming_departure(%{
         now: now,
-        stop_id: stop_id,
+        predicted_schedule: predicted_schedule,
+        predictions_by_trip_id: predictions_by_trip_id,
         route_type: route_type,
-        predictions_by_trip_id: predictions_by_trip_id
+        stop_id: stop_id
       }) do
-    arrival_seconds = seconds_between(prediction.arrival_time, now)
-    departure_seconds = seconds_between(prediction.departure_time, now)
-
-    other_stops = other_stops(predictions_by_trip_id |> Map.get(prediction.trip.id))
-
-    {stops_before, [stop | stops_after]} =
-      other_stops |> Enum.split_while(&(&1.stop_id != stop_id))
+    trip = predicted_schedule |> PredictedSchedule.trip()
 
     %UpcomingDeparture{
       arrival_status:
         arrival_status(%{
-          arrival_seconds: arrival_seconds,
-          departure_seconds: departure_seconds,
-          route_type: route_type
+          predicted_schedule: predicted_schedule,
+          # arrival_seconds: arrival_seconds,
+          # departure_seconds: departure_seconds,
+          route_type: route_type,
+          now: now
         }),
-      headsign: prediction.trip.headsign,
-      trip_details: %TripDetails{stops_before: stops_before, stop: stop, stops_after: stops_after},
-      trip_id: prediction.trip.id
+      headsign: trip.headsign,
+      trip_details: trip_details(predictions_by_trip_id, trip.id, stop_id),
+      trip_id: trip.id
     }
   end
 
   defp seconds_between(nil, _now), do: nil
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
+
+  defp trip_details(predictions_by_trip_id, trip_id, stop_id) do
+    other_stops = other_stops(predictions_by_trip_id |> Map.get(trip_id))
+
+    {stops_before, stop, stops_after} =
+      other_stops
+      |> Enum.split_while(&(&1.stop_id != stop_id))
+      |> case do
+        {[], []} -> {[], nil, []}
+        {bef, [st | aft]} -> {bef, st, aft}
+      end
+
+    %TripDetails{stops_before: stops_before, stop: stop, stops_after: stops_after}
+  end
+
+  defp other_stops(nil), do: []
 
   defp other_stops(predictions) do
     predictions
@@ -136,10 +153,44 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     |> Enum.sort_by(& &1.time)
   end
 
-  defp prediction_time(%Prediction{arrival_time: nil, departure_time: time}), do: time
-  defp prediction_time(%Prediction{arrival_time: time}), do: time
+  defp departure_time(%PredictedSchedule{prediction: %Prediction{departure_time: time}}), do: time
+  defp departure_time(%PredictedSchedule{schedule: %Schedule{departure_time: time}}), do: time
+
+  defp prediction_time(%{arrival_time: time}) when time != nil, do: time
+  defp prediction_time(%{departure_time: time}), do: time
+
+  defp prediction_time(%PredictedSchedule{prediction: prediction}) when prediction != nil,
+    do: prediction_time(prediction)
+
+  defp prediction_time(%PredictedSchedule{schedule: schedule}) when schedule != nil,
+    do: prediction_time(schedule)
 
   defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{prediction: prediction},
+         route_type: route_type,
+         now: now
+       })
+       when prediction != nil do
+    arrival_seconds = seconds_between(prediction.arrival_time, now)
+    departure_seconds = seconds_between(prediction.departure_time, now)
+
+    realtime_arrival_status(%{
+      # predicted_schedule: predicted_schedule,
+      arrival_seconds: arrival_seconds,
+      departure_seconds: departure_seconds,
+      route_type: route_type
+    })
+  end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{schedule: schedule},
+         route_type: _route_type
+       })
+       when schedule != nil do
+    {:scheduled, schedule.arrival_time}
+  end
+
+  defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
          departure_seconds: departure_seconds,
          route_type: :subway
@@ -147,7 +198,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when (arrival_seconds <= 0 or arrival_seconds == nil) and departure_seconds <= 90,
        do: :boarding
 
-  defp arrival_status(%{
+  defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
          departure_seconds: departure_seconds,
          route_type: :bus
@@ -155,19 +206,22 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when (arrival_seconds <= 0 or arrival_seconds == nil) and departure_seconds <= 90,
        do: :now
 
-  defp arrival_status(%{
+  defp realtime_arrival_status(%{
          arrival_seconds: nil,
          departure_seconds: seconds
        }),
        do: {:departure_seconds, seconds}
 
-  defp arrival_status(%{arrival_seconds: seconds, route_type: :bus}) when seconds <= 30, do: :now
+  defp realtime_arrival_status(%{arrival_seconds: seconds, route_type: :bus}) when seconds <= 30,
+    do: :now
 
-  defp arrival_status(%{arrival_seconds: seconds, route_type: :subway}) when seconds <= 30,
-    do: :arriving
+  defp realtime_arrival_status(%{arrival_seconds: seconds, route_type: :subway})
+       when seconds <= 30,
+       do: :arriving
 
-  defp arrival_status(%{arrival_seconds: seconds, route_type: :subway}) when seconds <= 60,
-    do: :approaching
+  defp realtime_arrival_status(%{arrival_seconds: seconds, route_type: :subway})
+       when seconds <= 60,
+       do: :approaching
 
-  defp arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+  defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
 end
