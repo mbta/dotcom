@@ -141,21 +141,11 @@ defmodule PredictedScheduleTest do
   ]
 
   describe "get/2" do
-    @tag :external
-    test "returns a list of predicted schedules" do
-      predicted_schedules = get("1", 59, direction_id: 1, now: Util.now())
-      assert is_list(predicted_schedules)
-
-      if !Enum.empty?(predicted_schedules) do
-        assert [%PredictedSchedule{} | _] = predicted_schedules
-      end
-    end
-
     test "filters results by time but doesn't filter predictions or schedules individually" do
-      schedules_fn = fn ["Teal"], opts ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn ["Teal"], opts ->
         refute Keyword.has_key?(opts, :min_time)
         @trip_schedules
-      end
+      end)
 
       expect(Predictions.Repo.Mock, :all, fn opts ->
         refute Keyword.has_key?(opts, :min_time)
@@ -165,8 +155,7 @@ defmodule PredictedScheduleTest do
       predicted_schedules =
         get("Teal", "stop1",
           # between scheduled and predicted times for Trip 2
-          now: Timex.shift(@base_time, minutes: 11),
-          schedules_fn: schedules_fn
+          now: Timex.shift(@base_time, minutes: 11)
         )
 
       # should not see Trip 1 since scheduled and predicted times have passed
@@ -181,16 +170,13 @@ defmodule PredictedScheduleTest do
         @trip_predictions
       end)
 
-      schedules_fn = fn ["Teal"], _opts ->
+      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn ["Teal"], _opts ->
         @trip_schedules
-      end
+      end)
 
       with_mock PredictedSchedule, [:passthrough],
         group: fn _predictions, _schedules, _opts -> [] end do
-        get("Teal", "stop1",
-          now: Timex.shift(@base_time, minutes: 30),
-          schedules_fn: schedules_fn
-        )
+        get("Teal", "stop1", now: Timex.shift(@base_time, minutes: 30))
 
         assert :meck.num_calls(PredictedSchedule, :group, :_) == 2
       end

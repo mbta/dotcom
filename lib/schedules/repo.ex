@@ -11,7 +11,6 @@ defmodule Schedules.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
-  alias Routes.Route
   alias Schedules.{Parser, Repo.Behaviour, Schedule}
   alias Util
 
@@ -32,7 +31,7 @@ defmodule Schedules.Repo do
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
-  @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
+  @impl Behaviour
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     opts = Keyword.put_new(opts, :date, Util.service_date())
     no_cache = Keyword.get(opts, :no_cache)

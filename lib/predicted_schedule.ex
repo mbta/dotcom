@@ -20,17 +20,16 @@ defmodule PredictedSchedule do
         }
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
 
   def get(route_id, stop_id, opts \\ []) do
-    schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
-
     now = Keyword.get(opts, :now, Util.now())
     direction_id = Keyword.get(opts, :direction_id)
     sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
     schedules =
       [route_id]
-      |> schedules_fn.(
+      |> @schedules_repo.by_route_ids(
         stop_ids: stop_id,
         direction_id: direction_id,
         date: Util.service_date(now)
@@ -43,7 +42,7 @@ defmodule PredictedSchedule do
       if is_list(schedules) &&
            Enum.any?(schedules, fn sched -> sched |> Map.get(:trip) |> is_nil() end) do
         [route_id]
-        |> schedules_fn.(
+        |> @schedules_repo.by_route_ids(
           stop_ids: stop_id,
           direction_id: direction_id,
           date: Util.service_date(now),
@@ -64,7 +63,7 @@ defmodule PredictedSchedule do
       # if there are no schedules left for today, get schedules for tomorrow
       PredictedSchedule.group(
         [],
-        schedules_fn.(
+        @schedules_repo.by_route_ids(
           [route_id],
           stop_ids: stop_id,
           direction_id: direction_id,
