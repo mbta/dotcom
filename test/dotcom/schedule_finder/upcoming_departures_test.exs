@@ -14,6 +14,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
     stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
     stub(Vehicles.Repo.Mock, :trip, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+    stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
 
     :ok
   end
@@ -124,6 +125,55 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.map(& &1.arrival_status) == [
                {:arrival_seconds, seconds_until_arrival_1},
                {:scheduled, arrival_time_2}
+             ]
+    end
+
+    test "uses departure time for scheduled trips when arrival time is nil" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
+        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+          assert date == ServiceDateTime.service_date(now)
+
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: nil,
+              departure_time: departure_time,
+              time: departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+
+        _, _ ->
+          []
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               {:scheduled, departure_time}
              ]
     end
 

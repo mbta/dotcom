@@ -213,7 +213,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: _route_type
        })
        when schedule != nil do
-    {:scheduled, schedule.arrival_time}
+    {:scheduled, prediction_time(schedule)}
   end
 
   defp realtime_arrival_status(%{
