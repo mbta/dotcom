@@ -67,6 +67,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           route={@route}
           stop_id={@stop.id}
           upcoming_departures={@upcoming_departures |> Enum.take(5)}
+          vehicle_name={@vehicle_name}
         />
         <.remaining_service
           :if={departures = @departures.ok? && @departures.result}
@@ -452,6 +453,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route
   attr :stop_id, :string
   attr :upcoming_departures, :list
+  attr :vehicle_name, :string
 
   defp upcoming_departures_table(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
@@ -483,7 +485,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:content>
           <.lined_list>
             <.lined_list_item route={@route} variant="mode">
-              <div class="grow">{trip_details_header_text(upcoming_departure)}</div>
+              <div class="grow">Hello we are your {@vehicle_name}</div>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
@@ -571,15 +573,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp arrival_time_display(%UpcomingDeparture{arrival_status: {:scheduled, time}}),
     do: format!(time, :hour_12_minutes)
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
-    do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
-    do: gettext("Departing in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
-
-  defp trip_details_header_text(upcoming_departure),
-    do: gettext("Now %{message}", message: arrival_time_display(upcoming_departure))
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
