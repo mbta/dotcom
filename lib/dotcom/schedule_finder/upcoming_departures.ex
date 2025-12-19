@@ -88,6 +88,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       })
     end)
+    |> Enum.reject(&(&1.arrival_status == :hidden))
   end
 
   defp reject_timeless_predictions(predictions) do
@@ -164,6 +165,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp prediction_time(%PredictedSchedule{schedule: schedule}) when schedule != nil,
     do: prediction_time(schedule)
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{prediction: nil},
+         route_type: :subway
+       }),
+       do: :hidden
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},

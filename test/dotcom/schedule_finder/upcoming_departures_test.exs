@@ -126,6 +126,70 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "does not include scheduled trips for subway" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      [trip_id_1, trip_id_2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      seconds_until_arrival_1 = Faker.random_between(2 * 60, 59 * 60)
+      arrival_time_1 = now |> DateTime.shift(second: seconds_until_arrival_1)
+
+      arrival_time_2 =
+        Generators.DateTime.random_time_range_date_time(
+          {arrival_time_1, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Predictions.Repo.Mock, :all, 2, fn [
+                                                  route: ^route_id,
+                                                  direction_id: ^direction_id,
+                                                  include_terminals: true
+                                                ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time_1,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id_1)
+          )
+        ]
+      end)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn [^route_id],
+                                                    stop_ids: ^stop_id,
+                                                    direction_id: ^direction_id,
+                                                    date: date ->
+        assert date == ServiceDateTime.service_date(now)
+
+        [
+          Factories.Schedules.Schedule.build(:schedule,
+            arrival_time: arrival_time_2,
+            time: arrival_time_2,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id_2)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               {:arrival_seconds, seconds_until_arrival_1}
+             ]
+    end
+
     test "excludes predictions with no arrival or departure time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
