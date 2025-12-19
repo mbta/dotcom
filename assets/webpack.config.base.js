@@ -52,7 +52,7 @@ module.exports = {
     timings: true,
     usedExports: true,
     version: true,
-    warnings: true
+    warnings: false
   },
 
   module: {
