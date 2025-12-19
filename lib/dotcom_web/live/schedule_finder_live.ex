@@ -69,9 +69,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
           vehicle_name={@vehicle_name}
         />
         <.remaining_service
-          :if={departures = @departures.ok? && @departures.result}
-          route_type={@route.type}
+          :if={departures = @stop && @departures.ok? && @departures.result}
           end_of_service={end_of_service(departures)}
+          now={@now}
+          remaining_departures={@upcoming_departures |> Enum.drop(5)}
+          route={@route}
+          route_type={@route.type}
+          stop_id={@stop.id}
+          vehicle_name={@vehicle_name}
         />
       </section>
       <section>
@@ -591,22 +596,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
+
   defp remaining_service(assigns) do
     ~H"""
-    <details class="group">
+    <details class="group/remaining-service">
       <summary class="flex bg-gray-lightest w-full py-3 cursor-pointer">
-        <span class="px-2 font-medium text-sm">More trips later today</span>
-        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline group-open:hidden">
+        <span class="px-2 font-medium text-sm">
+          {Enum.count(@remaining_departures)} trips later today
+        </span>
+        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline group-open/remaining-service:hidden">
           Show
         </span>
-        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline hidden group-open:block">
+        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline hidden group-open/remaining-service:block">
           Hide
         </span>
       </summary>
-      <div class="flex gap-2 px-2 py-3 border-gray-lightest border-xs">
-        <.icon type="solid" name="person-digging" class="size-6" />
-        <span>This part's not quite ready yet!</span>
-      </div>
+      <.upcoming_departures_table
+        now={@now}
+        route={@route}
+        stop_id={@stop_id}
+        upcoming_departures={@remaining_departures}
+        vehicle_name={@vehicle_name}
+      />
     </details>
     """
   end
