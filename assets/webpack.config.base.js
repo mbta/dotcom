@@ -132,13 +132,15 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
+              api: "modern",
               sassOptions: {
-                includePaths: [
+                loadPaths: [
                   "node_modules/bootstrap/scss",
                   "node_modules/@fortawesome/fontawesome-free/scss"
                 ],
-                outputStyle: "compressed",
-                quietDeps: true
+                style: "compressed",
+                quietDeps: true,
+                silenceDeprecations: true
               }
             }
           }
