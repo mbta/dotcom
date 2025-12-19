@@ -135,12 +135,12 @@ module.exports = {
               api: "modern",
               sassOptions: {
                 loadPaths: [
-                  "node_modules/bootstrap/scss",
-                  "node_modules/@fortawesome/fontawesome-free/scss"
+                  "node_modules/bootstrap",
+                  "node_modules/@fortawesome/fontawesome-free",
+                  "vendor"
                 ],
                 style: "compressed",
-                quietDeps: true,
-                silenceDeprecations: true
+                quietDeps: true
               }
             }
           }
