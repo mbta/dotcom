@@ -476,9 +476,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <div class="w-full flex gap-2">
             <RouteComponents.route_icon size="small" route={@route} />
             <div>{upcoming_departure.headsign}</div>
-            <div class="ml-auto font-bold">
-              <.icon type="icon-svg" name="icon-realtime-tracking" />
-              {arrival_time_display(upcoming_departure)}
+            <div class="ml-auto">
+              <.prediction_time_display arrival_status={upcoming_departure.arrival_status} />
             </div>
           </div>
         </:heading>
@@ -560,19 +559,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
+  defp prediction_time_display(%{arrival_status: {:scheduled, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span>
+      {format!(@time, :hour_12_minutes)}
+    </span>
+    """
+  end
+
+  defp prediction_time_display(assigns),
+    do: ~H"""
+    <.realtime_display text={realtime_text(@arrival_status)} />
+    """
+
+  defp realtime_display(assigns) do
+    ~H"""
+    <span class="font-bold">
+      <.icon type="icon-svg" name="icon-realtime-tracking" />
+      {@text}
+    </span>
+    """
+  end
+
+  defp realtime_text({:arrival_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
+  defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
-
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:scheduled, time}}),
-    do: format!(time, :hour_12_minutes)
+  defp realtime_text(:approaching), do: ~t"Approaching"
+  defp realtime_text(:arriving), do: ~t"Arriving"
+  defp realtime_text(:boarding), do: ~t"Boarding"
+  defp realtime_text(:now), do: ~t"Now"
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""

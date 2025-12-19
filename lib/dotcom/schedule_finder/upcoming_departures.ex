@@ -133,7 +133,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       other_stops
       |> Enum.split_while(&(&1.stop_id != stop_id))
       |> case do
-        {[], []} -> {[], nil, []}
+        {bef, []} -> {bef, nil, []}
         {bef, [st | aft]} -> {bef, st, aft}
       end
 
