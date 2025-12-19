@@ -32,9 +32,9 @@ svg[class*="fill"] > path[fill]:not([fill="none"]) {
 @import 'functions';
 @import 'variables';
 @import 'mixins';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
-@import 'vendor/fontawesome';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import '../vendor/fontawesome';
 @import 'typography';
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ svg[class*="fill"] > path[fill]:not([fill="none"]) {
 //
 // VENDOR STYLES
 //
-@import 'vendor/accessible-date-picker';
+@import '../vendor/accessible-date-picker';
 @import 'datepicker'; // our overrides of datepicker styles (can't use BEM conventions)
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -170,5 +170,5 @@ svg[class*="fill"] > path[fill]:not([fill="none"]) {
 // They may use nesting and even !important when absolutely necessary. These styles
 // should be used VERY sparingly and be well-documented.
 //
-@import 'vendor/fixedsticky'; // needs refactor
+@import '../vendor/fixedsticky'; // needs refactor
 @import 'utilities';

@@ -52,7 +52,7 @@ module.exports = {
     timings: true,
     usedExports: true,
     version: true,
-    warnings: true
+    warnings: false
   },
 
   module: {
@@ -132,12 +132,14 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
+              api: "modern",
               sassOptions: {
-                includePaths: [
-                  "node_modules/bootstrap/scss",
-                  "node_modules/@fortawesome/fontawesome-free/scss"
+                loadPaths: [
+                  "node_modules/bootstrap",
+                  "node_modules/@fortawesome/fontawesome-free",
+                  "vendor"
                 ],
-                outputStyle: "compressed",
+                style: "compressed",
                 quietDeps: true
               }
             }
