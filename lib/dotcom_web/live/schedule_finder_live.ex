@@ -15,7 +15,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
   alias Dotcom.ScheduleFinder.UpcomingDepartures
-  alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
