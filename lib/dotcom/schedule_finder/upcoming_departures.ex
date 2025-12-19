@@ -7,12 +7,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   info about an upcoming departure.
   """
 
+  alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
   alias __MODULE__.UpcomingDeparture.{OtherStop, TripDetails}
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -69,6 +71,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> Enum.sort_by(&prediction_time/1, DateTime)
       |> Enum.group_by(& &1.trip.id)
 
+    schedules_by_trip_id =
+      @schedules_repo.by_route_ids([route.id],
+        direction_id: direction_id,
+        date: now |> ServiceDateTime.service_date()
+      )
+      |> Enum.sort_by(&prediction_time/1, DateTime)
+      |> Enum.group_by(& &1.trip.id)
+
     route_type = Route.type_atom(route)
 
     PredictedSchedule.get(route.id, stop_id,
@@ -85,6 +95,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         predicted_schedule: predicted_schedule,
         predictions_by_trip_id: predictions_by_trip_id,
         route_type: route_type,
+        schedules_by_trip_id: schedules_by_trip_id,
         stop_id: stop_id
       })
     end)
@@ -104,9 +115,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         predicted_schedule: predicted_schedule,
         predictions_by_trip_id: predictions_by_trip_id,
         route_type: route_type,
+        schedules_by_trip_id: schedules_by_trip_id,
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
+
+    realtime? = predicted_schedule.prediction != nil
+
+    trip_details =
+      trip_details(
+        if(realtime?, do: predictions_by_trip_id, else: schedules_by_trip_id),
+        trip.id,
+        stop_id
+      )
 
     %UpcomingDeparture{
       arrival_status:
@@ -116,7 +137,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           now: now
         }),
       headsign: trip.headsign,
-      trip_details: trip_details(predictions_by_trip_id, trip.id, stop_id),
+      trip_details: trip_details,
       trip_id: trip.id
     }
   end
