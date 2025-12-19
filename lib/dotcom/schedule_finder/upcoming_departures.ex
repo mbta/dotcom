@@ -112,8 +112,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       arrival_status:
         arrival_status(%{
           predicted_schedule: predicted_schedule,
-          # arrival_seconds: arrival_seconds,
-          # departure_seconds: departure_seconds,
           route_type: route_type,
           now: now
         }),
