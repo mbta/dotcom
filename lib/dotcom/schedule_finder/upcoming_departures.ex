@@ -201,7 +201,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     departure_seconds = seconds_between(prediction.departure_time, now)
 
     realtime_arrival_status(%{
-      # predicted_schedule: predicted_schedule,
       arrival_seconds: arrival_seconds,
       departure_seconds: departure_seconds,
       route_type: route_type
