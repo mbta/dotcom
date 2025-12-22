@@ -15,6 +15,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -23,9 +24,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     defstruct [
       :arrival_status,
+      :arrival_substatus,
       :headsign,
+      :platform_name,
+      :status,
       :trip_details,
-      :trip_id
+      :trip_id,
+      :trip_name
     ]
 
     defmodule TripDetails do
@@ -136,14 +141,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type,
           now: now
         }),
+      arrival_substatus:
+        arrival_substatus(%{
+          predicted_schedule: predicted_schedule,
+          route_type: route_type
+        }),
       headsign: trip.headsign,
+      platform_name: platform_name(predicted_schedule),
+      status: predicted_schedule |> PredictedSchedule.status(),
       trip_details: trip_details,
-      trip_id: trip.id
+      trip_id: trip.id,
+      trip_name: if(route_type == :commuter_rail, do: trip.name, else: nil)
     }
   end
 
   defp seconds_between(nil, _now), do: nil
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
+
+  defp platform_name(predicted_schedule) do
+    predicted_schedule
+    |> PredictedSchedule.platform_stop_id()
+    |> @stops_repo.get()
+    |> Kernel.then(& &1.platform_name)
+    |> case do
+      nil -> nil
+      "Commuter Rail" -> nil
+      name -> name |> String.trim("Commuter Rail - ")
+    end
+  end
 
   defp trip_details(predictions_by_trip_id, trip_id, stop_id) do
     other_stops = other_stops(predictions_by_trip_id |> Map.get(trip_id))
@@ -193,6 +218,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
+         route_type: :commuter_rail
+       })
+       when prediction != nil do
+    {:time, prediction.departure_time}
+    end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: route_type,
          now: now
        })
@@ -209,7 +242,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{schedule: schedule},
-         route_type: _route_type
+         route_type: :commuter_rail
+       })
+       when schedule != nil do
+    {:scheduled, schedule.departure_time}
+  end
+
+    defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{schedule: schedule},
+
        })
        when schedule != nil do
     {:scheduled, prediction_time(schedule)}
@@ -249,4 +290,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        do: :approaching
 
   defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+
+  defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{prediction: nil}
+       }),
+       do: :scheduled
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{prediction: %Prediction{status: status}}
+       }) when status != nil,
+       do: {:status, status |> String.split(" ") |> Enum.map(&String.capitalize/1) |> Enum.join(" ")}
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{schedule: nil}
+       }),
+       do: :on_time
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{schedule: schedule, prediction: prediction}
+       }) do
+    scheduled_time = schedule.departure_time
+    predicted_time = prediction.departure_time
+
+    if DateTime.diff(scheduled_time, predicted_time, :second) |> abs() < 60 do
+      :on_time
+    else
+      {:scheduled_at, scheduled_time}
+    end
+  end
 end

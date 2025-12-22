@@ -159,6 +159,20 @@ defmodule PredictedSchedule do
   def stop(%PredictedSchedule{prediction: %Prediction{stop: stop}}), do: stop
 
   @doc """
+  Returns the stop for a given PredictedSchedule
+  """
+  def platform_stop_id(%PredictedSchedule{
+        prediction: %Prediction{platform_stop_id: platform_stop_id}
+      }),
+      do: platform_stop_id
+
+  @spec platform_stop_id(PredictedSchedule.t()) :: Stops.Stop.id_t()
+  def platform_stop_id(%PredictedSchedule{
+        schedule: %Schedule{platform_stop_id: platform_stop_id}
+      }),
+      do: platform_stop_id
+
+  @doc """
   Returns the route for a given PredictedSchedule.
   """
   @spec route(PredictedSchedule.t()) :: Routes.Route.t()
