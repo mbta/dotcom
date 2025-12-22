@@ -299,8 +299,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{prediction: %Prediction{status: status}}
-       }) when status != nil,
-       do: {:status, status |> String.split(" ") |> Enum.map_join(&String.capitalize/1, " ")}
+       })
+       when status != nil,
+       do: {:status, status |> String.split(" ") |> Enum.map_join(" ", &String.capitalize/1)}
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{schedule: nil}
