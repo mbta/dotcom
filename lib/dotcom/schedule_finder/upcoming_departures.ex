@@ -222,7 +222,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        })
        when prediction != nil do
     {:time, prediction.departure_time}
-    end
+  end
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
@@ -248,9 +248,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     {:scheduled, schedule.departure_time}
   end
 
-    defp arrival_status(%{
-         predicted_schedule: %PredictedSchedule{schedule: schedule},
-
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{schedule: schedule}
        })
        when schedule != nil do
     {:scheduled, prediction_time(schedule)}
@@ -301,7 +300,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{prediction: %Prediction{status: status}}
        }) when status != nil,
-       do: {:status, status |> String.split(" ") |> Enum.map(&String.capitalize/1) |> Enum.join(" ")}
+       do: {:status, status |> String.split(" ") |> Enum.map_join(&String.capitalize/1, " ")}
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{schedule: nil}
