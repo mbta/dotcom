@@ -850,7 +850,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
       route_id = route.id
 
       stop_ids =
