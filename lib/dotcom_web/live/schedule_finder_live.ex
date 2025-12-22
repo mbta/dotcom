@@ -535,16 +535,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :stop_id, :string, required: true
   attr :other_stop, :any, required: true
 
-  # TODO: Remove before merging (ideally before PR'ing even)
-  defp other_stop(%{other_stop: nil} = assigns) do
-    ~H"""
-    <.lined_list_item route={@route} class={@class}>
-      <div class="grow">Nope</div>
-      <div class="ml-auto">???</div>
-    </.lined_list_item>
-    """
-  end
-
   defp other_stop(assigns) do
     ~H"""
     <.lined_list_item route={@route} class={@class}>
