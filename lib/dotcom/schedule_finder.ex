@@ -300,7 +300,7 @@ defmodule Dotcom.ScheduleFinder do
           }
   end
 
-  @spec services(Route.id_t(), Date.t()) :: %{String.t() => ServiceDescription.t()}
+  @spec services(Route.id_t(), Date.t()) :: [%{String.t() => ServiceDescription.t()}]
   def services("Green", current_date),
     do: GreenLine.branch_ids() |> Enum.join(",") |> services(current_date)
 
