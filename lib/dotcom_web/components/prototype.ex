@@ -14,7 +14,7 @@ defmodule DotcomWeb.Components.Prototype do
   def route_stop_picker(%{selected_route: route, selected_direction_id: direction} = assigns) do
     assigns =
       assigns
-      |> assign(:all_routes, @routes_repo.all())
+      |> assign(:all_routes, all_routes_with_green_line())
       |> assign_new(:stops, fn ->
         if not is_nil(route) and not is_nil(direction) do
           @stops_repo.by_route(route.id, direction)
@@ -75,5 +75,13 @@ defmodule DotcomWeb.Components.Prototype do
       <p class="m-0 text-xs">Navigating between routes/stops might take some time, be patient</p>
     </section>
     """
+  end
+
+  defp all_routes_with_green_line() do
+    all_routes = @routes_repo.all()
+
+    first_gl_index = all_routes |> Enum.find_index(&(&1.line_id == "line-Green"))
+
+    all_routes |> List.insert_at(first_gl_index, @routes_repo.green_line())
   end
 end
