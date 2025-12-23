@@ -24,6 +24,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     defstruct [
       :arrival_status,
       :headsign,
+      :route,
       :trip_details,
       :trip_id
     ]
@@ -137,6 +138,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           now: now
         }),
       headsign: trip.headsign,
+      route: PredictedSchedule.route(predicted_schedule),
       trip_details: trip_details,
       trip_id: trip.id
     }
