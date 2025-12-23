@@ -221,6 +221,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp prediction_time(%{arrival_time: time}) when time != nil, do: time
   defp prediction_time(%{departure_time: time}), do: time
 
+  defp prediction_time(%PredictedSchedule{
+         prediction: %Prediction{arrival_time: nil, departure_time: nil},
+         schedule: schedule
+       }),
+       do: prediction_time(schedule)
+
   defp prediction_time(%PredictedSchedule{prediction: prediction}) when prediction != nil,
     do: prediction_time(prediction)
 
@@ -232,6 +238,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: :subway
        }),
        do: :hidden
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{schedule_relationship: :cancelled, departure_time: nil},
+           schedule: schedule
+         },
+         route_type: :commuter_rail
+       }) do
+    {:cancelled, schedule.departure_time}
+  end
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
@@ -331,10 +347,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     scheduled_time = schedule.departure_time
     predicted_time = prediction.departure_time
 
-    if DateTime.diff(scheduled_time, predicted_time, :second) |> abs() < 60 do
-      :on_time
-    else
-      {:scheduled_at, scheduled_time}
+    cond do
+      predicted_time == nil ->
+        :cancelled
+
+      DateTime.diff(scheduled_time, predicted_time, :second) |> abs() < 60 ->
+        :on_time
+
+      true ->
+        {:scheduled_at, scheduled_time}
     end
   end
 end

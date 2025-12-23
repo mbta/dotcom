@@ -563,6 +563,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp prediction_time_display(%{arrival_status: {:cancelled, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span class="line-through">
+      {format!(@time, :hour_12_minutes)}
+    </span>
+    """
+  end
+
   defp prediction_time_display(assigns),
     do: ~H"""
     <.realtime_display text={realtime_text(@arrival_status)} />
@@ -617,6 +627,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp substatus_text(:on_time), do: ~t"On Time"
   defp substatus_text(:scheduled), do: ~t"Scheduled"
+  defp substatus_text(:cancelled), do: ~t"Cancelled"
   defp substatus_text(text), do: text
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
