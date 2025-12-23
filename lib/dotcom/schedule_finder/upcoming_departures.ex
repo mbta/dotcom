@@ -81,7 +81,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         date: now |> ServiceDateTime.service_date()
       )
 
-    predicted_schedules = PredictedSchedule.group(all_predictions, all_schedules)
+    predicted_schedules =
+      PredictedSchedule.group(all_predictions, all_schedules)
+      |> reject_past_schedules(now)
 
     predicted_schedules_by_trip_id =
       predicted_schedules |> Enum.group_by(&PredictedSchedule.trip(&1).id)
@@ -89,7 +91,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     predicted_schedules
     |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
     |> Enum.reject(&end_of_trip?/1)
-    |> reject_past_schedules(now)
     |> reject_timeless_predictions()
     |> Enum.sort_by(&prediction_time/1, DateTime)
     |> Enum.map(fn predicted_schedule ->
@@ -114,7 +115,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp reject_past_schedules(predicted_schedules, now) do
     predicted_schedules
     |> Enum.reject(fn
-      %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: nil} ->
+      %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: nil}
+      when time != nil ->
         DateTime.before?(time, now)
 
       _ ->
