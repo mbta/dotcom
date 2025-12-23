@@ -262,6 +262,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{schedule_relationship: :cancelled, departure_time: nil}
+         }
+       }) do
+    :hidden
+  end
+
+  defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: :commuter_rail
        })
