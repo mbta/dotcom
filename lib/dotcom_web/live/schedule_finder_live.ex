@@ -472,7 +472,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
-          <div class="w-full flex gap-2">
+          <div class="w-full flex gap-2 items-center">
             <RouteComponents.route_icon size="small" route={@route} />
             <div>{upcoming_departure.headsign}</div>
             <div class="ml-auto">
@@ -552,7 +552,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span>
+    <span class="text-nowrap">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
@@ -565,7 +565,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp realtime_display(assigns) do
     ~H"""
-    <span class="font-bold">
+    <span class="font-bold text-nowrap">
       <.icon type="icon-svg" name="icon-realtime-tracking" />
       {@text}
     </span>
