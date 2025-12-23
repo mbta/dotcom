@@ -125,11 +125,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp reject_timeless_predictions(predictions) do
-    predictions
-    |> Enum.reject(fn
-      %Prediction{arrival_time: nil, departure_time: nil} -> true
-      _ -> false
-    end)
+    predictions |> Enum.reject(&(prediction_time(&1) == nil))
   end
 
   def to_upcoming_departure(%{
