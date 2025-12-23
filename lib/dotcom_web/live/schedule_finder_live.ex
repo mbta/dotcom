@@ -546,7 +546,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {@other_stop.stop_name}
       </div>
-      <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold", @other_stop.cancelled? && "line-through"]}>
+      <div class={[
+        "ml-auto",
+        @stop_id == @other_stop.stop_id && "font-bold",
+        @other_stop.cancelled? && "line-through"
+      ]}>
         {format!(@other_stop.time, :hour_12_minutes)}
       </div>
     </.lined_list_item>
