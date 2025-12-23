@@ -30,10 +30,19 @@ defmodule Predictions.Repo do
     _ = Logger.info("predictions_repo_all_cache=call")
 
     opts
+    |> update_green_line_route_id()
     |> add_all_optional_params()
     |> cache_fetch()
     |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
     |> load_from_other_repos
+  end
+
+  defp update_green_line_route_id(opts) do
+    if opts |> Keyword.get(:route) == "Green" do
+      opts |> Keyword.put(:route, GreenLine.branch_ids() |> Enum.join(","))
+    else
+      opts
+    end
   end
 
   defp add_all_optional_params(opts) do
