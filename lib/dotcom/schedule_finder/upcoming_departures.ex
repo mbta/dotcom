@@ -52,6 +52,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       """
 
       defstruct [
+        :cancelled?,
         :stop_id,
         :stop_name,
         :time
@@ -210,6 +211,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       stop = ps |> PredictedSchedule.stop()
 
       %OtherStop{
+        cancelled?: cancelled?(ps),
         stop_id: stop.id,
         stop_name: stop.name,
         time: prediction_time(ps)
@@ -232,6 +234,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp prediction_time(%PredictedSchedule{schedule: schedule}) when schedule != nil,
     do: prediction_time(schedule)
+
+  defp cancelled?(%PredictedSchedule{schedule: schedule, prediction: prediction})
+       when prediction != nil and schedule != nil do
+    schedule_time = prediction_time(schedule)
+    prediction_time = prediction_time(prediction)
+
+    schedule_time != nil && prediction_time == nil
+  end
+
+  defp cancelled?(_), do: false
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
