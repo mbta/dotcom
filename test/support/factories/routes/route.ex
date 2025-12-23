@@ -27,6 +27,9 @@ defmodule Test.Support.Factories.Routes.Route do
     |> route_factory()
   end
 
+  def commuter_rail_route_factory(attrs),
+    do: build(:route, attrs |> Map.put(:type, 2))
+
   def logan_express_route_factory(attrs) do
     %{
       description: nil,

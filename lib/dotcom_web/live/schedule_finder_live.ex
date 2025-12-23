@@ -15,7 +15,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
   alias Dotcom.ScheduleFinder.UpcomingDepartures
-  alias Dotcom.ScheduleFinder.UpcomingDepartures.UpcomingDeparture
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
@@ -67,6 +66,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           route={@route}
           stop_id={@stop.id}
           upcoming_departures={@upcoming_departures |> Enum.take(5)}
+          vehicle_name={@vehicle_name}
         />
         <.remaining_service
           :if={departures = @departures.ok? && @departures.result}
@@ -452,6 +452,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route
   attr :stop_id, :string
   attr :upcoming_departures, :list
+  attr :vehicle_name, :string
 
   defp upcoming_departures_table(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
@@ -474,16 +475,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <div class="w-full flex gap-2">
             <RouteComponents.route_icon size="small" route={@route} />
             <div>{upcoming_departure.headsign}</div>
-            <div class="ml-auto font-bold">
-              <.icon type="icon-svg" name="icon-realtime-tracking" />
-              {arrival_time_display(upcoming_departure)}
+            <div class="ml-auto">
+              <.prediction_time_display arrival_status={upcoming_departure.arrival_status} />
             </div>
           </div>
         </:heading>
         <:content>
           <.lined_list>
             <.lined_list_item route={@route} variant="mode">
-              <div class="grow">{trip_details_header_text(upcoming_departure)}</div>
+              <div class="grow">Hello we are your {@vehicle_name}</div>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
@@ -548,25 +548,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
+  defp prediction_time_display(%{arrival_status: {:scheduled, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span>
+      {format!(@time, :hour_12_minutes)}
+    </span>
+    """
+  end
+
+  defp prediction_time_display(assigns),
+    do: ~H"""
+    <.realtime_display text={realtime_text(@arrival_status)} />
+    """
+
+  defp realtime_display(assigns) do
+    ~H"""
+    <span class="font-bold">
+      <.icon type="icon-svg" name="icon-realtime-tracking" />
+      {@text}
+    </span>
+    """
+  end
+
+  defp realtime_text({:arrival_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
+  defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :approaching}), do: ~t"Approaching"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :arriving}), do: ~t"Arriving"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :boarding}), do: ~t"Boarding"
-  defp arrival_time_display(%UpcomingDeparture{arrival_status: :now}), do: ~t"Now"
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:arrival_seconds, seconds}}),
-    do: gettext("Arriving in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
-
-  defp trip_details_header_text(%UpcomingDeparture{arrival_status: {:departure_seconds, seconds}}),
-    do: gettext("Departing in %{minutes}", minutes: seconds_to_localized_minutes(seconds))
-
-  defp trip_details_header_text(upcoming_departure),
-    do: gettext("Now %{message}", message: arrival_time_display(upcoming_departure))
+  defp realtime_text(:approaching), do: ~t"Approaching"
+  defp realtime_text(:arriving), do: ~t"Arriving"
+  defp realtime_text(:boarding), do: ~t"Boarding"
+  defp realtime_text(:now), do: ~t"Now"
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
