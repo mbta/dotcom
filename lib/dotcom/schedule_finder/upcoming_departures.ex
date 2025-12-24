@@ -27,6 +27,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :arrival_substatus,
       :headsign,
       :platform_name,
+      :route,
       :trip_details,
       :trip_id,
       :trip_name
@@ -147,6 +148,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         }),
       headsign: trip.headsign,
       platform_name: platform_name(predicted_schedule),
+      route: PredictedSchedule.route(predicted_schedule),
       trip_details: trip_details,
       trip_id: trip.id,
       trip_name: if(route_type == :commuter_rail, do: trip.name, else: nil)

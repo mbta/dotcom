@@ -63,7 +63,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <.upcoming_departures_table
           :if={@stop}
           now={@now}
-          route={@route}
           stop_id={@stop.id}
           upcoming_departures={@upcoming_departures |> Enum.take(5)}
           vehicle_name={@vehicle_name}
@@ -449,21 +448,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   attr :now, DateTime
-  attr :route, Route
   attr :stop_id, :string
   attr :upcoming_departures, :list
   attr :vehicle_name, :string
 
   defp upcoming_departures_table(assigns) do
-    mode = assigns.route |> Route.type_atom() |> atom_to_class()
-    line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
-
-    assigns =
-      assign(assigns, %{
-        line_name: line_name,
-        mode: mode
-      })
-
     ~H"""
     <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
@@ -474,7 +463,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:heading>
           <div class="w-full flex items-center">
             <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-              <RouteComponents.route_icon size="small" route={@route} />
+              <RouteComponents.route_icon size="small" route={upcoming_departure.route} />
               <div>{upcoming_departure.headsign}</div>
 
               <div />
@@ -493,7 +482,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </:heading>
         <:content>
           <.lined_list>
-            <.lined_list_item route={@route} variant="mode">
+            <.lined_list_item route={upcoming_departure.route} variant="mode">
               <div class="grow">Hello we are your {@vehicle_name}</div>
             </.lined_list_item>
             <details
@@ -501,7 +490,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               class="group/details"
             >
               <summary class="cursor-pointer">
-                <.lined_list_item route={@route} variant="none">
+                <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
                     {ngettext(
                       "1 Stop Away",
@@ -518,20 +507,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 :for={other_stop <- upcoming_departure.trip_details.stops_before}
                 class="border-t-xs border-gray-lightest"
                 other_stop={other_stop}
-                route={@route}
+                route={upcoming_departure.route}
                 stop_id={@stop_id}
               />
             </details>
 
             <.other_stop
               other_stop={upcoming_departure.trip_details.stop}
-              route={@route}
+              route={upcoming_departure.route}
               stop_id={@stop_id}
             />
             <.other_stop
               :for={other_stop <- upcoming_departure.trip_details.stops_after}
               other_stop={other_stop}
-              route={@route}
+              route={upcoming_departure.route}
               stop_id={@stop_id}
             />
           </.lined_list>
