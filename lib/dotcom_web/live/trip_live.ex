@@ -5,8 +5,10 @@ defmodule DotcomWeb.TripLive do
 
   use DotcomWeb, :live_view
 
+  import CSSHelpers
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ScheduleFinderLive, only: [route_banner: 1]
 
   alias Dotcom.Utils.ServiceDateTime
   alias Phoenix.LiveView
@@ -24,26 +26,36 @@ defmodule DotcomWeb.TripLive do
   def render(assigns) do
     schedule_refresh()
 
-    RouteComponents
-
     ~H"""
-    <div>Hello we are your trip</div>
+    <.route_banner route={@route} direction_id={@direction_id} />
 
     <.trip_details trip_info={@trip_info} route={@route} />
 
-    <div class="grid grid-cols-3 gap-2 items-center">
-      <div class="font-bold">Stop</div>
-      <div class="font-bold">Prediction</div>
-      <div class="font-bold">Schedule</div>
+    <.unstyled_accordion
+      class="mt-5"
+      summary_class="flex items-center border-gray-lightest border-xs px-2 py-3"
+    >
+      <:heading>
+        <div class="w-full">More Details</div>
+      </:heading>
+      <:content>
+        <div class="px-2 py-3 border-gray-lightest border-xs border-t-0">
+          <div class="grid grid-cols-3 gap-2 items-center">
+            <div class="font-bold">Stop</div>
+            <div class="font-bold">Prediction</div>
+            <div class="font-bold">Schedule</div>
 
-      <.predicted_schedule :for={ps <- @predicted_schedules} predicted_schedule={ps} />
-    </div>
+            <.predicted_schedule :for={ps <- @predicted_schedules} predicted_schedule={ps} />
+          </div>
 
-    <pre>{inspect @vehicle, pretty: true}</pre>
-    <pre>{inspect @trip, pretty: true}</pre>
-    <pre>{inspect @route_pattern, pretty: true}</pre>
-    <pre>{inspect @route, pretty: true}</pre>
-    <pre>{inspect @predicted_schedules, pretty: true}</pre>
+          <pre>{inspect @vehicle, pretty: true}</pre>
+          <pre>{inspect @trip, pretty: true}</pre>
+          <pre>{inspect @route_pattern, pretty: true}</pre>
+          <pre>{inspect @route, pretty: true}</pre>
+          <pre>{inspect @predicted_schedules, pretty: true}</pre>
+        </div>
+      </:content>
+    </.unstyled_accordion>
     """
   end
 
@@ -62,6 +74,7 @@ defmodule DotcomWeb.TripLive do
       |> assign(:vehicle_info, vehicle_info)
 
     ~H"""
+    <.special_vehicle_label vehicle_info={@vehicle_info} route={@route} />
     <div class="border-gray-lightest border-xs border-t-0">
       <.lined_list>
         <.vehicle_row route={@route} vehicle_info={@vehicle_info} />
@@ -73,6 +86,34 @@ defmodule DotcomWeb.TripLive do
       </.lined_list>
     </div>
     """
+  end
+
+  defp special_vehicle_label(%{vehicle_info: %{decoration: :holiday}} = assigns) do
+    ~H"""
+    <div class={["pb-3 flex gap-2 w-full items-center", route_to_class(@route)]}>
+      <.icon type="solid" name="tree" class={"size-5 #{fill_class(@route)} ml-auto"} />
+      <.icon type="solid" name="candy-cane" class={"size-5 #{fill_class(@route)}"} />
+      <span class="font-bold">Holiday Train</span>
+      <.icon type="solid" name="sleigh" class={"size-5 #{fill_class(@route)}"} />
+      <.icon type="solid" name="snowflake" class={"size-5 #{fill_class(@route)} mr-auto"} />
+    </div>
+    """
+  end
+
+  defp special_vehicle_label(assigns) do
+    dbg(assigns)
+
+    ~H"""
+    """
+  end
+
+  defp fill_class(route) do
+    route
+    |> route_to_class()
+    |> case do
+      "mbta-route-bus" -> "fill-black"
+      _ -> "fill-white"
+    end
   end
 
   defp vehicle_row(%{vehicle_info: nil} = assigns), do: ~H""
@@ -162,12 +203,15 @@ defmodule DotcomWeb.TripLive do
 
     socket
     |> assign(:trip, trip)
+    |> assign(:direction_id, direction_id)
     |> assign(:route_pattern, route_pattern)
     |> assign(:route, route)
     |> assign(:predicted_schedules, predicted_schedules)
     |> assign(:vehicle, vehicle)
     |> assign(:trip_info, trip_info)
   end
+
+  defp trip_info(%{predicted_schedules: []}), do: :trip_has_ended
 
   defp trip_info(%{predicted_schedules: predicted_schedules, now: now, vehicle: vehicle}) do
     last_stop = predicted_schedules |> List.last()
@@ -207,15 +251,11 @@ defmodule DotcomWeb.TripLive do
     end
   end
 
-  defp drop_prediction_for_current_station(stops, %{status: :stopped, stop_id: stop_id} = vi) do
-    dbg(stops)
-    dbg(vi)
-
+  defp drop_prediction_for_current_station(stops, %{status: :stopped, stop_id: stop_id}) do
     case stops do
       [%{stop_id: ^stop_id} | remaining_stops] -> remaining_stops
       _ -> stops
     end
-    |> dbg()
   end
 
   defp drop_prediction_for_current_station(stops, _), do: stops
@@ -226,8 +266,17 @@ defmodule DotcomWeb.TripLive do
     stop = vehicle.stop_id |> Stops.Repo.get()
     status = vehicle.status
 
-    %{stop_name: stop.name, stop_id: stop.parent_id || stop.id, status: status}
+    %{
+      decoration: vehicle_decoration(vehicle.id),
+      status: status,
+      stop_id: stop.parent_id || stop.id,
+      stop_name: stop.name
+    }
   end
+
+  def vehicle_decoration("O-54870955"), do: :holiday
+  def vehicle_decoration("G-10086"), do: :holiday
+  def vehicle_decoration(_), do: nil
 
   defp has_ended?(%{departure_time: departure_time}, now) when departure_time != nil,
     do: DateTime.before?(departure_time, now)
