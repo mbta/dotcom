@@ -37,15 +37,15 @@ defmodule Predictions.StreamTopic do
     |> do_new(topic)
   end
 
-  def new(_) do
-    {:error, :unsupported_topic}
+  def new(opts) when is_list(opts) do
+    do_new(opts, Enum.map_join(opts, ",", fn {k, v} -> "#{k}=#{v}" end))
   end
 
   @spec do_new(Store.fetch_keys(), String.t()) :: t() | {:error, term()}
   defp do_new(fetch_keys, topic) do
     case streams_from_fetch_keys(fetch_keys) do
       [] ->
-        {:error, :no_streams_found}
+        {:error, :unsupported_topic}
 
       streams ->
         %__MODULE__{
@@ -62,9 +62,17 @@ defmodule Predictions.StreamTopic do
     |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
   end
 
+  defp streams_from_fetch_keys(opts) do
+    opts
+    |> then(&{to_keys(&1), to_filter_name(&1)})
+    |> List.wrap()
+  end
+
   defp to_keys(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
     [route: route_id, direction: direction_id]
   end
+
+  defp to_keys(opts), do: opts
 
   defp to_filter_name(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
     %{
@@ -72,6 +80,14 @@ defmodule Predictions.StreamTopic do
       direction_id: direction_id
     }
     |> Enum.map_join("&", fn {filter, value} -> "filter[#{filter}]=#{value}" end)
+  end
+
+  defp to_filter_name(opts) do
+    opts
+    |> Enum.map_join("&", fn {filter, value} ->
+      filter = if filter == :direction, do: "direction_id", else: filter
+      "filter[#{filter}]=#{value}"
+    end)
   end
 
   @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]
