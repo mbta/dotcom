@@ -250,7 +250,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
 
-  defp route_banner(assigns) do
+  def route_banner(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
     line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
 
@@ -472,7 +472,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:content>
           <.lined_list>
             <.lined_list_item route={upcoming_departure.route} variant="mode">
-              <div class="grow">Hello we are your {@vehicle_name}</div>
+              <.link
+                navigate={~p"/preview/trips/#{upcoming_departure.trip_id}"}
+                class="grow flex items-center text-current hover:no-underline active:no-underline focus:text-current hover:text-current"
+              >
+                <span class="font-medium">Hello we are your {@vehicle_name}</span>
+                <.icon
+                  name="arrow-up-right-from-square"
+                  aria-hidden
+                  class="size-4 fill-current ml-auto"
+                />
+              </.link>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
