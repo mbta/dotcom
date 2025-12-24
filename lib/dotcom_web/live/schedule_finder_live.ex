@@ -64,7 +64,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           :if={@stop}
           now={@now}
           stop_id={@stop.id}
-          upcoming_departures={@upcoming_departures |> Enum.take(5)}
+          upcoming_departures={@upcoming_departures}
           vehicle_name={@vehicle_name}
         />
         <.remaining_service
@@ -123,6 +123,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_upcoming_departures()}
   end
 
+  # @impl LiveView
+  # def terminate(_reason, socket) do
+  #   ## figure out some way to close the open stream connections :/
+  # end
+
   @impl LiveView
   def handle_event(
         "open_trip",
@@ -167,7 +172,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     {:noreply,
      socket
      |> assign(:now, @date_time.now())
-     |> assign_upcoming_departures()}
+     |> refresh_upcoming_departures()}
   end
 
   defp schedule_refresh() do
@@ -180,24 +185,58 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
   end
 
-  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}, now: now}} = socket) do
+  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
     route = socket.assigns.route
     direction_id = socket.assigns.direction_id
-    stop_id = stop_id
+
+    case Predictions.StreamTopic.new("stop:#{stop_id}") do
+      %Predictions.StreamTopic{} = stream_topic ->
+        :ok = Predictions.StreamTopic.start_streams(stream_topic)
+
+        predictions =
+          Predictions.Store.fetch(stop: stop_id, route: route.id, direction: direction_id)
+
+        ud =
+          UpcomingDepartures.upcoming_departures(%{
+            direction_id: direction_id,
+            route: route,
+            stop_id: stop_id,
+            predictions: predictions
+          })
+
+        socket
+        |> assign(
+          :upcoming_departures,
+          ud
+        )
+
+      {:error, _} ->
+        socket |> assign(:upcoming_departures, [])
+    end
+  end
+
+  defp assign_upcoming_departures(socket) do
+    socket |> assign(:upcoming_departures, [])
+  end
+
+  defp refresh_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
+    route = socket.assigns.route
+    direction_id = socket.assigns.direction_id
+    predictions = Predictions.Store.fetch(stop: stop_id, route: route.id, direction: direction_id)
 
     socket
     |> assign(
       :upcoming_departures,
       UpcomingDepartures.upcoming_departures(%{
         direction_id: direction_id,
-        now: now,
         route: route,
-        stop_id: stop_id
+        stop_id: stop_id,
+        predictions: predictions
       })
     )
   end
 
-  defp assign_upcoming_departures(socket) do
+  defp refresh_upcoming_departures(socket) do
     socket |> assign(:upcoming_departures, [])
   end
 
