@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import CSSHelpers
   import DotcomWeb.Components.Alerts
   import Dotcom.ScheduleFinder
-  import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
+
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
@@ -18,6 +18,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
+  alias DotcomWeb.UpcomingDeparturesLive
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.{LiveView, LiveView.AsyncResult}
   alias Routes.Route
@@ -29,8 +30,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def mount(_params, _session, socket) do
-    schedule_refresh()
-
     {:ok,
      socket
      |> assign_new(:route, fn -> nil end)
@@ -63,20 +62,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.alert_banner alerts={@alerts} />
       <section>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <.upcoming_departures_table
+        <.live_component
           :if={@stop}
-          now={@now}
-          stop_id={@stop.id}
-          upcoming_departures={@upcoming_departures |> Enum.take(5)}
-          vehicle_name={@vehicle_name}
-        />
-        <.remaining_service
-          :if={departures = @stop && @departures.ok? && @departures.result}
-          end_of_service={end_of_service(departures)}
-          now={@now}
-          remaining_departures={@upcoming_departures |> Enum.drop(5)}
+          module={UpcomingDeparturesLive}
+          id={"upcoming-departures-#{@route.id}-#{@direction_id}-#{@stop.id}"}
           route={@route}
-          route_type={@route.type}
+          direction_id={@direction_id}
           stop_id={@stop.id}
           vehicle_name={@vehicle_name}
         />
@@ -208,21 +199,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
        Map.put(loaded_trips, schedule_id, result)
      end)}
-  end
-
-  @impl LiveView
-  def handle_info(:refresh, socket) do
-    schedule_refresh()
-
-    {:noreply,
-     socket
-     |> assign(:now, @date_time.now())
-     |> assign_upcoming_departures()}
-  end
-
-  defp schedule_refresh() do
-    # Refresh every second
-    Process.send_after(self(), :refresh, 1000)
   end
 
   defp assign_stop(socket, params) do
@@ -532,241 +508,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> Enum.min_max(fn -> {nil, nil} end)
 
     gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
-  end
-
-  attr :now, DateTime
-  attr :stop_id, :string
-  attr :upcoming_departures, :list
-  attr :vehicle_name, :string
-
-  defp upcoming_departures_table(assigns) do
-    ~H"""
-    <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
-      <.unstyled_accordion
-        :for={upcoming_departure <- @upcoming_departures}
-        id={"upcoming-departure-#{upcoming_departure.trip_id}"}
-        summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
-      >
-        <:heading>
-          <div class="w-full flex items-center">
-            <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-              <RouteComponents.route_icon size="small" route={upcoming_departure.route} />
-              <div>{upcoming_departure.headsign}</div>
-
-              <div />
-              <div :if={upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
-                Train {upcoming_departure.trip_name}
-                <span>
-                  &bull; {upcoming_departure.platform_name || "Track TBA"}
-                </span>
-              </div>
-            </div>
-            <div class="ml-auto flex flex-col items-end">
-              <.prediction_time_display arrival_status={upcoming_departure.arrival_status} />
-              <.prediction_substatus_display arrival_substatus={upcoming_departure.arrival_substatus} />
-            </div>
-          </div>
-        </:heading>
-        <:content>
-          <.lined_list>
-            <.lined_list_item route={upcoming_departure.route} variant="mode">
-              <div class="grow">Hello we are your {@vehicle_name}</div>
-            </.lined_list_item>
-            <details
-              :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
-              class="group/details"
-            >
-              <summary class="cursor-pointer">
-                <.lined_list_item route={upcoming_departure.route} variant="none">
-                  <div class="grow">
-                    {ngettext(
-                      "1 Stop Away",
-                      "%{count} Stops Away",
-                      Enum.count(upcoming_departure.trip_details.stops_before)
-                    )}
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
-                  </div>
-                </.lined_list_item>
-              </summary>
-              <.other_stop
-                :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                class="border-t-xs border-gray-lightest"
-                other_stop={other_stop}
-                route={upcoming_departure.route}
-                stop_id={@stop_id}
-              />
-            </details>
-
-            <.other_stop
-              other_stop={upcoming_departure.trip_details.stop}
-              route={upcoming_departure.route}
-              stop_id={@stop_id}
-            />
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_after}
-              other_stop={other_stop}
-              route={upcoming_departure.route}
-              stop_id={@stop_id}
-            />
-          </.lined_list>
-        </:content>
-      </.unstyled_accordion>
-    </div>
-    """
-  end
-
-  attr :class, :string, default: ""
-  attr :route, Route, required: true
-  attr :stop_id, :string, required: true
-  attr :other_stop, :any, required: true
-
-  defp other_stop(assigns) do
-    ~H"""
-    <.lined_list_item :if={@other_stop} route={@route} class={@class}>
-      <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
-        {@other_stop.stop_name}
-      </div>
-      <div class={[
-        "ml-auto",
-        @stop_id == @other_stop.stop_id && "font-bold",
-        @other_stop.cancelled? && "line-through"
-      ]}>
-        {format!(@other_stop.time, :hour_12_minutes)}
-      </div>
-    </.lined_list_item>
-    """
-  end
-
-  defp prediction_time_display(%{arrival_status: {:scheduled, time}} = assigns) do
-    assigns = assigns |> assign(:time, time)
-
-    ~H"""
-    <span>
-      {format!(@time, :hour_12_minutes)}
-    </span>
-    """
-  end
-
-  defp prediction_time_display(%{arrival_status: {:cancelled, time}} = assigns) do
-    assigns = assigns |> assign(:time, time)
-
-    ~H"""
-    <span class="line-through">
-      {format!(@time, :hour_12_minutes)}
-    </span>
-    """
-  end
-
-  defp prediction_time_display(assigns),
-    do: ~H"""
-    <.realtime_display text={realtime_text(@arrival_status)} />
-    """
-
-  defp realtime_display(assigns) do
-    ~H"""
-    <span class="font-bold">
-      <.icon type="icon-svg" name="icon-realtime-tracking" />
-      {@text}
-    </span>
-    """
-  end
-
-  defp realtime_text({:arrival_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
-
-  defp realtime_text({:departure_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
-
-  defp realtime_text({:time, time}),
-    do: format!(time, :hour_12_minutes)
-
-  defp realtime_text(:approaching), do: ~t"Approaching"
-  defp realtime_text(:arriving), do: ~t"Arriving"
-  defp realtime_text(:boarding), do: ~t"Boarding"
-  defp realtime_text(:now), do: ~t"Now"
-
-  defp prediction_substatus_display(%{arrival_substatus: nil} = assigns), do: ~H""
-
-  defp prediction_substatus_display(%{arrival_substatus: {:scheduled_at, time}} = assigns) do
-    assigns = assigns |> assign(:time, time)
-
-    ~H"""
-    <span class="text-[0.75rem] line-through">{format!(@time, :hour_12_minutes)}</span>
-    """
-  end
-
-  defp prediction_substatus_display(%{arrival_substatus: {:status, status}} = assigns) do
-    assigns = assigns |> assign(:status, status)
-
-    ~H"""
-    <span class="text-[0.75rem]">{@status}</span>
-    """
-  end
-
-  defp prediction_substatus_display(assigns) do
-    ~H"""
-    <div class="flex shrink-0 gap-1 items-center">
-      <.substatus_icon arrival_substatus={@arrival_substatus} />
-      <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
-    </div>
-    """
-  end
-
-  defp substatus_text(:on_time), do: ~t"On Time"
-  defp substatus_text(:scheduled), do: ~t"Scheduled"
-  defp substatus_text(:cancelled), do: ~t"Cancelled"
-  defp substatus_text(text), do: text
-
-  defp substatus_icon(%{arrival_substatus: :cancelled} = assigns),
-    do: ~H"""
-    <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" />
-    """
-
-  defp substatus_icon(assigns), do: ~H""
-
-  defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
-    ~H"""
-    <div class="flex justify-center bg-gray-lightest w-full py-3">
-      <span class="font-medium text-sm">Service Continues Until {@end_of_service}</span>
-    </div>
-    """
-  end
-
-  defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
-
-  defp remaining_service(assigns) do
-    ~H"""
-    <details class="group/remaining-service">
-      <summary class="flex bg-gray-lightest w-full py-3 cursor-pointer">
-        <span class="px-2 font-medium text-sm">
-          {Enum.count(@remaining_departures)} trips later today
-        </span>
-        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline group-open/remaining-service:hidden">
-          Show
-        </span>
-        <span class="px-2 ml-auto font-medium text-sm text-brand-primary hover:underline hidden group-open/remaining-service:block">
-          Hide
-        </span>
-      </summary>
-      <.upcoming_departures_table
-        now={@now}
-        stop_id={@stop_id}
-        upcoming_departures={@remaining_departures}
-        vehicle_name={@vehicle_name}
-      />
-    </details>
-    """
-  end
-
-  defp end_of_service([]), do: nil
-
-  defp end_of_service(departures) do
-    departures
-    |> List.last()
-    |> Kernel.then(& &1.time)
-    |> format!(:hour_12_minutes)
   end
 
   defp no_service_message(service_groups, route, stop) do
