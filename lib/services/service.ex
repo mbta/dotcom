@@ -200,6 +200,7 @@ defmodule Services.Service do
       |> Enum.to_list()
 
     Enum.uniq(explicitly_added_dates ++ valid_dates)
+    |> Enum.sort(Date)
   end
 
   @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
