@@ -9,14 +9,14 @@ defmodule Test.Support.Factories.Services.Service do
   alias Test.Support.FactoryHelpers
 
   def service_factory do
-    Dotcom.Utils.DateTime.now() |> DateTime.to_date() |> service_for_date()
+    Faker.random_between(1, 9) |> Faker.Date.forward() |> service_for_date()
   end
 
   def service_for_date(date) do
-    rating_end = Date.shift(date, month: 3)
-    rating_start = Date.shift(date, month: -3)
-    service_end = Date.shift(date, month: 2)
-    service_start = Date.shift(date, month: -2)
+    rating_end = Date.shift(date, day: Faker.random_between(60, 120))
+    rating_start = Date.shift(date, day: -Faker.random_between(60, 120))
+    service_end = Date.shift(date, day: Faker.random_between(10, 59))
+    service_start = Date.shift(date, day: -Faker.random_between(10, 59))
 
     %Service{
       id: FactoryHelpers.build(:id),
@@ -36,8 +36,7 @@ defmodule Test.Support.Factories.Services.Service do
           :extra_service,
           :holiday_service,
           :planned_disruption,
-          :unplanned_disruption,
-          :canonical
+          :unplanned_disruption
         ]),
       valid_days: [1, 2, 3, 4, 5, 6, 7],
       rating_start_date: rating_start,
