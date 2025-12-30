@@ -466,11 +466,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
-          <div class="w-full flex gap-2">
-            <RouteComponents.route_icon size="small" route={upcoming_departure.route} />
-            <div>{upcoming_departure.headsign}</div>
-            <div class="ml-auto">
+          <div class="w-full flex items-center">
+            <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
+              <RouteComponents.route_icon size="small" route={upcoming_departure.route} />
+              <div>{upcoming_departure.headsign}</div>
+
+              <div />
+              <div :if={upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
+                Train {upcoming_departure.trip_name}
+                <span>
+                  &bull; {upcoming_departure.platform_name || "Track TBA"}
+                </span>
+              </div>
+            </div>
+            <div class="ml-auto flex flex-col items-end">
               <.prediction_time_display arrival_status={upcoming_departure.arrival_status} />
+              <.prediction_substatus_display arrival_substatus={upcoming_departure.arrival_substatus} />
             </div>
           </div>
         </:heading>
@@ -572,10 +583,41 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
+  defp realtime_text({:time, time}),
+    do: format!(time, :hour_12_minutes)
+
   defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"
+
+  defp prediction_substatus_display(%{arrival_substatus: nil} = assigns), do: ~H""
+
+  defp prediction_substatus_display(%{arrival_substatus: {:scheduled_at, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span class="text-[0.75rem] line-through">{format!(@time, :hour_12_minutes)}</span>
+    """
+  end
+
+  defp prediction_substatus_display(%{arrival_substatus: {:status, status}} = assigns) do
+    assigns = assigns |> assign(:status, status)
+
+    ~H"""
+    <span class="text-[0.75rem]">{@status}</span>
+    """
+  end
+
+  defp prediction_substatus_display(assigns) do
+    ~H"""
+    <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
+    """
+  end
+
+  defp substatus_text(:on_time), do: ~t"On Time"
+  defp substatus_text(:scheduled), do: ~t"Scheduled"
+  defp substatus_text(text), do: text
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
