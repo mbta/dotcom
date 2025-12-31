@@ -1,9 +1,8 @@
 defmodule Services.Service do
   @moduledoc "Processes Services, including dates and notes"
 
-  use Timex
-
   alias JsonApi.Item
+  alias Dotcom.Utils.ServiceDateTime
 
   defstruct added_dates: [],
             added_dates_notes: [],
@@ -164,52 +163,28 @@ defmodule Services.Service do
   end
 
   @spec all_valid_dates_for_service(t()) :: [Date.t()]
-  defp all_valid_dates_for_service(%__MODULE__{
-         start_date: from,
-         end_date: until,
-         added_dates: added_dates,
-         removed_dates: removed_dates,
-         valid_days: valid_days
-       }) do
-    # fallback to today if either start or end date are nil
-    from = from || Timex.today()
-    until = until || Timex.today()
-
-    dates =
-      if from == until do
-        [from]
-      else
-        [
-          from: from,
-          until: until,
-          right_open: false
-        ]
-        |> Interval.new()
-        |> Enum.map(& &1)
-      end
-      |> Enum.map(&Timex.to_date/1)
-
-    removed_dates = parse_listed_dates(removed_dates)
-
-    explicitly_added_dates = parse_listed_dates(added_dates)
+  def all_valid_dates_for_service(%__MODULE__{
+        start_date: from,
+        end_date: until,
+        added_dates: added_dates,
+        removed_dates: removed_dates,
+        valid_days: valid_days
+      }) do
+    # fallback to current service date if either start or end date are nil
+    from = from || ServiceDateTime.service_date()
+    until = until || ServiceDateTime.service_date()
+    date_range = Date.range(from, until)
+    removed_dates = Enum.map(removed_dates, &Date.from_iso8601!/1)
+    explicitly_added_dates = Enum.map(added_dates, &Date.from_iso8601!/1)
 
     valid_dates =
-      dates
+      date_range
       |> Stream.reject(fn date -> Enum.member?(removed_dates, date) end)
-      |> Stream.reject(fn date -> Timex.weekday(date) not in valid_days end)
+      |> Stream.reject(fn date -> Date.day_of_week(date) not in valid_days end)
       |> Enum.to_list()
 
     Enum.uniq(explicitly_added_dates ++ valid_dates)
     |> Enum.sort(Date)
-  end
-
-  @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
-  defp parse_listed_dates(date_strings) do
-    date_strings
-    |> Enum.map(&Timex.parse(&1, "{ISOdate}"))
-    |> Enum.filter(&(elem(&1, 0) == :ok))
-    |> Enum.map(&elem(&1, 1))
-    |> Enum.map(&Timex.to_date/1)
   end
 
   def monday_to_thursday_typical_service?(service) do

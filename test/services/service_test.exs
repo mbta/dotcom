@@ -1,10 +1,19 @@
 defmodule Services.ServiceTest do
   use ExUnit.Case, async: false
   import Mock
+  import Mox
   import Test.Support.Factories.Services.Service
 
   alias JsonApi.Item
   alias Services.Service
+
+  setup :verify_on_exit!
+
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   describe "new/1" do
     test "should parse an item into service" do
@@ -139,10 +148,75 @@ defmodule Services.ServiceTest do
     end
   end
 
+  describe "all_valid_dates_for_service/1" do
+    test "accounts for removed_dates" do
+      service = build(:service)
+
+      removed_dates =
+        service.start_date
+        |> Date.range(service.end_date)
+        |> Enum.take(Faker.random_between(2, 6))
+
+      service_with_removed_dates = %{
+        service
+        | removed_dates: Enum.map(removed_dates, &Date.to_iso8601/1)
+      }
+
+      assert dates = Service.all_valid_dates_for_service(service_with_removed_dates)
+      refute Enum.empty?(dates)
+      refute Enum.any?(removed_dates, &(&1 in dates))
+    end
+
+    test "accounts for added_dates" do
+      service = build(:service)
+
+      added_dates =
+        Faker.random_between(2, 6)
+        |> Faker.Util.list(fn ->
+          Date.shift(service.end_date, day: Faker.random_between(2, 6))
+        end)
+
+      service_with_added_dates = %{
+        service
+        | added_dates: Enum.map(added_dates, &Date.to_iso8601/1)
+      }
+
+      assert dates = Service.all_valid_dates_for_service(service_with_added_dates)
+      refute Enum.empty?(dates)
+      assert Enum.all?(added_dates, &(&1 in dates))
+    end
+
+    test "accounts for valid_days" do
+      service = build(:service)
+      valid_day = Faker.Util.pick(1..7)
+      service_only_valid_day = %{service | valid_days: [valid_day]}
+
+      assert dates = Service.all_valid_dates_for_service(service_only_valid_day)
+      refute Enum.empty?(dates)
+      assert Enum.all?(dates, &(Date.day_of_week(&1) == valid_day))
+    end
+
+    test "accounts for nil start date" do
+      service = build(:service, start_date: nil)
+      assert dates = Service.all_valid_dates_for_service(service)
+      refute Enum.empty?(dates)
+    end
+
+    test "accounts for nil end date" do
+      service = build(:service, end_date: nil)
+      assert dates = Service.all_valid_dates_for_service(service)
+      refute Enum.empty?(dates)
+    end
+
+    test "accounts for nil start and end date" do
+      service = build(:service, start_date: nil, end_date: nil)
+      assert dates = Service.all_valid_dates_for_service(service)
+      refute Enum.empty?(dates)
+    end
+  end
+
   describe "in_current_rating?/1" do
     setup do
-      Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-
       %{today_date: Dotcom.Utils.ServiceDateTime.service_date()}
     end
 
@@ -194,8 +268,6 @@ defmodule Services.ServiceTest do
 
   describe "in_future_rating?/1" do
     setup do
-      Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-
       %{today_date: Dotcom.Utils.ServiceDateTime.service_date()}
     end
 
