@@ -105,6 +105,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     |> Enum.reject(&(&1.arrival_status == :hidden))
   end
 
+  # We don't want to show upcoming departure rows for
+  # predicted_schedules that are the last stop of their trip, since
+  # those indicate trips that you can't board. The signal that a
+  # predicted_schedule is the end of its trip is that it has a nil
+  # departure_time. We check both the scheduled and predicted
+  # departure times because a stop along a cancelled trip will have a
+  # nil predicted departure_time, but a non-nil scheduled
+  # departure_time.
   defp end_of_trip?(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
     schedule_departure_time = schedule && schedule.departure_time
     prediction_departure_time = prediction && prediction.departure_time
