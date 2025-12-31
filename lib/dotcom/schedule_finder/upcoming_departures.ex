@@ -65,71 +65,89 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         route: route,
         stop_id: stop_id
       }) do
-    predictions_by_trip_id =
+    route_type = Route.type_atom(route)
+
+    all_predictions =
       [
         route: route.id,
         direction_id: direction_id,
         include_terminals: true
       ]
       |> @predictions_repo.all()
-      |> reject_timeless_predictions()
-      |> Enum.sort_by(&prediction_time/1, DateTime)
-      |> Enum.group_by(& &1.trip.id)
 
-    schedules_by_trip_id =
+    all_schedules =
       @schedules_repo.by_route_ids([route.id],
         direction_id: direction_id,
         date: now |> ServiceDateTime.service_date()
       )
-      |> Enum.sort_by(&prediction_time/1, DateTime)
-      |> Enum.group_by(& &1.trip.id)
 
-    route_type = Route.type_atom(route)
+    predicted_schedules =
+      PredictedSchedule.group(all_predictions, all_schedules)
+      |> reject_past_schedules(now)
 
-    PredictedSchedule.get(route.id, stop_id,
-      direction_id: direction_id,
-      now: now,
-      include_terminals: true
-    )
+    predicted_schedules_by_trip_id =
+      predicted_schedules |> Enum.group_by(&PredictedSchedule.trip(&1).id)
+
+    predicted_schedules
+    |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+    |> Enum.reject(&end_of_trip?/1)
     |> reject_timeless_predictions()
-    |> Enum.filter(&(departure_time(&1) != nil))
     |> Enum.sort_by(&prediction_time/1, DateTime)
     |> Enum.map(fn predicted_schedule ->
       to_upcoming_departure(%{
         now: now,
         predicted_schedule: predicted_schedule,
-        predictions_by_trip_id: predictions_by_trip_id,
+        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
         route_type: route_type,
-        schedules_by_trip_id: schedules_by_trip_id,
         stop_id: stop_id
       })
     end)
     |> Enum.reject(&(&1.arrival_status == :hidden))
   end
 
-  defp reject_timeless_predictions(predictions) do
-    predictions
+  # We don't want to show upcoming departure rows for
+  # predicted_schedules that are the last stop of their trip, since
+  # those indicate trips that you can't board. The signal that a
+  # predicted_schedule is the end of its trip is that it has a nil
+  # departure_time. We check both the scheduled and predicted
+  # departure times because a stop along a cancelled trip will have a
+  # nil predicted departure_time, but a non-nil scheduled
+  # departure_time.
+  defp end_of_trip?(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
+    schedule_departure_time = schedule && schedule.departure_time
+    prediction_departure_time = prediction && prediction.departure_time
+
+    !prediction_departure_time && !schedule_departure_time
+  end
+
+  defp reject_past_schedules(predicted_schedules, now) do
+    predicted_schedules
     |> Enum.reject(fn
-      %Prediction{arrival_time: nil, departure_time: nil} -> true
-      _ -> false
+      %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: nil}
+      when time != nil ->
+        DateTime.before?(time, now)
+
+      _ ->
+        false
     end)
+  end
+
+  defp reject_timeless_predictions(predictions) do
+    predictions |> Enum.reject(&(prediction_time(&1) == nil))
   end
 
   def to_upcoming_departure(%{
         now: now,
         predicted_schedule: predicted_schedule,
-        predictions_by_trip_id: predictions_by_trip_id,
+        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
         route_type: route_type,
-        schedules_by_trip_id: schedules_by_trip_id,
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
 
-    realtime? = predicted_schedule.prediction != nil
-
     trip_details =
       trip_details(
-        if(realtime?, do: predictions_by_trip_id, else: schedules_by_trip_id),
+        predicted_schedules_by_trip_id,
         trip.id,
         stop_id
       )
@@ -170,8 +188,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
-  defp trip_details(predictions_by_trip_id, trip_id, stop_id) do
-    other_stops = other_stops(predictions_by_trip_id |> Map.get(trip_id))
+  defp trip_details(predicted_schedules_by_trip_id, trip_id, stop_id) do
+    other_stops = other_stops(predicted_schedules_by_trip_id |> Map.get(trip_id))
 
     {stops_before, stop, stops_after} =
       other_stops
@@ -186,20 +204,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp other_stops(nil), do: []
 
-  defp other_stops(predictions) do
-    predictions
-    |> Enum.map(
-      &%OtherStop{
-        stop_id: &1.stop.id,
-        stop_name: &1.stop.name,
-        time: prediction_time(&1)
+  defp other_stops(predicted_schedules) do
+    predicted_schedules
+    |> Enum.map(fn ps ->
+      stop = ps |> PredictedSchedule.stop()
+
+      %OtherStop{
+        stop_id: stop.id,
+        stop_name: stop.name,
+        time: prediction_time(ps)
       }
-    )
+    end)
     |> Enum.sort_by(& &1.time)
   end
-
-  defp departure_time(%PredictedSchedule{prediction: %Prediction{departure_time: time}}), do: time
-  defp departure_time(%PredictedSchedule{schedule: %Schedule{departure_time: time}}), do: time
 
   defp prediction_time(%{arrival_time: time}) when time != nil, do: time
   defp prediction_time(%{departure_time: time}), do: time

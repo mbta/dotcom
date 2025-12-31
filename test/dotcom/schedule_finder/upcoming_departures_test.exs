@@ -33,11 +33,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -80,11 +80,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -130,11 +130,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -178,11 +178,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -224,11 +224,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -272,35 +272,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           {arrival_time_1, ServiceDateTime.end_of_service_day(now)}
         )
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_1,
+            departure_time: arrival_time_1 |> DateTime.shift(second: 30),
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
             trip: Factories.Schedules.Trip.build(:trip, id: trip_id_1)
           )
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
           assert date == ServiceDateTime.service_date(now)
 
           [
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_2,
+              departure_time: arrival_time_2 |> DateTime.shift(second: 30),
               time: arrival_time_2,
               stop: Factories.Stops.Stop.build(:stop, id: stop_id),
               trip: Factories.Schedules.Trip.build(:trip, id: trip_id_2)
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -335,8 +334,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           {now, ServiceDateTime.end_of_service_day(now)}
         )
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -348,9 +347,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
               trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -387,11 +383,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           {predicted_arrival_time, ServiceDateTime.end_of_service_day(now)}
         )
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: predicted_arrival_time,
@@ -401,21 +397,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
           assert date == ServiceDateTime.service_date(now)
 
           [
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: scheduled_arrival_time,
+              departure_time: scheduled_arrival_time |> DateTime.shift(second: 30),
               time: scheduled_arrival_time,
               stop: Factories.Stops.Stop.build(:stop, id: stop_id),
               trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -452,11 +446,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           {arrival_time_1, ServiceDateTime.end_of_service_day(now)}
         )
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_1,
@@ -466,21 +460,17 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
-          assert date == ServiceDateTime.service_date(now)
-
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: _date ->
           [
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_2,
+              departure_time: arrival_time_2 |> DateTime.shift(second: 30),
               time: arrival_time_2,
               stop: Factories.Stops.Stop.build(:stop, id: stop_id),
               trip: Factories.Schedules.Trip.build(:trip, id: trip_id_2)
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -498,6 +488,127 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "does not include scheduled trips in the past" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      past_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {ServiceDateTime.beginning_of_service_day(now), now}
+        )
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures == []
+    end
+
+    test "does include trips scheduled in the past if they have predictions" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      past_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {ServiceDateTime.beginning_of_service_day(now), now}
+        )
+
+      predicted_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {past_departure_time, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: predicted_departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.trip_id) == [trip_id]
+    end
+
     test "excludes predictions with no arrival or departure time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -508,11 +619,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       direction_id = Faker.Util.pick([0, 1])
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         Factories.Predictions.Prediction.build_list(2, :prediction,
           arrival_time: nil,
           departure_time: nil,
@@ -549,11 +660,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [arrival_time1, arrival_time2] =
         minutes_until_arrival |> Enum.map(&(now |> DateTime.shift(minute: &1)))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time2,
@@ -597,11 +708,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_departure = Faker.random_between(2 * 60, 59 * 60)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: nil,
@@ -637,11 +748,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             departure_time: nil,
@@ -677,11 +788,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(31, 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -719,11 +830,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(31, 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -761,11 +872,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(1, 30)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -804,11 +915,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_departure = Faker.random_between(1, 90)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: now |> DateTime.shift(second: -30),
@@ -848,11 +959,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_departure = Faker.random_between(1, 90)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: nil,
@@ -891,11 +1002,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_arrival = Faker.random_between(0, 30)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -933,11 +1044,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       seconds_until_departure = Faker.random_between(0, 90)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: nil,
@@ -982,11 +1093,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       predicted_departure_time =
         scheduled_departure_time |> DateTime.shift(second: Faker.random_between(-59, 59))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             departure_time: predicted_departure_time,
@@ -996,19 +1107,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
-          assert date == ServiceDateTime.service_date(now)
-
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              departure_time: scheduled_departure_time,
-              time: scheduled_departure_time,
-              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-              trip: trip
-            )
-          ]
-
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
         _, _ ->
           []
       end)
@@ -1048,11 +1147,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         scheduled_departure_time
         |> DateTime.shift(second: Faker.Util.pick([1, -1]) * Faker.random_between(60, 3600))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             departure_time: predicted_departure_time,
@@ -1062,8 +1161,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -1074,9 +1173,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
               trip: trip
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -1110,8 +1206,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           {now, ServiceDateTime.end_of_service_day(now)}
         )
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -1122,9 +1218,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
               trip: trip
             )
           ]
-
-        _, _ ->
-          []
       end)
 
       # Exercise
@@ -1166,11 +1259,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       api_status = (word1 |> String.capitalize()) <> " " <> word2
       display_status = (word1 |> String.capitalize()) <> " " <> (word2 |> String.capitalize())
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             departure_time: predicted_departure_time,
@@ -1181,19 +1274,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         ]
       end)
 
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: date ->
-          assert date == ServiceDateTime.service_date(now)
-
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              departure_time: scheduled_departure_time,
-              time: scheduled_departure_time,
-              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-              trip: trip
-            )
-          ]
-
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
         _, _ ->
           []
       end)
@@ -1236,11 +1317,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [arrival_time_before, arrival_time, arrival_time_after] =
         arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -1300,8 +1381,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [stop_before, stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
-      stop_id = stop.id
-
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
       direction_id = Faker.Util.pick([0, 1])
@@ -1312,41 +1391,26 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [arrival_time_before, arrival_time, arrival_time_after] =
         arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
-        []
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn
-        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: _date ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: arrival_time,
-              time: arrival_time,
-              stop: stop,
-              trip: trip
-            )
-          ]
-
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
         [^route_id], direction_id: ^direction_id, date: _date ->
           [
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time,
+              departure_time: arrival_time |> DateTime.shift(second: 30),
               time: arrival_time,
               stop: stop,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_after,
+              departure_time: arrival_time_after |> DateTime.shift(second: 30),
               time: arrival_time_after,
               stop: stop_after,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_before,
+              departure_time: arrival_time_before |> DateTime.shift(second: 30),
               time: arrival_time_before,
               stop: stop_before,
               trip: trip
@@ -1381,6 +1445,164 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "pulls trip details from schedules for upcoming other-stops without predictions" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+
+      stop_ids =
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [stop, stop_after] =
+        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time_offsets =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
+
+      [arrival_time, arrival_time_after] =
+        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: stop,
+            trip: trip
+          )
+        ]
+      end)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              stop: stop,
+              trip: trip
+            ),
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: arrival_time_after,
+              departure_time: arrival_time_after |> DateTime.shift(second: 30),
+              time: arrival_time_after,
+              stop: stop_after,
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      trip_details = departure.trip_details
+
+      assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
+               %{stop_id: stop.id, stop_name: stop.name, time: arrival_time}
+
+      assert trip_details.stops_after
+             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
+               %{stop_id: stop_after.id, stop_name: stop_after.name, time: arrival_time_after}
+             ]
+    end
+
+    test "does not include scheduled other_stops in the past" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+
+      stop_ids =
+        Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      [stop_before, stop, stop_after] =
+        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time_offsets =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
+
+      [arrival_time, arrival_time_after] =
+        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
+
+      departure_time_before =
+        Generators.DateTime.random_time_range_date_time(
+          {ServiceDateTime.beginning_of_service_day(now), now}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: stop,
+            trip: trip
+          )
+        ]
+      end)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: departure_time_before |> DateTime.shift(second: -30),
+              departure_time: departure_time_before,
+              time: departure_time_before,
+              stop: stop_before,
+              trip: trip
+            ),
+            Factories.Schedules.Schedule.build(:schedule,
+              stop: stop,
+              trip: trip
+            ),
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: arrival_time_after,
+              departure_time: arrival_time_after |> DateTime.shift(second: 30),
+              time: arrival_time_after,
+              stop: stop_after,
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      trip_details = departure.trip_details
+
+      assert trip_details.stops_before == []
+    end
+
     test "uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -1404,11 +1626,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [departure_time_before, arrival_time, arrival_time_after] =
         arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
@@ -1460,11 +1682,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       minutes_until_arrival = Faker.random_between(2, 59)
       arrival_time = now |> DateTime.shift(minute: minutes_until_arrival)
 
-      expect(Predictions.Repo.Mock, :all, 2, fn [
-                                                  route: ^route_id,
-                                                  direction_id: ^direction_id,
-                                                  include_terminals: true
-                                                ] ->
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
