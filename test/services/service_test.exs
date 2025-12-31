@@ -1,6 +1,8 @@
 defmodule Services.ServiceTest do
   use ExUnit.Case, async: false
   import Mock
+  import Test.Support.Factories.Services.Service
+
   alias JsonApi.Item
   alias Services.Service
 
@@ -134,6 +136,112 @@ defmodule Services.ServiceTest do
                },
                ~D[2022-12-15]
              )
+    end
+  end
+
+  describe "in_current_rating?/1" do
+    setup do
+      Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+      %{today_date: Dotcom.Utils.ServiceDateTime.service_date()}
+    end
+
+    test "yes when in between start/end", %{today_date: date} do
+      service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -1),
+          rating_end_date: Date.shift(date, week: 1)
+        )
+
+      assert Service.in_current_rating?(service)
+    end
+
+    test "yes when in after start if nil end", %{today_date: date} do
+      service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -1),
+          rating_end_date: nil
+        )
+
+      assert Service.in_current_rating?(service)
+    end
+
+    test "no if start/end are after today", %{today_date: date} do
+      later_service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: 1),
+          rating_end_date: Date.shift(date, week: 2)
+        )
+
+      refute Service.in_current_rating?(later_service)
+    end
+
+    test "no if start/end are before today", %{today_date: date} do
+      earlier_service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -2),
+          rating_end_date: Date.shift(date, week: -1)
+        )
+
+      refute Service.in_current_rating?(earlier_service)
+    end
+
+    test "no if unknown start" do
+      nil_date_service = build(:service, rating_start_date: nil)
+      refute Service.in_current_rating?(nil_date_service)
+    end
+  end
+
+  describe "in_future_rating?/1" do
+    setup do
+      Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+      %{today_date: Dotcom.Utils.ServiceDateTime.service_date()}
+    end
+
+    test "no when in between start/end", %{today_date: date} do
+      service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -1),
+          rating_end_date: Date.shift(date, week: 1)
+        )
+
+      refute Service.in_future_rating?(service)
+    end
+
+    test "no when in after start if nil end", %{today_date: date} do
+      service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -1),
+          rating_end_date: nil
+        )
+
+      refute Service.in_future_rating?(service)
+    end
+
+    test "yes if start/end are after today", %{today_date: date} do
+      later_service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: 1),
+          rating_end_date: Date.shift(date, week: 2)
+        )
+
+      assert Service.in_future_rating?(later_service)
+    end
+
+    test "no if start/end are before today", %{today_date: date} do
+      earlier_service =
+        build(:service,
+          rating_start_date: Date.shift(date, week: -2),
+          rating_end_date: Date.shift(date, week: -1)
+        )
+
+      refute Service.in_future_rating?(earlier_service)
+    end
+
+    test "no if unknown start" do
+      nil_date_service = build(:service, rating_start_date: nil)
+      refute Service.in_future_rating?(nil_date_service)
     end
   end
 
