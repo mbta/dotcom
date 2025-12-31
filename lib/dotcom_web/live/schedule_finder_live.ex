@@ -645,7 +645,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </summary>
       <.upcoming_departures_table
         now={@now}
-        route={@route}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
         vehicle_name={@vehicle_name}
