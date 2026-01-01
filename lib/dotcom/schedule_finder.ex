@@ -176,8 +176,7 @@ defmodule Dotcom.ScheduleFinder do
          %Schedule{stop_sequence: stop_sequence},
          min_stop_sequence
        ) do
-    {int, _} = Integer.parse(min_stop_sequence)
-    stop_sequence >= int
+    stop_sequence >= min_stop_sequence
   end
 
   defp to_arrival(%Schedule{
