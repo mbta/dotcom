@@ -11,13 +11,6 @@ defmodule Dotcom.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    # hack to pull the STATIC_SCHEME variable out of the environment
-    Application.put_env(
-      :dotcom,
-      DotcomWeb.Endpoint,
-      update_static_url(Application.get_env(:dotcom, DotcomWeb.Endpoint))
-    )
-
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
@@ -83,20 +76,4 @@ defmodule Dotcom.Application do
     DotcomWeb.Endpoint.config_change(changed, removed)
     :ok
   end
-
-  defp update_static_url([{:static_url, static_url_parts} | rest]) do
-    static_url_parts = Keyword.update(static_url_parts, :scheme, nil, &update_static_url_scheme/1)
-    [{:static_url, static_url_parts} | update_static_url(rest)]
-  end
-
-  defp update_static_url([first | rest]) do
-    [first | update_static_url(rest)]
-  end
-
-  defp update_static_url([]) do
-    []
-  end
-
-  defp update_static_url_scheme({:system, env_var}), do: System.get_env(env_var)
-  defp update_static_url_scheme(scheme), do: scheme
 end
