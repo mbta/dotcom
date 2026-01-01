@@ -413,31 +413,6 @@ defmodule DotcomWeb.ControllerHelpersTest do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
   end
 
-  describe "environment_allows_indexing?/0" do
-    setup do
-      old_value = System.get_env("ALLOW_INDEXING")
-
-      on_exit(fn ->
-        if old_value do
-          System.put_env("ALLOW_INDEXING", old_value)
-        end
-      end)
-    end
-
-    test "returns true if system environment variable is true" do
-      System.put_env("ALLOW_INDEXING", "true")
-      assert environment_allows_indexing?()
-    end
-
-    test "returns false otherwise" do
-      System.put_env("ALLOW_INDEXING", "false")
-      refute environment_allows_indexing?()
-
-      System.delete_env("ALLOW_INDEXING")
-      refute environment_allows_indexing?()
-    end
-  end
-
   test "call_plug_with_opts/3", %{conn: conn} do
     conn =
       call_plug_with_opts(conn, DotcomWeb.Plugs.BannerMessage,

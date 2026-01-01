@@ -11,12 +11,6 @@ defmodule Dotcom.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    Application.put_env(
-      :dotcom,
-      :allow_indexing,
-      DotcomWeb.ControllerHelpers.environment_allows_indexing?()
-    )
-
     # hack to pull the STATIC_SCHEME variable out of the environment
     Application.put_env(
       :dotcom,
