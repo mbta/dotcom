@@ -8,11 +8,19 @@ defmodule Test.Support.Factories.Services.Service do
   alias Services.Service
   alias Test.Support.FactoryHelpers
 
-  def service_factory do
-    Faker.random_between(1, 9) |> Faker.Date.forward() |> service_for_date()
+  def service_factory(attrs \\ %{}) do
+    {date, attrs} = Map.pop(attrs, :date)
+
+    if date do
+      service_for_date(date, attrs)
+    else
+      Test.Support.Generators.DateTime.random_date_time()
+      |> DateTime.to_date()
+      |> service_for_date(attrs)
+    end
   end
 
-  def service_for_date(date) do
+  def service_for_date(date, attrs) do
     rating_end = Date.shift(date, day: Faker.random_between(60, 120))
     rating_start = Date.shift(date, day: -Faker.random_between(60, 120))
     service_end = Date.shift(date, day: Faker.random_between(10, 59))
@@ -43,5 +51,6 @@ defmodule Test.Support.Factories.Services.Service do
       rating_end_date: rating_end,
       rating_description: Faker.Lorem.sentence()
     }
+    |> Map.merge(attrs)
   end
 end
