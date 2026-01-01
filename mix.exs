@@ -15,12 +15,6 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.html": :test,
-        "gettext.extract": :prod,
-        "gettext.translate": :prod
-      ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
         flags: [:unmatched_returns]
@@ -33,6 +27,17 @@ defmodule DotCom.Mixfile do
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
       docs: [logo: "priv/static/images/mbta-logo-t.png"]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.html": :test,
+        "gettext.extract": :prod,
+        "gettext.translate": :prod
+      ]
     ]
   end
 
@@ -53,6 +58,8 @@ defmodule DotCom.Mixfile do
     extra_apps = [
       :logger,
       :runtime_tools,
+      :wx,
+      :observer,
       :os_mon
     ]
 
