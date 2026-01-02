@@ -194,7 +194,6 @@ defmodule Dotcom.ServicePatterns do
            rating_start_date: rating_start_date
          } = service
        ) do
-    end_date = short_format(rating_end_date)
     start_date = short_format(rating_start_date)
 
     if Service.in_current_rating?(service) do
@@ -202,7 +201,7 @@ defmodule Dotcom.ServicePatterns do
         if rating_end_date do
           gettext("%{rating} Schedules, ends %{date}",
             rating: rating_description,
-            date: end_date
+            date: short_format(rating_end_date)
           )
         else
           gettext("%{rating} Schedules, starts %{date}",
