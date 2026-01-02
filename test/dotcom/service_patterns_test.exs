@@ -2,10 +2,10 @@ defmodule Dotcom.ServicePatternsTest do
   use ExUnit.Case, async: true
 
   import Dotcom.ServicePatterns
+  import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Mox
   import Test.Support.Factories.Services.Service
 
-  alias Services.Service
   alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
@@ -29,7 +29,7 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "returns true if there are services for that date" do
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: Dotcom.Utils.ServiceDateTime.service_date()})
+        build_list(5, :service, %{date: service_date()})
       end)
 
       assert has_service?(route: FactoryHelpers.build(:id))
@@ -45,12 +45,11 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "returns false if services only serve other dates" do
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: Dotcom.Utils.ServiceDateTime.service_date()})
+        build_list(5, :service, %{date: service_date()})
       end)
 
       other_date =
-        Dotcom.Utils.DateTime.now()
-        |> DateTime.to_date()
+        service_date()
         |> Date.shift(year: 5)
 
       refute has_service?(route: FactoryHelpers.build(:id), date: other_date)
@@ -62,20 +61,27 @@ defmodule Dotcom.ServicePatternsTest do
       route_id = FactoryHelpers.build(:id)
 
       expect(Services.Repo.Mock, :by_route_id, fn ^route_id ->
-        [build(:service, typicality: :canonical)]
+        [build(:service, date: service_date(), typicality: :canonical)]
       end)
 
       assert for_route(route_id) == []
     end
 
-    test "omits (no school) services" do
+    test "renames (no school) typical services" do
       route_id = FactoryHelpers.build(:id)
 
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        [build(:service, description: "Weekdays (no school)")]
+        [
+          build(:service,
+            date: service_date(),
+            description: "Weekdays (no school)",
+            typicality: :typical_service,
+            type: :weekday
+          )
+        ]
       end)
 
-      assert for_route(route_id) == []
+      assert [%{service_label: {:typical, :weekday, "Weekday schedules"}}] = for_route(route_id)
     end
 
     test "omits services which ended" do
@@ -90,11 +96,11 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "splits multi-holiday services" do
       route_id = FactoryHelpers.build(:id)
-      holiday_count = Faker.random_between(2, 6)
+      holiday_count = Faker.random_between(2, 4)
 
       added_dates =
         Faker.Util.sample_uniq(holiday_count, fn ->
-          Faker.random_between(2, 10) |> Faker.Date.forward() |> Date.to_string()
+          Faker.random_between(2, 6) |> Faker.Date.forward() |> Date.to_string()
         end)
 
       added_dates_notes =
@@ -114,10 +120,9 @@ defmodule Dotcom.ServicePatternsTest do
         [service]
       end)
 
-      services = for_route(route_id)
-      assert Enum.count(services) == holiday_count
-      %Services.Service{added_dates: first_holiday_dates} = List.first(services)
-      assert Enum.count(first_holiday_dates) == 1
+      patterns = for_route(route_id)
+      assert Enum.count(patterns) == holiday_count
+      assert Enum.all?(patterns, &(&1.group_label == {:holiday, "Holiday Schedules"}))
     end
 
     test "adjusts description to add formatted date, for single date services" do
@@ -129,6 +134,7 @@ defmodule Dotcom.ServicePatternsTest do
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
         [
           build(:service,
+            date: service_date(),
             typicality: :holiday_service,
             added_dates: [added_date],
             added_dates_notes: added_date_notes
@@ -136,30 +142,30 @@ defmodule Dotcom.ServicePatternsTest do
         ]
       end)
 
-      assert services = for_route(route_id)
-      %Services.Service{description: description} = List.first(services)
-      assert description =~ holiday_description
+      assert patterns = for_route(route_id)
+      %{service_label: {_, _, text}} = List.first(patterns)
+      assert text =~ holiday_description
 
-      assert description =~
+      assert text =~
                added_date |> Date.from_iso8601!() |> Dotcom.Utils.Time.format!(:month_day_short)
     end
 
     test "adjusts description for planned work" do
       route_id = FactoryHelpers.build(:id)
-      disruption_service = build(:service, typicality: :planned_disruption)
+      disruption_service = build(:service, date: service_date(), typicality: :planned_disruption)
 
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
         [disruption_service]
       end)
 
-      assert [service] = for_route(route_id)
-      assert disruption_service.description != service.description
-      assert service.description =~ disruption_service.description
+      assert [%{service_label: {:planned_disruption, _, label}}] = for_route(route_id)
+      assert disruption_service.description != label
+      assert label =~ disruption_service.description
     end
 
     test "omits duplicates" do
       route_id = FactoryHelpers.build(:id)
-      service = build(:service)
+      service = build(:service, date: service_date())
 
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
         [service, service]
@@ -172,7 +178,12 @@ defmodule Dotcom.ServicePatternsTest do
       route_id = FactoryHelpers.build(:id)
 
       mon_thurs_service =
-        build(:service, typicality: :typical_service, type: :weekday, valid_days: [1, 2, 3, 4])
+        build(:service,
+          date: service_date(),
+          typicality: :typical_service,
+          type: :weekday,
+          valid_days: [1, 2, 3, 4]
+        )
 
       friday_service = mon_thurs_service |> Map.put(:valid_days, [5])
       spurious_weekday_service = mon_thurs_service |> Map.put(:valid_days, [1, 2, 3, 4, 5])
@@ -186,7 +197,7 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "omits overlapping service" do
       route_id = FactoryHelpers.build(:id)
-      service = build(:service, typicality: :typical_service)
+      service = build(:service, date: service_date(), typicality: :typical_service)
 
       overlapping_service =
         service

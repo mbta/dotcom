@@ -2,6 +2,7 @@ defmodule Dotcom.ScheduleFinder.ServiceGroupTest do
   use ExUnit.Case
 
   import Dotcom.ScheduleFinder.ServiceGroup
+  import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Mox
   import Test.Support.Factories.Services.Service
 
@@ -28,7 +29,7 @@ defmodule Dotcom.ScheduleFinder.ServiceGroupTest do
     end
 
     test "marks active routes based on input date" do
-      services = build_list(1, :service)
+      services = build_list(1, :service, date: service_date())
       date = List.first(services) |> Map.get(:start_date)
       route_id = FactoryHelpers.build(:id)
 
@@ -37,7 +38,7 @@ defmodule Dotcom.ScheduleFinder.ServiceGroupTest do
       end)
 
       assert [%ServiceGroup{services: [active_service]}] = for_route(route_id, date)
-      assert active_service.is_now?
+      assert active_service.now_date
     end
 
     test "if no active routes, mark next active route" do
@@ -50,8 +51,8 @@ defmodule Dotcom.ScheduleFinder.ServiceGroupTest do
 
       # not every groups will necessarily have a service which is now/next since that's calculated across all groups. so check all of them
       all_services = for_route(route_id, inactive_date) |> Enum.flat_map(& &1.services)
-      assert Enum.all?(all_services, &(&1.is_now? == false))
-      assert Enum.any?(all_services, &(&1.next_available? == true))
+      assert Enum.all?(all_services, &(&1.now_date == nil))
+      assert Enum.any?(all_services, &(&1.next_date != nil))
     end
 
     test "groups and labels every kind of service" do

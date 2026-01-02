@@ -65,13 +65,18 @@ defmodule Dotcom.ScheduleFinder.ServiceGroup do
         |> Enum.find(&Date.after?(&1, current_date))
 
       if next_date do
-        Enum.map(
-          service_patterns,
-          &Map.put(&1, :next_date, if(next_date in &1.service_pattern.dates, do: next_date))
-        )
+        Enum.map(service_patterns, &maybe_add_next_date(&1, next_date))
       else
         service_patterns
       end
+    end
+  end
+
+  defp maybe_add_next_date(%{service_pattern: %{dates: dates}} = service_pattern, next_date) do
+    if next_date in dates do
+      %{service_pattern | next_date: next_date}
+    else
+      service_pattern
     end
   end
 

@@ -132,17 +132,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_params(%{"direction_id" => direction, "route_id" => route_id} = params, _uri, socket) do
     {direction_id, _} = Integer.parse(direction)
     service_groups = ServiceGroup.for_route(route_id, service_date())
-    selected_service = service_groups
-     |> Enum.flat_map(& &1.services)
-     |> Enum.find(%{}, & &1.now_date || &1.next_date)
 
-    IO.inspect(selected_service)
+    selected_service =
+      service_groups
+      |> Enum.flat_map(& &1.services)
+      |> Enum.find(%{}, &(&1.now_date || &1.next_date))
 
-    socket = if Map.get(selected_service, :next_date) do
-      assign(socket, :daily_schedule_date, Date.to_iso8601(selected_service.next_date))
-    else
-      socket
-    end
+    socket =
+      if Map.get(selected_service, :next_date) do
+        assign(socket, :daily_schedule_date, Date.to_iso8601(selected_service.next_date))
+      else
+        socket
+      end
 
     {:noreply,
      socket
@@ -351,7 +352,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select class="mbta-input" id="service-picker" name="selected_service">
+      <select class="mbta-input" id="service-picker" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
@@ -364,7 +365,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
           </optgroup>
         <% end %>
       </select>
-      <output for="service-picker" name="Schedules for selected service type" role="status" class="sr-only">
+      <output
+        for="service-picker"
+        name="Schedules for selected service type"
+        role="status"
+        class="sr-only"
+      >
         {@selected_service_name}
       </output>
     </form>

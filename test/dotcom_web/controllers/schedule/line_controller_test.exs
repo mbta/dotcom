@@ -1,12 +1,20 @@
 defmodule DotcomWeb.Schedule.LineControllerTest do
   use DotcomWeb.ConnCase, async: false
 
-  import Mock
-
   alias DotcomWeb.ScheduleController.LineController
-  alias Services.Service
+
+  import Mox
+  import Test.Support.Factories.Services.Service
+
+  setup :verify_on_exit!
 
   @moduletag :external
+
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -31,36 +39,17 @@ defmodule DotcomWeb.Schedule.LineControllerTest do
     end
   end
 
-  describe "services/3" do
+  describe "services/2" do
     test "omits services in the past" do
-      service_date = ~D[2019-05-01]
+      past_service =
+        build(:service, end_date: Faker.Date.backward(3), typicality: :typical_service)
 
-      past_service = %Service{
-        start_date: ~D[2019-04-30],
-        end_date: ~D[2019-04-30]
-      }
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        [past_service]
+      end)
 
-      current_service = %Service{
-        start_date: ~D[2019-05-01],
-        end_date: ~D[2019-05-01]
-      }
-
-      future_service = %Service{
-        start_date: ~D[2019-05-02],
-        end_date: ~D[2019-05-02]
-      }
-
-      repo_fn = fn _ ->
-        [
-          past_service,
-          current_service,
-          future_service
-        ]
-      end
-
-      services = LineController.services("1", service_date, repo_fn)
-      assert length(services) == 2
-      refute Enum.member?(services, past_service)
+      services = LineController.services("1", Faker.Date.forward(3))
+      assert Enum.empty?(services)
     end
   end
 

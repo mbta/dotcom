@@ -194,11 +194,10 @@ defmodule Dotcom.ServicePatterns do
            rating_start_date: rating_start_date
          } = service
        ) do
-    today = Dotcom.Utils.ServiceDateTime.service_date()
     end_date = short_format(rating_end_date)
     start_date = short_format(rating_start_date)
 
-    if Service.in_current_rating?(service, today) do
+    if Service.in_current_rating?(service) do
       label =
         if rating_end_date do
           gettext("%{rating} Schedules, ends %{date}",
@@ -214,7 +213,7 @@ defmodule Dotcom.ServicePatterns do
 
       {:current, label}
     else
-      if Service.in_future_rating?(service, today) do
+      if Service.in_future_rating?(service) do
         label =
           gettext("%{rating} Schedules, starts %{date}",
             rating: rating_description,
