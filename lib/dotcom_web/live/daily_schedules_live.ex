@@ -156,6 +156,9 @@ defmodule DotcomWeb.DailySchedulesLive do
                   {pretty_day_of_week(day)}
                 </div>
               </div>
+
+              <div class="font-bold">Typicality</div>
+              <div class="p-1 border-xs rounded">{svc.typicality}</div>
             </div>
 
             <div class="font-bold">Added Dates</div>
