@@ -99,7 +99,7 @@ defmodule DotCom.Mixfile do
       {:csv, "3.2.2"},
       {:cva, "0.2.2"},
       {:decorator, "1.4.0"},
-      {:dialyxir, "1.4.6", [only: [:dev, :test], runtime: false]},
+      {:dialyxir, "1.4.7", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:ecto, "3.13.4"},
       {:eextoheex, git: "https://github.com/Multiverse-io/eextoheex", only: [:dev, :test]},
