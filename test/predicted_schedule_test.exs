@@ -318,10 +318,7 @@ defmodule PredictedScheduleTest do
       modified_trip_schedules =
         @trip_schedules
         |> Enum.map(fn schedule ->
-          %Schedule{
-            schedule
-            | stop: nil
-          }
+          %{schedule | stop: nil}
         end)
 
       assert group(@trip_predictions, modified_trip_schedules)

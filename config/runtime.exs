@@ -196,6 +196,7 @@ config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
   google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
 
+config :dotcom, allow_indexing: System.get_env("ALLOW_INDEXING") == "true"
 config :dotcom, google_api_key: System.get_env("GOOGLE_API_KEY")
 
 config :recaptcha,

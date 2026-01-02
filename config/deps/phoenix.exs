@@ -4,11 +4,6 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :phoenix, :json_library, Poison
 
 if config_env() == :prod do
-  config :dotcom, :websocket_check_origin, [
-    "https://*.mbta.com",
-    "https://*.mbtace.com"
-  ]
-
   config :dotcom,
     dev_server?: false
 

@@ -58,8 +58,8 @@ defmodule Dotcom.TripPlan.OpenStreetMapReconciler do
   """
   @spec reconcile(InputForm.t()) :: InputForm.t()
   @spec reconcile(arg) :: arg when arg: var
-  def reconcile(%{from: from, to: to} = form) do
-    %InputForm{form | from: reconcile_location(from), to: reconcile_location(to)}
+  def reconcile(%InputForm{from: from, to: to} = form) do
+    %{form | from: reconcile_location(from), to: reconcile_location(to)}
   end
 
   def reconcile(form), do: form

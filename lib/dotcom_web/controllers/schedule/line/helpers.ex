@@ -293,9 +293,9 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @spec do_nil_out_shared_stop_branches([RouteStop.t()], MapSet.t(Stop.id_t())) :: [RouteStop.t()]
   defp do_nil_out_shared_stop_branches(route_pattern_group, shared_ids) do
-    Enum.map(route_pattern_group, fn route_stop ->
+    Enum.map(route_pattern_group, fn %RouteStop{} = route_stop ->
       if MapSet.member?(shared_ids, route_stop.id) do
-        %RouteStop{
+        %{
           route_stop
           | branch: nil
         }

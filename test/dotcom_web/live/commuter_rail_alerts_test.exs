@@ -40,6 +40,12 @@ defmodule DotcomWeb.Live.CommuterRailAlertsTest do
       ]
     end)
 
+    Dotcom.SystemStatus.CommuterRailCache.Mock
+    |> stub(:commuter_rail_status, fn ->
+      []
+    end)
+    |> stub(:subscribe, fn -> :ok end)
+
     :ok
   end
 
