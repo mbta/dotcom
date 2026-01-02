@@ -10,6 +10,7 @@ defmodule Dotcom.Application do
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
+  @impl Application
   def start(_type, _args) do
     children =
       [
@@ -48,12 +49,10 @@ defmodule Dotcom.Application do
         [
           Routes.Supervisor,
           Predictions.Supervisor,
-          {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
-          Alerts.CacheSupervisor
-        ] ++
-        [
-          {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
+          Alerts.CacheSupervisor,
+          {Phoenix.PubSub, name: Dotcom.PubSub},
+          DotcomWeb.Endpoint
         ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
@@ -72,6 +71,7 @@ defmodule Dotcom.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
+  @impl Application
   def config_change(changed, _new, removed) do
     DotcomWeb.Endpoint.config_change(changed, removed)
     :ok
