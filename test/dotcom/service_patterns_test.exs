@@ -28,7 +28,7 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "returns true if there are services for that date" do
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service)
+        build_list(5, :service, %{date: Dotcom.Utils.ServiceDateTime.service_date()})
       end)
 
       assert has_service?(route: FactoryHelpers.build(:id))
@@ -44,10 +44,13 @@ defmodule Dotcom.ServicePatternsTest do
 
     test "returns false if services only serve other dates" do
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service)
+        build_list(5, :service, %{date: Dotcom.Utils.ServiceDateTime.service_date()})
       end)
 
-      other_date = Dotcom.Utils.DateTime.now() |> DateTime.to_date() |> Date.shift(year: 5)
+      other_date =
+        Dotcom.Utils.DateTime.now()
+        |> DateTime.to_date()
+        |> Date.shift(year: 5)
 
       refute has_service?(route: FactoryHelpers.build(:id), date: other_date)
     end

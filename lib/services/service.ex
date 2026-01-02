@@ -1,9 +1,8 @@
 defmodule Services.Service do
   @moduledoc "Processes Services, including dates and notes"
 
-  use Timex
-
   alias JsonApi.Item
+  alias Dotcom.Utils.ServiceDateTime
 
   defstruct added_dates: [],
             added_dates_notes: [],
@@ -164,51 +163,28 @@ defmodule Services.Service do
   end
 
   @spec all_valid_dates_for_service(t()) :: [Date.t()]
-  defp all_valid_dates_for_service(%__MODULE__{
-         start_date: from,
-         end_date: until,
-         added_dates: added_dates,
-         removed_dates: removed_dates,
-         valid_days: valid_days
-       }) do
-    # fallback to today if either start or end date are nil
-    from = from || Timex.today()
-    until = until || Timex.today()
-
-    dates =
-      if from == until do
-        [from]
-      else
-        [
-          from: from,
-          until: until,
-          right_open: false
-        ]
-        |> Interval.new()
-        |> Enum.map(& &1)
-      end
-      |> Enum.map(&Timex.to_date/1)
-
-    removed_dates = parse_listed_dates(removed_dates)
-
-    explicitly_added_dates = parse_listed_dates(added_dates)
+  def all_valid_dates_for_service(%__MODULE__{
+        start_date: from,
+        end_date: until,
+        added_dates: added_dates,
+        removed_dates: removed_dates,
+        valid_days: valid_days
+      }) do
+    # fallback to current service date if either start or end date are nil
+    from = from || ServiceDateTime.service_date()
+    until = until || ServiceDateTime.service_date()
+    date_range = Date.range(from, until)
+    removed_dates = Enum.map(removed_dates, &Date.from_iso8601!/1)
+    explicitly_added_dates = Enum.map(added_dates, &Date.from_iso8601!/1)
 
     valid_dates =
-      dates
+      date_range
       |> Stream.reject(fn date -> Enum.member?(removed_dates, date) end)
-      |> Stream.reject(fn date -> Timex.weekday(date) not in valid_days end)
+      |> Stream.reject(fn date -> Date.day_of_week(date) not in valid_days end)
       |> Enum.to_list()
 
     Enum.uniq(explicitly_added_dates ++ valid_dates)
-  end
-
-  @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
-  defp parse_listed_dates(date_strings) do
-    date_strings
-    |> Enum.map(&Timex.parse(&1, "{ISOdate}"))
-    |> Enum.filter(&(elem(&1, 0) == :ok))
-    |> Enum.map(&elem(&1, 1))
-    |> Enum.map(&Timex.to_date/1)
+    |> Enum.sort(Date)
   end
 
   def monday_to_thursday_typical_service?(service) do
@@ -226,4 +202,30 @@ defmodule Services.Service do
       do: true
 
   def typical_weekday_service?(_), do: false
+
+  @doc "Is this service in the current rating?"
+  @spec in_current_rating?(t()) :: boolean()
+  def in_current_rating?(%__MODULE__{rating_start_date: nil}), do: false
+
+  def in_current_rating?(%__MODULE__{rating_start_date: start_date, rating_end_date: end_date}) do
+    today = Dotcom.Utils.ServiceDateTime.service_date()
+
+    if end_date do
+      # Today is between the rating start/end dates
+      today in Date.range(start_date, end_date)
+    else
+      # Today is after the rating start date
+      Date.after?(today, start_date)
+    end
+  end
+
+  @doc "Is this service in a future rating?"
+  @spec in_future_rating?(t()) :: boolean()
+  def in_future_rating?(%__MODULE__{rating_start_date: nil}), do: false
+
+  def in_future_rating?(service) do
+    # Today is before the rating start date
+    Dotcom.Utils.ServiceDateTime.service_date()
+    |> Date.before?(service.rating_start_date)
+  end
 end
