@@ -226,12 +226,12 @@ defmodule DotcomWeb.DailySchedulesLive do
   defp route_changer(assigns) do
     assigns =
       assigns
-      |> assign(:bus_routes, Routes.Repo.by_type(3))
+      |> assign(:routes, Routes.Repo.all())
 
     ~H"""
     <form phx-change="change-route">
       <select class="border border-brand-primary rounded-lg p-2 bg-white" name="route_id">
-        <option :for={route <- @bus_routes} selected={route.id == @selected_route_id} value={route.id}>
+        <option :for={route <- @routes} selected={route.id == @selected_route_id} value={route.id}>
           {route.name}
         </option>
       </select>
