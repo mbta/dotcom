@@ -58,8 +58,6 @@ defmodule DotCom.Mixfile do
     extra_apps = [
       :logger,
       :runtime_tools,
-      :wx,
-      :observer,
       :os_mon
     ]
 
@@ -67,7 +65,7 @@ defmodule DotCom.Mixfile do
       if Mix.env() == :prod do
         [:sasl | extra_apps]
       else
-        extra_apps
+        [:wx, :observer | extra_apps]
       end
 
     [
