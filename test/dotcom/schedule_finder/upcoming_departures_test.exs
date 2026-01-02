@@ -1294,6 +1294,67 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, display_status}
     end
 
+    test "shows :cancelled for commuter rail if the schedule_relationship is set to cancelled" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      direction_id = Faker.Util.pick([0, 1])
+
+      scheduled_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: nil,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            schedule_relationship: :cancelled,
+            trip: trip
+          )
+        ]
+      end)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
+          assert date == ServiceDateTime.service_date(now)
+
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: scheduled_departure_time,
+              time: scheduled_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:cancelled, scheduled_departure_time}
+      assert departure.arrival_substatus == :cancelled
+    end
+
     test "shows trip details" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -1355,16 +1416,31 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert trip_details.stops_before
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{stop_id: stop_before.id, stop_name: stop_before.name, time: arrival_time_before}
+             |> Enum.map(&(&1 |> Map.take([:cancelled?, :stop_id, :stop_name, :time]))) == [
+               %{
+                 cancelled?: false,
+                 stop_id: stop_before.id,
+                 stop_name: stop_before.name,
+                 time: arrival_time_before
+               }
              ]
 
-      assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{stop_id: stop.id, stop_name: stop.name, time: arrival_time}
+      assert trip_details.stop |> Map.take([:cancelled?, :stop_id, :stop_name, :time]) ==
+               %{
+                 cancelled?: false,
+                 stop_id: stop.id,
+                 stop_name: stop.name,
+                 time: arrival_time
+               }
 
       assert trip_details.stops_after
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{stop_id: stop_after.id, stop_name: stop_after.name, time: arrival_time_after}
+             |> Enum.map(&(&1 |> Map.take([:cancelled?, :stop_id, :stop_name, :time]))) == [
+               %{
+                 cancelled?: false,
+                 stop_id: stop_after.id,
+                 stop_name: stop_after.name,
+                 time: arrival_time_after
+               }
              ]
     end
 
@@ -1667,6 +1743,84 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert trip_details.stops_before |> Enum.map(& &1.time) == [
                departure_time_before
              ]
+    end
+
+    test "shows an `other_stop` as cancelled if the time on its prediction is nil and the time on its schedule is non-nil" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+      route_id = route.id
+
+      stop_ids =
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [stop, stop_after] =
+        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time_offsets =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
+
+      [arrival_time, arrival_time_after] =
+        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: stop,
+            trip: trip
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: nil,
+            stop: stop_after,
+            trip: trip
+          )
+        ]
+      end)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              stop: stop,
+              trip: trip
+            ),
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: arrival_time_after,
+              departure_time: arrival_time_after |> DateTime.shift(second: 30),
+              time: arrival_time_after,
+              stop: stop_after,
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      trip_details = departure.trip_details
+
+      assert [stop_after] = trip_details.stops_after
+      assert stop_after.time == arrival_time_after
+      assert stop_after.cancelled?
     end
 
     test "does not include upcoming departures for other stops" do

@@ -546,7 +546,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {@other_stop.stop_name}
       </div>
-      <div class={["ml-auto", @stop_id == @other_stop.stop_id && "font-bold"]}>
+      <div class={[
+        "ml-auto",
+        @stop_id == @other_stop.stop_id && "font-bold",
+        @other_stop.cancelled? && "line-through"
+      ]}>
         {format!(@other_stop.time, :hour_12_minutes)}
       </div>
     </.lined_list_item>
@@ -558,6 +562,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <span>
+      {format!(@time, :hour_12_minutes)}
+    </span>
+    """
+  end
+
+  defp prediction_time_display(%{arrival_status: {:cancelled, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span class="line-through">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
@@ -611,13 +625,24 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp prediction_substatus_display(assigns) do
     ~H"""
-    <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
+    <div class="flex shrink-0 gap-1 items-center">
+      <.substatus_icon arrival_substatus={@arrival_substatus} />
+      <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
+    </div>
     """
   end
 
   defp substatus_text(:on_time), do: ~t"On Time"
   defp substatus_text(:scheduled), do: ~t"Scheduled"
+  defp substatus_text(:cancelled), do: ~t"Cancelled"
   defp substatus_text(text), do: text
+
+  defp substatus_icon(%{arrival_substatus: :cancelled} = assigns),
+    do: ~H"""
+    <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" />
+    """
+
+  defp substatus_icon(assigns), do: ~H""
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
