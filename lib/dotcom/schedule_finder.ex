@@ -240,6 +240,9 @@ defmodule Dotcom.ScheduleFinder do
     departures
     |> Enum.group_by(&@routes_repo.get(&1.route_id))
     |> Enum.map(&departures_with_destination(&1, direction_id, stop_id))
+    # If a group has fewer than 3 trips we can't calculate headways. It's also
+    # seldom enough that we'd rather just omit it.
+    |> Enum.reject(fn {_, _, times} -> length(times) <= 2 end)
   end
 
   @ashmont_branch_stops ~w(place-shmnl place-fldcr place-smmnl place-asmnl)

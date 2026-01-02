@@ -14,6 +14,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
+  alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
@@ -38,8 +39,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:upcoming_departures, fn -> [] end)
      |> assign_new(:now, fn -> @date_time.now() end)
      |> assign_new(:alerts, fn -> [] end)
+     |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
-     |> assign_new(:date, fn -> nil end)}
+     |> assign_new(:selected_service_name, fn -> "" end)
+     |> assign_new(:daily_schedule_date, fn -> service_date() end)}
   end
 
   @impl LiveView
@@ -59,7 +62,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="px-3 py-xl flex flex-col gap-y-xl">
       <.alert_banner alerts={@alerts} />
       <section>
-        <h2 class="mt-0 b-md">{~t"Upcoming Departures"}</h2>
+        <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
         <.upcoming_departures_table
           :if={@stop}
           now={@now}
@@ -80,14 +83,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </section>
       <section>
         <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+        <.service_picker
+          selected_service_name={@selected_service_name}
+          service_groups={@service_groups}
+        />
         <.async_result :let={departures} :if={@stop} assign={@departures}>
-          <:loading>Loading daily schedules...</:loading>
+          <:loading>
+            <div class="mt-lg mb-md flex justify-center">
+              <.spinner aria_label={~t"Loading schedules for selected service"} />
+            </div>
+          </:loading>
           <:failed :let={fail}>
             <.error_container title={inspect(fail)}>
               {~t"There was a problem loading schedules"}
             </.error_container>
           </:failed>
-          <%= if departures do %>
+          <%= if length(departures) > 0 do %>
             <%= if @route.type in [0, 1] do %>
               <div
                 :for={
@@ -106,6 +117,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
               />
               <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
             <% end %>
+          <% else %>
+            <div class="callout font-bold text-center">
+              {no_service_message(@service_groups, @route, @stop)}
+            </div>
           <% end %>
         </.async_result>
       </section>
@@ -114,14 +129,28 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_params(%{"direction_id" => direction, "route_id" => route} = params, _uri, socket) do
+  def handle_params(%{"direction_id" => direction, "route_id" => route_id} = params, _uri, socket) do
     {direction_id, _} = Integer.parse(direction)
+    service_groups = ServiceGroup.for_route(route_id, service_date())
+
+    selected_service =
+      service_groups
+      |> Enum.flat_map(& &1.services)
+      |> Enum.find(%{}, &(&1.now_date || &1.next_date))
+
+    socket =
+      if Map.get(selected_service, :next_date) do
+        assign(socket, :daily_schedule_date, Date.to_iso8601(selected_service.next_date))
+      else
+        socket
+      end
 
     {:noreply,
      socket
-     |> assign(:route, @routes_repo.get(route))
+     |> assign(:route, @routes_repo.get(route_id))
      |> assign(:direction_id, direction_id)
-     |> assign(:date, Map.get(params, "date", today()))
+     |> assign(:service_groups, service_groups)
+     |> assign(:selected_service_name, Map.get(selected_service, :label, ""))
      |> assign_stop(params)
      |> assign_alerts()
      |> assign_departures()
@@ -134,7 +163,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         %{"schedule_id" => schedule_id, "stop_sequence" => stop_sequence, "trip" => trip_id},
         socket
       ) do
-    date = socket.assigns.date
+    date = socket.assigns.daily_schedule_date
     loaded_trips = socket.assigns.loaded_trips
 
     if Map.get(loaded_trips, schedule_id) do
@@ -146,6 +175,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
       GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
       {:noreply, socket}
     end
+  end
+
+  def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
+    selected_dated_service =
+      socket.assigns.service_groups
+      |> Enum.flat_map(& &1.services)
+      |> Enum.find(&(&1.label == selected_service_label))
+
+    daily_schedule_date =
+      selected_dated_service.last_service_date
+
+    {:noreply,
+     socket
+     |> assign(:selected_service_name, selected_service_label)
+     |> assign(:daily_schedule_date, daily_schedule_date)
+     |> assign_departures()}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -206,8 +251,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     socket |> assign(:upcoming_departures, [])
   end
 
-  defp today, do: service_date() |> format!(:iso_date)
-
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
     route = socket.assigns.route
     assign(socket, :alerts, current_alerts(stop, route))
@@ -218,7 +261,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
     direction_id = socket.assigns.direction_id
-    date = socket.assigns.date
+    date = socket.assigns.daily_schedule_date
     stop = socket.assigns.stop
 
     if stop do
@@ -295,6 +338,45 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  attr :service_groups, :list, required: true
+  attr :selected_service_name, :string, default: ""
+
+  defp service_picker(assigns) do
+    ~H"""
+    <form
+      :if={length(@service_groups) > 0}
+      phx-change="select_service"
+      class="mb-lg"
+      id="service-picker-form"
+    >
+      <label for="service-picker" class="sr-only">
+        {~t(Choose a schedule type from the available options)}
+      </label>
+      <select class="mbta-input" id="service-picker" name="selected_service" phx-update="ignore">
+        <%= for service_group <- @service_groups do %>
+          <optgroup label={service_group.group_label}>
+            <option
+              :for={service <- service_group.services}
+              value={service.label}
+              selected={service.now_date || service.next_date}
+            >
+              {service.label} {if(service.now_date, do: " (#{~t(Now)})")}
+            </option>
+          </optgroup>
+        <% end %>
+      </select>
+      <output
+        for="service-picker"
+        name="Schedules for selected service type"
+        role="status"
+        class="sr-only"
+      >
+        {@selected_service_name}
+      </output>
+    </form>
+    """
+  end
+
   attr :stop, Stop
 
   defp stop_banner(assigns) do
@@ -319,7 +401,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :times, :list, required: true
   attr :vehicle_name, :string, required: true
 
-  defp first_last(%{times: [first | _] = times} = assigns) do
+  defp first_last(%{times: [first, _second | _] = times} = assigns) do
     assigns =
       assigns
       |> assign(:first, first)
@@ -542,7 +624,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp other_stop(assigns) do
     ~H"""
-    <.lined_list_item route={@route} class={@class}>
+    <.lined_list_item :if={@other_stop} route={@route} class={@class}>
       <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {@other_stop.stop_name}
       </div>
@@ -685,5 +767,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
     |> List.last()
     |> Kernel.then(& &1.time)
     |> format!(:hour_12_minutes)
+  end
+
+  defp no_service_message(service_groups, route, stop) do
+    route_name =
+      if(route.type == 3 && not Route.silver_line?(route),
+        do: gettext("Route %{route}", route: route.name),
+        else: route.name
+      )
+
+    if service_groups == [] do
+      gettext("There is currently no scheduled %{route_name}.", route_name: route_name)
+    else
+      gettext("There is no scheduled %{route} service at %{stop} for this time period.",
+        route: route_name,
+        stop: stop.name
+      )
+    end
   end
 end
