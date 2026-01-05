@@ -32,7 +32,6 @@
   "earmark": {:hex, :earmark, "1.4.48", "5f41e579d85ef812351211842b6e005f6e0cef111216dea7d4b9d58af4608434", [:mix], [], "hexpm", "a461a0ddfdc5432381c876af1c86c411fd78a25790c75023c7a4c035fdc858f9"},
   "earmark_parser": {:hex, :earmark_parser, "1.4.44", "f20830dd6b5c77afe2b063777ddbbff09f9759396500cdbe7523efd58d7a339c", [:mix], [], "hexpm", "4778ac752b4701a5599215f7030989c989ffdc4f6df457c5f36938cc2d2a2750"},
   "ecto": {:hex, :ecto, "3.13.4", "27834b45d58075d4a414833d9581e8b7bb18a8d9f264a21e42f653d500dbeeb5", [:mix], [{:decimal, "~> 2.0", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}, {:telemetry, "~> 0.4 or ~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "5ad7d1505685dfa7aaf86b133d54f5ad6c42df0b4553741a1ff48796736e88b2"},
-  "eextoheex": {:git, "https://github.com/Multiverse-io/eextoheex", "bfd8395f98321185eec572378ddd4373b1ac673d", []},
   "eflame": {:hex, :eflame, "1.0.1", "0664d287e39eef3c413749254b3af5f4f8b00be71c1af67d325331c4890be0fc", [:mix], [], "hexpm", "e0b08854a66f9013129de0b008488f3411ae9b69b902187837f994d7a99cf04e"},
   "ehmon": {:git, "https://github.com/mbta/ehmon.git", "1fb603262bd02d74a16183bd8f344dcace9d7561", []},
   "eini": {:hex, :eini_beam, "2.2.5", "28fa0a4eb7ff885cc388877b73fbd56fcca3b2eae4d81e47c47f317b900da1da", [:rebar3], [], "hexpm", "511e9207649f3becb5d945f1813615987899cf78fa130f92be07193a6a74ecb8"},
