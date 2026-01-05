@@ -120,10 +120,11 @@ defmodule Dotcom.ScheduleFinderTest do
     test "returns route, destination, departure times" do
       direction_id = Faker.Util.pick([0, 1])
       stop_id = FactoryHelpers.build(:id)
+      route = Test.Support.Factories.Routes.Route.build(:route)
       departures = departures()
 
-      stub(Routes.Repo.Mock, :get, fn id ->
-        Test.Support.Factories.Routes.Route.build(:route, %{id: id})
+      expect(Routes.Repo.Mock, :get, length(departures), fn _ ->
+        route
       end)
 
       assert [{route, destination, times} | _] = subway_groups(departures, direction_id, stop_id)
@@ -138,9 +139,10 @@ defmodule Dotcom.ScheduleFinderTest do
         ~w(place-nqncy place-wlsta place-qnctr place-qamnl place-brntn) |> Faker.Util.pick()
 
       departures = departures()
+      route = Test.Support.Factories.Routes.Route.build(:route, %{id: "Red"})
 
       expect(Routes.Repo.Mock, :get, length(departures), fn _ ->
-        Test.Support.Factories.Routes.Route.build(:route, %{id: "Red"})
+        route
       end)
 
       assert [{route, destination, _} | _] =

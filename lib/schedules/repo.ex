@@ -173,7 +173,12 @@ defmodule Schedules.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"new-style-tuple", params},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cache_all_from_params(params) do
     all_from_params(params)
   end

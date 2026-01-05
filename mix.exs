@@ -15,12 +15,6 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.html": :test,
-        "gettext.extract": :prod,
-        "gettext.translate": :prod
-      ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
         flags: [:unmatched_returns]
@@ -33,6 +27,17 @@ defmodule DotCom.Mixfile do
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
       docs: [logo: "priv/static/images/mbta-logo-t.png"]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.html": :test,
+        "gettext.extract": :prod,
+        "gettext.translate": :prod
+      ]
     ]
   end
 
@@ -60,7 +65,7 @@ defmodule DotCom.Mixfile do
       if Mix.env() == :prod do
         [:sasl | extra_apps]
       else
-        extra_apps
+        [:wx, :observer | extra_apps]
       end
 
     [
@@ -94,7 +99,7 @@ defmodule DotCom.Mixfile do
       {:csv, "3.2.2"},
       {:cva, "0.2.2"},
       {:decorator, "1.4.0"},
-      {:dialyxir, "1.4.6", [only: [:dev, :test], runtime: false]},
+      {:dialyxir, "1.4.7", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:ecto, "3.13.4"},
       {:eextoheex, git: "https://github.com/Multiverse-io/eextoheex", only: [:dev, :test]},
@@ -135,7 +140,7 @@ defmodule DotCom.Mixfile do
         [github: "mbta/open_trip_planner_client", tag: "v0.17.1"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.1", override: true},
+      {:phoenix, "1.8.3", override: true},
       {:phoenix_ecto, "4.6.5"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.7"},

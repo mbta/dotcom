@@ -158,11 +158,6 @@ defmodule DotcomWeb.ControllerHelpers do
     end
   end
 
-  @spec environment_allows_indexing?() :: boolean()
-  def environment_allows_indexing? do
-    System.get_env("ALLOW_INDEXING") == "true"
-  end
-
   @spec filter_alerts_by_direction([Alert.t()], boolean, String.t() | number | nil) :: [Alert.t()]
   defp filter_alerts_by_direction(alerts, false, _), do: alerts
   defp filter_alerts_by_direction(alerts, true, nil), do: alerts

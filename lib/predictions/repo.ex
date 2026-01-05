@@ -134,8 +134,8 @@ defmodule Predictions.Repo do
 
   defp has_departure_time?(
          {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
-          _stop_sequence, _schedule_relationship, _track, _status, _departing?,
-          _vehicle_id} = _prediction
+          _stop_sequence, _schedule_relationship, _track, _status, _departing?, _vehicle_id} =
+           _prediction
        ) do
     departure != nil
   end

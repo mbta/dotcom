@@ -27,6 +27,7 @@ defmodule DotcomWeb.Live.CommuterRailAlertsTest do
     stub(Alerts.Repo.Mock, :banner, fn -> nil end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
+    stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _ -> [] end)
 
     stub(Routes.Repo.Mock, :all, fn ->
       [Factories.Routes.Route.build(:route, type: @cr_route_type)]
@@ -39,6 +40,12 @@ defmodule DotcomWeb.Live.CommuterRailAlertsTest do
         }
       ]
     end)
+
+    Dotcom.SystemStatus.CommuterRailCache.Mock
+    |> stub(:commuter_rail_status, fn ->
+      []
+    end)
+    |> stub(:subscribe, fn -> :ok end)
 
     :ok
   end
