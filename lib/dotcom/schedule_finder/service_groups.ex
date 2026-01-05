@@ -33,23 +33,8 @@ defmodule Dotcom.ScheduleFinder.ServiceGroup do
     end)
     |> tag_next_available(current_date)
     |> Enum.group_by(& &1.service_pattern.group_label)
-    |> Enum.sort_by(fn {{group_key, _}, _} ->
-      [:current, :future, :extra, :holiday, :planned]
-      |> Enum.find_index(&(&1 == group_key))
-    end)
-    |> Enum.map(fn {{_, group_label}, patterns} ->
-      %__MODULE__{
-        group_label: group_label,
-        services:
-          patterns
-          |> Enum.sort_by(&sort_services(&1.service_pattern.service_label))
-          |> Enum.map(fn pattern ->
-            Map.take(pattern, [:next_date, :now_date])
-            |> Map.put(:label, pattern.service_pattern.service_label |> elem(2))
-            |> Map.put(:last_service_date, pattern.service_pattern.dates |> List.last())
-          end)
-      }
-    end)
+    |> Enum.sort_by(&group_sort_order/1)
+    |> Enum.map(&to_service_group/1)
   end
 
   defp tag_next_available([], _), do: []
@@ -80,15 +65,41 @@ defmodule Dotcom.ScheduleFinder.ServiceGroup do
     end
   end
 
-  defp sort_services({:typical, typical_key, label}) do
+  defp group_sort_order({{group_key, _}, _}) do
+    [:current, :future, :extra, :holiday, :planned]
+    |> Enum.find_index(&(&1 == group_key))
+  end
+
+  defp to_service_group({{_, group_label}, patterns}) do
+    %__MODULE__{
+      group_label: group_label,
+      services:
+        patterns
+        |> Enum.sort_by(&pattern_mapper(&1.service_pattern.service_label))
+        |> Enum.map(fn pattern ->
+          Map.take(pattern, [:next_date, :now_date])
+          |> Map.put(:label, pattern_label(pattern))
+          |> Map.put(:last_service_date, pattern_date(pattern))
+        end)
+    }
+  end
+
+  # Sort such that typical patterns are first, in a specified ordering, followed
+  # by patterns with the other typicalities, ordered by date. Use label or
+  # description as the tie-breaker.
+  defp pattern_mapper({:typical, type_key, label}) do
     index =
       [:monday_thursday, :friday, :weekday, :saturday, :sunday, :weekend]
-      |> Enum.find_index(&(&1 == typical_key))
+      |> Enum.find_index(&(&1 == type_key))
 
-    {index, label}
+    {0, index, label}
   end
 
-  defp sort_services({typicality, key, label}) do
-    {typicality, to_string(key), label}
+  defp pattern_mapper({typicality, first_date, description}) do
+    {1, typicality, to_string(first_date), description}
   end
+
+  defp pattern_label(%{service_pattern: %{service_label: {_, _, label}}}), do: label
+
+  defp pattern_date(%{service_pattern: %{dates: dates}}), do: List.last(dates)
 end
