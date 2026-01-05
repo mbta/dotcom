@@ -197,13 +197,13 @@ defmodule Services.ServiceTest do
     end
 
     test "accounts for nil start date" do
-      service = build(:service, start_date: nil)
+      service = build(:service, date: Faker.Date.forward(1), start_date: nil)
       assert dates = Service.all_valid_dates_for_service(service)
       refute Enum.empty?(dates)
     end
 
     test "accounts for nil end date" do
-      service = build(:service, end_date: nil)
+      service = build(:service, date: Faker.Date.backward(1), end_date: nil)
       assert dates = Service.all_valid_dates_for_service(service)
       refute Enum.empty?(dates)
     end
