@@ -55,7 +55,7 @@ defmodule Dotcom.ScheduleFinder.ServiceGroup do
   defp tag_next_available([], _), do: []
 
   defp tag_next_available(service_patterns, current_date) do
-    if Enum.any?(service_patterns, &(&1.now_date || &1.next_date)) do
+    if Enum.any?(service_patterns, & &1.now_date) do
       service_patterns
     else
       next_date =
