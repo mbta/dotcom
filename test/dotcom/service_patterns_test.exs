@@ -97,10 +97,14 @@ defmodule Dotcom.ServicePatternsTest do
     test "splits multi-holiday services" do
       route_id = FactoryHelpers.build(:id)
       holiday_count = Faker.random_between(2, 4)
+      service = build(:service, date: Faker.Date.forward(1), typicality: :holiday_service)
 
       added_dates =
         Faker.Util.sample_uniq(holiday_count, fn ->
-          Faker.random_between(2, 6) |> Faker.Date.forward() |> Date.to_string()
+          shift = Faker.random_between(2, 6)
+
+          Date.shift(service.end_date, day: shift)
+          |> Date.to_string()
         end)
 
       added_dates_notes =
@@ -108,13 +112,7 @@ defmodule Dotcom.ServicePatternsTest do
           {d, Faker.Commerce.product_name()}
         end)
 
-      service =
-        build(:service,
-          typicality: :holiday_service,
-          added_dates: added_dates,
-          added_dates_notes: added_dates_notes,
-          end_date: Faker.Date.forward(11)
-        )
+      service = %{service | added_dates: added_dates, added_dates_notes: added_dates_notes}
 
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
         [service]
