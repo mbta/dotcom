@@ -9,13 +9,7 @@ defmodule DotcomWeb.Endpoint do
                    signing_salt: "TInvb4GN",
                    secure: true
 
-  socket(
-    "/socket",
-    DotcomWeb.UserSocket,
-    websocket: [check_origin: Application.compile_env(:dotcom, :websocket_check_origin, false)],
-    longpoll: [check_origin: Application.compile_env(:dotcom, :websocket_check_origin, false)]
-  )
-
+  socket("/socket", DotcomWeb.UserSocket)
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 
   # Serve at "/" the static files from "priv/static" directory.
