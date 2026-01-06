@@ -145,14 +145,15 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # - if all else fails, use the first candidate (already sorted by :start_date)
   defp get_default_service(current_services, _all_services) do
     service_date = current_services |> List.first() |> Map.get(:service_date)
-    day_number = Timex.weekday(service_date)
 
     # Fallback #2: First service
     first_service = List.first(current_services)
 
     # Fallback #1: Today is a valid day for this service
     day_service =
-      Enum.find(current_services, first_service, &Enum.member?(&1.valid_days, day_number))
+      Enum.find(current_services, first_service, fn service ->
+        service_date in Service.all_valid_dates_for_service(service)
+      end)
 
     # Best match: Today is explicitly listed in this service's :added_in list
     Enum.find(
