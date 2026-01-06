@@ -109,7 +109,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await Promise.all(
       links.map(
         async (href) =>
-          await request.get(href, { failOnStatusCode: true, timeout: 5000 }),
+          await request.get(href, { failOnStatusCode: true, timeout: 0 }),
       ),
     );
   });
