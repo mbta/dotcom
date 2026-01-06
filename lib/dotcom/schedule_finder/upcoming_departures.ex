@@ -86,11 +86,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       PredictedSchedule.group(all_predictions, all_schedules)
       |> reject_past_schedules(now)
 
-    # first_schedule =
-    #   predicted_schedules
-    #   |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    #   |> List.first()
-
     predicted_schedules_by_trip_id =
       predicted_schedules |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
