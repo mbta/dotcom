@@ -102,12 +102,15 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("schedules & maps page (all links)", async ({ page, request }) => {
     await ok(page, "/schedules");
-    const links = await page.$$("main a:visible[href]");
+    const links = await page
+      .locator("main a:visible[href]")
+      .evaluateAll((els) => els.map((el) => el.href));
+
     await Promise.all(
-      links.map(async (link) => {
-        const href = await link.getAttribute("href");
-        return request.get(href);
-      }),
+      links.map(
+        async (href) =>
+          await request.get(href, { failOnStatusCode: true, timeout: 5000 }),
+      ),
     );
   });
 
