@@ -157,7 +157,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await ok(page, "/search");
     await page
       .getByPlaceholder("Search for routes, places, information, and more")
-      .pressSequentially("Charles");
+      .pressSequentially("Charles", { delay: 100 });
     await expect(page).toHaveURL(/query=Charles/);
     const searchResults = page.locator("#search-page-results");
     await hasPositiveCount(searchResults, "li a");
