@@ -463,13 +463,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <RouteComponents.route_icon route={@route} size="small" />
             <div>
               <div class="flex gap-x-sm gap-y-xs flex-wrap">
+                {departure.headsign}
                 <.badge
                   :if={departure.time_desc == "School days only"}
                   class="bg-charcoal-80 text-nowrap text-sm"
                 >
                   {~t"School days only"}
                 </.badge>
-                {departure.headsign}
               </div>
               <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
                 {~t(Train)} {departure.trip_name}
