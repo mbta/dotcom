@@ -83,8 +83,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   @spec services(Routes.Route.id_t(), Date.t()) :: [Service.t()]
   def services(route_id, service_date) do
     route_id
-    |> Dotcom.ServicePatterns.for_route()
-    |> Enum.reject(&Date.before?(&1.end_date, service_date))
+    |> Dotcom.ServicePatterns.services_for_route()
     |> Enum.map(&Map.put(&1, :service_date, service_date))
     |> tag_default_service()
   end
