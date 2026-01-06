@@ -86,6 +86,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       PredictedSchedule.group(all_predictions, all_schedules)
       |> reject_past_schedules(now)
 
+    # first_schedule =
+    #   predicted_schedules
+    #   |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+    #   |> List.first()
+
     predicted_schedules_by_trip_id =
       predicted_schedules |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
@@ -253,19 +258,24 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
-           prediction: %Prediction{schedule_relationship: :cancelled, departure_time: nil},
+           prediction: %Prediction{
+             schedule_relationship: schedule_relationship,
+             departure_time: nil
+           },
            schedule: schedule
          },
          route_type: :commuter_rail
-       }) do
+       })
+       when schedule_relationship in [:cancelled, :skipped] do
     {:cancelled, schedule.departure_time}
   end
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
-           prediction: %Prediction{schedule_relationship: :cancelled, departure_time: nil}
+           prediction: %Prediction{schedule_relationship: relationship, departure_time: nil}
          }
-       }) do
+       })
+       when relationship in [:skipped, :cancelled] do
     :hidden
   end
 
@@ -369,7 +379,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     cond do
       predicted_time == nil ->
-        :cancelled
+        prediction.schedule_relationship
 
       DateTime.diff(scheduled_time, predicted_time, :second) |> abs() < 60 ->
         :on_time

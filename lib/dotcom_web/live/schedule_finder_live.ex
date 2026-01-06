@@ -649,7 +649,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp prediction_time_display(%{arrival_status: {:cancelled, time}} = assigns) do
+  defp prediction_time_display(%{arrival_status: {status, time}} = assigns)
+       when status in [:cancelled, :skipped] do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
@@ -717,12 +718,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp substatus_text(:on_time), do: ~t"On Time"
   defp substatus_text(:scheduled), do: ~t"Scheduled"
   defp substatus_text(:cancelled), do: ~t"Cancelled"
+  defp substatus_text(:skipped), do: ~t"Stop Skipped"
   defp substatus_text(text), do: text
 
-  defp substatus_icon(%{arrival_substatus: :cancelled} = assigns),
-    do: ~H"""
-    <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" />
-    """
+  defp substatus_icon(%{arrival_substatus: substatus} = assigns)
+       when substatus in [:cancelled, :skipped],
+       do: ~H"""
+       <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" />
+       """
 
   defp substatus_icon(assigns), do: ~H""
 
