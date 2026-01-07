@@ -578,11 +578,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <summary class="cursor-pointer">
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
-                    {ngettext(
-                      "1 Stop Away",
-                      "%{count} Stops Away",
-                      Enum.count(upcoming_departure.trip_details.stops_before)
-                    )}
+                    <span class="text-[0.75rem] underline group-open/details:hidden">
+                      {~t"Show More Stops"}
+                    </span>
+                    <span class="text-[0.75rem] underline hidden group-open/details:block">
+                      {~t"Hide More Stops"}
+                    </span>
                   </div>
                   <div class="shrink-0">
                     <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
