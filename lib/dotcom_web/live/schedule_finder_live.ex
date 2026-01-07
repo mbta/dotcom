@@ -118,9 +118,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
             <% end %>
           <% else %>
-            <div class="callout font-bold text-center">
+            <.callout>
               {no_service_message(@service_groups, @route, @stop)}
-            </div>
+            </.callout>
           <% end %>
         </.async_result>
       </section>
