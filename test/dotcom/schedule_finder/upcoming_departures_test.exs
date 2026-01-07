@@ -1658,7 +1658,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "does not include scheduled other_stops in the past" do
+    test "does not include past scheduled stops in trip details" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
