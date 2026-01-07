@@ -61,7 +61,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.stop_banner stop={@stop} />
     <div class="px-3 py-xl flex flex-col gap-y-xl">
       <.alert_banner alerts={@alerts} />
-      <section>
+      <section :if={show_upcoming_departures?(@route)}>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
         <.upcoming_departures_table
           :if={@stop}
@@ -788,4 +788,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       )
     end
   end
+
+  defp show_upcoming_departures?(%Route{} = route), do: Route.type_atom(route) != :ferry
+  defp show_upcoming_departures?(_), do: false
 end
