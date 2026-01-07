@@ -42,7 +42,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       defstruct [
         :stop,
         :stops_after,
-        :stops_before
+        :stops_before,
+        :vehicle_info
       ]
     end
   end
@@ -166,7 +167,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          trip_id: trip_id,
          stop_id: stop_id
        }) do
-    %TripDetails{stops: stops} =
+    %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
         trip_id: trip_id
@@ -183,7 +184,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     %__MODULE__.UpcomingDeparture.TripDetails{
       stops_before: stops_before,
       stop: stop,
-      stops_after: stops_after
+      stops_after: stops_after,
+      vehicle_info: vehicle_info
     }
   end
 

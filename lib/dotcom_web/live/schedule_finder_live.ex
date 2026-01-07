@@ -68,7 +68,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
           now={@now}
           stop_id={@stop.id}
           upcoming_departures={@upcoming_departures |> Enum.take(5)}
-          vehicle_name={@vehicle_name}
         />
         <.remaining_service
           :if={departures = @stop && @departures.ok? && @departures.result}
@@ -78,7 +77,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
           route={@route}
           route_type={@route.type}
           stop_id={@stop.id}
-          vehicle_name={@vehicle_name}
         />
       </section>
       <section>
@@ -537,7 +535,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :now, DateTime
   attr :stop_id, :string
   attr :upcoming_departures, :list
-  attr :vehicle_name, :string
 
   defp upcoming_departures_table(assigns) do
     ~H"""
@@ -570,7 +567,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:content>
           <.lined_list>
             <.lined_list_item route={upcoming_departure.route} variant="mode">
-              <div class="grow">Hello we are your {@vehicle_name}</div>
+              <div class="grow font-medium">
+                {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
+              </div>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
@@ -616,6 +615,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
+
+  defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
+    do: "Next Stop: #{stop_name}"
+
+  defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
+    do: "Approaching #{stop_name}"
+
+  defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
+    do: "Now at #{stop_name}"
+
+  defp vehicle_message(nil),
+    do: "Finishing another trip"
 
   attr :class, :string, default: ""
   attr :route, Route, required: true
@@ -757,7 +768,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         now={@now}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
-        vehicle_name={@vehicle_name}
       />
     </details>
     """
