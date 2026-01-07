@@ -29,8 +29,8 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.any?(&Service.serves_date?(&1, date))
   end
 
-  @spec for_route(Routes.Route.id_t()) :: [Service.t()]
-  def for_route(route_id) do
+  @spec services_for_route(Routes.Route.id_t()) :: [Service.t()]
+  def services_for_route(route_id) do
     route_id
     |> @services_repo.by_route_id()
     |> Stream.reject(&(&1.typicality == :canonical))
@@ -40,6 +40,24 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.reject(&Date.before?(&1.end_date, ServiceDateTime.service_date()))
     |> dedup_identical_services()
     |> dedup_similar_services()
+  end
+
+  @type typical_type :: :monday_thursday | :friday | :weekday | :saturday | :sunday | :weekend
+  @type typical_label :: {:typical, typical_type, String.t()}
+  @type atypical_label :: {Service.typicality(), Date.t(), String.t()}
+  @type pattern_group ::
+          :holiday_service | :extra_service | :planned_disruption | :current | :future | :other
+  @type pattern_group_label :: {pattern_group(), String.t()}
+  @type service_pattern :: %{
+          group_label: pattern_group_label(),
+          dates: [Date.t()],
+          service_label: typical_label() | atypical_label()
+        }
+
+  @spec patterns_for_route(Routes.Route.id_t()) :: [service_pattern()]
+  def patterns_for_route(route_id) do
+    route_id
+    |> services_for_route()
     |> to_service_pattern()
   end
 
@@ -171,7 +189,8 @@ defmodule Dotcom.ServicePatterns do
     |> merge_similar_typical()
   end
 
-  def group_label(service) do
+  @spec group_label(Service.t()) :: pattern_group_label()
+  defp group_label(service) do
     case service.typicality do
       :holiday_service ->
         {:holiday, ~t"Holiday Schedules"}
@@ -233,12 +252,18 @@ defmodule Dotcom.ServicePatterns do
     end
   end
 
+  @spec merge_similar_typical([service_pattern()]) :: [service_pattern()]
   defp merge_similar_typical(all) do
     all
     |> Enum.group_by(&similar_typical_items/1)
     |> Enum.map(&merge_items/1)
   end
 
+  @spec similar_typical_items(%{
+          service: Service.t(),
+          dates: [Date.t()],
+          group_label: pattern_group_label()
+        }) :: typical_label() | atypical_label()
   defp similar_typical_items(%{
          dates: dates,
          service: %Service{typicality: :typical_service} = service
