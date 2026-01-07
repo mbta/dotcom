@@ -1,7 +1,7 @@
 {
   "name": "dotcom",
   "dependencies": {
-    "@playwright/test": "1.48.0",
+    "@playwright/test": "1.57.0",
     "@sentry/node": "7.109.0",
     "artillery": "2.0.26",
     "axios": "1.12.2",
