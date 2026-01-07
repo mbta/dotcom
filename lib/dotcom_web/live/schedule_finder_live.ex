@@ -462,7 +462,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <RouteComponents.route_icon route={@route} size="small" />
             <div>
               {departure.headsign}
-              <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
+              <div :if={@route.type == 2 && departure.trip_name} class="text-xs">
                 {~t(Train)} {departure.trip_name}
               </div>
             </div>
@@ -486,7 +486,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <.lined_list_item :for={arrival <- arrivals} route={@route}>
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
-                  <div :if={arrival.platform_name} class="text-sm">
+                  <div :if={arrival.platform_name} class="text-xs">
                     {arrival.platform_name}
                   </div>
                 </div>
@@ -554,7 +554,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <div>{upcoming_departure.headsign}</div>
 
               <div />
-              <div :if={upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
+              <div :if={upcoming_departure.trip_name} class="leading-none text-xs">
                 Train {upcoming_departure.trip_name}
                 <span>
                   &bull; {upcoming_departure.platform_name || "Track TBA"}
@@ -694,7 +694,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="text-[0.75rem] line-through">{format!(@time, :hour_12_minutes)}</span>
+    <span class="text-xs line-through">{format!(@time, :hour_12_minutes)}</span>
     """
   end
 
@@ -702,7 +702,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:status, status)
 
     ~H"""
-    <span class="text-[0.75rem]">{@status}</span>
+    <span class="text-xs">{@status}</span>
     """
   end
 
@@ -710,7 +710,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <div class="flex shrink-0 gap-1 items-center">
       <.substatus_icon arrival_substatus={@arrival_substatus} />
-      <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
+      <span class="text-xs">{substatus_text(@arrival_substatus)}</span>
     </div>
     """
   end
