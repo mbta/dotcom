@@ -69,6 +69,10 @@ module.exports = {
         "4.5": "1.125rem",
         "7.5": "1.875rem",
         "120": "24rem"
+      },
+      fontSize: {
+        ...mbtaTheme.fontSize,
+        xs: "0.75rem"
       }
     },
     // match screens to Bootstrap's breakpoints for now
