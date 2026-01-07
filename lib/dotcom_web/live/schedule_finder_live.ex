@@ -16,6 +16,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.UpcomingDepartures
+  alias Dotcom.ServicePatterns
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
@@ -63,23 +64,27 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.alert_banner alerts={@alerts} />
       <section :if={show_upcoming_departures?(@route)}>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <.upcoming_departures_table
-          :if={@stop}
-          now={@now}
-          stop_id={@stop.id}
-          upcoming_departures={@upcoming_departures |> Enum.take(5)}
-          vehicle_name={@vehicle_name}
-        />
-        <.remaining_service
-          :if={departures = @stop && @departures.ok? && @departures.result}
-          end_of_service={end_of_service(departures)}
-          now={@now}
-          remaining_departures={@upcoming_departures |> Enum.drop(5)}
-          route={@route}
-          route_type={@route.type}
-          stop_id={@stop.id}
-          vehicle_name={@vehicle_name}
-        />
+        <%= if ServicePatterns.has_service?(route: @route.id) do %>
+          <.upcoming_departures_table
+            :if={@stop}
+            now={@now}
+            stop_id={@stop.id}
+            upcoming_departures={@upcoming_departures |> Enum.take(5)}
+            vehicle_name={@vehicle_name}
+          />
+          <.remaining_service
+            :if={departures = @stop && @departures.ok? && @departures.result}
+            end_of_service={end_of_service(departures)}
+            now={@now}
+            remaining_departures={@upcoming_departures |> Enum.drop(5)}
+            route={@route}
+            route_type={@route.type}
+            stop_id={@stop.id}
+            vehicle_name={@vehicle_name}
+          />
+        <% else %>
+          <.callout>{~t(No service today)}</.callout>
+        <% end %>
       </section>
       <section>
         <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
