@@ -33,6 +33,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     {:ok,
      socket
+     |> subscribe_to_alerts()
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
@@ -43,6 +44,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:selected_service_name, fn -> "" end)
      |> assign_new(:daily_schedule_date, fn -> service_date() end)}
+  end
+
+  @impl LiveView
+  def terminate(_, _) do
+    # stop listening for new alerts
+    _ = Alerts.Cache.Store.unsubscribe()
   end
 
   @impl LiveView
@@ -218,6 +225,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign(:now, @date_time.now())
      |> assign_upcoming_departures()}
+  end
+
+  def handle_info(%{event: "alerts_updated"}, socket) do
+    {:noreply, assign_alerts(socket)}
+  end
+
+  def handle_info(_, socket), do: {:noreply, socket}
+
+  defp subscribe_to_alerts(socket) do
+    if connected?(socket) do
+      _ = Alerts.Cache.Store.subscribe()
+      socket
+    else
+      socket
+    end
   end
 
   defp schedule_refresh() do
