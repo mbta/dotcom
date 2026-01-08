@@ -1,0 +1,110 @@
+# Headway Exploration
+
+## Section
+
+```elixir
+route_id = "All"
+
+window_hours = 2
+date = ~D[2026-01-14]
+start_times = [
+  ~T[07:00:00],
+  ~T[12:00:00],
+  ~T[17:00:00],
+  ~T[23:00:00],
+] |> Enum.map(& DateTime.new!(date, &1, "America/New_York"))
+```
+
+```elixir
+defmodule ActualRouteList do
+  def actual_route_list("Green"), do: GreenLine.branch_ids()
+  def actual_route_list("All"), do: Dotcom.Routes.subway_route_ids()
+  def actual_route_list(other), do: [other]
+end
+```
+
+```elixir
+schedules =
+  route_id
+  |> ActualRouteList.actual_route_list()
+  |> Schedules.Repo.by_route_ids(date: date)
+```
+
+```elixir
+schedules_by_stop_and_direction =
+  schedules
+  |> Enum.group_by(
+    &{
+      # &1.stop.id,
+      &1.stop.name,
+      # &1.trip.direction_id,
+      &1.route.direction_names |> Map.get(&1.trip.direction_id)
+    }
+  )
+```
+
+```elixir
+schedules_by_stop_and_direction |> Map.keys()
+```
+
+```elixir
+defmodule Headways do
+  def headways(schedule_list, start_time, window_hours) do
+    end_time = start_time |> DateTime.shift(hour: window_hours)
+
+    schedule_list
+    |> Enum.map(& &1.time)
+    |> Enum.sort(DateTime)
+    |> Enum.reject(&DateTime.before?(&1, start_time))
+    |> Enum.reject(&DateTime.after?(&1, end_time))
+    |> Enum.chunk_every(2, 1, :discard)
+    |> Enum.map(fn [t1, t2] -> DateTime.diff(t2, t1, :minute) end)
+    |> Enum.min_max()
+  end
+end
+```
+
+```elixir
+representative_stations = [
+  "Aquarium",
+  "Back Bay",
+  "Copley",
+  "South Station",
+  "Newton Centre",
+  "Coolidge Corner",
+  "Riverway",
+  "Babcock Street",
+  "Butler",
+  "North Quincy",
+  "Savin Hill",
+  "Science Park/West End",
+  "Kenmore"
+]
+```
+
+```elixir
+IO.puts("#{date}\n")
+
+schedules_by_stop_and_direction
+|> Enum.filter(fn {{station_name, _}, _} ->
+  representative_stations |> Enum.member?(station_name)
+end)
+|> Enum.sort_by(fn {{station_name, direction_name}, _} -> {station_name, direction_name} end)
+|> Enum.each(fn {{station_name, direction_name}, schedule_list} ->
+  IO.puts("#{station_name} #{direction_name}")
+
+  start_times
+  |> Enum.each(fn start_time ->
+    {min, max} =
+      schedule_list
+      |> Headways.headways(
+        start_time,
+        window_hours
+      )
+
+    IO.puts("\t#{Dotcom.Utils.Time.format!(start_time, :hour_12)}: #{min} - #{max}")
+  end)
+
+  IO.puts("")
+end)
+```
