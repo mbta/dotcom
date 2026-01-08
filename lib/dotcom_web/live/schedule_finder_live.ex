@@ -451,7 +451,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest p-sm"
+        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
