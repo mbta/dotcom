@@ -31,12 +31,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def mount(_params, _session, socket) do
     schedule_refresh()
 
-    if connected?(socket) do
-      Alerts.Cache.Store.subscribe()
-    end
-
     {:ok,
      socket
+     |> subscribe_to_alerts()
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
@@ -229,6 +226,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_info(_, socket), do: {:noreply, socket}
+
+  defp subscribe_to_alerts(socket) do
+    if connected?(socket) do
+      _ = Alerts.Cache.Store.subscribe()
+      socket
+    else
+      socket
+    end
+  end
 
   defp schedule_refresh() do
     # Refresh every second
