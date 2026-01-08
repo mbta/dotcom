@@ -13,6 +13,12 @@ defmodule DotcomWeb.PreviewLive do
 
   @pages [
     %{
+      arguments: [],
+      icon_name: "icon-crowding",
+      module: DotcomWeb.HeadwaysLive,
+      title: "Headways"
+    },
+    %{
       arguments: ["Red", "0"],
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,
