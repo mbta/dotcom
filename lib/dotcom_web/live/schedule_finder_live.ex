@@ -483,7 +483,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item :for={arrival <- arrivals} route={@route}>
+              <.lined_list_item
+                :for={{arrival, index} <- Enum.with_index(arrivals)}
+                route={@route}
+                class={if(index == 0, do: "font-bold")}
+              >
+                <div class="relative">
+                  <.icon
+                    :if={index == 0}
+                    type="icon-svg"
+                    name="stop-pin"
+                    class="h-6 w-6 absolute z-20 -left-[28px] -top-[24px]"
+                  />
+                </div>
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
                   <div :if={arrival.platform_name} class="text-sm">
