@@ -47,6 +47,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
+  def terminate(_, _) do
+    # stop listening for new alerts
+    _ = Alerts.Cache.Store.unsubscribe()
+  end
+
+  @impl LiveView
   def render(assigns) do
     assigns =
       assigns
