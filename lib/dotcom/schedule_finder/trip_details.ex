@@ -1,7 +1,8 @@
 defmodule Dotcom.ScheduleFinder.TripDetails do
   @moduledoc """
-  A struct representing trip details, including a list of stops visited before and after
-  the stop specified, along with arrival times (or departure times when relevant).
+  A struct representing trip details, including a list of stops
+  visited (stop name, stop id, and arrival time), as well as
+  the vehicle's status.
   """
 
   defstruct [
