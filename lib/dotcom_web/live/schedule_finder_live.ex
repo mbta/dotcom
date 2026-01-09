@@ -618,16 +618,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
-    do: "Next Stop: #{stop_name}"
+    do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)
 
   defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
-    do: "Approaching #{stop_name}"
+    do: gettext("Approaching %{stop_name}", stop_name: stop_name)
 
   defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
-    do: "Now at #{stop_name}"
+    do: gettext("Now at %{stop_name}", stop_name: stop_name)
 
   defp vehicle_message(nil),
-    do: "Finishing another trip"
+    do: ~t"Finishing another trip"
 
   attr :class, :string, default: ""
   attr :route, Route, required: true
