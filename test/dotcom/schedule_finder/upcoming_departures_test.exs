@@ -628,7 +628,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           arrival_time: nil,
           departure_time: nil,
           stop: Factories.Stops.Stop.build(:stop, id: stop_id)
-        )
+        ) ++
+          [
+            Factories.Predictions.Prediction.build(:prediction,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id)
+            )
+          ]
       end)
 
       # Exercise
@@ -641,7 +646,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures |> Enum.empty?()
+      assert departures |> Enum.count() == 1
     end
 
     test "sorts upcoming departures by arrival time" do
@@ -758,6 +763,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             departure_time: nil,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
             trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
           )
         ]
       end)
@@ -772,7 +781,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures == []
+      assert departures |> Enum.count() == 1
     end
 
     test "shows subway arrival_status as :approaching if it's between 30 and 60 seconds out" do
@@ -1905,6 +1914,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          ),
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
             stop: Factories.Stops.Stop.build(:stop, id: other_stop_id),
             trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
           )
@@ -1921,7 +1935,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures |> Enum.empty?()
+      assert departures |> Enum.count() == 1
     end
   end
 end
