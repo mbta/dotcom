@@ -10,6 +10,11 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     :vehicle_info
   ]
 
+  @type t :: %__MODULE__{
+          stops: [__MODULE__.TripStop.t()],
+          vehicle_info: __MODULE__.VehicleInfo
+        }
+
   defmodule TripStop do
     @moduledoc """
     A simple struct representing the stops visited and arrival times as part of a `TripDetails`.
@@ -21,6 +26,13 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :stop_name,
       :time
     ]
+
+    @type t :: %__MODULE__{
+            cancelled?: boolean(),
+            stop_id: Stops.Stop.id_t(),
+            stop_name: String.t(),
+            time: DateTime.t()
+          }
   end
 
   defmodule VehicleInfo do
@@ -33,6 +45,12 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :stop_id,
       :stop_name
     ]
+
+    @type t :: %__MODULE__{
+            status: Vehicles.Vehicle.status(),
+            stop_id: Stops.Stop.id_t(),
+            stop_name: String.t()
+          }
   end
 
   alias Vehicles.Vehicle
@@ -40,6 +58,10 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
+  @spec trip_details(%{
+          predicted_schedules: [PredictedSchedule.t()],
+          trip_id: Schedules.Trip.id_t()
+        }) :: __MODULE__.t()
   def trip_details(%{predicted_schedules: predicted_schedules, trip_id: trip_id}) do
     vehicle_info =
       trip_id
