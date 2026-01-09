@@ -3,9 +3,11 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
   import Mox
 
-  alias Test.Support.FactoryHelpers
-  alias Test.Support.Factories
   alias Dotcom.ScheduleFinder.TripDetails
+  alias Dotcom.Utils.ServiceDateTime
+  alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
+  alias Test.Support.Generators
 
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
@@ -47,6 +49,76 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
       assert trip_details.stops |> Enum.map(& &1.stop_id) == stop_ids
       assert trip_details.stops |> Enum.map(& &1.stop_name) == stop_names
+    end
+
+    test "marks a prediction with no time as cancelled" do
+      now = Dotcom.Utils.DateTime.now()
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+      stop_names = Faker.Util.sample_uniq(3, fn -> Faker.Beer.brand() end)
+
+      [stop_1, stop_2, stop_3] =
+        stop_ids
+        |> Enum.zip(stop_names)
+        |> Enum.map(fn {id, name} -> Factories.Stops.Stop.build(:stop, id: id, name: name) end)
+
+      [arrival_time_1, arrival_time_2, arrival_time_3] =
+        Faker.Util.sample_uniq(3, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort(DateTime)
+
+      predicted_schedules =
+        [
+          %PredictedSchedule{
+            prediction:
+              Factories.Predictions.Prediction.build(:prediction,
+                arrival_time: arrival_time_1,
+                stop: stop_1,
+                trip: trip
+              ),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip, stop: stop_1)
+          },
+          %PredictedSchedule{
+            prediction:
+              Factories.Predictions.Prediction.build(:prediction,
+                arrival_time: nil,
+                departure_time: nil,
+                stop: stop_1,
+                trip: trip
+              ),
+            schedule:
+              Factories.Schedules.Schedule.build(:schedule,
+                trip: trip,
+                stop: stop_2,
+                arrival_time: arrival_time_2
+              )
+          },
+          %PredictedSchedule{
+            prediction:
+              Factories.Predictions.Prediction.build(:prediction,
+                arrival_time: arrival_time_3,
+                stop: stop_3,
+                trip: trip
+              ),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip, stop: stop_3)
+          }
+        ]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_id: trip.id
+        })
+
+      assert [trip_stop_1, trip_stop_2, trip_stop_3] = trip_details.stops
+
+      refute trip_stop_1.cancelled?
+      assert trip_stop_2.cancelled?
+      refute trip_stop_3.cancelled?
     end
 
     test "includes vehicle status and stop info" do
