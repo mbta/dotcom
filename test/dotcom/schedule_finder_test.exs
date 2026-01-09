@@ -53,6 +53,27 @@ defmodule Dotcom.ScheduleFinderTest do
       assert %DailyDeparture{} = List.first(departures)
     end
 
+    test "returns departures with route pattern time_desc" do
+      route_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+      stop_id = FactoryHelpers.build(:id)
+      date = Faker.Util.format("%4d-%2d-%2d")
+      schedules = Schedule.build_list(4, :schedule)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        schedules
+      end)
+
+      time_desc = Faker.Company.catch_phrase()
+
+      expect(RoutePatterns.Repo.Mock, :get, length(schedules), fn id ->
+        RoutePattern.build(:route_pattern, id: id, time_desc: time_desc)
+      end)
+
+      assert {:ok, departures} = daily_departures(route_id, direction_id, stop_id, date)
+      assert %DailyDeparture{time_desc: ^time_desc} = List.first(departures)
+    end
+
     test "omits schedules that don't pick up passengers" do
       route_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
