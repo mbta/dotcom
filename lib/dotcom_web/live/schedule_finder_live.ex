@@ -70,22 +70,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.alert_banner alerts={@alerts} />
       <section>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <.upcoming_departures_table
+        <.upcoming_departures_section
           :if={@stop}
           now={@now}
-          stop_id={@stop.id}
-          upcoming_departures={@upcoming_departures |> Enum.take(5)}
+          stop={@stop}
+          upcoming_departures={@upcoming_departures}
           vehicle_name={@vehicle_name}
-        />
-        <.remaining_service
-          :if={departures = @stop && @departures.ok? && @departures.result}
-          end_of_service={end_of_service(departures)}
-          now={@now}
-          remaining_departures={@upcoming_departures |> Enum.drop(5)}
+          departures={@departures}
           route={@route}
-          route_type={@route.type}
-          stop_id={@stop.id}
-          vehicle_name={@vehicle_name}
         />
       </section>
       <section>
@@ -554,6 +546,55 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> Enum.min_max(fn -> {nil, nil} end)
 
     gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
+  end
+
+  defp upcoming_departures_section(
+         %{upcoming_departures: {:before_service, upcoming_departure}} =
+           assigns
+       ) do
+    assigns = assigns |> assign(:upcoming_departure, upcoming_departure)
+
+    ~H"""
+    <div class="w-full flex items-center border-xs border-gray-lightest py-3 px-2 gap-2">
+      <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
+        <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
+        <div>{@upcoming_departure.headsign}</div>
+
+        <div />
+      </div>
+      <div class="ml-auto flex flex-col items-end">
+        <span class="font-bold">
+          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+        </span>
+      </div>
+    </div>
+    <div class="flex justify-center bg-gray-lightest w-full p-3">
+      <span class="font-medium text-sm">
+        Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip.
+      </span>
+    </div>
+    """
+  end
+
+  defp upcoming_departures_section(assigns) do
+    ~H"""
+    <.upcoming_departures_table
+      now={@now}
+      stop_id={@stop.id}
+      upcoming_departures={@upcoming_departures |> Enum.take(5)}
+      vehicle_name={@vehicle_name}
+    />
+    <.remaining_service
+      :if={departures = @stop && @departures.ok? && @departures.result}
+      end_of_service={end_of_service(departures)}
+      now={@now}
+      remaining_departures={@upcoming_departures |> Enum.drop(5)}
+      route={@route}
+      route_type={@route.type}
+      stop_id={@stop.id}
+      vehicle_name={@vehicle_name}
+    />
+    """
   end
 
   attr :now, DateTime
