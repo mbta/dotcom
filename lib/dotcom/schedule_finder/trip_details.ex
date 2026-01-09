@@ -80,7 +80,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           time: PredictedSchedule.display_time(ps)
         }
       end)
-      |> Enum.sort_by(& &1.time)
+      |> Enum.sort_by(& &1.time, DateTime)
       |> drop_prediction_for_current_station(vehicle_info)
 
     %__MODULE__{
