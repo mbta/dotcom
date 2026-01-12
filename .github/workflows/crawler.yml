@@ -34,7 +34,7 @@ jobs:
     - name: Run Crawler
       run: |
         echo "## Output" > $GITHUB_STEP_SUMMARY
-        echo "```shell" > $GITHUB_STEP_SUMMARY
+        echo "```shell" >> $GITHUB_STEP_SUMMARY
         mix escript.install --force github mbta/link_checker
         $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 >> $GITHUB_STEP_SUMMARY
-        echo "```" > $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
