@@ -184,6 +184,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       socket =
         update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
 
+      {stop_sequence, _} = Integer.parse(stop_sequence)
       GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
       {:noreply, socket}
     end
@@ -488,8 +489,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <div class="flex items-center gap-sm w-full">
             <RouteComponents.route_icon route={@route} size="small" />
             <div>
-              {departure.headsign}
-              <div :if={@route.type == 2 && departure.trip_name} class="text-xs">
+              <div class="flex gap-x-sm gap-y-xs flex-wrap">
+                {departure.headsign}
+                <.badge
+                  :if={departure.time_desc == "School days only"}
+                  class="bg-charcoal-80 text-nowrap text-sm"
+                >
+                  {~t"School days only"}
+                </.badge>
+              </div>
+              <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
                 {~t(Train)} {departure.trip_name}
               </div>
             </div>
