@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
-    
+
     steps:
     - uses: actions/checkout@v6
       with:
@@ -34,4 +34,4 @@ jobs:
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker
-        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3
+        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 >> $GITHUB_STEP_SUMMARY
