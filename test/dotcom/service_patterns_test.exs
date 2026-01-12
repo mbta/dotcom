@@ -56,7 +56,7 @@ defmodule Dotcom.ServicePatternsTest do
     end
   end
 
-  describe "for_route/1" do
+  describe "patterns_for_route/1" do
     test "omits canonical typicality" do
       route_id = FactoryHelpers.build(:id)
 
@@ -64,7 +64,7 @@ defmodule Dotcom.ServicePatternsTest do
         [build(:service, date: service_date(), typicality: :canonical)]
       end)
 
-      assert for_route(route_id) == []
+      assert patterns_for_route(route_id) == []
     end
 
     test "renames (no school) typical services" do
@@ -81,7 +81,8 @@ defmodule Dotcom.ServicePatternsTest do
         ]
       end)
 
-      assert [%{service_label: {:typical, :weekday, "Weekday schedules"}}] = for_route(route_id)
+      assert [%{service_label: {:typical, :weekday, "Weekday schedules"}}] =
+               patterns_for_route(route_id)
     end
 
     test "omits services which ended" do
@@ -91,7 +92,7 @@ defmodule Dotcom.ServicePatternsTest do
         [build(:service, end_date: Faker.Date.backward(1))]
       end)
 
-      assert for_route(route_id) == []
+      assert patterns_for_route(route_id) == []
     end
 
     test "splits multi-holiday services" do
@@ -118,7 +119,7 @@ defmodule Dotcom.ServicePatternsTest do
         [service]
       end)
 
-      patterns = for_route(route_id)
+      patterns = patterns_for_route(route_id)
       assert Enum.count(patterns) == holiday_count
       assert Enum.all?(patterns, &(&1.group_label == {:holiday, "Holiday Schedules"}))
     end
@@ -140,7 +141,7 @@ defmodule Dotcom.ServicePatternsTest do
         ]
       end)
 
-      assert patterns = for_route(route_id)
+      assert patterns = patterns_for_route(route_id)
       %{service_label: {_, _, text}} = List.first(patterns)
       assert text =~ holiday_description
 
@@ -156,7 +157,7 @@ defmodule Dotcom.ServicePatternsTest do
         [disruption_service]
       end)
 
-      assert [%{service_label: {:planned_disruption, _, label}}] = for_route(route_id)
+      assert [%{service_label: {:planned_disruption, _, label}}] = patterns_for_route(route_id)
       assert disruption_service.description != label
       assert label =~ disruption_service.description
     end
@@ -169,7 +170,7 @@ defmodule Dotcom.ServicePatternsTest do
         [service, service]
       end)
 
-      assert for_route(route_id) |> Enum.count() == 1
+      assert patterns_for_route(route_id) |> Enum.count() == 1
     end
 
     test "omits weekday service if similar" do
@@ -190,7 +191,7 @@ defmodule Dotcom.ServicePatternsTest do
         [friday_service, mon_thurs_service, spurious_weekday_service]
       end)
 
-      assert spurious_weekday_service not in for_route(route_id)
+      assert spurious_weekday_service not in patterns_for_route(route_id)
     end
 
     test "omits overlapping service" do
@@ -206,7 +207,7 @@ defmodule Dotcom.ServicePatternsTest do
         [overlapping_service, service]
       end)
 
-      assert for_route(route_id) |> Enum.count() == 1
+      assert patterns_for_route(route_id) |> Enum.count() == 1
     end
   end
 end
