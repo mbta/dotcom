@@ -568,11 +568,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </span>
       </div>
     </div>
-    <div class="flex justify-center bg-gray-lightest w-full p-3">
-      <span class="font-medium text-sm">
-        Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip.
-      </span>
-    </div>
+    <.attached_callout>
+      Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip.
+    </.attached_callout>
     """
   end
 
@@ -794,9 +792,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
-    <div class="flex justify-center bg-gray-lightest w-full py-3">
-      <span class="font-medium text-sm">Service Continues Until {@end_of_service}</span>
-    </div>
+    <.attached_callout>
+      Service Continues Until {@end_of_service}
+    </.attached_callout>
     """
   end
 
@@ -850,5 +848,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
         stop: stop.name
       )
     end
+  end
+
+  slot :inner_block
+
+  defp attached_callout(assigns) do
+    ~H"""
+    <div class="flex justify-center bg-gray-lightest w-full px-2 py-3 font-medium text-sm text-center leading-tight">
+      {render_slot(@inner_block)}
+    </div>
+    """
   end
 end
