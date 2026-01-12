@@ -18,7 +18,7 @@ on:
 
 jobs:
   crawler:
-    name: Website Crawler
+    name: "Crawl ${{inputs.deployment-env || 'dev'}}"
     runs-on: ubuntu-latest
     env:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
@@ -33,5 +33,8 @@ jobs:
         version-type: strict
     - name: Run Crawler
       run: |
+        echo "## Output" > $GITHUB_STEP_SUMMARY
+        echo "```shell" > $GITHUB_STEP_SUMMARY
         mix escript.install --force github mbta/link_checker
         $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 >> $GITHUB_STEP_SUMMARY
+        echo "```" > $GITHUB_STEP_SUMMARY
