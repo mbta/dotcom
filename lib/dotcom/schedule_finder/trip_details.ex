@@ -12,7 +12,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   @type t :: %__MODULE__{
           stops: [__MODULE__.TripStop.t()],
-          vehicle_info: __MODULE__.VehicleInfo
+          vehicle_info: nil | __MODULE__.VehicleInfo.t()
         }
 
   defmodule TripStop do
