@@ -100,7 +100,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: route_type,
          stop_id: stop_id
        })
-       |> Map.put(:arrival_status, {:first_scheduled, prediction_time(first_predicted_schedule)})}
+       |> Map.put(
+         :arrival_status,
+         {:first_scheduled, PredictedSchedule.display_time(first_predicted_schedule)}
+       )}
     else
       predicted_schedules_at_stop
       |> reject_past_schedules(now)
@@ -133,7 +136,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp first_schedule_in_future?(predicted_schedules, now) do
     first_schedule = predicted_schedules |> List.first()
 
-    DateTime.after?(prediction_time(first_schedule), now)
+    DateTime.after?(PredictedSchedule.display_time(first_schedule), now)
   end
 
   # We don't want to show upcoming departure rows for
