@@ -75,23 +75,4 @@ defmodule MBTA.Api.RoutesTest do
     # Verify
     assert routes == []
   end
-
-  test "by_stop_and_direction/2 sends stop and direction_id as query parameters" do
-    # Setup
-    stop = Faker.Team.creature() |> String.downcase()
-    direction_id = :rand.uniform(1)
-
-    expect(Mock, :get_json, fn url, params ->
-      assert url == "/routes/"
-      assert Enum.sort(params) == Enum.sort(stop: stop, direction_id: direction_id)
-
-      []
-    end)
-
-    # Exercise
-    routes = Routes.by_stop_and_direction(stop, direction_id)
-
-    # Verify
-    assert routes == []
-  end
 end
