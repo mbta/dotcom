@@ -6,7 +6,8 @@ exports.scenario = async ({ page, baseURL }) => {
   await page
     .getByPlaceholder("Search for routes, places, information, and more")
     .pressSequentially("Orange Line");
-  await page.waitForSelector("div#search-page-results");
+  const results = page.locator("div#search-page-results");
+  await expect(results).toBeVisible();
   await page
     .locator("section ul li a")
     .filter({ hasText: "Orange Line" })
