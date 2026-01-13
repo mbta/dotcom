@@ -1,7 +1,9 @@
 const { expect } = require("@playwright/test");
+const { syncLiveView } = require("../utils");
 
 exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/trip-planner`);
+  await syncLiveView(page, expect);
 
   await expect(
     page.getByRole("heading", { name: "Trip Planner" }),
