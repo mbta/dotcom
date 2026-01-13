@@ -522,9 +522,12 @@ defmodule Stops.RouteStopsTest do
 
     test "doesn't crash if we didn't have stops and/or shapes" do
       Stops.Repo.Mock
-      |> stub(:get_parent, fn _ -> Stop.build(:stop) end)
       |> stub(:get, fn _ -> Stop.build(:stop) end)
       |> stub(:stop_features, fn _, _ -> [] end)
+
+      Routes.Repo.Mock
+      |> stub(:by_stop, fn _ -> [] end)
+      |> stub(:by_stop, fn _, _ -> [] end)
 
       direction_id = 0
       good_stops = Stop.build_list(4, :stop)
