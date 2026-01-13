@@ -16,6 +16,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.UpcomingDepartures
+  alias Dotcom.ServicePatterns
   alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
@@ -33,6 +34,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     {:ok,
      socket
+     |> subscribe_to_alerts()
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
@@ -43,6 +45,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:selected_service_name, fn -> "" end)
      |> assign_new(:daily_schedule_date, fn -> service_date() end)}
+  end
+
+  @impl LiveView
+  def terminate(_, _) do
+    # stop listening for new alerts
+    _ = Alerts.Cache.Store.unsubscribe()
   end
 
   @impl LiveView
@@ -61,23 +69,27 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.stop_banner stop={@stop} />
     <div class="px-3 py-xl flex flex-col gap-y-xl">
       <.alert_banner alerts={@alerts} />
-      <section>
+      <section :if={show_upcoming_departures?(@route)}>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <.upcoming_departures_table
-          :if={@stop}
-          now={@now}
-          stop_id={@stop.id}
-          upcoming_departures={@upcoming_departures |> Enum.take(5)}
-        />
-        <.remaining_service
-          :if={departures = @stop && @departures.ok? && @departures.result}
-          end_of_service={end_of_service(departures)}
-          now={@now}
-          remaining_departures={@upcoming_departures |> Enum.drop(5)}
-          route={@route}
-          route_type={@route.type}
-          stop_id={@stop.id}
-        />
+        <%= if ServicePatterns.has_service?(route: @route.id) do %>
+          <.upcoming_departures_table
+            :if={@stop}
+            now={@now}
+            stop_id={@stop.id}
+            upcoming_departures={@upcoming_departures |> Enum.take(5)}
+          />
+          <.remaining_service
+            :if={departures = @stop && @departures.ok? && @departures.result}
+            end_of_service={end_of_service(departures)}
+            now={@now}
+            remaining_departures={@upcoming_departures |> Enum.drop(5)}
+            route={@route}
+            route_type={@route.type}
+            stop_id={@stop.id}
+          />
+        <% else %>
+          <.callout>{~t(No service today)}</.callout>
+        <% end %>
       </section>
       <section>
         <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
@@ -116,9 +128,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
             <% end %>
           <% else %>
-            <div class="callout font-bold text-center">
+            <.callout>
               {no_service_message(@service_groups, @route, @stop)}
-            </div>
+            </.callout>
           <% end %>
         </.async_result>
       </section>
@@ -170,6 +182,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       socket =
         update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
 
+      {stop_sequence, _} = Integer.parse(stop_sequence)
       GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
       {:noreply, socket}
     end
@@ -216,6 +229,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign(:now, @date_time.now())
      |> assign_upcoming_departures()}
+  end
+
+  def handle_info(%{event: "alerts_updated"}, socket) do
+    {:noreply, assign_alerts(socket)}
+  end
+
+  def handle_info(_, socket), do: {:noreply, socket}
+
+  defp subscribe_to_alerts(socket) do
+    if connected?(socket) do
+      _ = Alerts.Cache.Store.subscribe()
+      socket
+    else
+      socket
+    end
   end
 
   defp schedule_refresh() do
@@ -459,7 +487,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <div class="flex items-center gap-sm w-full">
             <RouteComponents.route_icon route={@route} size="small" />
             <div>
-              {departure.headsign}
+              <div class="flex gap-x-sm gap-y-xs flex-wrap">
+                {departure.headsign}
+                <.badge
+                  :if={departure.time_desc == "School days only"}
+                  class="bg-charcoal-80 text-nowrap text-sm"
+                >
+                  {~t"School days only"}
+                </.badge>
+              </div>
               <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
                 {~t(Train)} {departure.trip_name}
               </div>
@@ -484,7 +520,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <.lined_list_item :for={arrival <- arrivals} route={@route}>
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
-                  <div :if={arrival.platform_name} class="text-sm">
+                  <div :if={arrival.platform_name} class="text-xs">
                     {arrival.platform_name}
                   </div>
                 </div>
@@ -551,7 +587,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <div>{upcoming_departure.headsign}</div>
 
               <div />
-              <div :if={upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
+              <div :if={upcoming_departure.trip_name} class="leading-none text-xs">
                 Train {upcoming_departure.trip_name}
                 <span>
                   &bull; {upcoming_departure.platform_name || "Track TBA"}
@@ -706,7 +742,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="text-[0.75rem] line-through">{format!(@time, :hour_12_minutes)}</span>
+    <span class="text-xs line-through">{format!(@time, :hour_12_minutes)}</span>
     """
   end
 
@@ -714,7 +750,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:status, status)
 
     ~H"""
-    <span class="text-[0.75rem]">{@status}</span>
+    <span class="text-xs">{@status}</span>
     """
   end
 
@@ -722,7 +758,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <div class="flex shrink-0 gap-1 items-center">
       <.substatus_icon arrival_substatus={@arrival_substatus} />
-      <span class="text-[0.75rem]">{substatus_text(@arrival_substatus)}</span>
+      <span class="text-xs">{substatus_text(@arrival_substatus)}</span>
     </div>
     """
   end
@@ -799,4 +835,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       )
     end
   end
+
+  defp show_upcoming_departures?(%Route{} = route), do: Route.type_atom(route) != :ferry
+  defp show_upcoming_departures?(_), do: false
 end
