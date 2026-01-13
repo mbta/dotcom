@@ -339,4 +339,17 @@ defmodule DotcomWeb.Components do
     </button>
     """
   end
+
+  slot :inner_block, required: true
+
+  @doc """
+  A generic callout style
+  """
+  def callout(assigns) do
+    ~H"""
+    <div class="callout font-bold text-center">
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
 end
