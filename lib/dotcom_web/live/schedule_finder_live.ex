@@ -803,15 +803,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(assigns) do
     ~H"""
     <details class="group/remaining-service">
-      <summary class="cursor-pointer">
+      <summary class="cursor-pointer group/remaining-service-summary">
         <.attached_callout>
           <span>
             {Enum.count(@remaining_departures)} trips later today
           </span>
-          <span class="ml-auto text-brand-primary hover:underline group-open/remaining-service:hidden">
+          <span class="ml-auto text-brand-primary group-hover/remaining-service-summary:underline group-open/remaining-service:hidden">
             Show
           </span>
-          <span class="ml-auto text-brand-primary hover:underline hidden group-open/remaining-service:block">
+          <span class="ml-auto text-brand-primary group-hover/remaining-service-summary:underline hidden group-open/remaining-service:block">
             Hide
           </span>
         </.attached_callout>
