@@ -674,9 +674,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
         <div />
         <div :if={@upcoming_departure.trip_name} class="leading-none text-xs">
-          Train {@upcoming_departure.trip_name}
+          {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
           <span>
-            &bull; {@upcoming_departure.platform_name || "Track TBA"}
+            &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
           </span>
         </div>
       </div>
@@ -813,7 +813,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
     <.attached_callout>
-      Service Continues Until {@end_of_service}
+      {gettext("Service Continues Until %{end_of_service}", end_of_service: @end_of_service)}
     </.attached_callout>
     """
   end
@@ -826,13 +826,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <summary class="cursor-pointer group/remaining-service-summary">
         <.attached_callout>
           <span>
-            {Enum.count(@remaining_departures)} trips later today
+            {gettext("%{count} trips later today", count: Enum.count(@remaining_departures))}
           </span>
           <span class="ml-auto text-brand-primary group-hover/remaining-service-summary:underline group-open/remaining-service:hidden">
-            Show
+            {~t"Show"}
           </span>
           <span class="ml-auto text-brand-primary group-hover/remaining-service-summary:underline hidden group-open/remaining-service:block">
-            Hide
+            {~t"Hide"}
           </span>
         </.attached_callout>
       </summary>
