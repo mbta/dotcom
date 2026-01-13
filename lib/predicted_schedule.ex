@@ -230,6 +230,28 @@ defmodule PredictedSchedule do
     nil
   end
 
+  @doc """
+  Returns a time value for the given PredictedSchedule based only on
+  arrival_time and departure_time. Prefers arrival time over
+  departure time, and prefers prediction data over schedule data.
+  """
+  @spec display_time(PredictedSchedule.t()) :: DateTime.t() | nil
+
+  def display_time(%{arrival_time: time}) when time != nil, do: time
+  def display_time(%{departure_time: time}), do: time
+
+  def display_time(%PredictedSchedule{
+        prediction: %Prediction{arrival_time: nil, departure_time: nil},
+        schedule: schedule
+      }),
+      do: display_time(schedule)
+
+  def display_time(%PredictedSchedule{prediction: prediction}) when prediction != nil,
+    do: display_time(prediction)
+
+  def display_time(%PredictedSchedule{schedule: schedule}) when schedule != nil,
+    do: display_time(schedule)
+
   @spec last_stop?(t) :: boolean
   def last_stop?(%PredictedSchedule{schedule: %Schedule{last_stop?: last_stop?}}) do
     last_stop?
@@ -282,6 +304,22 @@ defmodule PredictedSchedule do
   def departing?(%PredictedSchedule{schedule: schedule}) do
     schedule.pickup_type != 1
   end
+
+  @doc """
+  Returns true if the PredictedSchedule represents a cancelled trip,
+  as indicated by a nil display_time in the prediction and a non-nil
+  display_time in the schedule.
+  """
+  @spec cancelled?(PredictedSchedule.t()) :: boolean()
+  def cancelled?(%PredictedSchedule{schedule: schedule, prediction: prediction})
+      when prediction != nil and schedule != nil do
+    schedule_time = PredictedSchedule.display_time(schedule)
+    prediction_time = PredictedSchedule.display_time(prediction)
+
+    schedule_time != nil && prediction_time == nil
+  end
+
+  def cancelled?(_), do: false
 
   @doc """
   Returns true if the PredictedSchedule doesn't have a prediction or schedule.
