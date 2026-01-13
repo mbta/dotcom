@@ -72,15 +72,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <section :if={show_upcoming_departures?(@route)}>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
         <%= if ServicePatterns.has_service?(route: @route.id) do %>
-        <.upcoming_departures_section
-          :if={@stop}
-          now={@now}
-          stop={@stop}
-          upcoming_departures={@upcoming_departures}
-          vehicle_name={@vehicle_name}
-          departures={@departures}
-          route={@route}
-        />
+          <.upcoming_departures_section
+            :if={@stop}
+            now={@now}
+            stop={@stop}
+            upcoming_departures={@upcoming_departures}
+            vehicle_name={@vehicle_name}
+            departures={@departures}
+            route={@route}
+          />
         <% else %>
           <.callout>{~t(No service today)}</.callout>
         <% end %>
