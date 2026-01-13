@@ -77,7 +77,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
             now={@now}
             stop_id={@stop.id}
             upcoming_departures={@upcoming_departures |> Enum.take(5)}
-            vehicle_name={@vehicle_name}
           />
           <.remaining_service
             :if={departures = @stop && @departures.ok? && @departures.result}
@@ -87,7 +86,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
             route={@route}
             route_type={@route.type}
             stop_id={@stop.id}
-            vehicle_name={@vehicle_name}
           />
         <% else %>
           <.callout>{~t(No service today)}</.callout>
@@ -573,7 +571,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :now, DateTime
   attr :stop_id, :string
   attr :upcoming_departures, :list
-  attr :vehicle_name, :string
 
   defp upcoming_departures_table(assigns) do
     ~H"""
@@ -606,7 +603,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:content>
           <.lined_list>
             <.lined_list_item route={upcoming_departure.route} variant="mode">
-              <div class="grow">Hello we are your {@vehicle_name}</div>
+              <div class="grow font-medium">
+                {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
+              </div>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
@@ -615,11 +614,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <summary class="cursor-pointer">
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
-                    {ngettext(
-                      "1 Stop Away",
-                      "%{count} Stops Away",
-                      Enum.count(upcoming_departure.trip_details.stops_before)
-                    )}
+                    <span class="text-[0.75rem] underline group-open/details:hidden">
+                      {~t"Show More Stops"}
+                    </span>
+                    <span class="text-[0.75rem] underline hidden group-open/details:block">
+                      {~t"Hide More Stops"}
+                    </span>
                   </div>
                   <div class="shrink-0">
                     <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
@@ -652,6 +652,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
+
+  defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
+    do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)
+
+  defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
+    do: gettext("Approaching %{stop_name}", stop_name: stop_name)
+
+  defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
+    do: gettext("Now at %{stop_name}", stop_name: stop_name)
+
+  defp vehicle_message(nil),
+    do: ~t"Finishing another trip"
 
   attr :class, :string, default: ""
   attr :route, Route, required: true
@@ -793,7 +805,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         now={@now}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
-        vehicle_name={@vehicle_name}
       />
     </details>
     """
