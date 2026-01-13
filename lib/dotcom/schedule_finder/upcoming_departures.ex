@@ -112,7 +112,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: route_type,
          stop_id: stop_id
        })
-       |> Map.put(:arrival_status, {:scheduled, prediction_time(first_predicted_schedule)})}
+       |> Map.put(:arrival_status, {:first_scheduled, prediction_time(first_predicted_schedule)})}
     else
       predicted_schedules_at_stop
       |> reject_past_schedules(now)

@@ -365,7 +365,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert {:before_service, departure} = departures
-      assert departure.arrival_status == {:scheduled, scheduled_arrival_time}
+      assert departure.arrival_status == {:first_scheduled, scheduled_arrival_time}
     end
 
     test "does not return :before_service if there are no predictions if it's after the first trip of the day" do

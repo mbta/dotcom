@@ -556,17 +556,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <div class="w-full flex items-center border-xs border-gray-lightest py-3 px-2 gap-2">
-      <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-        <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
-        <div>{@upcoming_departure.headsign}</div>
-
-        <div />
-      </div>
-      <div class="ml-auto flex flex-col items-end">
-        <span class="font-bold">
-          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
-        </span>
-      </div>
+      <.upcoming_departure_heading upcoming_departure={@upcoming_departure} />
     </div>
     <.attached_callout>
       Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip.
@@ -609,24 +599,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
-          <div class="w-full flex items-center">
-            <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-              <RouteComponents.route_icon size="small" route={upcoming_departure.route} />
-              <div>{upcoming_departure.headsign}</div>
-
-              <div />
-              <div :if={upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
-                Train {upcoming_departure.trip_name}
-                <span>
-                  &bull; {upcoming_departure.platform_name || "Track TBA"}
-                </span>
-              </div>
-            </div>
-            <div class="ml-auto flex flex-col items-end">
-              <.prediction_time_display arrival_status={upcoming_departure.arrival_status} />
-              <.prediction_substatus_display arrival_substatus={upcoming_departure.arrival_substatus} />
-            </div>
-          </div>
+          <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
         </:heading>
         <:content>
           <.lined_list>
@@ -678,6 +651,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp upcoming_departure_heading(assigns) do
+    ~H"""
+    <div class="w-full flex items-center">
+      <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
+        <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
+        <div>{@upcoming_departure.headsign}</div>
+
+        <div />
+        <div :if={@upcoming_departure.trip_name} class="leading-none text-[0.75rem]">
+          Train {@upcoming_departure.trip_name}
+          <span>
+            &bull; {@upcoming_departure.platform_name || "Track TBA"}
+          </span>
+        </div>
+      </div>
+      <div class="ml-auto flex flex-col items-end">
+        <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+        <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
+      </div>
+    </div>
+    """
+  end
+
   attr :class, :string, default: ""
   attr :route, Route, required: true
   attr :stop_id, :string, required: true
@@ -705,6 +701,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <span>
+      {format!(@time, :hour_12_minutes)}
+    </span>
+    """
+  end
+
+  defp prediction_time_display(%{arrival_status: {:first_scheduled, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <span class="font-bold">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
