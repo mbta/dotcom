@@ -31,8 +31,14 @@ concurrency:
   group: deploy-${{ inputs.deployment-env }}
   cancel-in-progress: true
 
+env:
+  DOCKER_BUILD_CHECKS_ANNOTATIONS: false
+  DOCKER_BUILD_SUMMARY: false
+  DOCKER_BUILD_RECORD_UPLOAD: false
+
 jobs:
   deploy:
+    name: Deploy to ${{inputs.deployment-env}}
     runs-on: ubuntu-latest
     permissions:
       id-token: write
