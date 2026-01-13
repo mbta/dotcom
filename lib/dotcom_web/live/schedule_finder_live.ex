@@ -573,7 +573,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.upcoming_departure_heading upcoming_departure={@upcoming_departure} />
     </div>
     <.attached_callout>
-      Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip.
+      {~t"Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip."}
     </.attached_callout>
     """
   end
