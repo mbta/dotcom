@@ -9,15 +9,17 @@ on:
         type: environment # will be prod, dev, dev-blue, or dev-green
         required: true
         default: dev
-
-  workflow_run:
-    workflows:
-      - "Deploy: main branch"
-    types:
-      - completed
+  # Invoked via another workflow, value passed in by string
+  workflow_call:
+    inputs:
+      deployment-env:
+        description: "Environment to deploy to"
+        required: true
+        type: string
 
 jobs:
   crawler:
+    continue-on-error: true
     name: "Crawl ${{inputs.deployment-env || 'dev'}}"
     runs-on: ubuntu-latest
     env:
