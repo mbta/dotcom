@@ -210,6 +210,7 @@ config :sentry,
 
 config :dotcom,
   env: config_env(),
+  env_name: System.get_env("SENTRY_ENVIRONMENT"),
   # soon: use a better env var name
   is_prod_env?: System.get_env("SENTRY_ENVIRONMENT") == "prod"
 

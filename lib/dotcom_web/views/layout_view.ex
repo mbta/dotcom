@@ -5,6 +5,26 @@ defmodule DotcomWeb.LayoutView do
 
   import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
 
+  def banner_color_classes() do
+    Application.get_env(:dotcom, :env_name)
+    |> case do
+      "dev-green" -> "bg-green-line text-white"
+      "dev-blue" -> "bg-blue-line text-white"
+      "dev" -> "bg-silver-line text-white"
+      _ -> "bg-brand-bus text-black"
+    end
+  end
+
+  def favicon_image() do
+    Application.get_env(:dotcom, :env_name)
+    |> case do
+      "dev-green" -> "/images/mbta-logo-green.png"
+      "dev-blue" -> "/images/mbta-logo-blue.png"
+      "dev" -> "/images/mbta-logo-silver.png"
+      _ -> "/images/mbta-logo-yellow.png"
+    end
+  end
+
   def bold_if_active(DotcomWeb.Endpoint, _, text) do
     raw(text)
   end
