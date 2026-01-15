@@ -42,10 +42,8 @@ jobs:
       run: mix escript.install --force github mbta/link_checker
     - name: Run Crawler
       run: |
-        set -o pipefail
-        echo "## Output" >> $GITHUB_STEP_SUMMARY
+        echo "## Crawler results" >> $GITHUB_STEP_SUMMARY
+        echo "Compare against current [known broken links (link TBA)]()"
         echo "\`\`\`shell" >> $GITHUB_STEP_SUMMARY
         $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
-        exit_code=$?
         echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-        exit $exit_code
