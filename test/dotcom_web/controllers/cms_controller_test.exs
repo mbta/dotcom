@@ -144,6 +144,12 @@ defmodule DotcomWeb.CMSControllerTest do
     end
 
     test "renders and does not redirect an unaliased project response", %{conn: conn} do
+      Application.put_env(:dotcom, :is_prod_env?, true)
+
+      on_exit(fn ->
+        Application.put_env(:dotcom, :is_prod_env?, false)
+      end)
+
       conn = get(conn, "/node/3004")
 
       assert html_response(conn, 200) =~

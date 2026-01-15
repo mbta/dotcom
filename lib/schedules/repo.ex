@@ -37,7 +37,7 @@ defmodule Schedules.Repo do
     no_cache = Keyword.get(opts, :no_cache)
 
     @default_params
-    |> Keyword.put(:route, Enum.join(route_ids, ","))
+    |> Keyword.put(:route, format_route_ids(route_ids))
     |> Keyword.put(:date, Keyword.fetch!(opts, :date) |> to_string())
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
@@ -46,6 +46,13 @@ defmodule Schedules.Repo do
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
+
+  defp format_route_ids(route_ids) do
+    route_ids |> Enum.flat_map(&expand_green_line/1) |> Enum.uniq() |> Enum.join(",")
+  end
+
+  defp expand_green_line("Green"), do: GreenLine.branch_ids()
+  defp expand_green_line(route_id), do: [route_id]
 
   # Will almost always use cache, unless the calling function explicitly passes "no_cache"
   defp cache_condition(params, true), do: all_from_params(params)

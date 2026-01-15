@@ -72,26 +72,71 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedules =
       PredictedSchedule.group(all_predictions, all_schedules)
-      |> reject_past_schedules(now)
 
     predicted_schedules_by_trip_id =
-      predicted_schedules |> Enum.group_by(&PredictedSchedule.trip(&1).id)
+      predicted_schedules
+      |> reject_past_schedules(now)
+      |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
-    predicted_schedules
-    |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Enum.reject(&end_of_trip?/1)
-    |> reject_timeless_predictions()
-    |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
-    |> Enum.map(fn predicted_schedule ->
-      to_upcoming_departure(%{
-        now: now,
-        predicted_schedule: predicted_schedule,
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        route_type: route_type,
-        stop_id: stop_id
-      })
-    end)
-    |> Enum.reject(&(&1.arrival_status == :hidden))
+    predicted_schedules_at_stop =
+      predicted_schedules
+      |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+      |> Enum.reject(&end_of_trip?/1)
+      |> reject_timeless_predictions()
+      |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
+
+    if before_subway_service_no_predictions?(%{
+         predicted_schedules: predicted_schedules_at_stop,
+         now: now,
+         route_type: route_type
+       }) do
+      first_predicted_schedule = predicted_schedules_at_stop |> List.first()
+
+      {:before_service,
+       to_upcoming_departure(%{
+         now: now,
+         predicted_schedule: first_predicted_schedule,
+         predicted_schedules_by_trip_id: %{},
+         route_type: route_type,
+         stop_id: stop_id
+       })
+       |> Map.put(
+         :arrival_status,
+         {:first_scheduled, PredictedSchedule.display_time(first_predicted_schedule)}
+       )}
+    else
+      predicted_schedules_at_stop
+      |> reject_past_schedules(now)
+      |> Enum.map(fn predicted_schedule ->
+        to_upcoming_departure(%{
+          now: now,
+          predicted_schedule: predicted_schedule,
+          predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
+          route_type: route_type,
+          stop_id: stop_id
+        })
+      end)
+      |> Enum.reject(&(&1.arrival_status == :hidden))
+    end
+  end
+
+  defp before_subway_service_no_predictions?(%{
+         route_type: :subway,
+         predicted_schedules: predicted_schedules,
+         now: now
+       }) do
+    no_predictions?(predicted_schedules) && first_schedule_in_future?(predicted_schedules, now)
+  end
+
+  defp before_subway_service_no_predictions?(_), do: false
+
+  defp no_predictions?(predicted_schedules),
+    do: !(predicted_schedules |> Enum.any?(&PredictedSchedule.has_prediction?/1))
+
+  defp first_schedule_in_future?(predicted_schedules, now) do
+    first_schedule = predicted_schedules |> List.first()
+
+    DateTime.after?(PredictedSchedule.display_time(first_schedule), now)
   end
 
   # We don't want to show upcoming departure rows for
