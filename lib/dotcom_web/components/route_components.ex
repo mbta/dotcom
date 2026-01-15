@@ -7,7 +7,7 @@ defmodule DotcomWeb.RouteComponents do
 
   import CSSHelpers
 
-  alias MbtaMetro.Components.SystemIcons
+  alias MbtaMetro.Components.{Icon, SystemIcons}
   alias Routes.Route
 
   attr :rest, :global
@@ -71,6 +71,7 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :route, Route, required: true
   attr :class, :string, default: ""
+  attr :stop_pin?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
@@ -94,7 +95,14 @@ defmodule DotcomWeb.RouteComponents do
         </div>
         <.lined_list_marker variant={@variant} route={@route} />
       </div>
-
+      <div class="relative">
+        <Icon.icon
+          :if={@stop_pin?}
+          type="icon-svg"
+          name="stop-pin"
+          class="h-6 w-6 absolute z-20 -left-[28px] -top-[24px]"
+        />
+      </div>
       {render_slot(@inner_block)}
     </div>
     """
