@@ -473,7 +473,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest p-sm"
+        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
@@ -513,7 +513,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item :for={arrival <- arrivals} route={@route}>
+              <.lined_list_item
+                :for={{arrival, index} <- Enum.with_index(arrivals)}
+                route={@route}
+                class={if(index == 0, do: "font-bold")}
+                stop_pin?={index == 0}
+              >
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
                   <div :if={arrival.platform_name} class="text-xs">
