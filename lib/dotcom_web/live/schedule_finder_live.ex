@@ -620,7 +620,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </:heading>
         <:content>
           <.lined_list>
-            <.lined_list_item route={upcoming_departure.route} variant="mode">
+            <.lined_list_item
+              route={upcoming_departure.route}
+              variant="mode"
+              stop_pin?={upcoming_departure.trip_details.stop == nil}
+            >
               <div class="grow font-medium">
                 {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
               </div>
@@ -654,6 +658,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             </details>
 
             <.other_stop
+              :if={upcoming_departure.trip_details.stop}
               other_stop={upcoming_departure.trip_details.stop}
               route={upcoming_departure.route}
               stop_id={@stop_id}
@@ -712,14 +717,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :other_stop, :any, required: true
 
   defp other_stop(assigns) do
+    assigns = assigns |> assign(:highlighted_stop?, assigns.stop_id == assigns.other_stop.stop_id)
+
     ~H"""
-    <.lined_list_item :if={@other_stop} route={@route} class={@class}>
+    <.lined_list_item route={@route} class={@class} stop_pin?={@highlighted_stop?}>
       <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
         {@other_stop.stop_name}
       </div>
       <div class={[
         "ml-auto",
-        @stop_id == @other_stop.stop_id && "font-bold",
+        @highlighted_stop? && "font-bold",
         @other_stop.cancelled? && "line-through"
       ]}>
         {format!(@other_stop.time, :hour_12_minutes)}
