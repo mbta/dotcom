@@ -1,12 +1,20 @@
 defmodule DotcomWeb.Schedule.LineControllerTest do
   use DotcomWeb.ConnCase, async: false
 
-  import Mock
-
   alias DotcomWeb.ScheduleController.LineController
-  alias Services.Service
+
+  import Mox
+  import Test.Support.Factories.Services.Service
+
+  setup :verify_on_exit!
 
   @moduletag :external
+
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -31,140 +39,17 @@ defmodule DotcomWeb.Schedule.LineControllerTest do
     end
   end
 
-  describe "services/3" do
+  describe "services/2" do
     test "omits services in the past" do
-      service_date = ~D[2019-05-01]
+      past_service =
+        build(:service, end_date: Faker.Date.backward(3), typicality: :typical_service)
 
-      past_service = %Service{
-        start_date: ~D[2019-04-30],
-        end_date: ~D[2019-04-30]
-      }
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        [past_service]
+      end)
 
-      current_service = %Service{
-        start_date: ~D[2019-05-01],
-        end_date: ~D[2019-05-01]
-      }
-
-      future_service = %Service{
-        start_date: ~D[2019-05-02],
-        end_date: ~D[2019-05-02]
-      }
-
-      repo_fn = fn _ ->
-        [
-          past_service,
-          current_service,
-          future_service
-        ]
-      end
-
-      services = LineController.services("1", service_date, repo_fn)
-      assert length(services) == 2
-      refute Enum.member?(services, past_service)
-    end
-
-    @tag skip: "Stopped omitting these, might restore one day"
-    test "omits no-school weekday services" do
-      service_date = ~D[2019-12-11]
-
-      school_service = %Service{
-        start_date: ~D[2019-12-11],
-        end_date: ~D[2019-12-11],
-        name: "Weekday"
-      }
-
-      no_school_service = %Service{
-        start_date: ~D[2019-12-12],
-        end_date: ~D[2019-12-12],
-        name: "Weekday (no school)"
-      }
-
-      repo_fn = fn _ ->
-        [
-          school_service,
-          no_school_service
-        ]
-      end
-
-      services = LineController.services("1", service_date, repo_fn)
-      assert length(services) == 1
-      refute Enum.member?(services, no_school_service)
-    end
-
-    test "omits services that are subsets of another service" do
-      service_date = ~D[2019-05-01]
-
-      subset_service = %Service{
-        start_date: ~D[2019-05-30],
-        end_date: ~D[2019-06-30]
-      }
-
-      superset_service = %Service{
-        start_date: ~D[2019-04-29],
-        end_date: ~D[2019-07-01]
-      }
-
-      unrelated_service = %Service{
-        start_date: ~D[2019-07-02],
-        end_date: ~D[2019-09-02]
-      }
-
-      repo_fn = fn _ ->
-        [
-          subset_service,
-          superset_service,
-          unrelated_service
-        ]
-      end
-
-      services = LineController.services("1", service_date, repo_fn)
-      assert length(services) == 2
-      refute Enum.member?(services, subset_service)
-    end
-
-    test "does not break even when there's an error getting the current rating" do
-      with_mock(Schedules.Repo, [:passthrough], end_of_rating: fn -> nil end) do
-        service_date = ~D[2021-05-01]
-
-        repo_fn = fn _ ->
-          [
-            %Service{
-              start_date: ~D[2021-05-01],
-              end_date: ~D[2021-05-01]
-            }
-          ]
-        end
-
-        services = LineController.services("1", service_date, repo_fn)
-
-        assert length(services) == 1
-      end
-    end
-
-    test "does not include canonical services" do
-      service_date = ~D[2019-05-01]
-
-      current_service = %Service{
-        start_date: ~D[2019-05-01],
-        end_date: ~D[2019-05-01]
-      }
-
-      canonical_service = %Service{
-        typicality: :canonical,
-        start_date: ~D[2019-05-02],
-        end_date: ~D[2019-05-02]
-      }
-
-      repo_fn = fn _ ->
-        [
-          current_service,
-          canonical_service
-        ]
-      end
-
-      services = LineController.services("1", service_date, repo_fn)
-      assert length(services) == 1
-      refute Enum.member?(services, canonical_service)
+      services = LineController.services("1", Faker.Date.forward(3))
+      assert Enum.empty?(services)
     end
   end
 

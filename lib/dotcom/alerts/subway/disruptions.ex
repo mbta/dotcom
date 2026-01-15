@@ -60,11 +60,11 @@ defmodule Dotcom.Alerts.Subway.Disruptions do
   # result is then two alerts, both equivalent to the alert passed in,
   # except that one has a single active period of {Sun, Tue}, and the
   # other has a single active period of {Thu, Fri}.
-  defp split_by_discontiguous_active_periods(alert) do
+  defp split_by_discontiguous_active_periods(%Alerts.Alert{} = alert) do
     alert.active_period
     |> combine_contiguous_active_periods()
     |> Enum.map(fn active_period ->
-      %Alerts.Alert{alert | active_period: [active_period]}
+      %{alert | active_period: [active_period]}
     end)
   end
 

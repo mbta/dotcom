@@ -37,7 +37,7 @@ defmodule Schedules.Repo do
     no_cache = Keyword.get(opts, :no_cache)
 
     @default_params
-    |> Keyword.put(:route, Enum.join(route_ids, ","))
+    |> Keyword.put(:route, format_route_ids(route_ids))
     |> Keyword.put(:date, Keyword.fetch!(opts, :date) |> to_string())
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
@@ -46,6 +46,13 @@ defmodule Schedules.Repo do
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
+
+  defp format_route_ids(route_ids) do
+    route_ids |> Enum.flat_map(&expand_green_line/1) |> Enum.uniq() |> Enum.join(",")
+  end
+
+  defp expand_green_line("Green"), do: GreenLine.branch_ids()
+  defp expand_green_line(route_id), do: [route_id]
 
   # Will almost always use cache, unless the calling function explicitly passes "no_cache"
   defp cache_condition(params, true), do: all_from_params(params)
@@ -173,18 +180,23 @@ defmodule Schedules.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"new-style-tuple", params},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cache_all_from_params(params) do
     all_from_params(params)
   end
 
-  def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
   def has_trip?(_), do: true
 
-  defp date_sorter({_, _, _, _, _, %DateTime{} = time, _, _, _, _, _, _}) do
+  defp date_sorter({_, _, _, _, _, _, %DateTime{} = time, _, _, _, _, _, _}) do
     DateTime.to_unix(time)
   end
 
@@ -247,6 +259,7 @@ defmodule Schedules.Repo do
                                 _route_id,
                                 _trip_id,
                                 _stop_id,
+                                _schedule_id,
                                 _arrival_time,
                                 _departure_time,
                                 %DateTime{} = schedule_time,
@@ -269,12 +282,14 @@ defmodule Schedules.Repo do
 
   defp load_from_other_repos(schedules) do
     schedules
-    |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
-                    early_departure?, last_stop?, stop_sequence, stop_headsign, pickup_type} ->
+    |> Enum.map(fn {route_id, trip_id, stop_id, schedule_id, arrival_time, departure_time, time,
+                    flag?, early_departure?, last_stop?, stop_sequence, stop_headsign,
+                    pickup_type} ->
       %Schedules.Schedule{
         route: @routes_repo.get(route_id),
         trip: trip(trip_id),
         platform_stop_id: stop_id,
+        schedule_id: schedule_id,
         stop: @stops_repo.get_parent(stop_id),
         arrival_time: arrival_time,
         departure_time: departure_time,

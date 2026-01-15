@@ -349,8 +349,8 @@ defmodule Stops.RouteStop do
     {first_last, first_body} = List.pop_at(first, -1)
 
     first_body ++
-      [%RouteStop{first_last | terminus?: false}] ++
-      (second |> tl() |> Enum.map(&%RouteStop{&1 | branch: branch(first)}))
+      [%{first_last | terminus?: false}] ++
+      (second |> tl() |> Enum.map(&%{&1 | branch: branch(first)}))
   end
 
   @spec branch([RouteStop.t()]) :: RouteStop.branch_name_t()

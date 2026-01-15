@@ -8,7 +8,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   alias DotcomWeb.{ScheduleView, ViewHelpers}
   alias Plug.Conn
   alias Routes.{Group, Route}
-  alias Services.Repo, as: ServicesRepo
   alias Services.Service
 
   plug(DotcomWeb.Plugs.Route)
@@ -35,8 +34,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
-    services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
-
     service_date = Map.get(conn.assigns, :date_time, Util.now()) |> Util.service_date()
 
     assign(
@@ -64,7 +61,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services: services(conn.assigns.route.id, service_date, services_fn),
+        services: services(conn.assigns.route.id, service_date),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
@@ -83,78 +80,10 @@ defmodule DotcomWeb.ScheduleController.LineController do
     )
   end
 
-  # If we have two services A and B with the same type and typicality,
-  # with the date range from A's start to A's end a subset of the date
-  # range from B's start to B's end, either A is in the list of services
-  # erroneously (for example, in the case of the 39 in the fall 2019
-  # rating), or A represents a special service that's not a holiday (for
-  # instance, the Thanksgiving-week extra service to Logan on the SL1 in
-  # the fall 2019 rating).
-  #
-  # However, in neither of these cases do we want to show service A. In the
-  # first case, we don't want to show A because it's erroneous, and in the
-  # second case, we don't want to show A for parity with the paper/PDF
-  # schedules, in which these special services are not generally called
-  # out.
-
-  @spec dedup_similar_services([Service.t()]) :: [Service.t()]
-  def dedup_similar_services(services) do
-    services
-    |> Enum.group_by(&{&1.type, &1.typicality, &1.rating_description})
-    |> Enum.flat_map(fn {_, service_group} ->
-      service_group
-      |> drop_extra_weekday_schedule_if_friday_present()
-      |> then(fn services ->
-        Enum.reject(services, &service_completely_overlapped?(&1, services))
-      end)
-    end)
-  end
-
-  # If there's a Friday service and two overlapping weekday schedules, we want to show the Monday-Thursday one rather than the Monday-Friday one.
-  defp drop_extra_weekday_schedule_if_friday_present(services) do
-    if Enum.find(services, &Service.friday_typical_service?/1) &&
-         Enum.find(services, &Service.monday_to_thursday_typical_service?/1) do
-      Enum.reject(services, &(&1.valid_days == [1, 2, 3, 4, 5]))
-    else
-      services
-    end
-  end
-
-  defp service_completely_overlapped?(service, services) do
-    Enum.any?(services, fn other_service ->
-      # There's an other service that
-      # - starts earlier/same time as this service
-      # - and ends later/same time as this service
-      # - and covers the same valid_days as this service
-      other_service != service && String.contains?(service.name, other_service.name) &&
-        Date.compare(other_service.start_date, service.start_date) != :gt &&
-        Date.compare(other_service.end_date, service.end_date) != :lt &&
-        Enum.all?(service.valid_days, &Enum.member?(other_service.valid_days, &1))
-    end)
-  end
-
-  @spec dedup_identical_services([Service.t()]) :: [Service.t()]
-  def dedup_identical_services(services) do
-    services
-    |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
-      {start_date, end_date, valid_days}
-    end)
-    |> Enum.map(fn {_key, [service | _rest]} ->
-      service
-    end)
-  end
-
   @spec services(Routes.Route.id_t(), Date.t()) :: [Service.t()]
-  def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
+  def services(route_id, service_date) do
     route_id
-    |> services_by_route_id_fn.()
-    |> Enum.reject(fn service ->
-      service.typicality == :canonical || service.description =~ "(no school)" ||
-        Date.compare(service.end_date, service_date) == :lt
-    end)
-    |> dedup_identical_services()
-    |> dedup_similar_services()
-    |> Enum.sort_by(&sort_services_by_date/1)
+    |> Dotcom.ServicePatterns.services_for_route()
     |> Enum.map(&Map.put(&1, :service_date, service_date))
     |> tag_default_service()
   end
@@ -216,14 +145,15 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # - if all else fails, use the first candidate (already sorted by :start_date)
   defp get_default_service(current_services, _all_services) do
     service_date = current_services |> List.first() |> Map.get(:service_date)
-    day_number = Timex.weekday(service_date)
 
     # Fallback #2: First service
     first_service = List.first(current_services)
 
     # Fallback #1: Today is a valid day for this service
     day_service =
-      Enum.find(current_services, first_service, &Enum.member?(&1.valid_days, day_number))
+      Enum.find(current_services, first_service, fn service ->
+        service_date in Service.all_valid_dates_for_service(service)
+      end)
 
     # Best match: Today is explicitly listed in this service's :added_in list
     Enum.find(

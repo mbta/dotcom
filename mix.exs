@@ -15,12 +15,6 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.html": :test,
-        "gettext.extract": :prod,
-        "gettext.translate": :prod
-      ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
         flags: [:unmatched_returns]
@@ -33,6 +27,17 @@ defmodule DotCom.Mixfile do
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
       docs: [logo: "priv/static/images/mbta-logo-t.png"]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.html": :test,
+        "gettext.extract": :prod,
+        "gettext.translate": :prod
+      ]
     ]
   end
 
@@ -60,7 +65,7 @@ defmodule DotCom.Mixfile do
       if Mix.env() == :prod do
         [:sasl | extra_apps]
       else
-        extra_apps
+        [:wx, :observer | extra_apps]
       end
 
     [
@@ -80,41 +85,40 @@ defmodule DotCom.Mixfile do
       {:absinthe_client, "0.1.1"},
       {:address_us, "0.4.3"},
       {:algolia, "0.11.0", hex: :algolia_ex},
-      {:aws, "1.0.9"},
-      {:aws_credentials, "1.0.2", optional: true},
+      {:aws, "1.0.10"},
+      {:aws_credentials, "1.0.3", optional: true},
       {:browser, "0.5.5"},
-      {:castore, "1.0.15"},
+      {:castore, "1.0.17"},
       {
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
       },
       {:cowlib, "2.16.0", override: true},
       {:crc, "0.10.5"},
-      {:credo, "1.7.13", only: [:dev, :test]},
+      {:credo, "1.7.15", only: [:dev, :test]},
       {:csv, "3.2.2"},
       {:cva, "0.2.2"},
       {:decorator, "1.4.0"},
-      {:dialyxir, "1.4.6", [only: [:dev, :test], runtime: false]},
+      {:dialyxir, "1.4.7", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
-      {:ecto, "3.13.4"},
-      {:eextoheex, git: "https://github.com/Multiverse-io/eextoheex", only: [:dev, :test]},
+      {:ecto, "3.13.5"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:ex_cldr, "2.43.2"},
-      {:ex_cldr_dates_times, "2.24.2"},
+      {:ex_cldr, "2.44.1"},
+      {:ex_cldr_dates_times, "2.25.2"},
       {:ex_cldr_lists, "2.11.1"},
-      {:ex_cldr_units, "3.19.1"},
-      {:ex_doc, "0.39.1", only: :dev},
+      {:ex_cldr_units, "3.20.0"},
+      {:ex_doc, "0.39.3", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       {:excoveralls, "0.18.5", only: :test},
       {:faker, "0.19.0-alpha.1"},
       {:floki, "0.38.0"},
       {:gen_stage, "1.3.2"},
-      {:gettext, "1.0.0", override: true},
+      {:gettext, "1.0.2", override: true},
       {:hammer, "7.1.0"},
-      {:html_sanitize_ex, "1.4.3"},
-      {:httpoison, "2.2.3"},
+      {:html_sanitize_ex, "1.4.4"},
+      {:httpoison, "2.3.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.4", override: true},
       {:kino_live_component, "0.0.5"},
@@ -135,16 +139,16 @@ defmodule DotCom.Mixfile do
         [github: "mbta/open_trip_planner_client", tag: "v0.17.1"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.1", override: true},
-      {:phoenix_ecto, "4.6.5"},
+      {:phoenix, "1.8.3", override: true},
+      {:phoenix_ecto, "4.7.0"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.7"},
-      {:phoenix_live_reload, "1.6.1", only: [:dev, :test]},
-      {:phoenix_live_view, "1.1.16", override: true},
+      {:phoenix_live_reload, "1.6.2", only: [:dev, :test]},
+      {:phoenix_live_view, "1.1.19", override: true},
       {:phoenix_pubsub, "2.2.0"},
       {:phoenix_view, "2.0.4"},
-      {:plug, "1.18.1"},
-      {:plug_cowboy, "2.7.4"},
+      {:plug, "1.19.1"},
+      {:plug_cowboy, "2.7.5"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
       {:progress_bar, "3.0.0"},
@@ -154,8 +158,8 @@ defmodule DotCom.Mixfile do
       {:recaptcha, "3.1.0"},
       {:recase, "0.9.1"},
       {:recon, "2.5.6", [only: :prod]},
-      {:redix, "1.5.2"},
-      {:req, "0.5.15"},
+      {:redix, "1.5.3"},
+      {:req, "0.5.16"},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "11.0.4"},
       {:server_sent_event_stage, "1.2.1"},
