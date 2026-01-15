@@ -39,12 +39,4 @@ defmodule MBTA.Api.Routes do
 
     @mbta_api.get_json("/routes/", params)
   end
-
-  @spec by_stop_and_direction(Stop.id_t(), 0 | 1, keyword()) :: api_response_t()
-  def by_stop_and_direction(stop_id, direction_id, params \\ []) do
-    params = put_in(params[:stop], stop_id)
-    params = put_in(params[:direction_id], direction_id)
-
-    @mbta_api.get_json("/routes/", params)
-  end
 end

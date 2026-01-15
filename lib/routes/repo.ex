@@ -122,46 +122,6 @@ defmodule Routes.Repo do
     stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end
 
-  @impl Routes.Repo.Behaviour
-  def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
-    opts = Keyword.merge(@default_opts, opts)
-
-    case cached_by_stop_and_direction(stop_id, direction_id, opts) do
-      {:ok, routes} -> routes
-      {:error, _} -> []
-    end
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp cached_by_stop_and_direction(stop_id, direction_id, opts) do
-    stop_id |> MBTA.Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
-  end
-
-  @impl Routes.Repo.Behaviour
-  def by_stop_with_route_pattern(stop_id) do
-    case do_by_stop_with_route_pattern(stop: stop_id, include: "route_patterns") do
-      %{data: data} ->
-        Enum.map(data, &parse_route_with_route_pattern/1)
-
-      error ->
-        Logger.error(
-          "#{__MODULE__} by_stop_with_route_pattern stop_id=#{stop_id} error=#{inspect(error)}"
-        )
-
-        []
-    end
-  end
-
-  @decorate cacheable(
-              cache: @cache,
-              match: fn %{data: data} -> is_list(data) && data != [] end,
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
-  def do_by_stop_with_route_pattern(opts) do
-    MBTA.Api.Routes.all(opts)
-  end
-
   @doc """
   Parses json into a list of routes, or an error if it happened.
   """
@@ -171,12 +131,25 @@ defmodule Routes.Repo do
   end
 
   def handle_response(%{data: data}) do
+    connecting_routes =
+      data
+      |> Stream.flat_map(&Map.get(&1.relationships, "stop", []))
+      |> Stream.flat_map(&Map.get(&1.relationships, "connecting_stops", []))
+      |> Stream.map(& &1.id)
+      |> Stream.uniq()
+      |> Stream.flat_map(fn stop_id ->
+        case cached_by_stop(stop_id, []) do
+          {:ok, routes} -> routes
+          {:error, _} -> []
+        end
+      end)
+
     {:ok,
      data
-     |> Enum.flat_map(&fetch_connecting_routes_via_stop/1)
-     |> Enum.reject(&Route.hidden?/1)
-     |> Enum.map(&parse_route/1)
-     |> Enum.uniq()
+     |> Stream.reject(&Route.hidden?/1)
+     |> Stream.map(&parse_route/1)
+     |> Stream.concat(connecting_routes)
+     |> Stream.uniq()
      |> Enum.sort_by(& &1.sort_order)}
   end
 
@@ -193,23 +166,4 @@ defmodule Routes.Repo do
       color: "00843D"
     }
   end
-
-  @spec fetch_connecting_routes_via_stop(JsonApi.Item.t()) ::
-          [JsonApi.Item.t()] | JsonApi.Item.t()
-  defp fetch_connecting_routes_via_stop(
-         %JsonApi.Item{
-           relationships: %{
-             "stop" => [%JsonApi.Item{relationships: %{"connecting_stops" => connecting_stops}}]
-           }
-         } = route
-       ) do
-    Enum.flat_map(connecting_stops, fn %JsonApi.Item{id: stop_id} ->
-      case MBTA.Api.Routes.by_stop(stop_id) do
-        %JsonApi{data: data} -> data
-        _ -> []
-      end
-    end) ++ [route]
-  end
-
-  defp fetch_connecting_routes_via_stop(route), do: [route]
 end

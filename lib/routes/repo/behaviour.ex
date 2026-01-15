@@ -5,8 +5,6 @@ defmodule Routes.Repo.Behaviour do
 
   alias Routes.{Route, Shape}
 
-  @optional_callbacks by_stop_with_route_pattern: 1, by_stop_and_direction: 3
-
   @doc """
   Returns a list of all the routes
   """
@@ -37,17 +35,6 @@ defmodule Routes.Repo.Behaviour do
   """
   @callback by_stop(String.t()) :: [Route.t()]
   @callback by_stop(String.t(), Keyword.t()) :: [Route.t()]
-
-  @doc """
-  Given a stop ID and direction ID, returns the list of routes which stop there in that direction.
-  """
-  @callback by_stop_and_direction(String.t(), 0 | 1) :: [Route.t()]
-  @callback by_stop_and_direction(String.t(), 0 | 1, Keyword.t()) :: [Route.t()]
-
-  @doc """
-  Given a route pattern, returns the list of routes matching it.
-  """
-  @callback by_stop_with_route_pattern(String.t()) :: [Route.t()]
 
   @doc """
   The Green Line.

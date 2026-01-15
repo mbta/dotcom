@@ -198,17 +198,12 @@ defmodule Stops.RouteStop do
 
   @spec do_list_from_shapes(String.t(), [Stop.id_t()], [Stop.t()], Route.t()) ::
           [RouteStop.t()]
-  defp do_list_from_shapes(shape_name, stop_ids, [%Stop{} | _] = stops, route) do
-    stops = Map.new(stops, &{&1.id, &1})
+  defp do_list_from_shapes(shape_name, branch_stop_ids, [%Stop{} | _] = all_stops, route) do
+    all_stops = Map.new(all_stops, &{&1.id, &1})
 
-    stop_ids
+    branch_stop_ids
     |> Enum.flat_map(fn stop_id ->
-      parent_stop_id =
-        stop_id
-        |> @stops_repo.get_parent()
-        |> Map.fetch!(:id)
-
-      case Map.fetch(stops, parent_stop_id) do
+      case Map.fetch(all_stops, stop_id) do
         {:ok, stop} -> [stop]
         :error -> []
       end
@@ -268,8 +263,6 @@ defmodule Stops.RouteStop do
       ) do
     connections =
       route_stop.id
-      |> @stops_repo.get_parent()
-      |> Map.get(:id)
       |> @routes_repo.by_stop(include: "stop.connecting_stops")
       |> Enum.reject(fn route ->
         route.id == route_stop.route.id ||

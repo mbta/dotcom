@@ -9,32 +9,41 @@ on:
         type: environment # will be prod, dev, dev-blue, or dev-green
         required: true
         default: dev
-
-  workflow_run:
-    workflows:
-      - "Deploy: main branch"
-    types:
-      - completed
+  # Invoked via another workflow, value passed in by string
+  workflow_call:
+    inputs:
+      deployment-env:
+        description: "Environment to deploy to"
+        required: true
+        type: string
 
 jobs:
   crawler:
+    continue-on-error: true
     name: "Crawl ${{inputs.deployment-env || 'dev'}}"
     runs-on: ubuntu-latest
     env:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
 
     steps:
-    - uses: actions/checkout@v6
+    - id: setup-beam
+      uses: erlef/setup-beam@v1
       with:
-        fetch-depth: 0
-    - uses: erlef/setup-beam@v1
+        otp-version: "28.2"
+        elixir-version: "1.19.4"
+    - name: cache crawler
+      id: escript-cache
+      uses: actions/cache@v5
       with:
-        version-file: .tool-versions
-        version-type: strict
+        path: ~/.mix/escripts
+        key: ${{runner.os}}-escripts-${{steps.setup-beam.outputs.elixir-version}}-${{steps.setup-beam.outputs.otp-version}}-crawler
+    - name: Install Crawler
+      if: steps.escript-cache.outputs.cache-hit != 'true'
+      run: mix escript.install --force github mbta/link_checker
     - name: Run Crawler
       run: |
-        echo "## Output" > $GITHUB_STEP_SUMMARY
-        echo "```shell" >> $GITHUB_STEP_SUMMARY
-        mix escript.install --force github mbta/link_checker
-        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 >> $GITHUB_STEP_SUMMARY
-        echo "```" >> $GITHUB_STEP_SUMMARY
+        echo "## Crawler results" >> $GITHUB_STEP_SUMMARY
+        echo "Compare against current [known broken links (link TBA)]()"
+        echo "\`\`\`shell" >> $GITHUB_STEP_SUMMARY
+        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

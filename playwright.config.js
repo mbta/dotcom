@@ -18,6 +18,8 @@ export default defineConfig({
     baseURL: process.env.HOST ? `https://${process.env.HOST}` : 'http://localhost:4001',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    /* Record screenshot on failure in CI */
+    screenshot: process.env.CI ? 'only-on-failure' : 'off',
   },
   /* set the expect timeout to 5s */
   expect: { timeout: 5000 },
