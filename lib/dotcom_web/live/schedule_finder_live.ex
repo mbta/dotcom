@@ -87,6 +87,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <section>
         <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
         <.service_picker
+          id={"service-picker-#{@route.id}"}
           selected_service_name={@selected_service_name}
           service_groups={@service_groups}
         />
@@ -357,6 +358,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  attr :id, :string, required: true
   attr :service_groups, :list, required: true
   attr :selected_service_name, :string, default: ""
 
@@ -371,7 +373,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select class="mbta-input" id="service-picker" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
