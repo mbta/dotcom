@@ -100,7 +100,7 @@ defmodule DotcomWeb.RouteComponents do
           :if={@stop_pin?}
           type="icon-svg"
           name="stop-pin"
-          class="h-6 w-6 absolute z-20 -left-[28px] -top-[24px]"
+          class="h-6 w-6 absolute z-20 -left-7 -top-6"
         />
       </div>
       {render_slot(@inner_block)}
