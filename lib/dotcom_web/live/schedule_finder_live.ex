@@ -715,7 +715,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <.lined_list_item :if={@other_stop} route={@route} class={@class}>
       <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
-        {@other_stop.stop_name}
+        <div>{@other_stop.stop_name}</div>
+        <div :if={@other_stop.platform_name} class="text-sm">{@other_stop.platform_name}</div>
       </div>
       <div class={[
         "ml-auto",
