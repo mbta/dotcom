@@ -7,7 +7,7 @@ defmodule DotcomWeb.RouteComponents do
 
   import CSSHelpers
 
-  alias MbtaMetro.Components.SystemIcons
+  alias MbtaMetro.Components.{Icon, SystemIcons}
   alias Routes.Route
 
   attr :rest, :global
@@ -71,6 +71,7 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :route, Route, required: true
   attr :class, :string, default: ""
+  attr :stop_pin?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
@@ -83,10 +84,10 @@ defmodule DotcomWeb.RouteComponents do
 
   def lined_list_item(assigns) do
     ~H"""
-    <div class={"p-sm gap-sm flex justify-between items-center #{@class}"}>
+    <div class={"px-sm py-3 gap-xs flex justify-between items-center #{@class}"}>
       <div
         class="w-6 shrink-0 self-stretch flex justify-center relative"
-        style="margin-block: calc(-1 * (var(--spacing-sm) + 1px));"
+        style="margin-block: calc(-1 * (var(--spacing-3) + 1px));"
       >
         <div class="w-1 z-10 shrink-0 flex flex-col self-stretch">
           <div class={"#{route_to_class(@route)} grow top"} />
@@ -94,7 +95,14 @@ defmodule DotcomWeb.RouteComponents do
         </div>
         <.lined_list_marker variant={@variant} route={@route} />
       </div>
-
+      <div class="relative">
+        <Icon.icon
+          :if={@stop_pin?}
+          type="icon-svg"
+          name="stop-pin"
+          class="h-6 w-6 absolute z-20 -left-7 -top-6"
+        />
+      </div>
       {render_slot(@inner_block)}
     </div>
     """
