@@ -682,10 +682,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </div>
       </div>
       <div class="ml-auto flex flex-col items-end">
-        <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+        <div class="inline-flex gap-xs flex-nowrap items-center">
+          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+          <.vehicle_crowding crowding={
+            get_in(@upcoming_departure.trip_details, [
+              Access.key!(:vehicle_info),
+              Access.key!(:crowding)
+            ])
+          } />
+        </div>
         <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
       </div>
     </div>
+    """
+  end
+
+  defp vehicle_crowding(assigns) do
+    assigns =
+      assign_new(assigns, :title, fn %{crowding: crowding} ->
+        case crowding do
+          :not_crowded -> ~t"Not crowded"
+          :some_crowding -> ~t"Some crowding"
+          :crowded -> ~t"Crowded"
+          _ -> ""
+        end
+      end)
+
+    ~H"""
+    <.icon
+      :if={@crowding}
+      type="icon-svg"
+      name="icon-crowding"
+      class={"c-icon__crowding c-icon__crowding--#{@crowding}"}
+      aria-label={@title}
+    />
     """
   end
 
