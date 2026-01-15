@@ -115,7 +115,7 @@ defmodule Dotcom.Alerts.StartTimeTest do
       start_time1 = Test.Support.Generators.DateTime.random_date_time_before(end_time1)
 
       start_time2 = Test.Support.Generators.DateTime.random_date_time_before(time)
-      end_time2 = Test.Support.Generators.DateTime.random_date_time_after(start_time2)
+      end_time2 = Test.Support.Generators.DateTime.random_date_time_after(time)
 
       alert =
         Alert.build(:alert, active_period: [{start_time1, end_time1}, {start_time2, end_time2}])
