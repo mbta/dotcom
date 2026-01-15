@@ -373,13 +373,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select
-        id={@id}
-        class="mbta-input"
-        id="service-picker"
-        name="selected_service"
-        phx-update="ignore"
-      >
+      <select id={@id} class="mbta-input" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
