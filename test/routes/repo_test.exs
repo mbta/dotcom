@@ -278,34 +278,6 @@ defmodule Routes.RepoTest do
     end
   end
 
-  describe "by_stop_and_direction/2" do
-    test "fetching routes for the same stop, but different direction" do
-      stop_id = Faker.App.name()
-
-      expect(MBTA.Api.Mock, :get_json, 2, fn "/routes/", opts ->
-        assert opts[:stop] == stop_id
-        assert opts[:direction_id] in [0, 1]
-
-        %JsonApi{
-          data: build_list(3, :route_item)
-        }
-      end)
-
-      assert by_stop_and_direction(stop_id, 0)
-      assert by_stop_and_direction(stop_id, 1)
-    end
-
-    test "handles error" do
-      stop_id = Faker.App.name()
-
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/", _ ->
-        {:error, %JsonApi.Error{}}
-      end)
-
-      assert by_stop_and_direction(stop_id, 0)
-    end
-  end
-
   describe "handle_response/1" do
     test "parses routes" do
       response = %JsonApi{

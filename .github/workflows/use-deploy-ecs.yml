@@ -31,8 +31,14 @@ concurrency:
   group: deploy-${{ inputs.deployment-env }}
   cancel-in-progress: true
 
+env:
+  DOCKER_BUILD_CHECKS_ANNOTATIONS: false
+  DOCKER_BUILD_SUMMARY: false
+  DOCKER_BUILD_RECORD_UPLOAD: false
+
 jobs:
   deploy:
+    name: Deploy to ${{inputs.deployment-env}}
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -161,6 +167,11 @@ jobs:
           name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
           path: playwright-report
           retention-days: 30
+  crawl:
+    needs: deploy
+    uses: ./.github/workflows/crawler.yml
+    with:
+      deployment-env: ${{ inputs.deployment-env }}
   monitor:
     uses: ./.github/workflows/push-monitor.yml
     with:
