@@ -87,6 +87,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <section>
         <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
         <.service_picker
+          id={"service-picker-#{@route.id}"}
           selected_service_name={@selected_service_name}
           service_groups={@service_groups}
         />
@@ -357,6 +358,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  attr :id, :string, required: true
   attr :service_groups, :list, required: true
   attr :selected_service_name, :string, default: ""
 
@@ -371,7 +373,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select class="mbta-input" id="service-picker" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
@@ -470,7 +472,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest p-sm"
+        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
@@ -510,7 +512,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item :for={arrival <- arrivals} route={@route}>
+              <.lined_list_item
+                :for={{arrival, index} <- Enum.with_index(arrivals)}
+                route={@route}
+                class={if(index == 0, do: "font-bold")}
+                stop_pin?={index == 0}
+              >
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
                   <div :if={arrival.platform_name} class="text-xs">

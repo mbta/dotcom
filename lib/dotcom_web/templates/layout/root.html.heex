@@ -15,18 +15,26 @@
       href={static_url(@conn, "/apple-touch-icon.png")}
       type="image/png"
     />
-    <link
-      rel="icon"
-      href={static_url(@conn, "/images/mbta-logo-t-favicon.png")}
-      sizes="32x32"
-      type="image/png"
-    />
-    <link
-      rel="icon"
-      href={static_url(@conn, "/favicon.ico")}
-      sizes="16x16"
-      type="image/vnd.microsoft.icon"
-    />
+    <%= if Application.get_env(:dotcom, :is_prod_env?) do %>
+      <link
+        rel="icon"
+        href={static_url(@conn, "/images/mbta-logo-t-favicon.png")}
+        sizes="32x32"
+        type="image/png"
+      />
+      <link
+        rel="icon"
+        href={static_url(@conn, "/favicon.ico")}
+        sizes="16x16"
+        type="image/vnd.microsoft.icon"
+      />
+    <% else %>
+      <link
+        rel="icon"
+        href={static_url(@conn, favicon_image())}
+        type="image/svg+xml"
+      />
+    <% end %>
 
     <%= if google_tag_manager_id() do %>
       <link rel="preconnect" href="//www.google-analytics.com" />
@@ -66,10 +74,10 @@
   </head>
   <%= content_tag(:body, class: Dotcom.BodyTag.class_name(@conn)) do %>
     <div class="body-wrapper" id="body-wrapper">
-      <%= if !Application.get_env(:dotcom, :is_prod_env?) && Gettext.get_locale(Dotcom.Gettext) != "en" do %>
+      <%= if !Application.get_env(:dotcom, :is_prod_env?) do %>
         <% language =
           Dotcom.Gettext |> Gettext.get_locale() |> Dotcom.Locales.locale() |> Map.get(:endonym) %>
-        <div class="w-full bg-cobalt-80 py-2 text-center text-cobalt-50">
+        <div class={["w-full py-2 text-center", banner_color_classes()]}>
           <i class="fa fa-globe"></i>
           You are viewing <em>{Map.get(@conn, :host)}</em>
           in <strong>{language}</strong>.
