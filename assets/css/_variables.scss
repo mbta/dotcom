@@ -18,7 +18,7 @@ $container-max-widths: (
   xxl: map.get($grid-breakpoints, xxl) - (18px * 8)
 );
 
-@import 'node_modules/bootstrap/scss/variables';
+@import "bootstrap/scss/variables";
 $spacers: (
   0: (
     x: 0,
