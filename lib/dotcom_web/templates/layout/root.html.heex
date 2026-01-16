@@ -77,10 +77,16 @@
       <%= if !Application.get_env(:dotcom, :is_prod_env?) do %>
         <% language =
           Dotcom.Gettext |> Gettext.get_locale() |> Dotcom.Locales.locale() |> Map.get(:endonym) %>
-        <div class={["w-full py-2 text-center", banner_color_classes()]}>
+        <div class={["w-full py-2 text-center leading-sm", banner_color_classes()]}>
           <i class="fa fa-globe"></i>
           You are viewing <em>{Map.get(@conn, :host)}</em>
           in <strong>{language}</strong>.
+          <a
+            class="mx-sm btn btn-outline btn-sm leading-sm text-current border-current hover:opacity-50"
+            href={@conn.request_path <> "?locale=#{if(language == "English", do: "es", else: "en")}"}
+          >
+            Toggle {if(language == "English", do: "Spanish", else: "English")}
+          </a>
         </div>
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
