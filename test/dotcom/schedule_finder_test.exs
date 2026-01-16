@@ -132,7 +132,7 @@ defmodule Dotcom.ScheduleFinderTest do
         schedules
       end)
 
-      expect(Stops.Repo.Mock, :get, fn id ->
+      stub(Stops.Repo.Mock, :get, fn id ->
         assert id in Enum.map(schedules, & &1.platform_stop_id)
 
         Stop.build(:stop, id: id)
