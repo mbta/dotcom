@@ -3,29 +3,35 @@ defmodule Dotcom.ScheduleFinder do
   Schedule Finder data includes daily schedules, predictions, services
   """
 
-  use Nebulex.Caching.Decorators
-
   import Dotcom.Alerts
 
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
-  alias JsonApi.Item
+  alias RoutePatterns.RoutePattern
   alias Routes.Route
-  alias Schedules.Trip
+  alias Schedules.{Schedule, Trip}
   alias Stops.Stop
 
-  @cache Application.compile_env!(:dotcom, :cache)
   @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-  @timezone Application.compile_env!(:dotcom, :timezone)
-  @schedule_ttl :timer.hours(24)
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
 
   defmodule DailyDeparture do
     @moduledoc """
     A scheduled departure for a trip on a route, described by a headsign and time.
     """
-    defstruct [:headsign, :route_id, :schedule_id, :stop_sequence, :time, :trip_id, :trip_name]
+    defstruct [
+      :headsign,
+      :route_id,
+      :schedule_id,
+      :stop_sequence,
+      :time,
+      :time_desc,
+      :trip_id,
+      :trip_name
+    ]
 
     @type t :: %__MODULE__{
             headsign: Trip.headsign() | String.t() | nil,
@@ -33,6 +39,7 @@ defmodule Dotcom.ScheduleFinder do
             schedule_id: String.t(),
             stop_sequence: non_neg_integer(),
             time: DateTime.t(),
+            time_desc: String.t() | nil,
             trip_id: Trip.id_t(),
             trip_name: String.t() | nil
           }
@@ -93,62 +100,55 @@ defmodule Dotcom.ScheduleFinder do
           {:ok, [DailyDeparture.t()]} | {:error, term()}
   def daily_departures(route_id, direction_id, stop_id, date) do
     # Maybe add filter[stop_sequence] to help looped routes
-    params = [
-      include: "trip",
-      "fields[trip]": "headsign,name",
-      "fields[schedule]": "departure_time,pickup_type,stop_headsign,stop_sequence",
-      "filter[route]": routes(route_id),
-      "filter[direction_id]": direction_id,
-      "filter[stop]": stop_id,
-      "filter[date]": date,
-      sort: "departure_time"
-    ]
+    case @schedules_repo.by_route_ids(routes(route_id),
+           date: date,
+           direction_id: direction_id,
+           stop_ids: stop_id
+         ) do
+      schedules when is_list(schedules) ->
+        departures =
+          schedules
+          |> Enum.reject(&no_pick_up?/1)
+          |> Enum.map(&to_departure/1)
 
-    case get_schedules(params) do
-      {:ok, data} ->
-        {:ok,
-         data
-         |> Stream.reject(&no_pick_up?/1)
-         |> Enum.map(&to_departure/1)}
+        {:ok, departures}
 
-      {:error, error} ->
-        {:error, inspect(error)}
+      error ->
+        error
     end
   end
 
-  defp routes("Green"), do: GreenLine.branch_ids() |> Enum.join(",")
-  defp routes(route_id), do: route_id
+  defp routes("Green"), do: GreenLine.branch_ids()
+  defp routes(other), do: List.wrap(other)
 
-  defp no_pick_up?(%Item{attributes: %{"pickup_type" => 1}}), do: true
+  defp no_pick_up?(%Schedule{pickup_type: 1}), do: true
   defp no_pick_up?(_), do: false
 
-  defp to_departure(%Item{
-         id: schedule_id,
-         attributes: %{
-           "departure_time" => departure_time,
-           "stop_headsign" => stop_headsign,
-           "stop_sequence" => stop_sequence
-         },
-         relationships: %{
-           "route" => [%Item{id: route_id}],
-           "trip" => [
-             %Item{
-               id: trip_id,
-               attributes: %{"headsign" => trip_headsign, "name" => trip_name}
-             }
-           ]
-         }
-       }) do
+  defp to_departure(%Schedule{schedule_id: schedule_id, route: route, trip: trip} = schedule) do
     %DailyDeparture{
-      route_id: route_id,
+      route_id: route.id,
       schedule_id: schedule_id,
-      time: to_datetime(departure_time),
-      headsign: stop_headsign || trip_headsign,
-      trip_name: trip_name,
-      trip_id: trip_id,
-      stop_sequence: stop_sequence
+      time: schedule.departure_time,
+      time_desc: time_desc(trip),
+      headsign: schedule.stop_headsign || if(trip, do: Map.get(trip, :headsign)),
+      trip_name: if(trip, do: Map.get(trip, :name)),
+      trip_id: if(trip, do: Map.get(trip, :id)),
+      stop_sequence: schedule.stop_sequence
     }
   end
+
+  defp time_desc(%Trip{route_pattern_id: route_pattern_id})
+       when not is_nil(route_pattern_id) do
+    case @route_patterns_repo.get(route_pattern_id) do
+      %RoutePattern{time_desc: time_desc} ->
+        time_desc
+
+      _ ->
+        nil
+    end
+  end
+
+  defp time_desc(_), do: nil
 
   @doc """
   Get scheduled arrivals for one trip on a date, starting at a given stop_sequence.
@@ -157,20 +157,14 @@ defmodule Dotcom.ScheduleFinder do
           {:ok, [FutureArrival.t()]} | {:error, term()}
   def next_arrivals(trip_id, min_stop_sequence, date) do
     # Maybe add filter[stop_sequence] to help looped routes
-    params = [
-      include: "stop",
-      "fields[schedule]": "arrival_time,departure_time,stop_sequence,stop_headsign",
-      "fields[stop]": "platform_name,name,vehicle_type",
-      "filter[trip]": trip_id,
-      "filter[date]": date
-    ]
+    case @schedules_repo.schedule_for_trip(trip_id, date: date) do
+      schedules when is_list(schedules) ->
+        arrivals =
+          schedules
+          |> Enum.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
+          |> Enum.map(&to_arrival/1)
 
-    case get_schedules(params) do
-      {:ok, data} ->
-        {:ok,
-         data
-         |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-         |> Enum.map(&to_arrival/1)}
+        {:ok, arrivals}
 
       error ->
         error
@@ -179,54 +173,50 @@ defmodule Dotcom.ScheduleFinder do
 
   # Instead of every stop in the trip, only return schedules that make later stops on the trip, as defined by the given `stop_sequence` value
   defp makes_subsequent_stop?(
-         %Item{attributes: %{"stop_sequence" => stop_sequence}},
+         %Schedule{stop_sequence: stop_sequence},
          min_stop_sequence
        ) do
-    {int, _} = Integer.parse(min_stop_sequence)
-    stop_sequence >= int
+    stop_sequence >= min_stop_sequence
   end
 
-  defp to_arrival(%Item{
-         attributes: %{"departure_time" => departure_time, "arrival_time" => arrival_time},
-         relationships: %{
-           "stop" => [
-             %Item{
-               attributes: %{
-                 "platform_name" => platform_name,
-                 "name" => stop_name,
-                 "vehicle_type" => vehicle_type
-               }
-             }
-           ]
+  defp to_arrival(%Schedule{
+         departure_time: departure_time,
+         arrival_time: arrival_time,
+         route: %Route{type: route_type},
+         stop: %Stop{
+           platform_name: platform_name,
+           name: stop_name
          }
        }) do
     # If we happen to be looking at a stop that's the trip origin, there'll only be a departure time. Can use that if needed.
     %FutureArrival{
-      time: if(arrival_time, do: to_datetime(arrival_time), else: to_datetime(departure_time)),
-      platform_name: simplify(platform_name, vehicle_type),
+      time: if(arrival_time, do: arrival_time, else: departure_time),
+      platform_name: simplify_platform_name(platform_name, route_type),
       stop_name: stop_name
     }
   end
 
+  @spec simplify_platform_name(String.t() | nil, Route.type_int()) :: String.t() | nil
+
   # If a platform name is nil, then it's nil no matter the mode. (This
   # way, clauses below don't have to worry about nil-checking
   # `platform_name`.)
-  defp simplify(nil, _), do: nil
+  def simplify_platform_name(nil, _), do: nil
 
   # Don't show platform names for subway. We might make exceptions later (JFK?)
-  defp simplify(_, vehicle_type) when vehicle_type in [0, 1], do: nil
+  def simplify_platform_name(_, route_type) when route_type in [0, 1], do: nil
 
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
-  defp simplify("Commuter Rail", 2), do: nil
+  def simplify_platform_name("Commuter Rail", 2), do: nil
 
-  defp simplify(name, 2) do
+  def simplify_platform_name(name, 2) do
     if not String.contains?(name, "All Trains") do
       name
     end
   end
 
-  defp simplify(name, _), do: name
+  def simplify_platform_name(name, _), do: name
 
   @doc """
   Clearly group a list of departures by route and destination. Intended to be used with subway departures.
@@ -261,26 +251,5 @@ defmodule Dotcom.ScheduleFinder do
 
   defp departures_with_destination({route, departures}, direction_id, _) do
     {route, Route.direction_destination(route, direction_id), Enum.map(departures, & &1.time)}
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @schedule_ttl])
-  defp get_schedules(params) do
-    case MBTA.Api.Schedules.all(params) do
-      %JsonApi{data: data} ->
-        {:ok, data}
-
-      error ->
-        error
-    end
-  end
-
-  defp to_datetime(time) do
-    case DateTime.from_iso8601(time) do
-      {:ok, dt, _} ->
-        DateTime.shift_zone!(dt, @timezone)
-
-      _ ->
-        nil
-    end
   end
 end

@@ -10,6 +10,7 @@
  * HOST=dev.mbtace.com npx playwright test smoke
  */
 const { describe, expect, test } = require("@playwright/test");
+const { syncLiveView } = require("../utils");
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -172,6 +173,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("search page", async ({ page }) => {
     await ok(page, "/search");
+    await syncLiveView(page, expect);
     await page
       .getByPlaceholder("Search for routes, places, information, and more")
       .pressSequentially("Charles", { delay: 100 });

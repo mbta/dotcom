@@ -11,7 +11,7 @@ defmodule Dotcom.ServicePatterns do
   @services_repo Application.compile_env!(:dotcom, :repo_modules)[:services]
 
   @doc """
-  Uses schedules to determine whether service is running. Defaults to the current service date, and supports custom dates.
+  Whether service is running on a route for a date. Defaults to the current service date, and supports custom dates.
 
   iex> has_service?(route: "351", date: ~D[2025-12-25]) # false
   iex> has_service?(route: "CR-Foxboro") # probably false

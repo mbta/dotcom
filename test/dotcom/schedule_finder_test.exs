@@ -3,20 +3,18 @@ defmodule Dotcom.ScheduleFinderTest do
 
   import Dotcom.ScheduleFinder
   import Mox
-  import Test.Support.Factories.MBTA.Api
 
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
+  alias Test.Support.Factories.{RoutePatterns.RoutePattern, Schedules.Schedule}
   alias Test.Support.FactoryHelpers
 
+  setup :verify_on_exit!
+
   setup do
-    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-    cache = Application.get_env(:dotcom, :cache)
-    cache.flush()
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     :ok
   end
-
-  setup :verify_on_exit!
 
   describe "daily_departures/4" do
     test "requests schedules" do
@@ -25,13 +23,12 @@ defmodule Dotcom.ScheduleFinderTest do
       stop_id = FactoryHelpers.build(:id)
       date = Faker.Util.format("%4d-%2d-%2d")
 
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
-        assert Keyword.get(opts, :include) == "trip"
-        assert Keyword.get(opts, :"filter[route]") == route_id
-        assert Keyword.get(opts, :"filter[direction_id]") == direction_id
-        assert Keyword.get(opts, :"filter[stop]") == stop_id
-        assert Keyword.get(opts, :"filter[date]") == date
-        %JsonApi{data: []}
+      expect(Schedules.Repo.Mock, :by_route_ids, fn routes, opts ->
+        assert routes == [route_id]
+        assert Keyword.get(opts, :direction_id) == direction_id
+        assert Keyword.get(opts, :stop_ids) == stop_id
+        assert Keyword.get(opts, :date) == date
+        []
       end)
 
       assert {:ok, []} = daily_departures(route_id, direction_id, stop_id, date)
@@ -42,13 +39,39 @@ defmodule Dotcom.ScheduleFinderTest do
       direction_id = Faker.Util.pick([0, 1])
       stop_id = FactoryHelpers.build(:id)
       date = Faker.Util.format("%4d-%2d-%2d")
+      schedules = Schedule.build_list(4, :schedule)
 
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _ ->
-        %JsonApi{data: build_list(4, :schedule_item, departure_attributes())}
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        schedules
+      end)
+
+      expect(RoutePatterns.Repo.Mock, :get, length(schedules), fn id ->
+        RoutePattern.build(:route_pattern, id: id)
       end)
 
       assert {:ok, departures} = daily_departures(route_id, direction_id, stop_id, date)
       assert %DailyDeparture{} = List.first(departures)
+    end
+
+    test "returns departures with route pattern time_desc" do
+      route_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+      stop_id = FactoryHelpers.build(:id)
+      date = Faker.Util.format("%4d-%2d-%2d")
+      schedules = Schedule.build_list(4, :schedule)
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        schedules
+      end)
+
+      time_desc = Faker.Company.catch_phrase()
+
+      expect(RoutePatterns.Repo.Mock, :get, length(schedules), fn id ->
+        RoutePattern.build(:route_pattern, id: id, time_desc: time_desc)
+      end)
+
+      assert {:ok, departures} = daily_departures(route_id, direction_id, stop_id, date)
+      assert %DailyDeparture{time_desc: ^time_desc} = List.first(departures)
     end
 
     test "omits schedules that don't pick up passengers" do
@@ -57,11 +80,12 @@ defmodule Dotcom.ScheduleFinderTest do
       stop_id = FactoryHelpers.build(:id)
       date = Faker.Util.format("%4d-%2d-%2d")
 
-      attributes_without_pickup =
-        departure_attributes() |> Map.merge(%{attributes: %{"pickup_type" => 1}})
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        Schedule.build_list(4, :schedule, pickup_type: 1)
+      end)
 
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _ ->
-        %JsonApi{data: build_list(4, :schedule_item, attributes_without_pickup)}
+      stub(RoutePatterns.Repo.Mock, :get, fn id ->
+        RoutePattern.build(:route_pattern, id: id)
       end)
 
       assert {:ok, []} = daily_departures(route_id, direction_id, stop_id, date)
@@ -74,11 +98,9 @@ defmodule Dotcom.ScheduleFinderTest do
       stop_sequence = Faker.Util.pick([0, 1])
       date = Faker.Util.format("%4d-%2d-%2d")
 
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
-        assert Keyword.get(opts, :include) == "stop"
-        assert Keyword.get(opts, :"filter[trip]") == trip_id
-        assert Keyword.get(opts, :"filter[date]") == date
-        %JsonApi{data: []}
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id, opts ->
+        assert Keyword.get(opts, :date) == date
+        []
       end)
 
       assert {:ok, []} = next_arrivals(trip_id, stop_sequence, date)
@@ -86,17 +108,12 @@ defmodule Dotcom.ScheduleFinderTest do
 
     test "omits schedules before the given stop_sequence" do
       trip_id = FactoryHelpers.build(:id)
-      stop_sequence = "20"
+      stop_sequence = Faker.random_between(2, 100)
+      earlier_stop_sequence = stop_sequence - 1
       date = Faker.Util.format("%4d-%2d-%2d")
 
-      arrivals_before_stop =
-        arrival_attributes() |> Map.merge(%{attributes: %{"stop_sequence" => 10}})
-
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
-        assert Keyword.get(opts, :include) == "stop"
-        assert Keyword.get(opts, :"filter[trip]") == trip_id
-        assert Keyword.get(opts, :"filter[date]") == date
-        %JsonApi{data: build_list(4, :schedule_item, arrivals_before_stop)}
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
+        Schedule.build_list(4, :schedule, stop_sequence: earlier_stop_sequence)
       end)
 
       assert {:ok, []} = next_arrivals(trip_id, stop_sequence, date)
@@ -109,23 +126,13 @@ defmodule Dotcom.ScheduleFinderTest do
         Faker.Util.sample_uniq(2, fn -> Faker.random_between(1, 100) end) |> Enum.sort()
 
       date = Faker.Util.format("%4d-%2d-%2d")
+      schedules = Schedule.build_list(4, :schedule, stop_sequence: stop_sequence_for_arrivals)
 
-      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
-        assert Keyword.get(opts, :include) == "stop"
-        assert Keyword.get(opts, :"filter[trip]") == trip_id
-        assert Keyword.get(opts, :"filter[date]") == date
-
-        %JsonApi{
-          data:
-            build_list(
-              4,
-              :schedule_item,
-              arrival_attributes() |> Map.put(:stop_sequence, stop_sequence_for_arrivals)
-            )
-        }
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
+        schedules
       end)
 
-      assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop |> to_string(), date)
+      assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
       assert %FutureArrival{} = List.first(arrivals)
     end
   end
@@ -353,6 +360,33 @@ defmodule Dotcom.ScheduleFinderTest do
     end
   end
 
+  describe "simplify_platform_name/2" do
+    test "leaves the name unchanged for typical non-subway platform names" do
+      route_type = Faker.Util.pick([2, 3, 4])
+      platform_name = Faker.Pizza.topping()
+
+      assert simplify_platform_name(platform_name, route_type) == platform_name
+    end
+
+    test "returns nil for subway routes" do
+      route_type = Faker.Util.pick([0, 1])
+
+      assert simplify_platform_name(Faker.Pizza.topping(), route_type) == nil
+    end
+
+    test "returns nil for commuter rail platforms called 'Commuter Rail'" do
+      assert simplify_platform_name("Commuter Rail", 2) == nil
+    end
+
+    test "returns nil for commuter rail platforms with 'All Trains' in the name" do
+      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", 2) == nil
+    end
+
+    test "leaves nil platform names as nil" do
+      assert simplify_platform_name(nil, 2) == nil
+    end
+  end
+
   defp active_alert(attrs) do
     {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
 
@@ -371,28 +405,17 @@ defmodule Dotcom.ScheduleFinderTest do
     stop_id = FactoryHelpers.build(:id)
     date = Faker.Util.format("%4d-%2d-%2d")
 
-    expect(MBTA.Api.Mock, :get_json, fn "/schedules/", _ ->
-      %JsonApi{data: build_list(4, :schedule_item, departure_attributes())}
+    schedules = Schedule.build_list(4, :schedule)
+
+    expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+      schedules
+    end)
+
+    expect(RoutePatterns.Repo.Mock, :get, length(schedules), fn id ->
+      RoutePattern.build(:route_pattern, id: id)
     end)
 
     {:ok, departures} = daily_departures(route_id, direction_id, stop_id, date)
     departures
-  end
-
-  defp departure_attributes do
-    %{
-      relationships: %{
-        "route" => [build(:item)],
-        "trip" => [build(:trip_item)]
-      }
-    }
-  end
-
-  defp arrival_attributes do
-    %{
-      relationships: %{
-        "stop" => [build(:stop_item)]
-      }
-    }
   end
 end
