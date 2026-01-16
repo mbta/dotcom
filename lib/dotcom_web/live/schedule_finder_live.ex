@@ -684,18 +684,27 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp upcoming_departure_heading(assigns) do
     ~H"""
     <div class="w-full flex items-center">
-      <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-        <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
-        <div>{@upcoming_departure.headsign}</div>
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center gap-2">
+          <RouteComponents.route_icon size="small" route={@upcoming_departure.route} class="shrink-0" />
 
-        <div />
-        <div :if={@upcoming_departure.trip_name} class="leading-none text-xs">
-          {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-          <span>
-            &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
-          </span>
+          <div>{@upcoming_departure.headsign}</div>
+        </div>
+
+        <div :if={@upcoming_departure.trip_name} class="flex items-center gap-2">
+          <div class="h-0 invisible shrink-0">
+            <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
+          </div>
+
+          <div class="leading-none text-xs">
+            {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
+            <span>
+              &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
+            </span>
+          </div>
         </div>
       </div>
+
       <div class="ml-auto flex flex-col items-end">
         <div class="inline-flex gap-xs flex-nowrap items-center">
           <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
@@ -789,7 +798,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span>
+    <span class="text-nowrap">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
@@ -799,7 +808,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="font-bold">
+    <span class="font-bold text-nowrap">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
@@ -810,7 +819,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="line-through">
+    <span class="line-through text-nowrap">
       {format!(@time, :hour_12_minutes)}
     </span>
     """
@@ -823,7 +832,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp realtime_display(assigns) do
     ~H"""
-    <span class="font-bold">
+    <span class="font-bold text-nowrap">
       <.icon type="icon-svg" name="icon-realtime-tracking" />
       {@text}
     </span>
