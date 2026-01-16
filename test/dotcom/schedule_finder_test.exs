@@ -360,6 +360,33 @@ defmodule Dotcom.ScheduleFinderTest do
     end
   end
 
+  describe "simplify_platform_name/2" do
+    test "leaves the name unchanged for typical non-subway platform names" do
+      route_type = Faker.Util.pick([2, 3, 4])
+      platform_name = Faker.Pizza.topping()
+
+      assert simplify_platform_name(platform_name, route_type) == platform_name
+    end
+
+    test "returns nil for subway routes" do
+      route_type = Faker.Util.pick([0, 1])
+
+      assert simplify_platform_name(Faker.Pizza.topping(), route_type) == nil
+    end
+
+    test "returns nil for commuter rail platforms called 'Commuter Rail'" do
+      assert simplify_platform_name("Commuter Rail", 2) == nil
+    end
+
+    test "returns nil for commuter rail platforms with 'All Trains' in the name" do
+      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", 2) == nil
+    end
+
+    test "leaves nil platform names as nil" do
+      assert simplify_platform_name(nil, 2) == nil
+    end
+  end
+
   defp active_alert(attrs) do
     {effect, severity} = Dotcom.Alerts.service_impacting_effects() |> Faker.Util.pick()
 

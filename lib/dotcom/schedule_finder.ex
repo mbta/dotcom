@@ -182,7 +182,7 @@ defmodule Dotcom.ScheduleFinder do
   defp to_arrival(%Schedule{
          departure_time: departure_time,
          arrival_time: arrival_time,
-         route: %Route{type: vehicle_type},
+         route: %Route{type: route_type},
          stop: %Stop{
            platform_name: platform_name,
            name: stop_name
@@ -191,30 +191,32 @@ defmodule Dotcom.ScheduleFinder do
     # If we happen to be looking at a stop that's the trip origin, there'll only be a departure time. Can use that if needed.
     %FutureArrival{
       time: if(arrival_time, do: arrival_time, else: departure_time),
-      platform_name: simplify(platform_name, vehicle_type),
+      platform_name: simplify_platform_name(platform_name, route_type),
       stop_name: stop_name
     }
   end
 
+  @spec simplify_platform_name(String.t() | nil, Route.type_int()) :: String.t() | nil
+
   # If a platform name is nil, then it's nil no matter the mode. (This
   # way, clauses below don't have to worry about nil-checking
   # `platform_name`.)
-  defp simplify(nil, _), do: nil
+  def simplify_platform_name(nil, _), do: nil
 
   # Don't show platform names for subway. We might make exceptions later (JFK?)
-  defp simplify(_, vehicle_type) when vehicle_type in [0, 1], do: nil
+  def simplify_platform_name(_, route_type) when route_type in [0, 1], do: nil
 
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
-  defp simplify("Commuter Rail", 2), do: nil
+  def simplify_platform_name("Commuter Rail", 2), do: nil
 
-  defp simplify(name, 2) do
+  def simplify_platform_name(name, 2) do
     if not String.contains?(name, "All Trains") do
       name
     end
   end
 
-  defp simplify(name, _), do: name
+  def simplify_platform_name(name, _), do: name
 
   @doc """
   Clearly group a list of departures by route and destination. Intended to be used with subway departures.

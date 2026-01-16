@@ -22,6 +22,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     defstruct [
       :cancelled?,
+      :platform_name,
       :stop_id,
       :stop_name,
       :time
@@ -29,6 +30,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     @type t :: %__MODULE__{
             cancelled?: boolean(),
+            platform_name: nil | String.t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
             time: DateTime.t()
@@ -55,6 +57,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           }
   end
 
+  alias Dotcom.ScheduleFinder
+  alias Routes.Route
   alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -65,18 +69,23 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           trip_id: Schedules.Trip.id_t()
         }) :: __MODULE__.t()
   def trip_details(%{predicted_schedules: predicted_schedules, trip_id: trip_id}) do
-    vehicle_info =
+    vehicle =
       trip_id
       |> @vehicles_repo.trip()
+
+    vehicle_info =
+      vehicle
       |> vehicle_info()
 
     stops =
       predicted_schedules
       |> Enum.map(fn ps ->
         stop = ps |> PredictedSchedule.stop()
+        platform_name = ps |> platform_name()
 
         %TripStop{
           cancelled?: PredictedSchedule.cancelled?(ps),
+          platform_name: platform_name,
           stop_id: stop.id,
           stop_name: stop.name,
           time: PredictedSchedule.display_time(ps)
@@ -89,6 +98,16 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       stops: stops,
       vehicle_info: vehicle_info
     }
+  end
+
+  defp platform_name(predicted_schedule) do
+    %Route{type: route_type} = PredictedSchedule.route(predicted_schedule)
+
+    predicted_schedule
+    |> PredictedSchedule.platform_stop_id()
+    |> @stops_repo.get()
+    |> Kernel.then(& &1.platform_name)
+    |> ScheduleFinder.simplify_platform_name(route_type)
   end
 
   defp vehicle_info(nil), do: nil
