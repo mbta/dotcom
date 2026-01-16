@@ -43,12 +43,14 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     """
 
     defstruct [
+      :crowding,
       :status,
       :stop_id,
       :stop_name
     ]
 
     @type t :: %__MODULE__{
+            crowding: Vehicles.Vehicle.crowding(),
             status: Vehicles.Vehicle.status(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t()
@@ -110,10 +112,15 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   defp vehicle_info(nil), do: nil
 
-  defp vehicle_info(%Vehicle{status: status, stop_id: stop_id}) do
+  defp vehicle_info(%Vehicle{crowding: crowding, status: status, stop_id: stop_id}) do
     stop = @stops_repo.get(stop_id)
 
-    %VehicleInfo{status: status, stop_id: stop.parent_id || stop.id, stop_name: stop.name}
+    %VehicleInfo{
+      crowding: crowding,
+      status: status,
+      stop_id: stop.parent_id || stop.id,
+      stop_name: stop.name
+    }
   end
 
   defp drop_prediction_for_current_station(stops, %{status: :stopped, stop_id: stop_id}) do

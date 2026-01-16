@@ -15,6 +15,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
+  alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ServicePatterns
   alias DotcomWeb.Components.Prototype
@@ -623,6 +624,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <.lined_list_item route={upcoming_departure.route} variant="mode">
               <div class="grow font-medium">
                 {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
+                <.vehicle_crowding
+                  crowding={crowding(upcoming_departure.trip_details.vehicle_info)}
+                  show_label?
+                />
               </div>
             </.lined_list_item>
             <details
@@ -687,12 +692,56 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </div>
       </div>
       <div class="ml-auto flex flex-col items-end">
-        <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+        <div class="inline-flex gap-xs flex-nowrap items-center">
+          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+          <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
+        </div>
         <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
       </div>
     </div>
     """
   end
+
+  defp crowding(%TripDetails.VehicleInfo{crowding: crowding}), do: crowding
+  defp crowding(_), do: nil
+
+  attr :crowding, :atom
+  attr :show_label?, :boolean, default: false
+
+  defp vehicle_crowding(%{show_label?: true} = assigns) do
+    ~H"""
+    <div :if={@crowding} class="flex gap-xs text-sm flex-nowrap items-center">
+      <.crowding_icon class="size-4" crowding={@crowding} aria-hidden />
+      <div class="font-normal text-charcoal-30">{crowding_message(@crowding)}</div>
+    </div>
+    """
+  end
+
+  defp vehicle_crowding(assigns) do
+    ~H"""
+    <.crowding_icon :if={@crowding} crowding={@crowding} aria-label={crowding_message(@crowding)} />
+    """
+  end
+
+  attr :class, :string, default: ""
+  attr :crowding, :atom
+  attr :rest, :global
+
+  defp crowding_icon(assigns) do
+    ~H"""
+    <.icon
+      type="icon-svg"
+      name="icon-crowding"
+      class={"c-icon__crowding c-icon__crowding--#{@crowding} #{@class}"}
+      {@rest}
+    />
+    """
+  end
+
+  defp crowding_message(:not_crowded), do: ~t"Not crowded"
+  defp crowding_message(:some_crowding), do: ~t"Some crowding"
+  defp crowding_message(:crowded), do: ~t"Crowded"
+  defp crowding_message(_), do: ""
 
   defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
     do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)

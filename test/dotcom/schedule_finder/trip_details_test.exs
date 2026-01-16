@@ -222,8 +222,8 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         end)
 
       trip_id = FactoryHelpers.build(:id)
-
-      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, stop_id: stop_id)
+      crowding = Faker.Util.pick([:not_crowded, :crowded, :some_crowding])
+      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, stop_id: stop_id, crowding: crowding)
       stub(Vehicles.Repo.Mock, :trip, fn ^trip_id -> vehicle end)
 
       trip_details =
@@ -236,6 +236,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.status == vehicle.status
       assert vehicle_info.stop_id == stop_id
       assert vehicle_info.stop_name == stop.name
+      assert vehicle_info.crowding == crowding
     end
 
     test "uses the parent stop id if available" do
