@@ -5,7 +5,7 @@ defmodule Dotcom.ScheduleFinderTest do
   import Mox
 
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
-  alias Test.Support.Factories.{RoutePatterns.RoutePattern, Schedules.Schedule}
+  alias Test.Support.Factories.{RoutePatterns.RoutePattern, Schedules.Schedule, Stops.Stop}
   alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
@@ -130,6 +130,12 @@ defmodule Dotcom.ScheduleFinderTest do
 
       expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
         schedules
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn id ->
+        assert id in Enum.map(schedules, & &1.platform_stop_id)
+
+        Stop.build(:stop, id: id)
       end)
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
@@ -378,8 +384,17 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name("Commuter Rail", 2) == nil
     end
 
+    test "returns nil for commuter rail platforms starting with 'Commuter Rail -'" do
+      actual_name = Faker.Pizza.topping()
+      assert simplify_platform_name("Commuter Rail - " <> actual_name, 2) == actual_name
+    end
+
     test "returns nil for commuter rail platforms with 'All Trains' in the name" do
       assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", 2) == nil
+    end
+
+    test "returns nil for ferry platforms with 'Ferry' in the name" do
+      assert simplify_platform_name("#{Faker.Pizza.topping()} Ferry", 4) == nil
     end
 
     test "leaves nil platform names as nil" do

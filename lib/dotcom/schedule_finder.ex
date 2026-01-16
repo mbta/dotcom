@@ -17,6 +17,7 @@ defmodule Dotcom.ScheduleFinder do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defmodule DailyDeparture do
     @moduledoc """
@@ -183,16 +184,21 @@ defmodule Dotcom.ScheduleFinder do
          departure_time: departure_time,
          arrival_time: arrival_time,
          route: %Route{type: route_type},
-         stop: %Stop{
-           platform_name: platform_name,
-           name: stop_name
-         }
+         stop: parent_stop,
+         platform_stop_id: platform_stop_id
        }) do
+    platform_stop =
+      if platform_stop_id && parent_stop.child_ids != [] do
+        @stops_repo.get(platform_stop_id)
+      end
+
+    arrival_stop = platform_stop || parent_stop
+
     # If we happen to be looking at a stop that's the trip origin, there'll only be a departure time. Can use that if needed.
     %FutureArrival{
       time: if(arrival_time, do: arrival_time, else: departure_time),
-      platform_name: simplify_platform_name(platform_name, route_type),
-      stop_name: stop_name
+      platform_name: simplify_platform_name(arrival_stop.platform_name, route_type),
+      stop_name: arrival_stop.name
     }
   end
 
@@ -209,9 +215,16 @@ defmodule Dotcom.ScheduleFinder do
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
   def simplify_platform_name("Commuter Rail", 2), do: nil
+  def simplify_platform_name("Commuter Rail - " <> track, 2), do: track
 
   def simplify_platform_name(name, 2) do
     if not String.contains?(name, "All Trains") do
+      name
+    end
+  end
+
+  def simplify_platform_name(name, 4) do
+    if not String.contains?(name, "Ferry") do
       name
     end
   end

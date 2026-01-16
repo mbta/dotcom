@@ -521,7 +521,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               >
                 <div class="notranslate grow">
                   <div>{arrival.stop_name}</div>
-                  <div :if={arrival.platform_name} class="text-xs">
+                  <div :if={arrival.platform_name} class="text-sm">
                     {arrival.platform_name}
                   </div>
                 </div>
