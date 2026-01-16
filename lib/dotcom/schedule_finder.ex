@@ -215,9 +215,16 @@ defmodule Dotcom.ScheduleFinder do
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
   def simplify_platform_name("Commuter Rail", 2), do: nil
+  def simplify_platform_name("Commuter Rail - " <> track, 2), do: track
 
   def simplify_platform_name(name, 2) do
     if not String.contains?(name, "All Trains") do
+      name
+    end
+  end
+
+  def simplify_platform_name(name, 4) do
+    if not String.contains?(name, "Ferry") do
       name
     end
   end
