@@ -95,7 +95,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route: Route.t(),
           stop_id: Stop.id_t()
         }) ::
-          [__MODULE__.UpcomingDeparture.t()] | {:before_service, __MODULE__.UpcomingDeparture.t()}
+          [__MODULE__.UpcomingDeparture.t()]
+          | {:before_service, __MODULE__.UpcomingDeparture.t()}
+          | :service_ended
   def upcoming_departures(%{
         direction_id: direction_id,
         now: now,
@@ -155,16 +157,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     else
       predicted_schedules_at_stop
       |> reject_past_schedules(now)
-      |> Enum.map(fn predicted_schedule ->
-        to_upcoming_departure(%{
-          now: now,
-          predicted_schedule: predicted_schedule,
-          predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-          route_type: route_type,
-          stop_id: stop_id
-        })
-      end)
-      |> Enum.reject(&(&1.arrival_status == :hidden))
+      |> to_upcoming_departures(%{
+        now: now,
+        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
+        route_type: route_type,
+        stop_id: stop_id
+      })
     end
   end
 
@@ -216,6 +214,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp reject_timeless_predictions(predictions) do
     predictions |> Enum.reject(&(PredictedSchedule.display_time(&1) == nil))
+  end
+
+  defp to_upcoming_departures([], _), do: :service_ended
+
+  defp to_upcoming_departures(predicted_schedules, args) do
+    predicted_schedules
+    |> Enum.map(fn predicted_schedule ->
+      args
+      |> Map.put(:predicted_schedule, predicted_schedule)
+      |> to_upcoming_departure()
+    end)
+    |> Enum.reject(&(&1.arrival_status == :hidden))
   end
 
   def to_upcoming_departure(%{
