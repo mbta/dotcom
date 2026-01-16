@@ -12,6 +12,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
+  alias Schedules.Trip
+  alias Stops.Stop
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
@@ -33,6 +35,38 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :trip_name
     ]
 
+    @type realtime_arrival_status_t() ::
+            :approaching
+            | :arriving
+            | :boarding
+            | :now
+            | {:departure_seconds, integer()}
+
+    @type arrival_status_t ::
+            realtime_arrival_status_t()
+            | :hidden
+            | {:cancelled, DateTime.t()}
+            | {:scheduled, DateTime.t()}
+            | {:time, DateTime.t()}
+
+    @type arrival_substatus_t ::
+            nil
+            | :on_time
+            | :scheduled
+            | {:scheduled_at, DateTime.t()}
+            | {:status, String.t()}
+
+    @type t :: %__MODULE__{
+            arrival_status: arrival_status_t(),
+            arrival_substatus: arrival_substatus_t(),
+            headsign: Schedules.Trip.headsign(),
+            platform_name: String.t() | nil,
+            route: Route.t(),
+            trip_details: TripDetails.t(),
+            trip_id: Trip.id_t(),
+            trip_name: String.t()
+          }
+
     defmodule TripDetails do
       @moduledoc """
       A struct representing trip details, including a list of stops visited before and after
@@ -48,6 +82,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
+  @spec upcoming_departures(%{
+          direction_id: 0 | 1,
+          now: DateTime.t(),
+          route: Route.t(),
+          stop_id: Stop.id_t()
+        }) ::
+          [__MODULE__.UpcomingDeparture.t()] | {:before_service, __MODULE__.UpcomingDeparture.t()}
   def upcoming_departures(%{
         direction_id: direction_id,
         now: now,
@@ -249,6 +290,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
+  @spec arrival_status(%{
+          now: DateTime.t(),
+          predicted_schedule: PredictedSchedule.t(),
+          route_type: Route.route_type()
+        }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
          route_type: :subway
@@ -317,6 +363,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     {:scheduled, PredictedSchedule.display_time(schedule)}
   end
 
+  @spec realtime_arrival_status(%{
+          arrival_seconds: integer(),
+          departure_seconds: integer(),
+          route_type: Route.route_type()
+        }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
+
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
          departure_seconds: departure_seconds,
@@ -352,6 +404,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
 
+  @spec arrival_substatus(%{
+          predicted_schedule: PredictedSchedule.t(),
+          route_type: Route.route_type()
+        }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
   defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
 
   defp arrival_substatus(%{
