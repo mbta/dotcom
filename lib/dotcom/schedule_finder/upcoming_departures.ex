@@ -62,12 +62,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             headsign: Schedules.Trip.headsign(),
             platform_name: String.t() | nil,
             route: Route.t(),
-            trip_details: __MODULE__.TripDetails.t(),
+            trip_details: __MODULE__.UpcomingTripDetails.t(),
             trip_id: Trip.id_t(),
             trip_name: String.t()
           }
 
-    defmodule TripDetails do
+    defmodule UpcomingTripDetails do
       @moduledoc """
       A struct representing trip details, including a list of stops visited before and after
       the stop specified, along with arrival times (or departure times when relevant).
@@ -274,7 +274,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         {bef, [st | aft]} -> {bef, st, aft}
       end
 
-    %__MODULE__.UpcomingDeparture.TripDetails{
+    %__MODULE__.UpcomingDeparture.UpcomingTripDetails{
       stops_before: stops_before,
       stop: stop,
       stops_after: stops_after,
