@@ -62,7 +62,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             headsign: Schedules.Trip.headsign(),
             platform_name: String.t() | nil,
             route: Route.t(),
-            trip_details: TripDetails.t(),
+            trip_details: __MODULE__.TripDetails.t(),
             trip_id: Trip.id_t(),
             trip_name: String.t()
           }
@@ -79,6 +79,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         :stops_before,
         :vehicle_info
       ]
+
+      @type t :: %__MODULE__{
+              stop: nil | TripDetails.TripStop.t(),
+              stops_after: [TripDetails.TripStop.t()],
+              stops_before: [TripDetails.TripStop.t()],
+              vehicle_info: TripDetails.VehicleInfo.t()
+            }
     end
   end
 
