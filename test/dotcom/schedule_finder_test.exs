@@ -5,7 +5,7 @@ defmodule Dotcom.ScheduleFinderTest do
   import Mox
 
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
-  alias Test.Support.Factories.{RoutePatterns.RoutePattern, Schedules.Schedule}
+  alias Test.Support.Factories.{RoutePatterns.RoutePattern, Schedules.Schedule, Stops.Stop}
   alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
@@ -130,6 +130,12 @@ defmodule Dotcom.ScheduleFinderTest do
 
       expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
         schedules
+      end)
+
+      expect(Stops.Repo.Mock, :get, fn id ->
+        assert id in Enum.map(schedules, & &1.platform_stop_id)
+
+        Stop.build(:stop, id: id)
       end)
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
