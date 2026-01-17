@@ -847,19 +847,27 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp prediction_substatus_display(%{arrival_substatus: nil} = assigns), do: ~H""
 
   defp prediction_substatus_display(%{arrival_substatus: {:delayed_from, time}} = assigns) do
-    assigns = assigns |> assign(:time, time |> format!(:hour_12_minutes))
+    assigns =
+      assigns
+      |> assign(:time, time)
+      |> assign(:readout_time, time |> format!(:hour_12_minutes))
 
     ~H"""
-    <span class="text-xs line-through" aria-label={"Delayed from #{@time}"}>{@time}</span>
+    <span class="text-xs line-through" aria-label={"Delayed from #{@readout_time}"}>
+      <.formatted_time time={@time} />
+    </span>
     """
   end
 
   defp prediction_substatus_display(%{arrival_substatus: {:early_from, time}} = assigns) do
-    assigns = assigns |> assign(:time, time |> format!(:hour_12_minutes))
+    assigns =
+      assigns
+      |> assign(:time, time)
+      |> assign(:readout_time, time |> format!(:hour_12_minutes))
 
     ~H"""
-    <span class="text-xs line-through" aria-label={"Early; Originally scheduled at #{@time}"}>
-      {@time}
+    <span class="text-xs line-through" aria-label={"Early; Originally scheduled at #{@readout_time}"}>
+      <.formatted_time time={@time} />
     </span>
     """
   end
