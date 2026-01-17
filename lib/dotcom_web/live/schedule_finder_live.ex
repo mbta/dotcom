@@ -465,6 +465,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   attr :route, Route, required: true
+
+  slot :headsign, required: true
+  slot :track_info
+  slot :time, required: true
+
+  defp departure_heading(assigns) do
+    ~H"""
+    <div class="w-full flex items-center">
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <RouteComponents.route_icon size="small" route={@route} class="shrink-0" />
+
+          <span>{render_slot(@headsign)}</span>
+        </div>
+
+        <div :if={@track_info} class="flex items-center gap-2">
+          <div class="h-0 invisible shrink-0">
+            <RouteComponents.route_icon size="small" route={@route} />
+          </div>
+
+          <div class="leading-none text-sm">
+            {render_slot(@track_info)}
+          </div>
+        </div>
+      </div>
+
+      <div class="ml-auto">
+        {render_slot(@time)}
+      </div>
+    </div>
+    """
+  end
+
+  attr :route, Route, required: true
   attr :departures, :list, required: true
   attr :loaded_trips, :map, required: true
 
@@ -683,36 +717,26 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp upcoming_departure_heading(assigns) do
     ~H"""
-    <div class="w-full flex items-center">
-      <div class="flex flex-col gap-1.5">
-        <div class="flex items-center gap-2">
-          <RouteComponents.route_icon size="small" route={@upcoming_departure.route} class="shrink-0" />
+    <.departure_heading route={@upcoming_departure.route}>
+      <:headsign>{@upcoming_departure.headsign}</:headsign>
 
-          <div>{@upcoming_departure.headsign}</div>
-        </div>
+      <:track_info :if={@upcoming_departure.trip_name}>
+        {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
+        <span>
+          &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
+        </span>
+      </:track_info>
 
-        <div :if={@upcoming_departure.trip_name} class="flex items-center gap-2">
-          <div class="h-0 invisible shrink-0">
-            <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
+      <:time>
+        <div class="flex flex-col items-end">
+          <div class="inline-flex gap-xs flex-nowrap items-center">
+            <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+            <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
           </div>
-
-          <div class="leading-none text-xs">
-            {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-            <span>
-              &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
-            </span>
-          </div>
+          <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
         </div>
-      </div>
-
-      <div class="ml-auto flex flex-col items-end">
-        <div class="inline-flex gap-xs flex-nowrap items-center">
-          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
-          <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
-        </div>
-        <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
-      </div>
-    </div>
+      </:time>
+    </.departure_heading>
     """
   end
 
