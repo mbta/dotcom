@@ -514,9 +514,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         phx-value-trip={departure.trip_id}
       >
         <:heading>
-          <div class="flex items-center gap-sm w-full">
-            <RouteComponents.route_icon route={@route} size="small" />
-            <div>
+          <.departure_heading route={@route}>
+            <:headsign>
               <div class="flex gap-x-sm gap-y-xs flex-wrap">
                 {departure.headsign}
                 <.badge
@@ -526,12 +525,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   {~t"School days only"}
                 </.badge>
               </div>
-              <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
-                {~t(Train)} {departure.trip_name}
-              </div>
-            </div>
-          </div>
-          <.formatted_time time={departure.time} />
+            </:headsign>
+
+            <:track_info :if={@route.type == 2 && departure.trip_name} class="text-sm">
+              {~t(Train)} {departure.trip_name}
+            </:track_info>
+
+            <:time><.formatted_time time={departure.time} /></:time>
+          </.departure_heading>
         </:heading>
         <:content>
           <.async_result
