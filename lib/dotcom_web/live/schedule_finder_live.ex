@@ -798,9 +798,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="text-nowrap">
-      {format!(@time, :hour_12_minutes)}
-    </span>
+    <.formatted_time time={@time} />
     """
   end
 
@@ -808,9 +806,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="font-bold text-nowrap">
-      {format!(@time, :hour_12_minutes)}
-    </span>
+    <strong>
+      <.formatted_time time={@time} />
+    </strong>
     """
   end
 
@@ -819,22 +817,36 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="line-through text-nowrap">
-      {format!(@time, :hour_12_minutes)}
+    <span class="line-through">
+      <.formatted_time time={@time} />
     </span>
+    """
+  end
+
+  defp prediction_time_display(%{arrival_status: {:time, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <.realtime_display>
+      <.formatted_time time={@time} />
+    </.realtime_display>
     """
   end
 
   defp prediction_time_display(assigns),
     do: ~H"""
-    <.realtime_display text={realtime_text(@arrival_status)} />
+    <.realtime_display>
+      {realtime_text(@arrival_status)}
+    </.realtime_display>
     """
+
+  slot :inner_block
 
   defp realtime_display(assigns) do
     ~H"""
     <span class="font-bold text-nowrap">
       <.icon type="icon-svg" name="icon-realtime-tracking" />
-      {@text}
+      {render_slot(@inner_block)}
     </span>
     """
   end
@@ -844,9 +856,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
-
-  defp realtime_text({:time, time}),
-    do: format!(time, :hour_12_minutes)
 
   defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
