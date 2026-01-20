@@ -664,7 +664,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert [%UpcomingDepartures.UpcomingDeparture{trip_id: future_trip_id}] = departures
+      assert [%UpcomingDepartures.UpcomingDeparture{trip_id: ^future_trip_id}] = departures
     end
 
     test "shows :service_ended if trips in the past" do
