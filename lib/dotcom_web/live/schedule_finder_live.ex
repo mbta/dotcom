@@ -465,6 +465,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   attr :route, Route, required: true
+
+  slot :headsign, required: true
+  slot :track_info
+  slot :time, required: true
+
+  defp departure_heading(assigns) do
+    ~H"""
+    <div class="w-full flex items-center">
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <RouteComponents.route_icon size="small" route={@route} class="shrink-0" />
+
+          <span>{render_slot(@headsign)}</span>
+        </div>
+
+        <div :if={@track_info} class="flex items-center gap-2">
+          <div class="h-0 invisible shrink-0">
+            <RouteComponents.route_icon size="small" route={@route} />
+          </div>
+
+          <div class="leading-none text-sm">
+            {render_slot(@track_info)}
+          </div>
+        </div>
+      </div>
+
+      <div class="ml-auto">
+        {render_slot(@time)}
+      </div>
+    </div>
+    """
+  end
+
+  attr :route, Route, required: true
   attr :departures, :list, required: true
   attr :loaded_trips, :map, required: true
 
@@ -480,9 +514,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         phx-value-trip={departure.trip_id}
       >
         <:heading>
-          <div class="flex items-center gap-sm w-full">
-            <RouteComponents.route_icon route={@route} size="small" />
-            <div>
+          <.departure_heading route={@route}>
+            <:headsign>
               <div class="flex gap-x-sm gap-y-xs flex-wrap">
                 {departure.headsign}
                 <.badge
@@ -492,12 +525,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   {~t"School days only"}
                 </.badge>
               </div>
-              <div :if={@route.type == 2 && departure.trip_name} class="text-sm">
-                {~t(Train)} {departure.trip_name}
-              </div>
-            </div>
-          </div>
-          <.formatted_time time={departure.time} />
+            </:headsign>
+
+            <:track_info :if={@route.type == 2 && departure.trip_name} class="text-sm">
+              {~t(Train)} {departure.trip_name}
+            </:track_info>
+
+            <:time><.formatted_time time={departure.time} /></:time>
+          </.departure_heading>
         </:heading>
         <:content>
           <.async_result
@@ -683,27 +718,26 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp upcoming_departure_heading(assigns) do
     ~H"""
-    <div class="w-full flex items-center">
-      <div class="grid grid-cols-[max-content_max-content] gap-x-1.5 gap-y-1 items-center">
-        <RouteComponents.route_icon size="small" route={@upcoming_departure.route} />
-        <div>{@upcoming_departure.headsign}</div>
+    <.departure_heading route={@upcoming_departure.route}>
+      <:headsign>{@upcoming_departure.headsign}</:headsign>
 
-        <div />
-        <div :if={@upcoming_departure.trip_name} class="leading-none text-xs">
-          {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-          <span>
-            &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
-          </span>
+      <:track_info :if={@upcoming_departure.trip_name}>
+        {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
+        <span>
+          &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
+        </span>
+      </:track_info>
+
+      <:time>
+        <div class="flex flex-col items-end">
+          <div class="inline-flex gap-xs flex-nowrap items-center">
+            <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
+            <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
+          </div>
+          <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
         </div>
-      </div>
-      <div class="ml-auto flex flex-col items-end">
-        <div class="inline-flex gap-xs flex-nowrap items-center">
-          <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
-          <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
-        </div>
-        <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
-      </div>
-    </div>
+      </:time>
+    </.departure_heading>
     """
   end
 
@@ -789,9 +823,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span>
-      {format!(@time, :hour_12_minutes)}
-    </span>
+    <.formatted_time time={@time} />
     """
   end
 
@@ -799,9 +831,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns = assigns |> assign(:time, time)
 
     ~H"""
-    <span class="font-bold">
-      {format!(@time, :hour_12_minutes)}
-    </span>
+    <strong>
+      <.formatted_time time={@time} />
+    </strong>
     """
   end
 
@@ -811,21 +843,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <span class="line-through">
-      {format!(@time, :hour_12_minutes)}
+      <.formatted_time time={@time} />
     </span>
+    """
+  end
+
+  defp prediction_time_display(%{arrival_status: {:time, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <.realtime_display>
+      <.formatted_time time={@time} />
+    </.realtime_display>
     """
   end
 
   defp prediction_time_display(assigns),
     do: ~H"""
-    <.realtime_display text={realtime_text(@arrival_status)} />
+    <.realtime_display>
+      {realtime_text(@arrival_status)}
+    </.realtime_display>
     """
+
+  slot :inner_block
 
   defp realtime_display(assigns) do
     ~H"""
-    <span class="font-bold">
+    <span class="font-bold text-nowrap">
       <.icon type="icon-svg" name="icon-realtime-tracking" />
-      {@text}
+      {render_slot(@inner_block)}
     </span>
     """
   end
@@ -835,9 +881,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
-
-  defp realtime_text({:time, time}),
-    do: format!(time, :hour_12_minutes)
 
   defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
