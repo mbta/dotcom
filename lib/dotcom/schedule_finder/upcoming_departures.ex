@@ -107,23 +107,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     route_type = Route.type_atom(route)
-
-    all_predictions =
-      [
-        route: route.id,
-        direction_id: direction_id,
-        include_terminals: true
-      ]
-      |> @predictions_repo.all()
-
-    all_schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: now |> ServiceDateTime.service_date()
-      )
-
-    predicted_schedules =
-      PredictedSchedule.group(all_predictions, all_schedules)
+    predicted_schedules = predicted_schedules(route.id, direction_id, now)
 
     predicted_schedules_by_trip_id =
       predicted_schedules
@@ -180,6 +164,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_departures
         end
     end
+  end
+
+  defp predicted_schedules(route_id, direction_id, now) do
+    all_predictions =
+      @predictions_repo.all(route: route_id, direction_id: direction_id, include_terminals: true)
+
+    all_schedules =
+      @schedules_repo.by_route_ids([route_id],
+        direction_id: direction_id,
+        date: ServiceDateTime.service_date(now)
+      )
+
+    PredictedSchedule.group(all_predictions, all_schedules)
   end
 
   defp no_predictions?(predicted_schedules),
