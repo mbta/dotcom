@@ -40,6 +40,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> [] end)
+     |> assign_new(:last_trip_time, fn -> nil end)
      |> assign_new(:now, fn -> @date_time.now() end)
      |> assign_new(:alerts, fn -> [] end)
      |> assign_new(:service_groups, fn -> [] end)
@@ -78,8 +79,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
             now={@now}
             stop={@stop}
             upcoming_departures={@upcoming_departures}
-            departures={@departures}
             route={@route}
+            last_trip_time={@last_trip_time}
           />
         <% else %>
           <.callout>{~t(No service today)}</.callout>
@@ -265,6 +266,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
         route: route,
         stop_id: stop_id
       })
+    )
+    |> assign(
+      :last_trip_time,
+      UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop_id)
     )
   end
 
@@ -645,8 +650,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
       now={@now}
       stop={@stop}
       upcoming_departures={@upcoming_departures}
-      departures={@departures}
       route={@route}
+      last_trip_time={@last_trip_time}
     />
     """
   end
@@ -659,13 +664,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
     />
     <.remaining_service
-      :if={departures = @stop && @departures.ok? && @departures.result}
-      end_of_service={end_of_service(departures)}
       now={@now}
       remaining_departures={@upcoming_departures |> Enum.drop(5)}
       route={@route}
       route_type={@route.type}
       stop_id={@stop.id}
+      last_trip_time={@last_trip_time}
     />
     """
   end
@@ -979,8 +983,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
-    <.attached_callout>
-      {gettext("Service Continues Until %{end_of_service}", end_of_service: @end_of_service)}
+    <.attached_callout :if={@last_trip_time}>
+      {gettext("Service Continues Until %{end_of_service}",
+        end_of_service: format!(@last_trip_time, :hour_12_minutes)
+      )}
     </.attached_callout>
     """
   end
@@ -1010,15 +1016,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       />
     </details>
     """
-  end
-
-  defp end_of_service([]), do: nil
-
-  defp end_of_service(departures) do
-    departures
-    |> List.last()
-    |> Kernel.then(& &1.time)
-    |> format!(:hour_12_minutes)
   end
 
   defp no_service_message(service_groups, route, stop) do
