@@ -453,11 +453,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       predicted_time == nil ->
         prediction.schedule_relationship
 
-      DateTime.diff(scheduled_time, predicted_time, :second) |> abs() < 60 ->
-        :on_time
+      DateTime.diff(predicted_time, scheduled_time, :second) < -60 ->
+        {:early_from, scheduled_time}
+
+      DateTime.diff(predicted_time, scheduled_time, :second) > 60 ->
+        {:delayed_from, scheduled_time}
 
       true ->
-        {:scheduled_at, scheduled_time}
+        :on_time
     end
   end
 end
