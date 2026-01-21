@@ -620,6 +620,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp upcoming_departures_section(%{upcoming_departures: :service_ended} = assigns) do
+    ~H"""
+    <.callout>{~t"Service ended"}</.callout>
+    """
+  end
+
   defp upcoming_departures_section(assigns) do
     ~H"""
     <.upcoming_departures_table
