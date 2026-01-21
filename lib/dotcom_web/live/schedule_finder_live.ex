@@ -625,6 +625,31 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp upcoming_departures_section(%{upcoming_departures: :no_realtime} = assigns) do
+    ~H"""
+    <.callout>{~t"There are currently no realtime departures available."}</.callout>
+    """
+  end
+
+  defp upcoming_departures_section(
+         %{upcoming_departures: {:no_realtime, upcoming_departures}} = assigns
+       ) do
+    assigns = assign(assigns, :upcoming_departures, upcoming_departures)
+
+    ~H"""
+    <.attached_callout>
+      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+    </.attached_callout>
+    <.upcoming_departures_section
+      now={@now}
+      stop={@stop}
+      upcoming_departures={@upcoming_departures}
+      departures={@departures}
+      route={@route}
+    />
+    """
+  end
+
   defp upcoming_departures_section(assigns) do
     ~H"""
     <.upcoming_departures_table
