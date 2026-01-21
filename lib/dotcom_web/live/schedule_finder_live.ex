@@ -120,7 +120,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 times={Enum.map(departures, & &1.time)}
                 vehicle_name={@vehicle_name}
               />
-              <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
+              <.departures_table departures={departures} loaded_trips={@loaded_trips} />
             <% end %>
           <% else %>
             <.callout>
@@ -498,7 +498,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  attr :route, Route, required: true
   attr :departures, :list, required: true
   attr :loaded_trips, :map, required: true
 
