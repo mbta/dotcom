@@ -15,7 +15,6 @@ defmodule Dotcom.ScheduleFinder do
   @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -25,7 +24,7 @@ defmodule Dotcom.ScheduleFinder do
     """
     defstruct [
       :headsign,
-      :route_id,
+      :route,
       :schedule_id,
       :stop_sequence,
       :time,
@@ -36,7 +35,7 @@ defmodule Dotcom.ScheduleFinder do
 
     @type t :: %__MODULE__{
             headsign: Trip.headsign() | String.t() | nil,
-            route_id: Route.id_t(),
+            route: Route.t(),
             schedule_id: String.t(),
             stop_sequence: non_neg_integer(),
             time: DateTime.t(),
@@ -127,7 +126,7 @@ defmodule Dotcom.ScheduleFinder do
 
   defp to_departure(%Schedule{schedule_id: schedule_id, route: route, trip: trip} = schedule) do
     %DailyDeparture{
-      route_id: route.id,
+      route: route,
       schedule_id: schedule_id,
       time: schedule.departure_time,
       time_desc: time_desc(trip),
@@ -241,7 +240,7 @@ defmodule Dotcom.ScheduleFinder do
         ]
   def subway_groups(departures, direction_id, stop_id) do
     departures
-    |> Enum.group_by(&@routes_repo.get(&1.route_id))
+    |> Enum.group_by(& &1.route)
     |> Enum.map(&departures_with_destination(&1, direction_id, stop_id))
     # If a group has fewer than 3 trips we can't calculate headways. It's also
     # seldom enough that we'd rather just omit it.
