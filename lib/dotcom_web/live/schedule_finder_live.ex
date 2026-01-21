@@ -514,7 +514,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         phx-value-trip={departure.trip_id}
       >
         <:heading>
-          <.departure_heading route={@route}>
+          <.departure_heading route={departure.route}>
             <:headsign>
               <div class="flex gap-x-sm gap-y-xs flex-wrap">
                 {departure.headsign}
@@ -527,7 +527,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             </:headsign>
 
-            <:track_info :if={@route.type == 2 && departure.trip_name} class="text-sm">
+            <:track_info :if={departure.route.type == 2 && departure.trip_name}>
               {~t(Train)} {departure.trip_name}
             </:track_info>
 
@@ -550,7 +550,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <.lined_list :if={arrivals}>
               <.lined_list_item
                 :for={{arrival, index} <- Enum.with_index(arrivals)}
-                route={@route}
+                route={departure.route}
                 class={if(index == 0, do: "font-bold")}
                 stop_pin?={index == 0}
               >
