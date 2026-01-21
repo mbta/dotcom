@@ -37,7 +37,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
             stop_sequence: non_neg_integer(),
-            time: DateTime.t()
+            time: time_t()
           }
   end
 
