@@ -819,9 +819,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
         @highlighted_stop? && "font-bold",
         @other_stop.cancelled? && "line-through"
       ]}>
-        {format!(@other_stop.time, :hour_12_minutes)}
+        <.trip_stop_time time={@other_stop.time} />
       </div>
     </.lined_list_item>
+    """
+  end
+
+  defp trip_stop_time(%{time: {:time, time}} = assigns) do
+    assigns = assigns |> assign(:time, time)
+
+    ~H"""
+    <.formatted_time time={@time} />
+    """
+  end
+
+  defp trip_stop_time(%{time: {:status, status}} = assigns) do
+    assigns = assigns |> assign(:status, status)
+
+    ~H"""
+    <span>{@status}</span>
     """
   end
 
@@ -851,6 +867,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <span class="line-through">
       <.formatted_time time={@time} />
     </span>
+    """
+  end
+
+  defp prediction_time_display(%{arrival_status: {:status, status}} = assigns) do
+    assigns = assigns |> assign(:status, status)
+
+    ~H"""
+    <.realtime_display>
+      {@status}
+    </.realtime_display>
     """
   end
 

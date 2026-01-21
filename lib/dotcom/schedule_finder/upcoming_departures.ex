@@ -249,6 +249,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         arrival_status(%{
           predicted_schedule: predicted_schedule,
           route_type: route_type,
+          status: PredictedSchedule.status(predicted_schedule),
           now: now
         }),
       arrival_substatus:
@@ -317,6 +318,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: :subway
        }),
        do: :hidden
+
+  defp arrival_status(%{
+         status: status,
+         route_type: :subway
+       })
+       when status != nil,
+       do: {:status, status}
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
