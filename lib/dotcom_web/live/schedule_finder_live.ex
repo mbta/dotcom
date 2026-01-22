@@ -1019,12 +1019,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
 
   defp remaining_service(assigns) do
+    assigns =
+      assigns
+      |> assign(:remaining_departures_count, Enum.count(assigns.remaining_departures))
+
     ~H"""
     <details class="group/remaining-service">
       <summary class="cursor-pointer group/remaining-service-summary">
         <.attached_callout>
           <span>
-            {gettext("%{count} trips later today", count: Enum.count(@remaining_departures))}
+            {ngettext(
+              "1 trip later today",
+              "%{count} trips later today",
+              @remaining_departures_count,
+              count: @remaining_departures_count
+            )}
           </span>
           <span class="ml-auto text-brand-primary group-hover/remaining-service-summary:underline group-open/remaining-service:hidden">
             {~t"Show"}
