@@ -757,9 +757,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
       <:track_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-        <span>
-          &bull; {@upcoming_departure.platform_name || ~t"Track TBA"}
+        <span aria-hidden="true">
+          &bull;
         </span>
+        {@upcoming_departure.platform_name || ~t"Track TBA"}
       </:track_info>
 
       <:time>
