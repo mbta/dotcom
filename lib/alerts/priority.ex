@@ -8,7 +8,6 @@ defmodule Alerts.Priority do
   alias Alerts.Match
 
   @type priority_level :: :high | :low | :system
-  @ongoing_effects Alerts.Alert.ongoing_effects()
 
   @priority_levels [:high, :low, :system]
 
@@ -79,10 +78,13 @@ defmodule Alerts.Priority do
     :low
   end
 
-  def priority(%{effect: effect, active_period: active_period}, time)
-      when effect in @ongoing_effects do
-    # non-Ongoing alerts are low if they aren't happening now
-    if Match.any_period_match?(active_period, time), do: :high, else: :low
+  def priority(%{effect: effect, active_period: active_period}, time) do
+    if effect in Alerts.Alert.ongoing_effects() do
+      # non-Ongoing alerts are low if they aren't happening now
+      if Match.any_period_match?(active_period, time), do: :high, else: :low
+    else
+      :low
+    end
   end
 
   def priority(_, _) do
