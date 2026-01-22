@@ -43,7 +43,7 @@ defmodule Dotcom.StopAmenity do
   defp alert_effects(:bike), do: [:bike_issue]
   defp alert_effects(:elevator), do: [:elevator_closure]
   defp alert_effects(:escalator), do: [:escalator_closure]
-  defp alert_effects(:parking), do: [:parking_closure, :parking_issue]
+  defp alert_effects(:parking), do: [:parking_closure]
   defp alert_effects(_), do: []
 
   defp amenity_for_facility_type(:bike_storage), do: :bike

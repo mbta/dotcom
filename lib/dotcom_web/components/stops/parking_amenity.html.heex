@@ -4,6 +4,10 @@
     {~t"Parking"}
     <%= if is_nil(@amenity) do %>
       <.amenity_badge>{~t"Not available"}</.amenity_badge>
+    <% else %>
+      <%= if Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) do %>
+        <.amenity_badge health={0.0}>{~t"Temporarily closed"}</.amenity_badge>
+      <% end %>
     <% end %>
   </:card_title>
   <:card_content>
