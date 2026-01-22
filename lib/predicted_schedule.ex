@@ -159,6 +159,16 @@ defmodule PredictedSchedule do
   def stop(%PredictedSchedule{prediction: %Prediction{stop: stop}}), do: stop
 
   @doc """
+  Returns the stop sequence for a given PredictedSchedule
+  """
+  @spec stop_sequence(PredictedSchedule.t()) :: non_neg_integer()
+  def stop_sequence(%PredictedSchedule{schedule: %Schedule{stop_sequence: stop_sequence}}),
+    do: stop_sequence
+
+  def stop_sequence(%PredictedSchedule{prediction: %Prediction{stop_sequence: stop_sequence}}),
+    do: stop_sequence
+
+  @doc """
   Returns the stop for a given PredictedSchedule
   """
   def platform_stop_id(%PredictedSchedule{

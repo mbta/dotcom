@@ -25,15 +25,19 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :platform_name,
       :stop_id,
       :stop_name,
+      :stop_sequence,
       :time
     ]
+
+    @type time_t() :: {:time, DateTime.t()} | {:status, String.t()}
 
     @type t :: %__MODULE__{
             cancelled?: boolean(),
             platform_name: nil | String.t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
-            time: DateTime.t()
+            stop_sequence: non_neg_integer(),
+            time: time_t()
           }
   end
 
@@ -88,16 +92,28 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           platform_name: platform_name,
           stop_id: stop.id,
           stop_name: stop.name,
-          time: PredictedSchedule.display_time(ps)
+          stop_sequence: PredictedSchedule.stop_sequence(ps),
+          time: trip_stop_time(ps)
         }
       end)
-      |> Enum.sort_by(& &1.time, DateTime)
+      |> Enum.sort_by(& &1.stop_sequence)
       |> drop_prediction_for_current_station(vehicle_info)
 
     %__MODULE__{
       stops: stops,
       vehicle_info: vehicle_info
     }
+  end
+
+  defp trip_stop_time(predicted_schedule) do
+    %Route{type: route_type} = PredictedSchedule.route(predicted_schedule)
+    status = PredictedSchedule.status(predicted_schedule)
+
+    if route_type in [0, 1] && status do
+      {:status, status}
+    else
+      {:time, PredictedSchedule.display_time(predicted_schedule)}
+    end
   end
 
   defp platform_name(predicted_schedule) do

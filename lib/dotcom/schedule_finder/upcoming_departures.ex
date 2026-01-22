@@ -35,7 +35,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :trip_name
     ]
 
-    @type realtime_arrival_status_t() ::
+    @type realtime_arrival_status_t ::
             :approaching
             | :arriving
             | :boarding
@@ -47,6 +47,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             | :hidden
             | {:cancelled, DateTime.t()}
             | {:scheduled, DateTime.t()}
+            | {:status, String.t()}
             | {:time, DateTime.t()}
 
     @type arrival_substatus_t ::
@@ -252,6 +253,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         arrival_status(%{
           predicted_schedule: predicted_schedule,
           route_type: route_type,
+          status: PredictedSchedule.status(predicted_schedule),
           now: now
         }),
       arrival_substatus:
@@ -313,13 +315,21 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @spec arrival_status(%{
           now: DateTime.t(),
           predicted_schedule: PredictedSchedule.t(),
-          route_type: Route.route_type()
+          route_type: Route.route_type(),
+          status: nil | String.t()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
          route_type: :subway
        }),
        do: :hidden
+
+  defp arrival_status(%{
+         status: status,
+         route_type: :subway
+       })
+       when status != nil,
+       do: {:status, status}
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
