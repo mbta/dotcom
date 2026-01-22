@@ -690,50 +690,48 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </:heading>
         <:content>
           <.lined_list>
-            <.lined_list_item
-              :if={upcoming_departure.trip_details.vehicle_info}
-              route={upcoming_departure.route}
-              variant="mode"
-              stop_pin?={upcoming_departure.trip_details.stop == nil}
-            >
-              <div class="grow font-medium">
-                {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
-                <.vehicle_crowding
-                  crowding={crowding(upcoming_departure.trip_details.vehicle_info)}
-                  show_label?
-                />
-              </div>
-            </.lined_list_item>
-            <details
-              :if={
-                Enum.count(upcoming_departure.trip_details.stops_before) > 0 &&
-                  upcoming_departure.trip_details.vehicle_info
-              }
-              class="group/details"
-            >
-              <summary class="cursor-pointer">
-                <.lined_list_item route={upcoming_departure.route} variant="none">
-                  <div class="grow">
-                    <span class="text-[0.75rem] underline group-open/details:hidden">
-                      {~t"Show More Stops"}
-                    </span>
-                    <span class="text-[0.75rem] underline hidden group-open/details:block">
-                      {~t"Hide More Stops"}
-                    </span>
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
-                  </div>
-                </.lined_list_item>
-              </summary>
-              <.other_stop
-                :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                class="border-t-xs border-gray-lightest"
-                other_stop={other_stop}
+            <%= if upcoming_departure.trip_details.vehicle_info do %>
+              <.lined_list_item
                 route={upcoming_departure.route}
-                stop_id={@stop_id}
-              />
-            </details>
+                variant="mode"
+                stop_pin?={upcoming_departure.trip_details.stop == nil}
+              >
+                <div class="grow font-medium">
+                  {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
+                  <.vehicle_crowding
+                    crowding={crowding(upcoming_departure.trip_details.vehicle_info)}
+                    show_label?
+                  />
+                </div>
+              </.lined_list_item>
+              <details
+                :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
+                class="group/details"
+              >
+                <summary class="cursor-pointer">
+                  <.lined_list_item route={upcoming_departure.route} variant="none">
+                    <div class="grow">
+                      <span class="text-[0.75rem] underline group-open/details:hidden">
+                        {~t"Show More Stops"}
+                      </span>
+                      <span class="text-[0.75rem] underline hidden group-open/details:block">
+                        {~t"Hide More Stops"}
+                      </span>
+                    </div>
+                    <div class="shrink-0">
+                      <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
+                    </div>
+                  </.lined_list_item>
+                </summary>
+                <.other_stop
+                  :for={other_stop <- upcoming_departure.trip_details.stops_before}
+                  class="border-t-xs border-gray-lightest"
+                  other_stop={other_stop}
+                  route={upcoming_departure.route}
+                  stop_id={@stop_id}
+                />
+              </details>
+            <% end %>
 
             <.other_stop
               :if={upcoming_departure.trip_details.stop}
