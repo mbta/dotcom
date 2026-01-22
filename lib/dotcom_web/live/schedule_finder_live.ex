@@ -120,7 +120,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 times={Enum.map(departures, & &1.time)}
                 vehicle_name={@vehicle_name}
               />
-              <.departures_table departures={departures} route={@route} loaded_trips={@loaded_trips} />
+              <.departures_table departures={departures} loaded_trips={@loaded_trips} />
             <% end %>
           <% else %>
             <.callout>
@@ -498,7 +498,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  attr :route, Route, required: true
   attr :departures, :list, required: true
   attr :loaded_trips, :map, required: true
 
@@ -514,7 +513,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         phx-value-trip={departure.trip_id}
       >
         <:heading>
-          <.departure_heading route={@route}>
+          <.departure_heading route={departure.route}>
             <:headsign>
               <div class="flex gap-x-sm gap-y-xs flex-wrap">
                 {departure.headsign}
@@ -527,7 +526,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             </:headsign>
 
-            <:track_info :if={@route.type == 2 && departure.trip_name} class="text-sm">
+            <:track_info :if={departure.route.type == 2 && departure.trip_name}>
               {~t(Train)} {departure.trip_name}
             </:track_info>
 
@@ -550,7 +549,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <.lined_list :if={arrivals}>
               <.lined_list_item
                 :for={{arrival, index} <- Enum.with_index(arrivals)}
-                route={@route}
+                route={departure.route}
                 class={if(index == 0, do: "font-bold")}
                 stop_pin?={index == 0}
               >
@@ -623,6 +622,31 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp upcoming_departures_section(%{upcoming_departures: :service_ended} = assigns) do
     ~H"""
     <.callout>{~t"Service ended"}</.callout>
+    """
+  end
+
+  defp upcoming_departures_section(%{upcoming_departures: :no_realtime} = assigns) do
+    ~H"""
+    <.callout>{~t"There are currently no realtime departures available."}</.callout>
+    """
+  end
+
+  defp upcoming_departures_section(
+         %{upcoming_departures: {:no_realtime, upcoming_departures}} = assigns
+       ) do
+    assigns = assign(assigns, :upcoming_departures, upcoming_departures)
+
+    ~H"""
+    <.attached_callout>
+      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+    </.attached_callout>
+    <.upcoming_departures_section
+      now={@now}
+      stop={@stop}
+      upcoming_departures={@upcoming_departures}
+      departures={@departures}
+      route={@route}
+    />
     """
   end
 
