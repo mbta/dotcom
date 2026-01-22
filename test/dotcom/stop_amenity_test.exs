@@ -62,7 +62,7 @@ defmodule Dotcom.StopAmenityTest do
 
       amenity_alert =
         Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick([:parking_closure, :parking_issue])
+          effect: :parking_closure
         )
 
       amenity = %Dotcom.StopAmenity{type: :parking}
