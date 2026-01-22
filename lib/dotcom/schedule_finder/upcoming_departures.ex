@@ -30,6 +30,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :headsign,
       :platform_name,
       :route,
+      :stop_sequence,
       :trip_details,
       :trip_id,
       :trip_name
@@ -63,6 +64,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             headsign: Schedules.Trip.headsign(),
             platform_name: String.t() | nil,
             route: Route.t(),
+            stop_sequence: non_neg_integer(),
             trip_details: __MODULE__.UpcomingTripDetails.t(),
             trip_id: Trip.id_t(),
             trip_name: String.t()
@@ -240,12 +242,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
+    stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
 
     trip_details =
       trip_details(%{
         predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
         trip_id: trip.id,
-        stop_id: stop_id
+        stop_id: stop_id,
+        stop_sequence: stop_sequence
       })
 
     %UpcomingDeparture{
@@ -264,6 +268,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       headsign: trip.headsign,
       platform_name: platform_name(predicted_schedule),
       route: PredictedSchedule.route(predicted_schedule),
+      stop_sequence: stop_sequence,
       trip_details: trip_details,
       trip_id: trip.id,
       trip_name: if(route_type == :commuter_rail, do: trip.name, else: nil)
@@ -273,7 +278,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp trip_details(%{
          predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
          trip_id: trip_id,
-         stop_id: stop_id
+         stop_id: stop_id,
+         stop_sequence: stop_sequence
        }) do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
@@ -283,7 +289,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     {stops_before, stop, stops_after} =
       stops
-      |> Enum.split_while(&(&1.stop_id != stop_id))
+      |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
       |> case do
         {all, []} -> {[], nil, all}
         {bef, [st | aft]} -> {bef, st, aft}
