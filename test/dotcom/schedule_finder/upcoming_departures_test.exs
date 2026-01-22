@@ -2472,4 +2472,37 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
   end
+
+  describe "last_trip_time/4" do
+    test "returns the last time for a route/stop/direction/date" do
+      now = Dotcom.Utils.DateTime.now()
+      route = Factories.Routes.Route.build(:route)
+      stop = Factories.Stops.Stop.build(:stop)
+      trip = Factories.Schedules.Trip.build(:trip)
+      direction_id = Faker.Util.pick([0, 1])
+
+      predictions =
+        Factories.Predictions.Prediction.build_list(20, :prediction, stop: stop, trip: trip)
+        |> Enum.sort_by(& &1.time, DateTime)
+
+      schedules =
+        Factories.Schedules.Schedule.build_list(20, :schedule, stop: stop, trip: trip)
+        |> Enum.sort_by(& &1.time, DateTime)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+
+      last_prediction = List.last(predictions)
+      last_schedule = List.last(schedules)
+
+      last_trip_time = UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop.id)
+
+      assert last_trip_time in [
+               last_prediction.arrival_time,
+               last_prediction.departure_time,
+               last_schedule.arrival_time,
+               last_schedule.departure_time
+             ]
+    end
+  end
 end
