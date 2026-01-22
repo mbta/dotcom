@@ -21,6 +21,18 @@ defmodule Dotcom.StopAmenityTest do
     )
   end
 
+  defp current_facility_alert(facility_id, effect: effect) do
+    active_period = [
+      {Dotcom.Utils.DateTime.now(), Dotcom.Utils.DateTime.now() |> Timex.shift(hours: 1)}
+    ]
+
+    Factories.Alerts.Alert.build(:alert_for_informed_entity,
+      active_period: active_period,
+      informed_entity: %{facility: facility_id},
+      effect: effect
+    )
+  end
+
   describe "affected_by_alerts?/2" do
     test "true if alerts impact a facility" do
       facilities = Factories.Facilities.Facility.build_list(10, :facility)
@@ -32,6 +44,34 @@ defmodule Dotcom.StopAmenityTest do
       facilities = Factories.Facilities.Facility.build_list(10, :facility)
       alerts = Factories.Alerts.Alert.build_list(10, :alert)
       refute affected_by_alerts?(%Dotcom.StopAmenity{facilities: facilities}, alerts)
+    end
+  end
+
+  describe "closed_by_alerts?/2" do
+    test "parking_closure alerts close parking amenities" do
+      facilities = Factories.Facilities.Facility.build_list(10, :facility)
+
+      alert =
+        List.first(facilities)
+        |> Map.get(:id)
+        |> current_facility_alert(effect: :parking_closure)
+
+      amenity = %Dotcom.StopAmenity{facilities: facilities, type: :parking}
+
+      assert closed_by_alerts?(amenity, [alert])
+    end
+
+    test "parking_issue alerts do not close parking amenities" do
+      facilities = Factories.Facilities.Facility.build_list(10, :facility)
+
+      alert =
+        List.first(facilities)
+        |> Map.get(:id)
+        |> current_facility_alert(effect: :parking_issue)
+
+      amenity = %Dotcom.StopAmenity{facilities: facilities, type: :parking}
+
+      refute closed_by_alerts?(amenity, [alert])
     end
   end
 
@@ -62,7 +102,7 @@ defmodule Dotcom.StopAmenityTest do
 
       amenity_alert =
         Factories.Alerts.Alert.build(:alert,
-          effect: :parking_closure
+          effect: Faker.Util.pick([:parking_closure, :parking_issue])
         )
 
       amenity = %Dotcom.StopAmenity{type: :parking}
