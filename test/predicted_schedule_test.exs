@@ -140,6 +140,12 @@ defmodule PredictedScheduleTest do
     })
   ]
 
+  setup do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
+
   describe "get/2" do
     test "filters results by time but doesn't filter predictions or schedules individually" do
       expect(Schedules.Repo.Mock, :by_route_ids, fn ["Teal"], opts ->
@@ -342,6 +348,27 @@ defmodule PredictedScheduleTest do
     test "Returns stop when only prediction is available" do
       predicted_schedule = %PredictedSchedule{prediction: List.first(@predictions)}
       assert stop(predicted_schedule).id == "first"
+    end
+  end
+
+  describe "stop_sequence/1" do
+    test "Returns stop_sequence when schedule is available" do
+      schedule = Test.Support.Factories.Schedules.Schedule.build(:schedule)
+      prediction = build(:prediction)
+
+      predicted_schedule = %PredictedSchedule{
+        schedule: schedule,
+        prediction: prediction
+      }
+
+      assert stop_sequence(predicted_schedule) == schedule.stop_sequence
+    end
+
+    test "Returns stop_sequence when only prediction is available" do
+      prediction = build(:prediction)
+
+      predicted_schedule = %PredictedSchedule{prediction: prediction}
+      assert stop_sequence(predicted_schedule) == prediction.stop_sequence
     end
   end
 

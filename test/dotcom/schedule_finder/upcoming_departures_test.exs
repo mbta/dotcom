@@ -66,6 +66,47 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "includes status if present for subway departures" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      status = Faker.Lorem.sentence()
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            status: status,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               {:status, status}
+             ]
+    end
+
     test "includes trip name, platform name, and detailed arrival status for commuter rail departures" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -1859,6 +1900,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [stop_before, stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
+      [stop_sequence_before, stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
       direction_id = Faker.Util.pick([0, 1])
@@ -1878,16 +1923,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_after,
             stop: stop_after,
+            stop_sequence: stop_sequence_after,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_before,
             stop: stop_before,
+            stop_sequence: stop_sequence_before,
             trip: trip
           )
         ]
@@ -1912,7 +1960,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_before.id,
                  stop_name: stop_before.name,
-                 time: arrival_time_before
+                 time: {:time, arrival_time_before}
                }
              ]
 
@@ -1921,7 +1969,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop.id,
                  stop_name: stop.name,
-                 time: arrival_time
+                 time: {:time, arrival_time}
                }
 
       assert trip_details.stops_after
@@ -1930,7 +1978,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: arrival_time_after
+                 time: {:time, arrival_time_after}
                }
              ]
     end
@@ -1988,6 +2036,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
+      [stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
       direction_id = Faker.Util.pick([0, 1])
@@ -2007,11 +2059,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_after,
             stop: stop_after,
+            stop_sequence: stop_sequence_after,
             trip: trip
           )
         ]
@@ -2043,7 +2097,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: arrival_time_after
+                 time: {:time, arrival_time_after}
                }
              ]
     end
@@ -2113,15 +2167,23 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       assert trip_details.stops_before
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{stop_id: stop_before.id, stop_name: stop_before.name, time: arrival_time_before}
+               %{
+                 stop_id: stop_before.id,
+                 stop_name: stop_before.name,
+                 time: {:time, arrival_time_before}
+               }
              ]
 
       assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{stop_id: stop.id, stop_name: stop.name, time: arrival_time}
+               %{stop_id: stop.id, stop_name: stop.name, time: {:time, arrival_time}}
 
       assert trip_details.stops_after
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{stop_id: stop_after.id, stop_name: stop_after.name, time: arrival_time_after}
+               %{
+                 stop_id: stop_after.id,
+                 stop_name: stop_after.name,
+                 time: {:time, arrival_time_after}
+               }
              ]
     end
 
@@ -2137,6 +2199,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       [stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      [stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
 
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
@@ -2157,6 +2223,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           )
         ]
@@ -2167,13 +2234,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           [
             Factories.Schedules.Schedule.build(:schedule,
               stop: stop,
+              stop_sequence: stop_sequence,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_after,
               departure_time: arrival_time_after |> DateTime.shift(second: 30),
-              time: arrival_time_after,
               stop: stop_after,
+              stop_sequence: stop_sequence_after,
+              time: arrival_time_after,
               trip: trip
             )
           ]
@@ -2193,11 +2262,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{stop_id: stop.id, stop_name: stop.name, time: arrival_time}
+               %{stop_id: stop.id, stop_name: stop.name, time: {:time, arrival_time}}
 
       assert trip_details.stops_after
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{stop_id: stop_after.id, stop_name: stop_after.name, time: arrival_time_after}
+               %{
+                 stop_id: stop_after.id,
+                 stop_name: stop_after.name,
+                 time: {:time, arrival_time_after}
+               }
              ]
     end
 
@@ -2213,6 +2286,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       [stop_before, stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      [stop_sequence_before, stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
 
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
@@ -2238,6 +2315,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           )
         ]
@@ -2249,19 +2327,22 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: departure_time_before |> DateTime.shift(second: -30),
               departure_time: departure_time_before,
-              time: departure_time_before,
               stop: stop_before,
+              stop_sequence: stop_sequence_before,
+              time: departure_time_before,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
               stop: stop,
+              stop_sequence: stop_sequence,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_after,
               departure_time: arrival_time_after |> DateTime.shift(second: 30),
-              time: arrival_time_after,
               stop: stop_after,
+              stop_sequence: stop_sequence_after,
+              time: arrival_time_after,
               trip: trip
             )
           ]
@@ -2296,6 +2377,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [stop_before, stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
+      [stop_sequence_before, stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
       direction_id = Faker.Util.pick([0, 1])
@@ -2315,17 +2400,20 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_after,
             stop: stop_after,
+            stop_sequence: stop_sequence_after,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: nil,
             departure_time: departure_time_before,
             stop: stop_before,
+            stop_sequence: stop_sequence_before,
             trip: trip
           )
         ]
@@ -2345,7 +2433,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert trip_details.stops_before |> Enum.map(& &1.time) == [
-               departure_time_before
+               {:time, departure_time_before}
              ]
     end
 
@@ -2361,6 +2449,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       [stop, stop_after] =
         stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+
+      [stop_sequence, stop_sequence_after] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
 
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
@@ -2381,12 +2473,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
+            stop_sequence: stop_sequence,
             trip: trip
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: nil,
             departure_time: nil,
             stop: stop_after,
+            stop_sequence: stop_sequence_after,
             trip: trip
           )
         ]
@@ -2397,6 +2491,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           [
             Factories.Schedules.Schedule.build(:schedule,
               stop: stop,
+              stop_sequence: stop_sequence,
               trip: trip
             ),
             Factories.Schedules.Schedule.build(:schedule,
@@ -2404,6 +2499,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
               departure_time: arrival_time_after |> DateTime.shift(second: 30),
               time: arrival_time_after,
               stop: stop_after,
+              stop_sequence: stop_sequence_after,
               trip: trip
             )
           ]
@@ -2423,7 +2519,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert [stop_after] = trip_details.stops_after
-      assert stop_after.time == arrival_time_after
+      assert stop_after.time == {:time, arrival_time_after}
       assert stop_after.cancelled?
     end
 
@@ -2470,6 +2566,39 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.count() == 1
+    end
+  end
+
+  describe "last_trip_time/4" do
+    test "returns the last time for a route/stop/direction/date" do
+      now = Dotcom.Utils.DateTime.now()
+      route = Factories.Routes.Route.build(:route)
+      stop = Factories.Stops.Stop.build(:stop)
+      trip = Factories.Schedules.Trip.build(:trip)
+      direction_id = Faker.Util.pick([0, 1])
+
+      predictions =
+        Factories.Predictions.Prediction.build_list(20, :prediction, stop: stop, trip: trip)
+        |> Enum.sort_by(& &1.time, DateTime)
+
+      schedules =
+        Factories.Schedules.Schedule.build_list(20, :schedule, stop: stop, trip: trip)
+        |> Enum.sort_by(& &1.time, DateTime)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+
+      last_prediction = List.last(predictions)
+      last_schedule = List.last(schedules)
+
+      last_trip_time = UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop.id)
+
+      assert last_trip_time in [
+               last_prediction.arrival_time,
+               last_prediction.departure_time,
+               last_schedule.arrival_time,
+               last_schedule.departure_time
+             ]
     end
   end
 end

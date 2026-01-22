@@ -35,7 +35,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :trip_name
     ]
 
-    @type realtime_arrival_status_t() ::
+    @type realtime_arrival_status_t ::
             :approaching
             | :arriving
             | :boarding
@@ -47,6 +47,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             | :hidden
             | {:cancelled, DateTime.t()}
             | {:scheduled, DateTime.t()}
+            | {:status, String.t()}
             | {:time, DateTime.t()}
 
     @type arrival_substatus_t ::
@@ -107,23 +108,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     route_type = Route.type_atom(route)
-
-    all_predictions =
-      [
-        route: route.id,
-        direction_id: direction_id,
-        include_terminals: true
-      ]
-      |> @predictions_repo.all()
-
-    all_schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: now |> ServiceDateTime.service_date()
-      )
-
-    predicted_schedules =
-      PredictedSchedule.group(all_predictions, all_schedules)
+    predicted_schedules = predicted_schedules(route.id, direction_id, now)
 
     predicted_schedules_by_trip_id =
       predicted_schedules
@@ -180,6 +165,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_departures
         end
     end
+  end
+
+  defp predicted_schedules(route_id, direction_id, now) do
+    all_predictions =
+      @predictions_repo.all(route: route_id, direction_id: direction_id, include_terminals: true)
+
+    all_schedules =
+      @schedules_repo.by_route_ids([route_id],
+        direction_id: direction_id,
+        date: ServiceDateTime.service_date(now)
+      )
+
+    PredictedSchedule.group(all_predictions, all_schedules)
   end
 
   defp no_predictions?(predicted_schedules),
@@ -255,6 +253,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         arrival_status(%{
           predicted_schedule: predicted_schedule,
           route_type: route_type,
+          status: PredictedSchedule.status(predicted_schedule),
           now: now
         }),
       arrival_substatus:
@@ -316,13 +315,21 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @spec arrival_status(%{
           now: DateTime.t(),
           predicted_schedule: PredictedSchedule.t(),
-          route_type: Route.route_type()
+          route_type: Route.route_type(),
+          status: nil | String.t()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
          route_type: :subway
        }),
        do: :hidden
+
+  defp arrival_status(%{
+         status: status,
+         route_type: :subway
+       })
+       when status != nil,
+       do: {:status, status}
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
@@ -468,5 +475,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       true ->
         :on_time
     end
+  end
+
+  @spec last_trip_time(Route.id_t(), 0 | 1, DateTime.t(), Stop.id_t()) :: DateTime.t() | nil
+  def last_trip_time(route_id, direction_id, now, stop_id) do
+    route_id
+    |> predicted_schedules(direction_id, now)
+    |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+    |> Enum.reject(&end_of_trip?/1)
+    |> Enum.map(&PredictedSchedule.display_time/1)
+    |> Enum.sort(DateTime)
+    |> List.last()
   end
 end

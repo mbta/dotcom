@@ -22,7 +22,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
   end
 
   describe "trip_details/1" do
-    test "maps predicted_schedules into TripDetails" do
+    test "maps predicted_schedules into TripDetails, sorted by stop_sequence" do
       trip = Factories.Schedules.Trip.build(:trip)
       stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
       stop_names = Faker.Util.sample_uniq(3, fn -> Faker.Beer.brand() end)
@@ -32,14 +32,28 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         |> Enum.zip(stop_names)
         |> Enum.map(fn {id, name} -> Factories.Stops.Stop.build(:stop, id: id, name: name) end)
 
+      stop_sequences = Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+
       predicted_schedules =
         stops
-        |> Enum.map(
-          &%PredictedSchedule{
-            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip, stop: &1),
-            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip, stop: &1)
+        |> Enum.zip(stop_sequences)
+        |> Enum.map(fn {stop, stop_sequence} ->
+          %PredictedSchedule{
+            prediction:
+              Factories.Predictions.Prediction.build(:prediction,
+                trip: trip,
+                stop: stop,
+                stop_sequence: stop_sequence
+              ),
+            schedule:
+              Factories.Schedules.Schedule.build(:schedule,
+                trip: trip,
+                stop: stop,
+                stop_sequence: stop_sequence
+              )
           }
-        )
+        end)
+        |> Enum.reverse()
 
       trip_details =
         TripDetails.trip_details(%{
@@ -49,6 +63,40 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
       assert trip_details.stops |> Enum.map(& &1.stop_id) == stop_ids
       assert trip_details.stops |> Enum.map(& &1.stop_name) == stop_names
+      assert trip_details.stops |> Enum.map(& &1.stop_sequence) == stop_sequences
+    end
+
+    test "returns {:status, status} as the time field for subway when predictions have a status" do
+      trip = Factories.Schedules.Trip.build(:trip)
+      route = Factories.Routes.Route.build(:subway_route)
+      status = Faker.Lorem.sentence()
+
+      predicted_schedules =
+        [
+          %PredictedSchedule{
+            prediction:
+              Factories.Predictions.Prediction.build(:prediction,
+                route: route,
+                status: status,
+                trip: trip
+              ),
+            schedule:
+              Factories.Schedules.Schedule.build(
+                :schedule,
+                route: route,
+                trip: trip
+              )
+          }
+        ]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_id: trip.id
+        })
+
+      assert [trip_stop] = trip_details.stops
+      assert trip_stop.time == {:status, status}
     end
 
     test "includes platform_names for bus routes in stops when applicable" do
