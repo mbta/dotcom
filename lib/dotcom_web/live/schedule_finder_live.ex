@@ -691,6 +691,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <:content>
           <.lined_list>
             <.lined_list_item
+              :if={upcoming_departure.trip_details.vehicle_info}
               route={upcoming_departure.route}
               variant="mode"
               stop_pin?={upcoming_departure.trip_details.stop == nil}
@@ -704,7 +705,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             </.lined_list_item>
             <details
-              :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
+              :if={
+                Enum.count(upcoming_departure.trip_details.stops_before) > 0 &&
+                  upcoming_departure.trip_details.vehicle_info
+              }
               class="group/details"
             >
               <summary class="cursor-pointer">
