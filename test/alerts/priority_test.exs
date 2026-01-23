@@ -326,6 +326,20 @@ defmodule Alerts.PriorityTest do
       assert priority(shuttle, @now)
     end
 
+    test "Escalator closures are never high even if active and not Ongoing" do
+      escalator_closure = %{
+        effect: :escalator_closure,
+        active_period: [{DateTime.shift(@now, day: -1), nil}],
+        lifecycle: :new
+      }
+
+      assert priority(escalator_closure, @now) == :low
+      assert priority(escalator_closure, DateTime.shift(@now, day: -2)) == :low
+
+      assert priority(escalator_closure, @now |> DateTime.shift(day: -2) |> DateTime.to_date()) ==
+               :low
+    end
+
     test "Non on-going alerts are notices if they arent happening now" do
       tomorrow = DateTime.shift(@now, day: 1)
       shuttle = %{effect: :shuttle, active_period: [{tomorrow, nil}], lifecycle: :upcoming}
