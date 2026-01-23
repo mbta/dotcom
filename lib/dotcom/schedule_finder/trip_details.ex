@@ -53,9 +53,13 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :stop_name
     ]
 
+    @type trip_vehicle_status_t() ::
+            Vehicles.Vehicle.status()
+            | :location_not_available
+
     @type t :: %__MODULE__{
             crowding: Vehicles.Vehicle.crowding(),
-            status: Vehicles.Vehicle.status(),
+            status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t()
           }
@@ -127,6 +131,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   end
 
   defp vehicle_info(nil), do: nil
+
+  defp vehicle_info(%Vehicle{stop_id: nil}), do: %VehicleInfo{status: :location_unavailable}
 
   defp vehicle_info(%Vehicle{crowding: crowding, status: status, stop_id: stop_id}) do
     stop = @stops_repo.get(stop_id)
