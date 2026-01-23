@@ -5,8 +5,8 @@ defmodule Dotcom.Gettext do
 
   use Gettext.Backend,
     default_domain: "dotcom",
-    default_locale: Dotcom.Locales.default_locale_code(),
-    locales: Dotcom.Locales.locale_codes(),
+    default_locale: Application.compile_env!(:dotcom, :default_locale_code),
+    locales: Application.compile_env!(:dotcom, :locale_codes),
     otp_app: :dotcom,
     plural_forms: Dotcom.Gettext.Plural,
     priv: "priv/gettext"
