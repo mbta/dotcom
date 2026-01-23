@@ -9,30 +9,16 @@ defmodule DotcomWeb.Plugs.Banner do
 
   import Plug.Conn, only: [assign: 3]
 
-  alias __MODULE__.Options
-
   @behaviour Plug
 
-  defmodule Options do
-    @moduledoc """
-
-    Default options for the Banner plug.
-
-    banner_fn: a function which returns either an Alert.Banner or nil
-    """
-    defstruct banner_fn: &Alerts.Repo.banner/0
-
-    @type t :: %__MODULE__{
-            banner_fn: (-> Alerts.Banner.t() | nil)
-          }
-  end
-
   @impl true
-  def init(opts), do: struct!(Options, opts)
+  def init(opts), do: opts
 
   @impl true
   def call(conn, opts) do
-    assign_alert_banner(conn, opts.banner_fn.())
+    # banner_fn: a function which returns either an Alert.Banner or nil
+    banner_fn = Keyword.get(opts, :banner_fn, &Alerts.Repo.banner/0)
+    assign_alert_banner(conn, banner_fn.())
   end
 
   @spec assign_alert_banner(Plug.Conn.t(), Alerts.Banner.t() | nil) :: Plug.Conn.t()

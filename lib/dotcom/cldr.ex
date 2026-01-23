@@ -4,10 +4,10 @@ defmodule Dotcom.Cldr do
   """
 
   use Cldr,
-    default_locale: Dotcom.Locales.default_locale_code(),
-    gettext: Dotcom.Gettext,
+    default_locale: Application.compile_env!(:dotcom, :default_locale_code),
+    gettext: Application.compile_env!(:dotcom, :gettext_backend),
     json_library: Jason,
-    locales: Dotcom.Locales.locale_codes(),
+    locales: Application.compile_env!(:dotcom, :locale_codes),
     otp_app: :dotcom,
     providers: [Cldr.Calendar, Cldr.DateTime, Cldr.List, Cldr.Number, Cldr.Unit],
     precompile_number_formats: ["#,##0"]

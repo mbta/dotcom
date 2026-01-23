@@ -10,7 +10,6 @@ defmodule Dotcom.Cache.Subscriber do
   alias Dotcom.Cache.Publisher
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @channel Publisher.channel()
   @executions %{
     "eviction" => :delete
   }
@@ -28,7 +27,7 @@ defmodule Dotcom.Cache.Subscriber do
   def init(uuid) do
     Application.get_env(:dotcom, :redis_config)
     |> @redix_pub_sub.start_link()
-    |> subscribe(@channel)
+    |> subscribe(Publisher.channel())
 
     {:ok, uuid}
   end
@@ -45,12 +44,12 @@ defmodule Dotcom.Cache.Subscriber do
   end
 
   def handle_info(
-        {:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}},
+        {:redix_pubsub, _pid, _ref, :message, %{channel: channel, payload: message}},
         publisher_id
       ) do
     [command, sender_id | key] = String.split(message, "|")
 
-    if sender_id != publisher_id do
+    if channel == Publisher.channel() && sender_id != publisher_id do
       maybe_execute_command(command, Enum.join(key, "|"))
     end
 
