@@ -287,6 +287,31 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.crowding == crowding
     end
 
+    test "uses a status of `:location_unavailable` if the vehicle has no stop_id" do
+      predicted_schedules =
+        1..3
+        |> Enum.map(fn _ ->
+          %PredictedSchedule{
+            prediction: Factories.Predictions.Prediction.build(:prediction),
+            schedule: Factories.Schedules.Schedule.build(:schedule)
+          }
+        end)
+
+      trip_id = FactoryHelpers.build(:id)
+
+      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, stop_id: nil)
+      stub(Vehicles.Repo.Mock, :trip, fn ^trip_id -> vehicle end)
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_id: trip_id
+        })
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == :location_unavailable
+    end
+
     test "uses the parent stop id if available" do
       [child_stop_id, parent_stop_id] =
         Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
