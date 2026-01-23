@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.SearchPageTest do
+defmodule DotcomWeb.SearchPageLiveTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
@@ -6,25 +6,25 @@ defmodule DotcomWeb.Live.SearchPageTest do
   import Phoenix.LiveViewTest
   import Test.Support.SearchServiceFactory
 
-  alias DotcomWeb.Live.SearchPage
+  alias DotcomWeb.SearchPageLive
 
   setup :verify_on_exit!
 
-  describe "SearchPage" do
+  describe "SearchPageLive" do
     test "mount", %{conn: conn} do
-      path = live_path(conn, SearchPage)
+      path = live_path(conn, SearchPageLive)
       assert {:ok, _, _} = live(conn, path)
     end
 
     test "mount with query param starts searching", %{conn: conn} do
       query = Faker.App.name()
-      search_count = SearchPage.categories() |> Enum.count()
+      search_count = SearchPageLive.categories() |> Enum.count()
 
       expect(Dotcom.SearchService.Mock, :query, search_count * 2, fn ^query, _ ->
         {:ok, build(:result)}
       end)
 
-      path = live_path(conn, SearchPage, %{"query" => query})
+      path = live_path(conn, SearchPageLive, %{"query" => query})
       assert {:ok, _, _} = live(conn, path)
     end
 
@@ -32,11 +32,11 @@ defmodule DotcomWeb.Live.SearchPageTest do
       {:ok, view, _} = initial_load_with_query(conn)
       render(view)
 
-      for category <- SearchPage.categories() do
-        assert has_element?(view, "section > h2", SearchPage.category_label(category))
+      for category <- SearchPageLive.categories() do
+        assert has_element?(view, "section > h2", SearchPageLive.category_label(category))
       end
 
-      off_category = SearchPage.categories() |> Faker.Util.pick()
+      off_category = SearchPageLive.categories() |> Faker.Util.pick()
 
       # A little different - LV testing seems to include all checkboxes in the
       # change event, but browsers will omit the unchecked entries
@@ -44,13 +44,13 @@ defmodule DotcomWeb.Live.SearchPageTest do
       |> element("form")
       |> render_change(%{
         "category" =>
-          SearchPage.categories()
+          SearchPageLive.categories()
           |> Map.new(&{&1, "on"})
           |> Map.put(off_category, ""),
         "_target" => ["category", off_category]
       })
 
-      refute has_element?(view, "section > h2", SearchPage.category_label(off_category))
+      refute has_element?(view, "section > h2", SearchPageLive.category_label(off_category))
     end
 
     test "change query", %{conn: conn} do
@@ -59,7 +59,7 @@ defmodule DotcomWeb.Live.SearchPageTest do
       query_word_1 = Faker.Lorem.word()
       query_word_2 = Faker.Lorem.word()
       new_query = "#{query_word_1} #{query_word_2}"
-      count = SearchPage.categories() |> Enum.count()
+      count = SearchPageLive.categories() |> Enum.count()
 
       expect(Dotcom.SearchService.Mock, :query, count, fn ^new_query, _ ->
         {:ok, build(:result)}
@@ -83,13 +83,13 @@ defmodule DotcomWeb.Live.SearchPageTest do
       render_async(view)
 
       # Hide all sections except one
-      on_category = SearchPage.categories() |> Faker.Util.pick()
+      on_category = SearchPageLive.categories() |> Faker.Util.pick()
 
       view
       |> element("form")
       |> render_change(%{
         "category" =>
-          SearchPage.categories()
+          SearchPageLive.categories()
           |> Map.new(&{&1, ""})
           |> Map.put(on_category, "on"),
         "_target" => ["category", on_category]
@@ -112,13 +112,13 @@ defmodule DotcomWeb.Live.SearchPageTest do
 
   defp initial_load_with_query(conn) do
     query = Faker.App.name()
-    search_count = SearchPage.categories() |> Enum.count()
+    search_count = SearchPageLive.categories() |> Enum.count()
 
     expect(Dotcom.SearchService.Mock, :query, search_count * 2, fn _, _ ->
       {:ok, build_list(5, :hit)}
     end)
 
-    path = live_path(conn, SearchPage, %{"query" => query})
+    path = live_path(conn, SearchPageLive, %{"query" => query})
     live(conn, path, on_error: :warn)
   end
 end
