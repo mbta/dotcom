@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.StopMap do
+defmodule DotcomWeb.StopMapLive do
   @moduledoc """
   A page with a map showing where a stop is. This could eventually be
   promoted into the full stop page.
