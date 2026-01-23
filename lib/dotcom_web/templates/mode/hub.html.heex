@@ -1,5 +1,4 @@
-<% mode = mode_atom(@mode_name) %>
-<% grid_template = if mode == :bus, do: "_grid_buttons_bus.html", else: "_grid_buttons.html" %>
+<% grid_template = if @mode_icon == :bus, do: "_grid_buttons_bus.html", else: "_grid_buttons.html" %>
 <div class="container">
   <div class="page-section">
     <div class="row">
@@ -17,7 +16,7 @@
           )}
         </div>
         <h2>{~t(Schedules)}</h2>
-        <% sub_routes = if mode == :subway, do: @green_routes, else: []
+        <% sub_routes = if @mode_icon == :subway, do: @green_routes, else: []
 
         grid_template_assigns =
           assigns
@@ -25,21 +24,21 @@
           |> Map.put(:sub_routes, sub_routes) %>
         {render(grid_template, grid_template_assigns)}
         <h2>{~t(Maps)}</h2>
-        <%= if mode == :subway || mode == :ferry do %>
-          {map_image(mode)}
+        <%= if @mode_icon == :subway || @mode_icon == :ferry do %>
+          {map_image(@mode_icon)}
         <% end %>
         {map_buttons(@maps)}
 
         <h2>{~t(Fares)}</h2>
-        {mode |> mode_fare_card() |> PartialView.paragraph(@conn)}
+        {@mode_icon |> mode_fare_card() |> PartialView.paragraph(@conn)}
 
         <div class="m-mode__passes">
-          {mode
+          {@mode_icon
           |> DotcomWeb.FareView.fare_passes()
           |> DotcomWeb.CMS.ParagraphView.render_paragraph(@conn)}
         </div>
 
-        <p>{DotcomWeb.FareView.fare_overview_link(mode, @conn)}</p>
+        <p>{DotcomWeb.FareView.fare_overview_link(@mode_icon, @conn)}</p>
       </div>
       <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
         <div class="m-mode-hub__trip-plan-widget">

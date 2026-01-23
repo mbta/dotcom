@@ -181,14 +181,6 @@ defmodule DotcomWeb.ViewHelpersTest do
     end
   end
 
-  describe "mode_atom/1" do
-    test "Mode atoms do not contain spaces" do
-      assert mode_atom("Commuter Rail") == :commuter_rail
-      assert mode_atom("Red Line") == :red_line
-      assert mode_atom("Ferry") == :ferry
-    end
-  end
-
   describe "format_full_date/1" do
     test "formats a date" do
       assert format_full_date(~D[2017-03-31]) == "March 31, 2017"

@@ -248,14 +248,6 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name(:silver_line), do: ~t"Silver Line"
   def mode_name(:the_ride), do: ~t"The Ride"
 
-  @spec mode_atom(String.t()) :: atom
-  def mode_atom(type_string) do
-    type_string
-    |> String.downcase()
-    |> String.replace(" ", "_")
-    |> String.to_existing_atom()
-  end
-
   @doc "Returns a css class: a string with hyphens."
   @spec route_to_class(Routes.Route.t()) :: String.t()
   def route_to_class(nil), do: ""
