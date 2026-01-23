@@ -99,8 +99,8 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
-      live("/alerts/subway", Live.SubwayAlerts)
-      live("/alerts/commuter-rail", Live.CommuterRailAlerts)
+      live("/alerts/subway", SubwayAlertsLive)
+      live("/alerts/commuter-rail", CommuterRailAlertsLive)
     end
   end
 
@@ -292,8 +292,8 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
-      live("/search", Live.SearchPage)
-      live("/trip-planner", Live.TripPlanner)
+      live("/search", SearchPageLive)
+      live("/trip-planner", TripPlannerLive)
     end
   end
 
@@ -304,7 +304,7 @@ defmodule DotcomWeb.Router do
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
-      live "/stop-map", Live.StopMap
+      live "/stop-map", StopMapLive
     end
   end
 

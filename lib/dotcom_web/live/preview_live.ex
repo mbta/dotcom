@@ -7,6 +7,7 @@ defmodule DotcomWeb.PreviewLive do
 
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
+  alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
@@ -19,7 +20,7 @@ defmodule DotcomWeb.PreviewLive do
     %{
       arguments: [],
       icon_name: "icon-stop-default",
-      module: DotcomWeb.Live.StopMap,
+      module: StopMapLive,
       title: "Stop Page Map"
     }
   ]
