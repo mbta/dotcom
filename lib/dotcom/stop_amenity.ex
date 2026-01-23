@@ -43,7 +43,7 @@ defmodule Dotcom.StopAmenity do
   defp alert_effects(:bike), do: [:bike_issue]
   defp alert_effects(:elevator), do: [:elevator_closure]
   defp alert_effects(:escalator), do: [:escalator_closure]
-  defp alert_effects(:parking), do: [:parking_closure]
+  defp alert_effects(:parking), do: [:parking_closure, :parking_issue]
   defp alert_effects(_), do: []
 
   defp amenity_for_facility_type(:bike_storage), do: :bike
@@ -79,6 +79,22 @@ defmodule Dotcom.StopAmenity do
   def affected_by_alerts?(%__MODULE__{facilities: facilities}, alerts) do
     Enum.any?(facilities, &Facility.affected_by_alerts?(&1, alerts))
   end
+
+  @doc """
+  Checks if the alerts close the given amenity now.
+
+  This is very similar to `affected_by_alerts/2`, but additionally ensures that
+  the alerts are closure-level - that is, not something like a `:parking_issue`.
+  """
+  def closed_by_alerts?(%__MODULE__{facilities: facilities, type: amenity_type}, alerts) do
+    closure_alerts = alerts |> Enum.filter(&closure_alert_effect?(amenity_type, &1.effect))
+
+    Enum.any?(facilities, &Facility.affected_by_alerts?(&1, closure_alerts))
+  end
+
+  @spec closure_alert_effect?(Stops.Api.gtfs_facility_type(), Alerts.Alert.effect()) :: boolean()
+  defp closure_alert_effect?(:parking, :parking_closure), do: true
+  defp closure_alert_effect?(_, _), do: false
 
   @doc """
   Counts number of facilities not impacted by current alerts.
