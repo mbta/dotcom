@@ -79,9 +79,9 @@ defmodule Alerts.Priority do
   end
 
   def priority(%{effect: effect, active_period: active_period}, time) do
-    if effect in Alerts.Alert.ongoing_effects() do
-      # non-Ongoing alerts are low if they aren't happening now
-      if Match.any_period_match?(active_period, time), do: :high, else: :low
+    # non-Ongoing alerts are low priority if they aren't happening now
+    if effect in Alerts.Alert.ongoing_effects() && Match.any_period_match?(active_period, time) do
+      :high
     else
       :low
     end
