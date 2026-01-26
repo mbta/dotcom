@@ -23,9 +23,15 @@ defmodule Dotcom.Alerts.EndpointStops do
   # stop-range per alert, and returns the non-nil ones.
   @impl Behaviour
   def endpoint_stops(alerts, route_ids) do
-    alerts
-    |> Enum.map(&endpoint_stops_for_alert(&1, route_ids))
-    |> Enum.reject(&Kernel.is_nil/1)
+    route_ids = route_ids |> Enum.reject(&Kernel.is_nil/1)
+
+    if route_ids |> Enum.empty?() do
+      []
+    else
+      alerts
+      |> Enum.map(&endpoint_stops_for_alert(&1, route_ids))
+      |> Enum.reject(&Kernel.is_nil/1)
+    end
   end
 
   # Returns a single endpoint stop-range for the alert given, or nil
