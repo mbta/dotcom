@@ -43,8 +43,6 @@ defmodule DotcomWeb do
       import Util.AsyncAssign
 
       alias Util.Breadcrumb
-
-      plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
     end
   end
 

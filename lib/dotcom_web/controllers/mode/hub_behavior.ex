@@ -12,8 +12,6 @@ defmodule DotcomWeb.Mode.HubBehavior do
   alias Routes.Route
   alias Util.Breadcrumb
 
-  plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
-
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()
   @callback mode_icon() :: atom()
