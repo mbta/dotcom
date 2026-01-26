@@ -6,9 +6,14 @@ defmodule Predictions.Repo do
   require Logger
   require Routes.Route
 
+  use Nebulex.Caching.Decorators
+
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.seconds(1)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -25,18 +30,19 @@ defmodule Predictions.Repo do
     _ = Logger.info("predictions_repo_all_cache=call")
 
     opts
+    |> update_green_line_route_id()
     |> add_all_optional_params()
     |> cache_fetch()
     |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
     |> load_from_other_repos
   end
 
-  def all_no_cache(opts) when is_list(opts) and opts != [] do
-    opts
-    |> add_all_optional_params()
-    |> fetch()
-    |> filter_predictions()
-    |> load_from_other_repos
+  defp update_green_line_route_id(opts) do
+    if opts |> Keyword.get(:route) == "Green" do
+      opts |> Keyword.put(:route, GreenLine.branch_ids() |> Enum.join(","))
+    else
+      opts
+    end
   end
 
   defp add_all_optional_params(opts) do
@@ -59,7 +65,7 @@ defmodule Predictions.Repo do
 
   @spec filter_predictions([Parser.record()] | {:error, any}, Keyword.t()) ::
           [Parser.record()] | {:error, any}
-  defp filter_predictions(predictions, opts \\ [])
+  defp filter_predictions(predictions, opts)
 
   defp filter_predictions({:error, error}, _) do
     {:error, error}
@@ -88,6 +94,12 @@ defmodule Predictions.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              match: fn lst -> is_list(lst) && lst != [] end,
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cache_fetch(opts) do
     fetch(opts)
   end
@@ -122,8 +134,8 @@ defmodule Predictions.Repo do
 
   defp has_departure_time?(
          {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
-          _stop_sequence, _schedule_relationship, _track, _status, _departing?,
-          _vehicle_id} = _prediction
+          _stop_sequence, _schedule_relationship, _track, _status, _departing?, _vehicle_id} =
+           _prediction
        ) do
     departure != nil
   end

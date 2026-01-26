@@ -23,18 +23,6 @@ defmodule Dotcom.Cache.Multilevel do
 
   import Dotcom.Utils.Enum, only: [group_list: 1]
 
-  defmodule Local do
-    use Nebulex.Cache, otp_app: :dotcom, adapter: Nebulex.Adapters.Local
-  end
-
-  defmodule Redis do
-    use Nebulex.Cache, otp_app: :dotcom, adapter: NebulexRedisAdapter
-  end
-
-  defmodule Publisher do
-    use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
-  end
-
   @cache Application.compile_env!(:dotcom, :cache)
   @redix Application.compile_env!(:dotcom, :redix)
 

@@ -18,7 +18,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
          ]}
       end)
 
-      path = live_path(conn, DotcomWeb.Live.TripPlanner)
+      path = live_path(conn, DotcomWeb.TripPlannerLive)
       query = Faker.Address.street_address() |> URI.encode()
 
       Enum.each(["from", "to"], fn direction ->
@@ -32,7 +32,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
     test "from|to/query redirects with an encoded plan when lat/lon are present", %{conn: conn} do
       # Setup
-      path = live_path(conn, DotcomWeb.Live.TripPlanner)
+      path = live_path(conn, DotcomWeb.TripPlannerLive)
       latitude = Faker.Address.latitude()
       longitude = Faker.Address.longitude()
       query = "#{latitude},#{longitude}" |> URI.encode()

@@ -16,10 +16,8 @@ defmodule DotcomWeb.ConnCase do
   use ExUnit.CaseTemplate
 
   def default_conn do
-    %Plug.Conn{
-      Phoenix.ConnTest.build_conn()
-      | host: "localhost"
-    }
+    Phoenix.ConnTest.build_conn()
+    |> Map.put(:host, "localhost")
   end
 
   using do

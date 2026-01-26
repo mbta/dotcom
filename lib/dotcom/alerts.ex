@@ -15,7 +15,6 @@ defmodule Dotcom.Alerts do
   @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo_module Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @type diversion_effect_t() ::
@@ -25,20 +24,28 @@ defmodule Dotcom.Alerts do
   @type service_effect_t() ::
           :cancellation
           | :delay
+          | :detour
+          | :dock_closure
           | :service_change
           | :shuttle
           | :single_tracking
-          | :suspension
+          | :snow_route
           | :station_closure
+          | :stop_closure
+          | :suspension
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
     cancellation: 1,
     delay: 2,
+    detour: 1,
+    dock_closure: 1,
     service_change: 3,
     shuttle: 1,
     single_tracking: 1,
+    snow_route: 1,
     station_closure: 1,
+    stop_closure: 1,
     suspension: 1
   ]
 
@@ -245,6 +252,13 @@ defmodule Dotcom.Alerts do
   def route_alert?(%Alert{informed_entity: informed_entity}, route_id) do
     Enum.any?(informed_entity, fn
       %{route: ^route_id} -> true
+      %{} -> false
+    end)
+  end
+
+  def route_type_alert?(%Alert{informed_entity: informed_entity}, route_type) do
+    Enum.any?(informed_entity, fn
+      %{route_type: ^route_type} -> true
       %{} -> false
     end)
   end

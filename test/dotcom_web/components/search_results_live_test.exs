@@ -7,7 +7,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
   import Test.Support.SearchServiceFactory
 
   alias DotcomWeb.Components.SearchResultsLive
-  alias DotcomWeb.Live.SearchPage
+  alias DotcomWeb.SearchPageLive
 
   setup :verify_on_exit!
 
@@ -95,7 +95,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
     %{
       id: Faker.Internet.slug(),
       query: Faker.Cat.breed(),
-      category: Faker.Util.pick(SearchPage.categories())
+      category: Faker.Util.pick(SearchPageLive.categories())
     }
   end
 

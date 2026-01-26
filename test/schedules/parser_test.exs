@@ -57,7 +57,8 @@ defmodule Schedules.ParserTest do
 
     actual = parse(api_item)
 
-    assert {"CR-Lowell", "31174458-CR_MAY2016-hxl16011-Weekday-01", "Lowell", nil,
+    assert {"CR-Lowell", "31174458-CR_MAY2016-hxl16011-Weekday-01", "Lowell",
+            "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule", nil,
             Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
             Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"), true, true, false, 0, nil,
             3} == actual

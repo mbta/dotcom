@@ -18,7 +18,7 @@ defmodule Test.Support.Factories.Schedules.Schedule do
       stop: StopFactory.build(:stop),
       arrival_time: random_date_time(),
       departure_time: random_date_time(),
-      time: random_date_time() |> FactoryHelpers.nullable_item(),
+      time: random_date_time(),
       stop_headsign: Faker.Address.city() |> FactoryHelpers.nullable_item(),
       platform_stop_id: FactoryHelpers.build(:id)
     }

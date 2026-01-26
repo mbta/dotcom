@@ -296,7 +296,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
-  defp tab_name(conn, _), do: assign(conn, :tab, ~t"timetable")
+  defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
 
   @doc """
   Organize the route's schedules for timetable format, where schedules are laid

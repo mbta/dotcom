@@ -18,7 +18,7 @@ defmodule DotcomWeb.TripPlanController do
   """
   def location(conn, %{"direction" => direction, "query" => query})
       when direction in ["from", "to"] do
-    path = live_path(conn, DotcomWeb.Live.TripPlanner)
+    path = live_path(conn, DotcomWeb.TripPlannerLive)
     encoded = build_params(direction, query) |> AntiCorruptionLayer.encode()
 
     conn |> put_status(301) |> redirect(to: "#{path}?plan=#{encoded}") |> halt()

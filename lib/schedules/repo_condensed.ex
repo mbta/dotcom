@@ -52,7 +52,7 @@ defmodule Schedules.RepoCondensed do
       |> Stream.map(&Parser.parse/1)
       |> Stream.filter(&has_trip?/1)
       |> Task.async_stream(
-        fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _, _} ->
+        fn {_, trip_id, stop_id, _, _, _, time, _, _, _, stop_sequence, _, _} ->
           trip = Repo.trip(trip_id)
           stop = @stops_repo.get!(stop_id)
 
@@ -74,7 +74,7 @@ defmodule Schedules.RepoCondensed do
     end
   end
 
-  defp has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  defp has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 

@@ -10,6 +10,7 @@
  * HOST=dev.mbtace.com npx playwright test smoke
  */
 const { describe, expect, test } = require("@playwright/test");
+const { syncLiveView } = require("../utils");
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -101,12 +102,32 @@ test.describe(`${baseURL} passes smoke test`, () => {
   });
 
   test("schedules & maps page (all links)", async ({ page, request }) => {
+    test.setTimeout(120000);
     await ok(page, "/schedules");
-    const links = await page.$$("main a:visible[href]");
+    const links = await page
+      .locator("main a:visible[href]")
+      .evaluateAll((els) => els.map((el) => el.href));
+
     await Promise.all(
-      links.map(async (link) => {
-        const href = await link.getAttribute("href");
-        return request.get(href);
+      links.map(async (href) => {
+        await expect
+          .poll(
+            async () => {
+              const response = await request.get(href, { timeout: 0 });
+              const status = response.status();
+              return status >= 200 && status < 400;
+            },
+            {
+              // Custom expect message for reporting, optional.
+              message: `${href} eventually loads`,
+
+              // Probe, wait 1s, probe, wait 2s, probe, wait 10s, probe, wait 10s, probe
+              // ... Defaults to [100, 250, 500, 1000].
+              intervals: [1_000, 2_000, 10_000],
+              timeout: 60_000,
+            },
+          )
+          .toBe(true);
       }),
     );
   });
@@ -152,9 +173,10 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("search page", async ({ page }) => {
     await ok(page, "/search");
+    await syncLiveView(page, expect);
     await page
       .getByPlaceholder("Search for routes, places, information, and more")
-      .pressSequentially("Charles");
+      .pressSequentially("Charles", { delay: 100 });
     await expect(page).toHaveURL(/query=Charles/);
     const searchResults = page.locator("#search-page-results");
     await hasPositiveCount(searchResults, "li a");

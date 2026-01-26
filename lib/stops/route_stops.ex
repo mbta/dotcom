@@ -31,17 +31,18 @@ defmodule Stops.RouteStops do
       when is_integer(direction_id) do
     shapes
     |> RouteStop.list_from_shapes(stops, route, direction_id)
-    |> Task.async_stream(fn route_stop ->
-      route_stop
-      |> RouteStop.fetch_zone()
-      |> RouteStop.fetch_connections()
-      |> RouteStop.fetch_stop_features()
-    end)
-    |> Enum.flat_map(fn
-      {:ok, route_stop} -> [route_stop]
-      _ -> []
-    end)
-    |> Enum.chunk_by(& &1.branch)
+    |> Task.async_stream(
+      fn route_stop ->
+        route_stop
+        |> RouteStop.fetch_zone()
+        |> RouteStop.fetch_connections()
+        |> RouteStop.fetch_stop_features()
+      end,
+      timeout: 15_000
+    )
+    |> Stream.filter(&match?({:ok, _}, &1))
+    |> Stream.map(fn {:ok, route_stop} -> route_stop end)
+    |> Stream.chunk_by(& &1.branch)
     |> Enum.map(&from_list/1)
   end
 

@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.SearchResultsLive do
 
   import DotcomWeb.Components.SearchHits
 
-  alias DotcomWeb.Live.SearchPage
+  alias DotcomWeb.SearchPageLive
   alias Phoenix.LiveComponent
 
   @search_service Application.compile_env!(:dotcom, :search_service)
@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.SearchResultsLive do
       <h2 class="font-medium text-lg m-0 bg-gray-bordered-background p-sm flex justify-between">
         <span>
           <span class="sr-only">{~t(Search results for)}</span>
-          {SearchPage.category_label(@category)}
+          {SearchPageLive.category_label(@category)}
         </span>
         <span :if={@total_count}>{~t(1 result | %{count} results | #{@total_count})p}</span>
       </h2>

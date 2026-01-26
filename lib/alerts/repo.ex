@@ -57,6 +57,7 @@ defmodule Alerts.Repo do
     |> Store.alerts(now)
   end
 
+  @impl Behaviour
   @spec by_route_id_and_type(String.t(), 0..4, DateTime.t()) :: [Alert.t()]
   def by_route_id_and_type(route_id, route_type, now) do
     route_id

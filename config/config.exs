@@ -12,7 +12,15 @@ config :dotcom, :date_time_module, Dotcom.Utils.DateTime
 
 config :dotcom, :endpoint_stops_module, Dotcom.Alerts.EndpointStops
 
+config :dotcom, :gettext_backend, Dotcom.Gettext
+
 config :dotcom, :httpoison, HTTPoison
+
+config :dotcom,
+  default_locale_code: "en",
+  locale_codes: ["en", "es"]
+
+# locale_codes: ["en", "es", "ht", "pt", "vi", "zh]
 
 config :dotcom, :location_service, LocationService
 

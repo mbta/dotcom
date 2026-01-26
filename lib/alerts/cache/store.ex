@@ -52,6 +52,10 @@ defmodule Alerts.Cache.Store do
     DotcomWeb.Endpoint.subscribe(@pubsub_topic)
   end
 
+  def unsubscribe() do
+    DotcomWeb.Endpoint.unsubscribe(@pubsub_topic)
+  end
+
   @doc """
   Retrieves all the alert ids (if any) for the given list of routes.
   The IDs returned here can be passed to alerts/1 to get the alerts themselves.

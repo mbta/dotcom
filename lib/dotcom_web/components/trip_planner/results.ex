@@ -227,7 +227,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       data-test={"results:itinerary_group:#{@index}"}
     >
       <a href={@alerts_href} class="no-underline text-black block" target="_blank">
-        <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest p-[0.75rem] w-full text-sm">
+        <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest p-3 w-full text-sm">
           <.icon name="triangle-exclamation" class="h-[1.125rem] w-[1.125rem]" />
           <span class="font-bold font-heading text-sm text-black">
             {~t(Temporarily Unavailable)}
@@ -239,7 +239,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           </span>
         </div>
         <.itinerary_summary
-          class="opacity-70 p-[0.75rem]"
+          class="opacity-70 p-3"
           summarized_legs={@group.summary}
           itinerary={@group.representative_itinerary}
           show_accessible={@show_accessible}
@@ -247,7 +247,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       </a>
       <.promo_banner
         href={@feedback_url}
-        class="bg-amethyst-80 text-black flex items-center justify-center gap-xs text-sm p-[0.75rem] font-medium"
+        class="bg-amethyst-80 text-black flex items-center justify-center gap-xs text-sm p-3 font-medium"
       >
         {~t(Is this helpful? Send us feedback)}
         <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3" />
@@ -259,7 +259,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   defp itinerary_group(assigns) do
     ~H"""
     <div
-      class="border border-solid border-gray-lighter p-[0.75rem] cursor-pointer"
+      class="border border-solid border-gray-lighter p-3 cursor-pointer"
       phx-click="select_itinerary_group"
       phx-value-index={@index}
       data-test={"results:itinerary_group:#{@index}"}
@@ -275,7 +275,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         itinerary={@group.representative_itinerary}
         show_accessible={@show_accessible}
       />
-      <div class="flex justify-end items-center mt-[0.75rem]">
+      <div class="flex justify-end items-center mt-3">
         <div :if={@group.alternatives_text} class="grow text-sm text-grey-dark">
           {@group.alternatives_text}
         </div>

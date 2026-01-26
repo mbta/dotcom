@@ -46,7 +46,7 @@ defmodule LocationService.Address do
   @spec parse_label(String.t(), %__MODULE__{}) :: %__MODULE__{}
   defp parse_label("", address), do: address
 
-  defp parse_label(label, address) do
+  defp parse_label(label, %__MODULE__{} = address) do
     %AddressUS.Address{
       street: %AddressUS.Street{
         name: street_name,
@@ -62,7 +62,7 @@ defmodule LocationService.Address do
       |> String.trim()
       |> with_place_name(label)
 
-    %__MODULE__{address | street_address: street_address, municipality: city, state: state}
+    %{address | street_address: street_address, municipality: city, state: state}
   rescue
     _ ->
       # Remove first section of label, try again!

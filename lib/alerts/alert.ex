@@ -180,8 +180,8 @@ defmodule Alerts.Alert do
   defp build_struct(keywords), do: struct!(__MODULE__, keywords)
 
   @spec ensure_entity_set(map) :: t()
-  defp ensure_entity_set(alert) do
-    %__MODULE__{alert | informed_entity: InformedEntitySet.new(alert.informed_entity)}
+  defp ensure_entity_set(%__MODULE__{} = alert) do
+    %{alert | informed_entity: InformedEntitySet.new(alert.informed_entity)}
   end
 
   @spec all_types :: [effect]
@@ -333,13 +333,13 @@ defmodule Alerts.Alert do
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do
-  def encode(%Alerts.Alert{active_period: active_period_pairs} = alert, options) do
-    active_period = Enum.map(active_period_pairs, &alert_active_period/1)
+  def encode(%Alerts.Alert{} = alert, options) do
+    alert =
+      Map.update!(alert, :active_period, fn active_period_pairs ->
+        Enum.map(active_period_pairs, &alert_active_period/1)
+      end)
 
-    Poison.Encoder.Map.encode(
-      %{alert | active_period: active_period},
-      options
-    )
+    Poison.Encoder.Map.encode(alert, options)
   end
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]

@@ -16,6 +16,11 @@ defmodule Alerts.Repo.Behaviour do
   @callback banner() :: Banner.t() | nil
 
   @doc """
+  Return all alerts for the given route id and route type.
+  """
+  @callback by_route_id_and_type(String.t(), 0..4, DateTime.t()) :: [Alert.t()]
+
+  @doc """
   Return all alerts for the given route ids.
   """
   @callback by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]

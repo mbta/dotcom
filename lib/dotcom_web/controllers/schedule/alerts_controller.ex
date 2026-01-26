@@ -34,7 +34,7 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     |> render("show.html", [])
   end
 
-  defp tab_name(conn, _), do: assign(conn, :tab, ~t"alerts")
+  defp tab_name(conn, _), do: assign(conn, :tab, "alerts")
 
   defp alerts(conn, _), do: assign_alerts(conn, filter_by_direction?: false)
 

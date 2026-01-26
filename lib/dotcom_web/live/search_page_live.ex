@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.SearchPage do
+defmodule DotcomWeb.SearchPageLive do
   @moduledoc """
   The main page for search across every key categories of MBTA.com information, including routes, stops, pages, and other content. Depending on whether the LiveView is connected, will either update all results on every input change or update after form submit.
 

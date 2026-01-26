@@ -8,6 +8,7 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.DailySchedulesLive
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
+  alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
@@ -23,6 +24,12 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,
       title: "Schedule Finder 2.0"
+    },
+    %{
+      arguments: [],
+      icon_name: "icon-stop-default",
+      module: StopMapLive,
+      title: "Stop Page Map"
     }
   ]
 

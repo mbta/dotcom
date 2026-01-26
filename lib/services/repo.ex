@@ -43,4 +43,10 @@ defmodule Services.Repo do
 
     []
   end
+
+  defp handle_response({:error, %Req.TransportError{reason: reason}}) do
+    Logger.warning("services_repo_handle_response_error=#{reason}")
+
+    []
+  end
 end

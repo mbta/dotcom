@@ -14,7 +14,7 @@ defmodule Test.Support.Factories.Alerts.InformedEntity do
       direction_id: Faker.Util.pick([0, 1]),
       facility: Faker.Lorem.word(),
       route: Faker.Lorem.word(),
-      route_type: Faker.Lorem.word(),
+      route_type: Faker.Util.pick(0..4),
       stop: Faker.Lorem.word(),
       trip: Faker.Lorem.word()
     }

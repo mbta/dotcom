@@ -69,6 +69,10 @@ defmodule Dotcom.Alerts.StartTime do
     end
   end
 
+  def past?(alert, time \\ @date_time_module.now()) do
+    next_active_time(alert, time) == :past
+  end
+
   # A little utility for checking whether an active period has already
   # ended. If the end_time given is nil, then it's treated as the end
   # of time, which means the active period has not ended.

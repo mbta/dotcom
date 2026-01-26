@@ -2,12 +2,15 @@
   <:card_title>
     <.amenity_icon type={:parking} />
     {~t"Parking"}
-    <%= if is_nil(@amenity) do %>
-      <.amenity_badge>{~t"Not available"}</.amenity_badge>
-    <% else %>
-      <%= if Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) do %>
+    <%= cond do %>
+      <% is_nil(@amenity) -> %>
+        <.amenity_badge>{~t"Not available"}</.amenity_badge>
+      <% Dotcom.StopAmenity.closed_by_alerts?(@amenity, @alerts) -> %>
         <.amenity_badge health={0.0}>{~t"Temporarily closed"}</.amenity_badge>
-      <% end %>
+      <% Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts) -> %>
+        <.amenity_badge health={0.0}>{~t"Temporary issue"}</.amenity_badge>
+      <% true -> %>
+        {nil}
     <% end %>
   </:card_title>
   <:card_content>

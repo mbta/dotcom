@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'table';
 @import 'buttons';
-@import 'vendor/sass-svg-uri/svg-uri';
+@import '../vendor/sass-svg-uri/svg-uri';
 
 .schedule__route-name {
   display: inline-block;

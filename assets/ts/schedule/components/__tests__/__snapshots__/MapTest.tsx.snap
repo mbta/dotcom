@@ -6,8 +6,8 @@ exports[`Schedule Map renders and matches snapshot 1`] = `
     <Component bounds={{...}} mapData={{...}}>
       <Map bounds={{...}} center={{...}} zoom={16} maxZoom={18} minZoom={9} scrollWheelZoom={false} style={{...}}>
         <div className={[undefined]} id={[undefined]} style={{...}}>
-          <ForwardRef(Leaflet(TileLayer)) attribution=\\"&copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors\\" url=\\"https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/{z}/{x}/{y}.png\\" onload={[Function: onTilesLoaded]}>
-            <TileLayer attribution=\\"&copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors\\" url=\\"https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/{z}/{x}/{y}.png\\" onload={[Function: onTilesLoaded]} leaflet={{...}} />
+          <ForwardRef(Leaflet(TileLayer)) attribution=\\"&copy <a href=\\\\\\"http://osm.org/copyright\\\\\\">OpenStreetMap</a> contributors\\" url=\\"https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/{z}/{x}/{y}.png\\" onload={[Function: onTilesLoaded]}>
+            <TileLayer attribution=\\"&copy <a href=\\\\\\"http://osm.org/copyright\\\\\\">OpenStreetMap</a> contributors\\" url=\\"https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/{z}/{x}/{y}.png\\" onload={[Function: onTilesLoaded]} leaflet={{...}} />
           </ForwardRef(Leaflet(TileLayer))>
           <ForwardRef(Leaflet(Marker)) icon={{...}} alt=\\"Marker\\" position={{...}} zIndexOffset={[undefined]} keyboard={false} onclick={[undefined]}>
             <Marker icon={{...}} alt=\\"Marker\\" position={{...}} zIndexOffset={[undefined]} keyboard={false} onclick={[undefined]} leaflet={{...}}>

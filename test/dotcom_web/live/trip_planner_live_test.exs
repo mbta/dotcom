@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.TripPlannerTest do
+defmodule DotcomWeb.TripPlannerLiveTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
@@ -43,7 +43,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       key = Faker.Person.first_name()
       value = Faker.Food.ingredient()
       extra_params = Map.new([{key, value}])
-      path = live_path(conn, DotcomWeb.Live.TripPlanner, extra_params)
+      path = live_path(conn, DotcomWeb.TripPlannerLive, extra_params)
 
       # Exercise
       {:error, {:live_redirect, %{to: url}}} = live(conn, path)
@@ -66,7 +66,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         }
         |> URI.encode_query()
 
-      path = live_path(conn, DotcomWeb.Live.TripPlanner) <> "?#{query}"
+      path = live_path(conn, DotcomWeb.TripPlannerLive) <> "?#{query}"
 
       # Exercise
       {:error, {:live_redirect, %{to: url}}} = live(conn, path)
@@ -88,7 +88,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
       value = Faker.Food.ingredient()
 
       path =
-        live_path(conn, DotcomWeb.Live.TripPlanner, %{
+        live_path(conn, DotcomWeb.TripPlannerLive, %{
           "plan[from]" => Kernel.get_in(@valid_params, ["from", "name"]),
           "plan[from_latitude]" => Kernel.get_in(@valid_params, ["from", "latitude"]),
           "plan[from_longitude]" => Kernel.get_in(@valid_params, ["from", "longitude"]),
@@ -113,7 +113,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         %JsonApi{}
       end)
 
-      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.TripPlannerLive))
 
       %{view: view}
     end
@@ -280,7 +280,7 @@ defmodule DotcomWeb.Live.TripPlannerTest do
         []
       end)
 
-      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.Live.TripPlanner))
+      {:ok, view, _} = live(conn, live_path(conn, DotcomWeb.TripPlannerLive))
 
       %{view: view}
     end

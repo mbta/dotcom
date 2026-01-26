@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.CommuterRailAlerts do
+defmodule DotcomWeb.CommuterRailAlertsLive do
   @moduledoc """
   The commuter rail alerts/status page, showing current subway status, planned work, and
   other upcoming and relevant alerts.

@@ -1,4 +1,4 @@
-defmodule DotcomWeb.Live.TripPlanner do
+defmodule DotcomWeb.TripPlannerLive do
   @moduledoc """
   The entire Trip Planner experience, including submitting and validating user
   input, querying and parsing results from OpenTripPlanner, and rendering the

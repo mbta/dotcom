@@ -11,6 +11,7 @@ defmodule Alerts.Cache.Fetcher do
 
   require Logger
 
+  alias Dotcom.Alerts.StartTime
   alias Alerts.{Cache, Parser}
 
   @default_opts [
@@ -21,6 +22,7 @@ defmodule Alerts.Cache.Fetcher do
            "filter[activity]": "ALL"
          ]
        ]},
+    now_fn: &Dotcom.Utils.DateTime.now/0,
     repeat_ms: 60_000,
     update_fn: &Cache.Store.update/2
   ]
@@ -38,20 +40,22 @@ defmodule Alerts.Cache.Fetcher do
     update_fn = Keyword.get(opts, :update_fn)
     api_mfa = Keyword.get(opts, :api_mfa)
     repeat_ms = Keyword.get(opts, :repeat_ms)
+    now_fn = Keyword.get(opts, :now_fn)
 
     schedule_fetch(1_000)
 
-    {:ok, {update_fn, api_mfa, repeat_ms}}
+    {:ok, {update_fn, api_mfa, repeat_ms, now_fn}}
   end
 
   @impl true
-  def handle_info(:fetch, {update_fn, api_mfa, repeat_ms} = state) do
+  def handle_info(:fetch, {update_fn, api_mfa, repeat_ms, now_fn} = state) do
     case api_result(api_mfa) do
       %{data: data} ->
         alerts =
           data
           |> Stream.reject(&suppressed_alert?/1)
-          |> Enum.map(&Parser.Alert.parse/1)
+          |> Stream.map(&Parser.Alert.parse/1)
+          |> Enum.reject(fn alert -> StartTime.past?(alert, now_fn.()) end)
 
         banner =
           data

@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.Alerts do
 
   use DotcomWeb, :component
 
+  alias DotcomWeb.Components.SystemStatus.StatusRowHeading
   alias Alerts.Alert
   alias DotcomWeb.AlertView
 
@@ -52,6 +53,37 @@ defmodule DotcomWeb.Components.Alerts do
         </div>
       </div>
     </div>
+    """
+  end
+
+  @doc """
+  Shows alerts, with each alert condensed into a status and embedded alert.
+  """
+  attr :alerts, :list, required: true
+
+  def alert_status_group(assigns) do
+    ~H"""
+    <section class="c-alert-group">
+      <.unstyled_accordion
+        :for={alert <- @alerts}
+        summary_class={"flex items-center hover:bg-brand-primary-lightest cursor-pointer group/row c-alert-item c-alert-item--#{alert.priority} [&>div]:grid-cols-[.75rem_auto]"}
+        chevron_class="border-t-[1px] border-gray-lightest fill-gray-dark px-2 py-3 self-stretch flex items-center"
+      >
+        <:heading>
+          <StatusRowHeading.status_row_heading
+            hide_route_pill
+            future={false}
+            plural={false}
+            alerts={[alert]}
+            route_ids={MapSet.to_list(alert.informed_entity.route)}
+            status={alert.effect}
+          />
+        </:heading>
+        <:content>
+          <.embedded_alert alert={alert} />
+        </:content>
+      </.unstyled_accordion>
+    </section>
     """
   end
 end

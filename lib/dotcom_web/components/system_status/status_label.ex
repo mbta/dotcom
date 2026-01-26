@@ -39,7 +39,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     ~H"""
     <span
       data-test="status_label_text"
-      class={["leading-[1.5rem] text-md", @disrupted && "font-bold md:text-lg"]}
+      class={["leading-md text-md", @disrupted && "font-bold md:text-lg"]}
     >
       {@description}
     </span>
@@ -50,7 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
 
   defp subheading(assigns) do
     ~H"""
-    <div class="text-sm leading-[1.5rem]" data-test="status_subheading" aria-label={@aria_label}>
+    <div class="text-sm leading-md" data-test="status_subheading" aria-label={@aria_label}>
       {@text}
     </div>
     """
