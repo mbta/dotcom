@@ -682,7 +682,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
-        id={"upcoming-departure-#{upcoming_departure.trip_id}"}
+        id={"upcoming-departure-#{upcoming_departure.trip_id}-#{upcoming_departure.stop_sequence}"}
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
@@ -727,21 +727,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class="border-t-xs border-gray-lightest"
                 other_stop={other_stop}
                 route={upcoming_departure.route}
-                stop_id={@stop_id}
               />
             </details>
 
             <.other_stop
               :if={upcoming_departure.trip_details.stop}
+              highlight
               other_stop={upcoming_departure.trip_details.stop}
               route={upcoming_departure.route}
-              stop_id={@stop_id}
             />
             <.other_stop
               :for={other_stop <- upcoming_departure.trip_details.stops_after}
               other_stop={other_stop}
               route={upcoming_departure.route}
-              stop_id={@stop_id}
             />
           </.lined_list>
         </:content>
@@ -834,21 +832,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :class, :string, default: ""
   attr :route, Route, required: true
-  attr :stop_id, :string, required: true
   attr :other_stop, :any, required: true
+  attr :highlight, :boolean, default: false
 
   defp other_stop(assigns) do
-    assigns = assigns |> assign(:highlighted_stop?, assigns.stop_id == assigns.other_stop.stop_id)
-
     ~H"""
-    <.lined_list_item route={@route} class={@class} stop_pin?={@highlighted_stop?}>
-      <div class={["grow", @stop_id == @other_stop.stop_id && "font-bold"]}>
+    <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
+      <div class={["grow", @highlight && "font-bold"]}>
         <div>{@other_stop.stop_name}</div>
         <div :if={@other_stop.platform_name} class="text-sm">{@other_stop.platform_name}</div>
       </div>
       <div class={[
         "ml-auto",
-        @highlighted_stop? && "font-bold",
+        @highlight && "font-bold",
         @other_stop.cancelled? && "line-through"
       ]}>
         <.trip_stop_time time={@other_stop.time} />
