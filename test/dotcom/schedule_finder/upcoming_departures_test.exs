@@ -33,7 +33,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
-      stop_sequence = Faker.random_between(1, 10000)
+      stop_sequence = Faker.random_between(1, 10_000)
 
       seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
