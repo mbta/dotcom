@@ -10,10 +10,10 @@ defmodule DotcomWeb.ModeController do
 
   plug(DotcomWeb.Plugs.RecentlyVisited)
 
-  defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
-  defdelegate bus(conn, params), to: Mode.BusController, as: :index
-  defdelegate ferry(conn, params), to: Mode.FerryController, as: :index
-  defdelegate commuter_rail(conn, params), to: Mode.CommuterRailController, as: :index
+  def subway(conn, params), do: Mode.Hub.index(Mode.SubwayController, conn, params)
+  def bus(conn, params), do: Mode.Hub.index(Mode.BusController, conn, params)
+  def ferry(conn, params), do: Mode.Hub.index(Mode.FerryController, conn, params)
+  def commuter_rail(conn, params), do: Mode.Hub.index(Mode.CommuterRailController, conn, params)
 
   def index(conn, %{"route" => route_id} = params) when is_binary(route_id) do
     # redirect from old /schedules?route=ID to new /schedules/ID
