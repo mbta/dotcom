@@ -171,7 +171,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
-    |> call_plug(DotcomWeb.ScheduleController.Offset)
+    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
     |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)
@@ -239,6 +239,21 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         schedules
         |> Enum.reject(&Schedules.Schedule.no_times?/1)
     end
+  end
+
+  # find the index of the offset parameter to determine which scheduled trips to show.
+  def find_offset(timetable_schedules, date_time) do
+    timetable_schedules
+    |> last_stop_schedules
+    |> Enum.find_index(&Timex.after?(&1.time, date_time))
+    |> Kernel.||(0)
+  end
+
+  defp last_stop_schedules(timetable_schedules) do
+    timetable_schedules
+    |> Enum.reverse()
+    |> Enum.uniq_by(& &1.trip)
+    |> Enum.reverse()
   end
 
   @doc """
