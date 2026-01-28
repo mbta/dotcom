@@ -87,6 +87,17 @@
           >
             Toggle {if(language == "English", do: "Spanish", else: "English")}
           </a>
+
+          <a
+            :for={%{href: href, name: name, color_classes: color_classes} <- env_links(@conn)}
+            class={[
+              "mx-sm btn btn-outline btn-sm leading-sm border border-black hover:opacity-50",
+              color_classes
+            ]}
+            href={href}
+          >
+            {name}
+          </a>
         </div>
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
