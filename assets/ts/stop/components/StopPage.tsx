@@ -11,7 +11,7 @@ import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
 
-const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
+const isDeparturesAndMapAlertEffect = ({ effect }: Alert): boolean =>
   [
     "detour",
     "shuttle",
@@ -20,6 +20,19 @@ const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
     "stop_moved",
     "suspension"
   ].includes(effect);
+
+const isTripSpecific = ({ informed_entity }: Alert): boolean => {
+  const nonNullEntities = informed_entity.trip?.filter(item => item !== null);
+
+  if (nonNullEntities === undefined) {
+    return false;
+  } else {
+    return nonNullEntities.length > 0;
+  }
+};
+
+const isDeparturesAndMapAlert = (alert: Alert): boolean =>
+  isDeparturesAndMapAlertEffect(alert) && !isTripSpecific(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
