@@ -7,7 +7,6 @@ defmodule DotcomWeb.LayoutView do
 
   def env_links(conn) do
     [
-      {"http://localhost:4001", "local"},
       {"https://dev-blue.mbtace.com", "dev-blue"},
       {"https://dev-green.mbtace.com", "dev-green"},
       {"https://dev.mbtace.com", "dev"},
