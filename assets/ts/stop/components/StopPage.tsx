@@ -26,9 +26,9 @@ const isTripSpecific = ({ informed_entity }: Alert): boolean => {
 
   if (nonNullEntities === undefined) {
     return false;
-  } else {
-    return nonNullEntities.length > 0;
   }
+
+  return nonNullEntities.length > 0;
 };
 
 const isDeparturesAndMapAlert = (alert: Alert): boolean =>
