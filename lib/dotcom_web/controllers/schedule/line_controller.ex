@@ -10,6 +10,8 @@ defmodule DotcomWeb.ScheduleController.LineController do
   alias Routes.{Group, Route}
   alias Services.Service
 
+  import DotcomWeb.Schedule.Holidays
+
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
@@ -18,7 +20,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(:alerts)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
-  plug(DotcomWeb.ScheduleController.Holidays)
+  plug(:assign_next_holidays)
   plug(DotcomWeb.ScheduleController.VehicleLocations)
   plug(DotcomWeb.ScheduleController.Line)
   plug(DotcomWeb.ScheduleController.CMS)
@@ -59,7 +61,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
             %{title: title, price: price}
           end),
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
-        holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         services: services(conn.assigns.route.id, service_date),
         schedule_note: ScheduleNote.new(conn.assigns.route),

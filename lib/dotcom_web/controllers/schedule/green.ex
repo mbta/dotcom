@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleController.Green do
 
   import DotcomWeb.ControllerHelpers,
     only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
+  import DotcomWeb.Schedule.Holidays
 
   alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
   alias DotcomWeb.ScheduleView
@@ -17,6 +18,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:assign_alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
   plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_next_holidays)
   plug(:stops_on_routes)
   plug(:vehicle_locations)
   plug(:predictions)
@@ -49,7 +51,6 @@ defmodule DotcomWeb.ScheduleController.Green do
       :meta_description,
       ~t"MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
     )
-    |> call_plug(DotcomWeb.ScheduleController.Holidays)
     |> call_plug(DotcomWeb.ScheduleController.Line)
     |> call_plug(DotcomWeb.ScheduleController.CMS)
     |> await_assign_all_default(__MODULE__)
