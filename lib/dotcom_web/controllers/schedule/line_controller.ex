@@ -4,6 +4,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import DotcomWeb.Schedule.Line
   import Util.AsyncAssign, only: [async_assign_default: 4, await_assign_all_default: 2]
 
   alias Dotcom.ScheduleNote
@@ -24,7 +25,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
   plug(:assign_next_holidays)
   plug(DotcomWeb.ScheduleController.VehicleLocations)
-  plug(DotcomWeb.ScheduleController.Line)
+  plug(:line_direction)
   plug(:channel_id)
 
   def show(conn, _) do
@@ -195,8 +196,8 @@ defmodule DotcomWeb.ScheduleController.LineController do
   end
 
   # Must be strings for mapping to JSON
-  def reverse_direction("0"), do: "1"
-  def reverse_direction("1"), do: "0"
+  defp reverse_direction("0"), do: "1"
+  defp reverse_direction("1"), do: "0"
 
   defp simple_stop_list(stops) do
     stops |> Enum.uniq_by(& &1.id) |> Enum.map(&simple_stop(&1))

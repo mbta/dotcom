@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ScheduleController.Line do
+defmodule DotcomWeb.Schedule.Line do
   @moduledoc """
   Actions to support rendering lines for a schedule
   """
@@ -16,16 +16,6 @@ defmodule DotcomWeb.ScheduleController.Line do
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
 
-  @behaviour Plug
-
-  @impl true
-  def init([]), do: []
-
-  @impl true
-  def call(conn, opts) do
-    Util.log_duration(__MODULE__, :do_call, [conn, opts])
-  end
-
   defp new_or_existing_direction_id(1, _), do: 1
   defp new_or_existing_direction_id(0, _), do: 0
   defp new_or_existing_direction_id(_, direction_id), do: direction_id
@@ -39,7 +29,7 @@ defmodule DotcomWeb.ScheduleController.Line do
 
   defp parse_direction_id(_, direction_id), do: direction_id
 
-  def do_call(
+  def line_direction(
         %Conn{
           assigns: %{
             route: %Route{} = route,
@@ -152,8 +142,8 @@ defmodule DotcomWeb.ScheduleController.Line do
     |> Enum.group_by(&(&1.direction_id |> Integer.to_string()))
   end
 
-  def reverse_direction(0), do: 1
-  def reverse_direction(1), do: 0
+  defp reverse_direction(0), do: 1
+  defp reverse_direction(1), do: 0
 
   def connections(route_stops) do
     route_stops
