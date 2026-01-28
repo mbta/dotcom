@@ -4,6 +4,8 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import Util.AsyncAssign, only: [async_assign_default: 4, await_assign_all_default: 2]
+
   alias Dotcom.ScheduleNote
   alias DotcomWeb.{ScheduleView, ViewHelpers}
   alias Plug.Conn
@@ -23,7 +25,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(:assign_next_holidays)
   plug(DotcomWeb.ScheduleController.VehicleLocations)
   plug(DotcomWeb.ScheduleController.Line)
-  plug(DotcomWeb.ScheduleController.CMS)
   plug(:channel_id)
 
   def show(conn, _) do
@@ -31,6 +32,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
     |> await_assign_all_default(__MODULE__)
+    |> CMS.assign_content()
     |> assign_schedule_page_data()
     |> render("show.html", [])
   end
