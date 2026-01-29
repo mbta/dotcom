@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use DotcomWeb, :controller
 
   import DotcomWeb.Schedule.Line
-  import Util.AsyncAssign, only: [async_assign_default: 4, await_assign_all_default: 2]
+  import Util.AsyncAssign, only: [await_assign_all_default: 2]
 
   alias Dotcom.ScheduleNote
   alias DotcomWeb.{ScheduleView, ViewHelpers}
@@ -33,7 +33,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
     |> await_assign_all_default(__MODULE__)
-    |> CMS.assign_content()
+    |> assign_content()
     |> assign_schedule_page_data()
     |> render("show.html", [])
   end
