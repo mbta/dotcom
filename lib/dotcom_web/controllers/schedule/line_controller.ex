@@ -4,7 +4,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
-  import DotcomWeb.Schedule.{CMS, Defaults, Holidays, Line}
+  import DotcomWeb.Schedule.{CMS, Defaults, Holidays, Line, RouteBreadcrumbs}
 
   alias Dotcom.ScheduleNote
   alias DotcomWeb.{ScheduleView, ViewHelpers}
@@ -18,7 +18,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(:assign_defaults)
   plug(:alerts)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
   plug(:assign_next_holidays)
   plug(:line_direction)

@@ -5,10 +5,10 @@ defmodule DotcomWeb.ScheduleController.Core do
   use Plug.Builder
   import DotcomWeb.ControllerHelpers, only: [assign_alerts: 2]
   import DotcomWeb.Schedule.VehicleLocations, only: [all_vehicle_locations: 2]
-  import DotcomWeb.Schedule.Defaults
+  import DotcomWeb.Schedule.{Defaults, RouteBreadcrumbs}
 
   plug(:assign_defaults)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(:assign_alerts)
   plug(:all_vehicle_locations)
 end

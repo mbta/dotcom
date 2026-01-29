@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   import DotcomWeb.ControllerHelpers,
     only: [assign_alerts: 2]
 
-  import DotcomWeb.Schedule.{CMS, Defaults, Holidays, Line}
+  import DotcomWeb.Schedule.{CMS, Defaults, Holidays, Line, RouteBreadcrumbs}
 
   alias DotcomWeb.Schedule.{Predictions, VehicleLocations}
   alias DotcomWeb.ScheduleController.LineController
@@ -25,7 +25,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:vehicle_locations)
   plug(:predictions)
   plug(DotcomWeb.ScheduleController.VehicleTooltips)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(DotcomWeb.ScheduleController.ScheduleError)
   plug(:route_pdfs)
   plug(:channels)
