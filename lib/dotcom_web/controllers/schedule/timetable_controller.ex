@@ -31,7 +31,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.ScheduleController.ScheduleError)
 
   defdelegate direction_id(conn, params),
-    to: DotcomWeb.ScheduleController.Defaults,
+    to: DotcomWeb.Schedule.Defaults,
     as: :assign_direction_id
 
   def show(conn, _) do

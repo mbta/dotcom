@@ -3,21 +3,12 @@ defmodule DotcomWeb.ScheduleController.Core do
   Core pipeline for schedules
   """
   use Plug.Builder
-  import DotcomWeb.ControllerHelpers, only: [call_plug: 2, assign_alerts: 2]
-  import DotcomWeb.Schedule.VehicleLocations
+  import DotcomWeb.ControllerHelpers, only: [assign_alerts: 2]
+  import DotcomWeb.Schedule.VehicleLocations, only: [all_vehicle_locations: 2]
+  import DotcomWeb.Schedule.Defaults
 
-  plug(:schedule_pipeline_setup)
-  plug(:schedule_pipeline_with_direction)
+  plug(:assign_defaults)
+  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_alerts)
   plug(:all_vehicle_locations)
-
-  defp schedule_pipeline_setup(conn, _opts) do
-    conn
-    |> call_plug(DotcomWeb.ScheduleController.Defaults)
-    |> call_plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
-  end
-
-  defp schedule_pipeline_with_direction(conn, _opts) do
-    conn
-    |> assign_alerts([])
-  end
 end

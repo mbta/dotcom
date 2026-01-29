@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ScheduleController.Defaults do
+defmodule DotcomWeb.Schedule.Defaults do
   @moduledoc """
 
   Responsible for assigning:
@@ -6,14 +6,19 @@ defmodule DotcomWeb.ScheduleController.Defaults do
     direction_id:      0 | 1
     show_date_select?: boolean
   """
-  use Plug.Builder
+
+  import Plug.Conn
+
   alias Plug.Conn
   alias Routes.Route
 
-  plug(:assign_direction_id)
-  plug(:assign_show_date_select)
-  plug(:assign_tab_params)
-  plug(:assign_trip_chosen)
+  def assign_defaults(conn, _) do
+    conn
+    |> assign_direction_id([])
+    |> assign_show_date_select([])
+    |> assign_tab_params([])
+    |> assign_trip_chosen([])
+  end
 
   def assign_direction_id(conn, _) do
     do_assign_direction_id(conn.query_params["schedule_direction"], conn)

@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   import DotcomWeb.ControllerHelpers,
     only: [assign_alerts: 2]
 
-  import DotcomWeb.Schedule.{CMS, Holidays, Line}
+  import DotcomWeb.Schedule.{CMS, Defaults, Holidays, Line}
 
   alias DotcomWeb.Schedule.{Predictions, VehicleLocations}
   alias DotcomWeb.ScheduleController.LineController
@@ -19,7 +19,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:assign_alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
-  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_defaults)
   plug(:assign_next_holidays)
   plug(:stops_on_routes)
   plug(:vehicle_locations)

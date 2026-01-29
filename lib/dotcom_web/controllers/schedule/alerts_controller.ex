@@ -6,11 +6,13 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import DotcomWeb.Schedule.Defaults
+
   alias DotcomWeb.{Plugs, ScheduleView}
   alias Routes.Route
 
   plug(DotcomWeb.Plugs.Route)
-  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_defaults)
   plug(:alerts)
   plug(:alerts_by_timeframe)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
