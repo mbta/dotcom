@@ -13,7 +13,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   alias Routes.{Group, Route}
   alias Services.Service
 
-  import DotcomWeb.Schedule.Holidays
+  import DotcomWeb.Schedule.{CMS, Holidays}
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
