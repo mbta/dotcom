@@ -4,13 +4,7 @@ defmodule DotcomWeb.AlertView do
   use DotcomWeb, :view
 
   import DotcomWeb.ViewHelpers
-  import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.RouteSymbols
-
-  import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
-
-  import DotcomWeb.Components.SystemStatus.CommuterRailStatus,
-    only: [alerts_commuter_rail_status: 1]
 
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
 
