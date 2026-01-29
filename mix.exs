@@ -136,8 +136,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", branch: "jdl/fix/combine-interlined-legs"]
-        # [github: "mbta/open_trip_planner_client", tag: "v0.17.1"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.17.2"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.3", override: true},
