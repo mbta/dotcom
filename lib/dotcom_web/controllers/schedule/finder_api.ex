@@ -15,7 +15,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.ScheduleController.TripInfo, as: Trips
-  alias DotcomWeb.ScheduleController.VehicleLocations, as: Vehicles
+  alias DotcomWeb.Schedule.VehicleLocations
   alias Fares.{Format, OneWay}
   alias Predictions.Prediction
   alias Routes.Route
@@ -111,7 +111,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       |> assign(:origin, origin)
       |> assign(:route, route)
       |> Map.put(:query_params, params)
-      |> Vehicles.call(Vehicles.init([]))
+      |> VehicleLocations.all_vehicle_locations([])
       |> Trips.call(Trips.init(opts))
       |> Map.get(:assigns)
       |> Map.get(:trip_info)

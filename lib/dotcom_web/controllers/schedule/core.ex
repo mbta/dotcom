@@ -4,10 +4,11 @@ defmodule DotcomWeb.ScheduleController.Core do
   """
   use Plug.Builder
   import DotcomWeb.ControllerHelpers, only: [call_plug: 2, assign_alerts: 2]
+  import DotcomWeb.Schedule.VehicleLocations
 
   plug(:schedule_pipeline_setup)
   plug(:schedule_pipeline_with_direction)
-  plug(DotcomWeb.ScheduleController.VehicleLocations)
+  plug(:all_vehicle_locations)
 
   defp schedule_pipeline_setup(conn, _opts) do
     conn

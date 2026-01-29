@@ -7,11 +7,12 @@ defmodule DotcomWeb.ScheduleController.Green do
   use DotcomWeb, :controller
 
   import DotcomWeb.ControllerHelpers,
-    only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
+    only: [assign_alerts: 2]
 
   import DotcomWeb.Schedule.{CMS, Holidays, Line}
 
-  alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
+  alias DotcomWeb.Schedule.{Predictions, VehicleLocations}
+  alias DotcomWeb.ScheduleController.LineController
   alias DotcomWeb.ScheduleView
 
   plug(:route)
@@ -77,7 +78,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn branch_conn ->
-          call_plug(branch_conn, DotcomWeb.ScheduleController.Predictions)
+          Predictions.all_predictions(branch_conn)
         end,
         timeout: @task_timeout
       )
@@ -98,7 +99,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug_with_opts(conn, VehicleLocations, opts).assigns.vehicle_locations
+          VehicleLocations.all_vehicle_locations(conn, opts).assigns.vehicle_locations
         end,
         timeout: @task_timeout
       )

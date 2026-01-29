@@ -24,7 +24,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
   plug(:assign_next_holidays)
-  plug(DotcomWeb.ScheduleController.VehicleLocations)
   plug(:line_direction)
   plug(:channel_id)
 
