@@ -185,6 +185,50 @@ defmodule DotcomWeb.SystemStatus.CommuterRailRouteStatusTest do
 
       assert status_row_headers_for_route(route_id) == ["Delays"]
     end
+
+    test "shows other service alerts" do
+      # SETUP
+      route_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          effect: :shuttle,
+          severity: 3,
+          route_id: route_id
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [alert |> Factories.Alerts.Alert.active_now()]
+      end)
+
+      # EXERCISE / VERIFY
+
+      assert status_row_headers_for_route(route_id) == [
+               "Shuttle"
+             ]
+    end
+
+    test "renders station closures as 'Stop Skipped'" do
+      # SETUP
+      route_id = Faker.Color.fancy_name()
+
+      alert =
+        Factories.Alerts.Alert.build(:alert_for_route,
+          effect: :station_closure,
+          severity: 3,
+          route_id: route_id
+        )
+
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [alert |> Factories.Alerts.Alert.active_now()]
+      end)
+
+      # EXERCISE / VERIFY
+
+      assert status_row_headers_for_route(route_id) == [
+               "Stop Skipped"
+             ]
+    end
   end
 
   defp status_row_headers_for_route(route_id) do
