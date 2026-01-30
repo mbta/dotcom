@@ -28,8 +28,8 @@ defmodule DotcomWeb.ScheduleController.LineController do
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
-    |> await_assign_all_default(__MODULE__)
     |> assign_content()
+    |> await_assign_all_default(__MODULE__)
     |> assign_schedule_page_data()
     |> render("show.html", [])
   end
@@ -60,6 +60,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
             %{title: title, price: price}
           end),
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
+        holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         services: services(conn.assigns.route.id, service_date),
         schedule_note: ScheduleNote.new(conn.assigns.route),
