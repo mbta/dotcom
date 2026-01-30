@@ -5,15 +5,36 @@ defmodule DotcomWeb.LayoutView do
 
   import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
 
+  def env_links(conn) do
+    [
+      {"https://dev-blue.mbtace.com", "dev-blue"},
+      {"https://dev-green.mbtace.com", "dev-green"},
+      {"https://dev.mbtace.com", "dev"},
+      {"https://www.mbta.com", "prod"}
+    ]
+    |> Enum.map(fn {hostname, name} ->
+      request_path =
+        case conn.query_string do
+          "" -> conn.request_path
+          params -> "#{conn.request_path}?#{params}"
+        end
+
+      path = URI.merge(hostname, request_path)
+
+      %{color_classes: classes_for_env(name), href: path, name: name}
+    end)
+  end
+
   def banner_color_classes() do
     Application.get_env(:dotcom, :env_name)
-    |> case do
-      "dev-green" -> "bg-green-line text-white"
-      "dev-blue" -> "bg-blue-line text-white"
-      "dev" -> "bg-silver-line text-white"
-      _ -> "bg-brand-bus text-black"
-    end
+    |> classes_for_env()
   end
+
+  defp classes_for_env("dev-green"), do: "bg-green-line text-white"
+  defp classes_for_env("dev-blue"), do: "bg-blue-line text-white"
+  defp classes_for_env("dev"), do: "bg-silver-line text-white"
+  defp classes_for_env("prod"), do: "bg-white text-black"
+  defp classes_for_env(_), do: "bg-brand-bus text-black"
 
   def favicon_image() do
     Application.get_env(:dotcom, :env_name)
