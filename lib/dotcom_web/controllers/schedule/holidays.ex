@@ -1,4 +1,8 @@
 defmodule DotcomWeb.Schedule.Holidays do
+  @moduledoc """
+  Gets the next few holidays
+  """
+
   alias DotcomWeb.ViewHelpers
 
   import Plug.Conn

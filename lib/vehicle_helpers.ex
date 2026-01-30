@@ -7,7 +7,7 @@ defmodule VehicleHelpers do
 
   import Routes.Route, only: [vehicle_name: 1]
 
-  alias DotcomWeb.ScheduleController.VehicleLocations
+  alias DotcomWeb.Schedule.VehicleLocations
   alias Predictions.Prediction
   alias Routes.Route
   alias Stops.Stop

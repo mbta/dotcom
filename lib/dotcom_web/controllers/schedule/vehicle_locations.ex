@@ -67,7 +67,7 @@ defmodule DotcomWeb.Schedule.VehicleLocations do
     conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
 
-  @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
+  @spec find_all_locations(Plug.Conn.t(), Keyword.t()) :: __MODULE__.t()
   defp find_all_locations(
          %Plug.Conn{
            assigns: %{route: %Routes.Route{id: "Green"}}
@@ -86,7 +86,7 @@ defmodule DotcomWeb.Schedule.VehicleLocations do
 
   defp find_all_locations(conn, opts), do: find_locations(conn, opts)
 
-  @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
+  @spec find_locations(Plug.Conn.t(), Keyword.t()) :: __MODULE__.t()
   defp find_locations(
          %Plug.Conn{
            assigns: %{route: route, direction_id: direction_id, date: date}
