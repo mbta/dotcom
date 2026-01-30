@@ -165,10 +165,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     |> Enum.to_list()
     |> case do
       [{effect, impact_list}] ->
-        effect_string = Alerts.Alert.human_effect(%Alerts.Alert{effect: effect})
-
         [
-          %{icon_atom: effect, label: service_impact_label(impact_list, effect_string)}
+          %{icon_atom: effect, label: service_impact_label(impact_list, effect)}
         ]
 
       _ ->
@@ -181,21 +179,26 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     end
   end
 
-  # Constructs a label for a service impact row out of the effect
-  # string out of the impact list and the provided effect string
-  defp service_impact_label(impact_list, effect_string)
+  # Constructs a label for a service impact row out of the impact list
+  # and the provided effect. If there's a single impact, then it
+  # either says "1 <effect>" or "HH:MM: <effect>", depending on
+  # whether the alert is active. If there are multiple impacts, then
+  # it says "<count> <effects>".
+  defp service_impact_label([impact], effect),
+    do: "#{count_or_time(impact.start_time)} #{singular_effect_description(effect)}"
 
-  # If there's just one impact, then use `maybe_add_time_prefix` to
-  # prepend the time or count
-  defp service_impact_label([impact], effect_string) do
-    "#{count_or_time(impact.start_time)} #{effect_string}"
-  end
+  defp service_impact_label(impact_list, effect),
+    do: "#{impact_list |> Enum.count()} #{plural_effect_description(effect)}"
 
-  # If there's more than one impact, then the label should be the
-  # count along with a pluralized effect string
-  defp service_impact_label(impact_list, effect_string) do
-    "#{impact_list |> Enum.count()} #{effect_string |> Inflex.pluralize()}"
-  end
+  defp singular_effect_description(:station_closure), do: ~t"Stop Skipped"
+
+  defp singular_effect_description(effect),
+    do: Alerts.Alert.human_effect(%Alerts.Alert{effect: effect})
+
+  defp plural_effect_description(:station_closure), do: ~t"Stops Skipped"
+
+  defp plural_effect_description(effect),
+    do: effect |> singular_effect_description() |> Inflex.pluralize()
 
   # If there is one alert of the effect, and it is active in the future, give the time.
   # For all others, just give the count.
