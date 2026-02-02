@@ -99,9 +99,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           stop_id: Stop.id_t()
         }) ::
           [__MODULE__.UpcomingDeparture.t()]
-          | {:before_service, __MODULE__.UpcomingDeparture.t()}
-          | :service_ended
           | :no_realtime
+          | :no_service
+          | :service_ended
+          | {:before_service, __MODULE__.UpcomingDeparture.t()}
           | {:no_realtime, [__MODULE__.UpcomingDeparture.t()]}
   def upcoming_departures(%{
         direction_id: direction_id,
@@ -127,6 +128,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     upcoming_predicted_schedules_at_stop = reject_past_schedules(predicted_schedules_at_stop, now)
 
     cond do
+      Enum.empty?(predicted_schedules_at_stop) ->
+        :no_service
+
       Enum.empty?(upcoming_predicted_schedules_at_stop) ->
         :service_ended
 

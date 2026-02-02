@@ -885,6 +885,30 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :service_ended
     end
 
+    test "shows :no_service if there are no trips" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn [^route_id], _opts -> [] end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures == :no_service
+    end
+
     test "does include trips scheduled in the past if they have predictions" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
