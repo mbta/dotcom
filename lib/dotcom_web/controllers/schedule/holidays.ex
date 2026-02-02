@@ -3,9 +3,9 @@ defmodule DotcomWeb.Schedule.Holidays do
   Gets the next few holidays
   """
 
-  alias DotcomWeb.ViewHelpers
-
   import Plug.Conn
+
+  alias DotcomWeb.ViewHelpers
 
   def assign_next_holidays(%Plug.Conn{assigns: %{date: date}} = conn, _) do
     holidays =
