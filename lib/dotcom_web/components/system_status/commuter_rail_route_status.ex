@@ -67,7 +67,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
       <:heading>
         <div class="grow">
           <.status_label
-            description={"#{@prefix}#{Alert.human_effect(@impact.alert)}"}
+            description={"#{@prefix}#{service_effect_description(@impact.alert)}"}
             status={@impact.alert.effect}
           />
         </div>
@@ -78,6 +78,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
     </.unstyled_accordion>
     """
   end
+
+  defp service_effect_description(%Alert{effect: :station_closure}), do: ~t"Stop Skipped"
+  defp service_effect_description(alert), do: Alerts.Alert.human_effect(alert)
 
   defp train_impact_rows(%{impacts: []} = assigns), do: ~H""
 
