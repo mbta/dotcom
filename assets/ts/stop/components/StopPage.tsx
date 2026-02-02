@@ -6,7 +6,7 @@ import { useRoutes } from "../../hooks/useRoute";
 import Loading from "../../components/Loading";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import { routeWideAlerts } from "../../models/alert";
+import { isTripSpecific, routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
@@ -20,16 +20,6 @@ const isDeparturesAndMapAlertEffect = ({ effect }: Alert): boolean =>
     "stop_moved",
     "suspension"
   ].includes(effect);
-
-const isTripSpecific = ({ informed_entity }: Alert): boolean => {
-  const nonNullEntities = informed_entity.trip?.filter(item => item !== null);
-
-  if (nonNullEntities === undefined) {
-    return false;
-  }
-
-  return nonNullEntities.length > 0;
-};
 
 const isDeparturesAndMapAlert = (alert: Alert): boolean =>
   isDeparturesAndMapAlertEffect(alert) && !isTripSpecific(alert);

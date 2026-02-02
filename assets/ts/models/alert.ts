@@ -206,6 +206,16 @@ export const isInNextXDays = (
   return days === 0 ? isCurrentLifecycle(alert) && isInARange : isInARange;
 };
 
+export const isTripSpecific = ({ informed_entity }: Alert): boolean => {
+  const nonNullEntities = informed_entity.trip?.filter(item => item !== null);
+
+  if (nonNullEntities === undefined) {
+    return false;
+  }
+
+  return nonNullEntities.length > 0;
+};
+
 export const isActiveDiversion = (alert: Alert): boolean =>
   isDiversion(alert) && isInNextXDays(alert, 0);
 
