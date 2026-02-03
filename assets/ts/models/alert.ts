@@ -254,7 +254,7 @@ export const isSuppressiveAlert = (
 export const matchesDirection = (
   { informed_entity }: Alert,
   directionId: DirectionId
-) => {
+): boolean => {
   const nonNullDirections = informed_entity.direction_id?.filter(
     item => item !== null
   );
