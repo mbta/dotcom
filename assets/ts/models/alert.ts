@@ -1,7 +1,7 @@
 import { isValid, parseISO, add } from "date-fns";
 import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
-import { Alert, TimePeriodPairs } from "../__v3api";
+import { Alert, DirectionId, TimePeriodPairs } from "../__v3api";
 
 const activePeriodToDates = (
   activePeriod: TimePeriodPairs
@@ -249,4 +249,19 @@ export const isSuppressiveAlert = (
     effect === "station_closure" ||
     effect === "stop_closure";
   return isCurrentLifecycle(alert) && isValidSuppressiveAlert;
+};
+
+export const matchesDirection = (
+  { informed_entity }: Alert,
+  directionId: DirectionId
+): boolean => {
+  const nonNullDirections = informed_entity.direction_id?.filter(
+    item => item !== null
+  );
+
+  if (nonNullDirections === undefined || nonNullDirections.length === 0) {
+    return true;
+  }
+
+  return nonNullDirections.includes(directionId);
 };
