@@ -5,6 +5,8 @@ defmodule Vehicles.Repo.Behaviour do
 
   alias Vehicles.Vehicle
 
+  @callback get(String.t()) :: Vehicle.t() | nil
+
   @callback route(String.t(), Keyword.t()) :: [Vehicle.t()]
 
   @callback trip(String.t()) :: Vehicle.t() | nil

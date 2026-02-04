@@ -20,6 +20,7 @@ import {
 } from "../../models/route";
 import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./SchedulePage";
+import { matchesDirection } from "../../models/alert";
 
 export interface Props {
   alerts: Alert[];
@@ -222,6 +223,11 @@ const ScheduleDirection = ({
           rsList => !!rsList.find(rs => rs.branch === state.routePattern.name)
         ) || []
       : [];
+
+  const filteredAlerts = alerts.filter(alert =>
+    matchesDirection(alert, state.directionId)
+  );
+
   return (
     <>
       <div className="m-schedule-direction">
@@ -242,7 +248,7 @@ const ScheduleDirection = ({
       </div>
       {isSubwayRoute(route) && lineState.data && (
         <LineDiagram
-          alerts={alerts}
+          alerts={filteredAlerts}
           directionId={state.directionId}
           otherRouteStops={otherRouteStops}
           route={route}
@@ -277,7 +283,7 @@ const ScheduleDirection = ({
       )}
       {!isSubwayRoute(route) && (
         <LineDiagram
-          alerts={alerts}
+          alerts={filteredAlerts}
           directionId={state.directionId}
           otherRouteStops={otherRouteStops}
           route={route}
