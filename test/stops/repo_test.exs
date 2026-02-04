@@ -172,7 +172,7 @@ defmodule Stops.RepoTest do
 
   describe "by_routes/3" do
     test "can return stops from multiple route IDs" do
-      route_ids = Enum.map(0..3, fn _ -> Faker.App.name() end)
+      route_ids = Faker.Util.sample_uniq(4, fn -> Faker.App.name() end)
       direction_id = Faker.Util.pick([0, 1])
       num_test_stops_per_route = 3
 

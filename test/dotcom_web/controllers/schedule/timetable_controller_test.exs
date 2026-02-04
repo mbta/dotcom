@@ -189,6 +189,75 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
+  describe "find_offset/2" do
+    test "when time is before the first trip offset is 0" do
+      now = Dotcom.Utils.DateTime.now()
+      schedules = make_timetable_schedules(now)
+      date_time = DateTime.shift(now, minute: -1)
+      offset = find_offset(schedules, date_time)
+      assert offset == 0
+    end
+
+    test "when time is during the first trip offset is 0" do
+      now = Dotcom.Utils.DateTime.now()
+      schedules = make_timetable_schedules(now)
+      date_time = DateTime.shift(now, minute: 5)
+      offset = find_offset(schedules, date_time)
+      assert offset == 0
+    end
+
+    test "when time is right after the first trip offset is 1" do
+      now = Dotcom.Utils.DateTime.now()
+      schedules = make_timetable_schedules(now)
+      date_time = DateTime.shift(now, minute: 21)
+      offset = find_offset(schedules, date_time)
+      assert offset == 1
+    end
+
+    test "when time is during the second trip offset is 1" do
+      now = Dotcom.Utils.DateTime.now()
+      schedules = make_timetable_schedules(now)
+      date_time = DateTime.shift(now, hour: 1, minute: 5)
+      offset = find_offset(schedules, date_time)
+      assert offset == 1
+    end
+
+    test "when time is after the third trip offset is 0" do
+      now = Dotcom.Utils.DateTime.now()
+      schedules = make_timetable_schedules(now)
+      date_time = DateTime.shift(now, hour: 4)
+      offset = find_offset(schedules, date_time)
+      assert offset == 0
+    end
+  end
+
+  defp make_timetable_schedules(now) do
+    Enum.flat_map(0..2, &make_one_trip(&1, now))
+  end
+
+  # makes a list of schedules that look like this:
+  #
+  #       | trip0       | trip1         | trip2
+  # ------+-------------+---------------+-------------
+  # stop0 | now+0min    | now+1h        | now+2h
+  # stop1 | now+10min   | now+1h+10min  | now+2h+10min
+  # stop2 | how+20min   | now+1h+20min  | now+2h+20min
+
+  defp make_one_trip(i, now) do
+    Enum.map(
+      0..2,
+      &make_schedule(
+        Timex.shift(now, minutes: &1 * 10, hours: i),
+        "trip" <> Integer.to_string(i),
+        "stop" <> Integer.to_string(&1)
+      )
+    )
+  end
+
+  defp make_schedule(time, trip_id, stop_id) do
+    %{time: time, trip: %{id: trip_id}, stop: %{id: stop_id}}
+  end
+
   describe "trip_messages/3" do
     test "returns proper messages for a CR Franklin train running via Fairmount" do
       fairmount_trip = Test.Support.Factories.MBTA.Api.build(:trip_item)

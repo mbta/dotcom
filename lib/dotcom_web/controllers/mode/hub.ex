@@ -1,5 +1,5 @@
-defmodule DotcomWeb.Mode.HubBehavior do
-  @moduledoc "Macro and behaviour for mode hub pages."
+defmodule DotcomWeb.Mode.Hub do
+  @moduledoc "Mode hub pages."
 
   use Dotcom.Gettext.Sigils
   use Phoenix.Controller, formats: [html: "View"]
@@ -12,70 +12,47 @@ defmodule DotcomWeb.Mode.HubBehavior do
   alias Routes.Route
   alias Util.Breadcrumb
 
-  plug(:put_layout, html: {DotcomWeb.LayoutView, :app})
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @callback routes() :: [Routes.Route.t()]
-  @callback mode_name() :: String.t()
-  @callback mode_icon() :: atom()
-  @callback fares() :: [Summary.t()]
-  @callback fare_description() :: String.t() | iodata
-  @callback route_type() :: 0..4
-
-  defmacro __using__(opts) do
-    quote location: :keep do
-      @behaviour DotcomWeb.Mode.HubBehavior
-      @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
-      def index(conn, params) do
-        DotcomWeb.Mode.HubBehavior.index(
-          __MODULE__,
-          conn,
-          Map.merge(params, Map.new(unquote(opts)))
-        )
+  def index(mode_module, conn, params) do
+    mode_routes =
+      if Kernel.function_exported?(mode_module, :routes, 0) do
+        mode_module.routes()
+      else
+        mode_module.route_type() |> @routes_repo.by_type()
       end
 
-      def routes, do: @routes_repo.by_type(route_type())
-
-      defoverridable routes: 0
-    end
+    render_index(conn, mode_module, mode_routes, params)
   end
 
-  plug(DotcomWeb.Plugs.RecentlyVisited)
-
-  def index(mode_strategy, conn, params) do
-    mode_routes = mode_strategy.routes()
-
-    render_index(conn, mode_strategy, mode_routes, params)
-  end
-
-  defp render_index(conn, mode_strategy, mode_routes, params) do
+  defp render_index(conn, mode_module, mode_routes, params) do
     alerts_fn = fn -> alerts(mode_routes, conn.assigns.date_time) end
-    guides_fn = fn -> mode_strategy.mode_name() |> guides() end
-    news_fn = fn -> mode_strategy.mode_name() |> teasers([:news_entry]) end
-    projects_fn = fn -> mode_strategy.mode_name() |> teasers([:project], 2) end
+    guides_fn = fn -> mode_module.mode_name() |> guides() end
+    news_fn = fn -> mode_module.mode_name() |> teasers([:news_entry]) end
+    projects_fn = fn -> mode_module.mode_name() |> teasers([:project], 2) end
 
     conn
-    |> filter_recently_visited(mode_strategy.route_type())
-    |> async_assign_default(:fares, &mode_strategy.fares/0, [])
+    |> filter_recently_visited(mode_module.route_type())
+    |> async_assign_default(:fares, &mode_module.fares/0, [])
     |> async_assign_default(:alerts, alerts_fn, [])
+    |> assign(:meta_description, mode_module.meta_description())
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
-    |> assign(:route_type, mode_strategy.route_type() |> Route.type_atom())
-    |> assign(:mode_name, mode_strategy.mode_name())
-    |> assign(:mode_icon, mode_strategy.mode_icon())
-    |> assign(:fare_description, mode_strategy.fare_description())
-    |> assign(:maps, mode_strategy.mode_icon() |> maps())
-    |> assign(:paragraph, mode_strategy.mode_icon() |> extra_paragraph())
+    |> assign(:route_type, mode_module.route_type() |> Route.type_atom())
+    |> assign(:mode_name, mode_module.mode_name())
+    |> assign(:mode_icon, mode_module.mode_icon())
+    |> assign(:fare_description, mode_module.fare_description())
+    |> assign(:maps, mode_module.mode_icon() |> maps())
+    |> assign(:paragraph, mode_module.mode_icon() |> extra_paragraph())
     |> async_assign_default(:guides, guides_fn, [])
     |> async_assign_default(:news, news_fn, [])
     |> async_assign_default(:projects, projects_fn, [])
     |> assign(:breadcrumbs, [
       Breadcrumb.build(~t"Schedules & Maps", mode_path(conn, :index)),
-      Breadcrumb.build(mode_strategy.mode_name())
+      Breadcrumb.build(mode_module.mode_name())
     ])
-    |> meta_description(params)
     |> await_assign_all_default(__MODULE__)
-    |> render("hub.html")
+    |> render("hub.html", params)
   end
 
   defp filter_recently_visited(
@@ -96,13 +73,6 @@ defmodule DotcomWeb.Mode.HubBehavior do
     |> Enum.map(& &1.id)
     |> Alerts.Repo.by_route_ids(now)
   end
-
-  defp meta_description(conn, %{meta_description: meta_description}) do
-    conn
-    |> assign(:meta_description, meta_description)
-  end
-
-  defp meta_description(conn, _), do: conn
 
   def maps(:commuter_rail), do: [:commuter_rail, :commuter_rail_zones]
   def maps(type), do: [type]

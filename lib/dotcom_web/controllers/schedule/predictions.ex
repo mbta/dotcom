@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ScheduleController.Predictions do
+defmodule DotcomWeb.Schedule.Predictions do
   @moduledoc """
 
   Assigns predictions based on the currently selected route/stop/direction.
@@ -14,17 +14,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
-  @behaviour Plug
-
-  @impl true
-  def init(opts \\ []), do: opts
-
-  @impl true
-  def call(conn, _opts \\ []) do
-    Util.log_duration(__MODULE__, :do_call, [conn])
-  end
-
-  def do_call(conn) do
+  def all_predictions(conn) do
     if should_fetch_predictions?(conn) do
       predictions_task = fn -> predictions(conn) end
       vehicle_predictions_task = fn -> vehicle_predictions(conn) end

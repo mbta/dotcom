@@ -6,14 +6,16 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import DotcomWeb.Schedule.{Defaults, RouteBreadcrumbs}
+
   alias DotcomWeb.{Plugs, ScheduleView}
   alias Routes.Route
 
   plug(DotcomWeb.Plugs.Route)
-  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_defaults)
   plug(:alerts)
   plug(:alerts_by_timeframe)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(:tab_name)
 
   # The alert timeframe filter is being phased out of schedule pages

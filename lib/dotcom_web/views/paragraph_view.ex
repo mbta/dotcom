@@ -24,14 +24,11 @@ defmodule DotcomWeb.CMS.ParagraphView do
   alias Plug.Conn
 
   @doc "Map paragraph module names to their templates"
-  for type <- Paragraph.get_types() do
-    template_name =
-      type
-      |> struct_name_to_string()
-      |> String.replace_prefix("", "_")
-      |> String.replace_suffix("", ".html")
-
-    def get_template(%{__struct__: unquote(type)}), do: unquote(template_name)
+  def get_template(%{__struct__: type}) do
+    type
+    |> struct_name_to_string()
+    |> String.replace_prefix("", "_")
+    |> String.replace_suffix("", ".html")
   end
 
   @doc "Universal wrapper around all paragraph types"

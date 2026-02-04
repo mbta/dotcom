@@ -4,6 +4,12 @@ defmodule DotcomWeb.ScheduleController.LineController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
+  import DotcomWeb.Schedule.CMS, only: [assign_content: 1]
+  import DotcomWeb.Schedule.Defaults, only: [assign_defaults: 2]
+  import DotcomWeb.Schedule.Holidays, only: [assign_next_holidays: 2]
+  import DotcomWeb.Schedule.Line, only: [line_direction: 2]
+  import DotcomWeb.Schedule.RouteBreadcrumbs, only: [assign_breadcrumbs: 2]
+
   alias Dotcom.ScheduleNote
   alias DotcomWeb.{ScheduleView, ViewHelpers}
   alias Plug.Conn
@@ -14,20 +20,19 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
-  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_defaults)
   plug(:alerts)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
-  plug(DotcomWeb.ScheduleController.Holidays)
-  plug(DotcomWeb.ScheduleController.VehicleLocations)
-  plug(DotcomWeb.ScheduleController.Line)
-  plug(DotcomWeb.ScheduleController.CMS)
+  plug(:assign_next_holidays)
+  plug(:line_direction)
   plug(:channel_id)
 
   def show(conn, _) do
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
+    |> assign_content()
     |> await_assign_all_default(__MODULE__)
     |> assign_schedule_page_data()
     |> render("show.html", [])
@@ -192,8 +197,8 @@ defmodule DotcomWeb.ScheduleController.LineController do
   end
 
   # Must be strings for mapping to JSON
-  def reverse_direction("0"), do: "1"
-  def reverse_direction("1"), do: "0"
+  defp reverse_direction("0"), do: "1"
+  defp reverse_direction("1"), do: "0"
 
   defp simple_stop_list(stops) do
     stops |> Enum.uniq_by(& &1.id) |> Enum.map(&simple_stop(&1))

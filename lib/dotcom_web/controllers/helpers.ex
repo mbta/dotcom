@@ -23,14 +23,6 @@ defmodule DotcomWeb.ControllerHelpers do
     "cache-control"
   ]
 
-  defmacro call_plug(conn, module) do
-    opts = Macro.expand(module, __ENV__).init([])
-
-    quote do
-      unquote(module).call(unquote(conn), unquote(opts))
-    end
-  end
-
   def render_404(conn) do
     conn
     |> put_status(:not_found)
@@ -190,9 +182,5 @@ defmodule DotcomWeb.ControllerHelpers do
     one_year_after = posted_on |> Date.add(365)
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
-  end
-
-  def call_plug_with_opts(conn, module, opts) do
-    module.call(conn, module.init(opts))
   end
 end
