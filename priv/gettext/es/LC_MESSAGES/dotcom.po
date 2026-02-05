@@ -1578,7 +1578,7 @@ msgstr "%{date} a %{time}"
 msgid "%{count} Stops"
 msgstr "%{count} Altos"
 
-msgid "Commuter Rail Status"
+msgid "Current Status"
 msgstr "Commuter Rail Situación"
 
 msgid "See all public meetings and events"
