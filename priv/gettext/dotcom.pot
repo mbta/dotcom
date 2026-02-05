@@ -833,7 +833,7 @@ msgstr ""
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:21
 #, elixir-autogen, elixir-format
-msgid "Commuter Rail Status"
+msgid "Current Status"
 msgstr ""
 
 #: lib/dotcom_web/views/mode_view.ex:174
