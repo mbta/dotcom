@@ -349,9 +349,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
            },
            schedule: schedule
          },
-         route_type: :commuter_rail
+         route_type: route_type
        })
-       when schedule_relationship in [:cancelled, :skipped] do
+       when schedule_relationship in [:cancelled, :skipped] and
+              route_type in [:bus, :commuter_rail] do
     {:cancelled, schedule.departure_time}
   end
 
