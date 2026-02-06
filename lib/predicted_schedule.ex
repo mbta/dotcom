@@ -21,6 +21,7 @@ defmodule PredictedSchedule do
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   def get(route_id, stop_id, opts \\ []) do
     now = Keyword.get(opts, :now, Util.now())
@@ -277,6 +278,34 @@ defmodule PredictedSchedule do
   @spec status(PredictedSchedule.t()) :: String.t() | nil
   def status(%PredictedSchedule{prediction: %Prediction{status: status}}), do: status
   def status(_predicted_schedule), do: nil
+
+  @doc """
+  Retrieves predicted schedule vehicle
+  """
+  @spec vehicle(PredictedSchedule.t()) :: Vehicles.Vehicle.t() | nil
+  def vehicle(%PredictedSchedule{prediction: %Prediction{vehicle_id: vehicle_id}})
+      when not is_nil(vehicle_id) do
+    @vehicles_repo.get(vehicle_id)
+  end
+
+  def vehicle(_), do: nil
+
+  @doc """
+  Retrieves status from predicted schedule vehicle if a vehicle is at or approaching the predicted schedule trip/stop/stop_sequence
+  """
+  @spec vehicle_at_stop_status(PredictedSchedule.t()) :: Vehicles.Vehicle.status() | nil
+  def vehicle_at_stop_status(ps) do
+    stop = stop(ps)
+    stop_sequence = stop_sequence(ps)
+    vehicle = vehicle(ps)
+
+    if not is_nil(vehicle) and vehicle.stop_sequence == stop_sequence and
+         vehicle.stop_id in [stop.id | stop.child_ids] do
+      vehicle.status
+    end
+  end
+
+  def vehicle_status(_predicted_schedule), do: nil
 
   @doc """
   Determines if the given predicted schedule occurs after the given time
