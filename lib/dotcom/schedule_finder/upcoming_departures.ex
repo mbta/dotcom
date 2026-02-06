@@ -115,7 +115,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedules_by_trip_id =
       predicted_schedules
-      |> reject_past_schedules(now)
+      |> Enum.reject(&past_schedule?(&1, now))
       |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
     predicted_schedules_at_stop =
@@ -125,7 +125,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
 
-    upcoming_predicted_schedules_at_stop = reject_past_schedules(predicted_schedules_at_stop, now)
+    upcoming_predicted_schedules_at_stop =
+      predicted_schedules_at_stop
+      |> Enum.reject(&past_schedule?(&1, now))
 
     cond do
       Enum.empty?(predicted_schedules_at_stop) ->
@@ -210,17 +212,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     !prediction_departure_time && !schedule_departure_time
   end
 
-  defp reject_past_schedules(predicted_schedules, now) do
-    predicted_schedules
-    |> Enum.reject(fn
-      %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: nil}
-      when time != nil ->
-        DateTime.before?(time, now)
-
-      _ ->
-        false
-    end)
+  defp past_schedule?(
+         %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: prediction},
+         now
+       )
+       when time != nil do
+    (is_nil(prediction) or prediction.schedule_relationship in [:skipped, :cancelled]) and
+      DateTime.before?(time, now)
   end
+
+  defp past_schedule?(_, _), do: false
 
   defp reject_timeless_predictions(predictions) do
     predictions |> Enum.reject(&(PredictedSchedule.display_time(&1) == nil))
