@@ -18,7 +18,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -211,6 +210,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     !prediction_departure_time && !schedule_departure_time
   end
 
+  # don't reject if there's associated vehicle with status for this stop
   defp reject_past_schedules(predicted_schedules, now) do
     predicted_schedules
     |> Enum.reject(fn
@@ -246,19 +246,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         route_type: route_type,
         stop_id: stop_id
       }) do
-    stop = predicted_schedule |> PredictedSchedule.stop()
     trip = predicted_schedule |> PredictedSchedule.trip()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
-
-    vehicle =
-      if predicted_schedule.prediction do
-        @vehicles_repo.get(predicted_schedule.prediction.vehicle_id)
-      end
-
-    vehicle_status =
-      if vehicle && vehicle.stop_id in stop.child_ids do
-        vehicle.status
-      end
+    vehicle_at_stop_status = PredictedSchedule.vehicle_at_stop_status(predicted_schedule)
 
     trip_details =
       trip_details(%{
@@ -275,7 +265,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type,
           status: PredictedSchedule.status(predicted_schedule),
           now: now,
-          vehicle_status: vehicle_status
+          vehicle_at_stop_status: vehicle_at_stop_status
         }),
       arrival_substatus:
         arrival_substatus(%{
@@ -340,7 +330,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
-          vehicle_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
@@ -390,7 +380,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: route_type,
          now: now,
-         vehicle_status: vehicle_status
+         vehicle_at_stop_status: vehicle_at_stop_status
        })
        when prediction != nil do
     arrival_seconds = seconds_between(prediction.arrival_time, now)
@@ -400,7 +390,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       arrival_seconds: arrival_seconds,
       departure_seconds: departure_seconds,
       route_type: route_type,
-      vehicle_status: vehicle_status
+      vehicle_at_stop_status: vehicle_at_stop_status
     })
   end
 
@@ -423,7 +413,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           arrival_seconds: integer(),
           departure_seconds: integer(),
           route_type: Route.route_type(),
-          vehicle_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
         }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
 
   defp realtime_arrival_status(%{
@@ -437,42 +427,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp realtime_arrival_status(%{arrival_seconds: seconds, route_type: :bus}) when seconds <= 30,
     do: :now
 
-  defp realtime_arrival_status(%{route_type: :subway, vehicle_status: vehicle_status})
-       when vehicle_status != nil do
-    arrival_status_from_vehicle(vehicle_status)
-  end
-
+  # vehicle says it's at the stop
   defp realtime_arrival_status(%{
-         arrival_seconds: nil,
+         arrival_seconds: arrival_seconds,
          departure_seconds: departure_seconds,
-         route_type: :subway
+         route_type: :subway,
+         vehicle_at_stop_status: :stopped
        })
-       when departure_seconds <= 90,
+       when (arrival_seconds < 0 and departure_seconds >= 0) or departure_seconds <= 90,
        do: :boarding
 
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
-         departure_seconds: departure_seconds,
-         route_type: :subway
+         route_type: :subway,
+         vehicle_at_stop_status: status
        })
-       when arrival_seconds < 0 and departure_seconds >= 0, do: :boarding
+       when status != nil and arrival_seconds <= 30, do: :arriving
 
-  defp realtime_arrival_status(%{arrival_seconds: arrival_seconds, route_type: :subway})
-       when arrival_seconds <= 30,
-       do: :arriving
-
-  defp realtime_arrival_status(%{arrival_seconds: arrival_seconds, route_type: :subway})
-       when arrival_seconds <= 60,
-       do: :approaching
+  defp realtime_arrival_status(%{
+         arrival_seconds: arrival_seconds,
+         route_type: :subway,
+         vehicle_at_stop_status: status
+       })
+       when status != nil and arrival_seconds <= 60, do: :approaching
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
     do: {:departure_seconds, seconds}
 
   defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
-
-  def arrival_status_from_vehicle(:in_transit), do: :approaching
-  def arrival_status_from_vehicle(:incoming), do: :arriving
-  def arrival_status_from_vehicle(:stopped), do: :boarding
 
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),
