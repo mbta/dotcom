@@ -3,10 +3,13 @@ defmodule DotcomWeb.TripPlannerLiveTest do
 
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
   import Mox
-  import Phoenix.LiveViewTest
   import OpenTripPlannerClient.Test.Support.Factory
+  import Phoenix.LiveViewTest
 
   alias Dotcom.TripPlan.AntiCorruptionLayer
+  alias Test.Support.Generators
+
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   setup :verify_on_exit!
 
@@ -467,6 +470,105 @@ defmodule DotcomWeb.TripPlannerLiveTest do
 
       assert Floki.find(document, "div[data-test='itinerary_detail:selected:1']") != []
     end
+
+    test "renders time range as 'h:mm - h:mm am' if both times are in the morning", %{view: view} do
+      date = Generators.Date.random_date()
+
+      [start_time, end_time] =
+        Faker.Util.sample_uniq(2, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {DateTime.new!(date, ~T[00:00:00], @timezone),
+             DateTime.new!(date, ~T[11:59:59], @timezone)}
+          )
+        end)
+        |> Enum.sort(DateTime)
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)}\u2009–\u2009#{pretty_time(end_time)} am"
+    end
+
+    test "renders time range as 'h:mm - h:mm pm' if both times are after noon", %{view: view} do
+      date = Generators.Date.random_date()
+
+      [start_time, end_time] =
+        Faker.Util.sample_uniq(2, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {DateTime.new!(date, ~T[12:00:00], @timezone),
+             DateTime.new!(date, ~T[23:59:59], @timezone)}
+          )
+        end)
+        |> Enum.sort(DateTime)
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)}\u2009–\u2009#{pretty_time(end_time)} pm"
+    end
+
+    test "renders time range as 'h:mm am - h:mm pm' if the itinerary crosses noon", %{view: view} do
+      date = Generators.Date.random_date()
+
+      start_time =
+        Generators.DateTime.random_time_range_date_time(
+          {DateTime.new!(date, ~T[00:00:00], @timezone),
+           DateTime.new!(date, ~T[11:59:59], @timezone)}
+        )
+
+      end_time =
+        Generators.DateTime.random_time_range_date_time(
+          {DateTime.new!(date, ~T[12:00:00], @timezone),
+           DateTime.new!(date, ~T[23:59:59], @timezone)}
+        )
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)} am\u2009–\u2009#{pretty_time(end_time)} pm"
+    end
+  end
+
+  defp itinerary_group_with_time_range(start_time, end_time) do
+    build(:itinerary_group,
+      representative_index: 0,
+      itineraries: [build(:itinerary, start: start_time, end: end_time)]
+    )
+  end
+
+  defp rendered_time_range(view) do
+    view
+    |> render_async()
+    |> Floki.parse_document!()
+    |> Floki.get_by_id("trip-planner-results")
+    |> Floki.find("[data-test=\"itinerary_summary:time_range\"")
+    |> Floki.text()
+    |> String.trim()
+  end
+
+  defp pretty_time(date_time) do
+    date_time |> Cldr.DateTime.to_string!(Dotcom.Cldr, format: "h:mm")
   end
 
   # Parse coordinates from data-coordinates.
