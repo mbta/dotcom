@@ -57,6 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       <div class="flex flex-row mb-3 font-bold text-lg justify-between">
         <div data-test="itinerary_summary:time_range">
           {formatted_time_range(@itinerary.start, @itinerary.end)}
+          <sup :if={Date.after?(@itinerary.end, @itinerary.start)}>+1</sup>
         </div>
         <div>
           {@duration}

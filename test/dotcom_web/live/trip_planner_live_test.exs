@@ -549,7 +549,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
                "#{pretty_time(start_time)} am\u2009–\u2009#{pretty_time(end_time)} pm"
     end
 
-    test "renders time range as 'h:mm pm - h:mm am' if the itinerary crosses a day boundary",
+    test "renders time range as 'h:mm pm - h:mm am +1' if the itinerary crosses a day boundary",
          %{view: view} do
       date = Generators.Date.random_date()
       next_date = date |> Date.shift(day: 1)
@@ -576,7 +576,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
 
       # Verify
       assert rendered_time_range(view) ==
-               "#{pretty_time(start_time)} pm\u2009–\u2009#{pretty_time(end_time)} am"
+               "#{pretty_time(start_time)} pm\u2009–\u2009#{pretty_time(end_time)} am +1"
     end
   end
 
@@ -595,6 +595,9 @@ defmodule DotcomWeb.TripPlannerLiveTest do
     |> Floki.find("[data-test=\"itinerary_summary:time_range\"")
     |> Floki.text()
     |> String.trim()
+    |> String.split("\n")
+    |> Enum.map(&String.trim/1)
+    |> Enum.join(" ")
   end
 
   defp pretty_time(date_time) do
