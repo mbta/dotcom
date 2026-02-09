@@ -596,8 +596,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
     |> Floki.text()
     |> String.trim()
     |> String.split("\n")
-    |> Enum.map(&String.trim/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.trim/1)
   end
 
   defp pretty_time(date_time) do
