@@ -392,4 +392,50 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     assert trip_details.stops |> Enum.map(& &1.stop_id) == future_stop_ids
     assert trip_details.stops |> Enum.map(& &1.stop_name) == future_stop_names
   end
+
+  test "drops earlier stops before the active vehicle" do
+    trip = Factories.Schedules.Trip.build(:trip)
+
+    stops = Faker.Util.sample_uniq(20, fn -> Factories.Stops.Stop.build(:stop) end)
+
+    predicted_schedules =
+      stops
+      |> Enum.with_index()
+      |> Enum.map(fn {stop, index} ->
+        %PredictedSchedule{
+          prediction:
+            Factories.Predictions.Prediction.build(:prediction,
+              trip: trip,
+              stop: stop,
+              stop_sequence: index
+            ),
+          schedule:
+            Factories.Schedules.Schedule.build(:schedule,
+              trip: trip,
+              stop: stop,
+              stop_sequence: index
+            )
+        }
+      end)
+
+    current_index = Faker.random_between(5, 15)
+    {_earlier_stops, [current_stop | future_stops]} = stops |> Enum.split(current_index)
+
+    vehicle =
+      Factories.Vehicles.Vehicle.build(:vehicle,
+        status: :stopped,
+        stop_id: current_stop.id,
+        stop_sequence: current_index,
+        trip_id: trip.id
+      )
+
+    trip_details =
+      TripDetails.trip_details(%{
+        predicted_schedules: predicted_schedules,
+        trip_vehicle: vehicle
+      })
+
+    assert trip_details.stops |> Enum.map(& &1.stop_id) == Enum.map(future_stops, & &1.id)
+    assert trip_details.stops |> Enum.map(& &1.stop_name) == Enum.map(future_stops, & &1.name)
+  end
 end

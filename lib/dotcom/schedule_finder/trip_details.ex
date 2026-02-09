@@ -50,7 +50,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :crowding,
       :status,
       :stop_id,
-      :stop_name
+      :stop_name,
+      :stop_sequence
     ]
 
     @type trip_vehicle_status_t() ::
@@ -61,7 +62,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             crowding: Vehicles.Vehicle.crowding(),
             status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
-            stop_name: String.t()
+            stop_name: String.t(),
+            stop_sequence: non_neg_integer()
           }
   end
 
@@ -94,7 +96,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
         }
       end)
       |> Enum.sort_by(& &1.stop_sequence)
-      |> drop_prediction_for_current_station(vehicle_info)
+      |> drop_predictions_before_current_station(vehicle_info)
 
     %__MODULE__{
       stops: stops,
@@ -127,23 +129,53 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   defp vehicle_info(%Vehicle{stop_id: nil}), do: %VehicleInfo{status: :location_unavailable}
 
-  defp vehicle_info(%Vehicle{crowding: crowding, status: status, stop_id: stop_id}) do
+  defp vehicle_info(%Vehicle{
+         crowding: crowding,
+         status: status,
+         stop_id: stop_id,
+         stop_sequence: stop_sequence
+       }) do
     stop = @stops_repo.get(stop_id)
 
     %VehicleInfo{
       crowding: crowding,
       status: status,
       stop_id: stop.parent_id || stop.id,
-      stop_name: stop.name
+      stop_name: stop.name,
+      stop_sequence: stop_sequence
     }
   end
 
-  defp drop_prediction_for_current_station(stops, %{status: :stopped, stop_id: stop_id}) do
-    case stops do
-      [%{stop_id: ^stop_id} | remaining_stops] -> remaining_stops
-      _ -> stops
+  # Sometimes predictions might not keep up with vehicles
+  # If we have a vehicle status, use it to omit past stops
+  defp drop_predictions_before_current_station(
+         trip_stops,
+         %VehicleInfo{} = vehicle_info
+       ) do
+    current = current_stop_index(trip_stops, vehicle_info)
+
+    if is_nil(current) do
+      # finishing another trip -- show all the stops
+      trip_stops
+    else
+      upcoming_stops = Enum.take(trip_stops, current - length(trip_stops))
+
+      # Omit current trip_stop if the vehicle is stopped
+      if vehicle_info.status == :stopped do
+        Enum.drop(upcoming_stops, 1)
+      else
+        upcoming_stops
+      end
     end
   end
 
-  defp drop_prediction_for_current_station(stops, _), do: stops
+  defp drop_predictions_before_current_station(trip_stops, _), do: trip_stops
+
+  defp current_stop_index(trip_stops, vehicle_info) do
+    Enum.find_index(trip_stops, &vehicle_at_stop?(&1, vehicle_info))
+  end
+
+  defp vehicle_at_stop?(stop, vehicle) do
+    stop.stop_id == vehicle.stop_id && stop.stop_sequence == vehicle.stop_sequence
+  end
 end
