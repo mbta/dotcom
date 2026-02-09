@@ -70,20 +70,13 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   @spec trip_details(%{
           predicted_schedules: [PredictedSchedule.t()],
-          trip_id: Schedules.Trip.id_t()
+          trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
-  def trip_details(%{predicted_schedules: predicted_schedules, trip_id: trip_id}) do
-    vehicle =
-      trip_id
-      |> @vehicles_repo.trip()
-
-    vehicle_info =
-      vehicle
-      |> vehicle_info()
+  def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
+    vehicle_info = vehicle_info(vehicle)
 
     stops =
       predicted_schedules
