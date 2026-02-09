@@ -548,6 +548,36 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       assert rendered_time_range(view) ==
                "#{pretty_time(start_time)} am\u2009–\u2009#{pretty_time(end_time)} pm"
     end
+
+    test "renders time range as 'h:mm pm - h:mm am' if the itinerary crosses a day boundary",
+         %{view: view} do
+      date = Generators.Date.random_date()
+      next_date = date |> Date.shift(day: 1)
+
+      start_time =
+        Generators.DateTime.random_time_range_date_time(
+          {DateTime.new!(date, ~T[12:00:00], @timezone),
+           DateTime.new!(date, ~T[23:59:59], @timezone)}
+        )
+
+      end_time =
+        Generators.DateTime.random_time_range_date_time(
+          {DateTime.new!(next_date, ~T[00:00:00], @timezone),
+           DateTime.new!(next_date, ~T[11:59:59], @timezone)}
+        )
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)} pm\u2009–\u2009#{pretty_time(end_time)} am"
+    end
   end
 
   defp itinerary_group_with_time_range(start_time, end_time) do
