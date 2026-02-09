@@ -909,7 +909,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :no_service
     end
 
-    test "does include trips scheduled in the past if they have predictions" do
+    test "can include trips scheduled in the past if they have predictions" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -938,6 +938,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: predicted_departure_time,
+            schedule_relationship: :scheduled,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
             trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
           )
@@ -977,6 +978,67 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.map(& &1.trip_id) == [trip_id]
+    end
+
+    test "excludes past predictions which are cancelled or skipped" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      past_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {ServiceDateTime.beginning_of_service_day(now), now}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn [
+                                               route: ^route_id,
+                                               direction_id: ^direction_id,
+                                               include_terminals: true
+                                             ] ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            schedule_relationship: Faker.Util.pick([:skipped, :cancelled]),
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], stop_ids: ^stop_id, direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+
+        [^route_id], direction_id: ^direction_id, date: _date ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: past_departure_time,
+              time: past_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+      end)
+
+      # Exercise
+      assert UpcomingDepartures.upcoming_departures(%{
+               direction_id: direction_id,
+               now: now,
+               route: route,
+               stop_id: stop_id
+             }) == :service_ended
     end
 
     test "excludes predictions with no arrival or departure time" do
@@ -2413,6 +2475,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
+            schedule_relationship: :scheduled,
             stop: stop,
             stop_sequence: stop_sequence,
             trip: trip
@@ -2505,6 +2568,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
+            schedule_relationship: :scheduled,
             stop: stop,
             stop_sequence: stop_sequence,
             trip: trip
@@ -2663,6 +2727,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
+            schedule_relationship: :scheduled,
             stop: stop,
             stop_sequence: stop_sequence,
             trip: trip
