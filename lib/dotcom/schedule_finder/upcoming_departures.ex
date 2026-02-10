@@ -439,17 +439,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
-         route_type: :subway,
-         vehicle_at_stop_status: status
+         route_type: :subway
        })
-       when status != nil and arrival_seconds <= 30, do: :arriving
+       when arrival_seconds <= 30, do: :arriving
 
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
-         route_type: :subway,
-         vehicle_at_stop_status: status
+         route_type: :subway
        })
-       when status != nil and arrival_seconds <= 60, do: :approaching
+       when arrival_seconds <= 60, do: :approaching
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
     do: {:departure_seconds, seconds}
