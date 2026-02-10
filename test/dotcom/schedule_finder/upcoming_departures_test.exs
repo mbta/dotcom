@@ -2816,7 +2816,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       subway_route = Factories.Routes.Route.build(:subway_route)
       vehicle_id = FactoryHelpers.build(:id)
-      seconds_until_departure = Faker.random_between(0, 90)
+      seconds_until_departure = Faker.random_between(0, 600)
       arrival_time = now |> DateTime.shift(second: -5)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
@@ -2878,6 +2878,49 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           status: :stopped,
           stop_id: other_stop_id,
           trip_id: prediction.trip.id
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+
+      # Exercise
+      [departure] =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      refute departure.arrival_status == :boarding
+    end
+
+    test "does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_until_departure = Faker.random_between(91, 3600)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: nil,
+          departure_time: departure_time,
+          route: subway_route
+        )
+
+      vehicle_at_stop =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: prediction.stop.id,
+          trip_id: prediction.trip.id,
+          stop_sequence: prediction.stop_sequence
         )
 
       prediction = Map.put(prediction, :vehicle_id, vehicle_id)
