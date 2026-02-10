@@ -161,7 +161,7 @@ defmodule DotcomWeb.LayoutView do
             sub_menu_section: ~t(Customer Support),
             links: [
               {~t(Send Us Feedback), "/customer-support", :internal_link},
-              {~t(View All Contact Numbers), "/customer-support#footer-customer",
+              {~t(View All Contact Numbers), "/customer-support#customer_support",
                :internal_link},
               {~t(Request Public Records),
                "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66",
