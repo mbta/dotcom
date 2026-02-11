@@ -1,10 +1,6 @@
 <div class="container">
   <.alerts_layout mode={@id}>
-    <:sidebar_top :if={@id != :subway}>
-      {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
-        method: :alert_path,
-        item: @id
-      )}
+    <:sidebar_top>
     </:sidebar_top>
     <:sidebar_bottom>
       {render("_t-alerts.html")}
