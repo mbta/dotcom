@@ -8,7 +8,7 @@
     <:main_section>
       <.alerts_page_content_layout
         {assigns}
-        empty_message={~t(There are no) <> " #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
+        empty_message={~t(There are no) <> " #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
       >
         <:heading>
           <h2 class="sr-only">{~t(All Alerts)}</h2>
