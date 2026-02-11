@@ -11,6 +11,7 @@ defmodule Vehicles.Parser do
       stop_id: optional_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
       status: status(attributes["current_status"]),
+      stop_sequence: attributes["current_stop_sequence"],
       longitude: attributes["longitude"],
       latitude: attributes["latitude"],
       bearing: attributes["bearing"] || 0,
