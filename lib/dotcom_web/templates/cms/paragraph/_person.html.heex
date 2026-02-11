@@ -8,7 +8,7 @@
   <div>
     {link(~t(View Bio),
       to: cms_static_page_path(@conn, @person.path_alias || "/node/#{@person.id}"),
-      aria_label: ~t(View Bio for ) <> @person.name
+      aria_label: gettext("View Bio for %{name}", %{name: @person.name})
     )}
   </div>
 </div>
