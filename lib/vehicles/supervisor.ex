@@ -38,7 +38,7 @@ defmodule Vehicles.Supervisor do
       MBTA.Api.Stream.build_options(
         name: Vehicles.Api.SSES,
         path:
-          "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
+          "/vehicles?fields[vehicle]=direction_id,current_status,current_stop_sequence,longitude,latitude,bearing,occupancy_status"
       )
 
     [

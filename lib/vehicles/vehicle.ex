@@ -9,6 +9,7 @@ defmodule Vehicles.Vehicle do
     :longitude,
     :latitude,
     :status,
+    :stop_sequence,
     :bearing,
     :crowding
   ]
@@ -28,6 +29,7 @@ defmodule Vehicles.Vehicle do
           latitude: float,
           bearing: non_neg_integer,
           status: status,
+          stop_sequence: non_neg_integer,
           crowding: crowding | nil
         }
 end
