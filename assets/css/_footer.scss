@@ -187,7 +187,15 @@ address {
 
   .m-footer__links {
     margin-bottom: 0;
-    scroll-margin-top:40vh;
+    scroll-margin-top: 40vh;
+    /*
+    When navigating to the customer_support page+anchor from a different page in mobile view,
+    the browser would scroll too far down and put the anchor above the top of the screen.  
+    Research seems to indicate this is a side effect of scrolling down a fixed header in 
+    order to see and click the link.  This scrolling seems to be added to the anchor scroll 
+    when the new page loads.  A CSS rule to add some margin between the top of the screen 
+    and the anchor seems to work well enough in all circumstances.
+    */
   }
 
   .bottom-section {
