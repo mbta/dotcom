@@ -111,16 +111,16 @@ defmodule DotcomWeb.AlertControllerTest do
 
     test "ignores timeframe param", %{conn: conn} do
       all_alerts = get(conn, alert_path(conn, :show, :bus))
-      assert_raise KeyError, all_alerts.assigns.alerts_timeframe == nil
+      assert_raise KeyError, fn -> all_alerts.assigns.alerts_timeframe == nil end
 
       current = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "current"))
-      assert_raise KeyError, current.assigns.alerts_timeframe == nil
+      assert_raise KeyError, fn -> current.assigns.alerts_timeframe == nil end
 
       upcoming = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "upcoming"))
-      assert_raise KeyError, upcoming.assigns.alerts_timeframe == nil
+      assert_raise KeyError, fn -> upcoming.assigns.alerts_timeframe == nil end
 
       bad_param = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "foobar"))
-      assert_raise KeyError, bad_param.assigns.alerts_timeframe == nil
+      assert_raise KeyError, fn -> bad_param.assigns.alerts_timeframe == nil end
     end
   end
 
