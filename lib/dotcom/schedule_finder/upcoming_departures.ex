@@ -469,7 +469,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{prediction: %Prediction{status: status}}
        })
-       when status != nil,
+       when status != nil and status != "Delayed",
        do: {:status, status |> String.split(" ") |> Enum.map_join(" ", &String.capitalize/1)}
 
   defp arrival_substatus(%{
@@ -482,6 +482,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        }) do
     scheduled_time = schedule.departure_time
     predicted_time = prediction.departure_time
+    status = prediction.status
 
     cond do
       predicted_time == nil ->
@@ -492,6 +493,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
       DateTime.diff(predicted_time, scheduled_time, :second) >= 60 ->
         {:delayed_from, scheduled_time}
+
+      status != nil ->
+        {:status, status}
 
       true ->
         :on_time
