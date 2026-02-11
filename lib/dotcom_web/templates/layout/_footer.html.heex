@@ -2,7 +2,7 @@
   <div class="outer-container">
     <div class="all-container">
       <address class="call-us-container" role="complementary">
-        <div id="customer_support" class="container m-footer__links">
+        <h2 id="customer_support" class="container m-footer__links">
           <div class="m-footer__group-title call-us-header">{~t(Call Us)}</div>
         </div>
         <div class="container m-footer__links">
@@ -12,7 +12,7 @@
       <footer class="m-footer">
         <div class="container m-footer__links">
           <nav class="m-footer__group" aria-labelledby="footer-customer">
-            <div id="footer-customer" class="m-footer__group-title">{~t(Customer Support)}</div>
+            <h2 id="footer-customer" class="m-footer__group-title">{~t(Customer Support)}</h2>
             {link(~t(Send Us Feedback),
               to: customer_support_path(@conn, :index),
               data: [scroll: true],
@@ -35,7 +35,7 @@
             )}
           </nav>
           <nav class="m-footer__group" aria-labelledby="footer-know-us">
-            <div id="footer-know-us" class="m-footer__group-title">{~t(Get to Know Us)}</div>
+            <h2 id="footer-know-us" class="m-footer__group-title">{~t(Get to Know Us)}</h2>
             {link(~t(Leadership),
               to: cms_static_page_path(@conn, "/leadership"),
               data: [scroll: true],
@@ -70,7 +70,7 @@
             {link(~t(Performance), to: "/performance-metrics", class: "m-footer__link")}
           </nav>
           <nav class="m-footer__group" aria-labelledby="footer-work-with">
-            <div id="footer-work-with" class="m-footer__group-title">{~t(Work With Us)}</div>
+            <h2 id="footer-work-with" class="m-footer__group-title">{~t(Work With Us)}</h2>
             {link(~t(Careers),
               to: cms_static_page_path(@conn, "/careers"),
               data: [scroll: true],
