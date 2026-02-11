@@ -109,15 +109,15 @@ defmodule DotcomWeb.AlertControllerTest do
       assert conn.assigns.meta_description
     end
 
-    test "parses timeframe param", %{conn: conn} do
+    test "ignores timeframe param", %{conn: conn} do
       all_alerts = get(conn, alert_path(conn, :show, :bus))
       assert all_alerts.assigns.alerts_timeframe == nil
 
       current = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "current"))
-      assert current.assigns.alerts_timeframe == :current
+      assert current.assigns.alerts_timeframe == nil
 
       upcoming = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "upcoming"))
-      assert upcoming.assigns.alerts_timeframe == :upcoming
+      assert upcoming.assigns.alerts_timeframe == nil
 
       bad_param = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "foobar"))
       assert bad_param.assigns.alerts_timeframe == nil
