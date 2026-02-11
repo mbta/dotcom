@@ -17,6 +17,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
     end)
 
     stub(Vehicles.Repo.Mock, :trip, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
+    stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
 
@@ -1216,7 +1217,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "shows subway arrival_status as :approaching if it's between 30 and 60 seconds out" do
+    test "shows subway arrival_status as :approaching if it has an associated vehicle and it's between 30 and 60 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1224,24 +1225,37 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
+      vehicle_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
       seconds_until_arrival = Faker.random_between(31, 60)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: arrival_time,
+          stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+          trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
+          vehicle_id: vehicle_id
+        )
 
       expect(Predictions.Repo.Mock, :all, fn [
                                                route: ^route_id,
                                                direction_id: ^direction_id,
                                                include_terminals: true
                                              ] ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-          )
-        ]
+        [prediction]
       end)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :incoming,
+          stop_id: stop_id,
+          stop_sequence: prediction.stop_sequence
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
 
       # Exercise
       departures =
@@ -1309,7 +1323,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       stop_id = FactoryHelpers.build(:id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
-
+      vehicle_id = FactoryHelpers.build(:id)
+      stop_sequence = Faker.random_between(0, 300)
       seconds_until_arrival = Faker.random_between(1, 30)
       arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
 
@@ -1322,10 +1337,22 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
+            stop_sequence: stop_sequence,
+            vehicle_id: vehicle_id
           )
         ]
       end)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :incoming,
+          stop_id: stop_id,
+          stop_sequence: stop_sequence
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
 
       # Exercise
       departures =
@@ -1351,10 +1378,20 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
       trip_id = FactoryHelpers.build(:id)
+      vehicle_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
       seconds_until_departure = Faker.random_between(1, 90)
+      stop_sequence = Faker.random_between(0, 300)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: stop.id,
+          stop_sequence: stop_sequence
+        )
 
       expect(Predictions.Repo.Mock, :all, fn [
                                                route: ^route_id,
@@ -1366,10 +1403,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             arrival_time: now |> DateTime.shift(second: -30),
             departure_time: departure_time,
             stop: stop,
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            stop_sequence: stop_sequence,
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
+            vehicle_id: vehicle.id
           )
         ]
       end)
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
@@ -1391,28 +1432,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:subway_route)
-      route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       stop = Factories.Stops.Stop.build(:stop, id: stop_id)
       trip_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
+      vehicle_id = FactoryHelpers.build(:id)
 
       seconds_until_departure = Faker.random_between(1, 90)
       departure_time = now |> DateTime.shift(second: seconds_until_departure)
 
-      expect(Predictions.Repo.Mock, :all, fn [
-                                               route: ^route_id,
-                                               direction_id: ^direction_id,
-                                               include_terminals: true
-                                             ] ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: nil,
-            departure_time: departure_time,
-            stop: stop,
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-          )
-        ]
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: nil,
+          departure_time: departure_time,
+          stop: stop,
+          trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
+          vehicle_id: vehicle_id
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+
+      expect(Vehicles.Repo.Mock, :get, fn _ ->
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: prediction.stop.id,
+          trip_id: prediction.trip.id,
+          stop_sequence: prediction.stop_sequence
+        )
       end)
 
       # Exercise
@@ -2822,6 +2869,137 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures |> Enum.count() == 1
+    end
+
+    test "uses vehicle :stopped status for subway arrival_status, if applicable" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_until_departure = Faker.random_between(0, 600)
+      arrival_time = now |> DateTime.shift(second: -5)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: arrival_time,
+          departure_time: departure_time,
+          route: subway_route
+        )
+
+      vehicle_at_stop =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: prediction.stop.id,
+          trip_id: prediction.trip.id,
+          stop_sequence: prediction.stop_sequence
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+
+      # Exercise
+      [departure] =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      assert departure.arrival_status == :boarding
+    end
+
+    test "does not use vehicle :stopped status if vehicle not at stop" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      other_stop_id = FactoryHelpers.build(:id)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_until_departure = Faker.random_between(0, 90)
+      arrival_time = now |> DateTime.shift(second: -5)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: arrival_time,
+          departure_time: departure_time,
+          route: subway_route
+        )
+
+      vehicle_at_stop =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: other_stop_id,
+          trip_id: prediction.trip.id
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+
+      # Exercise
+      [departure] =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      refute departure.arrival_status == :boarding
+    end
+
+    test "does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_until_departure = Faker.random_between(91, 3600)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: nil,
+          departure_time: departure_time,
+          route: subway_route
+        )
+
+      vehicle_at_stop =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: prediction.stop.id,
+          trip_id: prediction.trip.id,
+          stop_sequence: prediction.stop_sequence
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+
+      # Exercise
+      [departure] =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      refute departure.arrival_status == :boarding
     end
   end
 
