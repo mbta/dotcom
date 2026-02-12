@@ -1,18 +1,12 @@
 <div class="container">
   <.alerts_layout mode={@id}>
-    <:sidebar_top :if={@id != :subway}>
-      {DotcomWeb.PartialView.alert_time_filters(@alerts_timeframe,
-        method: :alert_path,
-        item: @id
-      )}
-    </:sidebar_top>
     <:sidebar_bottom>
       {render("_t-alerts.html")}
     </:sidebar_bottom>
     <:main_section>
       <.alerts_page_content_layout
         {assigns}
-        empty_message={~t(There are no) <> " #{format_alerts_timeframe(@alerts_timeframe)} #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
+        empty_message={~t(There are no) <> " #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
       >
         <:heading>
           <h2 class="sr-only">{~t(All Alerts)}</h2>
