@@ -168,7 +168,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
       .locator(".m-alerts__mode-buttons .m-alerts__mode-name")
       .getByText("Bus")
       .click();
-    await page.getByText("Planned Service Alerts").click();
+    await page.getByRole("link",{name: "Access"}).click();  //All/current/planned buttons+behavior have been removed from this page.  We'll click on a mode button instead to verify things.
   });
 
   test("search page", async ({ page }) => {
