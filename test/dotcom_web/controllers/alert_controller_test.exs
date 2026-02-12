@@ -110,7 +110,7 @@ defmodule DotcomWeb.AlertControllerTest do
     end
 
     test "ignores timeframe param", %{conn: conn} do
-      rand_timeframe =  Faker.Util.pick(["current", "upcoming", "past"])
+      rand_timeframe = Faker.Util.pick(["current", "upcoming", "past"])
       alerts = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: rand_timeframe))
       refute alerts |> Map.has_key?(:alerts_timeframe)
     end
