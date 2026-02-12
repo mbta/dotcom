@@ -73,11 +73,11 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("events page, selected event, add to calendar", async ({ page }) => {
     test.slow();
     await ok(page, "/events");
-    await page.locator(".m-event__title a:visible").first().click();
+    await page.locator(".m-event__title a:visible").last().click();
     const main = page.locator("main");
     expect(main).toContainText("Meeting Info");
     expect(main).toContainText("Event Description");
-    await main.getByRole("link", { name: "Add to Calendar " }).click();
+    await main.getByRole("link", { title: /Add .* to Calendar/i }).click();//Adding a pattern here in case we decide to change the title to "Add {event title} to Calendar" here too
   });
 
   test("projects page, filter, selected project", async ({ page }) => {
