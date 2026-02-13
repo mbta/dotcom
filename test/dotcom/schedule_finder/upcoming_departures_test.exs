@@ -2922,6 +2922,49 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Verify
       refute departure.arrival_status == :boarding
     end
+
+    test "shows :boarding when the vehicle is stopped at the station, even if the prediction time is in the past" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_since_departure = Faker.random_between(1, 600)
+      departure_time = now |> DateTime.shift(second: -seconds_since_departure)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: nil,
+          departure_time: departure_time,
+          route: subway_route
+        )
+
+      vehicle_at_stop =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: prediction.stop.id,
+          trip_id: prediction.trip.id,
+          stop_sequence: prediction.stop_sequence
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+
+      # Exercise
+      [departure] =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      assert departure.arrival_status == :boarding
+    end
   end
 
   describe "last_trip_time/4" do
