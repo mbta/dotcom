@@ -8,6 +8,7 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
   alias DotcomWeb.StopMapLive
+  alias DotcomWeb.WorldCupCalloutLive
   alias Phoenix.LiveView
 
   @pages [
@@ -22,6 +23,13 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-stop-default",
       module: StopMapLive,
       title: "Stop Page Map"
+    },
+    %{
+      arguments: [],
+      icon_name: "comment-dots",
+      icon_type: "regular",
+      module: WorldCupCalloutLive,
+      title: "World Cup Callout"
     }
   ]
 

@@ -305,6 +305,7 @@ defmodule DotcomWeb.Router do
       live "/", PreviewLive
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
       live "/stop-map", StopMapLive
+      live "/world-cup-callout", WorldCupCalloutLive
     end
   end
 
