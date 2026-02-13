@@ -177,7 +177,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp predicted_schedules(route_id, direction_id, now) do
     all_predictions =
-      @predictions_repo.all(route: route_id, direction_id: direction_id, include_terminals: true)
+      @predictions_repo.all(
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
 
     all_schedules =
       @schedules_repo.by_route_ids([route_id],

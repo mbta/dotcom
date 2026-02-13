@@ -34,7 +34,7 @@ defmodule Predictions.Repo do
     |> add_all_optional_params()
     |> cache_fetch()
     |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
-    |> load_from_other_repos
+    |> load_from_other_repos(Keyword.take(opts, [:discard_past_subway_predictions]))
   end
 
   defp update_green_line_route_id(opts) do
@@ -188,27 +188,42 @@ defmodule Predictions.Repo do
     Util.time_is_greater_or_equal?(prediction_time, min_time)
   end
 
-  def load_from_other_repos([]) do
+  def load_from_other_repos(predictions, opts \\ [])
+
+  def load_from_other_repos([], _opts) do
     []
   end
 
-  def load_from_other_repos(predictions) do
+  def load_from_other_repos(predictions, opts) do
     predictions
-    |> Task.async_stream(&record_to_structs/1)
+    |> Task.async_stream(fn record -> record_to_structs(record, opts) end)
     |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
   end
 
-  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _}) do
+  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _}, _opts) do
     # no stop ID
     []
   end
 
-  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record) do
+  defp record_to_structs(
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record,
+         opts
+       ) do
+    discard_past_subway_predictions = opts |> Keyword.get(:discard_past_subway_predictions, true)
+
     stop_id
     |> @stops_repo.get_parent()
     |> do_record_to_structs(record)
-    |> discard_if_subway_past_prediction()
+    |> maybe_discard_if_subway_past_prediction(discard_past_subway_predictions)
   end
+
+  defp maybe_discard_if_subway_past_prediction(predictions, should_discard?)
+
+  defp maybe_discard_if_subway_past_prediction(predictions, true),
+    do: discard_if_subway_past_prediction(predictions)
+
+  defp maybe_discard_if_subway_past_prediction(predictions, false),
+    do: predictions
 
   defp do_record_to_structs(
          nil,
