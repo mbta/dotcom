@@ -44,6 +44,8 @@ defmodule Routes.Repo do
   @impl Routes.Repo.Behaviour
   def get("Green"), do: green_line()
 
+  def get("Boat-F2H"), do: f2h()
+
   def get(id) when is_binary(id) do
     opts = @default_opts
 
@@ -164,6 +166,20 @@ defmodule Routes.Repo do
       type: 0,
       description: :rapid_transit,
       color: "00843D"
+    }
+  end
+
+  @impl Routes.Repo.Behaviour
+  def f2h do
+    %Route{
+      id: "Boat-F2H",
+      name: "Hingham/Hull Ferry",
+      long_name: "Hingham/Hull Ferry",
+      direction_names: %{0 => ~t"Outbound", 1 => ~t"Inbound"},
+      direction_destinations: %{0 => "Hingham or Hull", 1 => "Long Wharf or Rowes Wharf"},
+      type: 4,
+      description: :ferry,
+      color: "008EAA"
     }
   end
 end
