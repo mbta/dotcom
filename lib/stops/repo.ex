@@ -82,30 +82,23 @@ defmodule Stops.Repo do
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ [])
 
+  # Combine Green Line branch stops into one list for the "Green" route
   def by_route("Green", direction_id, opts) do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
   end
 
+  # Combine stops from Boat-F1 onto the Boat-F2H route
   def by_route("Boat-F2H", direction_id, opts) do
-    # Get stops for F2H manually since we're overriding this call
-    with F2stops when is_list(F2stops) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
-      # Concat the stops from F1
-      (for stop <- F2Stops do
-         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
-         @cache.put(key, {:ok, stop})
-         stop
-       end <>
-         by_route("Boat-F1", direction_id, opts))
-      |> Enum.flat_map(fn
-        {:ok, stops} -> stops
-        _ -> []
-      end)
-      # Remove dupes
-      |> Enum.uniq()
-    end
+    by_routes(~w(Boat-F1 Boat-F2H)s, direction_id, opts)
   end
 
+  # Pass on any normal calls to the true handler
   def by_route(route_id, direction_id, opts) do
+    by_route(route_id, direction_id, opts, true)
+  end
+
+  # True handler, fetches stops from API
+  def by_route(route_id, direction_id, opts, true) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
@@ -122,7 +115,7 @@ defmodule Stops.Repo do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
     route_ids
-    |> Task.async_stream(&by_route(&1, direction_id, opts))
+    |> Task.async_stream(&by_route(&1, direction_id, opts, true))
     |> Enum.flat_map(fn
       {:ok, stops} -> stops
       _ -> []
