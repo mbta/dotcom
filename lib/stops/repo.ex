@@ -87,18 +87,16 @@ defmodule Stops.Repo do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
   end
 
-  # Combine stops from Boat-F1 onto the Boat-F2H route
+  # Combine stops from Boat-F1 onto the Boat-F2H route.
+  # Unfortunately by_routes recurses infinitely if we use it,
+  # since it would just call this function again
   def by_route("Boat-F2H", direction_id, opts) do
-    by_routes(~w(Boat-F1 Boat-F2H)s, direction_id, opts)
+    with stops1 when is_list(stops1) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
+      (stops1 ++ by_route("Boat-F1", direction_id, opts)) |> Enum.uniq()
+    end
   end
 
-  # Pass on any normal calls to the true handler
   def by_route(route_id, direction_id, opts) do
-    by_route(route_id, direction_id, opts, true)
-  end
-
-  # True handler, fetches stops from API
-  def by_route(route_id, direction_id, opts, true) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
@@ -115,7 +113,7 @@ defmodule Stops.Repo do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
     route_ids
-    |> Task.async_stream(&by_route(&1, direction_id, opts, true))
+    |> Task.async_stream(&by_route(&1, direction_id, opts))
     |> Enum.flat_map(fn
       {:ok, stops} -> stops
       _ -> []
