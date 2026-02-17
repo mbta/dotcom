@@ -61,3 +61,51 @@
   justify-content: center;
   width: 100%;
 }
+
+.c-descriptive-link__football-icon {
+  display: none;
+}
+
+.c-descriptive-link__world-cup-arrow {
+  display: none;
+}
+
+.c-descriptive-link:has(.c-descriptive-link__world-cup) {
+  background-color: #F9D543;
+  border: none;
+  gap: 1rem;
+  padding: 1rem;
+
+  .c-descriptive-link__world-cup {
+    margin: 0;
+  }
+
+  .c-descriptive-link__text {
+    padding: 0;
+  }
+
+  .c-descriptive-link__title {
+    color: black;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .c-descriptive-link__football-icon {
+    display: block;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .c-descriptive-link__caret-wrapper {
+    display: none;
+  }
+
+  .c-descriptive-link__world-cup-arrow {
+    align-self: center;
+    display: block;
+    height: 1rem;
+    width: 1rem;
+  }
+}
+
