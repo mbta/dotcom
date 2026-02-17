@@ -303,6 +303,7 @@ defmodule DotcomWeb.Router do
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
+      live "/schedules/CR-WorldCup", WorldCupTimetableLive
       live "/schedules/:route_id/:direction_id", ScheduleFinderLive
       live "/stop-map", StopMapLive
       live "/world-cup-callout", WorldCupCalloutLive
