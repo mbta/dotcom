@@ -8,14 +8,15 @@
   </div>
 </div>
 <div class="container">
-  <nav aria-label={~t"World Cup Matches"}>
-    <.link
-      :for={{date, label, _} <- @match_list}
-      class={"inline-block px-md py-xs m-sm c-call-to-action #{if(@selected_match == date, do: "bg-brand-primary-lightest-contrast")}"}
-      patch={~p"/preview/schedules/CR-WorldCup?#{[date: date]}"}
-    >
-      {label} ({formatted_date(date)})
-    </.link>
+  <div class="font-bold mb-2 mt-4">Select a Match</div>
+  <nav aria-label={~t"World Cup Matches"} class="flex flex-col gap-2">
+    <.match_link
+      :for={{date, label, teams} <- @match_list}
+      date={date}
+      label={label}
+      teams={teams}
+      selected={@selected_match == date}
+    />
   </nav>
   <hr /> Selected match: {@selected_match}
 </div>

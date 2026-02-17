@@ -6,6 +6,8 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   use DotcomWeb, :live_view
 
+  import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1]
+
   @match_list [
     {"2026-06-13", ~t"Match 5", [:haiti, :scotland]},
     {"2026-06-16", ~t"Match 18", [nil, :norway]},
@@ -28,11 +30,5 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
-  end
-
-  defp formatted_date(date) do
-    date
-    |> Date.from_iso8601!()
-    |> Dotcom.Utils.Time.format!(:month_day)
   end
 end
