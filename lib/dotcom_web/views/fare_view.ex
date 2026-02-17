@@ -5,9 +5,12 @@ defmodule DotcomWeb.FareView do
 
   use DotcomWeb, :view
 
+  import DotcomWeb.CMS.ParagraphView, only: [render_paragraph: 2]
+
   alias CMS.Partial.Paragraph.{
     Description,
-    DescriptionList
+    DescriptionList,
+    ContentList
   }
 
   alias Phoenix.HTML
@@ -114,5 +117,14 @@ defmodule DotcomWeb.FareView do
         ),
       class: "c-call-to-action"
     )
+  end
+
+  @spec render_charliecard_teaser(Conn.t()) :: HTML.safe()
+  def render_charliecard_teaser(conn) do
+    teaser =
+      CMS.Repo.get_paragraph("/paragraphs/content-list/charliecard", conn.query_params)
+      |> ContentList.fetch_teasers()
+    %{teaser | right_rail: false, header: nil} # Overridden to match styling on page
+    |> render_paragraph(conn)
   end
 end
