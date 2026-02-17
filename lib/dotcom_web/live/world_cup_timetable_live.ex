@@ -12,7 +12,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
     {"2026-06-19", ~t"Match 30", [:scotland, :morocco]},
     {"2026-06-23", ~t"Match 45", [:england, :ghana]},
     {"2026-06-26", ~t"Match 61", [:norway, :france]},
-    {"2026-06-29", ~t"Match 75", [~t"Round of 32"]},
+    {"2026-06-29", ~t"Match 74", [~t"Round of 32"]},
     {"2026-07-09", ~t"Match 97", [~t"Quarter Finals"]}
   ]
 
