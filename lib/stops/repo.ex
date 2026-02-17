@@ -86,6 +86,25 @@ defmodule Stops.Repo do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
   end
 
+  def by_route("Boat-F2H", direction_id, opts) do
+    # Get stops for F2H manually since we're overriding this call
+    with F2stops when is_list(F2stops) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
+      # Concat the stops from F1
+      (for stop <- F2Stops do
+         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
+         @cache.put(key, {:ok, stop})
+         stop
+       end <>
+         by_route("Boat-F1", direction_id, opts))
+      |> Enum.flat_map(fn
+        {:ok, stops} -> stops
+        _ -> []
+      end)
+      # Remove dupes
+      |> Enum.uniq()
+    end
+  end
+
   def by_route(route_id, direction_id, opts) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
