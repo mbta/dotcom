@@ -1,5 +1,6 @@
 defmodule AlertsTest do
   use ExUnit.Case, async: true
+  alias DotcomWeb.AlertController
   use Timex
 
   import Alerts.Alert
@@ -146,6 +147,21 @@ defmodule AlertsTest do
 
     test "returns false otherwise" do
       refute high_severity_or_high_priority?(%Alert{severity: 3, priority: :low})
+    end
+  end
+
+  describe "route_alerts/2" do
+    @f2h_entity %InformedEntity{route: "Boat-F2H"}
+    @f1_entity %InformedEntity{route: "Boat-F1"}
+    test "returns F1 and F2H alerts for F2h" do
+      f2h_alert = Alert.new(id: "ferry_alert", informed_entity: [@f2h_entity])
+      f1_alert = Alert.new(id: "ferry_alert2", informed_entity: [@f1_entity])
+
+      {_, alerts} =
+        AlertController.route_alerts(%Routes.Route{id: "Boat-F2H"}, [f2h_alert, f1_alert])
+
+      assert f2h_alert in alerts
+      assert f1_alert in alerts
     end
   end
 

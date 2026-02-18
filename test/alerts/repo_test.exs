@@ -45,7 +45,8 @@ defmodule Alerts.RepoTest do
     @orange_entity %InformedEntity{route: "Orange"}
     @red_entity %InformedEntity{route: "Red"}
     @blue_entity %InformedEntity{route: "Blue"}
-
+    @f2h_entity %InformedEntity{route: "Boat-F2H"}
+    @f1_entity %InformedEntity{route: "Boat-F1"}
     test "returns the list of alerts from the store with the given route_ids" do
       orange_alert = Alert.new(id: "orange_alert", informed_entity: [@orange_entity])
       red_alert = Alert.new(id: "red_alert", informed_entity: [@red_entity])
@@ -56,6 +57,15 @@ defmodule Alerts.RepoTest do
       assert orange_alert in alerts
       assert red_alert in alerts
       refute blue_alert in alerts
+    end
+
+    test "returns both hingham/hull ferry alerts when F2H is requested" do
+      f2h_alert = Alert.new(id: "ferry_alert", informed_entity: [@f2h_entity])
+      f1_alert = Alert.new(id: "ferry_alert2", informed_entity: [@f1_entity])
+      Store.update([f2h_alert, f1_alert], nil)
+      alerts = Repo.by_route_id_and_type("Boat-F2H", 4, @now)
+      assert f2h_alert in alerts
+      assert f1_alert in alerts
     end
 
     test "returns an empty list of alerts when given an empty list of ids" do
