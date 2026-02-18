@@ -62,6 +62,11 @@
     <div class="m-schedule-page__schedule-notes u-mt-2">
       <h3 class="u-mt-0">{~t(CharlieCard)}</h3>
       {render_charliecard_teaser(@conn)}
+      {link(~t(Learn more about CharlieCard),
+        to: cms_static_page_path(@conn, "/fares/charliecard"),
+        target: "_blank",
+        class: "c-call-to-action"
+      )} 
     </div>
   </div>
 </div>
