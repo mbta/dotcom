@@ -63,7 +63,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   defp team_label(assigns) do
     ~H"""
-    <span class="flex gap-1.5 items-center">
+    <span class="flex gap-1.5 items-center ml-0.5">
       <span class="flex justify-items-center items-center size-5">
         <.icon
           type="icon-svg"
