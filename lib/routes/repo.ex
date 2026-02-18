@@ -51,7 +51,7 @@ defmodule Routes.Repo do
       {:ok, route} -> route
       {:error, _} -> nil
     end
-    |> update_destinations()
+    |> update_direction_destinations()
   end
 
   # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
@@ -59,7 +59,7 @@ defmodule Routes.Repo do
   # presentation on the website.  #2H is the one we're showing, F1 is being hidden.
   # This function updates F2H's inbound direction destination to include Rowes Wharf from F1
 
-  defp update_destinations(%Route{id: "Boat-F2H"} = route) do
+  defp update_direction_destinations(%Route{id: "Boat-F2H"} = route) do
     %Route{
       route
       | direction_destinations:
@@ -68,7 +68,7 @@ defmodule Routes.Repo do
     }
   end
 
-  defp update_destinations(route), do: route
+  defp update_direction_destinations(route), do: route
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_get(id, opts) do
