@@ -3,6 +3,7 @@ defmodule DotcomWeb.PreviewLive do
   A page that we can visit that links to the other preview pages that currently exist.
   """
 
+  alias DotcomWeb.WorldCupTimetableLive
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Router.Helpers
@@ -22,6 +23,12 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-stop-default",
       module: StopMapLive,
       title: "Stop Page Map"
+    },
+    %{
+      arguments: [],
+      icon_name: "football",
+      module: WorldCupTimetableLive,
+      title: "World Cup Timetable"
     }
   ]
 
