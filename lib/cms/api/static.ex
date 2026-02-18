@@ -472,6 +472,7 @@ defmodule CMS.Api.Static do
       all_paragraphs_response()
       |> Map.get("field_paragraphs")
       |> Enum.find(&match?(%{"type" => [%{"target_id" => "content_list"}]}, &1))
+
     {:ok, content_list_resp}
   end
 
