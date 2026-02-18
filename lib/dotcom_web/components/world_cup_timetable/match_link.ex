@@ -82,5 +82,8 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     do: team |> Atom.to_string() |> String.capitalize()
 
   defp flag_icon_name(nil), do: "icon-flag-tbd"
+
+  # The country-specific icons are sourced from
+  # https://hatscripts.github.io/circle-flags/gallery
   defp flag_icon_name(team) when team in @valid_teams, do: "icon-flag-#{team}"
 end
