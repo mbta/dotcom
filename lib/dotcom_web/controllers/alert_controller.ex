@@ -97,6 +97,22 @@ defmodule DotcomWeb.AlertController do
     )
   end
 
+  # Include alerts from F1 in F2H's list.  These routes are separate for operators
+  # but unified for riders
+  def route_alerts(%Routes.Route{id: "Boat-F2H"} = route, alerts) do
+    entity = %InformedEntity{
+      route_type: route.type,
+      route: route.id
+    }
+
+    entity2 = %InformedEntity{
+      route_type: route.type,
+      route: "Boat-F1"
+    }
+
+    {route, Match.match(alerts, entity) ++ Match.match(alerts, entity2)}
+  end
+
   def route_alerts(%Routes.Route{} = route, alerts) do
     entity = %InformedEntity{
       route_type: route.type,
