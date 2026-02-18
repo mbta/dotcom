@@ -56,7 +56,7 @@ defmodule Routes.Repo do
 
   # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
   # by the ferry operator.  This hack is one of a few that merges the two routes for
-  # presentation on the website.  #2H is the one we're showing, F1 is being hidden.
+  # presentation on the website.  F2H is the one we're showing, F1 is being hidden.
   # This function updates F2H's inbound direction destination to include Rowes Wharf from F1
 
   defp update_direction_destinations(%Route{id: "Boat-F2H"} = route) do
