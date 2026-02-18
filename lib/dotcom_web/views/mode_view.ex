@@ -128,6 +128,19 @@ defmodule DotcomWeb.ModeView do
     false
   end
 
+  # Include the alerts for F1 in F2H's alert indicator function
+  def has_alert?(%Route{id: "Boat-F2H"} = route, alerts, date) do
+    date = date || Util.now()
+    entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
+    entity2 = %Alerts.InformedEntity{route_type: route.type, route: "Boat-F1"}
+
+    Enum.any?(alerts, fn alert ->
+      Alerts.Alert.high_severity_or_high_priority?(alert) and
+        (Match.match([alert], entity, date) == [alert] or
+           Match.match([alert], entity2, date) == [alert])
+    end)
+  end
+
   def has_alert?(%Route{} = route, alerts, date) do
     date = date || Util.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
