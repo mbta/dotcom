@@ -44,8 +44,6 @@ defmodule Routes.Repo do
   @impl Routes.Repo.Behaviour
   def get("Green"), do: green_line()
 
-  def get("Boat-F2H"), do: f2h()
-
   def get(id) when is_binary(id) do
     opts = @default_opts
 
@@ -53,7 +51,24 @@ defmodule Routes.Repo do
       {:ok, route} -> route
       {:error, _} -> nil
     end
+    |> update_destinations()
   end
+
+  # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
+  # by the ferry operator.  This hack is one of a few that merges the two routes for
+  # presentation on the website.  #2H is the one we're showing, F1 is being hidden.
+  # This function updates F2H's inbound direction destination to include Rowes Wharf from F1
+
+  defp update_destinations(%Route{id: "Boat-F2H"} = route) do
+    %Route{
+      route
+      | direction_destinations:
+          route.direction_destinations
+          |> Map.put(1, "Long Wharf or Rowes Wharf")
+    }
+  end
+
+  defp update_destinations(route), do: route
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_get(id, opts) do
@@ -166,20 +181,6 @@ defmodule Routes.Repo do
       type: 0,
       description: :rapid_transit,
       color: "00843D"
-    }
-  end
-
-  @impl Routes.Repo.Behaviour
-  def f2h do
-    %Route{
-      id: "Boat-F2H",
-      name: "Hingham/Hull Ferry",
-      long_name: "Hingham/Hull Ferry",
-      direction_names: %{0 => ~t"Outbound", 1 => ~t"Inbound"},
-      direction_destinations: %{0 => "Hingham or Hull", 1 => "Long Wharf or Rowes Wharf"},
-      type: 4,
-      description: :ferry,
-      color: "008EAA"
     }
   end
 end
