@@ -124,7 +124,9 @@ defmodule DotcomWeb.FareView do
     teaser =
       CMS.Repo.get_paragraph("/paragraphs/content-list/charliecard", conn.query_params)
       |> ContentList.fetch_teasers()
-    %{teaser | right_rail: false, header: nil, cta: %{behavior: "hide"}} # Overridden to match styling on page
+
+    # Override values to match styling on page
+    %{teaser | right_rail: false, header: nil, cta: %{behavior: "hide"}}
     |> render_paragraph(conn)
   end
 end
