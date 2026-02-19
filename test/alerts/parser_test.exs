@@ -195,6 +195,44 @@ defmodule Alerts.ParserTest do
       assert Enum.filter(informed_entities, &(&1 == "Green")) == ["Green"]
     end
 
+    test "Boat-F1 line informed entity creates entity for Boat-F2H route" do
+      parsed =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [
+              %{
+                "route_type" => 4,
+                "route" => "Boat-F1",
+                "stop" => "stop",
+                "trip" => "trip",
+                "direction_id" => 1,
+                "activities" => ["BOARD"]
+              }
+            ],
+            "header" => "The ferry is stuck in ice",
+            "active_period" => [
+              %{
+                "start" => "2016-06-06T14:48:48-04:00",
+                "end" => "2016-06-06T19:53:51-04:00"
+              }
+            ],
+            "severity" => "Minor",
+            "lifecycle" => "Ongoing",
+            "effect_name" => "Delay",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => "\n\r\tAffected routes:\t18\n\r\t"
+          }
+        })
+
+      informed_entities =
+        parsed.informed_entity
+        |> Enum.map(& &1.route)
+
+      assert "Boat-F2H" in informed_entities
+    end
+
     test "All whitespace descriptions are parsed as nil" do
       assert %Alerts.Alert{description: nil} =
                Parser.Alert.parse(%JsonApi.Item{
