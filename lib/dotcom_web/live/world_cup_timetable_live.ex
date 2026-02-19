@@ -21,7 +21,11 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
-     assign(socket, %{match_list: @match_list, selected_match: nil, disable_preview_container: true})}
+     assign(socket, %{
+      match_list: @match_list,
+      selected_match: nil,
+      disable_preview_container: true
+    })}
   end
 
   @impl true
