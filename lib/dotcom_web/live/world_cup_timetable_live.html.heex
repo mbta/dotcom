@@ -1,8 +1,14 @@
 <div class="u-simple-full-bleed bg-commuter-rail text-white">
-  <div class="schedule__header-container">
-    <h1 class="schedule__route-name notranslate mr-md">Boston Stadium Trains</h1>
-    <.badge variant="pill" class="bg-charcoal-80 text-black text-nowrap gap-xs items-center">
-      <.icon type="icon-svg" name="football" class="size-5" aria-hidden="true" />
+  <div class="schedule__header-container ml-sm">
+    <h1 class="schedule__route-name normal-case notranslate text-[2em] mt-lg mr-md">
+      Boston Stadium Trains
+    </h1>
+    <br />
+    <.badge
+      variant="pill"
+      class="bg-white text-black text-nowrap gap-sm text-sm items-center mt-sm mb-md pl-xs pr-3"
+    >
+      <.icon type="icon-svg" name="football" class="size-6" aria-hidden="true" />
       {~t(Service to the World Cup)}
     </.badge>
   </div>
@@ -19,4 +25,24 @@
     />
   </nav>
   <hr /> Selected match: {@selected_match}
+  <div class="max-w-sm">
+    <h3>{~t(Important Information)}</h3>
+    <h4>{~t(Lorem Ipsum Dolor Sit)}</h4>
+    <p>
+      {gettext(
+        "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
+        world_cup_link:
+          link(~t(World Cup Guide), to: "/guides/world-cup-guide") |> safe_to_string()
+      )
+      |> raw()}
+    </p>
+    <h4>{~t(Facilisis Sed Mi)}</h4>
+    <p>
+      {~t(Quisque eget tellus eu elit fermentum interdum. Cras rutrum posuere erat et pretium.)}
+    </p>
+    <h4>{~t(Suspendisse potenti)}</h4>
+    <p>
+      {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
+    </p>
+  </div>
 </div>
