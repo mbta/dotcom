@@ -40,6 +40,33 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     """
   end
 
+  def selected_match_banner(assigns) do
+    ~H"""
+    <div
+      class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm flex flex-row bg-brand-primary text-white"
+      style="justify-content: space-between"
+    >
+      <div>
+        <div class="font-bold">{@label} ({formatted_date(@date)})</div>
+        <.teams selected={@selected} teams={@teams} />
+      </div>
+      <div class="flex flex-col" style="justify-content: space-around">
+        <.link
+          class="text-white no-underline"
+          patch={~p"/preview/schedules/CR-WorldCup?#{[date: nil]}"}
+        >
+          <.icon
+            type="icon-svg"
+            name="Icon/Close/Default"
+            class="size-4.5 rounded-full"
+            title={~t("Back")}
+          />x
+        </.link>
+      </div>
+    </div>
+    """
+  end
+
   defp formatted_date(date) do
     date
     |> Date.from_iso8601!()

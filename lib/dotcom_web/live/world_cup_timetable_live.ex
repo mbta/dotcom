@@ -6,7 +6,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   use DotcomWeb, :live_view
 
-  import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1]
+  import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1, selected_match_banner: 1]
 
   @match_list [
     {"2026-06-13", ~t"Match 5", [:haiti, :scotland]},
@@ -30,5 +30,9 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def is_valid_match_date?(selected_match) do
+    Enum.find(@match_list, false, fn {date, _, _} -> date == selected_match end)
   end
 end
