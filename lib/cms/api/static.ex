@@ -468,12 +468,12 @@ defmodule CMS.Api.Static do
 
   def view("/paragraphs/content-list/charliecard", _) do
     # Specific content not tested so we'll pull the content_list from the all_paragraphs_response
-    content_list_resp =
+    content_list_response =
       all_paragraphs_response()
       |> Map.get("field_paragraphs")
       |> Enum.find(&match?(%{"type" => [%{"target_id" => "content_list"}]}, &1))
 
-    {:ok, content_list_resp}
+    {:ok, content_list_response}
   end
 
   def view("/paragraphs/custom-html/projects-index", _) do

@@ -121,12 +121,14 @@ defmodule DotcomWeb.FareView do
 
   @spec render_charliecard_teaser(Conn.t()) :: HTML.safe()
   def render_charliecard_teaser(conn) do
-    teaser =
-      CMS.Repo.get_paragraph("/paragraphs/content-list/charliecard", conn.query_params)
-      |> ContentList.fetch_teasers()
+    response = CMS.Repo.get_paragraph("/paragraphs/content-list/charliecard", conn.query_params)
+    case response do
+      {:error, _} -> ""
 
-    # Override values to match styling on page
-    %{teaser | right_rail: false, header: nil, cta: %{behavior: "hide"}}
-    |> render_paragraph(conn)
+      _ -> teaser = ContentList.fetch_teasers(response)
+            # Override values to match styling on page
+            %{teaser | right_rail: false, header: nil, cta: %{behavior: "hide"}}
+            |> render_paragraph(conn)
+    end
   end
 end
