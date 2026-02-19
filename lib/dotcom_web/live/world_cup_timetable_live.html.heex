@@ -16,7 +16,7 @@
 <div class="container">
   <div class="font-bold mb-2 mt-4">Select a Match</div>
   <nav
-    :if={!is_valid_match_date?(@selected_match)}
+    :if={!valid_match_date?(@selected_match)}
     aria-label={~t"World Cup Matches"}
     class="flex flex-col gap-2"
   >
@@ -28,11 +28,13 @@
       selected={@selected_match == date}
     />
   </nav>
-  <div :if={is_valid_match_date?(@selected_match)} class="flex flex-col gap-2">
+  <div :if={valid_match_date?(@selected_match)} class="flex flex-col gap-2">
     <.selected_match_banner
       :if={
         {date, label, teams} =
           Enum.find(@match_list, {nil, nil, nil}, fn {date, _, _} -> date == @selected_match end)
+
+        date
       }
       date={date}
       label={label}

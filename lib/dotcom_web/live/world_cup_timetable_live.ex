@@ -32,7 +32,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
     {:noreply, socket}
   end
 
-  def is_valid_match_date?(selected_match) do
+  def valid_match_date?(selected_match) do
     Enum.find(@match_list, false, fn {date, _, _} -> date == selected_match end)
   end
 end
