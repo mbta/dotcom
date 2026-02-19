@@ -7,7 +7,16 @@
     </.badge>
   </div>
 </div>
-<div class="container">
+<div class="container pt-lg">
+  <.descriptive_link href="/guides/world-cup-guide">
+    <:title>
+      <span class="c-descriptive-link__world-cup c-descriptive-link__world-cup-blue font-normal">
+        {~t(Check out our )}
+        <span class="underline font-medium">{~t(World Cup Guide)}</span>
+        {~t( for information about ____)}
+      </span>
+    </:title>
+  </.descriptive_link>
   <div class="font-bold mb-2 mt-4">Select a Match</div>
   <nav aria-label={~t"World Cup Matches"} class="flex flex-col gap-2">
     <.match_link
