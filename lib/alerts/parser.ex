@@ -37,6 +37,10 @@ defmodule Alerts.Parser do
       [do_informed_entity(entity), do_informed_entity(%{entity | "route" => "Green"})]
     end
 
+    defp informed_entity(%{"route" => "Boat-F1"} = entity) do
+      [do_informed_entity(entity), do_informed_entity(%{entity | "route" => "Boat-F2H"})]
+    end
+
     defp informed_entity(entity) do
       [do_informed_entity(entity)]
     end
