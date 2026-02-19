@@ -1,11 +1,23 @@
 defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
   use DotcomWeb.ConnCase, async: true
 
+  import Mox
+
   alias DotcomWeb.Plugs.{Cookies, RecentlyVisited}
   alias Routes.Route
+  alias Test.Support.Factories
+
+  setup do
+    stub(Routes.Repo.Mock, :get, fn
+      "Green-" <> _ = route_id -> Factories.Routes.Route.build(:route, id: route_id, type: 0)
+      route_id -> Factories.Routes.Route.build(:route, id: route_id)
+    end)
+
+    stub(Routes.Repo.Mock, :green_line, fn -> Routes.Repo.green_line() end)
+    :ok
+  end
 
   describe "call/2" do
-    @tag :external
     test "assigns list of routes to :recently_visited if cookie has multiple values", %{
       conn: conn
     } do
@@ -29,7 +41,6 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
       assert blue.id == "Blue"
     end
 
-    @tag :external
     test "assigns one route if cookie has a single value", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red")
 
@@ -61,8 +72,12 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
       assert Map.fetch(conn.assigns, :recently_visited) == :error
     end
 
-    @tag :external
     test "does not crash if cookie includes an invalid route id", %{conn: conn} do
+      stub(Routes.Repo.Mock, :get, fn
+        "fail" -> nil
+        route_id -> Factories.Routes.Route.build(:route, id: route_id)
+      end)
+
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|fail")
 
       conn =
