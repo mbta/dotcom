@@ -3,13 +3,19 @@
     <div class="limited-width">
       <h1>{~t(Retail Sales Locations)}</h1>
       <p>
-        {~t(MBTA riders can purchase CharlieTickets and reload and purchase)}
-        {link(~t(CharlieCards),
-          to: cms_static_page_path(@conn, "/fares/charliecard"),
-          target: "_blank",
-          class: "c-call-to-action"
-        )}
-        {~t(for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas.)}
+        {gettext(
+          "MBTA riders can purchase CharlieTickets and reload and purchase " <>
+            "%{charlie_card} for the bus, subway, Commuter Rail, and ferry in " <>
+            "retailers throughout the Greater Boston and Providence areas.",
+          charlie_card:
+            link(~t(CharlieCards),
+              to: cms_static_page_path(@conn, "/fares/charliecard"),
+              target: "_blank",
+              class: "c-call-to-action"
+            )
+            |> safe_to_string()
+        )
+        |> raw()}
       </p>
 
       <h2>{~t(Find a Store Near You)}</h2>
