@@ -6,6 +6,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
   alias DotcomWeb.Plugs.{Cookies, RecentlyVisited}
   alias Routes.Route
   alias Test.Support.Factories
+  alias Test.Support.FactoryHelpers
 
   setup do
     stub(Routes.Repo.Mock, :get, fn
@@ -86,6 +87,23 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
         |> RecentlyVisited.call([])
 
       assert {:ok, [%Route{id: "Red"}]} = Map.fetch(conn.assigns, :recently_visited)
+    end
+
+    test "does not include unlisted routes", %{conn: conn} do
+      route_id = FactoryHelpers.build(:id)
+
+      stub(Routes.Repo.Mock, :get, fn
+        route_id -> Factories.Routes.Route.build(:route, id: route_id, listed?: false)
+      end)
+
+      cookies = Map.put(%{}, Cookies.route_cookie_name(), "#{route_id}")
+
+      conn =
+        conn
+        |> Map.put(:cookies, cookies)
+        |> RecentlyVisited.call([])
+
+      assert {:ok, []} = Map.fetch(conn.assigns, :recently_visited)
     end
   end
 end
