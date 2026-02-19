@@ -19,4 +19,24 @@
     />
   </nav>
   <hr /> Selected match: {@selected_match}
+  <div class="max-w-sm">
+    <h2>{~t(Important Information)}</h2>
+    <h3>{~t(Lorem Ipsum Dolor Sit)}</h3>
+    <p>
+      {gettext(
+        "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
+        world_cup_link:
+          link(~t(World Cup Guide), to: "/guides/world-cup-guide") |> safe_to_string()
+      )
+      |> raw()}
+    </p>
+    <h3>{~t(Facilisis Sed Mi)}</h3>
+    <p>
+      {~t(Quisque eget tellus eu elit fermentum interdum. Cras rutrum posuere erat et pretium.)}
+    </p>
+    <h3>{~t(Suspendisse potenti)}</h3>
+    <p>
+      {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
+    </p>
+  </div>
 </div>
