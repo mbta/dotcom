@@ -141,11 +141,6 @@
   background-color: $form-success-message;
 }
 
-.u-simple-full-bleed {
-  margin-left: calc(50% - 50vw);
-  width: 100vw;
-}
-
 .u-full-bleed {
   // Disable upper margin collapse since we want the bg color here.
   @include margin-clearance;
