@@ -14,22 +14,20 @@
   </div>
 </div>
 <div class="container">
-  <div>
-    <div class="font-bold mb-2 mt-4">Select a Match</div>
-    <nav
-      :if={!is_valid_match_date?(@selected_match)}
-      aria-label={~t"World Cup Matches"}
-      class="flex flex-col gap-2"
-    >
-      <.match_link
-        :for={{date, label, teams} <- @match_list}
-        date={date}
-        label={label}
-        teams={teams}
-        selected={@selected_match == date}
-      />
-    </nav>
-  </div>
+  <div class="font-bold mb-2 mt-4">Select a Match</div>
+  <nav
+    :if={!is_valid_match_date?(@selected_match)}
+    aria-label={~t"World Cup Matches"}
+    class="flex flex-col gap-2"
+  >
+    <.match_link
+      :for={{date, label, teams} <- @match_list}
+      date={date}
+      label={label}
+      teams={teams}
+      selected={@selected_match == date}
+    />
+  </nav>
   <div :if={is_valid_match_date?(@selected_match)} class="flex flex-col gap-2">
     <.selected_match_banner
       :if={
@@ -41,10 +39,7 @@
       teams={teams}
       selected={true}
     />
-<<<<<<< lev/feat/wc_selected_match
-=======
-  </nav>
-  <hr /> Selected match: {@selected_match}
+  </div>
   <div class="max-w-sm">
     <h3>{~t(Important Information)}</h3>
     <h4>{~t(Lorem Ipsum Dolor Sit)}</h4>
@@ -64,6 +59,5 @@
     <p>
       {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
     </p>
->>>>>>> main
   </div>
 </div>
