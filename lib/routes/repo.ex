@@ -28,7 +28,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"new-style-tuple", opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cached_all(opts) do
     result = handle_response(MBTA.Api.Routes.all(opts))
 
@@ -53,7 +58,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"new-style-tuple", id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cached_get(id, opts) do
     with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
@@ -117,7 +127,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"new-style-tuple", stop_id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cached_by_stop(stop_id, opts) do
     stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end

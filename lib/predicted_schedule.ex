@@ -291,23 +291,6 @@ defmodule PredictedSchedule do
   def vehicle(_), do: nil
 
   @doc """
-  Retrieves status from predicted schedule vehicle if a vehicle is at or approaching the predicted schedule trip/stop/stop_sequence
-  """
-  @spec vehicle_at_stop_status(PredictedSchedule.t()) :: Vehicles.Vehicle.status() | nil
-  def vehicle_at_stop_status(ps) do
-    stop = stop(ps)
-    stop_sequence = stop_sequence(ps)
-    vehicle = vehicle(ps)
-
-    if not is_nil(vehicle) and vehicle.stop_sequence == stop_sequence and
-         vehicle.stop_id in [stop.id | stop.child_ids] do
-      vehicle.status
-    end
-  end
-
-  def vehicle_status(_predicted_schedule), do: nil
-
-  @doc """
   Determines if the given predicted schedule occurs after the given time
   """
   @spec upcoming?(PredictedSchedule.t(), DateTime.t()) :: boolean
