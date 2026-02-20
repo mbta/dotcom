@@ -25,7 +25,6 @@
       date={date}
       label={label}
       teams={teams}
-      selected={@selected_match == date}
     />
   </nav>
   <div :if={valid_match_date?(@selected_match)} class="flex flex-col gap-2">
@@ -35,7 +34,6 @@
       date={date}
       label={label}
       teams={teams}
-      selected
     />
   </div>
   <div class="max-w-sm">
