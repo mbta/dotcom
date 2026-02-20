@@ -8,6 +8,8 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1, selected_match_banner: 1]
 
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :world_cup_timetable}
+
   @match_list [
     {"2026-06-13", ~t"Match 5", [:haiti, :scotland]},
     {"2026-06-16", ~t"Match 18", [nil, :norway]},
