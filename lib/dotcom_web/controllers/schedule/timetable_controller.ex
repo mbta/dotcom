@@ -397,6 +397,13 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       "Boat-Rowes",
       "Boat-Long"
     ],
+    "Boat-F2H" => [
+      "Boat-Hingham",
+      "Boat-Hull",
+      "Boat-Logan",
+      "Boat-Rowes",
+      "Boat-Long"
+    ],
     "Boat-F6" => [
       "Boat-Winthrop",
       "Boat-Quincy",

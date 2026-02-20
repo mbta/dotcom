@@ -315,6 +315,7 @@ defmodule DotcomWeb.Components do
   def descriptive_link(%{href: _} = assigns) do
     ~H"""
     <a href={@href} class="c-descriptive-link">
+      <.icon type="icon-svg" name="football" class="c-descriptive-link__football-icon" />
       <div class="c-descriptive-link__text">
         <div class="c-descriptive-link__title">{render_slot(@title)}</div>
         {render_slot(@inner_block)}
@@ -322,6 +323,8 @@ defmodule DotcomWeb.Components do
       <div class="c-descriptive-link__caret-wrapper">
         <i class="fa fa-angle-right notranslate c-descriptive-link__caret" aria-hidden="true"></i>
       </div>
+
+      <.icon type="solid" name="arrow-right" class="c-descriptive-link__world-cup-arrow" />
     </a>
     """
   end
