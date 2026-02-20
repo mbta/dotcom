@@ -252,10 +252,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
-    stop = predicted_schedule |> PredictedSchedule.stop()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
-    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop, stop_sequence)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop_sequence)
 
     trip_details =
       trip_details(%{
@@ -291,11 +290,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   # Retrieves status if a vehicle is associated with the given stop/sequence
-  defp vehicle_at_stop_status(nil, _, _), do: nil
+  defp vehicle_at_stop_status(nil, _), do: nil
 
-  defp vehicle_at_stop_status(vehicle, stop, stop_sequence) do
-    at_stop? = vehicle.stop_id in [stop.id | stop.child_ids]
-    if at_stop? && vehicle.stop_sequence == stop_sequence, do: vehicle.status
+  defp vehicle_at_stop_status(vehicle, stop_sequence) do
+    cond do
+      vehicle.stop_sequence < stop_sequence ->
+        nil
+
+      vehicle.stop_sequence == stop_sequence ->
+        vehicle.status
+
+      vehicle.stop_sequence > stop_sequence ->
+        nil
+    end
   end
 
   defp trip_details(%{
