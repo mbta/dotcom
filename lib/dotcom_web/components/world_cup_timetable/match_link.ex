@@ -28,15 +28,32 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
   def match_link(assigns) do
     ~H"""
     <.link
-      class={[
-        "p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm",
-        (@selected && "bg-brand-primary text-white") || "hover:bg-brand-primary-lightest text-black"
-      ]}
+      class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm hover:bg-brand-primary-lightest text-black"
       patch={~p"/preview/schedules/CR-WorldCup?#{[date: @date]}"}
     >
       <div class="font-bold">{@label} ({formatted_date(@date)})</div>
-      <.teams selected={@selected} teams={@teams} />
+      <.teams selected={false} teams={@teams} />
     </.link>
+    """
+  end
+
+  def selected_match_banner(assigns) do
+    ~H"""
+    <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm flex flex-row bg-brand-primary text-white justify-between">
+      <div>
+        <div class="font-bold">{@label} ({formatted_date(@date)})</div>
+        <.teams selected teams={@teams} />
+      </div>
+      <div class="flex flex-col justify-around">
+        <.link
+          class="text-white no-underline"
+          patch={~p"/preview/schedules/CR-WorldCup"}
+          aria-label={~t(Select another match)}
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </.link>
+      </div>
+    </div>
     """
   end
 
