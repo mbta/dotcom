@@ -109,3 +109,10 @@
   }
 }
 
+.c-descriptive-link:has(.c-descriptive-link__world-cup-blue) {
+  background-color: var(--colors-cobalt-80);
+
+  .c-descriptive-link__football-icon {
+    display: none;
+  }
+}
