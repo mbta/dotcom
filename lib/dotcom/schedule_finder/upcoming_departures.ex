@@ -92,7 +92,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
-  @typep vehicle_at_stop_status_t() :: nil | :after_stop | Vehicles.Vehicle.status()
+  @typep vehicle_at_stop_status_t() ::
+           :after_stop | :before_stop | Vehicles.Vehicle.status()
 
   @spec upcoming_departures(%{
           direction_id: 0 | 1,
@@ -299,7 +300,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp vehicle_at_stop_status(vehicle, stop_sequence) do
     cond do
       vehicle.stop_sequence < stop_sequence ->
-        nil
+        :before_stop
 
       vehicle.stop_sequence == stop_sequence ->
         vehicle.status
