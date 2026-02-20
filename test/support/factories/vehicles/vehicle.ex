@@ -10,6 +10,7 @@ defmodule Test.Support.Factories.Vehicles.Vehicle do
 
   def vehicle_factory do
     %Vehicle{
+      id: FactoryHelpers.build(:id),
       direction_id: Faker.Util.pick([0, 1]),
       status: Faker.Util.pick([:in_transit, :stopped, :incoming]),
       stop_id: FactoryHelpers.build(:id),

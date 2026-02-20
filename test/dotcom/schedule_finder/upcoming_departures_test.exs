@@ -16,7 +16,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       Factories.Stops.Stop.build(:stop, id: id, parent_id: nil)
     end)
 
-    stub(Vehicles.Repo.Mock, :trip, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
     stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
@@ -2243,17 +2242,28 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       route = Factories.Routes.Route.build(:route)
 
       stop = Factories.Stops.Stop.build(:stop)
-
+      stop_sequence = Faker.random_between(0, 1000)
       trip_id = FactoryHelpers.build(:id)
       trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
       direction_id = Faker.Util.pick([0, 1])
 
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        Factories.Predictions.Prediction.build_list(3, :prediction, stop: stop, trip: trip)
-      end)
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_sequence: stop_sequence,
+          stop_id: stop.id,
+          trip_id: trip_id
+        )
 
-      vehicle = Factories.Vehicles.Vehicle.build(:vehicle)
-      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id -> vehicle end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        Factories.Predictions.Prediction.build_list(3, :prediction,
+          stop: stop,
+          trip: trip,
+          vehicle_id: vehicle.id,
+          stop_sequence: stop_sequence
+        )
+      end)
 
       # Exercise
       departures =
@@ -2266,9 +2276,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      vehicle_info = departure.trip_details.vehicle_info
 
-      assert vehicle_info.status == vehicle.status
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} =
+               departure.trip_details.vehicle_info
+
+      assert departure.trip_details.vehicle_info.status == vehicle.status
     end
 
     test "drops the current stop if the vehicle is currently stopped there" do
@@ -2297,25 +2309,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       [arrival_time, arrival_time_after] =
         arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
 
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          status: :stopped,
+          stop_sequence: stop_sequence,
+          stop_id: stop.id,
+          trip_id: trip_id
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Predictions.Repo.Mock, :all, fn _opts ->
         [
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time,
             stop: stop,
             stop_sequence: stop_sequence,
-            trip: trip
+            trip: trip,
+            vehicle_id: vehicle.id
           ),
           Factories.Predictions.Prediction.build(:prediction,
             arrival_time: arrival_time_after,
             stop: stop_after,
             stop_sequence: stop_sequence_after,
-            trip: trip
+            trip: trip,
+            vehicle_id: vehicle.id
           )
         ]
       end)
-
-      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, status: :stopped, stop_id: stop.id)
-      expect(Vehicles.Repo.Mock, :trip, fn ^trip_id -> vehicle end)
 
       # Exercise
       departures =
