@@ -92,6 +92,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
+  @typep vehicle_at_stop_status_t() :: nil | Vehicles.Vehicle.status()
+
   @spec upcoming_departures(%{
           direction_id: 0 | 1,
           now: DateTime.t(),
@@ -290,6 +292,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   # Retrieves status if a vehicle is associated with the given stop/sequence
+  @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), integer()) ::
+          vehicle_at_stop_status_t()
   defp vehicle_at_stop_status(nil, _), do: nil
 
   defp vehicle_at_stop_status(vehicle, stop_sequence) do
@@ -354,7 +358,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
-          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
