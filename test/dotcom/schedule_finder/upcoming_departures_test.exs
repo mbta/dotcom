@@ -1267,6 +1267,60 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "shows arrival_status as :arriving for subway even if the vehicle is at an earlier stop" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+      vehicle_id = FactoryHelpers.build(:id)
+
+      [vehicle_stop_sequence, prediction_stop_sequence] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 300) end)
+
+      seconds_until_arrival = Faker.random_between(1, 30)
+      arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            departure_time: arrival_time |> DateTime.shift(second: 10),
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
+            stop_sequence: prediction_stop_sequence,
+            vehicle_id: vehicle_id
+          )
+        ]
+      end)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          status: :stopped,
+          stop_id: stop_id,
+          stop_sequence: vehicle_stop_sequence
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.arrival_status) == [
+               :arriving
+             ]
+    end
+
     test "shows arrival_status as :boarding for subway if there is a vehicle at a platform in the station and departure_time is within 90 seconds" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
