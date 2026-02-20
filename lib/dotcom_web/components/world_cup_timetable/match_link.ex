@@ -45,12 +45,12 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm flex flex-row bg-brand-primary text-white justify-between">
       <div>
         <div class="font-bold">{@label} ({formatted_date(@date)})</div>
-        <.teams selected={@selected} teams={@teams} />
+        <.teams selected teams={@teams} />
       </div>
       <div class="flex flex-col justify-around">
         <.link
           class="text-white no-underline"
-          patch={~p"/preview/schedules/CR-WorldCup?#{[date: nil]}"}
+          patch={~p"/preview/schedules/CR-WorldCup"}
           aria-label={~t(Select another match)}
         >
           <i class="fa fa-times" aria-hidden="true"></i>

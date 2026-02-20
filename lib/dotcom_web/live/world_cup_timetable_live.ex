@@ -26,15 +26,11 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   end
 
   @impl true
-  def handle_params(%{"date" => date}, _uri, socket) do
-    {:noreply, assign(socket, :selected_match, date)}
+  def handle_params(params, _uri, socket) do
+    {:noreply, assign(socket, :selected_match, params["date"])}
   end
 
-  def handle_params(_params, _uri, socket) do
-    {:noreply, socket}
-  end
-
-  def valid_match_date?(selected_match) do
+  defp valid_match_date?(selected_match) do
     Enum.find(@match_list, false, fn {date, _, _} -> date == selected_match end)
   end
 end
