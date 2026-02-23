@@ -30,7 +30,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: {"new-style-tuple", opts},
+              key: {"cached-all", opts},
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -77,7 +77,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: {"new-style-tuple", id, opts},
+              key: {"cached-get", id, opts},
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -147,7 +147,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: {"new-style-tuple", stop_id, opts},
+              key: {"cached-by-stop", stop_id, opts},
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
