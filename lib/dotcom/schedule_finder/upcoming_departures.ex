@@ -92,6 +92,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
+  @typep vehicle_at_stop_status_t() ::
+           :after_stop | :before_stop | Vehicles.Vehicle.status()
+
   @spec upcoming_departures(%{
           direction_id: 0 | 1,
           now: DateTime.t(),
@@ -252,10 +255,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
-    stop = predicted_schedule |> PredictedSchedule.stop()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
-    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop, stop_sequence)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop_sequence)
 
     trip_details =
       trip_details(%{
@@ -291,11 +293,21 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   # Retrieves status if a vehicle is associated with the given stop/sequence
-  defp vehicle_at_stop_status(nil, _, _), do: nil
+  @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), integer()) ::
+          vehicle_at_stop_status_t()
+  defp vehicle_at_stop_status(nil, _), do: nil
 
-  defp vehicle_at_stop_status(vehicle, stop, stop_sequence) do
-    at_stop? = vehicle.stop_id in [stop.id | stop.child_ids]
-    if at_stop? && vehicle.stop_sequence == stop_sequence, do: vehicle.status
+  defp vehicle_at_stop_status(vehicle, stop_sequence) do
+    cond do
+      vehicle.stop_sequence < stop_sequence ->
+        :before_stop
+
+      vehicle.stop_sequence == stop_sequence ->
+        vehicle.status
+
+      vehicle.stop_sequence > stop_sequence ->
+        :after_stop
+    end
   end
 
   defp trip_details(%{
@@ -347,7 +359,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
-          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
@@ -433,6 +445,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: Route.route_type(),
           vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
         }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
+
+  defp realtime_arrival_status(%{
+         vehicle_at_stop_status: :after_stop
+       }),
+       do: :hidden
 
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
