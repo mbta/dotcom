@@ -105,5 +105,24 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
 
       assert {:ok, []} = Map.fetch(conn.assigns, :recently_visited)
     end
+
+    test "does include routes with no `listed?` field", %{conn: conn} do
+      route_id = FactoryHelpers.build(:id)
+
+      stub(Routes.Repo.Mock, :get, fn
+        route_id ->
+          Factories.Routes.Route.build(:route, id: route_id, listed?: false)
+          |> Map.delete(:listed?)
+      end)
+
+      cookies = Map.put(%{}, Cookies.route_cookie_name(), "#{route_id}")
+
+      conn =
+        conn
+        |> Map.put(:cookies, cookies)
+        |> RecentlyVisited.call([])
+
+      assert {:ok, [%Route{id: ^route_id}]} = Map.fetch(conn.assigns, :recently_visited)
+    end
   end
 end
