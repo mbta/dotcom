@@ -1,6 +1,7 @@
 defmodule Fares.FormatTest do
   use ExUnit.Case, async: true
   use ExUnitProperties
+  use Dotcom.Gettext.Sigils
 
   import Fares.Format
   import Test.Support.Factories.Routes.Route
@@ -15,6 +16,10 @@ defmodule Fares.FormatTest do
 
     test "returns empty string when fare is nil" do
       assert price(nil) == ""
+    end
+
+    test "returns appropriate string when WorldCup is the price" do
+      assert price(%Fare{cents: "WorldCup"}) == ~t(Special ticket required)
     end
   end
 

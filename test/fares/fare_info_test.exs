@@ -269,6 +269,19 @@ defmodule Fares.FareInfoTest do
                cents: 500
              } in fares
     end
+
+    test "maps the World Cup special event trains" do
+      fares = mapper(%{mode: :foxboro, round_trip: "WorldCup"})
+
+      assert %Fares.Fare{
+               mode: :commuter_rail,
+               name: :foxboro,
+               duration: :round_trip,
+               media: [:mticket, :special_event, :cash],
+               reduced: nil,
+               cents: "WorldCup"
+             } in fares
+    end
   end
 
   describe "mticket_price/1" do
