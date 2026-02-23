@@ -15,16 +15,27 @@
 </div>
 <div class="container">
   <div class="font-bold mb-2 mt-4">Select a Match</div>
-  <nav aria-label={~t"World Cup Matches"} class="flex flex-col gap-2">
+  <nav
+    :if={!valid_match_date?(@selected_match)}
+    aria-label={~t"World Cup Matches"}
+    class="flex flex-col gap-2"
+  >
     <.match_link
       :for={{date, label, teams} <- @match_list}
       date={date}
       label={label}
       teams={teams}
-      selected={@selected_match == date}
     />
   </nav>
-  <hr /> Selected match: {@selected_match}
+  <div :if={valid_match_date?(@selected_match)} class="flex flex-col gap-2">
+    <% {date, label, teams} =
+      Enum.find(@match_list, fn {date, _, _} -> date == @selected_match end) %>
+    <.selected_match_banner
+      date={date}
+      label={label}
+      teams={teams}
+    />
+  </div>
   <div class="max-w-sm">
     <h3>{~t(Important Information)}</h3>
     <h4>{~t(Lorem Ipsum Dolor Sit)}</h4>
