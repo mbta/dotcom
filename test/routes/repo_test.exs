@@ -4,7 +4,9 @@ defmodule Routes.RepoTest do
   import Mox
   import Routes.Repo
   import Test.Support.Factories.MBTA.Api
+
   alias Routes.Route
+  alias Test.Support.FactoryHelpers
 
   @route_id Faker.App.name()
   @direction_id Faker.Util.pick([0, 1])
@@ -436,5 +438,21 @@ defmodule Routes.RepoTest do
     green_line = green_line()
     assert green_line.id == "Green"
     assert green_line.name == "Green Line"
+  end
+
+  describe "cache collisions" do
+    test "get/1 and by_stop/1 don't share cache keys" do
+      stop_id = FactoryHelpers.build(:id)
+      route_id = stop_id
+
+      MBTA.Api.Mock
+      |> stub(:get_json, fn
+        "/routes/", _opts -> %JsonApi{data: build_list(1, :route_item)}
+        "/routes/" <> ^route_id, _opts -> %JsonApi{data: build_list(1, :route_item)}
+      end)
+
+      assert [%Route{}] = by_stop(stop_id)
+      assert %Route{} = get(route_id)
+    end
   end
 end
