@@ -177,7 +177,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp predicted_schedules(route_id, direction_id, now) do
     all_predictions =
-      @predictions_repo.all(route: route_id, direction_id: direction_id, include_terminals: true)
+      @predictions_repo.all(
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
 
     all_schedules =
       @schedules_repo.by_route_ids([route_id],
@@ -247,15 +252,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
+    stop = predicted_schedule |> PredictedSchedule.stop()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
-    vehicle_at_stop_status = PredictedSchedule.vehicle_at_stop_status(predicted_schedule)
+    vehicle = PredictedSchedule.vehicle(predicted_schedule)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop, stop_sequence)
 
     trip_details =
       trip_details(%{
         predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
         trip_id: trip.id,
         stop_id: stop_id,
-        stop_sequence: stop_sequence
+        stop_sequence: stop_sequence,
+        vehicle: vehicle
       })
 
     %UpcomingDeparture{
@@ -282,16 +290,25 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     }
   end
 
+  # Retrieves status if a vehicle is associated with the given stop/sequence
+  defp vehicle_at_stop_status(nil, _, _), do: nil
+
+  defp vehicle_at_stop_status(vehicle, stop, stop_sequence) do
+    at_stop? = vehicle.stop_id in [stop.id | stop.child_ids]
+    if at_stop? && vehicle.stop_sequence == stop_sequence, do: vehicle.status
+  end
+
   defp trip_details(%{
          predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
          trip_id: trip_id,
          stop_id: stop_id,
-         stop_sequence: stop_sequence
+         stop_sequence: stop_sequence,
+         vehicle: vehicle
        }) do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
-        trip_id: trip_id
+        trip_vehicle: if(vehicle && vehicle.trip_id == trip_id, do: vehicle)
       })
 
     {stops_before, stop, stops_after} =

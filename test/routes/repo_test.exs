@@ -173,6 +173,15 @@ defmodule Routes.RepoTest do
 
       refute get(@route_id)
     end
+
+    test "updates the direction destination for 'Boat-F2H'" do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/Boat-F2H", _ ->
+        %JsonApi{data: [build(:route_item, id: "Boat-F2H")]}
+      end)
+
+      route = get("Boat-F2H")
+      assert route.direction_destinations[1] == "Long Wharf or Rowes Wharf"
+    end
   end
 
   test "frequent bus routes are tagged" do

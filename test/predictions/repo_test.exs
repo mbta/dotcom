@@ -230,6 +230,123 @@ defmodule Predictions.RepoTest do
       assert Kernel.length(predictions) == 2
     end
 
+    test "discards subway predictions in the past" do
+      stop_id = Faker.Pizza.topping()
+
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        assert id == stop_id
+        %Stop{}
+      end)
+
+      five_minutes_in_past = DateTime.shift(Timex.now(), minute: -5)
+
+      five_minutes_in_past_string =
+        Timex.format!(five_minutes_in_past, "{ISO:Extended:Z}")
+
+      # Set as constant to take advantage of caching (less calls to get_json)
+      route_id = Faker.Pizza.cheese()
+
+      prediction_json = fn %{departure_time: departure_time, arrival_time: arrival_time} ->
+        %JsonApi.Item{
+          attributes: %{
+            "departure_time" => departure_time,
+            "arrival_time" => arrival_time,
+            "direction_id" => Faker.random_between(0, 1)
+          },
+          relationships: %{
+            "route" => [
+              %{
+                id: route_id
+              }
+            ],
+            "trip" => [],
+            "vehicle" => [],
+            "stop" => [
+              %{id: stop_id}
+            ]
+          }
+        }
+      end
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", _ ->
+        %JsonApi{
+          data: [
+            prediction_json.(%{
+              departure_time: five_minutes_in_past_string,
+              arrival_time: five_minutes_in_past_string
+            })
+          ]
+        }
+      end)
+
+      stub(Routes.Repo.Mock, :get, fn id ->
+        Factories.Routes.Route.build(:subway_route, %{id: id})
+      end)
+
+      predictions = Repo.all(route: route_id)
+
+      assert Kernel.length(predictions) == 0
+    end
+
+    test "does not discard subway predictions in the past if asked not to" do
+      stop_id = Faker.Pizza.topping()
+
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        assert id == stop_id
+        %Stop{}
+      end)
+
+      five_minutes_in_past = DateTime.shift(Timex.now(), minute: -5)
+
+      five_minutes_in_past_string =
+        Timex.format!(five_minutes_in_past, "{ISO:Extended:Z}")
+
+      # Set as constant to take advantage of caching (less calls to get_json)
+      route_id = Faker.Pizza.cheese()
+
+      prediction_json = fn %{departure_time: departure_time, arrival_time: arrival_time} ->
+        %JsonApi.Item{
+          attributes: %{
+            "departure_time" => departure_time,
+            "route_type" => 1,
+            "arrival_time" => arrival_time,
+            "direction_id" => Faker.random_between(0, 1)
+          },
+          relationships: %{
+            "route" => [
+              %{
+                id: route_id
+              }
+            ],
+            "trip" => [],
+            "vehicle" => [],
+            "stop" => [
+              %{id: stop_id}
+            ]
+          }
+        }
+      end
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", _ ->
+        %JsonApi{
+          data: [
+            prediction_json.(%{
+              departure_time: five_minutes_in_past_string,
+              arrival_time: five_minutes_in_past_string
+            })
+          ]
+        }
+      end)
+
+      stub(Routes.Repo.Mock, :get, fn id ->
+        Factories.Routes.Route.build(:subway_route, %{id: id})
+      end)
+
+      predictions = Repo.all(route: route_id, discard_past_subway_predictions: false)
+
+      assert Kernel.length(predictions) == 1
+    end
+
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         {:error, %HTTPoison.Error{reason: :econnrefused}}

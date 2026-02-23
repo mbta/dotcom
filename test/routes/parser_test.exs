@@ -158,6 +158,25 @@ defmodule Routes.ParserTest do
       assert parsed.direction_names == %{0 => nil, 1 => "one"}
       assert parsed.direction_destinations == %{0 => nil, 1 => "Destination 2"}
     end
+
+    test "parses the `listed_route` attribute as `listed?`" do
+      listed_route = Faker.Util.pick([true, false])
+
+      item = %Item{
+        id: "id",
+        attributes: %{
+          "type" => 2,
+          "short_name" => "short",
+          "long_name" => "",
+          "listed_route" => listed_route,
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
+        }
+      }
+
+      parsed = parse_route(item)
+      assert parsed.listed? == listed_route
+    end
   end
 
   describe "parse_shape/1" do
