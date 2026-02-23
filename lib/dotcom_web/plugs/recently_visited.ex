@@ -52,6 +52,14 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
     [route | acc]
   end
 
+  defp parse_route_response({:ok, %Route{listed?: false} = route}, acc) do
+acc
+  end
+
+  defp parse_route_response({:ok, %Route{} = route}, acc) do
+    [route | acc]
+  end
+
   defp parse_route_response(_, acc) do
     acc
   end
