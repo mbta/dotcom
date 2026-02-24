@@ -21,7 +21,7 @@
   </.callout_link>
   <div class="font-bold mb-2 mt-4">Select a Match</div>
   <nav
-    :if={!valid_match_date?(@selected_match)}
+    :if={is_nil(@selected_match)}
     aria-label={~t"World Cup Matches"}
     class="flex flex-col gap-2"
   >
@@ -32,9 +32,8 @@
       teams={teams}
     />
   </nav>
-  <div :if={valid_match_date?(@selected_match)} class="flex flex-col gap-2">
-    <% {date, label, teams} =
-      Enum.find(@match_list, fn {date, _, _} -> date == @selected_match end) %>
+  <div :if={@selected_match} class="flex flex-col gap-2">
+    <% {date, label, teams} = @selected_match %>
     <.selected_match_banner
       date={date}
       label={label}
