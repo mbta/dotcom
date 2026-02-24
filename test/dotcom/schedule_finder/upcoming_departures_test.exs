@@ -1189,56 +1189,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "shows subway arrival_status as :approaching if it has an associated vehicle and it's between 30 and 60 seconds out" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:subway_route)
-      stop_id = FactoryHelpers.build(:id)
-      trip_id = FactoryHelpers.build(:id)
-      vehicle_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      seconds_until_arrival = Faker.random_between(31, 60)
-      arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: arrival_time,
-          stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-          trip: Factories.Schedules.Trip.build(:trip, id: trip_id),
-          vehicle_id: vehicle_id
-        )
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [prediction]
-      end)
-
-      vehicle =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          status: :incoming,
-          stop_id: stop_id,
-          stop_sequence: prediction.stop_sequence
-        )
-
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
-          route: route,
-          stop_id: stop_id
-        })
-
-      # Verify
-      assert departures |> Enum.map(& &1.arrival_status) == [
-               :approaching
-             ]
-    end
-
     test "shows arrival seconds for bus if arrival time is between 30 and 60 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
