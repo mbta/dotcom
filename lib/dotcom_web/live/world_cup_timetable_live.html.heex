@@ -26,14 +26,14 @@
     class="flex flex-col gap-2"
   >
     <.match_link
-      :for={{date, label, teams} <- @match_list}
+      :for={{date, label, teams, _} <- @match_list}
       date={date}
       label={label}
       teams={teams}
     />
   </nav>
   <div :if={@selected_match} class="flex flex-col gap-2">
-    <% {date, label, teams} = @selected_match %>
+    <% {date, label, teams, group_times} = @selected_match %>
     <.selected_match_banner
       date={date}
       label={label}
