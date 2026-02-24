@@ -824,6 +824,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
     do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)
 
+  defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
+    do: gettext("Approaching %{stop_name}", stop_name: stop_name)
+
   defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
     do: gettext("Now at %{stop_name}", stop_name: stop_name)
 
@@ -945,7 +948,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"
