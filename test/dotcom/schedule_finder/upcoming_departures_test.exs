@@ -131,7 +131,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             arrival_time: arrival_time,
             platform_stop_id: platform_id,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, name: trip_name)
+            trip: Factories.Schedules.Trip.build(:trip, name: trip_name),
+            route: route
           )
         ]
       end)
@@ -177,7 +178,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             arrival_time: arrival_time,
             platform_stop_id: platform_id,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip)
+            trip: Factories.Schedules.Trip.build(:trip),
+            route: route
           )
         ]
       end)
@@ -224,7 +226,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
             arrival_time: arrival_time,
             platform_stop_id: platform_id,
             stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip)
+            trip: Factories.Schedules.Trip.build(:trip),
+            route: route
           )
         ]
       end)
