@@ -37,8 +37,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     ]
 
     @type realtime_arrival_status_t ::
-            :approaching
-            | :arriving
+            :arriving
             | :boarding
             | :now
             | {:departure_seconds, integer()}
@@ -477,12 +476,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: :subway
        })
        when arrival_seconds <= 30, do: :arriving
-
-  defp realtime_arrival_status(%{
-         arrival_seconds: arrival_seconds,
-         route_type: :subway
-       })
-       when arrival_seconds <= 60, do: :approaching
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
     do: {:departure_seconds, seconds}
