@@ -1,8 +1,7 @@
 FROM hexpm/elixir:1.19.4-erlang-28.2-debian-trixie-20251229-slim
 
 RUN apt-get update && apt-get install -y curl git make build-essential inotify-tools
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs npm
 
 WORKDIR /app
 

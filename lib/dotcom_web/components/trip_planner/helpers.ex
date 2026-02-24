@@ -144,12 +144,42 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
       iex> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 09:58:47.283999Z])
       "9:41\u2009–\u20099:58 am"
 
+      iex> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 12:58:47.283999Z])
+      "9:41 am\u2009–\u200912:58 pm"
+
       iex> Dotcom.Cldr.put_locale("es")
       ...> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 09:58:47.283999Z])
       "9:41–9:58"
+
+  > #### Potential Gotchas {: .error}
+  >
+  > If the inputs are `DateTime`'s, then this function strips the date info away before formatting
+  > the range. If you need an affordance to show that the end time is on a different day than the
+  > start time, the caller will have to take care of that.
+  >
+  > Also, this function will happily render a range that goes backwards in time.
+
+      iex> formatted_time_range(~U[2025-08-15 23:41:17.283999Z], ~U[2025-08-16 00:38:47.283999Z])
+      "11:41 pm\u2009–\u200912:38 am"
+
+      iex> formatted_time_range(~U[2025-08-15 09:41:17.283999Z], ~U[2025-08-15 09:38:47.283999Z])
+      "9:41\u2009–\u20099:38 am"
   """
   def formatted_time_range(time1, time2) do
-    Dotcom.Cldr.Time.Interval.to_string!(time1, time2, format: :medium, period: :variant)
+    Dotcom.Cldr.Time.Interval.to_string!(
+      time1 |> to_time(),
+      time2 |> to_time(),
+      format: :medium,
+      period: :variant
+    )
+  end
+
+  defp to_time(%DateTime{} = date_time) do
+    DateTime.to_time(date_time)
+  end
+
+  defp to_time(time) do
+    time
   end
 
   def formatted_times(times) do

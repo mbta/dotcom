@@ -24,6 +24,7 @@ import { StoreProps } from "../store/ScheduleStore";
 import { isFerryRoute, isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
 import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
+import { isTripSpecific } from "../../models/alert";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
@@ -165,7 +166,7 @@ const getDirectionAndMap = (
       mapData={mapData}
       staticMapData={staticMapData}
       stopTree={maybeStopTree}
-      alerts={alerts}
+      alerts={alerts.filter(alert => !isTripSpecific(alert))}
       busVariantId={busVariantId}
     />
   );

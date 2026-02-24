@@ -1,13 +1,13 @@
 defmodule DotcomWeb.Mode.BusController do
   use Dotcom.Gettext.Sigils
 
-  use DotcomWeb.Mode.HubBehavior,
-    meta_description:
-      ~t"Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
-
   import DotcomWeb.Router.Helpers, only: [fare_path: 3]
   import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
+
+  def meta_description,
+    do:
+      ~t"Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
 
   def route_type, do: 3
 

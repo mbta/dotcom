@@ -523,6 +523,46 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       assert html =~ "2 Shuttles"
     end
 
+    test "renders a single station closure as `Stop Skipped`" do
+      # SETUP
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [
+          Factories.Alerts.Alert.build(:alert,
+            effect: :station_closure,
+            severity: 3
+          )
+        ]
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "1 Stop Skipped"
+    end
+
+    test "renders multiple station closures as `Stops Skipped`" do
+      # SETUP
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        Factories.Alerts.Alert.build_list(2, :alert,
+          effect: :station_closure,
+          severity: 3
+        )
+        |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      end)
+
+      assigns = %{commuter_rail_status: commuter_rail_status()}
+
+      # EXERCISE
+      html = render_component(&alerts_commuter_rail_status/1, assigns)
+
+      # VERIFY
+      assert html =~ "2 Stops Skipped"
+    end
+
     test "shows the active-period start time for a single service impact starting in the future" do
       # SETUP
       {_, service_day_end} = ServiceDateTime.service_range_day()

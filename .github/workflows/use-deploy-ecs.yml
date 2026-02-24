@@ -115,7 +115,7 @@ jobs:
     name: Run smoke tests against ${{ inputs.deployment-env }}
     timeout-minutes: 30
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-jammy
+      image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
       - uses: actions/checkout@v6
         with:
@@ -144,7 +144,7 @@ jobs:
     name: Run Critical User Journeys against ${{ inputs.deployment-env }}
     timeout-minutes: 30
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-jammy
+      image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
       - uses: actions/checkout@v6
         with:

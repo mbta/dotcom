@@ -1,8 +1,8 @@
 defmodule DotcomWeb.Mode.FerryController do
   use Dotcom.Gettext.Sigils
 
-  use DotcomWeb.Mode.HubBehavior,
-    meta_description:
+  def meta_description,
+    do:
       ~t"Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
 
   def route_type, do: 4

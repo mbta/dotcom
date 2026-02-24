@@ -14,7 +14,9 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
   }
 
   setup do
-    Routes.Repo.Mock |> stub(:get, fn _ -> Route.build(:route) end)
+    Routes.Repo.Mock
+    |> stub(:get, fn route_id when is_binary(route_id) -> Route.build(:route) end)
+
     verify_on_exit!()
     :ok
   end
@@ -25,6 +27,17 @@ defmodule Dotcom.Alerts.EndpointStopsTest do
       alert = Alert.new(informed_entity: [%InformedEntity{stop: nil}])
 
       assert EndpointStops.endpoint_stops([alert], [route_id]) == []
+    end
+
+    # [nil] is what you get if you pull the route-informed-entities
+    # out of an alert that isn't associated with any route. Sometimes
+    # those route-informed-entities are what get passed back into the
+    # endpoint_stops/2, which is why [nil] is a relevant input to test
+    # here.
+    test "returns empty list if the route ID's provided are [nil]" do
+      alert = Alert.new(informed_entity: [%InformedEntity{stop: nil}])
+
+      assert EndpointStops.endpoint_stops([alert], [nil]) == []
     end
 
     test "returns the same stop twice if an alert's informed entities includes precisely one stop" do

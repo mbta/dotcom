@@ -1,7 +1,7 @@
-defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
+defmodule DotcomWeb.Schedule.VehicleLocationsTest do
   use DotcomWeb.ConnCase, async: true
 
-  import DotcomWeb.ScheduleController.VehicleLocations
+  import DotcomWeb.Schedule.VehicleLocations
 
   defmodule TestHelpers do
     def location_fn(_, _), do: [%Vehicles.Vehicle{status: :stopped}]
@@ -24,16 +24,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     {:ok, %{conn: conn}}
   end
 
-  describe "init/1" do
-    test "takes no options" do
-      assert init([]) == [
-               location_fn: &Vehicles.Repo.route/2,
-               schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/2
-             ]
-    end
-  end
-
-  describe "call/2" do
+  describe "all_vehicle_locations/2" do
     @locations [
       %Vehicles.Vehicle{trip_id: "1", stop_id: "place-sstat", status: :incoming},
       %Vehicles.Vehicle{trip_id: "2", stop_id: "place-north", status: :stopped},
@@ -44,7 +35,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
       conn =
         conn
         |> assign(:date, ~D[2016-12-31])
-        |> call(@opts)
+        |> all_vehicle_locations(@opts)
 
       assert conn.assigns.vehicle_locations == %{}
     end
@@ -53,7 +44,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
       conn =
         conn
         |> assign(:route, nil)
-        |> call(@opts)
+        |> all_vehicle_locations(@opts)
 
       assert conn.assigns.vehicle_locations
     end
@@ -61,7 +52,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     test "assigns vehicle locations at a stop if they are stopped or incoming", %{conn: conn} do
       conn =
         conn
-        |> call(location_fn: fn _, _ -> Enum.take(@locations, 2) end)
+        |> all_vehicle_locations(location_fn: fn _, _ -> Enum.take(@locations, 2) end)
 
       assert conn.assigns.vehicle_locations == %{
                {"1", "place-sstat"} => Enum.at(@locations, 0),
@@ -72,7 +63,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     test "filters out trips with no vehicle locations", %{conn: conn} do
       conn =
         conn
-        |> call(location_fn: fn _, _ -> Enum.take(@locations, 1) end)
+        |> all_vehicle_locations(location_fn: fn _, _ -> Enum.take(@locations, 1) end)
 
       assert conn.assigns.vehicle_locations == %{{"1", "place-sstat"} => Enum.at(@locations, 0)}
     end
@@ -81,7 +72,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
          %{conn: conn} do
       conn =
         conn
-        |> call(
+        |> all_vehicle_locations(
           location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _, _ ->
             [
@@ -101,7 +92,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
          %{conn: conn} do
       conn =
         conn
-        |> call(
+        |> all_vehicle_locations(
           location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _, _ -> [] end
         )
@@ -114,7 +105,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocationsTest do
     test "Handles error when schedules can't be found", %{conn: conn} do
       conn =
         conn
-        |> call(
+        |> all_vehicle_locations(
           location_fn: fn _, _ -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _, _ -> {:error, :timeout} end
         )

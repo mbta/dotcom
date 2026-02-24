@@ -24,6 +24,17 @@ defmodule Vehicles.RepoTest do
 
   def pubsub_fn(_, "vehicles"), do: :ok
 
+  describe "get/1" do
+    test "given a vehicle ID, return the matching vehicle" do
+      id = @vehicles |> Enum.map(& &1.id) |> Faker.Util.pick()
+      assert %Vehicle{} = Repo.get(id)
+    end
+
+    test "return nil otherwise" do
+      refute Repo.get("not-in-@vehicles")
+    end
+  end
+
   describe "route/1" do
     test "given a route ID, finds vehicle statuses for that route", %{name: name} do
       assert Enum.sort(Enum.filter(@vehicles, &(&1.route_id == "86"))) ==

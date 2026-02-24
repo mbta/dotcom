@@ -12,22 +12,20 @@ config:
   processor: "./all-scenarios.js"
 scenarios:
   - engine: playwright
-    testFunction: "find.transit.near.me"
+    testFunction: "plan_a_trip_from_homepage"
   - engine: playwright
-    testFunction: "plan.a.trip.from.homepage"
+    testFunction: "plan_a_trip"
   - engine: playwright
-    testFunction: "plan.a.trip"
+    testFunction: "search_for_a_static_page"
   - engine: playwright
-    testFunction: "search.for.a.static.page"
+    testFunction: "search_for_a_station"
   - engine: playwright
-    testFunction: "search.for.a.station"
+    testFunction: "search_for_a_subway_line"
   - engine: playwright
-    testFunction: "search.for.a.subway.line"
+    testFunction: "view_commuter_rail_schedule"
   - engine: playwright
-    testFunction: "view.commuter.rail.schedule"
+    testFunction: "view_subway_schedule"
   - engine: playwright
-    testFunction: "view.subway.schedule"
+    testFunction: "visit_a_static_page"
   - engine: playwright
-    testFunction: "visit.a.static.page"
-  - engine: playwright
-    testFunction: "visit.the.homepage"
+    testFunction: "visit_the_homepage"

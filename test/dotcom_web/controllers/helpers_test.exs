@@ -412,14 +412,4 @@ defmodule DotcomWeb.ControllerHelpersTest do
   test "green_routes/0" do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
   end
-
-  test "call_plug_with_opts/3", %{conn: conn} do
-    conn =
-      call_plug_with_opts(conn, DotcomWeb.Plugs.BannerMessage,
-        message_key: :test_message,
-        message: %{header: ["Header"], body: ["Body"]}
-      )
-
-    assert conn.assigns == %{test_message: %{body: ["Body"], header: ["Header"]}}
-  end
 end

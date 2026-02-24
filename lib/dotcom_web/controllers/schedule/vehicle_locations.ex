@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ScheduleController.VehicleLocations do
+defmodule DotcomWeb.Schedule.VehicleLocations do
   @moduledoc """
   Assigns vehicle locations corresponding to the already-assigned schedules, if they exist.
   """
@@ -19,15 +19,9 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   @type t :: %{{String.t(), String.t()} => Vehicles.Vehicle.t()}
 
-  def init(opts) do
-    Keyword.merge(@default_opts, opts)
-  end
+  def all_vehicle_locations(conn, opts) do
+    opts = Keyword.merge(@default_opts, opts)
 
-  def call(conn, opts) do
-    Util.log_duration(__MODULE__, :do_call, [conn, opts])
-  end
-
-  def do_call(conn, opts) do
     locations =
       if should_fetch_vehicles?(conn) do
         find_all_locations(conn, opts)
@@ -73,7 +67,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
     conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
 
-  @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
+  @spec find_all_locations(Plug.Conn.t(), Keyword.t()) :: __MODULE__.t()
   defp find_all_locations(
          %Plug.Conn{
            assigns: %{route: %Routes.Route{id: "Green"}}
@@ -92,7 +86,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   defp find_all_locations(conn, opts), do: find_locations(conn, opts)
 
-  @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
+  @spec find_locations(Plug.Conn.t(), Keyword.t()) :: __MODULE__.t()
   defp find_locations(
          %Plug.Conn{
            assigns: %{route: route, direction_id: direction_id, date: date}

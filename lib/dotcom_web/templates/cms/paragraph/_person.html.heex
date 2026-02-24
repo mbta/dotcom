@@ -7,7 +7,8 @@
   <div>{@person.position}</div>
   <div>
     {link(~t(View Bio),
-      to: cms_static_page_path(@conn, @person.path_alias || "/node/#{@person.id}")
+      to: cms_static_page_path(@conn, @person.path_alias || "/node/#{@person.id}"),
+      aria_label: gettext("View Bio for %{name}", %{name: @person.name})
     )}
   </div>
 </div>

@@ -22,7 +22,8 @@ defmodule Routes.Parser do
         direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
       description: parse_gtfs_desc(attributes["description"]),
       fare_class: parse_gtfs_fare_class(attributes["fare_class"]),
-      line_id: parse_line_id(relationships)
+      line_id: parse_line_id(relationships),
+      listed?: attributes["listed_route"]
     }
   end
 

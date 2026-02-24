@@ -109,18 +109,10 @@ defmodule DotcomWeb.AlertControllerTest do
       assert conn.assigns.meta_description
     end
 
-    test "parses timeframe param", %{conn: conn} do
-      all_alerts = get(conn, alert_path(conn, :show, :bus))
-      assert all_alerts.assigns.alerts_timeframe == nil
-
-      current = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "current"))
-      assert current.assigns.alerts_timeframe == :current
-
-      upcoming = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "upcoming"))
-      assert upcoming.assigns.alerts_timeframe == :upcoming
-
-      bad_param = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: "foobar"))
-      assert bad_param.assigns.alerts_timeframe == nil
+    test "ignores timeframe param", %{conn: conn} do
+      rand_timeframe = Faker.Util.pick(["current", "upcoming", "past"])
+      alerts = get(conn, alert_path(conn, :show, :bus, alerts_timeframe: rand_timeframe))
+      refute alerts |> Map.has_key?(:alerts_timeframe)
     end
   end
 

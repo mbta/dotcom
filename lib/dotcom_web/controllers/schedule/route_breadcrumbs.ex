@@ -1,4 +1,4 @@
-defmodule DotcomWeb.ScheduleController.RouteBreadcrumbs do
+defmodule DotcomWeb.Schedule.RouteBreadcrumbs do
   @moduledoc "Fetches the route from `conn.assigns` and assigns breadcrumbs."
 
   use Dotcom.Gettext.Sigils
@@ -8,13 +8,7 @@ defmodule DotcomWeb.ScheduleController.RouteBreadcrumbs do
 
   alias Util.Breadcrumb
 
-  @behaviour Plug
-
-  @impl true
-  def init([]), do: []
-
-  @impl true
-  def call(%{assigns: %{route: route}} = conn, []) do
+  def assign_breadcrumbs(%{assigns: %{route: route}} = conn, []) do
     conn
     |> assign(:breadcrumbs, breadcrumbs(route))
   end

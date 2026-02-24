@@ -10,7 +10,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
 
   import Plug.Conn, only: [assign: 3]
 
-  alias DotcomWeb.ScheduleController.VehicleLocations
+  alias DotcomWeb.Schedule.VehicleLocations
   alias Plug.Conn
   alias Routes.Route
 

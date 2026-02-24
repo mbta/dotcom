@@ -82,8 +82,18 @@ defmodule Stops.Repo do
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ [])
 
+  # Combine Green Line branch stops into one list for the "Green" route
   def by_route("Green", direction_id, opts) do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
+  end
+
+  # Combine stops from Boat-F1 onto the Boat-F2H route.
+  # Unfortunately by_routes recurses infinitely if we use it,
+  # since it would just call this function again
+  def by_route("Boat-F2H", direction_id, opts) do
+    with stops1 when is_list(stops1) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
+      (stops1 ++ by_route("Boat-F1", direction_id, opts)) |> Enum.uniq()
+    end
   end
 
   def by_route(route_id, direction_id, opts) do

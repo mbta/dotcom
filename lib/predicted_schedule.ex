@@ -21,6 +21,7 @@ defmodule PredictedSchedule do
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   def get(route_id, stop_id, opts \\ []) do
     now = Keyword.get(opts, :now, Util.now())
@@ -277,6 +278,17 @@ defmodule PredictedSchedule do
   @spec status(PredictedSchedule.t()) :: String.t() | nil
   def status(%PredictedSchedule{prediction: %Prediction{status: status}}), do: status
   def status(_predicted_schedule), do: nil
+
+  @doc """
+  Retrieves predicted schedule vehicle
+  """
+  @spec vehicle(PredictedSchedule.t()) :: Vehicles.Vehicle.t() | nil
+  def vehicle(%PredictedSchedule{prediction: %Prediction{vehicle_id: vehicle_id}})
+      when not is_nil(vehicle_id) do
+    @vehicles_repo.get(vehicle_id)
+  end
+
+  def vehicle(_), do: nil
 
   @doc """
   Determines if the given predicted schedule occurs after the given time

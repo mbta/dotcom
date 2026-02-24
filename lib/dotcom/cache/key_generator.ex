@@ -8,16 +8,10 @@ defmodule Dotcom.Cache.KeyGenerator do
   @behaviour Nebulex.Caching.KeyGenerator
 
   @impl Nebulex.Caching.KeyGenerator
-  def generate(mod, fun, []) do
-    "#{clean_mod(mod)}|#{fun}"
-  end
-
-  def generate(mod, fun, [arg]) when is_binary(arg) do
-    "#{clean_mod(mod)}|#{fun}|#{arg}"
-  end
-
   def generate(mod, fun, args) do
-    "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(args, 2 ** 32)}"
+    unique_id = args |> inspect() |> Base.encode64()
+
+    "#{clean_mod(mod)}|#{fun}|#{unique_id}"
   end
 
   defp clean_mod(mod) do

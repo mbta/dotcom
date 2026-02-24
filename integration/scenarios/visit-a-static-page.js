@@ -6,7 +6,7 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.getByRole("button", { name: "About" }).click();
 
   await page
-    .getByLabel("Main navigation")
+    .getByLabel("Main")
     .getByRole("link", { name: "Leadership" })
     .click();
 

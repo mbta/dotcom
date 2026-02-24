@@ -1,18 +1,18 @@
-defmodule DotcomWeb.ScheduleController.CMSTest do
+defmodule DotcomWeb.Schedule.CMSTest do
   use DotcomWeb.ConnCase
 
   alias CMS.Partial.Teaser
-  alias DotcomWeb.ScheduleController.CMS
+  alias DotcomWeb.Schedule.CMS
   alias Plug.Conn
   alias Routes.Route
   alias Util.AsyncAssign
 
-  describe "call/1" do
+  describe "assign_content/1" do
     test "assigns CMS content to conn", %{conn: conn} do
       conn =
         conn
         |> Conn.assign(:route, %Route{id: "Red", type: 1})
-        |> CMS.call([])
+        |> CMS.assign_content()
         |> AsyncAssign.await_assign_all_default(__MODULE__)
 
       assert [%Teaser{} = teaser] = conn.assigns.featured_content

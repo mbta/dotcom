@@ -1,12 +1,12 @@
 defmodule DotcomWeb.Mode.CommuterRailController do
   use Dotcom.Gettext.Sigils
 
-  use DotcomWeb.Mode.HubBehavior,
-    meta_description:
-      ~t"Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
-
   import DotcomWeb.Router.Helpers, only: [fare_path: 3]
   import PhoenixHTMLHelpers.Link, only: [link: 2]
+
+  def meta_description,
+    do:
+      ~t"Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
 
   def route_type, do: 2
 

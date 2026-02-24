@@ -13,7 +13,6 @@ defmodule DotcomWeb.AlertController do
   plug(:route_type)
   plug(:routes)
   plug(:alerts)
-  plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]

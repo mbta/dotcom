@@ -12,6 +12,19 @@ defmodule Vehicles.Repo do
   @behaviour Behaviour
 
   @impl Behaviour
+  def get(vehicle_id) do
+    __MODULE__
+    |> :ets.select([{{vehicle_id, :_, :_, :_, :"$1"}, [], [:"$1"]}])
+    |> case do
+      [%Vehicle{} = vehicle] ->
+        vehicle
+
+      _ ->
+        nil
+    end
+  end
+
+  @impl Behaviour
   def route(route_id, opts \\ []) do
     direction_id =
       case Keyword.fetch(opts, :direction_id) do

@@ -630,6 +630,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp upcoming_departures_section(%{upcoming_departures: :no_service} = assigns) do
+    ~H"""
+    <.callout>{~t"No service today"}</.callout>
+    """
+  end
+
   defp upcoming_departures_section(%{upcoming_departures: :no_realtime} = assigns) do
     ~H"""
     <.callout>{~t"There are currently no realtime departures available."}</.callout>

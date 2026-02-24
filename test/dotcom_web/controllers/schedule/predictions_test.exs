@@ -1,7 +1,7 @@
-defmodule DotcomWeb.ScheduleController.PredictionsTest do
+defmodule DotcomWeb.Schedule.PredictionsTest do
   use DotcomWeb.ConnCase, async: true
 
-  import DotcomWeb.ScheduleController.Predictions
+  import DotcomWeb.Schedule.Predictions
   import Mox
   import Test.Support.Factories.Predictions.Prediction
 
@@ -17,13 +17,13 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     {:ok, %{conn: conn}}
   end
 
-  describe "call/2" do
+  describe "all_predictions/1" do
     test "when given a date that isn't the service date, assigns no predictions", %{conn: conn} do
       conn =
         conn
         |> assign(:date, ~D[2016-12-31])
         |> assign(:origin, Faker.Pokemon.location())
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns[:predictions] == []
       assert conn.assigns[:vehicle_predictions] == []
@@ -33,7 +33,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       conn =
         conn
         |> assign(:origin, nil)
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns[:predictions] == []
       assert conn.assigns[:vehicle_predictions] == []
@@ -53,7 +53,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: route_id})
         |> assign(:direction_id, direction_id)
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns[:predictions] == []
     end
@@ -77,7 +77,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "#{Faker.Util.digit()}"})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.predictions == []
     end
@@ -103,7 +103,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "#{Faker.Util.digit()}"})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.predictions == [prediction]
     end
@@ -130,7 +130,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "#{Faker.Util.digit()}"})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.predictions == [prediction]
     end
@@ -157,7 +157,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "#{Faker.Util.digit()}"})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.predictions == []
     end
@@ -183,7 +183,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "#{Faker.Util.digit()}"})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.predictions == [prediction]
     end
@@ -195,7 +195,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
       conn =
         conn
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns[:predictions] == []
     end
@@ -213,7 +213,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, %Stops.Stop{id: Faker.Pokemon.location()})
         |> assign(:route, %{id: route_id})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns[:predictions] == []
     end
@@ -264,7 +264,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:route, %{id: route_id})
         |> assign(:direction_id, "#{Faker.Util.digit()}")
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.vehicle_predictions == [
                prediction_1,
@@ -314,7 +314,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:route, %{id: route_id})
         |> assign(:direction_id, Faker.Util.pick([0, 1]))
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call()
+        |> all_predictions()
 
       assert conn.assigns.vehicle_predictions == [
                prediction
@@ -328,7 +328,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         {:error, :no_predictions}
       end)
 
-      conn = call(conn)
+      conn = all_predictions(conn)
 
       assert conn.assigns.predictions == []
       assert conn.assigns.vehicle_predictions == []

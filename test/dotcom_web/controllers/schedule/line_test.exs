@@ -1,9 +1,9 @@
-defmodule DotcomWeb.ScheduleController.LineTest do
+defmodule DotcomWeb.Schedule.LineTest do
   use DotcomWeb.ConnCase, async: false
 
   import Mock
 
-  alias DotcomWeb.ScheduleController.Line
+  alias DotcomWeb.Schedule.Line
   alias Services.Service
 
   @moduletag :external
@@ -225,11 +225,11 @@ defmodule DotcomWeb.ScheduleController.LineTest do
     }
   ]
 
-  doctest DotcomWeb.ScheduleController.Line
+  doctest DotcomWeb.Schedule.Line
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
 
-  describe "populate / update conn based on url in do_call: " do
+  describe "populate / update conn based on url" do
     setup %{conn: conn} do
       conn =
         conn
@@ -238,6 +238,10 @@ defmodule DotcomWeb.ScheduleController.LineTest do
         |> assign(:date, Util.service_date())
         |> assign(:direction_id, 0)
 
+      Mox.stub(Routes.Repo.Mock, :get_shapes, fn _, _ -> [] end)
+      Mox.stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [] end)
+      Mox.stub(Stops.Repo.Mock, :by_route, fn _, _, _ -> [] end)
+
       {:ok, conn: conn}
     end
 
@@ -245,7 +249,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1"}})
-        |> Line.call([])
+        |> Line.line_direction([])
 
       assert conn.assigns.direction_id == 1
     end
@@ -254,7 +258,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1'[]"}})
-        |> Line.call([])
+        |> Line.line_direction([])
 
       assert conn.assigns.direction_id == 1
     end
@@ -263,7 +267,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "-1"}})
-        |> Line.call([])
+        |> Line.line_direction([])
 
       assert conn.assigns.direction_id == 0
     end
@@ -272,7 +276,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "string"}})
-        |> Line.call([])
+        |> Line.line_direction([])
 
       assert conn.assigns.direction_id == 0
     end
@@ -281,7 +285,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       conn =
         conn
         |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "10"}})
-        |> Line.call([])
+        |> Line.line_direction([])
 
       assert conn.assigns.direction_id == 0
     end

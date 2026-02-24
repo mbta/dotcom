@@ -17,9 +17,9 @@ defmodule CMS.Page.Landing do
     :id,
     title: "",
     subtitle: nil,
-    hero_desktop: %Image{},
-    hero_mobile: %Image{},
-    hero_mobile_2x: %Image{},
+    hero_desktop: nil,
+    hero_mobile: nil,
+    hero_mobile_2x: nil,
     paragraphs: [],
     breadcrumbs: []
   ]

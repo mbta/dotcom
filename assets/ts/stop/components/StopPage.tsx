@@ -6,12 +6,12 @@ import { useRoutes } from "../../hooks/useRoute";
 import Loading from "../../components/Loading";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import { routeWideAlerts } from "../../models/alert";
+import { isTripSpecific, routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 import { GroupedRoutePatterns } from "../../models/route-patterns";
 
-const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
+const isDeparturesAndMapAlertEffect = ({ effect }: Alert): boolean =>
   [
     "detour",
     "shuttle",
@@ -20,6 +20,9 @@ const isDeparturesAndMapAlert = ({ effect }: Alert): boolean =>
     "stop_moved",
     "suspension"
   ].includes(effect);
+
+const isDeparturesAndMapAlert = (alert: Alert): boolean =>
+  isDeparturesAndMapAlertEffect(alert) && !isTripSpecific(alert);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">

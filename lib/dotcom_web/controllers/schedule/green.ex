@@ -7,24 +7,33 @@ defmodule DotcomWeb.ScheduleController.Green do
   use DotcomWeb, :controller
 
   import DotcomWeb.ControllerHelpers,
-    only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
+    only: [assign_alerts: 2]
 
-  alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
+  import DotcomWeb.Schedule.CMS, only: [assign_content: 1]
+  import DotcomWeb.Schedule.Defaults, only: [assign_defaults: 2]
+  import DotcomWeb.Schedule.Holidays, only: [assign_next_holidays: 2]
+  import DotcomWeb.Schedule.Line, only: [line_direction: 2]
+  import DotcomWeb.Schedule.RouteBreadcrumbs, only: [assign_breadcrumbs: 2]
+
+  alias DotcomWeb.Schedule.{Predictions, VehicleLocations}
+  alias DotcomWeb.ScheduleController.LineController
   alias DotcomWeb.ScheduleView
 
   plug(:route)
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:assign_alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
-  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(:assign_defaults)
+  plug(:assign_next_holidays)
   plug(:stops_on_routes)
   plug(:vehicle_locations)
   plug(:predictions)
   plug(DotcomWeb.ScheduleController.VehicleTooltips)
-  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(:assign_breadcrumbs)
   plug(DotcomWeb.ScheduleController.ScheduleError)
   plug(:route_pdfs)
   plug(:channels)
+  plug(:line_direction)
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @task_timeout 10_000
@@ -49,9 +58,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       :meta_description,
       ~t"MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
     )
-    |> call_plug(DotcomWeb.ScheduleController.Holidays)
-    |> call_plug(DotcomWeb.ScheduleController.Line)
-    |> call_plug(DotcomWeb.ScheduleController.CMS)
+    |> assign_content()
     |> await_assign_all_default(__MODULE__)
     |> put_view(ScheduleView)
     |> LineController.assign_schedule_page_data()
@@ -75,7 +82,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn branch_conn ->
-          call_plug(branch_conn, DotcomWeb.ScheduleController.Predictions)
+          Predictions.all_predictions(branch_conn)
         end,
         timeout: @task_timeout
       )
@@ -96,7 +103,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug_with_opts(conn, VehicleLocations, opts).assigns.vehicle_locations
+          VehicleLocations.all_vehicle_locations(conn, opts).assigns.vehicle_locations
         end,
         timeout: @task_timeout
       )

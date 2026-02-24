@@ -1,11 +1,11 @@
 defmodule DotcomWeb.Mode.SubwayController do
   use Dotcom.Gettext.Sigils
 
-  use DotcomWeb.Mode.HubBehavior,
-    meta_description:
-      ~t"Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
-
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
+  def meta_description,
+    do:
+      ~t"Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
 
   def route_type, do: 1
 
