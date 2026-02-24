@@ -19,6 +19,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
+
   defmodule UpcomingDeparture do
     @moduledoc """
     A struct representing an upcoming departure.
@@ -342,15 +344,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
 
   defp platform_name(predicted_schedule) do
-    predicted_schedule
-    |> PredictedSchedule.platform_stop_id()
-    |> @stops_repo.get()
-    |> Kernel.then(& &1.platform_name)
-    |> case do
-      nil -> nil
-      "Commuter Rail" -> nil
-      name -> name |> String.trim("Commuter Rail - ")
-    end
+    name =
+      predicted_schedule
+      |> PredictedSchedule.platform_stop_id()
+      |> @stops_repo.get()
+      |> Kernel.then(& &1.platform_name)
+
+    route_type =
+      predicted_schedule
+      |> PredictedSchedule.route()
+      |> Kernel.then(& &1.type)
+
+    simplify_platform_name(name, route_type)
   end
 
   @spec arrival_status(%{
