@@ -39,10 +39,40 @@
       label={label}
       teams={teams}
     />
+    <h2>{~t(Boarding Groups)}</h2>
+    <table class="mbta-table max-w-fit">
+      <thead class="bg-brand-primary-lightest-contrast">
+        <tr class="!border-b-[1px] !border-gray-lighter">
+          <th scope="col">
+            <span class="sr-only">
+              {~t(Group Name)}
+            </span>
+          </th>
+          <th scope="col" class="!text-center">
+            <.link patch={~p"/stops/place-sstat"}>
+              {~t(Check in at South Station between)}
+            </.link>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr :for={{group_name, time_range} <- group_times}>
+          <th
+            scope="row"
+            class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
+          >
+            {group_name} <.ticket_icon />
+          </th>
+          <td class="px-sm py-xs !text-center">
+            {apply(Dotcom.Utils.Time, :formatted_time_range, time_range)}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="max-w-sm">
     <h2>{~t(Important Information)}</h2>
-    <h3>{~t(Lorem Ipsum Dolor Sit)}</h3>
+    <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
     <p>
       {gettext(
         "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
