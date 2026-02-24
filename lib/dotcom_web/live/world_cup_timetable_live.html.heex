@@ -13,7 +13,12 @@
     </.badge>
   </div>
 </div>
-<div class="container">
+<div class="container pt-lg">
+  <.callout_link href="/guides/world-cup-guide">
+    {~t(Check out our )}
+    <span class="underline font-medium">{~t(World Cup Guide)}</span>
+    {~t( for information about ____)}
+  </.callout_link>
   <div class="font-bold mb-2 mt-4">Select a Match</div>
   <nav
     :if={!valid_match_date?(@selected_match)}
