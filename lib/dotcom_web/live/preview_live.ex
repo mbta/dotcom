@@ -6,12 +6,20 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.WorldCupTimetableLive
   use DotcomWeb, :live_view
 
+  alias DotcomWeb.PredictionsStreamLive
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
   alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
+    %{
+      arguments: [],
+      icon_name: "faucet-drip",
+      icon_type: "solid",
+      module: PredictionsStreamLive,
+      title: "Prediction Streaming"
+    },
     %{
       arguments: [[route_id: "Red", direction_id: "0"]],
       icon_name: "icon-realtime-tracking",

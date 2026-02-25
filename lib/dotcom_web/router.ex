@@ -327,6 +327,7 @@ defmodule DotcomWeb.Router do
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
+      live "/predictions-stream", PredictionsStreamLive
       live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
