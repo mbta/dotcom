@@ -201,7 +201,8 @@ defmodule Dotcom.ScheduleFinder do
     }
   end
 
-  @spec simplify_platform_name(String.t() | nil, Route.type_int()) :: String.t() | nil
+  @spec simplify_platform_name(String.t() | nil, Route.type_int() | Route.route_type()) ::
+          String.t() | nil
 
   # If a platform name is nil, then it's nil no matter the mode. (This
   # way, clauses below don't have to worry about nil-checking
@@ -209,20 +210,25 @@ defmodule Dotcom.ScheduleFinder do
   def simplify_platform_name(nil, _), do: nil
 
   # Don't show platform names for subway. We might make exceptions later (JFK?)
-  def simplify_platform_name(_, route_type) when route_type in [0, 1], do: nil
+  def simplify_platform_name(_, route_type) when route_type in [0, 1, :subway], do: nil
 
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
-  def simplify_platform_name("Commuter Rail", 2), do: nil
-  def simplify_platform_name("Commuter Rail - " <> track, 2), do: track
+  def simplify_platform_name("Commuter Rail", route_type)
+      when route_type in [2, :commuter_rail], do: nil
 
-  def simplify_platform_name(name, 2) do
+  def simplify_platform_name("Commuter Rail - " <> track, route_type)
+      when route_type in [2, :commuter_rail], do: track
+
+  def simplify_platform_name(name, route_type)
+      when route_type in [2, :commuter_rail] do
     if not String.contains?(name, "All Trains") do
       name
     end
   end
 
-  def simplify_platform_name(name, 4) do
+  def simplify_platform_name(name, route_type)
+      when route_type in [4, :ferry] do
     if not String.contains?(name, "Ferry") do
       name
     end
