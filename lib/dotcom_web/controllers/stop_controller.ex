@@ -114,7 +114,7 @@ defmodule DotcomWeb.StopController do
 
   defp banner_alert?(alert, now) do
     !global_banner_alert?(alert) &&
-      (banner_alert_active_or_future?(alert, now) || banner_alert_active_only?(alert, now))
+      banner_alert_active_or_future?(alert, now)
   end
 
   defp banner_alert_active_or_future?(alert, now) do
@@ -133,18 +133,9 @@ defmodule DotcomWeb.StopController do
       :stop_closure,
       :stop_moved,
       :stop_shoveling,
-      :suspension
-    ]
-  end
-
-  defp banner_alert_active_only?(alert, now) do
-    banner_alert_active_only_effect?(alert) && active?(alert, now)
-  end
-
-  defp banner_alert_active_only_effect?(alert) do
-    alert.effect in [
-      :access_issue,
-      :elevator_closure
+      :suspension,
+      :elevator_closure,
+      :access_issue
     ]
   end
 
