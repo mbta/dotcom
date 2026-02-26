@@ -297,6 +297,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/departures", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :departures, layout: {DotcomWeb.LayoutView, :live} do
+      live "/:route_id/:direction_id", ScheduleFinderLive
+    end
+  end
+
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
@@ -304,7 +313,6 @@ defmodule DotcomWeb.Router do
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
       live "/schedules/CR-WorldCup", WorldCupTimetableLive
-      live "/schedules/:route_id/:direction_id", ScheduleFinderLive
       live "/stop-map", StopMapLive
     end
   end
