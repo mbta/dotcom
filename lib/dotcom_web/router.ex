@@ -302,7 +302,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :departures, layout: {DotcomWeb.LayoutView, :live} do
-      live "/:route_id/:direction_id", ScheduleFinderLive
+      live "/", ScheduleFinderLive
     end
   end
 
