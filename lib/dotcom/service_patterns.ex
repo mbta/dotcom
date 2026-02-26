@@ -167,14 +167,17 @@ defmodule Dotcom.ServicePatterns do
   defp service_completely_overlapped?(service, services) do
     Enum.any?(services, fn other_service ->
       # There's an other service that
-      # - starts earlier/same time as this service
-      # - and ends later/same time as this service
-      # - and covers the same valid_days as this service
+      # - is only active on days covered by this service
+      # - and has the same valid_days as this service
       other_service != service && String.contains?(service.name, other_service.name) &&
-        Date.compare(other_service.start_date, service.start_date) != :gt &&
-        Date.compare(other_service.end_date, service.end_date) != :lt &&
+        overlapping_date_range?(other_service, service) &&
         Enum.all?(service.valid_days, &Enum.member?(other_service.valid_days, &1))
     end)
+  end
+
+  defp overlapping_date_range?(a, b) do
+    Service.all_valid_dates_for_service(b)
+    |> Enum.all?(&(&1 in Service.all_valid_dates_for_service(a)))
   end
 
   defp to_service_pattern(services) do
