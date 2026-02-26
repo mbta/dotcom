@@ -72,8 +72,9 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   end
 
   alias Dotcom.ScheduleFinder
+  alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -155,10 +156,15 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            crowding: crowding,
            status: status,
            stop_id: stop_id,
-           stop_sequence: stop_sequence
+           stop_sequence: stop_sequence,
+           trip_id: vehicle_trip_id
          },
-         _
-       ) do
+         [
+           %PredictedSchedule{prediction: %Prediction{trip: %Trip{id: prediction_trip_id}}}
+           | _
+         ]
+       )
+       when prediction_trip_id == vehicle_trip_id do
     stop = @stops_repo.get(stop_id)
 
     %VehicleInfo{
@@ -170,6 +176,9 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       stop_sequence: stop_sequence
     }
   end
+
+  defp vehicle_info(_, _),
+    do: %VehicleInfo{status: :finishing_another_trip}
 
   # Sometimes predictions might not keep up with vehicles
   # If we have a vehicle status, use it to omit past stops

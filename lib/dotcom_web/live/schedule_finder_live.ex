@@ -779,6 +779,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp vehicle_label(%{vehicle_info: %{status: :finishing_another_trip}} = assigns) do
+    ~H"""
+    {~t"Finishing another trip"}
+    """
+  end
+
   defp vehicle_label(%{vehicle_info: %{status: :location_unavailable}} = assigns) do
     ~H"""
     {~t"Location unavailable"}

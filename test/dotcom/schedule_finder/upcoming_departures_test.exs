@@ -2761,6 +2761,58 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_details.vehicle_info.status == :location_unavailable
     end
 
+    test "shows a vehicle status of :finishing_another_trip if the predictions' assigned vehicle has a different trip ID" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+
+      stop = Factories.Stops.Stop.build(:stop)
+      stop_sequence = Faker.random_between(0, 1000)
+
+      [vehicle_trip_id, prediction_trip_id] =
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      prediction_trip = Factories.Schedules.Trip.build(:trip, id: prediction_trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_sequence: stop_sequence,
+          stop_id: stop.id,
+          trip_id: vehicle_trip_id
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        Factories.Predictions.Prediction.build_list(3, :prediction,
+          stop: stop,
+          trip: prediction_trip,
+          vehicle_id: vehicle.id,
+          stop_sequence: stop_sequence
+        )
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :finishing_another_trip
+    end
+
     test "pulls trip details from schedules for scheduled trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
