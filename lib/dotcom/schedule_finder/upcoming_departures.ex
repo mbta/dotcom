@@ -14,6 +14,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   alias Schedules.Schedule
   alias Schedules.Trip
   alias Stops.Stop
+  alias Vehicles.Vehicle
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
@@ -94,7 +95,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   @typep vehicle_at_stop_status_t() ::
-           :after_stop | :before_stop | Vehicles.Vehicle.status()
+           :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
   @spec upcoming_departures(%{
           direction_id: 0 | 1,
@@ -258,7 +259,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     trip = predicted_schedule |> PredictedSchedule.trip()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
-    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, stop_sequence)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
 
     trip_details =
       trip_details(%{
@@ -294,11 +295,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   # Retrieves status if a vehicle is associated with the given stop/sequence
-  @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), integer()) ::
+  @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), Trip.id_t(), integer()) ::
           vehicle_at_stop_status_t()
-  defp vehicle_at_stop_status(nil, _), do: nil
+  defp vehicle_at_stop_status(nil, _, _), do: nil
 
-  defp vehicle_at_stop_status(vehicle, stop_sequence) do
+  defp vehicle_at_stop_status(%Vehicle{trip_id: vehicle_trip_id}, trip_id, _)
+       when vehicle_trip_id != trip_id, do: :different_trip
+
+  defp vehicle_at_stop_status(vehicle, _trip_id, stop_sequence) do
     cond do
       vehicle.stop_sequence < stop_sequence ->
         :before_stop
@@ -447,7 +451,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           arrival_seconds: integer(),
           departure_seconds: integer(),
           route_type: Route.route_type(),
-          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
 
   defp realtime_arrival_status(%{
