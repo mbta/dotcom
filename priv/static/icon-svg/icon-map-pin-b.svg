@@ -2,14 +2,14 @@
     <title>
         map pin B
     </title>
-    <clipPath id="a">
+    <clipPath id="icon-map-pin-b--a">
         <path d="m25 48q19.28-18 19.28-28.68a19.32 19.32 0 0 0 -38.64 0q0 10.68 19.36 28.68z" clip-rule="evenodd"/>
     </clipPath>
-    <clipPath id="b">
+    <clipPath id="icon-map-pin-b--b">
         <path d="m-741.28-810.15h1685.85v1198.83h-1685.85z"/>
     </clipPath>
-    <g clip-path="url(#a)">
-        <g clip-path="url(#b)">
+    <g clip-path="url(#icon-map-pin-b--a)">
+        <g clip-path="url(#icon-map-pin-b--b)">
             <path fill="#165c95" d="m-.21-5.85h50.34v59.71h-50.34z"/>
         </g>
     </g>

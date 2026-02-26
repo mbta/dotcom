@@ -170,16 +170,11 @@ defmodule Dotcom.ServicePatterns do
       # - starts earlier/same time as this service
       # - and ends later/same time as this service
       # - and covers the same valid_days as this service
-      !special_snow_service?(service) && other_service != service &&
-        String.contains?(service.name, other_service.name) &&
+      other_service != service && String.contains?(service.name, other_service.name) &&
         Date.compare(other_service.start_date, service.start_date) != :gt &&
         Date.compare(other_service.end_date, service.end_date) != :lt &&
         Enum.all?(service.valid_days, &Enum.member?(other_service.valid_days, &1))
     end)
-  end
-
-  defp special_snow_service?(service) do
-    service.start_date == ~D[2026-02-23]
   end
 
   defp to_service_pattern(services) do
