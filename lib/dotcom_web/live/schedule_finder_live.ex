@@ -805,6 +805,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp vehicle_status_message(:scheduled_to_depart), do: ~t"Scheduled to depart"
+  defp vehicle_status_message(:waiting_to_depart), do: ~t"Waiting to depart"
   defp vehicle_status_message(:in_transit), do: ~t"Next stop"
   defp vehicle_status_message(:incoming), do: ~t"Approaching"
   defp vehicle_status_message(:stopped), do: ~t"Now at"

@@ -154,6 +154,38 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   defp vehicle_info(
          %Vehicle{
            crowding: crowding,
+           status: :stopped,
+           stop_id: stop_id,
+           stop_sequence: stop_sequence,
+           trip_id: vehicle_trip_id
+         },
+         [
+           %PredictedSchedule{
+             prediction: %Prediction{
+               arrival_time: nil,
+               departure_time: departure_time,
+               trip: %Trip{id: prediction_trip_id}
+             }
+           }
+           | _
+         ]
+       )
+       when prediction_trip_id == vehicle_trip_id do
+    stop = @stops_repo.get(stop_id)
+
+    %VehicleInfo{
+      crowding: crowding,
+      departure_time: departure_time,
+      status: :waiting_to_depart,
+      stop_id: stop.parent_id || stop.id,
+      stop_name: stop.name,
+      stop_sequence: stop_sequence
+    }
+  end
+
+  defp vehicle_info(
+         %Vehicle{
+           crowding: crowding,
            status: status,
            stop_id: stop_id,
            stop_sequence: stop_sequence,
