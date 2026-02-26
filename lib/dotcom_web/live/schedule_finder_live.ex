@@ -704,7 +704,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <div class="grow font-medium">
                 <.vehicle_label vehicle_info={upcoming_departure.trip_details.vehicle_info} />
               </div>
-              <div :if={upcoming_departure.trip_details.vehicle_info && upcoming_departure.trip_details.vehicle_info.departure_time}>
+              <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
                 <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
               </div>
             </.lined_list_item>
@@ -779,7 +779,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp vehicle_label(%{vehicle_info: nil} = assigns) do
+  defp vehicle_label(%{vehicle_info: %{status: :location_unavailable}} = assigns) do
     ~H"""
     {~t"Location unavailable"}
     """

@@ -132,7 +132,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   defp vehicle_info(nil, [
          %PredictedSchedule{
-           schedule: %Schedule{departure_time: departure_time, stop: stop},
+           schedule: %Schedule{arrival_time: nil, departure_time: departure_time, stop: stop},
            prediction: nil
          } = ps
          | _
@@ -146,7 +146,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     }
   end
 
-  defp vehicle_info(nil, _), do: nil
+  defp vehicle_info(nil, _), do: %VehicleInfo{status: :location_unavailable}
 
   defp vehicle_info(%Vehicle{stop_id: nil}, _), do: %VehicleInfo{status: :location_unavailable}
 
