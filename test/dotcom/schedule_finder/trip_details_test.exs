@@ -250,7 +250,8 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     end
 
     test "includes vehicle status and stop info" do
-      stop = Factories.Stops.Stop.build(:stop, parent_id: nil)
+      platform_name = Faker.Pizza.sauce()
+      stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
       stop_id = stop.id
 
       stub(Stops.Repo.Mock, :get, fn
@@ -281,6 +282,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.stop_id == stop_id
       assert vehicle_info.stop_name == stop.name
       assert vehicle_info.crowding == crowding
+      assert vehicle_info.platform_name == platform_name
     end
 
     test "uses a status of `:location_unavailable` if the vehicle has no stop_id" do

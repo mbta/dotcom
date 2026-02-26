@@ -48,6 +48,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     defstruct [
       :crowding,
+      :platform_name,
       :status,
       :stop_id,
       :stop_name,
@@ -60,6 +61,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     @type t :: %__MODULE__{
             crowding: Vehicles.Vehicle.crowding(),
+            platform_name: nil | String.t(),
             status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
@@ -139,6 +141,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %VehicleInfo{
       crowding: crowding,
+      platform_name: stop.platform_name,
       status: status,
       stop_id: stop.parent_id || stop.id,
       stop_name: stop.name,

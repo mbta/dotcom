@@ -787,7 +787,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="font-normal text-charcoal-30 text-sm">
       {vehicle_status_message(@vehicle_info.status)}
     </div>
-    <.stop_label stop_name={@vehicle_info.stop_name} />
+    <.stop_label stop_name={@vehicle_info.stop_name} platform_name={@vehicle_info.platform_name} />
     <.vehicle_crowding
       crowding={crowding(@vehicle_info)}
       show_label?
