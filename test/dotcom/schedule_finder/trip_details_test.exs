@@ -285,6 +285,138 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.platform_name == platform_name
     end
 
+    test "returns a status of `:scheduled_to_depart` if the trip has no predictions and there is no vehicle" do
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      now = Dotcom.Utils.DateTime.now()
+
+      arrival_times = [
+        nil
+        | Faker.Util.sample_uniq(2, fn ->
+            Generators.DateTime.random_time_range_date_time(
+              {now, ServiceDateTime.end_of_service_day(now)}
+            )
+          end)
+      ]
+
+      predicted_schedules =
+        Enum.zip([stop_ids, arrival_times])
+        |> Enum.map(fn {stop_id, arrival_time} ->
+          %PredictedSchedule{
+            prediction: nil,
+            schedule:
+              Factories.Schedules.Schedule.build(
+                :schedule,
+                arrival_time: arrival_time,
+                stop: Factories.Stops.Stop.build(:stop, id: stop_id)
+              )
+          }
+        end)
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: nil
+        })
+
+      [origin_stop_id | _] = stop_ids
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == :scheduled_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+    end
+
+    test "non-subway `:scheduled_to_depart` trips include platform names" do
+      origin_platform_stop_id = FactoryHelpers.build(:id)
+      platform_stop_ids = [origin_platform_stop_id, nil, nil]
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      now = Dotcom.Utils.DateTime.now()
+
+      platform_name = Faker.Pizza.sauce()
+
+      arrival_times = [
+        nil
+        | Faker.Util.sample_uniq(2, fn ->
+            Generators.DateTime.random_time_range_date_time(
+              {now, ServiceDateTime.end_of_service_day(now)}
+            )
+          end)
+      ]
+
+      predicted_schedules =
+        Enum.zip([arrival_times, platform_stop_ids])
+        |> Enum.map(fn {arrival_time, platform_stop_id} ->
+          %PredictedSchedule{
+            prediction: nil,
+            schedule:
+              Factories.Schedules.Schedule.build(
+                :schedule,
+                arrival_time: arrival_time,
+                platform_stop_id: platform_stop_id,
+                route: route
+              )
+          }
+        end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^origin_platform_stop_id ->
+          Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+
+        _ ->
+          Factories.Stops.Stop.build(:stop)
+      end)
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: nil
+        })
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == :scheduled_to_depart
+      assert vehicle_info.platform_name == platform_name
+    end
+
+    test "drops the first trip_stop if vehicle status is `:scheduled_to_depart`" do
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      now = Dotcom.Utils.DateTime.now()
+
+      arrival_times = [
+        nil
+        | Faker.Util.sample_uniq(2, fn ->
+            Generators.DateTime.random_time_range_date_time(
+              {now, ServiceDateTime.end_of_service_day(now)}
+            )
+          end)
+      ]
+
+      predicted_schedules =
+        Enum.zip([stop_ids, arrival_times])
+        |> Enum.map(fn {stop_id, arrival_time} ->
+          %PredictedSchedule{
+            prediction: nil,
+            schedule:
+              Factories.Schedules.Schedule.build(
+                :schedule,
+                arrival_time: arrival_time,
+                stop: Factories.Stops.Stop.build(:stop, id: stop_id)
+              )
+          }
+        end)
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: nil
+        })
+
+      [_ | future_stop_ids] = stop_ids
+
+      assert trip_details.stops |> Enum.map(& &1.stop_id) == future_stop_ids
+    end
+
     test "uses a status of `:location_unavailable` if the vehicle has no stop_id" do
       predicted_schedules =
         1..3

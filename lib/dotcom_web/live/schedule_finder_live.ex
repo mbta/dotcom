@@ -704,6 +704,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <div class="grow font-medium">
                 <.vehicle_label vehicle_info={upcoming_departure.trip_details.vehicle_info} />
               </div>
+              <div :if={upcoming_departure.trip_details.vehicle_info && upcoming_departure.trip_details.vehicle_info.departure_time}>
+                <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
+              </div>
             </.lined_list_item>
             <details
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
@@ -795,6 +798,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp vehicle_status_message(:scheduled_to_depart), do: ~t"Scheduled to depart"
   defp vehicle_status_message(:in_transit), do: ~t"Next stop"
   defp vehicle_status_message(:incoming), do: ~t"Approaching"
   defp vehicle_status_message(:stopped), do: ~t"Now at"

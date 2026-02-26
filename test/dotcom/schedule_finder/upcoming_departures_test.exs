@@ -2459,6 +2459,71 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "shows a vehicle status of :scheduled_to_depart if the trip has no predictions and all schedules are in the future" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      stop_sequences =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      arrival_times =
+        Faker.Util.sample_uniq(3, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort()
+
+      departure_times = arrival_times |> Enum.map(&(&1 |> DateTime.shift(second: 10)))
+
+      arrival_times = arrival_times |> List.replace_at(0, nil)
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Schedules.Schedule.build(:schedule,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip
+          )
+        end)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: Faker.Util.pick(stop_ids)
+        })
+
+      # Verify
+      [origin_stop_id | _] = stop_ids
+      [origin_departure_time | _] = departure_times
+
+      assert {:no_realtime, [departure]} = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :scheduled_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+      assert vehicle_info.departure_time == origin_departure_time
+    end
+
     test "pulls trip details from schedules for scheduled trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
