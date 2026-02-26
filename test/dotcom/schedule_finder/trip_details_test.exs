@@ -253,6 +253,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       platform_name = Faker.Pizza.sauce()
       stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
       stop_id = stop.id
+      trip = Factories.Schedules.Trip.build(:trip)
 
       stub(Stops.Repo.Mock, :get, fn
         ^stop_id -> stop
@@ -263,13 +264,19 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         1..3
         |> Enum.map(fn _ ->
           %PredictedSchedule{
-            prediction: Factories.Predictions.Prediction.build(:prediction),
-            schedule: Factories.Schedules.Schedule.build(:schedule)
+            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
           }
         end)
 
       crowding = Faker.Util.pick([:not_crowded, :crowded, :some_crowding])
-      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, stop_id: stop_id, crowding: crowding)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_id: stop_id,
+          crowding: crowding,
+          trip_id: trip.id
+        )
 
       trip_details =
         TripDetails.trip_details(%{
@@ -440,6 +447,8 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     end
 
     test "uses the parent stop id if available" do
+      trip = Factories.Schedules.Trip.build(:trip)
+
       [child_stop_id, parent_stop_id] =
         Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
 
@@ -454,12 +463,13 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         1..3
         |> Enum.map(fn _ ->
           %PredictedSchedule{
-            prediction: Factories.Predictions.Prediction.build(:prediction),
-            schedule: Factories.Schedules.Schedule.build(:schedule)
+            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
           }
         end)
 
-      vehicle = Factories.Vehicles.Vehicle.build(:vehicle, stop_id: child_stop_id)
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, stop_id: child_stop_id, trip_id: trip.id)
 
       trip_details =
         TripDetails.trip_details(%{
@@ -514,7 +524,8 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       Factories.Vehicles.Vehicle.build(:vehicle,
         status: :stopped,
         stop_id: current_stop_id,
-        stop_sequence: 0
+        stop_sequence: 0,
+        trip_id: trip.id
       )
 
     trip_details =
