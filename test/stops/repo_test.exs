@@ -168,6 +168,27 @@ defmodule Stops.RepoTest do
       assert by_route(@route_id, @direction_id, date: weekday) !=
                by_route(@route_id, @direction_id, date: saturday)
     end
+
+    test "adds Boat-F1 stops into Boat-F2H response" do
+      [f1_stop_id, f2h_stop_id, shared_stop_id] =
+        stop_ids =
+        Faker.Util.sample_uniq(3, fn -> Test.Support.FactoryHelpers.build(:id) end)
+
+      [f1_stop_item, f2h_stop_item, shared_stop_item] =
+        stop_ids |> Enum.map(&build(:stop_item, id: &1))
+
+      stub(MBTA.Api.Mock, :get_json, fn "/stops/", args ->
+        case args[:route] do
+          "Boat-F1" -> %JsonApi{data: [f1_stop_item, shared_stop_item]}
+          "Boat-F2H" -> %JsonApi{data: [f2h_stop_item, shared_stop_item]}
+        end
+      end)
+
+      response = by_route("Boat-F2H", Faker.Util.pick([0, 1]))
+
+      assert response |> Enum.map(& &1.id) |> MapSet.new() ==
+               [f1_stop_id, f2h_stop_id, shared_stop_id] |> MapSet.new()
+    end
   end
 
   describe "by_routes/3" do

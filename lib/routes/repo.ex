@@ -28,7 +28,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"cached-all", opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cached_all(opts) do
     result = handle_response(MBTA.Api.Routes.all(opts))
 
@@ -51,9 +56,32 @@ defmodule Routes.Repo do
       {:ok, route} -> route
       {:error, _} -> nil
     end
+    |> update_direction_destinations()
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
+  # by the ferry operator.  This hack is one of a few that merges the two routes for
+  # presentation on the website.  F2H is the one we're showing, F1 is being hidden.
+  # This function updates F2H's inbound direction destination to include Rowes Wharf from F1
+
+  defp update_direction_destinations(%Route{id: "Boat-F2H"} = route) do
+    %Route{
+      route
+      | direction_destinations:
+          route.direction_destinations
+          |> Map.put(1, "Long Wharf or Rowes Wharf")
+    }
+  end
+
+  defp update_direction_destinations(route), do: route
+
+  @decorate cacheable(
+              cache: @cache,
+              key: {"cached-get", id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
+
   defp cached_get(id, opts) do
     with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
@@ -117,7 +145,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(
+              cache: @cache,
+              key: {"cached-by-stop", stop_id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp cached_by_stop(stop_id, opts) do
     stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end

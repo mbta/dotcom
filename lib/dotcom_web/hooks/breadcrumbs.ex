@@ -4,6 +4,7 @@ defmodule DotcomWeb.Hooks.Breadcrumbs do
   """
 
   use Dotcom.Gettext.Sigils
+  use DotcomWeb, :verified_routes
 
   import Phoenix.Component, only: [assign: 3]
   import Util.Breadcrumb
@@ -14,6 +15,15 @@ defmodule DotcomWeb.Hooks.Breadcrumbs do
 
   def on_mount(:trip_planner, _params, _session, socket) do
     {:cont, assign(socket, :breadcrumbs, [build(~t"Trip Planner")])}
+  end
+
+  def on_mount(:world_cup_timetable, _params, _session, socket) do
+    {:cont,
+     assign(socket, :breadcrumbs, [
+       build(~t"Schedules & Maps", ~p"/schedules"),
+       build(~t"Commuter Rail", ~p"/schedules/commuter-rail"),
+       build(~t"Boston Stadium Trains")
+     ])}
   end
 
   # catch-all case

@@ -1,0 +1,93 @@
+<div class="u-bg--commuter-rail">
+  <div class="schedule__header-container">
+    <h1 class="schedule__route-name normal-case notranslate text-[2em] mt-lg mr-md">
+      Boston Stadium Trains
+    </h1>
+    <br />
+    <.badge
+      variant="pill"
+      class="bg-white text-black text-nowrap gap-sm text-sm items-center mt-sm mb-md pl-xs pr-3"
+    >
+      <.icon type="icon-svg" name="football" class="size-6" aria-hidden="true" />
+      {~t(Service to the World Cup)}
+    </.badge>
+  </div>
+</div>
+<div class="container pt-lg">
+  <.callout_link href="/guides/world-cup-guide">
+    {~t(Check out our )}
+    <span class="underline font-medium">{~t(World Cup Guide)}</span>
+    {~t( for information about ____)}
+  </.callout_link>
+  <div class="font-bold mb-2 mt-4">Select a Match</div>
+  <nav
+    :if={is_nil(@selected_match)}
+    aria-label={~t"World Cup Matches"}
+    class="flex flex-col gap-2"
+  >
+    <.match_link
+      :for={{date, label, teams, _} <- @match_list}
+      date={date}
+      label={label}
+      teams={teams}
+    />
+  </nav>
+  <div :if={@selected_match} class="flex flex-col gap-2">
+    <% {date, label, teams, group_times} = @selected_match %>
+    <.selected_match_banner
+      date={date}
+      label={label}
+      teams={teams}
+    />
+    <h2>{~t(Boarding Groups)}</h2>
+    <table class="mbta-table max-w-fit">
+      <thead class="bg-brand-primary-lightest-contrast">
+        <tr class="!border-b-[1px] !border-gray-lighter">
+          <th scope="col">
+            <span class="sr-only">
+              {~t(Group Name)}
+            </span>
+          </th>
+          <th scope="col" class="!text-center">
+            <.link patch={~p"/stops/place-sstat"}>
+              {~t(Check in at South Station between)}
+            </.link>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr :for={{group_name, time_range} <- group_times}>
+          <th
+            scope="row"
+            class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
+          >
+            {group_name} <.ticket_icon />
+          </th>
+          <td class="px-sm py-xs !text-center">
+            {apply(Dotcom.Utils.Time, :formatted_time_range, time_range)}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="max-w-sm">
+    <h2>{~t(Important Information)}</h2>
+    <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
+    <p>
+      {gettext(
+        "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
+        world_cup_link:
+          link(~t(World Cup Guide), to: "/guides/world-cup-guide") |> safe_to_string()
+      )
+      |> raw()}
+    </p>
+    <h3>{~t(Facilisis Sed Mi)}</h3>
+    <p>
+      {~t(Quisque eget tellus eu elit fermentum interdum. Cras rutrum posuere erat et pretium.)}
+    </p>
+    <h4>{~t(Suspendisse potenti)}</h4>
+    <p>
+      {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
+    </p>
+  </div>
+</div>

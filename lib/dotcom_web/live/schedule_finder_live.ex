@@ -948,7 +948,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"

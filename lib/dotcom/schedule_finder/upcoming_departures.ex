@@ -14,10 +14,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   alias Schedules.Schedule
   alias Schedules.Trip
   alias Stops.Stop
+  alias Vehicles.Vehicle
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -37,8 +40,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     ]
 
     @type realtime_arrival_status_t ::
-            :approaching
-            | :arriving
+            :arriving
             | :boarding
             | :now
             | {:departure_seconds, integer()}
@@ -91,6 +93,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             }
     end
   end
+
+  @typep vehicle_at_stop_status_t() ::
+           :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
   @spec upcoming_departures(%{
           direction_id: 0 | 1,
@@ -177,7 +182,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp predicted_schedules(route_id, direction_id, now) do
     all_predictions =
-      @predictions_repo.all(route: route_id, direction_id: direction_id, include_terminals: true)
+      @predictions_repo.all(
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
 
     all_schedules =
       @schedules_repo.by_route_ids([route_id],
@@ -248,14 +258,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
-    vehicle_at_stop_status = PredictedSchedule.vehicle_at_stop_status(predicted_schedule)
+    vehicle = PredictedSchedule.vehicle(predicted_schedule)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
 
     trip_details =
       trip_details(%{
         predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
         trip_id: trip.id,
         stop_id: stop_id,
-        stop_sequence: stop_sequence
+        stop_sequence: stop_sequence,
+        vehicle: vehicle
       })
 
     %UpcomingDeparture{
@@ -282,16 +294,38 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     }
   end
 
+  # Retrieves status if a vehicle is associated with the given stop/sequence
+  @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), Trip.id_t(), integer()) ::
+          vehicle_at_stop_status_t()
+  defp vehicle_at_stop_status(nil, _, _), do: nil
+
+  defp vehicle_at_stop_status(%Vehicle{trip_id: vehicle_trip_id}, trip_id, _)
+       when vehicle_trip_id != trip_id, do: :different_trip
+
+  defp vehicle_at_stop_status(vehicle, _trip_id, stop_sequence) do
+    cond do
+      vehicle.stop_sequence < stop_sequence ->
+        :before_stop
+
+      vehicle.stop_sequence == stop_sequence ->
+        vehicle.status
+
+      vehicle.stop_sequence > stop_sequence ->
+        :after_stop
+    end
+  end
+
   defp trip_details(%{
          predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
          trip_id: trip_id,
          stop_id: stop_id,
-         stop_sequence: stop_sequence
+         stop_sequence: stop_sequence,
+         vehicle: vehicle
        }) do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
-        trip_id: trip_id
+        trip_vehicle: if(vehicle && vehicle.trip_id == trip_id, do: vehicle)
       })
 
     {stops_before, stop, stops_after} =
@@ -314,15 +348,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
 
   defp platform_name(predicted_schedule) do
-    predicted_schedule
-    |> PredictedSchedule.platform_stop_id()
-    |> @stops_repo.get()
-    |> Kernel.then(& &1.platform_name)
-    |> case do
-      nil -> nil
-      "Commuter Rail" -> nil
-      name -> name |> String.trim("Commuter Rail - ")
-    end
+    name =
+      predicted_schedule
+      |> PredictedSchedule.platform_stop_id()
+      |> @stops_repo.get()
+      |> Kernel.then(& &1.platform_name)
+
+    route_type =
+      predicted_schedule
+      |> PredictedSchedule.route()
+      |> Kernel.then(& &1.type)
+
+    simplify_platform_name(name, route_type)
   end
 
   @spec arrival_status(%{
@@ -330,7 +367,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
-          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
@@ -414,8 +451,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           arrival_seconds: integer(),
           departure_seconds: integer(),
           route_type: Route.route_type(),
-          vehicle_at_stop_status: nil | Vehicles.Vehicle.status()
+          vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
+
+  defp realtime_arrival_status(%{
+         vehicle_at_stop_status: :after_stop
+       }),
+       do: :hidden
 
   defp realtime_arrival_status(%{
          arrival_seconds: arrival_seconds,
@@ -443,12 +485,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: :subway
        })
        when arrival_seconds <= 30, do: :arriving
-
-  defp realtime_arrival_status(%{
-         arrival_seconds: arrival_seconds,
-         route_type: :subway
-       })
-       when arrival_seconds <= 60, do: :approaching
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
     do: {:departure_seconds, seconds}

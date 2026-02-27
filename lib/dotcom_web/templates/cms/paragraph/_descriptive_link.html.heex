@@ -1,20 +1,10 @@
-<% content = [
-  content_tag(:div, class: "c-descriptive-link__text") do
-    [
-      content_tag(:div, ContentRewriter.rewrite(@content.title, @conn),
-        class: "c-descriptive-link__title"
-      ),
-      ContentRewriter.rewrite(@content.body, @conn)
-    ]
-  end,
-  content_tag(:div, class: "c-descriptive-link__caret-wrapper") do
-    content_tag(:i, "", class: "c-descriptive-link__caret fa fa-angle-right notranslate")
-  end
-] %>
-
-<%= extend_width_if DescriptiveLink.alone?(@content), :cards do %>
-  {link(content,
-    to: if(@content.link, do: cms_static_page_path(@conn, @content.link.url), else: ""),
-    class: "c-descriptive-link"
-  )}
-<% end %>
+{extend_width_if DescriptiveLink.alone?(@content), :cards do
+  ~H"""
+  <.descriptive_link href={
+    if(@content.link, do: cms_static_page_path(@conn, @content.link.url), else: "")
+  }>
+    <:title>{ContentRewriter.rewrite(@content.title, @conn)}</:title>
+    {ContentRewriter.rewrite(@content.body, @conn)}
+  </.descriptive_link>
+  """
+end}
