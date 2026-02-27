@@ -260,14 +260,82 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         _ -> Factories.Stops.Stop.build(:stop)
       end)
 
-      predicted_schedules =
-        1..3
+      first_predicted_schedule = %PredictedSchedule{
+        prediction:
+          Factories.Predictions.Prediction.build(:prediction,
+            trip: trip,
+            platform_stop_id: stop_id
+          ),
+        schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
+      }
+
+      upcoming_predicted_schedules =
+        1..2
         |> Enum.map(fn _ ->
           %PredictedSchedule{
             prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
             schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
           }
         end)
+
+      predicted_schedules = [first_predicted_schedule | upcoming_predicted_schedules]
+
+      crowding = Faker.Util.pick([:not_crowded, :crowded, :some_crowding])
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_id: stop_id,
+          crowding: crowding,
+          trip_id: trip.id
+        )
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: vehicle
+        })
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == vehicle.status
+      assert vehicle_info.stop_id == stop_id
+      assert vehicle_info.stop_name == stop.name
+      assert vehicle_info.crowding == crowding
+    end
+
+    test "includes vehicle status and stop info for non-subway routes" do
+      platform_name = Faker.Pizza.sauce()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
+      stop_id = stop.id
+      trip = Factories.Schedules.Trip.build(:trip)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^stop_id -> stop
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      first_predicted_schedule = %PredictedSchedule{
+        prediction:
+          Factories.Predictions.Prediction.build(:prediction,
+            platform_stop_id: stop_id,
+            route: route,
+            trip: trip
+          ),
+        schedule: Factories.Schedules.Schedule.build(:schedule, route: route, trip: trip)
+      }
+
+      upcoming_predicted_schedules =
+        1..2
+        |> Enum.map(fn _ ->
+          %PredictedSchedule{
+            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
+          }
+        end)
+
+      predicted_schedules = [first_predicted_schedule | upcoming_predicted_schedules]
 
       crowding = Faker.Util.pick([:not_crowded, :crowded, :some_crowding])
 
@@ -424,6 +492,126 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert trip_details.stops |> Enum.map(& &1.stop_id) == future_stop_ids
     end
 
+    test "returns a status of `:waiting_to_depart` if the vehicle is `:stopped` at the origin stop" do
+      platform_name = Faker.Pizza.sauce()
+      platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+      platform_stop_id = platform_stop.id
+
+      origin_stop = Factories.Stops.Stop.build(:stop, parent_id: nil)
+      origin_stop_id = origin_stop.id
+
+      trip = Factories.Schedules.Trip.build(:trip)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^origin_stop_id -> origin_stop
+        ^platform_stop_id -> platform_stop
+        id -> Factories.Stops.Stop.build(:stop, id: id)
+      end)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          status: :stopped,
+          stop_id: origin_stop_id,
+          trip_id: trip.id
+        )
+
+      first_predicted_schedule = %PredictedSchedule{
+        prediction:
+          Factories.Predictions.Prediction.build(
+            :prediction,
+            arrival_time: nil,
+            stop: Factories.Stops.Stop.build(:stop, id: origin_stop_id),
+            trip: trip,
+            platform_stop_id: platform_stop_id,
+            vehicle_id: vehicle.id
+          ),
+        schedule: Factories.Schedules.Schedule.build(:schedule)
+      }
+
+      upcoming_predicted_schedules =
+        1..2
+        |> Enum.map(fn _ ->
+          %PredictedSchedule{
+            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
+          }
+        end)
+
+      predicted_schedules = [first_predicted_schedule | upcoming_predicted_schedules]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: vehicle
+        })
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == :waiting_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+    end
+
+    test "non-subway `:waiting_to_depart` trips include platform names" do
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      platform_name = Faker.Pizza.sauce()
+      platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+      platform_stop_id = platform_stop.id
+
+      origin_stop = Factories.Stops.Stop.build(:stop, parent_id: nil)
+      origin_stop_id = origin_stop.id
+
+      trip = Factories.Schedules.Trip.build(:trip)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^origin_stop_id -> origin_stop
+        ^platform_stop_id -> platform_stop
+        id -> Factories.Stops.Stop.build(:stop, id: id)
+      end)
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          status: :stopped,
+          stop_id: origin_stop_id,
+          trip_id: trip.id
+        )
+
+      first_predicted_schedule = %PredictedSchedule{
+        prediction:
+          Factories.Predictions.Prediction.build(
+            :prediction,
+            arrival_time: nil,
+            platform_stop_id: platform_stop_id,
+            route: route,
+            stop: Factories.Stops.Stop.build(:stop, id: origin_stop_id),
+            trip: trip,
+            vehicle_id: vehicle.id
+          ),
+        schedule: Factories.Schedules.Schedule.build(:schedule, route: route)
+      }
+
+      upcoming_predicted_schedules =
+        1..2
+        |> Enum.map(fn _ ->
+          %PredictedSchedule{
+            prediction: Factories.Predictions.Prediction.build(:prediction, trip: trip),
+            schedule: Factories.Schedules.Schedule.build(:schedule, trip: trip)
+          }
+        end)
+
+      predicted_schedules = [first_predicted_schedule | upcoming_predicted_schedules]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: vehicle
+        })
+
+      vehicle_info = trip_details.vehicle_info
+      assert vehicle_info.status == :waiting_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+      assert vehicle_info.platform_name == platform_name
+    end
+
     test "uses a status of `:location_unavailable` if the vehicle has no stop_id" do
       predicted_schedules =
         1..3
@@ -500,6 +688,13 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       |> Enum.zip(stop_names)
       |> Enum.map(fn {id, name} -> Factories.Stops.Stop.build(:stop, id: id, name: name) end)
 
+    now = Dotcom.Utils.DateTime.now()
+
+    future_time =
+      Generators.DateTime.random_time_range_date_time(
+        {now, ServiceDateTime.end_of_service_day(now)}
+      )
+
     predicted_schedules =
       stops
       |> Enum.with_index()
@@ -507,6 +702,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
         %PredictedSchedule{
           prediction:
             Factories.Predictions.Prediction.build(:prediction,
+              arrival_time: Faker.Util.pick([nil, future_time]),
               trip: trip,
               stop: stop,
               stop_sequence: index

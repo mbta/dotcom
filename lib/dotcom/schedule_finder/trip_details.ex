@@ -166,7 +166,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
                departure_time: departure_time,
                trip: %Trip{id: prediction_trip_id}
              }
-           }
+           } = ps
            | _
          ]
        )
@@ -176,6 +176,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     %VehicleInfo{
       crowding: crowding,
       departure_time: departure_time,
+      platform_name: platform_name(ps),
       status: :waiting_to_depart,
       stop_id: stop.parent_id || stop.id,
       stop_name: stop.name,
@@ -192,7 +193,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            trip_id: vehicle_trip_id
          },
          [
-           %PredictedSchedule{prediction: %Prediction{trip: %Trip{id: prediction_trip_id}}}
+           %PredictedSchedule{prediction: %Prediction{trip: %Trip{id: prediction_trip_id}}} = ps
            | _
          ]
        )
@@ -201,7 +202,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %VehicleInfo{
       crowding: crowding,
-      platform_name: stop.platform_name,
+      platform_name: platform_name(ps),
       status: status,
       stop_id: stop.parent_id || stop.id,
       stop_name: stop.name,
@@ -223,7 +224,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     upcoming_stops = Enum.take(trip_stops, current - length(trip_stops))
 
     # Omit current trip_stop if the vehicle is stopped
-    if vehicle_info.status in [:stopped, :scheduled_to_depart] do
+    if vehicle_info.status in [:stopped, :scheduled_to_depart, :waiting_to_depart] do
       Enum.drop(upcoming_stops, 1)
     else
       upcoming_stops
