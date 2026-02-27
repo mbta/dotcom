@@ -17,9 +17,10 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       assert {:ok, _, _} = live(conn, path)
     end
 
-    test "shows World Cup service badge", %{conn: conn} do
+    test "shows World Cup service badge + guide link", %{conn: conn} do
       {:ok, view, _} = connect_to_page(conn)
       assert element(view, ".mbta-badge", "Service to the World Cup")
+      assert element(view, ~s'a[href="/guides/world-cup-guide"]')
     end
 
     test "shows no boarding timetable / shows links to matches", %{conn: conn} do
