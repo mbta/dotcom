@@ -28,6 +28,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @valid_directions ["0", "1"]
+  @valid_routes Routes.Repo.all() |> Enum.map(fn route -> route.id end)
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -136,11 +138,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def handle_params(
-        %{"direction_id" => _direction, "route_id" => _route_id} = params,
+        %{"direction_id" => direction, "route_id" => route_id} = params,
         url,
         socket
       ) do
-    handle_full_params(params, url, socket)
+    dbg(@valid_routes)
+
+    if direction in @valid_directions and route_id in @valid_routes do
+      handle_full_params(params, url, socket)
+    else
+      {:noreply, push_patch(socket, to: ~p"/404")}
+    end
   end
 
   def handle_params(_, _, socket) do
