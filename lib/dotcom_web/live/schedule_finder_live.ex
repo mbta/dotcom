@@ -135,7 +135,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_params(%{"direction_id" => direction, "route_id" => route_id} = params, _uri, socket) do
+  def handle_params(
+        %{"direction_id" => _direction, "route_id" => _route_id} = params,
+        url,
+        socket
+      ) do
+    handle_full_params(params, url, socket)
+  end
+
+  def handle_params(_, _, socket) do
+    {:noreply, push_patch(socket, to: ~p"/schedules")}
+  end
+
+  def handle_full_params(
+        %{"direction_id" => direction, "route_id" => route_id} = params,
+        _uri,
+        socket
+      ) do
     {direction_id, _} = Integer.parse(direction)
     service_groups = ServiceGroup.for_route(route_id, service_date())
 
