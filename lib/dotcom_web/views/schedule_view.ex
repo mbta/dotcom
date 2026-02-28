@@ -415,8 +415,8 @@ defmodule DotcomWeb.ScheduleView do
     stop.station?
   end
 
-  @spec flag_stop_badge(Route.t()) :: Safe.t() | nil
-  def flag_stop_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
+  @spec route_feature_badge(Route.t()) :: Safe.t() | nil
+  def route_feature_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
     assigns = %{}
 
     ~H"""
@@ -431,7 +431,7 @@ defmodule DotcomWeb.ScheduleView do
     """
   end
 
-  def flag_stop_badge(_route) do
+  def route_feature_badge(_route) do
     nil
   end
 
