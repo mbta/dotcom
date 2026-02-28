@@ -420,14 +420,16 @@ defmodule DotcomWeb.ScheduleView do
     assigns = %{}
 
     ~H"""
-    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
-      <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
-        <.icon class="h-3.5 w-3.5" name="flag" />
-      </div>
-      <span class="text-sm font-bold text-black my-[0.094rem]">
+    <.badge_with_icon>
+      <:icon>
+        <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
+          <.icon class="h-3.5 w-3.5" name="flag" />
+        </div>
+      </:icon>
+      <:text>
         {~t"Flag the bus in any safe place along the route"}
-      </span>
-    </div>
+      </:text>
+    </.badge_with_icon>
     """
   end
 
@@ -435,18 +437,31 @@ defmodule DotcomWeb.ScheduleView do
     assigns = %{}
 
     ~H"""
-    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
-      <.icon class="size-6" type="icon-svg" name="icon-seasonal-ferry-sun" />
-
-      <span class="text-sm font-bold text-black my-[0.094rem]">
-        {~t"Seasonal Service"}
-      </span>
-    </div>
+    <.badge_with_icon>
+      <:icon>
+        <.icon class="size-6" type="icon-svg" name="icon-seasonal-ferry-sun" />
+      </:icon>
+      <:text>{~t"Seasonal Service"}</:text>
+    </.badge_with_icon>
     """
   end
 
   def route_feature_badge(_route) do
     nil
+  end
+
+  slot :icon, required: true
+  slot :text, required: true
+
+  defp badge_with_icon(assigns) do
+    ~H"""
+    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
+      {render_slot(@icon)}
+      <span class="text-sm font-bold text-black my-[0.094rem]">
+        {render_slot(@text)}
+      </span>
+    </div>
+    """
   end
 
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
