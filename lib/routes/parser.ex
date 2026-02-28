@@ -74,17 +74,17 @@ defmodule Routes.Parser do
   @spec parse_gtfs_desc(String.t()) :: Route.gtfs_route_desc()
   def parse_gtfs_desc(description)
   def parse_gtfs_desc("Airport Shuttle"), do: :airport_shuttle
-  def parse_gtfs_desc("Commuter Rail"), do: :commuter_rail
-  def parse_gtfs_desc("Rapid Transit"), do: :rapid_transit
-  def parse_gtfs_desc("Local Bus"), do: :local_bus
-  def parse_gtfs_desc("Ferry"), do: :ferry
-  def parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
-  def parse_gtfs_desc("Frequent Bus"), do: :frequent_bus_route
-  def parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
-  def parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
   def parse_gtfs_desc("Community Bus"), do: :community_bus
+  def parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
+  def parse_gtfs_desc("Commuter Rail"), do: :commuter_rail
   def parse_gtfs_desc("Coverage Bus"), do: :coverage_bus
+  def parse_gtfs_desc("Ferry"), do: :ferry
+  def parse_gtfs_desc("Frequent Bus"), do: :frequent_bus_route
+  def parse_gtfs_desc("Local Bus"), do: :local_bus
+  def parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
+  def parse_gtfs_desc("Rapid Transit"), do: :rapid_transit
   def parse_gtfs_desc("Regional Rail"), do: :regional_rail
+  def parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
   def parse_gtfs_desc(_), do: :unknown
 
   @spec parse_gtfs_fare_class(String.t()) :: Route.gtfs_fare_class()
