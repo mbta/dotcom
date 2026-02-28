@@ -89,7 +89,9 @@ defmodule Dotcom.ServicePatternsTest do
       route_id = FactoryHelpers.build(:id)
 
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        [start_date, end_date] = Faker.Util.sample_uniq(2, fn -> Faker.Date.backward(100) end)
+        [start_date, end_date] =
+          Faker.Util.sample_uniq(2, fn -> Faker.Date.backward(100) end)
+          |> Enum.sort(Date)
 
         [build(:service, start_date: start_date, end_date: end_date)]
       end)
