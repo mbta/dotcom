@@ -71,6 +71,7 @@ defmodule Routes.Route do
           | :local_bus
           | :rail_replacement_bus
           | :rapid_transit
+          | :seasonal_ferry
           | :supplemental_bus
           | :unknown
   @type gtfs_fare_class ::

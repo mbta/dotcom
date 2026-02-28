@@ -431,6 +431,20 @@ defmodule DotcomWeb.ScheduleView do
     """
   end
 
+  def route_feature_badge(%Route{description: :seasonal_ferry}) do
+    assigns = %{}
+
+    ~H"""
+    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
+      <.icon class="size-6" type="icon-svg" name="icon-seasonal-ferry-sun" />
+
+      <span class="text-sm font-bold text-black my-[0.094rem]">
+        {~t"Seasonal Service"}
+      </span>
+    </div>
+    """
+  end
+
   def route_feature_badge(_route) do
     nil
   end

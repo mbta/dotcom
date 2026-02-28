@@ -84,6 +84,7 @@ defmodule Routes.Parser do
   def parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
   def parse_gtfs_desc("Rapid Transit"), do: :rapid_transit
   def parse_gtfs_desc("Regional Rail"), do: :regional_rail
+  def parse_gtfs_desc("Seasonal Ferry"), do: :seasonal_ferry
   def parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
   def parse_gtfs_desc(_), do: :unknown
 
