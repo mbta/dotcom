@@ -248,7 +248,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_stop(socket, params) do
-    stop_id = Map.get(params, "stop")
+    stop_id = Map.get(params, "stop_id")
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
   end
 
