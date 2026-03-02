@@ -325,7 +325,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
-        trip_vehicle: if(vehicle && vehicle.trip_id == trip_id, do: vehicle)
+        trip_vehicle: vehicle
       })
 
     {stops_before, stop, stops_after} =

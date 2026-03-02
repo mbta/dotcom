@@ -726,11 +726,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
               stop_pin?={upcoming_departure.trip_details.stop == nil}
             >
               <div class="grow font-medium">
-                {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
-                <.vehicle_crowding
-                  crowding={crowding(upcoming_departure.trip_details.vehicle_info)}
-                  show_label?
-                />
+                <.vehicle_label vehicle_info={upcoming_departure.trip_details.vehicle_info} />
+              </div>
+              <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
+                <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
               </div>
             </.lined_list_item>
             <details
@@ -804,6 +803,37 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp vehicle_label(%{vehicle_info: %{status: :finishing_another_trip}} = assigns) do
+    ~H"""
+    {~t"Finishing another trip"}
+    """
+  end
+
+  defp vehicle_label(%{vehicle_info: %{status: :location_unavailable}} = assigns) do
+    ~H"""
+    {~t"Location unavailable"}
+    """
+  end
+
+  defp vehicle_label(assigns) do
+    ~H"""
+    <div class="font-normal text-charcoal-30 text-sm">
+      {vehicle_status_message(@vehicle_info.status)}
+    </div>
+    <.stop_label stop_name={@vehicle_info.stop_name} platform_name={@vehicle_info.platform_name} />
+    <.vehicle_crowding
+      crowding={crowding(@vehicle_info)}
+      show_label?
+    />
+    """
+  end
+
+  defp vehicle_status_message(:scheduled_to_depart), do: ~t"Scheduled to depart"
+  defp vehicle_status_message(:waiting_to_depart), do: ~t"Waiting to depart"
+  defp vehicle_status_message(:in_transit), do: ~t"Next stop"
+  defp vehicle_status_message(:incoming), do: ~t"Approaching"
+  defp vehicle_status_message(:stopped), do: ~t"Now at"
+
   defp crowding(%TripDetails.VehicleInfo{crowding: crowding}), do: crowding
   defp crowding(_), do: nil
 
@@ -845,21 +875,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp crowding_message(:crowded), do: ~t"Crowded"
   defp crowding_message(_), do: ""
 
-  defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
-    do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
-    do: gettext("Approaching %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
-    do: gettext("Now at %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :location_unavailable}),
-    do: ~t"Location not yet available"
-
-  defp vehicle_message(nil),
-    do: ~t"Finishing another trip"
-
   attr :class, :string, default: ""
   attr :route, Route, required: true
   attr :other_stop, :any, required: true
@@ -869,8 +884,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
       <div class={["grow", @highlight && "font-bold"]}>
-        <div>{@other_stop.stop_name}</div>
-        <div :if={@other_stop.platform_name} class="text-sm">{@other_stop.platform_name}</div>
+        <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
       <div class={[
         "ml-auto",
@@ -880,6 +894,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <.trip_stop_time time={@other_stop.time} />
       </div>
     </.lined_list_item>
+    """
+  end
+
+  attr :stop_name, :string, required: true
+  attr :platform_name, :string, default: nil
+
+  defp stop_label(assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-x-2 items-center">
+      <div>{@stop_name}</div>
+      <div :if={@platform_name} class="text-sm">{@platform_name}</div>
+    </div>
     """
   end
 
