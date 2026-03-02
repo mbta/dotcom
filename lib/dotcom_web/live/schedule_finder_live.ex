@@ -13,6 +13,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ErrorView
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
@@ -64,76 +65,80 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
       |> assign(:now, @date_time.now())
 
-    ~H"""
-    <Prototype.route_stop_picker
-      selected_route={@route}
-      selected_direction_id={@direction_id}
-    />
-    <.route_banner route={@route} direction_id={@direction_id} />
-    <.stop_banner stop={@stop} />
-    <div class="px-3 py-xl flex flex-col gap-y-xl">
-      <.alert_banner alerts={@alerts} />
-      <section :if={show_upcoming_departures?(@route)}>
-        <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <%= if ServicePatterns.has_service?(route: @route.id) do %>
-          <.upcoming_departures_section
-            :if={@stop}
-            now={@now}
-            stop={@stop}
-            upcoming_departures={@upcoming_departures}
-            route={@route}
-            last_trip_time={@last_trip_time}
-          />
-        <% else %>
-          <.callout>{~t(No service today)}</.callout>
-        <% end %>
-      </section>
-      <section>
-        <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-        <.service_picker
-          id={"service-picker-#{@route.id}"}
-          selected_service_name={@selected_service_name}
-          service_groups={@service_groups}
-        />
-        <.async_result :let={departures} :if={@stop} assign={@departures}>
-          <:loading>
-            <div class="mt-lg mb-md flex justify-center">
-              <.spinner aria_label={~t"Loading schedules for selected service"} />
-            </div>
-          </:loading>
-          <:failed :let={fail}>
-            <.error_container title={inspect(fail)}>
-              {~t"There was a problem loading schedules"}
-            </.error_container>
-          </:failed>
-          <%= if length(departures) > 0 do %>
-            <%= if @route.type in [0, 1] do %>
-              <div
-                :for={
-                  {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                }
-                class="mt-lg mb-md"
-              >
-                <.subway_destination route={route} destination={destination} />
-                <.first_last times={times} vehicle_name={@vehicle_name} />
-                <.subway_headways times={times} />
-              </div>
-            <% else %>
-              <.first_last
-                times={Enum.map(departures, & &1.time)}
-                vehicle_name={@vehicle_name}
-              />
-              <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-            <% end %>
+    if(!is_nil(assigns.route) and !is_nil(assigns.direction_id)) do
+      ~H"""
+      <Prototype.route_stop_picker
+        selected_route={@route}
+        selected_direction_id={@direction_id}
+      />
+      <.route_banner route={@route} direction_id={@direction_id} />
+      <.stop_banner stop={@stop} />
+      <div class="px-3 py-xl flex flex-col gap-y-xl">
+        <.alert_banner alerts={@alerts} />
+        <section :if={show_upcoming_departures?(@route)}>
+          <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
+          <%= if ServicePatterns.has_service?(route: @route.id) do %>
+            <.upcoming_departures_section
+              :if={@stop}
+              now={@now}
+              stop={@stop}
+              upcoming_departures={@upcoming_departures}
+              route={@route}
+              last_trip_time={@last_trip_time}
+            />
           <% else %>
-            <.callout>
-              {no_service_message(@service_groups, @route, @stop)}
-            </.callout>
+            <.callout>{~t(No service today)}</.callout>
           <% end %>
-        </.async_result>
-      </section>
-    </div>
-    """
+        </section>
+        <section>
+          <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+          <.service_picker
+            id={"service-picker-#{@route.id}"}
+            selected_service_name={@selected_service_name}
+            service_groups={@service_groups}
+          />
+          <.async_result :let={departures} :if={@stop} assign={@departures}>
+            <:loading>
+              <div class="mt-lg mb-md flex justify-center">
+                <.spinner aria_label={~t"Loading schedules for selected service"} />
+              </div>
+            </:loading>
+            <:failed :let={fail}>
+              <.error_container title={inspect(fail)}>
+                {~t"There was a problem loading schedules"}
+              </.error_container>
+            </:failed>
+            <%= if length(departures) > 0 do %>
+              <%= if @route.type in [0, 1] do %>
+                <div
+                  :for={
+                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                  }
+                  class="mt-lg mb-md"
+                >
+                  <.subway_destination route={route} destination={destination} />
+                  <.first_last times={times} vehicle_name={@vehicle_name} />
+                  <.subway_headways times={times} />
+                </div>
+              <% else %>
+                <.first_last
+                  times={Enum.map(departures, & &1.time)}
+                  vehicle_name={@vehicle_name}
+                />
+                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+              <% end %>
+            <% else %>
+              <.callout>
+                {no_service_message(@service_groups, @route, @stop)}
+              </.callout>
+            <% end %>
+          </.async_result>
+        </section>
+      </div>
+      """
+    else
+      DotcomWeb.ErrorView.render("404.html", assigns)
+    end
   end
 
   @impl LiveView
@@ -142,12 +147,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
         url,
         socket
       ) do
-    dbg(@valid_routes)
-
     if direction in @valid_directions and route_id in @valid_routes do
       handle_full_params(params, url, socket)
     else
-      {:noreply, push_patch(socket, to: ~p"/404")}
+      {:noreply, put_flash(socket, :error, "Invalid parameters passed")}
     end
   end
 
