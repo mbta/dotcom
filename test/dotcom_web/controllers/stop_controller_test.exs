@@ -14,9 +14,11 @@ defmodule DotcomWeb.StopControllerTest do
   setup :verify_on_exit!
 
   @banner_alert_effects [
+    :access_issue,
     :detour,
     :dock_closure,
     :dock_issue,
+    :elevator_closure,
     :service_change,
     :shuttle,
     :station_closure,
@@ -24,9 +26,7 @@ defmodule DotcomWeb.StopControllerTest do
     :stop_closure,
     :stop_moved,
     :stop_shoveling,
-    :suspension,
-    :elevator_closure,
-    :access_issue
+    :suspension
   ]
 
   @non_banner_alert_effects Alerts.Alert.all_types() -- @banner_alert_effects

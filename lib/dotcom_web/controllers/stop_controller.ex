@@ -114,14 +114,11 @@ defmodule DotcomWeb.StopController do
 
   defp banner_alert?(alert, now) do
     !global_banner_alert?(alert) &&
-      banner_alert_active_or_future?(alert, now)
+      banner_alert_active_effect?(alert) &&
+      active_in_next_n_days?(alert, 7, now)
   end
 
-  defp banner_alert_active_or_future?(alert, now) do
-    banner_alert_active_or_future_effect?(alert) && active_in_next_n_days?(alert, 7, now)
-  end
-
-  defp banner_alert_active_or_future_effect?(alert) do
+  defp banner_alert_active_effect?(alert) do
     alert.effect in [
       :access_issue,
       :detour,
