@@ -142,12 +142,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def handle_params(
-        %{"direction_id" => direction_id, "route_id" => route_id} = params,
+        %{"direction_id" => direction, "route_id" => route_id} = params,
         url,
         socket
-      )
-      when direction_id in ["0", "1"] do
-    if route_id in (Routes.Repo.all() |> Enum.map(fn route -> route.id end)) do
+      ) do
+    valid_directions = ["0", "1"]
+    valid_routes = Routes.Repo.all() |> Enum.map(fn route -> route.id end)
+    # If we have valid params parse them, otherwise skip that step and
+    # the render() function will choose whether to show SF or 404 content
+    if direction in valid_directions and route_id in valid_routes do
       handle_full_params(params, url, socket)
     else
       {:noreply, socket}
