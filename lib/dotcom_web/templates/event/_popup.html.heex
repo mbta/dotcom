@@ -26,7 +26,8 @@
         event_started: has_started?(@event),
         conn: @conn,
         class: "popup-version",
-        path: @event.path
+        path: @event.path,
+        title: @event.title
       )}
       <div class={"m-event__time-information" <> (if ended?(@event), do: "gray", else: "")}>
         <% %{date: date, time: time} =
