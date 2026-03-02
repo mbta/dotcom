@@ -46,7 +46,12 @@ defmodule Dotcom.Utils.Enum do
   # Otherwise, we are at the end and we can process the tail.
   defp group(list) do
     list
-    |> Enum.group_by(&List.first/1, fn l -> l |> Kernel.tl() |> List.flatten() end)
+    |> Enum.group_by(
+      fn g ->
+        g |> List.wrap() |> List.first()
+      end,
+      fn l -> l |> List.wrap() |> Kernel.tl() |> List.flatten() end
+    )
     |> Enum.reduce(%{}, fn {k, v}, acc ->
       if remaining_lists?(v) do
         Map.put(acc, k, group(v))
