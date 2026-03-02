@@ -1,4 +1,7 @@
-<% grid_template = if @mode_icon == :bus, do: "_grid_buttons_bus.html", else: "_grid_buttons.html" %>
+<% grid_template =
+  if @mode_icon == :bus,
+    do: "_grid_buttons_bus.html",
+    else: if(@mode_icon == :ferry, do: "_grid_buttons_ferry.html", else: "_grid_buttons.html") %>
 <div class="container">
   <div class="page-section">
     <div class="row">
