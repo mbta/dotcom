@@ -150,7 +150,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if direction in @valid_directions and route_id in @valid_routes do
       handle_full_params(params, url, socket)
     else
-      {:noreply, put_flash(socket, :error, "Invalid parameters passed")}
+      {:noreply, socket}
     end
   end
 
