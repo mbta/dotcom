@@ -426,9 +426,8 @@ defmodule DotcomWeb.ScheduleView do
           <.icon class="h-3.5 w-3.5" name="flag" />
         </div>
       </:icon>
-      <:text>
-        {~t"Flag the bus in any safe place along the route"}
-      </:text>
+
+      {~t"Flag the bus in any safe place along the route"}
     </.badge_with_icon>
     """
   end
@@ -441,7 +440,8 @@ defmodule DotcomWeb.ScheduleView do
       <:icon>
         <.icon class="size-6" type="icon-svg" name="icon-seasonal-ferry-sun" />
       </:icon>
-      <:text>{~t"Seasonal Service"}</:text>
+
+      {~t"Seasonal Service"}
     </.badge_with_icon>
     """
   end
@@ -451,14 +451,14 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   slot :icon, required: true
-  slot :text, required: true
+  slot :inner_block, required: true
 
   defp badge_with_icon(assigns) do
     ~H"""
     <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
       {render_slot(@icon)}
       <span class="text-sm font-bold text-black my-[0.094rem]">
-        {render_slot(@text)}
+        {render_slot(@inner_block)}
       </span>
     </div>
     """
