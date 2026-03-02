@@ -50,7 +50,17 @@ defmodule Dotcom.Utils.Enum do
       fn g ->
         g |> List.wrap() |> List.first()
       end,
-      fn l -> l |> List.wrap() |> Kernel.tl() |> List.flatten() end
+      fn l ->
+        case List.wrap(l) do
+          [] ->
+            []
+
+          l ->
+            l
+            |> Kernel.tl()
+            |> List.flatten()
+        end
+      end
     )
     |> Enum.reduce(%{}, fn {k, v}, acc ->
       if remaining_lists?(v) do
