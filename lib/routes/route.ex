@@ -63,15 +63,16 @@ defmodule Routes.Route do
           :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
   @type gtfs_route_desc ::
           :airport_shuttle
-          | :commuter_rail
-          | :rapid_transit
-          | :local_bus
-          | :ferry
-          | :rail_replacement_bus
-          | :frequent_bus_route
-          | :supplemental_bus
-          | :commuter_bus
           | :community_bus
+          | :commuter_bus
+          | :commuter_rail
+          | :ferry
+          | :frequent_bus_route
+          | :local_bus
+          | :rail_replacement_bus
+          | :rapid_transit
+          | :seasonal_ferry
+          | :supplemental_bus
           | :unknown
   @type gtfs_fare_class ::
           :local_bus_fare
