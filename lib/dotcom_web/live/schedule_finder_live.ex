@@ -65,7 +65,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
       |> assign(:now, @date_time.now())
 
-    if(!is_nil(assigns.route) and !is_nil(assigns.direction_id)) do
+    # If we have valid params, render SF, otherwise render the 404 page
+    if(is_nil(assigns.route) or is_nil(assigns.direction_id)) do
+      DotcomWeb.ErrorView.render("404.html", assigns)
+    else
       ~H"""
       <Prototype.route_stop_picker
         selected_route={@route}
@@ -136,8 +139,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </section>
       </div>
       """
-    else
-      DotcomWeb.ErrorView.render("404.html", assigns)
     end
   end
 
@@ -147,6 +148,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         url,
         socket
       ) do
+    # If we have valid params parse them, otherwise skip that step and
+    # the render function choose whether to show content or error
     if direction in @valid_directions and route_id in @valid_routes do
       handle_full_params(params, url, socket)
     else
@@ -154,6 +157,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
+  # If no params are passed, forward the user to the schedule page
   def handle_params(_, _, socket) do
     {:noreply, push_patch(socket, to: ~p"/schedules")}
   end
