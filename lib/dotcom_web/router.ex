@@ -299,7 +299,7 @@ defmodule DotcomWeb.Router do
 
   scope "/departures", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :departures, layout: {DotcomWeb.LayoutView, :live} do
       live "/", ScheduleFinderLive
