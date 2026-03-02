@@ -30,6 +30,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @valid_directions ["0", "1"]
+  @valid_routes Routes.Repo.all() |> Enum.map(fn route -> route.id end) || []
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -149,8 +150,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       ) do
     # If we have valid params parse them, otherwise skip that step and
     # the render function choose whether to show content or error
-    if direction in @valid_directions and
-         (route_id in Routes.Repo.all()) |> Enum.map(fn route -> route.id end) do
+    if direction in @valid_directions and route_id in @valid_routes do
       handle_full_params(params, url, socket)
     else
       {:noreply, socket}
