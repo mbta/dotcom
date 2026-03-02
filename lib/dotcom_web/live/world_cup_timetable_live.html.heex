@@ -25,6 +25,14 @@
   >
     <%= case @selected_match do %>
       <% {date, label, teams, _} -> %>
+        <.button
+          variant="secondary"
+          class="self-start"
+          phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
+        >
+          <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
+          {~t(View All Matches)}
+        </.button>
         <.selected_match_banner date={date} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>

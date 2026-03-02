@@ -39,14 +39,6 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   def selected_match_banner(assigns) do
     ~H"""
-    <.button
-      variant="secondary"
-      class="self-start"
-      phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
-    >
-      <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
-      {~t(View All Matches)}
-    </.button>
     <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm bg-brand-primary text-white justify-between">
       <div class="font-bold">{@label} ({formatted_date(@date)})</div>
       <.teams selected teams={@teams} />
