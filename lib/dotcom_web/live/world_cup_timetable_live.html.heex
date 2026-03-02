@@ -13,33 +13,40 @@
     </.badge>
   </div>
 </div>
-<div class="container pt-lg">
+<div class="container pt-lg flex flex-col gap-lg items-start">
   <.callout_link href="/guides/world-cup-guide">
     {~t(Check out our )}
     <span class="underline font-medium">{~t(World Cup Guide)}</span>
     {~t( for information about ____)}
   </.callout_link>
-  <div class="font-bold mb-2 mt-4">Select a Match</div>
   <nav
-    :if={is_nil(@selected_match)}
     aria-label={~t"World Cup Matches"}
     class="flex flex-col gap-2"
   >
-    <.match_link
-      :for={{date, label, teams, _} <- @match_list}
-      date={date}
-      label={label}
-      teams={teams}
-    />
+    <%= case @selected_match do %>
+      <% {date, label, teams, _} -> %>
+        <.button
+          variant="secondary"
+          class="self-start"
+          phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
+        >
+          <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
+          {~t(View All Matches)}
+        </.button>
+        <.selected_match_banner date={date} label={label} teams={teams} />
+      <% _ -> %>
+        <div class="font-bold">Select a Match</div>
+        <.match_link
+          :for={{date, label, teams, _} <- @match_list}
+          date={date}
+          label={label}
+          teams={teams}
+        />
+    <% end %>
   </nav>
-  <div :if={@selected_match} class="flex flex-col gap-2">
-    <% {date, label, teams, group_times} = @selected_match %>
-    <.selected_match_banner
-      date={date}
-      label={label}
-      teams={teams}
-    />
-    <h2>{~t(Boarding Groups)}</h2>
+  <div :if={@selected_match}>
+    <% {_, _, _, group_times} = @selected_match %>
+    <h2 class="mt-0">{~t(Boarding Groups)}</h2>
     <table class="mbta-table max-w-fit">
       <thead class="bg-brand-primary-lightest-contrast">
         <tr class="!border-b-[1px] !border-gray-lighter">
@@ -71,7 +78,7 @@
     </table>
   </div>
   <div class="max-w-sm">
-    <h2>{~t(Important Information)}</h2>
+    <h2 class="mt-0">{~t(Important Information)}</h2>
     <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
     <p>
       {gettext(
