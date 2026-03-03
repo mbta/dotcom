@@ -114,7 +114,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
               >
                 <.subway_destination route={route} destination={destination} />
                 <.first_last times={times} vehicle_name={@vehicle_name} />
-                <.subway_headways times={times} />
               </div>
             <% else %>
               <.first_last
@@ -584,28 +583,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       {gettext("to %{destination}", destination: @destination)}
     </div>
     """
-  end
-
-  attr :times, :list, required: true
-
-  defp subway_headways(assigns) do
-    ~H"""
-    <div class="bg-cobalt-90 p-3 mt-sm">
-      {headway_range(@times)}
-    </div>
-    """
-  end
-
-  # later: just use hardcoded times
-  defp headway_range(times) do
-    {min, max} =
-      times
-      |> Stream.chunk_every(2)
-      |> Stream.filter(&(length(&1) == 2))
-      |> Stream.map(fn [t1, t2] -> DateTime.diff(t2, t1, :minute) end)
-      |> Enum.min_max(fn -> {nil, nil} end)
-
-    gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
   end
 
   defp upcoming_departures_section(
