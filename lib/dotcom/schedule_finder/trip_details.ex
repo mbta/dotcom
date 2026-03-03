@@ -53,7 +53,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :status,
       :stop_id,
       :stop_name,
-      :stop_sequence
+      :stop_sequence,
+      :vehicle_id
     ]
 
     @type trip_vehicle_status_t() ::
@@ -67,7 +68,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
-            stop_sequence: non_neg_integer()
+            stop_sequence: non_neg_integer(),
+            vehicle_id: nil | String.t()
           }
   end
 
@@ -84,7 +86,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
   def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
-    vehicle_info = vehicle_info(vehicle, predicted_schedules)
+    vehicle_info = vehicle_info(vehicle, predicted_schedules) || {}
 
     stops =
       predicted_schedules

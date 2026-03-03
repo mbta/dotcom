@@ -762,8 +762,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           String.upcase(String.slice(word, 0..0)) <> String.downcase(String.slice(word, 1..-1//1))
 
         cased_word
-      end) ||
-        nil
+      end)
 
     words
   end
