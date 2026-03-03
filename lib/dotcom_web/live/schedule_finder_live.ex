@@ -753,6 +753,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: id}}}) do
+    words =
+      id
+      |> String.split(" ")
+      |> Enum.map(fn word ->
+        cased_word =
+          String.upcase(String.slice(word, 0..0)) <> String.downcase(String.slice(word, 1..-1//1))
+
+        cased_word
+      end) ||
+        nil
+
+    words
+  end
+
+  defp boat_name(_), do: nil
+
   defp upcoming_departure_heading(assigns) do
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
@@ -764,6 +781,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
           &bull;
         </span>
         {@upcoming_departure.platform_name || ~t"Track TBA"}
+      </:track_info>
+
+      <:track_info :if={boat_name(@upcoming_departure)}>
+        {gettext("Boat %{boat_name}", boat_name: boat_name(@upcoming_departure))}
       </:track_info>
 
       <:time>
@@ -1110,6 +1131,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp show_upcoming_departures?(%Route{} = route), do: Route.type_atom(route) != :ferry
+  defp show_upcoming_departures?(%Route{} = _route), do: true
   defp show_upcoming_departures?(_), do: false
 end

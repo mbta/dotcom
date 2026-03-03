@@ -106,7 +106,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %__MODULE__{
       stops: stops,
-      vehicle_info: vehicle_info
+      vehicle_info: vehicle_info |> Map.put(:vehicle_id, vehicle.id)
     }
   end
 
