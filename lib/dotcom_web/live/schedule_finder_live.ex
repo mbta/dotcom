@@ -147,10 +147,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         socket
       ) do
     valid_directions = ["0", "1"]
-    valid_routes = Routes.Repo.all() |> Enum.map(fn route -> route.id end)
     # If we have valid params parse them, otherwise skip that step and
     # the render() function will choose whether to show SF or 404 content
-    if direction in valid_directions and route_id in valid_routes do
+    if direction in valid_directions and !is_nil(@routes_repo.get(route_id)) do
       handle_full_params(params, url, socket)
     else
       {:noreply, socket}
