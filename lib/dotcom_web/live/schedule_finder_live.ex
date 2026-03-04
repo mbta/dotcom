@@ -762,11 +762,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
       id
       |> String.split(" ")
       |> Enum.map(fn word ->
-        cased_word =
-          String.capitalize(word)
-
-        cased_word
+        String.capitalize(word)
       end)
+      |> Enum.join(" ")
     end
 
     String.capitalize(id)
