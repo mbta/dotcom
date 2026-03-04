@@ -98,38 +98,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
             selected_service_name={@selected_service_name}
             service_groups={@service_groups}
           />
-        <% else %>
-          <.callout>{~t(No service today)}</.callout>
-        <% end %>
-      </section>
-      <section>
-        <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-        <.service_picker
-          id={"service-picker-#{@route.id}"}
-          selected_service_name={@selected_service_name}
-          service_groups={@service_groups}
-        />
-        <.async_result :let={departures} :if={@stop} assign={@departures}>
-          <:loading>
-            <div class="mt-lg mb-md flex justify-center">
-              <.spinner aria_label={~t"Loading schedules for selected service"} />
-            </div>
-          </:loading>
-          <:failed :let={fail}>
-            <.error_container title={inspect(fail)}>
-              {~t"There was a problem loading schedules"}
-            </.error_container>
-          </:failed>
-          <%= if length(departures) > 0 do %>
-            <%= if @route.type in [0, 1] do %>
-              <div
-                :for={
-                  {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                }
-                class="mt-lg mb-md"
-              >
-                <.subway_destination route={route} destination={destination} />
-                <.first_last times={times} vehicle_name={@vehicle_name} />
+          <.async_result :let={departures} :if={@stop} assign={@departures}>
+            <:loading>
+              <div class="mt-lg mb-md flex justify-center">
+                <.spinner aria_label={~t"Loading schedules for selected service"} />
               </div>
             </:loading>
             <:failed :let={fail}>
@@ -147,7 +119,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 >
                   <.subway_destination route={route} destination={destination} />
                   <.first_last times={times} vehicle_name={@vehicle_name} />
-                  <.subway_headways times={times} />
                 </div>
               <% else %>
                 <.first_last
