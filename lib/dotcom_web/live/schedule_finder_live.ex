@@ -761,13 +761,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if(!is_nil(id) && String.contains?(id, " ")) do
       id
       |> String.split(" ")
-      |> Enum.map(fn word ->
-        String.capitalize(word)
-      end)
-      |> Enum.join(" ")
+      |> Enum.map_join(
+        " ",
+        fn word ->
+          String.capitalize(word)
+        end
+      )
+    else
+      String.capitalize(id)
     end
-
-    String.capitalize(id)
   end
 
   defp boat_name(_), do: nil
