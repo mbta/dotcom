@@ -773,7 +773,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </:additional_info>
 
       <:additional_info :if={@upcoming_departure.trip_details.vehicle_info.vehicle_name}>
-        {@upcoming_departure.trip_details.vehicle_info.vehicle_name}
+        <i>{@upcoming_departure.trip_details.vehicle_info.vehicle_name}</i>
       </:additional_info>
 
       <:time>
