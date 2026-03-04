@@ -13,7 +13,7 @@ defmodule DotcomWeb.PreviewLive do
 
   @pages [
     %{
-      arguments: ["Red", "0"],
+      arguments: [[route_id: "Red", direction_id: "0"]],
       icon_name: "icon-realtime-tracking",
       module: ScheduleFinderLive,
       title: "Schedule Finder 2.0"
