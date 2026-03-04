@@ -257,7 +257,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     stop.stop_id == vehicle.stop_id && stop.stop_sequence == vehicle.stop_sequence
   end
 
-  defp boat_name(_name = nil) do
+  defp boat_name(nil = _name) do
     nil
   end
 
