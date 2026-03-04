@@ -69,7 +69,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
             stop_sequence: non_neg_integer(),
-            vehicle_id: nil | String.t()
+            vehicle_id: nil | Vehicles.Vehicle.id_t()
           }
   end
 

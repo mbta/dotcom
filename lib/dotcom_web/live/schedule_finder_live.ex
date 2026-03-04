@@ -764,8 +764,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         |> String.split(" ")
         |> Enum.map(fn word ->
           cased_word =
-            String.upcase(String.slice(word, 0..0)) <>
-              String.downcase(String.slice(word, 1..-1//1))
+            String.capitalize(word)
 
           cased_word
         end)
@@ -774,8 +773,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
 
     cased_word =
-      String.upcase(String.slice(id, 0..0)) <>
-        String.downcase(String.slice(id, 1..-1//1))
+      String.capitalize(id)
 
     cased_word
   end
@@ -799,7 +797,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </:track_info>
 
       <:track_info :if={boat_name(@upcoming_departure) && @mode == :ferry}>
-        {gettext("Boat %{boat_name}", boat_name: boat_name(@upcoming_departure))}
+        {gettext("The %{boat_name}", boat_name: boat_name(@upcoming_departure))}
       </:track_info>
 
       <:time>
