@@ -180,7 +180,7 @@ defmodule DotcomWeb.CacheController do
           }
         end)
 
-      assigns = Phoenix.Controller.assign(assigns, links: links)
+      assigns = %{links: links}
 
       ~H"""
       <ul>

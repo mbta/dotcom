@@ -1359,7 +1359,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           id: vehicle_id,
           status: :stopped,
           stop_id: stop.id,
-          stop_sequence: stop_sequence
+          stop_sequence: stop_sequence,
+          trip_id: trip_id
         )
 
       expect(Predictions.Repo.Mock, :all, fn _opts ->
@@ -2458,6 +2459,437 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "shows a vehicle status of :scheduled_to_depart if the trip has no predictions and all schedules are in the future" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      stop_sequences =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      arrival_times =
+        Faker.Util.sample_uniq(3, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort()
+
+      departure_times = arrival_times |> Enum.map(&(&1 |> DateTime.shift(second: 10)))
+
+      arrival_times = arrival_times |> List.replace_at(0, nil)
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Schedules.Schedule.build(:schedule,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip
+          )
+        end)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: Faker.Util.pick(stop_ids)
+        })
+
+      # Verify
+      [origin_stop_id | _] = stop_ids
+      [origin_departure_time | _] = departure_times
+
+      assert {:no_realtime, [departure]} = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :scheduled_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+      assert vehicle_info.departure_time == origin_departure_time
+    end
+
+    test "shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      stop_sequences =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      future_arrival_times =
+        Faker.Util.sample_uniq(2, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort()
+
+      arrival_times = [nil | future_arrival_times]
+
+      future_departure_times =
+        future_arrival_times |> Enum.map(&(&1 |> DateTime.shift(second: 10)))
+
+      departure_times = [
+        Generators.DateTime.random_time_range_date_time(
+          {ServiceDateTime.beginning_of_service_day(now), now}
+        )
+        | future_departure_times
+      ]
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Schedules.Schedule.build(:schedule,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip
+          )
+        end)
+      end)
+
+      # Exercise
+      [_ | upcoming_stop_ids] = stop_ids
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: Faker.Util.pick(upcoming_stop_ids)
+        })
+
+      # Verify
+
+      assert {:no_realtime, [departure]} = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :location_unavailable
+    end
+
+    test "shows a vehicle status of :location_unavailable if the trip has predictions but no vehicle" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      stop_sequences =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      arrival_times =
+        Faker.Util.sample_uniq(3, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort()
+
+      departure_times = arrival_times |> Enum.map(&(&1 |> DateTime.shift(second: 10)))
+
+      arrival_times = arrival_times |> List.replace_at(0, nil)
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Schedules.Schedule.build(:schedule,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip
+          )
+        end)
+      end)
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip,
+            vehicle_id: nil
+          )
+        end)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: Faker.Util.pick(stop_ids)
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :location_unavailable
+    end
+
+    test "shows a vehicle status of :location_unavailable if the predictions have no assigned vehicle" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+
+      stop = Factories.Stops.Stop.build(:stop)
+      stop_sequence = Faker.random_between(0, 1000)
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        Factories.Predictions.Prediction.build_list(3, :prediction,
+          arrival_time:
+            Generators.DateTime.random_time_range_date_time(
+              {now, ServiceDateTime.end_of_service_day(now)}
+            ),
+          stop: stop,
+          trip: trip,
+          vehicle_id: nil,
+          stop_sequence: stop_sequence
+        )
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert departure.trip_details.vehicle_info.status == :location_unavailable
+    end
+
+    test "shows a vehicle status of :location_unavailable if the predictions' assigned vehicle has a nil stop ID" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+
+      stop = Factories.Stops.Stop.build(:stop)
+      stop_sequence = Faker.random_between(0, 1000)
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_sequence: stop_sequence,
+          stop_id: nil,
+          trip_id: trip_id
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        Factories.Predictions.Prediction.build_list(3, :prediction,
+          stop: stop,
+          trip: trip,
+          vehicle_id: vehicle.id,
+          stop_sequence: stop_sequence
+        )
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} =
+               departure.trip_details.vehicle_info
+
+      assert departure.trip_details.vehicle_info.status == :location_unavailable
+    end
+
+    test "shows a vehicle status of :finishing_another_trip if the predictions' assigned vehicle has a different trip ID" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+
+      stop = Factories.Stops.Stop.build(:stop)
+      stop_sequence = Faker.random_between(0, 1000)
+
+      [vehicle_trip_id, prediction_trip_id] =
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      prediction_trip = Factories.Schedules.Trip.build(:trip, id: prediction_trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          stop_sequence: stop_sequence,
+          stop_id: stop.id,
+          trip_id: vehicle_trip_id
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        Factories.Predictions.Prediction.build_list(3, :prediction,
+          stop: stop,
+          trip: prediction_trip,
+          vehicle_id: vehicle.id,
+          stop_sequence: stop_sequence
+        )
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :finishing_another_trip
+    end
+
+    test "shows a vehicle status of :waiting_to_depart if the predictions' assigned vehicle is :stopped at the origin stop of the trip" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:route)
+
+      stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
+
+      stop_sequences =
+        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      arrival_times =
+        Faker.Util.sample_uniq(3, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort()
+
+      departure_times = arrival_times |> Enum.map(&(&1 |> DateTime.shift(second: 10)))
+
+      arrival_times = arrival_times |> List.replace_at(0, nil)
+
+      trip_id = FactoryHelpers.build(:id)
+      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      [origin_stop_id | _] = stop_ids
+      [origin_stop_sequence | _] = stop_sequences
+      [origin_departure_time | _] = departure_times
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          status: :stopped,
+          stop_sequence: origin_stop_sequence,
+          stop_id: origin_stop_id,
+          trip_id: trip_id
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        Enum.zip([stop_ids, stop_sequences, arrival_times, departure_times])
+        |> Enum.map(fn {stop_id, stop_sequence, arrival_time, departure_time} ->
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            stop_sequence: stop_sequence,
+            trip: trip,
+            vehicle_id: vehicle.id
+          )
+        end)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: Faker.Util.pick(stop_ids)
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      vehicle_info = departure.trip_details.vehicle_info
+
+      assert %Dotcom.ScheduleFinder.TripDetails.VehicleInfo{} = vehicle_info
+
+      assert vehicle_info.status == :waiting_to_depart
+      assert vehicle_info.stop_id == origin_stop_id
+      assert vehicle_info.departure_time == origin_departure_time
+    end
+
     test "pulls trip details from schedules for scheduled trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -3128,7 +3560,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           stop_sequence: prediction_stop_sequence
         )
 
-      vehicle_at_stop =
+      vehicle =
         Factories.Vehicles.Vehicle.build(:vehicle,
           id: vehicle_id,
           trip_id: prediction.trip.id,
@@ -3138,7 +3570,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       prediction = Map.put(prediction, :vehicle_id, vehicle_id)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
 
       # Exercise
       departures =
@@ -3151,6 +3583,57 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert departures == []
+    end
+
+    test "does not drop a prediction when the vehicle is serving a different trip even if its stop sequence is lower than the vehicle's" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      subway_route = Factories.Routes.Route.build(:subway_route)
+      vehicle_id = FactoryHelpers.build(:id)
+      seconds_until_departure = Faker.random_between(60, 3600)
+      departure_time = now |> DateTime.shift(second: seconds_until_departure)
+
+      [vehicle_trip_id, prediction_trip_id] =
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [prediction_stop_sequence, vehicle_stop_sequence] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
+        |> Enum.sort()
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: nil,
+          departure_time: departure_time,
+          route: subway_route,
+          stop_sequence: prediction_stop_sequence,
+          trip: Factories.Schedules.Trip.build(:trip, id: prediction_trip_id)
+        )
+
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle,
+          id: vehicle_id,
+          trip_id: vehicle_trip_id,
+          stop_sequence: vehicle_stop_sequence
+        )
+
+      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: prediction.direction_id,
+          now: now,
+          route: subway_route,
+          stop_id: prediction.stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:departure_seconds, seconds_until_departure}
     end
   end
 

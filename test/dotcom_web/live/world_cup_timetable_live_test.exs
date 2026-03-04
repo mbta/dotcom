@@ -17,9 +17,10 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       assert {:ok, _, _} = live(conn, path)
     end
 
-    test "shows World Cup service badge", %{conn: conn} do
+    test "shows World Cup service badge + guide link", %{conn: conn} do
       {:ok, view, _} = connect_to_page(conn)
       assert element(view, ".mbta-badge", "Service to the World Cup")
+      assert element(view, ~s'a[href="/guides/world-cup-guide"]')
     end
 
     test "shows no boarding timetable / shows links to matches", %{conn: conn} do
@@ -36,7 +37,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       assert nav |> render() =~ "schedules/CR-WorldCup?date="
     end
 
-    test "can navigate to a match / shows boarding timetable", %{conn: conn} do
+    test "can navigate to a match / shows boarding timetable + back link", %{conn: conn} do
       {:ok, view, _} = connect_to_page(conn)
 
       view
@@ -44,7 +45,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       |> render_click()
 
       assert_patch(view)
-      assert has_element?(view, ~s|a[aria-label="Select another match"]|)
+      assert has_element?(view, "button", "View All Matches")
       assert element(view, "h2", "Boarding Groups")
       assert has_element?(view, "table th", "Group Name")
       assert has_element?(view, "table th", "Check in at South Station")
