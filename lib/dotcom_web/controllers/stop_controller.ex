@@ -7,7 +7,7 @@ defmodule DotcomWeb.StopController do
   use DotcomWeb, :controller
 
   import Alerts.Alert, only: [global_banner_alert?: 1, routewide?: 1]
-  import Dotcom.Alerts.StartTime, only: [active?: 2, active_in_next_n_days?: 3]
+  import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 3]
 
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
@@ -114,19 +114,18 @@ defmodule DotcomWeb.StopController do
 
   defp banner_alert?(alert, now) do
     !global_banner_alert?(alert) &&
-      (banner_alert_active_or_future?(alert, now) || banner_alert_active_only?(alert, now))
+      banner_alert_active_effect?(alert) &&
+      active_in_next_n_days?(alert, 7, now)
   end
 
-  defp banner_alert_active_or_future?(alert, now) do
-    banner_alert_active_or_future_effect?(alert) && active_in_next_n_days?(alert, 7, now)
-  end
-
-  defp banner_alert_active_or_future_effect?(alert) do
+  defp banner_alert_active_effect?(alert) do
     alert.effect in [
+      :access_issue,
       :detour,
       :dock_closure,
       :dock_issue,
       :service_change,
+      :elevator_closure,
       :shuttle,
       :station_closure,
       :station_issue,
@@ -134,17 +133,6 @@ defmodule DotcomWeb.StopController do
       :stop_moved,
       :stop_shoveling,
       :suspension
-    ]
-  end
-
-  defp banner_alert_active_only?(alert, now) do
-    banner_alert_active_only_effect?(alert) && active?(alert, now)
-  end
-
-  defp banner_alert_active_only_effect?(alert) do
-    alert.effect in [
-      :access_issue,
-      :elevator_closure
     ]
   end
 
