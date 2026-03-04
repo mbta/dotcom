@@ -784,6 +784,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp upcoming_departure_heading(assigns) do
     mode = assigns.upcoming_departure.route |> Route.type_atom()
+    assigns = assign(assigns, :mode, mode)
 
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
@@ -797,7 +798,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {@upcoming_departure.platform_name || ~t"Track TBA"}
       </:track_info>
 
-      <:track_info :if={boat_name(@upcoming_departure) && mode == :ferry}>
+      <:track_info :if={boat_name(@upcoming_departure) && @mode == :ferry}>
         {gettext("Boat %{boat_name}", boat_name: boat_name(@upcoming_departure))}
       </:track_info>
 
