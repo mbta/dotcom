@@ -89,15 +89,30 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     vehicle_id = Map.get(vehicle || %{}, :id, nil)
 
     mode =
-      predicted_schedules
-      |> Enum.at(0)
-      |> Map.get(:schedule)
-      |> Map.get(:route)
-      |> Route.type_atom()
+      if Enum.count(predicted_schedules) > 0 do
+        schedule = predicted_schedules |> Enum.at(0) |> Map.get(:schedule)
+        prediction = predicted_schedules |> Enum.at(0) |> Map.get(:prediction)
+
+        if(schedule) do
+          schedule
+          |> Map.get(:route)
+          |> Route.type_atom()
+        else
+          if(prediction) do
+            prediction
+            |> Map.get(:route)
+            |> Route.type_atom()
+          else
+            nil
+          end
+        end
+      else
+        nil
+      end
 
     # Only add vehicle names for ferries (for now?)
     vehicle_info =
-      if(mode == :ferry) do
+      if !is_nil(vehicle) && mode == :ferry do
         vehicle_info(vehicle, predicted_schedules)
         |> Map.put(:vehicle_name, boat_name(vehicle_id))
       else
@@ -262,7 +277,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   end
 
   defp boat_name(name) do
-    if(!is_nil(name) && String.contains?(name, " ")) do
+    if !is_nil(name) && String.contains?(name, " ") do
       ("The " <> name)
       |> String.split(" ")
       |> Enum.map_join(
