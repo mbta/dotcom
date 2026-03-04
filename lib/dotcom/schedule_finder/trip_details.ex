@@ -88,8 +88,21 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
     vehicle_id = Map.get(vehicle || %{}, :id, nil)
 
+    mode =
+      predicted_schedules
+      |> Enum.at(0)
+      |> Map.get(:schedule)
+      |> Map.get(:route)
+      |> Route.type_atom()
+
+    # Only add vehicle names for ferries (for now?)
     vehicle_info =
-      vehicle_info(vehicle, predicted_schedules) |> Map.put(:vehicle_name, boat_name(vehicle_id))
+      if(mode == :ferry) do
+        vehicle_info(vehicle, predicted_schedules)
+        |> Map.put(:vehicle_name, boat_name(vehicle_id))
+      else
+        vehicle_info(vehicle, predicted_schedules) |> Map.put(:vehicle_name, nil)
+      end
 
     stops =
       predicted_schedules
