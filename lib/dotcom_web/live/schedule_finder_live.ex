@@ -71,7 +71,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.stop_banner stop={@stop} />
     <div class="px-3 py-xl flex flex-col gap-y-xl">
       <.alert_banner alerts={@alerts} />
-      <section :if={show_upcoming_departures?(@route)}>
+      <section>
         <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
         <%= if ServicePatterns.has_service?(route: @route.id) do %>
           <.upcoming_departures_section
@@ -1135,7 +1135,4 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
-
-  defp show_upcoming_departures?(%Route{} = _route), do: true
-  defp show_upcoming_departures?(_), do: false
 end
