@@ -90,8 +90,8 @@
             </td>
             <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
               <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
-                <span class="sr-only">{~t(Trip)} {schedule.trip.name}</span>
-                <span aria-hidden="true">{schedule.trip.name}</span>
+                <span class="sr-only left-0">{~t(Trip)}</span>
+                <span>{schedule.trip.name}</span>
               <% end %>
             <% end %>
           </tr>
