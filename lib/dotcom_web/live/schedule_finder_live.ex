@@ -753,23 +753,38 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: nil}}}) do
+    nil
+  end
+
   defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: id}}}) do
-    words =
-      id
-      |> String.split(" ")
-      |> Enum.map(fn word ->
-        cased_word =
-          String.upcase(String.slice(word, 0..0)) <> String.downcase(String.slice(word, 1..-1//1))
+    if(!is_nil(id) && String.contains?(id, " ")) do
+      words =
+        id
+        |> String.split(" ")
+        |> Enum.map(fn word ->
+          cased_word =
+            String.upcase(String.slice(word, 0..0)) <>
+              String.downcase(String.slice(word, 1..-1//1))
 
-        cased_word
-      end)
+          cased_word
+        end)
 
-    words
+      words
+    end
+
+    cased_word =
+      String.upcase(String.slice(id, 0..0)) <>
+        String.downcase(String.slice(id, 1..-1//1))
+
+    cased_word
   end
 
   defp boat_name(_), do: nil
 
   defp upcoming_departure_heading(assigns) do
+    mode = assigns.upcoming_departure.route |> Route.type_atom()
+
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>{@upcoming_departure.headsign}</:headsign>
@@ -782,7 +797,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {@upcoming_departure.platform_name || ~t"Track TBA"}
       </:track_info>
 
-      <:track_info :if={boat_name(@upcoming_departure)}>
+      <:track_info :if={boat_name(@upcoming_departure) && mode == :ferry}>
         {gettext("Boat %{boat_name}", boat_name: boat_name(@upcoming_departure))}
       </:track_info>
 

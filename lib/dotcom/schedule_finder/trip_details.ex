@@ -86,7 +86,10 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
   def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
-    vehicle_info = vehicle_info(vehicle, predicted_schedules) || {}
+    vehicle_id = Map.get(vehicle || %{}, :id, nil)
+
+    vehicle_info =
+      vehicle_info(vehicle, predicted_schedules) |> Map.put(:vehicle_id, vehicle_id)
 
     stops =
       predicted_schedules
@@ -108,7 +111,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %__MODULE__{
       stops: stops,
-      vehicle_info: vehicle_info |> Map.put(:vehicle_id, vehicle.id)
+      vehicle_info: vehicle_info
     }
   end
 
