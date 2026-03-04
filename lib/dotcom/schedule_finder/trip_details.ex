@@ -89,7 +89,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     vehicle_id = Map.get(vehicle || %{}, :id, nil)
 
     mode =
-      if vehicle do
+      if !is_nil(vehicle) && !is_nil(vehicle.route_id) do
         vehicle |> Map.get(:route_id) |> Routes.Repo.get() |> Route.type_atom()
       else
         nil
