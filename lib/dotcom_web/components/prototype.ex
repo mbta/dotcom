@@ -63,7 +63,7 @@ defmodule DotcomWeb.Components.Prototype do
             <.link
               :for={stop <- @stops}
               patch={
-                ~p"/departures/?route_id=#{@selected_route.id}&direction_id=#{@selected_direction_id}&stop=#{stop.id}"
+                ~p"/departures/?route_id=#{@selected_route.id}&direction_id=#{@selected_direction_id}&stop_id=#{stop.id}"
               }
               class="p-sm border-xs text-sm font-bold text-center break-words leading-none"
             >
