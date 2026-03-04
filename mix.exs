@@ -161,7 +161,7 @@ defmodule DotCom.Mixfile do
       {:redix, "1.5.3"},
       {:req, "0.5.17"},
       {:rstar, github: "armon/erl-rstar"},
-      {:sentry, "11.0.4"},
+      {:sentry, "12.0.2"},
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
       {:stream_data, "1.2.0", only: [:dev, :test]},
