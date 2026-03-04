@@ -176,8 +176,10 @@ defmodule Dotcom.ServicePatterns do
   end
 
   defp overlapping_date_range?(a, b) do
+    dates_for_service_a = Service.all_valid_dates_for_service(a)
+
     Service.all_valid_dates_for_service(b)
-    |> Enum.all?(&(&1 in Service.all_valid_dates_for_service(a)))
+    |> Enum.all?(&(&1 in dates_for_service_a))
   end
 
   defp to_service_pattern(services) do
