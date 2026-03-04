@@ -759,23 +759,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: id}}}) do
     if(!is_nil(id) && String.contains?(id, " ")) do
-      words =
-        id
-        |> String.split(" ")
-        |> Enum.map(fn word ->
-          cased_word =
-            String.capitalize(word)
+      id
+      |> String.split(" ")
+      |> Enum.map(fn word ->
+        cased_word =
+          String.capitalize(word)
 
-          cased_word
-        end)
-
-      words
+        cased_word
+      end)
     end
 
-    cased_word =
-      String.capitalize(id)
-
-    cased_word
+    String.capitalize(id)
   end
 
   defp boat_name(_), do: nil
