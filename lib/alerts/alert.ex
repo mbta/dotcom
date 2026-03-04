@@ -29,6 +29,7 @@ defmodule Alerts.Alert do
     :elevator_closure,
     :escalator_closure,
     :extra_service,
+    :notice,
     :policy_change,
     :schedule_change,
     :single_tracking,
@@ -76,6 +77,7 @@ defmodule Alerts.Alert do
           | :extra_service
           | :facility_issue
           | :no_service
+          | :notice
           | :parking_closure
           | :parking_issue
           | :policy_change
@@ -234,6 +236,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:escalator_closure), do: ~t"Escalator Closure"
   defp do_human_effect(:extra_service), do: ~t"Extra Service"
   defp do_human_effect(:facility_issue), do: ~t"Facility Issue"
+  defp do_human_effect(:notice), do: ~t"Notice"
   defp do_human_effect(:parking_closure), do: ~t"Parking Closure"
   defp do_human_effect(:parking_issue), do: ~t"Parking Issue"
   defp do_human_effect(:policy_change), do: ~t"Policy Change"
