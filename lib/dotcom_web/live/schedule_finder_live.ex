@@ -753,31 +753,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: nil}}}) do
-    nil
-  end
-
-  defp boat_name(%{trip_details: %{vehicle_info: %{vehicle_id: id}}}) do
-    if(!is_nil(id) && String.contains?(id, " ")) do
-      id
-      |> String.split(" ")
-      |> Enum.map_join(
-        " ",
-        fn word ->
-          String.capitalize(word)
-        end
-      )
-    else
-      String.capitalize(id)
-    end
-  end
-
-  defp boat_name(_), do: nil
-
   defp upcoming_departure_heading(assigns) do
-    mode = assigns.upcoming_departure.route |> Route.type_atom()
-    assigns = assign(assigns, :mode, mode)
-
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>{@upcoming_departure.headsign}</:headsign>
@@ -790,8 +766,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {@upcoming_departure.platform_name || ~t"Track TBA"}
       </:additional_info>
 
-      <:additional_info :if={boat_name(@upcoming_departure) && @mode == :ferry}>
-        {gettext("The %{boat_name}", boat_name: boat_name(@upcoming_departure))}
+      <:additional_info :if={@upcoming_departure.trip_details.vehicle_info.vehicle_name}>
+        {@upcoming_departure.trip_details.vehicle_info.vehicle_name}
       </:additional_info>
 
       <:time>

@@ -54,7 +54,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :stop_id,
       :stop_name,
       :stop_sequence,
-      :vehicle_id
+      :vehicle_name
     ]
 
     @type trip_vehicle_status_t() ::
@@ -69,7 +69,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
             stop_sequence: non_neg_integer(),
-            vehicle_id: nil | Vehicles.Vehicle.id_t()
+            vehicle_name: nil | String.t()
           }
   end
 
@@ -89,7 +89,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     vehicle_id = Map.get(vehicle || %{}, :id, nil)
 
     vehicle_info =
-      vehicle_info(vehicle, predicted_schedules) |> Map.put(:vehicle_id, vehicle_id)
+      vehicle_info(vehicle, predicted_schedules) |> Map.put(:vehicle_name, boat_name(vehicle_id))
 
     stops =
       predicted_schedules
@@ -242,5 +242,24 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   defp vehicle_at_stop?(stop, vehicle) do
     stop.stop_id == vehicle.stop_id && stop.stop_sequence == vehicle.stop_sequence
+  end
+
+  defp boat_name(_name = nil) do
+    nil
+  end
+
+  defp boat_name(name) do
+    if(!is_nil(name) && String.contains?(name, " ")) do
+      ("The " <> name)
+      |> String.split(" ")
+      |> Enum.map_join(
+        " ",
+        fn word ->
+          String.capitalize(word)
+        end
+      )
+    else
+      "The " <> String.capitalize(name)
+    end
   end
 end
