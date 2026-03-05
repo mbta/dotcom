@@ -393,7 +393,28 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   @spec timetable_note(Conn.t() | map) :: Safe.t() | nil
-  def timetable_note(%{route: %Route{id: "CR-Foxboro"}, direction_id: _}) do
+  def timetable_note(%{
+        route: %Route{id: "CR-Foxboro"},
+        direction_id: _,
+        calendar: %{active_date: date}
+      })
+      when date == ~D[2026-03-26] do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          ~t" Train schedules are approximate; arrive at South Station at X PM if you have a boarding group A ticket, and Y PM if you have a boarding group B ticket. Trains depart from Foxboro 30 minutes after conclusion of events."
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(
+        %{route: %Route{id: "CR-Foxboro"}, direction_id: _, calendar: %{active_date: date}} =
+          assigns
+      ) do
+    dbg(date)
+
     content_tag :div, class: "m-timetable__note" do
       [
         content_tag(:p, [
