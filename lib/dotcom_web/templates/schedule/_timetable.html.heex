@@ -9,6 +9,13 @@
   </div>
 </.promo_banner>
 
+<.descriptive_link :if={@route.id == "CR-Foxboro"} href="/destinations/gillette-stadium" class="mb-4">
+  <:title>Going to a soccer match at Gillette?</:title>
+  <p class="c-descriptive-link__world-cup">
+    Read our <span class="underline">Gillette Stadium Guide</span>
+  </p>
+</.descriptive_link>
+
 {DotcomWeb.AlertView.group(
   alerts: @banner_alerts,
   route: @route,

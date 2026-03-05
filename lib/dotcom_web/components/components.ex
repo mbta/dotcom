@@ -307,6 +307,7 @@ defmodule DotcomWeb.Components do
   slot(:title, required: true)
   attr(:href, :string, doc: "Optional link to navigate to")
   attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
 
   @doc """
   A stylish link or button with a prominent right caret, containing content.
@@ -314,7 +315,7 @@ defmodule DotcomWeb.Components do
   """
   def descriptive_link(%{href: _} = assigns) do
     ~H"""
-    <a href={@href} class="c-descriptive-link">
+    <a href={@href} class={"c-descriptive-link #{@class}"}>
       <.icon type="icon-svg" name="football" class="c-descriptive-link__football-icon" />
       <div class="c-descriptive-link__text">
         <div class="c-descriptive-link__title">{render_slot(@title)}</div>
