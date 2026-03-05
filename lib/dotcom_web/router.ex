@@ -314,6 +314,7 @@ defmodule DotcomWeb.Router do
       live "/", PreviewLive
       live "/schedules/CR-WorldCup", WorldCupTimetableLive
       live "/stop-map", StopMapLive
+      live "/where-trains", WhereTrainsLive
     end
   end
 

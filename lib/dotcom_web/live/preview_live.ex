@@ -10,6 +10,7 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.ScheduleFinderLive
   alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
+  alias DotcomWeb.WhereTrainsLive
 
   @pages [
     %{
@@ -29,6 +30,12 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "football",
       module: WorldCupTimetableLive,
       title: "World Cup Timetable"
+    },
+    %{
+      arguments: [],
+      icon_name: "mode-commuter-rail",
+      module: WhereTrainsLive,
+      title: "Where the trains are"
     }
   ]
 
