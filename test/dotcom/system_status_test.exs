@@ -51,6 +51,34 @@ defmodule Dotcom.SystemStatusTest do
 
       assert non_normal_status == currently_active_alert.effect
     end
+
+    test "returns status without alerts beginning later that day unless they are single-tracking" do
+      route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
+      line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
+      {day_start, day_end} = service_range_day()
+      later_start = Timex.shift(day_start, hours: 5)
+      currently_active_alert = disruption_alert({day_start, day_end}, route_id_with_alerts)
+      later_alert = disruption_alert({later_start, day_end}, route_id_with_alerts)
+
+      single_tracking_alert =
+        disruption_alert({later_start, day_end}, route_id_with_alerts, :single_tracking)
+
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _date ->
+        [currently_active_alert, later_alert, single_tracking_alert]
+      end)
+
+      assert %{^line => statuses} = subway_status()
+
+      assert %{
+               alerts: [^currently_active_alert, ^single_tracking_alert],
+               status: non_normal_status
+             } =
+               Enum.find_value(statuses, fn %{status_entries: status_entries} ->
+                 Enum.find(status_entries, &(&1.status != :normal))
+               end)
+
+      assert non_normal_status == currently_active_alert.effect
+    end
   end
 
   describe "active_now_or_later_on_day?/2" do
@@ -199,6 +227,18 @@ defmodule Dotcom.SystemStatusTest do
       active_period: [active_period],
       effect: random_effect,
       severity: random_severity
+    )
+  end
+
+  defp disruption_alert(active_period, route_id, cause) do
+    {random_effect, random_severity} = service_impacting_effects() |> Faker.Util.pick()
+
+    build(:alert_for_route,
+      route_id: route_id,
+      active_period: [active_period],
+      effect: random_effect,
+      severity: random_severity,
+      cause: cause
     )
   end
 end
