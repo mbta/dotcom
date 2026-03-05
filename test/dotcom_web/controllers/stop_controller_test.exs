@@ -19,6 +19,7 @@ defmodule DotcomWeb.StopControllerTest do
     :dock_closure,
     :dock_issue,
     :elevator_closure,
+    :notice,
     :service_change,
     :shuttle,
     :station_closure,
