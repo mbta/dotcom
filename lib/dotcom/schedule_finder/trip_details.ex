@@ -129,7 +129,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       vehicle_info
       |> Map.put(:vehicle_name, boat_name(vehicle_id))
     else
-      vehicle_info |> Map.put(:vehicle_name, nil)
+      vehicle_info
     end
   end
 
