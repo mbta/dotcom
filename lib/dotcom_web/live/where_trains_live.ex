@@ -15,7 +15,6 @@ defmodule DotcomWeb.WhereTrainsLive do
   def render(assigns) do
     vehicles = Vehicles.Repo.all()
     assigns = assigns |> assign(:vehicles, vehicles)
-    dbg(assigns)
 
     ~H"""
     <div class="container">
@@ -25,8 +24,6 @@ defmodule DotcomWeb.WhereTrainsLive do
   end
 
   def show_vehicle(assigns) do
-    dbg(assigns)
-
     ~H"""
     <div>
       {@vehicle.id} serving {@vehicle.route_id} is at {@vehicle.longitude}, {@vehicle.latitude}
