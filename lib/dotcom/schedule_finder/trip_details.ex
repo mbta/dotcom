@@ -119,10 +119,10 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     vehicle_id = Map.get(vehicle, :id, nil)
 
     mode =
-      if !is_nil(vehicle.route_id) do
-        vehicle.route_id |> @routes_repo.get() |> Route.type_atom()
-      else
+      if is_nil(vehicle.route_id) do
         nil
+      else
+        vehicle.route_id |> @routes_repo.get() |> Route.type_atom()
       end
 
     # Only add vehicle names for ferries (for now?) Turns out busses have vehicle IDs too.
