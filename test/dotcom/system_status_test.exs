@@ -73,10 +73,10 @@ defmodule Dotcom.SystemStatusTest do
       assert %{^line => statuses} = subway_status()
 
       assert [^currently_active_alert, ^single_tracking_alert, ^future_non_delay] =
-               Enum.find_value(statuses, fn %{status_entries: status_entries} ->
-                 Enum.filter(status_entries, &(&1.status != :normal))
+               Enum.find(statuses, fn %{status_entries: status_entries} ->
+                 Enum.any?(status_entries, &(&1.status != :normal))
                end)
-               |> Enum.flat_map(&Map.get(&1, :alerts))
+               |> then(fn status -> status.status_entries |> Enum.flat_map(& &1.alerts) end)
     end
   end
 
@@ -229,7 +229,19 @@ defmodule Dotcom.SystemStatusTest do
     )
   end
 
-  defp disruption_alert(active_period, route_id, effect, cause \\ nil) do
+  defp disruption_alert(active_period, route_id, effect, cause \\ nil)
+
+  defp disruption_alert(active_period, "Green", effect, cause) do
+    build(:alert_for_routes,
+      route_ids: GreenLine.branch_ids(),
+      active_period: [active_period],
+      effect: effect,
+      severity: service_impacting_effects()[effect],
+      cause: cause
+    )
+  end
+
+  defp disruption_alert(active_period, route_id, effect, cause) do
     build(:alert_for_route,
       route_id: route_id,
       active_period: [active_period],
