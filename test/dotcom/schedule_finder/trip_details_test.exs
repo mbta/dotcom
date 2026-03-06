@@ -885,7 +885,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     trip = Factories.Schedules.Trip.build(:trip)
 
     stub(Routes.Repo.Mock, :get, fn id ->
-      Factories.Routes.Route.build(:route, id: id, type: Faker.Util.pick([0, 1, 2, 3]))
+      Factories.Routes.Route.build(Faker.Util.pick([:subway_route, :bus_route, :commuter_rail_route]), id: id)
     end)
 
     stub(Stops.Repo.Mock, :get, fn
