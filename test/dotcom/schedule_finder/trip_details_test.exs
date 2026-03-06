@@ -838,7 +838,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     trip = Factories.Schedules.Trip.build(:trip)
 
     stub(Routes.Repo.Mock, :get, fn id ->
-      Factories.Routes.Route.build(:route, id: id, type: 4)
+      Factories.Routes.Route.ferry_route_factory(%{id: id})
     end)
 
     stub(Stops.Repo.Mock, :get, fn
