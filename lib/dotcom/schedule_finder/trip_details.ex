@@ -113,11 +113,13 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     }
   end
 
+  defp add_vehicle_name(vehicle_info, nil), do: vehicle_info
+
   defp add_vehicle_name(vehicle_info, vehicle) do
-    vehicle_id = Map.get(vehicle || %{}, :id, nil)
+    vehicle_id = Map.get(vehicle, :id, nil)
 
     mode =
-      if !is_nil(vehicle) && !is_nil(vehicle.route_id) do
+      if !is_nil(vehicle.route_id) do
         vehicle.route_id |> @routes_repo.get() |> Route.type_atom()
       else
         nil
@@ -267,17 +269,11 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   end
 
   defp boat_name(name) do
-    if !is_nil(name) && String.contains?(name, " ") do
-      ("The " <> name)
-      |> String.split(" ")
-      |> Enum.map_join(
-        " ",
-        fn word ->
-          String.capitalize(word)
-        end
-      )
-    else
-      "The " <> String.capitalize(name)
-    end
+    ("The " <> name)
+    |> String.split(" ")
+    |> Enum.map_join(
+      " ",
+      &String.capitalize/1
+    )
   end
 end

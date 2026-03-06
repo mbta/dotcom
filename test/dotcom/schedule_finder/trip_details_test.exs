@@ -858,13 +858,13 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     predicted_schedules = [first_predicted_schedule]
 
     route_id = Faker.Util.pick(["Boat-F1", "Boat-F2H"])
-    vehicle_id = Faker.Pokemon.name()
+    vehicle_id = Faker.Pokemon.name() <> " " <> Faker.Pokemon.name()
 
     vehicle =
       Factories.Vehicles.Vehicle.build(:vehicle,
         stop_id: stop_id,
         trip_id: trip.id,
-        id: vehicle_id,
+        id: vehicle_id |> String.upcase(),
         route_id: route_id
       )
 
@@ -878,14 +878,17 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     assert vehicle_info.vehicle_name == "The " <> vehicle_id
   end
 
-  test "does not shows vehicle names for busses and such" do
+  test "does not show vehicle names for busses and such" do
     platform_name = Faker.Pizza.sauce()
     stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
     stop_id = stop.id
     trip = Factories.Schedules.Trip.build(:trip)
 
     stub(Routes.Repo.Mock, :get, fn id ->
-      Factories.Routes.Route.build(Faker.Util.pick([:subway_route, :bus_route, :commuter_rail_route]), id: id)
+      Factories.Routes.Route.build(
+        Faker.Util.pick([:subway_route, :bus_route, :commuter_rail_route]),
+        id: id
+      )
     end)
 
     stub(Stops.Repo.Mock, :get, fn
