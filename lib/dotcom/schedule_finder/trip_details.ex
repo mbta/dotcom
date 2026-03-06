@@ -53,7 +53,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :status,
       :stop_id,
       :stop_name,
-      :stop_sequence
+      :stop_sequence,
+      :vehicle_name
     ]
 
     @type trip_vehicle_status_t() ::
@@ -67,7 +68,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
             status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
-            stop_sequence: non_neg_integer()
+            stop_sequence: non_neg_integer(),
+            vehicle_name: nil | String.t()
           }
   end
 
@@ -77,6 +79,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec trip_details(%{
@@ -84,7 +87,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
   def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
-    vehicle_info = vehicle_info(vehicle, predicted_schedules)
+    vehicle_info = vehicle_info(vehicle, predicted_schedules) |> add_vehicle_name(vehicle)
 
     stops =
       predicted_schedules
@@ -108,6 +111,28 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       stops: stops,
       vehicle_info: vehicle_info
     }
+  end
+
+  defp add_vehicle_name(vehicle_info, nil), do: vehicle_info
+
+  defp add_vehicle_name(vehicle_info, vehicle) do
+    vehicle_id = Map.get(vehicle, :id, nil)
+
+    mode =
+      if is_nil(vehicle.route_id) do
+        nil
+      else
+        vehicle.route_id |> @routes_repo.get() |> Route.type_atom()
+      end
+
+    # Only add vehicle names for ferries (for now?) Turns out busses have vehicle IDs too.
+    # While it is cool to see that "The Y1795" is approaching, I'm not sure that's what we want
+    if mode == :ferry do
+      vehicle_info
+      |> Map.put(:vehicle_name, boat_name(vehicle_id))
+    else
+      vehicle_info
+    end
   end
 
   defp trip_stop_time(predicted_schedule) do
@@ -237,5 +262,18 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   defp vehicle_at_stop?(stop, vehicle) do
     stop.stop_id == vehicle.stop_id && stop.stop_sequence == vehicle.stop_sequence
+  end
+
+  defp boat_name(nil = _name) do
+    nil
+  end
+
+  defp boat_name(name) do
+    ("The " <> name)
+    |> String.split(" ")
+    |> Enum.map_join(
+      " ",
+      &String.capitalize/1
+    )
   end
 end
