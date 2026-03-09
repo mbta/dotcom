@@ -126,7 +126,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           end)
 
         conn
-        |> assign(:use_pdf_schedules?, false)
+        |> assign(:use_pdf_schedules?, true)
         |> assign(:timetable_schedules, timetable_schedules)
         |> assign(:header_schedules, header_schedules)
         |> assign(:header_stops, header_stops)
