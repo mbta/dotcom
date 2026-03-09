@@ -116,7 +116,7 @@
               </td>
               <%= for schedule <- @header_schedules do %>
                 <td class="m-timetable__header-cell">
-                  <%= if schedule.trip.bikes_allowed? do %>
+                  <%= if get_in(schedule, [Access.key(:trip, %{}), Access.key(:bikes_allowed?, false)]) do %>
                     {content_tag(:span, svg("icon-bikes-default.svg"),
                       data: [toggle: "tooltip"],
                       title: ~t(Bicycles allowed),
@@ -127,7 +127,11 @@
                     <div class="sr-only">{~t(Bicycles not allowed)}</div>
                   <% end %>
                   <.tooltip
-                    :if={!is_nil(schedule.trip.occupancy)}
+                    :if={
+                      !is_nil(
+                        get_in(schedule, [Access.key(:trip, %{}), Access.key(:occupancy, nil)])
+                      )
+                    }
                     title={timetable_crowding_description(schedule.trip.occupancy)}
                     placement={:top}
                   >
