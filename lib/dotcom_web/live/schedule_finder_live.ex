@@ -77,65 +77,65 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.stop_banner stop={@stop} />
       <div class="container">
         <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
-        <.alert_banner alerts={@alerts} />
-        <section>
-          <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-          <%= if ServicePatterns.has_service?(route: @route.id) do %>
-            <.upcoming_departures_section
-              :if={@stop}
-              now={@now}
-              stop={@stop}
-              upcoming_departures={@upcoming_departures}
-              route={@route}
-              last_trip_time={@last_trip_time}
-            />
-          <% else %>
-            <.callout>{~t(No service today)}</.callout>
-          <% end %>
-        </section>
-        <section>
-          <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-          <.service_picker
-            id={"service-picker-#{@route.id}"}
-            selected_service_name={@selected_service_name}
-            service_groups={@service_groups}
-          />
-          <.async_result :let={departures} :if={@stop} assign={@departures}>
-            <:loading>
-              <div class="mt-lg mb-md flex justify-center">
-                <.spinner aria_label={~t"Loading schedules for selected service"} />
-              </div>
-            </:loading>
-            <:failed :let={fail}>
-              <.error_container title={inspect(fail)}>
-                {~t"There was a problem loading schedules"}
-              </.error_container>
-            </:failed>
-            <%= if length(departures) > 0 do %>
-              <%= if @route.type in [0, 1] do %>
-                <div
-                  :for={
-                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                  }
-                  class="mt-lg mb-md"
-                >
-                  <.subway_destination route={route} destination={destination} />
-                  <.first_last times={times} vehicle_name={@vehicle_name} />
-                </div>
-              <% else %>
-                <.first_last
-                  times={Enum.map(departures, & &1.time)}
-                  vehicle_name={@vehicle_name}
-                />
-                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-              <% end %>
+          <.alert_banner alerts={@alerts} />
+          <section>
+            <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
+            <%= if ServicePatterns.has_service?(route: @route.id) do %>
+              <.upcoming_departures_section
+                :if={@stop}
+                now={@now}
+                stop={@stop}
+                upcoming_departures={@upcoming_departures}
+                route={@route}
+                last_trip_time={@last_trip_time}
+              />
             <% else %>
-              <.callout>
-                {no_service_message(@service_groups, @route, @stop)}
-              </.callout>
+              <.callout>{~t(No service today)}</.callout>
             <% end %>
-          </.async_result>
-        </section>
+          </section>
+          <section>
+            <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+            <.service_picker
+              id={"service-picker-#{@route.id}"}
+              selected_service_name={@selected_service_name}
+              service_groups={@service_groups}
+            />
+            <.async_result :let={departures} :if={@stop} assign={@departures}>
+              <:loading>
+                <div class="mt-lg mb-md flex justify-center">
+                  <.spinner aria_label={~t"Loading schedules for selected service"} />
+                </div>
+              </:loading>
+              <:failed :let={fail}>
+                <.error_container title={inspect(fail)}>
+                  {~t"There was a problem loading schedules"}
+                </.error_container>
+              </:failed>
+              <%= if length(departures) > 0 do %>
+                <%= if @route.type in [0, 1] do %>
+                  <div
+                    :for={
+                      {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                    }
+                    class="mt-lg mb-md"
+                  >
+                    <.subway_destination route={route} destination={destination} />
+                    <.first_last times={times} vehicle_name={@vehicle_name} />
+                  </div>
+                <% else %>
+                  <.first_last
+                    times={Enum.map(departures, & &1.time)}
+                    vehicle_name={@vehicle_name}
+                  />
+                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+                <% end %>
+              <% else %>
+                <.callout>
+                  {no_service_message(@service_groups, @route, @stop)}
+                </.callout>
+              <% end %>
+            </.async_result>
+          </section>
         </div>
       </div>
       """
