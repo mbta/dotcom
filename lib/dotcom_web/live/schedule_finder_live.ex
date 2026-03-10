@@ -379,7 +379,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <div class="font-heading p-md">
           <div class="max-w-xl mx-auto flex flex-col gap-sm">
             <div class="flex items-center gap-xs font-bold">
-              <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 -ml-xs" />
+              <SystemIcons.mode_icon
+                aria-hidden
+                line={@line_name}
+                mode={@mode}
+                class="shrink-0 -ml-xs"
+              />
               <span class="grow notranslate">{@route.name}</span>
               <.icon
                 name="arrow-up-right-from-square"
