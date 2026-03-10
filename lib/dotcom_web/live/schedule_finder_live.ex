@@ -421,7 +421,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="mb-lg"
       id="service-picker-form"
     >
-      <label for="service-picker" class="sr-only">
+      <label for={@id} class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
       <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
