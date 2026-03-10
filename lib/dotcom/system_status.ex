@@ -5,7 +5,7 @@ defmodule Dotcom.SystemStatus do
   or whether there are alerts that impact service.
   """
 
-  import Dotcom.Alerts, only: [service_impacting_alert?: 1]
+  import Dotcom.Alerts, only: [in_effect_now?: 1, service_impacting_alert?: 1]
 
   alias Dotcom.SystemStatus
 
@@ -20,6 +20,11 @@ defmodule Dotcom.SystemStatus do
     @alerts_repo.by_route_types([0, 1], @date_time_module.now())
     |> Enum.filter(&status_alert?(&1, @date_time_module.now()))
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
+  end
+
+  def status_alert?(%Alerts.Alert{effect: :delay, cause: cause} = alert, _datetime)
+      when cause != :single_tracking do
+    in_effect_now?(alert)
   end
 
   def status_alert?(alert, datetime) do

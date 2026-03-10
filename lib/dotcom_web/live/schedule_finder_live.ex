@@ -75,7 +75,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.stop_banner stop={@stop} />
       <div class="px-3 py-xl flex flex-col gap-y-xl">
         <.alert_banner alerts={@alerts} />
-        <section :if={show_upcoming_departures?(@route)}>
+        <section>
           <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
           <%= if ServicePatterns.has_service?(route: @route.id) do %>
             <.upcoming_departures_section
@@ -500,7 +500,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route, required: true
 
   slot :headsign, required: true
-  slot :track_info
+  slot :additional_info
   slot :time, required: true
 
   defp departure_heading(assigns) do
@@ -513,13 +513,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <span>{render_slot(@headsign)}</span>
         </div>
 
-        <div :if={@track_info} class="flex items-center gap-2">
+        <div :if={@additional_info} class="flex items-center gap-2">
           <div class="h-0 invisible shrink-0">
             <RouteComponents.route_icon size="small" route={@route} />
           </div>
 
           <div class="leading-none text-sm">
-            {render_slot(@track_info)}
+            {render_slot(@additional_info)}
           </div>
         </div>
       </div>
@@ -559,9 +559,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             </:headsign>
 
-            <:track_info :if={departure.route.type == 2 && departure.trip_name}>
+            <:additional_info :if={departure.route.type == 2 && departure.trip_name}>
               {~t(Train)} {departure.trip_name}
-            </:track_info>
+            </:additional_info>
 
             <:time><.formatted_time time={departure.time} /></:time>
           </.departure_heading>
@@ -764,13 +764,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>{@upcoming_departure.headsign}</:headsign>
 
-      <:track_info :if={@upcoming_departure.trip_name}>
+      <:additional_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
         <span aria-hidden="true">
           &bull;
         </span>
         {@upcoming_departure.platform_name || ~t"Track TBA"}
-      </:track_info>
+      </:additional_info>
+
+      <:additional_info :if={
+        @upcoming_departure.trip_details.vehicle_info.vehicle_name &&
+          @upcoming_departure.route.type == 4
+      }>
+        <i>{@upcoming_departure.trip_details.vehicle_info.vehicle_name}</i>
+      </:additional_info>
 
       <:time>
         <div class="flex flex-col items-end">
@@ -1115,7 +1122,4 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
-
-  defp show_upcoming_departures?(%Route{} = route), do: Route.type_atom(route) != :ferry
-  defp show_upcoming_departures?(_), do: false
 end
