@@ -7,6 +7,13 @@ defmodule Dotcom.TimetableLoaderTest do
   setup :verify_on_exit!
 
   describe "from_csv/1" do
+    defp valid_date(valid_route_id) do
+      case valid_route_id do
+        "CR-Foxboro" -> ~D[2026-03-26]
+        _ -> Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
+      end
+    end
+
     test "error for invalid route" do
       assert from_csv(Faker.Internet.slug(), Faker.Util.pick([0, 1]), Date.utc_today()) ==
                {:error, :invalid_route}
@@ -20,24 +27,18 @@ defmodule Dotcom.TimetableLoaderTest do
       end)
 
       valid_date = Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
-      assert {:ok, data} = from_csv(valid_route_id, 1, valid_date)
+      assert {:ok, data} = from_csv(valid_route_id, 1, valid_date(valid_route_id))
       assert [[%{time: _, trip: _, stop_id: _} | _] | _] = data
     end
 
     test "handle missing csv" do
       valid_route_id = Faker.Util.pick(available_route_ids())
 
-      valid_date =
-        case valid_route_id do
-          "CR-Foxboro" -> ~D[2026-03-26]
-          _ -> Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
-        end
-
       expect(Dotcom.TimetableLoader.Mock, :get_csv, fn _ ->
         nil
       end)
 
-      assert from_csv(valid_route_id, 1, valid_date) == {:error, :no_data}
+      assert from_csv(valid_route_id, 1, valid_date(valid_route_id)) == {:error, :no_data}
     end
 
     test "special case: weekend F6/F7 returns F8 table" do
