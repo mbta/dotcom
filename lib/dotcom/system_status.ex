@@ -19,16 +19,16 @@ defmodule Dotcom.SystemStatus do
   def subway_status() do
     @alerts_repo.by_route_types([0, 1], @date_time_module.now())
     |> Enum.filter(&status_alert?(&1, @date_time_module.now()))
-    |> Enum.reject(fn alert -> alert.cause != :single_tracking and future_delay?(alert) end)
     |> SystemStatus.Subway.subway_status(@date_time_module.now())
+  end
+
+  def status_alert?(%Alerts.Alert{effect: :delay, cause: cause} = alert, _datetime)
+      when cause != :single_tracking do
+    in_effect_now?(alert)
   end
 
   def status_alert?(alert, datetime) do
     service_impacting_alert?(alert) and active_now_or_later_on_day?(alert, datetime)
-  end
-
-  defp future_delay?(alert) do
-    alert.effect == :delay and not in_effect_now?(alert)
   end
 
   @doc """
