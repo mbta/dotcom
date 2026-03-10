@@ -26,7 +26,12 @@ defmodule Dotcom.TimetableLoaderTest do
 
     test "handle missing csv" do
       valid_route_id = Faker.Util.pick(available_route_ids())
-      valid_date = Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
+
+      valid_date =
+        case valid_route_id do
+          "CR-Foxboro" -> ~D[2026-03-26]
+          _ -> Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
+        end
 
       expect(Dotcom.TimetableLoader.Mock, :get_csv, fn _ ->
         nil
