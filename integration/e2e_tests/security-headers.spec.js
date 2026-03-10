@@ -1,4 +1,4 @@
-const { expect, test } = require("@playwright/test");
+import { expect, test } from "@playwright/test";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -27,19 +27,19 @@ const TEST_REQUESTS = [
  * One-off test suite to verify that responses come with various
  * security-related headers. This doesn't necessarily verify relevant or
  * correct values, only that the headers are present at all.
- * 
+ *
  * This was inspired by a security audit which uncovered some gaps. The
  * particular requests being made in this tests are the same reported in the
  * audit. The particular headers being verified also correspond to the ones
  * from the audit.
- * 
+ *
  * This test doesn't need to run regularly, but if adjusting the configuration
  * of returning security headers, running this script offers some peace of
  * mind.
- * 
+ *
  * Defaults to running against localhost, but can run against any site using
  * the HOST environment variable, e.g.
- * 
+ *
  * HOST=dev.mbtace.com npx playwright test security-headers
  */
 test.describe(`Security headers are present (${baseURL})`, () => {
@@ -60,10 +60,10 @@ test.describe(`Security headers are present (${baseURL})`, () => {
   });
 
   test("CORS", async ({ request }) => {
-    const response = await request.get("/favicon.ico", { 
+    const response = await request.get("/favicon.ico", {
       headers: {
         "Origin": "https://other.site"
-      } 
+      }
     });
     const responseHeaders = response.headers();
     expect(responseHeaders["access-control-allow-origin"]).toBeTruthy()

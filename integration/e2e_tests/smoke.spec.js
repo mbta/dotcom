@@ -9,8 +9,8 @@
  *
  * HOST=dev.mbtace.com npx playwright test smoke
  */
-const { describe, expect, test } = require("@playwright/test");
-const { syncLiveView } = require("../utils");
+import { describe, expect, test } from "@playwright/test";
+import { syncLiveView } from "../utils";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
