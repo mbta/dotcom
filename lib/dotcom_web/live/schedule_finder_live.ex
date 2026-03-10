@@ -374,7 +374,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class={route_to_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
-        patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
+        patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
       >
         <div class="font-heading p-md">
           <div class="max-w-xl mx-auto flex flex-col gap-sm">
