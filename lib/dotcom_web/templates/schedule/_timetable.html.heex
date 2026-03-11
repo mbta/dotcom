@@ -90,8 +90,8 @@
             </td>
             <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
               <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
-                <span class="sr-only">{~t(Trip)} {schedule.trip.name}</span>
-                <span aria-hidden="true">{schedule.trip.name}</span>
+                <span class="sr-only left-0">{~t(Trip)}</span>
+                <span>{schedule.trip.name}</span>
               <% end %>
             <% end %>
           </tr>
@@ -116,7 +116,7 @@
               </td>
               <%= for schedule <- @header_schedules do %>
                 <td class="m-timetable__header-cell">
-                  <%= if schedule.trip.bikes_allowed? do %>
+                  <%= if get_in(schedule, [Access.key(:trip, %{}), Access.key(:bikes_allowed?, false)]) do %>
                     {content_tag(:span, svg("icon-bikes-default.svg"),
                       data: [toggle: "tooltip"],
                       title: ~t(Bicycles allowed),
@@ -127,7 +127,11 @@
                     <div class="sr-only">{~t(Bicycles not allowed)}</div>
                   <% end %>
                   <.tooltip
-                    :if={!is_nil(schedule.trip.occupancy)}
+                    :if={
+                      !is_nil(
+                        get_in(schedule, [Access.key(:trip, %{}), Access.key(:occupancy, nil)])
+                      )
+                    }
                     title={timetable_crowding_description(schedule.trip.occupancy)}
                     placement={:top}
                   >
@@ -198,7 +202,7 @@
                   </div>
                 </div>
               <% end %>
-              <td class="js-tt-cell hidden-no-js">
+              <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
                 <div class="m-timetable__row-header"></div>
               </td>
               <%= if assigns[:use_pdf_schedules?] do %>

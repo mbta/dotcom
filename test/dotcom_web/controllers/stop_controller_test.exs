@@ -13,10 +13,13 @@ defmodule DotcomWeb.StopControllerTest do
 
   setup :verify_on_exit!
 
-  @banner_alert_effects_active_or_future [
+  @banner_alert_effects [
+    :access_issue,
     :detour,
     :dock_closure,
     :dock_issue,
+    :elevator_closure,
+    :notice,
     :service_change,
     :shuttle,
     :station_closure,
@@ -26,14 +29,6 @@ defmodule DotcomWeb.StopControllerTest do
     :stop_shoveling,
     :suspension
   ]
-
-  @banner_alert_effects_active_only [
-    :access_issue,
-    :elevator_closure
-  ]
-
-  @banner_alert_effects @banner_alert_effects_active_only ++
-                          @banner_alert_effects_active_or_future
 
   @non_banner_alert_effects Alerts.Alert.all_types() -- @banner_alert_effects
 
@@ -202,7 +197,7 @@ defmodule DotcomWeb.StopControllerTest do
 
       alert =
         Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+          effect: Faker.Util.pick(@banner_alert_effects)
         )
         |> Factories.Alerts.Alert.active_now()
 
@@ -223,7 +218,7 @@ defmodule DotcomWeb.StopControllerTest do
       alert =
         Factories.Alerts.Alert.build(:alert_for_informed_entity,
           informed_entity: %{stop: nil, trip: nil},
-          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+          effect: Faker.Util.pick(@banner_alert_effects)
         )
         |> Factories.Alerts.Alert.active_now()
 
@@ -289,7 +284,7 @@ defmodule DotcomWeb.StopControllerTest do
 
       alert =
         Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+          effect: Faker.Util.pick(@banner_alert_effects)
         )
         |> Factories.Alerts.Alert.active_starting_at(start_time)
 
@@ -312,7 +307,7 @@ defmodule DotcomWeb.StopControllerTest do
 
       alert =
         Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick(@banner_alert_effects_active_or_future)
+          effect: Faker.Util.pick(@banner_alert_effects)
         )
         |> Factories.Alerts.Alert.active_starting_at(start_time)
 
@@ -323,48 +318,6 @@ defmodule DotcomWeb.StopControllerTest do
 
       # Verify
       assert conn.assigns.banner_alerts == [alert]
-    end
-
-    test "includes active :access_issue or :elevator_closure alerts", %{conn: conn} do
-      # Setup
-      stop_id = FactoryHelpers.build(:id)
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick(@banner_alert_effects_active_only)
-        )
-        |> Factories.Alerts.Alert.active_now()
-
-      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
-
-      # Exercise
-      conn = conn |> get(stop_path(conn, :show, stop_id))
-
-      # Verify
-      assert conn.assigns.banner_alerts == [alert]
-    end
-
-    test "does not include future :access_issue or :elevator_closure alerts", %{conn: conn} do
-      # Setup
-      stop_id = FactoryHelpers.build(:id)
-      now = Dotcom.Utils.DateTime.now()
-
-      start_time =
-        Generators.DateTime.random_time_range_date_time({now, now |> DateTime.shift(day: 7)})
-
-      alert =
-        Factories.Alerts.Alert.build(:alert,
-          effect: Faker.Util.pick(@banner_alert_effects_active_only)
-        )
-        |> Factories.Alerts.Alert.active_starting_at(start_time)
-
-      expect(Alerts.Repo.Mock, :by_stop_id, fn ^stop_id -> [alert] end)
-
-      # Exercise
-      conn = conn |> get(stop_path(conn, :show, stop_id))
-
-      # Verify
-      assert conn.assigns.banner_alerts == []
     end
 
     test "does not include global-banner alerts", %{conn: conn} do
