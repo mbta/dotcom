@@ -21,7 +21,7 @@
   </.callout_link>
   <nav
     aria-label={~t"World Cup Matches"}
-    class="flex flex-col gap-2"
+    class="w-full flex flex-col gap-4"
   >
     <%= case @selected_match do %>
       <% {date, label, teams, _} -> %>
@@ -36,12 +36,14 @@
         <.selected_match_banner date={date} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
-        <.match_link
-          :for={{date, label, teams, _} <- @match_list}
-          date={date}
-          label={label}
-          teams={teams}
-        />
+        <div class="flex flex-wrap gap-2">
+          <.match_link
+            :for={{date, label, teams, _} <- @match_list}
+            date={date}
+            label={label}
+            teams={teams}
+          />
+        </div>
     <% end %>
   </nav>
   <div :if={@selected_match}>
