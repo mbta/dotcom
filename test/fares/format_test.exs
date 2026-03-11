@@ -19,7 +19,7 @@ defmodule Fares.FormatTest do
     end
 
     test "returns appropriate string when WorldCup is the price" do
-      assert price(%Fare{cents: "WorldCup"}) == ~t(Special ticket required)
+      assert price("WorldCup") == ~t(Special ticket required)
     end
   end
 
