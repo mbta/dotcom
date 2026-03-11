@@ -54,7 +54,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   defp teams(%{teams: [_team1, _team2]} = assigns) do
     ~H"""
-    <span class="flex gap-1 text-lg">
+    <span class="flex flex-wrap gap-1 text-lg">
       <.team_label selected={@selected} team={@teams |> Enum.at(0)} /> vs.
       <.team_label selected={@selected} team={@teams |> Enum.at(1)} />
     </span>

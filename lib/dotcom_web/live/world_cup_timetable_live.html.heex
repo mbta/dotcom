@@ -36,7 +36,7 @@
         <.selected_match_banner date={date} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-2">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
           <.match_link
             :for={{date, label, teams, _} <- @match_list}
             date={date}
