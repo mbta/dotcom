@@ -67,72 +67,76 @@ defmodule DotcomWeb.ScheduleFinderLive do
       DotcomWeb.ErrorView.render("404.html", assigns)
     else
       ~H"""
-      <Prototype.route_stop_picker
-        selected_route={@route}
-        selected_direction_id={@direction_id}
-      />
+      <div class="container">
+        <Prototype.route_stop_picker
+          selected_route={@route}
+          selected_direction_id={@direction_id}
+        />
+      </div>
       <.route_banner route={@route} direction_id={@direction_id} />
       <.stop_banner stop={@stop} />
-      <div class="px-3 py-xl flex flex-col gap-y-xl">
-        <.alert_banner alerts={@alerts} />
-        <section>
-          <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-          <%= if ServicePatterns.has_service?(route: @route.id) do %>
-            <.upcoming_departures_section
-              :if={@stop}
-              now={@now}
-              stop={@stop}
-              upcoming_departures={@upcoming_departures}
-              route={@route}
-              last_trip_time={@last_trip_time}
-            />
-          <% else %>
-            <.callout>{~t(No service today)}</.callout>
-          <% end %>
-        </section>
-        <section>
-          <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-          <.service_picker
-            id={"service-picker-#{@route.id}"}
-            selected_service_name={@selected_service_name}
-            service_groups={@service_groups}
-          />
-          <.async_result :let={departures} :if={@stop} assign={@departures}>
-            <:loading>
-              <div class="mt-lg mb-md flex justify-center">
-                <.spinner aria_label={~t"Loading schedules for selected service"} />
-              </div>
-            </:loading>
-            <:failed :let={fail}>
-              <.error_container title={inspect(fail)}>
-                {~t"There was a problem loading schedules"}
-              </.error_container>
-            </:failed>
-            <%= if length(departures) > 0 do %>
-              <%= if @route.type in [0, 1] do %>
-                <div
-                  :for={
-                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                  }
-                  class="mt-lg mb-md"
-                >
-                  <.subway_destination route={route} destination={destination} />
-                  <.first_last times={times} vehicle_name={@vehicle_name} />
-                </div>
-              <% else %>
-                <.first_last
-                  times={Enum.map(departures, & &1.time)}
-                  vehicle_name={@vehicle_name}
-                />
-                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-              <% end %>
+      <div class="container">
+        <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
+          <.alert_banner alerts={@alerts} />
+          <section>
+            <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
+            <%= if ServicePatterns.has_service?(route: @route.id) do %>
+              <.upcoming_departures_section
+                :if={@stop}
+                now={@now}
+                stop={@stop}
+                upcoming_departures={@upcoming_departures}
+                route={@route}
+                last_trip_time={@last_trip_time}
+              />
             <% else %>
-              <.callout>
-                {no_service_message(@service_groups, @route, @stop)}
-              </.callout>
+              <.callout>{~t(No service today)}</.callout>
             <% end %>
-          </.async_result>
-        </section>
+          </section>
+          <section>
+            <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+            <.service_picker
+              id={"service-picker-#{@route.id}"}
+              selected_service_name={@selected_service_name}
+              service_groups={@service_groups}
+            />
+            <.async_result :let={departures} :if={@stop} assign={@departures}>
+              <:loading>
+                <div class="mt-lg mb-md flex justify-center">
+                  <.spinner aria_label={~t"Loading schedules for selected service"} />
+                </div>
+              </:loading>
+              <:failed :let={fail}>
+                <.error_container title={inspect(fail)}>
+                  {~t"There was a problem loading schedules"}
+                </.error_container>
+              </:failed>
+              <%= if length(departures) > 0 do %>
+                <%= if @route.type in [0, 1] do %>
+                  <div
+                    :for={
+                      {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                    }
+                    class="mt-lg mb-md"
+                  >
+                    <.subway_destination route={route} destination={destination} />
+                    <.first_last times={times} vehicle_name={@vehicle_name} />
+                  </div>
+                <% else %>
+                  <.first_last
+                    times={Enum.map(departures, & &1.time)}
+                    vehicle_name={@vehicle_name}
+                  />
+                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+                <% end %>
+              <% else %>
+                <.callout>
+                  {no_service_message(@service_groups, @route, @stop)}
+                </.callout>
+              <% end %>
+            </.async_result>
+          </section>
+        </div>
       </div>
       """
     end
@@ -343,6 +347,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :alerts, :list, required: true
 
+  defp alert_banner(%{alerts: []} = assigns) do
+    ~H""
+  end
+
   defp alert_banner(assigns) do
     ~H"""
     <.alert_status_group alerts={@alerts} />
@@ -363,29 +371,38 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class={[route_to_class(@route), "font-heading p-md"]}>
+    <div class={route_to_class(@route)}>
       <.link
-        class="text-current flex flex-col gap-sm hover:no-underline active:no-underline focus:text-current hover:text-current"
+        class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
       >
-        <div class="flex items-center gap-xs font-bold">
-          <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 -ml-xs" />
-          <span class="grow notranslate">{@route.name}</span>
-          <.icon
-            name="arrow-up-right-from-square"
-            aria-hidden
-            class="size-4 fill-current justify-self-end"
-          />
-        </div>
-        <div class="flex items-center gap-xs">
-          <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
-          <span>
-            {@route.direction_names[@direction_id]}
-            <%= if @route.id != "Green" do %>
-              {~t"towards"}
-              <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
-            <% end %>
-          </span>
+        <div class="font-heading p-md">
+          <div class="max-w-xl mx-auto flex flex-col gap-sm">
+            <div class="flex items-center gap-xs font-bold">
+              <SystemIcons.mode_icon
+                aria-hidden
+                line={@line_name}
+                mode={@mode}
+                class="shrink-0 -ml-xs"
+              />
+              <span class="grow notranslate">{@route.name}</span>
+              <.icon
+                name="arrow-up-right-from-square"
+                aria-hidden
+                class="size-4 fill-current justify-self-end"
+              />
+            </div>
+            <div class="flex items-center gap-xs">
+              <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
+              <span>
+                {@route.direction_names[@direction_id]}
+                <%= if @route.id != "Green" do %>
+                  {~t"towards"}
+                  <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+                <% end %>
+              </span>
+            </div>
+          </div>
         </div>
       </.link>
     </div>
@@ -407,7 +424,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select id={@id} class="mbta-input" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
@@ -436,20 +453,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp stop_banner(assigns) do
     ~H"""
-    <.link
-      :if={@stop}
-      class="bg-gray-lightest p-md flex items-center gap-xs text-black hover:no-underline active:no-underline focus:text-black hover:text-black"
-      patch={~p"/stops/#{@stop}"}
-    >
-      <.icon
-        type="icon-svg"
-        aria-hidden
-        name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
-        class="size-5 fill-current"
-      />
-      <span class="notranslate grow font-bold font-heading">{@stop.name}</span>
-      <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
-    </.link>
+    <div :if={@stop} class="bg-gray-lightest">
+      <.link
+        class="block text-black hover:text-black focus:text-black hover:no-underline active:no-underline focus:no-underline"
+        patch={~p"/stops/#{@stop}"}
+      >
+        <div class="font-heading p-md">
+          <div class="max-w-xl mx-auto flex items-center gap-xs">
+            <.icon
+              type="icon-svg"
+              aria-hidden
+              name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
+              class="size-5 fill-current"
+            />
+            <span class="notranslate grow font-bold">{@stop.name}</span>
+            <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
+          </div>
+        </div>
+      </.link>
+    </div>
     """
   end
 
