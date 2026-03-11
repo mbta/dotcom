@@ -11,7 +11,7 @@ module.exports = {
       name: "all-scenarios",
       script: "./integration/monitor/all-scenarios.js",
       instances: 1,
-      max_memory_restart: "512M",
+      max_memory_restart: "1G",
       exec_mode : "cluster"
     },
   ],

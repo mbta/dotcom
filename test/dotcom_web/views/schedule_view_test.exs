@@ -486,14 +486,18 @@ defmodule DotcomWeb.ScheduleViewTest do
     end
   end
 
-  describe "flag_stop_badge/1" do
+  describe "route_feature_badge/1" do
     test "returns a badge for the flag stop routes" do
-      refute flag_stop_badge(%Route{id: "714"}) == nil
-      refute flag_stop_badge(%Route{id: "716"}) == nil
+      refute route_feature_badge(%Route{id: "714"}) == nil
+      refute route_feature_badge(%Route{id: "716"}) == nil
+    end
+
+    test "returns a badge for routes with the `:seasonal_ferry` description" do
+      refute route_feature_badge(%Route{description: :seasonal_ferry}) == nil
     end
 
     test "returns nothing otherwise" do
-      assert flag_stop_badge(%Route{id: "39"}) == nil
+      assert route_feature_badge(%Route{id: "39"}) == nil
     end
   end
 

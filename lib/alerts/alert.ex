@@ -26,9 +26,10 @@ defmodule Alerts.Alert do
     :delay,
     :dock_closure,
     :dock_issue,
-    :extra_service,
     :elevator_closure,
     :escalator_closure,
+    :extra_service,
+    :notice,
     :policy_change,
     :schedule_change,
     :single_tracking,
@@ -69,28 +70,29 @@ defmodule Alerts.Alert do
           | :cancellation
           | :delay
           | :detour
-          | :dock_issue
           | :dock_closure
+          | :dock_issue
           | :elevator_closure
           | :escalator_closure
           | :extra_service
           | :facility_issue
           | :no_service
+          | :notice
           | :parking_closure
           | :parking_issue
           | :policy_change
+          | :schedule_change
           | :service_change
           | :shuttle
           | :single_tracking
-          | :suspension
+          | :snow_route
           | :station_closure
+          | :station_issue
           | :stop_closure
           | :stop_moved
-          | :schedule_change
-          | :snow_route
-          | :station_issue
           | :stop_shoveling
           | :summary
+          | :suspension
           | :track_change
           | :unknown
 
@@ -222,34 +224,35 @@ defmodule Alerts.Alert do
   end
 
   @spec do_human_effect(effect) :: String.t()
+  defp do_human_effect(:access_issue), do: ~t"Access Issue"
   defp do_human_effect(:amber_alert), do: ~t"Amber Alert"
+  defp do_human_effect(:bike_issue), do: ~t"Bike Issue"
   defp do_human_effect(:cancellation), do: ~t"Cancellation"
   defp do_human_effect(:delay), do: ~t"Delay"
-  defp do_human_effect(:suspension), do: ~t"Suspension"
-  defp do_human_effect(:track_change), do: ~t"Track Change"
   defp do_human_effect(:detour), do: ~t"Detour"
-  defp do_human_effect(:shuttle), do: ~t"Shuttle"
-  defp do_human_effect(:stop_closure), do: ~t"Stop Closure"
   defp do_human_effect(:dock_closure), do: ~t"Dock Closure"
-  defp do_human_effect(:station_closure), do: ~t"Station Closure"
-  defp do_human_effect(:stop_moved), do: ~t"Stop Move"
-  defp do_human_effect(:extra_service), do: ~t"Extra Service"
-  defp do_human_effect(:schedule_change), do: ~t"Schedule Change"
-  defp do_human_effect(:service_change), do: ~t"Service Change"
-  defp do_human_effect(:snow_route), do: ~t"Snow Route"
-  defp do_human_effect(:stop_shoveling), do: ~t"Snow Shoveling"
-  defp do_human_effect(:station_issue), do: ~t"Station Issue"
   defp do_human_effect(:dock_issue), do: ~t"Dock Issue"
-  defp do_human_effect(:access_issue), do: ~t"Access Issue"
-  defp do_human_effect(:facility_issue), do: ~t"Facility Issue"
-  defp do_human_effect(:bike_issue), do: ~t"Bike Issue"
-  defp do_human_effect(:parking_issue), do: ~t"Parking Issue"
-  defp do_human_effect(:parking_closure), do: ~t"Parking Closure"
   defp do_human_effect(:elevator_closure), do: ~t"Elevator Closure"
   defp do_human_effect(:escalator_closure), do: ~t"Escalator Closure"
+  defp do_human_effect(:extra_service), do: ~t"Extra Service"
+  defp do_human_effect(:facility_issue), do: ~t"Facility Issue"
+  defp do_human_effect(:notice), do: ~t"Notice"
+  defp do_human_effect(:parking_closure), do: ~t"Parking Closure"
+  defp do_human_effect(:parking_issue), do: ~t"Parking Issue"
   defp do_human_effect(:policy_change), do: ~t"Policy Change"
-  defp do_human_effect(:summary), do: ~t"Summary"
+  defp do_human_effect(:schedule_change), do: ~t"Schedule Change"
+  defp do_human_effect(:service_change), do: ~t"Service Change"
+  defp do_human_effect(:shuttle), do: ~t"Shuttle"
   defp do_human_effect(:single_tracking), do: ~t"Single Tracking"
+  defp do_human_effect(:snow_route), do: ~t"Snow Route"
+  defp do_human_effect(:station_closure), do: ~t"Station Closure"
+  defp do_human_effect(:station_issue), do: ~t"Station Issue"
+  defp do_human_effect(:stop_closure), do: ~t"Stop Closure"
+  defp do_human_effect(:stop_moved), do: ~t"Stop Move"
+  defp do_human_effect(:stop_shoveling), do: ~t"Snow Shoveling"
+  defp do_human_effect(:summary), do: ~t"Summary"
+  defp do_human_effect(:suspension), do: ~t"Suspension"
+  defp do_human_effect(:track_change), do: ~t"Track Change"
   defp do_human_effect(_), do: ~t"Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"

@@ -24,6 +24,9 @@ defmodule Dotcom.TimetableLoader do
     },
     "Boat-F8" => %{
       effective_dates: {~D[2025-05-17], ~D[2025-10-12]}
+    },
+    "CR-Foxboro" => %{
+      effective_dates: {~D[2026-03-26], ~D[2026-03-26]}
     }
   }
   @available_route_ids Map.keys(@metadata)
@@ -44,7 +47,7 @@ defmodule Dotcom.TimetableLoader do
     if in_timetable_date_range?(route_id, date) do
       case @loader_module.get_csv("#{route_id}-#{direction_id}.csv") do
         data when is_list(data) ->
-          {:ok, Enum.map(data, &trip_maps_from_row/1)}
+          {:ok, Enum.map(data, &trip_maps_from_row(&1, route_id == "CR-Foxboro"))}
 
         _ ->
           {:error, :no_data}
@@ -85,12 +88,16 @@ defmodule Dotcom.TimetableLoader do
 
   # transform each row from a single map e.g. %{"Stop" => stop_id, "0600" => "11:00 AM", ...}
   # to a list containing a map for each trip/time
-  defp trip_maps_from_row(stop_row) do
+  defp trip_maps_from_row(stop_row, add_name?) do
     {stop_id, trips} = Map.pop!(stop_row, "Stop")
 
     Enum.map(trips, fn {trip_key, time} ->
       # The PDFs don't have trip names
-      Map.new(stop_id: stop_id, trip: %{name: "", id: trip_key}, time: time)
+      Map.new(
+        stop_id: stop_id,
+        trip: %{name: if(add_name?, do: trip_key, else: ""), id: trip_key},
+        time: time
+      )
     end)
   end
 

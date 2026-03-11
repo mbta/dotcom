@@ -415,24 +415,53 @@ defmodule DotcomWeb.ScheduleView do
     stop.station?
   end
 
-  @spec flag_stop_badge(Route.t()) :: Safe.t() | nil
-  def flag_stop_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
+  @spec route_feature_badge(Route.t()) :: Safe.t() | nil
+  def route_feature_badge(%Route{id: route_id}) when route_id in @flag_stop_routes do
     assigns = %{}
 
     ~H"""
-    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
-      <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
-        <.icon class="h-3.5 w-3.5" name="flag" />
-      </div>
-      <span class="text-sm font-bold text-black my-[0.094rem]">
-        {~t"Flag the bus in any safe place along the route"}
-      </span>
-    </div>
+    <.badge_with_icon>
+      <:icon>
+        <div class="bg-brand-bus h-6 w-6 rounded-full flex items-center justify-center shrink-0">
+          <.icon class="h-3.5 w-3.5" name="flag" />
+        </div>
+      </:icon>
+
+      {~t"Flag the bus in any safe place along the route"}
+    </.badge_with_icon>
     """
   end
 
-  def flag_stop_badge(_route) do
+  def route_feature_badge(%Route{description: :seasonal_ferry}) do
+    assigns = %{}
+
+    ~H"""
+    <.badge_with_icon>
+      <:icon>
+        <.icon class="size-6" type="icon-svg" name="icon-seasonal-ferry-sun" />
+      </:icon>
+
+      {~t"Seasonal Service"}
+    </.badge_with_icon>
+    """
+  end
+
+  def route_feature_badge(_route) do
     nil
+  end
+
+  slot :icon, required: true
+  slot :inner_block, required: true
+
+  defp badge_with_icon(assigns) do
+    ~H"""
+    <div class="bg-white rounded-xl min-h-8 w-fit flex gap-2 items-start py-1 pl-1 pr-3 mb-6">
+      {render_slot(@icon)}
+      <span class="text-sm font-bold text-black my-[0.094rem]">
+        {render_slot(@inner_block)}
+      </span>
+    </div>
+    """
   end
 
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil

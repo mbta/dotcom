@@ -39,20 +39,9 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   def selected_match_banner(assigns) do
     ~H"""
-    <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm flex flex-row bg-brand-primary text-white justify-between">
-      <div>
-        <div class="font-bold">{@label} ({formatted_date(@date)})</div>
-        <.teams selected teams={@teams} />
-      </div>
-      <div class="flex flex-col justify-around">
-        <.link
-          class="text-white no-underline"
-          patch={~p"/preview/schedules/CR-WorldCup"}
-          aria-label={~t(Select another match)}
-        >
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </.link>
-      </div>
+    <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm bg-brand-primary text-white justify-between">
+      <div class="font-bold">{@label} ({formatted_date(@date)})</div>
+      <.teams selected teams={@teams} />
     </div>
     """
   end

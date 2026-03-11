@@ -378,33 +378,37 @@ defmodule Dotcom.ScheduleFinderTest do
 
   describe "simplify_platform_name/2" do
     test "leaves the name unchanged for typical non-subway platform names" do
-      route_type = Faker.Util.pick([2, 3, 4])
+      route_type = Faker.Util.pick([2, 3, 4, :commuter_rail, :ferry])
       platform_name = Faker.Pizza.topping()
 
       assert simplify_platform_name(platform_name, route_type) == platform_name
     end
 
     test "returns nil for subway routes" do
-      route_type = Faker.Util.pick([0, 1])
+      route_type = Faker.Util.pick([0, 1, :subway])
 
       assert simplify_platform_name(Faker.Pizza.topping(), route_type) == nil
     end
 
     test "returns nil for commuter rail platforms called 'Commuter Rail'" do
-      assert simplify_platform_name("Commuter Rail", 2) == nil
+      route_type = Faker.Util.pick([2, :commuter_rail])
+      assert simplify_platform_name("Commuter Rail", route_type) == nil
     end
 
     test "returns nil for commuter rail platforms starting with 'Commuter Rail -'" do
       actual_name = Faker.Pizza.topping()
-      assert simplify_platform_name("Commuter Rail - " <> actual_name, 2) == actual_name
+      route_type = Faker.Util.pick([2, :commuter_rail])
+      assert simplify_platform_name("Commuter Rail - " <> actual_name, route_type) == actual_name
     end
 
     test "returns nil for commuter rail platforms with 'All Trains' in the name" do
-      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", 2) == nil
+      route_type = Faker.Util.pick([2, :commuter_rail])
+      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", route_type) == nil
     end
 
     test "returns nil for ferry platforms with 'Ferry' in the name" do
-      assert simplify_platform_name("#{Faker.Pizza.topping()} Ferry", 4) == nil
+      route_type = Faker.Util.pick([4, :ferry])
+      assert simplify_platform_name("#{Faker.Pizza.topping()} Ferry", route_type) == nil
     end
 
     test "leaves nil platform names as nil" do

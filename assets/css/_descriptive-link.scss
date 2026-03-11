@@ -109,3 +109,29 @@
   }
 }
 
+.c-callout-link {
+  background-color: var(--colors-cobalt-80);
+  border-radius: $space-6;
+  color: black;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  padding: $base-spacing;
+  justify-content: space-between;
+
+  .c-callout-link__text {
+    padding-right: $base-spacing;
+  }
+
+  .c-callout-link__arrow {
+    align-self: center;
+    height: 1rem;
+    min-width: 1rem;
+    width: 1rem;
+  }
+
+  @include hover-focus-active {
+    color: black;
+    text-decoration: none;
+  }
+}

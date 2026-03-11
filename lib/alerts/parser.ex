@@ -120,35 +120,36 @@ defmodule Alerts.Parser do
     end
 
     @spec do_effect(String.t()) :: Alerts.Alert.effect()
+    defp do_effect("ACCESS_ISSUE"), do: :access_issue
     defp do_effect("AMBER_ALERT"), do: :amber_alert
+    defp do_effect("BIKE_ISSUE"), do: :bike_issue
     defp do_effect("CANCELLATION"), do: :cancellation
     defp do_effect("DELAY"), do: :delay
-    defp do_effect("SUSPENSION"), do: :suspension
-    defp do_effect("TRACK_CHANGE"), do: :track_change
     defp do_effect("DETOUR"), do: :detour
-    defp do_effect("SHUTTLE"), do: :shuttle
-    defp do_effect("STOP_CLOSURE"), do: :stop_closure
     defp do_effect("DOCK_CLOSURE"), do: :dock_closure
+    defp do_effect("DOCK_ISSUE"), do: :dock_issue
+    defp do_effect("ELEVATOR_CLOSURE"), do: :elevator_closure
+    defp do_effect("ESCALATOR_CLOSURE"), do: :escalator_closure
+    defp do_effect("EXTRA_SERVICE"), do: :extra_service
+    defp do_effect("FACILITY_ISSUE"), do: :facility_issue
+    defp do_effect("NOTICE"), do: :notice
+    defp do_effect("PARKING_CLOSURE"), do: :parking_closure
+    defp do_effect("PARKING_ISSUE"), do: :parking_issue
+    defp do_effect("POLICY_CHANGE"), do: :policy_change
+    defp do_effect("SCHEDULE_CHANGE"), do: :schedule_change
+    defp do_effect("SERVICE_CHANGE"), do: :service_change
+    defp do_effect("SHUTTLE"), do: :shuttle
+    defp do_effect("SNOW_ROUTE"), do: :snow_route
     defp do_effect("STATION_CLOSURE"), do: :station_closure
+    defp do_effect("STATION_ISSUE"), do: :station_issue
+    defp do_effect("STOP_CLOSURE"), do: :stop_closure
     # previous configuration
     defp do_effect("STOP_MOVE"), do: :stop_moved
     defp do_effect("STOP_MOVED"), do: :stop_moved
-    defp do_effect("EXTRA_SERVICE"), do: :extra_service
-    defp do_effect("SCHEDULE_CHANGE"), do: :schedule_change
-    defp do_effect("SERVICE_CHANGE"), do: :service_change
-    defp do_effect("SNOW_ROUTE"), do: :snow_route
-    defp do_effect("STATION_ISSUE"), do: :station_issue
-    defp do_effect("DOCK_ISSUE"), do: :dock_issue
-    defp do_effect("ACCESS_ISSUE"), do: :access_issue
-    defp do_effect("FACILITY_ISSUE"), do: :facility_issue
-    defp do_effect("BIKE_ISSUE"), do: :bike_issue
-    defp do_effect("PARKING_ISSUE"), do: :parking_issue
-    defp do_effect("PARKING_CLOSURE"), do: :parking_closure
-    defp do_effect("ELEVATOR_CLOSURE"), do: :elevator_closure
-    defp do_effect("ESCALATOR_CLOSURE"), do: :escalator_closure
-    defp do_effect("POLICY_CHANGE"), do: :policy_change
     defp do_effect("STOP_SHOVELING"), do: :stop_shoveling
     defp do_effect("SUMMARY"), do: :summary
+    defp do_effect("SUSPENSION"), do: :suspension
+    defp do_effect("TRACK_CHANGE"), do: :track_change
     defp do_effect(_), do: :unknown
 
     @spec cause(String.t() | nil) :: Alerts.Alert.cause()

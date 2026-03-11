@@ -23,13 +23,51 @@ defmodule DotcomWeb.CacheController do
       {:ok, keys} ->
         conn
         |> put_status(:ok)
-        |> render(:index, %{keys: keys})
+        |> render(:index, group_structured_keys(keys))
 
       _ ->
         Logger.warning("dotcom_web.cache_controller.error")
 
         send_resp(conn, 500, "") |> halt()
     end
+  end
+
+  # A structured key is one shaped like
+  # "<module>|<function_name>|<args>", where args is Base 64
+  # encoded. An unstructured key is anything else.
+  #
+  # Given a list of structured and unstructured keys, this function
+  # groups them into structured versus unstructured, and nests the
+  # structured keys first by module name, and then by function name.
+  #
+  # It leaves the unstructured keys as a plain old list.
+  defp group_structured_keys(keys) do
+    keys
+    |> Enum.map(
+      &(&1
+        |> String.split("|")
+        |> parse_structured()
+        |> Map.put(:raw, &1))
+    )
+    |> Enum.group_by(& &1.type)
+    |> Enum.into(%{structured_keys: [], unstructured_keys: []})
+    |> Map.update!(:structured_keys, &nest_by_mod_and_fun/1)
+  end
+
+  defp parse_structured([mod, fun, base_64_args]),
+    do: %{
+      type: :structured_keys,
+      mod: mod,
+      fun: fun,
+      args: base_64_args |> Base.decode64!()
+    }
+
+  defp parse_structured(_), do: %{type: :unstructured_keys}
+
+  defp nest_by_mod_and_fun(structured_keys) do
+    structured_keys
+    |> Enum.group_by(& &1.mod)
+    |> Map.new(fn {mod, keys} -> {mod, keys |> Enum.group_by(& &1.fun)} end)
   end
 
   @doc """
@@ -144,50 +182,62 @@ defmodule DotcomWeb.CacheController do
     """
     def index(assigns) do
       ~H"""
-      <div style="width: 100%; max-width: 100%;">
-        <div style="padding: 10px 10px 15px 10px; background: mediumpurple;">
-          <span :for={{k, _} <- @keys}>
-            <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
-          </span>
-        </div>
-        <div :for={{k, v} <- @keys}>
-          <h1 style="padding: 10px; color: white; background: indianred;" id={k}>{k}</h1>
-          <.heading :if={is_map(v)} key={[k]} keys={v} />
-          <.links :if={is_list(v)} key={[k]} keys={v} />
-        </div>
+      <div style="padding: 10px 10px 15px 10px; background: mediumpurple;">
+        <span :for={{k, _} <- @structured_keys}>
+          <a href={"##{k}"} style="color: white;">{k}</a>&nbsp;
+        </span>
+        <span :if={@unstructured_keys |> Enum.any?()}>
+          <a href="#unstructured" style="color: white;">unstructured keys</a>&nbsp;
+        </span>
+      </div>
+
+      <.structured_key_section
+        :for={{mod, keys_by_fun} <- @structured_keys |> Enum.sort_by(fn {mod, _} -> mod end)}
+        mod={mod}
+        keys_by_fun={keys_by_fun}
+        }
+      />
+
+      <.unstructured_key_section :if={@unstructured_keys |> Enum.any?()} keys={@unstructured_keys} />
+      """
+    end
+
+    defp structured_key_section(assigns) do
+      ~H"""
+      <h1 style="padding: 10px; color: white; background: indianred;" id={@mod}>{@mod}</h1>
+
+      <div
+        :for={{fun, key_list} <- @keys_by_fun |> Enum.sort_by(fn {fun, _} -> fun end)}
+        style="margin-left: 5px"
+      >
+        <h2>{fun}</h2>
+
+        <ul>
+          <li :for={key <- key_list |> Enum.sort_by(& &1.args)}>
+            <.key_link key={key.raw} display={key.args} />
+          </li>
+        </ul>
       </div>
       """
     end
 
-    # If the value is a map, we want to render the heading and continue on until we find links.
-    defp heading(assigns) do
+    defp unstructured_key_section(assigns) do
       ~H"""
-      <div :for={{k, v} <- @keys} style={"margin-left: #{length(@key) * 5}px"}>
-        <h2>{k}</h2>
-        <.heading :if={is_map(v)} key={@key ++ [k]} keys={v} />
-        <.links :if={is_list(v)} key={@key ++ [k]} keys={v} />
-      </div>
-      """
-    end
+      <h1 style="padding: 10px; color: white; background: indianred;" id="unstructured">
+        Unstructured Keys
+      </h1>
 
-    # If the value is a list, we now render links.
-    defp links(assigns) do
-      links =
-        Enum.map(assigns.keys, fn key ->
-          {
-            Path.join(assigns.key ++ [key]),
-            Path.join(["cache"] ++ assigns.key ++ [key])
-          }
-        end)
-
-      assigns = Phoenix.Controller.assign(assigns, links: links)
-
-      ~H"""
       <ul>
-        <li :for={{k, v} <- @links}>
-          <a href={v} style="color: black;">{k}</a>
+        <li :for={raw_key <- @keys |> Enum.map(& &1.raw) |> Enum.sort()}>
+          <.key_link key={raw_key} display={raw_key} />
         </li>
       </ul>
+      """
+    end
+
+    defp key_link(assigns) do
+      ~H"""
+      <a href={"/cache/#{@key}"} style="color: black;"><code>{@display}</code></a>
       """
     end
 

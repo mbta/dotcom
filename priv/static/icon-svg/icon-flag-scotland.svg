@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <mask id="a">
+  <mask id="icon-flag-scotland-a">
     <circle cx="256" cy="256" r="256" fill="#fff" />
   </mask>
-  <g mask="url(#a)">
+  <g mask="url(#icon-flag-scotland-a)">
     <path fill="#0052b4" d="M0 68 68 0h376l68 68v376l-68 68H68L0 444Z" />
     <path
       fill="#eee"

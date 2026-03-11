@@ -355,4 +355,18 @@ defmodule DotcomWeb.Components do
     </div>
     """
   end
+
+  @doc """
+  A callout which is a link. Has different styling compared to the generic style.
+  """
+  def callout_link(assigns) do
+    ~H"""
+    <a href={@href} class="c-callout-link">
+      <div class="c-callout-link__text">
+        {render_slot(@inner_block)}
+      </div>
+      <.icon type="solid" name="arrow-right" class="c-callout-link__arrow" />
+    </a>
+    """
+  end
 end

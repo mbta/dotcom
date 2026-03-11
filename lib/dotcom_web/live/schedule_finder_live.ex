@@ -62,80 +62,112 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
       |> assign(:now, @date_time.now())
 
-    ~H"""
-    <Prototype.route_stop_picker
-      selected_route={@route}
-      selected_direction_id={@direction_id}
-    />
-    <.route_banner route={@route} direction_id={@direction_id} />
-    <.stop_banner stop={@stop} />
-    <div class="px-3 py-xl flex flex-col gap-y-xl">
-      <.alert_banner alerts={@alerts} />
-      <section :if={show_upcoming_departures?(@route)}>
-        <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-        <%= if ServicePatterns.has_service?(route: @route.id) do %>
-          <.upcoming_departures_section
-            :if={@stop}
-            now={@now}
-            stop={@stop}
-            upcoming_departures={@upcoming_departures}
-            route={@route}
-            last_trip_time={@last_trip_time}
-          />
-        <% else %>
-          <.callout>{~t(No service today)}</.callout>
-        <% end %>
-      </section>
-      <section>
-        <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-        <.service_picker
-          id={"service-picker-#{@route.id}"}
-          selected_service_name={@selected_service_name}
-          service_groups={@service_groups}
+    # If we have valid params, render SF, otherwise render the 404 page
+    if(is_nil(assigns.route) or is_nil(assigns.direction_id)) do
+      DotcomWeb.ErrorView.render("404.html", assigns)
+    else
+      ~H"""
+      <div class="container">
+        <Prototype.route_stop_picker
+          selected_route={@route}
+          selected_direction_id={@direction_id}
         />
-        <.async_result :let={departures} :if={@stop} assign={@departures}>
-          <:loading>
-            <div class="mt-lg mb-md flex justify-center">
-              <.spinner aria_label={~t"Loading schedules for selected service"} />
-            </div>
-          </:loading>
-          <:failed :let={fail}>
-            <.error_container title={inspect(fail)}>
-              {~t"There was a problem loading schedules"}
-            </.error_container>
-          </:failed>
-          <%= if length(departures) > 0 do %>
-            <%= if @route.type in [0, 1] do %>
-              <div
-                :for={
-                  {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                }
-                class="mt-lg mb-md"
-              >
-                <.subway_destination route={route} destination={destination} />
-                <.first_last times={times} vehicle_name={@vehicle_name} />
-                <.subway_headways times={times} />
-              </div>
-            <% else %>
-              <.first_last
-                times={Enum.map(departures, & &1.time)}
-                vehicle_name={@vehicle_name}
+      </div>
+      <.route_banner route={@route} direction_id={@direction_id} />
+      <.stop_banner stop={@stop} />
+      <div class="container">
+        <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
+          <.alert_banner alerts={@alerts} />
+          <section>
+            <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
+            <%= if ServicePatterns.has_service?(route: @route.id) do %>
+              <.upcoming_departures_section
+                :if={@stop}
+                now={@now}
+                stop={@stop}
+                upcoming_departures={@upcoming_departures}
+                route={@route}
+                last_trip_time={@last_trip_time}
               />
-              <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+            <% else %>
+              <.callout>{~t(No service today)}</.callout>
             <% end %>
-          <% else %>
-            <.callout>
-              {no_service_message(@service_groups, @route, @stop)}
-            </.callout>
-          <% end %>
-        </.async_result>
-      </section>
-    </div>
-    """
+          </section>
+          <section>
+            <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+            <.service_picker
+              id={"service-picker-#{@route.id}"}
+              selected_service_name={@selected_service_name}
+              service_groups={@service_groups}
+            />
+            <.async_result :let={departures} :if={@stop} assign={@departures}>
+              <:loading>
+                <div class="mt-lg mb-md flex justify-center">
+                  <.spinner aria_label={~t"Loading schedules for selected service"} />
+                </div>
+              </:loading>
+              <:failed :let={fail}>
+                <.error_container title={inspect(fail)}>
+                  {~t"There was a problem loading schedules"}
+                </.error_container>
+              </:failed>
+              <%= if length(departures) > 0 do %>
+                <%= if @route.type in [0, 1] do %>
+                  <div
+                    :for={
+                      {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                    }
+                    class="mt-lg mb-md"
+                  >
+                    <.subway_destination route={route} destination={destination} />
+                    <.first_last times={times} vehicle_name={@vehicle_name} />
+                  </div>
+                <% else %>
+                  <.first_last
+                    times={Enum.map(departures, & &1.time)}
+                    vehicle_name={@vehicle_name}
+                  />
+                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+                <% end %>
+              <% else %>
+                <.callout>
+                  {no_service_message(@service_groups, @route, @stop)}
+                </.callout>
+              <% end %>
+            </.async_result>
+          </section>
+        </div>
+      </div>
+      """
+    end
   end
 
   @impl LiveView
-  def handle_params(%{"direction_id" => direction, "route_id" => route_id} = params, _uri, socket) do
+  def handle_params(
+        %{"direction_id" => direction, "route_id" => route_id} = params,
+        url,
+        socket
+      ) do
+    valid_directions = ["0", "1"]
+    # If we have valid params parse them, otherwise skip that step and
+    # the render() function will choose whether to show SF or 404 content
+    if direction in valid_directions and !is_nil(@routes_repo.get(route_id)) do
+      handle_full_params(params, url, socket)
+    else
+      {:noreply, socket}
+    end
+  end
+
+  # If no params are passed, forward the user to the schedule page
+  def handle_params(_, _, socket) do
+    {:noreply, push_patch(socket, to: ~p"/schedules")}
+  end
+
+  def handle_full_params(
+        %{"direction_id" => direction, "route_id" => route_id} = params,
+        _uri,
+        socket
+      ) do
     {direction_id, _} = Integer.parse(direction)
     service_groups = ServiceGroup.for_route(route_id, service_date())
 
@@ -248,7 +280,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_stop(socket, params) do
-    stop_id = Map.get(params, "stop")
+    stop_id = Map.get(params, "stop_id")
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
   end
 
@@ -315,6 +347,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :alerts, :list, required: true
 
+  defp alert_banner(%{alerts: []} = assigns) do
+    ~H""
+  end
+
   defp alert_banner(assigns) do
     ~H"""
     <.alert_status_group alerts={@alerts} />
@@ -335,29 +371,38 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class={[route_to_class(@route), "font-heading p-md"]}>
+    <div class={route_to_class(@route)}>
       <.link
-        class="text-current flex flex-col gap-sm hover:no-underline active:no-underline focus:text-current hover:text-current"
+        class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
       >
-        <div class="flex items-center gap-xs font-bold">
-          <SystemIcons.mode_icon aria-hidden line={@line_name} mode={@mode} class="shrink-0 -ml-xs" />
-          <span class="grow notranslate">{@route.name}</span>
-          <.icon
-            name="arrow-up-right-from-square"
-            aria-hidden
-            class="size-4 fill-current justify-self-end"
-          />
-        </div>
-        <div class="flex items-center gap-xs">
-          <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
-          <span>
-            {@route.direction_names[@direction_id]}
-            <%= if @route.id != "Green" do %>
-              {~t"towards"}
-              <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
-            <% end %>
-          </span>
+        <div class="font-heading p-md">
+          <div class="max-w-xl mx-auto flex flex-col gap-sm">
+            <div class="flex items-center gap-xs font-bold">
+              <SystemIcons.mode_icon
+                aria-hidden
+                line={@line_name}
+                mode={@mode}
+                class="shrink-0 -ml-xs"
+              />
+              <span class="grow notranslate">{@route.name}</span>
+              <.icon
+                name="arrow-up-right-from-square"
+                aria-hidden
+                class="size-4 fill-current justify-self-end"
+              />
+            </div>
+            <div class="flex items-center gap-xs">
+              <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
+              <span>
+                {@route.direction_names[@direction_id]}
+                <%= if @route.id != "Green" do %>
+                  {~t"towards"}
+                  <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+                <% end %>
+              </span>
+            </div>
+          </div>
         </div>
       </.link>
     </div>
@@ -379,7 +424,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for="service-picker" class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select id={@id} class="mbta-input" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
@@ -408,20 +453,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp stop_banner(assigns) do
     ~H"""
-    <.link
-      :if={@stop}
-      class="bg-gray-lightest p-md flex items-center gap-xs text-black hover:no-underline active:no-underline focus:text-black hover:text-black"
-      patch={~p"/stops/#{@stop}"}
-    >
-      <.icon
-        type="icon-svg"
-        aria-hidden
-        name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
-        class="size-5 fill-current"
-      />
-      <span class="notranslate grow font-bold font-heading">{@stop.name}</span>
-      <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
-    </.link>
+    <div :if={@stop} class="bg-gray-lightest">
+      <.link
+        class="block text-black hover:text-black focus:text-black hover:no-underline active:no-underline focus:no-underline"
+        patch={~p"/stops/#{@stop}"}
+      >
+        <div class="font-heading p-md">
+          <div class="max-w-xl mx-auto flex items-center gap-xs">
+            <.icon
+              type="icon-svg"
+              aria-hidden
+              name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
+              class="size-5 fill-current"
+            />
+            <span class="notranslate grow font-bold">{@stop.name}</span>
+            <.icon aria-hidden name="arrow-up-right-from-square" class="size-4 fill-current" />
+          </div>
+        </div>
+      </.link>
+    </div>
     """
   end
 
@@ -472,7 +522,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route, required: true
 
   slot :headsign, required: true
-  slot :track_info
+  slot :additional_info
   slot :time, required: true
 
   defp departure_heading(assigns) do
@@ -485,13 +535,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <span>{render_slot(@headsign)}</span>
         </div>
 
-        <div :if={@track_info} class="flex items-center gap-2">
+        <div :if={@additional_info} class="flex items-center gap-2">
           <div class="h-0 invisible shrink-0">
             <RouteComponents.route_icon size="small" route={@route} />
           </div>
 
           <div class="leading-none text-sm">
-            {render_slot(@track_info)}
+            {render_slot(@additional_info)}
           </div>
         </div>
       </div>
@@ -531,9 +581,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             </:headsign>
 
-            <:track_info :if={departure.route.type == 2 && departure.trip_name}>
+            <:additional_info :if={departure.route.type == 2 && departure.trip_name}>
               {~t(Train)} {departure.trip_name}
-            </:track_info>
+            </:additional_info>
 
             <:time><.formatted_time time={departure.time} /></:time>
           </.departure_heading>
@@ -584,28 +634,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       {gettext("to %{destination}", destination: @destination)}
     </div>
     """
-  end
-
-  attr :times, :list, required: true
-
-  defp subway_headways(assigns) do
-    ~H"""
-    <div class="bg-cobalt-90 p-3 mt-sm">
-      {headway_range(@times)}
-    </div>
-    """
-  end
-
-  # later: just use hardcoded times
-  defp headway_range(times) do
-    {min, max} =
-      times
-      |> Stream.chunk_every(2)
-      |> Stream.filter(&(length(&1) == 2))
-      |> Stream.map(fn [t1, t2] -> DateTime.diff(t2, t1, :minute) end)
-      |> Enum.min_max(fn -> {nil, nil} end)
-
-    gettext("Trains depart every %{min} to %{max} minutes", %{min: min, max: max})
   end
 
   defp upcoming_departures_section(
@@ -702,11 +730,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
               stop_pin?={upcoming_departure.trip_details.stop == nil}
             >
               <div class="grow font-medium">
-                {vehicle_message(upcoming_departure.trip_details.vehicle_info)}
-                <.vehicle_crowding
-                  crowding={crowding(upcoming_departure.trip_details.vehicle_info)}
-                  show_label?
-                />
+                <.vehicle_label vehicle_info={upcoming_departure.trip_details.vehicle_info} />
+              </div>
+              <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
+                <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
               </div>
             </.lined_list_item>
             <details
@@ -759,13 +786,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>{@upcoming_departure.headsign}</:headsign>
 
-      <:track_info :if={@upcoming_departure.trip_name}>
+      <:additional_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
         <span aria-hidden="true">
           &bull;
         </span>
         {@upcoming_departure.platform_name || ~t"Track TBA"}
-      </:track_info>
+      </:additional_info>
+
+      <:additional_info :if={
+        @upcoming_departure.trip_details.vehicle_info.vehicle_name &&
+          @upcoming_departure.route.type == 4
+      }>
+        <i>{@upcoming_departure.trip_details.vehicle_info.vehicle_name}</i>
+      </:additional_info>
 
       <:time>
         <div class="flex flex-col items-end">
@@ -779,6 +813,37 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </.departure_heading>
     """
   end
+
+  defp vehicle_label(%{vehicle_info: %{status: :finishing_another_trip}} = assigns) do
+    ~H"""
+    {~t"Finishing another trip"}
+    """
+  end
+
+  defp vehicle_label(%{vehicle_info: %{status: :location_unavailable}} = assigns) do
+    ~H"""
+    {~t"Location unavailable"}
+    """
+  end
+
+  defp vehicle_label(assigns) do
+    ~H"""
+    <div class="font-normal text-charcoal-30 text-sm">
+      {vehicle_status_message(@vehicle_info.status)}
+    </div>
+    <.stop_label stop_name={@vehicle_info.stop_name} platform_name={@vehicle_info.platform_name} />
+    <.vehicle_crowding
+      crowding={crowding(@vehicle_info)}
+      show_label?
+    />
+    """
+  end
+
+  defp vehicle_status_message(:scheduled_to_depart), do: ~t"Scheduled to depart"
+  defp vehicle_status_message(:waiting_to_depart), do: ~t"Waiting to depart"
+  defp vehicle_status_message(:in_transit), do: ~t"Next stop"
+  defp vehicle_status_message(:incoming), do: ~t"Approaching"
+  defp vehicle_status_message(:stopped), do: ~t"Now at"
 
   defp crowding(%TripDetails.VehicleInfo{crowding: crowding}), do: crowding
   defp crowding(_), do: nil
@@ -821,21 +886,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp crowding_message(:crowded), do: ~t"Crowded"
   defp crowding_message(_), do: ""
 
-  defp vehicle_message(%{status: :in_transit, stop_name: stop_name}),
-    do: gettext("Next Stop: %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :incoming, stop_name: stop_name}),
-    do: gettext("Approaching %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :stopped, stop_name: stop_name}),
-    do: gettext("Now at %{stop_name}", stop_name: stop_name)
-
-  defp vehicle_message(%{status: :location_unavailable}),
-    do: ~t"Location not yet available"
-
-  defp vehicle_message(nil),
-    do: ~t"Finishing another trip"
-
   attr :class, :string, default: ""
   attr :route, Route, required: true
   attr :other_stop, :any, required: true
@@ -845,8 +895,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
       <div class={["grow", @highlight && "font-bold"]}>
-        <div>{@other_stop.stop_name}</div>
-        <div :if={@other_stop.platform_name} class="text-sm">{@other_stop.platform_name}</div>
+        <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
       <div class={[
         "ml-auto",
@@ -856,6 +905,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <.trip_stop_time time={@other_stop.time} />
       </div>
     </.lined_list_item>
+    """
+  end
+
+  attr :stop_name, :string, required: true
+  attr :platform_name, :string, default: nil
+
+  defp stop_label(assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-x-2 items-center">
+      <div>{@stop_name}</div>
+      <div :if={@platform_name} class="text-sm">{@platform_name}</div>
+    </div>
     """
   end
 
@@ -948,7 +1009,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_text({:departure_seconds, seconds}),
     do: seconds_to_localized_minutes(seconds)
 
-  defp realtime_text(:approaching), do: ~t"Approaching"
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"
@@ -1084,7 +1144,4 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </div>
     """
   end
-
-  defp show_upcoming_departures?(%Route{} = route), do: Route.type_atom(route) != :ferry
-  defp show_upcoming_departures?(_), do: false
 end

@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.Prototype do
         <div class="grid grid-cols-6  max-h-[70vh] max-w-[90vw] overflow-scroll z-[1000] border-gray-dark border-lg">
           <.link
             :for={route <- @all_routes}
-            patch={~p"/preview/schedules/#{route.id}/0"}
+            patch={~p"/departures/?route_id=#{route.id}&direction_id=0"}
             style={"background-color: ##{route.color}; color: #{if(route.type == 3 and not String.contains?(route.name, "SL"), do: "black", else: "white")};"}
             class={[
               "p-sm border-xs text-sm font-bold text-center break-words leading-none",
@@ -43,14 +43,14 @@ defmodule DotcomWeb.Components.Prototype do
       </div>
       <.link
         class={if(@selected_direction_id == 0, do: "underline")}
-        patch={~p"/preview/schedules/#{@selected_route.id}/0"}
+        patch={~p"/departures/?route_id=#{@selected_route.id}&direction_id=0"}
       >
         {@selected_route.direction_names[0]}
       </.link>
       |
       <.link
         class={if(@selected_direction_id == 1, do: "underline")}
-        patch={~p"/preview/schedules/#{@selected_route.id}/1"}
+        patch={~p"/departures/?route_id=#{@selected_route.id}&direction_id=1"}
       >
         {@selected_route.direction_names[1]}
       </.link>
@@ -63,7 +63,7 @@ defmodule DotcomWeb.Components.Prototype do
             <.link
               :for={stop <- @stops}
               patch={
-                ~p"/preview/schedules/#{@selected_route.id}/#{@selected_direction_id}?stop=#{stop.id}"
+                ~p"/departures/?route_id=#{@selected_route.id}&direction_id=#{@selected_direction_id}&stop_id=#{stop.id}"
               }
               class="p-sm border-xs text-sm font-bold text-center break-words leading-none"
             >

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <mask id="a"><circle cx="256" cy="256" r="256" fill="#fff" /></mask>
-  <g mask="url(#a)">
+  <mask id="icon-flag-norway-a"><circle cx="256" cy="256" r="256" fill="#fff" /></mask>
+  <g mask="url(#icon-flag-norway-a)">
     <path
       fill="#d80027"
       d="M0 0h100.2l66.1 53.5L233.7 0H512v189.3L466.3 257l45.7 65.8V512H233.7l-68-50.7-65.5 50.7H0V322.8l51.4-68.5-51.4-65z"

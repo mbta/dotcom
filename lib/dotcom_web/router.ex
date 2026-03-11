@@ -1,6 +1,6 @@
 defmodule DotcomWeb.Router do
   @moduledoc false
-
+  # remove this comment, it is here to try and fix github (don't ask)
   use DotcomWeb, :router
   use Plug.ErrorHandler
 
@@ -297,15 +297,23 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/departures", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :departures do
+      live "/", ScheduleFinderLive
+    end
+  end
+
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
-      live "/schedules/CR-WorldCup", WorldCupTimetableLive
-      live "/schedules/:route_id/:direction_id", ScheduleFinderLive
       live "/daily-schedules", DailySchedulesLive
+      live "/schedules/CR-WorldCup", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
   end

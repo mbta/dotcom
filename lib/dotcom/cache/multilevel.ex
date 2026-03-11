@@ -21,8 +21,6 @@ defmodule Dotcom.Cache.Multilevel do
 
   require Logger
 
-  import Dotcom.Utils.Enum, only: [group_list: 1]
-
   @cache Application.compile_env!(:dotcom, :cache)
   @redix Application.compile_env!(:dotcom, :redix)
 
@@ -125,7 +123,8 @@ defmodule Dotcom.Cache.Multilevel do
     keys =
       conn
       |> stream_keys("*")
-      |> grouped_keys()
+      |> Enum.to_list()
+      |> List.flatten()
 
     :timer.sleep(1_000)
 
@@ -143,14 +142,6 @@ defmodule Dotcom.Cache.Multilevel do
       {:error, _} ->
         []
     end
-  end
-
-  defp grouped_keys(stream) do
-    stream
-    |> Enum.to_list()
-    |> List.flatten()
-    |> Enum.map(&String.split(&1, "|"))
-    |> group_list()
   end
 
   defp scan_for_keys(conn, pattern, cursor) do

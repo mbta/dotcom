@@ -51,6 +51,33 @@ defmodule Dotcom.SystemStatusTest do
 
       assert non_normal_status == currently_active_alert.effect
     end
+
+    test "returns status without delays beginning later that day unless they are single-tracking" do
+      route_id_with_alerts = Dotcom.Routes.subway_route_ids() |> Faker.Util.pick()
+      line = Dotcom.Routes.line_name_for_subway_route(route_id_with_alerts)
+      {day_start, day_end} = service_range_day()
+      later_start = Timex.shift(day_end, seconds: -1)
+      currently_active_alert = disruption_alert({day_start, day_end}, route_id_with_alerts)
+      later_delay_alert = disruption_alert({later_start, day_end}, route_id_with_alerts, :delay)
+
+      single_tracking_alert =
+        disruption_alert({later_start, day_end}, route_id_with_alerts, :delay, :single_tracking)
+
+      future_non_delay =
+        disruption_alert({later_start, day_end}, route_id_with_alerts, :suspension)
+
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _date ->
+        [currently_active_alert, later_delay_alert, single_tracking_alert, future_non_delay]
+      end)
+
+      assert %{^line => statuses} = subway_status()
+
+      assert [^currently_active_alert, ^single_tracking_alert, ^future_non_delay] =
+               Enum.find(statuses, fn %{status_entries: status_entries} ->
+                 Enum.any?(status_entries, &(&1.status != :normal))
+               end)
+               |> then(fn status -> status.status_entries |> Enum.flat_map(& &1.alerts) end)
+    end
   end
 
   describe "active_now_or_later_on_day?/2" do
@@ -199,6 +226,28 @@ defmodule Dotcom.SystemStatusTest do
       active_period: [active_period],
       effect: random_effect,
       severity: random_severity
+    )
+  end
+
+  defp disruption_alert(active_period, route_id, effect, cause \\ nil)
+
+  defp disruption_alert(active_period, "Green", effect, cause) do
+    build(:alert_for_routes,
+      route_ids: GreenLine.branch_ids(),
+      active_period: [active_period],
+      effect: effect,
+      severity: service_impacting_effects()[effect],
+      cause: cause
+    )
+  end
+
+  defp disruption_alert(active_period, route_id, effect, cause) do
+    build(:alert_for_route,
+      route_id: route_id,
+      active_period: [active_period],
+      effect: effect,
+      severity: service_impacting_effects()[effect],
+      cause: cause
     )
   end
 end

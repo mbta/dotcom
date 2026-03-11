@@ -50,11 +50,17 @@ defmodule DotcomWeb.ConnCase do
 
       use DotcomWeb, :verified_routes
 
-      import DotcomWeb.ConnCase, only: [default_conn: 0]
+      import DotcomWeb.ConnCase, only: [default_conn: 0, logged_in_basic_auth: 1]
     end
   end
 
   setup _tags do
     {:ok, conn: default_conn()}
+  end
+
+  def logged_in_basic_auth(conn) do
+    [username: user, password: pw] = Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
+    auth = Plug.BasicAuth.encode_basic_auth(user, pw)
+    Plug.Conn.put_req_header(conn, "authorization", auth)
   end
 end
