@@ -33,12 +33,12 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
     route_id = params |> Map.get("route")
     schedule_finder = params |> Map.get("schedule_finder", nil)
 
-    if(!is_nil(schedule_finder)) do
+    if(is_nil(schedule_finder)) do
+      nil
+    else
       direction_id = schedule_finder |> Map.get("direction_id")
       stop_id = schedule_finder |> Map.get("origin")
       "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}#"
-    else
-      nil
     end
   end
 
