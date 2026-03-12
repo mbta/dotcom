@@ -68,7 +68,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       ~H"""
       <div class="container">
-        <Prototype.route_stop_picker
+        <.live_component
+          id="picker"
+          module={Prototype}
           selected_route={@route}
           selected_direction_id={@direction_id}
         />
