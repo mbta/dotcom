@@ -383,7 +383,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class={route_to_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
-        patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
+        patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
       >
         <div class="font-heading p-md">
           <div class="max-w-xl mx-auto flex flex-col gap-sm">
@@ -430,7 +430,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="mb-lg"
       id="service-picker-form"
     >
-      <label for="service-picker" class="sr-only">
+      <label for={@id} class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
       <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">

@@ -1,4 +1,4 @@
-const { expect, test } = require("@playwright/test");
+import { expect, test } from "@playwright/test";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -8,10 +8,10 @@ test.use({ baseURL, headless: true, screenshot: { mode: "only-on-failure" }, vid
 
 /**
  * One-off test suite to verify the mobile app banner is configured to show where it's supposed to.
- * 
+ *
  * Defaults to running against localhost, but can run against any site using
  * the HOST environment variable, e.g.
- * 
+ *
  * HOST=dev.mbtace.com npx playwright test mobile-app-banner
  */
 
