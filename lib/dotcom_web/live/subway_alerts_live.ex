@@ -58,34 +58,36 @@ defmodule DotcomWeb.SubwayAlertsLive do
 
   def render(assigns) do
     ~H"""
-    <.alerts_layout mode={:subway}>
-      <:sidebar_bottom>
-        {DotcomWeb.AlertView.render("_t-alerts.html")}
-      </:sidebar_bottom>
-      <:main_section>
-        <section class="mb-lg">
-          <.alerts_subway_status subway_status={@subway_status} />
-        </section>
-        <section id="planned" class="mb-lg">
-          <.disruptions disruptions={@future_disruptions} />
-        </section>
-        <section id="station_and_service">
-          <.alerts_page_content_layout
-            {assigns |> Map.take([:alert_banner])}
-            alert_groups={@subway_alert_groups}
-            date_time={@now}
-            empty_message={~t"There are no other subway alerts at this time."}
-          >
-            <:heading>
-              <h2 class="mt-0">{~t"Station & Service Alerts"}</h2>
-            </:heading>
-            <:alert_header_icon :let={route_or_stop}>
-              <.subway_route_pill route_ids={[route_or_stop.id]} />
-            </:alert_header_icon>
-          </.alerts_page_content_layout>
-        </section>
-      </:main_section>
-    </.alerts_layout>
+    <div class="container">
+      <.alerts_layout mode={:subway}>
+        <:sidebar_bottom>
+          {DotcomWeb.AlertView.render("_t-alerts.html")}
+        </:sidebar_bottom>
+        <:main_section>
+          <section class="mb-lg">
+            <.alerts_subway_status subway_status={@subway_status} />
+          </section>
+          <section id="planned" class="mb-lg">
+            <.disruptions disruptions={@future_disruptions} />
+          </section>
+          <section id="station_and_service">
+            <.alerts_page_content_layout
+              {assigns |> Map.take([:alert_banner])}
+              alert_groups={@subway_alert_groups}
+              date_time={@now}
+              empty_message={~t"There are no other subway alerts at this time."}
+            >
+              <:heading>
+                <h2 class="mt-0">{~t"Station & Service Alerts"}</h2>
+              </:heading>
+              <:alert_header_icon :let={route_or_stop}>
+                <.subway_route_pill route_ids={[route_or_stop.id]} />
+              </:alert_header_icon>
+            </.alerts_page_content_layout>
+          </section>
+        </:main_section>
+      </.alerts_layout>
+    </div>
     """
   end
 end
