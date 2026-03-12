@@ -171,7 +171,7 @@ defmodule Schedules.Repo do
   defp all_from_params(params) do
     with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data = Stream.filter(data, &valid?/1)
-      insert_trips_into_cache(data)
+      data |> Enum.to_list() |> insert_trips_into_cache()
 
       data
       |> Stream.map(&Parser.parse/1)
