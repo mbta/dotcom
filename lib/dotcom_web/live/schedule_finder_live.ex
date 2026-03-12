@@ -311,7 +311,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
     route = socket.assigns.route
-    assign(socket, :alerts, current_alerts(stop, route))
+
+    direction = socket.assigns.direction_id
+
+    alerts =
+      current_alerts(stop, route)
+      |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
+        direction in direction_id
+      end)
+
+    assign(socket, :alerts, alerts)
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
