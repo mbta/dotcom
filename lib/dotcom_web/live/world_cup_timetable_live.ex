@@ -68,8 +68,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
     {:ok,
      assign(socket, %{
        match_list: @match_list,
-       selected_match: nil,
-       disable_preview_container: true
+       selected_match: nil
      })}
   end
 
