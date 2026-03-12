@@ -17,8 +17,7 @@ export function chooseUrl(allVisits) {
   const visit =
     allVisits == undefined ? chooseVisit(sfVisitData) : chooseVisit(allVisits);
   const { route, direction, stop } = visit;
-  return "/departures?route_id=442&direction_id=0&stop_id=4702";
-  // return `/departures?route_id=${route}&direction_id=${direction}&stop_id=${stop}`;
+  return `/departures?route_id=${route}&direction_id=${direction}&stop_id=${stop}`;
 }
 
 function chooseVisit(allVisits) {
