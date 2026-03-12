@@ -25,6 +25,23 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
     end
   end
 
+  # Send SF1.0 URLS to the new SF2.0
+  defp rewrite_url(%{
+         path_info: ["schedules", _, "line"],
+         params: params
+       }) do
+    route_id = params |> Map.get("route")
+    schedule_finder = params |> Map.get("schedule_finder", nil)
+
+    if(!is_nil(schedule_finder)) do
+      direction_id = schedule_finder |> Map.get("direction_id")
+      stop_id = schedule_finder |> Map.get("origin")
+      "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}#"
+    else
+      nil
+    end
+  end
+
   defp rewrite_url(%{path_info: ["schedules", "Boat-F3" | _]} = conn) do
     String.replace(conn.request_path, "Boat-F3", "Boat-F1")
   end
