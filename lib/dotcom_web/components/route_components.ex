@@ -72,6 +72,7 @@ defmodule DotcomWeb.RouteComponents do
   attr :route, Route, required: true
   attr :class, :string, default: ""
   attr :stop_pin?, :boolean, default: false
+  attr :stop_cancelled?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
@@ -93,7 +94,10 @@ defmodule DotcomWeb.RouteComponents do
           <div class={"#{route_to_class(@route)} grow top"} />
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
-        <.lined_list_marker variant={@variant} route={@route} />
+        <.lined_list_marker
+          variant={if(@stop_cancelled?, do: "blank", else: @variant)}
+          route={@route}
+        />
       </div>
       <div class="relative">
         <Icon.icon
@@ -102,6 +106,12 @@ defmodule DotcomWeb.RouteComponents do
           name="stop-pin"
           class="h-6 w-6 absolute z-20 -left-7 -top-6"
         />
+        <Icon.icon
+          :if={@stop_cancelled?}
+          name="xmark"
+          class="h-3 w-3 absolute z-20"
+          style="left: -1.385rem; top: -.4rem;"
+        />
       </div>
       {render_slot(@inner_block)}
     </div>
@@ -109,7 +119,7 @@ defmodule DotcomWeb.RouteComponents do
   end
 
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["default", "mode", "none"]
+  attr :variant, :string, default: "default", values: ["blank", "default", "mode", "none"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -141,8 +151,10 @@ defmodule DotcomWeb.RouteComponents do
     <div class={[
       "#{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-3.5 rounded-full rounded-full border-xs border-[#00000026]"
-    ]} />
+      "size-3.5 rounded-full border-xs border-[#00000026]"
+    ]}>
+      <div :if={@variant == "blank"} class="size-3 rounded-full bg-white opacity-75" />
+    </div>
     """
   end
 end

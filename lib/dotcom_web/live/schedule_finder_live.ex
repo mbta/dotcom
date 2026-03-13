@@ -317,7 +317,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     alerts =
       current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
-        Enum.any?([nil, direction], & &1 in direction_id)
+        Enum.any?([nil, direction], &(&1 in direction_id))
       end)
 
     assign(socket, :alerts, alerts)
@@ -902,7 +902,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp other_stop(assigns) do
     ~H"""
-    <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
+    <.lined_list_item
+      route={@route}
+      class={@class}
+      stop_pin?={@highlight}
+      stop_cancelled?={@other_stop.cancelled?}
+    >
       <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
