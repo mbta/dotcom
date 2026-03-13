@@ -317,7 +317,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     alerts =
       current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
-        direction in direction_id
+        Enum.any?([nil, direction], & &1 in direction_id)
       end)
 
     assign(socket, :alerts, alerts)
