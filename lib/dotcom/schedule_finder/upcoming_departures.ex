@@ -407,6 +407,24 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil}
+         },
+         route_type: :subway
+       }) do
+    :hidden
+  end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil},
+           schedule: schedule
+         }
+       }) do
+    {:scheduled, PredictedSchedule.display_time(schedule)}
+  end
+
+  defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: :commuter_rail
        })
