@@ -9,7 +9,7 @@
  *
  * HOST=dev.mbtace.com npx playwright test smoke
  */
-import { describe, expect, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { syncLiveView } from "../utils";
 
 const baseURL = process.env.HOST
@@ -141,7 +141,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     ["Red", "line"],
     ["1", "line"],
   ];
-  describe("selected schedules", async () => {
+  test.describe("selected schedules", async () => {
     for (let [route, tab] of schedule_sections) {
       test(`/schedules/${route}/${tab}`, async ({ page }) => {
         await ok(page, `/schedules/${route}/${tab}`);
