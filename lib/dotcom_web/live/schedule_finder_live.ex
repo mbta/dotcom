@@ -903,7 +903,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp other_stop(assigns) do
     ~H"""
     <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
-      <div class={["grow", @highlight && "font-bold"]}>
+      <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
       <div class="ml-auto">
