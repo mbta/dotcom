@@ -109,7 +109,7 @@ defmodule PredictedSchedule do
 
     schedule_map
     |> unique_map_keys(prediction_map)
-    |> Enum.map(fn key ->
+    |> Stream.map(fn key ->
       %PredictedSchedule{schedule: schedule_map[key], prediction: prediction_map[key]}
     end)
     |> Enum.sort_by(sort_fn)
