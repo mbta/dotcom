@@ -109,8 +109,7 @@ defmodule DotcomWeb.RouteComponents do
         <Icon.icon
           :if={@stop_cancelled?}
           name="xmark"
-          class="h-3 w-3 absolute z-20"
-          style="left: -1.385rem; top: -.4rem;"
+          class="size-3 absolute z-20 right-[.625rem] -top-1.5"
         />
       </div>
       {render_slot(@inner_block)}
