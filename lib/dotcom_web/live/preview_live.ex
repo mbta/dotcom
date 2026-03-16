@@ -37,28 +37,30 @@ defmodule DotcomWeb.PreviewLive do
     assigns = assigns |> assign(:pages, @pages)
 
     ~H"""
-    <h1>Preview Pages</h1>
+    <div class="container">
+      <h1>Preview Pages</h1>
 
-    <div class="flex flex-wrap gap-2">
-      <.link
-        :for={page <- @pages}
-        class="flex items-center gap-3 border border-xs border-black p-5 rounded-lg text-black no-underline hover:bg-brand-primary-lightest"
-        href={
-          Kernel.apply(
-            Helpers,
-            :live_path,
-            [DotcomWeb.Endpoint, page.module] ++ page.arguments
-          )
-        }
-      >
-        <.icon
-          aria-hidden
-          class="size-5 sm:size-6 shrink-0"
-          type={page |> Map.get(:icon_type, "icon-svg")}
-          name={page.icon_name}
-        />
-        <h2 class="leading-none m-0">{page.title}</h2>
-      </.link>
+      <div class="flex flex-wrap gap-2">
+        <.link
+          :for={page <- @pages}
+          class="flex items-center gap-3 border border-xs border-black p-5 rounded-lg text-black no-underline hover:bg-brand-primary-lightest"
+          href={
+            Kernel.apply(
+              Helpers,
+              :live_path,
+              [DotcomWeb.Endpoint, page.module] ++ page.arguments
+            )
+          }
+        >
+          <.icon
+            aria-hidden
+            class="size-5 sm:size-6 shrink-0"
+            type={page |> Map.get(:icon_type, "icon-svg")}
+            name={page.icon_name}
+          />
+          <h2 class="leading-none m-0">{page.title}</h2>
+        </.link>
+      </div>
     </div>
     """
   end

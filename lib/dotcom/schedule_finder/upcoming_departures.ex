@@ -120,13 +120,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedules_by_trip_id =
       predicted_schedules
-      |> Enum.reject(&past_schedule?(&1, now))
+      |> Stream.reject(&past_schedule?(&1, now))
       |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
     predicted_schedules_at_stop =
       predicted_schedules
-      |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-      |> Enum.reject(&end_of_trip?/1)
+      |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+      |> Stream.reject(&end_of_trip?/1)
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
 
@@ -241,12 +241,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp to_upcoming_departures(predicted_schedules, args) do
     predicted_schedules
-    |> Enum.map(fn predicted_schedule ->
+    |> Stream.map(fn predicted_schedule ->
       args
       |> Map.put(:predicted_schedule, predicted_schedule)
       |> to_upcoming_departure()
     end)
-    |> Enum.reject(&(&1.arrival_status == :hidden))
+    |> Stream.reject(&(&1.arrival_status == :hidden))
+    |> Enum.to_list()
   end
 
   def to_upcoming_departure(%{
@@ -560,9 +561,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   def last_trip_time(route_id, direction_id, now, stop_id) do
     route_id
     |> predicted_schedules(direction_id, now)
-    |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Enum.reject(&end_of_trip?/1)
-    |> Enum.map(&PredictedSchedule.display_time/1)
+    |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+    |> Stream.reject(&end_of_trip?/1)
+    |> Stream.map(&PredictedSchedule.display_time/1)
     |> Enum.sort(DateTime)
     |> List.last()
   end

@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   // This test only works in mobile (when it displays the form in a detached overlay), for obscure Algolia autocomplete JavaScript library reasons
   await page.setViewportSize({
     "width": 375,
@@ -27,4 +27,4 @@ exports.scenario = async ({ page, baseURL }) => {
       page.locator("section#trip-planner-results").count()
     )
     .toBeGreaterThan(0);
-};
+}

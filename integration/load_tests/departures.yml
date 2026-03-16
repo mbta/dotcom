@@ -1,0 +1,41 @@
+config:
+  target: "http://localhost:4001"
+  phases:
+    - name: constantArrival
+      duration: "20s"
+      arrivalRate: 2
+      maxVusers: 4
+  environments:
+    green:
+      target: "http://dev-green.mbtace.com"
+      phases:
+        - duration: "20m"
+          arrivalRate: 2
+    blue:
+      target: "http://dev-blue.mbtace.com"
+      phases:
+        - duration: "20m"
+          arrivalRate: 2
+  engines:
+    playwright:
+      aggregateByName: true
+      launchOptions:
+        headless: true
+      contextOptions:
+        userAgent: "Artillery"
+  payload:
+    path: "schedule_finder_visits.csv"
+    fields:
+      - "route"
+      - "direction"
+      - "stop"
+      - "count"
+    loadAll: true
+    name: sfVisits
+    skipHeader: true
+  processor: "departures.js"
+
+scenarios:
+  - name: "visit-departures"
+    engine: "playwright"
+    testFunction: "loadScenario"

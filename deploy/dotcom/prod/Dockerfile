@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.19.4-erlang-28.2-alpine-3.23.2 AS builder
+FROM hexpm/elixir:1.19.5-erlang-28.4-alpine-3.21.6 AS builder
 
 # ENVS AND ARGS
 ENV LANG="C.UTF-8" MIX_ENV="prod"
@@ -37,7 +37,7 @@ RUN mix compile
 RUN mix phx.digest
 RUN mix release
 
-FROM hexpm/elixir:1.19.4-erlang-28.2-alpine-3.23.2
+FROM hexpm/elixir:1.19.5-erlang-28.4-alpine-3.21.6
 
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 

@@ -5,6 +5,7 @@
     "@sentry/node": "7.109.0",
     "artillery": "2.0.30",
     "axios": "1.13.5",
+    "csv-parse": "^6.1.0",
     "hot-shots": "10.0.0",
     "node-cron": "3.0.3",
     "node-json-logger": "0.2.1",
