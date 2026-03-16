@@ -525,7 +525,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
         <strong>
           <.formatted_time time={@last} />
-          <sup :if={next_day?(@first, @last)}>+1</sup>
+          <sup :if={next_day?(@first, @last)} aria-hidden="true">+1</sup>
+          <span :if={next_day?(@first, @last)} class="sr-only">{~t(the next morning)}</span>
         </strong>
       </div>
     </div>
