@@ -39,7 +39,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:route, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
-     |> assign_new(:upcoming_departures, fn -> [] end)
+     |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
      |> assign_new(:last_trip_time, fn -> nil end)
      |> assign_new(:now, fn -> @date_time.now() end)
      |> assign_new(:alerts, fn -> [] end)
@@ -68,7 +68,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       ~H"""
       <div class="container">
-        <Prototype.route_stop_picker
+        <.live_component
+          id="picker"
+          module={Prototype}
           selected_route={@route}
           selected_direction_id={@direction_id}
         />
@@ -81,14 +83,26 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <section>
             <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
             <%= if ServicePatterns.has_service?(route: @route.id) do %>
-              <.upcoming_departures_section
-                :if={@stop}
-                now={@now}
-                stop={@stop}
-                upcoming_departures={@upcoming_departures}
-                route={@route}
-                last_trip_time={@last_trip_time}
-              />
+              <.async_result :let={upcoming_departures} :if={@stop} assign={@upcoming_departures}>
+                <:loading>
+                  <div class="mt-lg mb-md flex justify-center">
+                    <.spinner aria_label={~t"Loading upcoming departures"} />
+                  </div>
+                </:loading>
+                <:failed :let={_fail}>
+                  <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+                </:failed>
+                <%= if upcoming_departures do %>
+                  <.upcoming_departures_section
+                    :if={@stop}
+                    now={@now}
+                    stop={@stop}
+                    upcoming_departures={upcoming_departures}
+                    route={@route}
+                    last_trip_time={@last_trip_time}
+                  />
+                <% end %>
+              </.async_result>
             <% else %>
               <.callout>{~t(No service today)}</.callout>
             <% end %>
@@ -290,14 +304,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     stop_id = stop_id
 
     socket
-    |> assign(
+    |> assign_async(
       :upcoming_departures,
-      UpcomingDepartures.upcoming_departures(%{
-        direction_id: direction_id,
-        now: now,
-        route: route,
-        stop_id: stop_id
-      })
+      fn ->
+        {:ok,
+         %{
+           upcoming_departures:
+             UpcomingDepartures.upcoming_departures(%{
+               direction_id: direction_id,
+               now: now,
+               route: route,
+               stop_id: stop_id
+             })
+         }}
+      end
     )
     |> assign(
       :last_trip_time,

@@ -108,8 +108,9 @@ defmodule Dotcom.ScheduleFinder do
       schedules when is_list(schedules) ->
         departures =
           schedules
-          |> Enum.reject(&no_pick_up?/1)
-          |> Enum.map(&to_departure/1)
+          |> Stream.reject(&no_pick_up?/1)
+          |> Stream.map(&to_departure/1)
+          |> Enum.to_list()
 
         {:ok, departures}
 
@@ -161,8 +162,9 @@ defmodule Dotcom.ScheduleFinder do
       schedules when is_list(schedules) ->
         arrivals =
           schedules
-          |> Enum.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-          |> Enum.map(&to_arrival/1)
+          |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
+          |> Stream.map(&to_arrival/1)
+          |> Enum.to_list()
 
         {:ok, arrivals}
 
