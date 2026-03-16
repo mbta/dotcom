@@ -26,13 +26,15 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
   end
 
   # Send SF1.0 URLS to the new SF2.0
-  defp rewrite_url(%{
-         path_info: ["schedules", _, "line"],
-         params: %{
-           "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id},
-           "route" => route_id
-         }
-       }) do
+  defp rewrite_url(
+         %{
+           path_info: ["schedules", _, "line"],
+           params: %{
+             "route" => route_id,
+             "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
+           }
+         } = conn
+       ) do
     "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
   end
 
@@ -50,7 +52,7 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
 
   defp merge_url(base_url, query_string) do
     if base_url |> String.contains?("?") do
-      "#{base_url}&" <> (query_string |> String.slice(1..-1))
+      "#{base_url}&#{query_string}"
     else
       "#{base_url}?#{query_string}"
     end
