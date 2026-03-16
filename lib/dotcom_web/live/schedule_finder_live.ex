@@ -231,18 +231,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
-    selected_dated_service =
-      socket.assigns.service_groups
-      |> Enum.flat_map(& &1.services)
-      |> Enum.find(&(&1.label == selected_service_label))
-
-    daily_schedule_date =
-      selected_dated_service.last_service_date
-
     {:noreply,
      socket
-     |> assign(:selected_service_name, selected_service_label)
-     |> assign(:daily_schedule_date, daily_schedule_date)
+     |> assign_service(selected_service_label)
      |> assign_departures()}
   end
 
@@ -363,6 +354,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       assign(socket, :departures, AsyncResult.ok([]))
     end
+  end
+
+  defp assign_service(socket, selected_service_label) do
+    selected_dated_service =
+      socket.assigns.service_groups
+      |> Enum.flat_map(& &1.services)
+      |> Enum.find(&(&1.label == selected_service_label))
+
+    daily_schedule_date =
+      selected_dated_service.last_service_date
+
+    socket
+    |> assign(:selected_service_name, selected_service_label)
+    |> assign(:daily_schedule_date, daily_schedule_date)
   end
 
   defp get_departures(route_id, direction_id, stop_id, date) do
