@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/schedules/commuter-rail`);
 
   await page.getByRole('link', { name: 'Framingham/​Worcester Line' }).click();
@@ -31,4 +31,4 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect(page.locator("a.m-timetable__stop-link").last()).toHaveText(
     first,
   );
-};
+}

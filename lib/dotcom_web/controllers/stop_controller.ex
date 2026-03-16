@@ -126,6 +126,7 @@ defmodule DotcomWeb.StopController do
       :dock_issue,
       :service_change,
       :elevator_closure,
+      :notice,
       :shuttle,
       :station_closure,
       :station_issue,
