@@ -37,6 +37,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> subscribe_to_alerts()
      |> assign_new(:route, fn -> nil end)
+     |> assign_new(:vehicle_name, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
@@ -56,10 +57,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def render(assigns) do
-    assigns =
-      assigns
-      |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
-
     # If we have valid params, render SF, otherwise render the 404 page
     if(is_nil(assigns.route) or is_nil(assigns.direction_id)) do
       DotcomWeb.ErrorView.render("404.html", assigns)
@@ -196,7 +193,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     {:noreply,
      socket
-     |> assign(:route, @routes_repo.get(route_id))
+     |> assign_route(route_id)
      |> assign(:direction_id, direction_id)
      |> assign(:service_groups, service_groups)
      |> assign(:selected_service_name, Map.get(selected_service, :label, ""))
@@ -279,6 +276,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp schedule_refresh() do
     # Refresh every second
     Process.send_after(self(), :refresh, 1000)
+  end
+
+  defp assign_route(socket, route_id) do
+    case @routes_repo.get(route_id) do
+      nil ->
+        socket |> assign(:route, nil)
+
+      route ->
+        socket
+        |> assign(:route, route)
+        |> assign(:vehicle_name, Route.vehicle_name(route))
+    end
   end
 
   defp assign_stop(socket, params) do
