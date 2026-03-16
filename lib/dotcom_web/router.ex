@@ -104,6 +104,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/schedules/bostonstadium", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :world_cup do
+      live "/", WorldCupTimetableLive
+    end
+  end
+
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
@@ -312,7 +321,7 @@ defmodule DotcomWeb.Router do
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
-      live "/schedules/CR-WorldCup", WorldCupTimetableLive
+      live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
   end
