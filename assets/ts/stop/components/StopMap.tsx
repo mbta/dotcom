@@ -74,9 +74,28 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
     longitude: stop.longitude,
     latitude: stop.latitude,
     rotation_angle: 0,
+    
     tooltip: null
   } as MapMarker;
 };
+
+const parkingMarkersFromStop = (stop: Stop): MapMarker[] => {
+  return stop.parking_lots.map(({latitude, longitude, name, id}) => {
+    return {
+      icon: "parking-small",
+      id: id,
+      alt: `lot ${name} marker`,
+      longitude: longitude,
+      latitude: latitude,
+      rotation_angle: 0,
+      icon_opts: {
+        icon_size: [16, 16],
+        icon_anchor: [8, 8]
+      },
+      tooltip: null
+    } as MapMarker;
+  })
+}
 
 const polylineClassName = (polyline: Polyline): string =>
   `stop-map_line stop-map_line--${polyline.id}`;
@@ -93,6 +112,7 @@ const StopMap = ({
   const mapData = {
     default_center: { longitude: stop.longitude, latitude: stop.latitude },
     markers: [
+      ...parkingMarkersFromStop(stop),
       ...vehicles.map(vehicle => mapMarkerFromVehicle(vehicle, iconName)),
       mapMarkerFromStop(stop)
     ],
