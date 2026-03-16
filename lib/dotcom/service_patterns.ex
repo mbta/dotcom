@@ -184,13 +184,14 @@ defmodule Dotcom.ServicePatterns do
 
   defp to_service_pattern(services) do
     services
-    |> Enum.map(fn service ->
+    |> Stream.map(fn service ->
       %{
         service: service,
         dates: Service.all_valid_dates_for_service(service),
         group_label: group_label(service)
       }
     end)
+    |> Enum.to_list()
     |> merge_similar_typical()
   end
 
