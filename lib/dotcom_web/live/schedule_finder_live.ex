@@ -233,6 +233,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
     {:noreply,
      socket
+     |> assign(:departures, AsyncResult.loading())
      |> assign_service(selected_service_label)
      |> assign_departures()}
   end
