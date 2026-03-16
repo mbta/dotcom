@@ -331,7 +331,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
     route = socket.assigns.route
-    assign(socket, :alerts, current_alerts(stop, route))
+
+    direction = socket.assigns.direction_id
+
+    alerts =
+      current_alerts(stop, route)
+      |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
+        direction in direction_id
+      end)
+
+    assign(socket, :alerts, alerts)
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
@@ -394,7 +403,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class={route_to_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
-        patch={~p"/schedules/#{@route}?schedule_direction[direction_id]=#{@direction_id}"}
+        patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
       >
         <div class="font-heading p-md">
           <div class="max-w-xl mx-auto flex flex-col gap-sm">
@@ -441,7 +450,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="mb-lg"
       id="service-picker-form"
     >
-      <label for="service-picker" class="sr-only">
+      <label for={@id} class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
       <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
@@ -507,13 +516,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <div class="bg-cobalt-90 p-3 flex justify-between">
       <div :if={@first}>
-        {gettext("First %{vehicle}", vehicle: @vehicle_name)}:
+        {gettext("First %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
         <strong>
           <.formatted_time time={@first} />
         </strong>
       </div>
       <div :if={@last}>
-        {gettext("Last %{vehicle}", vehicle: @vehicle_name)}:
+        {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
         <strong>
           <.formatted_time time={@last} />
           <sup :if={next_day?(@first, @last)}>+1</sup>
@@ -764,10 +773,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
                     <span class="text-[0.75rem] underline group-open/details:hidden">
-                      {~t"Show More Stops"}
+                      {~t"Show more stops"}
                     </span>
                     <span class="text-[0.75rem] underline hidden group-open/details:block">
-                      {~t"Hide More Stops"}
+                      {~t"Hide more stops"}
                     </span>
                   </div>
                   <div class="shrink-0">
@@ -1095,7 +1104,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
     <.attached_callout :if={@last_trip_time}>
-      {gettext("Service Continues Until %{end_of_service}",
+      {gettext("Service continues until %{end_of_service}",
         end_of_service: format!(@last_trip_time, :hour_12_minutes)
       )}
     </.attached_callout>

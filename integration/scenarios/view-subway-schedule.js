@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/schedules`);
 
   await page
@@ -38,4 +38,4 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect(
     page.locator("h4.m-schedule-diagram__stop-link a span:last-child").last(),
   ).toHaveText(first);
-};
+}

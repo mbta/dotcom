@@ -38,47 +38,49 @@ defmodule DotcomWeb.StopMapLive do
       |> assign(:entrances, entrances)
 
     ~H"""
-    <h1>Hello we are your map pin icon</h1>
+    <div class="container">
+      <h1>Hello we are your map pin icon</h1>
 
-    <.live_component
-      module={MbtaMetro.Live.Map}
-      id="stop-page-map"
-      class="h-[32rem] w-full"
-      config={@map_config}
-      icons={
-        (@entrances
-         |> Enum.map(
-           &%{
-             class: "size-5 cursor-pointer",
-             coordinates: [&1.longitude, &1.latitude],
-             name: "door-open",
-             type: "solid"
-           }
-         )) ++
-          [
-            %{
-              anchor: "bottom",
-              class: "size-12 cursor-pointer",
-              coordinates: [@stop.longitude, @stop.latitude],
-              name: "icon-map-station-marker",
-              type: "icon-svg"
-            }
-          ]
-      }
-    />
+      <.live_component
+        module={MbtaMetro.Live.Map}
+        id="stop-page-map"
+        class="h-[32rem] w-full"
+        config={@map_config}
+        icons={
+          (@entrances
+           |> Enum.map(
+             &%{
+               class: "size-5 cursor-pointer",
+               coordinates: [&1.longitude, &1.latitude],
+               name: "door-open",
+               type: "solid"
+             }
+           )) ++
+            [
+              %{
+                anchor: "bottom",
+                class: "size-12 cursor-pointer",
+                coordinates: [@stop.longitude, @stop.latitude],
+                name: "icon-map-station-marker",
+                type: "icon-svg"
+              }
+            ]
+        }
+      />
 
-    <div class="flex flex-wrap gap-2 mt-4">
-      <button
-        :for={stop <- @all_stops}
-        class={[
-          "rounded p-sm",
-          stop.id == @stop.id && " bg-brand-primary-lightest"
-        ]}
-        phx-click="switch-stop"
-        phx-value-stop-id={stop.id}
-      >
-        {stop.name}
-      </button>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <button
+          :for={stop <- @all_stops}
+          class={[
+            "rounded p-sm",
+            stop.id == @stop.id && " bg-brand-primary-lightest"
+          ]}
+          phx-click="switch-stop"
+          phx-value-stop-id={stop.id}
+        >
+          {stop.name}
+        </button>
+      </div>
     </div>
     """
   end
