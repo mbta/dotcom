@@ -931,7 +931,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
-      <div class="ml-auto">
+      <div class="ml-auto flex flex-col items-end">
         <div class={[@highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
           <.trip_stop_time time={@other_stop.time} />
         </div>
