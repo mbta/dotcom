@@ -74,19 +74,19 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
     longitude: stop.longitude,
     latitude: stop.latitude,
     rotation_angle: 0,
-    
+
     tooltip: null
   } as MapMarker;
 };
 
 const parkingMarkersFromStop = (stop: Stop): MapMarker[] => {
-  return stop.parking_lots.map(({latitude, longitude, name, id}) => {
+  return stop.parking_lots.map(({ latitude, longitude, name, id }) => {
     return {
       icon: "parking-small",
-      id: id,
+      id,
       alt: `lot ${name} marker`,
-      longitude: longitude,
-      latitude: latitude,
+      longitude,
+      latitude,
       rotation_angle: 0,
       icon_opts: {
         icon_size: [16, 16],
@@ -94,32 +94,46 @@ const parkingMarkersFromStop = (stop: Stop): MapMarker[] => {
       },
       tooltip: null
     } as MapMarker;
-  })
-}
+  });
+};
 
 const polylineClassName = (polyline: Polyline): string =>
   `stop-map_line stop-map_line--${polyline.id}`;
 
-
-const greatCircleDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+const greatCircleDistance = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number => {
   const R = 6371000; // Earth's mean radius in km
-    
-    // Convert degrees to radians
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    
-    const a = 
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; 
-}
 
-const filterLotsByDistance = (stop: Stop, lotMarkers: Array<MapMarker>, minDist: number = 1): Array<MapMarker> => {
-  return lotMarkers.filter( ({longitude, latitude}) =>  greatCircleDistance(stop.latitude, stop.longitude, latitude, longitude)>minDist )
-}
+  // Convert degrees to radians
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+const filterLotsByDistance = (
+  stop: Stop,
+  lotMarkers: Array<MapMarker>,
+  minDist: number = 1
+): Array<MapMarker> => {
+  return lotMarkers.filter(
+    ({ longitude, latitude }) =>
+      greatCircleDistance(stop.latitude, stop.longitude, latitude, longitude) >
+      minDist
+  );
+};
 
 const StopMap = ({
   stop,
