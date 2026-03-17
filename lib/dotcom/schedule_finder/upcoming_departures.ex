@@ -506,9 +506,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when arrival_seconds <= 30, do: :arriving
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
-    do: {:departure_seconds, seconds}
+    do: {:departure_minutes, div(seconds + 30, 60)}
 
-  defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+  defp realtime_arrival_status(%{arrival_seconds: seconds}),
+    do: {:arrival_minutes, div(seconds + 30, 60)}
 
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),

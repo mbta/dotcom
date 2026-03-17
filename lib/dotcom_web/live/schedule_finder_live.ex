@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import CSSHelpers
   import DotcomWeb.Components.Alerts
   import Dotcom.ScheduleFinder
-  import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
+  import Dotcom.Utils.Diff, only: [minutes_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
@@ -1040,11 +1040,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp realtime_text({:arrival_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
+  defp realtime_text({:arrival_minutes, minutes}),
+    do: minutes_to_localized_minutes(minutes)
 
-  defp realtime_text({:departure_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
+  defp realtime_text({:departure_minutes, minutes}),
+    do: minutes_to_localized_minutes(minutes)
 
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
