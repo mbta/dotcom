@@ -1,7 +1,7 @@
-const { expect } = require("@playwright/test");
-const { syncLiveView } = require("../utils");
+import { expect } from "@playwright/test";
+import { syncLiveView } from "../utils.js";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/trip-planner`);
   await syncLiveView(page, expect);
 
@@ -36,4 +36,4 @@ exports.scenario = async ({ page, baseURL }) => {
       page.locator("section#trip-planner-results").count(),
     )
     .toBeGreaterThan(0);
-};
+}

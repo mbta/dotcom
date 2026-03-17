@@ -21,7 +21,7 @@
   </.callout_link>
   <nav
     aria-label={~t"World Cup Matches"}
-    class="flex flex-col gap-2"
+    class="w-full flex flex-col gap-4"
   >
     <%= case @selected_match do %>
       <% {date, label, teams, _} -> %>
@@ -36,12 +36,14 @@
         <.selected_match_banner date={date} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
-        <.match_link
-          :for={{date, label, teams, _} <- @match_list}
-          date={date}
-          label={label}
-          teams={teams}
-        />
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
+          <.match_link
+            :for={{date, label, teams, _} <- @match_list}
+            date={date}
+            label={label}
+            teams={teams}
+          />
+        </div>
     <% end %>
   </nav>
   <div :if={@selected_match}>
@@ -77,7 +79,7 @@
       </tbody>
     </table>
   </div>
-  <div class="max-w-sm">
+  <div>
     <h2 class="mt-0">{~t(Important Information)}</h2>
     <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
     <p>

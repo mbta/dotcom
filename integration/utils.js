@@ -1,5 +1,5 @@
-const axios = require("axios");
-const Logger = require('node-json-logger');
+import axios from "axios";
+import Logger from 'node-json-logger';
 
 const axiosOptions = {
   headers: {
@@ -10,7 +10,7 @@ const axiosOptions = {
 };
 const logger = new Logger();
 
-const status200 = async (options) => {
+export const status200 = async (options) => {
   let healthy = false;
 
   try {
@@ -28,11 +28,11 @@ const status200 = async (options) => {
   return healthy;
 };
 
-const fileToMetricName = (file) =>
+export const fileToMetricName = (file) =>
   file.replace(/-/g, "_").replace(".js", "").toLowerCase();
 
 // https://github.com/phoenixframework/phoenix_live_view/blob/5a9f0afa097e08124a2b76b29386ec92bd6bdcbc/test/e2e/utils.js#L8
-const syncLiveView = async (page, expect) => {
+export const syncLiveView = async (page, expect) => {
   const promises = [
     expect(page.locator(".phx-connected").first()).toBeVisible(),
     expect(page.locator(".phx-change-loading")).toHaveCount(0),
@@ -42,7 +42,7 @@ const syncLiveView = async (page, expect) => {
   return Promise.all(promises);
 };
 
-module.exports = {
+export default {
   fileToMetricName,
   status200,
   syncLiveView
