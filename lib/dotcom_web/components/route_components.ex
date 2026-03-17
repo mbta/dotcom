@@ -72,11 +72,10 @@ defmodule DotcomWeb.RouteComponents do
   attr :route, Route, required: true
   attr :class, :string, default: ""
   attr :stop_pin?, :boolean, default: false
-  attr :stop_cancelled?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
-    values: ["default", "mode", "none"],
+    values: ["cancelled", "default", "mode", "none"],
     doc:
       "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
         "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
@@ -95,7 +94,7 @@ defmodule DotcomWeb.RouteComponents do
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
         <.lined_list_marker
-          variant={if(@stop_cancelled?, do: "blank", else: @variant)}
+          variant={@variant}
           route={@route}
         />
       </div>
@@ -106,11 +105,6 @@ defmodule DotcomWeb.RouteComponents do
           name="stop-pin"
           class="h-6 w-6 absolute z-20 -left-7 -top-6"
         />
-        <Icon.icon
-          :if={@stop_cancelled?}
-          name="xmark"
-          class="size-3 absolute z-20 right-[.625rem] -top-1.5"
-        />
       </div>
       {render_slot(@inner_block)}
     </div>
@@ -118,7 +112,7 @@ defmodule DotcomWeb.RouteComponents do
   end
 
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["blank", "default", "mode", "none"]
+  attr :variant, :string, default: "default", values: ["cancelled", "default", "mode", "none"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -145,15 +139,30 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  defp lined_list_marker(%{variant: "cancelled"} = assigns) do
+    ~H"""
+    <div class={[
+      "#{route_to_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-3.5 rounded-full border-xs border-[#00000026]",
+      "flex items-center justify-items-center"
+    ]}>
+      <div class="size-3 rounded-full bg-white opacity-75" />
+      <Icon.icon
+        name="xmark"
+        class="size-3 absolute z-20 fill-black"
+      />
+    </div>
+    """
+  end
+
   defp lined_list_marker(assigns) do
     ~H"""
     <div class={[
       "#{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
       "size-3.5 rounded-full border-xs border-[#00000026]"
-    ]}>
-      <div :if={@variant == "blank"} class="size-3 rounded-full bg-white opacity-75" />
-    </div>
+    ]} />
     """
   end
 end

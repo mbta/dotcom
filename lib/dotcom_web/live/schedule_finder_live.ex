@@ -926,7 +926,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       route={@route}
       class={@class}
       stop_pin?={@highlight}
-      stop_cancelled?={@other_stop.cancelled?}
+      variant={if @other_stop.cancelled?, do: "cancelled", else: "default"}
     >
       <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
