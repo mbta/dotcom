@@ -80,6 +80,9 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
 };
 
 const parkingMarkersFromStop = (stop: Stop): MapMarker[] => {
+  if (!stop || !stop.parking_lots || !stop.parking_lots.map) {
+    return [];
+  }
   return stop.parking_lots.map(({ latitude, longitude, name, id }) => {
     return {
       icon: "parking-small",
