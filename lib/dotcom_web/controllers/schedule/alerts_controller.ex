@@ -14,7 +14,6 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
   plug(DotcomWeb.Plugs.Route)
   plug(:assign_defaults)
   plug(:alerts)
-  plug(:alerts_by_timeframe)
   plug(:assign_breadcrumbs)
   plug(:tab_name)
 
@@ -67,22 +66,5 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
     route
     |> Route.type_atom()
     |> Route.type_name()
-  end
-
-  defp alerts_by_timeframe(
-         %{
-           assigns: %{route: %Route{type: route_type, id: route_id}},
-           params: %{"alerts_timeframe" => _} = params
-         } =
-           conn,
-         _
-       )
-       when route_type in @route_types_without_timeframes do
-    new_path = conn |> alerts_path(:show, route_id, params |> Map.drop(["alerts_timeframe"]))
-    conn |> redirect(to: new_path)
-  end
-
-  defp alerts_by_timeframe(conn, _) do
-    Plugs.AlertsByTimeframe.call(conn, [])
   end
 end
