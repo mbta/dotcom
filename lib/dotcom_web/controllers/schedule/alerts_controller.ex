@@ -19,7 +19,6 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
 
   # The alert timeframe filter is being phased out of schedule pages
   # Adjust this as we update more route alert page layouts
-  @route_types_without_timeframes [0, 1, 2]
 
   def show(conn, _) do
     mode =
