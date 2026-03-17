@@ -78,6 +78,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <section>
             <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
             <%= if ServicePatterns.has_service?(route: @route.id) do %>
+              <a
+                phx-hook="MBTAGoCTABanner"
+                phx-update="ignore"
+                id="mbta-go-cta-banner"
+                href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+                class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+              >
+                <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" />
+                <span class="leading-tight grow">
+                  {route_type = Route.type_atom(@route)
+
+                  route_type =
+                    case route_type do
+                      :commuter_rail -> "commuter rail"
+                      _ -> route_type
+                    end
+
+                  Gettext.gettext(
+                    Dotcom.Gettext,
+                    "Track your #{route_type} trip live with the <strong>MBTA Go</strong> app"
+                  )
+                  |> raw()}
+                </span>
+                <span aria-hidden="true">&#8594;</span>
+              </a>
+
               <.async_result :let={upcoming_departures} :if={@stop} assign={@upcoming_departures}>
                 <:loading>
                   <div class="mt-lg mb-md flex justify-center">
