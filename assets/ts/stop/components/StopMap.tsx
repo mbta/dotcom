@@ -117,7 +117,7 @@ const greatCircleDistance = (lat1: number, lon1: number, lat2: number, lon2: num
     return R * c; 
 }
 
-const filterLotsByDistance = (stop: Stop, lotMarkers: Array<MapMarker>, minDist: number = 100): Array<MapMarker> => {
+const filterLotsByDistance = (stop: Stop, lotMarkers: Array<MapMarker>, minDist: number = 1): Array<MapMarker> => {
   return lotMarkers.filter( ({longitude, latitude}) =>  greatCircleDistance(stop.latitude, stop.longitude, latitude, longitude)>minDist )
 }
 
