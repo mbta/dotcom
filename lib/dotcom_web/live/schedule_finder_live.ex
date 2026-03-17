@@ -935,7 +935,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <div class={[@highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
           <.trip_stop_time time={@other_stop.time} />
         </div>
-        <div :if={@other_stop.cancelled?} class="block text-sm">{~t(Skipped)}</div>
+        <div :if={@other_stop.cancelled?} class="block text-sm flex items-center gap-0.5">
+          <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
+        </div>
       </div>
     </.lined_list_item>
     """
