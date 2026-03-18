@@ -7,7 +7,8 @@ function isMobileBrowser(): boolean {
 function getViewCount(): number {
   try {
     return Number.parseInt(
-      window.localStorage.getItem('mbtaGoCTAViewCount') || "0"
+      window.localStorage.getItem("mbtaGoCTAViewCount") || "0",
+      10
     );
   } catch (_e) {
     // If session and local storage aren't available, use a fallback
@@ -17,14 +18,14 @@ function getViewCount(): number {
 
 function writeViewCount(value: number): void {
   try {
-    window.localStorage.setItem('mbtaGoCTAViewCount', String(value));
+    window.localStorage.setItem("mbtaGoCTAViewCount", String(value));
   } catch (_e) {
     // If session and local storage aren't available, do nothing
   }
 }
 
-function maybeShowAndRecord(el : HTMLElement) {
-  if (!isMobileBrowser()) { return; }
+function maybeShowAndRecord(el: HTMLElement): void {
+  if (!isMobileBrowser()) return;
 
   const viewCount = getViewCount() + 1;
   if (viewCount > 3) return;
@@ -33,11 +34,10 @@ function maybeShowAndRecord(el : HTMLElement) {
   writeViewCount(viewCount);
 }
 
-
 const MBTAGoCTABanner: Partial<ViewHook> = {
   mounted() {
-    if (this.el) { maybeShowAndRecord(this.el) }
+    if (this.el) maybeShowAndRecord(this.el);
   }
-}
+};
 
 export default MBTAGoCTABanner;
