@@ -43,7 +43,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             :arriving
             | :boarding
             | :now
-            | {:departure_seconds, integer()}
+            | {:arrival_minutes, integer()}
+            | {:departure_minutes, integer()}
 
     @type arrival_status_t ::
             realtime_arrival_status_t()
