@@ -41,15 +41,6 @@ function setSessionFlag(): void {
   }
 }
 
-function clearSessionFlag(): void {
-  try {
-    console.log("clear session flag")
-    window.sessionStorage.removeItem("mbtaGoCTAViewed");
-  } catch (_e) {
-    // If session and local storage aren't available, do nothing
-  }
-}
-
 function maybeShowAndRecord(el: HTMLElement): void {
   if (!isMobileBrowser()) return;
 
@@ -69,7 +60,6 @@ function maybeShowAndRecord(el: HTMLElement): void {
 
 const MBTAGoCTABanner: Partial<ViewHook> = {
   mounted() {
-    clearSessionFlag();
     if (this.el) maybeShowAndRecord(this.el);
   },
 
