@@ -1110,14 +1110,38 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp substatus_icon(assigns), do: ~H""
 
+  defp showLastService?(%{
+         remaining_departures: remaining_departures,
+         last_trip_time: last_trip_time
+       }) do
+    last_departure = remaining_departures |> Enum.at(-1)
+    {_, last_departure_time} = last_departure.trip_details.stop.time
+
+    if last_departure_time > last_trip_time or
+         last_trip_time < :calendar.local_time() do
+      false
+    else
+      true
+    end
+  end
+
+  defp showLastService?(assigns) do
+    dbg(assigns)
+    true
+  end
+
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
-    ~H"""
-    <.attached_callout :if={@last_trip_time}>
-      {gettext("Service continues until %{end_of_service}",
-        end_of_service: format!(@last_trip_time, :hour_12_minutes)
-      )}
-    </.attached_callout>
-    """
+    if showLastService?(assigns) do
+      ~H"""
+      <.attached_callout :if={@last_trip_time}>
+        {gettext("Scheduled service continues until %{end_of_service}",
+          end_of_service: format!(@last_trip_time, :hour_12_minutes)
+        )}
+      </.attached_callout>
+      """
+    else
+      ~H""
+    end
   end
 
   defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
