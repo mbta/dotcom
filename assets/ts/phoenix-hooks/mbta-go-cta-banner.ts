@@ -16,9 +16,35 @@ function getViewCount(): number {
   }
 }
 
-function writeViewCount(value: number): void {
+function setViewCount(value: number): void {
   try {
     window.localStorage.setItem("mbtaGoCTAViewCount", String(value));
+  } catch (_e) {
+    // If session and local storage aren't available, do nothing
+  }
+}
+
+function getSessionFlag(): boolean {
+  try {
+    return !!window.sessionStorage.getItem("mbtaGoCTAViewed");
+  } catch (_e) {
+    // If session and local storage aren't available, use a fallback
+    return false;
+  }
+}
+
+function setSessionFlag(): void {
+  try {
+    window.sessionStorage.setItem("mbtaGoCTAViewed", "1");
+  } catch (_e) {
+    // If session and local storage aren't available, do nothing
+  }
+}
+
+function clearSessionFlag(): void {
+  try {
+    console.log("clear session flag")
+    window.sessionStorage.removeItem("mbtaGoCTAViewed");
   } catch (_e) {
     // If session and local storage aren't available, do nothing
   }
@@ -28,14 +54,26 @@ function maybeShowAndRecord(el: HTMLElement): void {
   if (!isMobileBrowser()) return;
 
   const viewCount = getViewCount() + 1;
-  if (viewCount > 3) return;
+  if (viewCount > 3) {
+    el.classList.add("hidden");
+    return;
+  }
 
   el.classList.remove("hidden");
-  writeViewCount(viewCount);
+
+  if (!getSessionFlag()) {
+    setSessionFlag();
+    setViewCount(viewCount);
+  }
 }
 
 const MBTAGoCTABanner: Partial<ViewHook> = {
   mounted() {
+    clearSessionFlag();
+    if (this.el) maybeShowAndRecord(this.el);
+  },
+
+  updated() {
     if (this.el) maybeShowAndRecord(this.el);
   }
 };

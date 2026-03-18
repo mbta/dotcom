@@ -90,7 +90,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <%= if upcoming_departures do %>
                   <a
                     phx-hook="MBTAGoCTABanner"
-                    phx-update="ignore"
                     id="mbta-go-cta-banner"
                     href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
                     class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
