@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import CSSHelpers
   import DotcomWeb.Components.Alerts
   import Dotcom.ScheduleFinder
-  import Dotcom.Utils.Diff, only: [seconds_to_localized_minutes: 1]
+  import Dotcom.Utils.Diff, only: [minutes_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
@@ -37,11 +37,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> subscribe_to_alerts()
      |> assign_new(:route, fn -> nil end)
+     |> assign_new(:vehicle_name, fn -> nil end)
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
      |> assign_new(:last_trip_time, fn -> nil end)
-     |> assign_new(:now, fn -> @date_time.now() end)
      |> assign_new(:alerts, fn -> [] end)
      |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
@@ -57,11 +57,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def render(assigns) do
-    assigns =
-      assigns
-      |> assign(:vehicle_name, if(assigns.route, do: Route.vehicle_name(assigns.route)))
-      |> assign(:now, @date_time.now())
-
     # If we have valid params, render SF, otherwise render the 404 page
     if(is_nil(assigns.route) or is_nil(assigns.direction_id)) do
       DotcomWeb.ErrorView.render("404.html", assigns)
@@ -95,7 +90,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <%= if upcoming_departures do %>
                   <.upcoming_departures_section
                     :if={@stop}
-                    now={@now}
                     stop={@stop}
                     upcoming_departures={upcoming_departures}
                     route={@route}
@@ -199,7 +193,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     {:noreply,
      socket
-     |> assign(:route, @routes_repo.get(route_id))
+     |> assign_route(route_id)
      |> assign(:direction_id, direction_id)
      |> assign(:service_groups, service_groups)
      |> assign(:selected_service_name, Map.get(selected_service, :label, ""))
@@ -231,18 +225,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
-    selected_dated_service =
-      socket.assigns.service_groups
-      |> Enum.flat_map(& &1.services)
-      |> Enum.find(&(&1.label == selected_service_label))
-
-    daily_schedule_date =
-      selected_dated_service.last_service_date
-
     {:noreply,
      socket
-     |> assign(:selected_service_name, selected_service_label)
-     |> assign(:daily_schedule_date, daily_schedule_date)
+     |> assign(:departures, AsyncResult.loading())
+     |> assign_service(selected_service_label)
      |> assign_departures()}
   end
 
@@ -269,7 +255,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     {:noreply,
      socket
-     |> assign(:now, @date_time.now())
      |> assign_upcoming_departures()}
   end
 
@@ -293,12 +278,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
     Process.send_after(self(), :refresh, 1000)
   end
 
+  defp assign_route(socket, route_id) do
+    case @routes_repo.get(route_id) do
+      nil ->
+        socket |> assign(:route, nil)
+
+      route ->
+        socket
+        |> assign(:route, route)
+        |> assign(:vehicle_name, Route.vehicle_name(route))
+    end
+  end
+
   defp assign_stop(socket, params) do
     stop_id = Map.get(params, "stop_id")
     assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
   end
 
-  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}, now: now}} = socket) do
+  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
+    now = @date_time.now()
     route = socket.assigns.route
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
@@ -363,6 +361,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       assign(socket, :departures, AsyncResult.ok([]))
     end
+  end
+
+  defp assign_service(socket, selected_service_label) do
+    selected_dated_service =
+      socket.assigns.service_groups
+      |> Enum.flat_map(& &1.services)
+      |> Enum.find(&(&1.label == selected_service_label))
+
+    daily_schedule_date =
+      selected_dated_service.last_service_date
+
+    socket
+    |> assign(:selected_service_name, selected_service_label)
+    |> assign(:daily_schedule_date, daily_schedule_date)
   end
 
   defp get_departures(route_id, direction_id, stop_id, date) do
@@ -525,7 +537,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
         <strong>
           <.formatted_time time={@last} />
-          <sup :if={next_day?(@first, @last)}>+1</sup>
+          <sup :if={next_day?(@first, @last)} aria-hidden="true">+1</sup>
+          <span :if={next_day?(@first, @last)} class="sr-only">{~t(the next morning)}</span>
         </strong>
       </div>
     </div>
@@ -709,7 +722,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       {~t"There are currently no realtime departures available. Schedule departures are shown below."}
     </.attached_callout>
     <.upcoming_departures_section
-      now={@now}
       stop={@stop}
       upcoming_departures={@upcoming_departures}
       route={@route}
@@ -721,12 +733,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp upcoming_departures_section(assigns) do
     ~H"""
     <.upcoming_departures_table
-      now={@now}
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
     />
     <.remaining_service
-      now={@now}
       remaining_departures={@upcoming_departures |> Enum.drop(5)}
       route={@route}
       route_type={@route.type}
@@ -736,7 +746,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  attr :now, DateTime
   attr :stop_id, :string
   attr :upcoming_departures, :list
 
@@ -1038,11 +1047,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp realtime_text({:arrival_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
+  defp realtime_text({:arrival_minutes, minutes}),
+    do: minutes_to_localized_minutes(minutes)
 
-  defp realtime_text({:departure_seconds, seconds}),
-    do: seconds_to_localized_minutes(seconds)
+  defp realtime_text({:departure_minutes, minutes}),
+    do: minutes_to_localized_minutes(minutes)
 
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
@@ -1145,7 +1154,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </.attached_callout>
       </summary>
       <.upcoming_departures_table
-        now={@now}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
       />
