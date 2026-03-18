@@ -678,30 +678,33 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp mbta_go_cta(%{route_type: route_type} = assigns) do
-    assigns = assigns |> assign(
-      :route_type_text,
-      case route_type do
-        :commuter_rail -> "commuter rail"
-        _ -> route_type
-      end
-    )
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        case route_type do
+          :commuter_rail -> "commuter rail"
+          _ -> route_type
+        end
+      )
+
     ~H"""
-      <a
-        phx-hook="MBTAGoCTABanner"
-        id="mbta-go-cta-banner"
-        href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
-        class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
-      >
-        <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" />
-        <span class="leading-tight grow">
-          {Gettext.gettext(
-            Dotcom.Gettext,
-            "Track your #{@route_type_text} trip live with the <strong>MBTA Go</strong> app"
-          )
-          |> raw()}
-        </span>
-        <span aria-hidden="true">&#8594;</span>
-      </a>
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" />
+      <span class="leading-tight grow">
+        {Gettext.gettext(
+          Dotcom.Gettext,
+          "Track your #{@route_type_text} trip live with the <strong>MBTA Go</strong> app"
+        )
+        |> raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
+    </a>
     """
   end
 
