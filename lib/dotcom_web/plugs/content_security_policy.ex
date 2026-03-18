@@ -71,6 +71,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         translate-pa.googleapis.com
         www.instagram.com
         https://cdn.jsdelivr.net/
+        analytics.tiktok.com
       ],
     style_src: ~w[
         'self'
