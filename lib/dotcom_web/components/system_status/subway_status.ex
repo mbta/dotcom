@@ -55,11 +55,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
     ~H"""
     <.bordered_container hide_divider>
-      <:heading>
-        <div class="mb-sm">
-          {~t"Subway Status"}
-        </div>
-      </:heading>
+      <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
+        {~t"Subway Status"}
+      </h2>
       <div class="border-b-[1px] border-gray-lightest">
         <div :for={row <- @rows} data-test-row-route-info={inspect(row.route_info)}>
           <.alerts_page_row row={row} />
