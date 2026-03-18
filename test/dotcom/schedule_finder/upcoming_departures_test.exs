@@ -1,6 +1,7 @@
 defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
   use ExUnit.Case
 
+  import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
 
   alias Dotcom.ScheduleFinder.UpcomingDepartures
@@ -1691,7 +1692,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == :on_time
     end
 
@@ -1739,7 +1740,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == :on_time
     end
 
@@ -1798,7 +1799,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:early_from, scheduled_departure_time}
     end
 
@@ -1857,7 +1858,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
@@ -1956,7 +1957,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:status, display_status}
     end
 
@@ -2013,7 +2014,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
@@ -2070,7 +2071,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.arrival_status == {:time, predicted_departure_time}
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
@@ -2317,7 +2318,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_before.id,
                  stop_name: stop_before.name,
-                 time: {:time, arrival_time_before}
+                 time: {:time, arrival_time_before |> truncate(:minute)}
                }
              ]
 
@@ -2326,7 +2327,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop.id,
                  stop_name: stop.name,
-                 time: {:time, arrival_time}
+                 time: {:time, arrival_time |> truncate(:minute)}
                }
 
       assert trip_details.stops_after
@@ -2335,7 +2336,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: {:time, arrival_time_after}
+                 time: {:time, arrival_time_after |> truncate(:minute)}
                }
              ]
     end
@@ -2564,7 +2565,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  cancelled?: false,
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: {:time, arrival_time_after}
+                 time: {:time, arrival_time_after |> truncate(:minute)}
                }
              ]
     end
@@ -2631,7 +2632,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       assert vehicle_info.status == :scheduled_to_depart
       assert vehicle_info.stop_id == origin_stop_id
-      assert vehicle_info.departure_time == origin_departure_time
+      assert vehicle_info.departure_time == origin_departure_time |> truncate(:minute)
     end
 
     test "shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
@@ -3068,19 +3069,23 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                %{
                  stop_id: stop_before.id,
                  stop_name: stop_before.name,
-                 time: {:time, arrival_time_before}
+                 time: {:time, arrival_time_before |> truncate(:minute)}
                }
              ]
 
       assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{stop_id: stop.id, stop_name: stop.name, time: {:time, arrival_time}}
+               %{
+                 stop_id: stop.id,
+                 stop_name: stop.name,
+                 time: {:time, arrival_time |> truncate(:minute)}
+               }
 
       assert trip_details.stops_after
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
                %{
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: {:time, arrival_time_after}
+                 time: {:time, arrival_time_after |> truncate(:minute)}
                }
              ]
     end
@@ -3161,14 +3166,18 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{stop_id: stop.id, stop_name: stop.name, time: {:time, arrival_time}}
+               %{
+                 stop_id: stop.id,
+                 stop_name: stop.name,
+                 time: {:time, arrival_time |> truncate(:minute)}
+               }
 
       assert trip_details.stops_after
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
                %{
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: {:time, arrival_time_after}
+                 time: {:time, arrival_time_after |> truncate(:minute)}
                }
              ]
     end
@@ -3332,7 +3341,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert trip_details.stops_before |> Enum.map(& &1.time) == [
-               {:time, departure_time_before}
+               {:time, departure_time_before |> truncate(:minute)}
              ]
     end
 
@@ -3419,7 +3428,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       trip_details = departure.trip_details
 
       assert [stop_after] = trip_details.stops_after
-      assert stop_after.time == {:time, arrival_time_after}
+      assert stop_after.time == {:time, arrival_time_after |> truncate(:minute)}
       assert stop_after.cancelled?
     end
 
