@@ -1011,6 +1011,108 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :service_ended
     end
 
+    test "shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      future_arrival_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: nil,
+            schedule_relationship: nil,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn
+        _route_ids, _opts ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: future_arrival_time,
+              departure_time: future_arrival_time |> DateTime.shift(second: 10),
+              time: future_arrival_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+      end)
+
+      # Exercise
+      assert [departure] =
+               UpcomingDepartures.upcoming_departures(%{
+                 direction_id: direction_id,
+                 now: now,
+                 route: route,
+                 stop_id: stop_id
+               })
+
+      assert departure.arrival_status == {:scheduled, future_arrival_time}
+    end
+
+    test "does not show schedule data for subway predictions with no times that aren't skipped or cancelled" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      trip_id = FactoryHelpers.build(:id)
+
+      future_departure_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: nil,
+            departure_time: nil,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      stub(Schedules.Repo.Mock, :by_route_ids, fn
+        _route_ids, _opts ->
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              departure_time: future_departure_time,
+              time: future_departure_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+            )
+          ]
+      end)
+
+      # Exercise
+      refute match?(
+               [_departure],
+               UpcomingDepartures.upcoming_departures(%{
+                 direction_id: direction_id,
+                 now: now,
+                 route: route,
+                 stop_id: stop_id
+               })
+             )
+    end
+
     test "excludes predictions with no arrival or departure time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()

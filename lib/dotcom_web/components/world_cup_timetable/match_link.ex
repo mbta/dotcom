@@ -28,7 +28,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
   def match_link(assigns) do
     ~H"""
     <.link
-      class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm hover:bg-brand-primary-lightest text-black"
+      class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline hover:bg-brand-primary-lightest text-black"
       patch={~p"/preview/schedules/CR-WorldCup?#{[date: @date]}"}
     >
       <div class="font-bold">{@label} ({formatted_date(@date)})</div>
@@ -39,7 +39,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   def selected_match_banner(assigns) do
     ~H"""
-    <div class="p-sm rounded-lg border-xs border-charcoal-70 no-underline max-w-sm bg-brand-primary text-white justify-between">
+    <div class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline bg-brand-primary text-white justify-between">
       <div class="font-bold">{@label} ({formatted_date(@date)})</div>
       <.teams selected teams={@teams} />
     </div>
@@ -54,7 +54,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   defp teams(%{teams: [_team1, _team2]} = assigns) do
     ~H"""
-    <span class="flex gap-1 text-lg">
+    <span class="flex flex-wrap gap-1 text-lg">
       <.team_label selected={@selected} team={@teams |> Enum.at(0)} /> vs.
       <.team_label selected={@selected} team={@teams |> Enum.at(1)} />
     </span>
