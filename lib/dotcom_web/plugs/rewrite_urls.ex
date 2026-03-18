@@ -26,16 +26,24 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
   end
 
   # Send SF1.0 URLS to the new SF2.0
-  defp rewrite_url(
-         %{
-           path_info: ["schedules", _, "line"],
-           params: %{
-             "route" => route_id,
-             "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
-           }
-         } = conn
-       ) do
+  defp rewrite_url(%{
+         path_info: ["schedules", _, "line"],
+         params: %{
+           "route" => route_id,
+           "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
+         }
+       }) do
     "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
+  end
+
+  # "Green" line special case
+  defp rewrite_url(%{
+         path_info: ["schedules", "Green", "line"],
+         params: %{
+           "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
+         }
+       }) do
+    "/departures/?route_id=Green&direction_id=#{direction_id}&stop_id=#{stop_id}"
   end
 
   defp rewrite_url(%{path_info: ["schedules", "Boat-F3" | _]} = conn) do
