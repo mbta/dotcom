@@ -390,4 +390,28 @@ defmodule Dotcom.Utils.Time do
   defp to_time(time) do
     time
   end
+
+  @doc """
+  Truncates a `DateTime` or a `Time` to the precision given by `precision`. `precision` can be
+  `:millisecond`, `:second`, or `:minute`.
+
+  ## Examples
+      iex> truncate(~T[13:53:10.123], :second)
+      ~T[13:53:10]
+
+      iex> truncate(~U[2026-03-18T13:53:10.123Z], :second)
+      ~U[2026-03-18T13:53:10Z]
+
+      iex> truncate(~T[13:53:10.123], :minute)
+      ~T[13:53:00]
+
+      iex> truncate(~U[2026-03-18T13:53:10.123Z], :minute)
+      ~U[2026-03-18T13:53:00Z]
+  """
+  @spec truncate(DateTime.t() | Time.t(), :millisecond | :second | :minute) ::
+          DateTime.t() | Time.t()
+  def truncate(datetime, :minute), do: datetime |> truncate(:second) |> Map.put(:second, 0)
+
+  def truncate(%DateTime{} = datetime, precision), do: datetime |> DateTime.truncate(precision)
+  def truncate(%Time{} = time, precision), do: time |> Time.truncate(precision)
 end
