@@ -677,14 +677,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp mbta_go_cta(%{route_type: route_type} = assigns) do
+  defp mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
     assigns =
       assigns
       |> assign(
         :route_type_text,
-        case route_type do
+        case route_type_atom do
           :commuter_rail -> "commuter rail"
-          _ -> route_type
+          _ -> route_type_atom
         end
       )
 
@@ -763,10 +763,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp upcoming_departures_section(assigns) do
     ~H"""
-    <.mbta_go_cta
-      :if={!@no_realtime}
-      route_type={@route.type}
-    />
+    <.mbta_go_cta route_type_atom={Route.type_atom(@route)} />
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
