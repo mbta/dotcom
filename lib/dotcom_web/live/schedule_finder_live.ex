@@ -1125,8 +1125,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp showLastService?(assigns) do
-    dbg(assigns)
+  defp showLastService?(_) do
     true
   end
 
