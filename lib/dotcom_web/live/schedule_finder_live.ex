@@ -31,8 +31,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def mount(_params, _session, socket) do
-    schedule_refresh()
-
     {:ok,
      socket
      |> subscribe_to_alerts()
@@ -250,9 +248,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_info(:refresh, socket) do
-    schedule_refresh()
-
+  def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
      |> assign_upcoming_departures()}
@@ -273,9 +269,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh() do
+  defp schedule_refresh_upcoming_departures(pid) do
     # Refresh every second
-    Process.send_after(self(), :refresh, 1000)
+    Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
   defp assign_route(socket, route_id) do
@@ -301,20 +297,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
+    parent_pid = self()
+
     socket
     |> assign_async(
       :upcoming_departures,
       fn ->
-        {:ok,
-         %{
-           upcoming_departures:
-             UpcomingDepartures.upcoming_departures(%{
-               direction_id: direction_id,
-               now: now,
-               route: route,
-               stop_id: stop_id
-             })
-         }}
+        departures =
+          UpcomingDepartures.upcoming_departures(%{
+            direction_id: direction_id,
+            now: now,
+            route: route,
+            stop_id: stop_id
+          })
+
+        schedule_refresh_upcoming_departures(parent_pid)
+
+        {:ok, %{upcoming_departures: departures}}
       end
     )
     |> assign(
@@ -719,7 +718,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <.attached_callout>
-      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+      {~t"There are currently no realtime departures available. Scheduled departures are shown below."}
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
