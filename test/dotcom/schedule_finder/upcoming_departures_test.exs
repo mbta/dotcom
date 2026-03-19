@@ -3751,7 +3751,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
     test "marks the last upcoming departure with last_trip? = true for non-subway routes" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route]))
+
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 

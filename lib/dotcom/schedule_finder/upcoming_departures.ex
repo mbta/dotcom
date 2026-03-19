@@ -299,7 +299,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type
         }),
       headsign: trip.headsign,
-      last_trip?: false,
+      last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: PredictedSchedule.route(predicted_schedule),
       stop_sequence: stop_sequence,
