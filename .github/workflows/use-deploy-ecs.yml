@@ -132,7 +132,7 @@ jobs:
           CI: true
           HOME: /root
           HOST: ${{ needs.deploy.outputs.deployment-host }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: smoke-test-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
@@ -161,7 +161,7 @@ jobs:
           CI: true
           HOME: /root
           HOST: ${{ needs.deploy.outputs.deployment-host }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
