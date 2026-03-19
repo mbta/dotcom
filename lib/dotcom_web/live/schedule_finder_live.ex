@@ -719,7 +719,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <.attached_callout>
-      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+      {~t"There are currently no realtime departures available. Scheduled departures are shown below."}
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
