@@ -31,6 +31,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :arrival_status,
       :arrival_substatus,
       :headsign,
+      :last_trip?,
       :platform_name,
       :route,
       :stop_sequence,
@@ -65,6 +66,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             arrival_status: arrival_status_t(),
             arrival_substatus: arrival_substatus_t(),
             headsign: Schedules.Trip.headsign(),
+            last_trip?: boolean(),
             platform_name: String.t() | nil,
             route: Route.t(),
             stop_sequence: non_neg_integer(),
@@ -249,7 +251,17 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end)
     |> Stream.reject(&(&1.arrival_status == :hidden))
     |> Enum.to_list()
+    |> mark_last_trip(args.route_type)
   end
+
+  defp mark_last_trip([], _route_type), do: []
+
+  # Only mark the last trip for non-subway routes
+  defp mark_last_trip(departures, route_type) when route_type != :subway do
+    List.update_at(departures, -1, &Map.put(&1, :last_trip?, true))
+  end
+
+  defp mark_last_trip(departures, _route_type), do: departures
 
   def to_upcoming_departure(%{
         now: now,
@@ -287,6 +299,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type
         }),
       headsign: trip.headsign,
+      last_trip?: false,
       platform_name: platform_name(predicted_schedule),
       route: PredictedSchedule.route(predicted_schedule),
       stop_sequence: stop_sequence,
