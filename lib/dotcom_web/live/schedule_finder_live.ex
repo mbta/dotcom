@@ -13,6 +13,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
@@ -683,10 +684,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
       assigns
       |> assign(
         :route_type_text,
-        case route_type_atom do
-          :commuter_rail -> "commuter rail"
-          _ -> route_type_atom
-        end
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
       )
 
     ~H"""
@@ -698,9 +698,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     >
       <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
       <span class="leading-tight grow">
-        {Gettext.gettext(
-          Dotcom.Gettext,
-          "Track your #{@route_type_text} trip live with the <strong>MBTA Go</strong> app"
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
         )
         |> raw()}
       </span>
