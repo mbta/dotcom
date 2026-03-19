@@ -756,14 +756,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
       upcoming_departures={@upcoming_departures}
       route={@route}
       last_trip_time={@last_trip_time}
-      no_realtime={true}
+      no_realtime
     />
     """
   end
 
   defp upcoming_departures_section(assigns) do
     ~H"""
-    <.mbta_go_cta route_type_atom={Route.type_atom(@route)} />
+    <.mbta_go_cta
+      :if={!Map.has_key?(assigns, :no_realtime)}
+      route_type_atom={Route.type_atom(@route)}
+    />
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
