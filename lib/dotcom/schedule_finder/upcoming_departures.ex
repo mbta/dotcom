@@ -43,7 +43,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             :arriving
             | :boarding
             | :now
-            | {:departure_seconds, integer()}
+            | {:arrival_minutes, integer()}
+            | {:departure_minutes, integer()}
 
     @type arrival_status_t ::
             realtime_arrival_status_t()
@@ -120,13 +121,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedules_by_trip_id =
       predicted_schedules
-      |> Enum.reject(&past_schedule?(&1, now))
+      |> Stream.reject(&past_schedule?(&1, now))
       |> Enum.group_by(&PredictedSchedule.trip(&1).id)
 
     predicted_schedules_at_stop =
       predicted_schedules
-      |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-      |> Enum.reject(&end_of_trip?/1)
+      |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+      |> Stream.reject(&end_of_trip?/1)
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
 
@@ -241,12 +242,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp to_upcoming_departures(predicted_schedules, args) do
     predicted_schedules
-    |> Enum.map(fn predicted_schedule ->
+    |> Stream.map(fn predicted_schedule ->
       args
       |> Map.put(:predicted_schedule, predicted_schedule)
       |> to_upcoming_departure()
     end)
-    |> Enum.reject(&(&1.arrival_status == :hidden))
+    |> Stream.reject(&(&1.arrival_status == :hidden))
+    |> Enum.to_list()
   end
 
   def to_upcoming_departure(%{
@@ -407,6 +409,24 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil}
+         },
+         route_type: :subway
+       }) do
+    :hidden
+  end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil},
+           schedule: schedule
+         }
+       }) do
+    {:scheduled, PredictedSchedule.display_time(schedule)}
+  end
+
+  defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: :commuter_rail
        })
@@ -487,9 +507,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when arrival_seconds <= 30, do: :arriving
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
-    do: {:departure_seconds, seconds}
+    do: {:departure_minutes, div(seconds + 30, 60)}
 
-  defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+  defp realtime_arrival_status(%{arrival_seconds: seconds}),
+    do: {:arrival_minutes, div(seconds + 30, 60)}
 
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),
@@ -542,9 +563,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   def last_trip_time(route_id, direction_id, now, stop_id) do
     route_id
     |> predicted_schedules(direction_id, now)
-    |> Enum.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Enum.reject(&end_of_trip?/1)
-    |> Enum.map(&PredictedSchedule.display_time/1)
+    |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
+    |> Stream.reject(&end_of_trip?/1)
+    |> Stream.map(&PredictedSchedule.display_time/1)
     |> Enum.sort(DateTime)
     |> List.last()
   end
