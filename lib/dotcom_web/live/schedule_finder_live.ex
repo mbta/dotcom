@@ -1113,7 +1113,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
          last_trip_time: last_trip_time
-       }) do
+       })
+       when length(remaining_departures) > 0 do
     last_departure = remaining_departures |> Enum.at(-1)
 
     if(is_nil(last_departure.trip_details.stop)) do
