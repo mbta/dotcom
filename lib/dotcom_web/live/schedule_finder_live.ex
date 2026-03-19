@@ -822,7 +822,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp upcoming_departure_heading(assigns) do
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
-      <:headsign>{@upcoming_departure.headsign}</:headsign>
+      <:headsign>
+        <div class="flex gap-x-sm gap-y-xs flex-wrap items-center">
+          {@upcoming_departure.headsign}
+          <.badge :if={@upcoming_departure.last_trip?} class="bg-charcoal-80 text-nowrap text-sm">
+            {~t"Last"}
+          </.badge>
+        </div>
+      </:headsign>
 
       <:additional_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
