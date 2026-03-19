@@ -90,8 +90,6 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         url={
           if(@place.stop.url) do
             URI.parse(@place.stop.url).path
-          else
-            nil
           end
         }
       >
