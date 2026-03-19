@@ -65,9 +65,9 @@ config :dotcom, :timezone, "America/New_York"
 tile_server_url = "https://cdn.mbta.com"
 config :dotcom, tile_server_url: tile_server_url
 
-config :dotcom, Dotcom.Cache.Multilevel.Local,
-  max_size: 1_000_000,
-  allocated_memory: 2_000_000_000
+# config :dotcom, Dotcom.Cache.Multilevel.Local,
+#   max_size: 1_000_000,
+#   allocated_memory: 2_000_000_000
 
 config :elixir, ansi_enabled: true
 
