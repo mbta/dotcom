@@ -1115,13 +1115,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
          last_trip_time: last_trip_time
        }) do
     last_departure = remaining_departures |> Enum.at(-1)
-    {_, last_departure_time} = last_departure.trip_details.stop.time
 
-    if last_departure_time > last_trip_time or
-         last_trip_time < :calendar.local_time() do
-      false
-    else
+    if(is_nil(last_departure.trip_details.stop)) do
       true
+    else
+      {_, last_departure_time} = last_departure.trip_details.stop.time
+
+      if last_departure_time > last_trip_time or
+           last_trip_time < @date_time.now() do
+        false
+      else
+        true
+      end
     end
   end
 
