@@ -89,7 +89,11 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         accessible={@place.stop.wheelchair_boarding == :POSSIBLE}
         url={
           if(@place.stop.url) do
-            URI.parse(@place.stop.url).path
+            if Dotcom.TripPlan.Helpers.mbta_id(@place) do
+              URI.parse(@place.stop.url).path
+            else
+              @place.stop.url
+            end
           end
         }
       >
