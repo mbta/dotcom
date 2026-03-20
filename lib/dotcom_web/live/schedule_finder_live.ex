@@ -777,14 +777,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
               class="group/details"
             >
-              <summary class="cursor-pointer">
+              <summary class="cursor-pointer bg-gray-lightest bg-opacity-50">
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
                     <span class="text-[0.75rem] underline group-open/details:hidden">
                       {~t"Show more stops"}
                     </span>
                     <span class="text-[0.75rem] underline hidden group-open/details:block">
-                      {~t"Hide more stops"}
+                      {~t"Show fewer stops"}
                     </span>
                   </div>
                   <div class="shrink-0">
@@ -794,7 +794,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </summary>
               <.other_stop
                 :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                class="border-t-xs border-gray-lightest"
+                class="border-t-xs border-gray-lightest bg-gray-lightest bg-opacity-50"
                 other_stop={other_stop}
                 route={upcoming_departure.route}
               />
