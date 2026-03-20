@@ -29,8 +29,15 @@ defmodule Dotcom.Utils.Diff do
 
       iex> seconds_to_localized_minutes(3452364)
       "958 hr 59 min"
+
+      iex> seconds_to_localized_minutes(523.0)
+      "9 min"
   """
-  def seconds_to_localized_minutes(seconds) do
+  def seconds_to_localized_minutes(seconds) when is_float(seconds) do
+    trunc(seconds) |> seconds_to_localized_minutes()
+  end
+
+  def seconds_to_localized_minutes(seconds) when is_integer(seconds) do
     div(seconds + 30, 60) |> minutes_to_localized_minutes()
   end
 
