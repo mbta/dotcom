@@ -14,7 +14,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         *.arcgis.com
         analytics.google.com
         analytics.tiktok.com
-	analytics-ipv6.tiktokw.us
+        analytics-ipv6.tiktokw.us
         cdn.mbta.com
         px.ads.linkedin.com
         stats.g.doubleclick.net
