@@ -1114,7 +1114,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
          remaining_departures: remaining_departures,
          last_trip_time: last_trip_time
        })
-       when length(remaining_departures) > 0 do
+       when remaining_departures != [] do
     last_departure = remaining_departures |> Enum.at(-1)
 
     if(is_nil(last_departure.trip_details.stop)) do
