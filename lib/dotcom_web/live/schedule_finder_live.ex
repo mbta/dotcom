@@ -31,8 +31,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def mount(_params, _session, socket) do
-    schedule_refresh()
-
     {:ok,
      socket
      |> subscribe_to_alerts()
@@ -250,9 +248,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_info(:refresh, socket) do
-    schedule_refresh()
-
+  def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
      |> assign_upcoming_departures()}
@@ -273,9 +269,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh() do
+  defp schedule_refresh_upcoming_departures(pid) do
     # Refresh every second
-    Process.send_after(self(), :refresh, 1000)
+    Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
   defp assign_route(socket, route_id) do
@@ -301,20 +297,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
+    parent_pid = self()
+
     socket
     |> assign_async(
       :upcoming_departures,
       fn ->
-        {:ok,
-         %{
-           upcoming_departures:
-             UpcomingDepartures.upcoming_departures(%{
-               direction_id: direction_id,
-               now: now,
-               route: route,
-               stop_id: stop_id
-             })
-         }}
+        departures =
+          UpcomingDepartures.upcoming_departures(%{
+            direction_id: direction_id,
+            now: now,
+            route: route,
+            stop_id: stop_id
+          })
+
+        schedule_refresh_upcoming_departures(parent_pid)
+
+        {:ok, %{upcoming_departures: departures}}
       end
     )
     |> assign(
@@ -335,7 +334,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     alerts =
       current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
-        direction in direction_id
+        Enum.any?([nil, direction], &(&1 in direction_id))
       end)
 
     assign(socket, :alerts, alerts)
@@ -719,7 +718,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <.attached_callout>
-      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+      {~t"There are currently no realtime departures available. Scheduled departures are shown below."}
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
@@ -931,16 +930,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp other_stop(assigns) do
     ~H"""
-    <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
-      <div class={["grow", @highlight && "font-bold"]}>
+    <.lined_list_item
+      route={@route}
+      class={@class}
+      stop_pin?={@highlight}
+      variant={if @other_stop.cancelled?, do: "cancelled", else: "default"}
+    >
+      <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
-      <div class={[
-        "ml-auto",
-        @highlight && "font-bold",
-        @other_stop.cancelled? && "line-through"
-      ]}>
-        <.trip_stop_time time={@other_stop.time} />
+      <div class="ml-auto flex flex-col items-end">
+        <div class={[@highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
+          <.trip_stop_time time={@other_stop.time} />
+        </div>
+        <div :if={@other_stop.cancelled?} class="block text-sm flex items-center gap-0.5">
+          <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
+        </div>
       </div>
     </.lined_list_item>
     """

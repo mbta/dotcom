@@ -73,6 +73,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           }
   end
 
+  import Dotcom.Utils.Time, only: [truncate: 2]
+
   alias Dotcom.ScheduleFinder
   alias Predictions.Prediction
   alias Routes.Route
@@ -142,7 +144,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     if route_type in [0, 1] && status do
       {:status, status}
     else
-      {:time, PredictedSchedule.display_time(predicted_schedule)}
+      {:time, predicted_schedule |> PredictedSchedule.display_time() |> truncate(:minute)}
     end
   end
 
@@ -164,7 +166,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
          | _
        ]) do
     %VehicleInfo{
-      departure_time: departure_time,
+      departure_time: departure_time |> truncate(:minute),
       platform_name: platform_name(ps),
       status: :scheduled_to_depart,
       stop_id: stop.id,
