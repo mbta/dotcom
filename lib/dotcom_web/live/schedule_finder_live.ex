@@ -925,7 +925,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp vehicle_type(_type) do
-    dbg(_type)
     nil
   end
 
