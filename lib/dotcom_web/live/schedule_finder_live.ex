@@ -14,7 +14,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
-  import DotcomWeb.Schedule.RouteBreadcrumbs, only: [assign_breadcrumbs: 2]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
