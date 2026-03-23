@@ -897,10 +897,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp vehicle_label(assigns) do
+    dbg(assigns)
+
     ~H"""
     <div class="font-normal text-charcoal-30 text-sm">
       <span :if={@vehicle_info.status != :in_transit} class="sr-only">
-        {vehicle_type(@route.type)}
+        {Route.vehicle_name(@route)}
       </span>
       {vehicle_status_message(@vehicle_info.status)}
     </div>
@@ -910,22 +912,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       show_label?
     />
     """
-  end
-
-  defp vehicle_type(type) when type in [0, 1, 2] do
-    ~t"Train "
-  end
-
-  defp vehicle_type(type) when type in [3] do
-    ~t"Bus "
-  end
-
-  defp vehicle_type(type) when type in [4] do
-    ~t"Ferry "
-  end
-
-  defp vehicle_type(_type) do
-    nil
   end
 
   defp vehicle_status_message(:scheduled_to_depart), do: ~t"Scheduled to depart"
