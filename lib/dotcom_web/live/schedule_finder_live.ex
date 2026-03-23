@@ -13,6 +13,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
@@ -677,6 +678,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
+        )
+        |> raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
+    </a>
+    """
+  end
+
   defp upcoming_departures_section(
          %{upcoming_departures: {:before_service, upcoming_departure}} =
            assigns
@@ -725,12 +755,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
       upcoming_departures={@upcoming_departures}
       route={@route}
       last_trip_time={@last_trip_time}
+      no_realtime
     />
     """
   end
 
   defp upcoming_departures_section(assigns) do
     ~H"""
+    <.mbta_go_cta
+      :if={!Map.has_key?(assigns, :no_realtime)}
+      route_type_atom={Route.type_atom(@route)}
+    />
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
