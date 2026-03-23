@@ -142,16 +142,12 @@ defmodule DotcomWeb.RouteComponents do
   defp lined_list_marker(%{variant: "cancelled"} = assigns) do
     ~H"""
     <div class={[
-      "#{route_to_class(@route)}",
+      "bg-transparent #{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-3.5 rounded-full border-xs border-[#00000026]",
+      "size-5 ring-2 ring-white",
       "flex items-center justify-items-center"
     ]}>
-      <div class="size-3 rounded-full bg-white opacity-75" />
-      <Icon.icon
-        name="xmark"
-        class="size-3 absolute z-20 fill-black"
-      />
+      <Icon.icon type="icon-svg" name="icon-cancelled" />
     </div>
     """
   end
