@@ -14,6 +14,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
+  import DotcomWeb.Schedule.RouteBreadcrumbs, only: [assign_breadcrumbs: 2]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
@@ -29,6 +30,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :departures}
 
   @impl LiveView
   def mount(_params, _session, socket) do
