@@ -7,6 +7,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   info about an upcoming departure.
   """
 
+  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
+  import Dotcom.Utils.Time, only: [truncate: 2]
+
   alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
@@ -19,8 +22,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -43,7 +44,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             :arriving
             | :boarding
             | :now
-            | {:departure_seconds, integer()}
+            | {:arrival_minutes, integer()}
+            | {:departure_minutes, integer()}
 
     @type arrival_status_t ::
             realtime_arrival_status_t()
@@ -430,7 +432,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: :commuter_rail
        })
        when prediction != nil do
-    {:time, prediction.departure_time}
+    {:time, prediction.departure_time |> truncate(:minute)}
   end
 
   defp arrival_status(%{
@@ -506,9 +508,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when arrival_seconds <= 30, do: :arriving
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
-    do: {:departure_seconds, seconds}
+    do: {:departure_minutes, div(seconds + 30, 60)}
 
-  defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+  defp realtime_arrival_status(%{arrival_seconds: seconds}),
+    do: {:arrival_minutes, div(seconds + 30, 60)}
 
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),
