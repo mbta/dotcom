@@ -2193,11 +2193,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:cancelled, scheduled_departure_time}
     end
 
-    test "shows the schedule relationship as a substatus if it's :skipped or :cancelled for CR" do
+    test "shows the schedule relationship as a substatus if it's :skipped or :cancelled for non-subway" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
 
