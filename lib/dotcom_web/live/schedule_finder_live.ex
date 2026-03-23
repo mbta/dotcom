@@ -13,6 +13,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
@@ -31,8 +32,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def mount(_params, _session, socket) do
-    schedule_refresh()
-
     {:ok,
      socket
      |> subscribe_to_alerts()
@@ -250,9 +249,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_info(:refresh, socket) do
-    schedule_refresh()
-
+  def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
      |> assign_upcoming_departures()}
@@ -273,9 +270,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh() do
+  defp schedule_refresh_upcoming_departures(pid) do
     # Refresh every second
-    Process.send_after(self(), :refresh, 1000)
+    Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
   defp assign_route(socket, route_id) do
@@ -301,20 +298,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
+    parent_pid = self()
+
     socket
     |> assign_async(
       :upcoming_departures,
       fn ->
-        {:ok,
-         %{
-           upcoming_departures:
-             UpcomingDepartures.upcoming_departures(%{
-               direction_id: direction_id,
-               now: now,
-               route: route,
-               stop_id: stop_id
-             })
-         }}
+        departures =
+          UpcomingDepartures.upcoming_departures(%{
+            direction_id: direction_id,
+            now: now,
+            route: route,
+            stop_id: stop_id
+          })
+
+        schedule_refresh_upcoming_departures(parent_pid)
+
+        {:ok, %{upcoming_departures: departures}}
       end
     )
     |> assign(
@@ -335,7 +335,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     alerts =
       current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
-        direction in direction_id
+        Enum.any?([nil, direction], &(&1 in direction_id))
       end)
 
     assign(socket, :alerts, alerts)
@@ -678,6 +678,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  defp mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
+        )
+        |> raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
+    </a>
+    """
+  end
+
   defp upcoming_departures_section(
          %{upcoming_departures: {:before_service, upcoming_departure}} =
            assigns
@@ -719,19 +748,24 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <.attached_callout>
-      {~t"There are currently no realtime departures available. Schedule departures are shown below."}
+      {~t"There are currently no realtime departures available. Scheduled departures are shown below."}
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
       upcoming_departures={@upcoming_departures}
       route={@route}
       last_trip_time={@last_trip_time}
+      no_realtime
     />
     """
   end
 
   defp upcoming_departures_section(assigns) do
     ~H"""
+    <.mbta_go_cta
+      :if={!Map.has_key?(assigns, :no_realtime)}
+      route_type_atom={Route.type_atom(@route)}
+    />
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
@@ -778,14 +812,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
               class="group/details"
             >
-              <summary class="cursor-pointer">
+              <summary class="cursor-pointer bg-gray-lightest bg-opacity-50">
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
                     <span class="text-[0.75rem] underline group-open/details:hidden">
                       {~t"Show more stops"}
                     </span>
                     <span class="text-[0.75rem] underline hidden group-open/details:block">
-                      {~t"Hide more stops"}
+                      {~t"Show fewer stops"}
                     </span>
                   </div>
                   <div class="shrink-0">
@@ -795,7 +829,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </summary>
               <.other_stop
                 :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                class="border-t-xs border-gray-lightest"
+                class="border-t-xs border-gray-lightest bg-gray-lightest bg-opacity-50"
                 other_stop={other_stop}
                 route={upcoming_departure.route}
               />
@@ -938,16 +972,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp other_stop(assigns) do
     ~H"""
-    <.lined_list_item route={@route} class={@class} stop_pin?={@highlight}>
-      <div class={["grow", @highlight && "font-bold"]}>
+    <.lined_list_item
+      route={@route}
+      class={@class}
+      stop_pin?={@highlight}
+      variant={if @other_stop.cancelled?, do: "cancelled", else: "default"}
+    >
+      <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
-      <div class={[
-        "ml-auto",
-        @highlight && "font-bold",
-        @other_stop.cancelled? && "line-through"
-      ]}>
-        <.trip_stop_time time={@other_stop.time} />
+      <div class="ml-auto flex flex-col items-end">
+        <div class={[@highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
+          <.trip_stop_time time={@other_stop.time} />
+        </div>
+        <div :if={@other_stop.cancelled?} class="block text-sm flex items-center gap-0.5">
+          <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
+        </div>
       </div>
     </.lined_list_item>
     """

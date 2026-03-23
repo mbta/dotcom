@@ -75,7 +75,7 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :variant, :string,
     default: "default",
-    values: ["default", "mode", "none"],
+    values: ["cancelled", "default", "mode", "none"],
     doc:
       "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
         "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
@@ -93,7 +93,10 @@ defmodule DotcomWeb.RouteComponents do
           <div class={"#{route_to_class(@route)} grow top"} />
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
-        <.lined_list_marker variant={@variant} route={@route} />
+        <.lined_list_marker
+          variant={@variant}
+          route={@route}
+        />
       </div>
       <div class="relative">
         <Icon.icon
@@ -109,7 +112,7 @@ defmodule DotcomWeb.RouteComponents do
   end
 
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["default", "mode", "none"]
+  attr :variant, :string, default: "default", values: ["cancelled", "default", "mode", "none"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -136,12 +139,29 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  defp lined_list_marker(%{variant: "cancelled"} = assigns) do
+    ~H"""
+    <div class={[
+      "#{route_to_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-3.5 rounded-full border-xs border-[#00000026]",
+      "flex items-center justify-items-center"
+    ]}>
+      <div class="size-3 rounded-full bg-white opacity-75" />
+      <Icon.icon
+        name="xmark"
+        class="size-3 absolute z-20 fill-black"
+      />
+    </div>
+    """
+  end
+
   defp lined_list_marker(assigns) do
     ~H"""
     <div class={[
       "#{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-3.5 rounded-full rounded-full border-xs border-[#00000026]"
+      "size-3.5 rounded-full border-xs border-[#00000026]"
     ]} />
     """
   end
