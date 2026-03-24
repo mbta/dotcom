@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleController.AlertsController do
 
   import DotcomWeb.Schedule.{Defaults, RouteBreadcrumbs}
 
-  alias DotcomWeb.{Plugs, ScheduleView}
+  alias DotcomWeb.ScheduleView
   alias Routes.Route
 
   plug(DotcomWeb.Plugs.Route)
