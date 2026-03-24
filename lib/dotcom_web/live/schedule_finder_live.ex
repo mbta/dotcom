@@ -30,6 +30,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :departures}
+
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
@@ -802,7 +804,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
               stop_pin?={upcoming_departure.trip_details.stop == nil}
             >
               <div class="grow font-medium">
-                <.vehicle_label vehicle_info={upcoming_departure.trip_details.vehicle_info} />
+                <.vehicle_label
+                  vehicle_info={upcoming_departure.trip_details.vehicle_info}
+                  route={upcoming_departure.route}
+                />
               </div>
               <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
                 <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
@@ -893,21 +898,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp vehicle_label(%{vehicle_info: %{status: :finishing_another_trip}} = assigns) do
-    ~H"""
-    {~t"Finishing another trip"}
-    """
-  end
-
-  defp vehicle_label(%{vehicle_info: %{status: :location_unavailable}} = assigns) do
-    ~H"""
-    {~t"Location unavailable"}
-    """
-  end
-
   defp vehicle_label(assigns) do
     ~H"""
     <div class="font-normal text-charcoal-30 text-sm">
+      <span :if={@vehicle_info.status != :in_transit} class="sr-only">
+        {Route.vehicle_name(@route)}
+      </span>
       {vehicle_status_message(@vehicle_info.status)}
     </div>
     <.stop_label stop_name={@vehicle_info.stop_name} platform_name={@vehicle_info.platform_name} />
@@ -923,6 +919,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp vehicle_status_message(:in_transit), do: ~t"Next stop"
   defp vehicle_status_message(:incoming), do: ~t"Approaching"
   defp vehicle_status_message(:stopped), do: ~t"Now at"
+  defp vehicle_status_message(:location_unavailable), do: ~t"Location unavailable"
+  defp vehicle_status_message(:finishing_another_trip), do: ~t"Finishing another trip"
 
   defp crowding(%TripDetails.VehicleInfo{crowding: crowding}), do: crowding
   defp crowding(_), do: nil
