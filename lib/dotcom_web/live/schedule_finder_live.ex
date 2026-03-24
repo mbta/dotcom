@@ -319,10 +319,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {:ok, %{upcoming_departures: departures}}
       end
     )
-    |> assign(
-      :last_trip_time,
-      UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop_id)
-    )
   end
 
   defp assign_upcoming_departures(socket) do
@@ -354,9 +350,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if stop do
       assign_async(
         socket,
-        :departures,
+        [:departures, :last_trip_time],
         fn ->
-          get_departures(route_id, direction_id, stop.id, date)
+          {_, departures} =
+            get_departures(route_id, direction_id, stop.id, date)
+
+          last_departure_time =
+            departures.departures
+            |> Enum.sort_by(fn departure -> departure.time end)
+            |> Enum.at(-1)
+            |> Map.get(:time)
+
+          {:ok, %{departures: departures.departures, last_trip_time: last_departure_time}}
         end,
         reset: true
       )
@@ -1157,9 +1162,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     ~H"""
-    <.attached_callout :if={@last_trip_time}>
+    <.attached_callout :if={@last_trip_time.result}>
       {gettext("Service continues until %{end_of_service}",
-        end_of_service: format!(@last_trip_time, :hour_12_minutes)
+        end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
       )}
     </.attached_callout>
     """
