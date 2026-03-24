@@ -30,6 +30,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :departures}
+
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
