@@ -4,7 +4,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
 
-  alias Dotcom.ScheduleFinder.UpcomingDepartures
+  alias Dotcom.ScheduleFinder.{Platforms, UpcomingDepartures}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators}
 
@@ -115,7 +115,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
+      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
 
       trip_name = Faker.Cat.breed()
 
@@ -159,12 +159,96 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
+    test "does not hide platform names for bus stops outside allowlist" do
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:bus_route)
+      stop_id = Faker.Pokemon.location()
+
+      platform_id = FactoryHelpers.build(:id)
+      platform_name = Faker.Pokemon.location()
+
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time = now |> DateTime.shift(second: Faker.random_between(2 * 60, 59 * 60))
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            platform_stop_id: platform_id,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip),
+            route: route
+          )
+        ]
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      assert [departure] = departures
+      assert departure.platform_name == platform_name
+    end
+
+    test "does not hide platform names for commuter rail stops outside allowlist" do
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:commuter_rail_route)
+      stop_id = Faker.Pokemon.location()
+
+      platform_id = FactoryHelpers.build(:id)
+      platform_name = Faker.Pokemon.location()
+
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_time = now |> DateTime.shift(second: Faker.random_between(2 * 60, 59 * 60))
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            platform_stop_id: platform_id,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip),
+            route: route
+          )
+        ]
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      assert [departure] = departures
+      assert departure.platform_name == platform_name
+    end
+
     test "strips 'Commuter Rail -' from platform name" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
+      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
 
       platform_id = FactoryHelpers.build(:id)
       platform_name = Faker.Pokemon.location()
@@ -213,7 +297,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
+      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
 
       platform_id = FactoryHelpers.build(:id)
 
