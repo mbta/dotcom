@@ -60,6 +60,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             nil
             | :on_time
             | :scheduled
+            | :scheduled_sr_only
             | {:scheduled_at, DateTime.t()}
             | {:status, String.t()}
 
