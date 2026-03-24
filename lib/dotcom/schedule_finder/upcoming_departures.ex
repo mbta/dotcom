@@ -526,6 +526,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   defp realtime_arrival_status(%{arrival_seconds: seconds}),
     do: {:arrival_minutes, div(seconds + 30, 60)}
 
+  @spec arrival_substatus(%{
+          predicted_schedule: PredictedSchedule.t(),
+          route_type: Route.route_type()
+        }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
+
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{
            prediction: %Prediction{schedule_relationship: relationship}
@@ -533,10 +538,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        })
        when relationship in [:skipped, :cancelled], do: relationship
 
-  @spec arrival_substatus(%{
-          predicted_schedule: PredictedSchedule.t(),
-          route_type: Route.route_type()
-        }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{prediction: nil},
+         route_type: :bus
+       }),
+       do: :scheduled_sr_only
+
   defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
 
   defp arrival_substatus(%{
