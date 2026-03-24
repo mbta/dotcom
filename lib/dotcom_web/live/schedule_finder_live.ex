@@ -897,8 +897,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp vehicle_label(assigns) do
-    dbg(assigns)
-
     ~H"""
     <div class="font-normal text-charcoal-30 text-sm">
       <span :if={@vehicle_info.status != :in_transit} class="sr-only">
