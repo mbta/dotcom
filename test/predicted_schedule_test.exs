@@ -403,13 +403,14 @@ defmodule PredictedScheduleTest do
 
       predicted_schedule = %PredictedSchedule{
         schedule: List.first(@schedules),
-        prediction: build(:prediction, %{
-          stop: %Stop{id: "first"},
-          trip: %Trip{id: "trip1"},
-          time: Timex.shift(@base_time, minutes: 12),
-          route: @route,
-          last_trip?: expected_last_trip?
-        })
+        prediction:
+          build(:prediction, %{
+            stop: %Stop{id: "first"},
+            trip: %Trip{id: "trip1"},
+            time: Timex.shift(@base_time, minutes: 12),
+            route: @route,
+            last_trip?: expected_last_trip?
+          })
       }
 
       assert last_trip?(predicted_schedule) == expected_last_trip?
