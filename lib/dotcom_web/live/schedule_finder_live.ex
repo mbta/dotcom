@@ -201,7 +201,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_stop(params)
      |> assign_alerts()
      |> assign_departures()
-     |> assign_upcoming_departures()}
+     |> assign_upcoming_departures()
+     |> assign_last_trip_time()}
   end
 
   @impl LiveView
@@ -341,6 +342,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
 
+  defp assign_last_trip_time(socket) do
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
+    date = DateTime.to_date(@date_time.now()) |> Date.to_string()
+    stop = socket.assigns.stop
+
+    if stop do
+      assign_async(
+        socket,
+        :last_trip_time,
+        fn ->
+          {_, departures} =
+            get_departures(route_id, direction_id, stop.id, date)
+
+          last_trip_time =
+            departures.departures
+            |> Enum.sort_by(fn departure -> departure.time end)
+            |> Enum.at(-1)
+            |> Map.get(:time)
+
+          {:ok, %{last_trip_time: last_trip_time}}
+        end,
+        reset: true
+      )
+    else
+      assign(socket, :last_trip_time, AsyncResult.ok(nil))
+    end
+  end
+
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
     direction_id = socket.assigns.direction_id
@@ -350,18 +380,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if stop do
       assign_async(
         socket,
-        [:departures, :last_trip_time],
+        :departures,
         fn ->
-          {_, departures} =
-            get_departures(route_id, direction_id, stop.id, date)
-
-          last_departure_time =
-            departures.departures
-            |> Enum.sort_by(fn departure -> departure.time end)
-            |> Enum.at(-1)
-            |> Map.get(:time)
-
-          {:ok, %{departures: departures.departures, last_trip_time: last_departure_time}}
+          get_departures(route_id, direction_id, stop.id, date)
         end,
         reset: true
       )
