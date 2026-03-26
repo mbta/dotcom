@@ -992,7 +992,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp stop_label(assigns) do
     ~H"""
-    <div class="notranslate grow">
+    <div class="notranslate grow flex flex-wrap gap-x-2 items-center">
       <div>{@stop_name}</div>
       <div :if={@platform_name} class="text-sm">
         {@platform_name}
