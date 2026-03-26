@@ -430,7 +430,8 @@ defmodule Predictions.RepoTest do
         1,
         :on_time,
         false,
-        "vehicle_id"
+        "vehicle_id",
+        false
       }
 
       assert [
@@ -446,7 +447,8 @@ defmodule Predictions.RepoTest do
                  schedule_relationship: :schedule_relationship,
                  track: 1,
                  status: :on_time,
-                 departing?: false
+                 departing?: false,
+                 last_trip?: false
                }
              ] = Predictions.Repo.load_from_other_repos([prediction])
     end

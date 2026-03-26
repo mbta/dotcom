@@ -110,6 +110,40 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "includes whether or not each trip is the last trip for subways" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      last_trip? = Faker.Util.pick([true, false])
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            last_trip?: last_trip?,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.last_trip?) == [last_trip?]
+    end
+
     test "includes trip name, platform name, and detailed arrival status for commuter rail departures" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
@@ -2049,6 +2083,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert [departure] = departures
       assert departure.arrival_status == {:scheduled, scheduled_departure_time}
       assert departure.arrival_substatus == :scheduled
+    end
+
+    test "shows :scheduled_sr_only for bus if there is no prediction" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:bus_route)
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      direction_id = Faker.Util.pick([0, 1])
+
+      scheduled_arrival_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
+          assert date == ServiceDateTime.service_date(now)
+
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: scheduled_arrival_time,
+              departure_time: scheduled_arrival_time |> DateTime.shift(second: 10),
+              time: scheduled_arrival_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      {:no_realtime, departures} =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:scheduled, scheduled_arrival_time}
+      assert departure.arrival_substatus == :scheduled_sr_only
     end
 
     test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
@@ -4002,39 +4082,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       for departure <- departures do
         refute departure.last_trip?
       end
-    end
-  end
-
-  describe "last_trip_time/4" do
-    test "returns the last time for a route/stop/direction/date" do
-      now = Dotcom.Utils.DateTime.now()
-      route = Factories.Routes.Route.build(:route)
-      stop = Factories.Stops.Stop.build(:stop)
-      trip = Factories.Schedules.Trip.build(:trip)
-      direction_id = Faker.Util.pick([0, 1])
-
-      predictions =
-        Factories.Predictions.Prediction.build_list(20, :prediction, stop: stop, trip: trip)
-        |> Enum.sort_by(& &1.time, DateTime)
-
-      schedules =
-        Factories.Schedules.Schedule.build_list(20, :schedule, stop: stop, trip: trip)
-        |> Enum.sort_by(& &1.time, DateTime)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
-
-      last_prediction = List.last(predictions)
-      last_schedule = List.last(schedules)
-
-      last_trip_time = UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop.id)
-
-      assert last_trip_time in [
-               last_prediction.arrival_time,
-               last_prediction.departure_time,
-               last_schedule.arrival_time,
-               last_schedule.departure_time
-             ]
     end
   end
 end

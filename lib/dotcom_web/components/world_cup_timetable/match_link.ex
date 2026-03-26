@@ -29,9 +29,9 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     ~H"""
     <.link
       class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline hover:bg-brand-primary-lightest text-black"
-      patch={~p"/preview/schedules/CR-WorldCup?#{[date: @date]}"}
+      patch={~p"/preview/schedules/CR-WorldCup?#{[date: Date.to_string(@date)]}"}
     >
-      <div class="font-bold">{@label} ({formatted_date(@date)})</div>
+      <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
       <.teams selected={false} teams={@teams} />
     </.link>
     """
@@ -40,16 +40,17 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
   def selected_match_banner(assigns) do
     ~H"""
     <div class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline bg-brand-primary text-white justify-between">
-      <div class="font-bold">{@label} ({formatted_date(@date)})</div>
+      <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
       <.teams selected teams={@teams} />
     </div>
     """
   end
 
-  defp formatted_date(date) do
-    date
-    |> Date.from_iso8601!()
-    |> Dotcom.Utils.Time.format!(:month_day)
+  defp formatted_datetime(date, time) do
+    gettext("%{date} at %{time}",
+      date: date |> Dotcom.Utils.Time.format!(:month_day_short),
+      time: time |> Util.narrow_time()
+    )
   end
 
   defp teams(%{teams: [_team1, _team2]} = assigns) do
