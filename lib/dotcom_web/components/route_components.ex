@@ -98,7 +98,7 @@ defmodule DotcomWeb.RouteComponents do
           route={@route}
         />
       </div>
-      <div class="relative">
+      <div class="relative" tabindex="-1">
         <Icon.icon
           :if={@stop_pin?}
           type="icon-svg"
