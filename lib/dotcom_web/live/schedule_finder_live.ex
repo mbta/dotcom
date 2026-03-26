@@ -42,7 +42,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
-     |> assign_new(:last_trip_time, fn -> nil end)
+     |> assign_new(:last_trip_time, fn -> AsyncResult.loading([]) end)
      |> assign_new(:alerts, fn -> [] end)
      |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
@@ -1183,7 +1183,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
-         last_trip_time: last_trip_time
+         last_trip_time: %{result: last_trip_time}
        })
        when remaining_departures != [] do
     last_departure = remaining_departures |> Enum.at(-1)
