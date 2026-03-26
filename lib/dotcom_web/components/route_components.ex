@@ -69,8 +69,9 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
-  attr :route, Route, required: true
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :class, :string, default: ""
+  attr :route, Route, required: true
   attr :stop_pin?, :boolean, default: false
 
   attr :variant, :string,
@@ -94,6 +95,7 @@ defmodule DotcomWeb.RouteComponents do
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
         <.lined_list_marker
+          background={@background}
           variant={@variant}
           route={@route}
         />
@@ -111,6 +113,7 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :route, Route, required: true
   attr :variant, :string, default: "default", values: ["cancelled", "default", "mode", "none"]
 
@@ -144,7 +147,7 @@ defmodule DotcomWeb.RouteComponents do
     <div class={[
       "bg-transparent #{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-5 ring-2 ring-white",
+      "size-5 ring-2 #{background_to_ring_class(@background)}",
       "flex items-center justify-items-center"
     ]}>
       <Icon.icon type="icon-svg" name="icon-cancelled" />
@@ -161,4 +164,7 @@ defmodule DotcomWeb.RouteComponents do
     ]} />
     """
   end
+
+  defp background_to_ring_class("white"), do: "ring-white"
+  defp background_to_ring_class("charcoal-90"), do: "ring-charcoal-90"
 end
