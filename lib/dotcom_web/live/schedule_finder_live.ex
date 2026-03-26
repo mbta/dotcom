@@ -652,12 +652,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class={if(index == 0, do: "font-bold")}
                 stop_pin?={index == 0}
               >
-                <div class="notranslate grow">
-                  <div>{arrival.stop_name}</div>
-                  <div :if={arrival.platform_name} class="text-sm">
-                    {arrival.platform_name}
-                  </div>
-                </div>
+                <.stop_label stop_name={arrival.stop_name} platform_name={arrival.platform_name} />
+
                 <.formatted_time time={arrival.time} />
               </.lined_list_item>
             </.lined_list>
@@ -996,9 +992,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp stop_label(assigns) do
     ~H"""
-    <div class="flex flex-wrap gap-x-2 items-center">
+    <div class="notranslate grow flex flex-wrap gap-x-2 items-center">
       <div>{@stop_name}</div>
-      <div :if={@platform_name} class="text-sm">{@platform_name}</div>
+      <div :if={@platform_name} class="text-sm">
+        {@platform_name}
+      </div>
     </div>
     """
   end
