@@ -1214,13 +1214,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
-    ~H"""
-    <.attached_callout :if={@last_trip_time.result}>
-      {gettext("Service continues until %{end_of_service}",
-        end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
-      )}
-    </.attached_callout>
-    """
+    if show_last_service?(assigns) do
+      ~H"""
+      <.attached_callout :if={@last_trip_time.result}>
+        {gettext("Service continues until %{end_of_service}",
+          end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
+        )}
+      </.attached_callout>
+      """
+    else
+      ~H""
+    end
   end
 
   defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
