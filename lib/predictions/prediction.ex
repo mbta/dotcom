@@ -19,7 +19,8 @@ defmodule Predictions.Prediction do
             schedule_relationship: nil,
             track: nil,
             status: nil,
-            departing?: false
+            departing?: false,
+            last_trip?: false
 
   @type id_t :: String.t()
   @type schedule_relationship :: nil | :added | :unscheduled | :cancelled | :skipped | :no_data
@@ -43,6 +44,7 @@ defmodule Predictions.Prediction do
           schedule_relationship: schedule_relationship,
           track: String.t() | nil,
           status: String.t() | nil,
-          departing?: boolean
+          departing?: boolean,
+          last_trip?: boolean
         }
 end
