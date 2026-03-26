@@ -2001,6 +2001,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled
     end
 
+    test "shows :scheduled_sr_only for bus if there is no prediction" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:bus_route)
+      route_id = route.id
+      stop_id = FactoryHelpers.build(:id)
+
+      trip = Factories.Schedules.Trip.build(:trip)
+      direction_id = Faker.Util.pick([0, 1])
+
+      scheduled_arrival_time =
+        Generators.DateTime.random_time_range_date_time(
+          {now, ServiceDateTime.end_of_service_day(now)}
+        )
+
+      expect(Schedules.Repo.Mock, :by_route_ids, fn
+        [^route_id], direction_id: ^direction_id, date: date ->
+          assert date == ServiceDateTime.service_date(now)
+
+          [
+            Factories.Schedules.Schedule.build(:schedule,
+              arrival_time: scheduled_arrival_time,
+              departure_time: scheduled_arrival_time |> DateTime.shift(second: 10),
+              time: scheduled_arrival_time,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            )
+          ]
+      end)
+
+      # Exercise
+      {:no_realtime, departures} =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:scheduled, scheduled_arrival_time}
+      assert departure.arrival_substatus == :scheduled_sr_only
+    end
+
     test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
