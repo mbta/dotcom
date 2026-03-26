@@ -24,7 +24,7 @@
     class="w-full flex flex-col gap-4"
   >
     <%= case @selected_match do %>
-      <% {date, label, teams, _} -> %>
+      <% {date, time, label, teams, _} -> %>
         <.button
           variant="secondary"
           class="self-start"
@@ -33,13 +33,14 @@
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
           {~t(View All Matches)}
         </.button>
-        <.selected_match_banner date={date} label={label} teams={teams} />
+        <.selected_match_banner date={date} time={time} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
           <.match_link
-            :for={{date, label, teams, _} <- @match_list}
+            :for={{date, time, label, teams, _} <- @match_list}
             date={date}
+            time={time}
             label={label}
             teams={teams}
           />
@@ -47,7 +48,7 @@
     <% end %>
   </nav>
   <div :if={@selected_match}>
-    <% {_, _, _, group_times} = @selected_match %>
+    <% {_, _, _, _, group_times} = @selected_match %>
     <h2 class="mt-0">{~t(Boarding Groups)}</h2>
     <table class="mbta-table max-w-fit">
       <thead class="bg-brand-primary-lightest-contrast">
