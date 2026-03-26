@@ -587,15 +587,4 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         :on_time
     end
   end
-
-  @spec last_trip_time(Route.id_t(), 0 | 1, DateTime.t(), Stop.id_t()) :: DateTime.t() | nil
-  def last_trip_time(route_id, direction_id, now, stop_id) do
-    route_id
-    |> predicted_schedules(direction_id, now)
-    |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Stream.reject(&end_of_trip?/1)
-    |> Stream.map(&PredictedSchedule.display_time/1)
-    |> Enum.sort(DateTime)
-    |> List.last()
-  end
 end

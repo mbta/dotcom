@@ -42,7 +42,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:direction_id, fn -> nil end)
      |> assign_new(:stop, fn -> nil end)
      |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
-     |> assign_new(:last_trip_time, fn -> nil end)
+     |> assign_new(:last_trip_time, fn -> AsyncResult.loading([]) end)
      |> assign_new(:alerts, fn -> [] end)
      |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
@@ -201,7 +201,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_stop(params)
      |> assign_alerts()
      |> assign_departures()
-     |> assign_upcoming_departures()}
+     |> assign_upcoming_departures()
+     |> assign_last_trip_time()}
   end
 
   @impl LiveView
@@ -319,10 +320,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         {:ok, %{upcoming_departures: departures}}
       end
     )
-    |> assign(
-      :last_trip_time,
-      UpcomingDepartures.last_trip_time(route.id, direction_id, now, stop_id)
-    )
   end
 
   defp assign_upcoming_departures(socket) do
@@ -344,6 +341,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
+
+  defp assign_last_trip_time(socket) do
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
+    date = DateTime.to_date(@date_time.now()) |> Date.to_string()
+    stop = socket.assigns.stop
+
+    if stop do
+      assign_async(
+        socket,
+        :last_trip_time,
+        fn ->
+          {_, departures} =
+            get_departures(route_id, direction_id, stop.id, date)
+
+          last_trip_time =
+            departures.departures
+            |> Enum.sort_by(fn departure -> departure.time end)
+            |> Enum.at(-1)
+            |> Map.get(:time)
+
+          {:ok, %{last_trip_time: last_trip_time}}
+        end,
+        reset: true
+      )
+    else
+      assign(socket, :last_trip_time, AsyncResult.ok(nil))
+    end
+  end
 
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
@@ -1166,7 +1192,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
-         last_trip_time: last_trip_time
+         last_trip_time: %{result: last_trip_time}
        })
        when remaining_departures != [] do
     last_departure = remaining_departures |> Enum.at(-1)
@@ -1199,9 +1225,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     if show_last_service?(assigns) do
       ~H"""
-      <.attached_callout :if={@last_trip_time}>
+      <.attached_callout :if={@last_trip_time.result}>
         {gettext("Scheduled service continues until %{end_of_service}",
-          end_of_service: format!(@last_trip_time, :hour_12_minutes)
+          end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
         )}
       </.attached_callout>
       """
