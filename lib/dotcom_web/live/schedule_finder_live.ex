@@ -976,11 +976,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <.stop_label stop_name={@other_stop.stop_name} platform_name={@other_stop.platform_name} />
       </div>
       <div class="ml-auto flex flex-col items-end">
-        <div class={[@highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
-          <.trip_stop_time time={@other_stop.time} />
-        </div>
-        <div :if={@other_stop.cancelled?} class="block text-sm flex items-center gap-0.5">
-          <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
+        <div class={[@highlight && "font-bold"]}>
+          <.trip_stop_time cancelled?={@other_stop.cancelled?} time={@other_stop.time} />
         </div>
       </div>
     </.lined_list_item>
@@ -997,6 +994,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <div :if={@platform_name} class="text-sm">
         {@platform_name}
       </div>
+    </div>
+    """
+  end
+
+  defp trip_stop_time(%{cancelled?: true} = assigns) do
+    ~H"""
+    <div class="block text-sm flex items-center gap-0.5">
+      <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
     </div>
     """
   end
