@@ -1217,7 +1217,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if show_last_service?(assigns) do
       ~H"""
       <.attached_callout :if={@last_trip_time.result}>
-        {gettext("Service continues until %{end_of_service}",
+        {gettext("Scheduled service continues until %{end_of_service}",
           end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
         )}
       </.attached_callout>
