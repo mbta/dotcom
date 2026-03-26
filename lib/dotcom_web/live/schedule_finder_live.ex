@@ -652,12 +652,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class={if(index == 0, do: "font-bold")}
                 stop_pin?={index == 0}
               >
-                <div class="notranslate grow">
-                  <div>{arrival.stop_name}</div>
-                  <div :if={arrival.platform_name} class="text-sm">
-                    {arrival.platform_name}
-                  </div>
-                </div>
+                <.stop_label stop_name={arrival.stop_name} platform_name={arrival.platform_name} />
+
                 <.formatted_time time={arrival.time} />
               </.lined_list_item>
             </.lined_list>
@@ -996,9 +992,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp stop_label(assigns) do
     ~H"""
-    <div class="flex flex-wrap gap-x-2 items-center">
+    <div class="notranslate grow flex flex-wrap gap-x-2 items-center">
       <div>{@stop_name}</div>
-      <div :if={@platform_name} class="text-sm">{@platform_name}</div>
+      <div :if={@platform_name} class="text-sm">
+        {@platform_name}
+      </div>
     </div>
     """
   end
@@ -1155,14 +1153,50 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp substatus_icon(assigns), do: ~H""
 
+  defp show_last_service?(%{
+         remaining_departures: remaining_departures,
+         last_trip_time: last_trip_time
+       })
+       when remaining_departures != [] do
+    last_departure = remaining_departures |> Enum.at(-1)
+
+    has_last_trip? =
+      !is_nil(
+        remaining_departures
+        |> Enum.find(nil, fn departure -> departure |> Map.get(:last_trip?, nil) end)
+      )
+
+    if(is_nil(last_departure.trip_details.stop)) do
+      true
+    else
+      {_, last_departure_time} = last_departure.trip_details.stop.time
+
+      if last_departure_time > last_trip_time or
+           last_trip_time < @date_time.now() or
+           has_last_trip? do
+        false
+      else
+        true
+      end
+    end
+  end
+
+  defp show_last_service?(_) do
+    true
+  end
+
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
-    ~H"""
-    <.attached_callout :if={@last_trip_time}>
-      {gettext("Service continues until %{end_of_service}",
-        end_of_service: format!(@last_trip_time, :hour_12_minutes)
-      )}
-    </.attached_callout>
-    """
+    if show_last_service?(assigns) do
+      ~H"""
+      <.attached_callout :if={@last_trip_time}>
+        {gettext("Scheduled service continues until %{end_of_service}",
+          end_of_service: format!(@last_trip_time, :hour_12_minutes)
+        )}
+      </.attached_callout>
+      """
+    else
+      ~H""
+    end
   end
 
   defp remaining_service(%{remaining_departures: []} = assigns), do: ~H""
