@@ -1132,7 +1132,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp prediction_substatus_display(%{arrival_substatus: :scheduled_sr_only} = assigns) do
     ~H"""
-    <span class="sr-only">Scheduled</span>
+    <span class="sr-only">{~t"Scheduled"}</span>
     """
   end
 
