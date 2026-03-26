@@ -110,6 +110,40 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    test "includes whether or not each trip is the last trip for subways" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route = Factories.Routes.Route.build(:subway_route)
+      stop_id = FactoryHelpers.build(:id)
+      trip_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      last_trip? = Faker.Util.pick([true, false])
+
+      expect(Predictions.Repo.Mock, :all, fn _opts ->
+        [
+          Factories.Predictions.Prediction.build(:prediction,
+            last_trip?: last_trip?,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
+          )
+        ]
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert departures |> Enum.map(& &1.last_trip?) == [last_trip?]
+    end
+
     test "includes trip name, platform name, and detailed arrival status for commuter rail departures" do
       # Setup
       now = Dotcom.Utils.DateTime.now()

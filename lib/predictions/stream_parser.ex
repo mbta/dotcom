@@ -46,7 +46,8 @@ defmodule Predictions.StreamParser do
       schedule_relationship: Parser.schedule_relationship(item),
       status: Parser.status(item),
       track: track,
-      vehicle_id: vehicle_id(item)
+      vehicle_id: vehicle_id(item),
+      last_trip?: Parser.last_trip?(item)
     }
   end
 

@@ -191,6 +191,15 @@ defmodule PredictedSchedule do
   def route(%PredictedSchedule{prediction: %Prediction{route: route}}), do: route
 
   @doc """
+  Returns whether or not the given PredictedSchedule is the last trip.
+  """
+  @spec last_trip?(PredictedSchedule.t()) :: boolean()
+  def last_trip?(%PredictedSchedule{prediction: %Prediction{last_trip?: last_trip?}}),
+    do: last_trip?
+
+  def last_trip?(%PredictedSchedule{}), do: false
+
+  @doc """
   Returns the trip for a given PredictedSchedule.
   """
   @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil

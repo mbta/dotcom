@@ -20,7 +20,8 @@ defmodule Predictions.Parser do
           String.t() | nil,
           String.t() | nil,
           boolean,
-          Vehicles.Vehicle.id_t() | nil
+          Vehicles.Vehicle.id_t() | nil,
+          boolean
         }
 
   @spec parse(Item.t()) :: record
@@ -43,7 +44,8 @@ defmodule Predictions.Parser do
       track(item),
       status(item),
       departing?(item),
-      vehicle_id(item)
+      vehicle_id(item),
+      last_trip?(item)
     }
   end
 
@@ -97,6 +99,10 @@ defmodule Predictions.Parser do
   @spec stop_sequence(Item.t()) :: non_neg_integer()
   def stop_sequence(%Item{attributes: %{"stop_sequence" => stop_sequence}}), do: stop_sequence
   def stop_sequence(_), do: 0
+
+  @spec last_trip?(Item.t()) :: boolean()
+  def last_trip?(%Item{attributes: %{"last_trip" => last_trip?}}), do: last_trip?
+  def last_trip?(_), do: false
 
   @spec track(Item.t()) :: String.t() | nil
   def track(%{attributes: %{"track" => track}}), do: track

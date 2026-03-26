@@ -134,8 +134,8 @@ defmodule Predictions.Repo do
 
   defp has_departure_time?(
          {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
-          _stop_sequence, _schedule_relationship, _track, _status, _departing?, _vehicle_id} =
-           _prediction
+          _stop_sequence, _schedule_relationship, _track, _status, _departing?, _vehicle_id,
+          _last_trip?} = _prediction
        ) do
     departure != nil
   end
@@ -159,7 +159,8 @@ defmodule Predictions.Repo do
            _track,
            _status,
            _departing?,
-           _vehicle_id
+           _vehicle_id,
+           _last_trip?
          },
          %DateTime{}
        ) do
@@ -181,7 +182,8 @@ defmodule Predictions.Repo do
            _track,
            _status,
            _departing?,
-           _vehicle_id
+           _vehicle_id,
+           _last_trip?
          },
          min_time
        ) do
@@ -200,13 +202,13 @@ defmodule Predictions.Repo do
     |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
   end
 
-  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _}, _opts) do
+  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _, _}, _opts) do
     # no stop ID
     []
   end
 
   defp record_to_structs(
-         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record,
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _} = record,
          opts
        ) do
     discard_past_subway_predictions = opts |> Keyword.get(:discard_past_subway_predictions, true)
@@ -227,7 +229,7 @@ defmodule Predictions.Repo do
 
   defp do_record_to_structs(
          nil,
-         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _} = record
        ) do
     :ok =
       Logger.error(
@@ -240,7 +242,8 @@ defmodule Predictions.Repo do
   defp do_record_to_structs(
          %Stop{} = stop,
          {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time,
-          time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id}
+          time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id,
+          last_trip?}
        ) do
     trip =
       if trip_id do
@@ -265,7 +268,8 @@ defmodule Predictions.Repo do
         track: track,
         status: status,
         departing?: departing?,
-        vehicle_id: vehicle_id
+        vehicle_id: vehicle_id,
+        last_trip?: last_trip?
       }
     ]
   end
