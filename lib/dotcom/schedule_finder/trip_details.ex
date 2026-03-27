@@ -151,11 +151,16 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   defp platform_name(predicted_schedule) do
     %Route{type: route_type} = PredictedSchedule.route(predicted_schedule)
 
+    stop_id =
+      predicted_schedule
+      |> PredictedSchedule.stop()
+      |> Map.get(:id)
+
     predicted_schedule
     |> PredictedSchedule.platform_stop_id()
     |> @stops_repo.get()
     |> Kernel.then(& &1.platform_name)
-    |> ScheduleFinder.simplify_platform_name(route_type)
+    |> ScheduleFinder.platform_name_for_stop(route_type, stop_id)
   end
 
   defp vehicle_info(nil, [

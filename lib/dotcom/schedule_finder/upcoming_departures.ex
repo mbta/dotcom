@@ -60,6 +60,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             nil
             | :on_time
             | :scheduled
+            | :scheduled_sr_only
             | {:scheduled_at, DateTime.t()}
             | {:status, String.t()}
 
@@ -300,7 +301,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type
         }),
       headsign: trip.headsign,
-      last_trip?: false,
+      last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: PredictedSchedule.route(predicted_schedule),
       stop_sequence: stop_sequence,
@@ -409,7 +410,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: route_type
        })
        when schedule_relationship in [:cancelled, :skipped] and
-              route_type in [:bus, :commuter_rail] do
+              route_type != :subway do
     {:cancelled, schedule.departure_time}
   end
 
@@ -530,6 +531,20 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type()
         }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{schedule_relationship: relationship}
+         }
+       })
+       when relationship in [:skipped, :cancelled], do: relationship
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{prediction: nil},
+         route_type: :bus
+       }),
+       do: :scheduled_sr_only
+
   defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
 
   defp arrival_substatus(%{
@@ -571,16 +586,5 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       true ->
         :on_time
     end
-  end
-
-  @spec last_trip_time(Route.id_t(), 0 | 1, DateTime.t(), Stop.id_t()) :: DateTime.t() | nil
-  def last_trip_time(route_id, direction_id, now, stop_id) do
-    route_id
-    |> predicted_schedules(direction_id, now)
-    |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Stream.reject(&end_of_trip?/1)
-    |> Stream.map(&PredictedSchedule.display_time/1)
-    |> Enum.sort(DateTime)
-    |> List.last()
   end
 end

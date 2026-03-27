@@ -4,7 +4,7 @@ defmodule Dotcom.ScheduleFinderTest do
   import Dotcom.ScheduleFinder
   import Mox
 
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
 
   alias Test.Support.Factories.{
     Routes.Route,
@@ -147,6 +147,46 @@ defmodule Dotcom.ScheduleFinderTest do
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
       assert %FutureArrival{} = List.first(arrivals)
+    end
+  end
+
+  describe "platform_name_for_stop/3" do
+    test "hides platform names for subway" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :subway, stop_id) == nil
+    end
+
+    test "shows platform names for ferry" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :ferry, stop_id) == platform_name
+    end
+
+    test "shows platform names for busways only" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+      stop_id_outside_allowlist = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :bus, stop_id) == platform_name
+      assert platform_name_for_stop(platform_name, :bus, stop_id_outside_allowlist) == nil
+    end
+
+    test "shows commuter rail tracks only at tracked stations" do
+      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+      stop_id_outside_allowlist = Faker.Pokemon.location()
+
+      assert platform_name_for_stop("Commuter Rail - #{platform_name}", :commuter_rail, stop_id) ==
+               platform_name
+
+      assert platform_name_for_stop(
+               "Commuter Rail - #{platform_name}",
+               :commuter_rail,
+               stop_id_outside_allowlist
+             ) == nil
     end
   end
 

@@ -3,7 +3,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
   import Mox
 
-  alias Dotcom.ScheduleFinder.TripDetails
+  alias Dotcom.ScheduleFinder.{Platforms, TripDetails}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
@@ -100,10 +100,12 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     test "includes platform_names for bus routes in stops when applicable" do
       trip = Factories.Schedules.Trip.build(:trip)
       route = Factories.Routes.Route.build(:bus_route)
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
 
       platform_name = Faker.Pizza.sauce()
       platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
       platform_stop_id = platform_stop.id
+      stop = Factories.Stops.Stop.build(:stop, id: stop_id)
 
       stub(Stops.Repo.Mock, :get, fn
         ^platform_stop_id -> platform_stop
@@ -117,12 +119,14 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
               Factories.Predictions.Prediction.build(:prediction,
                 platform_stop_id: platform_stop_id,
                 route: route,
+                stop: stop,
                 trip: trip
               ),
             schedule:
               Factories.Schedules.Schedule.build(
                 :schedule,
                 route: route,
+                stop: stop,
                 trip: trip
               )
           }
@@ -136,6 +140,90 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
       assert [trip_stop] = trip_details.stops
       assert trip_stop.platform_name == platform_name
+    end
+
+    test "hides bus platform names for stops outside allowlist" do
+      trip = Factories.Schedules.Trip.build(:trip)
+      route = Factories.Routes.Route.build(:bus_route)
+      stop_id = Faker.Pokemon.location()
+
+      platform_name = Faker.Pizza.sauce()
+      platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+      platform_stop_id = platform_stop.id
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_stop_id -> platform_stop
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      predicted_schedules = [
+        %PredictedSchedule{
+          prediction:
+            Factories.Predictions.Prediction.build(:prediction,
+              platform_stop_id: platform_stop_id,
+              route: route,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            ),
+          schedule:
+            Factories.Schedules.Schedule.build(:schedule,
+              route: route,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            )
+        }
+      ]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: nil
+        })
+
+      assert [trip_stop] = trip_details.stops
+      assert trip_stop.platform_name == nil
+    end
+
+    test "hides commuter rail platform names for stops outside allowlist" do
+      trip = Factories.Schedules.Trip.build(:trip)
+      route = Factories.Routes.Route.build(:commuter_rail_route)
+      stop_id = Faker.Pokemon.location()
+
+      platform_name = Faker.Pizza.sauce()
+      platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+      platform_stop_id = platform_stop.id
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_stop_id -> platform_stop
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      predicted_schedules = [
+        %PredictedSchedule{
+          prediction:
+            Factories.Predictions.Prediction.build(:prediction,
+              platform_stop_id: platform_stop_id,
+              route: route,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            ),
+          schedule:
+            Factories.Schedules.Schedule.build(:schedule,
+              route: route,
+              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+              trip: trip
+            )
+        }
+      ]
+
+      trip_details =
+        TripDetails.trip_details(%{
+          predicted_schedules: predicted_schedules,
+          trip_vehicle: nil
+        })
+
+      assert [trip_stop] = trip_details.stops
+      assert trip_stop.platform_name == nil
     end
 
     test "does not include platform_names for subway routes" do
@@ -305,10 +393,16 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     test "includes vehicle status and stop info for non-subway routes" do
       platform_name = Faker.Pizza.sauce()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route = Factories.Routes.Route.build(:bus_route)
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
 
-      stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
-      stop_id = stop.id
+      stop =
+        Factories.Stops.Stop.build(:stop,
+          id: stop_id,
+          parent_id: nil,
+          platform_name: platform_name
+        )
+
       trip = Factories.Schedules.Trip.build(:trip)
 
       stub(Stops.Repo.Mock, :get, fn
@@ -321,9 +415,11 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
           Factories.Predictions.Prediction.build(:prediction,
             platform_stop_id: stop_id,
             route: route,
+            stop: stop,
             trip: trip
           ),
-        schedule: Factories.Schedules.Schedule.build(:schedule, route: route, trip: trip)
+        schedule:
+          Factories.Schedules.Schedule.build(:schedule, route: route, stop: stop, trip: trip)
       }
 
       upcoming_predicted_schedules =
@@ -405,7 +501,9 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       origin_platform_stop_id = FactoryHelpers.build(:id)
       platform_stop_ids = [origin_platform_stop_id, nil, nil]
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route = Factories.Routes.Route.build(:bus_route)
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      stop = Factories.Stops.Stop.build(:stop, id: stop_id)
       now = Dotcom.Utils.DateTime.now()
 
       platform_name = Faker.Pizza.sauce()
@@ -429,7 +527,8 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
                 :schedule,
                 arrival_time: arrival_time,
                 platform_stop_id: platform_stop_id,
-                route: route
+                route: route,
+                stop: stop
               )
           }
         end)
@@ -551,13 +650,14 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     end
 
     test "non-subway `:waiting_to_depart` trips include platform names" do
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route = Factories.Routes.Route.build(:bus_route)
 
       platform_name = Faker.Pizza.sauce()
       platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
       platform_stop_id = platform_stop.id
 
-      origin_stop = Factories.Stops.Stop.build(:stop, parent_id: nil)
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      origin_stop = Factories.Stops.Stop.build(:stop, id: stop_id, parent_id: nil)
       origin_stop_id = origin_stop.id
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -586,7 +686,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
             trip: trip,
             vehicle_id: vehicle.id
           ),
-        schedule: Factories.Schedules.Schedule.build(:schedule, route: route)
+        schedule: Factories.Schedules.Schedule.build(:schedule, route: route, stop: origin_stop)
       }
 
       upcoming_predicted_schedules =
