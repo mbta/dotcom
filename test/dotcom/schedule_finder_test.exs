@@ -441,9 +441,11 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name("Commuter Rail - " <> actual_name, route_type) == actual_name
     end
 
-    test "returns nil for commuter rail platforms with 'All Trains' in the name" do
+    test "returns Track 1 for commuter rail platforms with 'All Trains' in the name" do
       route_type = Faker.Util.pick([2, :commuter_rail])
-      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", route_type) == nil
+
+      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", route_type) ==
+               "Track 1"
     end
 
     test "returns nil for ferry platforms with 'Ferry' in the name" do
