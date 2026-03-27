@@ -237,10 +237,10 @@ defmodule Dotcom.ScheduleFinder do
 
   def simplify_platform_name(name, route_type)
       when route_type in [2, :commuter_rail] do
-    if not String.contains?(name, "All Trains") do
-      name
-    else
+    if String.contains?(name, "All Trains") do
       "Track 1"
+    else
+      name
     end
   end
 
