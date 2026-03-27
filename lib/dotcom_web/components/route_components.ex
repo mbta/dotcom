@@ -76,7 +76,7 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :variant, :string,
     default: "default",
-    values: ["cancelled", "default", "mode", "none"],
+    values: ["cancelled", "default", "mode", "none", "squiggle"],
     doc:
       "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
         "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
@@ -115,7 +115,10 @@ defmodule DotcomWeb.RouteComponents do
 
   attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["cancelled", "default", "mode", "none"]
+
+  attr :variant, :string,
+    default: "default",
+    values: ["cancelled", "default", "mode", "none", "squiggle"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -155,6 +158,19 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  defp lined_list_marker(%{variant: "squiggle"} = assigns) do
+    ~H"""
+    <div class={[
+      "#{route_to_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-5 #{background_to_bg_class(@background)}",
+      "flex items-center justify-items-center"
+    ]}>
+      <Icon.icon type="icon-svg" name="icon-squiggle" />
+    </div>
+    """
+  end
+
   defp lined_list_marker(assigns) do
     ~H"""
     <div class={[
@@ -167,4 +183,7 @@ defmodule DotcomWeb.RouteComponents do
 
   defp background_to_ring_class("white"), do: "ring-white"
   defp background_to_ring_class("charcoal-90"), do: "ring-charcoal-90"
+
+  defp background_to_bg_class("white"), do: "bg-white"
+  defp background_to_bg_class("charcoal-90"), do: "bg-charcoal-90"
 end

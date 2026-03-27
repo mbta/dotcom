@@ -840,17 +840,34 @@ defmodule DotcomWeb.ScheduleFinderLive do
               class="group/details"
             >
               <summary class="cursor-pointer bg-charcoal-90">
-                <.lined_list_item route={upcoming_departure.route} variant="none">
+                <.lined_list_item
+                  background="charcoal-90"
+                  class="group-open/details:hidden"
+                  route={upcoming_departure.route}
+                  variant="squiggle"
+                >
                   <div class="grow">
-                    <span class="text-[0.75rem] underline group-open/details:hidden">
+                    <span class="text-[0.75rem] underline">
                       {~t"Show more stops"}
                     </span>
-                    <span class="text-[0.75rem] underline hidden group-open/details:block">
+                  </div>
+                  <div class="shrink-0">
+                    <.icon name="chevron-down" class="h-3 w-3" />
+                  </div>
+                </.lined_list_item>
+                <.lined_list_item
+                  background="charcoal-90"
+                  class="hidden group-open/details:flex"
+                  route={upcoming_departure.route}
+                  variant="none"
+                >
+                  <div class="grow">
+                    <span class="text-[0.75rem] underline">
                       {~t"Show fewer stops"}
                     </span>
                   </div>
                   <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3 group-open/details:rotate-180" />
+                    <.icon name="chevron-down" class="h-3 w-3 rotate-180" />
                   </div>
                 </.lined_list_item>
               </summary>

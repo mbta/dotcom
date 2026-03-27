@@ -1,0 +1,38 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  role="img"
+  viewBox="0 0 10 10"
+>
+  <path
+    fill="none"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M 2,4.5 L 8,5.5"
+  />
+  <path
+    fill="none"
+    stroke="black"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="25%"
+    d="M 2,4.5 L 8,5.5"
+  />
+  <path
+    fill="none"
+    stroke="fillColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M 5,0 Q 5,1.5 3.5,3 T 2,4.5"
+  />
+  <path
+    fill="none"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M 5,10 Q 5,8.5 6.5,7 T 8,5.5"
+  />
+</svg>

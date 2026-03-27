@@ -127,8 +127,11 @@ defmodule DotCom.Mixfile do
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      # {:mbta_metro, path: "../mbta_metro", runtime: false},
-      {:mbta_metro, "1.1.2", runtime: false},
+      {:mbta_metro,
+       github: "mbta/mbta_metro",
+       branch: "jdl/feat/set-stroke-color-on-mbta-route-classes",
+       runtime: false},
+      # {:mbta_metro, "1.1.2", runtime: false},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
