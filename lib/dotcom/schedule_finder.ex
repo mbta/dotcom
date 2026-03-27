@@ -239,6 +239,8 @@ defmodule Dotcom.ScheduleFinder do
       when route_type in [2, :commuter_rail] do
     if not String.contains?(name, "All Trains") do
       name
+    else
+      "Track 1"
     end
   end
 
