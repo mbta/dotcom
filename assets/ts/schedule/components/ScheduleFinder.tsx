@@ -92,8 +92,6 @@ const ScheduleFinder = ({
       <ScheduleFinderForm
         onDirectionChange={changeDirection}
         onOriginChange={changeOrigin}
-        onOriginSelectClick={openOriginModal}
-        onSubmit={openScheduleModal}
         route={route}
         selectedDirection={currentDirection}
         selectedOrigin={selectedOrigin}

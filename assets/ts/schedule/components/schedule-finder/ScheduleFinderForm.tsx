@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
 import { DirectionId, DirectionInfo, Route } from "../../../__v3api";
@@ -14,8 +14,6 @@ const validDirections = (directionInfo: DirectionInfo): DirectionId[] =>
 interface Props {
   onDirectionChange: (direction: DirectionId, dispatch: Dispatch) => void;
   onOriginChange: (origin: SelectedOrigin, dispatch: Dispatch) => void;
-  onOriginSelectClick: (dispatch: Dispatch) => void;
-  onSubmit?: () => void;
   route: Route;
   selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin;
@@ -25,8 +23,6 @@ interface Props {
 const ScheduleFinderForm = ({
   onDirectionChange,
   onOriginChange,
-  onSubmit = () => {},
-  onOriginSelectClick,
   route,
   selectedDirection,
   selectedOrigin,
@@ -38,24 +34,6 @@ const ScheduleFinderForm = ({
   } = route;
 
   const dispatch = useDispatch();
-
-  const [originError, setOriginError] = useState(false);
-
-  const handleOriginClick = (): void => {
-    setOriginError(false);
-    onOriginSelectClick(dispatch);
-  };
-
-  const handleSubmit = (event: FormEvent): void => {
-    event.preventDefault();
-
-    if (!selectedOrigin) {
-      setOriginError(true);
-    } else {
-      setOriginError(false);
-      onSubmit();
-    }
-  };
 
   const directionNameForId = (
     direction: DirectionId
@@ -75,12 +53,6 @@ const ScheduleFinderForm = ({
             ? `Get schedule information for your next ${route.name} trip.`
             : "Choose a stop to get schedule information and real-time departure predictions."}
         </div>
-
-        {originError && (
-          <div className="error-container">
-            <span role="alert">Please provide an origin</span>
-          </div>
-        )}
 
         <div className="schedule-finder__inputs">
           <label className="schedule-finder__label">
@@ -113,9 +85,7 @@ const ScheduleFinderForm = ({
 
           <label className="schedule-finder__label">
             Choose an origin stop
-            <SelectContainer
-              error={originError}
-            >
+            <SelectContainer>
               <select
                 name="stop_id"
                 data-testid="schedule-finder-origin-select"
