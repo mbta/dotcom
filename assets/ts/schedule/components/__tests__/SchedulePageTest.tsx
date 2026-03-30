@@ -11,8 +11,7 @@ import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import {
   SchedulePage,
   changeOrigin,
-  changeDirection,
-  handleOriginSelectClick
+  changeDirection
 } from "../SchedulePage";
 import * as schedulePage from "../SchedulePage";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
@@ -732,7 +731,7 @@ describe("SchedulePage", () => {
     );
   });
 
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
+  /*it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
     const user = userEvent.setup();
     const changeOriginSpy = jest.spyOn(schedulePage, "handleOriginSelectClick");
 
@@ -780,7 +779,7 @@ describe("SchedulePage", () => {
     await waitFor(() =>
       expect(changeOriginSpy).toHaveBeenCalledWith(expect.any(Function))
     );
-  });
+  });*/
 
   it("Changes the origin", async () => {
     const user = userEvent.setup();
@@ -993,7 +992,7 @@ describe("SchedulePage", () => {
     });
   });
 
-  describe("handleOriginSelectClick", () => {
+  /*describe("handleOriginSelectClick", () => {
     it("should call the dispatch function setting the new direction in the state", () => {
       const dispatchSpy = jest.fn();
       handleOriginSelectClick(dispatchSpy);
@@ -1004,5 +1003,5 @@ describe("SchedulePage", () => {
         }
       });
     });
-  });
+  });*/
 });

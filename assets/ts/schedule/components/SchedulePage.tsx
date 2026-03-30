@@ -81,15 +81,6 @@ const closeModal = (dispatch: Dispatch): void => {
   updateURL("");
 };
 
-export const handleOriginSelectClick = (dispatch: Dispatch): void => {
-  dispatch({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: "origin"
-    }
-  });
-};
-
 const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   mapData: MapData,
@@ -232,7 +223,6 @@ const ScheduleNote = ({
           closeModal={closeModal}
           directionChanged={changeDirection}
           initialDirection={currentDirection}
-          handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}

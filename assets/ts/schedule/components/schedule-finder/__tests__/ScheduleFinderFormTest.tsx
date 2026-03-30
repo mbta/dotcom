@@ -95,8 +95,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
-        onOriginSelectClick={noCall}
-        onSubmit={noCall}
         route={oneDirectionRoute}
         selectedDirection={0}
         selectedOrigin={null}
@@ -116,8 +114,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
-        onOriginSelectClick={noCall}
-        onSubmit={submitted}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
@@ -141,8 +137,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
-        onOriginSelectClick={noCall}
-        onSubmit={submitted}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
@@ -159,8 +153,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
-        onOriginSelectClick={noCall}
-        onSubmit={submitted}
         route={route}
         selectedDirection={0}
         selectedOrigin={"123"}
@@ -184,11 +176,11 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
-        onOriginSelectClick={originClicked}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
         stopsByDirection={stops}
+        
       />
     );
 
@@ -214,8 +206,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={directionChanged}
         onOriginChange={originChanged}
-        onOriginSelectClick={() => {}}
-        onSubmit={noCall}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
@@ -245,8 +235,6 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={() => {}}
         onOriginChange={() => {}}
-        onOriginSelectClick={originSpy}
-        onSubmit={noCall}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
