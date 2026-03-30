@@ -1115,8 +1115,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <.icon
         type="icon-svg"
         name="icon-realtime-tracking"
-        width="0.8em"
-        height="0.8em"
+        class="size-3"
       />
       {render_slot(@inner_block)}
     </span>
