@@ -113,7 +113,7 @@ const ScheduleFinderForm = ({
 
           <label className="schedule-finder__label">
             Choose an origin stop
-          <SelectContainer
+            <SelectContainer
               error={originError}
             >
               <select
