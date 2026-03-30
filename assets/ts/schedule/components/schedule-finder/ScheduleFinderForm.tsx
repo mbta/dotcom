@@ -63,10 +63,10 @@ const ScheduleFinderForm = ({
   ${directionDestinations[direction]!}`;
 
   const isFerryRoute = routeToModeName(route) === "ferry";
-
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form action="/departures/" method="get">
+        <input type="hidden" name="route_id" value={route.id || ""} />
         <h2 className="schedule-finder__heading">
           {renderSvg("c-svg__icon", icon, true)} Schedule Finder
         </h2>
@@ -90,6 +90,7 @@ const ScheduleFinderForm = ({
                 data-testid="schedule-finder-direction-select"
                 className="c-select-custom notranslate"
                 value={selectedDirection}
+                name="direction_id"
                 onChange={e =>
                   onDirectionChange(
                     parseInt(e.target.value, 10) as DirectionId,
@@ -112,13 +113,13 @@ const ScheduleFinderForm = ({
 
           <label className="schedule-finder__label">
             Choose an origin stop
-            <SelectContainer
+          <SelectContainer
               error={originError}
-              handleClick={handleOriginClick}
             >
               <select
+                name="stop_id"
                 data-testid="schedule-finder-origin-select"
-                className="c-select-custom c-select-custom--noclick notranslate"
+                className="c-select-custom notranslate"
                 value={selectedOrigin || ""}
                 onChange={e => onOriginChange(e.target.value || null, dispatch)}
               >
@@ -138,6 +139,7 @@ const ScheduleFinderForm = ({
             className="btn btn-primary"
             type="submit"
             value="Get schedules"
+            disabled={!selectedOrigin}
           />
         </div>
       </form>

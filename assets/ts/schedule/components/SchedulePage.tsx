@@ -57,13 +57,6 @@ export const changeOrigin = (
       selectedOrigin: origin
     }
   });
-  // reopen modal depending on choice:
-  dispatch({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: origin ? "schedule" : "origin"
-    }
-  });
 };
 
 export const changeDirection = (
