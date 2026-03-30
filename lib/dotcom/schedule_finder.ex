@@ -237,8 +237,8 @@ defmodule Dotcom.ScheduleFinder do
 
   def simplify_platform_name(name, route_type)
       when route_type in [2, :commuter_rail] do
-    if String.contains?(name, "All Trains") do
-      "Track 1"
+    if String.contains?(name, " (All Trains)") do
+      Regex.run(~r/(.*) \(All Trains\)/, name) |> Enum.at(1)
     else
       name
     end
