@@ -1112,7 +1112,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_display(assigns) do
     ~H"""
     <span class="font-bold text-nowrap">
-      <.icon type="icon-svg" name="icon-realtime-tracking" />
+      <.icon
+        type="icon-svg"
+        name="icon-realtime-tracking"
+        width="0.8em"
+        height="0.8em"
+      />
       {render_slot(@inner_block)}
     </span>
     """
