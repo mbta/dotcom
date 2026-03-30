@@ -20,10 +20,11 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     :suriname
   ]
 
-  attr :date, :string, required: true
+  attr :date, Date, required: true
   attr :selected, :boolean, default: false
   attr :label, :string, required: true
   attr :teams, :any, required: true
+  attr :time, Time, required: true
 
   def match_link(assigns) do
     ~H"""
