@@ -108,28 +108,42 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get the beginning of the service day for the given date_time.
   """
   @spec beginning_of_service_day() :: DateTime.t()
-  @spec beginning_of_service_day(DateTime.t()) :: DateTime.t()
-  def beginning_of_service_day(date_time \\ @date_time_module.now()) do
-    date_time
-    |> service_date()
+  @spec beginning_of_service_day(Date.t() | DateTime.t()) :: DateTime.t()
+  def beginning_of_service_day(date_time \\ @date_time_module.now())
+
+  def beginning_of_service_day(%Date{} = date) do
+    date
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour)
+  end
+
+  def beginning_of_service_day(%DateTime{} = date_time) do
+    date_time
+    |> service_date()
+    |> beginning_of_service_day()
   end
 
   @doc """
   Get the end of the service day for the given date_time.
   """
   @spec end_of_service_day() :: DateTime.t()
-  @spec end_of_service_day(DateTime.t()) :: DateTime.t()
-  def end_of_service_day(date_time \\ @date_time_module.now()) do
-    date_time
-    |> service_date()
+  @spec end_of_service_day(Date.t() | DateTime.t()) :: DateTime.t()
+  def end_of_service_day(date_time \\ @date_time_module.now())
+
+  def end_of_service_day(%Date{} = date) do
+    date
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_date_time()
     |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
     |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour - 1)
+  end
+
+  def end_of_service_day(%DateTime{} = date_time) do
+    date_time
+    |> service_date()
+    |> end_of_service_day()
   end
 
   @doc """
