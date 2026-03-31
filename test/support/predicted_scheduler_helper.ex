@@ -1,5 +1,6 @@
 defmodule Test.Support.PredictedScheduleHelper do
   alias Dotcom.Utils.ServiceDateTime
+  alias Predictions.Prediction
   alias Test.Support.{Factories, FactoryHelpers, Generators}
 
   def journey(opts \\ []) do
@@ -7,6 +8,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
     seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
+    skipped_stops = opts |> Keyword.get(:skipped_stops, []) |> MapSet.new()
     stop_count = opts |> Keyword.get(:stop_count, 3)
     stop_id_options = opts |> Keyword.get(:stop_id_options, nil)
     vehicle_stop_index = opts |> Keyword.get(:vehicle_stop_index, 1)
@@ -92,17 +94,22 @@ defmodule Test.Support.PredictedScheduleHelper do
         prediction_statuses,
         platform_stop_ids
       ])
-      |> Enum.map(fn {stop, arrival_time, departure_time, stop_sequence, status, platform_stop_id} ->
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: arrival_time,
-          departure_time: departure_time,
-          last_trip?: last_trip?,
-          platform_stop_id: platform_stop_id,
-          route: route,
-          status: status,
-          stop: stop,
-          stop_sequence: stop_sequence,
-          trip: trip
+      |> Enum.with_index(fn {stop, arrival_time, departure_time, stop_sequence, status,
+                             platform_stop_id},
+                            index ->
+        build_prediction(
+          %{
+            arrival_time: arrival_time,
+            departure_time: departure_time,
+            last_trip?: last_trip?,
+            platform_stop_id: platform_stop_id,
+            route: route,
+            status: status,
+            stop: stop,
+            stop_sequence: stop_sequence,
+            trip: trip
+          },
+          %{skipped?: MapSet.member?(skipped_stops, index)}
         )
       end)
 
@@ -131,5 +138,21 @@ defmodule Test.Support.PredictedScheduleHelper do
       trip_id: trip.id,
       vehicle: vehicle
     }
+  end
+
+  defp build_prediction(args, %{skipped?: false}) do
+    Factories.Predictions.Prediction.build(:prediction, args)
+  end
+
+  defp build_prediction(args, %{skipped?: true}) do
+    Factories.Predictions.Prediction.build(
+      :prediction,
+      args
+      |> Map.merge(%{
+        arrival_time: nil,
+        departure_time: nil,
+        schedule_relationship: :skipped
+      })
+    )
   end
 end
