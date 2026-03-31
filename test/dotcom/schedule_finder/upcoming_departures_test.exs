@@ -622,50 +622,32 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert [%UpcomingDepartures.UpcomingDeparture{} | _] = departures
     end
 
-    test "OLD - uses departure time for scheduled trips when arrival time is nil" do
+    test "uses departure time for scheduled trips for the first stop, when arrival time is nil" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        scheduled_departure_times: [departure_time, _, _],
+        route: route,
+        schedules: schedules,
+        stops: [stop, _, _]
+      } =
+        PredictedScheduleHelper.journey(route_types: [:bus_route, :commuter_rail_route])
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
-      route_id = route.id
-      stop_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      trip_id = FactoryHelpers.build(:id)
-
-      departure_time =
-        Generators.DateTime.random_time_range_date_time(
-          {now, ServiceDateTime.end_of_service_day(now)}
-        )
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
-          assert date == ServiceDateTime.service_date(now)
-
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: nil,
-              departure_time: departure_time,
-              time: departure_time,
-              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-              trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-            )
-          ]
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
+      # stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
       # Exercise
-      {:no_realtime, departures} =
+      departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(departure_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
-      assert departures |> Enum.map(& &1.arrival_status) == [
-               {:scheduled, departure_time}
-             ]
+      assert {:no_realtime, [departure]} = departures
+      assert departure.arrival_status == {:scheduled, departure_time}
     end
 
     test "OLD - favors prediction over schedules if both are present for bus" do

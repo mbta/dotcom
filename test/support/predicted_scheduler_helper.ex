@@ -18,20 +18,6 @@ defmodule Test.Support.PredictedScheduleHelper do
 
     trip = Factories.Schedules.Trip.build(:trip)
 
-    predicted_times =
-      Faker.Util.sample_uniq(stop_count, fn ->
-        Generators.DateTime.random_time_range_date_time({
-          ServiceDateTime.beginning_of_service_day(today),
-          ServiceDateTime.end_of_service_day(today)
-        })
-      end)
-      |> Enum.sort(DateTime)
-
-    predicted_arrival_times = predicted_times |> List.replace_at(0, nil)
-
-    predicted_departure_times =
-      predicted_times |> Enum.map(&DateTime.shift(&1, second: 30)) |> List.replace_at(-1, nil)
-
     stop_id_fn =
       case stop_id_options do
         nil -> fn -> FactoryHelpers.build(:id) end
@@ -44,6 +30,48 @@ defmodule Test.Support.PredictedScheduleHelper do
       |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
     stop_sequences = Faker.Util.sample_uniq(stop_count, fn -> Faker.random_between(1, 10_000) end)
+    platform_stop_ids = stop_count |> Faker.Util.sample_uniq(fn -> FactoryHelpers.build(:id) end)
+
+    scheduled_times =
+      Faker.Util.sample_uniq(stop_count, fn ->
+        Generators.DateTime.random_time_range_date_time({
+          ServiceDateTime.beginning_of_service_day(today),
+          ServiceDateTime.end_of_service_day(today)
+        })
+      end)
+      |> Enum.sort(DateTime)
+
+    scheduled_arrival_times = scheduled_times |> List.replace_at(0, nil)
+
+    scheduled_departure_times =
+      scheduled_times |> Enum.map(&DateTime.shift(&1, second: 30)) |> List.replace_at(-1, nil)
+
+    schedules =
+      Enum.zip([
+        stops,
+        scheduled_arrival_times,
+        scheduled_departure_times,
+        stop_sequences,
+        platform_stop_ids
+      ])
+      |> Enum.map(fn {stop, arrival_time, departure_time, stop_sequence, platform_stop_id} ->
+        Factories.Schedules.Schedule.build(:schedule,
+          arrival_time: arrival_time,
+          departure_time: departure_time,
+          platform_stop_id: platform_stop_id,
+          route: route,
+          stop: stop,
+          stop_sequence: stop_sequence,
+          trip: trip
+        )
+      end)
+
+    predicted_times = scheduled_times
+
+    predicted_arrival_times = predicted_times |> List.replace_at(0, nil)
+
+    predicted_departure_times =
+      predicted_times |> Enum.map(&DateTime.shift(&1, second: 30)) |> List.replace_at(-1, nil)
 
     prediction_statuses =
       cond do
@@ -53,8 +81,6 @@ defmodule Test.Support.PredictedScheduleHelper do
         true ->
           1..stop_count |> Enum.map(fn _ -> nil end)
       end
-
-    platform_stop_ids = stop_count |> Faker.Util.sample_uniq(fn -> FactoryHelpers.build(:id) end)
 
     predictions =
       Enum.zip([
@@ -95,10 +121,12 @@ defmodule Test.Support.PredictedScheduleHelper do
       prediction_statuses: prediction_statuses,
       predictions: predictions,
       route: route,
+      scheduled_departure_times: scheduled_departure_times,
+      schedules: schedules,
       stop_sequences: stop_sequences,
       stops: stops,
-      trip_id: trip.id,
       trip: trip,
+      trip_id: trip.id,
       vehicle: vehicle
     }
   end
