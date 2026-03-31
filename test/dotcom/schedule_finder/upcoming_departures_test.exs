@@ -342,7 +342,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_name == nil
     end
 
-    test "OLD - includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
+    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -409,7 +409,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "OLD - returns the scheduled time for the first trip for subway if there are no predictions and it's before the first trip of the day" do
+    test "returns the scheduled time for the first trip for subway if there are no predictions and it's before the first trip of the day" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -455,7 +455,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:first_scheduled, scheduled_arrival_time}
     end
 
-    test "OLD - does not return :before_service if there are no predictions if it's after the first trip of the day" do
+    test "does not return :before_service if there are no predictions if it's after the first trip of the day" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -511,7 +511,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute match?({:before_service, _}, departures)
     end
 
-    test "OLD - returns :no_realtime if only subway schedules" do
+    test "returns :no_realtime if only subway schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -563,7 +563,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :no_realtime
     end
 
-    test "OLD - returns :no_realtime with departures if bus/commuter rail schedules" do
+    test "returns :no_realtime with departures if bus/commuter rail schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
