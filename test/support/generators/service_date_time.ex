@@ -3,7 +3,7 @@ defmodule Test.Support.Generators.ServiceDateTime do
   Factories to help generate/evaluate service date_times for testing.
   """
 
-  import Dotcom.Utils.ServiceDateTime, only: [end_of_service_day: 1]
+  import Dotcom.Utils.ServiceDateTime, only: [beginning_of_service_day: 1, end_of_service_day: 1]
 
   import Test.Support.Generators.DateTime,
     only: [
@@ -36,5 +36,10 @@ defmodule Test.Support.Generators.ServiceDateTime do
   @doc "Generate a random date_time between the given date_time and the end of its service day"
   def later_on_day(date_time) do
     random_time_range_date_time({date_time, end_of_service_day(date_time)})
+  end
+
+  @doc "Generate a random date_time between the given date_time and the beginning of its service day"
+  def earlier_on_day(date_time) do
+    random_time_range_date_time({beginning_of_service_day(date_time), date_time})
   end
 end

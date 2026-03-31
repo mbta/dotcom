@@ -4,6 +4,7 @@ defmodule Test.Support.PredictedScheduleHelper do
 
   def journey(opts \\ []) do
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
+    last_trip? = opts |> Keyword.get(:last_trip?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
     stop_count = opts |> Keyword.get(:stop_count, 3)
     vehicle_stop_index = opts |> Keyword.get(:vehicle_stop_index, 1)
@@ -58,6 +59,7 @@ defmodule Test.Support.PredictedScheduleHelper do
         Factories.Predictions.Prediction.build(:prediction,
           arrival_time: arrival_time,
           departure_time: departure_time,
+          last_trip?: last_trip?,
           status: status,
           stop: stop,
           stop_sequence: stop_sequence,

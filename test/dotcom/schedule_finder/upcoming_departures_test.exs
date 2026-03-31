@@ -36,7 +36,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         trip_id: trip_id,
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.journey(route_types: [:bus_route, :subway_route])
+        PredictedScheduleHelper.journey()
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -46,7 +46,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       departures =
         UpcomingDepartures.upcoming_departures(%{
           direction_id: Faker.Util.pick([0, 1]),
-          now: Generators.ServiceDateTime.later_on_day(arrival_time),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
           stop_id: stop.id
         })
@@ -110,57 +110,52 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
-
-      now = Generators.ServiceDateTime.later_on_day(arrival_time)
-
       departures =
         UpcomingDepartures.upcoming_departures(%{
           direction_id: Faker.Util.pick([0, 1]),
-          now: now,
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
           stop_id: stop.id
         })
 
       # Verify
       [_, status, _] = statuses
-
-      assert departures |> Enum.map(& &1.arrival_status) == [
-               {:status, status}
-             ]
+      assert [departure] = departures
+      assert departure.arrival_status == {:status, status}
     end
 
     test "includes whether or not each trip is the last trip for subways" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:subway_route)
-      stop_id = FactoryHelpers.build(:id)
-      trip_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-
       last_trip? = Faker.Util.pick([true, false])
 
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            last_trip?: last_trip?,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-          )
-        ]
-      end)
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        prediction_statuses: statuses,
+        route: route,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          last_trip?: last_trip?
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
-      assert departures |> Enum.map(& &1.last_trip?) == [last_trip?]
+      assert [departure] = departures
+      assert departure.last_trip? == last_trip?
     end
 
     test "includes trip name, platform name, and detailed arrival status for commuter rail departures" do
