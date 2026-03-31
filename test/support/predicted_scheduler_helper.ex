@@ -1,9 +1,9 @@
 defmodule Test.Support.PredictedScheduleHelper do
   alias Dotcom.Utils.ServiceDateTime
-  alias Predictions.Prediction
   alias Test.Support.{Factories, FactoryHelpers, Generators}
 
   def journey(opts \\ []) do
+    cancelled? = opts |> Keyword.get(:cancelled?, false)
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
@@ -109,7 +109,10 @@ defmodule Test.Support.PredictedScheduleHelper do
             stop_sequence: stop_sequence,
             trip: trip
           },
-          %{skipped?: MapSet.member?(skipped_stops, index)}
+          %{
+            cancelled?: cancelled?,
+            skipped?: MapSet.member?(skipped_stops, index)
+          }
         )
       end)
 
@@ -140,8 +143,16 @@ defmodule Test.Support.PredictedScheduleHelper do
     }
   end
 
-  defp build_prediction(args, %{skipped?: false}) do
-    Factories.Predictions.Prediction.build(:prediction, args)
+  defp build_prediction(args, %{cancelled?: true}) do
+    Factories.Predictions.Prediction.build(
+      :prediction,
+      args
+      |> Map.merge(%{
+        arrival_time: nil,
+        departure_time: nil,
+        schedule_relationship: :cancelled
+      })
+    )
   end
 
   defp build_prediction(args, %{skipped?: true}) do
@@ -154,5 +165,9 @@ defmodule Test.Support.PredictedScheduleHelper do
         schedule_relationship: :skipped
       })
     )
+  end
+
+  defp build_prediction(args, _) do
+    Factories.Predictions.Prediction.build(:prediction, args)
   end
 end

@@ -902,6 +902,71 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :service_ended
     end
 
+    test "includes cancelled bus or commuter rail trips if their scheduled time is in the future" do
+      %{
+        predictions: predictions,
+        route: route,
+        scheduled_departure_times: [_, scheduled_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:bus_route, :commuter_rail_route],
+          cancelled?: true
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(scheduled_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      assert departure.arrival_status == {:cancelled, scheduled_time}
+      assert departure.arrival_substatus == :cancelled
+    end
+
+    test "excludes cancelled bus or commuter rail trips if their scheduled time is in the past" do
+      %{
+        predictions: predictions,
+        route: route,
+        scheduled_arrival_times: [_, scheduled_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:bus_route, :commuter_rail_route],
+          cancelled?: true
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.later_on_day(scheduled_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert departures == :service_ended
+    end
+
     test "OLD - shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
