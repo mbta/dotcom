@@ -365,7 +365,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
           last_trip_time =
             departures.departures
-            |> Enum.sort_by(fn departure -> departure.time end)
+            |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
             |> Enum.at(-1)
             |> Map.get(:time)
 
@@ -570,7 +570,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </div>
       <div :if={@last}>
         {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
-        <strong>
+        <strong class="no-wrap">
           <.formatted_time time={@last} />
           <sup :if={next_day?(@first, @last)} aria-hidden="true">+1</sup>
           <span :if={next_day?(@first, @last)} class="sr-only">{~t(the next morning)}</span>
@@ -1222,8 +1222,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       {_, last_departure_time} = last_departure.trip_details.stop.time
 
-      if last_departure_time > last_trip_time or
-           last_trip_time < @date_time.now() or
+      if DateTime.after?(last_departure_time, last_trip_time) or
+           DateTime.before?(last_trip_time, @date_time.now()) or
            has_last_trip? do
         false
       else
