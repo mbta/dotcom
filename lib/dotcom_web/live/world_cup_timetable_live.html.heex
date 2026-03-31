@@ -59,14 +59,15 @@
             </span>
           </th>
           <th scope="col" class="!text-center">
-            <.link patch={~p"/stops/place-sstat"}>
-              {~t(Check in at South Station between)}
-            </.link>
+            {~t(Check-In at South Station)}
+          </th>
+          <th scope="col" class="!text-center">
+            {~t(Estimated Arrival at Foxboro Station)}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr :for={{group_name, time_range} <- group_times}>
+        <tr :for={{group_name, check_in_time_range, arrival_time_range} <- group_times}>
           <th
             scope="row"
             class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
@@ -74,7 +75,10 @@
             {group_name} <.ticket_icon />
           </th>
           <td class="px-sm py-xs !text-center">
-            {apply(Dotcom.Utils.Time, :formatted_time_range, time_range)}
+            {apply(Dotcom.Utils.Time, :formatted_time_range, check_in_time_range)}
+          </td>
+          <td class="px-sm py-xs !text-center">
+            {apply(Dotcom.Utils.Time, :formatted_time_range, arrival_time_range)}
           </td>
         </tr>
       </tbody>
