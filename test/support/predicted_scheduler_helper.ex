@@ -6,6 +6,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     cancelled? = opts |> Keyword.get(:cancelled?, false)
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
+    missing_realtime? = opts |> Keyword.get(:missing_realtime?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
     seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
     skipped_stops = opts |> Keyword.get(:skipped_stops, []) |> MapSet.new()
@@ -111,6 +112,7 @@ defmodule Test.Support.PredictedScheduleHelper do
           },
           %{
             cancelled?: cancelled?,
+            missing_realtime?: missing_realtime?,
             skipped?: MapSet.member?(skipped_stops, index)
           }
         )
@@ -163,6 +165,17 @@ defmodule Test.Support.PredictedScheduleHelper do
         arrival_time: nil,
         departure_time: nil,
         schedule_relationship: :skipped
+      })
+    )
+  end
+
+  defp build_prediction(args, %{missing_realtime?: true}) do
+    Factories.Predictions.Prediction.build(
+      :prediction,
+      args
+      |> Map.merge(%{
+        arrival_time: nil,
+        departure_time: nil
       })
     )
   end
