@@ -1030,7 +1030,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute match?([_departure], departures)
     end
 
-    test "OLD - excludes predictions with no arrival or departure time" do
+    test "excludes predictions with no arrival or departure time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1072,7 +1072,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "OLD - sorts upcoming departures by arrival time" do
+    test "sorts upcoming departures by arrival time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
