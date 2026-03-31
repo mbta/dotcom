@@ -48,7 +48,8 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       assert has_element?(view, "button", "View All Matches")
       assert element(view, "h2", "Boarding Groups")
       assert has_element?(view, "table th", "Group Name")
-      assert has_element?(view, "table th", "Check in at South Station")
+      assert has_element?(view, "table th", "Check-In at South Station")
+      assert has_element?(view, "table th", "Estimated Arrival at Foxboro Station")
     end
   end
 
