@@ -563,7 +563,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </div>
       <div :if={@last}>
         {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
-        <strong>
+        <strong class="no-wrap">
           <.formatted_time time={@last} />
           <sup :if={next_day?(@first, @last)} aria-hidden="true">+1</sup>
           <span :if={next_day?(@first, @last)} class="sr-only">{~t(the next morning)}</span>
@@ -1112,7 +1112,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_display(assigns) do
     ~H"""
     <span class="font-bold text-nowrap">
-      <.icon type="icon-svg" name="icon-realtime-tracking" />
+      <.icon
+        type="icon-svg"
+        name="icon-realtime-tracking"
+        class="size-3"
+      />
       {render_slot(@inner_block)}
     </span>
     """
