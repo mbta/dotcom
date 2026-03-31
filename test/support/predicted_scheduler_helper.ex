@@ -131,6 +131,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     %{
       platform_stop_ids: platform_stop_ids,
       predicted_arrival_times: predicted_arrival_times,
+      predicted_departure_times: predicted_departure_times,
       prediction_statuses: prediction_statuses,
       predictions: predictions,
       route: route,
