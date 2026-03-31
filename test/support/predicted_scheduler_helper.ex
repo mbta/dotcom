@@ -6,6 +6,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
+    seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
     stop_count = opts |> Keyword.get(:stop_count, 3)
     stop_id_options = opts |> Keyword.get(:stop_id_options, nil)
     vehicle_stop_index = opts |> Keyword.get(:vehicle_stop_index, 1)
@@ -66,7 +67,7 @@ defmodule Test.Support.PredictedScheduleHelper do
         )
       end)
 
-    predicted_times = scheduled_times
+    predicted_times = scheduled_times |> Enum.map(&DateTime.shift(&1, second: seconds_behind))
 
     predicted_arrival_times = predicted_times |> List.replace_at(0, nil)
 
@@ -121,6 +122,7 @@ defmodule Test.Support.PredictedScheduleHelper do
       prediction_statuses: prediction_statuses,
       predictions: predictions,
       route: route,
+      scheduled_arrival_times: scheduled_arrival_times,
       scheduled_departure_times: scheduled_departure_times,
       schedules: schedules,
       stop_sequences: stop_sequences,
