@@ -358,7 +358,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
           last_trip_time =
             departures.departures
-            |> Enum.sort_by(fn departure -> departure.time end)
             |> Enum.at(-1)
             |> Map.get(:time)
 
