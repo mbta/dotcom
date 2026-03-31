@@ -7,6 +7,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     route_types = opts |> Keyword.get(:route_types, [:route])
     stop_count = opts |> Keyword.get(:stop_count, 3)
+    stop_id_options = opts |> Keyword.get(:stop_id_options, nil)
     vehicle_stop_index = opts |> Keyword.get(:vehicle_stop_index, 1)
     vehicle_statuses = opts |> Keyword.get(:vehicle_statuses, [:incoming, :in_transit])
 
@@ -31,9 +32,15 @@ defmodule Test.Support.PredictedScheduleHelper do
     predicted_departure_times =
       predicted_times |> Enum.map(&DateTime.shift(&1, second: 30)) |> List.replace_at(-1, nil)
 
+    stop_id_fn =
+      case stop_id_options do
+        nil -> fn -> FactoryHelpers.build(:id) end
+        options -> fn -> Faker.Util.pick(options) end
+      end
+
     stops =
       stop_count
-      |> Faker.Util.sample_uniq(fn -> FactoryHelpers.build(:id) end)
+      |> Faker.Util.sample_uniq(stop_id_fn)
       |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
     stop_sequences = Faker.Util.sample_uniq(stop_count, fn -> Faker.random_between(1, 10_000) end)
@@ -47,19 +54,24 @@ defmodule Test.Support.PredictedScheduleHelper do
           1..stop_count |> Enum.map(fn _ -> nil end)
       end
 
+    platform_stop_ids = stop_count |> Faker.Util.sample_uniq(fn -> FactoryHelpers.build(:id) end)
+
     predictions =
       Enum.zip([
         stops,
         predicted_arrival_times,
         predicted_departure_times,
         stop_sequences,
-        prediction_statuses
+        prediction_statuses,
+        platform_stop_ids
       ])
-      |> Enum.map(fn {stop, arrival_time, departure_time, stop_sequence, status} ->
+      |> Enum.map(fn {stop, arrival_time, departure_time, stop_sequence, status, platform_stop_id} ->
         Factories.Predictions.Prediction.build(:prediction,
           arrival_time: arrival_time,
           departure_time: departure_time,
           last_trip?: last_trip?,
+          platform_stop_id: platform_stop_id,
+          route: route,
           status: status,
           stop: stop,
           stop_sequence: stop_sequence,
@@ -78,6 +90,7 @@ defmodule Test.Support.PredictedScheduleHelper do
       )
 
     %{
+      platform_stop_ids: platform_stop_ids,
       predicted_arrival_times: predicted_arrival_times,
       prediction_statuses: prediction_statuses,
       predictions: predictions,
@@ -85,6 +98,7 @@ defmodule Test.Support.PredictedScheduleHelper do
       stop_sequences: stop_sequences,
       stops: stops,
       trip_id: trip.id,
+      trip: trip,
       vehicle: vehicle
     }
   end

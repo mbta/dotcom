@@ -131,7 +131,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       %{
         predicted_arrival_times: [_, arrival_time, _],
         predictions: predictions,
-        prediction_statuses: statuses,
         route: route,
         stops: [_, stop, _],
         vehicle: vehicle
@@ -158,34 +157,26 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.last_trip? == last_trip?
     end
 
-    test "includes trip name, platform name, and detailed arrival status for commuter rail departures" do
+    test "includes trip name and platform name for commuter rail departures" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        trip: trip,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:commuter_rail_route],
+          stop_id_options: Platforms.stations_with_commuter_rail_platforms()
+        )
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
-      trip_name = Faker.Cat.breed()
-
-      platform_id = FactoryHelpers.build(:id)
       platform_name = Faker.Pokemon.location()
-
-      direction_id = Faker.Util.pick([0, 1])
-
-      seconds_until_arrival = Faker.random_between(2 * 60, 59 * 60)
-      arrival_time = now |> DateTime.shift(second: seconds_until_arrival)
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            platform_stop_id: platform_id,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, name: trip_name),
-            route: route
-          )
-        ]
-      end)
 
       stub(Stops.Repo.Mock, :get, fn
         ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
@@ -195,19 +186,20 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
       assert [departure] = departures
-      assert departure.trip_name == trip_name
+
+      assert departure.trip_name == trip.name
       assert departure.platform_name == platform_name
     end
 
-    test "does not hide platform names for bus stops outside allowlist" do
+    test "OLD - does not hide platform names for bus stops outside allowlist" do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:bus_route)
@@ -249,7 +241,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "does not hide platform names for commuter rail stops outside allowlist" do
+    test "OLD - does not hide platform names for commuter rail stops outside allowlist" do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:commuter_rail_route)
@@ -291,7 +283,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "strips 'Commuter Rail -' from platform name" do
+    test "OLD - strips 'Commuter Rail -' from platform name" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -340,7 +332,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "treats a platform name of 'Commuter Rail' as nil" do
+    test "OLD - treats a platform name of 'Commuter Rail' as nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -385,7 +377,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == nil
     end
 
-    test "does not include trip name for bus or subway departures" do
+    test "OLD - does not include trip name for bus or subway departures" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -427,7 +419,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
+    test "OLD - includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -494,7 +486,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "returns the scheduled time for the first trip for subway if there are no predictions and it's before the first trip of the day" do
+    test "OLD - returns the scheduled time for the first trip for subway if there are no predictions and it's before the first trip of the day" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -540,7 +532,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:first_scheduled, scheduled_arrival_time}
     end
 
-    test "does not return :before_service if there are no predictions if it's after the first trip of the day" do
+    test "OLD - does not return :before_service if there are no predictions if it's after the first trip of the day" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -596,7 +588,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute match?({:before_service, _}, departures)
     end
 
-    test "returns :no_realtime if only subway schedules" do
+    test "OLD - returns :no_realtime if only subway schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -648,7 +640,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :no_realtime
     end
 
-    test "returns :no_realtime with departures if bus/commuter rail schedules" do
+    test "OLD - returns :no_realtime with departures if bus/commuter rail schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -707,7 +699,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert [%UpcomingDepartures.UpcomingDeparture{} | _] = departures
     end
 
-    test "uses departure time for scheduled trips when arrival time is nil" do
+    test "OLD - uses departure time for scheduled trips when arrival time is nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -753,7 +745,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "favors prediction over schedules if both are present for bus" do
+    test "OLD - favors prediction over schedules if both are present for bus" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -822,7 +814,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "does not include scheduled trips for subway" do
+    test "OLD - does not include scheduled trips for subway" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -886,7 +878,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "does not include scheduled trips in the past" do
+    test "OLD - does not include scheduled trips in the past" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -945,7 +937,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert [%UpcomingDepartures.UpcomingDeparture{trip_id: ^future_trip_id}] = departures
     end
 
-    test "shows :service_ended if trips in the past" do
+    test "OLD - shows :service_ended if trips in the past" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -996,7 +988,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :service_ended
     end
 
-    test "shows :no_service if there are no trips" do
+    test "OLD - shows :no_service if there are no trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1020,7 +1012,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :no_service
     end
 
-    test "can include trips scheduled in the past if they have predictions" do
+    test "OLD - can include trips scheduled in the past if they have predictions" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1093,7 +1085,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.map(& &1.trip_id) == [trip_id]
     end
 
-    test "excludes past predictions which are cancelled or skipped" do
+    test "OLD - excludes past predictions which are cancelled or skipped" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1150,7 +1142,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :service_ended
     end
 
-    test "shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
+    test "OLD - shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1202,7 +1194,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:scheduled, future_arrival_time}
     end
 
-    test "does not show schedule data for subway predictions with no times that aren't skipped or cancelled" do
+    test "OLD - does not show schedule data for subway predictions with no times that aren't skipped or cancelled" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1252,7 +1244,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              )
     end
 
-    test "excludes predictions with no arrival or departure time" do
+    test "OLD - excludes predictions with no arrival or departure time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1294,7 +1286,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "sorts upcoming departures by arrival time" do
+    test "OLD - sorts upcoming departures by arrival time" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1347,7 +1339,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "uses departure_time if arrival_time is nil" do
+    test "OLD - uses departure_time if arrival_time is nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1392,7 +1384,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "does not show an upcoming_departure if departure_time is nil" do
+    test "OLD - does not show an upcoming_departure if departure_time is nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1434,7 +1426,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "shows arrival minutes for bus if arrival time is between 30 and 60 seconds out" do
+    test "OLD - shows arrival minutes for bus if arrival time is between 30 and 60 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1478,7 +1470,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :arriving for subway if it's between 0 and 30 seconds out" do
+    test "OLD - shows arrival_status as :arriving for subway if it's between 0 and 30 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1528,7 +1520,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :arriving for subway even if the vehicle is at an earlier stop" do
+    test "OLD - shows arrival_status as :arriving for subway even if the vehicle is at an earlier stop" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1582,7 +1574,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :boarding for subway if there is a vehicle at a platform in the station and departure_time is within 90 seconds" do
+    test "OLD - shows arrival_status as :boarding for subway if there is a vehicle at a platform in the station and departure_time is within 90 seconds" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1636,7 +1628,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :boarding for subway if arrival_time is nil" do
+    test "OLD - shows arrival_status as :boarding for subway if arrival_time is nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1686,7 +1678,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :now for bus if it's between 0 and 30 seconds out" do
+    test "OLD - shows arrival_status as :now for bus if it's between 0 and 30 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1729,7 +1721,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows arrival_status as :now for bus if arrival_time is nil, and departure_time is <= 90 seconds out" do
+    test "OLD - shows arrival_status as :now for bus if arrival_time is nil, and departure_time is <= 90 seconds out" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1773,7 +1765,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows departure time and :on_time for commuter rail if predicted and scheduled times differ by under a minute" do
+    test "OLD - shows departure time and :on_time for commuter rail if predicted and scheduled times differ by under a minute" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1828,7 +1820,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows :on_time for commuter rail if there is no schedule" do
+    test "OLD - shows :on_time for commuter rail if there is no schedule" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1876,7 +1868,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows {:early_from, scheduled_time} for commuter rail if predicted and scheduled times differ by more than a minute" do
+    test "OLD - shows {:early_from, scheduled_time} for commuter rail if predicted and scheduled times differ by more than a minute" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1935,7 +1927,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:early_from, scheduled_departure_time}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late" do
+    test "OLD - shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -1994,7 +1986,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "does not show an arrival_substatus for non-CR" do
+    test "OLD - does not show an arrival_substatus for non-CR" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2054,7 +2046,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == nil
     end
 
-    test "shows :scheduled for commuter rail if there is no prediction" do
+    test "OLD - shows :scheduled for commuter rail if there is no prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2099,7 +2091,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled
     end
 
-    test "shows :scheduled_sr_only for bus if there is no prediction" do
+    test "OLD - shows :scheduled_sr_only for bus if there is no prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2145,7 +2137,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled_sr_only
     end
 
-    test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
+    test "OLD - shows {:status, status} for commuter rail if there is a status field set on the prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2199,7 +2191,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, display_status}
     end
 
-    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
+    test "OLD - shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2256,7 +2248,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
+    test "OLD - shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2313,7 +2305,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "shows :cancelled for commuter rail or bus if the schedule_relationship is :cancelled or :skipped" do
+    test "OLD - shows :cancelled for commuter rail or bus if the schedule_relationship is :cancelled or :skipped" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2371,7 +2363,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:cancelled, scheduled_departure_time}
     end
 
-    test "shows the schedule relationship as a substatus if it's :skipped or :cancelled for non-subway" do
+    test "OLD - shows the schedule relationship as a substatus if it's :skipped or :cancelled for non-subway" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2433,7 +2425,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == schedule_relationship
     end
 
-    test "does not include skipped or cancelled subway trips" do
+    test "OLD - does not include skipped or cancelled subway trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2488,7 +2480,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    test "shows trip details with other stops" do
+    test "OLD - shows trip details with other stops" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2583,7 +2575,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows correct trip details if a trip visits a stop multiple times" do
+    test "OLD - shows correct trip details if a trip visits a stop multiple times" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2681,7 +2673,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_sequence]))) == []
     end
 
-    test "shows trip details with vehicle info" do
+    test "OLD - shows trip details with vehicle info" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2729,7 +2721,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_details.vehicle_info.status == vehicle.status
     end
 
-    test "drops the current stop if the vehicle is currently stopped there" do
+    test "OLD - drops the current stop if the vehicle is currently stopped there" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2812,7 +2804,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows a vehicle status of :scheduled_to_depart if the trip has no predictions and all schedules are in the future" do
+    test "OLD - shows a vehicle status of :scheduled_to_depart if the trip has no predictions and all schedules are in the future" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2877,7 +2869,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert vehicle_info.departure_time == origin_departure_time |> truncate(:minute)
     end
 
-    test "shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
+    test "OLD - shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2948,7 +2940,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert vehicle_info.status == :location_unavailable
     end
 
-    test "shows a vehicle status of :location_unavailable if the trip has predictions but no vehicle" do
+    test "OLD - shows a vehicle status of :location_unavailable if the trip has predictions but no vehicle" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3022,7 +3014,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert vehicle_info.status == :location_unavailable
     end
 
-    test "shows a vehicle status of :location_unavailable if the predictions have no assigned vehicle" do
+    test "OLD - shows a vehicle status of :location_unavailable if the predictions have no assigned vehicle" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3066,7 +3058,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_details.vehicle_info.status == :location_unavailable
     end
 
-    test "shows a vehicle status of :location_unavailable if the predictions' assigned vehicle has a nil stop ID" do
+    test "OLD - shows a vehicle status of :location_unavailable if the predictions' assigned vehicle has a nil stop ID" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3114,7 +3106,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_details.vehicle_info.status == :location_unavailable
     end
 
-    test "shows a vehicle status of :finishing_another_trip if the predictions' assigned vehicle has a different trip ID" do
+    test "OLD - shows a vehicle status of :finishing_another_trip if the predictions' assigned vehicle has a different trip ID" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3166,7 +3158,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert vehicle_info.status == :finishing_another_trip
     end
 
-    test "shows a vehicle status of :waiting_to_depart if the predictions' assigned vehicle is :stopped at the origin stop of the trip" do
+    test "OLD - shows a vehicle status of :waiting_to_depart if the predictions' assigned vehicle is :stopped at the origin stop of the trip" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3243,7 +3235,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert vehicle_info.departure_time == origin_departure_time
     end
 
-    test "pulls trip details from schedules for scheduled trips" do
+    test "OLD - pulls trip details from schedules for scheduled trips" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3332,7 +3324,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "pulls trip details from schedules for upcoming other-stops without predictions" do
+    test "OLD - pulls trip details from schedules for upcoming other-stops without predictions" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3424,7 +3416,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "does not include past scheduled stops in trip details" do
+    test "OLD - does not include past scheduled stops in trip details" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3515,7 +3507,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert trip_details.stops_before == []
     end
 
-    test "uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
+    test "OLD - uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3587,7 +3579,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows an `other_stop` as cancelled if the time on its prediction is nil and the time on its schedule is non-nil" do
+    test "OLD - shows an `other_stop` as cancelled if the time on its prediction is nil and the time on its schedule is non-nil" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3674,7 +3666,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert stop_after.cancelled?
     end
 
-    test "does not include upcoming departures for other stops" do
+    test "OLD - does not include upcoming departures for other stops" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3720,7 +3712,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures |> Enum.count() == 1
     end
 
-    test "uses vehicle :stopped status for subway arrival_status, if applicable" do
+    test "OLD - uses vehicle :stopped status for subway arrival_status, if applicable" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3764,7 +3756,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == :boarding
     end
 
-    test "does not show :boarding status if vehicle is stopped at a different stop" do
+    test "OLD - does not show :boarding status if vehicle is stopped at a different stop" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3814,7 +3806,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute departure.arrival_status == :boarding
     end
 
-    test "does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
+    test "OLD - does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3857,7 +3849,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute departure.arrival_status == :boarding
     end
 
-    test "shows :boarding when the vehicle is stopped at the station, even if the prediction time is in the past" do
+    test "OLD - shows :boarding when the vehicle is stopped at the station, even if the prediction time is in the past" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3900,7 +3892,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == :boarding
     end
 
-    test "drops a prediction when the vehicle is past the station whether or not the prediction is in the past" do
+    test "OLD - drops a prediction when the vehicle is past the station whether or not the prediction is in the past" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3946,7 +3938,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    test "does not drop a prediction when the vehicle is serving a different trip even if its stop sequence is lower than the vehicle's" do
+    test "OLD - does not drop a prediction when the vehicle is serving a different trip even if its stop sequence is lower than the vehicle's" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -3999,7 +3991,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == {:departure_minutes, minutes_until_departure}
     end
 
-    test "marks the last upcoming departure with last_trip? = true for non-subway routes" do
+    test "OLD - marks the last upcoming departure with last_trip? = true for non-subway routes" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -4053,7 +4045,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert last_departure.last_trip?
     end
 
-    test "does not mark last_trip? = true for subway routes" do
+    test "OLD - does not mark last_trip? = true for subway routes" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
       route = Factories.Routes.Route.build(:subway_route)
