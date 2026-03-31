@@ -199,86 +199,38 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "OLD - does not hide platform names for bus stops outside allowlist" do
-      now = Dotcom.Utils.DateTime.now()
+    test "does not hide platform names for bus or commuter rail stops outside allowlist" do
+      # Setup
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(route_types: [:bus_route, :commuter_rail_route])
 
-      route = Factories.Routes.Route.build(:bus_route)
-      stop_id = Faker.Pokemon.location()
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
-      platform_id = FactoryHelpers.build(:id)
       platform_name = Faker.Pokemon.location()
-
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time = now |> DateTime.shift(second: Faker.random_between(2 * 60, 59 * 60))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            platform_stop_id: platform_id,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip),
-            route: route
-          )
-        ]
-      end)
 
       stub(Stops.Repo.Mock, :get, fn
         ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
         _ -> Factories.Stops.Stop.build(:stop)
       end)
 
+      # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
-      assert [departure] = departures
-      assert departure.platform_name == platform_name
-    end
-
-    test "OLD - does not hide platform names for commuter rail stops outside allowlist" do
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = Faker.Pokemon.location()
-
-      platform_id = FactoryHelpers.build(:id)
-      platform_name = Faker.Pokemon.location()
-
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time = now |> DateTime.shift(second: Faker.random_between(2 * 60, 59 * 60))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            platform_stop_id: platform_id,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip),
-            route: route
-          )
-        ]
-      end)
-
-      stub(Stops.Repo.Mock, :get, fn
-        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
-        _ -> Factories.Stops.Stop.build(:stop)
-      end)
-
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
-          route: route,
-          stop_id: stop_id
-        })
-
+      # Verify
       assert [departure] = departures
       assert departure.platform_name == platform_name
     end
