@@ -1863,97 +1863,69 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "OLD - shows trip details with other stops" do
+    test "shows trip details with other stops" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_arrival_times: [_, time, time_after],
+        predicted_departure_times: [time_before, _, _],
+        stops: [stop_before, stop, stop_after],
+        stop_sequences: [seq_before, seq, seq_after],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(vehicle_stop_index: 0)
 
-      route = Factories.Routes.Route.build(:route)
-
-      stop_ids =
-        Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
-
-      [stop_before, stop, stop_after] =
-        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
-
-      [stop_sequence_before, stop_sequence, stop_sequence_after] =
-        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      trip_id = FactoryHelpers.build(:id)
-      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time_offsets =
-        Faker.Util.sample_uniq(3, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
-
-      [arrival_time_before, arrival_time, arrival_time_after] =
-        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: stop,
-            stop_sequence: stop_sequence,
-            trip: trip
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time_after,
-            stop: stop_after,
-            stop_sequence: stop_sequence_after,
-            trip: trip
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time_before,
-            stop: stop_before,
-            stop_sequence: stop_sequence_before,
-            trip: trip
-          )
-        ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(time),
           route: route,
           stop_id: stop.id
         })
 
       # Verify
-      assert [departure] = departures
-      trip_details = departure.trip_details
+      assert [%{trip_details: trip_details}] = departures
 
       assert trip_details.stops_before
-             |> Enum.map(&(&1 |> Map.take([:cancelled?, :stop_id, :stop_name, :time]))) == [
+             |> Enum.map(
+               &(&1
+                 |> Map.take([:cancelled?, :stop_id, :stop_name, :stop_sequence, :time]))
+             ) == [
                %{
                  cancelled?: false,
                  stop_id: stop_before.id,
                  stop_name: stop_before.name,
-                 time: {:time, arrival_time_before |> truncate(:minute)}
+                 stop_sequence: seq_before,
+                 time: {:time, time_before |> truncate(:minute)}
                }
              ]
 
-      assert trip_details.stop |> Map.take([:cancelled?, :stop_id, :stop_name, :time]) ==
+      assert trip_details.stop
+             |> Map.take([:cancelled?, :stop_id, :stop_name, :stop_sequence, :time]) ==
                %{
                  cancelled?: false,
                  stop_id: stop.id,
                  stop_name: stop.name,
-                 time: {:time, arrival_time |> truncate(:minute)}
+                 stop_sequence: seq,
+                 time: {:time, time |> truncate(:minute)}
                }
 
       assert trip_details.stops_after
-             |> Enum.map(&(&1 |> Map.take([:cancelled?, :stop_id, :stop_name, :time]))) == [
+             |> Enum.map(
+               &(&1
+                 |> Map.take([:cancelled?, :stop_id, :stop_name, :stop_sequence, :time]))
+             ) == [
                %{
                  cancelled?: false,
                  stop_id: stop_after.id,
                  stop_name: stop_after.name,
-                 time: {:time, arrival_time_after |> truncate(:minute)}
+                 stop_sequence: seq_after,
+                 time: {:time, time_after |> truncate(:minute)}
                }
              ]
     end
