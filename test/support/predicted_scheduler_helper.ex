@@ -70,6 +70,17 @@ defmodule Test.Support.PredictedScheduleHelper do
         )
       end)
 
+    stop_sequence = stop_sequences |> Enum.at(vehicle_stop_index)
+    stop = stops |> Enum.at(vehicle_stop_index)
+
+    vehicle =
+      Factories.Vehicles.Vehicle.build(:vehicle,
+        status: Faker.Util.pick(vehicle_statuses),
+        stop_id: stop.id,
+        stop_sequence: stop_sequence,
+        trip_id: trip.id
+      )
+
     predicted_times = scheduled_times |> Enum.map(&DateTime.shift(&1, second: seconds_behind))
 
     predicted_arrival_times = predicted_times |> List.replace_at(0, nil)
@@ -108,7 +119,8 @@ defmodule Test.Support.PredictedScheduleHelper do
             status: status,
             stop: stop,
             stop_sequence: stop_sequence,
-            trip: trip
+            trip: trip,
+            vehicle_id: vehicle.id
           },
           %{
             cancelled?: cancelled?,
@@ -117,16 +129,6 @@ defmodule Test.Support.PredictedScheduleHelper do
           }
         )
       end)
-
-    stop_sequence = stop_sequences |> Enum.at(vehicle_stop_index)
-    stop = stops |> Enum.at(vehicle_stop_index)
-
-    vehicle =
-      Factories.Vehicles.Vehicle.build(:vehicle,
-        status: Faker.Util.pick(vehicle_statuses),
-        stop_id: stop.id,
-        stop_sequence: stop_sequence
-      )
 
     %{
       platform_stop_ids: platform_stop_ids,
