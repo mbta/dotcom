@@ -7,6 +7,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     missing_realtime? = opts |> Keyword.get(:missing_realtime?, false)
+    prediction_status = opts |> Keyword.get(:prediction_status)
     route_types = opts |> Keyword.get(:route_types, [:route])
     seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
     skipped_stops = opts |> Keyword.get(:skipped_stops, []) |> MapSet.new()
@@ -94,7 +95,7 @@ defmodule Test.Support.PredictedScheduleHelper do
           Faker.Util.sample_uniq(stop_count, fn -> Faker.Lorem.sentence() end)
 
         true ->
-          1..stop_count |> Enum.map(fn _ -> nil end)
+          1..stop_count |> Enum.map(fn _ -> prediction_status end)
       end
 
     predictions =

@@ -1656,170 +1656,112 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled_sr_only
     end
 
-    test "OLD - shows {:status, status} for commuter rail if there is a status field set on the prediction" do
+    test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
-
-      trip = Factories.Schedules.Trip.build(:trip)
-      direction_id = Faker.Util.pick([0, 1])
-
-      scheduled_departure_time =
-        Generators.DateTime.random_time_range_date_time(
-          {now, ServiceDateTime.end_of_service_day(now)}
-        )
-
-      predicted_departure_time =
-        scheduled_departure_time
-        |> DateTime.shift(second: Faker.random_between(-120, 120))
-
       [word1, word2] = Faker.Lorem.words(2)
       api_status = (word1 |> String.capitalize()) <> " " <> word2
       display_status = (word1 |> String.capitalize()) <> " " <> (word2 |> String.capitalize())
 
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            departure_time: predicted_departure_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            status: api_status,
-            trip: trip
-          )
-        ]
-      end)
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, predicted_departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:commuter_rail_route],
+          prediction_status: api_status
+        )
 
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        _, _ ->
-          []
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_departure_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
       assert [departure] = departures
+
       assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:status, display_status}
     end
 
-    test "OLD - shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
+    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
-
-      trip = Factories.Schedules.Trip.build(:trip)
-      direction_id = Faker.Util.pick([0, 1])
-
-      scheduled_departure_time =
-        Generators.DateTime.random_time_range_date_time(
-          {now, ServiceDateTime.end_of_service_day(now)}
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, predicted_departure_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          seconds_behind: Faker.random_between(0, 59)
         )
 
-      predicted_departure_time =
-        scheduled_departure_time
-        |> DateTime.shift(second: Faker.random_between(0, 59))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            departure_time: predicted_departure_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            status: "Delayed",
-            trip: trip
-          )
-        ]
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        _, _ ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              departure_time: scheduled_departure_time,
-              time: scheduled_departure_time,
-              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-              trip: trip
-            )
-          ]
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_departure_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
       assert [departure] = departures
+
       assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
-    test "OLD - shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
+    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:commuter_rail_route)
-      stop_id = FactoryHelpers.build(:id)
-
-      trip = Factories.Schedules.Trip.build(:trip)
-      direction_id = Faker.Util.pick([0, 1])
-
-      scheduled_departure_time =
-        Generators.DateTime.random_time_range_date_time(
-          {now, ServiceDateTime.end_of_service_day(now)}
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, predicted_departure_time, _],
+        scheduled_departure_times: [_, scheduled_departure_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          seconds_behind: Faker.random_between(60, 3600)
         )
 
-      predicted_departure_time =
-        scheduled_departure_time
-        |> DateTime.shift(second: Faker.random_between(60, 3600))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            departure_time: predicted_departure_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            status: "Delayed",
-            trip: trip
-          )
-        ]
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        _, _ ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              departure_time: scheduled_departure_time,
-              time: scheduled_departure_time,
-              stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-              trip: trip
-            )
-          ]
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_departure_time),
           route: route,
-          stop_id: stop_id
+          stop_id: stop.id
         })
 
       # Verify
       assert [departure] = departures
+
       assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
