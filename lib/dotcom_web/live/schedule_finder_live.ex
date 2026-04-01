@@ -227,11 +227,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
+    send(self(), %{selected_service: selected_service_label})
+
     {:noreply,
      socket
-     |> assign(:departures, AsyncResult.loading())
-     |> assign_service(selected_service_label)
-     |> assign_departures()}
+     |> assign(:departures, AsyncResult.loading())}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -260,6 +260,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   def handle_info(%{event: "alerts_updated"}, socket) do
     {:noreply, assign_alerts(socket)}
+  end
+
+  def handle_info(%{selected_service: selected_service_label}, socket) do
+    {:noreply,
+     socket
+     |> assign_service(selected_service_label)
+     |> assign_departures()}
   end
 
   def handle_info(_, socket), do: {:noreply, socket}
@@ -358,7 +365,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
           last_trip_time =
             departures.departures
-            |> Enum.sort_by(fn departure -> departure.time end)
+            |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
             |> Enum.at(-1)
             |> Map.get(:time)
 
@@ -563,7 +570,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </div>
       <div :if={@last}>
         {gettext("Last %{vehicle}", vehicle: String.downcase(@vehicle_name))}:
-        <strong>
+        <strong class="no-wrap">
           <.formatted_time time={@last} />
           <sup :if={next_day?(@first, @last)} aria-hidden="true">+1</sup>
           <span :if={next_day?(@first, @last)} class="sr-only">{~t(the next morning)}</span>
@@ -839,7 +846,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
               class="group/details"
             >
-              <summary class="cursor-pointer bg-gray-lightest bg-opacity-50">
+              <summary class="cursor-pointer bg-charcoal-90">
                 <.lined_list_item route={upcoming_departure.route} variant="none">
                   <div class="grow">
                     <span class="text-[0.75rem] underline group-open/details:hidden">
@@ -856,7 +863,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </summary>
               <.other_stop
                 :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                class="border-t-xs border-gray-lightest bg-gray-lightest bg-opacity-50"
+                background="charcoal-90"
+                class="border-t-xs border-gray-lightest bg-charcoal-90"
                 other_stop={other_stop}
                 route={upcoming_departure.route}
               />
@@ -985,6 +993,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp crowding_message(:crowded), do: ~t"Crowded"
   defp crowding_message(_), do: ""
 
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :class, :string, default: ""
   attr :route, Route, required: true
   attr :other_stop, :any, required: true
@@ -993,6 +1002,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp other_stop(assigns) do
     ~H"""
     <.lined_list_item
+      background={@background}
       route={@route}
       class={@class}
       stop_pin?={@highlight}
@@ -1109,7 +1119,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp realtime_display(assigns) do
     ~H"""
     <span class="font-bold text-nowrap">
-      <.icon type="icon-svg" name="icon-realtime-tracking" />
+      <.icon
+        type="icon-svg"
+        name="icon-realtime-tracking"
+        class="size-3"
+      />
       {render_slot(@inner_block)}
     </span>
     """
@@ -1208,8 +1222,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       {_, last_departure_time} = last_departure.trip_details.stop.time
 
-      if last_departure_time > last_trip_time or
-           last_trip_time < @date_time.now() or
+      if DateTime.after?(last_departure_time, last_trip_time) or
+           DateTime.before?(last_trip_time, @date_time.now()) or
            has_last_trip? do
         false
       else
