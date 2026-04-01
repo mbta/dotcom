@@ -5,6 +5,8 @@ defmodule Dotcom.ScheduleFinder do
 
   import Dotcom.Alerts
 
+  use Dotcom.Gettext.Sigils
+
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
   alias RoutePatterns.RoutePattern
@@ -230,7 +232,7 @@ defmodule Dotcom.ScheduleFinder do
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
   def simplify_platform_name("Commuter Rail", route_type)
-      when route_type in [2, :commuter_rail], do: "Track TBA"
+      when route_type in [2, :commuter_rail], do: ~t(Track TBA)
 
   def simplify_platform_name("Commuter Rail - " <> track, route_type)
       when route_type in [2, :commuter_rail], do: track
