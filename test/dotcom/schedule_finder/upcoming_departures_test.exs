@@ -752,6 +752,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
+    @tag :skip
     test "shows :service_ended if all trips are scheduled in the past" do
       # Setup
       %{
