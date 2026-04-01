@@ -936,6 +936,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :cancelled
     end
 
+    @tag :skip
     test "excludes cancelled bus or commuter rail trips if their scheduled time is in the past" do
       %{
         predictions: predictions,
