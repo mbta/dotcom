@@ -1729,6 +1729,41 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
+    @tag :skip
+    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed' and there are no schedules" do
+      # Setup
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, predicted_departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          seconds_behind: Faker.random_between(0, 59)
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_departure_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+
+      assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
+      assert departure.arrival_substatus == {:status, "Delayed"}
+    end
+
     test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
       %{
