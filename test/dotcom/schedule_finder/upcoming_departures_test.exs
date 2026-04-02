@@ -752,12 +752,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    @tag :skip
     test "shows :service_ended if all trips are scheduled in the past" do
       # Setup
       %{
         route: route,
-        scheduled_arrival_times: [_, scheduled_time, _],
+        scheduled_departure_times: [_, scheduled_time, _],
         schedules: schedules,
         stops: [_, stop, _]
       } =
@@ -903,12 +902,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    @tag :skip
     test "excludes bus and commuter rail skipped stops if their scheduled time is in the past" do
       %{
         predictions: predictions,
         route: route,
-        scheduled_arrival_times: [_, scheduled_time, _],
+        scheduled_departure_times: [_, scheduled_time, _],
         schedules: schedules,
         stops: [_, stop, _],
         vehicle: vehicle
@@ -1000,12 +998,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    @tag :skip
     test "excludes cancelled bus or commuter rail trips if their scheduled time is in the past" do
       %{
         predictions: predictions,
         route: route,
-        scheduled_arrival_times: [_, scheduled_time, _],
+        scheduled_departure_times: [_, scheduled_time, _],
         schedules: schedules,
         stops: [_, stop, _],
         vehicle: vehicle
@@ -2531,12 +2528,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    @tag :skip
     test "does not include past scheduled stops in trip details" do
       # Setup
       %{
         route: route,
-        scheduled_arrival_times: [_, scheduled_time_1, scheduled_time_2, _, _],
+        scheduled_departure_times: [_, departure_time_1, departure_time_2, _, _],
+        scheduled_arrival_times: [_, _, arrival_time_2, _, _],
         schedules: schedules,
         stops: [_, _stop_1, stop_2, stop, _]
       } =
@@ -2552,7 +2549,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         UpcomingDepartures.upcoming_departures(%{
           direction_id: Faker.Util.pick([0, 1]),
           now:
-            Generators.DateTime.random_time_range_date_time({scheduled_time_1, scheduled_time_2}),
+            Generators.DateTime.random_time_range_date_time({departure_time_1, departure_time_2}),
           route: route,
           stop_id: stop.id
         })
@@ -2561,7 +2558,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert {:no_realtime, [%{trip_details: trip_details}]} = departures
 
       assert trip_details.stops_before |> Enum.map(&{&1.stop_id, &1.time}) == [
-               {stop_2.id, {:time, scheduled_time_2 |> truncate(:minute)}}
+               {stop_2.id, {:time, arrival_time_2 |> truncate(:minute)}}
              ]
     end
 
