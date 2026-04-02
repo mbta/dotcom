@@ -29,10 +29,11 @@ defmodule Test.Support.PredictedScheduleHelper do
         options -> fn -> Faker.Util.pick(options) end
       end
 
+    stop_ids = opts |> Keyword.get(:stop_ids, stop_count |> Faker.Util.sample_uniq(stop_id_fn))
+    stop_count = stop_ids |> Enum.count()
+
     stops =
-      stop_count
-      |> Faker.Util.sample_uniq(stop_id_fn)
-      |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
+      stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
 
     stop_sequences = Faker.Util.sample_uniq(stop_count, fn -> Faker.random_between(1, 10_000) end)
     platform_stop_ids = stop_count |> Faker.Util.sample_uniq(fn -> FactoryHelpers.build(:id) end)

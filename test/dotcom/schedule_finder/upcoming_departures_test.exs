@@ -1930,102 +1930,57 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "OLD - shows correct trip details if a trip visits a stop multiple times" do
+    test "shows correct trip details if a trip visits a stop multiple times" do
+      [stop_id_multi, stop_id_1, stop_id_2, stop_id_3] =
+        Faker.Util.sample_uniq(4, fn -> FactoryHelpers.build(:id) end)
+
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_arrival_times: [_, arrival_time | _],
+        stop_sequences: [seq_1, seq_2, seq_3, seq_4, seq_5],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          vehicle_stop_index: 0,
+          stop_ids: [stop_id_1, stop_id_multi, stop_id_2, stop_id_multi, stop_id_3]
+        )
 
-      route = Factories.Routes.Route.build(:route)
-
-      stop_ids =
-        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
-
-      [stop_multi, stop_single] =
-        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
-
-      [stop_sequence_multi_1, stop_sequence_single, stop_sequence_multi_2] =
-        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      trip_id = FactoryHelpers.build(:id)
-      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time_offsets =
-        Faker.Util.sample_uniq(3, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
-
-      [arrival_time_multi_1, arrival_time_single, arrival_time_multi_2] =
-        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time_multi_1,
-            stop: stop_multi,
-            stop_sequence: stop_sequence_multi_1,
-            trip: trip
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time_single,
-            stop: stop_single,
-            stop_sequence: stop_sequence_single,
-            trip: trip
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time_multi_2,
-            stop: stop_multi,
-            stop_sequence: stop_sequence_multi_2,
-            trip: trip
-          )
-        ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence_multi_1)
-      end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
           route: route,
-          stop_id: stop_multi.id
+          stop_id: stop_id_multi
         })
 
       # Verify
-      assert [departure_1, departure_2] = departures
+      assert [%{trip_details: trip_details_1}, %{trip_details: trip_details_2}] = departures
 
-      # Departure 1 should select the first visit to stop_multi as
-      # `stop`, with its second visit in `stops_after`.
-      assert departure_1.trip_details.stops_before
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_sequence]))) == []
-
-      assert departure_1.trip_details.stop |> Map.take([:stop_id, :stop_sequence]) == %{
-               stop_id: stop_multi.id,
-               stop_sequence: stop_sequence_multi_1
-             }
-
-      assert departure_1.trip_details.stops_after
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_sequence]))) == [
-               %{stop_id: stop_single.id, stop_sequence: stop_sequence_single},
-               %{stop_id: stop_multi.id, stop_sequence: stop_sequence_multi_2}
+      assert trip_details_1.stops_before |> Enum.map(&{&1.stop_id, &1.stop_sequence}) == [
+               {stop_id_1, seq_1}
              ]
 
-      # Departure 2 should select the second visit to stop_multi as
-      # `stop`, with its first visit in `stops_before`.
-      assert departure_2.trip_details.stops_before
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_sequence]))) == [
-               %{stop_id: stop_multi.id, stop_sequence: stop_sequence_multi_1},
-               %{stop_id: stop_single.id, stop_sequence: stop_sequence_single}
+      assert trip_details_1.stops_after |> Enum.map(&{&1.stop_id, &1.stop_sequence}) == [
+               {stop_id_2, seq_3},
+               {stop_id_multi, seq_4},
+               {stop_id_3, seq_5}
              ]
 
-      assert departure_2.trip_details.stop |> Map.take([:stop_id, :stop_sequence]) == %{
-               stop_id: stop_multi.id,
-               stop_sequence: stop_sequence_multi_2
-             }
+      assert trip_details_2.stops_before |> Enum.map(&{&1.stop_id, &1.stop_sequence}) == [
+               {stop_id_1, seq_1},
+               {stop_id_multi, seq_2},
+               {stop_id_2, seq_3}
+             ]
 
-      assert departure_2.trip_details.stops_after
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_sequence]))) == []
+      assert trip_details_2.stops_after |> Enum.map(&{&1.stop_id, &1.stop_sequence}) == [
+               {stop_id_3, seq_5}
+             ]
     end
 
     test "OLD - shows trip details with vehicle info" do
