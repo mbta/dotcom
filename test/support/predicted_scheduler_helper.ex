@@ -14,6 +14,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     skipped_stops = opts |> Keyword.get(:skipped_stops, []) |> MapSet.new()
     stop_count = opts |> Keyword.get(:stop_count, 3)
     stop_id_options = opts |> Keyword.get(:stop_id_options, nil)
+    vehicle_on_different_trip? = opts |> Keyword.get(:vehicle_on_different_trip?, false)
     vehicle_stop_index = opts |> Keyword.get(:vehicle_stop_index, 1)
     vehicle_statuses = opts |> Keyword.get(:vehicle_statuses, [:incoming, :in_transit])
 
@@ -22,7 +23,15 @@ defmodule Test.Support.PredictedScheduleHelper do
     route =
       Factories.Routes.Route.build(Faker.Util.pick(route_types))
 
-    trip = Factories.Schedules.Trip.build(:trip)
+    [prediction_trip_id, vehicle_trip_id] =
+      if vehicle_on_different_trip? do
+        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+      else
+        trip_id = FactoryHelpers.build(:id)
+        [trip_id, trip_id]
+      end
+
+    prediction_trip = Factories.Schedules.Trip.build(:trip, id: prediction_trip_id)
 
     stop_id_fn =
       case stop_id_options do
@@ -69,7 +78,7 @@ defmodule Test.Support.PredictedScheduleHelper do
           route: route,
           stop: stop,
           stop_sequence: stop_sequence,
-          trip: trip
+          trip: prediction_trip
         )
       end)
 
@@ -81,7 +90,7 @@ defmodule Test.Support.PredictedScheduleHelper do
         status: Faker.Util.pick(vehicle_statuses),
         stop_id: stop.id,
         stop_sequence: stop_sequence,
-        trip_id: trip.id
+        trip_id: vehicle_trip_id
       )
 
     predicted_times = scheduled_times |> Enum.map(&DateTime.shift(&1, second: seconds_behind))
@@ -122,7 +131,7 @@ defmodule Test.Support.PredictedScheduleHelper do
             status: status,
             stop: stop,
             stop_sequence: stop_sequence,
-            trip: trip,
+            trip: prediction_trip,
             vehicle_id: if(missing_vehicle?, do: nil, else: vehicle.id)
           },
           %{
@@ -145,8 +154,8 @@ defmodule Test.Support.PredictedScheduleHelper do
       schedules: schedules,
       stop_sequences: stop_sequences,
       stops: stops,
-      trip: trip,
-      trip_id: trip.id,
+      trip: prediction_trip,
+      trip_id: prediction_trip_id,
       vehicle: vehicle
     }
   end
