@@ -2336,95 +2336,36 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "OLD - pulls trip details from schedules for upcoming other-stops without predictions" do
+    test "pulls trip details from schedules for upcoming other-stops without predictions" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        predicted_departure_times: [predicted_time_0 | _],
+        predictions: [prediction | _],
+        route: route,
+        scheduled_arrival_times: [_, scheduled_time_1, scheduled_time_2],
+        schedules: schedules,
+        stops: [stop_0, stop_1, stop_2]
+      } =
+        PredictedScheduleHelper.journey(vehicle_stop_index: 0)
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
-      route_id = route.id
-
-      stop_ids =
-        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
-
-      [stop, stop_after] =
-        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
-
-      [stop_sequence, stop_sequence_after] =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      trip_id = FactoryHelpers.build(:id)
-      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time_offsets =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
-
-      [arrival_time, arrival_time_after] =
-        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            schedule_relationship: :scheduled,
-            stop: stop,
-            stop_sequence: stop_sequence,
-            trip: trip
-          )
-        ]
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: _date ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              stop: stop,
-              stop_sequence: stop_sequence,
-              trip: trip
-            ),
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: arrival_time_after,
-              departure_time: arrival_time_after |> DateTime.shift(second: 30),
-              stop: stop_after,
-              stop_sequence: stop_sequence_after,
-              time: arrival_time_after,
-              trip: trip
-            )
-          ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
-      end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_time_0),
           route: route,
-          stop_id: stop.id
+          stop_id: stop_0.id
         })
 
       # Verify
-      assert [departure] = departures
-      trip_details = departure.trip_details
+      assert [%{trip_details: trip_details}] = departures
 
-      assert trip_details.stop |> Map.take([:stop_id, :stop_name, :time]) ==
-               %{
-                 stop_id: stop.id,
-                 stop_name: stop.name,
-                 time: {:time, arrival_time |> truncate(:minute)}
-               }
-
-      assert trip_details.stops_after
-             |> Enum.map(&(&1 |> Map.take([:stop_id, :stop_name, :time]))) == [
-               %{
-                 stop_id: stop_after.id,
-                 stop_name: stop_after.name,
-                 time: {:time, arrival_time_after |> truncate(:minute)}
-               }
+      assert trip_details.stops_after |> Enum.map(&{&1.stop_id, &1.time}) == [
+               {stop_1.id, {:time, scheduled_time_1 |> truncate(:minute)}},
+               {stop_2.id, {:time, scheduled_time_2 |> truncate(:minute)}}
              ]
     end
 
