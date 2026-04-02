@@ -2435,91 +2435,38 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "OLD - shows an `other_stop` as cancelled if the time on its prediction is nil and the time on its schedule is non-nil" do
+    test "shows a trip_stop as cancelled if the stop is skipped (nil times on predictions, non-nil on schedules)" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
+      %{
+        route: route,
+        predicted_departure_times: [predicted_time | _],
+        predicted_arrival_times: [nil | _],
+        predictions: predictions,
+        schedules: schedules,
+        stops: [_, _, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(vehicle_stop_index: 0, skipped_stops: [1], stop_count: 4)
 
-      route = Factories.Routes.Route.build(:route)
-      route_id = route.id
-
-      stop_ids =
-        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
-
-      [stop, stop_after] =
-        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
-
-      [stop_sequence, stop_sequence_after] =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      trip_id = FactoryHelpers.build(:id)
-      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time_offsets =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
-
-      [arrival_time, arrival_time_after] =
-        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            schedule_relationship: :scheduled,
-            stop: stop,
-            stop_sequence: stop_sequence,
-            trip: trip
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: nil,
-            departure_time: nil,
-            stop: stop_after,
-            stop_sequence: stop_sequence_after,
-            trip: trip
-          )
-        ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: _date ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              stop: stop,
-              stop_sequence: stop_sequence,
-              trip: trip
-            ),
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: arrival_time_after,
-              departure_time: arrival_time_after |> DateTime.shift(second: 30),
-              time: arrival_time_after,
-              stop: stop_after,
-              stop_sequence: stop_sequence_after,
-              trip: trip
-            )
-          ]
-      end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_time),
           route: route,
           stop_id: stop.id
         })
 
       # Verify
-      assert [departure] = departures
-      trip_details = departure.trip_details
+      assert [%{trip_details: trip_details}] = departures
 
-      assert [stop_after] = trip_details.stops_after
-      assert stop_after.time == {:time, arrival_time_after |> truncate(:minute)}
-      assert stop_after.cancelled?
+      assert [trip_stop_0, trip_stop_1] = trip_details.stops_before
+      refute trip_stop_0.cancelled?
+      assert trip_stop_1.cancelled?
     end
 
     test "OLD - does not include upcoming departures for other stops" do
