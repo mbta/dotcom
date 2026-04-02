@@ -2631,7 +2631,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert trip_stop_1.cancelled?
     end
 
-    test "OLD - marks the last upcoming departure with last_trip? = true for non-subway routes" do
+    test "marks the last upcoming departure with last_trip? = true for non-subway routes" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -2685,7 +2685,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert last_departure.last_trip?
     end
 
-    test "OLD - does not mark last_trip? = true for subway routes" do
+    test "does not mark last_trip? = true for subway routes" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
       route = Factories.Routes.Route.build(:subway_route)
