@@ -47,7 +47,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:selected_service_name, fn -> "" end)
-     |> assign_new(:daily_schedule_date, fn -> service_date() end)}
+     |> assign_new(:daily_schedule_date, fn -> service_date() end)
+     |> assign_new(:hidecrumbs, fn -> true end)}
   end
 
   @impl LiveView
