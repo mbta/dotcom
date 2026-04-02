@@ -7,6 +7,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
     missing_realtime? = opts |> Keyword.get(:missing_realtime?, false)
+    missing_vehicle? = opts |> Keyword.get(:missing_vehicle?, false)
     prediction_status = opts |> Keyword.get(:prediction_status)
     route_types = opts |> Keyword.get(:route_types, [:route])
     seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
@@ -122,7 +123,7 @@ defmodule Test.Support.PredictedScheduleHelper do
             stop: stop,
             stop_sequence: stop_sequence,
             trip: trip,
-            vehicle_id: vehicle.id
+            vehicle_id: if(missing_vehicle?, do: nil, else: vehicle.id)
           },
           %{
             cancelled?: cancelled?,
