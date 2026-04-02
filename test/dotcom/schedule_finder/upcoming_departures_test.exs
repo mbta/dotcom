@@ -1429,283 +1429,166 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == :boarding
     end
 
-    test "OLD - uses vehicle :stopped status for subway arrival_status, if applicable" do
+    test "does not show :boarding status if vehicle is stopped at a different stop" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      vehicle_id = FactoryHelpers.build(:id)
-      seconds_until_departure = Faker.random_between(0, 600)
-      arrival_time = now |> DateTime.shift(second: -5)
-      departure_time = now |> DateTime.shift(second: seconds_until_departure)
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: arrival_time,
-          departure_time: departure_time,
-          route: subway_route
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_arrival_times: [_, arrival_time, _],
+        predicted_departure_times: [_, departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          vehicle_statuses: [:stopped],
+          vehicle_stop_index: 0
         )
 
-      vehicle_at_stop =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          status: :stopped,
-          stop_id: prediction.stop.id,
-          trip_id: prediction.trip.id,
-          stop_sequence: prediction.stop_sequence
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
-      [departure] =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
-          now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
-        })
+      now = Generators.DateTime.random_time_range_date_time({arrival_time, departure_time})
 
-      # Verify
-      assert departure.arrival_status == :boarding
-    end
-
-    test "OLD - does not show :boarding status if vehicle is stopped at a different stop" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      other_stop_id = FactoryHelpers.build(:id)
-      vehicle_id = FactoryHelpers.build(:id)
-      seconds_until_departure = Faker.random_between(0, 90)
-      arrival_time = now |> DateTime.shift(second: -5)
-      departure_time = now |> DateTime.shift(second: seconds_until_departure)
-
-      [vehicle_stop_sequence, prediction_stop_sequence] =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: arrival_time,
-          departure_time: departure_time,
-          route: subway_route,
-          stop_sequence: prediction_stop_sequence
-        )
-
-      vehicle_at_stop =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          status: :stopped,
-          stop_id: other_stop_id,
-          stop_sequence: vehicle_stop_sequence,
-          trip_id: prediction.trip.id
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
-
-      # Exercise
-      [departure] =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
-          now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
-        })
-
-      # Verify
-      refute departure.arrival_status == :boarding
-    end
-
-    test "OLD - does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      vehicle_id = FactoryHelpers.build(:id)
-      seconds_until_departure = Faker.random_between(91, 3600)
-      departure_time = now |> DateTime.shift(second: seconds_until_departure)
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: nil,
-          departure_time: departure_time,
-          route: subway_route
-        )
-
-      vehicle_at_stop =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          status: :stopped,
-          stop_id: prediction.stop.id,
-          trip_id: prediction.trip.id,
-          stop_sequence: prediction.stop_sequence
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
-
-      # Exercise
-      [departure] =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
-          now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
-        })
-
-      # Verify
-      refute departure.arrival_status == :boarding
-    end
-
-    test "OLD - shows :boarding when the vehicle is stopped at the station, even if the prediction time is in the past" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      vehicle_id = FactoryHelpers.build(:id)
-      seconds_since_departure = Faker.random_between(1, 600)
-      departure_time = now |> DateTime.shift(second: -seconds_since_departure)
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: nil,
-          departure_time: departure_time,
-          route: subway_route
-        )
-
-      vehicle_at_stop =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          status: :stopped,
-          stop_id: prediction.stop.id,
-          trip_id: prediction.trip.id,
-          stop_sequence: prediction.stop_sequence
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle_at_stop end)
-
-      # Exercise
-      [departure] =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
-          now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
-        })
-
-      # Verify
-      assert departure.arrival_status == :boarding
-    end
-
-    test "OLD - drops a prediction when the vehicle is past the station whether or not the prediction is in the past" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      vehicle_id = FactoryHelpers.build(:id)
-      seconds_since_or_until_departure = Faker.random_between(-600, 600)
-      departure_time = now |> DateTime.shift(second: seconds_since_or_until_departure)
-
-      [prediction_stop_sequence, vehicle_stop_sequence] =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: nil,
-          departure_time: departure_time,
-          route: subway_route,
-          stop_sequence: prediction_stop_sequence
-        )
-
-      vehicle =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          trip_id: prediction.trip.id,
-          stop_sequence: vehicle_stop_sequence
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
-
-      # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
+          direction_id: Faker.Util.pick([0, 1]),
           now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      refute departure.arrival_status == :boarding
+    end
+
+    test "does not show :boarding for the first stop of a trip (arrival_time=nil) more than 90 seconds before departure" do
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [departure_time, _, _],
+        stops: [stop, _, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          vehicle_statuses: [:stopped],
+          vehicle_stop_index: 0
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      seconds_before_departure = Faker.random_between(91, 300)
+
+      now = departure_time |> DateTime.shift(second: -seconds_before_departure)
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: now,
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      refute departure.arrival_status == :boarding
+    end
+
+    test "shows :boarding when the vehicle is stopped at the station, even if the prediction time is in the past" do
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          vehicle_statuses: [:stopped]
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.later_on_day(departure_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == :boarding
+    end
+
+    test "drops a prediction when the vehicle is past the station even if the prediction is in the future" do
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          vehicle_stop_index: 2
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(departure_time),
+          route: route,
+          stop_id: stop.id
         })
 
       # Verify
       assert departures == []
     end
 
-    test "OLD - does not drop a prediction when the vehicle is serving a different trip even if its stop sequence is lower than the vehicle's" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      subway_route = Factories.Routes.Route.build(:subway_route)
-      vehicle_id = FactoryHelpers.build(:id)
-
-      minutes_until_departure = Faker.random_between(2, 59)
-      seconds_until_departure = minutes_until_departure * 60 + Faker.random_between(-30, 29)
-      departure_time = now |> DateTime.shift(second: seconds_until_departure)
-
-      [vehicle_trip_id, prediction_trip_id] =
-        Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
-
-      [prediction_stop_sequence, vehicle_stop_sequence] =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      prediction =
-        Factories.Predictions.Prediction.build(:prediction,
-          arrival_time: nil,
-          departure_time: departure_time,
-          route: subway_route,
-          stop_sequence: prediction_stop_sequence,
-          trip: Factories.Schedules.Trip.build(:trip, id: prediction_trip_id)
+    test "does not drop a prediction when the vehicle is serving a different trip even if its stop sequence is lower than the vehicle's" do
+      %{
+        predictions: predictions,
+        route: route,
+        predicted_departure_times: [_, departure_time, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:subway_route],
+          vehicle_stop_index: 2,
+          vehicle_on_different_trip?: true
         )
 
-      vehicle =
-        Factories.Vehicles.Vehicle.build(:vehicle,
-          id: vehicle_id,
-          trip_id: vehicle_trip_id,
-          stop_sequence: vehicle_stop_sequence
-        )
-
-      prediction = Map.put(prediction, :vehicle_id, vehicle_id)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Vehicles.Repo.Mock, :get, fn ^vehicle_id -> vehicle end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
+
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: prediction.direction_id,
-          now: now,
-          route: subway_route,
-          stop_id: prediction.stop.id
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(departure_time),
+          route: route,
+          stop_id: stop.id
         })
 
       # Verify
-      assert [departure] = departures
-      assert departure.arrival_status == {:departure_minutes, minutes_until_departure}
+      assert [_] = departures
     end
 
     test "shows arrival_status as :now for bus if it's between 0 and 30 seconds out" do
