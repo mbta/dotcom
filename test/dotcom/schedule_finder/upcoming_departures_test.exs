@@ -413,11 +413,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
+    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail and ferry" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -634,12 +638,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :no_realtime
     end
 
-    test "returns :no_realtime with departures if bus/commuter rail schedules" do
+    test "returns :no_realtime with departures if bus/commuter rail/ferry schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
       route =
-        [:bus_route, :commuter_rail_route]
+        [:bus_route, :commuter_rail_route, :ferry_route]
         |> Faker.Util.pick()
         |> Factories.Routes.Route.build()
 
@@ -697,7 +701,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -876,7 +884,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -935,7 +947,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -986,7 +1002,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -1010,7 +1030,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -1083,7 +1107,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -1136,11 +1164,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :service_ended
     end
 
-    test "shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
+    test "shows schedule data for bus or CR or ferry predictions with no times that aren't skipped or cancelled" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
 
@@ -1759,11 +1791,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "shows departure time and :on_time for commuter rail if predicted and scheduled times differ by under a minute" do
+    test "shows departure time and :on_time for commuter rail and ferry if predicted and scheduled times differ by under a minute" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       stop_id = FactoryHelpers.build(:id)
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -1814,11 +1846,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows :on_time for commuter rail if there is no schedule" do
+    test "shows :on_time for commuter rail and ferry if there is no schedule" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       stop_id = FactoryHelpers.build(:id)
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -1862,11 +1894,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows {:early_from, scheduled_time} for commuter rail if predicted and scheduled times differ by more than a minute" do
+    test "shows {:early_from, scheduled_time} for commuter rail and ferry if predicted and scheduled times differ by more than a minute" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
 
@@ -1921,11 +1953,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:early_from, scheduled_departure_time}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late" do
+    test "shows {:delayed_from, scheduled_time} for commuter rail and ferry if predicted time is more than a minute late" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
 
@@ -1980,12 +2012,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "does not show an arrival_substatus for non-CR" do
+    test "does not show an arrival_substatus for non-CR and non-ferry" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
       route =
-        Factories.Routes.Route.build(Faker.Util.pick([:subway_route, :bus_route, :ferry_route]))
+        Factories.Routes.Route.build(Faker.Util.pick([:subway_route, :bus_route]))
 
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
@@ -2040,11 +2072,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == nil
     end
 
-    test "shows :scheduled for commuter rail if there is no prediction" do
+    test "shows :scheduled for commuter rail and ferry if there is no prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
 
@@ -2131,11 +2163,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled_sr_only
     end
 
-    test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
+    test "shows {:status, status} for commuter rail and ferry if there is a status field set on the prediction" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       stop_id = FactoryHelpers.build(:id)
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -2185,11 +2217,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, display_status}
     end
 
-    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
+    test "shows {:status, 'Delayed'} for commuter rail and ferry if the status is 'Delayed', but the predicted time is less than a minute late" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       stop_id = FactoryHelpers.build(:id)
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -2242,11 +2274,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
+    test "shows {:delayed_from, scheduled_time} for commuter rail and ferry if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(:commuter_rail_route)
+      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :ferry_route]))
       stop_id = FactoryHelpers.build(:id)
 
       trip = Factories.Schedules.Trip.build(:trip)
@@ -2299,11 +2331,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "shows :cancelled for commuter rail or bus if the schedule_relationship is :cancelled or :skipped" do
+    test "shows :cancelled for commuter rail or bus or ferry if the schedule_relationship is :cancelled or :skipped" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:commuter_rail_route, :bus_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:commuter_rail_route, :bus_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
 
@@ -2802,7 +2838,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
 
       stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
 
@@ -2867,7 +2906,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
 
       stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
 
@@ -2938,7 +2980,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
 
       stop_ids = Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
 
@@ -3233,7 +3278,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
 
       stop_ids =
@@ -3322,7 +3371,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
 
       stop_ids =
@@ -3414,7 +3467,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
 
       stop_ids =
