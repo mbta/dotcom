@@ -611,8 +611,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
           <span>{render_slot(@headsign)}</span>
         </div>
-
-        <div :if={@additional_info} class="flex items-center gap-2">
+        <div
+          :if={is_list(@additional_info) and length(@additional_info) > 0}
+          class="flex items-center gap-2"
+        >
           <div class="h-0 invisible shrink-0">
             <RouteComponents.route_icon size="small" route={@route} />
           </div>
