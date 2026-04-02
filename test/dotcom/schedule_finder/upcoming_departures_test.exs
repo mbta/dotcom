@@ -2369,95 +2369,37 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              ]
     end
 
-    test "OLD - does not include past scheduled stops in trip details" do
+    test "does not include past scheduled stops in trip details" do
       # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
-      route_id = route.id
-
-      stop_ids =
-        Faker.Util.sample_uniq(3, fn -> FactoryHelpers.build(:id) end)
-
-      [stop_before, stop, stop_after] =
-        stop_ids |> Enum.map(&Factories.Stops.Stop.build(:stop, id: &1))
-
-      [stop_sequence_before, stop_sequence, stop_sequence_after] =
-        Faker.Util.sample_uniq(3, fn -> Faker.random_between(0, 1000) end)
-        |> Enum.sort()
-
-      trip_id = FactoryHelpers.build(:id)
-      trip = Factories.Schedules.Trip.build(:trip, id: trip_id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_time_offsets =
-        Faker.Util.sample_uniq(2, fn -> Faker.random_between(2, 59) end) |> Enum.sort()
-
-      [arrival_time, arrival_time_after] =
-        arrival_time_offsets |> Enum.map(&(now |> DateTime.shift(minute: &1)))
-
-      departure_time_before =
-        Generators.DateTime.random_time_range_date_time(
-          {ServiceDateTime.beginning_of_service_day(now), now}
+      %{
+        route: route,
+        scheduled_arrival_times: [_, scheduled_time_1, scheduled_time_2, _, _],
+        schedules: schedules,
+        stops: [_, _stop_1, stop_2, stop, _]
+      } =
+        PredictedScheduleHelper.journey(
+          route_types: [:bus_route, :commuter_rail_route],
+          stop_count: 5
         )
 
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            schedule_relationship: :scheduled,
-            stop: stop,
-            stop_sequence: stop_sequence,
-            trip: trip
-          )
-        ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
-      end)
-
-      expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: _date ->
-          [
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: departure_time_before |> DateTime.shift(second: -30),
-              departure_time: departure_time_before,
-              stop: stop_before,
-              stop_sequence: stop_sequence_before,
-              time: departure_time_before,
-              trip: trip
-            ),
-            Factories.Schedules.Schedule.build(:schedule,
-              stop: stop,
-              stop_sequence: stop_sequence,
-              trip: trip
-            ),
-            Factories.Schedules.Schedule.build(:schedule,
-              arrival_time: arrival_time_after,
-              departure_time: arrival_time_after |> DateTime.shift(second: 30),
-              stop: stop_after,
-              stop_sequence: stop_sequence_after,
-              time: arrival_time_after,
-              trip: trip
-            )
-          ]
-      end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
+          direction_id: Faker.Util.pick([0, 1]),
+          now:
+            Generators.DateTime.random_time_range_date_time({scheduled_time_1, scheduled_time_2}),
           route: route,
           stop_id: stop.id
         })
 
       # Verify
-      assert [departure] = departures
-      trip_details = departure.trip_details
+      assert {:no_realtime, [%{trip_details: trip_details}]} = departures
 
-      assert trip_details.stops_before == []
+      assert trip_details.stops_before |> Enum.map(&{&1.stop_id, &1.time}) == [
+               {stop_2.id, {:time, scheduled_time_2 |> truncate(:minute)}}
+             ]
     end
 
     test "OLD - uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
