@@ -2469,52 +2469,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert trip_stop_1.cancelled?
     end
 
-    test "OLD - does not include upcoming departures for other stops" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route = Factories.Routes.Route.build(:route)
-      [stop_id, other_stop_id] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
-      trip_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-      stop_sequence = Faker.random_between(1, 10_000)
-
-      minutes_until_arrival = Faker.random_between(2, 59)
-      arrival_time = now |> DateTime.shift(minute: minutes_until_arrival)
-
-      expect(Predictions.Repo.Mock, :all, fn _opts ->
-        [
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            stop_sequence: stop_sequence,
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-          ),
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: Factories.Stops.Stop.build(:stop, id: other_stop_id),
-            trip: Factories.Schedules.Trip.build(:trip, id: trip_id)
-          )
-        ]
-      end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ ->
-        Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
-      end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
-          route: route,
-          stop_id: stop_id
-        })
-
-      # Verify
-      assert departures |> Enum.count() == 1
-    end
-
     test "OLD - uses vehicle :stopped status for subway arrival_status, if applicable" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
