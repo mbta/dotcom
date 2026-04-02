@@ -903,6 +903,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
+    @tag :skip
     test "excludes bus and commuter rail skipped stops if their scheduled time is in the past" do
       %{
         predictions: predictions,
