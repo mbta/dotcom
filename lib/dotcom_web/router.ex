@@ -175,6 +175,22 @@ defmodule DotcomWeb.Router do
       to: "/service-changes/fall-2025-bus-service-changes#62"
     )
 
+    get("/schedules/747", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/747/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/4050", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
+    )
+
+    get("/schedules/4050/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
+    )
+
     # Commuter Rail route renamed as part of the SCR project
     get("/schedules/CR-Middleborough/*path_params", Plugs.PathParamsRedirector,
       to: "/schedules/CR-NewBedford"
