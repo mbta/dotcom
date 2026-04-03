@@ -79,6 +79,7 @@
       open={@amenity_param == :accessibility}
       amenity={@accessibility_amenity}
       accessible?={@accessible?}
+      alerts={alerts_for_amenity(@accessibility_amenity, dbg(@alerts))}
     />
     <h3 :if={@stop.station?} class="hidden-md-up">Purchasing Fares</h3>
     <.fare_amenity

@@ -44,6 +44,7 @@ defmodule Dotcom.StopAmenity do
   defp alert_effects(:elevator), do: [:elevator_closure]
   defp alert_effects(:escalator), do: [:escalator_closure]
   defp alert_effects(:parking), do: [:parking_closure, :parking_issue]
+  defp alert_effects(:accessibility), do: [:access_issue, :station_issue]
   defp alert_effects(_), do: []
 
   defp amenity_for_facility_type(:bike_storage), do: :bike
@@ -77,7 +78,13 @@ defmodule Dotcom.StopAmenity do
   Checks if the alerts affect the given amenity now.
   """
   def affected_by_alerts?(%__MODULE__{facilities: facilities}, alerts) do
+    dbg(facilities)
+    dbg(alerts)
     Enum.any?(facilities, &Facility.affected_by_alerts?(&1, alerts))
+  end
+
+  def affected_by_alerts?(_, _) do
+    false
   end
 
   @doc """

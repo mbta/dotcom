@@ -8,6 +8,9 @@
     <.amenity_icon type={:accessibility} />
     {~t"Accessibility"}
     <.amenity_badge :if={!@accessible?}>{~t"Not accessible"}</.amenity_badge>
+    <.amenity_badge :if={Dotcom.StopAmenity.affected_by_alerts?(@amenity, @alerts)}>
+      {~t"Temporary Issue"}
+    </.amenity_badge>
   </:card_title>
   <:card_content>
     <%= if @accessible? do %>
