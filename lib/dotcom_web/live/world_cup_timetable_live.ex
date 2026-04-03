@@ -18,7 +18,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
        {~t"Placeholder 5C", [~T[13:10:00], ~T[13:59:00]]},
        {~t"Placeholder 5D", [~T[15:48:00], ~T[19:07:00]]}
      ]},
-    {~D[2026-06-16], ~T[18:00:00], ~t"Match 18", [nil, :norway],
+    {~D[2026-06-16], ~T[18:00:00], ~t"Match 18", [:iraq, :norway],
      [
        {~t"Placeholder 18X", [~T[18:55:00], ~T[18:56:00]]},
        {~t"Placeholder 18Y", [~T[19:20:00], ~T[19:36:00]]},
