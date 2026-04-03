@@ -575,7 +575,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp first_last(assigns), do: ~H""
 
-  defp next_day?(first, second) do
+  defp next_day?(%DateTime{} = first, %DateTime{} = second) do
     Date.after?(second, first)
   end
 
