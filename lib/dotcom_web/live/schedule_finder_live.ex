@@ -227,11 +227,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
+    send(self(), %{selected_service: selected_service_label})
+
     {:noreply,
      socket
-     |> assign(:departures, AsyncResult.loading())
-     |> assign_service(selected_service_label)
-     |> assign_departures()}
+     |> assign(:departures, AsyncResult.loading())}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -260,6 +260,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   def handle_info(%{event: "alerts_updated"}, socket) do
     {:noreply, assign_alerts(socket)}
+  end
+
+  def handle_info(%{selected_service: selected_service_label}, socket) do
+    {:noreply,
+     socket
+     |> assign_service(selected_service_label)
+     |> assign_departures()}
   end
 
   def handle_info(_, socket), do: {:noreply, socket}
@@ -358,8 +365,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
           last_trip_time =
             departures.departures
-            |> Enum.sort_by(fn departure -> departure.time end)
-            |> Enum.at(-1)
+            |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
+            |> Enum.at(-1, %{})
             |> Map.get(:time)
 
           {:ok, %{last_trip_time: last_trip_time}}
@@ -575,8 +582,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp first_last(assigns), do: ~H""
 
-  defp next_day?(%DateTime{day: first}, %DateTime{day: second}) do
-    second > first
+  defp next_day?(%DateTime{} = first, %DateTime{} = second) do
+    Date.after?(second, first)
   end
 
   defp next_day?(_, _), do: false
@@ -895,10 +902,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
       <:additional_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-        <span aria-hidden="true">
+        <span :if={!is_nil(@upcoming_departure.platform_name)} aria-hidden="true">
           &bull;
         </span>
-        {@upcoming_departure.platform_name || ~t"Track TBA"}
+        {@upcoming_departure.platform_name}
       </:additional_info>
 
       <:additional_info :if={
@@ -1215,8 +1222,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       {_, last_departure_time} = last_departure.trip_details.stop.time
 
-      if last_departure_time > last_trip_time or
-           last_trip_time < @date_time.now() or
+      if DateTime.after?(last_departure_time, last_trip_time) or
+           DateTime.before?(last_trip_time, @date_time.now()) or
            has_last_trip? do
         false
       else

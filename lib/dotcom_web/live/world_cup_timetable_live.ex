@@ -19,7 +19,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
        {~t"Boarding Group D", [~T[17:00:00], ~T[17:30:00]], [~T[19:15:00], ~T[19:30:00]]},
        {~t"Boarding Group E", [~T[17:45:00], ~T[18:00:00]], [~T[19:15:00], ~T[19:30:00]]}
      ]},
-    {~D[2026-06-16], ~T[18:00:00], ~t"Match 18", [nil, :norway],
+    {~D[2026-06-16], ~T[18:00:00], ~t"Match 18", [:iraq, :norway],
      [
        {~t"Boarding Group A", [~T[11:15:00], ~T[12:00:00]], [~T[13:15:00], ~T[14:00:00]]},
        {~t"Boarding Group B", [~T[12:30:00], ~T[13:00:00]], [~T[14:15:00], ~T[15:00:00]]},
