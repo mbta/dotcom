@@ -30,8 +30,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  on_mount {DotcomWeb.Hooks.Breadcrumbs, :departures}
-
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
@@ -47,8 +45,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_new(:service_groups, fn -> [] end)
      |> assign_new(:loaded_trips, fn -> %{} end)
      |> assign_new(:selected_service_name, fn -> "" end)
-     |> assign_new(:daily_schedule_date, fn -> service_date() end)
-     |> assign_new(:hidecrumbs, fn -> true end)}
+     |> assign_new(:daily_schedule_date, fn -> service_date() end)}
   end
 
   @impl LiveView
@@ -203,7 +200,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_alerts()
      |> assign_departures()
      |> assign_upcoming_departures()
-     |> assign_last_trip_time()}
+     |> assign_last_trip_time()
+     |> assign_page_title(route_id)}
   end
 
   @impl LiveView
@@ -284,6 +282,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp schedule_refresh_upcoming_departures(pid) do
     # Refresh every second
     Process.send_after(pid, :refresh_upcoming_departures, 1000)
+  end
+
+  defp assign_page_title(assigns, route_id) do
+    long_name = Routes.Repo.get(route_id) |> Map.get(:name)
+    assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
   defp assign_route(socket, route_id) do
