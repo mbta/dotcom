@@ -7,7 +7,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   info about an upcoming departure.
   """
 
-  alias Dotcom.ScheduleFinder.TripDetails
+  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
+  import Dotcom.Utils.Time, only: [truncate: 2]
+
+  alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
   alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
@@ -20,8 +23,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
-
   defmodule UpcomingDeparture do
     @moduledoc """
     A struct representing an upcoming departure.
@@ -31,6 +32,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :arrival_status,
       :arrival_substatus,
       :headsign,
+      :last_trip?,
       :platform_name,
       :route,
       :stop_sequence,
@@ -43,7 +45,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             :arriving
             | :boarding
             | :now
-            | {:departure_seconds, integer()}
+            | {:arrival_minutes, integer()}
+            | {:departure_minutes, integer()}
 
     @type arrival_status_t ::
             realtime_arrival_status_t()
@@ -57,6 +60,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             nil
             | :on_time
             | :scheduled
+            | :scheduled_sr_only
             | {:scheduled_at, DateTime.t()}
             | {:status, String.t()}
 
@@ -64,6 +68,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             arrival_status: arrival_status_t(),
             arrival_substatus: arrival_substatus_t(),
             headsign: Schedules.Trip.headsign(),
+            last_trip?: boolean(),
             platform_name: String.t() | nil,
             route: Route.t(),
             stop_sequence: non_neg_integer(),
@@ -248,7 +253,17 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end)
     |> Stream.reject(&(&1.arrival_status == :hidden))
     |> Enum.to_list()
+    |> mark_last_trip(args.route_type)
   end
+
+  defp mark_last_trip([], _route_type), do: []
+
+  # Only mark the last trip for non-subway routes
+  defp mark_last_trip(departures, route_type) when route_type != :subway do
+    List.update_at(departures, -1, &Map.put(&1, :last_trip?, true))
+  end
+
+  defp mark_last_trip(departures, _route_type), do: departures
 
   def to_upcoming_departure(%{
         now: now,
@@ -286,6 +301,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type
         }),
       headsign: trip.headsign,
+      last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: PredictedSchedule.route(predicted_schedule),
       stop_sequence: stop_sequence,
@@ -355,12 +371,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> @stops_repo.get()
       |> Kernel.then(& &1.platform_name)
 
+    stop_id =
+      predicted_schedule
+      |> PredictedSchedule.stop()
+      |> Kernel.then(& &1.id)
+
     route_type =
       predicted_schedule
       |> PredictedSchedule.route()
       |> Kernel.then(& &1.type)
 
-    simplify_platform_name(name, route_type)
+    if Platforms.has_platforms?(route_type, stop_id) do
+      simplify_platform_name(name, route_type)
+    end
   end
 
   @spec arrival_status(%{
@@ -394,7 +417,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
          route_type: route_type
        })
        when schedule_relationship in [:cancelled, :skipped] and
-              route_type in [:bus, :commuter_rail] do
+              route_type != :subway do
     {:cancelled, schedule.departure_time}
   end
 
@@ -408,11 +431,29 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil}
+         },
+         route_type: :subway
+       }) do
+    :hidden
+  end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil},
+           schedule: schedule
+         }
+       }) do
+    {:scheduled, PredictedSchedule.display_time(schedule)}
+  end
+
+  defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
          route_type: :commuter_rail
        })
        when prediction != nil do
-    {:time, prediction.departure_time}
+    {:time, prediction.departure_time |> truncate(:minute)}
   end
 
   defp arrival_status(%{
@@ -488,14 +529,29 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        when arrival_seconds <= 30, do: :arriving
 
   defp realtime_arrival_status(%{arrival_seconds: nil, departure_seconds: seconds}),
-    do: {:departure_seconds, seconds}
+    do: {:departure_minutes, div(seconds + 30, 60)}
 
-  defp realtime_arrival_status(%{arrival_seconds: seconds}), do: {:arrival_seconds, seconds}
+  defp realtime_arrival_status(%{arrival_seconds: seconds}),
+    do: {:arrival_minutes, div(seconds + 30, 60)}
 
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type()
         }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{schedule_relationship: relationship}
+         }
+       })
+       when relationship in [:skipped, :cancelled], do: relationship
+
+  defp arrival_substatus(%{
+         predicted_schedule: %PredictedSchedule{prediction: nil},
+         route_type: :bus
+       }),
+       do: :scheduled_sr_only
+
   defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
 
   defp arrival_substatus(%{
@@ -537,16 +593,5 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       true ->
         :on_time
     end
-  end
-
-  @spec last_trip_time(Route.id_t(), 0 | 1, DateTime.t(), Stop.id_t()) :: DateTime.t() | nil
-  def last_trip_time(route_id, direction_id, now, stop_id) do
-    route_id
-    |> predicted_schedules(direction_id, now)
-    |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
-    |> Stream.reject(&end_of_trip?/1)
-    |> Stream.map(&PredictedSchedule.display_time/1)
-    |> Enum.sort(DateTime)
-    |> List.last()
   end
 end

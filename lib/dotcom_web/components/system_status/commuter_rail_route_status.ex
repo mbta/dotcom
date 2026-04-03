@@ -18,7 +18,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
   def commuter_rail_route_status(assigns) do
     ~H"""
     <.bordered_container hide_divider>
-      <:heading>{~t"Current Status"}</:heading>
+      <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
+        {~t"Current Status"}
+      </h2>
       <div class="border-b-xs border-gray-lightest mt-4">
         <.rows_for_status status={@status} />
       </div>

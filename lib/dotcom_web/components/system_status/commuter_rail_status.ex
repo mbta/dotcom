@@ -33,11 +33,9 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
 
     ~H"""
     <.bordered_container hide_divider>
-      <:heading>
-        <div class="mb-sm">
-          Commuter Rail Status
-        </div>
-      </:heading>
+      <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
+        {~t(Commuter Rail Status)}
+      </h2>
       <div class="border-b-xs border-gray-lightest grid grid-cols-[min-content_auto_min-content]">
         <.rows_for_line :for={status <- @status_for_line} status={status} />
       </div>

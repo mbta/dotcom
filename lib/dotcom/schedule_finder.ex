@@ -5,8 +5,10 @@ defmodule Dotcom.ScheduleFinder do
 
   import Dotcom.Alerts
 
+  use Dotcom.Gettext.Sigils
+
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
@@ -17,7 +19,6 @@ defmodule Dotcom.ScheduleFinder do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
   defmodule DailyDeparture do
     @moduledoc """
     A scheduled departure for a trip on a route, described by a headsign and time.
@@ -198,9 +199,23 @@ defmodule Dotcom.ScheduleFinder do
     # If we happen to be looking at a stop that's the trip origin, there'll only be a departure time. Can use that if needed.
     %FutureArrival{
       time: if(arrival_time, do: arrival_time, else: departure_time),
-      platform_name: simplify_platform_name(arrival_stop.platform_name, route_type),
+      platform_name:
+        platform_name_for_stop(arrival_stop.platform_name, route_type, parent_stop.id),
       stop_name: arrival_stop.name
     }
+  end
+
+  @spec platform_name_for_stop(
+          String.t() | nil,
+          Route.type_int() | Route.route_type(),
+          Stop.id_t() | nil
+        ) :: String.t() | nil
+  def platform_name_for_stop(nil, _route_type, _stop_id), do: nil
+
+  def platform_name_for_stop(name, route_type, stop_id) do
+    if Platforms.has_platforms?(route_type, stop_id) do
+      simplify_platform_name(name, route_type)
+    end
   end
 
   @spec simplify_platform_name(String.t() | nil, Route.type_int() | Route.route_type()) ::
@@ -217,14 +232,16 @@ defmodule Dotcom.ScheduleFinder do
   # For commuter rail every station has a platform, but most stations also only
   # have _one_ so we don't really need to show a platform name there either.
   def simplify_platform_name("Commuter Rail", route_type)
-      when route_type in [2, :commuter_rail], do: nil
+      when route_type in [2, :commuter_rail], do: ~t(Track TBA)
 
   def simplify_platform_name("Commuter Rail - " <> track, route_type)
       when route_type in [2, :commuter_rail], do: track
 
   def simplify_platform_name(name, route_type)
       when route_type in [2, :commuter_rail] do
-    if not String.contains?(name, "All Trains") do
+    if String.contains?(name, " (All Trains)") do
+      Regex.run(~r/(.*) \(All Trains\)/, name) |> Enum.at(1)
+    else
       name
     end
   end

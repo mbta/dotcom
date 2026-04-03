@@ -34,13 +34,18 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
     assigns = assign(assigns, :ordered_disruptions, ordered_disruptions)
 
     ~H"""
-    <.bordered_container>
-      <:heading>{~t"Planned Work"}</:heading>
+    <.bordered_container hide_divider>
+      <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
+        {~t"Planned Work"}
+      </h2>
+      <hr class="h-px my-2 bg-gray-lightest border-0" />
       <%= if Enum.empty?(@ordered_disruptions) do %>
         {~t"There is no planned work information at this time."}
       <% else %>
         <div :for={{service_range, disruptions} <- @ordered_disruptions} class="py-3">
-          <div class="mb-2 font-bold font-heading">{service_range_string(service_range)}</div>
+          <h3 class="mb-2 font-bold font-heading" style="font-size:inherit; margin-top:inherit">
+            {service_range_string(service_range)}
+          </h3>
           <div class="border-b-[1px] border-gray-lightest">
             <div :for={disruption <- disruptions}>
               <.disruption alert={disruption} />

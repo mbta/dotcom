@@ -388,6 +388,35 @@ defmodule PredictedScheduleTest do
     end
   end
 
+  describe "last_trip?/1" do
+    test "Returns false when there is no prediction" do
+      predicted_schedule = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: nil
+      }
+
+      assert last_trip?(predicted_schedule) == false
+    end
+
+    test "Returns the value of last_trip if it is available in the prediction" do
+      expected_last_trip? = Faker.Util.pick([true, false])
+
+      predicted_schedule = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction:
+          build(:prediction, %{
+            stop: %Stop{id: "first"},
+            trip: %Trip{id: "trip1"},
+            time: Timex.shift(@base_time, minutes: 12),
+            route: @route,
+            last_trip?: expected_last_trip?
+          })
+      }
+
+      assert last_trip?(predicted_schedule) == expected_last_trip?
+    end
+  end
+
   describe "has_prediction?/1" do
     test "determines if PredictedSchedule has prediction" do
       with_prediction = %PredictedSchedule{

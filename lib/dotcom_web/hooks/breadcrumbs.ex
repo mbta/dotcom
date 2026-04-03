@@ -26,6 +26,16 @@ defmodule DotcomWeb.Hooks.Breadcrumbs do
      ])}
   end
 
+  def on_mount(:departures, %{"route_id" => route_id}, _session, socket) do
+    long_name = Routes.Repo.get(route_id) |> Map.get(:name)
+
+    {:cont,
+     assign(socket, :breadcrumbs, [
+       build(~t"Departures", ~p"/departures"),
+       build(long_name, ~p"/schedules/#{route_id}/line")
+     ])}
+  end
+
   # catch-all case
   def on_mount(:default, _params, _session, socket), do: {:cont, socket}
 end

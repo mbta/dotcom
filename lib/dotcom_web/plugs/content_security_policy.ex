@@ -13,6 +13,8 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         #{@tile_server_url}
         *.arcgis.com
         analytics.google.com
+        analytics.tiktok.com
+        analytics-ipv6.tiktokw.us
         cdn.mbta.com
         px.ads.linkedin.com
         stats.g.doubleclick.net
@@ -48,6 +50,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         data:
         i.ytimg.com
         fonts.gstatic.com
+        googleads.g.doubleclick.net
         px.ads.linkedin.com
         www.facebook.com
         www.googletagmanager.com
@@ -71,6 +74,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         translate-pa.googleapis.com
         www.instagram.com
         https://cdn.jsdelivr.net/
+        analytics.tiktok.com
       ],
     style_src: ~w[
         'self'

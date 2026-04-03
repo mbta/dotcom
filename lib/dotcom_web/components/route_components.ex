@@ -69,13 +69,14 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
-  attr :route, Route, required: true
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :class, :string, default: ""
+  attr :route, Route, required: true
   attr :stop_pin?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
-    values: ["default", "mode", "none"],
+    values: ["cancelled", "default", "mode", "none"],
     doc:
       "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
         "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
@@ -93,9 +94,13 @@ defmodule DotcomWeb.RouteComponents do
           <div class={"#{route_to_class(@route)} grow top"} />
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
-        <.lined_list_marker variant={@variant} route={@route} />
+        <.lined_list_marker
+          background={@background}
+          variant={@variant}
+          route={@route}
+        />
       </div>
-      <div class="relative">
+      <div class="relative" tabindex="-1">
         <Icon.icon
           :if={@stop_pin?}
           type="icon-svg"
@@ -108,8 +113,9 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["default", "mode", "none"]
+  attr :variant, :string, default: "default", values: ["cancelled", "default", "mode", "none"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -136,13 +142,29 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  defp lined_list_marker(%{variant: "cancelled"} = assigns) do
+    ~H"""
+    <div class={[
+      "bg-transparent #{route_to_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-5 ring-2 #{background_to_ring_class(@background)}",
+      "flex items-center justify-items-center"
+    ]}>
+      <Icon.icon type="icon-svg" name="icon-cancelled" />
+    </div>
+    """
+  end
+
   defp lined_list_marker(assigns) do
     ~H"""
     <div class={[
       "#{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-3.5 rounded-full rounded-full border-xs border-[#00000026]"
+      "size-3.5 rounded-full border-xs border-[#00000026]"
     ]} />
     """
   end
+
+  defp background_to_ring_class("white"), do: "ring-white"
+  defp background_to_ring_class("charcoal-90"), do: "ring-charcoal-90"
 end

@@ -179,6 +179,7 @@ defmodule DotcomWeb.Components do
   slot(:content, required: true)
   slot(:heading, required: true)
   attr(:class, :string, default: "")
+  attr(:id, :string, default: nil)
 
   attr(:summary_class, :string,
     default: "",
@@ -200,7 +201,7 @@ defmodule DotcomWeb.Components do
   """
   def unstyled_accordion(assigns) do
     ~H"""
-    <details class={"#{@class} group"} {@rest}>
+    <details class={"#{@class} group"} id={@id} {@rest}>
       <summary class={"#{@summary_class} cursor-pointer"}>
         {render_slot(@heading)}
         <div class={"#{@chevron_class} shrink-0"}>
