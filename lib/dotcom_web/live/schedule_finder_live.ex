@@ -366,7 +366,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           last_trip_time =
             departures.departures
             |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
-            |> Enum.at(-1)
+            |> Enum.at(-1, %{})
             |> Map.get(:time)
 
           {:ok, %{last_trip_time: last_trip_time}}
@@ -582,8 +582,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp first_last(assigns), do: ~H""
 
-  defp next_day?(%DateTime{day: first}, %DateTime{day: second}) do
-    second > first
+  defp next_day?(%DateTime{} = first, %DateTime{} = second) do
+    Date.after?(second, first)
   end
 
   defp next_day?(_, _), do: false
@@ -902,10 +902,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
       <:additional_info :if={@upcoming_departure.trip_name}>
         {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
-        <span aria-hidden="true">
+        <span :if={!is_nil(@upcoming_departure.platform_name)} aria-hidden="true">
           &bull;
         </span>
-        {@upcoming_departure.platform_name || ~t"Track TBA"}
+        {@upcoming_departure.platform_name}
       </:additional_info>
 
       <:additional_info :if={

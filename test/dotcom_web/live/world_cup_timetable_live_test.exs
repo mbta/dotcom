@@ -45,7 +45,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       |> render_click()
 
       assert_patch(view)
-      assert has_element?(view, "button", "View All Matches")
+      assert has_element?(view, "button", "View all matches")
       assert element(view, "h2", "Boarding Groups")
       assert has_element?(view, "table th", "Group Name")
       assert has_element?(view, "table th", "Check in at South Station")

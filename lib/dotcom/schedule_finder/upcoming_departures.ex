@@ -10,7 +10,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
   import Dotcom.Utils.Time, only: [truncate: 2]
 
-  alias Dotcom.ScheduleFinder.TripDetails
+  alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
   alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
@@ -371,12 +371,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> @stops_repo.get()
       |> Kernel.then(& &1.platform_name)
 
+    stop_id =
+      predicted_schedule
+      |> PredictedSchedule.stop()
+      |> Kernel.then(& &1.id)
+
     route_type =
       predicted_schedule
       |> PredictedSchedule.route()
       |> Kernel.then(& &1.type)
 
-    simplify_platform_name(name, route_type)
+    if Platforms.has_platforms?(route_type, stop_id) do
+      simplify_platform_name(name, route_type)
+    end
   end
 
   @spec arrival_status(%{
