@@ -115,8 +115,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   <.spinner aria_label={~t"Loading schedules for selected service"} />
                 </div>
               </:loading>
-              <:failed :let={fail}>
-                <.error_container title={inspect(fail)}>
+              <:failed :let={_fail}>
+                <.error_container>
                   {~t"There was a problem loading schedules"}
                 </.error_container>
               </:failed>
@@ -673,8 +673,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <:loading>
               <div class="p-lg text-gray">{~t"Loading arrivals..."}</div>
             </:loading>
-            <:failed :let={fail}>
-              <.error_container title={inspect(fail)}>
+            <:failed :let={_fail}>
+              <.error_container>
                 {~t"There was a problem loading arrivals"}
               </.error_container>
             </:failed>
