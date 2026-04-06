@@ -30,8 +30,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  on_mount {DotcomWeb.Hooks.Breadcrumbs, :departures}
-
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
@@ -285,6 +283,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
+  defp assign_page_title(assigns, %{name: long_name}) do
+    assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
+  end
+
   defp assign_route(socket, route_id) do
     case @routes_repo.get(route_id) do
       nil ->
@@ -294,6 +296,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         socket
         |> assign(:route, route)
         |> assign(:vehicle_name, Route.vehicle_name(route))
+        |> assign_page_title(route)
     end
   end
 
