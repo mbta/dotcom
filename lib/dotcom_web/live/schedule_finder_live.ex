@@ -200,8 +200,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_alerts()
      |> assign_departures()
      |> assign_upcoming_departures()
-     |> assign_last_trip_time()
-     |> assign_page_title(route_id)}
+     |> assign_last_trip_time()}
   end
 
   @impl LiveView
@@ -284,9 +283,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
     Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
-  defp assign_page_title(assigns, route_id) do
-    long_name = Routes.Repo.get(route_id) |> Map.get(:name)
+  defp assign_page_title(assigns, %{name: long_name}) do
     assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
+  end
+
+  defp assign_page_title(assigns, _) do
+    assigns |> assign(:page_title, ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
   defp assign_route(socket, route_id) do
@@ -298,6 +300,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         socket
         |> assign(:route, route)
         |> assign(:vehicle_name, Route.vehicle_name(route))
+        |> assign_page_title(route)
     end
   end
 
