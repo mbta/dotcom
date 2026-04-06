@@ -30,7 +30,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     ~H"""
     <.link
       class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline hover:bg-brand-primary-lightest text-black"
-      patch={~p"/preview/schedules/CR-WorldCup?#{[date: Date.to_string(@date)]}"}
+      patch={~p"/schedules/bostonstadium?#{[date: Date.to_string(@date)]}"}
     >
       <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
       <.teams selected={false} teams={@teams} />
