@@ -4,8 +4,6 @@ defmodule DotcomWeb.CMS.TeaserView do
   """
   use DotcomWeb, :view
 
-  import CMS.Helpers, only: [rewrite_url: 1]
-
   import DotcomWeb.CMSHelpers,
     only: [cms_route_to_class: 1, cms_route_to_svg: 1, link_category: 1]
 

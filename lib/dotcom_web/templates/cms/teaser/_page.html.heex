@@ -1,7 +1,7 @@
 <%= if @teaser.image && :image in @fields do %>
   <img
     class="c-content-teaser__image"
-    src={rewrite_url(@teaser.image.url)}
+    src={@teaser.image.url}
     alt={@teaser.image.alt}
   />
 <% end %>
