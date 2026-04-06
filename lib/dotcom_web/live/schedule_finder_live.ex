@@ -1222,10 +1222,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
     else
       {_, last_departure_time} = last_departure.trip_details.stop.time
 
-      if DateTime.after?(last_departure_time, last_trip_time) or
-           DateTime.before?(last_trip_time, @date_time.now()) or
-           has_last_trip? do
-        false
+      if(is_struct(last_departure_time, DateTime)) do
+        if DateTime.after?(last_departure_time, last_trip_time) or
+             DateTime.before?(last_trip_time, @date_time.now()) or
+             has_last_trip? do
+          false
+        else
+          true
+        end
       else
         true
       end
