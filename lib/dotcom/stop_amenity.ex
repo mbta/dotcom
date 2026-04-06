@@ -78,8 +78,6 @@ defmodule Dotcom.StopAmenity do
   Checks if the alerts affect the given amenity now.
   """
   def affected_by_alerts?(%__MODULE__{facilities: facilities}, alerts) do
-    dbg(facilities)
-    dbg(alerts)
     Enum.any?(facilities, &Facility.affected_by_alerts?(&1, alerts))
   end
 
