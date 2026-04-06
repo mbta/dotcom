@@ -287,10 +287,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
-  defp assign_page_title(assigns, _) do
-    assigns |> assign(:page_title, ~t(Departures) <> " | " <> ~t(MBTA))
-  end
-
   defp assign_route(socket, route_id) do
     case @routes_repo.get(route_id) do
       nil ->
