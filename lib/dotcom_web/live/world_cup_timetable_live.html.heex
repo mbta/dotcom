@@ -48,12 +48,12 @@
         </div>
     <% end %>
   </nav>
-  <div :if={@selected_match}>
+  <div :if={@selected_match} class="w-full overflow-x-auto">
     <% {_, _, _, _, group_times} = @selected_match %>
     <h2 class="mt-0">{~t(Boarding Groups)}</h2>
-    <table class="mbta-table max-w-fit">
+    <table class="mbta-table max-w-fit ">
       <thead class="bg-brand-primary-lightest-contrast">
-        <tr class="!border-b-[1px] !border-gray-lighter">
+        <tr class="!border-b-[1px] !border-gray-lighter ">
           <th scope="col">
             <span class="sr-only">
               {~t(Group Name)}
@@ -71,7 +71,7 @@
         <tr :for={{group_name, check_in_time_range, arrival_time_range} <- group_times}>
           <th
             scope="row"
-            class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
+            class="flex flex-nowrap gap-sm items-center border-r-[1px] border-gray-lighter "
           >
             {group_name} <.ticket_icon />
           </th>
