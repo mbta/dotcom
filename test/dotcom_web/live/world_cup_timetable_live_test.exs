@@ -34,7 +34,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
           ~s|nav[aria-label="World Cup Matches"]|
         )
 
-      assert nav |> render() =~ "schedules/CR-WorldCup?date="
+      assert nav |> render() =~ "schedules/bostonstadium?date="
     end
 
     test "can navigate to a match / shows boarding timetable + back link", %{conn: conn} do
