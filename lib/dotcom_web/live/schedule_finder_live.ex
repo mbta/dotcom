@@ -638,7 +638,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp departures_table(assigns) do
     ~H"""
-    <div class="grid grid-cols-1 divide-y-[1px] divide-gray-lightest border-[1px] border-gray-lightest">
+    <div class="grid grid-cols-1 divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
         :for={departure <- @departures}
         summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"

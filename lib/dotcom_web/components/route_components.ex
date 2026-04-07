@@ -63,7 +63,7 @@ defmodule DotcomWeb.RouteComponents do
   """
   def lined_list(assigns) do
     ~H"""
-    <div class="divide-y-[1px] divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+    <div class="divide-y-xs divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
       {render_slot(@inner_block)}
     </div>
     """
