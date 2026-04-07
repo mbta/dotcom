@@ -9,7 +9,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     missing_realtime? = opts |> Keyword.get(:missing_realtime?, false)
     missing_vehicle? = opts |> Keyword.get(:missing_vehicle?, false)
     prediction_status = opts |> Keyword.get(:prediction_status)
-    route_types = opts |> Keyword.get(:route_types, [:route])
+    route_factory_types = opts |> Keyword.get(:route_factory_types, [:route])
     seconds_behind = opts |> Keyword.get(:seconds_behind, 0)
     skipped_stops = opts |> Keyword.get(:skipped_stops, []) |> MapSet.new()
     stop_count = opts |> Keyword.get(:stop_count, 3)
@@ -21,7 +21,7 @@ defmodule Test.Support.PredictedScheduleHelper do
     today = Generators.Date.random_date()
 
     route =
-      Factories.Routes.Route.build(Faker.Util.pick(route_types))
+      Factories.Routes.Route.build(Faker.Util.pick(route_factory_types))
 
     [prediction_trip_id, vehicle_trip_id] =
       if vehicle_on_different_trip? do
