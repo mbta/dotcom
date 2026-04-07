@@ -201,7 +201,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "does not hide platform names for bus or commuter rail stops outside allowlist" do
+    test "does hide platform names for bus or commuter rail stops outside allowlist" do
       # Setup
       %{
         predicted_arrival_times: [_, arrival_time, _],
@@ -236,7 +236,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.platform_name == platform_name
+      assert is_nil(departure.platform_name)
     end
 
     test "strips 'Commuter Rail -' from platform name" do
@@ -250,7 +250,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route]
+          route_factory_types: [:commuter_rail_route],
+          stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
@@ -280,7 +281,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "treats a platform name of 'Commuter Rail' as nil" do
+    test "treats a platform name of 'Commuter Rail' as Track TBA" do
       # Setup
       %{
         predicted_arrival_times: [_, arrival_time, _],
@@ -291,7 +292,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route]
+          route_factory_types: [:commuter_rail_route],
+          stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
@@ -313,7 +315,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.platform_name == nil
+      assert departure.platform_name == "Track TBA"
     end
 
     test "does not include trip name for bus or subway departures" do

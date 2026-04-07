@@ -14,10 +14,11 @@
   </div>
 </div>
 <div class="container pt-lg flex flex-col gap-lg items-start">
-  <.callout_link href="/guides/world-cup-guide">
-    {~t(Check out our )}
-    <span class="underline font-medium">{~t(World Cup Guide)}</span>
-    {~t( for information about ____)}
+  <.callout_link href="/WorldCup">
+    {gettext("For all information about World Cup train service, read our %{world_cup_link}",
+      world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
+    )
+    |> raw()}
   </.callout_link>
   <nav
     aria-label={~t"World Cup Matches"}
@@ -31,7 +32,7 @@
           phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
         >
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
-          {~t(View All Matches)}
+          {~t(View all matches)}
         </.button>
         <.selected_match_banner date={date} time={time} label={label} teams={teams} />
       <% _ -> %>
@@ -82,22 +83,25 @@
   </div>
   <div>
     <h2 class="mt-0">{~t(Important Information)}</h2>
-    <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
+    <h3><.ticket_icon /> {~t(Boston Stadium Train Ticket Required)}</h3>
     <p>
       {gettext(
-        "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
-        world_cup_link:
-          link(~t(World Cup Guide), to: "/guides/world-cup-guide") |> safe_to_string()
+        "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}",
+        world_cup_link: link(~t(World Cup Guide), to: "/WorldCup") |> safe_to_string()
       )
       |> raw()}
     </p>
-    <h3>{~t(Facilisis Sed Mi)}</h3>
+    <h3>{~t(Match Ticket Required )}</h3>
     <p>
-      {~t(Quisque eget tellus eu elit fermentum interdum. Cras rutrum posuere erat et pretium.)}
+      {~t(Riders without match tickets will not be permitted to board Boston Stadium Trains.)}
     </p>
-    <h4>{~t(Suspendisse potenti)}</h4>
+    <h3>{~t(Know Your Boarding Group)}</h3>
     <p>
-      {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
+      {~t(Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket.)}
+    </p>
+    <h3>{~t(Return Trip Included)}</h3>
+    <p>
+      {~t(All Boston Stadium Train tickets include a return trip after the match.)}
     </p>
   </div>
 </div>
