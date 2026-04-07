@@ -67,7 +67,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :subway_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :subway_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -209,7 +211,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -245,7 +249,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -284,7 +290,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -318,7 +326,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:subway_route, :bus_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:subway_route, :bus_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -630,7 +640,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         schedules: schedules,
         stops: [stop, _, _]
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
@@ -662,7 +674,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route], seconds_behind: seconds_behind)
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route],
+          seconds_behind: seconds_behind
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -1272,7 +1287,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :subway_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :subway_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -1335,7 +1352,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:subway_route], vehicle_stop_index: 0)
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:subway_route],
+          vehicle_stop_index: 0
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -1697,7 +1717,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       stub(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -1829,7 +1851,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         scheduled_departure_times: [_, scheduled_departure_time, _],
         stops: [_, stop, _]
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
@@ -2305,7 +2329,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         schedules: schedules,
         stops: [_, stop, _]
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route]
+        )
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
@@ -2331,7 +2357,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         schedules: schedules,
         stops: [_, stop, _]
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route, :commuter_rail_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route]
+        )
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
 
@@ -2441,7 +2469,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0, vehicle_statuses: [:stopped])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          vehicle_stop_index: 0,
+          vehicle_statuses: [:stopped]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
@@ -2605,7 +2636,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, _, stop, _],
         vehicle: vehicle
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0, skipped_stops: [1], stop_count: 4)
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          vehicle_stop_index: 0,
+          skipped_stops: [1],
+          stop_count: 4
+        )
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
