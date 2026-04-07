@@ -2,7 +2,7 @@ defmodule Test.Support.PredictedScheduleHelper do
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators}
 
-  def journey(opts \\ []) do
+  def predicted_schedule_trip_data(opts \\ []) do
     cancelled? = opts |> Keyword.get(:cancelled?, false)
     include_prediction_statuses = opts |> Keyword.get(:include_prediction_statuses, false)
     last_trip? = opts |> Keyword.get(:last_trip?, false)
