@@ -29,7 +29,7 @@
         <.button
           variant="secondary"
           class="self-start"
-          phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
+          phx-click={JS.patch(~p"/schedules/bostonstadium")}
         >
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
           {~t(View all matches)}
@@ -48,34 +48,38 @@
         </div>
     <% end %>
   </nav>
-  <div :if={@selected_match}>
+  <div :if={@selected_match} class="w-full overflow-x-auto">
     <% {_, _, _, _, group_times} = @selected_match %>
     <h2 class="mt-0">{~t(Boarding Groups)}</h2>
-    <table class="mbta-table max-w-fit">
+    <table class="mbta-table max-w-fit ">
       <thead class="bg-brand-primary-lightest-contrast">
-        <tr class="!border-b-[1px] !border-gray-lighter">
+        <tr class="!border-b-[1px] !border-gray-lighter ">
           <th scope="col">
             <span class="sr-only">
               {~t(Group Name)}
             </span>
           </th>
           <th scope="col" class="!text-center">
-            <.link patch={~p"/stops/place-sstat"}>
-              {~t(Check in at South Station between)}
-            </.link>
+            {~t(Check-In at South Station)}
+          </th>
+          <th scope="col" class="!text-center">
+            {~t(Estimated Arrival at Foxboro Station)}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr :for={{group_name, time_range} <- group_times}>
+        <tr :for={{group_name, check_in_time_range, arrival_time_range} <- group_times}>
           <th
             scope="row"
-            class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
+            class="flex flex-nowrap gap-sm items-center border-r-[1px] border-gray-lighter "
           >
             {group_name} <.ticket_icon />
           </th>
           <td class="px-sm py-xs !text-center">
-            {apply(Dotcom.Utils.Time, :formatted_time_range, time_range)}
+            {apply(Dotcom.Utils.Time, :formatted_time_range, check_in_time_range)}
+          </td>
+          <td class="px-sm py-xs !text-center">
+            {apply(Dotcom.Utils.Time, :formatted_time_range, arrival_time_range)}
           </td>
         </tr>
       </tbody>

@@ -354,11 +354,15 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_name == nil
     end
 
-    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail" do
+    test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail and ferry" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -575,12 +579,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
              }) == :no_realtime
     end
 
-    test "returns :no_realtime with departures if bus/commuter rail schedules" do
+    test "returns :no_realtime with departures if bus/commuter/ferry rail schedules" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
       route =
-        [:bus_route, :commuter_rail_route]
+        [:bus_route, :commuter_rail_route, :ferry_route]
         |> Faker.Util.pick()
         |> Factories.Routes.Route.build()
 
@@ -643,7 +647,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [stop, _, _]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route]
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route]
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
@@ -799,7 +803,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
-      route = Factories.Routes.Route.build(Faker.Util.pick([:bus_route, :commuter_rail_route]))
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
       route_id = route.id
       stop_id = FactoryHelpers.build(:id)
       direction_id = Faker.Util.pick([0, 1])
@@ -832,7 +840,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           seconds_behind: seconds_behind
         )
 
@@ -854,7 +862,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.trip_id == trip.id
     end
 
-    test "includes skipped stops for bus or commuter rail if their scheduled time is in the future" do
+    test "includes skipped stops for bus, commuter rail, and ferry if their scheduled time is in the future" do
       %{
         predictions: predictions,
         route: route,
@@ -864,7 +872,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           skipped_stops: [1]
         )
 
@@ -919,7 +927,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    test "excludes bus and commuter rail skipped stops if their scheduled time is in the past" do
+    test "excludes bus/commuter-rail/ferry skipped stops if their scheduled time is in the past" do
       %{
         predictions: predictions,
         route: route,
@@ -929,7 +937,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           skipped_stops: [1]
         )
 
@@ -950,7 +958,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :service_ended
     end
 
-    test "includes cancelled bus or commuter rail trips if their scheduled time is in the future" do
+    test "includes cancelled bus/commuter-rail/ferry trips if their scheduled time is in the future" do
       %{
         predictions: predictions,
         route: route,
@@ -960,7 +968,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           cancelled?: true
         )
 
@@ -1015,7 +1023,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == []
     end
 
-    test "excludes cancelled bus or commuter rail trips if their scheduled time is in the past" do
+    test "excludes cancelled bus/commuter-rail/ferry trips if their scheduled time is in the past" do
       %{
         predictions: predictions,
         route: route,
@@ -1025,7 +1033,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           cancelled?: true
         )
 
@@ -1046,7 +1054,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departures == :service_ended
     end
 
-    test "shows schedule data for bus or CR predictions with no times that aren't skipped or cancelled" do
+    test "shows schedule data for bus/commuter-rail/ferry predictions with no times that aren't skipped or cancelled" do
       %{
         predictions: predictions,
         route: route,
@@ -1056,7 +1064,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           missing_realtime?: true
         )
 
@@ -1676,7 +1684,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_status == :now
     end
 
-    test "shows departure time and :on_time for commuter rail if predicted and scheduled times differ by under a minute" do
+    test "shows departure time and :on_time for commuter rail and ferry if predicted and scheduled times differ by under a minute" do
       # Setup
       %{
         predictions: predictions,
@@ -1687,7 +1695,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           seconds_behind: Faker.random_between(-59, 59)
         )
 
@@ -1710,7 +1718,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows :on_time for commuter rail if there is no schedule" do
+    test "shows :on_time for commuter rail and ferry if there is no schedule" do
       # Setup
       %{
         predictions: predictions,
@@ -1720,7 +1728,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route]
+          route_factory_types: [:commuter_rail_route, :ferry_route]
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
@@ -1742,7 +1750,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :on_time
     end
 
-    test "shows {:early_from, scheduled_time} for commuter rail if predicted and scheduled times differ by more than a minute" do
+    test "shows {:early_from, scheduled_time} for commuter rail and ferry if predicted and scheduled times differ by more than a minute" do
       # Setup
       %{
         predictions: predictions,
@@ -1754,7 +1762,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           seconds_behind: Faker.random_between(-3600, -60)
         )
 
@@ -1777,7 +1785,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:early_from, scheduled_departure_time}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late" do
+    test "shows {:delayed_from, scheduled_time} for commuter rail and ferry if predicted time is more than a minute late" do
       # Setup
       %{
         predictions: predictions,
@@ -1789,7 +1797,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           seconds_behind: Faker.random_between(60, 3600)
         )
 
@@ -1812,7 +1820,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
-    test "does not show an arrival_substatus for non-CR" do
+    test "does not show an arrival_substatus for bus and subway" do
       # Setup
       %{
         predictions: predictions,
@@ -1823,7 +1831,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:subway_route, :bus_route, :ferry_route],
+          route_factory_types: [:subway_route, :bus_route],
           seconds_behind: Faker.random_between(-3600, 3600)
         )
 
@@ -1845,7 +1853,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == nil
     end
 
-    test "shows :scheduled for commuter rail if there is no prediction" do
+    test "shows :scheduled for commuter rail and ferry if there is no prediction" do
       # Setup
       %{
         schedules: schedules,
@@ -1854,7 +1862,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route]
+          route_factory_types: [:commuter_rail_route, :ferry_route]
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
@@ -1904,7 +1912,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == :scheduled_sr_only
     end
 
-    test "shows {:status, status} for commuter rail if there is a status field set on the prediction" do
+    test "shows {:status, status} for commuter rail and ferry if there is a status field set on the prediction" do
       # Setup
       [word1, word2] = Faker.Lorem.words(2)
       api_status = (word1 |> String.capitalize()) <> " " <> word2
@@ -1918,7 +1926,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           prediction_status: api_status
         )
 
@@ -1941,7 +1949,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, display_status}
     end
 
-    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed', but the predicted time is less than a minute late" do
+    test "shows {:status, 'Delayed'} for commuter rail and ferry if the status is 'Delayed', but the predicted time is less than a minute late" do
       # Setup
       %{
         predictions: predictions,
@@ -1952,7 +1960,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           prediction_status: "Delayed",
           seconds_behind: Faker.random_between(0, 59)
         )
@@ -1978,7 +1986,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
     end
 
     @tag :skip
-    test "shows {:status, 'Delayed'} for commuter rail if the status is 'Delayed' and there are no schedules" do
+    test "shows {:status, 'Delayed'} for commuter rail and ferry if the status is 'Delayed' and there are no schedules" do
       # Setup
       %{
         predictions: predictions,
@@ -1988,7 +1996,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           prediction_status: "Delayed",
           seconds_behind: Faker.random_between(0, 59)
         )
@@ -2012,7 +2020,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
-    test "shows {:delayed_from, scheduled_time} for commuter rail if predicted time is more than a minute late even if the status is 'Delayed'" do
+    test "shows {:delayed_from, scheduled_time} for commuter rail and ferry if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
       %{
         predictions: predictions,
@@ -2024,7 +2032,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:commuter_rail_route, :ferry_route],
           prediction_status: "Delayed",
           seconds_behind: Faker.random_between(60, 3600)
         )
@@ -2332,7 +2340,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route]
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route]
         )
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
@@ -2360,7 +2368,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, stop, _]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route]
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route]
         )
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
@@ -2502,7 +2510,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_stop_0, stop_1, stop_2]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           vehicle_stop_index: 0
         )
 
@@ -2571,7 +2579,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         stops: [_, _stop_1, stop_2, stop, _]
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:bus_route, :commuter_rail_route],
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           stop_count: 5
         )
 

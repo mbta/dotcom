@@ -24,7 +24,7 @@ defmodule CMS.Partial.TeaserTest do
     assert id == 3661
     assert type == :project
     assert path == "/projects/green-line-d-track-and-signal-replacement"
-    assert %Image{url: "http://" <> _, alt: "Tracks at Riverside"} = image
+    assert %Image{url: "/sites/default/files/" <> _, alt: "Tracks at Riverside"} = image
     assert text =~ "This project is part of"
     assert title == "Green Line D Track and Signal Replacement"
     assert topic == nil

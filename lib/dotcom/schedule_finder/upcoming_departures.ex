@@ -450,9 +450,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
-         route_type: :commuter_rail
+         route_type: route_type
        })
-       when prediction != nil do
+       when route_type in [:commuter_rail, :ferry] and prediction != nil do
     {:time, prediction.departure_time |> truncate(:minute)}
   end
 
@@ -476,9 +476,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{schedule: schedule},
-         route_type: :commuter_rail
+         route_type: route_type
        })
-       when schedule != nil do
+       when route_type in [:commuter_rail, :ferry] and schedule != nil do
     {:scheduled, schedule.departure_time}
   end
 
@@ -552,7 +552,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        }),
        do: :scheduled_sr_only
 
-  defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
+  defp arrival_substatus(%{route_type: route_type})
+       when route_type not in [:commuter_rail, :ferry], do: nil
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{prediction: nil}
