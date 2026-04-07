@@ -193,7 +193,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "does not hide platform names for bus stops outside allowlist" do
+    test "does hide platform names for bus stops outside allowlist" do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:bus_route)
@@ -232,10 +232,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       assert [departure] = departures
-      assert departure.platform_name == platform_name
+      assert is_nil(departure.platform_name)
     end
 
-    test "does not hide platform names for commuter rail stops outside allowlist" do
+    test "does hide platform names for commuter rail stops outside allowlist" do
       now = Dotcom.Utils.DateTime.now()
 
       route = Factories.Routes.Route.build(:commuter_rail_route)
@@ -274,7 +274,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       assert [departure] = departures
-      assert departure.platform_name == platform_name
+      assert is_nil(departure.platform_name)
     end
 
     test "strips 'Commuter Rail -' from platform name" do
@@ -326,7 +326,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "treats a platform name of 'Commuter Rail' as nil" do
+    test "treats a platform name of 'Commuter Rail' as Track TBA" do
       # Setup
       now = Dotcom.Utils.DateTime.now()
 
@@ -368,7 +368,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.platform_name == nil
+      assert departure.platform_name == "Track TBA"
     end
 
     test "does not include trip name for bus or subway departures" do

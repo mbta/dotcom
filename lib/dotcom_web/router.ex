@@ -104,6 +104,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/schedules/bostonstadium", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :world_cup do
+      live "/", WorldCupTimetableLive
+    end
+  end
+
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
@@ -173,6 +182,22 @@ defmodule DotcomWeb.Router do
 
     get("/schedules/627/*path_params", Redirector,
       to: "/service-changes/fall-2025-bus-service-changes#62"
+    )
+
+    get("/schedules/747", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/747/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/4050", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
+    )
+
+    get("/schedules/4050/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
     )
 
     # Commuter Rail route renamed as part of the SCR project
@@ -312,7 +337,7 @@ defmodule DotcomWeb.Router do
 
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
-      live "/schedules/CR-WorldCup", WorldCupTimetableLive
+      live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
   end
