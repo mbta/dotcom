@@ -101,12 +101,10 @@ defmodule Test.Support.PredictedScheduleHelper do
       predicted_times |> Enum.map(&DateTime.shift(&1, second: 30)) |> List.replace_at(-1, nil)
 
     prediction_statuses =
-      cond do
-        include_prediction_statuses ->
-          Faker.Util.sample_uniq(stop_count, fn -> Faker.Lorem.sentence() end)
-
-        true ->
-          1..stop_count |> Enum.map(fn _ -> prediction_status end)
+      if include_prediction_statuses do
+        Faker.Util.sample_uniq(stop_count, fn -> Faker.Lorem.sentence() end)
+      else
+        1..stop_count |> Enum.map(fn _ -> prediction_status end)
       end
 
     predictions =
