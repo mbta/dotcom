@@ -57,7 +57,7 @@ module.exports = {
   ],
   safelist: [
     {
-      pattern: /(bg|text|border|ring)-(logan-express|blue|green|orange|red|silver|bus|ferry|)./
+      pattern: /(bg|text|border|ring|stroke)-(logan-express|blue|green|orange|red|silver|bus|ferry|commuter-rail)-.*/
     }
   ],
   theme: {

@@ -50,4 +50,26 @@ defmodule CSSHelpers do
       "mbta-route-#{String.downcase(route.id)}-line"
     end
   end
+
+  @doc """
+  Returns a Tailwind stroke color class for a route.
+  This is used for SVG elements that need stroke colors.
+  """
+  @spec route_to_stroke_class(Route.t()) :: String.t()
+  def route_to_stroke_class(%Route{type: 3} = route) do
+    if Route.silver_line?(route) do
+      "stroke-silver-line"
+    else
+      "stroke-brand-bus"
+    end
+  end
+
+  def route_to_stroke_class(%Route{type: 2}), do: "stroke-commuter-rail"
+  def route_to_stroke_class(%Route{type: 4}), do: "stroke-ferry"
+  def route_to_stroke_class(%Route{id: "Mattapan"}), do: "stroke-red-line"
+  def route_to_stroke_class(%Route{id: "Red"}), do: "stroke-red-line"
+  def route_to_stroke_class(%Route{id: "Blue"}), do: "stroke-blue-line"
+  def route_to_stroke_class(%Route{id: "Orange"}), do: "stroke-orange-line"
+  def route_to_stroke_class(%Route{id: "Green" <> _}), do: "stroke-green-line"
+  def route_to_stroke_class(_), do: "stroke-black"
 end

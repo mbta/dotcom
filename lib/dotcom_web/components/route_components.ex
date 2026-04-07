@@ -161,7 +161,7 @@ defmodule DotcomWeb.RouteComponents do
   defp lined_list_marker(%{variant: "squiggle"} = assigns) do
     ~H"""
     <div class={[
-      "#{route_to_class(@route)}",
+      "#{route_to_stroke_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
       "size-5 #{background_to_bg_class(@background)}",
       "flex items-center justify-items-center"
