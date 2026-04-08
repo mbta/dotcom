@@ -28,7 +28,17 @@
     margin-bottom: unset;
   }
 
-  
+  .aa-InputWrapperPrefix {
+    order: 3; // move search icon to end.
+  }
+
+  .aa-InputWrapper {
+    order: 1;
+  }
+
+  .aa-InputWrapperSuffix {
+    order: 2;
+  }
 
   .aa-Form, .aa-DetachedSearchButton {
     border-color: rgb(var(--aa-input-border-color-rgb));
