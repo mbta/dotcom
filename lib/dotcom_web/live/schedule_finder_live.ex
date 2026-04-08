@@ -30,21 +30,58 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @impl LiveView
-  def mount(_params, _session, socket) do
-    {:ok,
-     socket
-     |> subscribe_to_alerts()
-     |> assign_new(:route, fn -> nil end)
-     |> assign_new(:vehicle_name, fn -> nil end)
-     |> assign_new(:direction_id, fn -> nil end)
-     |> assign_new(:stop, fn -> nil end)
-     |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
-     |> assign_new(:last_trip_time, fn -> AsyncResult.loading([]) end)
-     |> assign_new(:alerts, fn -> [] end)
-     |> assign_new(:service_groups, fn -> [] end)
-     |> assign_new(:loaded_trips, fn -> %{} end)
-     |> assign_new(:selected_service_name, fn -> "" end)
-     |> assign_new(:daily_schedule_date, fn -> service_date() end)}
+  # If no params are passed, forward the user to the schedule page
+  def mount(params, _session, socket) when params == %{} do
+    {:ok, push_navigate(socket, to: ~p"/schedules")}
+  end
+
+  # Assigns are already set!
+  def mount(_params, _session, %{assigns: %{route: route}} = socket) when not is_nil(route) do
+    {:ok, socket}
+  end
+
+  # Compute all the things
+  def mount(params, _session, socket) do
+    case validate_params(params) do
+      {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
+        service_groups = ServiceGroup.for_route(route.id, service_date())
+
+        selected_service =
+          service_groups
+          |> Enum.flat_map(& &1.services)
+          |> Enum.find(%{}, &(&1.now_date || &1.next_date))
+
+        socket =
+          if Map.get(selected_service, :next_date) do
+            assign(socket, :daily_schedule_date, selected_service.next_date)
+          else
+            socket
+          end
+
+        {:ok,
+         socket
+         |> subscribe_to_alerts()
+         |> assign_new(:route, fn -> route end)
+         |> assign_page_title(route)
+         |> assign_new(:vehicle_name, fn -> Route.vehicle_name(route) end)
+         |> assign_new(:direction_id, fn -> direction_id end)
+         |> assign_new(:stop, fn -> stop end)
+         |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
+         |> assign_new(:last_trip_time, fn -> AsyncResult.loading([]) end)
+         |> assign_new(:alerts, fn -> [] end)
+         |> assign_new(:service_groups, fn -> service_groups end)
+         |> assign_new(:loaded_trips, fn -> %{} end)
+         |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
+         |> assign_new(:daily_schedule_date, fn -> service_date() end)
+         |> assign_alerts()
+         |> assign_departures()
+         |> assign_upcoming_departures()
+         |> assign_last_trip_time()}
+
+      _ ->
+        # Raising this error will render the 404 page
+        raise DotcomWeb.NotFoundError
+    end
   end
 
   @impl LiveView
@@ -55,143 +92,83 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def render(assigns) do
-    # If we have valid params, render SF, otherwise render the 404 page
-    if(is_nil(assigns.route) or is_nil(assigns.direction_id)) do
-      DotcomWeb.ErrorView.render("404.html", assigns)
-    else
-      ~H"""
-      <.route_banner route={@route} direction_id={@direction_id} />
-      <.stop_banner stop={@stop} />
-      <div class="container">
-        <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
-          <.alert_banner alerts={@alerts} />
-          <section>
-            <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-            <%= if ServicePatterns.has_service?(route: @route.id) do %>
-              <.async_result :let={upcoming_departures} :if={@stop} assign={@upcoming_departures}>
-                <:loading>
-                  <div class="mt-lg mb-md flex justify-center">
-                    <.spinner aria_label={~t"Loading upcoming departures"} />
-                  </div>
-                </:loading>
-                <:failed :let={_fail}>
-                  <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
-                </:failed>
-                <%= if upcoming_departures do %>
-                  <.upcoming_departures_section
-                    :if={@stop}
-                    stop={@stop}
-                    upcoming_departures={upcoming_departures}
-                    route={@route}
-                    last_trip_time={@last_trip_time}
-                  />
-                <% end %>
-              </.async_result>
-            <% else %>
-              <.callout>{~t(No service today)}</.callout>
-            <% end %>
-          </section>
-          <section>
-            <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
-            <.service_picker
-              id={"service-picker-#{@route.id}"}
-              selected_service_name={@selected_service_name}
-              service_groups={@service_groups}
-            />
-            <.async_result :let={departures} :if={@stop} assign={@departures}>
+    ~H"""
+    <.route_banner route={@route} direction_id={@direction_id} />
+    <.stop_banner stop={@stop} />
+    <div class="container">
+      <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
+        <.alert_banner alerts={@alerts} />
+        <section>
+          <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
+          <%= if ServicePatterns.has_service?(route: @route.id) do %>
+            <.async_result :let={upcoming_departures} assign={@upcoming_departures}>
               <:loading>
                 <div class="mt-lg mb-md flex justify-center">
-                  <.spinner aria_label={~t"Loading schedules for selected service"} />
+                  <.spinner aria_label={~t"Loading upcoming departures"} />
                 </div>
               </:loading>
               <:failed :let={_fail}>
-                <.error_container>
-                  {~t"There was a problem loading schedules"}
-                </.error_container>
+                <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
               </:failed>
-              <%= if length(departures) > 0 do %>
-                <%= if @route.type in [0, 1] do %>
-                  <div
-                    :for={
-                      {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                    }
-                    class="mt-lg mb-md"
-                  >
-                    <.subway_destination route={route} destination={destination} />
-                    <.first_last times={times} vehicle_name={@vehicle_name} />
-                  </div>
-                <% else %>
-                  <.first_last
-                    times={Enum.map(departures, & &1.time)}
-                    vehicle_name={@vehicle_name}
-                  />
-                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-                <% end %>
-              <% else %>
-                <.callout>
-                  {no_service_message(@service_groups, @route, @stop)}
-                </.callout>
+              <%= if upcoming_departures do %>
+                <.upcoming_departures_section
+                  stop={@stop}
+                  upcoming_departures={upcoming_departures}
+                  route={@route}
+                  last_trip_time={@last_trip_time}
+                />
               <% end %>
             </.async_result>
-          </section>
-        </div>
+          <% else %>
+            <.callout>{~t(No service today)}</.callout>
+          <% end %>
+        </section>
+        <section>
+          <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
+          <.service_picker
+            id={"service-picker-#{@route.id}"}
+            selected_service_name={@selected_service_name}
+            service_groups={@service_groups}
+          />
+          <.async_result :let={departures} assign={@departures}>
+            <:loading>
+              <div class="mt-lg mb-md flex justify-center">
+                <.spinner aria_label={~t"Loading schedules for selected service"} />
+              </div>
+            </:loading>
+            <:failed :let={_fail}>
+              <.error_container>
+                {~t"There was a problem loading schedules"}
+              </.error_container>
+            </:failed>
+            <%= if length(departures) > 0 do %>
+              <%= if @route.type in [0, 1] do %>
+                <div
+                  :for={
+                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                  }
+                  class="mt-lg mb-md"
+                >
+                  <.subway_destination route={route} destination={destination} />
+                  <.first_last times={times} vehicle_name={@vehicle_name} />
+                </div>
+              <% else %>
+                <.first_last
+                  times={Enum.map(departures, & &1.time)}
+                  vehicle_name={@vehicle_name}
+                />
+                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+              <% end %>
+            <% else %>
+              <.callout>
+                {no_service_message(@service_groups, @route, @stop)}
+              </.callout>
+            <% end %>
+          </.async_result>
+        </section>
       </div>
-      """
-    end
-  end
-
-  @impl LiveView
-  def handle_params(
-        %{"direction_id" => direction, "route_id" => route_id} = params,
-        url,
-        socket
-      ) do
-    valid_directions = ["0", "1"]
-    # If we have valid params parse them, otherwise skip that step and
-    # the render() function will choose whether to show SF or 404 content
-    if direction in valid_directions and !is_nil(@routes_repo.get(route_id)) do
-      handle_full_params(params, url, socket)
-    else
-      {:noreply, socket}
-    end
-  end
-
-  # If no params are passed, forward the user to the schedule page
-  def handle_params(_, _, socket) do
-    {:noreply, push_patch(socket, to: ~p"/schedules")}
-  end
-
-  def handle_full_params(
-        %{"direction_id" => direction, "route_id" => route_id} = params,
-        _uri,
-        socket
-      ) do
-    {direction_id, _} = Integer.parse(direction)
-    service_groups = ServiceGroup.for_route(route_id, service_date())
-
-    selected_service =
-      service_groups
-      |> Enum.flat_map(& &1.services)
-      |> Enum.find(%{}, &(&1.now_date || &1.next_date))
-
-    socket =
-      if Map.get(selected_service, :next_date) do
-        assign(socket, :daily_schedule_date, Date.to_iso8601(selected_service.next_date))
-      else
-        socket
-      end
-
-    {:noreply,
-     socket
-     |> assign_route(route_id)
-     |> assign(:direction_id, direction_id)
-     |> assign(:service_groups, service_groups)
-     |> assign(:selected_service_name, Map.get(selected_service, :label, ""))
-     |> assign_stop(params)
-     |> assign_alerts()
-     |> assign_departures()
-     |> assign_upcoming_departures()
-     |> assign_last_trip_time()}
+    </div>
+    """
   end
 
   @impl LiveView
@@ -274,26 +251,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
     Process.send_after(pid, :refresh_upcoming_departures, 1000)
   end
 
-  defp assign_page_title(assigns, %{name: long_name}) do
-    assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
-  end
-
-  defp assign_route(socket, route_id) do
-    case @routes_repo.get(route_id) do
-      nil ->
-        socket |> assign(:route, nil)
-
-      route ->
-        socket
-        |> assign(:route, route)
-        |> assign(:vehicle_name, Route.vehicle_name(route))
-        |> assign_page_title(route)
+  defp validate_params(%{
+         "direction_id" => direction,
+         "route_id" => route_id,
+         "stop_id" => stop_id
+       }) do
+    with {direction_id, _} when direction_id in [0, 1] <- Integer.parse(direction),
+         %Route{} = route <- @routes_repo.get(route_id),
+         %Stop{} = stop <- @stops_repo.get(stop_id) do
+      {:ok, %{route: route, stop: stop, direction_id: direction_id}}
+    else
+      _ ->
+        :error
     end
   end
 
-  defp assign_stop(socket, params) do
-    stop_id = Map.get(params, "stop_id")
-    assign(socket, :stop, if(stop_id, do: @stops_repo.get(stop_id)))
+  defp validate_params(_), do: :error
+
+  defp assign_page_title(assigns, %{name: long_name}) do
+    assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
   defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
