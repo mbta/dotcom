@@ -145,7 +145,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     if route_type in [0, 1] && status do
       {:status, status}
     else
-      if(display_time) do
+      if display_time do
         {:time, display_time |> truncate(:minute)}
       end
     end
