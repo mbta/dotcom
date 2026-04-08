@@ -76,7 +76,9 @@ const LineDiagram = ({
     const { modalOpen: modalIsOpen, selectedOrigin } = currentState;
 
     if (selectedOrigin !== undefined && !modalIsOpen) {
-      location.assign(`/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`);
+      window.location.assign(
+        `/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
+      );
     }
   };
 
