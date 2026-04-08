@@ -85,28 +85,16 @@ const LineDiagram = ({
         selectedOrigin: origin
       }
     });
-    // reopen modal depending on choice:
-    dispatch({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: origin ? "schedule" : "origin"
-      }
-    });
+    
+   
   };
 
   const handleStopClick = (stop: RouteStop): void => {
     changeOrigin(stop.id);
     const { modalOpen: modalIsOpen, selectedOrigin } = currentState;
 
-    updateURL(stop.id, directionId);
-
     if (selectedOrigin !== undefined && !modalIsOpen) {
-      dispatch({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "schedule"
-        }
-      });
+      document.location.href=`/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
     }
   };
 
