@@ -19,7 +19,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.ServicePatterns
-  alias DotcomWeb.Components.Prototype
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.{LiveView, LiveView.AsyncResult}
@@ -61,14 +60,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
       DotcomWeb.ErrorView.render("404.html", assigns)
     else
       ~H"""
-      <div class="container">
-        <.live_component
-          id="picker"
-          module={Prototype}
-          selected_route={@route}
-          selected_direction_id={@direction_id}
-        />
-      </div>
       <.route_banner route={@route} direction_id={@direction_id} />
       <.stop_banner stop={@stop} />
       <div class="container">
