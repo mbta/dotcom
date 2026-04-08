@@ -20,16 +20,17 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     :suriname
   ]
 
-  attr :date, :string, required: true
+  attr :date, Date, required: true
   attr :selected, :boolean, default: false
   attr :label, :string, required: true
   attr :teams, :any, required: true
+  attr :time, Time, required: true
 
   def match_link(assigns) do
     ~H"""
     <.link
       class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline hover:bg-brand-primary-lightest text-black"
-      patch={~p"/preview/schedules/CR-WorldCup?#{[date: Date.to_string(@date)]}"}
+      patch={~p"/schedules/bostonstadium?#{[date: Date.to_string(@date)]}"}
     >
       <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
       <.teams selected={false} teams={@teams} />

@@ -10,7 +10,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
   import Dotcom.Utils.Time, only: [truncate: 2]
 
-  alias Dotcom.ScheduleFinder.TripDetails
+  alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
   alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
@@ -371,12 +371,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       |> @stops_repo.get()
       |> Kernel.then(& &1.platform_name)
 
+    stop_id =
+      predicted_schedule
+      |> PredictedSchedule.stop()
+      |> Kernel.then(& &1.id)
+
     route_type =
       predicted_schedule
       |> PredictedSchedule.route()
       |> Kernel.then(& &1.type)
 
-    simplify_platform_name(name, route_type)
+    if Platforms.has_platforms?(route_type, stop_id) do
+      simplify_platform_name(name, route_type)
+    end
   end
 
   @spec arrival_status(%{
@@ -443,9 +450,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: prediction},
-         route_type: :commuter_rail
+         route_type: route_type
        })
-       when prediction != nil do
+       when route_type in [:commuter_rail, :ferry] and prediction != nil do
     {:time, prediction.departure_time |> truncate(:minute)}
   end
 
@@ -469,9 +476,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{schedule: schedule},
-         route_type: :commuter_rail
+         route_type: route_type
        })
-       when schedule != nil do
+       when route_type in [:commuter_rail, :ferry] and schedule != nil do
     {:scheduled, schedule.departure_time}
   end
 
@@ -545,7 +552,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        }),
        do: :scheduled_sr_only
 
-  defp arrival_substatus(%{route_type: route_type}) when route_type != :commuter_rail, do: nil
+  defp arrival_substatus(%{route_type: route_type})
+       when route_type not in [:commuter_rail, :ferry], do: nil
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{prediction: nil}

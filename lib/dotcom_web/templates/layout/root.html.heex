@@ -9,7 +9,7 @@
     <meta name="author" content={~t(Massachusetts Bay Transportation Authority)} />
     <meta name="theme-color" content="#165c96" />
     <meta :if={robots_nofollow?(@conn.request_path)} name="robots" content="noindex, nofollow" />
-    <title>{title(@conn)}</title>
+    <title>{Map.get(assigns, :page_title, title(@conn))}</title>
     <link
       rel="apple-touch-icon"
       href={static_url(@conn, "/apple-touch-icon.png")}

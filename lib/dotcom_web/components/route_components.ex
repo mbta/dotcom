@@ -63,7 +63,7 @@ defmodule DotcomWeb.RouteComponents do
   """
   def lined_list(assigns) do
     ~H"""
-    <div class="divide-y-[1px] divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+    <div class="divide-y-xs divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
       {render_slot(@inner_block)}
     </div>
     """
@@ -88,7 +88,7 @@ defmodule DotcomWeb.RouteComponents do
     <div class={"px-sm py-3 gap-xs flex justify-between items-center #{@class}"}>
       <div
         class="w-6 shrink-0 self-stretch flex justify-center relative"
-        style="margin-block: calc(-1 * (var(--spacing-3) + 1px));"
+        style="margin-block: calc(-1 * (var(--spacing-3) + 0.06rem));"
       >
         <div class="w-1 z-10 shrink-0 flex flex-col self-stretch">
           <div class={"#{route_to_class(@route)} grow top"} />
