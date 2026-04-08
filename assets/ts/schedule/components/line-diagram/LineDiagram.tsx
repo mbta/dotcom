@@ -1,6 +1,5 @@
 import React, { ReactElement, useState } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { updateInLocation } from "use-query-params";
 import { uniqBy } from "lodash";
 import SearchBox from "../../../components/SearchBox";
 import { stopForId, stopIds } from "../../../helpers/stop-tree";
@@ -30,21 +29,6 @@ interface Props {
 
 const stationsOrStops = (routeType: number): string =>
   [0, 1, 2].includes(routeType) ? "Stations" : "Stops";
-
-const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
-  /* istanbul ignore else */
-  if (window) {
-    // eslint-disable-next-line camelcase
-    const newQuery = {
-      "schedule_finder[direction_id]":
-        direction !== undefined ? direction.toString() : "",
-      "schedule_finder[origin]": origin
-    };
-    const newLoc = updateInLocation(newQuery, window.location);
-    // newLoc is not a true Location, so toString doesn't work
-    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
-  }
-};
 
 const LineDiagram = ({
   alerts,
@@ -85,8 +69,6 @@ const LineDiagram = ({
         selectedOrigin: origin
       }
     });
-    
-   
   };
 
   const handleStopClick = (stop: RouteStop): void => {
@@ -94,7 +76,7 @@ const LineDiagram = ({
     const { modalOpen: modalIsOpen, selectedOrigin } = currentState;
 
     if (selectedOrigin !== undefined && !modalIsOpen) {
-      document.location.href=`/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
+      document.location.href = `/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`;
     }
   };
 
