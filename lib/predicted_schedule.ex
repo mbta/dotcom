@@ -262,6 +262,12 @@ defmodule PredictedSchedule do
 
   def display_time(%PredictedSchedule{
         prediction: %Prediction{arrival_time: nil, departure_time: nil},
+        schedule: nil
+      }),
+      do: nil
+
+  def display_time(%PredictedSchedule{
+        prediction: %Prediction{arrival_time: nil, departure_time: nil},
         schedule: schedule
       }),
       do: display_time(schedule)
@@ -348,6 +354,11 @@ defmodule PredictedSchedule do
     prediction_time = PredictedSchedule.display_time(prediction)
 
     schedule_time != nil && prediction_time == nil
+  end
+
+  def cancelled?(%PredictedSchedule{schedule: nil, prediction: prediction})
+      when prediction != nil do
+    is_nil(prediction.arrival_time) and is_nil(prediction.departure_time)
   end
 
   def cancelled?(_), do: false

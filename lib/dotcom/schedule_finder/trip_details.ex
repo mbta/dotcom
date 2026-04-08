@@ -140,11 +140,14 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   defp trip_stop_time(predicted_schedule) do
     %Route{type: route_type} = PredictedSchedule.route(predicted_schedule)
     status = PredictedSchedule.status(predicted_schedule)
+    display_time = predicted_schedule |> PredictedSchedule.display_time()
 
     if route_type in [0, 1] && status do
       {:status, status}
     else
-      {:time, predicted_schedule |> PredictedSchedule.display_time() |> truncate(:minute)}
+      if(display_time) do
+        {:time, display_time |> truncate(:minute)}
+      end
     end
   end
 
