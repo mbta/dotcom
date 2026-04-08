@@ -170,39 +170,4 @@ describe("RapidTransitHoursOfOperation", () => {
     expect(screen.getByText("9:15 PM")).toBeInTheDocument();
     expect(screen.getByText("Trains depart every 10 minutes"));
   });
-
-  it("should open the schedule finder modal on click", async () => {
-    const spyFunction = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
-      return spyFunction;
-    });
-    jest.spyOn(hours, "default").mockImplementation(() => {
-      return {
-        week: [],
-        saturday: [],
-        sunday: [],
-        special_service: {}
-      } as TransitHours;
-    });
-
-    const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
-    renderWithProviders(
-      <RapidTransitHoursOfOperation
-        route={route}
-        scheduleNote={null}
-        date={new Date("2022-10-24T13:54:00-04:00")}
-      />
-    );
-
-    screen.getByText("Find departures from your stop").click();
-
-    await waitFor(() => {
-      expect(spyFunction).toHaveBeenCalledWith({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "origin"
-        }
-      });
-    });
-  });
 });

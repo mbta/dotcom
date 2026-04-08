@@ -1,7 +1,6 @@
 import { isDate, isFriday, isSaturday, isSunday, parseISO } from "date-fns";
 import { min } from "lodash";
 import React, { ReactElement } from "react";
-import { useDispatch } from "react-redux";
 import { formatToBostonTime } from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import { EnhancedRoute, StopHours, TransitHours } from "../../__v3api";
@@ -78,16 +77,6 @@ const RapidTransitHoursOfOperation = ({
   date?: Date;
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id) as TransitHours | null;
-  const dispatch = useDispatch();
-
-  const openModal = (): void => {
-    dispatch({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-  };
 
   const todaysHours = getHoursForDate(hours, date);
   const earliestTrain = getFirstTrainTime(todaysHours, "first_departure");
@@ -110,17 +99,6 @@ const RapidTransitHoursOfOperation = ({
         )}
         <br />
         {todaysScheduleNoteHtml}
-        <br />
-        <div>
-          <button
-            className="btn btn-link underline"
-            style={{ padding: "0rem" }}
-            type="button"
-            onClick={openModal}
-          >
-            Find departures from your stop
-          </button>
-        </div>
       </div>
     </>
   );
