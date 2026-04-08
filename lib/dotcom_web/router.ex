@@ -11,7 +11,7 @@ defmodule DotcomWeb.Router do
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
     case reason do
-      %Phoenix.Router.NoRouteError{plug_status: 404} ->
+      %{plug_status: 404} ->
         ControllerHelpers.render_404(conn)
 
       _ ->
