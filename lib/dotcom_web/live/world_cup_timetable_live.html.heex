@@ -14,66 +14,72 @@
   </div>
 </div>
 <div class="container pt-lg flex flex-col gap-lg items-start">
-  <.callout_link href="/guides/world-cup-guide">
-    {~t(Check out our )}
-    <span class="underline font-medium">{~t(World Cup Guide)}</span>
-    {~t( for information about ____)}
+  <.callout_link href="/WorldCup">
+    {gettext("For all information about World Cup train service, read our %{world_cup_link}",
+      world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
+    )
+    |> raw()}
   </.callout_link>
   <nav
     aria-label={~t"World Cup Matches"}
     class="w-full flex flex-col gap-4"
   >
     <%= case @selected_match do %>
-      <% {date, label, teams, _} -> %>
+      <% {date, time, label, teams, _} -> %>
         <.button
           variant="secondary"
           class="self-start"
-          phx-click={JS.patch(~p"/preview/schedules/CR-WorldCup")}
+          phx-click={JS.patch(~p"/schedules/bostonstadium")}
         >
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
-          {~t(View All Matches)}
+          {~t(View all matches)}
         </.button>
-        <.selected_match_banner date={date} label={label} teams={teams} />
+        <.selected_match_banner date={date} time={time} label={label} teams={teams} />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
           <.match_link
-            :for={{date, label, teams, _} <- @match_list}
+            :for={{date, time, label, teams, _} <- @match_list}
             date={date}
+            time={time}
             label={label}
             teams={teams}
           />
         </div>
     <% end %>
   </nav>
-  <div :if={@selected_match}>
-    <% {_, _, _, group_times} = @selected_match %>
+  <div :if={@selected_match} class="w-full overflow-x-auto">
+    <% {_, _, _, _, group_times} = @selected_match %>
     <h2 class="mt-0">{~t(Boarding Groups)}</h2>
-    <table class="mbta-table max-w-fit">
+    <table class="mbta-table max-w-fit ">
       <thead class="bg-brand-primary-lightest-contrast">
-        <tr class="!border-b-[1px] !border-gray-lighter">
+        <tr class="!border-b-[1px] !border-gray-lighter ">
           <th scope="col">
             <span class="sr-only">
               {~t(Group Name)}
             </span>
           </th>
           <th scope="col" class="!text-center">
-            <.link patch={~p"/stops/place-sstat"}>
-              {~t(Check in at South Station between)}
-            </.link>
+            {~t(Check-In at South Station)}
+          </th>
+          <th scope="col" class="!text-center">
+            {~t(Estimated Arrival at Foxboro Station)}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr :for={{group_name, time_range} <- group_times}>
+        <tr :for={{group_name, check_in_time_range, arrival_time_range} <- group_times}>
           <th
             scope="row"
-            class="flex flex-nowrap gap-sm items-center text-nowrap border-r-[1px] border-gray-lighter"
+            class="flex flex-nowrap gap-sm items-center border-r-[1px] border-gray-lighter "
           >
             {group_name} <.ticket_icon />
           </th>
           <td class="px-sm py-xs !text-center">
-            {apply(Dotcom.Utils.Time, :formatted_time_range, time_range)}
+            {apply(Dotcom.Utils.Time, :formatted_time_range, check_in_time_range)}
+          </td>
+          <td class="px-sm py-xs !text-center">
+            {apply(Dotcom.Utils.Time, :formatted_time_range, arrival_time_range)}
           </td>
         </tr>
       </tbody>
@@ -81,22 +87,25 @@
   </div>
   <div>
     <h2 class="mt-0">{~t(Important Information)}</h2>
-    <h3><.ticket_icon /> {~t(Reserved Ticket Required)}</h3>
+    <h3><.ticket_icon /> {~t(Boston Stadium Train Ticket Required)}</h3>
     <p>
       {gettext(
-        "Amet consectetur adipiscing elit. Nunc non dui vitae nulla pulvinar euismod. Nullam placerat tincidunt dolor, eget pulvinar urna volutpat ut. Aliquam metus neque, efficitur eget posuere in, %{world_cup_link}",
-        world_cup_link:
-          link(~t(World Cup Guide), to: "/guides/world-cup-guide") |> safe_to_string()
+        "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}",
+        world_cup_link: link(~t(World Cup Guide), to: "/WorldCup") |> safe_to_string()
       )
       |> raw()}
     </p>
-    <h3>{~t(Facilisis Sed Mi)}</h3>
+    <h3>{~t(Match Ticket Required )}</h3>
     <p>
-      {~t(Quisque eget tellus eu elit fermentum interdum. Cras rutrum posuere erat et pretium.)}
+      {~t(Riders without match tickets will not be permitted to board Boston Stadium Trains.)}
     </p>
-    <h4>{~t(Suspendisse potenti)}</h4>
+    <h3>{~t(Know Your Boarding Group)}</h3>
     <p>
-      {~t(Donec porta ex ac nulla accumsan, lobortis elementum magna elementum. Sed et venenatis massa.)}
+      {~t(Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket.)}
+    </p>
+    <h3>{~t(Return Trip Included)}</h3>
+    <p>
+      {~t(All Boston Stadium Train tickets include a return trip after the match.)}
     </p>
   </div>
 </div>

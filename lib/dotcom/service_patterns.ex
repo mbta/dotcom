@@ -261,7 +261,7 @@ defmodule Dotcom.ServicePatterns do
   @spec merge_similar_typical([service_pattern()]) :: [service_pattern()]
   defp merge_similar_typical(all) do
     all
-    |> Enum.group_by(&similar_typical_items/1)
+    |> Enum.group_by(&{&1.group_label, similar_typical_items(&1)})
     |> Enum.map(&merge_items/1)
   end
 
@@ -299,18 +299,17 @@ defmodule Dotcom.ServicePatterns do
   defp similar_typical_items(%{dates: dates, service: service}),
     do: {service.typicality, List.first(dates), service.description}
 
-  defp merge_items({label, [%{service: _, dates: dates, group_label: group_label}]}) do
+  defp merge_items({{group_label, label}, [%{service: _, dates: dates}]}) do
     %{service_label: label, dates: dates, group_label: group_label}
   end
 
-  defp merge_items({label, many_items}) do
+  defp merge_items({{group_label, label}, many_items}) do
     merged_dates =
       many_items
       |> Enum.flat_map(& &1.dates)
       |> Enum.uniq()
       |> Enum.sort(Date)
 
-    merged_label = List.first(many_items) |> Map.get(:group_label)
-    %{service_label: label, dates: merged_dates, group_label: merged_label}
+    %{service_label: label, dates: merged_dates, group_label: group_label}
   end
 end
