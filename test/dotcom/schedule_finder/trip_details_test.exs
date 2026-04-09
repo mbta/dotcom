@@ -1027,4 +1027,57 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     vehicle_info = trip_details.vehicle_info
     assert vehicle_info.vehicle_name == nil
   end
+
+  test "handles added trips with cancelled/skipped stops" do
+    platform_name = Faker.Pizza.sauce()
+    stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
+    stop_id = stop.id
+    trip = Factories.Schedules.Trip.build(:trip)
+
+    stub(Routes.Repo.Mock, :get, fn id ->
+      Factories.Routes.Route.build(
+        Faker.Util.pick([:subway_route, :bus_route, :commuter_rail_route]),
+        id: id
+      )
+    end)
+
+    stub(Stops.Repo.Mock, :get, fn
+      ^stop_id -> stop
+      _ -> Factories.Stops.Stop.build(:stop)
+    end)
+
+    first_predicted_schedule = %PredictedSchedule{
+      prediction:
+        Factories.Predictions.Prediction.build(:prediction,
+          trip: trip,
+          platform_stop_id: stop_id,
+          arrival_time: nil,
+          departure_time: nil
+        ),
+      schedule: nil
+    }
+
+    predicted_schedules = [first_predicted_schedule]
+    route_id = Faker.Util.pick(["1", "2", "Red", "Green-B"])
+    vehicle_id = Faker.Pokemon.name()
+
+    vehicle =
+      Factories.Vehicles.Vehicle.build(:vehicle,
+        status: Faker.Util.pick([:in_transit, :incoming]),
+        stop_id: stop_id,
+        trip_id: trip.id,
+        id: vehicle_id
+      )
+      |> Map.put(:route_id, route_id)
+
+    trip_details =
+      TripDetails.trip_details(%{
+        predicted_schedules: predicted_schedules,
+        trip_vehicle: vehicle
+      })
+
+    [trip_stop] = trip_details.stops
+    assert trip_stop.time == nil
+    assert trip_stop.cancelled? == true
+  end
 end
