@@ -1223,7 +1223,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if(is_nil(last_departure_time)) do
       true
     else
-      if DateTime.after?(last_departure_time, last_trip_time) or
+      if (not is_nil(last_trip_time) and DateTime.after?(last_departure_time, last_trip_time)) or
            DateTime.before?(last_trip_time, @date_time.now()) or
            has_last_trip? do
         false
