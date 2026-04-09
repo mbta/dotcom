@@ -123,14 +123,11 @@
 
 .c-alert-item__bottom {
   background-color: $service-alert-yellow-lighter;
-  max-height: 0;
-  transition: max-height .5s;
 
+  [open] &,
   .c-alert-item--open &,
-  .no-js & {
-    // ideally this would be height: auto, but to get the CSS animation to work it needs a value
-    max-height: 4000px;
-    overflow-y: scroll;
+  .no-js {
+    height: auto;
   }
 }
 
@@ -138,7 +135,7 @@
   background-color: $white;
 }
 
-.c-alert-item--open {
+[open], .c-alert-item--open {
   .c-alert-item__caret--up {
     display: block;
   }
