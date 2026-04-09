@@ -7,6 +7,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   info about an upcoming departure.
   """
 
+  use Dotcom.Gettext.Sigils
+
   import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
   import Dotcom.Utils.Time, only: [truncate: 2]
 
@@ -286,6 +288,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         vehicle: vehicle
       })
 
+    predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
+
     %UpcomingDeparture{
       arrival_status:
         arrival_status(%{
@@ -303,13 +307,27 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       headsign: trip.headsign,
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
-      route: PredictedSchedule.route(predicted_schedule),
+      route: predicted_schedule_route,
       stop_sequence: stop_sequence,
       trip_details: trip_details,
       trip_id: trip.id,
-      trip_name: if(route_type == :commuter_rail, do: trip.name, else: nil)
+      trip_name:
+        if(route_type == :commuter_rail,
+          do: trip_name(predicted_schedule_route, trip.name),
+          else: nil
+        )
     }
   end
+
+  defp trip_name(%Route{description: :rail_replacement_bus}, name) when is_binary(name) do
+    gettext("Bus %{trip_name}", trip_name: name)
+  end
+
+  defp trip_name(%Route{type: 2}, name) when is_binary(name) do
+    gettext("Train %{trip_name}", trip_name: name)
+  end
+
+  defp trip_name(_, _), do: nil
 
   # Retrieves status if a vehicle is associated with the given stop/sequence
   @spec vehicle_at_stop_status(nil | Vehicles.Vehicle.t(), Trip.id_t(), integer()) ::
