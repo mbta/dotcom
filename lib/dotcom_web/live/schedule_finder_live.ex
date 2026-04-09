@@ -67,7 +67,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:direction_id, fn -> direction_id end)
          |> assign_new(:stop, fn -> stop end)
          |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
-         |> assign_new(:last_trip_time, fn -> AsyncResult.loading([]) end)
+         |> assign_new(:last_trip_time, fn -> AsyncResult.loading() end)
          |> assign_new(:alerts, fn -> [] end)
          |> assign_new(:service_groups, fn -> service_groups end)
          |> assign_new(:loaded_trips, fn -> %{} end)
@@ -325,27 +325,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     date = DateTime.to_date(@date_time.now()) |> Date.to_string()
     stop = socket.assigns.stop
 
-    if stop do
-      assign_async(
-        socket,
-        :last_trip_time,
-        fn ->
-          {_, departures} =
-            get_departures(route_id, direction_id, stop.id, date)
+    assign_async(
+      socket,
+      :last_trip_time,
+      fn ->
+        {_, departures} =
+          get_departures(route_id, direction_id, stop.id, date)
 
-          last_trip_time =
-            departures.departures
-            |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
-            |> Enum.at(-1, %{})
-            |> Map.get(:time)
+        last_trip_time =
+          departures.departures
+          |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
+          |> Enum.at(-1, %{})
+          |> Map.get(:time)
 
-          {:ok, %{last_trip_time: last_trip_time}}
-        end,
-        reset: true
-      )
-    else
-      assign(socket, :last_trip_time, AsyncResult.ok(nil))
-    end
+        {:ok, %{last_trip_time: last_trip_time}}
+      end,
+      reset: true
+    )
   end
 
   defp assign_departures(socket) do
@@ -1223,7 +1219,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     if(is_nil(last_departure_time)) do
       true
     else
-      if DateTime.after?(last_departure_time, last_trip_time) or
+      if (not is_nil(last_trip_time) and DateTime.after?(last_departure_time, last_trip_time)) or
            DateTime.before?(last_trip_time, @date_time.now()) or
            has_last_trip? do
         false
