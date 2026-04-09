@@ -1,54 +1,56 @@
 <div class="m-tabbed-nav" role="navigation">
-  <div class="nav m-tabbed-nav__items" role="tablist">
-    <div class="m-tabbed-nav__item-container">
-      <a
-        tabindex="0"
-        class="nav-link m-tabbed-nav__item active"
-        role="tab"
-        data-toggle="tab"
-        data-tab-type="schedules"
-        aria-controls="schedules-content"
-        aria-selected="true"
-      >
-        <span aria-hidden="true">
-          {svg("icon-map-default.svg")}
-        </span>
-        <span href="/schedules" class="m-tabbed-nav__icon-text">{~t(Routes)}</span>
-      </a>
+  <nav aria-label="home navigation" id="homenav">
+    <div class="nav m-tabbed-nav__items" role="tablist">
+      <div class="m-tabbed-nav__item-container">
+        <a
+          tabindex="0"
+          class="nav-link m-tabbed-nav__item active"
+          role="tab"
+          data-toggle="tab"
+          data-tab-type="schedules"
+          aria-controls="schedules-content"
+          aria-selected="true"
+        >
+          <span aria-hidden="true">
+            {svg("icon-map-default.svg")}
+          </span>
+          <span href="/schedules" class="m-tabbed-nav__icon-text">{~t(Routes)}</span>
+        </a>
+      </div>
+      <div class="m-tabbed-nav__item-container">
+        <a
+          tabindex="0"
+          class="nav-link m-tabbed-nav__item"
+          role="tab"
+          data-toggle="tab"
+          data-tab-type="trip-planner"
+          aria-controls="trip-planner-content"
+          aria-selected="false"
+        >
+          <span aria-hidden="true">
+            {svg("icon-trip-planner-default.svg")}
+          </span>
+          <span href="/trip-planner" class="m-tabbed-nav__icon-text">{~t(Trip Planner)}</span>
+        </a>
+      </div>
+      <div class="m-tabbed-nav__item-container">
+        <a
+          tabindex="0"
+          class="nav-link m-tabbed-nav__item"
+          role="tab"
+          data-toggle="tab"
+          data-tab-type="alerts"
+          aria-controls="alerts-content"
+          aria-selected="false"
+        >
+          <span aria-hidden="true">
+            {svg("icon-alerts-default.svg")}
+          </span>
+          <span href="/alerts" class="m-tabbed-nav__icon-text">{~t(Alerts)}</span>
+        </a>
+      </div>
     </div>
-    <div class="m-tabbed-nav__item-container">
-      <a
-        tabindex="0"
-        class="nav-link m-tabbed-nav__item"
-        role="tab"
-        data-toggle="tab"
-        data-tab-type="trip-planner"
-        aria-controls="trip-planner-content"
-        aria-selected="false"
-      >
-        <span aria-hidden="true">
-          {svg("icon-trip-planner-default.svg")}
-        </span>
-        <span href="/trip-planner" class="m-tabbed-nav__icon-text">{~t(Trip Planner)}</span>
-      </a>
-    </div>
-    <div class="m-tabbed-nav__item-container">
-      <a
-        tabindex="0"
-        class="nav-link m-tabbed-nav__item"
-        role="tab"
-        data-toggle="tab"
-        data-tab-type="alerts"
-        aria-controls="alerts-content"
-        aria-selected="false"
-      >
-        <span aria-hidden="true">
-          {svg("icon-alerts-default.svg")}
-        </span>
-        <span href="/alerts" class="m-tabbed-nav__icon-text">{~t(Alerts)}</span>
-      </a>
-    </div>
-  </div>
+  </nav>
   <div class="m-tabbed-nav__content">
     <div
       role="tabpanel"
