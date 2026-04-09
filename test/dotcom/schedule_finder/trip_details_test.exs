@@ -1063,6 +1063,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
 
     vehicle =
       Factories.Vehicles.Vehicle.build(:vehicle,
+        status: Faker.Util.pick([:in_transit, :incoming]),
         stop_id: stop_id,
         trip_id: trip.id,
         id: vehicle_id
