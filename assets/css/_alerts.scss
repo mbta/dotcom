@@ -124,7 +124,7 @@
 .c-alert-item__bottom {
   background-color: $service-alert-yellow-lighter;
 
-  [open] &{
+  [open] & {
     height: auto;
   }
 }
