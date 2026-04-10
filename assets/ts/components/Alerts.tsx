@@ -1,7 +1,6 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Alert as AlertType, Lifecycle } from "../__v3api";
-import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
-import { caret } from "../helpers/icon";
+import renderFa from "../helpers/render-fa";
 import renderSVG from "../helpers/render-svg";
 import shuttleIcon from "../../../priv/static/icon-svg/icon-shuttle-default.svg";
 import cancelIcon from "../../../priv/static/icon-svg/icon-cancelled-default.svg";
@@ -12,20 +11,6 @@ import { formatToBostonTime } from "../helpers/date";
 interface Props {
   alerts: AlertType[];
 }
-
-const alertClassNames = (
-  { priority, description }: AlertType,
-  expanded: boolean
-): string => {
-  const classNames = `c-alert-item c-alert-item--${priority}`;
-  if (description) {
-    if (expanded) {
-      return `${classNames} c-alert-item--expandable c-alert-item--open`;
-    }
-    return `${classNames} c-alert-item--expandable c-alert-item--closed`;
-  }
-  return classNames;
-};
 
 export const iconForAlert = ({
   priority,
@@ -91,14 +76,6 @@ export const effectNameForAlert = (alert: AlertType): string => {
     .split("_")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-};
-
-const caretIcon = (
-  noDescription: boolean,
-  expanded: boolean
-): ReactElement<HTMLElement> | null => {
-  if (noDescription) return null;
-  return caret("c-expandable-block__header-caret--black", expanded);
 };
 
 const htmlEscape = (unsafe: string): string => {
@@ -176,10 +153,6 @@ const formatAlertDescription = (description: string): string => {
 const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
   <div
     className={`c-alert-item__bottom c-alert-item__buttom--${alert.priority}`}
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    tabIndex={0}
-    role="region"
-    aria-labelledby={`alert-${alert.id}`}
     ref={panel => panel && panel.focus()}
   >
     {alert.image && (
@@ -213,9 +186,6 @@ export const Alert = ({
 }: {
   alert: AlertType;
 }): ReactElement<HTMLElement> => {
-  const [expanded, toggleExpanded] = useState(false);
-  const onClick = (): void => toggleExpanded(!expanded);
-
   const alertUrl = alert.url ? alert.url : "";
 
   // remove [http:// | https:// | www.] from alert URL:
@@ -224,21 +194,51 @@ export const Alert = ({
   // capitalize 'mbta' (special case):
   strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");
 
+  return (
+    <li
+      id={`alert-${alert.id}`}
+      className={`c-alert-item c-alert-item--${alert.priority}`}
+    >
+      <AlertContent alert={alert} />
+    </li>
+  );
+};
+
+const AlertContent = ({
+  alert
+}: {
+  alert: AlertType;
+}): ReactElement<HTMLElement> => {
+  // Wrap in a details element if a description exists
+  if (alert.description) {
+    return (
+      <details>
+        <summary>
+          <AlertSummary alert={alert} />
+        </summary>
+        {alert.description ? alertDescription(alert) : null}
+        {/* No javascript support */}
+        {alert.description ? (
+          <noscript>{alertDescription(alert)}</noscript>
+        ) : null}
+      </details>
+    )
+  }
+
+  return <AlertSummary alert={alert} />
+}
+
+const AlertSummary = ({
+    alert
+}: {
+  alert: AlertType;
+}): ReactElement<HTMLElement> => {
   const headerContent = alert.url
     ? `${alert.header}<span>&nbsp;</span><a href="${alert.url}" target="_blank">${strippedAlertUrl}</a>`
     : alert.header;
 
   return (
-    <li
-      id={`alert-${alert.id}`}
-      tabIndex={0}
-      className={alertClassNames(alert, expanded)}
-      onClick={onClick}
-      onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
-      aria-expanded={expanded}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-      role="button"
-    >
+    <>
       <div className="c-alert-item__icon">{iconForAlert(alert)}</div>
       <div className="c-alert-item__top">
         <div className="c-alert-item__top-text-container">
@@ -251,18 +251,14 @@ export const Alert = ({
         </div>
         {alert.description && (
           <div className="c-alert-item__top-caret-container">
-            {caretIcon(alert.description === "", expanded)}
+            {renderFa("c-alert-item__caret--up", "fa-angle-up", true)}
+            {renderFa("c-alert-item__caret--down", "fa-angle-down", true)}
           </div>
         )}
       </div>
-      {expanded && alert.description ? alertDescription(alert) : null}
-      {/* No javascript support */}
-      {alert.description ? (
-        <noscript>{alertDescription(alert)}</noscript>
-      ) : null}
-    </li>
-  );
-};
+    </>
+  )
+}
 
 const Alerts = ({ alerts }: Props): ReactElement<HTMLElement> => (
   <div className="container">
