@@ -152,7 +152,7 @@ const formatAlertDescription = (description: string): string => {
 
 const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
   <div
-    className={`c-alert-item__bottom c-alert-item__buttom--${alert.priority}`}
+    className={`c-alert-item__bottom c-alert-item__bottom--${alert.priority}`}
     ref={panel => panel && panel.focus()}
   >
     {alert.image && (
@@ -217,10 +217,6 @@ const AlertContent = ({
           <AlertSummary alert={alert} />
         </summary>
         {alert.description ? alertDescription(alert) : null}
-        {/* No javascript support */}
-        {alert.description ? (
-          <noscript>{alertDescription(alert)}</noscript>
-        ) : null}
       </details>
     )
   }

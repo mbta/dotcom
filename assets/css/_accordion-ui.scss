@@ -98,10 +98,6 @@
   width: 1em;
 }
 
-.c-expandable-block__header-caret--black {
-  @include caret($color: $black);
-}
-
 .c-expandable-block__header-caret {
   @include caret($color: $brand-primary);
   pointer-events: none;

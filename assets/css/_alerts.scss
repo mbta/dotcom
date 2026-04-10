@@ -124,9 +124,7 @@
 .c-alert-item__bottom {
   background-color: $service-alert-yellow-lighter;
 
-  [open] &,
-  .c-alert-item--open &,
-  .no-js {
+  [open] &{
     height: auto;
   }
 }
@@ -135,7 +133,7 @@
   background-color: $white;
 }
 
-[open], .c-alert-item--open {
+[open] {
   .c-alert-item__caret--up {
     display: block;
   }
