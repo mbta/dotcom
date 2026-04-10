@@ -226,14 +226,13 @@ const AlertContent = ({
 }: {
   alert: AlertType;
 }): ReactElement<HTMLElement> => {
-  // Wrap in a details element if a description exists
   if (alert.description) {
     return (
       <details>
         <summary>
           <AlertSummary alert={alert} />
         </summary>
-        {alert.description ? alertDescription(alert) : null}
+        {alertDescription(alert)}
       </details>
     );
   }
