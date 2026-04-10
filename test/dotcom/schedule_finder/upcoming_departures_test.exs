@@ -198,55 +198,42 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Verify
       assert [departure] = departures
 
-      assert departure.trip_name =~ trip.name
+      assert departure.trip_name == "Train #{trip.name}"
       assert departure.platform_name == platform_name
     end
 
-    test "adjusts trip name by predicted schedule route type" do
+    test "prepends 'Bus' to trip names for rail replacement buses" do
       # Setup
       %{
         predicted_arrival_times: [_, arrival_time, _],
         predictions: predictions,
-        route: route,
         stops: [_, stop, _],
         trip: trip,
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
-          route_factory_types: [:commuter_rail_route],
+          route_factory_types: [:rail_replacement_bus_route],
           stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
+
+      original_route = Factories.Routes.Route.build(:commuter_rail_route)
 
       expect(Predictions.Repo.Mock, :all, 1, fn _ -> predictions end)
       expect(Schedules.Repo.Mock, :by_route_ids, 1, fn _, _ -> [] end)
       expect(Vehicles.Repo.Mock, :get, 1, fn _ -> vehicle end)
 
-      [departure] =
+      departures =
         UpcomingDepartures.upcoming_departures(%{
           direction_id: Faker.Util.pick([0, 1]),
           now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
-          route: route,
+          route: original_route,
           stop_id: stop.id
         })
 
-      IO.inspect(departure.trip_name)
-      # Exercise
-      # [[shuttle_departure], [train_departure]] =
-      #   [
-      #     %{route | type: 3, description: :rail_replacement_bus},
-      #     %{route | type: 2, description: :commuter_rail}
-      #   ]
-      #   |> Enum.map(
-      #     &UpcomingDepartures.upcoming_departures(%{
-      #       direction_id: Faker.Util.pick([0, 1]),
-      #       now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
-      #       route: routr,
-      #       stop_id: stop.id
-      #     })
-      #   )
+      # Verify
+      assert [departure] = departures
 
-      # assert shuttle_departure.trip_name == "Bus #{trip.name}"
-      # assert train_departure.trip_name == "Train #{trip.name}"
+      assert departure.trip_name == "Bus #{trip.name}"
     end
 
     test "does hide platform names for bus or commuter rail stops outside allowlist" do
