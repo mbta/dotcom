@@ -181,7 +181,7 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
   </div>
 );
 
-export const Alert = ({
+const AlertSummary = ({
   alert
 }: {
   alert: AlertType;
@@ -194,41 +194,6 @@ export const Alert = ({
   // capitalize 'mbta' (special case):
   strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");
 
-  return (
-    <li
-      id={`alert-${alert.id}`}
-      className={`c-alert-item c-alert-item--${alert.priority}`}
-    >
-      <AlertContent alert={alert} />
-    </li>
-  );
-};
-
-const AlertContent = ({
-  alert
-}: {
-  alert: AlertType;
-}): ReactElement<HTMLElement> => {
-  // Wrap in a details element if a description exists
-  if (alert.description) {
-    return (
-      <details>
-        <summary>
-          <AlertSummary alert={alert} />
-        </summary>
-        {alert.description ? alertDescription(alert) : null}
-      </details>
-    )
-  }
-
-  return <AlertSummary alert={alert} />
-}
-
-const AlertSummary = ({
-    alert
-}: {
-  alert: AlertType;
-}): ReactElement<HTMLElement> => {
   const headerContent = alert.url
     ? `${alert.header}<span>&nbsp;</span><a href="${alert.url}" target="_blank">${strippedAlertUrl}</a>`
     : alert.header;
@@ -253,8 +218,43 @@ const AlertSummary = ({
         )}
       </div>
     </>
-  )
-}
+  );
+};
+
+const AlertContent = ({
+  alert
+}: {
+  alert: AlertType;
+}): ReactElement<HTMLElement> => {
+  // Wrap in a details element if a description exists
+  if (alert.description) {
+    return (
+      <details>
+        <summary>
+          <AlertSummary alert={alert} />
+        </summary>
+        {alert.description ? alertDescription(alert) : null}
+      </details>
+    );
+  }
+
+  return <AlertSummary alert={alert} />;
+};
+
+export const Alert = ({
+  alert
+}: {
+  alert: AlertType;
+}): ReactElement<HTMLElement> => {
+  return (
+    <li
+      id={`alert-${alert.id}`}
+      className={`c-alert-item c-alert-item--${alert.priority}`}
+    >
+      <AlertContent alert={alert} />
+    </li>
+  );
+};
 
 const Alerts = ({ alerts }: Props): ReactElement<HTMLElement> => (
   <div className="container">
