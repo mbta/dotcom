@@ -102,26 +102,34 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
-  @spec upcoming_departures(%{
-          direction_id: 0 | 1,
-          now: DateTime.t(),
-          route: Route.t(),
-          stop_id: Stop.id_t()
-        }) ::
+  @spec upcoming_departures(
+          %{
+            direction_id: 0 | 1,
+            now: DateTime.t(),
+            route: Route.t(),
+            stop_id: Stop.id_t()
+          },
+          [Prediction.t()] | nil
+        ) ::
           [__MODULE__.UpcomingDeparture.t()]
           | :no_realtime
           | :no_service
           | :service_ended
           | {:before_service, __MODULE__.UpcomingDeparture.t()}
           | {:no_realtime, [__MODULE__.UpcomingDeparture.t()]}
-  def upcoming_departures(%{
-        direction_id: direction_id,
-        now: now,
-        route: route,
-        stop_id: stop_id
-      }) do
+  def upcoming_departures(
+        %{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        },
+        predictions \\ nil
+      ) do
     route_type = Route.type_atom(route)
-    predicted_schedules = predicted_schedules(route.id, direction_id, now)
+
+    predicted_schedules =
+      predicted_schedules(predictions, route.id, route_type, direction_id, now)
 
     predicted_schedules_by_trip_id =
       predicted_schedules
@@ -185,20 +193,28 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
-  defp predicted_schedules(route_id, direction_id, now) do
+  defp predicted_schedules(predictions, route_id, route_type, direction_id, now) do
     all_predictions =
-      @predictions_repo.all(
-        route: route_id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
+      if is_nil(predictions) do
+        @predictions_repo.all(
+          route: route_id,
+          direction_id: direction_id,
+          include_terminals: true,
+          discard_past_subway_predictions: false
+        )
+      else
+        predictions
+      end
 
     all_schedules =
-      @schedules_repo.by_route_ids([route_id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now)
-      )
+      if route_type !== :subway do
+        @schedules_repo.by_route_ids([route_id],
+          direction_id: direction_id,
+          date: ServiceDateTime.service_date(now)
+        )
+      else
+        []
+      end
 
     PredictedSchedule.group(all_predictions, all_schedules)
   end

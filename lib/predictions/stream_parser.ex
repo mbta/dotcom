@@ -15,6 +15,7 @@ defmodule Predictions.StreamParser do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @spec parse(Item.t()) :: Prediction.t()
   def parse(%Item{} = item) do
@@ -66,7 +67,8 @@ defmodule Predictions.StreamParser do
   @spec parse_time(String.t()) :: DateTime.t()
   defp parse_time(time) do
     {:ok, dt, _} = DateTime.from_iso8601(time)
-    dt
+    {:ok, t} = DateTime.shift_zone(dt, @timezone)
+    t
   end
 
   @spec vehicle_id(Item.t()) :: Vehicles.Vehicle.id_t() | nil

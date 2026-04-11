@@ -26,6 +26,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Stops.Stop
 
   @date_time Application.compile_env!(:dotcom, :date_time_module)
+  @predictions_pub_sub Application.compile_env!(:dotcom, :predictions_pub_sub)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -60,7 +61,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
         {:ok,
          socket
-         |> subscribe_to_alerts()
          |> assign_new(:route, fn -> route end)
          |> assign_page_title(route)
          |> assign_new(:vehicle_name, fn -> Route.vehicle_name(route) end)
@@ -75,8 +75,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:daily_schedule_date, fn -> service_date() end)
          |> assign_alerts()
          |> assign_departures()
-         |> assign_upcoming_departures()
-         |> assign_last_trip_time()}
+         |> assign_last_trip_time()
+         |> subscribe_to_alerts()
+         |> subscribe_to_predictions()}
 
       _ ->
         # Raising this error will render the 404 page
@@ -86,8 +87,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @impl LiveView
   def terminate(_, _) do
-    # stop listening for new alerts
+    # stop listening for new alerts or predictions
     _ = Alerts.Cache.Store.unsubscribe()
+    _ = @predictions_pub_sub.unsubscribe()
   end
 
   @impl LiveView
@@ -218,12 +220,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   @impl LiveView
-  def handle_info(:refresh_upcoming_departures, socket) do
-    {:noreply,
-     socket
-     |> assign_upcoming_departures()}
-  end
-
   def handle_info(%{event: "alerts_updated"}, socket) do
     {:noreply, assign_alerts(socket)}
   end
@@ -233,6 +229,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign_service(selected_service_label)
      |> assign_departures()}
+  end
+
+  def handle_info({:new_predictions, predictions}, socket) do
+    {:noreply, assign_upcoming_departures(socket, predictions)}
   end
 
   def handle_info(_, socket), do: {:noreply, socket}
@@ -246,9 +246,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh_upcoming_departures(pid) do
-    # Refresh every second
-    Process.send_after(pid, :refresh_upcoming_departures, 5000)
+  defp subscribe_to_predictions(socket) do
+    if connected?(socket) do
+      route_id = socket.assigns.route.id
+      direction_id = socket.assigns.direction_id
+      stop_id = socket.assigns.stop.id
+
+      case @predictions_pub_sub.subscribe(%{
+             route_id: route_id,
+             direction_id: direction_id,
+             stop_id: stop_id
+           }) do
+        {:error, reason} ->
+          update(socket, :upcoming_departures, &AsyncResult.failed(&1, reason))
+
+        [] ->
+          assign_upcoming_departures(socket)
+
+        predictions ->
+          assign_upcoming_departures(socket, predictions)
+      end
+    else
+      socket
+    end
   end
 
   defp validate_params(%{
@@ -272,35 +292,30 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
-  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
+  defp assign_upcoming_departures(socket, predictions \\ nil) do
     now = @date_time.now()
     route = socket.assigns.route
     direction_id = socket.assigns.direction_id
-    stop_id = stop_id
-
-    parent_pid = self()
+    stop_id = socket.assigns.stop.id
 
     socket
     |> assign_async(
       :upcoming_departures,
       fn ->
         departures =
-          UpcomingDepartures.upcoming_departures(%{
-            direction_id: direction_id,
-            now: now,
-            route: route,
-            stop_id: stop_id
-          })
-
-        schedule_refresh_upcoming_departures(parent_pid)
+          UpcomingDepartures.upcoming_departures(
+            %{
+              direction_id: direction_id,
+              now: now,
+              route: route,
+              stop_id: stop_id
+            },
+            predictions
+          )
 
         {:ok, %{upcoming_departures: departures}}
       end
     )
-  end
-
-  defp assign_upcoming_departures(socket) do
-    socket |> assign(:upcoming_departures, [])
   end
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
