@@ -24,18 +24,17 @@ defmodule Predictions.PubSubTest do
   setup :verify_on_exit!
 
   setup do
-    stop = Faker.Lorem.word()
-    channel = "stop:#{stop}"
+    stop_id = Faker.Lorem.word()
 
-    stub(@route_patterns_repo, :by_stop_id, fn ^stop ->
+    stub(@route_patterns_repo, :by_stop_id, fn ^stop_id ->
       [RoutePattern.build(:route_pattern)]
     end)
 
-    stub(@predictions_store, :fetch, fn [stop: ^stop] ->
+    stub(@predictions_store, :fetch, fn [stop: ^stop_id] ->
       {:reply, [], :foo}
     end)
 
-    {:ok, %{channel: channel, stop: stop}}
+    {:ok, %{stop_id: stop_id}}
   end
 
   describe "subscribe/2" do
@@ -43,20 +42,20 @@ defmodule Predictions.PubSubTest do
       # Setup
       setup_predictions = Prediction.build_list(3, :prediction)
 
-      expect(@route_patterns_repo, :by_stop_id, fn stop ->
-        assert stop == context.stop
+      expect(@route_patterns_repo, :by_stop_id, fn stop_id ->
+        assert stop_id == context.stop_id
 
         [RoutePattern.build(:route_pattern)]
       end)
 
-      expect(@predictions_store, :fetch, fn [stop: stop] ->
-        assert stop == context.stop
+      expect(@predictions_store, :fetch, fn [stop: stop_id] ->
+        assert stop_id == context.stop_id
 
         {:reply, setup_predictions, :foo}
       end)
 
       # Exercise
-      {:reply, verify_predictions, :foo} = PubSub.subscribe(context.channel)
+      {:reply, verify_predictions, :foo} = PubSub.subscribe(%{stop_id: context.stop_id})
 
       # Verify
       assert verify_predictions == setup_predictions
@@ -66,7 +65,7 @@ defmodule Predictions.PubSubTest do
       # Exercise
       assert Registry.count(:prediction_subscriptions_registry) == 0
 
-      PubSub.subscribe(context.channel)
+      PubSub.subscribe(%{stop_id: context.stop_id})
 
       # Verify
       assert Registry.count(:prediction_subscriptions_registry) == 1
@@ -78,7 +77,7 @@ defmodule Predictions.PubSubTest do
       :erlang.trace(pid, true, [:receive])
 
       # Exercise
-      PubSub.subscribe(context.channel)
+      PubSub.subscribe(%{stop_id: context.stop_id})
 
       # Verify
       assert_received {:trace, ^pid, :receive, {_, {_, _}, {:start_child, _}}}
@@ -91,8 +90,8 @@ defmodule Predictions.PubSubTest do
       pid = self()
 
       # Exercise
-      %{topic: topic_name} = StreamTopic.new(context.channel)
-      _ = PubSub.subscribe(topic_name)
+      %{topic: topic} = StreamTopic.new(%{stop_id: context.stop_id})
+      _ = PubSub.subscribe(topic)
 
       assert :ets.lookup(:callers_by_pid, pid) != []
       assert Registry.count(:prediction_subscriptions_registry) == 1
@@ -111,8 +110,8 @@ defmodule Predictions.PubSubTest do
       pid = self()
 
       # Exercise
-      %{topic: topic_name} = StreamTopic.new(context.channel)
-      _ = PubSub.subscribe(topic_name)
+      %{topic: topic} = StreamTopic.new(%{stop_id: context.stop_id})
+      _ = PubSub.subscribe(topic)
       :erlang.trace(pid, true, [:receive])
 
       # Exercise

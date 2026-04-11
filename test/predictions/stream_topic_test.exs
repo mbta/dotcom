@@ -19,17 +19,17 @@ defmodule Predictions.StreamTopicTest do
         build_list(1, :route_pattern, route_id: "Route1", direction_id: 0)
       end)
 
-      topic = "stop:stopId"
+      topic = %{stop_id: "stopId"}
 
       assert %StreamTopic{
                topic: ^topic,
                fetch_keys: [stop: "stopId"],
                streams: streams
-             } = new("stop:stopId")
+             } = new(topic)
 
       [{list, string} | _] = streams
 
-      Dotcom.Assertions.assert_equal_lists(list, route: "Route1", direction: 0)
+      Dotcom.Assertions.assert_equal_lists(list, stop: "stopId")
 
       assert string =~ "filter[direction_id]=0"
       assert string =~ "filter[route]=Route1"
@@ -40,7 +40,7 @@ defmodule Predictions.StreamTopicTest do
         []
       end)
 
-      assert {:error, :no_streams_found} = new("stop:unserved_stop")
+      assert {:error, :no_streams_found} = new(%{stop_id: "unserved_stop"})
     end
 
     test "doesn't work for other topics" do

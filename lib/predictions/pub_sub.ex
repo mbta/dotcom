@@ -30,10 +30,10 @@ defmodule Predictions.PubSub do
   end
 
   @impl Behaviour
-  def subscribe(topic) do
+  def subscribe(opts) do
     caller_pid = self()
 
-    case StreamTopic.new(topic) do
+    case StreamTopic.new(opts) do
       %StreamTopic{fetch_keys: fetch_keys} = stream_topic ->
         :ok = StreamTopic.start_streams(stream_topic)
         new_callers = Enum.map(stream_topic.streams, &{caller_pid, elem(&1, 1)})

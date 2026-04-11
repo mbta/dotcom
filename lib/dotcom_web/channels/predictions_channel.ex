@@ -26,12 +26,12 @@ defmodule DotcomWeb.PredictionsChannel do
   @impl Channel
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
           {:ok, %{predictions: [Prediction.t()]}, Socket.t()} | {:error, map()}
-  def join("predictions:" <> topic, _message, socket) do
-    case @predictions_pub_sub.subscribe(topic) do
+  def join("predictions:stop:" <> stop_id, _message, socket) do
+    case @predictions_pub_sub.subscribe(%{stop_id: stop_id}) do
       {:error, _reason} ->
         {:error,
          %{
-           message: "Cannot subscribe to predictions for #{topic}."
+           message: "Cannot subscribe to predictions for stop_id #{stop_id}."
          }}
 
       predictions ->

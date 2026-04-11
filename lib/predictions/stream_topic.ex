@@ -24,55 +24,72 @@ defmodule Predictions.StreamTopic do
   @type filter_params :: String.t()
   @type clear_keys :: Store.fetch_keys()
   @type t :: %__MODULE__{
-          topic: String.t(),
+          topic: map(),
           fetch_keys: Store.fetch_keys(),
           streams: [{clear_keys, filter_params}]
         }
 
-  @spec new(String.t()) :: t() | {:error, term()}
-  def new(topic)
+  @spec new(map()) :: t() | {:error, term()}
+  def new(%{route_id: route_id, direction_id: direction_id} = opts)
+      when is_binary(route_id) and is_integer(direction_id) do
+    fetch_keys =
+      case opts[:stop_id] do
+        nil ->
+          [route: route_id, direction: direction_id]
 
-  def new("stop:" <> stop_id = topic) do
-    [stop: stop_id]
-    |> do_new(topic)
+        stop_id ->
+          [route: route_id, direction: direction_id, stop: stop_id]
+      end
+
+    streams = [{fetch_keys, to_filter_name(%{route_id: route_id, direction_id: direction_id})}]
+
+    %__MODULE__{
+      topic: opts,
+      fetch_keys: fetch_keys,
+      streams: streams
+    }
+  end
+
+  def new(%{stop_id: stop_id} = opts) when is_binary(stop_id) do
+    fetch_keys = [stop: stop_id]
+
+    streams =
+      @route_patterns_repo.by_stop_id(stop_id)
+      |> Enum.map(&{fetch_keys, to_filter_name(&1)})
+      |> Enum.uniq()
+
+    if streams == [] do
+      {:error, :no_streams_found}
+    else
+      %__MODULE__{
+        topic: opts,
+        fetch_keys: fetch_keys,
+        streams: streams
+      }
+    end
   end
 
   def new(_) do
     {:error, :unsupported_topic}
   end
 
-  @spec do_new(Store.fetch_keys(), String.t()) :: t() | {:error, term()}
-  defp do_new(fetch_keys, topic) do
-    case streams_from_fetch_keys(fetch_keys) do
-      [] ->
-        {:error, :no_streams_found}
-
-      streams ->
-        %__MODULE__{
-          topic: topic,
-          fetch_keys: fetch_keys,
-          streams: Enum.uniq(streams)
-        }
-    end
-  end
-
-  @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
-  defp streams_from_fetch_keys(stop: stop_id) do
-    @route_patterns_repo.by_stop_id(stop_id)
-    |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
-  end
-
-  defp to_keys(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
-    [route: route_id, direction: direction_id]
-  end
-
-  defp to_filter_name(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
+  defp to_filter_name(%{route_id: route_id, direction_id: direction_id}) do
     %{
       route: route_id,
       direction_id: direction_id
     }
     |> Enum.map_join("&", fn {filter, value} -> "filter[#{filter}]=#{value}" end)
   end
+
+  # defp to_filter_names(%{stop_id: stop_id}) do
+  #   @route_patterns_repo.by_stop_id(stop_id)
+  #   |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
+  #   |> Enum.uniq()
+  # end
+
+  # defp to_keys(%{route_id: route_id, direction_id: direction_id}) do
+  #   [route: route_id, direction: direction_id]
+  # end
 
   @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]
   def registration_keys(%__MODULE__{fetch_keys: fetch_keys, streams: streams}) do
