@@ -35,6 +35,11 @@ const queryReducer = (decoder: EncoderDecoder): QueryReducer => (
   if (key === "") {
     return { ...params };
   }
+
+  if (val === undefined) {
+    return { ...params, [decoder(key)]: val };
+  }
+
   return { ...params, [decoder(key)]: decoder(val.replace(/\+/g, " ")) };
 };
 
