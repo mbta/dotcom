@@ -35,7 +35,7 @@ const tabbedNavSetup = () => {
       if (e.key === "Enter") {
         callback(e);
       }
-      const selectedTab = Array.from(navTabs).findIndex(tab=>{tab.getAttribute("aria-selected")=="true"});
+      const selectedTab = Array.from(navTabs).findIndex(tab=>tab.getAttribute("aria-selected")=="true");
       if(e.key === "ArrowLeft" && selectedTab > 0){
         updateTabs(navTabs[selectedTab-1].dataset.tabType, navTabs, contentTabs, false)(e);
       }
@@ -52,5 +52,40 @@ const tabbedNavSetup = () => {
 export default function init() {
   window.addEventListener("load", () => {
     tabbedNavSetup();
+    genericTabsSetup();
   });
+}
+
+const genericTabsSetup = ()=>{
+  Array.from(document.querySelectorAll(".tabnav")).forEach(elem => {
+    elem.addEventListener("keydown", handleTabsKeys)
+  });
+}
+
+const handleTabsKeys = (event) => {
+ 
+  const {key, currentTarget} = event;
+  const {id, parentNode} = currentTarget;
+  const selectedTabIndex = Array.from(parentNode.children).findIndex(tab=>tab==document.activeElement);
+  let newIndex = selectedTabIndex;
+
+  if(key === "ArrowRight" && selectedTabIndex < parentNode.children.length-1){
+    newIndex+=1;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(key === "ArrowLeft" && selectedTabIndex > 0){
+    newIndex-=1;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(key === " "){
+    currentTarget.click();
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  
+  currentTarget.setAttribute("aria-selected",false);
+  parentNode.children[newIndex].focus();
+  parentNode.children[newIndex].setAttribute("aria-selected",true);
 }

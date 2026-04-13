@@ -10,11 +10,14 @@
       </div>
     </div>
     <div class="col-lg-8 col-lg-offset-1">
-      <div class="m-alerts__mode-buttons mb-lg">
+      <nav aria-label="alert mode tabs" id="alertnsav" class="m-alerts__mode-buttons mb-lg">
         <a
           :for={mode <- [:subway, :bus, :commuter_rail, :ferry, :access]}
           href={~p"/alerts/#{mode}"}
-          class="m-alerts__mode-button-container"
+          class="m-alerts__mode-button-container tabnav"
+          aria-selected={@mode == mode}
+          aria-current={if @mode == mode, do: "page"}
+          id={"nav_tab_#{mode}"}
         >
           <div class={[
             "m-alerts__mode-button",
@@ -24,7 +27,7 @@
             <div class="m-alerts__mode-name">{DotcomWeb.AlertView.type_name(mode)}</div>
           </div>
         </a>
-      </div>
+      </nav>
 
       {render_slot(@main_section)}
 
