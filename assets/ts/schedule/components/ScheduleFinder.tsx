@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { Route, DirectionId } from "../../__v3api";
 import {
@@ -44,16 +44,41 @@ const ScheduleFinder = ({
   scheduleNote,
   hasServiceToday
 }: Props): ReactElement<HTMLElement> => {
+  const dispatch = useDispatch();
   const { modalOpen, selectedOrigin } = useSelector(
     (state: StoreProps) => state
   );
 
   const currentDirection = useDirectionChangeEvent(directionId);
+  const openOriginModal = (): void => {
+    if (!modalOpen) {
+      dispatch({
+        type: "OPEN_MODAL",
+        newStoreValues: {
+          modalMode: "origin"
+        }
+      });
+    }
+  };
 
   const openScheduleModal = (): void => {
     if (selectedOrigin !== undefined && !modalOpen) {
-      document.location.href = `/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${selectedOrigin}`;
+      dispatch({
+        type: "OPEN_MODAL",
+        newStoreValues: {
+          modalMode: "schedule"
+        }
+      });
     }
+  };
+
+  const handleOriginSelectClick = (): void => {
+    dispatch({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: "origin"
+      }
+    });
   };
 
   const isFerryRoute = routeToModeName(route) === "ferry";
@@ -67,6 +92,7 @@ const ScheduleFinder = ({
       <ScheduleFinderForm
         onDirectionChange={changeDirection}
         onOriginChange={changeOrigin}
+        onOriginSelectClick={openOriginModal}
         onSubmit={openScheduleModal}
         route={route}
         selectedDirection={currentDirection}
@@ -78,6 +104,7 @@ const ScheduleFinder = ({
           closeModal={closeModal}
           directionChanged={changeDirection}
           initialDirection={currentDirection}
+          handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
