@@ -1,5 +1,4 @@
 /* eslint-disable */
-import * as Sentry from "@sentry/browser";
 import Filter from "bad-words";
 
 export default function($ = window.jQuery) {
@@ -527,10 +526,6 @@ export function handleSubmitClick($, toUpload) {
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
-        Sentry.captureException(errorObject, {
-          tags: { "dotcom.application": "frontend", "support.form": true },
-          extra: { errorStatus: errorString, formData: formData }
-        });
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();

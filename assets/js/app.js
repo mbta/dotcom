@@ -7,7 +7,6 @@ import { Hooks } from "../../deps/mbta_metro/priv/dist/metro";
 import setupChannels from "../ts/app/channels";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
-import initializeSentry from "../ts/sentry";
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";
@@ -82,8 +81,6 @@ liveSocket.connect();
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
-
-initializeSentry();
 
 document.body.className = document.body.className.replace("no-js", "js");
 

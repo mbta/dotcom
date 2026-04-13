@@ -116,8 +116,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   defp sentry(directives, dsn) do
     if is_binary(dsn) do
       [
-        {:connect_src, sentry_host(dsn)},
-        {:connect_src, Util.config(:sentry, :js_dsn) |> sentry_host()}
+        {:connect_src, sentry_host(dsn)}
       ] ++ directives
     else
       directives
