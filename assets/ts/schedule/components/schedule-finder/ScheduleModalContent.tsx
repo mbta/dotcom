@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { Dispatch } from "redux";
 import { DirectionId, Route } from "../../../__v3api";
 import { routeToModeName } from "../../../helpers/css";
 import formattedDate from "../../../helpers/date";
@@ -19,6 +20,7 @@ import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 interface Props {
   handleChangeDirection: (direction: DirectionId) => void;
   handleChangeOrigin: (origin: SelectedOrigin) => void;
+  handleOriginSelectClick: (dispatch: Dispatch) => void;
   route: Route;
   selectedDirection: DirectionId;
   selectedOrigin: string;
@@ -33,6 +35,7 @@ interface Props {
 const ScheduleModalContent = ({
   handleChangeDirection,
   handleChangeOrigin,
+  handleOriginSelectClick,
   route,
   selectedDirection,
   selectedOrigin,
@@ -65,6 +68,7 @@ const ScheduleModalContent = ({
         <ScheduleFinderForm
           onDirectionChange={handleChangeDirection}
           onOriginChange={handleChangeOrigin}
+          onOriginSelectClick={handleOriginSelectClick}
           route={route}
           selectedDirection={selectedDirection}
           selectedOrigin={selectedOrigin}
