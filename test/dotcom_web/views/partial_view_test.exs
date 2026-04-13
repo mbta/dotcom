@@ -179,7 +179,7 @@ defmodule DotcomWeb.PartialViewTest do
         |> IO.iodata_to_binary()
 
       expected =
-        "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"
+        "<nav class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab tabnav\" href=\"/a\" id=\"a-tab\">A</a><a aria-current=\"page\" aria-selected class=\"header-tab header-tab--selected some-tab-class b-tab tabnav\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab tabnav\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></nav>"
 
       assert actual == expected
     end
