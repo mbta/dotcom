@@ -1,5 +1,5 @@
 <div class="tab-selector-container">
-  <nav class="<%= args.class %>" role="navigation">
+  <nav class="<%= args.class %>" role="navigation" aria-label="stations mode tabs">
     <div class="tab-select-btn-group">
       <div class="stacked-tab-label"><strong><%= args.stacked_label %></strong></div>
       <%= for {tab_item_name, title, href} <- args.links do %>
@@ -7,7 +7,7 @@
         selected_class = if selected?(tab_item_name, args.selected), do: "tab-select-btn-selected", else: ""
         slug = slug(title)
         %>
-        <%= PhoenixHTMLHelpers.Link.link to: "#{href}\##{slug}", data: [scroll: "false"], id: slug, class: "btn #{selected_class}" do %>
+        <%= PhoenixHTMLHelpers.Link.link to: "#{href}\##{slug}", data: [scroll: "false"], id: slug, aria_selected: args.selected, aria_current: (if args.selected, do: "page"), class: "btn #{selected_class} tabnav" do %>
           <%= if icon = args.icon_map[title] do %>
             <%= icon %>
           <% end %>
