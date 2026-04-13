@@ -975,7 +975,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       })
 
     vehicle_info = trip_details.vehicle_info
-    assert vehicle_info.vehicle_name == "The " <> vehicle_id
+    assert vehicle_info.vehicle_name == vehicle_id
   end
 
   test "does not show vehicle names for busses and such" do
