@@ -279,7 +279,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   end
 
   defp boat_name(name) do
-    ("The " <> name)
+    name
     |> String.split(" ")
     |> Enum.map_join(
       " ",

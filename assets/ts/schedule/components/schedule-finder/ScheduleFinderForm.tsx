@@ -14,6 +14,7 @@ const validDirections = (directionInfo: DirectionInfo): DirectionId[] =>
 interface Props {
   onDirectionChange: (direction: DirectionId, dispatch: Dispatch) => void;
   onOriginChange: (origin: SelectedOrigin, dispatch: Dispatch) => void;
+  onOriginSelectClick: (dispatch: Dispatch) => void;
   onSubmit?: () => void;
   route: Route;
   selectedDirection: DirectionId;
@@ -25,6 +26,7 @@ const ScheduleFinderForm = ({
   onDirectionChange,
   onOriginChange,
   onSubmit = () => {},
+  onOriginSelectClick,
   route,
   selectedDirection,
   selectedOrigin,
@@ -38,6 +40,11 @@ const ScheduleFinderForm = ({
   const dispatch = useDispatch();
 
   const [originError, setOriginError] = useState(false);
+
+  const handleOriginClick = (): void => {
+    setOriginError(false);
+    onOriginSelectClick(dispatch);
+  };
 
   const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
@@ -105,15 +112,15 @@ const ScheduleFinderForm = ({
 
           <label className="schedule-finder__label">
             Choose an origin stop
-            <SelectContainer error={originError}>
+            <SelectContainer
+              error={originError}
+              handleClick={handleOriginClick}
+            >
               <select
                 data-testid="schedule-finder-origin-select"
-                className="c-select-custom notranslate"
+                className="c-select-custom c-select-custom--noclick notranslate"
                 value={selectedOrigin || ""}
-                onChange={e => {
-                  setOriginError(false);
-                  onOriginChange(e.target.value || null, dispatch);
-                }}
+                onChange={e => onOriginChange(e.target.value || null, dispatch)}
               >
                 <option value="">Select</option>
                 {stopsByDirection[selectedDirection].map(({ id, name }) => (

@@ -248,7 +248,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp schedule_refresh_upcoming_departures(pid) do
     # Refresh every second
-    Process.send_after(pid, :refresh_upcoming_departures, 1000)
+    Process.send_after(pid, :refresh_upcoming_departures, 5000)
   end
 
   defp validate_params(%{

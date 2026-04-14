@@ -95,6 +95,7 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
+        onOriginSelectClick={noCall}
         onSubmit={noCall}
         route={oneDirectionRoute}
         selectedDirection={0}
@@ -115,6 +116,7 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
+        onOriginSelectClick={noCall}
         onSubmit={submitted}
         route={route}
         selectedDirection={0}
@@ -139,6 +141,7 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
+        onOriginSelectClick={noCall}
         onSubmit={submitted}
         route={route}
         selectedDirection={0}
@@ -156,6 +159,7 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={noCall}
         onOriginChange={noCall}
+        onOriginSelectClick={noCall}
         onSubmit={submitted}
         route={route}
         selectedDirection={0}
@@ -175,10 +179,12 @@ describe("ScheduleFinderForm", () => {
 
   it("calls the origin select handler and clears the error", async () => {
     const user = userEvent.setup();
+    const originClicked = jest.fn();
     renderWithProviders(
       <ScheduleFinderForm
         onDirectionChange={noCall}
-        onOriginChange={()=>{}}
+        onOriginChange={noCall}
+        onOriginSelectClick={originClicked}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
@@ -193,11 +199,11 @@ describe("ScheduleFinderForm", () => {
     // Click on the SelectContainer for the origin select
     const originSelect = screen.getByTestId("schedule-finder-origin-select");
     await user.click(originSelect);
-    await user.selectOptions(originSelect, "123");
 
     const errorTextElement = screen.queryByText("Please provide an origin");
     expect(errorTextElement).toBeNull();
 
+    expect(originClicked).toHaveBeenCalledTimes(1);
   });
 
   it("calls the direction and origin change handlers", async () => {
@@ -208,6 +214,7 @@ describe("ScheduleFinderForm", () => {
       <ScheduleFinderForm
         onDirectionChange={directionChanged}
         onOriginChange={originChanged}
+        onOriginSelectClick={() => {}}
         onSubmit={noCall}
         route={route}
         selectedDirection={0}
@@ -230,5 +237,36 @@ describe("ScheduleFinderForm", () => {
     expect(originChanged).toHaveBeenCalledWith("123", expect.any(Function));
   });
 
-  
+  it("detects click and keyUp events in SelectContainer elements", async () => {
+    const user = userEvent.setup();
+    const originSpy = jest.fn();
+
+    renderWithProviders(
+      <ScheduleFinderForm
+        onDirectionChange={() => {}}
+        onOriginChange={() => {}}
+        onOriginSelectClick={originSpy}
+        onSubmit={noCall}
+        route={route}
+        selectedDirection={0}
+        selectedOrigin={null}
+        stopsByDirection={stops}
+      />
+    );
+
+    // detect click event:
+    const originSelectElement = screen.getByTestId(
+      "schedule-finder-origin-select"
+    );
+    await user.click(originSelectElement);
+
+    expect(originSpy).toHaveBeenCalledTimes(1);
+
+    // detect keyUp event:
+    originSpy.mockRestore();
+
+    await waitFor(() => fireEvent.keyUp(originSelectElement, { key: "Enter" }));
+
+    expect(originSpy).toHaveBeenCalledTimes(1);
+  });
 });

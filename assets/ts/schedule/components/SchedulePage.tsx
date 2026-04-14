@@ -57,6 +57,13 @@ export const changeOrigin = (
       selectedOrigin: origin
     }
   });
+  // reopen modal depending on choice:
+  dispatch({
+    type: "OPEN_MODAL",
+    newStoreValues: {
+      modalMode: origin ? "schedule" : "origin"
+    }
+  });
 };
 
 export const changeDirection = (
@@ -79,6 +86,15 @@ const closeModal = (dispatch: Dispatch): void => {
   });
   // clear parameters from URL when closing the modal:
   updateURL("");
+};
+
+export const handleOriginSelectClick = (dispatch: Dispatch): void => {
+  dispatch({
+    type: "OPEN_MODAL",
+    newStoreValues: {
+      modalMode: "origin"
+    }
+  });
 };
 
 const getDirectionAndMap = (
@@ -223,6 +239,7 @@ const ScheduleNote = ({
           closeModal={closeModal}
           directionChanged={changeDirection}
           initialDirection={currentDirection}
+          handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}

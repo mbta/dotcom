@@ -167,6 +167,7 @@ describe("ScheduleFinderModal", () => {
         initialDirection={direction}
         directionChanged={directionChanged}
         originChanged={originChanged}
+        handleOriginSelectClick={() => {}}
         scheduleNote={null}
         hasServiceToday={true}
       />,
@@ -260,6 +261,7 @@ describe("ScheduleFinderModal", () => {
         initialDirection={direction}
         directionChanged={directionChanged}
         originChanged={originChanged}
+        handleOriginSelectClick={() => {}}
         scheduleNote={null}
         hasServiceToday={true}
       />,
@@ -308,6 +310,7 @@ describe("ScheduleFinderModal", () => {
         initialDirection={direction}
         directionChanged={directionChanged}
         originChanged={originChanged}
+        handleOriginSelectClick={() => {}}
         scheduleNote={null}
         hasServiceToday={true}
       />,
