@@ -33,7 +33,7 @@ const queryReducer = (decoder: EncoderDecoder): QueryReducer => (
   const [key, val] = kvString.split("=");
 
   if (key === "") {
-    return { ...params };
+    return params;
   }
 
   if (val === undefined) {
