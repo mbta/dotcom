@@ -13,133 +13,124 @@ exports[`it renders 1`] = `
       >
         <Alert>
           <li
-            aria-expanded={true}
-            className="c-alert-item c-alert-item--high c-alert-item--expandable c-alert-item--open"
+            className="c-alert-item c-alert-item--high"
             id="alert-304666"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex={0}
           >
-            <div
-              className="c-alert-item__icon"
-            >
-              <span
-                aria-hidden="true"
-                className="notranslate c-svg__icon-alerts-triangle"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-            </div>
-            <div
-              className="c-alert-item__top"
-            >
-              <div
-                className="c-alert-item__top-text-container"
-              >
+            <AlertContent>
+              <details>
+                <summary>
+                  <AlertSummary>
+                    <div
+                      className="c-alert-item__icon"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="notranslate c-svg__icon-alerts-triangle"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </div>
+                    <div
+                      className="c-alert-item__top"
+                    >
+                      <div
+                        className="c-alert-item__top-text-container"
+                      >
+                        <div
+                          className="c-alert-item__effect"
+                        >
+                          Detour 
+                        </div>
+                        <div
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href=\\"https://mbta.com/marathon\\">mbta.com/marathon</a><span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="c-alert-item__top-caret-container"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="fa fa-angle-up notranslate c-alert-item__caret--up"
+                        />
+                        <i
+                          aria-hidden="true"
+                          className="fa fa-angle-down notranslate c-alert-item__caret--down"
+                        />
+                      </div>
+                    </div>
+                  </AlertSummary>
+                </summary>
                 <div
-                  className="c-alert-item__effect"
+                  className="c-alert-item__bottom c-alert-item__bottom--high"
                 >
-                  Detour 
-                </div>
-                <div
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href=\\"https://mbta.com/marathon\\">mbta.com/marathon</a><span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
-                    }
-                  }
-                />
-              </div>
-              <div
-                className="c-alert-item__top-caret-container"
-              >
-                <span
-                  className="fa c-expandable-block__header-caret--black"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "&#xF106;",
-                    }
-                  }
-                />
-              </div>
-            </div>
-            <div
-              aria-labelledby="alert-304666"
-              className="c-alert-item__bottom c-alert-item__buttom--high"
-              role="region"
-              tabIndex={0}
-            >
-              <div
-                className="c-alert-item__description"
-              >
-                <div
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "<strong>Affected direction:</strong><br />Inbound<br />
+                  <div
+                    className="c-alert-item__description"
+                  >
+                    <div
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<strong>Affected direction:</strong><br />Inbound<br />
 <br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
-                    }
-                  }
-                />
-                <div
-                  className="c-alert-item__updated"
-                >
-                  Updated:
-                   
-                  4/11/2019 10:33 AM EDT
+                        }
+                      }
+                    />
+                    <div
+                      className="c-alert-item__updated"
+                    >
+                      Updated:
+                       
+                      4/11/2019 10:33 AM EDT
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <noscript>
-              <div
-                aria-labelledby="alert-304666"
-                className="c-alert-item__bottom c-alert-item__buttom--high"
-                role="region"
-                tabIndex={0}
-              />
-            </noscript>
+              </details>
+            </AlertContent>
           </li>
         </Alert>
         <Alert>
           <li
-            aria-expanded={true}
             className="c-alert-item c-alert-item--low"
             id="alert-00005"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex={0}
           >
-            <div
-              className="c-alert-item__icon"
-            />
-            <div
-              className="c-alert-item__top"
-            >
-              <div
-                className="c-alert-item__top-text-container"
-              >
+            <AlertContent>
+              <AlertSummary>
                 <div
-                  className="c-alert-item__effect"
-                >
-                  Other 
-                  <span
-                    className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
-                  >
-                    Upcoming
-                  </span>
-                </div>
-                <div
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
-                    }
-                  }
+                  className="c-alert-item__icon"
                 />
-              </div>
-            </div>
+                <div
+                  className="c-alert-item__top"
+                >
+                  <div
+                    className="c-alert-item__top-text-container"
+                  >
+                    <div
+                      className="c-alert-item__effect"
+                    >
+                      Other 
+                      <span
+                        className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                      >
+                        Upcoming
+                      </span>
+                    </div>
+                    <div
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </AlertSummary>
+            </AlertContent>
           </li>
         </Alert>
       </ul>
