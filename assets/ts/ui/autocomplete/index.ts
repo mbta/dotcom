@@ -43,11 +43,16 @@ function setupAlgoliaAutocomplete(
   }
 
   // rearrange components of the input so the tab order aligns with the visuals
-  const form = container.querySelector(".aa-Form");
-  const prefix = form?.querySelector(".aa-InputWrapperPrefix");
-  if (prefix) {
-    form?.appendChild(prefix);
-  }
+  const forms = container.querySelectorAll(".aa-Form");
+  forms.forEach(form => {
+    const prefix = form?.querySelector(".aa-InputWrapperPrefix");
+    const isTripPlanner =
+      form?.parentElement?.parentElement?.getAttribute("data-config") ===
+      "trip-planner";
+    if (prefix && !isTripPlanner) {
+      form?.appendChild(prefix);
+    }
+  });
 
   // close on homepage veil click
   document
