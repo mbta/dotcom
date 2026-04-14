@@ -42,7 +42,7 @@ const tabbedNavSetup = () => {
         callback(e);
       }
       const selectedTab = Array.from(navTabs).findIndex(
-        tab => tab===document.activeElement
+        tab => tab === document.activeElement
       );
       if (e.key === "ArrowLeft" && selectedTab > 0) {
         updateTabs(
