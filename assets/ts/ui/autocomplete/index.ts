@@ -46,7 +46,9 @@ function setupAlgoliaAutocomplete(
   const forms = container.querySelectorAll(".aa-Form");
   forms.forEach(form => {
     const prefix = form?.querySelector(".aa-InputWrapperPrefix");
-    const isTripPlanner = form?.parentElement?.parentElement?.getAttribute("data-config")==="trip-planner";
+    const isTripPlanner =
+      form?.parentElement?.parentElement?.getAttribute("data-config") ===
+      "trip-planner";
     if (prefix && !isTripPlanner) {
       form?.appendChild(prefix);
     }
