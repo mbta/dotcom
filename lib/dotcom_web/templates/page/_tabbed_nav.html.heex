@@ -9,6 +9,7 @@
         data-tab-type="schedules"
         aria-controls="schedules-content"
         aria-selected="true"
+        aria-current="page"
       >
         <span aria-hidden="true">
           {svg("icon-map-default.svg")}
@@ -18,7 +19,7 @@
     </div>
     <div class="m-tabbed-nav__item-container">
       <a
-        tabindex="0"
+        tabindex="-1"
         class="nav-link m-tabbed-nav__item"
         role="tab"
         data-toggle="tab"
@@ -34,7 +35,7 @@
     </div>
     <div class="m-tabbed-nav__item-container">
       <a
-        tabindex="0"
+        tabindex="-1"
         class="nav-link m-tabbed-nav__item"
         role="tab"
         data-toggle="tab"

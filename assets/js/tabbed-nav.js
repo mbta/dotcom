@@ -12,10 +12,13 @@ const updateTabs = (
     tab.classList.toggle("active", clickedTab);
     tab.setAttribute("aria-selected", clickedTab);
     tab.removeAttribute("aria-current");
+    tab.setAttribute("tabindex","-1")
+
     if (clickedTab) {
       if (updateContent) {
         tab.setAttribute("aria-current", "page");
       }
+      tab.setAttribute("tabindex","0")
       tab.focus();
     }
   });
@@ -28,31 +31,6 @@ const updateTabs = (
   }
 };
 
-function focusNextElement(contentElementId) {
-  // Select all visible, non-disabled focusable elements
-  const focusables = Array.from(document.getElementById(contentElementId).querySelectorAll(
-    'button, input, select, textarea, [tabindex]:not([tabindex="-1"]), a'
-  )).filter(el => !el.disabled && el.offsetWidth > 0);
-
-  const nextElement = focusables[0]; // Wrap to start if at end
-  if (nextElement) nextElement.focus();
-}
-
-function focusPreviousElement() {
-  // Select all visible, non-disabled focusable elements
-  const focusables = Array.from(document.querySelectorAll(
-    'button, input, select, textarea, [tabindex]:not([tabindex="-1"]), a'
-  )).filter(el => !el.disabled && el.offsetWidth > 0);
-
-  const currentIndex = focusables.indexOf(document.activeElement);
-  let nextIndex = currentIndex ? (currentIndex - 1) : focusables.length-1;
-  while(focusables[nextIndex].classList.contains("m-tabbed-nav__item")){
-    nextIndex = nextIndex ? (nextIndex - 1) : focusables.length-1;
-  } 
-  const nextElement = focusables[nextIndex]; // Wrap to start if at end
-  if (nextElement) nextElement.focus();
-}
-
 const tabbedNavSetup = () => {
   const navTabs = document.querySelectorAll(".m-tabbed-nav__item");
   const contentTabs = document.querySelectorAll(".m-tabbed-nav__content-item");
@@ -63,7 +41,7 @@ const tabbedNavSetup = () => {
 
     item.addEventListener("click", callback);
     item.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" || e.key === " ") {
         callback(e);
       }
       const selectedTab = Array.from(navTabs).findIndex(
@@ -85,15 +63,8 @@ const tabbedNavSetup = () => {
           false
         )(e);
       }
-      if (e.key === " ") {
-        updateTabs(
-          navTabs[selectedTab].dataset.tabType,
-          navTabs,
-          contentTabs,
-          true
-        )(e);
-      }
-      if (e.key === "Tab"){
+      
+      /*if (e.key === "Tab"){
         if(e.shiftKey){
           focusPreviousElement();
         }else{
@@ -101,7 +72,7 @@ const tabbedNavSetup = () => {
         }
         e.preventDefault();
         e.stopPropagation();
-      }
+      }*/
     });
   });
 };
