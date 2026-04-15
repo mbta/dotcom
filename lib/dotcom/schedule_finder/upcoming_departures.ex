@@ -354,16 +354,59 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
-  defp trip_details(%{
-         predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-         trip_id: trip_id,
-         stop_id: stop_id,
-         stop_sequence: stop_sequence,
-         vehicle: vehicle
-       }) do
+  def trip_details(%{
+        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
+        trip_id: trip_id,
+        stop_id: stop_id,
+        stop_sequence: stop_sequence,
+        vehicle: vehicle
+      }) do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
+        trip_vehicle: vehicle
+      })
+
+    {stops_before, stop, stops_after} =
+      stops
+      |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
+      |> case do
+        {all, []} -> {[], nil, all}
+        {bef, [st | aft]} -> {bef, st, aft}
+      end
+
+    %__MODULE__.UpcomingDeparture.UpcomingTripDetails{
+      stops_before: stops_before,
+      stop: stop,
+      stops_after: stops_after,
+      vehicle_info: vehicle_info
+    }
+  end
+
+  def trip_details(%{
+        trip_id: trip_id,
+        stop_id: stop_id,
+        stop_sequence: stop_sequence
+      }) do
+    predictions =
+      @predictions_repo.all(
+        trip: trip_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+
+    schedules = @schedules_repo.schedule_for_trip(trip_id)
+
+    predicted_schedules = PredictedSchedule.group(predictions, schedules)
+
+    vehicle =
+      predicted_schedules
+      |> List.first()
+      |> PredictedSchedule.vehicle()
+
+    %TripDetails{stops: stops, vehicle_info: vehicle_info} =
+      TripDetails.trip_details(%{
+        predicted_schedules: predicted_schedules,
         trip_vehicle: vehicle
       })
 
