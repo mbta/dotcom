@@ -12,13 +12,13 @@ const updateTabs = (
     tab.classList.toggle("active", clickedTab);
     tab.setAttribute("aria-selected", clickedTab);
     tab.removeAttribute("aria-current");
-    tab.setAttribute("tabindex","-1")
+    tab.setAttribute("tabindex", "-1");
 
     if (clickedTab) {
       if (updateContent) {
         tab.setAttribute("aria-current", "page");
       }
-      tab.setAttribute("tabindex","0")
+      tab.setAttribute("tabindex", "0");
       tab.focus();
     }
   });
@@ -63,8 +63,8 @@ const tabbedNavSetup = () => {
           false
         )(e);
       }
-      
-      /*if (e.key === "Tab"){
+
+      /* if (e.key === "Tab"){
         if(e.shiftKey){
           focusPreviousElement();
         }else{
@@ -72,7 +72,7 @@ const tabbedNavSetup = () => {
         }
         e.preventDefault();
         e.stopPropagation();
-      }*/
+      } */
     });
   });
 };
