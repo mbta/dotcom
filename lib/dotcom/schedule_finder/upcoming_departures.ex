@@ -384,6 +384,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   def trip_details(%{
+        now: now,
         trip_id: trip_id,
         stop_id: stop_id,
         stop_sequence: stop_sequence
@@ -397,7 +398,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     schedules = @schedules_repo.schedule_for_trip(trip_id)
 
-    predicted_schedules = PredictedSchedule.group(predictions, schedules)
+    predicted_schedules =
+      PredictedSchedule.group(predictions, schedules)
+      |> Enum.reject(&past_schedule?(&1, now))
 
     vehicle =
       predicted_schedules
