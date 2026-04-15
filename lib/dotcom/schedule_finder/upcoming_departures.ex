@@ -40,7 +40,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :stop_sequence,
       :trip_details,
       :trip_id,
-      :trip_name
+      :trip_name,
+      :vehicle_name
     ]
 
     @type realtime_arrival_status_t ::
@@ -76,7 +77,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             stop_sequence: non_neg_integer(),
             trip_details: __MODULE__.UpcomingTripDetails.t(),
             trip_id: Trip.id_t(),
-            trip_name: String.t()
+            trip_name: String.t(),
+            vehicle_name: String.t() | nil
           }
 
     defmodule UpcomingTripDetails do
@@ -319,7 +321,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         if(route_type == :commuter_rail,
           do: trip_name(predicted_schedule_route, trip.name),
           else: nil
-        )
+        ),
+      vehicle_name: vehicle_name(vehicle, route_type)
     }
   end
 
@@ -352,6 +355,19 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       vehicle.stop_sequence > stop_sequence ->
         :after_stop
     end
+  end
+
+  defp vehicle_name(nil, _route_type), do: nil
+  defp vehicle_name(vehicle, :ferry), do: boat_name(vehicle.id)
+  defp vehicle_name(_vehicle, _route_type), do: nil
+
+  defp boat_name(name) do
+    name
+    |> String.split(" ")
+    |> Enum.map_join(
+      " ",
+      &String.capitalize/1
+    )
   end
 
   def trip_details(%{
