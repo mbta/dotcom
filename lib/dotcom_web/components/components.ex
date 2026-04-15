@@ -307,6 +307,7 @@ defmodule DotcomWeb.Components do
   slot(:inner_block, required: true, doc: "Content displayed within the link")
   slot(:title, required: true)
   attr(:href, :string, doc: "Optional link to navigate to")
+  attr(:class, :string, default: "")
   attr(:rest, :global, include: ~w(disabled))
 
   @doc """
@@ -315,7 +316,7 @@ defmodule DotcomWeb.Components do
   """
   def descriptive_link(%{href: _} = assigns) do
     ~H"""
-    <a href={@href} class="c-descriptive-link">
+    <a href={@href} class={"c-descriptive-link #{@class}"} {@rest}>
       <.icon type="icon-svg" name="football" class="c-descriptive-link__football-icon" />
       <div class="c-descriptive-link__text">
         <div class="c-descriptive-link__title">{render_slot(@title)}</div>

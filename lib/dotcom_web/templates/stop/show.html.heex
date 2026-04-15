@@ -21,6 +21,19 @@
 </div>
 
 <div>
+  <.descriptive_link
+    :if={@stop.name == "Foxboro"}
+    href="/WorldCup"
+    class="mb-3 ml-3 mr-3"
+  >
+    <:title>Going to a World Cup match at Boston Stadium?</:title>
+    <p class="c-descriptive-link__world-cup">
+      {gettext("Read our %{world_cup_link}",
+        world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
+      )
+      |> raw()}
+    </p>
+  </.descriptive_link>
   <div
     id="react-stop-root"
     data-mbta-stop-id={"#{@stop.id}"}
