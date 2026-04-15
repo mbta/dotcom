@@ -26,6 +26,12 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  def route_icon(%{route: %Route{description: :rail_replacement_bus}} = assigns) do
+    ~H"""
+    <SystemIcons.mode_icon mode="bus" size={@size} {@rest} />
+    """
+  end
+
   def route_icon(%{route: %Route{id: route_id}} = assigns) do
     case line_name(route_id) do
       nil ->

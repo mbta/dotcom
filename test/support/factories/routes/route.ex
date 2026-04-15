@@ -55,6 +55,9 @@ defmodule Test.Support.Factories.Routes.Route do
     |> route_factory()
   end
 
+  def rail_replacement_bus_route_factory(attrs),
+    do: build(:route, attrs |> Map.put(:type, 3) |> Map.put(:description, :rail_replacement_bus))
+
   def route_factory(attrs) do
     type = attrs[:type] || Faker.Util.pick([0, 1, 2, 3, 4])
     fare_class = fare_class(attrs, type)
