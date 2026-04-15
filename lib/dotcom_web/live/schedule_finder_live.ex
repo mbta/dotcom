@@ -794,79 +794,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
         </:heading>
         <:content>
-          <.lined_list>
-            <.lined_list_item
-              route={upcoming_departure.route}
-              variant="mode"
-              stop_pin?={upcoming_departure.trip_details.stop == nil}
-            >
-              <div class="grow font-medium">
-                <.vehicle_label
-                  vehicle_info={upcoming_departure.trip_details.vehicle_info}
-                  route={upcoming_departure.route}
-                />
-              </div>
-              <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
-                <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
-              </div>
-            </.lined_list_item>
-            <details
-              :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
-              class="group/details"
-            >
-              <summary class="cursor-pointer bg-charcoal-90">
-                <.lined_list_item
-                  background="charcoal-90"
-                  class="group-open/details:hidden"
-                  route={upcoming_departure.route}
-                  variant="squiggle"
-                >
-                  <div class="grow">
-                    <span class="text-[0.75rem] underline">
-                      {~t"Show more stops"}
-                    </span>
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3" />
-                  </div>
-                </.lined_list_item>
-                <.lined_list_item
-                  background="charcoal-90"
-                  class="hidden group-open/details:flex"
-                  route={upcoming_departure.route}
-                  variant="none"
-                >
-                  <div class="grow">
-                    <span class="text-[0.75rem] underline">
-                      {~t"Show fewer stops"}
-                    </span>
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3 rotate-180" />
-                  </div>
-                </.lined_list_item>
-              </summary>
-              <.other_stop
-                :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                background="charcoal-90"
-                class="border-t-xs border-gray-lightest bg-charcoal-90"
-                other_stop={other_stop}
-                route={upcoming_departure.route}
-              />
-            </details>
-
-            <.other_stop
-              :if={upcoming_departure.trip_details.stop}
-              highlight
-              other_stop={upcoming_departure.trip_details.stop}
-              route={upcoming_departure.route}
-            />
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_after}
-              other_stop={other_stop}
-              route={upcoming_departure.route}
-            />
-          </.lined_list>
+          <.trip_details upcoming_departure={upcoming_departure} />
         </:content>
       </.unstyled_accordion>
     </div>
@@ -910,6 +838,84 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </div>
       </:time>
     </.departure_heading>
+    """
+  end
+
+  defp trip_details(assigns) do
+    ~H"""
+    <.lined_list>
+      <.lined_list_item
+        route={@upcoming_departure.route}
+        variant="mode"
+        stop_pin?={@upcoming_departure.trip_details.stop == nil}
+      >
+        <div class="grow font-medium">
+          <.vehicle_label
+            vehicle_info={@upcoming_departure.trip_details.vehicle_info}
+            route={@upcoming_departure.route}
+          />
+        </div>
+        <div :if={@upcoming_departure.trip_details.vehicle_info.departure_time}>
+          <.formatted_time time={@upcoming_departure.trip_details.vehicle_info.departure_time} />
+        </div>
+      </.lined_list_item>
+      <details
+        :if={Enum.count(@upcoming_departure.trip_details.stops_before) > 0}
+        class="group/details"
+      >
+        <summary class="cursor-pointer bg-charcoal-90">
+          <.lined_list_item
+            background="charcoal-90"
+            class="group-open/details:hidden"
+            route={@upcoming_departure.route}
+            variant="squiggle"
+          >
+            <div class="grow">
+              <span class="text-[0.75rem] underline">
+                {~t"Show more stops"}
+              </span>
+            </div>
+            <div class="shrink-0">
+              <.icon name="chevron-down" class="h-3 w-3" />
+            </div>
+          </.lined_list_item>
+          <.lined_list_item
+            background="charcoal-90"
+            class="hidden group-open/details:flex"
+            route={@upcoming_departure.route}
+            variant="none"
+          >
+            <div class="grow">
+              <span class="text-[0.75rem] underline">
+                {~t"Show fewer stops"}
+              </span>
+            </div>
+            <div class="shrink-0">
+              <.icon name="chevron-down" class="h-3 w-3 rotate-180" />
+            </div>
+          </.lined_list_item>
+        </summary>
+        <.other_stop
+          :for={other_stop <- @upcoming_departure.trip_details.stops_before}
+          background="charcoal-90"
+          class="border-t-xs border-gray-lightest bg-charcoal-90"
+          other_stop={other_stop}
+          route={@upcoming_departure.route}
+        />
+      </details>
+
+      <.other_stop
+        :if={@upcoming_departure.trip_details.stop}
+        highlight
+        other_stop={@upcoming_departure.trip_details.stop}
+        route={@upcoming_departure.route}
+      />
+      <.other_stop
+        :for={other_stop <- @upcoming_departure.trip_details.stops_after}
+        other_stop={other_stop}
+        route={@upcoming_departure.route}
+      />
+    </.lined_list>
     """
   end
 
