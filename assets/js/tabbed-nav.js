@@ -1,9 +1,7 @@
 const updateTabs = (
   tabType,
   navTabs,
-  contentTabs,
-  updateContent = true
-) => e => {
+  contentTabs) => e => {
   e.preventDefault();
   e.stopPropagation();
 
@@ -15,20 +13,17 @@ const updateTabs = (
     tab.setAttribute("tabindex", "-1");
 
     if (clickedTab) {
-      if (updateContent) {
-        tab.setAttribute("aria-current", "page");
-      }
+      tab.setAttribute("aria-current", "page");
       tab.setAttribute("tabindex", "0");
       tab.focus();
     }
   });
 
-  if (updateContent) {
-    contentTabs.forEach(tab => {
-      const clickedTabContentType = tab.dataset.tabContentType === tabType;
-      tab.classList.toggle("active", clickedTabContentType);
-    });
-  }
+  contentTabs.forEach(tab => {
+    const clickedTabContentType = tab.dataset.tabContentType === tabType;
+    tab.classList.toggle("active", clickedTabContentType);
+  });
+  
 };
 
 const focusOtherTab = (navTabs, selectedTab, increment) => {
