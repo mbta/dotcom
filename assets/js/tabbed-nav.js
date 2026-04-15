@@ -1,7 +1,4 @@
-const updateTabs = (
-  tabType,
-  navTabs,
-  contentTabs) => e => {
+const updateTabs = (tabType, navTabs, contentTabs) => e => {
   e.preventDefault();
   e.stopPropagation();
 
@@ -23,7 +20,6 @@ const updateTabs = (
     const clickedTabContentType = tab.dataset.tabContentType === tabType;
     tab.classList.toggle("active", clickedTabContentType);
   });
-  
 };
 
 const focusOtherTab = (navTabs, increment) => {
@@ -55,7 +51,7 @@ const tabbedNavSetup = () => {
       if (e.key === "Enter" || e.key === " ") {
         callback(e);
       }
-      
+
       if (e.key === "ArrowLeft") {
         focusOtherTab(navTabs, -1);
       }
