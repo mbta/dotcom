@@ -31,6 +31,19 @@ const updateTabs = (
   }
 };
 
+const focusOtherTab = (navTabs, selectedTab, increment) => {
+  let newIndex = selectedTab + increment;
+  if (newIndex < 0) {
+    newIndex = navTabs.length - 1;
+  }
+  if (newIndex > navTabs.length - 1) {
+    newIndex = 0;
+  }
+  navTabs[newIndex].setAttribute("tabindex", "0");
+  navTabs[newIndex].focus();
+  navTabs[selectedTab].setAttribute("tabindex", "-1");
+};
+
 const tabbedNavSetup = () => {
   const navTabs = document.querySelectorAll(".m-tabbed-nav__item");
   const contentTabs = document.querySelectorAll(".m-tabbed-nav__content-item");
@@ -48,31 +61,11 @@ const tabbedNavSetup = () => {
         tab => tab === document.activeElement
       );
       if (e.key === "ArrowLeft" && selectedTab > 0) {
-        updateTabs(
-          navTabs[selectedTab - 1].dataset.tabType,
-          navTabs,
-          contentTabs,
-          false
-        )(e);
+        focusOtherTab(navTabs, selectedTab, -1);
       }
       if (e.key === "ArrowRight" && selectedTab < navTabs.length - 1) {
-        updateTabs(
-          navTabs[selectedTab + 1].dataset.tabType,
-          navTabs,
-          contentTabs,
-          false
-        )(e);
+        focusOtherTab(navTabs, selectedTab, 1);
       }
-
-      /* if (e.key === "Tab"){
-        if(e.shiftKey){
-          focusPreviousElement();
-        }else{
-          focusNextElement(navTabs[selectedTab].getAttribute("aria-controls"));
-        }
-        e.preventDefault();
-        e.stopPropagation();
-      } */
     });
   });
 };
