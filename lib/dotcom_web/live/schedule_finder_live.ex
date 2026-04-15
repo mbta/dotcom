@@ -67,6 +67,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:direction_id, fn -> direction_id end)
          |> assign_new(:stop, fn -> stop end)
          |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
+         |> assign_new(:loaded_upcoming_trips, fn -> %{} end)
          |> assign_new(:last_trip_time, fn -> AsyncResult.loading() end)
          |> assign_new(:alerts, fn -> [] end)
          |> assign_new(:service_groups, fn -> service_groups end)
@@ -113,6 +114,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <%= if upcoming_departures do %>
                 <.upcoming_departures_section
                   stop={@stop}
+                  loaded_upcoming_trips={@loaded_upcoming_trips}
                   upcoming_departures={upcoming_departures}
                   route={@route}
                   last_trip_time={@last_trip_time}
@@ -190,6 +192,27 @@ defmodule DotcomWeb.ScheduleFinderLive do
       GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
       {:noreply, socket}
     end
+  end
+
+  def handle_event(
+        "open_upcoming_trip",
+        %{"stop-sequence" => stop_sequence, "trip-id" => trip_id},
+        socket
+      ) do
+    stop_id = socket.assigns.stop.id
+
+    {:noreply,
+     socket
+     |> update(:loaded_upcoming_trips, fn loaded_upcoming_trips ->
+       trip_details =
+         UpcomingDepartures.trip_details(%{
+           stop_id: stop_id,
+           stop_sequence: stop_sequence,
+           trip_id: trip_id
+         })
+
+       Map.put(loaded_upcoming_trips, {trip_id, stop_sequence}, AsyncResult.ok(trip_details))
+     end)}
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
@@ -751,6 +774,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
+      loaded_upcoming_trips={@loaded_upcoming_trips}
       upcoming_departures={@upcoming_departures}
       route={@route}
       last_trip_time={@last_trip_time}
@@ -768,8 +792,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
+      loaded_upcoming_trips={@loaded_upcoming_trips}
     />
     <.remaining_service
+      loaded_upcoming_trips={@loaded_upcoming_trips}
       remaining_departures={@upcoming_departures |> Enum.drop(5)}
       route={@route}
       route_type={@route.type}
@@ -779,6 +805,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  attr :loaded_upcoming_trips, AsyncResult
   attr :stop_id, :string
   attr :upcoming_departures, :list
 
@@ -787,6 +814,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
+        phx-click="open_upcoming_trip"
+        phx-value-trip-id={upcoming_departure.trip_id}
+        phx-value-stop-sequence={upcoming_departure.stop_sequence}
         id={"upcoming-departure-#{upcoming_departure.trip_id}-#{upcoming_departure.stop_sequence}"}
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
@@ -794,9 +824,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
         </:heading>
         <:content>
-          <.trip_details
-            trip_details={upcoming_departure.trip_details}
+          <.trip_details_wrapper
             route={upcoming_departure.route}
+            trip_details={
+              Map.get(
+                @loaded_upcoming_trips,
+                {upcoming_departure.trip_id, Integer.to_string(upcoming_departure.stop_sequence)},
+                AsyncResult.loading()
+              )
+            }
           />
         </:content>
       </.unstyled_accordion>
@@ -841,6 +877,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </div>
       </:time>
     </.departure_heading>
+    """
+  end
+
+  defp trip_details_wrapper(assigns) do
+    ~H"""
+    <.async_result :let={trip_details} assign={@trip_details}>
+      <:loading>
+        <div class="mt-lg mb-md flex justify-center">
+          <.spinner aria_label={~t"Loading trip details"} />
+        </div>
+      </:loading>
+      <:failed>
+        <.callout>{~t(There was a problem loading trip details)}</.callout>
+      </:failed>
+
+      <.trip_details trip_details={trip_details} route={@route} />
+    </.async_result>
     """
   end
 
@@ -1284,6 +1337,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </.attached_callout>
       </summary>
       <.upcoming_departures_table
+        loaded_upcoming_trips={@loaded_upcoming_trips}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
       />
