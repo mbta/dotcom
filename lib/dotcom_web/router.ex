@@ -301,7 +301,7 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
+    live_dashboard("/dashboard", csp_nonce_assign_key: :csp_nonce)
   end
 
   if Mix.env() == :dev do

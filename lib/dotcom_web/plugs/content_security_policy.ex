@@ -25,7 +25,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         www.googletagmanager.com
       ],
     default_src: ~w['self'],
-    font_src: ~w['self' cdn.mbta.com],
+    font_src: ~w['self' cdn.mbta.com data:],
     frame_src: ~w[
         'self'
         *.arcgis.com
