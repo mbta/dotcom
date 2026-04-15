@@ -9,7 +9,7 @@ defmodule DotcomWeb.PartialView.HeaderTabs do
     selected = Keyword.get(opts, :selected, "")
     tab_class = Keyword.get(opts, :tab_class, "")
 
-    content_tag :div, class: "header-tabs" do
+    content_tag :nav, aria_label: "schedule page tabs", class: "header-tabs" do
       Enum.map(tabs, &render_tab(&1, tab_class, &1.id == selected))
     end
   end
@@ -20,6 +20,7 @@ defmodule DotcomWeb.PartialView.HeaderTabs do
 
     Link.link to: href,
               id: id,
+              aria_selected: selected?,
               class: "header-tab #{selected_class(selected?)} #{class} #{id}" do
       [name, render_badge(badge)]
     end
