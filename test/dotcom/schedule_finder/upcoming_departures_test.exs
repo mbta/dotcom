@@ -13,6 +13,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
+    stub(Routes.Repo.Mock, :get, fn _ -> Factories.Routes.Route.build(:route) end)
+
     stub(Stops.Repo.Mock, :get, fn id ->
       Factories.Stops.Stop.build(:stop, id: id, parent_id: nil)
     end)
@@ -391,6 +393,90 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Verify
       assert [departure] = departures
       assert departure.trip_name == nil
+    end
+
+    test "includes vehicle name for ferry" do
+      # Setup
+      vehicle_name = Faker.Pokemon.name() <> " " <> Faker.Pokemon.name()
+      vehicle_id = String.upcase(vehicle_name)
+
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:ferry_route])
+
+      route_id = route.id
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle |> Map.put(:id, vehicle_id) end)
+      stub(Routes.Repo.Mock, :get, fn ^route_id -> route end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: "Commuter Rail")
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.vehicle_name == vehicle_name
+    end
+
+    test "does not include vehicle name for non-ferry" do
+      # Setup
+      vehicle_name = Faker.Pokemon.name() <> " " <> Faker.Pokemon.name()
+      vehicle_id = String.upcase(vehicle_name)
+
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:subway_route, :bus_route, :commuter_rail_route]
+        )
+
+      route_id = route.id
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle |> Map.put(:id, vehicle_id) end)
+      stub(Routes.Repo.Mock, :get, fn ^route_id -> route end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: "Commuter Rail")
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.vehicle_name == nil
     end
 
     test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail and ferry" do
