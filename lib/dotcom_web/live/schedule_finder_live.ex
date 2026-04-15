@@ -199,20 +199,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         %{"stop-sequence" => stop_sequence, "trip-id" => trip_id},
         socket
       ) do
-    stop_id = socket.assigns.stop.id
-
     {:noreply,
      socket
-     |> update(:loaded_upcoming_trips, fn loaded_upcoming_trips ->
-       trip_details =
-         UpcomingDepartures.trip_details(%{
-           stop_id: stop_id,
-           stop_sequence: stop_sequence,
-           trip_id: trip_id
-         })
-
-       Map.put(loaded_upcoming_trips, {trip_id, stop_sequence}, AsyncResult.ok(trip_details))
-     end)}
+     |> assign_trip_details(trip_id, String.to_integer(stop_sequence))}
   end
 
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
@@ -244,7 +233,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
-     |> assign_upcoming_departures()}
+     |> assign_upcoming_departures()
+     |> refresh_upcoming_trip_details()}
   end
 
   def handle_info(%{event: "alerts_updated"}, socket) do
@@ -324,6 +314,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_upcoming_departures(socket) do
     socket |> assign(:upcoming_departures, [])
+  end
+
+  defp refresh_upcoming_trip_details(socket) do
+    trip_ids_and_stop_seqs = Map.keys(socket.assigns.loaded_upcoming_trips)
+
+    Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
+      s |> assign_trip_details(trip_id, stop_sequence)
+    end)
+  end
+
+  defp assign_trip_details(socket, trip_id, stop_sequence) do
+    now = @date_time.now()
+    stop_id = socket.assigns.stop.id
+
+    trip_details =
+      UpcomingDepartures.trip_details(%{
+        now: now,
+        stop_id: stop_id,
+        stop_sequence: stop_sequence,
+        trip_id: trip_id
+      })
+
+    socket
+    |> update(:loaded_upcoming_trips, fn loaded_upcoming_trips ->
+      Map.put(loaded_upcoming_trips, {trip_id, stop_sequence}, AsyncResult.ok(trip_details))
+    end)
   end
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
@@ -829,7 +845,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             trip_details={
               Map.get(
                 @loaded_upcoming_trips,
-                {upcoming_departure.trip_id, Integer.to_string(upcoming_departure.stop_sequence)},
+                {upcoming_departure.trip_id, upcoming_departure.stop_sequence},
                 AsyncResult.loading()
               )
             }
