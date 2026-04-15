@@ -26,7 +26,10 @@ const updateTabs = (
   
 };
 
-const focusOtherTab = (navTabs, selectedTab, increment) => {
+const focusOtherTab = (navTabs, increment) => {
+  const selectedTab = Array.from(navTabs).findIndex(
+    tab => tab === document.activeElement
+  );
   let newIndex = selectedTab + increment;
   if (newIndex < 0) {
     newIndex = navTabs.length - 1;
@@ -52,14 +55,12 @@ const tabbedNavSetup = () => {
       if (e.key === "Enter" || e.key === " ") {
         callback(e);
       }
-      const selectedTab = Array.from(navTabs).findIndex(
-        tab => tab === document.activeElement
-      );
-      if (e.key === "ArrowLeft" && selectedTab > 0) {
-        focusOtherTab(navTabs, selectedTab, -1);
+      
+      if (e.key === "ArrowLeft") {
+        focusOtherTab(navTabs, -1);
       }
-      if (e.key === "ArrowRight" && selectedTab < navTabs.length - 1) {
-        focusOtherTab(navTabs, selectedTab, 1);
+      if (e.key === "ArrowRight") {
+        focusOtherTab(navTabs, 1);
       }
     });
   });
