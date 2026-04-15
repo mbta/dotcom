@@ -37,12 +37,15 @@ defmodule Dotcom.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  defp metrics do
+  def metrics do
     [
-      Metrics.last_value("vm.memory.total", unit: :byte),
-      Metrics.last_value("vm.total_run_queue_lengths.total"),
-      Metrics.last_value("vm.total_run_queue_lengths.cpu"),
-      Metrics.last_value("vm.system_counts.process_count")
+      Metrics.last_value("vm.memory.total",
+        description: "Total Allocated Memory KB",
+        unit: {:byte, :megabyte}
+      ),
+      Metrics.last_value("vm.total_run_queue_lengths.total", description: "Run Queue (Total)"),
+      Metrics.last_value("vm.total_run_queue_lengths.cpu", description: "Run Queue (CPU)"),
+      Metrics.last_value("vm.system_counts.process_count", description: "Process Count")
     ]
   end
 end
