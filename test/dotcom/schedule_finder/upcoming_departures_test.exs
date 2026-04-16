@@ -479,6 +479,80 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.vehicle_name == nil
     end
 
+    test "includes crowding data when available" do
+      # Setup
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data()
+
+      crowding = Faker.Util.pick([:not_crowded, :some_crowding, :crowded])
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle |> Map.put(:crowding, crowding) end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: "Commuter Rail")
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.crowding == crowding
+    end
+
+    test "does not include crowding data if the predictions' assigned vehicle has a different trip ID" do
+      # Setup
+      %{
+        predicted_arrival_times: [_, arrival_time, _],
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_on_different_trip?: true)
+
+      crowding = Faker.Util.pick([:not_crowded, :some_crowding, :crowded])
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle |> Map.put(:crowding, crowding) end)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: "Commuter Rail")
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [departure] = departures
+      assert departure.crowding == nil
+    end
+
     test "includes scheduled trips and upcoming departures interleaved for bus and commuter rail and ferry" do
       # Setup
       now = Dotcom.Utils.DateTime.now()

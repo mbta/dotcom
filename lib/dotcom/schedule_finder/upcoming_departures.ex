@@ -33,6 +33,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     defstruct [
       :arrival_status,
       :arrival_substatus,
+      :crowding,
       :headsign,
       :last_trip?,
       :platform_name,
@@ -70,6 +71,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     @type t :: %__MODULE__{
             arrival_status: arrival_status_t(),
             arrival_substatus: arrival_substatus_t(),
+            crowding: Vehicle.crowding(),
             headsign: Schedules.Trip.headsign(),
             last_trip?: boolean(),
             platform_name: String.t() | nil,
@@ -310,6 +312,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: predicted_schedule,
           route_type: route_type
         }),
+      crowding: crowding(vehicle, trip.id),
       headsign: stop_headsign || trip.headsign,
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
@@ -325,6 +328,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       vehicle_name: vehicle_name(vehicle, route_type)
     }
   end
+
+  defp crowding(nil, _trip_id), do: nil
+
+  defp crowding(%Vehicle{trip_id: vehicle_trip_id}, trip_id)
+       when vehicle_trip_id != trip_id, do: nil
+
+  defp crowding(%Vehicle{crowding: crowding}, _trip_id), do: crowding
 
   defp trip_name(%Route{description: :rail_replacement_bus}, name) when is_binary(name) do
     gettext("Bus %{trip_name}", trip_name: name)
