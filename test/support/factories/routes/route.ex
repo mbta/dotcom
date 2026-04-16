@@ -69,8 +69,8 @@ defmodule Test.Support.Factories.Routes.Route do
       long_name: Faker.Company.catch_phrase(),
       color: Faker.Color.rgb_hex(),
       direction_destinations: %{
-        0 => Faker.Address.street_address(),
-        1 => Faker.Address.street_address()
+        0 => Faker.Address.state(),
+        1 => Faker.Address.state()
       },
       description:
         [
