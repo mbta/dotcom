@@ -2238,6 +2238,188 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:delayed_from, scheduled_departure_time}
     end
 
+    test "marks the last upcoming departure with last_trip? = true for non-subway routes" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      route =
+        Factories.Routes.Route.build(
+          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
+        )
+
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_times =
+        Faker.Util.sample_uniq(4, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort(DateTime)
+
+      predictions =
+        Enum.map(arrival_times, fn arrival_time ->
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip)
+          )
+        end)
+
+      stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert is_list(departures)
+      assert length(departures) == 4
+
+      # All departures except the last should have last_trip? = false
+      for departure <- Enum.take(departures, 3) do
+        refute departure.last_trip?
+      end
+
+      # The last departure should have last_trip? = true
+      last_departure = List.last(departures)
+      assert last_departure.last_trip?
+    end
+
+    test "does not mark last_trip? = true for subway routes" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+      route = Factories.Routes.Route.build(:subway_route)
+      stop_id = FactoryHelpers.build(:id)
+      direction_id = Faker.Util.pick([0, 1])
+
+      arrival_times =
+        Faker.Util.sample_uniq(4, fn ->
+          Generators.DateTime.random_time_range_date_time(
+            {now, ServiceDateTime.end_of_service_day(now)}
+          )
+        end)
+        |> Enum.sort(DateTime)
+
+      predictions =
+        Enum.map(arrival_times, fn arrival_time ->
+          Factories.Predictions.Prediction.build(:prediction,
+            arrival_time: arrival_time,
+            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
+            trip: Factories.Schedules.Trip.build(:trip)
+          )
+        end)
+
+      stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: direction_id,
+          now: now,
+          route: route,
+          stop_id: stop_id
+        })
+
+      # Verify
+      assert is_list(departures)
+      assert length(departures) == 4
+
+      # All departures including the last should have last_trip? = false for subway
+      for departure <- departures do
+        refute departure.last_trip?
+      end
+    end
+
+    test "shows schedule's stop_headsign if available" do
+      # Setup
+      %{
+        route: route,
+        predicted_departure_times: [predicted_time | _],
+        predicted_arrival_times: [nil | _],
+        predictions: predictions,
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
+
+      updated_schedules =
+        schedules
+        |> Enum.map(fn schedule ->
+          schedule |> Map.put(:stop_headsign, Faker.Pokemon.location())
+        end)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [%{headsign: headsign}] = departures
+      assert updated_schedules |> Enum.find(fn s -> s.stop_headsign == headsign end)
+    end
+
+    test "shows trip's headsign if available schedule's stop_headsign is not available" do
+      # Setup
+      %{
+        route: route,
+        predicted_departure_times: [predicted_time | _],
+        predicted_arrival_times: [nil | _],
+        predictions: predictions,
+        schedules: schedules,
+        stops: [_, _, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          vehicle_stop_index: 0,
+          stop_count: 4
+        )
+
+      updated_schedules =
+        schedules
+        |> Enum.map(fn schedule ->
+          schedule |> Map.put(:stop_headsign, nil)
+        end)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      departures =
+        UpcomingDepartures.upcoming_departures(%{
+          direction_id: Faker.Util.pick([0, 1]),
+          now: Generators.ServiceDateTime.earlier_on_day(predicted_time),
+          route: route,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert [%{headsign: headsign}] = departures
+      assert updated_schedules |> Enum.find(fn s -> s.trip.headsign == headsign end)
+    end
+  end
+
+  describe "trip_details/1" do
     test "shows trip details with other stops" do
       # Setup
       %{
@@ -2869,186 +3051,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       assert [trip_stop_0, trip_stop_1] = trip_details.stops_before
       refute trip_stop_0.cancelled?
       assert trip_stop_1.cancelled?
-    end
-
-    test "marks the last upcoming departure with last_trip? = true for non-subway routes" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-
-      route =
-        Factories.Routes.Route.build(
-          Faker.Util.pick([:bus_route, :commuter_rail_route, :ferry_route])
-        )
-
-      stop_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_times =
-        Faker.Util.sample_uniq(4, fn ->
-          Generators.DateTime.random_time_range_date_time(
-            {now, ServiceDateTime.end_of_service_day(now)}
-          )
-        end)
-        |> Enum.sort(DateTime)
-
-      predictions =
-        Enum.map(arrival_times, fn arrival_time ->
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip)
-          )
-        end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
-      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
-          route: route,
-          stop_id: stop_id
-        })
-
-      # Verify
-      assert is_list(departures)
-      assert length(departures) == 4
-
-      # All departures except the last should have last_trip? = false
-      for departure <- Enum.take(departures, 3) do
-        refute departure.last_trip?
-      end
-
-      # The last departure should have last_trip? = true
-      last_departure = List.last(departures)
-      assert last_departure.last_trip?
-    end
-
-    test "does not mark last_trip? = true for subway routes" do
-      # Setup
-      now = Dotcom.Utils.DateTime.now()
-      route = Factories.Routes.Route.build(:subway_route)
-      stop_id = FactoryHelpers.build(:id)
-      direction_id = Faker.Util.pick([0, 1])
-
-      arrival_times =
-        Faker.Util.sample_uniq(4, fn ->
-          Generators.DateTime.random_time_range_date_time(
-            {now, ServiceDateTime.end_of_service_day(now)}
-          )
-        end)
-        |> Enum.sort(DateTime)
-
-      predictions =
-        Enum.map(arrival_times, fn arrival_time ->
-          Factories.Predictions.Prediction.build(:prediction,
-            arrival_time: arrival_time,
-            stop: Factories.Stops.Stop.build(:stop, id: stop_id),
-            trip: Factories.Schedules.Trip.build(:trip)
-          )
-        end)
-
-      stub(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
-      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: direction_id,
-          now: now,
-          route: route,
-          stop_id: stop_id
-        })
-
-      # Verify
-      assert is_list(departures)
-      assert length(departures) == 4
-
-      # All departures including the last should have last_trip? = false for subway
-      for departure <- departures do
-        refute departure.last_trip?
-      end
-    end
-
-    test "shows schedule's stop_headsign if available" do
-      # Setup
-      %{
-        route: route,
-        predicted_departure_times: [predicted_time | _],
-        predicted_arrival_times: [nil | _],
-        predictions: predictions,
-        schedules: schedules,
-        stops: [_, stop, _],
-        vehicle: vehicle
-      } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
-
-      updated_schedules =
-        schedules
-        |> Enum.map(fn schedule ->
-          schedule |> Map.put(:stop_headsign, Faker.Pokemon.location())
-        end)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
-      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: Faker.Util.pick([0, 1]),
-          now: Generators.ServiceDateTime.earlier_on_day(predicted_time),
-          route: route,
-          stop_id: stop.id
-        })
-
-      # Verify
-      assert [%{headsign: headsign}] = departures
-      assert updated_schedules |> Enum.find(fn s -> s.stop_headsign == headsign end)
-    end
-
-    test "shows trip's headsign if available schedule's stop_headsign is not available" do
-      # Setup
-      %{
-        route: route,
-        predicted_departure_times: [predicted_time | _],
-        predicted_arrival_times: [nil | _],
-        predictions: predictions,
-        schedules: schedules,
-        stops: [_, _, stop, _],
-        vehicle: vehicle
-      } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(
-          vehicle_stop_index: 0,
-          stop_count: 4
-        )
-
-      updated_schedules =
-        schedules
-        |> Enum.map(fn schedule ->
-          schedule |> Map.put(:stop_headsign, nil)
-        end)
-
-      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
-      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
-
-      # Exercise
-      departures =
-        UpcomingDepartures.upcoming_departures(%{
-          direction_id: Faker.Util.pick([0, 1]),
-          now: Generators.ServiceDateTime.earlier_on_day(predicted_time),
-          route: route,
-          stop_id: stop.id
-        })
-
-      # Verify
-      assert [%{headsign: headsign}] = departures
-      assert updated_schedules |> Enum.find(fn s -> s.trip.headsign == headsign end)
     end
   end
 end
