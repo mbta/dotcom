@@ -40,7 +40,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :route,
       :stop_sequence,
       :time,
-      :trip_details,
       :trip_id,
       :trip_name,
       :vehicle_name
@@ -79,7 +78,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             route: Route.t(),
             stop_sequence: non_neg_integer(),
             time: DateTime.t(),
-            trip_details: __MODULE__.UpcomingTripDetails.t(),
             trip_id: Trip.id_t(),
             trip_name: String.t(),
             vehicle_name: String.t() | nil
@@ -131,11 +129,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     route_type = Route.type_atom(route)
     predicted_schedules = predicted_schedules(route.id, direction_id, now)
 
-    predicted_schedules_by_trip_id =
-      predicted_schedules
-      |> Stream.reject(&past_schedule?(&1, now))
-      |> Enum.group_by(&PredictedSchedule.trip(&1).id)
-
     predicted_schedules_at_stop =
       predicted_schedules
       |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
@@ -163,9 +156,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
            to_upcoming_departure(%{
              now: now,
              predicted_schedule: first_predicted_schedule,
-             predicted_schedules_by_trip_id: %{},
-             route_type: route_type,
-             stop_id: stop_id
+             route_type: route_type
            })
            |> Map.put(
              :arrival_status,
@@ -180,9 +171,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_predicted_schedules_at_stop
           |> to_upcoming_departures(%{
             now: now,
-            predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-            route_type: route_type,
-            stop_id: stop_id
+            route_type: route_type
           })
 
         if no_predictions?(upcoming_predicted_schedules_at_stop) do
@@ -276,23 +265,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   def to_upcoming_departure(%{
         now: now,
         predicted_schedule: predicted_schedule,
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        route_type: route_type,
-        stop_id: stop_id
+        route_type: route_type
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
     vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
-
-    trip_details =
-      trip_details(%{
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        trip_id: trip.id,
-        stop_id: stop_id,
-        stop_sequence: stop_sequence,
-        vehicle: vehicle
-      })
 
     predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
 
@@ -321,7 +299,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       route: predicted_schedule_route,
       stop_sequence: stop_sequence,
       time: PredictedSchedule.display_time(predicted_schedule),
-      trip_details: trip_details,
       trip_id: trip.id,
       trip_name:
         if(route_type == :commuter_rail,
@@ -381,35 +358,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       " ",
       &String.capitalize/1
     )
-  end
-
-  def trip_details(%{
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        trip_id: trip_id,
-        stop_id: stop_id,
-        stop_sequence: stop_sequence,
-        vehicle: vehicle
-      }) do
-    %TripDetails{stops: stops, vehicle_info: vehicle_info} =
-      TripDetails.trip_details(%{
-        predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
-        trip_vehicle: vehicle
-      })
-
-    {stops_before, stop, stops_after} =
-      stops
-      |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
-      |> case do
-        {all, []} -> {[], nil, all}
-        {bef, [st | aft]} -> {bef, st, aft}
-      end
-
-    %__MODULE__.UpcomingDeparture.UpcomingTripDetails{
-      stops_before: stops_before,
-      stop: stop,
-      stops_after: stops_after,
-      vehicle_info: vehicle_info
-    }
   end
 
   def trip_details(%{
