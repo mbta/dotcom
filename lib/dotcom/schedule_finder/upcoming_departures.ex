@@ -39,6 +39,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       :platform_name,
       :route,
       :stop_sequence,
+      :time,
       :trip_details,
       :trip_id,
       :trip_name,
@@ -77,6 +78,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
             platform_name: String.t() | nil,
             route: Route.t(),
             stop_sequence: non_neg_integer(),
+            time: DateTime.t(),
             trip_details: __MODULE__.UpcomingTripDetails.t(),
             trip_id: Trip.id_t(),
             trip_name: String.t(),
@@ -318,6 +320,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       platform_name: platform_name(predicted_schedule),
       route: predicted_schedule_route,
       stop_sequence: stop_sequence,
+      time: PredictedSchedule.display_time(predicted_schedule),
       trip_details: trip_details,
       trip_id: trip.id,
       trip_name:
