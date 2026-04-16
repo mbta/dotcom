@@ -900,7 +900,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <div class="flex flex-col items-end">
           <div class="inline-flex gap-xs flex-nowrap items-center">
             <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
-            <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
+            <.vehicle_crowding crowding={@upcoming_departure.crowding} />
           </div>
           <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
         </div>
