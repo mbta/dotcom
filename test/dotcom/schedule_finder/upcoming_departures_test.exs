@@ -198,9 +198,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       # Verify
       assert [departure] = departures
 
-      assert departure.trip_name == "Train #{trip.name}" or
-               departure.trip_name == "Bus #{trip.name}"
-
+      assert departure.trip_name == "Train #{trip.name}"
       assert departure.platform_name == platform_name
     end
 

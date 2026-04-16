@@ -28,7 +28,7 @@ defmodule Test.Support.Factories.Routes.Route do
   end
 
   def commuter_rail_route_factory(attrs),
-    do: build(:route, attrs |> Map.put(:type, 2))
+    do: build(:route, attrs |> Map.put(:type, 2) |> Map.put(:description, :commuter_rail))
 
   def ferry_route_factory(attrs),
     do: build(:route, attrs |> Map.put(:type, 4))
