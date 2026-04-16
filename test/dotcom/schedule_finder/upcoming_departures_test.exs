@@ -23,7 +23,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
   end
 
   describe "upcoming_departures/1" do
-    test "includes the stop_sequence and trip_id in upcoming departures" do
+    test "includes the stop_sequence, trip_id, and time in upcoming departures" do
       # Setup
       %{
         predicted_arrival_times: [_, arrival_time, _],
@@ -55,6 +55,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       assert departure.stop_sequence == stop_sequence
       assert departure.trip_id == trip_id
+      assert departure.time == arrival_time
     end
 
     test "shows the number of minutes until arrival for bus and subway departures" do

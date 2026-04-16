@@ -1267,18 +1267,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp substatus_icon(assigns), do: ~H""
 
-  def get_last_departure_time(last_departure) do
-    if(is_nil(last_departure.trip_details.stop)) do
-      nil
-    else
-      {_, last_departure_time} = last_departure.trip_details.stop.time
-
-      if(is_struct(last_departure_time, DateTime)) do
-        last_departure_time
-      end
-    end
-  end
-
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
          last_trip_time: %{result: last_trip_time}
@@ -1292,7 +1280,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         |> Enum.find(nil, fn departure -> departure |> Map.get(:last_trip?, nil) end)
       )
 
-    last_departure_time = get_last_departure_time(last_departure)
+    last_departure_time = last_departure.time
 
     if(is_nil(last_departure_time)) do
       true
