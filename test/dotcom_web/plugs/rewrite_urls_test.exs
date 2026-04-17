@@ -11,6 +11,28 @@ defmodule DotcomWeb.Plugs.RewriteUrlsTest do
       assert conn.halted
     end
 
+    test "redirects if we're going to the old schedule finder", %{conn: conn} do
+      route_id = Faker.Pokemon.name()
+      direction_id = Faker.Util.pick(["0", "1"])
+      stop_id = Faker.Pokemon.name()
+
+      conn = %{
+        conn
+        | params: %{
+            "route" => route_id,
+            "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
+          },
+          path_info: ["schedules", "red", "line"]
+      }
+
+      conn = call(conn, [])
+
+      assert redirected_to(conn, 302) ==
+               "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
+
+      assert conn.halted
+    end
+
     test "includes a query string if present", %{conn: conn} do
       conn = %{
         conn
