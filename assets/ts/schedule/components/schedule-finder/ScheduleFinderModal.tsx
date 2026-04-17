@@ -27,7 +27,6 @@ interface Props {
   stops: SimpleStopMap;
   today: string;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
-  handleOriginSelectClick: (dispatch: Dispatch) => void;
   scheduleNote: ScheduleNote | null;
   hasServiceToday: boolean;
 }
@@ -43,7 +42,6 @@ const ScheduleFinderModal = ({
   stops,
   today,
   updateURL,
-  handleOriginSelectClick,
   scheduleNote,
   hasServiceToday
 }: Props): ReactElement => {
@@ -96,7 +94,6 @@ const ScheduleFinderModal = ({
     <ScheduleModalContent
       handleChangeDirection={handleChangeDirection}
       handleChangeOrigin={handleChangeOrigin}
-      handleOriginSelectClick={handleOriginSelectClick}
       hasServiceToday={hasServiceToday}
       route={route}
       routePatternsByDirection={routePatternsByDirection}
