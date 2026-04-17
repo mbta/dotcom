@@ -77,9 +77,6 @@
             <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Invalid vehicle number
           </div>
         </div>
-        <div class="error-indicator hidden">
-          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
-        </div>
       </div>
     </div>
     <div class="u-padding-top form-group <%= if !Enum.empty?(@errors) do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
