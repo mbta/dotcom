@@ -595,7 +595,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
+        [^route_id], direction_id: ^direction_id, date: date, stop_ids: [^stop_id] ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -644,7 +644,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
+        [^route_id], direction_id: ^direction_id, date: date, stop_ids: [^stop_id] ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -695,7 +695,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
+        [^route_id], direction_id: ^direction_id, date: date, stop_ids: [^stop_id] ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -751,7 +751,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
+        [^route_id], direction_id: ^direction_id, date: date, stop_ids: [^stop_id] ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -807,7 +807,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: date ->
+        [^route_id], direction_id: ^direction_id, date: date, stop_ids: [^stop_id] ->
           assert date == ServiceDateTime.service_date(now)
 
           [
@@ -851,7 +851,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
 
       # Exercise
       departures =
@@ -886,7 +886,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -946,7 +946,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       end)
 
       expect(Schedules.Repo.Mock, :by_route_ids, fn
-        [^route_id], direction_id: ^direction_id, date: _date ->
+        [^route_id], direction_id: ^direction_id, date: _date, stop_ids: [^stop_id] ->
           [
             Factories.Schedules.Schedule.build(:schedule,
               arrival_time: arrival_time_2,
@@ -984,7 +984,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route])
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+
       # Exercise
       departures =
         UpcomingDepartures.upcoming_departures(%{
@@ -1045,7 +1046,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1077,7 +1078,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1111,7 +1112,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1141,7 +1142,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
 
       # Exercise
       departures =
@@ -1171,7 +1172,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1205,7 +1206,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1235,7 +1236,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
 
       # Exercise
       departures =
@@ -1265,7 +1266,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1297,7 +1298,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1915,7 +1916,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -1982,7 +1983,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2017,7 +2018,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2051,7 +2052,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2081,7 +2082,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
 
       # Exercise
       departures =
@@ -2109,7 +2110,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route])
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
 
       # Exercise
       departures =
@@ -2182,7 +2183,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2219,7 +2220,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> schedules end)
+      expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -3053,5 +3054,14 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
       refute trip_stop_0.cancelled?
       assert trip_stop_1.cancelled?
     end
+  end
+
+  defp expect_schedule_call_filtered_by_stop(schedules, route_id: route_id) do
+    expect(Schedules.Repo.Mock, :by_route_ids, fn [^route_id],
+                                                  direction_id: _,
+                                                  date: _,
+                                                  stop_ids: [stop_id] ->
+      schedules |> Enum.filter(&(&1.stop.id == stop_id))
+    end)
   end
 end

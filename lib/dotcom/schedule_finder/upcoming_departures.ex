@@ -127,11 +127,27 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     route_type = Route.type_atom(route)
-    predicted_schedules = predicted_schedules(route.id, direction_id, now)
+
+    predictions =
+      @predictions_repo.all(
+        route: route.id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+      |> Enum.filter(&(&1.stop.id == stop_id))
+
+    schedules =
+      @schedules_repo.by_route_ids([route.id],
+        direction_id: direction_id,
+        date: ServiceDateTime.service_date(now),
+        stop_ids: [stop_id]
+      )
+
+    predicted_schedules = PredictedSchedule.group(predictions, schedules)
 
     predicted_schedules_at_stop =
       predicted_schedules
-      |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
       |> Stream.reject(&end_of_trip?/1)
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
@@ -180,24 +196,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_departures
         end
     end
-  end
-
-  defp predicted_schedules(route_id, direction_id, now) do
-    all_predictions =
-      @predictions_repo.all(
-        route: route_id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-
-    all_schedules =
-      @schedules_repo.by_route_ids([route_id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now)
-      )
-
-    PredictedSchedule.group(all_predictions, all_schedules)
   end
 
   defp no_predictions?(predicted_schedules),
