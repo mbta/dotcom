@@ -8,7 +8,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import DotcomWeb.Components.Alerts
-  import Dotcom.ScheduleFinder
   import Dotcom.Utils.Diff, only: [minutes_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
@@ -27,6 +26,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @schedule_finder Application.compile_env!(:dotcom, :schedule_finder_module)
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @impl LiveView
@@ -152,7 +152,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <%= if @route.type in [0, 1] do %>
                 <div
                   :for={
-                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
+                    {route, destination, times} <-
+                      get_subway_groups(departures, @direction_id, @stop.id)
                   }
                   class="mt-lg mb-md"
                 >
@@ -232,7 +233,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> update(:loaded_trips, fn loaded_trips ->
        result =
-         case Kernel.apply(Dotcom.ScheduleFinder, :next_arrivals, args) do
+         case Kernel.apply(@schedule_finder, :next_arrivals, args) do
            {:ok, arrivals} -> AsyncResult.ok(arrivals)
            error -> AsyncResult.failed(error, :reason)
          end
@@ -431,10 +432,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp get_departures(route_id, direction_id, stop_id, date) do
-    case daily_departures(route_id, direction_id, stop_id, date) do
+    case @schedule_finder.daily_departures(route_id, direction_id, stop_id, date) do
       {:ok, departures} -> {:ok, %{departures: departures}}
       error -> error
     end
+  end
+
+  defp get_subway_groups(departures, direction_id, stop_id) do
+    @schedule_finder.subway_groups(departures, direction_id, stop_id)
   end
 
   # Schedule Finder components =================================================
