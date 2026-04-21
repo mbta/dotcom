@@ -13,7 +13,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   import Dotcom.Utils.Time, only: [truncate: 2]
 
   alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
-  alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
@@ -21,8 +20,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   alias Stops.Stop
   alias Vehicles.Vehicle
 
-  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
-  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
+  @predicted_schedules_repo PredictedSchedule.Repo
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defmodule UpcomingDeparture do
@@ -128,23 +126,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
       }) do
     route_type = Route.type_atom(route)
 
-    predictions =
-      @predictions_repo.all(
+    predicted_schedules =
+      @predicted_schedules_repo.predicted_schedules_for_stop(%{
         direction_id: direction_id,
-        discard_past_subway_predictions: false,
-        include_terminals: true,
-        route: route.id,
-        stop: stop_id
-      )
-
-    schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now),
-        stop_ids: [stop_id]
-      )
-
-    predicted_schedules = PredictedSchedule.group(predictions, schedules)
+        now: now,
+        route_id: route.id,
+        stop_id: stop_id
+      })
 
     predicted_schedules_at_stop =
       predicted_schedules
@@ -364,17 +352,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id,
         stop_sequence: stop_sequence
       }) do
-    predictions =
-      @predictions_repo.all(
-        trip: trip_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-
-    schedules = @schedules_repo.schedule_for_trip(trip_id)
-
     predicted_schedules =
-      PredictedSchedule.group(predictions, schedules)
+      @predicted_schedules_repo.predicted_schedules_for_trip(%{now: now, trip_id: trip_id})
       |> Enum.reject(&past_schedule?(&1, now))
 
     vehicle =
