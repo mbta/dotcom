@@ -5,18 +5,18 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   use DotcomWeb, :live_view
 
-  alias DotcomWeb.PredictionsStreamLive.PredictionsConsumerStage
+  alias Dotcom.Playground.PredictionsConsumerStage
   alias Phoenix.LiveView
+  alias ServerSentEventStage.Event
 
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:routes, Routes.Repo.all())
-     |> assign_route(nil)
-     |> assign_direction(nil)
-     |> assign(:stops, nil)
-     |> assign(:subscribed?, false)}
+     |> assign(:subscribed?, false)
+     |> assign(:predictions, %{})
+     |> assign(:predictions_list, [])}
   end
 
   @impl LiveView
@@ -87,6 +87,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       routes={@routes}
       route={@route}
       direction_id={@direction_id}
+      predictions={@predictions}
       stop={@stop}
       stops={@stops}
     />
@@ -102,7 +103,13 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   defp route_picker_or_route_page(%{route: route} = assigns) when route != nil do
     ~H"""
-    <.route_page route={@route} direction_id={@direction_id} stop={@stop} stops={@stops} />
+    <.route_page
+      route={@route}
+      direction_id={@direction_id}
+      stop={@stop}
+      stops={@stops}
+      predictions={@predictions}
+    />
     """
   end
 
@@ -148,6 +155,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       direction_id={@direction_id}
       stop={@stop}
       stops={@stops}
+      predictions={@predictions}
     />
     """
   end
@@ -155,7 +163,13 @@ defmodule DotcomWeb.PredictionsStreamLive do
   defp direction_picker_or_route_direction_page(%{direction_id: direction_id} = assigns)
        when direction_id != nil do
     ~H"""
-    <.route_direction_page route={@route} direction_id={@direction_id} stop={@stop} stops={@stops} />
+    <.route_direction_page
+      route={@route}
+      direction_id={@direction_id}
+      stop={@stop}
+      stops={@stops}
+      predictions={@predictions}
+    />
     """
   end
 
@@ -199,7 +213,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
         </div>
       </div>
     </div>
-    <.stop_picker_or_route_direction_stop_page stop={@stop} stops={@stops} />
+    <.stop_picker_or_route_direction_stop_page stop={@stop} stops={@stops} predictions={@predictions} />
     """
   end
 
@@ -218,6 +232,21 @@ defmodule DotcomWeb.PredictionsStreamLive do
           >
             <.icon class="size-5" name="circle-xmark" />
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="flex flex-col w-full">
+        <div
+          :for={prediction <- @predictions |> Map.values() |> Enum.sort_by(& &1.arrival_time)}
+          class="p-2 border-t-xs border-gray-lightest"
+        >
+          <span>{prediction.arrival_time}</span>
+          <details>
+            <summary>Raw</summary>
+            <pre>{inspect prediction, pretty: true}</pre>
+          </details>
         </div>
       </div>
     </div>
@@ -288,6 +317,88 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   @impl LiveView
+  def handle_info({:prediction_events, events}, socket) do
+    {:noreply, socket |> update_assigned_predictions(events)}
+  end
+
+  def update_assigned_predictions(socket, events) do
+    new_predictions = Enum.reduce(events, socket.assigns.predictions, &handle_prediction_event/2)
+
+    socket |> assign(:predictions, new_predictions)
+  end
+
+  def handle_prediction_event(%Event{event: event_type, data: data}, predictions) do
+    data
+    |> JSON.decode()
+    |> case do
+      {:ok, parsed_data} -> handle_prediction_event(event_type, parsed_data, predictions)
+      _ -> predictions
+    end
+  end
+
+  def handle_prediction_event("reset", data, _predictions) do
+    dbg("reset")
+
+    data
+    |> Stream.map(&to_prediction/1)
+    |> Enum.group_by(& &1.id)
+    |> Map.new(fn {id, [pred]} -> {id, pred} end)
+  end
+
+  def handle_prediction_event(event_type, data, predictions)
+      when event_type in ["update", "add"] do
+    prediction = to_prediction(data)
+    predictions |> Map.put(prediction.id, prediction)
+  end
+
+  def handle_prediction_event("remove", data, predictions) do
+    %{"id" => prediction_id, "type" => "prediction"} = data
+
+    dbg("remove #{prediction_id}")
+
+    predictions |> Map.delete(prediction_id)
+  end
+
+  defp to_prediction(data) do
+    %{
+      "attributes" => %{
+        "arrival_time" => arrival_time,
+        "arrival_uncertainty" => _arrival_uncertainty,
+        "departure_time" => _departure_time,
+        "departure_uncertainty" => _departure_uncertainty,
+        "direction_id" => _direction_id,
+        "last_trip" => _last_trip,
+        "revenue" => _revenue,
+        "schedule_relationship" => _schedule_relationship,
+        "status" => _status,
+        "stop_sequence" => stop_sequence,
+        "trip_headsign" => _trip_headsign,
+        "update_type" => _update_type
+      },
+      "id" => id,
+      "relationships" => %{
+        "route" => %{"data" => %{"id" => _route_id, "type" => "route"}},
+        "stop" => %{"data" => %{"id" => stop_id, "type" => "stop"}},
+        "trip" => %{"data" => %{"id" => trip_id, "type" => "trip"}},
+        "vehicle" => %{"data" => %{"id" => _vehicle_id, "type" => "vehicle"}}
+      },
+      "type" => "prediction"
+    } = data
+
+    stop = Stops.Repo.get(stop_id)
+
+    %{
+      arrival_time: arrival_time,
+      id: id,
+      raw: data,
+      stop_id: stop.id,
+      stop_name: stop.name,
+      stop_sequence: stop_sequence,
+      trip_id: trip_id
+    }
+  end
+
+  @impl LiveView
   def terminate(_reason, _socket) do
     :ok
   end
@@ -331,11 +442,12 @@ defmodule DotcomWeb.PredictionsStreamLive do
     route_id = socket.assigns.route_id
     stop_id = socket.assigns.stop_id
 
-    url =
-      "#{base_url()}/predictions?route=#{route_id}&direction_id=#{direction_id}&stop=#{stop_id}"
+    query = URI.encode_query(%{route: route_id, direction_id: direction_id, stop: stop_id})
+
+    url = "#{base_url()}/predictions?#{query}"
 
     {:ok, sses_pid} = ServerSentEventStage.start_link(url: url, headers: headers())
-    {:ok, consumer_stage_pid} = PredictionsConsumerStage.start_link()
+    {:ok, consumer_stage_pid} = PredictionsConsumerStage.start_link(self())
 
     GenStage.sync_subscribe(consumer_stage_pid, to: sses_pid)
 
@@ -368,28 +480,5 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   defp headers() do
     Application.get_env(:dotcom, :mbta_api)[:headers]
-  end
-
-  defmodule PredictionsConsumerStage do
-    use GenStage
-
-    def start_link() do
-      GenStage.start_link(__MODULE__, :ok)
-    end
-
-    def stop(pid) do
-      GenStage.stop(pid)
-    end
-
-    def terminate(_reason, _state), do: :ok
-
-    def init(state) do
-      {:consumer, state}
-    end
-
-    def handle_events(events, _from, state) do
-      dbg(events)
-      {:noreply, [], state}
-    end
   end
 end
