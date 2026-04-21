@@ -94,7 +94,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def render(assigns) do
     ~H"""
     <form>
-      <input type="hidden" id="sfhack" value="0" phx-change="refresh_departures" />
+      <input
+        type="hidden"
+        id="refresh_input"
+        value="0"
+        phx-change="refresh_departures"
+        name="refresh_input"
+      />
+      <input
+        type="hidden"
+        id="vis_state"
+        value="visible"
+        phx-change="visibility_change"
+        name="vis_state"
+      />
     </form>
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
@@ -209,6 +222,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
     {:noreply,
      socket
      |> assign_upcoming_departures()}
+  end
+
+  def handle_event("visibility_change", %{"vis_state" => vis_state?}, socket) do
+    dbg(vis_state?)
+    {:noreply, socket}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
