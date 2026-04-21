@@ -28,6 +28,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @schedules_condensed_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules_condensed]
 
   @impl LiveView
   # If no params are passed, forward the user to the schedule page
@@ -62,12 +63,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
          socket
          |> subscribe_to_alerts()
          |> assign_new(:route, fn -> route end)
+         |> assign_new(:is_subway?, fn -> route.type in [0, 1] end)
          |> assign_page_title(route)
          |> assign_new(:vehicle_name, fn -> Route.vehicle_name(route) end)
          |> assign_new(:direction_id, fn -> direction_id end)
          |> assign_new(:stop, fn -> stop end)
          |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
-         |> assign_new(:last_trip_time, fn -> AsyncResult.loading() end)
+         |> assign_new(:last_scheduled_departure_datetime, fn assigns ->
+           if assigns.is_subway? do
+             @schedules_condensed_repo.last_departure_datetime(
+               route.id,
+               direction_id,
+               stop.id,
+               service_date()
+             )
+           end
+         end)
          |> assign_new(:alerts, fn -> [] end)
          |> assign_new(:service_groups, fn -> service_groups end)
          |> assign_new(:loaded_trips, fn -> %{} end)
@@ -75,8 +86,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:daily_schedule_date, fn -> service_date() end)
          |> assign_alerts()
          |> assign_departures()
-         |> assign_upcoming_departures()
-         |> assign_last_trip_time()}
+         |> assign_upcoming_departures()}
 
       _ ->
         # Raising this error will render the 404 page
@@ -115,7 +125,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   stop={@stop}
                   upcoming_departures={upcoming_departures}
                   route={@route}
-                  last_trip_time={@last_trip_time}
+                  last_trip_time={@last_scheduled_departure_datetime}
                 />
               <% end %>
             </.async_result>
@@ -311,31 +321,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
-
-  defp assign_last_trip_time(socket) do
-    route_id = socket.assigns.route.id
-    direction_id = socket.assigns.direction_id
-    date = DateTime.to_date(@date_time.now()) |> Date.to_string()
-    stop = socket.assigns.stop
-
-    assign_async(
-      socket,
-      :last_trip_time,
-      fn ->
-        {_, departures} =
-          get_departures(route_id, direction_id, stop.id, date)
-
-        last_trip_time =
-          departures.departures
-          |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
-          |> Enum.at(-1, %{})
-          |> Map.get(:time)
-
-        {:ok, %{last_trip_time: last_trip_time}}
-      end,
-      reset: true
-    )
-  end
 
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
@@ -1196,7 +1181,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
-         last_trip_time: %{result: last_trip_time}
+         last_scheduled_departure_datetime: last_trip_time
        })
        when remaining_departures != [] do
     last_departure = remaining_departures |> Enum.at(-1)
@@ -1229,9 +1214,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp remaining_service(%{route_type: route_type} = assigns) when route_type in [0, 1] do
     if show_last_service?(assigns) do
       ~H"""
-      <.attached_callout :if={@last_trip_time.result}>
+      <.attached_callout :if={@last_trip_time}>
         {gettext("Scheduled service continues until %{end_of_service}",
-          end_of_service: format!(@last_trip_time.result, :hour_12_minutes)
+          end_of_service: format!(@last_trip_time, :hour_12_minutes)
         )}
       </.attached_callout>
       """
