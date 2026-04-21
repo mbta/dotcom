@@ -13,6 +13,7 @@ defmodule Schedules.RepoCondensed do
   alias Schedules.{Parser, Repo, ScheduleCondensed}
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @timezone Application.compile_env!(:dotcom, :timezone)
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -132,4 +133,31 @@ defmodule Schedules.RepoCondensed do
   end
 
   defp filter_by_min_time(schedules, _), do: schedules
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: :timer.hours(24)])
+  @impl Schedules.RepoCondensed.Behaviour
+  def last_departure_datetime(route_id, direction_id, stop_id, date) do
+    params = [
+      "fields[schedule]": "departure_time",
+      "filter[route]": routes(route_id),
+      "filter[direction_id]": direction_id,
+      "filter[stop]": stop_id,
+      "filter[date]": Date.to_string(date),
+      sort: "pickup_type,-departure_time",
+      "page[limit]": 1
+    ]
+
+    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params),
+         %{attributes: %{"departure_time" => dt}} when is_binary(dt) <- List.first(data),
+         {:ok, utc_datetime, _} <- DateTime.from_iso8601(dt),
+         {:ok, datetime} <- DateTime.shift_zone(utc_datetime, @timezone) do
+      datetime
+    else
+      _ ->
+        nil
+    end
+  end
+
+  defp routes("Green"), do: GreenLine.branch_ids() |> Enum.join(",")
+  defp routes(other), do: other
 end

@@ -1,14 +1,24 @@
 defmodule Schedules.RepoCondensedTest do
   use ExUnit.Case
-  @moduletag :external
 
-  use Timex
-
+  import Mox
   import Schedules.RepoCondensed
+  import Test.Support.Factories.MBTA.Api
 
   alias Schedules.ScheduleCondensed
+  alias Test.Support.{FactoryHelpers, Generators}
+
+  setup :verify_on_exit!
+
+  setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   describe "by_route_ids/2" do
+    @describetag :external
+
     test "can take a route/direction/sequence/date" do
       response =
         by_route_ids(
@@ -77,6 +87,39 @@ defmodule Schedules.RepoCondensedTest do
         )
 
       assert {:error, _} = response
+    end
+  end
+
+  describe "last_departure_datetime/4" do
+    test "can take a route/direction/stop/date" do
+      route_id = FactoryHelpers.build(:id)
+      direction_id = FactoryHelpers.build(:direction_id)
+      stop_id = FactoryHelpers.build(:id)
+      date = Generators.DateTime.random_date_time() |> DateTime.to_date()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/schedules/", opts ->
+        assert opts[:"filter[route]"] == route_id
+        assert opts[:"filter[direction_id]"] == direction_id
+        assert opts[:"filter[stop]"] == stop_id
+        assert opts[:"filter[date]"] == Date.to_string(date)
+
+        %JsonApi{data: build_list(1, :schedule_item)}
+      end)
+
+      assert %DateTime{} = last_departure_datetime(route_id, direction_id, stop_id, date)
+    end
+
+    test "handles errors" do
+      route_id = FactoryHelpers.build(:id)
+      direction_id = FactoryHelpers.build(:direction_id)
+      stop_id = FactoryHelpers.build(:id)
+      date = Generators.DateTime.random_date_time() |> DateTime.to_date()
+
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        {:error, %{reason: :econnrefused}}
+      end)
+
+      assert last_departure_datetime(route_id, direction_id, stop_id, date) == nil
     end
   end
 end
