@@ -362,7 +362,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     direction = socket.assigns.direction_id
 
     alerts =
-      current_alerts(stop, route)
+      @schedule_finder.current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
         Enum.any?([nil, direction], &(&1 in direction_id))
       end)
@@ -459,7 +459,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
 
-  defp route_banner(assigns) do
+  def route_banner(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
     line_name = assigns.route |> Route.icon_atom() |> atom_to_class()
 
@@ -550,7 +550,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :stop, Stop
 
-  defp stop_banner(assigns) do
+  def stop_banner(assigns) do
     ~H"""
     <div :if={@stop} class="bg-gray-lightest">
       <.link
