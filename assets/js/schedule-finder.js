@@ -3,13 +3,11 @@ export default () => {
 
     window.addEventListener("load", ()=>{
         //Logic request new upcoming departures every 5s while the window is visible
-       if(typeof refresh_input !== 'undefined'){
+       if( typeof liveSocket !== 'undefined'){
             clearInterval(sf_interval);
             sf_interval = setInterval(()=>{
                 if(!document.hidden){
-                    refresh_input.dispatchEvent(
-                        new Event("change", {bubbles:true})
-                    );
+                    liveSocket.js().push(document.body,"refresh_departures",{})
                 }
             }, 5000);
         }
@@ -18,11 +16,8 @@ export default () => {
     });
     //Log to sent hidden/visible state to the server so it can do smart stuff
     window.addEventListener("visibilitychange", ()=>{
-        if(typeof vis_state !== 'undefined'){
-            vis_state.value = document.hidden?"hidden":"visible"
-            vis_state.dispatchEvent(
-                new Event("change", {bubbles:true})
-            );
+        if(typeof liveSocket !== 'undefined'){
+            liveSocket.js().push(document.body,"visibility_change", {value:{vis_state: document.hidden?"hidden":"visible"}})
         }
     });
     
