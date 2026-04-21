@@ -17,7 +17,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.ScheduleFinder.UpcomingDepartures
-  alias Dotcom.ServicePatterns
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.{LiveView, LiveView.AsyncResult}
@@ -45,18 +44,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
         service_groups = ServiceGroup.for_route(route.id, service_date())
-
-        selected_service =
-          service_groups
-          |> Enum.flat_map(& &1.services)
-          |> Enum.find(%{}, &(&1.now_date || &1.next_date))
-
-        socket =
-          if Map.get(selected_service, :next_date) do
-            assign(socket, :daily_schedule_date, selected_service.next_date)
-          else
-            socket
-          end
+        all_services = Enum.flat_map(service_groups, & &1.services)
+        selected_service = Enum.find(all_services, %{}, &(&1.now_date || &1.next_date))
 
         {:ok,
          socket
@@ -73,7 +62,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:service_groups, fn -> service_groups end)
          |> assign_new(:loaded_trips, fn -> %{} end)
          |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
-         |> assign_new(:daily_schedule_date, fn -> service_date() end)
+         |> assign_new(:service_today?, fn -> Enum.any?(all_services, &(!is_nil(&1.now_date))) end)
+         |> assign_new(:daily_schedule_date, fn assigns ->
+           # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
+           if assigns.service_today? do
+             service_date()
+           else
+             Map.get(selected_service, :next_date, service_date())
+           end
+         end)
          |> assign_new(:should_refresh?, fn -> true end)
          |> assign_alerts()
          |> assign_departures()
@@ -106,7 +103,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <.alert_banner alerts={@alerts} />
         <section>
           <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
-          <%= if ServicePatterns.has_service?(route: @route.id) do %>
+          <%= if @service_today? do %>
             <.async_result :let={upcoming_departures} assign={@upcoming_departures}>
               <:loading>
                 <div class="mt-lg mb-md flex justify-center">
