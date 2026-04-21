@@ -93,6 +93,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @impl LiveView
   def render(assigns) do
     ~H"""
+    <form>
+      <input type="hidden" id="sfhack" value="0" phx-change="refresh_departures" />
+    </form>
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
     <div class="container">
@@ -200,6 +203,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:departures, AsyncResult.loading())}
   end
 
+  def handle_event("refresh_departures", _, socket) do
+    dbg("ref")
+
+    {:noreply,
+     socket
+     |> assign_upcoming_departures()}
+  end
+
   def handle_event(_, _, socket), do: {:noreply, socket}
 
   @impl Phoenix.LiveView
@@ -246,11 +257,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh_upcoming_departures(pid) do
-    # Refresh every second
-    Process.send_after(pid, :refresh_upcoming_departures, 5000)
-  end
-
   defp validate_params(%{
          "direction_id" => direction,
          "route_id" => route_id,
@@ -278,8 +284,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
-    parent_pid = self()
-
     socket
     |> assign_async(
       :upcoming_departures,
@@ -291,8 +295,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
             route: route,
             stop_id: stop_id
           })
-
-        schedule_refresh_upcoming_departures(parent_pid)
 
         {:ok, %{upcoming_departures: departures}}
       end

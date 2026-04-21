@@ -36,6 +36,8 @@ import previousEventsButton from "./view-previous-events";
 
 import mobileAppBanner from "./mobile-app-banner.js";
 
+import scheduleFinder from './schedule-finder.js';
+
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
@@ -138,3 +140,8 @@ accordionInit();
 juxtapose();
 
 mobileAppBanner();
+
+scheduleFinder();
+
+
+
