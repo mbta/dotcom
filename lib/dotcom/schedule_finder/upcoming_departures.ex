@@ -130,12 +130,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predictions =
       @predictions_repo.all(
-        route: route.id,
         direction_id: direction_id,
+        discard_past_subway_predictions: false,
         include_terminals: true,
-        discard_past_subway_predictions: false
+        route: route.id,
+        stop: stop_id
       )
-      |> Enum.filter(&(&1.stop.id == stop_id))
 
     schedules =
       @schedules_repo.by_route_ids([route.id],
