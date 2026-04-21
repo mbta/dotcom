@@ -180,15 +180,23 @@ defmodule DotcomWeb.ScheduleFinderLive do
     date = socket.assigns.daily_schedule_date
     loaded_trips = socket.assigns.loaded_trips
 
-    if Map.get(loaded_trips, schedule_id) do
-      {:noreply, socket}
-    else
-      socket =
-        update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
+    case Map.get(loaded_trips, schedule_id) do
+      %Phoenix.LiveView.AsyncResult{ok?: true} ->
+        {:noreply, socket}
 
-      {stop_sequence, _} = Integer.parse(stop_sequence)
-      GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
-      {:noreply, socket}
+      _ ->
+        {stop_sequence, _} = Integer.parse(stop_sequence)
+
+        {:noreply,
+         update(socket, :loaded_trips, fn loaded_trips ->
+           result =
+             case next_arrivals(trip_id, stop_sequence, date) do
+               {:ok, arrivals} -> AsyncResult.ok(arrivals)
+               {:error, error} -> AsyncResult.failed(error, :reason)
+             end
+
+           Map.put(loaded_trips, schedule_id, result)
+         end)}
     end
   end
 
@@ -201,21 +209,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
-
-  @impl Phoenix.LiveView
-  def handle_cast({:get_next, {schedule_id, args}}, socket) do
-    {:noreply,
-     socket
-     |> update(:loaded_trips, fn loaded_trips ->
-       result =
-         case Kernel.apply(Dotcom.ScheduleFinder, :next_arrivals, args) do
-           {:ok, arrivals} -> AsyncResult.ok(arrivals)
-           error -> AsyncResult.failed(error, :reason)
-         end
-
-       Map.put(loaded_trips, schedule_id, result)
-     end)}
-  end
 
   @impl LiveView
   def handle_info(:refresh_upcoming_departures, socket) do
