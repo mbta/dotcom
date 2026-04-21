@@ -79,6 +79,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
              )
            end
          end)
+         |> assign_new(:subway_groups_fn, fn assigns ->
+           if assigns.is_subway? do
+             fn departures ->
+               subway_groups(departures, assigns.direction_id, assigns.stop.id)
+             end
+           end
+         end)
          |> assign_new(:alerts, fn -> [] end)
          |> assign_new(:service_groups, fn -> service_groups end)
          |> assign_new(:loaded_trips, fn -> %{} end)
@@ -152,11 +159,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <%= if length(departures) > 0 do %>
-              <%= if @route.type in [0, 1] do %>
+              <%= if @subway_groups_fn do %>
                 <div
-                  :for={
-                    {route, destination, times} <- subway_groups(departures, @direction_id, @stop.id)
-                  }
+                  :for={{route, destination, times} <- @subway_groups_fn.(departures)}
                   class="mt-lg mb-md"
                 >
                   <.subway_destination route={route} destination={destination} />
