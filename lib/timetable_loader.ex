@@ -15,15 +15,15 @@ defmodule Dotcom.TimetableLoader do
 
   @metadata %{
     "Boat-F6" => %{
-      effective_dates: {~D[2025-04-28], ~D[2025-11-26]},
+      effective_dates: {~D[2026-04-27], ~D[2026-06-13]},
       weekend: "Boat-F8"
     },
     "Boat-F7" => %{
-      effective_dates: {~D[2025-04-28], ~D[2025-11-26]},
+      effective_dates: {~D[2026-04-27], ~D[2026-06-13]},
       weekend: "Boat-F8"
     },
     "Boat-F8" => %{
-      effective_dates: {~D[2025-05-17], ~D[2025-10-12]}
+      effective_dates: {~D[2026-05-23], ~D[2026-06-13]},
     },
     "CR-Foxboro" => %{
       effective_dates: {~D[2026-03-26], ~D[2026-03-26]}
