@@ -23,7 +23,7 @@ defmodule Dotcom.TimetableLoader do
       weekend: "Boat-F8"
     },
     "Boat-F8" => %{
-      effective_dates: {~D[2026-05-23], ~D[2026-06-13]},
+      effective_dates: {~D[2026-05-23], ~D[2026-06-13]}
     },
     "CR-Foxboro" => %{
       effective_dates: {~D[2026-03-26], ~D[2026-03-26]}
