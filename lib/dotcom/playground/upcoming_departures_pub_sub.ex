@@ -16,6 +16,10 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
     GenServer.cast(__MODULE__, {:unsubscribe, self()})
   end
 
+  def state() do
+    GenServer.call(__MODULE__, :get_state)
+  end
+
   @impl GenServer
   def init(initial_state) do
     {:ok, initial_state}
@@ -33,6 +37,11 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
     new_state = SubscriptionRegister.remove_subscription(state, caller_pid)
     dbg(new_state)
     {:noreply, new_state}
+  end
+
+  @impl GenServer
+  def handle_call(:get_state, _from, state) do
+    {:reply, state, state}
   end
 
   defmodule SubscriptionRegister do

@@ -380,8 +380,8 @@ defmodule DotcomWeb.PredictionsStreamLive do
       "relationships" => %{
         "route" => %{"data" => %{"id" => _route_id, "type" => "route"}},
         "stop" => %{"data" => %{"id" => stop_id, "type" => "stop"}},
-        "trip" => %{"data" => %{"id" => trip_id, "type" => "trip"}},
-        "vehicle" => %{"data" => %{"id" => _vehicle_id, "type" => "vehicle"}}
+        "trip" => %{"data" => %{"id" => trip_id, "type" => "trip"}}
+        # "vehicle" => %{"data" => %{"id" => _vehicle_id, "type" => "vehicle"}}
       },
       "type" => "prediction"
     } = data

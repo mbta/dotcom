@@ -6,6 +6,7 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.WorldCupTimetableLive
   use DotcomWeb, :live_view
 
+  alias DotcomWeb.UpcomingDeparturesPubSubStateLive
   alias DotcomWeb.PredictionsStreamLive
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
@@ -13,6 +14,13 @@ defmodule DotcomWeb.PreviewLive do
   alias Phoenix.LiveView
 
   @pages [
+    %{
+      arguments: [],
+      icon_name: "magnifying-glass",
+      icon_type: "solid",
+      module: UpcomingDeparturesPubSubStateLive,
+      title: "Prediction Consumers"
+    },
     %{
       arguments: [],
       icon_name: "faucet-drip",
