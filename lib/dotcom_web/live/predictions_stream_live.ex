@@ -3,10 +3,10 @@ defmodule DotcomWeb.PredictionsStreamLive do
   A page that shows stuff about predictions streaming
   """
 
-  alias Dotcom.Playground.UpcomingDeparturesPubsub
   use DotcomWeb, :live_view
 
   alias Dotcom.Playground.PredictionsConsumerStage
+  alias Dotcom.Playground.UpcomingDeparturesPubsub
   alias Phoenix.LiveView
   alias ServerSentEventStage.Event
 
