@@ -221,7 +221,6 @@ defmodule Dotcom.AlertsTest do
              |> Enum.any?(fn {route, _} -> route == route_without_alerts end)
     end
 
-    # TODO: failed with seed 415112
     test "does not include an alert if that alert is also the banner alert" do
       route = Factories.Routes.Route.build(:route)
 
