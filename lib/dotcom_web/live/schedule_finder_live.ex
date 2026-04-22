@@ -286,8 +286,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
-    now = @date_time.now()
-    route = socket.assigns.route
+    route_id = socket.assigns.route.id
     direction_id = socket.assigns.direction_id
     stop_id = stop_id
 
@@ -298,12 +297,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
       :upcoming_departures,
       fn ->
         departures =
-          UpcomingDepartures.upcoming_departures(%{
+          ScheduleFinder.Worker.get(
             direction_id: direction_id,
-            now: now,
-            route: route,
+            route_id: route_id,
             stop_id: stop_id
-          })
+          )
 
         schedule_refresh_upcoming_departures(parent_pid)
 

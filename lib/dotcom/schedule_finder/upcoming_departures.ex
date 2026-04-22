@@ -22,6 +22,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
   @predicted_schedules_repo PredictedSchedule.Repo
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   defmodule UpcomingDeparture do
     @moduledoc """
@@ -106,24 +107,27 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
-  @spec upcoming_departures(%{
-          direction_id: 0 | 1,
-          now: DateTime.t(),
-          route: Route.t(),
-          stop_id: Stop.id_t()
-        }) ::
+  @type result ::
           [__MODULE__.UpcomingDeparture.t()]
           | :no_realtime
           | :no_service
           | :service_ended
           | {:before_service, __MODULE__.UpcomingDeparture.t()}
           | {:no_realtime, [__MODULE__.UpcomingDeparture.t()]}
+
+  @spec upcoming_departures(%{
+          direction_id: 0 | 1,
+          now: DateTime.t(),
+          route_id: Route.id_t(),
+          stop_id: Stop.id_t()
+        }) :: result()
   def upcoming_departures(%{
         direction_id: direction_id,
         now: now,
-        route: route,
+        route_id: route_id,
         stop_id: stop_id
       }) do
+    route = @routes_repo.get(route_id)
     route_type = Route.type_atom(route)
 
     predicted_schedules =
