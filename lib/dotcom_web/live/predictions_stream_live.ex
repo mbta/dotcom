@@ -3,6 +3,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
   A page that shows stuff about predictions streaming
   """
 
+  alias Dotcom.Playground.UpcomingDeparturesPubsub
   use DotcomWeb, :live_view
 
   alias Dotcom.Playground.PredictionsConsumerStage
@@ -399,7 +400,9 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   @impl LiveView
-  def terminate(_reason, _socket) do
+  def terminate(reason, socket) do
+    dbg("Terminating #{inspect(reason)}")
+    unsubscribe_from_predictions(socket)
     :ok
   end
 
@@ -442,7 +445,12 @@ defmodule DotcomWeb.PredictionsStreamLive do
     route_id = socket.assigns.route_id
     stop_id = socket.assigns.stop_id
 
-    query = URI.encode_query(%{route: route_id, direction_id: direction_id, stop: stop_id})
+    params = %{route: route_id, direction_id: direction_id, stop: stop_id}
+    pid = self()
+    dbg(pid)
+    UpcomingDeparturesPubsub.subscribe(params)
+
+    query = URI.encode_query(params)
 
     url = "#{base_url()}/predictions?#{query}"
 
@@ -461,6 +469,8 @@ defmodule DotcomWeb.PredictionsStreamLive do
          %{assigns: %{sses_pid: sses_pid, consumer_stage_pid: consumer_stage_pid}} = socket
        )
        when sses_pid != nil do
+    UpcomingDeparturesPubsub.unsubscribe()
+
     PredictionsConsumerStage.stop(consumer_stage_pid)
     GenStage.stop(sses_pid)
 
