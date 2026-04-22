@@ -886,7 +886,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </:headsign>
 
       <:additional_info :if={@upcoming_departure.trip_name}>
-        {gettext("Train %{trip_name}", trip_name: @upcoming_departure.trip_name)}
+        {@upcoming_departure.trip_name}
         <span :if={!is_nil(@upcoming_departure.platform_name)} aria-hidden="true">
           &bull;
         </span>

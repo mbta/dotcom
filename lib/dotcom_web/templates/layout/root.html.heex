@@ -47,15 +47,6 @@
       href="/news/rss.xml"
     />
 
-    <%= if Application.get_env(:sentry, :js_dsn) do %>
-      <script nonce={@conn.assigns[:csp_nonce]}>
-        window.sentry = {
-          dsn: "<%= Application.get_env(:sentry, :js_dsn) %>",
-          environment: "<%= Application.get_env(:sentry, :environment_name) %>"
-        }
-      </script>
-    <% end %>
-
     <%= if Application.get_env(:dotcom, :dev_server?) do %>
       <link rel="stylesheet" href={"#{webpack_path()}/css/core.css"} />
       <link rel="stylesheet" href={"#{webpack_path()}/css/app.css"} />
