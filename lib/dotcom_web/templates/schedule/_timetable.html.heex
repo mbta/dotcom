@@ -9,19 +9,10 @@
   </div>
 </.promo_banner>
 
-<.descriptive_link
+<.world_cup_intercept
   :if={@route.id == "CR-Franklin" || @route.id == "CR-Foxboro"}
-  href="/WorldCup"
   class="mb-5"
->
-  <:title>Going to a World Cup match at Boston Stadium?</:title>
-  <p class="c-descriptive-link__world-cup">
-    {gettext("Read our %{world_cup_link}",
-      world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
-    )
-    |> raw()}
-  </p>
-</.descriptive_link>
+/>
 
 {DotcomWeb.AlertView.group(
   alerts: @banner_alerts,

@@ -113,19 +113,10 @@ defmodule DotcomWeb.TripPlannerLive do
     ~H"""
     <div class="container">
       <h1>{~t(Trip Planner)}</h1>
-      <.descriptive_link
-        href="/WorldCup"
+      <.world_cup_intercept
         class="mb-5"
         style="background-color: var(--colors-cobalt-80)"
-      >
-        <:title>Going to a World Cup match at Boston Stadium?</:title>
-        <p class="c-descriptive-link__world-cup">
-          {gettext("Read our %{world_cup_link}",
-            world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
-          )
-          |> raw()}
-        </p>
-      </.descriptive_link>
+      />
       <div>
         <.input_form class="mb-4" changeset={@input_form.changeset} />
         <div>
