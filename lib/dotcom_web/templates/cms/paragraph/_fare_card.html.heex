@@ -74,7 +74,7 @@ card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
     {mode_icon(mode, :default)}
   </div>
 
-  <h3 class="c-fare-card__name">
+  <h3 class="c-fare-card__name" aria-label={name}>
     <%= if @fare_card.link do %>
       {link(card_title, to: @fare_card.link.url, class: "u-linked-card__primary-link")}
     <% else %>

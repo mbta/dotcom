@@ -6,7 +6,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
         <header className=\\"m-schedule-diagram__stop-heading\\">
-          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
             <a href=\\"/stops/a\\">
               <Alert>
                 <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />

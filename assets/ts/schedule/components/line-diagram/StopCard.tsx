@@ -121,7 +121,10 @@ const StopCard = ({
           className="m-schedule-diagram__stop-heading"
           ref={el => refs.set(stopId, el)}
         >
-          <h4 className="m-schedule-diagram__stop-link notranslate">
+          <h4
+            className="m-schedule-diagram__stop-link notranslate"
+            aria-label={`${routeStop.name}`}
+          >
             <a href={`/stops/${stopId}`}>
               {hasHighPriorityAlert(stopId, alerts) && <Alert />}
               <MatchHighlight text={routeStop.name} matchQuery={searchQuery} />

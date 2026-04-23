@@ -39,7 +39,10 @@ defmodule DotcomWeb.ModeView do
   def mode_group_header(mode, href, is_homepage?) do
     is_homepage?
     |> mode_group_header_tag()
-    |> content_tag(mode_group_header_content(mode, href), class: "m-mode__header")
+    |> content_tag(mode_group_header_content(mode, href),
+      class: "m-mode__header",
+      aria_label: Route.type_name(mode)
+    )
   end
 
   @spec mode_group_header_tag(boolean) :: :h2 | :h3

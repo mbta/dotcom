@@ -102,7 +102,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                     <a href=\\"/stops/b1\\">
                       <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                         <span />
@@ -135,7 +135,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <header className=\\"m-schedule-diagram__stop-heading\\">
-                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                       <a href=\\"/stops/b2\\">
                         <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                           <span />
@@ -168,7 +168,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <header className=\\"m-schedule-diagram__stop-heading\\">
-                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                         <a href=\\"/stops/b3\\">
                           <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                             <span />
@@ -201,7 +201,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <header className=\\"m-schedule-diagram__stop-heading\\">
-                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                           <a href=\\"/stops/a1\\">
                             <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                               <span />
@@ -267,7 +267,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <header className=\\"m-schedule-diagram__stop-heading\\">
-                          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                             <a href=\\"/stops/m1\\">
                               <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                 <span />
@@ -300,7 +300,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <header className=\\"m-schedule-diagram__stop-heading\\">
-                            <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                            <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                               <a href=\\"/stops/c1\\">
                                 <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                   <span />
@@ -366,7 +366,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <header className=\\"m-schedule-diagram__stop-heading\\">
-                              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                                 <a href=\\"/stops/m2\\">
                                   <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                     <span />
@@ -399,7 +399,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <header className=\\"m-schedule-diagram__stop-heading\\">
-                                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                                   <a href=\\"/stops/m3\\">
                                     <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                       <span />
@@ -432,7 +432,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
                                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                                     <a href=\\"/stops/y1\\">
                                       <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                         <span />
@@ -465,7 +465,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <header className=\\"m-schedule-diagram__stop-heading\\">
-                                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                                       <a href=\\"/stops/x1\\">
                                         <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                           <span />
@@ -498,7 +498,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <header className=\\"m-schedule-diagram__stop-heading\\">
-                                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
                                         <a href=\\"/stops/x2\\">
                                           <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                             <span />
