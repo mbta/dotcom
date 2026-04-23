@@ -290,6 +290,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
 
+    stop_headsign =
+      if predicted_schedule.schedule,
+        do: predicted_schedule.schedule.stop_headsign
+
     %UpcomingDeparture{
       arrival_status:
         arrival_status(%{
@@ -304,7 +308,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: predicted_schedule,
           route_type: route_type
         }),
-      headsign: trip.headsign,
+      headsign: stop_headsign || trip.headsign,
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: predicted_schedule_route,
