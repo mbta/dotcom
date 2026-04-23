@@ -250,6 +250,7 @@ describe("support form", () => {
             <div class="support-email-error-container hidden-xs-up" tabindex="-1"><div class="support-email-error"></div></div>
             <input id="privacy" type="checkbox" />
             <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
+            <div class="error-indicator hidden" id="privacy-error-indicator"> Required</div>
             <div class="support-form-expanded" style="display: none"></div>
             <div class="error-container support-g-recaptcha-response-error-container" tabindex="-1"><div class="support-g-recaptcha-response-error"></div></div>
             <textarea id="g-recaptcha-response" name="g-recaptcha-response"></textarea>

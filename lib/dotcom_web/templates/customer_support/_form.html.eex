@@ -13,6 +13,9 @@
     <div id="subject" class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
       <%= label f, :subject, "Category and Subject*", [for: "support_subject", class: "form-control-label"] %>
       <%= select f, :subject, @service_options, prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select" %>
+      <div class="error-indicator hidden">
+        <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+      </div>
     </div>
     <div id="charlie-card-or-ticket-number" class="form-group">
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
@@ -23,6 +26,9 @@
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
       <%= textarea f, :comments, id: "comments", class: "support-form-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000", rows: "3", placeholder: placeholder_text("comments"), required: "required", value: assigns[:comments] %>
       <small id="commentsHelp" class="form-text">3000 characters maximum</small>
+      <div class="error-indicator hidden">
+        <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+      </div>
     </div>
     <div id="support-datepicker">
       <strong class="block mb-sm">Time/Date of incident</strong>
@@ -67,6 +73,9 @@
             </span>
           </div>
           <%= text_input(f, :vehicle, id: "vehicle", placeholder: placeholder_text("vehicle"), class: "support-form-input form-control", value: assigns[:vehicle], maxlength: 8 ) %>
+          <div class="error-indicator hidden">
+            <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Invalid vehicle number
+          </div>
         </div>
       </div>
     </div>
@@ -96,16 +105,25 @@
         <%= label f, :first_name, "First Name*", [for: "first_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "first_name" %>
         <%= text_input f, :first_name, placeholder: placeholder_text("first_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("first_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "first_name", id: "first_name" %>
+        <div class="error-indicator hidden">
+          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+        </div>
       </div>
       <div class="form-group <%= class_for_error("last_name", @errors, "has-danger", "has-success") %>">
         <%= label f, :name, "Last Name*", [for: "last_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "last_name" %>
         <%= text_input f, :last_name, placeholder: placeholder_text("last_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("last_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "last_name", id: "last_name" %>
+        <div class="error-indicator hidden">
+          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+        </div>
       </div>
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
         <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
+        <div class="error-indicator hidden">
+          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+        </div>
       </div>
       <div class="form-group">
         <%= help_text "phone" %>
@@ -122,6 +140,9 @@
           label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
         })
         %>
+        <div class="error-indicator hidden" id="privacy-error-indicator">
+          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+        </div>
       </div>
       <div class="form-group">
         <%= DotcomWeb.PartialView.render("_checkbox.html", %{
@@ -137,6 +158,9 @@
     <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "recaptcha" %>
       <%= raw Recaptcha.Template.display(noscript: true) %>
+      <div class="error-indicator hidden">
+        <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+      </div>
       <button class="btn btn-primary submit-button" type="submit" id="support-submit">
         Submit
         <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>

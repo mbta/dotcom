@@ -43,6 +43,10 @@
     }
   }
 
+  .error-indicator {
+    color: $brand-danger
+  }
+
   .error-container {
     margin: 0 0 .5em;
   }
@@ -65,6 +69,7 @@
     .c-checkbox__label::before {
       border-color: $brand-danger;
     }
+    
   }
 
   .has-success {
