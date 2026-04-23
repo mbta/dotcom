@@ -141,8 +141,6 @@ defmodule ScheduleFinder.WorkerSubscribers do
 
   @impl GenServer
   def init(_) do
-    broadcast_timer(50)
-
     _ =
       :ets.new(@callers_table, [
         :bag,
@@ -152,40 +150,51 @@ defmodule ScheduleFinder.WorkerSubscribers do
         read_concurrency: true
       ])
 
+    # kick off the broadcasting cycle
+    send(__MODULE__, :broadcast)
+
     {:ok, %{}}
   end
 
+  @spec subscribe(ScheduleFinder.Worker.options(), pid()) :: true
   def subscribe(args, caller_pid) do
     args = Enum.sort(args)
     :ets.insert(@callers_table, {args, caller_pid})
   end
 
+  @spec unsubscribe(ScheduleFinder.Worker.options(), pid()) :: true
   def unsubscribe(args, caller_pid) do
     args = Enum.sort(args)
     :ets.delete_object(@callers_table, {args, caller_pid})
   end
 
   @impl GenServer
-  def handle_info(:timed_broadcast, state) do
-    send(self(), :broadcast)
-    broadcast_timer()
+  def handle_info(:broadcast, state) do
+    # Send departures to all subscribers!
+    Task.async(fn ->
+      for args <- subscribed_args() do
+        departures = ScheduleFinder.Worker.get(args)
+
+        args
+        |> pids_for_args()
+        |> Enum.each(fn pid ->
+          send(pid, {:new_departures, departures})
+        end)
+      end
+
+      :ok
+    end)
+
     {:noreply, state}
   end
 
-  def handle_info(:broadcast, state) do
-    for args <- subscribed_args() do
-      departures = ScheduleFinder.Worker.get(args)
-
-      args
-      |> pids_for_args()
-      |> Enum.each(fn pid ->
-        # uhhh send it
-        send(pid, {:new_departures, departures})
-      end)
-    end
-
-    {:noreply, state, :hibernate}
+  # schedule the next broadcast after this one is done!
+  def handle_info({_ref, :ok}, state) do
+    Process.send_after(__MODULE__, :broadcast, @broadcast_interval_ms)
+    {:noreply, state}
   end
+
+  def handle_info(_, state), do: {:noreply, state}
 
   defp pids_for_args(args) do
     :ets.lookup_element(@callers_table, args, 2)
@@ -196,9 +205,5 @@ defmodule ScheduleFinder.WorkerSubscribers do
     |> :ets.match({:"$1", :_})
     |> Enum.map(fn [arg] -> arg end)
     |> Enum.uniq()
-  end
-
-  defp broadcast_timer(interval \\ @broadcast_interval_ms) do
-    Process.send_after(self(), :timed_broadcast, interval)
   end
 end
