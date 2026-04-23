@@ -543,7 +543,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "7651" => {:before, "Newtonville"},
     "7631" => {:before, "Boston Landing"},
     "9370044" => {:before, "Washington St @ Walnut St"},
-    "place-river" => {:after, "Wellesley Hills"}
+    "place-river" => {:after, "Wellesley Hills"},
+    # Long Wharf new stops
+    "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
+    "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
+    "Boat-Long-North-5C" => {:after, "Blossom Street Pier"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
