@@ -4,11 +4,13 @@ defmodule Dotcom.TimetableLoaderTest do
   import Dotcom.TimetableLoader
   import Mox
 
+  @ferry_date_range Date.range(~D[2026-05-23], ~D[2026-06-13])
+
   setup :verify_on_exit!
 
   describe "from_csv/1" do
     defp valid_date("CR-Foxboro"), do: ~D[2026-03-26]
-    defp valid_date(_), do: Faker.Date.between(~D[2025-05-17], ~D[2025-10-12])
+    defp valid_date(_), do: Faker.Date.between(@ferry_date_range.first, @ferry_date_range.last)
 
     test "error for invalid route" do
       assert from_csv(Faker.Internet.slug(), Faker.Util.pick([0, 1]), Date.utc_today()) ==
@@ -40,7 +42,7 @@ defmodule Dotcom.TimetableLoaderTest do
       f6_or_f7 = Faker.Util.pick(~w(Boat-F6 Boat-F7))
 
       weekend_date =
-        Date.range(~D[2025-05-17], ~D[2025-10-12])
+        @ferry_date_range
         |> Enum.filter(&(Date.day_of_week(&1) in [6, 7]))
         |> Faker.Util.pick()
 
