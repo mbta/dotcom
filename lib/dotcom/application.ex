@@ -53,6 +53,7 @@ defmodule Dotcom.Application do
           Alerts.CacheSupervisor,
           {Registry, name: DeparturesRegistry, keys: :unique},
           {DynamicSupervisor, name: DeparturesSupervisor, strategy: :one_for_one},
+          ScheduleFinder.WorkerSubscribers,
           {Phoenix.PubSub, name: Dotcom.PubSub},
           DotcomWeb.Endpoint
         ] ++

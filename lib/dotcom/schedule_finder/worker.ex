@@ -34,6 +34,19 @@ defmodule ScheduleFinder.Worker do
     |> GenServer.call(:get)
   end
 
+  def subscribe(args) do
+    caller = self()
+    # get upcoming departure updates later
+    ScheduleFinder.WorkerSubscribers.subscribe(args, caller)
+    # return latest upcoming departures immediately
+    get(args)
+  end
+
+  def unsubscribe(args) do
+    caller = self()
+    ScheduleFinder.WorkerSubscribers.unsubscribe(args, caller)
+  end
+
   @spec start_link(options()) :: GenServer.on_start()
   def start_link(args) do
     GenServer.start_link(__MODULE__, args, name: registry_name(args))
@@ -111,5 +124,81 @@ defmodule ScheduleFinder.Worker do
         {:error, {:already_started, pid}} -> pid
       end
     end
+  end
+end
+
+defmodule ScheduleFinder.WorkerSubscribers do
+  use GenServer
+
+  # We can dispatch pretty frequently, because ScheduleFinder.Worker.get/1
+  # handles avoiding excessive duplicative computation within a narrow timeframe
+  @broadcast_interval_ms 1000
+  @callers_table :departure_subscribers
+
+  def start_link(opts \\ []) do
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+  end
+
+  @impl GenServer
+  def init(_) do
+    broadcast_timer(50)
+
+    _ =
+      :ets.new(@callers_table, [
+        :bag,
+        :public,
+        :named_table,
+        write_concurrency: true,
+        read_concurrency: true
+      ])
+
+    {:ok, %{}}
+  end
+
+  def subscribe(args, caller_pid) do
+    args = Enum.sort(args)
+    :ets.insert(@callers_table, {args, caller_pid})
+  end
+
+  def unsubscribe(args, caller_pid) do
+    args = Enum.sort(args)
+    :ets.delete_object(@callers_table, {args, caller_pid})
+  end
+
+  @impl GenServer
+  def handle_info(:timed_broadcast, state) do
+    send(self(), :broadcast)
+    broadcast_timer()
+    {:noreply, state}
+  end
+
+  def handle_info(:broadcast, state) do
+    for args <- subscribed_args() do
+      departures = ScheduleFinder.Worker.get(args)
+
+      args
+      |> pids_for_args()
+      |> Enum.each(fn pid ->
+        # uhhh send it
+        send(pid, {:new_departures, departures})
+      end)
+    end
+
+    {:noreply, state, :hibernate}
+  end
+
+  defp pids_for_args(args) do
+    :ets.lookup_element(@callers_table, args, 2)
+  end
+
+  defp subscribed_args do
+    @callers_table
+    |> :ets.match({:"$1", :_})
+    |> Enum.map(fn [arg] -> arg end)
+    |> Enum.uniq()
+  end
+
+  defp broadcast_timer(interval \\ @broadcast_interval_ms) do
+    Process.send_after(self(), :timed_broadcast, interval)
   end
 end
