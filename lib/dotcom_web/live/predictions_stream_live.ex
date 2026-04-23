@@ -338,8 +338,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   def handle_prediction_event("reset", data, _predictions) do
-    dbg("reset")
-
     data
     |> Stream.map(&to_prediction/1)
     |> Enum.group_by(& &1.id)
@@ -354,8 +352,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   def handle_prediction_event("remove", data, predictions) do
     %{"id" => prediction_id, "type" => "prediction"} = data
-
-    dbg("remove #{prediction_id}")
 
     predictions |> Map.delete(prediction_id)
   end
@@ -401,7 +397,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   @impl LiveView
   def terminate(reason, socket) do
-    dbg("Terminating #{inspect(reason)}")
     unsubscribe_from_predictions(socket)
     :ok
   end
@@ -447,7 +442,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
     params = %{route: route_id, direction_id: direction_id, stop: stop_id}
     pid = self()
-    dbg(pid)
+
     UpcomingDeparturesPubsub.subscribe(params)
 
     query = URI.encode_query(params)

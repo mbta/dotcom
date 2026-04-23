@@ -1,7 +1,13 @@
 defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
-  alias Dotcom.Playground.UpcomingDeparturesPubsub.SubscriptionRegister
+  @moduledoc """
+  A GenServer that tracks which consumers are subscribed to which
+  sets of upcoming departures/predictions streams
+  """
+
   use GenServer
 
+  alias Dotcom.Playground.UpcomingDeparturesSupervisor
+  alias Dotcom.Playground.UpcomingDeparturesPubsub.SubscriptionRegister
   # alias Dotcom.Playground.PredictionsConsumerStage
 
   def start_link(_) do
@@ -27,16 +33,29 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
 
   @impl GenServer
   def handle_cast({:subscribe, caller_pid, params}, state) do
-    new_state = SubscriptionRegister.add_subscription(state, caller_pid, params)
+    new_state =
+      SubscriptionRegister.add_subscription(
+        state,
+        caller_pid,
+        params,
+        &UpcomingDeparturesSupervisor.start_link/1
+      )
+
+    dbg("HELLOWEWE")
+
     dbg(new_state)
+
     {:noreply, new_state}
   end
 
   @impl GenServer
   def handle_cast({:unsubscribe, caller_pid}, state) do
-    new_state = SubscriptionRegister.remove_subscription(state, caller_pid)
-    dbg(new_state)
-    {:noreply, new_state}
+    {:noreply,
+     SubscriptionRegister.remove_subscription(
+       state,
+       caller_pid,
+       &UpcomingDeparturesSupervisor.stop/1
+     )}
   end
 
   @impl GenServer
@@ -54,10 +73,19 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
     def add_subscription(
           %__MODULE__{pids_by_params: pids_by_params, params_by_pid: params_by_pid},
           pid,
-          params
+          params,
+          on_new_subscription
         ) do
       new_pids_by_params =
-        pids_by_params |> Map.update(params, [pid], fn pids -> [pid | pids] end)
+        case pids_by_params do
+          %{^params => pids} ->
+            pids_by_params |> Map.put(params, [pid | pids])
+
+          _ ->
+            on_new_subscription.(params)
+            dbg("Hello3")
+            pids_by_params |> Map.put(params, [pid])
+        end
 
       new_params_by_pid = params_by_pid |> Map.put(pid, params)
 
@@ -69,7 +97,8 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
 
     def remove_subscription(
           %__MODULE__{pids_by_params: pids_by_params, params_by_pid: params_by_pid} = state,
-          pid
+          pid,
+          on_empty_subscription
         ) do
       case params_by_pid do
         %{^pid => params} ->
@@ -78,8 +107,12 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
             |> Map.get(params)
             |> List.delete(pid)
             |> case do
-              [] -> pids_by_params |> Map.delete(params)
-              new_pids -> pids_by_params |> Map.put(params, new_pids)
+              [] ->
+                on_empty_subscription.(params)
+                pids_by_params |> Map.delete(params)
+
+              new_pids ->
+                pids_by_params |> Map.put(params, new_pids)
             end
 
           new_params_by_pid = params_by_pid |> Map.delete(pid)
