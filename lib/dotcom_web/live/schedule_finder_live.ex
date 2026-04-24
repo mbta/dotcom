@@ -361,7 +361,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp assign_last_trip_time(socket) do
     route_id = socket.assigns.route.id
     direction_id = socket.assigns.direction_id
-    date = DateTime.to_date(@date_time.now()) |> Date.to_string()
+    date = service_date() |> Date.to_string()
     stop = socket.assigns.stop
 
     assign_async(
@@ -1282,16 +1282,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     last_departure_time = last_departure.time
 
-    if(is_nil(last_departure_time)) do
-      true
-    else
-      if (not is_nil(last_trip_time) and DateTime.after?(last_departure_time, last_trip_time)) or
-           DateTime.before?(last_trip_time, @date_time.now()) or
-           has_last_trip? do
-        false
-      else
-        true
-      end
+    # Do we show "Service continues until <last scheduled time>"?
+    cond do
+      # we have a prediction specifically tagged "last trip"
+      has_last_trip? -> false
+      # we don't even have a last scheduled time
+      is_nil(last_trip_time) -> false
+      # we don't have any last prediction
+      is_nil(last_departure_time) -> true
+      # last predicted time happens to be after last scheduled time
+      DateTime.after?(last_departure_time, last_trip_time) -> false
+      # last scheduled time already passed
+      DateTime.before?(last_trip_time, @date_time.now()) -> false
+      # Just show it
+      true -> true
     end
   end
 
