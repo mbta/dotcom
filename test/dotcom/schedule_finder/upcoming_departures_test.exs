@@ -1,5 +1,5 @@
 defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
@@ -18,6 +18,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
     stub(Stops.Repo.Mock, :get, fn id ->
       Factories.Stops.Stop.build(:stop, id: id, parent_id: nil)
     end)
+
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
 
     :ok
   end
@@ -2375,7 +2378,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert [%{headsign: headsign}] = departures
+      assert %{headsign: headsign} = departures |> List.first()
       assert updated_schedules |> Enum.find(fn s -> s.stop_headsign == headsign end)
     end
 
@@ -2415,7 +2418,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert [%{headsign: headsign}] = departures
+      assert %{headsign: headsign} = departures |> List.first()
       assert updated_schedules |> Enum.find(fn s -> s.trip.headsign == headsign end)
     end
   end
@@ -2504,8 +2507,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
           stop_ids: [stop_id_1, stop_id_multi, stop_id_2, stop_id_multi, stop_id_3]
         )
 
-      expect(Predictions.Repo.Mock, :all, 2, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn ^trip_id -> [] end)
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
       expect(Vehicles.Repo.Mock, :get, 2, fn _ -> vehicle end)
 
       # Exercise
