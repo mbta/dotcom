@@ -396,7 +396,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   @impl LiveView
-  def terminate(reason, socket) do
+  def terminate(_reason, socket) do
     unsubscribe_from_predictions(socket)
     :ok
   end

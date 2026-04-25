@@ -8,7 +8,6 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
 
   alias Dotcom.Playground.UpcomingDeparturesSupervisor
   alias Dotcom.Playground.UpcomingDeparturesPubsub.SubscriptionRegister
-  # alias Dotcom.Playground.PredictionsConsumerStage
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, SubscriptionRegister.new(), name: __MODULE__)
@@ -33,19 +32,13 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
 
   @impl GenServer
   def handle_cast({:subscribe, caller_pid, params}, state) do
-    new_state =
-      SubscriptionRegister.add_subscription(
-        state,
-        caller_pid,
-        params,
-        &UpcomingDeparturesSupervisor.start_link/1
-      )
-
-    dbg("HELLOWEWE")
-
-    dbg(new_state)
-
-    {:noreply, new_state}
+    {:noreply,
+     SubscriptionRegister.add_subscription(
+       state,
+       caller_pid,
+       params,
+       &UpcomingDeparturesSupervisor.start_link/1
+     )}
   end
 
   @impl GenServer
@@ -83,7 +76,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesPubsub do
 
           _ ->
             on_new_subscription.(params)
-            dbg("Hello3")
+
             pids_by_params |> Map.put(params, [pid])
         end
 

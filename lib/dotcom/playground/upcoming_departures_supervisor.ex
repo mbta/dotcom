@@ -2,6 +2,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesSupervisor do
   use Supervisor
 
   alias Dotcom.Playground.PredictionAggregatorStage
+  alias Dotcom.Playground.PredictionBroadcaster
 
   def start_link(params) do
     Supervisor.start_link(__MODULE__, params, name: process_name(params))
@@ -13,17 +14,17 @@ defmodule Dotcom.Playground.UpcomingDeparturesSupervisor do
   end
 
   def init(params) do
-    dbg("INIT")
-    dbg(params)
     query = URI.encode_query(params)
 
-    dbg(query)
     url = "#{base_url()}/predictions?#{query}"
 
     children = [
       {ServerSentEventStage, url: url, headers: headers(), name: process_name({:sses, params})},
       {PredictionAggregatorStage,
-       subscribe_to: process_name({:sses, params}), name: process_name({:aggregate, params})}
+       publish_to: process_name({:broadcast, params}),
+       subscribe_to: process_name({:sses, params}),
+       name: process_name({:aggregate, params})},
+      {PredictionBroadcaster, name: process_name({:broadcast, params})}
     ]
 
     children
