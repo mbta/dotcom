@@ -322,6 +322,11 @@ defmodule DotcomWeb.PredictionsStreamLive do
     {:noreply, socket |> update_assigned_predictions(events)}
   end
 
+  def handle_info({:predictions_update, data}, socket) do
+    dbg("Predictions Update")
+    {:noreply, socket}
+  end
+
   def update_assigned_predictions(socket, events) do
     new_predictions = Enum.reduce(events, socket.assigns.predictions, &handle_prediction_event/2)
 
