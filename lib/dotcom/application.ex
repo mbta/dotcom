@@ -59,7 +59,8 @@ defmodule Dotcom.Application do
             Dotcom.ViaFairmount,
             {Dotcom.SystemStatus.CommuterRailCache, []},
             {Dotcom.SystemStatus.SubwayCache, []},
-            Dotcom.Playground.UpcomingDeparturesPubsub
+            Dotcom.Playground.UpcomingDeparturesPubsub,
+            Dotcom.Playground.PredictionsManager
           ]
         else
           []

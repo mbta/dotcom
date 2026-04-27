@@ -6,7 +6,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
   use DotcomWeb, :live_view
 
   alias Dotcom.Playground.PredictionsConsumerStage
-  alias Dotcom.Playground.UpcomingDeparturesPubsub
+  alias Dotcom.Playground.PredictionsManager
   alias Phoenix.LiveView
   alias ServerSentEventStage.Event
 
@@ -441,9 +441,8 @@ defmodule DotcomWeb.PredictionsStreamLive do
     stop_id = socket.assigns.stop_id
 
     params = %{route: route_id, direction_id: direction_id, stop: stop_id}
-    pid = self()
 
-    UpcomingDeparturesPubsub.subscribe(params)
+    PredictionsManager.subscribe(params)
 
     query = URI.encode_query(params)
 
@@ -464,7 +463,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
          %{assigns: %{sses_pid: sses_pid, consumer_stage_pid: consumer_stage_pid}} = socket
        )
        when sses_pid != nil do
-    UpcomingDeparturesPubsub.unsubscribe()
+    PredictionsManager.unsubscribe()
 
     PredictionsConsumerStage.stop(consumer_stage_pid)
     GenStage.stop(sses_pid)
