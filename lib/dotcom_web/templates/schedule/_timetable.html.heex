@@ -9,6 +9,11 @@
   </div>
 </.promo_banner>
 
+<.world_cup_intercept
+  :if={@route.id == "CR-Franklin" || @route.id == "CR-Foxboro"}
+  class="mb-5"
+/>
+
 {DotcomWeb.AlertView.group(
   alerts: @banner_alerts,
   route: @route,
