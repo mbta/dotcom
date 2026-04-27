@@ -31,7 +31,8 @@ end
 #
 config :dotcom, DotcomWeb.Endpoint,
   http: [port: port],
-  static_url: static_url
+  static_url: static_url,
+  check_origin: ["https://#{host}:#{port}", "http://#{host}:#{port}"]
 
 if config_env() == :dev do
   # For development, we disable any cache and enable
