@@ -17,6 +17,7 @@
 .u-bg--orange-line {
   @include bg-text($white);
   background-color: $brand-orange-line-background;
+  fill: $brand-orange-line-background;
 }
 
 .u-bg--green-line,

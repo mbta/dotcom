@@ -425,7 +425,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 aria-hidden
                 line={@line_name}
                 mode={@mode}
-                class="shrink-0 -ml-xs"
+                class={"shrink-0 -ml-xs #{route_to_background_class(@route)}"}
               />
               <span class="grow notranslate">{@route.name}</span>
               <.icon
