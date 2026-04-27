@@ -59,23 +59,22 @@ defmodule DotcomWeb.ModeView do
   defp mode_group_header_tag(true), do: :h3
   defp mode_group_header_tag(false), do: :h2
 
-  @spec mode_group_header_content(atom, Phoenix.HTML.Safe.t(), String.t()) :: [
+  @spec mode_group_header_content(atom, Phoenix.HTML.Safe.t(), String.t()) ::
           Phoenix.HTML.Safe.t()
-        ]
+
   defp mode_group_header_content(mode, header_content, href) do
-    [
-      content_tag(
-        :div,
-        [
-          link(
-            header_content,
-            to: href
-          ),
-          view_all_link(mode, href)
-        ],
-        class: "m-mode__header"
-      )
-    ]
+    content_tag(
+      :div,
+      [
+        link(
+          header_content,
+          to: href,
+          id: "mode-header-link"
+        ),
+        view_all_link(mode, href)
+      ],
+      class: "m-mode__header"
+    )
   end
 
   @spec view_all_link(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
