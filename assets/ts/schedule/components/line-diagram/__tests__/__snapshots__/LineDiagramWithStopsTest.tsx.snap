@@ -102,13 +102,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                    <a href=\\"/stops/b1\\">
+                  <a href=\\"/stops/b1\\">
+                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                       <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                         <span />
                       </MatchHighlight>
-                    </a>
-                  </h4>
+                    </h4>
+                  </a>
                   <div className=\\"m-schedule-diagram__features\\">
                     <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                       <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -135,13 +135,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <header className=\\"m-schedule-diagram__stop-heading\\">
-                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                      <a href=\\"/stops/b2\\">
+                    <a href=\\"/stops/b2\\">
+                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                         <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                           <span />
                         </MatchHighlight>
-                      </a>
-                    </h4>
+                      </h4>
+                    </a>
                     <div className=\\"m-schedule-diagram__features\\">
                       <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                         <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -168,13 +168,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <header className=\\"m-schedule-diagram__stop-heading\\">
-                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                        <a href=\\"/stops/b3\\">
+                      <a href=\\"/stops/b3\\">
+                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                           <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                             <span />
                           </MatchHighlight>
-                        </a>
-                      </h4>
+                        </h4>
+                      </a>
                       <div className=\\"m-schedule-diagram__features\\">
                         <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                           <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -201,13 +201,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <header className=\\"m-schedule-diagram__stop-heading\\">
-                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                          <a href=\\"/stops/a1\\">
+                        <a href=\\"/stops/a1\\">
+                          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                             <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                               <span />
                             </MatchHighlight>
-                          </a>
-                        </h4>
+                          </h4>
+                        </a>
                         <div className=\\"m-schedule-diagram__features\\">
                           <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                             <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -267,13 +267,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <header className=\\"m-schedule-diagram__stop-heading\\">
-                          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                            <a href=\\"/stops/m1\\">
+                          <a href=\\"/stops/m1\\">
+                            <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                               <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                 <span />
                               </MatchHighlight>
-                            </a>
-                          </h4>
+                            </h4>
+                          </a>
                           <div className=\\"m-schedule-diagram__features\\">
                             <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                               <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -300,13 +300,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <header className=\\"m-schedule-diagram__stop-heading\\">
-                            <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                              <a href=\\"/stops/c1\\">
+                            <a href=\\"/stops/c1\\">
+                              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                 <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                   <span />
                                 </MatchHighlight>
-                              </a>
-                            </h4>
+                              </h4>
+                            </a>
                             <div className=\\"m-schedule-diagram__features\\">
                               <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                 <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -366,13 +366,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <header className=\\"m-schedule-diagram__stop-heading\\">
-                              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                                <a href=\\"/stops/m2\\">
+                              <a href=\\"/stops/m2\\">
+                                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                   <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                     <span />
                                   </MatchHighlight>
-                                </a>
-                              </h4>
+                                </h4>
+                              </a>
                               <div className=\\"m-schedule-diagram__features\\">
                                 <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                   <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -399,13 +399,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <header className=\\"m-schedule-diagram__stop-heading\\">
-                                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                                  <a href=\\"/stops/m3\\">
+                                <a href=\\"/stops/m3\\">
+                                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                     <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                       <span />
                                     </MatchHighlight>
-                                  </a>
-                                </h4>
+                                  </h4>
+                                </a>
                                 <div className=\\"m-schedule-diagram__features\\">
                                   <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -432,13 +432,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
                                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                                    <a href=\\"/stops/y1\\">
+                                  <a href=\\"/stops/y1\\">
+                                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                       <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                         <span />
                                       </MatchHighlight>
-                                    </a>
-                                  </h4>
+                                    </h4>
+                                  </a>
                                   <div className=\\"m-schedule-diagram__features\\">
                                     <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                       <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -465,13 +465,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <header className=\\"m-schedule-diagram__stop-heading\\">
-                                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                                      <a href=\\"/stops/x1\\">
+                                    <a href=\\"/stops/x1\\">
+                                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                         <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                           <span />
                                         </MatchHighlight>
-                                      </a>
-                                    </h4>
+                                      </h4>
+                                    </a>
                                     <div className=\\"m-schedule-diagram__features\\">
                                       <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                         <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
@@ -498,13 +498,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <header className=\\"m-schedule-diagram__stop-heading\\">
-                                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\" aria-label=\\"undefined\\">
-                                        <a href=\\"/stops/x2\\">
+                                      <a href=\\"/stops/x2\\">
+                                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                                           <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                                             <span />
                                           </MatchHighlight>
-                                        </a>
-                                      </h4>
+                                        </h4>
+                                      </a>
                                       <div className=\\"m-schedule-diagram__features\\">
                                         <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                                           <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">

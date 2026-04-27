@@ -37,12 +37,21 @@ defmodule DotcomWeb.ModeView do
   """
   @spec mode_group_header(atom, String.t(), boolean) :: Phoenix.HTML.Safe.t()
   def mode_group_header(mode, href, is_homepage?) do
-    is_homepage?
-    |> mode_group_header_tag()
-    |> content_tag(mode_group_header_content(mode, href),
-      class: "m-mode__header",
-      aria_label: Route.type_name(mode)
-    )
+    header_tag =
+      mode_group_header_tag(is_homepage?)
+
+    header_content =
+      content_tag(
+        header_tag,
+        [
+          svg_icon_with_circle(%SvgIconWithCircle{icon: mode, aria_hidden?: true}),
+          " ",
+          Route.type_name(mode)
+        ],
+        class: "m-mode__name"
+      )
+
+    mode_group_header_content(mode, header_content, href)
   end
 
   @spec mode_group_header_tag(boolean) :: :h2 | :h3
@@ -50,19 +59,22 @@ defmodule DotcomWeb.ModeView do
   defp mode_group_header_tag(true), do: :h3
   defp mode_group_header_tag(false), do: :h2
 
-  @spec mode_group_header_content(atom, String.t()) :: [Phoenix.HTML.Safe.t()]
-  defp mode_group_header_content(mode, href) do
+  @spec mode_group_header_content(atom, Phoenix.HTML.Safe.t(), String.t()) :: [
+          Phoenix.HTML.Safe.t()
+        ]
+  defp mode_group_header_content(mode, header_content, href) do
     [
-      link(
+      content_tag(
+        :div,
         [
-          svg_icon_with_circle(%SvgIconWithCircle{icon: mode, aria_hidden?: true}),
-          " ",
-          Route.type_name(mode)
+          link(
+            header_content,
+            to: href
+          ),
+          view_all_link(mode, href)
         ],
-        to: href,
-        class: "m-mode__name"
-      ),
-      view_all_link(mode, href)
+        class: "m-mode__header"
+      )
     ]
   end
 
