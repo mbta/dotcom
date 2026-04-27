@@ -16,7 +16,7 @@
 
 .u-bg--orange-line {
   @include bg-text($white);
-  background-color: $brand-orange-line;
+  background-color: $brand-orange-line-background;
 }
 
 .u-bg--green-line,
@@ -25,53 +25,53 @@
 .u-bg--green-line-d,
 .u-bg--green-line-e {
   @include bg-text($white);
-  background-color: $brand-green-line;
+  background-color: $brand-green-line-background;
 }
 
 .u-bg--red-line {
   @include bg-text($white);
-  background-color: $brand-red-line;
+  background-color: $brand-red-line-background;
 }
 
 .u-bg--blue-line {
   @include bg-text($white);
-  background-color: $brand-blue-line;
+  background-color: $brand-blue-line-background;
 }
 
 .u-bg--silver-line {
   @include bg-text($white);
-  background-color: $brand-silver-line;
+  background-color: $brand-silver-line-background;
 }
 
 .u-bg--mattapan-line,
 .u-bg--mattapan-trolley {
   @include bg-text($white);
-  background-color: $brand-red-line;
+  background-color: $brand-red-line-background;
 }
 
 .u-bg--commuter-rail {
   @include bg-text($white);
-  background-color: $brand-commuter-rail;
+  background-color: $brand-commuter-rail-background;
 }
 
 .u-bg--bus {
   @include bg-text($black);
-  background-color: $brand-bus;
+  background-color: $brand-bus-background;
 }
 
 .u-bg--ferry {
   @include bg-text($white);
-  background-color: $brand-ferry;
+  background-color: $brand-ferry-background;
 }
 
 .u-bg--subway {
   @include bg-text($white);
-  background-color: $brand-subway;
+  background-color: $brand-subway-background;
 }
 
 .u-bg--the-ride {
   @include bg-text($black);
-  background-color: $brand-the-ride;
+  background-color: $brand-the-ride-background;
 }
 
 .u-bg--unknown {

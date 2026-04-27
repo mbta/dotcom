@@ -51,6 +51,10 @@ defmodule CSSHelpers do
     end
   end
 
+  def route_to_background_class(route) do
+    route_to_class(route) |> String.replace("mbta-route", "u-bg-")
+  end
+
   @doc """
   Returns a Tailwind stroke color class for a route.
   This is used for SVG elements that need stroke colors.

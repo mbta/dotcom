@@ -55,6 +55,20 @@ $brand-commuter-rail: map-get($mbta-line-colors, 'commuter-rail');
 $brand-ferry: map-get($mbta-line-colors, 'ferry');
 $brand-the-ride: map-get($mbta-line-colors, 'the-ride');
 
+//Modes and Lines backgrounds
+$brand-blue-line-background: map-get($mbta-line-colors, 'blue-line');
+$brand-green-line-background: map-get($mbta-line-colors, 'green-line');
+$brand-orange-line-background: #D67D00;
+$brand-red-line-background: map-get($mbta-line-colors, 'red-line');
+$brand-silver-line-background: map-get($mbta-line-colors, 'silver-line');
+$brand-subway-background: map-get($mbta-line-colors, 'subway');
+$brand-bus-background: map-get($mbta-line-colors, 'bus');
+$brand-logan-express-background: map-get($mbta-line-colors, 'logan-express');
+$brand-massport-shuttle-background: map-get($mbta-line-colors, 'massport-shuttle');
+$brand-commuter-rail-background: map-get($mbta-line-colors, 'commuter-rail');
+$brand-ferry-background: map-get($mbta-line-colors, 'ferry');
+$brand-the-ride-background: map-get($mbta-line-colors, 'the-ride');
+
 // Alerts
 $alert-color: $brand-secondary;
 $alert-color-lighter: #fffae9;

@@ -413,7 +413,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class={route_to_class(@route)}>
+    <div class={route_to_background_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
