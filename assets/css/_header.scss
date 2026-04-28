@@ -143,6 +143,7 @@ nav.m-menu {
 }
 
 nav.m-menu--mobile {
+  display: none;
   position: absolute;
   z-index: $z-index-modal;
 }
@@ -300,6 +301,10 @@ nav.m-menu--mobile {
 
 // show mobile menu, hide search button, hide search bar in tablet size
 .header--new[data-nav-open] {
+  nav.m-menu--mobile {
+    display: block;
+  }
+
   .m-menu__content {
     display: block;
     overflow-y: scroll;
