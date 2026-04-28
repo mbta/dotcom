@@ -82,15 +82,47 @@ defmodule DotcomWeb.PredictionsStreamLive do
   @impl LiveView
   def render(assigns) do
     ~H"""
-    <.route_picker_or_route_page
-      routes={@routes}
-      route={@route}
-      direction_id={@direction_id}
-      predictions={@predictions}
-      prediction_events={@prediction_events}
-      stop={@stop}
-      stops={@stops}
-    />
+    <.route_picker_or route={@route} routes={@routes}>
+      <.banner
+        style={"background-color: ##{@route.color}; color: #{text_color(@route)}; fill: #{text_color(@route)};"}
+        clear_button_click="clear-route"
+      >
+        <span class="text-2xl font-bold">{@route.name}</span>
+      </.banner>
+
+      <.direction_picker_or route={@route} direction_id={@direction_id}>
+        <.banner clear_button_click="clear-direction" class="bg-gray-lightest">
+          <span class="text-lg font-bold">{direction_description(@route, @direction_id)}</span>
+        </.banner>
+
+        <.stop_picker_or
+          stop={@stop}
+          stops={@stops}
+        >
+          <.banner clear_button_click="clear-stop" class="bg-charcoal-10 text-white fill-white">
+            <div class="flex flex-col">
+              <span class="text-lg font-bold">{@stop.name}</span>
+              <span class="text-md">{@stop.id}</span>
+            </div>
+          </.banner>
+
+          <div class="container">
+            <div class="grid grid-cols-2 gap-4 w-full">
+              <div>
+                <h3>Predictions</h3>
+                <.predictions_panel predictions={@predictions} />
+              </div>
+
+              <div>
+                <h3>Events</h3>
+                <.events_panel prediction_events={@prediction_events} />
+              </div>
+            </div>
+          </div>
+        </.stop_picker_or>
+      </.direction_picker_or>
+    </.route_picker_or>
+
     <div class="container mt-4">
       <div class="flex gap-2">
         <span>Connection Status</span>
@@ -101,190 +133,89 @@ defmodule DotcomWeb.PredictionsStreamLive do
     """
   end
 
-  defp route_picker_or_route_page(%{route: route} = assigns) when route != nil do
+  defp predictions_panel(assigns) do
     ~H"""
-    <.route_page
-      route={@route}
-      direction_id={@direction_id}
-      stop={@stop}
-      stops={@stops}
-      predictions={@predictions}
-      prediction_events={@prediction_events}
-    />
-    """
-  end
-
-  defp route_picker_or_route_page(assigns) do
-    ~H"""
-    <div class="container"><.route_picker routes={@routes} /></div>
-    """
-  end
-
-  defp route_picker(assigns) do
-    ~H"""
-    <div class="flex gap-2 flex-wrap">
-      <button
-        :for={route <- @routes}
-        class="p-2 rounded opacity-75 hover:opacity-100"
-        style={"background-color: ##{route.color}; color: #{text_color(route)};"}
-        phx-click="select-route"
-        phx-value-route-id={route.id}
+    <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
+      <div
+        :for={prediction <- @predictions}
+        class="p-2 border-t-xs border-gray-lightest"
       >
-        {route.name}
-      </button>
-    </div>
-    """
-  end
-
-  defp route_page(assigns) do
-    ~H"""
-    <div
-      class="w-full py-4"
-      style={"background-color: ##{@route.color}; color: #{text_color(@route)}; fill: #{text_color(@route)};"}
-    >
-      <div class="container">
-        <div class="flex items-center">
-          <span class="text-2xl font-bold">{@route.name}</span>
-          <div phx-click="clear-route" class="ml-auto cursor-pointer opacity-75 hover:opacity-100">
-            <.icon class="size-5" name="circle-xmark" />
-          </div>
-        </div>
+        <span>{prediction.arrival_time}</span>
+        <details>
+          <summary>Raw</summary>
+          <pre>{inspect prediction, pretty: true}</pre>
+        </details>
       </div>
     </div>
-    <.direction_picker_or_route_direction_page
-      route={@route}
-      direction_id={@direction_id}
-      stop={@stop}
-      stops={@stops}
-      predictions={@predictions}
-      prediction_events={@prediction_events}
-    />
     """
   end
 
-  defp direction_picker_or_route_direction_page(%{direction_id: direction_id} = assigns)
-       when direction_id != nil do
+  defp events_panel(assigns) do
     ~H"""
-    <.route_direction_page
-      route={@route}
-      direction_id={@direction_id}
-      stop={@stop}
-      stops={@stops}
-      predictions={@predictions}
-      prediction_events={@prediction_events}
-    />
+    <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
+      <div :for={event <- @prediction_events} class="p-2 border-t-xs border-gray-lightest">
+        <details>
+          <summary>Event</summary>
+          <pre>{inspect event, pretty: true}</pre>
+        </details>
+      </div>
+    </div>
     """
   end
 
-  defp direction_picker_or_route_direction_page(assigns) do
+  defp route_picker_or(%{route: nil} = assigns) do
+    ~H"""
+    <div class="container">
+      <div class="flex gap-2 flex-wrap">
+        <button
+          :for={route <- @routes}
+          class="p-2 rounded opacity-75 hover:opacity-100"
+          style={"background-color: ##{route.color}; color: #{text_color(route)};"}
+          phx-click="select-route"
+          phx-value-route-id={route.id}
+        >
+          {route.name}
+        </button>
+      </div>
+    </div>
+    """
+  end
+
+  defp route_picker_or(assigns) do
+    ~H"""
+    {render_slot(@inner_block)}
+    """
+  end
+
+  defp direction_picker_or(%{direction_id: nil} = assigns) do
     ~H"""
     <div class="mt-4 container">
-      <.direction_picker route={@route} />
-    </div>
-    """
-  end
-
-  defp direction_picker(assigns) do
-    ~H"""
-    <div class="w-full flex gap-2 justify-around">
-      <button
-        :for={
-          direction_id <-
-            @route.direction_names
-            |> Stream.reject(fn {_, name} -> is_nil(name) end)
-            |> Stream.map(fn {id, _} -> id end)
-        }
-        class="bg-gray-lightest opacity-75 hover:opacity-100 p-2 rounded"
-        phx-click="select-direction"
-        phx-value-direction-id={direction_id}
-      >
-        {direction_description(@route, direction_id)}
-      </button>
-    </div>
-    """
-  end
-
-  defp route_direction_page(assigns) do
-    ~H"""
-    <div class="w-full py-4 bg-gray-lightest">
-      <div class="container">
-        <div class="flex items-center">
-          <span class="text-lg font-bold">{direction_description(@route, @direction_id)}</span>
-          <div phx-click="clear-direction" class="ml-auto cursor-pointer opacity-75 hover:opacity-100">
-            <.icon class="size-5" name="circle-xmark" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <.stop_picker_or_route_direction_stop_page
-      stop={@stop}
-      stops={@stops}
-      predictions={@predictions}
-      prediction_events={@prediction_events}
-    />
-    """
-  end
-
-  defp stop_picker_or_route_direction_stop_page(%{stop: stop} = assigns) when stop != nil do
-    ~H"""
-    <div class="w-full py-4 bg-charcoal-10 text-white">
-      <div class="container">
-        <div class="flex items-center">
-          <div class="flex flex-col">
-            <span class="text-lg font-bold">{@stop.name}</span>
-            <span class="text-md">{@stop.id}</span>
-          </div>
-          <div
-            phx-click="clear-stop"
-            class="ml-auto fill-white cursor-pointer opacity-75 hover:opacity-100"
-          >
-            <.icon class="size-5" name="circle-xmark" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="grid grid-cols-2 gap-4 w-full">
-        <div>
-          <h3>Predictions</h3>
-          <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
-            <div
-              :for={prediction <- @predictions}
-              class="p-2 border-t-xs border-gray-lightest"
-            >
-              <span>{prediction.arrival_time}</span>
-              <details>
-                <summary>Raw</summary>
-                <pre>{inspect prediction, pretty: true}</pre>
-              </details>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h3>Events</h3>
-          <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
-            <div :for={event <- @prediction_events} class="p-2 border-t-xs border-gray-lightest">
-              <details>
-                <summary>Event</summary>
-                <pre>{inspect event, pretty: true}</pre>
-              </details>
-            </div>
-          </div>
-        </div>
+      <div class="w-full flex gap-2 justify-around">
+        <button
+          :for={
+            direction_id <-
+              @route.direction_names
+              |> Stream.reject(fn {_, name} -> is_nil(name) end)
+              |> Stream.map(fn {id, _} -> id end)
+          }
+          class="bg-gray-lightest opacity-75 hover:opacity-100 p-2 rounded"
+          phx-click="select-direction"
+          phx-value-direction-id={direction_id}
+        >
+          {direction_description(@route, direction_id)}
+        </button>
       </div>
     </div>
     """
   end
 
-  defp stop_picker_or_route_direction_stop_page(assigns) do
+  defp direction_picker_or(assigns) do
     ~H"""
-    <.stop_picker stops={@stops} />
+    {render_slot(@inner_block)}
     """
   end
 
-  defp stop_picker(assigns) do
+  defp stop_picker_or(%{stop: nil} = assigns) do
     ~H"""
     <div class="container">
       <div class="mt-4 flex flex-wrap gap-2">
@@ -296,6 +227,38 @@ defmodule DotcomWeb.PredictionsStreamLive do
         >
           {stop.name}
         </button>
+      </div>
+    </div>
+    """
+  end
+
+  defp stop_picker_or(assigns) do
+    ~H"""
+    {render_slot(@inner_block)}
+    """
+  end
+
+  attr :clear_button_click, :string, required: true
+  attr :class, :string, default: ""
+  attr :style, :string, default: ""
+  slot :inner_block
+
+  defp banner(assigns) do
+    ~H"""
+    <div
+      class={"w-full py-4 #{@class}"}
+      style={@style}
+    >
+      <div class="container">
+        <div class="flex items-center">
+          {render_slot(@inner_block)}
+          <div
+            phx-click={@clear_button_click}
+            class="ml-auto cursor-pointer opacity-75 hover:opacity-100"
+          >
+            <.icon class="size-5" name="circle-xmark" />
+          </div>
+        </div>
       </div>
     </div>
     """
