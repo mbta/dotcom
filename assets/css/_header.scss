@@ -353,6 +353,10 @@ nav.m-menu--mobile {
 
 // show search bar, hide menu button
 .header--new[data-search-open] {
+  nav.m-menu--mobile {
+    display: block;
+  }
+
   .m-menu__search {
     display: block;
     height: 3.75rem;
