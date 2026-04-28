@@ -1,5 +1,6 @@
 import AlgoliaAutocomplete from "./algolia-autocomplete";
 import MBTAGoCTABanner from "./mbta-go-cta-banner";
+import PageVisibility from "./page-visibility";
 import ScrollIntoView from "./scroll-into-view";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
@@ -15,6 +16,7 @@ import TripPlannerMap from "./trip-planner-map";
 const Hooks = {
   AlgoliaAutocomplete,
   MBTAGoCTABanner,
+  PageVisibility,
   ScrollIntoView,
   TripPlannerForm,
   TripPlannerMap
