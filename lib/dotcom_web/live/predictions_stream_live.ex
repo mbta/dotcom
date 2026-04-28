@@ -5,10 +5,8 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   use DotcomWeb, :live_view
 
-  alias Dotcom.Playground.PredictionsConsumerStage
   alias Dotcom.Playground.PredictionsManager
   alias Phoenix.LiveView
-  alias ServerSentEventStage.Event
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -16,8 +14,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
      socket
      |> assign(:routes, Routes.Repo.all())
      |> assign(:subscribed?, false)
-     |> assign(:predictions, %{})
-     |> assign(:predictions_list, [])
+     |> assign(:predictions, [])
      |> assign(:prediction_events, [])}
   end
 
@@ -345,10 +342,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   @impl LiveView
-  def handle_info({:prediction_events, _events}, socket) do
-    {:noreply, socket}
-  end
-
   def handle_info({:predictions_update, %{events: events, predictions: predictions}}, socket) do
     prediction_events = socket.assigns.prediction_events
 
@@ -356,79 +349,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
      socket
      |> assign(:prediction_events, [events | prediction_events])
      |> assign(:predictions, predictions |> Enum.sort_by(&(&1.arrival_time || &1.departure_time)))}
-  end
-
-  def update_assigned_predictions(socket, events) do
-    new_predictions = Enum.reduce(events, socket.assigns.predictions, &handle_prediction_event/2)
-
-    socket |> assign(:predictions, new_predictions)
-  end
-
-  def handle_prediction_event(%Event{event: event_type, data: data}, predictions) do
-    data
-    |> JSON.decode()
-    |> case do
-      {:ok, parsed_data} -> handle_prediction_event(event_type, parsed_data, predictions)
-      _ -> predictions
-    end
-  end
-
-  def handle_prediction_event("reset", data, _predictions) do
-    data
-    |> Stream.map(&to_prediction/1)
-    |> Enum.group_by(& &1.id)
-    |> Map.new(fn {id, [pred]} -> {id, pred} end)
-  end
-
-  def handle_prediction_event(event_type, data, predictions)
-      when event_type in ["update", "add"] do
-    prediction = to_prediction(data)
-    predictions |> Map.put(prediction.id, prediction)
-  end
-
-  def handle_prediction_event("remove", data, predictions) do
-    %{"id" => prediction_id, "type" => "prediction"} = data
-
-    predictions |> Map.delete(prediction_id)
-  end
-
-  defp to_prediction(data) do
-    %{
-      "attributes" => %{
-        "arrival_time" => arrival_time,
-        "arrival_uncertainty" => _arrival_uncertainty,
-        "departure_time" => _departure_time,
-        "departure_uncertainty" => _departure_uncertainty,
-        "direction_id" => _direction_id,
-        "last_trip" => _last_trip,
-        "revenue" => _revenue,
-        "schedule_relationship" => _schedule_relationship,
-        "status" => _status,
-        "stop_sequence" => stop_sequence,
-        "trip_headsign" => _trip_headsign,
-        "update_type" => _update_type
-      },
-      "id" => id,
-      "relationships" => %{
-        "route" => %{"data" => %{"id" => _route_id, "type" => "route"}},
-        "stop" => %{"data" => %{"id" => stop_id, "type" => "stop"}},
-        "trip" => %{"data" => %{"id" => trip_id, "type" => "trip"}}
-        # "vehicle" => %{"data" => %{"id" => _vehicle_id, "type" => "vehicle"}}
-      },
-      "type" => "prediction"
-    } = data
-
-    stop = Stops.Repo.get(stop_id)
-
-    %{
-      arrival_time: arrival_time,
-      id: id,
-      raw: data,
-      stop_id: stop.id,
-      stop_name: stop.name,
-      stop_sequence: stop_sequence,
-      trip_id: trip_id
-    }
   end
 
   @impl LiveView
@@ -466,11 +386,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
     unsubscribe_from_predictions(socket)
   end
 
-  defp subscribe_to_predictions(%{assigns: %{sses_pid: sses_pid}} = socket)
-       when sses_pid != nil do
-    socket
-  end
-
   defp subscribe_to_predictions(socket) do
     direction_id = socket.assigns.direction_id
     route_id = socket.assigns.route_id
@@ -480,45 +395,12 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
     PredictionsManager.subscribe(params)
 
-    query = URI.encode_query(params)
-
-    url = "#{base_url()}/predictions?#{query}"
-
-    {:ok, sses_pid} = ServerSentEventStage.start_link(url: url, headers: headers())
-    {:ok, consumer_stage_pid} = PredictionsConsumerStage.start_link(self())
-
-    GenStage.sync_subscribe(consumer_stage_pid, to: sses_pid)
-
-    socket
-    |> assign(:subscribed?, true)
-    |> assign(:sses_pid, sses_pid)
-    |> assign(:consumer_stage_pid, consumer_stage_pid)
-  end
-
-  defp unsubscribe_from_predictions(
-         %{assigns: %{sses_pid: sses_pid, consumer_stage_pid: consumer_stage_pid}} = socket
-       )
-       when sses_pid != nil do
-    PredictionsManager.unsubscribe()
-
-    PredictionsConsumerStage.stop(consumer_stage_pid)
-    GenStage.stop(sses_pid)
-
-    socket
-    |> assign(:subscribed?, false)
-    |> assign(:sses_pid, nil)
-    |> assign(:consumer_stage_pid, nil)
+    socket |> assign(:subscribed?, true)
   end
 
   defp unsubscribe_from_predictions(socket) do
-    socket
-  end
+    PredictionsManager.unsubscribe()
 
-  defp base_url() do
-    Application.get_env(:dotcom, :mbta_api)[:base_url]
-  end
-
-  defp headers() do
-    Application.get_env(:dotcom, :mbta_api)[:headers]
+    socket |> assign(:subscribed?, false)
   end
 end
