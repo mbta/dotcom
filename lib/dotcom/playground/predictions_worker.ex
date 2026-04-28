@@ -33,7 +33,7 @@ defmodule Dotcom.Playground.PredictionsWorker do
     PredictionsSupervisor.stop(%{params: params})
   end
 
-  def handle_cast({:subscribe, pid}, %{params: params, subscribers: subscribers} = state) do
+  def handle_cast({:subscribe, pid}, %{subscribers: subscribers} = state) do
     new_subscribers =
       subscribers
       |> MapSet.put(pid)
@@ -41,7 +41,7 @@ defmodule Dotcom.Playground.PredictionsWorker do
     {:noreply, %{state | subscribers: new_subscribers}}
   end
 
-  def handle_cast({:unsubscribe, pid}, %{params: params, subscribers: subscribers} = state) do
+  def handle_cast({:unsubscribe, pid}, %{subscribers: subscribers} = state) do
     new_subscribers =
       subscribers
       |> MapSet.delete(pid)
