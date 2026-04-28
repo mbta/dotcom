@@ -87,7 +87,7 @@ defmodule DotCom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.10"},
       {:aws_credentials, "1.0.4", optional: true},
-      {:bandit, "1.10.3"},
+      {:bandit, "1.10.4"},
       {:browser, "0.5.5"},
       {:castore, "1.0.17"},
       {
