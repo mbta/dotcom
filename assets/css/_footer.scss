@@ -330,6 +330,9 @@ address {
     a {
       color: $brand-primary;
       display: inline;
+      &:focus {
+        outline: $brand-primary 2px solid;
+      }
     }
     @include media-breakpoint-down(xs) {
       a {
