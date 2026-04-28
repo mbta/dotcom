@@ -129,6 +129,8 @@
   line-height: 2.8rem;
   text-align: center;
   width: 21rem;
+  color: $link-color;
+  background-color: transparent;
 
   &:hover {
     color: $brand-primary;
