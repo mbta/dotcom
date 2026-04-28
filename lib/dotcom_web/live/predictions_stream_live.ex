@@ -17,7 +17,8 @@ defmodule DotcomWeb.PredictionsStreamLive do
      |> assign(:routes, Routes.Repo.all())
      |> assign(:subscribed?, false)
      |> assign(:predictions, %{})
-     |> assign(:predictions_list, [])}
+     |> assign(:predictions_list, [])
+     |> assign(:prediction_events, [])}
   end
 
   @impl LiveView
@@ -89,6 +90,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       route={@route}
       direction_id={@direction_id}
       predictions={@predictions}
+      prediction_events={@prediction_events}
       stop={@stop}
       stops={@stops}
     />
@@ -110,6 +112,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       stop={@stop}
       stops={@stops}
       predictions={@predictions}
+      prediction_events={@prediction_events}
     />
     """
   end
@@ -157,6 +160,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       stop={@stop}
       stops={@stops}
       predictions={@predictions}
+      prediction_events={@prediction_events}
     />
     """
   end
@@ -170,6 +174,7 @@ defmodule DotcomWeb.PredictionsStreamLive do
       stop={@stop}
       stops={@stops}
       predictions={@predictions}
+      prediction_events={@prediction_events}
     />
     """
   end
@@ -214,7 +219,12 @@ defmodule DotcomWeb.PredictionsStreamLive do
         </div>
       </div>
     </div>
-    <.stop_picker_or_route_direction_stop_page stop={@stop} stops={@stops} predictions={@predictions} />
+    <.stop_picker_or_route_direction_stop_page
+      stop={@stop}
+      stops={@stops}
+      predictions={@predictions}
+      prediction_events={@prediction_events}
+    />
     """
   end
 
@@ -238,16 +248,33 @@ defmodule DotcomWeb.PredictionsStreamLive do
     </div>
 
     <div class="container">
-      <div class="flex flex-col w-full">
-        <div
-          :for={prediction <- @predictions |> Map.values() |> Enum.sort_by(& &1.arrival_time)}
-          class="p-2 border-t-xs border-gray-lightest"
-        >
-          <span>{prediction.arrival_time}</span>
-          <details>
-            <summary>Raw</summary>
-            <pre>{inspect prediction, pretty: true}</pre>
-          </details>
+      <div class="grid grid-cols-2 gap-4 w-full">
+        <div>
+          <h3>Predictions</h3>
+          <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
+            <div
+              :for={prediction <- @predictions}
+              class="p-2 border-t-xs border-gray-lightest"
+            >
+              <span>{prediction.arrival_time}</span>
+              <details>
+                <summary>Raw</summary>
+                <pre>{inspect prediction, pretty: true}</pre>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>Events</h3>
+          <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
+            <div :for={event <- @prediction_events} class="p-2 border-t-xs border-gray-lightest">
+              <details>
+                <summary>Event</summary>
+                <pre>{inspect event, pretty: true}</pre>
+              </details>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -318,13 +345,17 @@ defmodule DotcomWeb.PredictionsStreamLive do
   end
 
   @impl LiveView
-  def handle_info({:prediction_events, events}, socket) do
-    {:noreply, socket |> update_assigned_predictions(events)}
+  def handle_info({:prediction_events, _events}, socket) do
+    {:noreply, socket}
   end
 
-  def handle_info({:predictions_update, data}, socket) do
-    dbg("Predictions Update")
-    {:noreply, socket}
+  def handle_info({:predictions_update, %{events: events, predictions: predictions}}, socket) do
+    prediction_events = socket.assigns.prediction_events
+
+    {:noreply,
+     socket
+     |> assign(:prediction_events, [events | prediction_events])
+     |> assign(:predictions, predictions |> Enum.sort_by(&(&1.arrival_time || &1.departure_time)))}
   end
 
   def update_assigned_predictions(socket, events) do

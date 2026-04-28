@@ -22,67 +22,77 @@ defmodule Dotcom.Playground.PredictionsBroadcasterStage do
         _from,
         %{publish_to: publish_to, predictions: predictions} = state
       ) do
-    parsed_events =
-      events
-      |> Enum.map(&parse_event/1)
-
-    # |> dbg()
-
-    new_predictions =
-      Enum.reduce(parsed_events, predictions, fn
-        {:reset, predictions}, _predictions ->
-          predictions |> index_by(& &1.id)
-
-        {event_type, prediction}, predictions when event_type in [:add, :update] ->
-          predictions |> Map.put(prediction.id, prediction)
-
-        {:remove, prediction}, predictions ->
-          predictions |> Map.delete(prediction.id)
-
-        _, _ ->
-          predictions
-      end)
+    %{parsed_events: parsed_events, predictions: new_predictions} =
+      events |> Enum.reduce(%{predictions: predictions, parsed_events: []}, &handle_event/2)
 
     send(
       publish_to,
-      {:predictions_update, %{predictions: new_predictions, events: parsed_events}}
+      {:predictions_update,
+       %{
+         predictions: new_predictions |> Map.values(),
+         events: parsed_events |> Enum.reverse()
+       }}
     )
 
     {:noreply, [], %{state | predictions: new_predictions}}
   end
 
-  defp parse_event(%Event{event: "reset", data: data}) do
-    {:reset,
-     data
-     |> JsonApi.parse()
-     |> then(fn %JsonApi{data: data} -> data end)
-     |> Enum.map(&StreamParser.parse/1)}
+  defp handle_event(%Event{event: "reset", data: data}, %{
+         predictions: _predictions,
+         parsed_events: parsed_events
+       }) do
+    new_predictions =
+      data
+      |> JsonApi.parse()
+      |> then(fn %JsonApi{data: data} -> data end)
+      |> Map.new(fn %JsonApi.Item{id: id} = item -> {id, StreamParser.parse(item)} end)
+
+    %{
+      parsed_events: [{"reset", Map.values(new_predictions)} | parsed_events],
+      predictions: new_predictions
+    }
   end
 
-  defp parse_event(%Event{event: "add", data: data}), do: {:add, to_prediction(data)}
-  defp parse_event(%Event{event: "update", data: data}), do: {:update, to_prediction(data)}
+  defp handle_event(%Event{event: event_type, data: data}, %{
+         predictions: predictions,
+         parsed_events: parsed_events
+       })
+       when event_type in ["add", "update"] do
+    {id, prediction} =
+      data
+      |> JsonApi.parse()
+      |> then(fn %JsonApi{data: data} -> data end)
+      |> then(fn [%JsonApi.Item{id: id} = item] -> {id, StreamParser.parse(item)} end)
 
-  defp parse_event(%Event{event: "remove", data: data}) do
-    {:update, to_prediction(data)}
+    %{
+      parsed_events: [{event_type, prediction} | parsed_events],
+      predictions: Map.put(predictions, id, prediction)
+    }
   end
 
-  defp parse_event(%Event{event: event_type, data: _data}) do
-    {:unknown, event_type}
+  defp handle_event(%Event{event: "remove", data: data}, %{
+         predictions: predictions,
+         parsed_events: parsed_events
+       }) do
+    id =
+      data
+      |> JsonApi.parse()
+      |> then(fn %JsonApi{data: data} -> data end)
+      |> then(fn [%JsonApi.Item{id: id}] -> id end)
+
+    %{
+      parsed_events: [{"remove", Map.get(predictions, id)} | parsed_events],
+      predictions: Map.delete(predictions, id)
+    }
   end
 
-  defp parse_event(%Event{event: event_type}), do: {:unknown, event_type}
-
-  defp to_prediction(data) do
-    data
-    |> JsonApi.parse()
-    |> then(fn %JsonApi{data: data} -> data end)
-    |> Enum.map(&StreamParser.parse/1)
-    |> then(fn [prediction] -> prediction end)
-  end
-
-  defp index_by(enum, fun) do
-    enum
-    |> Enum.group_by(fun)
-    |> Map.new(fn {key, [value | _]} -> {key, value} end)
+  defp handle_event(%Event{event: event_type, data: data}, %{
+         predictions: predictions,
+         parsed_events: parsed_events
+       }) do
+    %{
+      parsed_events: [{event_type, data |> JsonApi.parse()} | parsed_events],
+      predictions: predictions
+    }
   end
 end

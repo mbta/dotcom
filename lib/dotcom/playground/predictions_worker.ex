@@ -30,7 +30,7 @@ defmodule Dotcom.Playground.PredictionsWorker do
   end
 
   def terminate(_reason, %{params: params}) do
-    PredictionsSupervisor.stop(params)
+    PredictionsSupervisor.stop(%{params: params})
   end
 
   def handle_cast({:subscribe, pid}, %{params: params, subscribers: subscribers} = state) do
