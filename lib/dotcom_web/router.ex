@@ -207,7 +207,7 @@ defmodule DotcomWeb.Router do
     get("/menu", PageController, :menu)
 
     get("/app-store", AppStoreController, :redirect_mbta_go)
-    get("/#TODO", AppStoreController, :redirect_mticket)
+    get("/mTicketapp", AppStoreController, :redirect_mticket)
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)

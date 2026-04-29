@@ -66,7 +66,7 @@ defmodule DotcomWeb.AppStoreControllerTest do
         })
       )
 
-    assert redirected_to(conn, 302) =~ "/#TODO?param_1=val_1"
+    assert redirected_to(conn, 302) =~ "/mbta-endorsed-apps?param_1=val_1"
   end
 
   test "redirects to mticket app store for ios browser", %{conn: conn} do

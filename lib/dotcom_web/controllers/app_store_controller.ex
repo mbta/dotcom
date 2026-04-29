@@ -11,7 +11,7 @@ defmodule DotcomWeb.AppStoreController do
 
   @mticket_android_store_base_url "https://play.google.com/store/apps/details?id=com.mbta.mobileapp"
   @mticket_ios_store_base_url "https://apps.apple.com/us/app/apple-store/id560487958"
-  @mticket_default_project_page "/#TODO"
+  @mticket_default_project_page "/mbta-endorsed-apps"
 
   def redirect_mbta_go(conn, params) do
     conn
