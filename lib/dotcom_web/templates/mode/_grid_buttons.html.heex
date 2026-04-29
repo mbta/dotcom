@@ -12,17 +12,8 @@
   <% end %>
   <% wc_route =
     %Routes.Route{
-      color: "80276C",
-      description: :regional_rail,
-      direction_destinations: %{0 => "Boston Stadium", 1 => "South Station"},
-      direction_names: %{0 => "Outbound", 1 => "Inbound"},
       id: "Bostonstadium",
-      fare_class: nil,
-      line_id: nil,
-      listed?: true,
-      long_name: "Boston Stadium Trains",
       name: "Boston Stadium Trains",
-      sort_order: 20014,
       type: 2
     }
 
@@ -34,7 +25,7 @@
         route: wc_route,
         show_icon?: @show_icons?,
         link_path: ~p"/schedules/bostonstadium",
-        has_alert?: has_alert?(wc_route, @alerts, @date_time),
+        has_alert?: false,
         id_prefix: assigns[:id_prefix],
         index: Enum.count(@routes)
       )}
