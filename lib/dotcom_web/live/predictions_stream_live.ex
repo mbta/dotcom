@@ -110,12 +110,16 @@ defmodule DotcomWeb.PredictionsStreamLive do
             <div class="grid grid-cols-2 gap-4 w-full">
               <div>
                 <h3>Predictions</h3>
-                <.predictions_panel predictions={@predictions} />
+                <div class="h-[40rem] overflow-scroll">
+                  <.predictions_panel predictions={@predictions} />
+                </div>
               </div>
 
               <div>
                 <h3>Events</h3>
-                <.events_panel prediction_events={@prediction_events} />
+                <div class="h-[40rem] overflow-scroll">
+                  <.events_panel prediction_events={@prediction_events} />
+                </div>
               </div>
             </div>
           </div>
@@ -140,10 +144,19 @@ defmodule DotcomWeb.PredictionsStreamLive do
         :for={prediction <- @predictions}
         class="p-2 border-t-xs border-gray-lightest"
       >
-        <span>{prediction.arrival_time}</span>
+        <div class="grid grid-cols-2 gap-2">
+          <span class="font-bold">Trip ID</span>
+          <span>{prediction.trip.id}</span>
+
+          <span class="font-bold">Arrival Time</span>
+          <span>{format(prediction.arrival_time)}</span>
+
+          <span :if={prediction.schedule_relationship} class="font-bold">Schedule Relationship</span>
+          <span :if={prediction.schedule_relationship}>{prediction.schedule_relationship}</span>
+        </div>
         <details>
           <summary>Raw</summary>
-          <pre>{inspect prediction, pretty: true}</pre>
+          <pre>{inspect prediction, pretty: true, limit: :infinity}</pre>
         </details>
       </div>
     </div>
@@ -154,9 +167,18 @@ defmodule DotcomWeb.PredictionsStreamLive do
     ~H"""
     <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
       <div :for={event <- @prediction_events} class="p-2 border-t-xs border-gray-lightest">
-        <details>
-          <summary>Event</summary>
-          <pre>{inspect event, pretty: true}</pre>
+        <details class="group">
+          <summary class="flex gap-1">
+            <span>Event</span>
+            <span :for={{event_type, _} <- event} class="text-sm text-clip group-open:hidden">
+              {event_type}
+            </span>
+          </summary>
+
+          <div :for={{event_type, item} <- event} class="flex gap-2">
+            <span class="font-bold">{event_type}</span>
+            <span :if={event_type != "reset"}>{item.trip.id}</span>
+          </div>
         </details>
       </div>
     </div>
@@ -364,6 +386,15 @@ defmodule DotcomWeb.PredictionsStreamLive do
   defp unsubscribe_from_predictions(socket) do
     PredictionsManager.unsubscribe()
 
-    socket |> assign(:subscribed?, false)
+    socket
+    |> assign(:subscribed?, false)
+    |> assign(:predictions, [])
+    |> assign(:prediction_events, [])
+  end
+
+  defp format(nil), do: ""
+
+  defp format(time) do
+    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 end
