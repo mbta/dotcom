@@ -24,16 +24,20 @@
       name: "Boston Stadium Trains",
       sort_order: 20014,
       type: 2
-    } %>
-  {render("_grid_button.html",
-    conn: @conn,
-    route: wc_route,
-    show_icon?: @show_icons?,
-    link_path: ~p"/schedules/Bostonstadium",
-    has_alert?: has_alert?(wc_route, @alerts, @date_time),
-    id_prefix: assigns[:id_prefix],
-    index: Enum.count(@routes)
-  )}
+    }
+
+  test_route = @routes |> Enum.at(0) %>
+  {if !is_atom(test_route) and test_route.type == 2,
+    do:
+      render("_grid_button.html",
+        conn: @conn,
+        route: wc_route,
+        show_icon?: @show_icons?,
+        link_path: ~p"/schedules/bostonstadium",
+        has_alert?: has_alert?(wc_route, @alerts, @date_time),
+        id_prefix: assigns[:id_prefix],
+        index: Enum.count(@routes)
+      )}
   <%= if assigns[:sub_routes] do %>
     <div class="c-grid-button c-grid-buttons__condensed">
       <%= for {route, idx} <- Enum.with_index(Map.get(assigns, :sub_routes, [])) do %>
