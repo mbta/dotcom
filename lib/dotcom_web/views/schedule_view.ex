@@ -412,7 +412,7 @@ defmodule DotcomWeb.ScheduleView do
           gettext(" Additional service to Hingham and Hull is available via the %{link}", %{
             link:
               link(~t"Hingham/Hull ferry",
-                to: ~p"/schedule/Boat-F2H/timetable"
+                to: ~p"/schedules/Boat-F2H/timetable"
               )
               |> safe_to_string()
           })
