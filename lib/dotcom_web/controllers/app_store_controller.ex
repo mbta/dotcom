@@ -15,13 +15,23 @@ defmodule DotcomWeb.AppStoreController do
 
   def redirect_mbta_go(conn, params) do
     conn
-    |> redirect_to_app_store(params, @go_ios_store_base_url, @go_android_store_base_url, @go_default_project_page)
+    |> redirect_to_app_store(
+      params,
+      @go_ios_store_base_url,
+      @go_android_store_base_url,
+      @go_default_project_page
+    )
     |> halt
   end
 
   def redirect_mticket(conn, params) do
     conn
-    |> redirect_to_app_store(params, @mticket_ios_store_base_url, @mticket_android_store_base_url, @mticket_default_project_page)
+    |> redirect_to_app_store(
+      params,
+      @mticket_ios_store_base_url,
+      @mticket_android_store_base_url,
+      @mticket_default_project_page
+    )
     |> halt
   end
 
