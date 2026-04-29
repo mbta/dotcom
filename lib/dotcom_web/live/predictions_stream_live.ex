@@ -144,12 +144,15 @@ defmodule DotcomWeb.PredictionsStreamLive do
         :for={prediction <- @predictions}
         class="p-2 border-t-xs border-gray-lightest"
       >
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-x-2 gap-y-1">
           <span class="font-bold">Trip ID</span>
           <span>{prediction.trip.id}</span>
 
           <span class="font-bold">Arrival Time</span>
           <span>{format(prediction.arrival_time)}</span>
+
+          <span class="font-bold">Departure Time</span>
+          <span>{format(prediction.departure_time)}</span>
 
           <span :if={prediction.schedule_relationship} class="font-bold">Schedule Relationship</span>
           <span :if={prediction.schedule_relationship}>{prediction.schedule_relationship}</span>
