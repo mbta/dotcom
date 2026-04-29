@@ -26,17 +26,22 @@ defmodule Dotcom.Playground.PredictionsWorker do
   def init(params) do
     PredictionsSupervisor.start_link(%{params: params, publish_to: self()})
 
-    {:ok, %{params: params, subscribers: MapSet.new()}}
+    {:ok, %{params: params, predictions: :loading, subscribers: MapSet.new()}}
   end
 
   def terminate(_reason, %{params: params}) do
     PredictionsSupervisor.stop(%{params: params})
   end
 
-  def handle_cast({:subscribe, pid}, %{subscribers: subscribers} = state) do
+  def handle_cast(
+        {:subscribe, pid},
+        %{predictions: predictions, subscribers: subscribers} = state
+      ) do
     new_subscribers =
       subscribers
       |> MapSet.put(pid)
+
+    publish_predictions_if_any(pid, predictions)
 
     {:noreply, %{state | subscribers: new_subscribers}}
   end
@@ -55,13 +60,26 @@ defmodule Dotcom.Playground.PredictionsWorker do
     end
   end
 
-  def handle_info({:predictions_update, data}, %{subscribers: subscribers} = state) do
+  def handle_info(
+        {:predictions_update, %{predictions: predictions} = data},
+        %{subscribers: subscribers} = state
+      ) do
     subscribers |> Enum.each(&send(&1, {:predictions_update, data}))
 
-    {:noreply, state}
+    {:noreply, %{state | predictions: {:ok, predictions}}}
   end
 
   defp process_name(params) do
     {:global, {:predictions, params}}
+  end
+
+  defp publish_predictions_if_any(_pid, :loading) do
+  end
+
+  defp publish_predictions_if_any(pid, {:ok, predictions}) do
+    send(
+      pid,
+      {:predictions_update, %{predictions: predictions, events: [{"reset", predictions}]}}
+    )
   end
 end
