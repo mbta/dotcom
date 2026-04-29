@@ -19,7 +19,7 @@ config :dotcom, DotcomWeb.Endpoint,
     ip: :inet6,
     thousand_island_options: [
       num_acceptors: 2_048,
-      max_connections: 32_768
+      num_connections: 32_768
     ],
     http_options: [
       compress: true
