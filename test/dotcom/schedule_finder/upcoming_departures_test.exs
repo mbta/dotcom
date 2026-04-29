@@ -2362,7 +2362,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         end)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
+      expect_schedule_call_filtered_by_stop(updated_schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2402,7 +2402,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         end)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> updated_schedules end)
+      expect_schedule_call_filtered_by_stop(updated_schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
