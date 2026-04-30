@@ -17,6 +17,7 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
 
   alias Dotcom.Playground.UpcomingDeparturesManager
   alias Phoenix.LiveView
+  alias Phoenix.LiveView.AsyncResult
 
   @impl LiveView
   def mount(_params, _session, socket) do
@@ -45,6 +46,7 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
      |> assign_route(route_id)
      |> assign_direction(direction_id)
      |> assign_stop(stop_id)
+     |> assign(:predicted_schedules, AsyncResult.loading())
      |> subscribe_or_unsubscribe_to_upcoming_departures()}
   end
 
@@ -100,7 +102,16 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
           <.stop_banner stop={@stop} />
 
           <div class="container mt-4">
-            Much like your departures, this page is upcoming!
+            <.async_result :let={predicted_schedules} assign={@predicted_schedules}>
+              <:loading><.spinner aria_label="Loading Predicted Schedules" /></:loading>
+
+              <div class="border-xs border-t-0 border-gray-lightest">
+                <.predicted_schedule
+                  :for={predicted_schedule <- predicted_schedules}
+                  predicted_schedule={predicted_schedule}
+                />
+              </div>
+            </.async_result>
           </div>
         </.stop_picker_or>
       </.direction_picker_or>
@@ -111,6 +122,41 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
         <span>Connection Status</span>
         <.icon :if={@subscribed?} name="check" class="size-5" />
         <.icon :if={!@subscribed?} name="xmark" class="size-5" />
+      </div>
+    </div>
+    """
+  end
+
+  defp predicted_schedule(assigns) do
+    ~H"""
+    <div class="border-t-xs border-gray-lightest p-2">
+      <div class="flex">
+        <div class="flex flex-col">
+          <span>{PredictedSchedule.trip(@predicted_schedule).headsign}</span>
+          <span class="text-sm">{PredictedSchedule.trip(@predicted_schedule).id}</span>
+        </div>
+
+        <div class="ml-auto flex flex-col items-end">
+          <div class={@predicted_schedule.prediction && "font-bold"}>
+            <.icon
+              :if={@predicted_schedule.prediction}
+              type="icon-svg"
+              name="icon-realtime-tracking"
+              class="size-3"
+            />
+
+            {format(PredictedSchedule.display_time(@predicted_schedule))}
+          </div>
+
+          <div
+            :if={@predicted_schedule.prediction && @predicted_schedule.schedule}
+            class="line-through"
+          >
+            {format(
+              @predicted_schedule.schedule.arrival_time || @predicted_schedule.schedule.departure_time
+            )}
+          </div>
+        </div>
       </div>
     </div>
     """
@@ -156,6 +202,13 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
     {:noreply, socket |> push_patch(to: ~p"/preview/upcoming-departures-stream?#{params}")}
   end
 
+  def handle_info(
+        {:upcoming_departures_update, %{predicted_schedules: predicted_schedules}},
+        socket
+      ) do
+    {:noreply, socket |> assign(:predicted_schedules, AsyncResult.ok(predicted_schedules))}
+  end
+
   @impl LiveView
   def terminate(_reason, socket) do
     unsubscribe_from_upcoming_departures(socket)
@@ -199,5 +252,13 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
     UpcomingDeparturesManager.unsubscribe()
 
     socket |> assign(:subscribed?, false)
+  end
+
+  defp format(nil), do: ""
+
+  defp format(datetime) do
+    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm:ss a")
+
+    string
   end
 end
