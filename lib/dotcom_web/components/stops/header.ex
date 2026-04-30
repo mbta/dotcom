@@ -62,7 +62,10 @@ defmodule DotcomWeb.Components.Stops.Header do
   # For subway lines, we use the route symbol.
   defp mode_icon(assigns) when assigns.mode in ~w[blue green orange red] do
     ~H"""
-    <.route_symbol route={%Route{id: Recase.to_title(@mode)}} class="h-6 w-6 inline-flex" />
+    <.route_symbol
+      route={%Route{id: Recase.to_title(@mode), name: Recase.to_title(@mode) <> " Line"}}
+      class="h-6 w-6 inline-flex"
+    />
     """
   end
 
@@ -80,7 +83,12 @@ defmodule DotcomWeb.Components.Stops.Header do
   # For Silver Line, we use an icon.
   defp mode_icon(%{mode: "silver_line"} = assigns) do
     ~H"""
-    <.icon type="icon-svg" name="icon-silver-line-small" class="h-6 w-6 inline-flex" />
+    <.icon
+      type="icon-svg"
+      name="icon-silver-line-small"
+      class="h-6 w-6 inline-flex"
+      aria-label="Silver Line"
+    />
     """
   end
 
@@ -91,6 +99,7 @@ defmodule DotcomWeb.Components.Stops.Header do
       type="icon-svg"
       name={"icon-mode-#{Recase.to_kebab(@mode)}-small"}
       class="h-6 w-6 inline-flex"
+      aria-label={@mode}
     />
     """
   end
