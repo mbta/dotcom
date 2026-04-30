@@ -1,11 +1,16 @@
 <.promo_banner
-  :if={commuter_rail?(@route) && @conn |> user_agent() |> Browser.mobile?()}
+  :if={ferry_or_commuter_rail?(@route) && @conn |> user_agent() |> Browser.mobile?()}
   href="https://www.mbta.com/app-store?pt=117998862&ct=dotcom-cr-banner&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dcr-banner"
   class="mb-5 p-3 leading-none flex gap-2 items-center bg-cobalt-90 border-xs border-cobalt-70 rounded-lg"
 >
   <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" />
   <div class="leading-tight">
-    Download <strong>MBTA Go</strong> to track your train &#8594;
+    {gettext("Download %{mbta_go} to track your %{vehicle_name}",
+      mbta_go: "<strong>MBTA Go</strong>",
+      vehicle_name: Route.vehicle_name(@route) |> String.downcase()
+      )
+      |> raw()}
+    <span aria-hidden="true">&#8594;</span>
   </div>
 </.promo_banner>
 
