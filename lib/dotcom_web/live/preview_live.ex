@@ -10,6 +10,7 @@ defmodule DotcomWeb.PreviewLive do
   alias DotcomWeb.Router.Helpers
   alias DotcomWeb.ScheduleFinderLive
   alias DotcomWeb.StopMapLive
+  alias DotcomWeb.UpcomingDeparturesStreamLive
   alias Phoenix.LiveView
 
   @pages [
@@ -31,6 +32,13 @@ defmodule DotcomWeb.PreviewLive do
       icon_name: "icon-stop-default",
       module: StopMapLive,
       title: "Stop Page Map"
+    },
+    %{
+      arguments: [],
+      icon_name: "cable-car",
+      icon_type: "solid",
+      module: UpcomingDeparturesStreamLive,
+      title: "Upcoming Departures Streaming"
     },
     %{
       arguments: [],

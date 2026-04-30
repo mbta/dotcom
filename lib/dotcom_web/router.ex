@@ -330,6 +330,7 @@ defmodule DotcomWeb.Router do
       live "/predictions-stream", PredictionsStreamLive
       live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
+      live "/upcoming-departures-stream", UpcomingDeparturesStreamLive
     end
   end
 
