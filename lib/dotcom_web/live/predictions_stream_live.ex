@@ -5,6 +5,16 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   use DotcomWeb, :live_view
 
+  import DotcomWeb.PlaygroundComponents,
+    only: [
+      direction_banner: 1,
+      direction_picker_or: 1,
+      route_banner: 1,
+      route_picker_or: 1,
+      stop_banner: 1,
+      stop_picker_or: 1
+    ]
+
   alias Dotcom.Playground.PredictionsManager
   alias Phoenix.LiveView
 
@@ -85,28 +95,16 @@ defmodule DotcomWeb.PredictionsStreamLive do
   def render(assigns) do
     ~H"""
     <.route_picker_or route={@route} routes={@routes}>
-      <.banner
-        style={"background-color: ##{@route.color}; color: #{text_color(@route)}; fill: #{text_color(@route)};"}
-        clear_button_click="clear-route"
-      >
-        <span class="text-2xl font-bold">{@route.name}</span>
-      </.banner>
+      <.route_banner route={@route} />
 
       <.direction_picker_or route={@route} direction_id={@direction_id}>
-        <.banner clear_button_click="clear-direction" class="bg-gray-lightest">
-          <span class="text-lg font-bold">{direction_description(@route, @direction_id)}</span>
-        </.banner>
+        <.direction_banner route={@route} direction_id={@direction_id} />
 
         <.stop_picker_or
           stop={@stop}
           stops={@stops}
         >
-          <.banner clear_button_click="clear-stop" class="bg-charcoal-10 text-white fill-white">
-            <div class="flex flex-col">
-              <span class="text-lg font-bold">{@stop.name}</span>
-              <span class="text-md">{@stop.id}</span>
-            </div>
-          </.banner>
+          <.stop_banner stop={@stop} />
 
           <div class="container">
             <div class="grid grid-cols-3 gap-4 w-full">
@@ -177,107 +175,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
           <div :for={{event_type, item} <- event} class="flex gap-2">
             <span class="font-bold">{event_type}</span>
             <span :if={event_type != "reset"}>{item.trip.id}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  defp route_picker_or(%{route: nil} = assigns) do
-    ~H"""
-    <div class="container">
-      <div class="flex gap-2 flex-wrap">
-        <button
-          :for={route <- @routes}
-          class="p-2 rounded opacity-75 hover:opacity-100"
-          style={"background-color: ##{route.color}; color: #{text_color(route)};"}
-          phx-click="select-route"
-          phx-value-route-id={route.id}
-        >
-          {route.name}
-        </button>
-      </div>
-    </div>
-    """
-  end
-
-  defp route_picker_or(assigns) do
-    ~H"""
-    {render_slot(@inner_block)}
-    """
-  end
-
-  defp direction_picker_or(%{direction_id: nil} = assigns) do
-    ~H"""
-    <div class="mt-4 container">
-      <div class="w-full flex gap-2 justify-around">
-        <button
-          :for={
-            direction_id <-
-              @route.direction_names
-              |> Stream.reject(fn {_, name} -> is_nil(name) end)
-              |> Stream.map(fn {id, _} -> id end)
-          }
-          class="bg-gray-lightest opacity-75 hover:opacity-100 p-2 rounded"
-          phx-click="select-direction"
-          phx-value-direction-id={direction_id}
-        >
-          {direction_description(@route, direction_id)}
-        </button>
-      </div>
-    </div>
-    """
-  end
-
-  defp direction_picker_or(assigns) do
-    ~H"""
-    {render_slot(@inner_block)}
-    """
-  end
-
-  defp stop_picker_or(%{stop: nil} = assigns) do
-    ~H"""
-    <div class="container">
-      <div class="mt-4 flex flex-wrap gap-2">
-        <button
-          :for={stop <- @stops}
-          class="bg-charcoal-10 p-2 rounded text-white opacity-75 hover:opacity-100"
-          phx-click="select-stop"
-          phx-value-stop-id={stop.id}
-        >
-          {stop.name}
-        </button>
-      </div>
-    </div>
-    """
-  end
-
-  defp stop_picker_or(assigns) do
-    ~H"""
-    {render_slot(@inner_block)}
-    """
-  end
-
-  attr :clear_button_click, :string, required: true
-  attr :class, :string, default: ""
-  attr :style, :string, default: ""
-  slot :inner_block
-
-  defp banner(assigns) do
-    ~H"""
-    <div
-      class={"w-full py-4 #{@class}"}
-      style={@style}
-    >
-      <div class="container">
-        <div class="flex items-center">
-          {render_slot(@inner_block)}
-          <div
-            phx-click={@clear_button_click}
-            class="ml-auto cursor-pointer opacity-75 hover:opacity-100"
-          >
-            <.icon class="size-5" name="circle-xmark" />
           </div>
         </div>
       </div>
@@ -371,14 +268,6 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
   defp apply_prediction_event({"remove", prediction}, predictions_map) do
     predictions_map |> Map.delete({prediction.trip.id, prediction.stop_sequence})
-  end
-
-  defp direction_description(route, direction_id) do
-    "#{route.direction_names[direction_id]} towards #{route.direction_destinations[direction_id]}"
-  end
-
-  defp text_color(route) do
-    if(route.type == 3 and not String.contains?(route.name, "SL"), do: "black", else: "white")
   end
 
   defp subscribe_or_unsubscribe_to_predictions(
