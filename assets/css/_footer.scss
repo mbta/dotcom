@@ -436,6 +436,12 @@ address {
   @include media-breakpoint-down(xs) {
     padding-top: 20px;
   }
+  a {
+    &:focus {
+      outline: 2px solid $brand-secondary;
+      outline-offset: 0.25em;
+    }
+  }
 }
 
 .social-icons-container a:first-of-type {
@@ -513,5 +519,8 @@ address {
 
   a {
     color: $brand-primary-light-contrast;
+    &:focus {
+      outline: 2px solid $brand-secondary;
+    }
   }
 }
