@@ -14,7 +14,9 @@ defmodule DotcomWeb.PredictionsStreamLive do
      socket
      |> assign(:routes, Routes.Repo.all())
      |> assign(:subscribed?, false)
-     |> assign(:predictions, [])
+     |> assign(:predictions_list_by_snapshot, [])
+     |> assign(:predictions_map_by_events, %{})
+     |> assign(:predictions_list_by_events, [])
      |> assign(:prediction_events, [])}
   end
 
@@ -107,11 +109,18 @@ defmodule DotcomWeb.PredictionsStreamLive do
           </.banner>
 
           <div class="container">
-            <div class="grid grid-cols-2 gap-4 w-full">
+            <div class="grid grid-cols-3 gap-4 w-full">
               <div>
-                <h3>Predictions</h3>
+                <h3>Predictions by Snapshot</h3>
                 <div class="h-[40rem] overflow-scroll">
-                  <.predictions_panel predictions={@predictions} />
+                  <.predictions_panel predictions={@predictions_list_by_snapshot} />
+                </div>
+              </div>
+
+              <div>
+                <h3>Predictions by Events</h3>
+                <div class="h-[40rem] overflow-scroll">
+                  <.predictions_panel predictions={@predictions_list_by_events} />
                 </div>
               </div>
 
@@ -144,17 +153,11 @@ defmodule DotcomWeb.PredictionsStreamLive do
         :for={prediction <- @predictions}
         class="p-2 border-t-xs border-gray-lightest"
       >
-        <div class="grid grid-cols-2 gap-x-2 gap-y-1">
-          <span class="font-bold">Trip ID</span>
-          <span>{prediction.trip.id}</span>
+        <div class="flex flex-col">
+          <span class="font-bold">{prediction.trip.id}</span>
 
-          <span class="font-bold">Arrival Time</span>
-          <span>{format(prediction.arrival_time)}</span>
+          <span>{format(prediction.arrival_time)} / {format(prediction.departure_time)}</span>
 
-          <span class="font-bold">Departure Time</span>
-          <span>{format(prediction.departure_time)}</span>
-
-          <span :if={prediction.schedule_relationship} class="font-bold">Schedule Relationship</span>
           <span :if={prediction.schedule_relationship}>{prediction.schedule_relationship}</span>
         </div>
         <details>
@@ -170,19 +173,12 @@ defmodule DotcomWeb.PredictionsStreamLive do
     ~H"""
     <div class="flex flex-col w-full border-x-xs border-b-xs border-gray-lightest">
       <div :for={event <- @prediction_events} class="p-2 border-t-xs border-gray-lightest">
-        <details class="group">
-          <summary class="flex gap-1">
-            <span>Event</span>
-            <span :for={{event_type, _} <- event} class="text-sm text-clip group-open:hidden">
-              {event_type}
-            </span>
-          </summary>
-
+        <div class="group">
           <div :for={{event_type, item} <- event} class="flex gap-2">
             <span class="font-bold">{event_type}</span>
             <span :if={event_type != "reset"}>{item.trip.id}</span>
           </div>
-        </details>
+        </div>
       </div>
     </div>
     """
@@ -336,13 +332,45 @@ defmodule DotcomWeb.PredictionsStreamLive do
     {:noreply,
      socket
      |> assign(:prediction_events, [events | prediction_events])
-     |> assign(:predictions, predictions |> Enum.sort_by(&(&1.arrival_time || &1.departure_time)))}
+     |> assign(
+       :predictions_list_by_snapshot,
+       predictions |> Enum.sort_by(&(&1.arrival_time || &1.departure_time))
+     )
+     |> apply_prediction_events(events)}
   end
 
   @impl LiveView
   def terminate(_reason, socket) do
     unsubscribe_from_predictions(socket)
     :ok
+  end
+
+  defp apply_prediction_events(socket, events) do
+    new_predictions =
+      events |> Enum.reduce(socket.assigns.predictions_map_by_events, &apply_prediction_event/2)
+
+    socket
+    |> assign(:predictions_map_by_events, new_predictions)
+    |> assign(
+      :predictions_list_by_events,
+      new_predictions |> Map.values() |> Enum.sort_by(&(&1.arrival_time || &1.departure_time))
+    )
+  end
+
+  defp apply_prediction_event({"reset", predictions}, _predictions_map) do
+    predictions
+    |> Enum.group_by(&{&1.trip.id, &1.stop_sequence})
+    |> Map.new(fn {key, [value | _]} -> {key, value} end)
+  end
+
+  defp apply_prediction_event({event_type, prediction}, predictions_map)
+       when event_type in ["add", "update"] do
+    predictions_map
+    |> Map.put({prediction.trip.id, prediction.stop_sequence}, prediction)
+  end
+
+  defp apply_prediction_event({"remove", prediction}, predictions_map) do
+    predictions_map |> Map.delete({prediction.trip.id, prediction.stop_sequence})
   end
 
   defp direction_description(route, direction_id) do
@@ -391,13 +419,17 @@ defmodule DotcomWeb.PredictionsStreamLive do
 
     socket
     |> assign(:subscribed?, false)
-    |> assign(:predictions, [])
+    |> assign(:predictions_list_by_snapshot, [])
+    |> assign(:predictions_map_by_events, [])
+    |> assign(:predictions_list_by_events, %{})
     |> assign(:prediction_events, [])
   end
 
   defp format(nil), do: ""
 
-  defp format(time) do
-    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
+  defp format(datetime) do
+    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm:ss a")
+
+    string
   end
 end
