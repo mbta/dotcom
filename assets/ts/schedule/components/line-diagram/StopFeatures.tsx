@@ -15,7 +15,7 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
         tooltipText="Parking"
         tooltipOptions={{ placement: "bottom" }}
       >
-        {parkingIcon("u-color-gray-light m-schedule-diagram__feature-icon")}
+        {parkingIcon("u-color-gray-light m-schedule-diagram__feature-icon","Parking")}
       </TooltipWrapper>
     ) : null}
     {// NOTE: Bus routes are always considered accessible, see
@@ -26,7 +26,8 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
         tooltipOptions={{ placement: "bottom" }}
       >
         {accessibleIcon(
-          "c-svg__icon-acessible-default m-schedule-diagram__feature-icon"
+          "c-svg__icon-acessible-default m-schedule-diagram__feature-icon",
+          "Accessible"
         )}
       </TooltipWrapper>
     ) : null}

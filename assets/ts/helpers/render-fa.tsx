@@ -3,7 +3,8 @@ import React from "react";
 const FontAwesomeIcon = (
   className: string,
   svgName: string,
-  ariaHide: boolean = true
+  ariaHide: boolean = true,
+  ariaLabel: string = ""
 ): JSX.Element => (
   <i
     className={
@@ -12,6 +13,7 @@ const FontAwesomeIcon = (
         : `fa ${svgName} notranslate`
     }
     aria-hidden={ariaHide ? "true" : "false"}
+    aria-label={ariaLabel}
   />
 );
 
