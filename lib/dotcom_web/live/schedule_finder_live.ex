@@ -73,6 +73,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:loaded_trips, fn -> %{} end)
          |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
          |> assign_new(:daily_schedule_date, fn -> service_date() end)
+         |> assign_new(:should_refresh?, fn -> true end)
          |> assign_alerts()
          |> assign_departures()
          |> assign_upcoming_departures()
@@ -95,7 +96,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
-    <div class="container">
+    <div
+      class="container"
+      id={"#{@route.id}-#{@direction_id}-#{@stop.id}-schedule-finder"}
+      phx-hook="PageVisibility"
+    >
       <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
         <.alert_banner alerts={@alerts} />
         <section>
@@ -200,6 +205,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:departures, AsyncResult.loading())}
   end
 
+  def handle_event("visibility_change", %{"state" => state}, socket) do
+    {:noreply,
+     socket
+     |> assign(:should_refresh?, state == "visible")
+     |> assign_upcoming_departures()}
+  end
+
   def handle_event(_, _, socket), do: {:noreply, socket}
 
   @impl Phoenix.LiveView
@@ -279,6 +291,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     stop_id = stop_id
 
     parent_pid = self()
+    should_refresh? = socket.assigns.should_refresh?
 
     socket
     |> assign_async(
@@ -292,7 +305,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             stop_id: stop_id
           })
 
-        schedule_refresh_upcoming_departures(parent_pid)
+        _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
 
         {:ok, %{upcoming_departures: departures}}
       end

@@ -404,6 +404,24 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
+  def timetable_note(%{route: %Route{id: "Boat-F1"}, direction_id: _}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(" Additional service to Hingham and Hull is available via the %{link}", %{
+            link:
+              link(~t"Hingham/Hull ferry",
+                to: ~p"/schedules/Boat-F2H/timetable"
+              )
+              |> safe_to_string()
+          })
+          |> raw()
+        ])
+      ]
+    end
+  end
+
   def timetable_note(_), do: nil
 
   def json_safe_route(route) do
