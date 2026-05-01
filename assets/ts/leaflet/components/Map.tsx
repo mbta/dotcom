@@ -127,7 +127,7 @@ const Component = ({
                 Math.random() * 1000
               )}`
             }
-            alt={marker.alt || "Marker"}
+            alt={marker.alt}
             position={[marker.latitude, marker.longitude]}
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
             zIndexOffset={marker.z_index}
