@@ -113,6 +113,10 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
+  attr(:title, :string)
+  slot(:inner_block, required: true)
+
   def error_container(assigns) do
     assigns =
       assigns
@@ -122,7 +126,7 @@ defmodule DotcomWeb.Components do
       end)
 
     ~H"""
-    <div class={"error-container rounded #{@padding_class}"}>
+    <div class={"error-container rounded #{@padding_class}"} {@rest}>
       <p :if={@title} class="font-bold mb-2">{@title}</p>
       {render_slot(@inner_block)}
     </div>
@@ -371,6 +375,7 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
   slot :inner_block, required: true
 
   @doc """
@@ -378,7 +383,7 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center">
+    <div class="callout font-bold text-center" {@rest}>
       {render_slot(@inner_block)}
     </div>
     """

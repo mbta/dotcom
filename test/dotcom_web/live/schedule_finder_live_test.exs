@@ -112,53 +112,67 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       %{direction_id: FactoryHelpers.build(:direction_id)}
     end
 
-    test "default case", %{direction_id: direction_id} do
+    test "default link", %{direction_id: direction_id} do
       route = Factories.Routes.Route.build(:route)
 
-      html =
+      link =
         render_component(&ScheduleFinderLive.route_banner/1,
           direction_id: direction_id,
           route: route
         )
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"route_banner:#{route.id}\"] a")
 
-      assert html =~
-               ~s(<a href=\"/schedules/#{route.id}?schedule_direction[direction_id]=#{direction_id}\")
+      assert Floki.attribute(link, "href") == [
+               "/schedules/#{route.id}?schedule_direction[direction_id]=#{direction_id}"
+             ]
 
-      assert html =~ route.name
-      assert html =~ route.direction_names[direction_id]
-      assert html =~ "towards"
-      assert html =~ route.direction_destinations[direction_id]
+      link_text = Floki.text(link)
+      assert link_text =~ route.name
+      assert link_text =~ route.direction_names[direction_id]
+      assert link_text =~ "towards"
+      assert link_text =~ route.direction_destinations[direction_id]
     end
 
     test "omits destination for Green Line", %{direction_id: direction_id} do
       green_line = Factories.Routes.Route.build(:route, %{id: "Green"})
 
-      html =
+      link =
         render_component(&ScheduleFinderLive.route_banner/1,
           direction_id: direction_id,
           route: green_line
         )
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"route_banner:Green\"] a")
 
-      assert html =~
-               ~s(<a href=\"/schedules/#{green_line.id}?schedule_direction[direction_id]=#{direction_id}\")
+      assert Floki.attribute(link, "href") == [
+               "/schedules/Green?schedule_direction[direction_id]=#{direction_id}"
+             ]
 
-      assert html =~ green_line.name
-      assert html =~ green_line.direction_names[direction_id]
-      refute html =~ "towards"
-      refute html =~ green_line.direction_destinations[direction_id]
+      link_text = Floki.text(link)
+
+      assert link_text =~ green_line.name
+      assert link_text =~ green_line.direction_names[direction_id]
+      refute link_text =~ "towards"
+      refute link_text =~ green_line.direction_destinations[direction_id]
     end
   end
 
   test "displays current stop with link" do
     stop = Factories.Stops.Stop.build(:stop, %{station?: Faker.Util.pick([true, false])})
-    html = render_component(&ScheduleFinderLive.stop_banner/1, stop: stop)
-    assert html =~ stop.name
-    assert html =~ ~s(<a href=\"/stops/#{stop.id}\")
+
+    link =
+      render_component(&ScheduleFinderLive.stop_banner/1, stop: stop)
+      |> Floki.parse_fragment!()
+      |> Floki.find("[data-test=\"stop_banner:#{stop.id}\"] a")
+
+    assert Floki.text(link) =~ stop.name
+    assert Floki.attribute(link, "href") == ["/stops/#{stop.id}"]
 
     if stop.station? do
-      assert html =~ ~s(id=\"mbta-logo\")
+      assert Floki.find(link, "[data-test=\"stop_banner_icon:station\"]") != []
     else
-      assert html =~ ~s(<title>\n        stop\n    </title>)
+      assert Floki.find(link, "[data-test=\"stop_banner_icon:stop\"]") != []
     end
   end
 
@@ -195,44 +209,58 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
 
   describe "Daily Departures" do
     test "indicates no service", %{conn: conn} do
-      expect(Services.Repo.Mock, :by_route_id, 3, fn _ -> [] end)
-
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ ->
-        {:ok, []}
-      end)
-
+      expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ -> {:ok, []} end)
       assert {:ok, view, _html} = visit_with_valid_params(conn)
-      rendered = render_async(view)
+
+      no_service =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"no_service\"]")
+        |> Floki.text()
+
       refute has_element?(view, "#service-picker-form")
-      assert rendered =~ ~r/There is currently no scheduled (\w+)./
+      assert no_service =~ ~r/There is currently no scheduled (\w+)./
     end
 
     test "indicates no service for selected schedule", %{conn: conn} do
       active_services = Factories.Services.Service.build_list(15, :service)
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> active_services end)
 
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
-        {:ok, []}
-      end)
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ -> {:ok, []} end)
 
       assert {:ok, view, _html} = visit_with_valid_params(conn)
-      rendered = render_async(view)
+
+      no_service =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"no_service\"]")
+        |> Floki.text()
+
       assert has_element?(view, "#service-picker-form")
-      assert rendered =~ ~r/There is no scheduled (\N+) service at (\N+) for this time period./
+      assert no_service =~ ~r/There is no scheduled (\N+) service at (\N+) for this time period./
     end
 
     test "handles loading errors & shows custom message", %{conn: conn} do
       actual_error = "nonsense only a computer will understand"
 
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ ->
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
         {:error, actual_error}
       end)
 
       assert {:ok, view, _html} = visit_with_valid_params(conn)
-      rendered = render_async(view)
-      refute has_element?(view, "details")
-      assert rendered =~ "There was a problem loading schedules"
-      refute rendered =~ actual_error
+
+      departures_error =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"departures_error\"]")
+        |> Floki.text()
+
+      assert departures_error =~ "There was a problem loading schedules"
+      refute departures_error =~ actual_error
     end
   end
 
@@ -248,13 +276,29 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       end)
 
       assert {:ok, view, html} = visit_with_valid_params(conn, [2, 3, 4])
-      assert html =~ "Loading schedules for selected service"
-      rendered = render_async(view)
-      refute rendered =~ "Loading schedules for selected service"
-      assert has_element?(view, ~s(details[phx-click="open_trip"]))
 
-      for %{time: t} <- departures do
-        assert rendered =~ "<time datetime=\"#{DateTime.to_iso8601(t)}\""
+      departures_loading =
+        html
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"departures_loading\"]")
+        |> Floki.text()
+
+      assert departures_loading =~ "Loading schedules for selected service"
+
+      # finish loading here
+      rendered =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+
+      assert Floki.find(rendered, "[data-test=\"departures_loading\"]") == []
+      assert has_element?(view, "[data-test=\"departures_table\"]")
+
+      departures_table = Floki.find(rendered, "[data-test=\"departures_table\"]")
+
+      for %{time: t, trip_id: trip_id} <- departures do
+        row = Floki.find(departures_table, "[phx-value-trip=\"#{trip_id}\"]")
+        assert Floki.find(row, "time[datetime=\"#{DateTime.to_iso8601(t)}\"]") != []
       end
     end
   end
@@ -284,21 +328,34 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       |> expect(:subway_groups, 1, fn ^departures, _, _ -> subway_groups end)
 
       assert {:ok, view, html} = visit_with_valid_params(conn, [0, 1])
-      assert html =~ "Loading schedules for selected service"
-      rendered = render_async(view)
-      refute rendered =~ "Loading schedules for selected service"
-      refute has_element?(view, ~s(details[phx-click="open_trip"]))
 
-      for %{time: t} <- departures do
-        refute rendered =~ "<time datetime=\"#{DateTime.to_iso8601(t)}\""
-      end
+      departures_loading =
+        html
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test=\"departures_loading\"]")
+        |> Floki.text()
 
-      for {_route, destination, [first_time, last_time]} <- subway_groups do
-        assert rendered =~ "to #{destination}"
-        assert rendered =~ "First train:"
-        assert rendered =~ "<time datetime=\"#{DateTime.to_iso8601(first_time)}\""
-        assert rendered =~ "Last train:"
-        assert rendered =~ "<time datetime=\"#{DateTime.to_iso8601(last_time)}\""
+      assert departures_loading =~ "Loading schedules for selected service"
+
+      # finish loading here
+      rendered =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+
+      assert Floki.find(rendered, "[data-test=\"departures_loading\"]") == []
+      refute has_element?(view, "[data-test=\"departures_table\"]")
+
+      subway_groups_html = Floki.find(rendered, "[data-test=\"subway_group\"]")
+
+      for {group, index} <- Enum.with_index(subway_groups_html) do
+        text = Floki.text(group)
+        {_, destination, [first_time, last_time]} = Enum.at(subway_groups, index)
+        assert text =~ "to #{destination}"
+        assert text =~ "First train:"
+        assert Floki.find(group, "time[datetime=\"#{DateTime.to_iso8601(first_time)}]")
+        assert text =~ "Last train:"
+        assert Floki.find(group, "time[datetime=\"#{DateTime.to_iso8601(last_time)}]")
       end
     end
   end
@@ -321,8 +378,20 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end)
 
     Dotcom.ScheduleFinder.Mock
-    |> stub(:current_alerts, fn _, _ -> [] end)
-    |> stub(:daily_departures, fn _, _, _, _ -> {:ok, []} end)
+    |> stub(:current_alerts, fn _, _ ->
+      Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
+        informed_entity: %{direction_id: nil}
+      )
+    end)
+    |> stub(:daily_departures, fn _, _, _, _ ->
+      2
+      |> Faker.random_between(20)
+      |> Factories.ScheduleFinder.build_list(:daily_departure)
+      |> then(&{:ok, &1})
+    end)
+    |> stub(:subway_groups, fn _, _, _ ->
+      []
+    end)
 
     # Dotcom.ScheduleFinder.UpcomingDepartures.Mock
     # |> stub(:upcoming_departures, fn _ -> [] end)

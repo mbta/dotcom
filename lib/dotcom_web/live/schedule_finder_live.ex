@@ -136,12 +136,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
           />
           <.async_result :let={departures} assign={@departures}>
             <:loading>
-              <div class="mt-lg mb-md flex justify-center">
+              <div class="mt-lg mb-md flex justify-center" data-test="departures_loading">
                 <.spinner aria_label={~t"Loading schedules for selected service"} />
               </div>
             </:loading>
             <:failed :let={_fail}>
-              <.error_container>
+              <.error_container data-test="departures_error">
                 {~t"There was a problem loading schedules"}
               </.error_container>
             </:failed>
@@ -153,6 +153,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                       get_subway_groups(departures, @direction_id, @stop.id)
                   }
                   class="mt-lg mb-md"
+                  data-test="subway_group"
                 >
                   <.subway_destination route={route} destination={destination} />
                   <.first_last times={times} vehicle_name={@vehicle_name} />
@@ -165,7 +166,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <.departures_table departures={departures} loaded_trips={@loaded_trips} />
               <% end %>
             <% else %>
-              <.callout>
+              <.callout data-test="no_service">
                 {no_service_message(@service_groups, @route, @stop)}
               </.callout>
             <% end %>
@@ -379,16 +380,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
       socket,
       :last_trip_time,
       fn ->
-        {_, departures} =
-          get_departures(route_id, direction_id, stop.id, date)
+        case get_departures(route_id, direction_id, stop.id, date) do
+          {_, %{departures: departures}} ->
+            last_trip_time =
+              departures
+              |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
+              |> Enum.at(-1, %{})
+              |> Map.get(:time)
 
-        last_trip_time =
-          departures.departures
-          |> Enum.sort_by(fn departure -> DateTime.to_unix(departure.time) end)
-          |> Enum.at(-1, %{})
-          |> Map.get(:time)
+            {:ok, %{last_trip_time: last_trip_time}}
 
-        {:ok, %{last_trip_time: last_trip_time}}
+          _ ->
+            {:ok, %{last_trip_time: nil}}
+        end
       end,
       reset: true
     )
@@ -467,7 +471,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class={route_to_background_class(@route)}>
+    <div data-test={"route_banner:#{@route.id}"} class={route_to_background_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
@@ -549,7 +553,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   def stop_banner(assigns) do
     ~H"""
-    <div :if={@stop} class="bg-gray-lightest">
+    <div :if={@stop} data-test={"stop_banner:#{@stop.id}"} class="bg-gray-lightest">
       <.link
         class="block text-black hover:text-black focus:text-black hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/stops/#{@stop}"}
@@ -559,6 +563,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <.icon
               type="icon-svg"
               aria-hidden
+              data-test={["stop_banner_icon:", if(@stop.station?, do: "station", else: "stop")]}
               name={if(@stop.station?, do: "mbta-logo", else: "icon-stop-default")}
               class="size-5 fill-current"
             />
@@ -657,7 +662,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp departures_table(assigns) do
     ~H"""
-    <div class="grid grid-cols-1 divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
+    <div
+      class="grid grid-cols-1 divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
+      data-test="departures_table"
+    >
       <.unstyled_accordion
         :for={departure <- @departures}
         summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
