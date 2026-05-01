@@ -409,13 +409,16 @@ defmodule DotcomWeb.ScheduleView do
       [
         content_tag(:p, [
           content_tag(:strong, ~t"Note:"),
-          gettext(" Additional service between Boston, Hingham, and Hull is available via the %{link}", %{
-            link:
-              link(~t"Hingham/Hull ferry",
-                to: ~p"/schedules/Boat-F2H/timetable"
-              )
-              |> safe_to_string()
-          })
+          gettext(
+            " Additional service between Boston, Hingham, and Hull is available via the %{link}",
+            %{
+              link:
+                link(~t"Hingham/Hull ferry",
+                  to: ~p"/schedules/Boat-F2H/timetable"
+                )
+                |> safe_to_string()
+            }
+          )
           |> raw()
         ])
       ]
