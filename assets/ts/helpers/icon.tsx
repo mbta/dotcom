@@ -27,8 +27,10 @@ import faresIconSvg from "../../../priv/static/icon-svg/icon-fares.svg";
 
 import renderFa from "./render-fa";
 
-export const accessibleIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
-  renderSvg(className, accessibleIconSvg, false, ariaLabel);
+export const accessibleIcon = (
+  className: string = "",
+  ariaLabel: string = ""
+): JSX.Element => renderSvg(className, accessibleIconSvg, false, ariaLabel);
 
 export const alertIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, alertIconSvg, false);
@@ -69,8 +71,10 @@ export const mattapanLineIcon = (className: string = ""): JSX.Element =>
 export const orangeLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, orangeLineIconSvg, false);
 
-export const parkingIcon = (className: string = "", ariaLabel=""): JSX.Element =>
-  renderFa(className, "fa-square-parking", false, ariaLabel);
+export const parkingIcon = (
+  className: string = "",
+  ariaLabel = ""
+): JSX.Element => renderFa(className, "fa-square-parking", false, ariaLabel);
 
 export const redLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, redLineIconSvg, false);
