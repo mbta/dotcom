@@ -210,6 +210,69 @@
     }
   }
 
+  .heading-link {
+    h2,
+    h3,
+    h4 {
+      color: $gray-dark;
+      display: inline-flex;
+      font-size: inherit;
+      line-height: inherit;
+
+      &:hover {
+        text-decoration: inherit;
+      }
+
+      > .header-text {
+        margin-left: .5em;
+        text-decoration: underline;
+
+        @include media-breakpoint-down(xs) {
+          font-size: $font-size-base;
+          margin-bottom: $base-spacing;
+        }
+      }
+    }
+
+    h2 {
+      @include media-breakpoint-down(sm) {
+        font-size: 1.125rem;
+        line-height: 1.5rem;
+      }
+
+      @include media-breakpoint-only(md) {
+        font-size: 1.31rem;
+        line-height: 1.68rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
+    }
+
+    h3 {
+      @include media-breakpoint-down(sm) {
+        font-size: .875rem;
+        line-height: 1rem;
+      }
+
+      @include media-breakpoint-only(md) {
+        font-size: 1rem;
+        line-height: 1.5rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: 1.5rem;
+        line-height: 1.875rem;
+      }
+    }
+
+    svg * {
+      fill: currentColor;
+    }
+  }
+
   h2 {
     @include media-breakpoint-down(sm) {
       font-size: 1.125rem;

@@ -6,8 +6,8 @@ exports[`StopCard renders and matches snapshot 1`] = `
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
         <header className=\\"m-schedule-diagram__stop-heading\\">
-          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
-            <a href=\\"/stops/a\\">
+          <a href=\\"/stops/a\\">
+            <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
               <Alert>
                 <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 <span className=\\"sr-only\\">
@@ -18,8 +18,8 @@ exports[`StopCard renders and matches snapshot 1`] = `
               <MatchHighlight text={[undefined]} matchQuery={[undefined]}>
                 <span />
               </MatchHighlight>
-            </a>
-          </h4>
+            </h4>
+          </a>
           <div className=\\"m-schedule-diagram__features\\">
             <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
               <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">

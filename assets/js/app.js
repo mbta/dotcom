@@ -35,6 +35,7 @@ import translateAnalytics from "./translate-analytics.js";
 import previousEventsButton from "./view-previous-events";
 
 import mobileAppBanner from "./mobile-app-banner.js";
+import mobileSearchA11y from "./mobile-search-a11y.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -138,3 +139,5 @@ accordionInit();
 juxtapose();
 
 mobileAppBanner();
+
+mobileSearchA11y();

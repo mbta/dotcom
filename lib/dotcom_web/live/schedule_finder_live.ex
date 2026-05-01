@@ -67,12 +67,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:direction_id, fn -> direction_id end)
          |> assign_new(:stop, fn -> stop end)
          |> assign_new(:upcoming_departures, fn -> AsyncResult.loading([]) end)
+         |> assign_new(:loaded_upcoming_trips, fn -> %{} end)
          |> assign_new(:last_trip_time, fn -> AsyncResult.loading() end)
          |> assign_new(:alerts, fn -> [] end)
          |> assign_new(:service_groups, fn -> service_groups end)
          |> assign_new(:loaded_trips, fn -> %{} end)
          |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
          |> assign_new(:daily_schedule_date, fn -> service_date() end)
+         |> assign_new(:should_refresh?, fn -> true end)
          |> assign_alerts()
          |> assign_departures()
          |> assign_upcoming_departures()
@@ -95,7 +97,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
     ~H"""
     <.route_banner route={@route} direction_id={@direction_id} />
     <.stop_banner stop={@stop} />
-    <div class="container">
+    <div
+      class="container"
+      id={"#{@route.id}-#{@direction_id}-#{@stop.id}-schedule-finder"}
+      phx-hook="PageVisibility"
+    >
       <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
         <.alert_banner alerts={@alerts} />
         <section>
@@ -113,6 +119,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               <%= if upcoming_departures do %>
                 <.upcoming_departures_section
                   stop={@stop}
+                  loaded_upcoming_trips={@loaded_upcoming_trips}
                   upcoming_departures={upcoming_departures}
                   route={@route}
                   last_trip_time={@last_trip_time}
@@ -192,12 +199,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
+  def handle_event(
+        "open_upcoming_trip",
+        %{"stop-sequence" => stop_sequence, "trip-id" => trip_id},
+        socket
+      ) do
+    {:noreply,
+     socket
+     |> assign_trip_details(trip_id, String.to_integer(stop_sequence))}
+  end
+
   def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
     send(self(), %{selected_service: selected_service_label})
 
     {:noreply,
      socket
      |> assign(:departures, AsyncResult.loading())}
+  end
+
+  def handle_event("visibility_change", %{"state" => state}, socket) do
+    {:noreply,
+     socket
+     |> assign(:should_refresh?, state == "visible")
+     |> assign_upcoming_departures()}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -221,7 +245,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
-     |> assign_upcoming_departures()}
+     |> assign_upcoming_departures()
+     |> refresh_upcoming_trip_details()}
   end
 
   def handle_info(%{event: "alerts_updated"}, socket) do
@@ -279,6 +304,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     stop_id = stop_id
 
     parent_pid = self()
+    should_refresh? = socket.assigns.should_refresh?
 
     socket
     |> assign_async(
@@ -292,7 +318,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             stop_id: stop_id
           })
 
-        schedule_refresh_upcoming_departures(parent_pid)
+        _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
 
         {:ok, %{upcoming_departures: departures}}
       end
@@ -301,6 +327,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp assign_upcoming_departures(socket) do
     socket |> assign(:upcoming_departures, [])
+  end
+
+  defp refresh_upcoming_trip_details(socket) do
+    trip_ids_and_stop_seqs = Map.keys(socket.assigns.loaded_upcoming_trips)
+
+    Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
+      s |> assign_trip_details(trip_id, stop_sequence)
+    end)
+  end
+
+  defp assign_trip_details(socket, trip_id, stop_sequence) do
+    now = @date_time.now()
+    stop_id = socket.assigns.stop.id
+
+    trip_details =
+      UpcomingDepartures.trip_details(%{
+        now: now,
+        stop_id: stop_id,
+        stop_sequence: stop_sequence,
+        trip_id: trip_id
+      })
+
+    socket
+    |> update(:loaded_upcoming_trips, fn loaded_upcoming_trips ->
+      Map.put(loaded_upcoming_trips, {trip_id, stop_sequence}, AsyncResult.ok(trip_details))
+    end)
   end
 
   defp assign_alerts(%{assigns: %{stop: stop}} = socket) when not is_nil(stop) do
@@ -413,7 +465,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       })
 
     ~H"""
-    <div class={route_to_class(@route)}>
+    <div class={route_to_background_class(@route)}>
       <.link
         class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
         patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
@@ -425,7 +477,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 aria-hidden
                 line={@line_name}
                 mode={@mode}
-                class="shrink-0 -ml-xs"
+                class={"shrink-0 -ml-xs #{route_to_background_class(@route)}"}
               />
               <span class="grow notranslate">{@route.name}</span>
               <.icon
@@ -751,6 +803,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     </.attached_callout>
     <.upcoming_departures_section
       stop={@stop}
+      loaded_upcoming_trips={@loaded_upcoming_trips}
       upcoming_departures={@upcoming_departures}
       route={@route}
       last_trip_time={@last_trip_time}
@@ -768,8 +821,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}
+      loaded_upcoming_trips={@loaded_upcoming_trips}
     />
     <.remaining_service
+      loaded_upcoming_trips={@loaded_upcoming_trips}
       remaining_departures={@upcoming_departures |> Enum.drop(5)}
       route={@route}
       route_type={@route.type}
@@ -779,6 +834,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  attr :loaded_upcoming_trips, AsyncResult
   attr :stop_id, :string
   attr :upcoming_departures, :list
 
@@ -787,6 +843,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
       <.unstyled_accordion
         :for={upcoming_departure <- @upcoming_departures}
+        phx-click="open_upcoming_trip"
+        phx-value-trip-id={upcoming_departure.trip_id}
+        phx-value-stop-sequence={upcoming_departure.stop_sequence}
         id={"upcoming-departure-#{upcoming_departure.trip_id}-#{upcoming_departure.stop_sequence}"}
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
@@ -794,79 +853,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
         </:heading>
         <:content>
-          <.lined_list>
-            <.lined_list_item
-              route={upcoming_departure.route}
-              variant="mode"
-              stop_pin?={upcoming_departure.trip_details.stop == nil}
-            >
-              <div class="grow font-medium">
-                <.vehicle_label
-                  vehicle_info={upcoming_departure.trip_details.vehicle_info}
-                  route={upcoming_departure.route}
-                />
-              </div>
-              <div :if={upcoming_departure.trip_details.vehicle_info.departure_time}>
-                <.formatted_time time={upcoming_departure.trip_details.vehicle_info.departure_time} />
-              </div>
-            </.lined_list_item>
-            <details
-              :if={Enum.count(upcoming_departure.trip_details.stops_before) > 0}
-              class="group/details"
-            >
-              <summary class="cursor-pointer bg-charcoal-90">
-                <.lined_list_item
-                  background="charcoal-90"
-                  class="group-open/details:hidden"
-                  route={upcoming_departure.route}
-                  variant="squiggle"
-                >
-                  <div class="grow">
-                    <span class="text-[0.75rem] underline">
-                      {~t"Show more stops"}
-                    </span>
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3" />
-                  </div>
-                </.lined_list_item>
-                <.lined_list_item
-                  background="charcoal-90"
-                  class="hidden group-open/details:flex"
-                  route={upcoming_departure.route}
-                  variant="none"
-                >
-                  <div class="grow">
-                    <span class="text-[0.75rem] underline">
-                      {~t"Show fewer stops"}
-                    </span>
-                  </div>
-                  <div class="shrink-0">
-                    <.icon name="chevron-down" class="h-3 w-3 rotate-180" />
-                  </div>
-                </.lined_list_item>
-              </summary>
-              <.other_stop
-                :for={other_stop <- upcoming_departure.trip_details.stops_before}
-                background="charcoal-90"
-                class="border-t-xs border-gray-lightest bg-charcoal-90"
-                other_stop={other_stop}
-                route={upcoming_departure.route}
-              />
-            </details>
-
-            <.other_stop
-              :if={upcoming_departure.trip_details.stop}
-              highlight
-              other_stop={upcoming_departure.trip_details.stop}
-              route={upcoming_departure.route}
-            />
-            <.other_stop
-              :for={other_stop <- upcoming_departure.trip_details.stops_after}
-              other_stop={other_stop}
-              route={upcoming_departure.route}
-            />
-          </.lined_list>
+          <.trip_details_wrapper
+            route={upcoming_departure.route}
+            trip_details={
+              Map.get(
+                @loaded_upcoming_trips,
+                {upcoming_departure.trip_id, upcoming_departure.stop_sequence},
+                AsyncResult.loading()
+              )
+            }
+          />
         </:content>
       </.unstyled_accordion>
     </div>
@@ -894,22 +890,117 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </:additional_info>
 
       <:additional_info :if={
-        @upcoming_departure.trip_details.vehicle_info.vehicle_name &&
+        @upcoming_departure.vehicle_name &&
           @upcoming_departure.route.type == 4
       }>
-        <i>{@upcoming_departure.trip_details.vehicle_info.vehicle_name}</i>
+        <i>{@upcoming_departure.vehicle_name}</i>
       </:additional_info>
 
       <:time>
         <div class="flex flex-col items-end">
           <div class="inline-flex gap-xs flex-nowrap items-center">
             <.prediction_time_display arrival_status={@upcoming_departure.arrival_status} />
-            <.vehicle_crowding crowding={crowding(@upcoming_departure.trip_details.vehicle_info)} />
+            <.vehicle_crowding crowding={@upcoming_departure.crowding} />
           </div>
           <.prediction_substatus_display arrival_substatus={@upcoming_departure.arrival_substatus} />
         </div>
       </:time>
     </.departure_heading>
+    """
+  end
+
+  defp trip_details_wrapper(assigns) do
+    ~H"""
+    <.async_result :let={trip_details} assign={@trip_details}>
+      <:loading>
+        <div class="mt-lg mb-md flex justify-center">
+          <.spinner aria_label={~t"Loading trip details"} />
+        </div>
+      </:loading>
+      <:failed>
+        <.callout>{~t(There was a problem loading trip details)}</.callout>
+      </:failed>
+
+      <.trip_details trip_details={trip_details} route={@route} />
+    </.async_result>
+    """
+  end
+
+  defp trip_details(assigns) do
+    ~H"""
+    <.lined_list>
+      <.lined_list_item
+        route={@route}
+        variant="mode"
+        stop_pin?={@trip_details.stop == nil}
+      >
+        <div class="grow font-medium">
+          <.vehicle_label
+            vehicle_info={@trip_details.vehicle_info}
+            route={@route}
+          />
+        </div>
+        <div :if={@trip_details.vehicle_info.departure_time}>
+          <.formatted_time time={@trip_details.vehicle_info.departure_time} />
+        </div>
+      </.lined_list_item>
+      <details
+        :if={Enum.count(@trip_details.stops_before) > 0}
+        class="group/details"
+      >
+        <summary class="cursor-pointer bg-charcoal-90">
+          <.lined_list_item
+            background="charcoal-90"
+            class="group-open/details:hidden"
+            route={@route}
+            variant="squiggle"
+          >
+            <div class="grow">
+              <span class="text-[0.75rem] underline">
+                {~t"Show more stops"}
+              </span>
+            </div>
+            <div class="shrink-0">
+              <.icon name="chevron-down" class="h-3 w-3" />
+            </div>
+          </.lined_list_item>
+          <.lined_list_item
+            background="charcoal-90"
+            class="hidden group-open/details:flex"
+            route={@route}
+            variant="none"
+          >
+            <div class="grow">
+              <span class="text-[0.75rem] underline">
+                {~t"Show fewer stops"}
+              </span>
+            </div>
+            <div class="shrink-0">
+              <.icon name="chevron-down" class="h-3 w-3 rotate-180" />
+            </div>
+          </.lined_list_item>
+        </summary>
+        <.other_stop
+          :for={other_stop <- @trip_details.stops_before}
+          background="charcoal-90"
+          class="border-t-xs border-gray-lightest bg-charcoal-90"
+          other_stop={other_stop}
+          route={@route}
+        />
+      </details>
+
+      <.other_stop
+        :if={@trip_details.stop}
+        highlight
+        other_stop={@trip_details.stop}
+        route={@route}
+      />
+      <.other_stop
+        :for={other_stop <- @trip_details.stops_after}
+        other_stop={other_stop}
+        route={@route}
+      />
+    </.lined_list>
     """
   end
 
@@ -1189,18 +1280,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp substatus_icon(assigns), do: ~H""
 
-  def get_last_departure_time(last_departure) do
-    if(is_nil(last_departure.trip_details.stop)) do
-      nil
-    else
-      {_, last_departure_time} = last_departure.trip_details.stop.time
-
-      if(is_struct(last_departure_time, DateTime)) do
-        last_departure_time
-      end
-    end
-  end
-
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
          last_trip_time: %{result: last_trip_time}
@@ -1214,7 +1293,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         |> Enum.find(nil, fn departure -> departure |> Map.get(:last_trip?, nil) end)
       )
 
-    last_departure_time = get_last_departure_time(last_departure)
+    last_departure_time = last_departure.time
 
     if(is_nil(last_departure_time)) do
       true
@@ -1275,6 +1354,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         </.attached_callout>
       </summary>
       <.upcoming_departures_table
+        loaded_upcoming_trips={@loaded_upcoming_trips}
         stop_id={@stop_id}
         upcoming_departures={@remaining_departures}
       />
