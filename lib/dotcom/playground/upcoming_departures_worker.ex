@@ -186,13 +186,15 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
            predicted_schedules
            |> Map.values()
            |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
-           |> Enum.map(fn ps ->
+           |> Stream.map(fn ps ->
              UpcomingDepartures.to_upcoming_departure(%{
                now: Dotcom.Utils.DateTime.now(),
                predicted_schedule: ps,
                route_type: Routes.Route.type_atom(route)
              })
-           end)}
+           end)
+           |> Stream.reject(&(&1.arrival_status == :hidden))
+           |> Enum.to_list()}
     }
   end
 
