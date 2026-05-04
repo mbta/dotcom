@@ -14,6 +14,8 @@ defmodule Dotcom.ScheduleFinder do
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
 
+  @behaviour Dotcom.ScheduleFinder.Behaviour
+
   @alerts_repo_module Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
@@ -59,11 +61,7 @@ defmodule Dotcom.ScheduleFinder do
           }
   end
 
-  @doc """
-  Service-impacting currently active alerts for a route, including track changes
-  at the indicated stop. Excludes commuter rail trip cancellations and delays.
-  """
-  @spec current_alerts(Stop.t(), Route.t()) :: [Alert.t()]
+  @impl Dotcom.ScheduleFinder.Behaviour
   def current_alerts(stop, route) do
     route.id
     |> @alerts_repo_module.by_route_id_and_type(route.type, @date_time_module.now())
@@ -94,11 +92,7 @@ defmodule Dotcom.ScheduleFinder do
 
   defp cr_trip_cancellation_or_delay?(_), do: false
 
-  @doc """
-  Get scheduled departures for a given route/direction/stop/date.
-  """
-  @spec daily_departures(Route.id_t(), 0 | 1, Stop.id_t(), String.t()) ::
-          {:ok, [DailyDeparture.t()]} | {:error, term()}
+  @impl Dotcom.ScheduleFinder.Behaviour
   def daily_departures(route_id, direction_id, stop_id, date) do
     # Maybe add filter[stop_sequence] to help looped routes
     case @schedules_repo.by_route_ids(routes(route_id),
@@ -152,11 +146,7 @@ defmodule Dotcom.ScheduleFinder do
 
   defp time_desc(_), do: nil
 
-  @doc """
-  Get scheduled arrivals for one trip on a date, starting at a given stop_sequence.
-  """
-  @spec next_arrivals(Trip.id_t(), non_neg_integer(), String.t()) ::
-          {:ok, [FutureArrival.t()]} | {:error, term()}
+  @impl Dotcom.ScheduleFinder.Behaviour
   def next_arrivals(trip_id, min_stop_sequence, date) do
     # Maybe add filter[stop_sequence] to help looped routes
     case @schedules_repo.schedule_for_trip(trip_id, date: date) do
@@ -255,14 +245,7 @@ defmodule Dotcom.ScheduleFinder do
 
   def simplify_platform_name(name, _), do: name
 
-  @doc """
-  Clearly group a list of departures by route and destination. Intended to be used with subway departures.
-
-  In the case of the Red and Green lines, scheduled departures might include multiple destinations, e.g. trains to Ashmont _and_ trains to Braintree, and/or multiple routes, as in the case of the distinct Green Line "branches".
-  """
-  @spec subway_groups([DailyDeparture.t()], 0 | 1, Stop.id_t()) :: [
-          {Route.t(), String.t(), [DateTime.t()]}
-        ]
+  @impl Dotcom.ScheduleFinder.Behaviour
   def subway_groups(departures, direction_id, stop_id) do
     departures
     |> Enum.group_by(& &1.route)

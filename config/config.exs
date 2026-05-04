@@ -48,6 +48,8 @@ config :dotcom, :repo_modules,
   stops: Stops.Repo,
   vehicles: Vehicles.Repo
 
+config :dotcom, :schedule_finder_module, Dotcom.ScheduleFinder
+
 config :dotcom, :system_status_cache_modules,
   commuter_rail: Dotcom.SystemStatus.CommuterRailCache,
   subway: Dotcom.SystemStatus.SubwayCache
