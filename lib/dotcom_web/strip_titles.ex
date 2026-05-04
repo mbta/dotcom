@@ -1,4 +1,6 @@
 defmodule StripTitle do
+  @moduledoc "Removes title tags from the path/pattern you see below"
+
   def strip_titles() do
     for path <-
           "./priv/static/icon-svg/*.svg"
