@@ -10,14 +10,16 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIconsTest do
 
   describe "otp_route_icon/1" do
     test "handles Logan Express, falling back to generic shuttle bus" do
+      route =
+        build(:route,
+          agency: build(:agency, name: "Logan Express"),
+          short_name: Faker.Util.pick(Helpers.logan_express_icon_names())
+        )
+
       assert render_component(&otp_route_icon/1, %{
-               route:
-                 build(:route,
-                   agency: build(:agency, name: "Logan Express"),
-                   short_name: Faker.Util.pick(Helpers.logan_express_icon_names())
-                 )
+               route: route
              })
-             |> matches_title?("Logan Express")
+             |> matches_label?(route.long_name <> " " <> route.agency.name)
 
       assert render_component(&otp_route_icon/1, %{
                route:
@@ -26,19 +28,21 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIconsTest do
                    short_name: "unknown"
                  )
              })
-             |> matches_title?("Shuttle Bus")
+             |> matches_label?("Shuttle")
     end
 
     test "handles Massport, falling back to generic shuttle bus" do
+      route =
+        build(:route,
+          agency: build(:agency, name: "Massport"),
+          short_name: Faker.Util.pick(Helpers.massport_icon_names()),
+          long_name: nil
+        )
+
       assert render_component(&otp_route_icon/1, %{
-               route:
-                 build(:route,
-                   agency: build(:agency, name: "Massport"),
-                   short_name: Faker.Util.pick(Helpers.massport_icon_names()),
-                   long_name: nil
-                 )
+               route: route
              })
-             |> matches_title?("Massport")
+             |> matches_label?(route.agency.name <> " Shuttle " <> route.short_name)
 
       assert render_component(&otp_route_icon/1, %{
                route:
@@ -47,7 +51,7 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIconsTest do
                    short_name: "unknown"
                  )
              })
-             |> matches_title?("Shuttle Bus")
+             |> matches_label?("Shuttle")
     end
 
     test "handles MBTA routes" do
@@ -55,12 +59,12 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIconsTest do
     end
   end
 
-  defp matches_title?(html, text) do
+  defp matches_label?(html, text) do
     {:ok, document} = Floki.parse_document(html)
 
     title =
       document
-      |> Floki.find("title")
+      |> Floki.attribute("svg", "aria-label")
       |> Floki.text()
       |> String.trim()
 
