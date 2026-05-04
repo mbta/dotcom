@@ -1,6 +1,7 @@
 defmodule Dotcom.Playground.UpcomingDeparturesWorker do
   use GenServer
 
+  alias Dotcom.ScheduleFinder.UpcomingDepartures
   alias Dotcom.Playground.PredictionsManager
 
   # Client
@@ -27,6 +28,8 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
   def init(%{route: route, stop_id: stop_id, direction_id: direction_id} = params) do
     PredictionsManager.subscribe(%{route: route.id, stop: stop_id, direction_id: direction_id})
 
+    schedule_refresh()
+
     predicted_schedules =
       params
       |> fetch_schedules()
@@ -40,8 +43,14 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
        predictions: :loading,
        predicted_schedules_init: predicted_schedules,
        predicted_schedules: :loading,
-       subscribers: MapSet.new()
+       route: route,
+       subscribers: MapSet.new(),
+       upcoming_departures: :loading
      }}
+  end
+
+  defp schedule_refresh() do
+    Process.send_after(self(), :refresh, 1000)
   end
 
   defp fetch_schedules(%{
@@ -92,7 +101,19 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
     new_state =
       events
       |> Enum.reduce(state, &apply_prediction_event/2)
+      |> update_upcoming_departures()
       |> publish()
+
+    {:noreply, new_state}
+  end
+
+  def handle_info(:refresh, state) do
+    new_state =
+      state
+      |> update_upcoming_departures()
+      |> publish()
+
+    schedule_refresh()
 
     {:noreply, new_state}
   end
@@ -151,8 +172,38 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
     end
   end
 
+  defp update_upcoming_departures(
+         %{
+           route: route,
+           predicted_schedules: {:ok, predicted_schedules}
+         } =
+           state
+       ) do
+    %{
+      state
+      | upcoming_departures:
+          {:ok,
+           predicted_schedules
+           |> Map.values()
+           |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
+           |> Enum.map(fn ps ->
+             UpcomingDepartures.to_upcoming_departure(%{
+               now: Dotcom.Utils.DateTime.now(),
+               predicted_schedule: ps,
+               route_type: Routes.Route.type_atom(route)
+             })
+           end)}
+    }
+  end
+
+  defp update_upcoming_departures(state), do: state
+
   defp publish(
-         %{subscribers: subscribers, predicted_schedules: {:ok, predicted_schedules}} = state
+         %{
+           subscribers: subscribers,
+           predicted_schedules: {:ok, predicted_schedules},
+           upcoming_departures: {:ok, upcoming_departures}
+         } = state
        ) do
     subscribers
     |> Enum.each(fn pid ->
@@ -163,7 +214,8 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
            predicted_schedules:
              predicted_schedules
              |> Map.values()
-             |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
+             |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime),
+           upcoming_departures: upcoming_departures
          }}
       )
     end)

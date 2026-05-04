@@ -15,6 +15,8 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
       stop_picker_or: 1
     ]
 
+  import DotcomWeb.ScheduleFinderLive, only: [upcoming_departure_heading: 1]
+
   alias Dotcom.Playground.UpcomingDeparturesManager
   alias Phoenix.LiveView
   alias Phoenix.LiveView.AsyncResult
@@ -47,6 +49,7 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
      |> assign_direction(direction_id)
      |> assign_stop(stop_id)
      |> assign(:predicted_schedules, AsyncResult.loading())
+     |> assign(:upcoming_departures, AsyncResult.loading())
      |> subscribe_or_unsubscribe_to_upcoming_departures()}
   end
 
@@ -102,16 +105,33 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
           <.stop_banner stop={@stop} />
 
           <div class="container mt-4">
-            <.async_result :let={predicted_schedules} assign={@predicted_schedules}>
-              <:loading><.spinner aria_label="Loading Predicted Schedules" /></:loading>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="h-[40rem] overflow-scroll">
+                <.async_result :let={predicted_schedules} assign={@predicted_schedules}>
+                  <:loading><.spinner aria_label="Loading Predicted Schedules" /></:loading>
 
-              <div class="border-xs border-t-0 border-gray-lightest">
-                <.predicted_schedule
-                  :for={predicted_schedule <- predicted_schedules}
-                  predicted_schedule={predicted_schedule}
-                />
+                  <div class="border-xs border-t-0 border-gray-lightest">
+                    <.predicted_schedule
+                      :for={predicted_schedule <- predicted_schedules}
+                      predicted_schedule={predicted_schedule}
+                    />
+                  </div>
+                </.async_result>
               </div>
-            </.async_result>
+
+              <div class="h-[40rem] overflow-scroll">
+                <.async_result :let={upcoming_departures} assign={@upcoming_departures}>
+                  <:loading><.spinner aria_label="Loading Predicted Schedules" /></:loading>
+
+                  <div class="border-xs border-t-0 border-gray-lightest">
+                    <.upcoming_departure
+                      :for={upcoming_departure <- upcoming_departures}
+                      upcoming_departure={upcoming_departure}
+                    />
+                  </div>
+                </.async_result>
+              </div>
+            </div>
           </div>
         </.stop_picker_or>
       </.direction_picker_or>
@@ -124,6 +144,19 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
         <.icon :if={!@subscribed?} name="xmark" class="size-5" />
       </div>
     </div>
+    """
+  end
+
+  defp upcoming_departure(assigns) do
+    ~H"""
+    <details class="border-t-xs border-gray-lightest p-2">
+      <summary>
+        <.upcoming_departure_heading upcoming_departure={@upcoming_departure} />
+        <span class="text-sm">{@upcoming_departure.trip_id}</span>
+      </summary>
+
+      <pre>{inspect @upcoming_departure, pretty: true}</pre>
+    </details>
     """
   end
 
@@ -204,10 +237,14 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
 
   @impl LiveView
   def handle_info(
-        {:upcoming_departures_update, %{predicted_schedules: predicted_schedules}},
+        {:upcoming_departures_update,
+         %{predicted_schedules: predicted_schedules, upcoming_departures: upcoming_departures}},
         socket
       ) do
-    {:noreply, socket |> assign(:predicted_schedules, AsyncResult.ok(predicted_schedules))}
+    {:noreply,
+     socket
+     |> assign(:predicted_schedules, AsyncResult.ok(predicted_schedules))
+     |> assign(:upcoming_departures, AsyncResult.ok(upcoming_departures))}
   end
 
   @impl LiveView

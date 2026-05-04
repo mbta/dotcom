@@ -869,7 +869,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp upcoming_departure_heading(assigns) do
+  def upcoming_departure_heading(assigns) do
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>
