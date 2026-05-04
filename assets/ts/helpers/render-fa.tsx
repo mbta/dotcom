@@ -13,7 +13,7 @@ const FontAwesomeIcon = (
         : `fa ${svgName} notranslate`
     }
     aria-hidden={ariaHide ? "true" : "false"}
-    {...(ariaLabel.length ? {"aria-label":ariaLabel} : {})}
+    {...(ariaLabel.length ? { "aria-label": ariaLabel } : {})}
   />
 );
 

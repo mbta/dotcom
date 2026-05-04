@@ -9,7 +9,7 @@ const SVGIcon = (
   <span
     className={className ? `notranslate ${className}` : "notranslate"}
     aria-hidden={ariaHide ? "true" : "false"}
-    {...(ariaLabel.length ? {"aria-label":ariaLabel} : {})}
+    {...(ariaLabel.length ? { "aria-label": ariaLabel } : {})}
     // eslint-disable-next-line react/no-danger
     dangerouslySetInnerHTML={{ __html: svgText }}
   />
