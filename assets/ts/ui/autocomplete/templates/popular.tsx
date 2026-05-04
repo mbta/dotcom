@@ -9,7 +9,9 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
 }) => {
   const iconHtml = getPopularIcon(item.icon);
   const featureIcons = getFeatureIcons(item, "popular");
-  const featureIconLabels = item.features.map(feature => feature.replace("_"," "))
+  const featureIconLabels = item.features.map(feature =>
+    feature.replace("_", " ")
+  );
   return (
     <div className="aa-ItemContent mt-1">
       <div className="flex-grow">
