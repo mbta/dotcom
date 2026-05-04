@@ -1,5 +1,5 @@
 <div class="c-grid-buttons">
-  <%= for {route, idx} <- Enum.with_index(@routes) do %>
+  <%= for {route, idx} <- (Enum.filter(@routes, fn(route) -> is_atom(route) or route.id != "CR-Foxboro" end) |> Enum.with_index()) do %>
     {render("_grid_button.html",
       conn: @conn,
       route: route,
@@ -10,6 +10,25 @@
       index: idx
     )}
   <% end %>
+  <% wc_route =
+    %Routes.Route{
+      id: "Bostonstadium",
+      name: "Boston Stadium Trains",
+      type: 2
+    }
+
+  test_route = @routes |> Enum.at(0) %>
+  {if !is_atom(test_route) and test_route.type == 2,
+    do:
+      render("_grid_button.html",
+        conn: @conn,
+        route: wc_route,
+        show_icon?: @show_icons?,
+        link_path: ~p"/schedules/bostonstadium",
+        has_alert?: false,
+        id_prefix: assigns[:id_prefix],
+        index: Enum.count(@routes)
+      )}
   <%= if assigns[:sub_routes] do %>
     <div class="c-grid-button c-grid-buttons__condensed">
       <%= for {route, idx} <- Enum.with_index(Map.get(assigns, :sub_routes, [])) do %>
