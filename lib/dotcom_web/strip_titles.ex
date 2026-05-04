@@ -8,7 +8,7 @@ defmodule StripTitle do
         |> File.read!()
         |> String.replace(~r/<title>.*<\/title>/is, "")
 
-      dbg(File.write(path, contents))
+      File.write(path, contents)
     end
   end
 end
