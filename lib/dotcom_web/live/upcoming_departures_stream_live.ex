@@ -202,6 +202,7 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
     {:noreply, socket |> push_patch(to: ~p"/preview/upcoming-departures-stream?#{params}")}
   end
 
+  @impl LiveView
   def handle_info(
         {:upcoming_departures_update, %{predicted_schedules: predicted_schedules}},
         socket
@@ -238,10 +239,10 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
 
   defp subscribe_to_upcoming_departures(socket) do
     direction_id = socket.assigns.direction_id
-    route_id = socket.assigns.route_id
+    route = socket.assigns.route
     stop_id = socket.assigns.stop_id
 
-    params = %{route: route_id, direction_id: direction_id, stop: stop_id}
+    params = %{route: route, direction_id: direction_id, stop_id: stop_id}
 
     UpcomingDeparturesManager.subscribe(params)
 

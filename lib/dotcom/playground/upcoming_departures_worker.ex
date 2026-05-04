@@ -24,14 +24,12 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
   end
 
   # Server
-  def init(%{route: route, stop: stop, direction_id: direction_id} = params) do
-    PredictionsManager.subscribe(params)
+  def init(%{route: route, stop_id: stop_id, direction_id: direction_id} = params) do
+    PredictionsManager.subscribe(%{route: route.id, stop: stop_id, direction_id: direction_id})
 
     predicted_schedules =
-      Schedules.Repo.by_route_ids([route],
-        direction_id: direction_id,
-        stop_ids: [stop]
-      )
+      params
+      |> fetch_schedules()
       |> Map.new(fn s ->
         {{s.trip.id, s.stop_sequence}, %PredictedSchedule{schedule: s, prediction: nil}}
       end)
@@ -46,7 +44,21 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
      }}
   end
 
-  def terminate(_reason, %{params: _params}) do
+  defp fetch_schedules(%{
+         route: %Routes.Route{id: route_id, type: route_type},
+         direction_id: direction_id,
+         stop_id: stop_id
+       })
+       when route_type in [2, 3, 4] do
+    Schedules.Repo.by_route_ids([route_id],
+      direction_id: direction_id,
+      stop_ids: [stop_id]
+    )
+  end
+
+  defp fetch_schedules(_), do: []
+
+  def(terminate(_reason, %{params: _params})) do
     PredictionsManager.unsubscribe()
   end
 
