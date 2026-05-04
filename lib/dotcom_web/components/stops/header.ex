@@ -99,7 +99,7 @@ defmodule DotcomWeb.Components.Stops.Header do
       type="icon-svg"
       name={"icon-mode-#{Recase.to_kebab(@mode)}-small"}
       class="h-6 w-6 inline-flex"
-      aria-label={@mode}
+      aria-label={@mode |> String.replace("_", " ") |> Recase.to_title()}
     />
     """
   end
