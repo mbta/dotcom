@@ -67,7 +67,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
 
   defp fetch_schedules(_), do: []
 
-  def(terminate(_reason, %{params: _params})) do
+  def terminate(_reason, %{params: _params}) do
     PredictionsManager.unsubscribe()
   end
 
