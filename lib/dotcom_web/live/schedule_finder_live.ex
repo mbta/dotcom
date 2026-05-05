@@ -878,6 +878,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.badge :if={@upcoming_departure.last_trip?} class="bg-charcoal-80 text-nowrap text-sm">
             {~t"Last"}
           </.badge>
+          <a
+            :if={is_binary(@upcoming_departure.trip_id)}
+            href={"/preview/my-trip/?trip_id=#{@upcoming_departure.trip_id}&route_id=#{@upcoming_departure.route.id}"}
+          >
+            Follow
+          </a>
         </div>
       </:headsign>
 
