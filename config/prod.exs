@@ -12,11 +12,11 @@ config :dotcom, :secure_pipeline,
 
 config :dotcom, DotcomWeb.Endpoint,
   # Enable IPv6 and bind on all interfaces.
-  # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+  # Set it to {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
   # See the documentation on https://hexdocs.pm/bandit/Bandit.html#t:options/0
   # for details about using IPv6 vs IPv4 and loopback vs public addresses.m the server machine.
   http: [
-    ip: :inet6,
+    ip: {0, 0, 0, 0, 0, 0, 0, 0},
     thousand_island_options: [
       num_acceptors: 2_048,
       num_connections: 32_768
