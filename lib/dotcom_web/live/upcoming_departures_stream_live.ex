@@ -48,6 +48,7 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
      |> assign_route(route_id)
      |> assign_direction(direction_id)
      |> assign_stop(stop_id)
+     |> assign_departures_path()
      |> assign(:predicted_schedules, AsyncResult.loading())
      |> assign(:upcoming_departures, AsyncResult.loading())
      |> subscribe_or_unsubscribe_to_upcoming_departures()}
@@ -92,6 +93,20 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
     |> assign(:stop, Stops.Repo.get(stop_id))
   end
 
+  defp assign_departures_path(
+         %{assigns: %{route_id: route_id, direction_id: direction_id, stop_id: stop_id}} = socket
+       )
+       when route_id != nil and direction_id != nil and stop_id != nil do
+    params = %{route_id: route_id, direction_id: direction_id, stop_id: stop_id}
+
+    socket |> assign(:departures_path, ~p"/departures?#{params}")
+  end
+
+  defp assign_departures_path(socket) do
+    socket
+    |> assign(:departures_path, nil)
+  end
+
   @impl LiveView
   def render(assigns) do
     ~H"""
@@ -105,7 +120,15 @@ defmodule DotcomWeb.UpcomingDeparturesStreamLive do
           <.stop_banner stop={@stop} />
 
           <div class="container mt-4">
-            <div class="grid grid-cols-2 gap-2">
+            <.link
+              :if={@departures_path}
+              target="_blank"
+              navigate={@departures_path}
+            >
+              <.icon name="arrow-right" class="size-3" /> Departures Page
+            </.link>
+
+            <div class="grid grid-cols-2 gap-2 mt-4">
               <div class="h-[40rem] overflow-scroll">
                 <.async_result :let={predicted_schedules} assign={@predicted_schedules}>
                   <:loading><.spinner aria_label="Loading Predicted Schedules" /></:loading>
