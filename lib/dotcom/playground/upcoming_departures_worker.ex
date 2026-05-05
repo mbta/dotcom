@@ -45,7 +45,8 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
        predicted_schedules: :loading,
        route: route,
        subscribers: MapSet.new(),
-       upcoming_departures: :loading
+       upcoming_departures: :loading,
+       published_upcoming_departures: nil
      }}
   end
 
@@ -102,7 +103,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
       events
       |> Enum.reduce(state, &apply_prediction_event/2)
       |> update_upcoming_departures()
-      |> publish()
+      |> publish_if_updated()
 
     {:noreply, new_state}
   end
@@ -111,7 +112,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
     new_state =
       state
       |> update_upcoming_departures()
-      |> publish()
+      |> publish_if_updated()
 
     schedule_refresh()
 
@@ -199,6 +200,19 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
   end
 
   defp update_upcoming_departures(state), do: state
+
+  defp publish_if_updated(
+         %{
+           upcoming_departures: {:ok, upcoming_departures},
+           published_upcoming_departures: published_upcoming_departures
+         } = state
+       ) do
+    if upcoming_departures != published_upcoming_departures do
+      publish(state)
+    end
+
+    %{state | published_upcoming_departures: upcoming_departures}
+  end
 
   defp publish(
          %{
