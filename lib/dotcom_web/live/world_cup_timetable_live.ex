@@ -94,7 +94,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
       width="19"
       height="13"
       viewBox="0 0 19 13"
-      aria-label={~t"Reserved Ticket Required"}
+      aria-hidden="true"
     >
       <path
         fill-rule="evenodd"
