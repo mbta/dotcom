@@ -12,20 +12,18 @@ export async function scenario({ page, baseURL }) {
     "Orange Line",
   );
 
-  await page.waitForSelector("h4.m-schedule-diagram__stop-link a span");
+  await page.waitForSelector(".m-schedule-diagram__stop-link span");
   await expect
-    .poll(async () =>
-      page.locator("h4.m-schedule-diagram__stop-link a span").count(),
-    )
+    .poll(async () => page.locator(".m-schedule-diagram__stop-link").count())
     .toBeGreaterThan(1);
 
   // Get the first and last stop names
   const first = await page
-    .locator("h4.m-schedule-diagram__stop-link a span:last-child")
+    .locator(".m-schedule-diagram__stop-link span:last-child")
     .first()
     .textContent();
   const last = await page
-    .locator("h4.m-schedule-diagram__stop-link a span:last-child")
+    .locator(".m-schedule-diagram__stop-link span:last-child")
     .last()
     .textContent();
 
@@ -33,9 +31,9 @@ export async function scenario({ page, baseURL }) {
 
   // Expect them to be reversed after clicking the direction filter
   await expect(
-    page.locator("h4.m-schedule-diagram__stop-link a span:last-child").first(),
+    page.locator(".m-schedule-diagram__stop-link span:last-child").first(),
   ).toHaveText(last);
   await expect(
-    page.locator("h4.m-schedule-diagram__stop-link a span:last-child").last(),
+    page.locator(".m-schedule-diagram__stop-link span:last-child").last(),
   ).toHaveText(first);
 }
