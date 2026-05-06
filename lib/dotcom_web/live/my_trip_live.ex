@@ -11,7 +11,7 @@ defmodule DotcomWeb.MyTripLive do
 
   def mount(params, _session, socket) do
     trip_id = params |> Map.get("trip_id")
-    vehicle = @vehicle_repo.trip(trip_id, [])
+    vehicle = @vehicle_repo.trip(trip_id)
 
     route_id = params |> Map.get("route_id")
     route = @routes_repo.get(route_id)
