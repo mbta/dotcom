@@ -61,6 +61,7 @@ defmodule DotcomWeb.Components.TripPlanner.RouteIcons do
         "Green" <> _ -> "green"
         "Orange" <> _ -> "orange"
         "Red" <> _ -> "red"
+        "Mattapan" <> _ -> "red"
         _ -> "cr"
       end
 

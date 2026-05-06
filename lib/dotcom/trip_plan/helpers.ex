@@ -99,6 +99,7 @@ defmodule Dotcom.TripPlan.Helpers do
       "Green" <> _ -> "00843D"
       "Orange" <> _ -> "#ED8B00"
       "Red" <> _ -> "#DA291C"
+      "Mattapan" <> _ -> "#DA291C"
       _ -> "#80276c"
     end
   end
