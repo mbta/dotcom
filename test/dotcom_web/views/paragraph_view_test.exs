@@ -630,7 +630,13 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       ] = Floki.find(document, ".c-accordion-ui__trigger")
 
       assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}],
-              [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
+              [
+                {"span",
+                 [
+                   {"aria-label", "red line"},
+                   {"class", "notranslate c-svg__icon-red-line-default"}
+                 ], _}
+              ]} = icon_1
 
       assert title_1 =~ ~r/\s*Section 1\s*/
       assert title_2 =~ ~r/\s*Section 2\s*/

@@ -143,7 +143,9 @@ defmodule Dotcom.ContentRewriterTest do
       assert output =~
                ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
 
-      assert output =~ ~r/<span class=\"notranslate c-svg__icon-green-line-small\"><svg/
+      assert output =~
+               ~r/<span aria-label=\"green line\" class=\"notranslate c-svg__icon-green-line-small\"><svg/
+
       assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
     end
 
