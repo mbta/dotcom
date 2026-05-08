@@ -69,7 +69,6 @@ defmodule DotcomWeb.CacheController do
       _ ->
         %{type: :unstructured_keys}
     end
-    |> dbg()
   end
 
   defp parse_structured(_), do: %{type: :unstructured_keys}
