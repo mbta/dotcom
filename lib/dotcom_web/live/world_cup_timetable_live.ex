@@ -69,6 +69,11 @@ defmodule DotcomWeb.WorldCupTimetableLive do
      ]}
   ]
 
+  def match_day?() do
+    date = Util.now()
+    @match_list |> Enum.any?(fn {match_date, _, _, _, _} -> match_date == date end)
+  end
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
