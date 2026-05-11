@@ -35,52 +35,52 @@ export const accessibleIcon = (
 export const alertIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, alertIconSvg, false);
 
-export const blueLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, blueLineIconSvg, false);
+export const blueLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, blueLineIconSvg, false, ariaLabel);
 
 export const busIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, busIconSvg, false);
 
-export const commuterRailIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, commuterRailIconSvg, false);
+export const commuterRailIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, commuterRailIconSvg, false, ariaLabel);
 
-export const ferryIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, ferryIconSvg, false);
+export const ferryIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, ferryIconSvg, false, ariaLabel);
 
 export const genericSubwayIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, genericSubwayIconSvg, false);
 
-export const greenLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenLineIconSvg, false);
+export const greenLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, greenLineIconSvg, false, ariaLabel);
 
-export const greenBLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenBLineIconSvg, false);
+export const greenBLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, greenBLineIconSvg, false, ariaLabel);
 
-export const greenCLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenCLineIconSvg, false);
+export const greenCLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, greenCLineIconSvg, false, ariaLabel);
 
-export const greenDLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenDLineIconSvg, false);
+export const greenDLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, greenDLineIconSvg, false, ariaLabel);
 
-export const greenELineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenELineIconSvg, false);
+export const greenELineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, greenELineIconSvg, false, ariaLabel);
 
-export const mattapanLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, mattapanLineIconSvg, false);
+export const mattapanLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, mattapanLineIconSvg, false, ariaLabel);
 
-export const orangeLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, orangeLineIconSvg, false);
+export const orangeLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, orangeLineIconSvg, false, ariaLabel);
 
 export const parkingIcon = (
   className: string = "",
   ariaLabel = ""
 ): JSX.Element => renderFa(className, "fa-square-parking", false, ariaLabel);
 
-export const redLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, redLineIconSvg, false);
+export const redLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, redLineIconSvg, false, ariaLabel);
 
-export const silverLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, silverLineIconSvg, false);
+export const silverLineIcon = (className: string = "", ariaLabel: string = ""): JSX.Element =>
+  renderSvg(className, silverLineIconSvg, false, ariaLabel);
 
 export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, vehicleArrowSvg, false);
@@ -97,19 +97,19 @@ export const elevatorIcon = (className: string = ""): JSX.Element =>
 export const faresIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, faresIconSvg, false);
 
-export const modeIcon = (routeId: string): JSX.Element | undefined => {
-  if (routeId.startsWith("CR-")) return commuterRailIcon("c-svg__icon");
-  if (routeId.startsWith("Boat-")) return ferryIcon("c-svg__icon");
-  if (routeId === "Blue") return blueLineIcon("c-svg__icon");
-  if (routeId === "Green") return greenLineIcon("c-svg__icon");
-  if (routeId === "Green-B") return greenBLineIcon("c-svg__icon");
-  if (routeId === "Green-C") return greenCLineIcon("c-svg__icon");
-  if (routeId === "Green-D") return greenDLineIcon("c-svg__icon");
-  if (routeId === "Green-E") return greenELineIcon("c-svg__icon");
-  if (routeId === "Mattapan") return mattapanLineIcon("c-svg__icon");
-  if (routeId === "Orange") return orangeLineIcon("c-svg__icon");
-  if (routeId === "Red") return redLineIcon("c-svg__icon");
-  if (isASilverLineRoute(routeId)) return silverLineIcon("c-svg__icon");
+export const modeIcon = (routeId: string, routeName: string): JSX.Element | undefined => {
+  if (routeId.startsWith("CR-")) return commuterRailIcon("c-svg__icon", routeName);
+  if (routeId.startsWith("Boat-")) return ferryIcon("c-svg__icon", routeName);
+  if (routeId === "Blue") return blueLineIcon("c-svg__icon", routeName);
+  if (routeId === "Green") return greenLineIcon("c-svg__icon", routeName);
+  if (routeId === "Green-B") return greenBLineIcon("c-svg__icon", routeName);
+  if (routeId === "Green-C") return greenCLineIcon("c-svg__icon", routeName);
+  if (routeId === "Green-D") return greenDLineIcon("c-svg__icon", routeName);
+  if (routeId === "Green-E") return greenELineIcon("c-svg__icon", routeName);
+  if (routeId === "Mattapan") return mattapanLineIcon("c-svg__icon", routeName);
+  if (routeId === "Orange") return orangeLineIcon("c-svg__icon", routeName);
+  if (routeId === "Red") return redLineIcon("c-svg__icon", routeName);
+  if (isASilverLineRoute(routeId)) return silverLineIcon("c-svg__icon", routeName);
 
   return busIcon("c-svg__icon-bus-small");
 };
