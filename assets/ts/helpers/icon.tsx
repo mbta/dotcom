@@ -123,7 +123,7 @@ export const faresIcon = (className: string = ""): JSX.Element =>
 
 export const modeIcon = (
   routeId: string,
-  routeName: string
+  routeName: string = ""
 ): JSX.Element | undefined => {
   if (routeId.startsWith("CR-"))
     return commuterRailIcon("c-svg__icon", routeName);
