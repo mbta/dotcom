@@ -1,7 +1,7 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
 
-  use DotcomWeb, :component
+  use Phoenix.Component
   use DotcomWeb, :view
 
   require Routes.Route

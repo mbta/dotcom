@@ -629,7 +629,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
          ], _}
       ] = Floki.find(document, ".c-accordion-ui__trigger")
 
-      assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}],
+      assert {"span", [{"aria-hidden", "true"}],
               [
                 {"span",
                  [
