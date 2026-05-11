@@ -141,7 +141,7 @@ defmodule Dotcom.ContentRewriterTest do
       {:safe, output} = input |> raw() |> rewrite(conn)
 
       assert output =~
-               ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
+               ~r/^<p>Before <a href=\"#\"><span aria-hidden>/
 
       assert output =~ ~r/<span class=\"notranslate c-svg__icon-green-line-small\"><svg/
       assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
