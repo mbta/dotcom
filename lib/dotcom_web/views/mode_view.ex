@@ -132,10 +132,6 @@ defmodule DotcomWeb.ModeView do
     ~t"MBTA Paratransit Program"
   end
 
-  def grid_button_text(%Route{id: "CR-Foxboro"}) do
-    " Boston Stadium"
-  end
-
   def grid_button_text(%Route{name: name}) do
     break_text_at_slash(name)
   end

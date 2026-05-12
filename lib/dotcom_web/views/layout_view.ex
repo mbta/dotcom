@@ -209,7 +209,6 @@ defmodule DotcomWeb.LayoutView do
               {~t(Careers), "/careers", :internal_link},
               {~t(Institutional Sales), "/pass-program", :internal_link},
               {~t(Business Opportunities), "/business", :internal_link},
-              {~t(Innovation Proposals), "/innovation", :internal_link},
               {~t(Engineering Design Standards), "/engineering/design-standards-and-guidelines",
                :internal_link}
             ]

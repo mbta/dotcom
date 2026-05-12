@@ -33,14 +33,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     defstruct [
       :arrival_status,
       :arrival_substatus,
+      :crowding,
       :headsign,
       :last_trip?,
       :platform_name,
       :route,
       :stop_sequence,
-      :trip_details,
+      :time,
       :trip_id,
-      :trip_name
+      :trip_name,
+      :vehicle_name
     ]
 
     @type realtime_arrival_status_t ::
@@ -69,14 +71,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     @type t :: %__MODULE__{
             arrival_status: arrival_status_t(),
             arrival_substatus: arrival_substatus_t(),
+            crowding: Vehicle.crowding(),
             headsign: Schedules.Trip.headsign(),
             last_trip?: boolean(),
             platform_name: String.t() | nil,
             route: Route.t(),
             stop_sequence: non_neg_integer(),
-            trip_details: __MODULE__.UpcomingTripDetails.t(),
+            time: DateTime.t(),
             trip_id: Trip.id_t(),
-            trip_name: String.t()
+            trip_name: String.t(),
+            vehicle_name: String.t() | nil
           }
 
     defmodule UpcomingTripDetails do
@@ -123,16 +127,27 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         stop_id: stop_id
       }) do
     route_type = Route.type_atom(route)
-    predicted_schedules = predicted_schedules(route.id, direction_id, now)
 
-    predicted_schedules_by_trip_id =
-      predicted_schedules
-      |> Stream.reject(&past_schedule?(&1, now))
-      |> Enum.group_by(&PredictedSchedule.trip(&1).id)
+    predictions =
+      @predictions_repo.all(
+        route: route.id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+      |> Enum.filter(&(&1.stop.id == stop_id))
+
+    schedules =
+      @schedules_repo.by_route_ids([route.id],
+        direction_id: direction_id,
+        date: ServiceDateTime.service_date(now),
+        stop_ids: [stop_id]
+      )
+
+    predicted_schedules = PredictedSchedule.group(predictions, schedules)
 
     predicted_schedules_at_stop =
       predicted_schedules
-      |> Stream.filter(&(PredictedSchedule.stop(&1).id == stop_id))
       |> Stream.reject(&end_of_trip?/1)
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
@@ -157,9 +172,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
            to_upcoming_departure(%{
              now: now,
              predicted_schedule: first_predicted_schedule,
-             predicted_schedules_by_trip_id: %{},
-             route_type: route_type,
-             stop_id: stop_id
+             route_type: route_type
            })
            |> Map.put(
              :arrival_status,
@@ -174,9 +187,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_predicted_schedules_at_stop
           |> to_upcoming_departures(%{
             now: now,
-            predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-            route_type: route_type,
-            stop_id: stop_id
+            route_type: route_type
           })
 
         if no_predictions?(upcoming_predicted_schedules_at_stop) do
@@ -185,24 +196,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           upcoming_departures
         end
     end
-  end
-
-  defp predicted_schedules(route_id, direction_id, now) do
-    all_predictions =
-      @predictions_repo.all(
-        route: route_id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-
-    all_schedules =
-      @schedules_repo.by_route_ids([route_id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now)
-      )
-
-    PredictedSchedule.group(all_predictions, all_schedules)
   end
 
   defp no_predictions?(predicted_schedules),
@@ -270,23 +263,12 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   def to_upcoming_departure(%{
         now: now,
         predicted_schedule: predicted_schedule,
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        route_type: route_type,
-        stop_id: stop_id
+        route_type: route_type
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
     vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
-
-    trip_details =
-      trip_details(%{
-        predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-        trip_id: trip.id,
-        stop_id: stop_id,
-        stop_sequence: stop_sequence,
-        vehicle: vehicle
-      })
 
     predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
 
@@ -308,20 +290,29 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: predicted_schedule,
           route_type: route_type
         }),
+      crowding: crowding(vehicle, trip.id),
       headsign: stop_headsign || trip.headsign,
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: predicted_schedule_route,
       stop_sequence: stop_sequence,
-      trip_details: trip_details,
+      time: PredictedSchedule.display_time(predicted_schedule),
       trip_id: trip.id,
       trip_name:
         if(route_type == :commuter_rail,
           do: trip_name(predicted_schedule_route, trip.name),
           else: nil
-        )
+        ),
+      vehicle_name: vehicle_name(vehicle, route_type)
     }
   end
+
+  defp crowding(nil, _trip_id), do: nil
+
+  defp crowding(%Vehicle{trip_id: vehicle_trip_id}, trip_id)
+       when vehicle_trip_id != trip_id, do: nil
+
+  defp crowding(%Vehicle{crowding: crowding}, _trip_id), do: crowding
 
   defp trip_name(%Route{description: :rail_replacement_bus}, name) when is_binary(name) do
     gettext("Bus %{trip_name}", trip_name: name)
@@ -354,16 +345,46 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     end
   end
 
-  defp trip_details(%{
-         predicted_schedules_by_trip_id: predicted_schedules_by_trip_id,
-         trip_id: trip_id,
-         stop_id: stop_id,
-         stop_sequence: stop_sequence,
-         vehicle: vehicle
-       }) do
+  defp vehicle_name(nil, _route_type), do: nil
+  defp vehicle_name(vehicle, :ferry), do: boat_name(vehicle.id)
+  defp vehicle_name(_vehicle, _route_type), do: nil
+
+  defp boat_name(name) do
+    name
+    |> String.split(" ")
+    |> Enum.map_join(
+      " ",
+      &String.capitalize/1
+    )
+  end
+
+  def trip_details(%{
+        now: now,
+        trip_id: trip_id,
+        stop_id: stop_id,
+        stop_sequence: stop_sequence
+      }) do
+    predictions =
+      @predictions_repo.all(
+        trip: trip_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+
+    schedules = @schedules_repo.schedule_for_trip(trip_id)
+
+    predicted_schedules =
+      PredictedSchedule.group(predictions, schedules)
+      |> Enum.reject(&past_schedule?(&1, now))
+
+    vehicle =
+      predicted_schedules
+      |> List.first()
+      |> PredictedSchedule.vehicle()
+
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
-        predicted_schedules: predicted_schedules_by_trip_id |> Map.get(trip_id, []),
+        predicted_schedules: predicted_schedules,
         trip_vehicle: vehicle
       })
 
