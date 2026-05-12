@@ -14,7 +14,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Stops.Stop
-
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @loop_ferries ["Boat-F6", "Boat-F7"]
@@ -137,6 +137,91 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         |> assign(:timetable_schedules, [])
         |> assign(:header_schedules, [])
     end
+  end
+
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date: ~D[2026-06-13],
+            direction_id: direction_id
+          }
+        } = conn
+      )
+      when route.id == "CR-Franklin" do
+    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionForgePark")
+
+    shuttle_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: ~D[2026-06-13],
+          route: shuttle_route,
+          direction_id: direction_id
+        }
+      })
+
+    route_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: ~D[2026-06-13],
+          route: route,
+          direction_id: direction_id
+        }
+      })
+
+    timetable_schedules = route_schedules ++ shuttle_schedules
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
+
+    %{
+      trip_schedules: trip_schedules,
+      trip_stops: trip_stops
+    } = build_timetable(conn, timetable_schedules)
+
+    header_schedules =
+      trip_schedules
+      |> Map.values()
+      |> Kernel.then(&header_schedules(route, &1))
+
+    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
+
+    shuttle_stops =
+      ["place-NEC-2139", "91637", "81668", "39213", "31331", "place-FB-0303"]
+      |> Enum.map(&@stops_repo.get/1)
+
+    shuttle_stops =
+      if direction_id == 1 do
+        shuttle_stops |> Enum.reverse()
+      else
+        shuttle_stops
+      end
+
+    all_stops =
+      shuttle_stops
+      |> Enum.reduce(trip_stops, fn shuttle_stop, acc ->
+        merge_into_stop_list(shuttle_stop, acc, direction_id == 1)
+      end)
+
+    header_stops =
+      all_stops
+      |> Enum.map(fn stop ->
+        if @stops_repo.get_parent(stop) do
+          @stops_repo.get_parent(stop)
+        else
+          stop
+        end
+      end)
+      |> Enum.uniq()
+      |> Enum.with_index()
+
+    conn
+    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
+    |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
+    |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
   end
 
   def assign_trip_schedules(
@@ -547,7 +632,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # Long Wharf new stops
     "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
     "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
-    "Boat-Long-North-5C" => {:after, "Blossom Street Pier"}
+    "Boat-Long-North-5C" => {:after, "Blossom Street Pier"},
+    # Franklin/Foxboro WC shuttle
+    "place-NEC-2139" => {:before, "Readville"},
+    "91637" => {:before, "Canton Juntion"},
+    "81668" => {:after, "Walpole"},
+    "39213" => {:after, "Norfolk"},
+    "31331" => {:after, "Franklin"},
+    "place-FB-0303" => {:after, "Forge Park/495"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
@@ -560,6 +652,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
          inbound?
        )
        when id in @shuttle_ids do
+    dbg("SHUTTLE STOP")
     merge_into_stop_list(stop, base_stops, inbound?)
   end
 
