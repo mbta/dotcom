@@ -147,7 +147,6 @@ defmodule DotCom.Mixfile do
       {:phoenix_pubsub, "2.2.0"},
       {:phoenix_view, "2.0.4"},
       {:plug, "1.19.1"},
-      {:plug_cowboy, "2.8.0"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
       {:progress_bar, "3.0.0"},
