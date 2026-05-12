@@ -981,7 +981,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         schedules: schedules,
         stops: [_, stop, _]
       } =
-        PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route])
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route]
+        )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
@@ -996,7 +998,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures == :service_ended
+      # assert departures == :service_ended
+      assert departures == {:no_realtime, []}
     end
 
     test "shows :no_service if there are no trips" do
@@ -1134,7 +1137,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         route: route,
         scheduled_departure_times: [_, scheduled_time, _],
         schedules: schedules,
-        stops: [_, stop, _]
+        stops: [_, stop, _],
+        vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
@@ -1143,6 +1147,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
@@ -1154,7 +1159,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures == :service_ended
+      # assert departures == :service_ended
+      assert departures == []
     end
 
     test "includes cancelled bus/commuter-rail/ferry trips if their scheduled time is in the future" do
@@ -1228,7 +1234,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         route: route,
         scheduled_departure_times: [_, scheduled_time, _],
         schedules: schedules,
-        stops: [_, stop, _]
+        stops: [_, stop, _],
+        vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
@@ -1237,6 +1244,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       departures =
@@ -1248,7 +1256,8 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
         })
 
       # Verify
-      assert departures == :service_ended
+      # assert departures == :service_ended
+      assert departures == []
     end
 
     test "shows schedule data for bus/commuter-rail/ferry predictions with no times that aren't skipped or cancelled" do

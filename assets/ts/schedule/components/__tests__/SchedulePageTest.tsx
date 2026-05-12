@@ -11,8 +11,7 @@ import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import {
   SchedulePage,
   changeOrigin,
-  changeDirection,
-  handleOriginSelectClick
+  changeDirection
 } from "../SchedulePage";
 import * as schedulePage from "../SchedulePage";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
@@ -575,65 +574,9 @@ describe("SchedulePage", () => {
 
     await user.click(originSelect);
 
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("Opens the origin modal", async () => {
-    const user = userEvent.setup();
-    const dispatchSpy = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
-      return dispatchSpy;
-    });
-    renderWithProviders(
-      <SchedulePage
-        mapData={mapData}
-        noBranches={false}
-        schedulePageData={{
-          schedule_note: null,
-          connections: [],
-          fares,
-          fare_link: fareLink, // eslint-disable-line camelcase
-          hours,
-          holidays,
-          pdfs,
-          teasers,
-          route,
-          services,
-          stops,
-          direction_id: 0,
-          route_patterns: routePatternsByDirection,
-          today: "2019-12-05",
-          stop_tree: stopTreeData,
-          route_stop_lists: [testRouteStopList],
-          alerts: [],
-          "service_today?": true,
-          variant: null
-        }}
-      />
-    );
-
-    jest.spyOn(reactRedux, "useSelector").mockImplementation(() => {
-      return {
-        selectedDirection: 0,
-        selectedOrigin: "place-welln",
-        modalMode: "origin",
-        modalOpen: false
-      };
-    });
-
-    const buttons = screen.getAllByRole("button");
-    expect(buttons.length).toBeGreaterThan(1);
-
-    await user.click(buttons[1]);
-
-    // first call is with INITIALIZE
-    expect(dispatchSpy).toHaveBeenNthCalledWith(2, {
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-  });
 
   it("Closes the schedule modal", async () => {
     const user = userEvent.setup();
@@ -730,96 +673,6 @@ describe("SchedulePage", () => {
       1,
       expect.any(Function)
     );
-  });
-
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
-    const user = userEvent.setup();
-    const changeOriginSpy = jest.spyOn(schedulePage, "handleOriginSelectClick");
-
-    renderWithProviders(
-      <SchedulePage
-        mapData={mapData}
-        noBranches={false}
-        schedulePageData={{
-          schedule_note: scheduleNoteData,
-          connections: [],
-          fares,
-          fare_link: fareLink, // eslint-disable-line camelcase
-          hours,
-          holidays,
-          pdfs,
-          teasers,
-          route,
-          services,
-          stops,
-          direction_id: 0,
-          route_patterns: routePatternsByDirection,
-          today: "2019-12-05",
-          stop_tree: stopTreeData,
-          route_stop_lists: [testRouteStopList],
-          alerts: [],
-          "service_today?": true,
-          variant: null
-        }}
-      />,
-      {
-        preloadedState: {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        }
-      }
-    );
-    const originSelect = await waitFor(() =>
-      screen.getByTestId("schedule-finder-origin-select")
-    );
-
-    await user.click(originSelect);
-
-    await waitFor(() =>
-      expect(changeOriginSpy).toHaveBeenCalledWith(expect.any(Function))
-    );
-  });
-
-  it("Changes the origin", async () => {
-    const user = userEvent.setup();
-    renderWithProviders(
-      <SchedulePage
-        mapData={mapData}
-        noBranches={false}
-        schedulePageData={{
-          schedule_note: null,
-          connections: [],
-          fares,
-          fare_link: fareLink, // eslint-disable-line camelcase
-          hours,
-          holidays,
-          pdfs,
-          teasers,
-          route,
-          services,
-          stops,
-          direction_id: 0,
-          route_patterns: routePatternsByDirection,
-          today: "2019-12-05",
-          stop_tree: stopTreeData,
-          route_stop_lists: [testRouteStopList],
-          alerts: [],
-          "service_today?": true,
-          variant: null
-        }}
-      />
-    );
-
-    const dispatchSpy = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
-      return dispatchSpy;
-    });
-    const originSelect = screen.getByTestId("schedule-finder-origin-select");
-    await user.selectOptions(originSelect, "123");
-
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
   });
 
   it("Checks if it is a unidirectional route", () => {
@@ -959,7 +812,7 @@ describe("SchedulePage", () => {
   });
 
   describe("changeOrigin", () => {
-    it("should call the dispatch function twice", () => {
+    it("should call the dispatch function once", () => {
       const dispatchSpy = jest.fn();
       const testOrigin = "test-origin";
       changeOrigin(testOrigin, dispatchSpy);
@@ -967,12 +820,6 @@ describe("SchedulePage", () => {
         type: "CHANGE_ORIGIN",
         newStoreValues: {
           selectedOrigin: testOrigin
-        }
-      });
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "schedule"
         }
       });
     });
@@ -993,16 +840,4 @@ describe("SchedulePage", () => {
     });
   });
 
-  describe("handleOriginSelectClick", () => {
-    it("should call the dispatch function setting the new direction in the state", () => {
-      const dispatchSpy = jest.fn();
-      handleOriginSelectClick(dispatchSpy);
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "origin"
-        }
-      });
-    });
-  });
 });

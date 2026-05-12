@@ -154,7 +154,6 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     upcoming_predicted_schedules_at_stop =
       predicted_schedules_at_stop
-      |> Enum.reject(&past_schedule?(&1, now))
 
     cond do
       Enum.empty?(predicted_schedules_at_stop) ->
@@ -450,6 +449,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        do: {:status, status}
 
   defp arrival_status(%{
+         now: now,
          predicted_schedule: %PredictedSchedule{
            prediction: %Prediction{
              schedule_relationship: schedule_relationship,
@@ -461,7 +461,13 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
        })
        when schedule_relationship in [:cancelled, :skipped] and
               route_type != :subway do
-    {:cancelled, schedule.departure_time}
+    time = schedule.departure_time
+
+    if DateTime.before?(now, time) do
+      {:cancelled, time}
+    else
+      :hidden
+    end
   end
 
   defp arrival_status(%{
@@ -518,18 +524,32 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   end
 
   defp arrival_status(%{
+         now: now,
          predicted_schedule: %PredictedSchedule{schedule: schedule},
          route_type: route_type
        })
        when route_type in [:commuter_rail, :ferry] and schedule != nil do
-    {:scheduled, schedule.departure_time}
+    time = schedule.departure_time
+
+    if DateTime.before?(now, time) do
+      {:scheduled, time}
+    else
+      :hidden
+    end
   end
 
   defp arrival_status(%{
+         now: now,
          predicted_schedule: %PredictedSchedule{schedule: schedule}
        })
        when schedule != nil do
-    {:scheduled, PredictedSchedule.display_time(schedule)}
+    time = PredictedSchedule.display_time(schedule)
+
+    if DateTime.before?(now, time) do
+      {:scheduled, time}
+    else
+      :hidden
+    end
   end
 
   @spec realtime_arrival_status(%{

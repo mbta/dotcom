@@ -15,6 +15,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
+  alias Dotcom.Playground.UpcomingDeparturesManager
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.ScheduleFinder.UpcomingDepartures
@@ -75,9 +76,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
          |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
          |> assign_new(:daily_schedule_date, fn -> service_date() end)
          |> assign_new(:should_refresh?, fn -> true end)
+         |> refresh_upcoming_trip_details()
          |> assign_alerts()
          |> assign_departures()
-         |> assign_upcoming_departures()
          |> assign_last_trip_time()}
 
       _ ->
@@ -90,6 +91,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def terminate(_, _) do
     # stop listening for new alerts
     _ = Alerts.Cache.Store.unsubscribe()
+
+    _ = UpcomingDeparturesManager.unsubscribe()
   end
 
   @impl LiveView
@@ -217,11 +220,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign(:departures, AsyncResult.loading())}
   end
 
-  def handle_event("visibility_change", %{"state" => state}, socket) do
+  def handle_event("visibility_change", %{"state" => "visible"}, socket) do
+    subscribe_to_upcoming_departures(socket)
+
     {:noreply,
      socket
-     |> assign(:should_refresh?, state == "visible")
-     |> assign_upcoming_departures()}
+     |> assign(:should_refresh?, true)}
+  end
+
+  def handle_event("visibility_change", _, socket) do
+    UpcomingDeparturesManager.unsubscribe()
+
+    {:noreply,
+     socket
+     |> assign(:should_refresh?, false)}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -245,7 +257,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply,
      socket
-     |> assign_upcoming_departures()
      |> refresh_upcoming_trip_details()}
   end
 
@@ -260,7 +271,28 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_departures()}
   end
 
+  def handle_info(
+        {:upcoming_departures_update, %{upcoming_departures: upcoming_departures}},
+        socket
+      ) do
+    dbg("UPDATE")
+
+    {:noreply,
+     socket
+     |> assign(:upcoming_departures, AsyncResult.ok(upcoming_departures))}
+  end
+
   def handle_info(_, socket), do: {:noreply, socket}
+
+  defp subscribe_to_upcoming_departures(socket) do
+    direction_id = socket.assigns.direction_id
+    route = socket.assigns.route
+    stop_id = socket.assigns.stop.id
+
+    params = %{route: route, direction_id: direction_id, stop_id: stop_id}
+
+    UpcomingDeparturesManager.subscribe(params)
+  end
 
   defp subscribe_to_alerts(socket) do
     if connected?(socket) do
@@ -271,9 +303,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp schedule_refresh_upcoming_departures(pid) do
-    # Refresh every second
-    Process.send_after(pid, :refresh_upcoming_departures, 5000)
+  defp schedule_refresh_upcoming_trip_details() do
+    # Refresh every five seconds
+    Process.send_after(self(), :refresh_upcoming_departures, 5000)
   end
 
   defp validate_params(%{
@@ -297,44 +329,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
     assigns |> assign(:page_title, long_name <> " | " <> ~t(Departures) <> " | " <> ~t(MBTA))
   end
 
-  defp assign_upcoming_departures(%{assigns: %{stop: %Stop{id: stop_id}}} = socket) do
-    now = @date_time.now()
-    route = socket.assigns.route
-    direction_id = socket.assigns.direction_id
-    stop_id = stop_id
-
-    parent_pid = self()
-    should_refresh? = socket.assigns.should_refresh?
-
-    socket
-    |> assign_async(
-      :upcoming_departures,
-      fn ->
-        departures =
-          UpcomingDepartures.upcoming_departures(%{
-            direction_id: direction_id,
-            now: now,
-            route: route,
-            stop_id: stop_id
-          })
-
-        _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
-
-        {:ok, %{upcoming_departures: departures}}
-      end
-    )
-  end
-
-  defp assign_upcoming_departures(socket) do
-    socket |> assign(:upcoming_departures, [])
-  end
-
   defp refresh_upcoming_trip_details(socket) do
     trip_ids_and_stop_seqs = Map.keys(socket.assigns.loaded_upcoming_trips)
 
-    Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
-      s |> assign_trip_details(trip_id, stop_sequence)
-    end)
+    new_socket =
+      Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
+        s |> assign_trip_details(trip_id, stop_sequence)
+      end)
+
+    schedule_refresh_upcoming_trip_details()
+
+    new_socket
   end
 
   defp assign_trip_details(socket, trip_id, stop_sequence) do
@@ -869,7 +874,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp upcoming_departure_heading(assigns) do
+  def upcoming_departure_heading(assigns) do
     ~H"""
     <.departure_heading route={@upcoming_departure.route}>
       <:headsign>
