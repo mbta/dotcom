@@ -170,13 +170,29 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         }
       })
 
-    timetable_schedules = route_schedules ++ shuttle_schedules
+    timetable_schedules =
+      route_schedules ++ shuttle_schedules
+
     trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
 
     %{
-      trip_schedules: trip_schedules,
-      trip_stops: trip_stops
-    } = build_timetable(conn, timetable_schedules)
+      trip_schedules: route_schedules,
+      trip_stops: route_stops
+    } = build_timetable(conn, route_schedules)
+
+    %{
+      trip_schedules: shuttle_schedules,
+      trip_stops: shuttle_stops
+    } =
+      build_timetable(
+        %{assigns: %{route: shuttle_route, direction_id: direction_id}},
+        shuttle_schedules
+      )
+
+    trip_schedules = Map.merge(route_schedules, shuttle_schedules)
+
+    trip_stops =
+      shuttle_stops |> Enum.reduce(route_stops, &merge_into_stop_list(&1, &2, direction_id == 1))
 
     header_schedules =
       trip_schedules
@@ -185,32 +201,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
 
-    shuttle_stops =
-      ["place-NEC-2139", "91637", "81668", "39213", "31331", "place-FB-0303"]
-      |> Enum.map(&@stops_repo.get/1)
-
-    shuttle_stops =
-      if direction_id == 1 do
-        shuttle_stops |> Enum.reverse()
-      else
-        shuttle_stops
-      end
-
-    all_stops =
-      shuttle_stops
-      |> Enum.reduce(trip_stops, fn shuttle_stop, acc ->
-        merge_into_stop_list(shuttle_stop, acc, direction_id == 1)
-      end)
-
     header_stops =
-      all_stops
-      |> Enum.map(fn stop ->
-        if @stops_repo.get_parent(stop) do
-          @stops_repo.get_parent(stop)
-        else
-          stop
-        end
-      end)
+      trip_stops
+      |> Enum.map(&@stops_repo.get_parent/1)
       |> Enum.uniq()
       |> Enum.with_index()
 
@@ -636,9 +629,13 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # Franklin/Foxboro WC shuttle
     "place-NEC-2139" => {:before, "Readville"},
     "91637" => {:before, "Canton Juntion"},
+    "71689" => {:before, "Canton Juntion"},
     "81668" => {:after, "Walpole"},
+    "81698" => {:after, "Walpole"},
     "39213" => {:after, "Norfolk"},
+    "92133" => {:after, "Norfolk"},
     "31331" => {:after, "Franklin"},
+    "31330" => {:after, "Franklin"},
     "place-FB-0303" => {:after, "Forge Park/495"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
@@ -652,7 +649,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
          inbound?
        )
        when id in @shuttle_ids do
-    dbg("SHUTTLE STOP")
     merge_into_stop_list(stop, base_stops, inbound?)
   end
 
