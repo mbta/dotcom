@@ -42,6 +42,8 @@ config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
 config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 
+config :dotcom, :schedule_finder_module, Dotcom.ScheduleFinder.Mock
+
 config :dotcom, :system_status_cache_modules,
   commuter_rail: Dotcom.SystemStatus.CommuterRailCache.Mock,
   subway: Dotcom.SystemStatus.SubwayCache.Mock
