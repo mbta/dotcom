@@ -236,7 +236,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
               [%{label: ~t"Normal Service", icon_atom: :normal}]
             end
           else
-            [%{label: "No Scheduled Service", icon_atom: :no_scheduled_service}]
+            [%{label: ~t"No Scheduled Service", icon_atom: :no_scheduled_service}]
           end,
         url: "/schedules/bostonstadium",
         route_id: "CR-Foxboro"
