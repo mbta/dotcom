@@ -16,7 +16,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
-  alias Dotcom.ScheduleFinder.UpcomingDepartures
+  alias Dotcom.UpcomingDepartures.UpcomingDepartures
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
   alias Phoenix.{LiveView, LiveView.AsyncResult}

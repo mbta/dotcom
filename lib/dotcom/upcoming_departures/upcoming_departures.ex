@@ -1,4 +1,4 @@
-defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
+defmodule Dotcom.UpcomingDepartures.UpcomingDepartures do
   @moduledoc """
   This represents realtime data for upcoming departures, including trip details.
 
