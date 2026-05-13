@@ -71,7 +71,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   ]
 
   def match_day?() do
-    date = @date_time_module.now()
+    date = Dotcom.Utils.ServiceDateTime.service_date(@date_time_module.now())
     @match_list |> Enum.any?(fn {match_date, _, _, _, _} -> match_date == date end)
   end
 
