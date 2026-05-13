@@ -3,6 +3,10 @@ defmodule Dotcom.UpcomingDepartures.UpcomingDeparture do
   A struct representing an upcoming departure.
   """
 
+  alias Routes.Route
+  alias Schedules.Trip
+  alias Vehicles.Vehicle
+
   defstruct [
     :arrival_status,
     :arrival_substatus,
@@ -45,7 +49,7 @@ defmodule Dotcom.UpcomingDepartures.UpcomingDeparture do
           arrival_status: arrival_status_t(),
           arrival_substatus: arrival_substatus_t(),
           crowding: Vehicle.crowding(),
-          headsign: Schedules.Trip.headsign(),
+          headsign: Trip.headsign(),
           last_trip?: boolean(),
           platform_name: String.t() | nil,
           route: Route.t(),
