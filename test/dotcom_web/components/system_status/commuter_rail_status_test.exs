@@ -616,7 +616,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
   test "Shows no service for CR-Foxboro on non-match days" do
     expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
-      ~D[2027-01-01]
+      ~U[2027-01-01 12:00:00Z]
     end)
 
     assigns = %{
@@ -634,7 +634,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
   test "Shows normal service for CR-Foxboro on match days" do
     expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
-      ~D[2026-06-13]
+      ~U[2026-06-13 12:00:00Z]
     end)
 
     assigns = %{
@@ -652,7 +652,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
   test "Shows alerts for CR-Foxboro on match days" do
     expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
-      ~D[2026-06-13]
+      ~U[2026-06-13 12:00:00Z]
     end)
 
     assigns = %{
@@ -670,7 +670,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
 
   test "Shows no service for CR-Foxboro on non-match days with alerts (which shouldn't happen but...)" do
     expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
-      ~D[2025-01-01]
+      ~U[2025-01-01 12:00:00Z]
     end)
 
     assigns = %{
