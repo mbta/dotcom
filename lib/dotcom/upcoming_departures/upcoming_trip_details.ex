@@ -4,6 +4,8 @@ defmodule Dotcom.UpcomingDepartures.UpcomingTripDetails do
   the stop specified, along with arrival times (or departure times when relevant).
   """
 
+  alias Dotcom.ScheduleFinder.TripDetails
+
   defstruct [
     :stop,
     :stops_after,
