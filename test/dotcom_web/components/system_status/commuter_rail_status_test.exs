@@ -4,7 +4,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status: 0]
 
   import DotcomWeb.Components.SystemStatus.CommuterRailStatus,
-    only: [alerts_commuter_rail_status: 1]
+    only: [alerts_commuter_rail_status: 1, rows_for_line: 1]
 
   import Mox
   import Phoenix.LiveViewTest
@@ -612,6 +612,78 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       # VERIFY
       assert html =~ "3 Service Alerts"
     end
+  end
+
+  test "Shows no service for CR-Foxboro on non-match days" do
+    expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+      ~D[2027-01-01]
+    end)
+
+    assigns = %{
+      status: %{
+        route_id: "CR-Foxboro",
+        status: :no_scheduled_service,
+        rows: [%{label: "No Scheduled Service", icon_atom: :no_scheduled_service}]
+      }
+    }
+
+    html = render_component(&rows_for_line/1, assigns)
+
+    assert html =~ "No Scheduled Service"
+  end
+
+  test "Shows normal service for CR-Foxboro on match days" do
+    expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+      ~D[2026-06-13]
+    end)
+
+    assigns = %{
+      status: %{
+        route_id: "CR-Foxboro",
+        status: :normal,
+        rows: [%{label: "Normal Service", icon_atom: :normal}]
+      }
+    }
+
+    html = render_component(&rows_for_line/1, assigns)
+
+    assert html =~ "Normal Service"
+  end
+
+  test "Shows alerts for CR-Foxboro on match days" do
+    expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+      ~D[2026-06-13]
+    end)
+
+    assigns = %{
+      status: %{
+        route_id: "CR-Foxboro",
+        status: %{delays: []},
+        rows: [%{label: "Delayed Service", icon_atom: :normal}]
+      }
+    }
+
+    html = render_component(&rows_for_line/1, assigns)
+
+    assert html =~ "Delayed Service"
+  end
+
+  test "Shows no service for CR-Foxboro on non-match days with alerts (which shouldn't happen but...)" do
+    expect(Dotcom.Utils.DateTime.Mock, :now, 2, fn ->
+      ~D[2025-01-01]
+    end)
+
+    assigns = %{
+      status: %{
+        route_id: "CR-Foxboro",
+        status: %{delays: []},
+        rows: [%{label: "Delayed Service", icon_atom: :normal}]
+      }
+    }
+
+    html = render_component(&rows_for_line/1, assigns)
+
+    assert html =~ "No Scheduled Service"
   end
 
   defp direction_name(0), do: "Outbound"

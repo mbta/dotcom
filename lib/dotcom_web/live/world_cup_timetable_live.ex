@@ -9,6 +9,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1, selected_match_banner: 1]
 
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :world_cup_timetable}
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   @match_list [
     {~D[2026-06-13], ~T[21:00:00], ~t"Match 5", [:haiti, :scotland],
@@ -70,7 +71,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   ]
 
   def match_day?() do
-    date = Util.now()
+    date = @date_time_module.now()
     @match_list |> Enum.any?(fn {match_date, _, _, _, _} -> match_date == date end)
   end
 

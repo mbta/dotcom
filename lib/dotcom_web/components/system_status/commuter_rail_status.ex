@@ -214,7 +214,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
 
-  defp rows_for_line(%{status: %{route_id: "CR-Foxboro"}} = assigns) do
+  def rows_for_line(%{status: %{route_id: "CR-Foxboro"}} = assigns) do
     match_status =
       %{
         name: "Boston Stadium Trains",
@@ -247,7 +247,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
     do_rows_for_line(assigns)
   end
 
-  defp rows_for_line(assigns) do
+  def rows_for_line(assigns) do
     do_rows_for_line(assigns)
   end
 
