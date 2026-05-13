@@ -5,6 +5,7 @@ defmodule Dotcom.ServicePatternsTest do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Mox
   import Test.Support.Factories.Services.Service
+  import Test.Support.Generators.Date, only: [random_date: 0]
 
   alias Test.Support.FactoryHelpers
 
@@ -28,11 +29,13 @@ defmodule Dotcom.ServicePatternsTest do
     end
 
     test "returns true if there are services for that date" do
+      date = random_date()
+
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: service_date()})
+        build_list(5, :service, %{date: date})
       end)
 
-      assert has_service?(route: FactoryHelpers.build(:id))
+      assert has_service?(route: FactoryHelpers.build(:id), date: date)
     end
 
     test "returns false if no service" do
@@ -44,13 +47,13 @@ defmodule Dotcom.ServicePatternsTest do
     end
 
     test "returns false if services only serve other dates" do
+      date = random_date()
+
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: service_date()})
+        build_list(5, :service, %{date: date})
       end)
 
-      other_date =
-        service_date()
-        |> Date.shift(year: 5)
+      other_date = Date.shift(date, year: 5)
 
       refute has_service?(route: FactoryHelpers.build(:id), date: other_date)
     end

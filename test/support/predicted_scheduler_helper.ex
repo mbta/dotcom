@@ -87,6 +87,7 @@ defmodule Test.Support.PredictedScheduleHelper do
 
     vehicle =
       Factories.Vehicles.Vehicle.build(:vehicle,
+        route_id: route.id,
         status: Faker.Util.pick(vehicle_statuses),
         stop_id: stop.id,
         stop_sequence: stop_sequence,

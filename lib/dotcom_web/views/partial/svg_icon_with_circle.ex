@@ -6,8 +6,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
 
   defstruct icon: nil,
             size: :default,
-            show_tooltip?: true,
-            aria_hidden?: false
+            show_tooltip?: false,
+            aria_hidden?: true
 
   @type t :: %__MODULE__{
           icon: SvgIcon.icon_arg(),

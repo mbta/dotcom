@@ -143,6 +143,12 @@ nav.m-menu {
 }
 
 nav.m-menu--mobile {
+  [data-nav-open] &,
+  [data-search-open] & {
+    display: block;
+  }
+
+  display: none;
   position: absolute;
   z-index: $z-index-modal;
 }

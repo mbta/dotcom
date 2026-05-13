@@ -1,7 +1,7 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
 
-  use DotcomWeb, :component
+  use Phoenix.Component
   use DotcomWeb, :view
 
   require Routes.Route
@@ -409,13 +409,16 @@ defmodule DotcomWeb.ScheduleView do
       [
         content_tag(:p, [
           content_tag(:strong, ~t"Note:"),
-          gettext(" Additional service to Hingham and Hull is available via the %{link}", %{
-            link:
-              link(~t"Hingham/Hull ferry",
-                to: ~p"/schedule/Boat-F2H/timetable"
-              )
-              |> safe_to_string()
-          })
+          gettext(
+            " Additional service between Boston, Hingham, and Hull is available via the %{link}",
+            %{
+              link:
+                link(~t"Hingham/Hull ferry",
+                  to: ~p"/schedules/Boat-F2H/timetable"
+                )
+                |> safe_to_string()
+            }
+          )
           |> raw()
         ])
       ]
