@@ -233,7 +233,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
             if is_map(assigns.status.status) do
               assigns.status.rows
             else
-              [%{label: "Normal Service", icon_atom: :normal}]
+              [%{label: ~t"Normal Service", icon_atom: :normal}]
             end
           else
             [%{label: "No Scheduled Service", icon_atom: :no_scheduled_service}]
