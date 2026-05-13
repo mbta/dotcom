@@ -26,16 +26,21 @@
     color: $gray-dark;
     text-decoration: none;
   }
+  svg {
+    width: 4em
+  }
 
   @include media-breakpoint-down(md) {
     @include icon-size(3.25em);
+    svg { width: 3.25em; }
   }
 
   @include media-breakpoint-only(xs) {
     @include icon-size(2.5em);
     padding: 12px;
+    svg { width: 2.5em; }
   }
-
+  
   [class*='c-svg__icon'] {
     margin-bottom: math.div($base-spacing, 2);
 
